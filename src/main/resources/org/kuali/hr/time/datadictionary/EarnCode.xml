@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="EarnCode" parent="EarnCode-parentBean" />
+  <bean id="EarnCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.hr.time.earncode.EarnCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="EarnCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="EarnCode-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="earnCodeId" />
+    <property name="attributes" >
+      <list>
+        <ref bean="EarnCode-earnCodeId" />
+        <ref bean="EarnCode-deptId" />
+        <ref bean="EarnCode-tkRuleGroup" />
+        <ref bean="EarnCode-location" />
+        <ref bean="EarnCode-earnCode" />
+        <ref bean="EarnCode-active" />
+       </list>
+    </property>
+    <property name="objectLabel" value="earnCode"/>
+  </bean>
+
+
+  <bean id="EarnCode-earnCodeId" parent="EarnCode-earnCodeId-parentBean"/>
+  <bean id="EarnCode-earnCodeId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Earn Code Id"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+ 		<bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="name" value="earnCodeId"/>
+    <property name="label" value="Earn Code Id"/>
+  </bean>
+  
+  <bean id="EarnCode-deptId" parent="EarnCode-deptId-parentBean"/>
+  <bean id="EarnCode-deptId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Dept Id"/>
+    <property name="maxLength" value="21"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern">
+      	<property name="allowWhitespace" value="false"/>
+      </bean>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="name" value="deptId"/>
+    <property name="label" value="Department Id"/>
+  </bean>  
+  
+  <bean id="EarnCode-tkRuleGroup" parent="EarnCode-tkRuleGroup-parentBean"/>
+  <bean id="EarnCode-tkRuleGroup-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="TK Rule Group"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern">
+      	<property name="allowWhitespace" value="false"/>
+      </bean>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+    <property name="name" value="tkRuleGroup"/>
+    <property name="label" value="TK Rule Group"/>
+  </bean>  
+  
+  <bean id="EarnCode-location" parent="EarnCode-location-parentBean"/>
+  <bean id="EarnCode-location-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Location"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern">
+      	<property name="allowWhitespace" value="false"/>
+      </bean>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+    <property name="name" value="location"/>
+    <property name="label" value="Location"/>
+  </bean>  
+  
+  
+  <bean id="EarnCode-earnCode" parent="EarnCode-earnCode-parentBean" />
+  <bean id="EarnCode-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+
+    <property name="name" value="earnCode" />
+    <property name="label" value="Earn Code" />
+  </bean> 
+  
+
+  <bean id="EarnCode-active" parent="EarnCode-active-parentBean"/>
+  <bean id="EarnCode-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Active"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+  </bean>
+
+  
+ 
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="EarnCode-inquiryDefinition" parent="EarnCode-inquiryDefinition-parentBean" />
+
+  <bean id="EarnCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="earnCodeId" />
+              <bean parent="FieldDefinition" p:attributeName="earnCode" />
+            </list>
+          </property>
+          <property name="title" value="EarnCode" />
+        </bean>
+      </list>
+    </property>
+    <property name="title" value="EarnCode Inquiry" />
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="EarnCode-lookupDefinition" parent="EarnCode-lookupDefinition-parentBean" />
+
+  <bean id="EarnCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="earnCodeId" />
+        <bean parent="FieldDefinition" p:attributeName="deptId" />
+        <bean parent="FieldDefinition" p:attributeName="tkRuleGroup" />
+        <bean parent="FieldDefinition" p:attributeName="earnCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="earnCodeId" p:forceInquiry="true" />
+        <bean parent="FieldDefinition" p:attributeName="deptId" />
+        <bean parent="FieldDefinition" p:attributeName="tkRuleGroup" />
+        <bean parent="FieldDefinition" p:attributeName="earnCode" />
+        <bean parent="FieldDefinition" p:attributeName="location" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
+      </list>
+    </property>
+    <property name="title" value="EarnCode Lookup" />
+  </bean>
+</beans>

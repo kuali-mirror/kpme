@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="DeptLunchRule" parent="DeptLunchRule-parentBean"/>
+
+  <bean id="DeptLunchRule-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.hr.time.dept.lunch.DeptLunchRule"/>
+    <property name="titleAttribute" value="id"/>
+    <property name="objectLabel" value="DeptLunchRule"/>
+    <property name="lookupDefinition">
+      <ref bean="DeptLunchRule-lookupDefinition"/>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="DeptLunchRule-deptId"/>
+        <ref bean="DeptLunchRule-workArea"/>
+        <ref bean="DeptLunchRule-principalId"/>
+        <ref bean="DeptLunchRule-jobNumber"/>
+        <ref bean="DeptLunchRule-requiredClockFl"/>
+        <ref bean="DeptLunchRule-maxMins"/>
+        <ref bean="DeptLunchRule-effectiveDate"/>
+        <ref bean="DeptLunchRule-active"/>
+  		<ref bean="DeptLunchRule-userPrincipalId"/>
+  		<ref bean="DeptLunchRule-timestamp"/>
+
+ 
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+
+  <bean id="DeptLunchRule-deptId" parent="DeptLunchRule-deptId-parentBean"/>
+  <bean id="DeptLunchRule-deptId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Dept Id"/>
+    <property name="maxLength" value="21"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern">
+      	<property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="name" value="deptId"/>
+    <property name="label" value="Department Id"/>
+  </bean>
+  
+  
+  <bean id="DeptLunchRule-workArea" parent="DeptLunchRule-workArea-parentBean"/>
+  <bean id="DeptLunchRule-workArea-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Work Area"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+ 		<bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="name" value="workArea"/>
+    <property name="label" value="Work Area"/>
+  </bean>
+  
+  <!-- 
+  
+   -->
+  
+  <bean id="DeptLunchRule-principalId" parent="DeptLunchRule-principalId-parentBean"/>
+  <bean id="DeptLunchRule-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Employee Id"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern">
+      	<property name="allowWhitespace" value="false"/>
+      </bean>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="name" value="principalId"/>
+    <property name="label" value="Principal Id"/>
+  </bean>
+
+  <bean id="DeptLunchRule-jobNumber" parent="DeptLunchRule-jobNumber-parentBean"/>
+  <bean id="DeptLunchRule-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Empl Rcd"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+ 		<bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="name" value="jobNumber"/>
+    <property name="label" value="Job Number"/>
+  </bean>
+  
+  
+  <bean id="DeptLunchRule-requiredClockFl" parent="DeptLunchRule-requiredClockFl-parentBean"/>
+  <bean id="DeptLunchRule-requiredClockFl-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Clock Use Required"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern">
+      	<property name="allowWhitespace" value="false"/>
+      </bean>
+    </property>
+   
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="requiredClockFl"/>
+    <property name="label" value="Clock Use Required"/>
+  </bean>
+  
+  
+   <bean id="DeptLunchRule-maxMins" parent="DeptLunchRule-maxMins-parentBean"/>
+  <bean id="DeptLunchRule-maxMins-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Max Minutes"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+ 		<bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
+    </property>
+    <property name="name" value="maxMins"/>
+    <property name="label" value="Max Minutes"/>
+  </bean>
+
+
+ <bean id="DeptLunchRule-effectiveDate" parent="DeptLunchRule-effectiveDate-parentBean"/>
+  <bean id="DeptLunchRule-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Effective Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+ 		<bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
+    <property name="name" value="effectiveDate"/>
+    <property name="label" value="Effective Date"/>
+  </bean>
+ 
+
+ 
+  
+  <bean id="DeptLunchRule-active" parent="DeptLunchRule-active-parentBean"/>
+  <bean id="DeptLunchRule-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Active"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+  </bean>
+
+
+ <bean id="DeptLunchRule-userPrincipalId" parent="DeptLunchRule-userPrincipalId-parentBean"/>
+  <bean id="DeptLunchRule-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="User Principal Id"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern">
+      	<property name="allowWhitespace" value="false"/>
+      </bean>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="name" value="userPrincipalId"/>
+    <property name="label" value="User Principal Id"/>
+  </bean>
+  
+  
+  <bean id="DeptLunchRule-timestamp" parent="DeptLunchRule-timestamp-parentBean"/>
+  <bean id="DeptLunchRule-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Timestamp"/>
+    <property name="maxLength" value="15"/>
+
+    <property name="control">
+      <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>    
+    <property name="name" value="timestamp"/>
+    <property name="label" value="Time Stamp"/>
+  </bean>
+   
+  <!-- 
+ 
+   -->
+  
+
+
+  
+  <!--  Inquiry Definitions  -->
+
+	
+  <bean id="DeptLunchRule-lookupDefinition" parent="DeptLunchRule-lookupDefinition-parentBean"/>
+  <bean id="DeptLunchRule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="deptId"/>
+        <bean parent="FieldDefinition" p:attributeName="workArea"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+		<bean parent="FieldDefinition" p:attributeName="jobNumber"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="deptId"/>
+        <bean parent="FieldDefinition" p:attributeName="workArea"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="jobNumber"/>               
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="title" value="Department Lunch Rule Lookup"/>
+  </bean>
+
+</beans>
+

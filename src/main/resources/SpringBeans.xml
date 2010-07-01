@@ -1,0 +1,267 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<aop:aspectj-autoproxy/>
+
+   <!-- Properties  10/20/08   -->
+   <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" ref="configProperties" />
+    </bean>
+   <bean id="configProperties" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="config" />
+        <property name="targetMethod" value="getProperties" />
+    </bean>
+    <bean id="config" class="org.kuali.rice.core.config.spring.ConfigFactoryBean">
+        <property name="configLocations">
+            <list>
+                <value>classpath:META-INF/tk-config.xml</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
+        <property name="defaultTimeout" value="3600"/>
+    </bean>
+
+    <bean id="ojbConfigurer" class="org.kuali.rice.core.ojb.JtaOjbConfigurer">
+        <property name="transactionManager" ref="jotm" />   
+    </bean>
+    
+    <bean id="ojbRepoLoader" class="org.kuali.hr.time.SpringBasedOJBRepositoryLoader">
+    	<property name="pathLocations">
+    		<list>
+    			<value>OJB-repository-time.xml</value>
+    		</list>
+    	</property>
+    </bean>
+
+	<bean id="tkDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
+        <property name="transactionManager" ref="jotm" />
+        <property name="driverClassName" value="${tk.datasource.driver.name}" />
+        <property name="maxSize" value="${tk.datasource.pool.maxSize}" />
+        <property name="minSize" value="${tk.datasource.pool.minSize}" />
+        <property name="maxWait" value="${tk.datasource.pool.maxWait}" />
+        <property name="validationQuery" value="${tk.datasource.pool.validationQuery}" />
+        <property name="url" value="${tk.datasource.url}" />
+        <property name="username" value="${tk.datasource.username}" />
+        <property name="password" value="${tk.datasource.password}" />
+    </bean>
+
+    <bean id="enWorkflowDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
+        <property name="transactionManager" ref="jotm" />
+        <property name="driverClassName" value="${kr.datasource.driver.name}" />
+        <property name="maxSize" value="${kr.datasource.pool.maxSize}" />
+        <property name="minSize" value="${kr.datasource.pool.minSize}" />
+        <property name="maxWait" value="${kr.datasource.pool.maxWait}" />
+        <property name="validationQuery" value="${kr.datasource.pool.validationQuery}" />
+        <property name="url" value="${kr.datasource.url}" />
+        <property name="username" value="${kr.datasource.username}" />
+        <property name="password" value="${kr.datasource.password}" />
+    </bean>
+
+
+	<bean id="nonTransDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${tk.datasource.driver.name}" />
+        <property name="maxWait" value="30000" />
+        <property name="validationQuery" value="select 1" />
+        <property name="url" value="${tk.datasource.url}" />
+        <property name="username" value="${tk.datasource.username}" />
+        <property name="password" value="${tk.datasource.password}" />
+        <property name="maxActive" value="50" />
+        <property name="minIdle" value="3" />
+        <property name="initialSize" value="3" />
+    </bean>
+
+
+	<bean id="ksbScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" destroy-method="stop" lazy-init="true">
+		<property name="jobListeners">
+			<list>
+				<bean class="org.kuali.rice.ksb.messaging.quartz.MessageServiceExecutorJobListener"/>
+			</list>
+		</property>
+		<property name="quartzProperties">
+	        <props>
+	          <prop key="org.quartz.scheduler.instanceName">TK Scheduler</prop>
+	          <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+	          <prop key="org.quartz.jobStore.isClustered">true</prop>
+	          <prop key="org.quartz.jobStore.driverDelegateClass">org.quartz.impl.jdbcjobstore.StdJDBCDelegate</prop>
+	          <prop key="org.quartz.threadPool.threadCount">1</prop>
+	          <prop key="org.quartz.jobStore.clusterCheckinInterval">1000</prop>
+	        </props>
+      	</property>
+      	<property name="waitForJobsToCompleteOnShutdown" value="false"/>
+		<property name="transactionManager" ref="transactionManager"/>
+		<property name="dataSource" ref="tkDataSource" />
+		<property name="nonTransactionalDataSource" ref="nonTransDataSource" />
+	</bean>
+ 
+
+    <bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer" >
+        <property name="dataSource" ref="tkDataSource" />
+        <property name="serverDataSource" ref="enWorkflowDataSource" />
+        <property name="transactionManager" ref="jotm" />
+        <property name="userTransaction" ref="jotm" />
+        <property name="rootResourceLoader">
+            <bean class="org.kuali.rice.core.resourceloader.SpringBeanFactoryResourceLoader" />
+        </property>
+        
+        <property name="rootConfig" ref="config" />
+        <property name="environment" value="${environment}" />
+        <property name="serviceNamespace" value="TK" />
+        
+	<property name="ksbConfigurer">
+		<bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
+			<property name="messageDataSource">
+				<ref local="tkDataSource" />
+			</property>
+			<property name="serviceServletUrl" value="${serviceServletUrl}" />
+			<property name="registryDataSource">
+				<ref local="enWorkflowDataSource" />
+			</property>
+			<property name="exceptionMessagingScheduler" ref="ksbScheduler" />
+
+			<property name="webModuleConfigurationFiles" value="/ksb/WEB-INF/struts-config.xml" />
+			
+		</bean>
+		</property>
+		
+		<property name="kewConfigurer">
+           <bean class="org.kuali.rice.kew.config.KEWConfigurer">
+                    <property name="dataSource">
+                        <ref local="enWorkflowDataSource"/>
+                    </property>
+                    <property name="runMode" value="embedded"/>
+           </bean>
+        </property>
+        
+        <property name="knsConfigurer">
+           <bean class="org.kuali.rice.kns.config.KNSConfigurer">
+                  <property name="validateDataDictionary" value="true"/>
+                  <property name="webModuleConfigurationFiles" value="/kr/WEB-INF/struts-config.xml"/>
+
+
+            </bean>
+        </property>
+        <property name="kimConfigurer">
+        	<bean class="org.kuali.rice.kim.config.KIMConfigurer">
+        		<property name="runMode" value="embedded"/>
+        	</bean>
+        </property>
+    </bean>
+
+	<bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />
+	
+	<!--  This is the service that KIM will look for to authenticate the user, we need something identified by this bean ID.  I'm
+	not sure about the other authentication services. 
+ 	<bean id="kimAuthenticationService" class="edu.iu.uis.hr.TKWebAuthenticationService" />
+	-->
+    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property name="userTransaction">
+            <ref local="jotm" />
+        </property>
+        <property name="transactionManager">
+            <ref local="jotm" />
+        </property>
+    </bean>
+
+    <bean id="matchAllWithPropReqCheckedException" class="org.springframework.transaction.interceptor.MatchAlwaysTransactionAttributeSource" lazy-init="true">
+        <property name="transactionAttribute">
+            <value>PROPAGATION_REQUIRED,-Exception</value>
+        </property>
+    </bean>
+
+    <bean id="matchAllWithPropReq" class="org.springframework.transaction.interceptor.MatchAlwaysTransactionAttributeSource" lazy-init="true">
+        <property name="transactionAttribute">
+            <value>PROPAGATION_REQUIRED</value>
+        </property>
+    </bean>
+
+    <bean id="matchAllTxInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor" lazy-init="true">
+        <property name="transactionManager">
+            <ref bean="transactionManager" />
+        </property>
+        <property name="transactionAttributeSource">
+            <ref bean="matchAllWithPropReq" />
+        </property>
+    </bean>
+<!-- 
+	<bean id="autoProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="interceptorNames">
+			<list>
+				<idref local="matchAllTxInterceptor" />
+			</list>
+		</property>
+		<property name="beanNames">
+			<list>
+			</list>
+		</property>
+	</bean>
+-->
+	<!-- oscache -->
+	<bean id="cacheAdministrator" class="com.opensymphony.oscache.general.GeneralCacheAdministrator" destroy-method="destroy" depends-on="rice">
+        <constructor-arg index="0">
+            <props>
+                <prop key="cache.memory">true</prop>
+                <prop key="cache.capacity">20000</prop>
+                <prop key="cache.algorithm">com.opensymphony.oscache.base.algorithm.LRUCache</prop>
+            </props>
+        </constructor-arg>
+    </bean>
+
+
+    <bean id="timeModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
+        <property name="namespaceCode" value="TK"/>
+        <property name="initializeDataDictionary" value="true"/>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>classpath:org/kuali/hr/time/datadictionary</value>
+            </list>
+        </property>
+        <!-- 
+        <property name="databaseRepositoryFilePaths">
+            <list>
+				<value>OJB-repository-time.xml</value>
+            </list>
+        </property>
+        -->
+        <property name="packagePrefixes">
+            <list>
+				<value>org.kuali.hr.time.domain</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.kuali.rice.kns.service.impl.ModuleServiceBase">
+        <property name="moduleConfiguration" ref="timeModuleConfiguration" />
+    </bean>
+
+	<!-- DAOs for wrapping database criteria queries -->
+    
+    <bean id="clockLogDao" class="org.kuali.hr.time.clocklog.dao.ClockLogDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="assignmentDao" class="org.kuali.hr.time.assignment.dao.AssignmentDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+	<!-- Time Services for Business Logic -->
+    
+    <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
+    	<property name="clockLogDao" ref="clockLogDao"/>
+    </bean>
+    
+    <bean id="assignmentService" class="org.kuali.hr.time.assignment.service.AssignmentServiceImpl">
+    	<property name="assignmentDao" ref="assignmentDao"/>
+    </bean>
+    
+    <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
+    </bean>
+
+</beans>
