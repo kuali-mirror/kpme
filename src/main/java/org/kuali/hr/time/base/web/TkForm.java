@@ -24,5 +24,4 @@ public class TkForm extends KualiForm {
     public TKUser getUser() {
 	return TKContext.getUser();
     }
-
 }

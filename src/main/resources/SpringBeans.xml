@@ -263,5 +263,14 @@
     
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
     </bean>
-
+    
+    <!-- 
+    <bean id="payCalendarLookupableHelperService" class="org.kuali.hr.time.paycalendar.web.PayCalendarLookupableHelper"/>
+    <bean id="payCalendarLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+    	<property name="lookupableHelperService">
+    		<ref bean="payCalendarLookupableHelperService"/>
+    	</property>
+    </bean>
+ 	-->
+ 	
 </beans>

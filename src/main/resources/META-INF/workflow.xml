@@ -1,6 +1,0 @@
-<plugin>
-  <param name="client.protocol">local</param>
-  <listener>
-        <listener-class>edu.iu.uis.hr.tk.workflow.TKPluginListener</listener-class>
-  </listener>
-</plugin>

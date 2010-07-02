@@ -96,7 +96,7 @@ DROP TABLE IF EXISTS `tk_clock_log_s`;
 CREATE TABLE `tk_clock_log_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2148 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2167 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -273,104 +273,76 @@ CREATE TABLE `tk_dept_lunch_rl_s` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `hr_job_t`
+-- Table structure for table `tk_py_calendar_t`
 --
 
-DROP TABLE IF EXISTS `hr_job_t`;
+DROP TABLE IF EXISTS `tk_py_calendar_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `hr_job_t` (
-  `JOB_ID` bigint(19) NOT NULL,
-  `PRINCIPAL_ID` varchar(40) COLLATE utf8_bin DEFAULT NULL,
-  `JOB_NUMBER` decimal(3,0) DEFAULT NULL,
-  `EFFDT` date NOT NULL DEFAULT '0000-00-00',
-  `dept_id` varchar(21) COLLATE utf8_bin DEFAULT NULL,
-  `PY_CALENDAR_ID` bigint(19) NOT NULL,
-  `TK_RULE_GROUP` varchar(7) COLLATE utf8_bin DEFAULT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `ACTIVE` bit(1) DEFAULT NULL,
-  `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
-  `VER_NBR` decimal(8,0) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`JOB_ID`)
+CREATE TABLE `tk_py_calendar_t` (
+  `tk_py_calendar_id` bigint(20) NOT NULL,
+  `calendar_group` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `chart` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `begin_date` date DEFAULT NULL,
+  `begin_time` time DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `initiate_date` date DEFAULT NULL,
+  `initiate_time` time DEFAULT NULL,
+  `end_pay_period_date` date DEFAULT NULL,
+  `end_pay_period_time` time DEFAULT NULL,
+  `employee_approval_date` date DEFAULT NULL,
+  `employee_approval_time` time DEFAULT NULL,
+  `supervisor_approval_date` date DEFAULT NULL,
+  `supervisor_approval_time` time DEFAULT NULL,
+  `pay_period_end_date` date DEFAULT NULL,
+  `pay_period_end_time` time DEFAULT NULL,
+  PRIMARY KEY (`tk_py_calendar_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `hr_job_s`
+-- Table structure for table `tk_py_calendar_s`
 --
 
-DROP TABLE IF EXISTS `hr_job_s`;
+DROP TABLE IF EXISTS `tk_py_calendar_s`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `hr_job_s` (
+CREATE TABLE `tk_py_calendar_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2078 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tk_earn_code_t`
+-- Table structure for table `tk_py_calendar_dates_t`
 --
 
-DROP TABLE IF EXISTS `tk_earn_code_t`;
+DROP TABLE IF EXISTS `tk_py_calendar_dates_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_earn_code_t` (
-  `earn_code_id` bigint(19) NOT NULL,
-  `dept_id` varchar(21) COLLATE utf8_bin DEFAULT NULL,
-  `tk_rule_group` varchar(4) COLLATE utf8_bin DEFAULT NULL,
-  `location` varchar(10) COLLATE utf8_bin DEFAULT NULL,
-  `earn_code` varchar(10) COLLATE utf8_bin DEFAULT NULL,
-  `active` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`earn_code_id`)
+CREATE TABLE `tk_py_calendar_dates_t` (
+  `tk_py_calendar_dates_id` bigint(20) NOT NULL,
+  `tk_py_calendar_id` bigint(20) NOT NULL,
+  `begin_period_date` date DEFAULT NULL,
+  `begin_period_time` time DEFAULT NULL,
+  `end_period_date` date DEFAULT NULL,
+  `end_period_time` time DEFAULT NULL,
+  PRIMARY KEY (`tk_py_calendar_dates_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tk_earn_code_s`
+-- Table structure for table `tk_py_calendar_dates_s`
 --
 
-DROP TABLE IF EXISTS `tk_earn_code_s`;
+DROP TABLE IF EXISTS `tk_py_calendar_dates_s`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_earn_code_s` (
+CREATE TABLE `tk_py_calendar_dates_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=161 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tk_task_t`
---
-
-DROP TABLE IF EXISTS `tk_task_t`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_task_t` (
-  `task_id` bigint(19) NOT NULL,
-  `work_area_id` bigint(19) NOT NULL,
-  `effdt` date DEFAULT NULL,
-  `descr` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `admin_descr` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `timestamp` timestamp NULL DEFAULT NULL,
-  `active` bit(1) DEFAULT b'1',
-  `obj_id` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `ver_nbr` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`task_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tk_task_s`
---
-
-DROP TABLE IF EXISTS `tk_task_s`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_task_s` (
-  `ID` bigint(19) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2078 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -382,4 +354,4 @@ CREATE TABLE `tk_task_s` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-06-17 10:29:33
+-- Dump completed on 2010-06-22 15:12:38

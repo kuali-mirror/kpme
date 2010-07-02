@@ -26,5 +26,15 @@
       <parent>RiceDocument</parent>
       <label>JobMaintenanceDocumentType</label>
     </documentType>             
+    <documentType>
+      <name>PayCalendarDatesDocumentType</name>
+      <parent>RiceDocument</parent>
+      <label>PayCalendarDatesDocument</label>
+    </documentType>
+    <documentType>
+      <name>PayCalendarDocumentType</name>
+      <parent>RiceDocument</parent>
+      <label>PayCalendarDocument</label>
+    </documentType>                                            
   </documentTypes>
 </data>

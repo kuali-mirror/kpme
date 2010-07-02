@@ -23,7 +23,6 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
 	try {
 	    TKContext.setHttpServletRequest(request);
 	    setUserOnContext(request);
