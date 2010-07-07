@@ -88,7 +88,12 @@ var defaults = {
     buttonIcons: {
         prev: 'circle-triangle-w',
         next: 'circle-triangle-e'
-    }
+	},
+	
+	//selectable: false,
+	unselectAuto: true,
+	
+	dropAccept: '*'
 
 };
 

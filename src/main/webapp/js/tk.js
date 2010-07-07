@@ -45,28 +45,104 @@ $(document).ready(function() {
 	var m = date.getMonth();
 	var y = date.getFullYear();
 
-	$('#cal').fullCalendar({
-				theme : true,
-				aspectRatio : 5, // the value here is just to match the height with the add time block panel
-				allDaySlot : false,
-				header : {
-					left : 'prev, today',
-					center : 'title',
-					right : 'payPeriod'
-				},
-				events : [{
-							title : 'HRMS Java developer: RGN',
-							start : new Date(y, m, d, 8, 00),
-							end : new Date(y, m, d, 17, 00),
-							allDay : false
-						}, {
-							title : 'HRMS PS developer: RGN',
-							start : new Date(y, m, d, 12, 0),
-							end : new Date(y, m, d, 13, 0),
-							allDay : false
-						}
-				]
-			});
+//	$('#cal').fullCalendar({
+//				theme : true,
+//				aspectRatio : 5, // the value here is just to match the height with the add time block panel
+//				allDaySlot : false,
+//				header : {
+//					left : 'prev, today',
+//					center : 'title',
+//					right : 'payPeriod'
+//				},
+//                selectable: true,
+//	            selectHelper: true,
+//	            select: function(start, end, allDay) {
+//	                var title = prompt('Event Title:');
+//	                if (title) {
+//	                    calendar.fullCalendar('renderEvent',
+//	                        {
+//	                            title: title,
+//	                            start: start,
+//	                            end: end,
+//	                            allDay: allDay
+//	                        },
+//	                        true // make the event "stick"
+//	                    );
+//	                }
+//	                calendar.fullCalendar('unselect');
+//	            },
+//                editable: true,
+//				events : [{
+//							title : 'HRMS Java developer: RGN',
+//							start : new Date(y, m, d, 8, 00),
+//							end : new Date(y, m, d, 17, 00),
+//							allDay : false
+//						}, {
+//							title : 'HRMS PS developer: RGN',
+//							start : new Date(y, m, d, 12, 0),
+//							end : new Date(y, m, d, 13, 0),
+//							allDay : false
+//						}
+//				]
+//			});
+    var calendar = $('#cal').fullCalendar({
+            theme : true,
+            aspectRatio : 5, // the value here is just to match the height with the add time block panel
+            allDaySlot : false,
+            header: {
+                  left : 'prev, today',
+                  center : 'title',
+                  right : 'payPeriod'
+            },
+            selectable: true,
+            selectHelper: true,
+            select: function(start, end, allDay) {
+//                var title = prompt('Event Title:');
+//                if (title) {
+//                    calendar.fullCalendar('renderEvent',
+//                        {
+//                            title: title,
+//                            start: start,
+//                            end: end,
+//                            allDay: allDay
+//                        },
+//                        true // make the event "stick"
+//                    );
+//                }
+                $('#dialog-form').dialog('open');
+                calendar.fullCalendar('unselect');
+            },
+            editable: true,
+           events : [{
+                          title : 'HRMS Java developer: RGN',
+                          start : new Date(y, m, d, 8, 00),
+                          end : new Date(y, m, d, 17, 00),
+                          allDay : false
+                      }, {
+                          title : 'HRMS PS developer: RGN',
+                          start : new Date(y, m, d, 12, 0),
+                          end : new Date(y, m, d, 13, 0),
+                          allDay : false
+                      }
+            ]
+        });
+
+    $("#dialog-form").dialog({
+        autoOpen: false,
+        height: 420,
+        width: 400,
+        modal: true,
+        buttons: {
+            'Add time': function() {
+            },
+            Cancel: function() {
+                $(this).dialog('close');
+            }
+        },
+        close: function() {
+            allFields.val('').removeClass('ui-state-error');
+        }
+    });
 
 	// datepicker
 	$('#timesheet-beginDate, #timesheet-endDate').datepicker({

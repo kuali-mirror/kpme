@@ -86,20 +86,22 @@
 #timesheet-panel {
 	border: 1px solid #ccc;
 	float:left;
-	width:15%;
-	margin: 20px 10px 0 1%;
+	width:100%;
+	.*margin: 20px 10px 0 1%;*/
 	font-size: .8em;
 	background-color: #FBF9EE;
 }
 
 #timesheet-panel table {
-	margin: 0 auto 0 auto;
+	/*margin: 0 auto 0 auto;*/
+	margin: 5px;
 	padding: 0;
 	border-collapse: collapse;
 }
 
 #timesheet-panel table tr td{
 	padding: 5px;
+	white-space: nowrap;
 }
 
 #timesheet-panel .timesheet-panel-title {
@@ -207,6 +209,8 @@
 	/* outline radius for mozilla/firefox only */
 	-moz-box-shadow:0 0 10px #000;
 	-webkit-box-shadow:0 0 10px #000;
+
+	z-index: 9999;
 }
 
 #timesheet table{
@@ -218,4 +222,12 @@
 
 #timesheet table td {
 	padding: 3px;
+}
+
+#dialog-form form {
+	font-size: .9em !important;
+}
+
+.ui-dialog-buttonpane .ui-button-text {
+	font-size: .8em !important;
 }

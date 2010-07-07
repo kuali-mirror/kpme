@@ -235,7 +235,7 @@ function magicTime(input) {
         }
         catch (e) {
             // the message div is not in the document
-            alert('no message div');
+            // alert('no message div');
         }
     }
     catch (e) {

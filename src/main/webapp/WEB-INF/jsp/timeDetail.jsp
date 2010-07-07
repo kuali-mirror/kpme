@@ -73,8 +73,68 @@
 				</tr>
 			</table>
 		</div>
-		 --%>
-		<!-- <div id="cal" style="margin-top: 20px; float:left; width:83%; font-size:.9em;">  -->
+		--%>
+		<div id="cal" style="margin-top: 20px; width:100%; font-size:.9em;">
+
+		<div id="dialog-form" title="Add time blocks:">
+			<%-- <p class="validateTips">All form fields are required.</p>  --%>
+
+			<form>
+				<div class="ui-widget" id="timesheet-panel">
+					<table>
+						<tr>
+							<td>Clocked In:</td>
+							<td>
+								<input name="beginTime" id="beginTimeField" type="text" size="10" onblur="magicTime(this)" onfocus="if (this.className != 'error') this.select()"/>
+								 <button tabindex="-1" style="width:20px; height:20px; vertical-align: text-top"
+								 title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530"
+								 id="beginTimeHelp">help</button>
+								<%--<div id="beginTimeField-messages"></div>  --%>
+							</td>
+						</tr>
+						<tr>
+							<td>Clocked Out:</td>
+							<td>
+								<input name="endTime" id="endTimeField" type="text" size="10" onblur="magicTime(this)" onfocus="if (this.className != 'error') this.select()"/>
+								<button style="width:20px; height:20px; vertical-align: text-top" id="endTimeHelp"
+								title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">help</button>
+								<%--<div id="endTimeField-messages"></div>  --%>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2"><input type="checkbox"/> Apply time to each day</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Begin Date:</td>
+							<td><input type="text" id="timesheet-beginDate" size="10"/></td>
+						</tr>
+						<tr>
+							<td>End Date:</td>
+							<td><input type="text" id="timesheet-endDate" size="10"/></td>
+						</tr>
+
+						<tr>
+							<td>Assignment: </td>
+							<td>
+								<select>
+									<option>Operations/AIS</option>
+									<option>AIS Technical & User Support</option>
+									<option>System Support Services</option>
+								</select>
+							</td>
+						<tr>
+							<td>Earn code: </td>
+							<td>
+								<tk:earnCode/>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</form>
+		</div>
+
+
 		<form id="timesheetForm" method="post" action="#">
 		<div id="timesheet">
 			<!-- <div class="toolbar-timesheet-table-week1"></div>  -->
