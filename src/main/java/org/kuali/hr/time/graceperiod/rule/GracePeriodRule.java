@@ -5,11 +5,12 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.hr.time.rule.TkRule;
+import org.kuali.hr.time.rule.TkRuleContext;
 
 
 
-public class GracePeriodRule extends PersistableBusinessObjectBase {
+public class GracePeriodRule extends TkRule {
     
 	private static final long serialVersionUID = 1L;
 
@@ -93,6 +94,13 @@ public class GracePeriodRule extends PersistableBusinessObjectBase {
 
 	public void setTimestamp(Timestamp timestamp) {
 	    this.timestamp = timestamp;
+	}
+
+
+	@Override
+	public boolean isValid(TkRuleContext tkRuleContext) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

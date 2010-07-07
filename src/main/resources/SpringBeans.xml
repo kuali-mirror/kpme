@@ -263,5 +263,7 @@
     
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
     </bean>
+    
+    <bean id="tkRuleControllerService" class="org.kuali.hr.time.rule.TkRuleControllerServiceImpl"/>
 
 </beans>

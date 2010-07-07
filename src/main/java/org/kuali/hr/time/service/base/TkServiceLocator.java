@@ -3,6 +3,7 @@ package org.kuali.hr.time.service.base;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
+import org.kuali.hr.time.rule.TkRuleControllerService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -39,6 +40,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	
 	public static PersistenceBrokerTemplate getTkPersistenceBrokerTemplate() {
 	    return (PersistenceBrokerTemplate) CONTEXT.getBean(TK_PERSISTENCE_BROKER_TEMPLATE);
+	}
+
+	public static TkRuleControllerService getTkRuleControllerService(){
+		return (TkRuleControllerService) CONTEXT.getBean("tkRuleControllerService");
 	}
 
 	@Override
