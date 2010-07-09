@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="PayCalendarMaintenanceDocument" parent="PayCalendarMaintenanceDocument-parentBean"/>
+
+  <bean id="PayCalendarMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  		p:businessObjectClass="org.kuali.hr.time.paycalendar.PayCalendar"
+   		p:maintainableClass="org.kuali.hr.time.paycalendar.PayCalendarMaintainableImpl">
+    <property name="maintainableSections">
+      <list>
+        <ref bean="PayCalendarMaintenanceDocument-PayCalendarMaintenance"/>
+        <ref bean="PayCalendarMaintenanceDocument-PayCalendarDatesMaintenance"/>
+      </list>
+    </property>
+    <property name="documentTypeName" value="PayCalendarDocumentType"/>
+    <!-- property name="additionalSectionsFile" value="/jsp/payCalendarDatesSection.jsp"/ -->
+  </bean>
+
+  <!-- Maintenance Section Definitions -->
+
+  <bean id="PayCalendarMaintenanceDocument-PayCalendarMaintenance" parent="PayCalendarMaintenanceDocument-PayCalendarMaintenance-parentBean"/>
+  <bean id="PayCalendarMaintenanceDocument-PayCalendarMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Pay Calendar Maintenance"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="calendarGroup" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="chart" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="beginDate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="beginTime" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="endDate"    p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="endTime"   p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="initiateDate"   p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="initiateTime"   p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="endPayPeriodDate"   p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="endPayPeriodTime"   p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="employeeApprovalDate"   p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="employeeApprovalTime"   p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="supervisorApprovalDate"   p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="supervisorApprovalTime"   p:required="true"/>                                  
+      </list>
+    </property>
+  </bean>
+  
+  <!-- Pay calendar dates maintenance section -->
+
+  <bean id="PayCalendarMaintenanceDocument-PayCalendarDatesMaintenance" parent="PayCalendarMaintenanceDocument-PayCalendarDatesMaintenance-parentBean"/>
+  <bean id="PayCalendarMaintenanceDocument-PayCalendarDatesMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  	<property name="id" value="payCalendarDates"/>
+  	<property name="title" value="Pay Calendar Dates"/>
+  	<property name="defaultOpen" value="true"/>
+  	<property name="maintainableItems">
+  		<list>	
+  		  <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="payCalendarDates"/>
+          <property name="businessObjectClass" value="org.kuali.hr.time.paycalendar.PayCalendarDates"/>
+          <property name="alwaysAllowCollectionDeletion" value="true"/>          
+          <property name="maintainableFields">
+            <list> 
+              <bean parent="MaintainableFieldDefinition" p:name="beginPeriodDate" p:required="true"  />
+              <bean parent="MaintainableFieldDefinition" p:name="beginPeriodTime" p:required="true"  />
+              <bean parent="MaintainableFieldDefinition" p:name="endPeriodDate" p:required="true"  />
+              <bean parent="MaintainableFieldDefinition" p:name="endPeriodTime" p:required="true"  />
+            </list>
+          </property>        
+        </bean>  
+  		</list>
+  	</property>
+  </bean>
+  
+
+</beans>

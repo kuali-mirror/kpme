@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+  <bean id="PayCalendar" parent="PayCalendar-parentBean"/>
+  <bean id="PayCalendar-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.hr.time.paycalendar.PayCalendar"/>
+    <property name="titleAttribute" value="payCalendarId"/>
+    <property name="objectLabel" value="PayCalendar"/>
+    <property name="lookupDefinition">
+      <ref bean="PayCalendar-lookupDefinition"/>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="PayCalendar-payCalendarId"/>
+        <ref bean="PayCalendar-calendarGroup"/>
+        <ref bean="PayCalendar-chart"/>
+        <ref bean="PayCalendar-beginDate"/>
+        <ref bean="PayCalendar-beginTime"/>
+        <ref bean="PayCalendar-endDate"/>
+        <ref bean="PayCalendar-endTime"/>
+        <ref bean="PayCalendar-initiateDate"/>
+        <ref bean="PayCalendar-initiateTime"/>
+        <ref bean="PayCalendar-endPayPeriodDate"/>
+        <ref bean="PayCalendar-endPayPeriodTime"/>
+        <ref bean="PayCalendar-employeeApprovalDate"/>
+        <ref bean="PayCalendar-employeeApprovalTime"/>
+        <ref bean="PayCalendar-supervisorApprovalDate"/>
+        <ref bean="PayCalendar-supervisorApprovalTime"/>
+      </list>
+    </property>
+    <property name="collections">
+      <list>
+        <bean parent="CollectionDefinition" p:name="payCalendarDates" p:label="Pay Calendar Dates" p:shortLabel="Pay Calendar Dates" p:summary="Pay Calendar Dates" p:description="Pay Calendar Dates"/>
+      </list>
+    </property>        
+  </bean>
+
+  <!-- Attribute Definitions -->
+  
+  <bean id="PayCalendar-payCalendarId" parent="PayCalendar-payCalendarId-parentBean"/>
+  <bean id="PayCalendar-payCalendarId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>
+    <property name="name" value="payCalendarId"/>
+    <property name="label" value="Pay Calendar Id"/>
+  </bean>
+
+  <bean id="PayCalendar-calendarGroup" parent="PayCalendar-calendarGroup-parentBean"/>
+  <bean id="PayCalendar-calendarGroup-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Calendar Group"/>
+    <property name="maxLength" value="21"/>
+    <property name="validationPattern">
+ 		<bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="name" value="calendarGroup"/>
+    <property name="label" value="Calendar Group"/>
+  </bean>
+
+  <bean id="PayCalendar-chart" parent="PayCalendar-chart-parentBean"/>
+  <bean id="PayCalendar-chart-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Chart"/>
+    <property name="maxLength" value="21"/>
+    <property name="validationPattern">
+ 		<bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="name" value="chart"/>
+    <property name="label" value="Chart"/>
+  </bean>
+
+  
+    
+  <bean id="PayCalendar-beginDate" parent="PayCalendar-beginDate-parentBean"/>
+  <bean id="PayCalendar-beginDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Begin Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+ 		<bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
+    <property name="name" value="beginDate"/>
+    <property name="label" value="Begin Date"/>
+  </bean>
+
+  <bean id="PayCalendar-beginTime" parent="PayCalendar-beginTime-parentBean"/>
+  <bean id="PayCalendar-beginTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Begin Time"/>
+    <property name="maxLength" value="10"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>    
+    <property name="validationPattern">
+ 		<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]" p:validationErrorMessageKey="MISSING"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
+    <property name="name" value="beginTime"/>
+    <property name="label" value="Begin Time"/>
+  </bean>
+
+  <!--  -->
+
+  <bean id="PayCalendar-endDate" parent="PayCalendar-endDate-parentBean"/>
+  <bean id="PayCalendar-endDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="End Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+ 		<bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
+    <property name="name" value="endDate"/>
+    <property name="label" value="End Date"/>
+  </bean>
+
+  <bean id="PayCalendar-endTime" parent="PayCalendar-endTime-parentBean"/>
+  <bean id="PayCalendar-endTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="End Time"/>
+    <property name="maxLength" value="10"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>    
+    <property name="validationPattern">
+ 		<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]" p:validationErrorMessageKey="MISSING"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
+    <property name="name" value="endTime"/>
+    <property name="label" value="End Time"/>
+  </bean>
+
+  <!--  -->
+
+  <bean id="PayCalendar-initiateDate" parent="PayCalendar-initiateDate-parentBean"/>
+  <bean id="PayCalendar-initiateDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Initiate Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+ 		<bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
+    <property name="name" value="initiateDate"/>
+    <property name="label" value="Initiate Date"/>
+  </bean>
+
+  <bean id="PayCalendar-initiateTime" parent="PayCalendar-initiateTime-parentBean"/>
+  <bean id="PayCalendar-initiateTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Initiate Time"/>
+    <property name="maxLength" value="10"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>    
+    <property name="validationPattern">
+ 		<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]" p:validationErrorMessageKey="MISSING"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
+    <property name="name" value="initiateTime"/>
+    <property name="label" value="Initiate Time"/>
+  </bean>
+
+  <!--  -->
+
+  <bean id="PayCalendar-endPayPeriodDate" parent="PayCalendar-endPayPeriodDate-parentBean"/>
+  <bean id="PayCalendar-endPayPeriodDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="End Pay Period Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+ 		<bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
+    <property name="name" value="endPayPeriodDate"/>
+    <property name="label" value="End Pay Period Date"/>
+  </bean>
+
+  <bean id="PayCalendar-endPayPeriodTime" parent="PayCalendar-endPayPeriodTime-parentBean"/>
+  <bean id="PayCalendar-endPayPeriodTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="End Pay Period Time"/>
+    <property name="maxLength" value="10"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>    
+    <property name="validationPattern">
+ 		<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]" p:validationErrorMessageKey="MISSING"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
+    <property name="name" value="endPayPeriodTime"/>
+    <property name="label" value="End Pay Period Time"/>
+  </bean>
+
+  <!--  -->
+
+  <bean id="PayCalendar-employeeApprovalDate" parent="PayCalendar-employeeApprovalDate-parentBean"/>
+  <bean id="PayCalendar-employeeApprovalDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Employee Approval Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+ 		<bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
+    <property name="name" value="employeeApprovalDate"/>
+    <property name="label" value="Employee Approval Date"/>
+  </bean>
+
+  <bean id="PayCalendar-employeeApprovalTime" parent="PayCalendar-employeeApprovalTime-parentBean"/>
+  <bean id="PayCalendar-employeeApprovalTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Employee Approval Time"/>
+    <property name="maxLength" value="10"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>    
+    <property name="validationPattern">
+ 		<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]" p:validationErrorMessageKey="MISSING"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
+    <property name="name" value="employeeApprovalTime"/>
+    <property name="label" value="Employee Approval Time"/>
+  </bean>
+
+  <!--  -->
+
+  <bean id="PayCalendar-supervisorApprovalDate" parent="PayCalendar-supervisorApprovalDate-parentBean"/>
+  <bean id="PayCalendar-supervisorApprovalDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Supervisor Approval Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+ 		<bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
+    <property name="name" value="supervisorApprovalDate"/>
+    <property name="label" value="Supervisor Approval Date"/>
+  </bean>
+
+  <bean id="PayCalendar-supervisorApprovalTime" parent="PayCalendar-supervisorApprovalTime-parentBean"/>
+  <bean id="PayCalendar-supervisorApprovalTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Supervisor Approval Time"/>
+    <property name="maxLength" value="10"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>    
+    <property name="validationPattern">
+ 		<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]" p:validationErrorMessageKey="MISSING"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
+    <property name="name" value="supervisorApprovalTime"/>
+    <property name="label" value="Supervisor Approval Time"/>
+  </bean>
+
+  <!--  -->
+
+
+  <!-- -->
+  <!-- Lookup Definition: -->
+  <!-- -->
+
+  <bean id="PayCalendar-lookupDefinition" parent="PayCalendar-lookupDefinition-parentBean"/>
+  <bean id="PayCalendar-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <!--  property name="lookupableID" value="payCalendarLookupable"/ -->
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="payCalendarId"/>
+        <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
+        <bean parent="FieldDefinition" p:attributeName="chart"/>
+        <bean parent="FieldDefinition" p:attributeName="beginDate"/>
+        <bean parent="FieldDefinition" p:attributeName="beginTime"/>
+        <bean parent="FieldDefinition" p:attributeName="endDate"/>
+        <bean parent="FieldDefinition" p:attributeName="endTime"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="payCalendarId"/>
+        <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
+        <bean parent="FieldDefinition" p:attributeName="chart"/>
+        <bean parent="FieldDefinition" p:attributeName="beginDate"/>
+        <bean parent="FieldDefinition" p:attributeName="beginTime"/>
+        <bean parent="FieldDefinition" p:attributeName="endDate"/>
+        <bean parent="FieldDefinition" p:attributeName="endTime"/> 
+      </list>
+    </property>
+    <property name="title" value="Pay Calendar Lookup"/>
+  </bean>
+   
+</beans>

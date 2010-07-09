@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="PayCalendarDatesMaintenanceDocument" parent="PayCalendarDatesMaintenanceDocument-parentBean"/>
+
+  <bean id="PayCalendarDatesMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  		p:businessObjectClass="org.kuali.hr.time.paycalendar.PayCalendarDates"
+   		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+    <property name="maintainableSections">
+      <list>
+        <ref bean="PayCalendarDatesMaintenanceDocument-PayCalendarDatesMaintenance"/>
+      </list>
+    </property>
+    <property name="documentTypeName" value="PayCalendarDatesDocumentType"/>
+  </bean>
+
+  <!-- Maintenance Section Definitions -->
+
+  <bean id="PayCalendarDatesMaintenanceDocument-PayCalendarDatesMaintenance" parent="PayCalendarDatesMaintenanceDocument-PayCalendarDatesMaintenance-parentBean"/>
+  <bean id="PayCalendarDatesMaintenanceDocument-PayCalendarDatesMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Pay Calendar Dates Maintenance"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="beginPeriodDate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="beginPeriodTime" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="endPeriodDate"    p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="endPeriodTime"   p:required="true"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>
