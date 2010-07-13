@@ -11,7 +11,7 @@ public class Job  extends PersistableBusinessObjectBase {
     /**
      * 
      */
-    private static final long serialVersionUID = 312885567017730923L;
+    private static final long serialVersionUID = 1L;
     private Long jobId;
     private String principalId;
     private Integer jobNumber;
