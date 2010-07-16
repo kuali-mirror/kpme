@@ -45,46 +45,6 @@ $(document).ready(function() {
 	var m = date.getMonth();
 	var y = date.getFullYear();
 
-//	$('#cal').fullCalendar({
-//				theme : true,
-//				aspectRatio : 5, // the value here is just to match the height with the add time block panel
-//				allDaySlot : false,
-//				header : {
-//					left : 'prev, today',
-//					center : 'title',
-//					right : 'payPeriod'
-//				},
-//                selectable: true,
-//	            selectHelper: true,
-//	            select: function(start, end, allDay) {
-//	                var title = prompt('Event Title:');
-//	                if (title) {
-//	                    calendar.fullCalendar('renderEvent',
-//	                        {
-//	                            title: title,
-//	                            start: start,
-//	                            end: end,
-//	                            allDay: allDay
-//	                        },
-//	                        true // make the event "stick"
-//	                    );
-//	                }
-//	                calendar.fullCalendar('unselect');
-//	            },
-//                editable: true,
-//				events : [{
-//							title : 'HRMS Java developer: RGN',
-//							start : new Date(y, m, d, 8, 00),
-//							end : new Date(y, m, d, 17, 00),
-//							allDay : false
-//						}, {
-//							title : 'HRMS PS developer: RGN',
-//							start : new Date(y, m, d, 12, 0),
-//							end : new Date(y, m, d, 13, 0),
-//							allDay : false
-//						}
-//				]
-//			});
     var calendar = $('#cal').fullCalendar({
             theme : true,
             aspectRatio : 5, // the value here is just to match the height with the add time block panel
@@ -92,25 +52,51 @@ $(document).ready(function() {
             header: {
                   left : 'prev, today',
                   center : 'title',
-                  right : 'payPeriod'
+                  right : ''
             },
             selectable: true,
             selectHelper: true,
             select: function(start, end, allDay) {
-//                var title = prompt('Event Title:');
-//                if (title) {
-//                    calendar.fullCalendar('renderEvent',
-//                        {
-//                            title: title,
-//                            start: start,
-//                            end: end,
-//                            allDay: allDay
-//                        },
-//                        true // make the event "stick"
-//                    );
-//                }
-                $('#dialog-form').dialog('open');
-                calendar.fullCalendar('unselect');
+
+                $('#beginTimeField').val("");
+                $('#endTimeField').val("");
+
+                $('#dialog-form').dialog('enable');
+
+                var form = $('#dialog-form').dialog('open');
+
+                form.dialog({
+                    beforeclose: function(event, ui) {
+	                    var title;
+	                    var startTime = $('#beginTimeField');
+	                    var endTime = $('#endTimeField');
+
+	                    if(startTime.val() != '' && endTime.val() != '') {
+
+	                        startTime = $('#beginTimeField').parseTime();
+	                        endTime = $('#endTimeField').parseTime();
+
+	                        title = $('#assignment').val() + " - " + $('#earnCode').val();
+
+	                        start.setHours(startTime['hour']);
+	                        start.setMinutes(startTime['minute']);
+
+	                        end.setHours(endTime['hour']);
+	                        end.setMinutes(endTime['minute']);
+
+	                        calendar.fullCalendar('renderEvent',
+	                          {
+	                              title: title,
+	                              start: start,
+	                              end: end,
+	                              allDay: false
+	                          },
+	                          true // make the event "stick"
+	                        );
+	                        calendar.fullCalendar('unselect');
+	                    }
+                    }
+                });
             },
             editable: true,
            events : [{
@@ -133,14 +119,14 @@ $(document).ready(function() {
         width: 400,
         modal: true,
         buttons: {
-            'Add time': function() {
+            Add: function() {
+                $(this).dialog('close');
             },
             Cancel: function() {
+                $('#beginTimeField').val("");
+                $('#endTimeField').val("");
                 $(this).dialog('close');
             }
-        },
-        close: function() {
-            allFields.val('').removeClass('ui-state-error');
         }
     });
 
@@ -208,6 +194,7 @@ $(document).ready(function() {
 			});
 
 	// tooltip
+    // http://flowplayer.org/tools/tooltip/index.html
 	$("#beginTimeHelp, #endTimeHelp").tooltip({
 
 				// place tooltip on the right edge
@@ -220,7 +207,9 @@ $(document).ready(function() {
 				effect : "fade",
 
 				// custom opacity setting
-				opacity : 0.7
+				opacity : 0.7,
+
+                fadeInSpeed : 500
 
 			});
 
@@ -243,4 +232,33 @@ $(document).ready(function() {
         $('#timesheet-table-basic').hide();
     });
 
+    // demo
+    $("#tabs-demo").tabs();
+
+
+    // onblur="magicTime(this)" onfocus="if (this.className != 'error') this.select()"
+
+    $(".timesheet-table-week1 :input, .timesheet-table-week2 :input").blur(function(){
+        magicTime(this);
+    }).focus(function(){
+        if(this.className != 'error') this.select();
+    });
+
 });
+
+$.fn.parseTime= function() {
+    var parsedTime = new Array();
+    var timeAndAmPm = $(this).val().split(" ");
+    var time = timeAndAmPm[0].split(":");
+
+    if(timeAndAmPm[1] == 'PM') {
+        parsedTime['hour'] = Number(time[0]) + 12;
+    }
+    else {
+        parsedTime['hour'] = Number(time[0]);
+    }
+
+    parsedTime['minute'] = Number(time[1]);
+
+    return parsedTime;
+}

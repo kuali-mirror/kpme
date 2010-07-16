@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
-<select>
+<select id="earnCode">
 	<option>RGN: Regular</option>
 	<option>WEP: Emergency Weather</option>
 	<option>HAZ: Hazard Pay - 1.50</option>

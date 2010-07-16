@@ -29,8 +29,8 @@
 	<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 		<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-corner-all ui-header ${highlight}">
 			<span class="title ${backdoor}" >
-			<img src="images/usc_logo.gif" style="width:2em; height:2em; vertical-align: middle" />
-				Trojan Time
+			<%--<img src="images/usc_logo.gif" style="width:2em; height:2em; vertical-align: middle" />  --%>
+				TIME
 			</span>
 
 			<div class="person-info" style="float:right">
