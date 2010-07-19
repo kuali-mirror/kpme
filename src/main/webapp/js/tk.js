@@ -58,8 +58,8 @@ $(document).ready(function() {
             selectHelper: true,
             select: function(start, end, allDay) {
 
-                $('#beginTimeField').val("");
-                $('#endTimeField').val("");
+                // clear any existing values
+                $('#beginTimeField, #endTimeField, #hoursField').val("");
 
                 $('#dialog-form').dialog('enable');
 
@@ -70,6 +70,28 @@ $(document).ready(function() {
 	                    var title;
 	                    var startTime = $('#beginTimeField');
 	                    var endTime = $('#endTimeField');
+                        var hours = $('#hoursField');
+
+                        if(hours.val() != '') {
+                            title = $('#assignment').val() + " - " + $('#earnCode').val();
+
+                            start.setHours(9);
+                            start.setMinutes(0);
+
+                            end.setHours(9+Number(hours.val()));
+                            end.setMinutes(0);
+
+                            calendar.fullCalendar('renderEvent',
+                              {
+                                  title: title,
+                                  start: start,
+                                  end: end,
+                                  allDay: false
+                              },
+                              true // make the event "stick"
+                            );
+                            calendar.fullCalendar('unselect');
+                        }
 
 	                    if(startTime.val() != '' && endTime.val() != '') {
 
@@ -210,14 +232,13 @@ $(document).ready(function() {
 				opacity : 0.7,
 
                 fadeInSpeed : 500
-
 			});
 
 	// note
 	$("#note").accordion({
-				collapsible : true,
-				active : 2
-			});
+		collapsible : true,
+		active : 2
+	});
 
     // summary table
     $('a#basic').click(function(){
@@ -235,13 +256,35 @@ $(document).ready(function() {
     // demo
     $("#tabs-demo").tabs();
 
-
-    // onblur="magicTime(this)" onfocus="if (this.className != 'error') this.select()"
-
+    // apply time entry widget to the tabular view
     $(".timesheet-table-week1 :input, .timesheet-table-week2 :input").blur(function(){
         magicTime(this);
     }).focus(function(){
         if(this.className != 'error') this.select();
+    });
+
+    // earn code
+    $("select#earnCode").change(function(){
+
+		$('#hoursField').attr('readonly',false).css('background',"white").val("");
+
+        if($(this).val() == 'SCK' || $(this).val() == 'VAC') {
+			$('#beginTimeField,#endTimeField').val("");
+            $('#clockIn, #clockOut').hide();
+            $('#hours').show();
+
+            if($(this).val() == 'SCK') {
+                $('#hoursField').val('8');
+                $('#hoursField').attr('readonly',true).css('background',"#EEEEEE");
+            }
+        }
+        else {
+            $('#hours').val("");
+            $('#clockIn, #clockOut').show();
+            $('#hours').hide();
+        }
+
+        $("select#earnCode option[value='" + $(this).val() +"']").attr("selected", "selected");
     });
 
 });

@@ -1,11 +1,13 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
 <select id="earnCode">
-	<option>RGN: Regular</option>
-	<option>WEP: Emergency Weather</option>
-	<option>HAZ: Hazard Pay - 1.50</option>
-	<option>HIP: Holiday Incentive</option>
-	<option>OC1: On Call - 1.50</option>
-	<option>OC2: On Call - 2.00</option>
-	<option>PRM: Premium</option>
+	<option value="RGN">RGN: Regular</option>
+	<option value="SCK">SCK: Sick</option>
+	<option value="VAC">VAC: Vacation</option>
+	<option value="WEP">WEP: Emergency Weather</option>
+	<option value="HAZ">HAZ: Hazard Pay - 1.50</option>
+	<option value="HIP">HIP: Holiday Incentive</option>
+	<option value="OC1">OC1: On Call - 1.50</option>
+	<option value="OC2">OC2: On Call - 2.00</option>
+	<option value="PRM">PRM: Premium</option>
 </select>
