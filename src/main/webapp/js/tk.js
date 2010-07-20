@@ -295,7 +295,7 @@ $.fn.parseTime= function() {
     var time = timeAndAmPm[0].split(":");
 
     if(timeAndAmPm[1] == 'PM') {
-        parsedTime['hour'] = Number(time[0]) + 12;
+        parsedTime['hour'] = Number(time[0]) == 12 ? time[0] : Number(time[0]) + 12;
     }
     else {
         parsedTime['hour'] = Number(time[0]);
