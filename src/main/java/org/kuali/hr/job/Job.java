@@ -14,7 +14,7 @@ public class Job  extends PersistableBusinessObjectBase {
     private static final long serialVersionUID = 1L;
     private Long jobId;
     private String principalId;
-    private Integer jobNumber;
+    private Long jobNumber;
     private Date effectiveDate;
     private String deptId;
     private Long payCalendarId;
@@ -53,12 +53,12 @@ public class Job  extends PersistableBusinessObjectBase {
     }
 
 
-    public Integer getJobNumber() {
+    public Long getJobNumber() {
         return jobNumber;
     }
 
 
-    public void setJobNumber(Integer jobNumber) {
+    public void setJobNumber(Long jobNumber) {
         this.jobNumber = jobNumber;
     }
 

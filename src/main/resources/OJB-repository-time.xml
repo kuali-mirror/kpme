@@ -93,7 +93,7 @@
 		<field-descriptor name="deptId"          column="dept_id"       jdbc-type="VARCHAR" length="21"/>
 		<field-descriptor name="workArea"        column="work_area_id"  jdbc-type="BIGINT" precision="10" scale="0" nullable="false" primarykey="false" />
 		<field-descriptor name="principalId"     column="principal_id"   jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
-		<field-descriptor name="jobNumber"       column="job_number"    jdbc-type="NUMERIC" precision="3" scale="0" nullable="false" primarykey="false" />
+		<field-descriptor name="jobNumber"       column="job_number"    jdbc-type="BIGINT" precision="3" scale="0" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"   column="effdt"         jdbc-type="DATE" nullable="false" primarykey="false"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="ipAddress"       column="ip_address"	jdbc-type="VARCHAR" length="15" nullable="false" primarykey="false" />
@@ -172,7 +172,7 @@
 	<class-descriptor class="org.kuali.hr.job.Job" table="hr_job_t">
 		<field-descriptor name="jobId" 					column="job_id" 			jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="hr_job_s"/>
 		<field-descriptor name="principalId"            column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
-		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="INTEGER" nullable="false" primarykey="false" />
+		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate" 			column="effdt" 				jdbc-type="DATE"    nullable="false" primarykey="false" />
 		<field-descriptor name="deptId" 				column="dept_id" 			jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
 		<field-descriptor name="payCalendarId" 			column="py_calendar_id" 	jdbc-type="BIGINT"  nullable="false" primarykey="false" />

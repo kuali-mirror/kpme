@@ -14,5 +14,8 @@ public class ClockLocationMaintainableImpl extends KualiMaintainableImpl {
 	// TODO Add any custom logic here
 	super.prepareForSave();
     }
+    
+    
+    
 
 }
