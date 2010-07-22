@@ -11,13 +11,13 @@
 		the specific language governing permissions and limitations under the
 		License.
 	-->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali</groupId>
 	<artifactId>trojan-time</artifactId>
 	<packaging>war</packaging>
-	<name>Kuali's Trojan Time</name>
+	<name>trojan-time</name>
+	<description>Kuali's Trojan Time</description>
 	<version>0.1-SNAPSHOT</version>
 
 	<dependencies>
@@ -114,7 +114,22 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	
+	<distributionManagement>
+		<repository>
+			<id>kuali</id>
+			<name>Kuali Repository</name>
+			<url>scp://test.kuali.org/maven</url>
+			<uniqueVersion>true</uniqueVersion>
+		</repository>
+		<snapshotRepository>
+			<id>kuali</id>
+			<name>Kuali Repository</name>
+			<url>scp://test.kuali.org/maven</url>
+			<uniqueVersion>true</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
+	
 	<repositories>
 		<repository>
 			<id>kuali</id>
@@ -124,9 +139,9 @@
 	</repositories>
 
 	<scm>
-		<connection>scm:svn:https://ais-svn.usc.edu/svn/T2/trunk</connection>
-		<developerConnection>scm:svn:https://ais-svn.usc.edu/svn/T2/trunk</developerConnection>
-		<url>https://ais-svn.usc.edu/svn/T2/trunk</url>
+		<connection>scm:svn:https://ais-svn.usc.edu/svn/T2/branches/mavenT2</connection>
+		<developerConnection>scm:svn:https://ais-svn.usc.edu/svn/T2/branches/mavenT2</developerConnection>
+		<url>https://ais-svn.usc.edu/svn/T2/branches/mavenT2</url>
 	</scm>
 
 </project>
