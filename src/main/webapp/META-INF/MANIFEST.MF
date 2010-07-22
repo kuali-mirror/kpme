@@ -1,0 +1,50 @@
+Manifest-Version: 1.0
+Class-Path: acegi-security-1.0.6.jar acegi-security-cas-1.0.6.jar acti
+ vation-1.1.jar ant-1.6.5.jar antlr-2.7.6.jar aopalliance-1.0.jar asm-
+ 2.2.3.jar asm-attrs-1.5.3.jar aspectjrt-1.5.3.jar aspectjweaver-1.5.3
+ .jar backport-util-concurrent-2.1.jar bcel-5.1.jar bcprov-jdk15-133.j
+ ar bsf-2.4.0.jar carol-2.0.5.jar cas-2.0.12.jar cas-client-core-3.1.6
+ .jar cas-server-3.0.4.jar casclient-2.1.1.jar cglib-nodep-2.1_3.jar c
+ ommons-beanutils-1.7.0.jar commons-codec-1.4.jar commons-collections-
+ 3.2.1.jar commons-dbcp-1.2.1.jar commons-digester-1.6.jar commons-el-
+ 1.0.jar commons-fileupload-1.2.1.jar commons-httpclient-3.1.jar commo
+ ns-io-1.4.jar commons-lang-2.4.jar commons-logging-1.1.1.jar commons-
+ pool-1.2.jar commons-transaction-1.1.jar commons-validator-1.1.4.jar 
+ concurrent-1.3.4.jar connector-1.0.jar connector-api-1.5.jar core-3.1
+ .1.jar cssparser-0.9.5.jar cxf-api-2.1.5.jar cxf-common-schemas-2.1.5
+ .jar cxf-common-utilities-2.1.5.jar cxf-rt-bindings-soap-2.1.5.jar cx
+ f-rt-bindings-xml-2.1.5.jar cxf-rt-core-2.1.5.jar cxf-rt-databinding-
+ aegis-2.1.5.jar cxf-rt-databinding-jaxb-2.1.5.jar cxf-rt-frontend-jax
+ ws-2.1.5.jar cxf-rt-frontend-simple-2.1.5.jar cxf-rt-transports-http-
+ 2.1.5.jar cxf-rt-ws-addr-2.1.5.jar cxf-rt-ws-security-2.1.5.jar cxf-t
+ ools-common-2.1.5.jar db-ojb-1.0.4-patch3.jar derby-10.2.2.0.jar disp
+ laytag-1.1.jar dom4j-1.6.1.jar dwr-1.1.3.jar ehcache-1.2.3.jar FastIn
+ foset-1.2.2.jar geronimo-activation_1.1_spec-1.0.2.jar geronimo-annot
+ ation_1.0_spec-1.1.1.jar geronimo-javamail_1.4_spec-1.3.jar geronimo-
+ jaxws_2.1_spec-1.0.jar geronimo-stax-api_1.0_spec-1.0.1.jar geronimo-
+ ws-metadata_2.0_spec-1.1.2.jar groovy-all-minimal-1.5.4.jar hibernate
+ -3.2.6.ga.jar hibernate-annotations-3.3.0.ga.jar hibernate-commons-an
+ notations-3.0.0.ga.jar hibernate-entitymanager-3.3.1.ga.jar hibernate
+ -validator-3.0.0.ga.jar howl-logger-0.1.11.jar htmlunit-1.13.jar html
+ unit-2.7.jar htmlunit-core-js-2.7.jar itext-1.3.jar jasper-compiler-5
+ .5.15.jar jasper-compiler-jdt-5.5.15.jar jasper-runtime-5.5.15.jar ja
+ vassist-3.3.ga.jar jaxb-api-2.1.jar jaxb-impl-2.1.9.jar jaxb-xjc-2.1.
+ 9.jar jaxen-1.1.jar jboss-common-core-2.0.4.GA.jar jdom-1.0.jar jotm-
+ 2.0.10.jar jotm_jrmp_stubs-2.0.10.jar js-1.6R5.jar jsp-api-2.0.jar js
+ tl-1.1.2.jar jta-1.0.1B.jar junit-4.8.1.jar log4j-1.2.14.jar mail-1.4
+ .jar mysql-connector-java-5.1.5.jar neethi-2.0.4.jar nekohtml-0.9.5.j
+ ar nekohtml-1.9.14.jar ojdbc14-10.2.0.3.0.jar oro-2.0.8.jar oscache-2
+ .3.2.jar persistence-api-1.0.jar quartz-1.6.0.jar rice-api-1.0.1.1.ja
+ r rice-impl-1.0.1.1.jar saaj-api-1.3.jar saaj-impl-1.3.2.jar sac-1.3.
+ jar serializer-2.7.1.jar spring-aop-2.0.4.jar spring-aspects-2.0.8.ja
+ r spring-beans-2.0.4.jar spring-context-2.0.4.jar spring-core-2.0.4.j
+ ar spring-dao-2.0.4.jar spring-jdbc-2.0.4.jar spring-jmx-2.0.4.jar sp
+ ring-jpa-2.0.4.jar spring-mock-2.0.4.jar spring-modules-ojb-0.8a.jar 
+ spring-remoting-1.2.9.jar spring-support-2.0.4.jar spring-web-2.0.4.j
+ ar spring-webmvc-2.0.4.jar standard-1.1.2.jar struts-1.2.9.jar struts
+ -el-1.2.9.jar wsdl4j-1.6.2.jar wss4j-1.5.7.jar wstx-asl-3.2.6.jar xal
+ an-2.7.1.jar xapool-1.5.0-patch3.jar xercesImpl-2.9.1.jar xml-apis-1.
+ 0.b2.jar xml-resolver-1.2.jar xmlParserAPIs-2.6.2.jar XmlSchema-1.4.5
+ .jar xmlsec-1.4.2.jar xom-1.1.jar xpp3_min-1.1.4c.jar xstream-1.3.1.j
+ ar
+
