@@ -40,7 +40,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="regEarnCode" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="holidayCalendar" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="timestamp" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="timeStamp" p:required="true" />
 			</list>
 		</property>
 	</bean>
