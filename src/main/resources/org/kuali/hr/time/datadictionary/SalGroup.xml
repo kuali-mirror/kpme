@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="SalGroup" parent="SalGroup-parentBean" />
+
+	<bean id="SalGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.time.salgroup.SalGroup" />
+		<property name="titleAttribute" value="salGroupId" />
+		<property name="objectLabel" value="Sal Group" />
+		<property name="lookupDefinition">
+			<ref bean="SalGroup-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="SalGroup-salGroupId" />
+				<ref bean="SalGroup-salGroup" />
+				<ref bean="SalGroup-effectiveDate" />
+				<ref bean="SalGroup-timestamp" />
+				<ref bean="SalGroup-active" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="SalGroup-salGroupId" parent="SalGroup-salGroupId-parentBean" />
+	<bean id="SalGroup-salGroupId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Id" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="salGroupId" />
+		<property name="label" value="Sal Group Id" />
+	</bean>
+
+	<bean id="SalGroup-salGroup" parent="SalGroup-salGroup-parentBean" />
+	<bean id="SalGroup-salGroup-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Group" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="salGroup" />
+		<property name="label" value="Sal Group" />
+	</bean>
+
+	<bean id="SalGroup-effectiveDate" parent="SalGroup-effectiveDate-parentBean" />
+	<bean id="SalGroup-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+
+	<bean id="SalGroup-timestamp" parent="SalGroup-timestamp-parentBean" />
+	<bean id="SalGroup-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="10" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="validationPattern">
+			<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]"
+				p:validationErrorMessageKey="MISSING" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Timestamp" />
+	</bean>
+
+	<bean id="SalGroup-active" parent="SalGroup-active-parentBean" />
+	<bean id="SalGroup-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+	</bean>
+
+	<!--  Inquiry Definitions  -->
+
+
+	<bean id="SalGroup-lookupDefinition" parent="SalGroup-lookupDefinition-parentBean" />
+	<bean id="SalGroup-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="salGroupId" />
+				<bean parent="FieldDefinition" p:attributeName="salGroup" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="salGroupId" />
+				<bean parent="FieldDefinition" p:attributeName="salGroup" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
+			</list>
+		</property>
+		<property name="title" value="Sal Group Lookup" />
+	</bean>
+
+</beans>
