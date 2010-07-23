@@ -54,7 +54,7 @@
 		</reference-descriptor>								
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.domain.base.TimeBlock" table="tk_time_block_t">
+	<class-descriptor class="org.kuali.hr.time.timeblock.TimeBlock" table="tk_time_block_t">
 		<field-descriptor name="documentId" 			column="document_id" 		jdbc-type="VARCHAR" length="14" nullable="false" primarykey="false" />
 		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="INTEGER" nullable="false" primarykey="false" />
 		<field-descriptor name="workAreaId" 			column="work_area_id" 		jdbc-type="INTEGER"  nullable="false" primarykey="false" />
@@ -259,7 +259,7 @@
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.hr.time.sal.SalGroup" table="tk_sal_group_t">
+	<class-descriptor class="org.kuali.hr.time.salgroup.SalGroup" table="tk_sal_group_t">
 		<field-descriptor name="id" column="tk_sal_group_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_sal_group_s"/>
 		<field-descriptor name="group" column="sal_group" jdbc-type="VARCHAR" length="10" nullable="false"/>
 		<field-descriptor name="effectiveDate" column="effdt" jdbc-type="DATE" nullable="false"/>
@@ -269,7 +269,7 @@
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.hr.time.pay.PayType" table="hr_paytype_t">
+	<class-descriptor class="org.kuali.hr.time.paytype.PayType" table="hr_paytype_t">
 		<field-descriptor name="id" column="paytype_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_paytype_s"/>
 		<field-descriptor name="type" column="paytype" jdbc-type="VARCHAR" length="5" nullable="false"/>
 		<field-descriptor name="description" column="descr" jdbc-type="VARCHAR" length="30"/>
@@ -294,7 +294,7 @@
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.hr.time.holiday.HolidayCalendarDate" table="tk_holiday_calendar_dates_t">
+	<class-descriptor class="org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry" table="tk_holiday_calendar_dates_t">
 		<field-descriptor name="id" column="holiday_calendar_dates_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_holiday_calendar_dates_s"/>
 		<field-descriptor name="holiday" column="holiday_date" jdbc-type="date" nullable="false" />
 		<field-descriptor name="description" column="holiday_desc" jdbc-type="VARCHAR" length="30" nullable="false" />

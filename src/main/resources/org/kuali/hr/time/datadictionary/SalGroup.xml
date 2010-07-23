@@ -6,7 +6,7 @@
 	<bean name="SalGroup" parent="SalGroup-parentBean" />
 
 	<bean id="SalGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.time.sal.SalGroup" />
+		<property name="businessObjectClass" value="org.kuali.hr.time.salgroup.SalGroup" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="Sal Group" />
 		<property name="lookupDefinition">
@@ -33,7 +33,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="id" />
+		<property name="name" value="salGroupId" />
 		<property name="label" value="Sal Group Id" />
 	</bean>
 
@@ -50,7 +50,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="group" />
+		<property name="name" value="salGroup" />
 		<property name="label" value="Sal Group" />
 	</bean>
 

@@ -14,7 +14,7 @@ public class AccrualCategory extends PersistableBusinessObjectBase {
 	private Long tkAccrualCategoryId;
 	private String accrualCategory;
 	private String descr;
-	private Date effdt;
+	private Date effectiveDate;
 	private boolean active;
 	
 	
@@ -64,18 +64,6 @@ public class AccrualCategory extends PersistableBusinessObjectBase {
 
 
 
-	public Date getEffdt() {
-		return effdt;
-	}
-
-
-
-	public void setEffdt(Date effdt) {
-		this.effdt = effdt;
-	}
-
-
-
 	public boolean isActive() {
 		return active;
 	}
@@ -84,6 +72,18 @@ public class AccrualCategory extends PersistableBusinessObjectBase {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+
+
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
+
+
+
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
 	}
 
 }

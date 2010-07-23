@@ -10,7 +10,7 @@
 	<bean id="SalGroupMaintenanceDocument" parent="SalGroupMaintenanceDocument-parentBean" />
 
 	<bean id="SalGroupMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.sal.SalGroup"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.salgroup.SalGroup"
 		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
 		<property name="maintainableSections">
 			<list>

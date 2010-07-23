@@ -10,7 +10,7 @@
 	<bean id="HolidayCalendarDateMaintenanceDocument" parent="HolidayCalendarDateMaintenanceDocument-parentBean" />
 
 	<bean id="HolidayCalendarDateMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.holiday.HolidayCalendarDate"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry"
 		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
 		<property name="maintainableSections">
 			<list>
