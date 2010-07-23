@@ -1,4 +1,4 @@
-package org.kuali.hr.time.domain.base;
+package org.kuali.hr.time.timeblock;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -15,8 +15,8 @@ public class TimeBlock extends PersistableBusinessObjectBase {
     
     private String documentId;
     private Integer jobNumber;
-    private Integer workAreaId;
-    private Integer taskId;
+    private Long workAreaId;
+    private Long taskId;
     private String earnCode;
     private Timestamp beginTimestamp;
     private Timestamp endTimestamp;
@@ -49,19 +49,19 @@ public class TimeBlock extends PersistableBusinessObjectBase {
         this.jobNumber = jobNumber;
     }
 
-    public Integer getWorkAreaId() {
+    public Long getWorkAreaId() {
         return workAreaId;
     }
 
-    public void setWorkAreaId(Integer workAreaId) {
+    public void setWorkAreaId(Long workAreaId) {
         this.workAreaId = workAreaId;
     }
 
-    public Integer getTaskId() {
+    public Long getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(Integer taskId) {
+    public void setTaskId(Long taskId) {
         this.taskId = taskId;
     }
 

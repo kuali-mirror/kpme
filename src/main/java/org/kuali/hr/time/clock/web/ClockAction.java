@@ -62,8 +62,8 @@ public class ClockAction extends TkAction {
     	    cl.setClockTimestampTimezone(TKUtils.getTimeZone());
     	    cl.setIpAddress(request.getRemoteAddr());
     	    cl.setJobNumber(0);
-    	    cl.setWorkAreaId(0);
-    	    cl.setTaskId(0);
+    	    cl.setWorkAreaId(0L);
+    	    cl.setTaskId(0L);
     	    cl.setUserPrincipalId(principalId);
 
     	    TkServiceLocator.getClockLogService().saveClockAction(cl);

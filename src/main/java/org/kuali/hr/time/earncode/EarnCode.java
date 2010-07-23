@@ -1,5 +1,6 @@
 package org.kuali.hr.time.earncode;
 
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -12,65 +13,56 @@ public class EarnCode extends PersistableBusinessObjectBase {
     private static final long serialVersionUID = 1L;
     
     private Long   earnCodeId;
-    private String deptId;
-    private String tkRuleGroup;
-    private String location;
     private String earnCode;
+    private String description;
+    private Date effectiveDate;
     private boolean active;
 
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
-	// TODO Auto-generated method stub
-	return null;
+    	return null;
     }
 
-    public String getDeptId() {
-        return deptId;
-    }
+	public Long getEarnCodeId() {
+		return earnCodeId;
+	}
 
-    public void setDeptId(String deptId) {
-        this.deptId = deptId;
-    }
+	public void setEarnCodeId(Long earnCodeId) {
+		this.earnCodeId = earnCodeId;
+	}
 
-    public String getTkRuleGroup() {
-        return tkRuleGroup;
-    }
+	public String getEarnCode() {
+		return earnCode;
+	}
 
-    public void setTkRuleGroup(String tkRuleGroup) {
-        this.tkRuleGroup = tkRuleGroup;
-    }
+	public void setEarnCode(String earnCode) {
+		this.earnCode = earnCode;
+	}
 
-    public String getLocation() {
-        return location;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public String getEarnCode() {
-        return earnCode;
-    }
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
 
-    public void setEarnCode(String earnCode) {
-        this.earnCode = earnCode;
-    }
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
 
-    public boolean isActive() {
-        return active;
-    }
+	public boolean isActive() {
+		return active;
+	}
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
-    public Long getEarnCodeId() {
-        return earnCodeId;
-    }
-
-    public void setEarnCodeId(Long earnCodeId) {
-        this.earnCodeId = earnCodeId;
-    }
 
 }

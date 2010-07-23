@@ -36,7 +36,7 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 
 	private Date supervisorApprovalDate;
 	private Time supervisorApprovalTime;
-
+	
 	private List<PayCalendarDates> payCalendarDates = new LinkedList<PayCalendarDates>();
 
 	public PayCalendar() {
@@ -171,9 +171,9 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 		this.payCalendarDates = payCalendarDates;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

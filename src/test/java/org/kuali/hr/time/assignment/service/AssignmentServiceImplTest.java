@@ -55,26 +55,26 @@ public class AssignmentServiceImplTest extends TestHarnessWebBase {
 	cal.set(Calendar.MONTH, Calendar.JANUARY);
 	cal.set(Calendar.DAY_OF_MONTH, 1);
 
-	Assignment a = new Assignment("12345", 1, new Date(cal.getTimeInMillis()), "ERN", new Long(1), 1L);
-	assignmentList.add(a);
+	//Assignment a = new Assignment("12345", 1, new Date(cal.getTimeInMillis()), "ERN", new Long(1), 1L);
+	//assignmentList.add(a);
 
 	cal.set(Calendar.MONTH, Calendar.FEBRUARY);
 	cal.set(Calendar.DAY_OF_MONTH, 1);
 	
-	Assignment b = new Assignment("12345", 1, new Date(cal.getTimeInMillis()), "ERN", new Long(1), 1L);
-	assignmentList.add(b);
+	//Assignment b = new Assignment("12345", 1, new Date(cal.getTimeInMillis()), "ERN", new Long(1), 1L);
+	//assignmentList.add(b);
 	
 	cal.set(Calendar.MONTH, Calendar.MARCH);
 	cal.set(Calendar.DAY_OF_MONTH, 1);
 	
-	Assignment c = new Assignment("12345", 1, new Date(cal.getTimeInMillis()), "ERN", new Long(1), 1L);
-	assignmentList.add(c);
+	//Assignment c = new Assignment("12345", 1, new Date(cal.getTimeInMillis()), "ERN", new Long(1), 1L);
+	//assignmentList.add(c);
 	
 	cal.set(Calendar.MONTH, Calendar.MARCH);
 	cal.set(Calendar.DAY_OF_MONTH, 1);
 	
-	Assignment d = new Assignment("12345", 1, new Date(cal.getTimeInMillis()), "ERN", new Long(1), 1L);
-	assignmentList.add(d);
+	//Assignment d = new Assignment("12345", 1, new Date(cal.getTimeInMillis()), "ERN", new Long(1), 1L);
+	//assignmentList.add(d);
 	
 	assignmentDao.saveOrUpdate(assignmentList);
 	assertEquals("Assignments not loaded.", 4, assignmentDao.findAllAssignments().size());

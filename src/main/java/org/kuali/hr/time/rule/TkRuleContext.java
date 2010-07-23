@@ -1,7 +1,7 @@
 package org.kuali.hr.time.rule;
 
 import org.kuali.hr.time.clocklog.ClockLog;
-import org.kuali.hr.time.domain.base.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeBlock;
 
 public class TkRuleContext {
 	private String action;

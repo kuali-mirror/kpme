@@ -17,8 +17,8 @@ public class ClockLog extends PersistableBusinessObjectBase {
     private Long clockLogId = null;
     private String principalId;
     private Integer jobNumber;
-    private Integer workAreaId;
-    private Integer taskId;
+    private Long workAreaId;
+    private Long taskId;
     private Calendar clockTimestamp;
     private String clockTimestampTimezone;
     private String clockAction;
@@ -50,19 +50,19 @@ public class ClockLog extends PersistableBusinessObjectBase {
         this.jobNumber = jobNumber;
     }
 
-    public Integer getWorkAreaId() {
+    public Long getWorkAreaId() {
         return workAreaId;
     }
 
-    public void setWorkAreaId(Integer workAreaId) {
+    public void setWorkAreaId(Long workAreaId) {
         this.workAreaId = workAreaId;
     }
 
-    public Integer getTaskId() {
+    public Long getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(Integer taskId) {
+    public void setTaskId(Long taskId) {
         this.taskId = taskId;
     }
 

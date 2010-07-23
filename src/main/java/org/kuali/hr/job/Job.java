@@ -18,7 +18,7 @@ public class Job  extends PersistableBusinessObjectBase {
     private Date effectiveDate;
     private String deptId;
     private Long payCalendarId;
-    private String tkRuleGroup;
+    private String tkSalGroup;
     private Timestamp timestamp;
     private Boolean active;
     
@@ -83,13 +83,13 @@ public class Job  extends PersistableBusinessObjectBase {
     }
 
 
-    public String getTkRuleGroup() {
-        return tkRuleGroup;
+    public String getTkSalGroup() {
+        return tkSalGroup;
     }
 
 
-    public void setTkRuleGroup(String tkRuleGroup) {
-        this.tkRuleGroup = tkRuleGroup;
+    public void setTkSalGroup(String tkSalGroup) {
+        this.tkSalGroup = tkSalGroup;
     }
 
     public Timestamp getTimestamp() {

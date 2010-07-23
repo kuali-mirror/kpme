@@ -1,76 +1,89 @@
 package org.kuali.hr.time.accrual;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class AccrualCategory extends PersistableBusinessObjectBase{
+public class AccrualCategory extends PersistableBusinessObjectBase {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2199784209037101946L;
-
-	private int id;
-	
-	private String category;
-	
-	private String description;
-	
-	private Date effectiveDate;
-	
+	private static final long serialVersionUID = 1L;
+	private Long tkAccrualCategoryId;
+	private String accrualCategory;
+	private String descr;
+	private Date effdt;
 	private boolean active;
 	
-	@Override
-	protected LinkedHashMap<String, Object> toStringMapper() {
-		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-		map.put("id", getId());
-		map.put("category", getCategory());
-		map.put("description", getDescription());
-		map.put("effectiveDate", getEffectiveDate());
-		map.put("active", isActive());
-		return map;
-	}
 	
-	public void setActive(boolean active) {
-		this.active = active;
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	protected LinkedHashMap toStringMapper() {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+
+
+	public Long getTkAccrualCategoryId() {
+		return tkAccrualCategoryId;
+	}
+
+
+
+	public void setTkAccrualCategoryId(Long tkAccrualCategoryId) {
+		this.tkAccrualCategoryId = tkAccrualCategoryId;
+	}
+
+
+
+	public String getAccrualCategory() {
+		return accrualCategory;
+	}
+
+
+
+	public void setAccrualCategory(String accrualCategory) {
+		this.accrualCategory = accrualCategory;
+	}
+
+
+
+	public String getDescr() {
+		return descr;
+	}
+
+
+
+	public void setDescr(String descr) {
+		this.descr = descr;
+	}
+
+
+
+	public Date getEffdt() {
+		return effdt;
+	}
+
+
+
+	public void setEffdt(Date effdt) {
+		this.effdt = effdt;
+	}
+
+
 
 	public boolean isActive() {
 		return active;
 	}
 
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getId() {
-		return id;
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }
