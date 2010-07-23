@@ -64,6 +64,8 @@ public class AccrualCategory extends PersistableBusinessObjectBase {
 
 
 
+
+
 	public boolean isActive() {
 		return active;
 	}

@@ -18,9 +18,6 @@
     <property name="attributes" >
       <list>
         <ref bean="EarnCode-earnCodeId" />
-        <ref bean="EarnCode-deptId" />
-        <ref bean="EarnCode-tkRuleGroup" />
-        <ref bean="EarnCode-location" />
         <ref bean="EarnCode-earnCode" />
         <ref bean="EarnCode-active" />
        </list>
@@ -43,53 +40,7 @@
     <property name="label" value="Earn Code Id"/>
   </bean>
   
-  <bean id="EarnCode-deptId" parent="EarnCode-deptId-parentBean"/>
-  <bean id="EarnCode-deptId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Dept Id"/>
-    <property name="maxLength" value="21"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern">
-      	<property name="allowWhitespace" value="false"/>
-      </bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="21"/>
-    </property>
-    <property name="name" value="deptId"/>
-    <property name="label" value="Department Id"/>
-  </bean>  
-  
-  <bean id="EarnCode-tkRuleGroup" parent="EarnCode-tkRuleGroup-parentBean"/>
-  <bean id="EarnCode-tkRuleGroup-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="TK Rule Group"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern">
-      	<property name="allowWhitespace" value="false"/>
-      </bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
-    <property name="name" value="tkRuleGroup"/>
-    <property name="label" value="TK Rule Group"/>
-  </bean>  
-  
-  <bean id="EarnCode-location" parent="EarnCode-location-parentBean"/>
-  <bean id="EarnCode-location-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Location"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern">
-      	<property name="allowWhitespace" value="false"/>
-      </bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" />
-    </property>
-    <property name="name" value="location"/>
-    <property name="label" value="Location"/>
-  </bean>  
+
   
   
   <bean id="EarnCode-earnCode" parent="EarnCode-earnCode-parentBean" />
@@ -152,18 +103,13 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition" p:attributeName="earnCodeId" />
-        <bean parent="FieldDefinition" p:attributeName="deptId" />
-        <bean parent="FieldDefinition" p:attributeName="tkRuleGroup" />
         <bean parent="FieldDefinition" p:attributeName="earnCode" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition" p:attributeName="earnCodeId" p:forceInquiry="true" />
-        <bean parent="FieldDefinition" p:attributeName="deptId" />
-        <bean parent="FieldDefinition" p:attributeName="tkRuleGroup" />
         <bean parent="FieldDefinition" p:attributeName="earnCode" />
-        <bean parent="FieldDefinition" p:attributeName="location" />
         <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
