@@ -22,7 +22,6 @@
         <ref bean="WorkArea-active" />
         <ref bean="WorkArea-description" />
         <ref bean="WorkArea-deptId" />
-        <ref bean="WorkArea-emplType" />
         <ref bean="WorkArea-overtimePreference" />
         <ref bean="WorkArea-adminDescr" />
         <ref bean="WorkArea-userPrincipalId" />
@@ -104,21 +103,6 @@
     <property name="name" value="deptId" />
     <property name="label" value="Department Id" />
     <property name="description" value="deptId" />
-  </bean>
-  
-  <bean id="WorkArea-emplType" parent="WorkArea-emplType-parentBean" />
-
-  <bean id="WorkArea-emplType-parentBean" abstract="true" parent="AttributeDefinition">
- 	<property name="forceUppercase" value="true" />
-
-    <property name="maxLength" value="10" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10" />
-    </property>
-
-    <property name="name" value="emplType" />
-    <property name="label" value="Employee Type" />
-    <property name="description" value="emplType" />
   </bean>
   
   <bean id="WorkArea-overtimePreference" parent="WorkArea-overtimePreference-parentBean" />

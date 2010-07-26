@@ -15,7 +15,6 @@ public class WorkArea extends PersistableBusinessObjectBase {
     private boolean active;
     private String description;
     private String deptId;
-    private String emplType;
     private String overtimePreference;
     private String adminDescr;
     private String userPrincipalId;
@@ -58,15 +57,6 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public String getEmplType() {
-        return emplType;
-    }
-
-
-    public void setEmplType(String emplType) {
-        this.emplType = emplType;
     }
 
 

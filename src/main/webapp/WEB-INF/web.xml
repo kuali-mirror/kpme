@@ -81,8 +81,8 @@
   </filter>
   
 	<filter>
-		<filter-name>UserLoginFilter</filter-name>
-		<filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
+		<filter-name>TkLoginFilter</filter-name>
+		<filter-class>org.kuali.hr.time.web.TkLoginFilter</filter-class>
 	</filter>
 
 
@@ -92,7 +92,7 @@
     </filter-mapping>
   
   	<filter-mapping>
-		<filter-name>UserLoginFilter</filter-name>
+		<filter-name>TkLoginFilter</filter-name>
 		<servlet-name>action</servlet-name>
 	</filter-mapping>
     

@@ -1,4 +1,4 @@
-package org.kuali.hr.time.domain.rule;
+package org.kuali.hr.time.clock.location.validation;
 
 import java.sql.Date;
 import java.sql.Timestamp;

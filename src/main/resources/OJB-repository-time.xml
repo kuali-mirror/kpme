@@ -132,8 +132,7 @@
 	<!--  Added for Department Lunch Table-->
 
 	<class-descriptor class="org.kuali.hr.time.dept.lunch.DeptLunchRule" table="tk_dept_lunch_rl_t">
-		<!-- We don't actually need an ID like the following, but as an example, we're using it
--->
+
 		<field-descriptor name="deptLunchRuleId" column="DEPT_LUNCH_RULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_dept_lunch_rl_s"/>
 		<!-- put field descriptors -->
 		<field-descriptor name="deptId"          column="dept_id" jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
