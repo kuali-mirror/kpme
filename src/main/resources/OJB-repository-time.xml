@@ -301,6 +301,15 @@
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 	
+	<class-descriptor class="org.kuali.hr.time.role.assign.TkRoleAssign" table="tk_role_assign_t">
+		<field-descriptor name="tkRoleAssignId" column="tk_role_assign_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_holiday_calendar_dates_s"/>
+		<field-descriptor name="principalId" column="principal_id" jdbc-type="VARCHAR" length="10" nullable="false" />
+		<field-descriptor name="roleName" column="role_name" jdbc-type="VARCHAR" length="30" nullable="false"/>
+		<field-descriptor name="workAreaId" column="work_area_id" jdbc-type="BIGINT"/>
+		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>
+	
 	<!-- class-descriptor class="org.kuali.hr.time.holiday.HolidayCalendar" table="tk_holiday_calendar_t">
 		<field-descriptor name="id" column="holiday_calendar_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_holiday_calendar_s"/>
 		<field-descriptor name="group" column="holiday_calendar_group" jdbc-type="VARCHAR" length="3" nullable="false"/>

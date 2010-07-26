@@ -2,8 +2,11 @@ package org.kuali.hr.time.workarea;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.kuali.hr.time.role.assign.TkRoleAssign;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class WorkArea extends PersistableBusinessObjectBase {
@@ -19,6 +22,8 @@ public class WorkArea extends PersistableBusinessObjectBase {
     private String adminDescr;
     private String userPrincipalId;
     private Timestamp timestamp;
+    
+    private List<TkRoleAssign> roleAssignments = new ArrayList<TkRoleAssign>();
     
 
     @SuppressWarnings("unchecked")
@@ -115,4 +120,14 @@ public class WorkArea extends PersistableBusinessObjectBase {
     public void setDeptId(String deptId) {
         this.deptId = deptId;
     }
+
+
+	public List<TkRoleAssign> getRoleAssignments() {
+		return roleAssignments;
+	}
+
+
+	public void setRoleAssignments(List<TkRoleAssign> roleAssignments) {
+		this.roleAssignments = roleAssignments;
+	}
 }

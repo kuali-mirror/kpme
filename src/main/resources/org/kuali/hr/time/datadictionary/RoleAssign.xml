@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="RoleAssign" parent="RoleAssign-parentBean" />
+
+	<bean id="RoleAssign-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.time.role.assign.TkRoleAssign" />
+		<property name="titleAttribute" value="principalId" />
+		<property name="objectLabel" value="Role Assignment" />
+		<property name="lookupDefinition">
+			<ref bean="RoleAssign-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="RoleAssign-principalId" />
+				<ref bean="RoleAssign-roleName" />
+				<ref bean="RoleAssign-workAreaId" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="RoleAssign-principalId" parent="RoleAssign-principalId-parentBean" />
+	<bean id="RoleAssign-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Principal ID" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="principalId" />
+		<property name="label" value="Principal ID" />
+	</bean>
+
+	<bean id="RoleAssign-roleName" parent="RoleAssign-roleName-parentBean" />
+	<bean id="RoleAssign-roleName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Role Name" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="roleName" />
+		<property name="label" value="Role Name" />
+	</bean>
+	
+	<bean id="RoleAssign-workAreaId" parent="RoleAssign-workAreaId-parentBean" />
+	<bean id="RoleAssign-workAreaId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Work Area ID" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="workAreaId" />
+		<property name="label" value="Work Area ID" />
+	</bean>
+
+	<!--  Inquiry Definitions  -->
+
+
+	<bean id="RoleAssign-lookupDefinition" parent="RoleAssign-lookupDefinition-parentBean" />
+	<bean id="RoleAssign-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="workAreaId" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="roleName" />
+				<bean parent="FieldDefinition" p:attributeName="workAreaId" />
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+			</list>
+		</property>
+		<property name="title" value="Role Assignment Lookup" />
+	</bean>
+
+</beans>

@@ -28,6 +28,11 @@
         <ref bean="WorkArea-timestamp" />
        </list>
     </property>
+    <property name="collections">
+      <list>
+        <bean parent="CollectionDefinition" p:name="roleAssignments" p:label="Role Assignments" p:shortLabel="Role Assignments" p:summary="Role Assignments" p:description="Role Assignments"/>
+      </list>
+    </property> 
     <property name="objectLabel" value="workAreaObj"/>
   </bean>
 
@@ -161,6 +166,8 @@
     <property name="name" value="timestamp"/>
     <property name="label" value="Time Stamp"/>
   </bean>  
+  
+  
   
 <!-- Business Object Inquiry Definition -->
 
