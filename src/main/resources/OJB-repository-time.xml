@@ -159,7 +159,6 @@
 		<field-descriptor name="active"             column="active"	jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="description"        column="descr" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="deptId"             column="dept_id" jdbc-type="VARCHAR" length="9" nullable="false" primarykey="false" />
-		<field-descriptor name="emplType"           column="empl_type" jdbc-type="VARCHAR"  length="5" nullable="false" primarykey="false" />
 		<field-descriptor name="overtimePreference" column="overtime_preference" jdbc-type="VARCHAR"  length="3" nullable="false" primarykey="false" />
 		<field-descriptor name="adminDescr"         column="admin_descr"	jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="userPrincipalId"    column="user_principal_id"	jdbc-type="VARCHAR" length="10" nullable="false" />
