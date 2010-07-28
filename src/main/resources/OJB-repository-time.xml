@@ -282,8 +282,8 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.hr.time.accrual.TimeOffAccrual" table="tk_accruals_t">
-		<field-descriptor name="id" column="tk_accruals_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_accruals_s"/>
-		<field-descriptor name="principal" column="principal_id" jdbc-type="VARCHAR" length="21" nullable="false"/>
+		<field-descriptor name="tkAccrualId" column="tk_accruals_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_accruals_s"/>
+		<field-descriptor name="principalId" column="principal_id" jdbc-type="VARCHAR" length="21" nullable="false"/>
 		<field-descriptor name="accrualCategory" column="accrual_category" jdbc-type="VARCHAR" length="3" nullable="false"/>
 		<field-descriptor name="hoursAccrued" column="hours_accrued" jdbc-type="BIGINT" nullable="false"/>
 		<field-descriptor name="hoursTaken" column="hours_taken" jdbc-type="BIGINT" nullable="false"/>
