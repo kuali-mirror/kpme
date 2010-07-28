@@ -3,7 +3,9 @@ package org.kuali.hr.time.service.base;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
+import org.kuali.hr.time.role.assign.service.TkRoleAssignService;
 import org.kuali.hr.time.rule.TkRuleControllerService;
+import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -15,15 +17,22 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_CLOCK_LOG_SERVICE = "clockLogService";
 	public static final String TK_ASSIGNMENT_SERVICE = "assignmentService";
 	public static final String TK_ASSIGNMENT_DAO     = "assignmentDao";
+	public static final String TK_WORKAREA_SERVICE = "workAreaService";
+	public static final String TK_ROLE_ASSIGN_SERVICE = "tkRoleAssignmentService";
 	public static final String TK_PERSISTENCE_BROKER_TEMPLATE = "tkPersistenceBrokerTemplate";
 	
 	public static void start() throws Exception {
-//		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
-//		CONTEXT.start();
 	}
 
 	public static void stop() throws Exception {
-//		CONTEXT.stop();
+	}
+	
+	public static TkRoleAssignService getRoleAssignmentService() {
+	    return (TkRoleAssignService) CONTEXT.getBean(TK_ROLE_ASSIGN_SERVICE);
+	}
+	
+	public static WorkAreaService getWorkAreaService() {
+	    return (WorkAreaService)CONTEXT.getBean(TK_WORKAREA_SERVICE);
 	}
 	
 	public static ClockLogService getClockLogService(){

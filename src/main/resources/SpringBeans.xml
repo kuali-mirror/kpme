@@ -250,6 +250,14 @@
     <bean id="assignmentDao" class="org.kuali.hr.time.assignment.dao.AssignmentDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+    <bean id="workAreaDao" class="org.kuali.hr.time.workarea.dao.WorkAreaDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
+    <bean id="tkRoleAssignDao" class="org.kuali.hr.time.role.assign.dao.TkRoleAssignDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>	
+    </bean>
 
 	<!-- Time Services for Business Logic -->
     
@@ -261,9 +269,24 @@
     	<property name="assignmentDao" ref="assignmentDao"/>
     </bean>
     
+    <bean id="workAreaService" class="org.kuali.hr.time.workarea.service.WorkAreaServiceImpl">
+    	<property name="workAreaDao" ref="workAreaDao"/>
+    </bean>
+    
+    <bean id="tkRoleAssignmentService" class="org.kuali.hr.time.role.assign.service.TkRoleAssignServiceImpl">
+    	<property name="tkRoleAssignDao" ref="tkRoleAssignDao"/>
+    </bean>
+    
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
     </bean>
     
     <bean id="tkRuleControllerService" class="org.kuali.hr.time.rule.TkRuleControllerServiceImpl"/>
+
+    <bean id="workAreaLookupableHelperService" class="org.kuali.hr.time.workarea.web.WorkAreaLookupableHelper"/>
+    <bean id="workAreaLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+    	<property name="lookupableHelperService">
+    		<ref bean="workAreaLookupableHelperService"/>
+    	</property>
+    </bean>
 
 </beans>

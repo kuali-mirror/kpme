@@ -9,6 +9,7 @@
         <form-bean name="AdminActionForm" type="org.kuali.hr.time.admin.web.AdminActionForm"/>
         <form-bean name="PersonInfoActionForm" type="org.kuali.hr.time.base.web.PersonInfoActionForm"/>
         <form-bean name="TimesheetActionForm" type="org.kuali.hr.time.timesheet.web.TimesheetActionForm"/>
+        <form-bean name="WorkAreaActionForm" type="org.kuali.hr.time.workarea.web.WorkAreaActionForm"/>
     </form-beans>
 
     <global-forwards type="org.apache.struts.action.ActionForward">
@@ -38,6 +39,10 @@
         <action path="/Timesheet" name="TimesheetActionForm" scope="request" input="/WEB-INF/jsp/timesheet.jsp" type="org.kuali.hr.time.timesheet.web.TimesheetAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/timesheet.jsp" />
         </action>
+        
+       <action attribute="KualiForm" path="/WorkAreaMaintenance" name="WorkAreaActionForm" type="org.kuali.hr.time.workarea.web.WorkAreaAction" scope="session" parameter="methodToCall">
+       		<forward name="basic" path="/WEB-INF/jsp/workAreaMaintenance.jsp" />
+       </action>        
 
 	</action-mappings>
 
