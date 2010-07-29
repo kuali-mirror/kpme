@@ -26,6 +26,8 @@
     </c:otherwise>
 </c:choose>
 
+<tk:workArea/>
+
 Work Area:
 ${workArea}
 <br/>

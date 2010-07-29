@@ -10,12 +10,14 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.role.assign.service.TkRoleAssignService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.hr.time.workarea.WorkAreaMaintenanceDocument;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 
 public class WorkAreaActionForm extends KualiTransactionalDocumentFormBase {
 
     private static final Logger LOG = Logger.getLogger(WorkAreaActionForm.class);
+    private WorkAreaMaintenanceDocument workAreaMaintenanceDocument;
 
     /**
      * 
@@ -34,6 +36,7 @@ public class WorkAreaActionForm extends KualiTransactionalDocumentFormBase {
     @Override
     public void populate(HttpServletRequest request) {
 	super.populate(request);
+	Map mofo = this.getDocumentActions();
 	
 	WorkAreaService waService = TkServiceLocator.getWorkAreaService();
 	TkRoleAssignService raService = TkServiceLocator.getRoleAssignmentService();
@@ -46,6 +49,9 @@ public class WorkAreaActionForm extends KualiTransactionalDocumentFormBase {
 		LOG.debug("Obtained work area: " + workArea.getWorkAreaId());
 		Map<String, Set<String>> roleMap = raService.getTkRoleAssignmentsMap(workAreaId);
 		
+		workAreaMaintenanceDocument = new WorkAreaMaintenanceDocument();
+		workAreaMaintenanceDocument.setWorkArea(workArea);
+		
 		request.setAttribute("workArea", workArea);
 		request.setAttribute("roleMap", roleMap);
 	    } else {
@@ -56,5 +62,13 @@ public class WorkAreaActionForm extends KualiTransactionalDocumentFormBase {
 	} catch (NumberFormatException nfe) {
 	    LOG.error("nfe", nfe);
 	}
+    }
+
+    public WorkAreaMaintenanceDocument getWorkAreaMaintenanceDocument() {
+        return workAreaMaintenanceDocument;
+    }
+
+    public void setWorkAreaMaintenanceDocument(WorkAreaMaintenanceDocument workAreaMaintenanceDocument) {
+        this.workAreaMaintenanceDocument = workAreaMaintenanceDocument;
     }
 }
