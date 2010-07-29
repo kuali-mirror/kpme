@@ -11,6 +11,11 @@
 			<label>AccrualCategoryDocument</label>
 		</documentType>
 		<documentType>
+			<name>HolidayCalendarDateEntryDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>HolidayCalendarDateEntryDocument</label>
+		</documentType>
+		<documentType>
 			<name>TimeOffAccrualDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>TimeOffAccrualDocument</label>
