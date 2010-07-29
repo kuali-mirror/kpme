@@ -4,13 +4,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.StringReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.config.ConfigContext;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
@@ -33,6 +36,74 @@ public class HtmlUnitUtil {
     public static boolean pageContainsText(HtmlPage page, String text) {
 	return page.asText().indexOf(text) >= 0;
     }
+    
+	public static HtmlPage clickInputContainingText(HtmlPage page, String...values) throws Exception {
+		createTempFile(page);
+		page = (HtmlPage)getInputContainingText(page, values).click();
+		return page;
+	}
+	
+	@SuppressWarnings("unchecked")
+    public static HtmlInput getInputContainingText(HtmlPage page, String... values) throws Exception {
+		List<HtmlForm> forms = page.getForms();
+		for (HtmlForm form : forms){
+			Iterator it = form.getAllHtmlChildElements();
+			while (it.hasNext()) {
+				HtmlElement element = (HtmlElement)it.next();
+				if (element instanceof HtmlInput) {
+					if (elementContainsValues(element, values)) {
+						return (HtmlInput)element;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+
+	@SuppressWarnings("unchecked")
+    public static List<HtmlInput> getInputsContainingText(HtmlPage page, String... values) throws Exception {
+		List<HtmlInput> inputs = new ArrayList<HtmlInput>();
+		List<HtmlForm> forms = page.getForms();
+		for (HtmlForm form : forms){
+			Iterator it = form.getAllHtmlChildElements();
+			while (it.hasNext()) {
+				HtmlElement element = (HtmlElement)it.next();
+				if (element instanceof HtmlInput) {
+					if (elementContainsValues(element, values)) {
+						inputs.add((HtmlInput)element);
+					}
+				}
+			}
+		}
+		return inputs;
+	}
+	
+	protected static boolean elementContainsValues(HtmlElement element, String... values) {
+		for (String value : values) {
+			if (element.toString().indexOf(value) == -1) {
+				return false;
+			}
+        }
+		return true;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static HtmlPage clickAnchorContainingText(HtmlPage page, String... values) throws Exception {
+		HtmlUnitUtil.createTempFile(page);
+		return (HtmlPage) getAnchorContainingText(page, values).click();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static HtmlAnchor getAnchorContainingText(HtmlPage page, String... values) throws Exception {
+		for (Iterator iterator = page.getAnchors().iterator(); iterator.hasNext();) {
+			HtmlAnchor anchor = (HtmlAnchor) iterator.next();
+			if (elementContainsValues(anchor, values)) {
+				return anchor;
+			}
+		}
+		return null;
+	}
 
     public static String getBaseURL() {
 	return "http://localhost:" + getPort() + "/tk-dev";

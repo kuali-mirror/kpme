@@ -8,24 +8,33 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.kew.web.UserLoginFilter;
 
 public class TkLoginFilter implements Filter {
 	
 	private Filter dummyLoginFilter = new DummyLoginFilter();
-	private Filter userLoginFilter = new UserLoginFilter();
+	//TODO add your Filtering mechanism here
+	private Filter userLoginFilter = new org.kuali.rice.kew.web.DummyLoginFilter();
 	private static boolean testMode = false;
-	public static String TEST_NETWORK_ID = "rkirkend";
+	public static String TEST_ID = "admin";
 	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		if(getTestMode()){
-			chain.doFilter(request, response);
+			HttpServletRequest hsRequest = (HttpServletRequest)request;
+			hsRequest = new HttpServletRequestWrapper(hsRequest){
+				public String getRemoteUser() {
+					return TEST_ID;
+				}
+			};
+			chain.doFilter(hsRequest, response);
+		} else{
+			getTargetFilter().doFilter(request, response, chain);
 		}
-		getTargetFilter().doFilter(request, response, chain);
 	}
 	@Override
 	public void init(FilterConfig config) throws ServletException {
@@ -53,5 +62,4 @@ public class TkLoginFilter implements Filter {
 	public static boolean getTestMode() {
 		return testMode;
 	}
-
 }
