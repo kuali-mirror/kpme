@@ -12,6 +12,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workarea.WorkAreaMaintenanceDocument;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 
 public class WorkAreaActionForm extends KualiTransactionalDocumentFormBase {
@@ -71,4 +72,15 @@ public class WorkAreaActionForm extends KualiTransactionalDocumentFormBase {
     public void setWorkAreaMaintenanceDocument(WorkAreaMaintenanceDocument workAreaMaintenanceDocument) {
         this.workAreaMaintenanceDocument = workAreaMaintenanceDocument;
     }
+
+	@Override
+	public Document getDocument() {
+		return workAreaMaintenanceDocument;
+	}
+	
+	@Override
+	public String getDefaultDocumentTypeName(){
+		return "WorkAreaMaintenanceDocument";
+	}
+	
 }

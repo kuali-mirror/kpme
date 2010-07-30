@@ -17,9 +17,7 @@ ${document.foo }
 	 	<tr>
 			<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${groupAttributes['workArea.workAreaId']}"/></div></th>
 			<td>
-				<kul:htmlControlAttribute property="document.foo" attributeEntry="${groupAttributes.description}" readOnly="true" readOnlyBody="true" >
-				${document.foo}
-				</kul:htmlControlAttribute>
+				<kul:htmlControlAttribute property="document.workArea.workAreaId" attributeEntry="${groupAttributes['workArea.workAreaId']}" readOnly="false"/>
 			</td>
 			<td>
 				<kul:htmlControlAttribute property="document.foo" attributeEntry="${groupAttributes.description}" readOnly="true" readOnlyBody="true"/>
