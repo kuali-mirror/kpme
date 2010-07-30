@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class PayType extends PersistableBusinessObjectBase {
@@ -19,8 +20,10 @@ public class PayType extends PersistableBusinessObjectBase {
 	private String regEarnCode;
 	private Date effectiveDate;
 	private Time timestamp;
-	private String holidayCalendar;
+	private String holidayCalendarGroup;
 
+	private HolidayCalendar holidayCalendarGroupObj;
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
@@ -75,20 +78,28 @@ public class PayType extends PersistableBusinessObjectBase {
 		this.effectiveDate = effectiveDate;
 	}
 
-	public String getHolidayCalendar() {
-		return holidayCalendar;
-	}
-
-	public void setHolidayCalendar(String holidayCalendar) {
-		this.holidayCalendar = holidayCalendar;
-	}
-
 	public void setTimestamp(Time timestamp) {
 		this.timestamp = timestamp;
 	}
 
 	public Time getTimestamp() {
 		return timestamp;
+	}
+
+	public void setHolidayCalendarGroup(String holidayCalendarGroup) {
+		this.holidayCalendarGroup = holidayCalendarGroup;
+	}
+
+	public String getHolidayCalendarGroup() {
+		return holidayCalendarGroup;
+	}
+
+	public void setHolidayCalendarGroupObj(HolidayCalendar holidayCalendarGroupObj) {
+		this.holidayCalendarGroupObj = holidayCalendarGroupObj;
+	}
+
+	public HolidayCalendar getHolidayCalendarGroupObj() {
+		return holidayCalendarGroupObj;
 	}
 
 	
