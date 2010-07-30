@@ -5,6 +5,7 @@ import java.sql.Time;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
+import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class PayType extends PersistableBusinessObjectBase {
@@ -23,6 +24,7 @@ public class PayType extends PersistableBusinessObjectBase {
 	private String holidayCalendarGroup;
 
 	private HolidayCalendar holidayCalendarGroupObj;
+	private PayCalendar calendarGroupObj;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -100,6 +102,14 @@ public class PayType extends PersistableBusinessObjectBase {
 
 	public HolidayCalendar getHolidayCalendarGroupObj() {
 		return holidayCalendarGroupObj;
+	}
+
+	public void setCalendarGroupObj(PayCalendar calendarGroupObj) {
+		this.calendarGroupObj = calendarGroupObj;
+	}
+
+	public PayCalendar getCalendarGroupObj() {
+		return calendarGroupObj;
 	}
 
 	
