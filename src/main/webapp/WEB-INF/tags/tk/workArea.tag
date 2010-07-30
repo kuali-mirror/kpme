@@ -2,13 +2,16 @@
 
 <c:set var="groupAttributes" value="${DataDictionary.WorkAreaMaintenanceDocument.attributes}" />
 <c:set var="document" value="${KualiForm.workAreaMaintenanceDocument}" />
+<c:set var="readOnly" value="false"/>
 
-${groupAttributes}
+<br/>
+${groupAttributes['workArea.workAreaId']}
 <br/>
 ---
-${groupAttributes['workArea.workAreaId']}
+<br/>
+${groupAttributes['workArea.deptId']}
+<br/>
 ---
-${document.foo }
 
 <kul:tab tabTitle="Overview" defaultOpen="true" transparentBackground="${inquiry}" tabErrorKey="">
 
@@ -16,12 +19,9 @@ ${document.foo }
 	<table cellpadding="0" cellspacing="0" summary=""> 
 	 	<tr>
 			<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${groupAttributes['workArea.workAreaId']}"/></div></th>
-			<td>
-				<kul:htmlControlAttribute property="document.workArea.workAreaId" attributeEntry="${groupAttributes['workArea.workAreaId']}" readOnly="false"/>
-			</td>
-			<td>
-				<kul:htmlControlAttribute property="document.foo" attributeEntry="${groupAttributes.description}" readOnly="true" readOnlyBody="true"/>
-			</td>
+			<td><kul:htmlControlAttribute property="document.workArea.workAreaId" attributeEntry="${groupAttributes['workArea.workAreaId']}" readOnly="${readOnly}"/></td>
+			<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${groupAttributes['workArea.deptId']}"/></div></th>
+	 		<td><kul:htmlControlAttribute property="document.workArea.deptId" attributeEntry="${groupAttributes['workArea.deptId']}" readOnly="${readOnly}" /></td>
 	 	</tr>
 	</table> 
 </div>

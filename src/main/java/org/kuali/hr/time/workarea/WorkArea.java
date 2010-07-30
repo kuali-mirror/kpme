@@ -15,7 +15,7 @@ public class WorkArea extends PersistableBusinessObjectBase {
     
     private Long workAreaId;
     private Date effectiveDate;
-    private boolean active;
+    private boolean active = false;
     private String description;
     private String deptId;
     private String overtimePreference;
@@ -58,7 +58,6 @@ public class WorkArea extends PersistableBusinessObjectBase {
     public boolean isActive() {
         return active;
     }
-
 
     public void setActive(boolean active) {
         this.active = active;
