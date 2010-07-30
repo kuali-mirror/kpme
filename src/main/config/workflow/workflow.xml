@@ -4,7 +4,11 @@
 	xsi:schemaLocation="ns:workflow resource:WorkflowData">
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-
+		<documentType>
+			<name>HolidayCalendarDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>HolidayCalendarDocument</label>
+		</documentType>
 		<documentType>
 			<name>AccrualCategoryDocumentType</name>
 			<parent>RiceDocument</parent>
