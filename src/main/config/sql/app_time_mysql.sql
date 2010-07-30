@@ -759,14 +759,14 @@ DROP TABLE IF EXISTS `tk_sal_group_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tk_sal_group_t` (
-  `SAL_GROUP_ID` bigint(20) NOT NULL,
+  `TK_SAL_GROUP_ID` bigint(20) NOT NULL,
   `SAL_GROUP` varchar(10) COLLATE utf8_bin NOT NULL,
   `EFFDT` date NOT NULL,
   `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ACTIVE` bit(1) DEFAULT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` decimal(8,0) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`SAL_GROUP_ID`)
+  PRIMARY KEY (`TK_SAL_GROUP_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

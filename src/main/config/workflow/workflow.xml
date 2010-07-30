@@ -5,6 +5,16 @@
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
+			<name>PayTypeDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>PayTypeDocument</label>
+		</documentType>
+		<documentType>
+			<name>SalGroupDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>SalGroupDocument</label>
+		</documentType>
+		<documentType>
 			<name>HolidayCalendarDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>HolidayCalendarDocument</label>

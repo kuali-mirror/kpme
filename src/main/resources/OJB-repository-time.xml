@@ -262,7 +262,7 @@
 		<field-descriptor name="salGroupId" column="tk_sal_group_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_sal_group_s"/>
 		<field-descriptor name="salGroup" column="sal_group" jdbc-type="VARCHAR" length="10" nullable="false"/>
 		<field-descriptor name="effectiveDate" column="effdt" jdbc-type="DATE" nullable="false"/>
-		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIME" nullable="false"/>
 		<field-descriptor name="active" column="active"	jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
@@ -276,7 +276,7 @@
 		<field-descriptor name="regEarnCode" column="reg_ern_code" jdbc-type="VARCHAR" length="3" nullable="false"/>
 		<field-descriptor name="holidayCalendar" column="holiday_calendar_group" jdbc-type="VARCHAR" length="30" nullable="false"/>
 		<field-descriptor name="effectiveDate" column="effdt" jdbc-type="DATE" nullable="false"/>
-		<field-descriptor name="timeStamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIME" nullable="false"/>
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>

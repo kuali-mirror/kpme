@@ -21,7 +21,7 @@
 				<ref bean="PayType-regEarnCode" />
 				<ref bean="PayType-holidayCalendar" />
 				<ref bean="PayType-effectiveDate" />
-				<ref bean="PayType-timeStamp" />
+				<ref bean="PayType-timestamp" />
 			</list>
 		</property>
 	</bean>
@@ -37,7 +37,7 @@
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="payTypeId" />
-		<property name="label" value="Sal Group Id" />
+		<property name="label" value="Pay Type Id" />
 	</bean>
 
 	<bean id="PayType-payType" parent="PayType-payType-parentBean" />
@@ -140,10 +140,10 @@
 		<property name="label" value="Effective Date" />
 	</bean>
 
-	<bean id="PayType-timeStamp" parent="PayType-timeStamp-parentBean" />
-	<bean id="PayType-timeStamp-parentBean" abstract="true"
+	<bean id="PayType-timestamp" parent="PayType-timestamp-parentBean" />
+	<bean id="PayType-timestamp-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="timeStamp" />
+		<property name="shortLabel" value="Timestamp" />
 		<property name="maxLength" value="10" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
@@ -154,8 +154,8 @@
 		</property>
 		<property name="formatterClass"
 			value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter" />
-		<property name="name" value="timeStamp" />
-		<property name="label" value="timeStamp" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Timestamp" />
 	</bean>
 
 	<!--  Inquiry Definitions  -->
@@ -179,7 +179,7 @@
 				<bean parent="FieldDefinition" p:attributeName="regEarnCode" />
 				<bean parent="FieldDefinition" p:attributeName="holidayCalendar" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-				<bean parent="FieldDefinition" p:attributeName="timeStamp" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 			</list>
 		</property>
 		<property name="title" value="Pay Type Lookup" />
