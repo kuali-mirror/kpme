@@ -192,14 +192,15 @@
 		<field-descriptor name="active" 		column="active"			jdbc-type="BIT"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 	</class-descriptor>	
 
+		
 	<class-descriptor class="org.kuali.hr.time.task.Task" table="tk_task_t">
 		<field-descriptor name="taskId"         	column="task_id"       jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_task_s"/>
 		<field-descriptor name="workAreaId"         column="work_area_id" jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"      column="effdt" jdbc-type="DATE" nullable="false" primarykey="false"/>
 		<field-descriptor name="description"        column="descr" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
-		<field-descriptor name="adminDescription"   column="admin_descr"	jdbc-type="VARCHAR" length="30" nullable="false" />
-		<field-descriptor name="timestamp"          column="timestamp" jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
-		<field-descriptor name="active"             column="active"	jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>		
+		<field-descriptor name="administrativeDescription" column="admin_desc" jdbc-type="VARCHAR" length="30" nullable="false" />
+		<field-descriptor name="departmentId" 		column="dept_id" jdbc-type="VARCHAR" length="21" nullable="false" />
+		<field-descriptor name="userPrincipalId"	column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />					
 	</class-descriptor>		
