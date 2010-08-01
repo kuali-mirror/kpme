@@ -20,6 +20,8 @@
         <ref bean="EarnCode-earnCodeId" />
         <ref bean="EarnCode-earnCode" />
         <ref bean="EarnCode-active" />
+        <ref bean="EarnCode-description" />
+        <ref bean="effectiveDate" />
        </list>
     </property>
     <property name="objectLabel" value="earnCode"/>
@@ -65,6 +67,35 @@
     <property name="label" value="Active"/>
   </bean>
 
+ <bean id="EarnCode-description" parent="EarnCode-description-parentBean"/>
+  <bean id="EarnCode-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+ 		<bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="name" value="description"/>
+    <property name="label" value="Description"/>
+  </bean>
+  
+   <bean id="EarnCode-effectiveDate" parent="EarnCode-effectiveDate-parentBean"/>
+  <bean id="EarnCode-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Effective Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+ 		<bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
+    <property name="name" value="effectiveDate"/>
+    <property name="label" value="Effective Date"/>
+  </bean>
+  
   
  
 <!-- Business Object Inquiry Definition -->

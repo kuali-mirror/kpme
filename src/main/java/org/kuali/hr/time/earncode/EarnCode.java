@@ -7,22 +7,22 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class EarnCode extends PersistableBusinessObjectBase {
 
-    /**
+	/**
      * 
      */
-    private static final long serialVersionUID = 1L;
-    
-    private Long   earnCodeId;
-    private String earnCode;
-    private String description;
-    private Date effectiveDate;
-    private boolean active;
+	private static final long serialVersionUID = 1L;
 
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-    	return null;
-    }
+	private Long earnCodeId;
+	private String earnCode;
+	private String description;
+	private Date effectiveDate;
+	private boolean active;
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected LinkedHashMap toStringMapper() {
+		return null;
+	}
 
 	public Long getEarnCodeId() {
 		return earnCodeId;
@@ -63,6 +63,5 @@ public class EarnCode extends PersistableBusinessObjectBase {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
 
 }

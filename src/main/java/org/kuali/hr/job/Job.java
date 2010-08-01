@@ -12,6 +12,11 @@ public class Job  extends PersistableBusinessObjectBase {
      * 
      */
     private static final long serialVersionUID = 1L;
+    private String location;
+    private String payType;
+    private boolean fte;
+    private String payGrade;
+    private int standardHours;
     private Long jobId;
     private String principalId;
     private Long jobNumber;
@@ -41,7 +46,44 @@ public class Job  extends PersistableBusinessObjectBase {
     public void setJobId(Long jobId) {
         this.jobId = jobId;
     }
+    public String getPayType() {
+		return payType;
+	}
 
+
+	public void setPayType(String payType) {
+		this.payType = payType;
+	}
+
+
+	public boolean getFte() {
+		return fte;
+	}
+
+
+	public void setFte(boolean fte) {
+		this.fte = fte;
+	}
+
+
+	public String getPayGrade() {
+		return payGrade;
+	}
+
+
+	public void setPayGrade(String payGrade) {
+		this.payGrade = payGrade;
+	}
+
+
+	public int getStandardHours() {
+		return standardHours;
+	}
+
+
+	public void setStandardHours(int standardHours) {
+		this.standardHours = standardHours;
+	}
 
     public String getPrincipalId() {
         return principalId;
@@ -120,5 +162,21 @@ public class Job  extends PersistableBusinessObjectBase {
     public void setDeptId(String deptId) {
         this.deptId = deptId;
     }
+
+
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+
+	/**
+	 * @return the location
+	 */
+	public String getLocation() {
+		return location;
+	}
 
 }

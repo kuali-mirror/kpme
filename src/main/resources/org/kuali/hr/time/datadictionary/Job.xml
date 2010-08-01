@@ -1,204 +1,299 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Job" parent="Job-parentBean" />
+	<bean id="Job" parent="Job-parentBean" />
 
-  <bean id="Job-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.hr.job.Job" />
-    <property name="inquiryDefinition" >
-      <ref bean="Job-inquiryDefinition" />
-    </property>
-    <property name="lookupDefinition" >
-      <ref bean="Job-lookupDefinition" />
-    </property>
-    <property name="titleAttribute" value="job_id" />
-    <property name="attributes" >
-      <list>
-        <ref bean="Job-jobId" />
-        <ref bean="Job-principalId" />
-        <ref bean="Job-jobNumber" />
-        <ref bean="Job-effectiveDate" />
-        <ref bean="Job-deptId" />
-        <ref bean="Job-payCalendarId" />
-        <ref bean="Job-tkSalGroup" />
-        <ref bean="Job-timestamp" />
-       </list>
-    </property>
-    <property name="objectLabel" value="job"/>
-  </bean>
+	<bean id="Job-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.job.Job" />
+		<property name="inquiryDefinition">
+			<ref bean="Job-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="Job-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="job_id" />
+		<property name="attributes">
+			<list>
+				<ref bean="Job-jobId" />
+				<ref bean="Job-principalId" />
+				<ref bean="Job-jobNumber" />
+				<ref bean="Job-effectiveDate" />
+				<ref bean="Job-deptId" />
+				<ref bean="Job-payCalendarId" />
+				<ref bean="Job-tkSalGroup" />
+				<ref bean="Job-timestamp" />
+				<ref bean="Job-location" />
+				<ref bean="Job-fte" />
+				<ref bean="Job-payType" />
+				<ref bean="Job-payGrade" />
+				<ref bean="Job-standardHours" />
+			</list>
+		</property>
+		<property name="objectLabel" value="job" />
+	</bean>
 
-<!-- Attribute Definitions -->
+	<!-- Attribute Definitions -->
 
-  <bean id="Job-jobId" parent="Job-jobId-parentBean"/>
+	<bean id="Job-jobId" parent="Job-jobId-parentBean" />
 
-  <bean id="Job-jobId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Job Id"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
-    <property name="name" value="jobId"/>
-    <property name="label" value="Job Id"/>
-  </bean>
-  
-  <bean id="Job-principalId" parent="Job-principalId-parentBean"/>
-  <bean id="Job-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Principal Id"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern">
-      	<property name="allowWhitespace" value="false"/>
-      </bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="name" value="principalId"/>
-    <property name="label" value="Principal Id"/>
-  </bean>  
-  
-  <bean id="Job-jobNumber" parent="Job-jobNumber-parentBean"/>
-  <bean id="Job-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Job Number"/>
-    <property name="maxLength" value="3"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
-    </property>
-    <property name="name" value="jobNumber"/>
-    <property name="label" value="Job Number"/>
-  </bean>  
-  
-  <bean id="Job-effectiveDate" parent="Job-effectiveDate-parentBean"/>
-  <bean id="Job-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Effective Date"/>
-    <property name="maxLength" value="3"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="3" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
-    <property name="name" value="effectiveDate"/>
-    <property name="label" value="Effective Date"/>
-  </bean>  
-  
-  <bean id="Job-deptId" parent="Job-deptId-parentBean" />
+	<bean id="Job-jobId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Job Id" />
+		<property name="maxLength" value="7" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="7" />
+		</property>
+		<property name="name" value="jobId" />
+		<property name="label" value="Job Id" />
+	</bean>
 
-  <bean id="Job-deptId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true" />
+	<!-- fte = full time employee, bool value -->
+	<bean id="Job-fte" parent="Job-fte-parentBean" />
+	<bean id="Job-fte-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="fte" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="fte" />
+		<property name="label" value="Full Time Employee" />
+	</bean>
 
-    <property name="maxLength" value="7" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="7" />
-    </property>
+	<!-- The validation type and length on this may be wrong -->
+	<bean id="Job-payType" parent="Job-payType-parentBean" />
+	<bean id="Job-payType-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Pay Type" />
+		<property name="maxLength" value="27" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="27" />
+		</property>
+		<property name="name" value="payType" />
+		<property name="label" value="Pay Type" />
+	</bean>
 
-    <property name="name" value="deptId" />
-    <property name="label" value="Department Name" />
-    <property name="description" value="deptId" />
-  </bean> 
-  
-  <bean id="Job-payCalendarId" parent="Job-payCalendarId-parentBean"/>
-  
-  <bean id="Job-payCalendarId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Job Id"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
-    <property name="name" value="payCalendarId"/>
-    <property name="label" value="Pay Calendar Id"/>
-  </bean>   
-  
-  <bean id="Job-tkSalGroup" parent="Job-tkSalGroup-parentBean" />
+	<!-- The validation type and length on this may be wrong -->
+	<bean id="Job-payGrade" parent="Job-payGrade-parentBean" />
+	<bean id="Job-payGrade-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Pay Grade" />
+		<property name="maxLength" value="27" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="27" />
+		</property>
+		<property name="name" value="payGrade" />
+		<property name="label" value="Pay Grade" />
+	</bean>
 
-  <bean id="Job-tkSalGroup-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true" />
+	<!-- The validation type and length on this may be wrong -->
+	<bean id="Job-location" parent="Job-location-parentBean" />
+	<bean id="Job-location-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Location" />
+		<property name="maxLength" value="27" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="27" />
+		</property>
+		<property name="name" value="jobLocation" />
+		<property name="label" value="Job Location" />
+	</bean>
 
-    <property name="maxLength" value="7" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="7" />
-    </property>
+	<!-- The validation type and length on this may be wrong -->
+	<bean id="Job-standardHours" parent="Job-standardHours-parentBean" />
+	<bean id="Job-standardHours-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Standard Hours" />
+		<property name="maxLength" value="27" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="27" />
+		</property>
+		<property name="name" value="standardHours" />
+		<property name="label" value="Standard Hours" />
+	</bean>
 
-    <property name="name" value="tkSalGroup" />
-    <property name="label" value="TK Sal Group" />
-    <property name="description" value="tkSalGroup" />
-  </bean>   
-  
-  <bean id="Job-timestamp" parent="Job-timestamp-parentBean"/>
+	<bean id="Job-principalId" parent="Job-principalId-parentBean" />
+	<bean id="Job-principalId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Principal Id" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="principalId" />
+		<property name="label" value="Principal Id" />
+	</bean>
 
-  <bean id="Job-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Timestamp"/>
-    <property name="maxLength" value="15"/>
+	<bean id="Job-jobNumber" parent="Job-jobNumber-parentBean" />
+	<bean id="Job-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Job Number" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+		<property name="name" value="jobNumber" />
+		<property name="label" value="Job Number" />
+	</bean>
 
-    <property name="control">
-      <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
-    </property>
-    <!--<property name="formatterClass" value="org.kuali.rice.kns.web.format.TimeStampAMPMFormatter"/>-->
-    <property name="name" value="timestamp"/>
-    <property name="label" value="Time Stamp"/>
-  </bean>  
+	<bean id="Job-effectiveDate" parent="Job-effectiveDate-parentBean" />
+	<bean id="Job-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
 
- 
-<!-- Business Object Inquiry Definition -->
+	<bean id="Job-deptId" parent="Job-deptId-parentBean" />
+
+	<bean id="Job-deptId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="forceUppercase" value="true" />
+
+		<property name="maxLength" value="7" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="7" />
+		</property>
+
+		<property name="name" value="deptId" />
+		<property name="label" value="Department Name" />
+		<property name="description" value="deptId" />
+	</bean>
+
+	<bean id="Job-payCalendarId" parent="Job-payCalendarId-parentBean" />
+
+	<bean id="Job-payCalendarId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Job Id" />
+		<property name="maxLength" value="7" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="7" />
+		</property>
+		<property name="name" value="payCalendarId" />
+		<property name="label" value="Pay Calendar Id" />
+	</bean>
+
+	<bean id="Job-tkSalGroup" parent="Job-tkSalGroup-parentBean" />
+
+	<bean id="Job-tkSalGroup-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="forceUppercase" value="true" />
+
+		<property name="maxLength" value="7" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="7" />
+		</property>
+
+		<property name="name" value="tkSalGroup" />
+		<property name="label" value="TK Sal Group" />
+		<property name="description" value="tkSalGroup" />
+	</bean>
+
+	<bean id="Job-timestamp" parent="Job-timestamp-parentBean" />
+
+	<bean id="Job-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<!--
+			<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimeStampAMPMFormatter"/>
+		-->
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
 
 
-  <bean id="Job-inquiryDefinition" parent="Job-inquiryDefinition-parentBean" />
-
-  <bean id="Job-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="inquirySections" >
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="jobId" />
-              <bean parent="FieldDefinition" p:attributeName="principalId" />
-            </list>
-          </property>
-          <property name="title" value="Job" />
-        </bean>
-      </list>
-    </property>
-    <property name="title" value="Job Inquiry" />
-  </bean>
-
-<!-- Business Object Lookup Definition -->
+	<!-- Business Object Inquiry Definition -->
 
 
-  <bean id="Job-lookupDefinition" parent="Job-lookupDefinition-parentBean" />
+	<bean id="Job-inquiryDefinition" parent="Job-inquiryDefinition-parentBean" />
 
-  <bean id="Job-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields" >
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="jobId" />
-        <bean parent="FieldDefinition" p:attributeName="principalId" />
-        <bean parent="FieldDefinition" p:attributeName="jobNumber" />
-      </list>
-    </property>
-    <property name="resultFields" >
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="jobId" p:forceInquiry="true" />
-        <bean parent="FieldDefinition" p:attributeName="principalId" />
-        <bean parent="FieldDefinition" p:attributeName="jobNumber" />
-      </list>
-    </property>
-    <property name="title" value="Job Lookup" />
-  </bean>
+	<bean id="Job-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="jobId" />
+							<bean parent="FieldDefinition" p:attributeName="principalId" />
+						</list>
+					</property>
+					<property name="title" value="Job" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="Job Inquiry" />
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="Job-lookupDefinition" parent="Job-lookupDefinition-parentBean" />
+
+	<bean id="Job-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="jobId" />
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
+			</list>
+		</property>
+		<!-- More information should be added here if needed -->
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="jobId"
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
+			</list>
+		</property>
+		<property name="title" value="Job Lookup" />
+	</bean>
 </beans>
