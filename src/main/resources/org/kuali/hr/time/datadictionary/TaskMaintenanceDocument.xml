@@ -37,10 +37,10 @@
 				<bean parent="MaintainableFieldDefinition" p:name="taskId" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="deptartmentId" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="adminDescr" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="departmentId" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="administrativeDescription" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="workAreadId" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="workAreaId" p:required="true" />
 			</list>
 		</property>
 	</bean>

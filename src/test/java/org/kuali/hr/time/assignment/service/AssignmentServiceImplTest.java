@@ -11,9 +11,9 @@ import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TestHarnessWebBase;
+import org.kuali.hr.time.test.TkTestCase;
 
-public class AssignmentServiceImplTest extends TestHarnessWebBase {
+public class AssignmentServiceImplTest extends TkTestCase {
     
     private static final Logger LOG = Logger.getLogger(AssignmentServiceImplTest.class);
     AssignmentDao assignmentDao = null;

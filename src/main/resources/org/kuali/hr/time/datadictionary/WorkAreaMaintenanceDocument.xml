@@ -26,7 +26,6 @@
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
-
 	<bean id="WorkAreaMaintenanceDocument-WorkAreaMaintenance" parent="WorkAreaMaintenanceDocument-WorkAreaMaintenance-parentBean" />
 
 	<bean id="WorkAreaMaintenanceDocument-WorkAreaMaintenance-parentBean"

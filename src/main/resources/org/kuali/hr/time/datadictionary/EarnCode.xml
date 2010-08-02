@@ -21,7 +21,7 @@
         <ref bean="EarnCode-earnCode" />
         <ref bean="EarnCode-active" />
         <ref bean="EarnCode-description" />
-        <ref bean="effectiveDate" />
+        <ref bean="EarnCode-effectiveDate" />
        </list>
     </property>
     <property name="objectLabel" value="earnCode"/>

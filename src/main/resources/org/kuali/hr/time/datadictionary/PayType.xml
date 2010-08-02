@@ -33,14 +33,7 @@
                 </list>
               </property>
             </bean>
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="calendarGroupObj"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarGroup" p:targetName="calendarGroup"/>
-                </list>
-              </property>
-            </bean>
+
 		</property>
 	</bean>
 

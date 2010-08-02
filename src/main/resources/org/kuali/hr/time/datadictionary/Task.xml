@@ -7,22 +7,22 @@
   <bean id="Task" parent="Task-parentBean" />
 
   <bean id="Task-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.hr.time.workarea.WorkArea" />
+    <property name="businessObjectClass" value="org.kuali.hr.time.task.Task" />
     <property name="inquiryDefinition" >
       <ref bean="Task-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
       <ref bean="Task-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="TaskId" />
+    <property name="titleAttribute" value="taskId" />
     <property name="attributes" >
       <list>
-      	<ref bean="Task-TaskId" />
+      	<ref bean="Task-taskId" />
       	<ref bean="Task-workAreaId" />
         <ref bean="Task-effectiveDate" />
         <ref bean="Task-description" />
         <ref bean="Task-departmentId" />
-        <ref bean="Task-administrativeDescr" />
+        <ref bean="Task-administrativeDescription" />
         <ref bean="Task-userPrincipalId" />
        </list>
     </property>
@@ -32,9 +32,9 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="Task-TaskId" parent="Task-TaskId-parentBean"/>
+  <bean id="Task-taskId" parent="Task-taskId-parentBean"/>
 
-  <bean id="Task-TaskId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Task-taskId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Task Id"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
@@ -43,14 +43,14 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
     </property>
-    <property name="name" value="TaskId"/>
+    <property name="name" value="taskId"/>
     <property name="label" value="Task Id"/>
   </bean>
   
     <bean id="Task-workAreaId" parent="Task-workAreaId-parentBean"/>
 
   <bean id="Task-workAreaId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Task Id"/>
+    <property name="shortLabel" value="Work Area Id"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
  		<bean parent="NumericValidationPattern"/>
@@ -94,9 +94,9 @@
     <property name="description" value="Description" />
   </bean>  
   
-  <bean id="Task-deptartmentId" parent="Task-departmentId-parentBean" />
+  <bean id="Task-departmentId" parent="Task-departmentId-parentBean" />
 
-  <bean id="Task-deptartmentId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Task-departmentId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="forceUppercase" value="true" />
 
     <property name="maxLength" value="21" />
@@ -104,9 +104,9 @@
       <bean parent="TextControlDefinition" p:size="21" />
     </property>
 
-    <property name="name" value="deptId" />
+    <property name="name" value="departmentId" />
     <property name="label" value="Department Id" />
-    <property name="description" value="deptId" />
+    <property name="description" value="departmentId" />
   </bean>
 
 <bean id="Task-administrativeDescription" parent="Task-administrativeDescription-parentBean" />
@@ -117,9 +117,9 @@
       <property name="control" >
       <bean parent="TextControlDefinition" p:size="30" />
       </property>
-    <property name="name" value="adminDescr" />
+    <property name="name" value="administrativeDescription" />
     <property name="label" value="Admin Description" />
-    <property name="description" value="adminDescr" />
+    <property name="description" value="administrativeDescription" />
   </bean>
   
   <bean id="Task-userPrincipalId" parent="Task-userPrincipalId-parentBean"/>
@@ -151,7 +151,7 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="TaskId" />
+              <bean parent="FieldDefinition" p:attributeName="taskId" />
               <bean parent="FieldDefinition" p:attributeName="description" />
               <bean parent="FieldDefinition" p:attributeName="departmentId" />
             </list>
@@ -175,14 +175,14 @@
     </property>
     <property name="lookupFields" >
       <list>
-      	<bean parent="FieldDefinition" p:attributeName="TaskId" />
+      	<bean parent="FieldDefinition" p:attributeName="taskId" />
         <bean parent="FieldDefinition" p:attributeName="description" />
         <bean parent="FieldDefinition" p:attributeName="departmentId" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
-      	<bean parent="FieldDefinition" p:attributeName="TaskId" />
+      	<bean parent="FieldDefinition" p:attributeName="taskId" />
         <bean parent="FieldDefinition" p:attributeName="departmentId" p:forceInquiry="true" />
         <bean parent="FieldDefinition" p:attributeName="description" />
       </list>
