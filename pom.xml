@@ -18,7 +18,7 @@
 	<packaging>war</packaging>
 	<name>trojan-time</name>
 	<description>Kuali's Trojan Time</description>
-	<version>0.9.0-SNAPSHOT</version>
+	<version>0.8.0-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>
@@ -119,7 +119,8 @@
 		<repository>
 			<id>ais-mvn.usc.edu-releases</id>
 			<name>ais-mvn.usc.edu-releases</name>
-			<url>http://ais-mvn.usc.edu:8080/artifactory/ais-internal-m1-repository</url>
+			<url>http://ais-mvn.usc.edu:8080/artifactory/t2-mvn2-local</url>
+			<uniqueVersion>true</uniqueVersion>
 		</repository>
 		<snapshotRepository>
 			<id>ais-mvn.usc.edu-releases</id>
