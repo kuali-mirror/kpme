@@ -132,16 +132,16 @@
 	
 	<repositories>
 		<repository>
-			<id>kuali</id>
-			<name>Kuali Repository</name>
-			<url>https://test.kuali.org/maven</url>
+			<id>ais-mvn.usc.edu-releases</id>
+			<name>ais-mvn.usc.edu-releases</name>
+			<url>http://ais-mvn.usc.edu:8080/artifactory/t2</url>
 		</repository>
 	</repositories>
 
 	<scm>
-		<connection>scm:svn:https://ais-svn.usc.edu/svn/T2/branches/mavenT2</connection>
-		<developerConnection>scm:svn:https://ais-svn.usc.edu/svn/T2/branches/mavenT2</developerConnection>
-		<url>https://ais-svn.usc.edu/svn/T2/branches/mavenT2</url>
+		<connection>scm:svn:https://ais-svn.usc.edu/svn/T2/trunk</connection>
+		<developerConnection>scm:svn:https://ais-svn.usc.edu/svn/T2/trunk</developerConnection>
+		<url>https://ais-svn.usc.edu/svn/T2/trunk</url>
 	</scm>
 
 </project>
