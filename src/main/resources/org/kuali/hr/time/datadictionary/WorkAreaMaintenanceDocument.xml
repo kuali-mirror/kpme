@@ -10,7 +10,9 @@
       <list>
         <ref bean="WorkAreaMaintenanceDocument-workAreaId"/>
         <ref bean="WorkAreaMaintenanceDocument-deptId"/>
-        <!--   <ref bean="WorkAreaMaintenanceDocument-active"/> -->
+        <ref bean="WorkAreaMaintenanceDocument-active"/>
+        <ref bean="WorkAreaMaintenanceDocument-description"/>
+        <ref bean="WorkAreaMaintenanceDocument-adminDescr"/>
       </list>
     </property> 
   </bean>
@@ -18,17 +20,7 @@
 
   <bean id="WorkAreaMaintenanceDocument-workAreaId" parent="WorkArea-workAreaId" abstract="false" p:name="workArea.workAreaId" p:required="true"/>
   <bean id="WorkAreaMaintenanceDocument-deptId" parent="WorkArea-deptId" abstract="false" p:name="workArea.deptId" p:required="true"/>
-  
-  <!-- 
-  <bean id="WorkAreaMaintenanceDocument-active" parent="WorkAreaMaintenanceDocument-active-parentBean"/>
-  <bean id="WorkAreaMaintenanceDocument-active-parentBean" parent="AttributeReferenceDummy-genericBoolean" abstract="true" p:name="workArea.active" p:required="true">
-    <property name="name" value="active"/>
-    <property name="label" value="Active"/>
-    <property name="shortLabel" value="Active"/>
-    <property name="required" value="true"/>
-    <property name="summary" value="Active"/>
-    <property name="description" value="Active"/>
-  </bean>
-  -->
-
+  <bean id="WorkAreaMaintenanceDocument-active" parent="WorkArea-active" abstract="false" p:name="workArea.active" p:required="true"/>
+  <bean id="WorkAreaMaintenanceDocument-description" parent="WorkArea-description" abstract="false" p:name="workArea.description" p:required="true"/>
+  <bean id="WorkAreaMaintenanceDocument-adminDescr" parent="WorkArea-adminDescr" abstract="false" p:name="workArea.adminDescr" p:required="true"/>
 </beans>

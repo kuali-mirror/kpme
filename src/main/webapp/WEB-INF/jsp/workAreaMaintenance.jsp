@@ -27,20 +27,4 @@
 </c:choose>
 
 <tk:workArea/>
-
-Work Area:
-${workArea}
-<br/>
-Full Role Map:
-${roleMap}
-<br/>
-<br/>
-TK_EMPLOYEE : ${roleEmployee}
-<br/>
-TK_APPROVER : ${roleApprover}
-<br/>
-TK_ORG_ADMIN : ${roleOrgAdmin}
-<br/>
-TK_SYS_ADMIN : ${roleSysAdmin}
-
 </kul:documentPage>
