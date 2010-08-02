@@ -119,8 +119,7 @@
 		<repository>
 			<id>ais-mvn.usc.edu-releases</id>
 			<name>ais-mvn.usc.edu-releases</name>
-			<url>http://ais-mvn.usc.edu:8080/artifactory/t2-mvn2-local</url>
-			<uniqueVersion>true</uniqueVersion>
+			<url>http://ais-mvn.usc.edu:8080/artifactory/ais-internal-m1-repository</url>
 		</repository>
 		<snapshotRepository>
 			<id>ais-mvn.usc.edu-releases</id>
