@@ -8,7 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TestHarnessWebBase;
+import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
@@ -16,7 +16,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class ClockLocationRuleLookupTest extends TestHarnessWebBase {
+public class ClockLocationRuleLookupTest extends TkTestCase {
 
     private static BusinessObjectService boService = null;
     

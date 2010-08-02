@@ -10,14 +10,14 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
-import org.kuali.hr.time.test.TestHarnessWebBase;
+import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 /**
  * A really basic unit test testing persistence and searching over persisted business objects.
  */
-public class ClockLocationRuleTest extends TestHarnessWebBase {
+public class ClockLocationRuleTest extends TkTestCase {
 
     private static final Logger LOG = Logger.getLogger(ClockLocationRuleTest.class);
 
