@@ -132,9 +132,9 @@
 	
 	<repositories>
 		<repository>
-			<id>ais-mvn.usc.edu-releases</id>
-			<name>ais-mvn.usc.edu-releases</name>
-			<url>http://ais-mvn.usc.edu:8080/artifactory/t2</url>
+			<id>kuali</id>
+			<name>Kuali Repository</name>
+			<url>https://test.kuali.org/maven</url>
 		</repository>
 	</repositories>
 
