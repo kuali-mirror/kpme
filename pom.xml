@@ -117,15 +117,15 @@
 	
 	<distributionManagement>
 		<repository>
-			<id>kuali</id>
-			<name>Kuali Repository</name>
-			<url>scp://test.kuali.org/maven</url>
+			<id>ais-mvn.usc.edu-releases</id>
+			<name>ais-mvn.usc.edu-releases</name>
+			<url>http://ais-mvn.usc.edu:8080/artifactory/t2</url>
 			<uniqueVersion>true</uniqueVersion>
 		</repository>
 		<snapshotRepository>
-			<id>kuali</id>
-			<name>Kuali Repository</name>
-			<url>scp://test.kuali.org/maven</url>
+			<id>ais-mvn.usc.edu-releases</id>
+			<name>ais-mvn.usc.edu-releases</name>
+			<url>http://ais-mvn.usc.edu:8080/artifactory/t2</url>
 			<uniqueVersion>true</uniqueVersion>
 		</snapshotRepository>
 	</distributionManagement>
