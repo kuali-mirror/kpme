@@ -217,7 +217,18 @@
 		<field-descriptor name="beginPeriodDate"    column="begin_period_date"	jdbc-type="DATE" />
 		<field-descriptor name="beginPeriodTime"    column="begin_period_time"	jdbc-type="TIME" />
 		<field-descriptor name="endPeriodDate"      column="end_period_date"	jdbc-type="DATE" />
-		<field-descriptor name="endPeriodTime"      column="end_period_time"	jdbc-type="TIME" />						
+		<field-descriptor name="endPeriodTime"      column="end_period_time"	jdbc-type="TIME" />	
+		<field-descriptor name="initiateDate"    	  column="initiate_date"	jdbc-type="DATE"/>
+		<field-descriptor name="initiateTime"    	  column="initiate_time"	jdbc-type="TIME"/>
+
+		<field-descriptor name="endPayPeriodDate"  	  column="end_pay_period_date"	jdbc-type="DATE"/>
+		<field-descriptor name="endPayPeriodTime"  	  column="end_pay_period_time"	jdbc-type="TIME"/>
+
+		<field-descriptor name="employeeApprovalDate"  column="employee_approval_date"	jdbc-type="DATE"/>
+		<field-descriptor name="employeeApprovalTime"  column="employee_approval_time"	jdbc-type="TIME"/>
+								
+		<field-descriptor name="supervisorApprovalDate" column="supervisor_approval_date"	jdbc-type="DATE"/>
+		<field-descriptor name="supervisorApprovalTime" column="supervisor_approval_time"	jdbc-type="TIME"/>					
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.hr.time.paycalendar.PayCalendar" table="tk_py_calendar_t">
@@ -229,18 +240,6 @@
 		<field-descriptor name="beginTime"    		  column="begin_time"	jdbc-type="TIME"/>
 		<field-descriptor name="endDate"    		  column="end_date"	jdbc-type="DATE"/>
 		<field-descriptor name="endTime"    		  column="end_time"	jdbc-type="TIME"/>
-
-		<field-descriptor name="initiateDate"    	  column="initiate_date"	jdbc-type="DATE"/>
-		<field-descriptor name="initiateTime"    	  column="initiate_time"	jdbc-type="TIME"/>
-
-		<field-descriptor name="endPayPeriodDate"  	  column="end_pay_period_date"	jdbc-type="DATE"/>
-		<field-descriptor name="endPayPeriodTime"  	  column="end_pay_period_time"	jdbc-type="TIME"/>
-
-		<field-descriptor name="employeeApprovalDate"  column="employee_approval_date"	jdbc-type="DATE"/>
-		<field-descriptor name="employeeApprovalTime"  column="employee_approval_time"	jdbc-type="TIME"/>
-								
-		<field-descriptor name="supervisorApprovalDate" column="supervisor_approval_date"	jdbc-type="DATE"/>
-		<field-descriptor name="supervisorApprovalTime" column="supervisor_approval_time"	jdbc-type="TIME"/>
 
 		<collection-descriptor 
 			name="payCalendarDates" 

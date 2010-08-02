@@ -734,6 +734,16 @@ CREATE TABLE `tk_py_calendar_dates_t` (
   `begin_period_time` time DEFAULT NULL,
   `end_period_date` date DEFAULT NULL,
   `end_period_time` time DEFAULT NULL,
+  `initiate_date` date DEFAULT NULL,
+  `initiate_time` time DEFAULT NULL,
+  `end_pay_period_date` date DEFAULT NULL,
+  `end_pay_period_time` time DEFAULT NULL,
+  `employee_approval_date` date DEFAULT NULL,
+  `employee_approval_time` time DEFAULT NULL,
+  `supervisor_approval_date` date DEFAULT NULL,
+  `supervisor_approval_time` time DEFAULT NULL,
+  `pay_period_end_date` date DEFAULT NULL,
+  `pay_period_end_time` time DEFAULT NULL  
   PRIMARY KEY (`tk_py_calendar_dates_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;

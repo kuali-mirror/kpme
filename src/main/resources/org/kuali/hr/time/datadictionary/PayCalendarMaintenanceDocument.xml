@@ -35,15 +35,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="beginDate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="beginTime" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="endDate"    p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="endTime"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="initiateDate"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="initiateTime"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="endPayPeriodDate"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="endPayPeriodTime"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="employeeApprovalDate"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="employeeApprovalTime"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="supervisorApprovalDate"   p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="supervisorApprovalTime"   p:required="true"/>                                  
+        <bean parent="MaintainableFieldDefinition" p:name="endTime"   p:required="true"/>                                 
       </list>
     </property>
   </bean>
@@ -67,6 +59,14 @@
               <bean parent="MaintainableFieldDefinition" p:name="beginPeriodTime" p:required="true"  />
               <bean parent="MaintainableFieldDefinition" p:name="endPeriodDate" p:required="true"  />
               <bean parent="MaintainableFieldDefinition" p:name="endPeriodTime" p:required="true"  />
+       		  <bean parent="MaintainableFieldDefinition" p:name="initiateDate"   p:required="true"/>
+        	  <bean parent="MaintainableFieldDefinition" p:name="initiateTime"   p:required="true"/>
+      		  <bean parent="MaintainableFieldDefinition" p:name="endPayPeriodDate"   p:required="true"/>
+   		      <bean parent="MaintainableFieldDefinition" p:name="endPayPeriodTime"   p:required="true"/>
+  		      <bean parent="MaintainableFieldDefinition" p:name="employeeApprovalDate"   p:required="true"/>
+  		      <bean parent="MaintainableFieldDefinition" p:name="employeeApprovalTime"   p:required="true"/>
+  		      <bean parent="MaintainableFieldDefinition" p:name="supervisorApprovalDate"   p:required="true"/>
+  		      <bean parent="MaintainableFieldDefinition" p:name="supervisorApprovalTime"   p:required="true"/>                
             </list>
           </property>        
         </bean>  

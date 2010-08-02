@@ -24,18 +24,6 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 
 	private Date endDate;
 	private Time endTime;
-
-	private Date initiateDate;
-	private Time initiateTime;
-
-	private Date endPayPeriodDate;
-	private Time endPayPeriodTime;
-
-	private Date employeeApprovalDate;
-	private Time employeeApprovalTime;
-
-	private Date supervisorApprovalDate;
-	private Time supervisorApprovalTime;
 	
 	private List<PayCalendarDates> payCalendarDates = new LinkedList<PayCalendarDates>();
 
@@ -97,70 +85,6 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 
 	public void setEndTime(Time endTime) {
 		this.endTime = endTime;
-	}
-
-	public Date getInitiateDate() {
-		return initiateDate;
-	}
-
-	public void setInitiateDate(Date initiateDate) {
-		this.initiateDate = initiateDate;
-	}
-
-	public Time getInitiateTime() {
-		return initiateTime;
-	}
-
-	public void setInitiateTime(Time initiateTime) {
-		this.initiateTime = initiateTime;
-	}
-
-	public Date getEndPayPeriodDate() {
-		return endPayPeriodDate;
-	}
-
-	public void setEndPayPeriodDate(Date endPayPeriodDate) {
-		this.endPayPeriodDate = endPayPeriodDate;
-	}
-
-	public Time getEndPayPeriodTime() {
-		return endPayPeriodTime;
-	}
-
-	public void setEndPayPeriodTime(Time endPayPeriodTime) {
-		this.endPayPeriodTime = endPayPeriodTime;
-	}
-
-	public Date getEmployeeApprovalDate() {
-		return employeeApprovalDate;
-	}
-
-	public void setEmployeeApprovalDate(Date employeeApprovalDate) {
-		this.employeeApprovalDate = employeeApprovalDate;
-	}
-
-	public Time getEmployeeApprovalTime() {
-		return employeeApprovalTime;
-	}
-
-	public void setEmployeeApprovalTime(Time employeeApprovalTime) {
-		this.employeeApprovalTime = employeeApprovalTime;
-	}
-
-	public Date getSupervisorApprovalDate() {
-		return supervisorApprovalDate;
-	}
-
-	public void setSupervisorApprovalDate(Date supervisorApprovalDate) {
-		this.supervisorApprovalDate = supervisorApprovalDate;
-	}
-
-	public Time getSupervisorApprovalTime() {
-		return supervisorApprovalTime;
-	}
-
-	public void setSupervisorApprovalTime(Time supervisorApprovalTime) {
-		this.supervisorApprovalTime = supervisorApprovalTime;
 	}
 
 	public List<PayCalendarDates> getPayCalendarDates() {
