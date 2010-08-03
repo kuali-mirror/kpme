@@ -22,8 +22,8 @@
 			<th>add</th>
 			<td align="left" valign="middle">
 				<div align="center">
-				<input type="text" name"placeholder"/>
-				<kul:lookup boClassName="org.kuali.hr.time.clock.location.ClockLocationRule"  anchor="${tabKey}" />
+				<input type="text" name="principalId"/>
+				<kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalId:principalId" anchor="${tabKey}" />
 				</div>
 			</td>
 			<td align="left" valign="middle">

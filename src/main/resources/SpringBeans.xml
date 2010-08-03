@@ -154,8 +154,6 @@
         </property>
     </bean>
 
-	<bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />
-	
 	<!--  This is the service that KIM will look for to authenticate the user, we need something identified by this bean ID.  I'm
 	not sure about the other authentication services. 
  	<bean id="kimAuthenticationService" class="edu.iu.uis.hr.TKWebAuthenticationService" />
