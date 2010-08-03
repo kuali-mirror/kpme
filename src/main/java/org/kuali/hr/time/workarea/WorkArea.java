@@ -1,5 +1,6 @@
 package org.kuali.hr.time.workarea;
 
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -10,10 +11,10 @@ import org.kuali.hr.time.role.assign.TkRoleAssign;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class WorkArea extends PersistableBusinessObjectBase {
-    
+
     private static final long serialVersionUID = 1L;
-    
-    private Long workAreaId;
+
+    private BigInteger workAreaId;
     private Date effectiveDate;
     private boolean active;
     private String description;
@@ -22,9 +23,9 @@ public class WorkArea extends PersistableBusinessObjectBase {
     private String adminDescr;
     private String userPrincipalId;
     private Timestamp timestamp;
-    
+
     private List<TkRoleAssign> roleAssignments = new ArrayList<TkRoleAssign>();
-    
+
 
     @SuppressWarnings("unchecked")
     @Override
@@ -35,12 +36,12 @@ public class WorkArea extends PersistableBusinessObjectBase {
     }
 
 
-    public Long getWorkAreaId() {
+    public BigInteger getWorkAreaId() {
         return workAreaId;
     }
 
 
-    public void setWorkAreaId(Long workAreaId) {
+    public void setWorkAreaId(BigInteger workAreaId) {
         this.workAreaId = workAreaId;
     }
 
@@ -92,7 +93,7 @@ public class WorkArea extends PersistableBusinessObjectBase {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
-    
+
     public String getUserPrincipalId() {
         return userPrincipalId;
     }
@@ -100,7 +101,7 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
     public void setUserPrincipalId(String userPrincipalId) {
         this.userPrincipalId = userPrincipalId;
-    }  
+    }
 
     public String getDescription() {
         return description;

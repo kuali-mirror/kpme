@@ -1,5 +1,6 @@
 package org.kuali.hr.time.clocklog;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -8,25 +9,25 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class ClockLog extends PersistableBusinessObjectBase {
-    
+
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -2499666820628979901L;
-    
+
     private Long clockLogId = null;
     private String principalId;
     private Integer jobNumber;
-    private Long workAreaId;
-    private Long taskId;
+    private BigInteger workAreaId;
+    private BigInteger taskId;
     private Calendar clockTimestamp;
     private String clockTimestampTimezone;
     private String clockAction;
     private String ipAddress;
     private String userPrincipalId;
     private Timestamp timestamp;
-    
-    
+
+
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -50,19 +51,19 @@ public class ClockLog extends PersistableBusinessObjectBase {
         this.jobNumber = jobNumber;
     }
 
-    public Long getWorkAreaId() {
+    public BigInteger getWorkAreaId() {
         return workAreaId;
     }
 
-    public void setWorkAreaId(Long workAreaId) {
+    public void setWorkAreaId(BigInteger workAreaId) {
         this.workAreaId = workAreaId;
     }
 
-    public Long getTaskId() {
+    public BigInteger getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(Long taskId) {
+    public void setTaskId(BigInteger taskId) {
         this.taskId = taskId;
     }
 
@@ -121,7 +122,7 @@ public class ClockLog extends PersistableBusinessObjectBase {
     public void setClockLogId(Long clockLogId) {
         this.clockLogId = clockLogId;
     }
-    
+
     /**
      * TODO: Fix this - may need to return multiple actions, depending on how we want the system to work.
      * @return
@@ -144,8 +145,8 @@ public class ClockLog extends PersistableBusinessObjectBase {
 	} else {
 	    ret = TkConstants.CLOCK_IN;
 	}
-	
+
 	return ret;
     }
-        
+
 }

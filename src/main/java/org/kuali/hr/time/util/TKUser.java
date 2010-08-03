@@ -3,9 +3,10 @@ package org.kuali.hr.time.util;
 import org.kuali.rice.kim.bo.Person;
 
 public class TKUser {
-    
+
     private Person actualPerson;
     private Person backdoorPerson;
+
 
     public Person getActualPerson() {
         return actualPerson;
@@ -22,11 +23,11 @@ public class TKUser {
     public void setBackdoorPerson(Person backdoorPerson) {
         this.backdoorPerson = backdoorPerson;
     }
-    
+
     public String getPrincipalId(){
 	return actualPerson.getPrincipalId();
     }
-    
+
     public String getPrincipalName(){
 	return actualPerson.getPrincipalName();
     }

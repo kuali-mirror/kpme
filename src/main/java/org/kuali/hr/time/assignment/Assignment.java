@@ -1,5 +1,6 @@
 package org.kuali.hr.time.assignment;
 
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -12,17 +13,17 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 public class Assignment extends PersistableBusinessObjectBase {
 
 	/**
-     * 
+     *
      */
 	private static final long serialVersionUID = -3408305833805778653L;
 
 	private Long assignmentId;
 	private String principalId;
-	private Long jobNumber;
+	private BigInteger jobNumber;
 	private Date effectiveDate;
 	private String earnCode;
-	private Long workAreaId;
-	private Long taskId;
+	private BigInteger workAreaId;
+	private BigInteger taskId;
 	private boolean active;
 
 	private Task task;
@@ -33,8 +34,8 @@ public class Assignment extends PersistableBusinessObjectBase {
 
 	}
 
-	public Assignment(String principalId, Long jobNumber, Date effectiveDate,
-			String earnCode, Long workAreaId, Long taskId) {
+	public Assignment(String principalId, BigInteger jobNumber, Date effectiveDate,
+			String earnCode, BigInteger workAreaId, BigInteger taskId) {
 		this.principalId = principalId;
 		this.jobNumber = jobNumber;
 		this.effectiveDate = effectiveDate;
@@ -58,11 +59,11 @@ public class Assignment extends PersistableBusinessObjectBase {
 		this.principalId = principalId;
 	}
 
-	public Long getJobNumber() {
+	public BigInteger getJobNumber() {
 		return jobNumber;
 	}
 
-	public void setJobNumber(Long jobNumber) {
+	public void setJobNumber(BigInteger jobNumber) {
 		this.jobNumber = jobNumber;
 	}
 
@@ -82,11 +83,11 @@ public class Assignment extends PersistableBusinessObjectBase {
 		this.earnCode = earnCode;
 	}
 
-	public Long getTaskId() {
+	public BigInteger getTaskId() {
 		return taskId;
 	}
 
-	public void setTaskId(Long taskId) {
+	public void setTaskId(BigInteger taskId) {
 		this.taskId = taskId;
 	}
 
@@ -106,11 +107,11 @@ public class Assignment extends PersistableBusinessObjectBase {
 		this.active = active;
 	}
 
-	public Long getWorkAreaId() {
+	public BigInteger getWorkAreaId() {
 		return workAreaId;
 	}
 
-	public void setWorkAreaId(Long workAreaId) {
+	public void setWorkAreaId(BigInteger workAreaId) {
 		this.workAreaId = workAreaId;
 	}
 
@@ -133,7 +134,7 @@ public class Assignment extends PersistableBusinessObjectBase {
 	/**
 	 * Provides us with the text to display to the user for clock actions on
 	 * this assignment.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getClockText() {

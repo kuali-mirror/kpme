@@ -1,5 +1,6 @@
 package org.kuali.hr.time.clock.location.validation;
 
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -25,7 +26,7 @@ public class ClockLocationRuleTest extends TkTestCase {
     private static final String IP_ADDRESS_TWO = "127.0.1.1";
 
     private BusinessObjectService boService;
-    
+
     @Before
     public void setUp() throws Exception {
 	super.setUp();
@@ -35,7 +36,7 @@ public class ClockLocationRuleTest extends TkTestCase {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testSave() throws Exception {	
+    public void testSave() throws Exception {
 	ClockLocationRule clr = new ClockLocationRule();
 	Timestamp ts_now = new Timestamp(System.currentTimeMillis());
 	Date date_now = new Date(System.currentTimeMillis());
@@ -43,7 +44,7 @@ public class ClockLocationRuleTest extends TkTestCase {
 	//clr.setDepartment("TEST");
 	//clr.setWorkArea(BigDecimal.TEN);
 	clr.setPrincipalId("12345");
-	clr.setJobNumber(new Long(0));
+	clr.setJobNumber(new BigInteger("0"));
 	clr.setActive(true);
 	clr.setTimestamp(ts_now);
 	clr.setEffectiveDate(date_now);
@@ -57,7 +58,7 @@ public class ClockLocationRuleTest extends TkTestCase {
 	assertEquals("One entry should be in list.", 1, collection.size());
 
 	for (ClockLocationRule crule : collection) {
-	    // There is only one 
+	    // There is only one
 	    assertEquals(crule.getIpAddress(), "127.0.0.1");
 	}
     }
@@ -72,7 +73,7 @@ public class ClockLocationRuleTest extends TkTestCase {
 	//clr.setDepartment("TEST");
 	//clr.setWorkArea(BigDecimal.TEN);
 	clr.setPrincipalId("12345");
-	clr.setJobNumber(new Long(0));
+	clr.setJobNumber(new BigInteger("0"));
 	clr.setActive(true);
 	clr.setTimestamp(ts_now);
 	clr.setEffectiveDate(date_now);
@@ -85,7 +86,7 @@ public class ClockLocationRuleTest extends TkTestCase {
 	//clr.setDepartment("TEST");
 	//clr.setWorkArea(BigDecimal.TEN);
 	clr.setPrincipalId("12345");
-	clr.setJobNumber(new Long(0));
+	clr.setJobNumber(new BigInteger("0"));
 	clr.setActive(false);
 	clr.setTimestamp(ts_now);
 	clr.setEffectiveDate(date_now);

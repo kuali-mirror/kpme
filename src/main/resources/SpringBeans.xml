@@ -23,15 +23,15 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
         <property name="defaultTimeout" value="3600"/>
     </bean>
 
     <bean id="ojbConfigurer" class="org.kuali.rice.core.ojb.JtaOjbConfigurer">
-        <property name="transactionManager" ref="jotm" />   
+        <property name="transactionManager" ref="jotm" />
     </bean>
-    
+
     <bean id="ojbRepoLoader" class="org.kuali.hr.time.SpringBasedOJBRepositoryLoader">
     	<property name="pathLocations">
     		<list>
@@ -99,7 +99,7 @@
 		<property name="dataSource" ref="tkDataSource" />
 		<property name="nonTransactionalDataSource" ref="nonTransDataSource" />
 	</bean>
- 
+
 
     <bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer" >
         <property name="dataSource" ref="tkDataSource" />
@@ -109,11 +109,11 @@
         <property name="rootResourceLoader">
             <bean class="org.kuali.rice.core.resourceloader.SpringBeanFactoryResourceLoader" />
         </property>
-        
+
         <property name="rootConfig" ref="config" />
         <property name="environment" value="${environment}" />
         <property name="serviceNamespace" value="TK" />
-        
+
 	<property name="ksbConfigurer">
 		<bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
 			<property name="messageDataSource">
@@ -126,10 +126,10 @@
 			<property name="exceptionMessagingScheduler" ref="ksbScheduler" />
 
 			<property name="webModuleConfigurationFiles" value="/ksb/WEB-INF/struts-config.xml" />
-			
+
 		</bean>
 		</property>
-		
+
 		<property name="kewConfigurer">
            <bean class="org.kuali.rice.kew.config.KEWConfigurer">
                     <property name="dataSource">
@@ -138,7 +138,7 @@
                     <property name="runMode" value="embedded"/>
            </bean>
         </property>
-        
+
         <property name="knsConfigurer">
            <bean class="org.kuali.rice.kns.config.KNSConfigurer">
                   <property name="validateDataDictionary" value="true"/>
@@ -155,9 +155,9 @@
     </bean>
 
 	<bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />
-	
+
 	<!--  This is the service that KIM will look for to authenticate the user, we need something identified by this bean ID.  I'm
-	not sure about the other authentication services. 
+	not sure about the other authentication services.
  	<bean id="kimAuthenticationService" class="edu.iu.uis.hr.TKWebAuthenticationService" />
 	-->
     <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
@@ -189,7 +189,7 @@
             <ref bean="matchAllWithPropReq" />
         </property>
     </bean>
-<!-- 
+<!--
 	<bean id="autoProxyCreator"
 		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
 		<property name="interceptorNames">
@@ -223,7 +223,7 @@
                 <value>classpath:org/kuali/hr/time/datadictionary</value>
             </list>
         </property>
-        <!-- 
+        <!--
         <property name="databaseRepositoryFilePaths">
             <list>
 				<value>OJB-repository-time.xml</value>
@@ -242,7 +242,7 @@
     </bean>
 
 	<!-- DAOs for wrapping database criteria queries -->
-    
+
     <bean id="clockLogDao" class="org.kuali.hr.time.clocklog.dao.ClockLogDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
@@ -251,19 +251,67 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
+    <bean id="timeBlockDao" class="org.kuali.hr.time.timeblock.dao.TimeBlockDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="timeBlockHistoryDao" class="org.kuali.hr.time.timeblock.dao.TimeBlockHistoryDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="jobDao" class="org.kuali.hr.job.dao.JobDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="payTypeDao" class="org.kuali.hr.time.paytype.dao.PayTypeDaoSpringObjImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="payCalendarDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDaoSpringObjImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="payCalendarDatesDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDatesDaoSpringObjImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
 	<!-- Time Services for Business Logic -->
-    
+
     <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
     	<property name="clockLogDao" ref="clockLogDao"/>
     </bean>
-    
+
     <bean id="assignmentService" class="org.kuali.hr.time.assignment.service.AssignmentServiceImpl">
     	<property name="assignmentDao" ref="assignmentDao"/>
     </bean>
-    
+
+    <bean id="timeBlockService" class="org.kuali.hr.time.timeblock.service.TimeBlockServiceImpl">
+    	<property name="timeBlockDao" ref="timeBlockDao"/>
+    </bean>
+
+    <bean id="timeBlockHistoryService" class="org.kuali.hr.time.timeblock.service.TimeBlockHistoryServiceImpl">
+    	<property name="timeBlockHistoryDao" ref="timeBlockHistoryDao"/>
+    </bean>
+
+    <bean id="jobService" class="org.kuali.hr.job.service.JobServiceImpl">
+    	<property name="jobDao" ref="jobDao"/>
+    </bean>
+
+    <bean id="payTypeService" class="org.kuali.hr.time.paytype.service.PayTypeServiceImpl">
+    	<property name="payTypeDao" ref="payTypeDao"/>
+    </bean>
+
+    <bean id="payCalendarService" class="org.kuali.hr.time.paycalendar.service.PayCalendarServiceImpl">
+    	<property name="payCalendarDao" ref="payCalendarDao"/>
+    </bean>
+
+    <bean id="payCalendarDatesService" class="org.kuali.hr.time.paycalendar.service.PayCalendarDatesServiceImpl">
+    	<property name="payCalendarDatesDao" ref="payCalendarDatesDao"/>
+    </bean>
+
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
     </bean>
-    
+
     <bean id="tkRuleControllerService" class="org.kuali.hr.time.rule.TkRuleControllerServiceImpl"/>
 
 </beans>

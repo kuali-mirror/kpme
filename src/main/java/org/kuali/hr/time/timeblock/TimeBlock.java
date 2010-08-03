@@ -1,6 +1,7 @@
 package org.kuali.hr.time.timeblock;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
@@ -8,132 +9,141 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class TimeBlock extends PersistableBusinessObjectBase {
 
-    /**
-     * 
+	/**
+     *
      */
-    private static final long serialVersionUID = -4164042707879641855L;
-    
-    private String documentId;
-    private Integer jobNumber;
-    private Long workAreaId;
-    private Long taskId;
-    private String earnCode;
-    private Timestamp beginTimestamp;
-    private Timestamp endTimestamp;
-    private Boolean clockCreatedFlag;
-    private BigDecimal hours;
-    private String userPrincipalId;
-    private Timestamp timestamp;
-    private String beginTimestampTimezone;
-    private String endTimestampTimezone;
+	private static final long serialVersionUID = -4164042707879641855L;
 
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-	return null;
-    }
+	private Long timeBlockId = null;
+	private String documentId;
+	private BigInteger jobNumber;
+	private BigInteger workAreaId;
+	private BigInteger taskId;
+	private String earnCode;
+	private Timestamp beginTimestamp;
+	private Timestamp endTimestamp;
+	private Boolean clockLogCreated;
+	private BigDecimal hours;
+	private String userPrincipalId;
+	private Timestamp timestamp;
+	private String beginTimestampTimezone;
+	private String endTimestampTimezone;
 
-    public String getDocumentId() {
-        return documentId;
-    }
+	@SuppressWarnings("unchecked")
+	@Override
+	protected LinkedHashMap toStringMapper() {
+		return null;
+	}
 
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
-    }
+	public Long getTimeBlockId() {
+		return timeBlockId;
+	}
 
-    public Integer getJobNumber() {
-        return jobNumber;
-    }
+	public void setTimeBlockId(Long timeBlockId) {
+		this.timeBlockId = timeBlockId;
+	}
 
-    public void setJobNumber(Integer jobNumber) {
-        this.jobNumber = jobNumber;
-    }
+	public String getDocumentId() {
+		return documentId;
+	}
 
-    public Long getWorkAreaId() {
-        return workAreaId;
-    }
+	public void setDocumentId(String documentId) {
+		this.documentId = documentId;
+	}
 
-    public void setWorkAreaId(Long workAreaId) {
-        this.workAreaId = workAreaId;
-    }
+	public BigInteger getJobNumber() {
+		return jobNumber;
+	}
 
-    public Long getTaskId() {
-        return taskId;
-    }
+	public void setJobNumber(BigInteger jobNumber) {
+		this.jobNumber = jobNumber;
+	}
 
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
-    }
+	public BigInteger getWorkAreaId() {
+		return workAreaId;
+	}
 
-    public String getEarnCode() {
-        return earnCode;
-    }
+	public void setWorkAreaId(BigInteger workAreaId) {
+		this.workAreaId = workAreaId;
+	}
 
-    public void setEarnCode(String earnCode) {
-        this.earnCode = earnCode;
-    }
+	public BigInteger getTaskId() {
+		return taskId;
+	}
 
-    public Timestamp getBeginTimestamp() {
-        return beginTimestamp;
-    }
+	public void setTaskId(BigInteger taskId) {
+		this.taskId = taskId;
+	}
 
-    public void setBeginTimestamp(Timestamp beginTimestamp) {
-        this.beginTimestamp = beginTimestamp;
-    }
+	public String getEarnCode() {
+		return earnCode;
+	}
 
-    public Timestamp getEndTimestamp() {
-        return endTimestamp;
-    }
+	public void setEarnCode(String earnCode) {
+		this.earnCode = earnCode;
+	}
 
-    public void setEndTimestamp(Timestamp endTimestamp) {
-        this.endTimestamp = endTimestamp;
-    }
+	public Timestamp getBeginTimestamp() {
+		return beginTimestamp;
+	}
 
-    public Boolean getClockCreatedFlag() {
-        return clockCreatedFlag;
-    }
+	public void setBeginTimestamp(Timestamp beginTimestamp) {
+		this.beginTimestamp = beginTimestamp;
+	}
 
-    public void setClockCreatedFlag(Boolean clockCreatedFlag) {
-        this.clockCreatedFlag = clockCreatedFlag;
-    }
+	public Timestamp getEndTimestamp() {
+		return endTimestamp;
+	}
 
-    public BigDecimal getHours() {
-        return hours;
-    }
+	public void setEndTimestamp(Timestamp endTimestamp) {
+		this.endTimestamp = endTimestamp;
+	}
 
-    public void setHours(BigDecimal hours) {
-        this.hours = hours;
-    }
+	public Boolean getClockLogCreated() {
+		return clockLogCreated;
+	}
 
-    public String getUserPrincipalId() {
-        return userPrincipalId;
-    }
+	public void setClockLogCreated(Boolean clockLogCreated) {
+		this.clockLogCreated = clockLogCreated;
+	}
 
-    public void setUserPrincipalId(String userPrincipalId) {
-        this.userPrincipalId = userPrincipalId;
-    }
+	public BigDecimal getHours() {
+		return hours;
+	}
 
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
+	public void setHours(BigDecimal hours) {
+		this.hours = hours;
+	}
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
+	public String getUserPrincipalId() {
+		return userPrincipalId;
+	}
 
-    public String getBeginTimestampTimezone() {
-        return beginTimestampTimezone;
-    }
+	public void setUserPrincipalId(String userPrincipalId) {
+		this.userPrincipalId = userPrincipalId;
+	}
 
-    public void setBeginTimestampTimezone(String beginTimestampTimezone) {
-        this.beginTimestampTimezone = beginTimestampTimezone;
-    }
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
 
-    public String getEndTimestampTimezone() {
-        return endTimestampTimezone;
-    }
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
 
-    public void setEndTimestampTimezone(String endTimestampTimezone) {
-        this.endTimestampTimezone = endTimestampTimezone;
-    }
+	public String getBeginTimestampTimezone() {
+		return beginTimestampTimezone;
+	}
+
+	public void setBeginTimestampTimezone(String beginTimestampTimezone) {
+		this.beginTimestampTimezone = beginTimestampTimezone;
+	}
+
+	public String getEndTimestampTimezone() {
+		return endTimestampTimezone;
+	}
+
+	public void setEndTimestampTimezone(String endTimestampTimezone) {
+		this.endTimestampTimezone = endTimestampTimezone;
+	}
 }

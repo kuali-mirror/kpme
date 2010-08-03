@@ -1,5 +1,6 @@
 package org.kuali.hr.time.clock.location;
 
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
@@ -17,34 +18,34 @@ public class ClockLocationRule extends PersistableBusinessObjectBase {
 
 	private Department department;
 	private String deptId;
-	
-	private Long workArea;
+
+	private BigInteger workArea;
 	private String principalId;
-	private Long jobNumber;
-	
+	private BigInteger jobNumber;
+
 	private Date effectiveDate;
 	private boolean active;
 	private String ipAddress;
 	private String userPrincipalId;
 	private Timestamp timestamp;
-	
+
 	private WorkArea workAreaObj;
 	private Job job;
 
 	@Override
 	protected LinkedHashMap<String,Object> toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
-		
+
 		toStringMap.put("principalId", principalId);
-		
+
 		return toStringMap;
 	}
 
-	public Long getWorkArea() {
+	public BigInteger getWorkArea() {
 		return workArea;
 	}
 
-	public void setWorkArea(Long workArea) {
+	public void setWorkArea(BigInteger workArea) {
 		this.workArea = workArea;
 	}
 
@@ -96,11 +97,11 @@ public class ClockLocationRule extends PersistableBusinessObjectBase {
 		this.userPrincipalId = userPrincipalId;
 	}
 
-	public Long getJobNumber() {
+	public BigInteger getJobNumber() {
 		return jobNumber;
 	}
 
-	public void setJobNumber(Long jobNumber) {
+	public void setJobNumber(BigInteger jobNumber) {
 		this.jobNumber = jobNumber;
 	}
 
@@ -119,7 +120,7 @@ public class ClockLocationRule extends PersistableBusinessObjectBase {
 	public void setDepartment(Department department) {
 	    this.department = department;
 	}
-	
+
 	public WorkArea getWorkAreaObj() {
 	    return workAreaObj;
 	}
@@ -143,6 +144,6 @@ public class ClockLocationRule extends PersistableBusinessObjectBase {
 	public void setJob(Job job) {
 	    this.job = job;
 	}
-	
-	
+
+
 }
