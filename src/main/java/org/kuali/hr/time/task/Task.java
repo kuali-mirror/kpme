@@ -13,30 +13,30 @@ public class Task extends PersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = 1L;
 
-    private BigInteger taskId;
-    private BigInteger workAreaId;
+    private Long taskId;
+    private Long workAreaId;
     private String description;
     private String departmentId;
     private String userPrincipalId;
     private Date effectiveDate;
     private String administrativeDescription;
 
-    public BigInteger getTaskId()
+    public Long getTaskId()
     {
     	return taskId;
     }
 
-    public void setTaskId(BigInteger taskId)
+    public void setTaskId(Long taskId)
     {
     	this.taskId = taskId;
     }
 
-    public BigInteger getWorkAreaId()
+    public Long getWorkAreaId()
     {
     	return workAreaId;
     }
 
-    public void setWorkAreaId(BigInteger workAreaId){
+    public void setWorkAreaId(Long workAreaId){
     	this.workAreaId = workAreaId;
     }
 

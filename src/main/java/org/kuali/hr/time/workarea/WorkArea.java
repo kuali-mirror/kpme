@@ -1,6 +1,5 @@
 package org.kuali.hr.time.workarea;
 
-import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 
-    private BigInteger workAreaId;
+    private Long workAreaId;
     private Date effectiveDate;
     private boolean active;
     private String description;
@@ -36,12 +35,12 @@ public class WorkArea extends PersistableBusinessObjectBase {
     }
 
 
-    public BigInteger getWorkAreaId() {
+    public Long getWorkAreaId() {
         return workAreaId;
     }
 
 
-    public void setWorkAreaId(BigInteger workAreaId) {
+    public void setWorkAreaId(Long workAreaId) {
         this.workAreaId = workAreaId;
     }
 

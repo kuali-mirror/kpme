@@ -19,11 +19,11 @@ public class Assignment extends PersistableBusinessObjectBase {
 
 	private Long assignmentId;
 	private String principalId;
-	private BigInteger jobNumber;
+	private Long jobNumber;
 	private Date effectiveDate;
 	private String earnCode;
-	private BigInteger workAreaId;
-	private BigInteger taskId;
+	private Long workAreaId;
+	private Long taskId;
 	private boolean active;
 
 	private Task task;
@@ -34,8 +34,8 @@ public class Assignment extends PersistableBusinessObjectBase {
 
 	}
 
-	public Assignment(String principalId, BigInteger jobNumber, Date effectiveDate,
-			String earnCode, BigInteger workAreaId, BigInteger taskId) {
+	public Assignment(String principalId, Long jobNumber, Date effectiveDate,
+			String earnCode, Long workAreaId, Long taskId) {
 		this.principalId = principalId;
 		this.jobNumber = jobNumber;
 		this.effectiveDate = effectiveDate;
@@ -59,11 +59,11 @@ public class Assignment extends PersistableBusinessObjectBase {
 		this.principalId = principalId;
 	}
 
-	public BigInteger getJobNumber() {
+	public Long getJobNumber() {
 		return jobNumber;
 	}
 
-	public void setJobNumber(BigInteger jobNumber) {
+	public void setJobNumber(Long jobNumber) {
 		this.jobNumber = jobNumber;
 	}
 
@@ -83,11 +83,11 @@ public class Assignment extends PersistableBusinessObjectBase {
 		this.earnCode = earnCode;
 	}
 
-	public BigInteger getTaskId() {
+	public Long getTaskId() {
 		return taskId;
 	}
 
-	public void setTaskId(BigInteger taskId) {
+	public void setTaskId(Long taskId) {
 		this.taskId = taskId;
 	}
 
@@ -107,11 +107,11 @@ public class Assignment extends PersistableBusinessObjectBase {
 		this.active = active;
 	}
 
-	public BigInteger getWorkAreaId() {
+	public Long getWorkAreaId() {
 		return workAreaId;
 	}
 
-	public void setWorkAreaId(BigInteger workAreaId) {
+	public void setWorkAreaId(Long workAreaId) {
 		this.workAreaId = workAreaId;
 	}
 

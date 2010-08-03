@@ -1,6 +1,5 @@
 package org.kuali.hr.time.clocklog;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -17,9 +16,9 @@ public class ClockLog extends PersistableBusinessObjectBase {
 
     private Long clockLogId = null;
     private String principalId;
-    private Integer jobNumber;
-    private BigInteger workAreaId;
-    private BigInteger taskId;
+    private Long jobNumber;
+    private Long workAreaId;
+    private Long taskId;
     private Calendar clockTimestamp;
     private String clockTimestampTimezone;
     private String clockAction;
@@ -43,27 +42,27 @@ public class ClockLog extends PersistableBusinessObjectBase {
         this.principalId = principalId;
     }
 
-    public Integer getJobNumber() {
+    public Long getJobNumber() {
         return jobNumber;
     }
 
-    public void setJobNumber(Integer jobNumber) {
+    public void setJobNumber(Long jobNumber) {
         this.jobNumber = jobNumber;
     }
 
-    public BigInteger getWorkAreaId() {
+    public Long getWorkAreaId() {
         return workAreaId;
     }
 
-    public void setWorkAreaId(BigInteger workAreaId) {
+    public void setWorkAreaId(Long workAreaId) {
         this.workAreaId = workAreaId;
     }
 
-    public BigInteger getTaskId() {
+    public Long getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(BigInteger taskId) {
+    public void setTaskId(Long taskId) {
         this.taskId = taskId;
     }
 

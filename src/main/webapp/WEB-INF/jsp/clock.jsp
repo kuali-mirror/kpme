@@ -2,7 +2,7 @@
 
 <c:set var="Form" value="${ClockActionForm}" scope="request"/>
 <c:choose>
-	<c:when test="${Form.clockAction eq 'CI'}">
+	<c:when test="${Form.currentClockAction eq 'CI'}">
 		<c:set var="clockActionDescription" value="Clock In"/>
 		<c:set var="lastClockActionMessage" value="Clocked out since ${Form.lastClockActionTimestampFormatted}"/>
 	</c:when>
@@ -13,9 +13,9 @@
 </c:choose>
 <tk:tkHeader tabId="clock">
 
-	<html:form action="/Clock" method="post">
+	<html:form action="/Clock.do">
 	<html:hidden property="methodToCall" value=""/>
-	<html:hidden property="clockAction"/>
+	<html:hidden property="currentClockAction" styleId="clockAction"/>
 	<html:hidden property="lastClockedInTime" value="${Form.lastClockActionTimestamp}" styleId="lastClockedInTime"/>
 
 	<div id="clock">
@@ -34,7 +34,7 @@
 
 				<td>
 					<c:choose>
-						<c:when test="${Form.clockAction eq 'CO'}">
+						<c:when test="${Form.currentClockAction eq 'CO'}">
 							<span class="elapsedTime"></span>
 						</c:when>
 						<c:otherwise>
@@ -59,7 +59,7 @@
 			</tr>
 			<tr class="footer">
 				<td colspan="2" align="center">
-					<input type="button" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction'; this.form.submit();"/>
+					<input id="clock-button" type="button" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction'; this.form.submit();"/>
 					<input type="button" class="button" value="Skip Entry" name="skipEntry"/>
 				</td>
 			</tr>

@@ -205,15 +205,26 @@ $(document).ready(function() {
 
 	// elapsed time
 	// http://keith-wood.name/countdown.html
+//    if($("#clock-button").val() == "Clock Out") {
+//        $("#lastClockedInTime").val("");
+//        $("#elapsed-time").val("00:00:00");
+//    }
+    var lastClockedInTime = $("#lastClockedInTime").val();
+    var clockAction = $("#clockAction").val();
 
-	var lastClockedInTime = $("#lastClockedInTime").val();
-	var startTime = new Date(lastClockedInTime);
+//    console.log(lastClockedInTime);
+//    console.log(clockAction);
+
+    var startTime = clockAction == 'CO' ?  new Date(lastClockedInTime) : new Date() ;
+
+//    console.log(startTime);
+
 	$('.elapsedTime').countdown({
 				since : startTime,
 				compact : true,
 				format : 'dHMS',
 				description : ''
-			});
+	})
 
 	// tooltip
     // http://flowplayer.org/tools/tooltip/index.html

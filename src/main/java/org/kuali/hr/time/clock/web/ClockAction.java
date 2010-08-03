@@ -1,7 +1,6 @@
 package org.kuali.hr.time.clock.web;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,7 +19,6 @@ import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
@@ -74,9 +72,9 @@ public class ClockAction extends TkAction {
     	    cl.setClockTimestamp(Calendar.getInstance(TkConstants.GMT_TIME_ZONE));
     	    cl.setClockTimestampTimezone(TKUtils.getTimeZone());
     	    cl.setIpAddress(request.getRemoteAddr());
-    	    cl.setJobNumber(0);
-    	    cl.setWorkAreaId(new BigInteger("0"));
-    	    cl.setTaskId(new BigInteger("0"));
+    	    cl.setJobNumber(0L);
+    	    cl.setWorkAreaId(0L);
+    	    cl.setTaskId(0L);
     	    cl.setUserPrincipalId(principalId);
 
     	    TkServiceLocator.getClockLogService().saveClockAction(cl);
@@ -98,9 +96,9 @@ public class ClockAction extends TkAction {
     	    	BigDecimal hours = new BigDecimal((diff / 3600000.0) % 24).setScale(TkConstants.MATH_CONTEXT.getPrecision(), TkConstants.MATH_CONTEXT.getRoundingMode());
 
     	    	TimeBlock tb = new TimeBlock();
-    	    	tb.setJobNumber(new BigInteger("0"));
-    	    	tb.setWorkAreaId(new BigInteger("0"));
-    	    	tb.setTaskId(new BigInteger("0"));
+    	    	tb.setJobNumber(0L);
+    	    	tb.setWorkAreaId(0L);
+    	    	tb.setTaskId(0L);
     	    	tb.setEarnCode("RGN");
     	    	tb.setBeginTimestamp(beginTimestamp);
     	    	tb.setEndTimestamp(endTimestamp);

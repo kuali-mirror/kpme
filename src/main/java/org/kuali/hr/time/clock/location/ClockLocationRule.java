@@ -19,7 +19,7 @@ public class ClockLocationRule extends PersistableBusinessObjectBase {
 	private Department department;
 	private String deptId;
 
-	private BigInteger workArea;
+	private Long workArea;
 	private String principalId;
 	private BigInteger jobNumber;
 
@@ -41,11 +41,11 @@ public class ClockLocationRule extends PersistableBusinessObjectBase {
 		return toStringMap;
 	}
 
-	public BigInteger getWorkArea() {
+	public Long getWorkArea() {
 		return workArea;
 	}
 
-	public void setWorkArea(BigInteger workArea) {
+	public void setWorkArea(Long workArea) {
 		this.workArea = workArea;
 	}
 

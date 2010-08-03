@@ -16,9 +16,9 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 
 	private Long timeBlockId = null;
 	private String documentId;
-	private BigInteger jobNumber;
-	private BigInteger workAreaId;
-	private BigInteger taskId;
+	private Long jobNumber;
+	private Long workAreaId;
+	private Long taskId;
 	private String earnCode;
 	private Timestamp beginTimestamp;
 	private Timestamp endTimestamp;
@@ -51,27 +51,27 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 		this.documentId = documentId;
 	}
 
-	public BigInteger getJobNumber() {
+	public Long getJobNumber() {
 		return jobNumber;
 	}
 
-	public void setJobNumber(BigInteger jobNumber) {
+	public void setJobNumber(Long jobNumber) {
 		this.jobNumber = jobNumber;
 	}
 
-	public BigInteger getWorkAreaId() {
+	public Long getWorkAreaId() {
 		return workAreaId;
 	}
 
-	public void setWorkAreaId(BigInteger workAreaId) {
+	public void setWorkAreaId(Long workAreaId) {
 		this.workAreaId = workAreaId;
 	}
 
-	public BigInteger getTaskId() {
+	public Long getTaskId() {
 		return taskId;
 	}
 
-	public void setTaskId(BigInteger taskId) {
+	public void setTaskId(Long taskId) {
 		this.taskId = taskId;
 	}
 

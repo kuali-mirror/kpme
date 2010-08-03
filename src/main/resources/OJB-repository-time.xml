@@ -56,7 +56,7 @@
 
 	<class-descriptor class="org.kuali.hr.time.timeblock.TimeBlock" table="tk_time_block_t">
 		<field-descriptor name="documentId" 			column="document_id" 		jdbc-type="VARCHAR" length="14" nullable="false" primarykey="false" />
-		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="INTEGER" nullable="false" primarykey="false" />
+		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="workAreaId" 			column="work_area_id" 		jdbc-type="BIGINT"  nullable="false" primarykey="false" />
 		<field-descriptor name="taskId" 				column="task_id" 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />
 		<field-descriptor name="earnCode" 				column="earncd" 			jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
@@ -75,7 +75,7 @@
 	<class-descriptor class="org.kuali.hr.time.clocklog.ClockLog" table="tk_clock_log_t">
 		<field-descriptor name="clockLogId" 			column="clock_log_id" 		jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_clock_log_s"/>
 		<field-descriptor name="principalId"            column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
-		<field-descriptor name="jobNumber"              column="job_number" 		jdbc-type="INTEGER" nullable="false" primarykey="false" />
+		<field-descriptor name="jobNumber"              column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="workAreaId"             column="work_area_id" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="taskId"                 column="task_id" 			jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="clockTimestamp"         column="clock_ts" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.Calendar2TimestampFieldConversion" />
@@ -138,7 +138,7 @@
 		<field-descriptor name="deptId"          column="dept_id" jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
 		<field-descriptor name="workArea"        column="work_area_id" jdbc-type="NUMERIC" precision="10" scale="0" nullable="false" primarykey="false" />
 		<field-descriptor name="principalId"     column="principal_id" jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
-		<field-descriptor name="jobNumber"       column="job_number" jdbc-type="NUMERIC" precision="3" scale="0" nullable="false" primarykey="false" />
+		<field-descriptor name="jobNumber"       column="job_number" jdbc-type="BIGINT" precision="3" scale="0" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"   column="effdt" jdbc-type="DATE" nullable="false" primarykey="false"/>
 		<field-descriptor name="active"          column="active"	jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="requiredClockFl" column="required_clock_fl"	jdbc-type="VARCHAR" length="3" nullable="false" />
