@@ -165,7 +165,18 @@
 		
 		<field-descriptor name="timestamp"          column="timestamp" jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />					
+		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
+		
+		<collection-descriptor 
+			name="roleAssignments" 
+			element-class-ref="org.kuali.hr.time.role.assign.TkRoleAssign"
+			auto-retrieve="true"
+			auto-update="object"
+			auto-delete="object"
+			>
+			<inverse-foreignkey field-ref="workAreaId"/>
+		</collection-descriptor>
+							
 	</class-descriptor>		
 	
 	<class-descriptor class="org.kuali.hr.job.Job" table="hr_job_t">

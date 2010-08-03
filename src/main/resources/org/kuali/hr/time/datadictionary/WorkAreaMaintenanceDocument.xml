@@ -23,4 +23,6 @@
   <bean id="WorkAreaMaintenanceDocument-active" parent="WorkArea-active" abstract="false" p:name="workArea.active" p:required="true"/>
   <bean id="WorkAreaMaintenanceDocument-description" parent="WorkArea-description" abstract="false" p:name="workArea.description" p:required="true"/>
   <bean id="WorkAreaMaintenanceDocument-adminDescr" parent="WorkArea-adminDescr" abstract="false" p:name="workArea.adminDescr" p:required="true"/>
+  
+  
 </beans>

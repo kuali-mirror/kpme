@@ -5,7 +5,6 @@
 <c:set var="readOnly" value="false"/>
 
 <kul:tab tabTitle="Overview" defaultOpen="true" transparentBackground="${inquiry}" tabErrorKey="">
-
 <div class="tab-container" align="center">
 	<table cellpadding="0" cellspacing="0" summary=""> 
 	 	<tr>

@@ -1,9 +1,5 @@
 <%@include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
-<c:set var="roleEmployee" scope="request" value="${roleMap['TK_EMPLOYEE']}" />
-<c:set var="roleApprover" scope="request" value="${roleMap['TK_APPROVER']}" />
-<c:set var="roleOrgAdmin" scope="request" value="${roleMap['TK_ORG_ADMIN']}" />
-<c:set var="roleSysAdmin" scope="request" value="${roleMap['TK_SYS_ADMIN']}" />
 <c:set var="inquiry" scope="request" value="false" />
 
 <kul:documentPage
@@ -14,6 +10,9 @@
     <kul:hiddenDocumentFields />
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 </c:if>
+
+<tk:workArea/>
+<tk:workAreaRole roleList="${workArea.roleAssignments}" inquiry="${inquiry}"/>
 
 <kul:panelFooter />
 
@@ -26,5 +25,4 @@
     </c:otherwise>
 </c:choose>
 
-<tk:workArea/>
 </kul:documentPage>
