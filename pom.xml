@@ -18,7 +18,7 @@
 	<packaging>war</packaging>
 	<name>trojan-time</name>
 	<description>Kuali's Trojan Time</description>
-	<version>0.3.0</version>
+	<version>0.4.0-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>
@@ -137,9 +137,9 @@
 	</repositories>
 
 	<scm>
-		<connection>scm:svn:https://ais-svn.usc.edu/svn/T2/tags/trojan-time-0.3.0</connection>
-		<developerConnection>scm:svn:https://ais-svn.usc.edu/svn/T2/tags/trojan-time-0.3.0</developerConnection>
-		<url>https://ais-svn.usc.edu/svn/T2/tags/trojan-time-0.3.0</url>
+		<connection>scm:svn:https://ais-svn.usc.edu/svn/T2/trunk</connection>
+		<developerConnection>scm:svn:https://ais-svn.usc.edu/svn/T2/trunk</developerConnection>
+		<url>https://ais-svn.usc.edu/svn/T2/trunk</url>
 	</scm>
 
 </project>
