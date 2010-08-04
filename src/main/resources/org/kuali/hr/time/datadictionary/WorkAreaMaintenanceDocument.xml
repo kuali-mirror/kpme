@@ -11,6 +11,7 @@
         <ref bean="WorkAreaMaintenanceDocument-workAreaId"/>
         <ref bean="WorkAreaMaintenanceDocument-deptId"/>
         <ref bean="WorkAreaMaintenanceDocument-active"/>
+        <ref bean="WorkAreaMaintenanceDocument-overtimePreference"/>
         <ref bean="WorkAreaMaintenanceDocument-description"/>
         <ref bean="WorkAreaMaintenanceDocument-adminDescr"/>
       </list>
@@ -22,6 +23,7 @@
   <bean id="WorkAreaMaintenanceDocument-deptId" parent="WorkArea-deptId" abstract="false" p:name="workArea.deptId" p:required="true"/>
   <bean id="WorkAreaMaintenanceDocument-active" parent="WorkArea-active" abstract="false" p:name="workArea.active" p:required="true"/>
   <bean id="WorkAreaMaintenanceDocument-description" parent="WorkArea-description" abstract="false" p:name="workArea.description" p:required="true"/>
+  <bean id="WorkAreaMaintenanceDocument-overtimePreference" parent="WorkArea-overtimePreference" abstract="false" p:name="workArea.overtimePreference" p:required="true"/>
   <bean id="WorkAreaMaintenanceDocument-adminDescr" parent="WorkArea-adminDescr" abstract="false" p:name="workArea.adminDescr" p:required="true"/>
   
   

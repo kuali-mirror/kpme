@@ -117,9 +117,9 @@
   <bean id="WorkArea-overtimePreference-parentBean" abstract="true" parent="AttributeDefinition">
       <property name="forceUppercase" value="true" />
 	  <property name="maxLength" value="10" />
-      <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10" />
-      </property>
+		<property name="control">
+		  <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.workarea.web.WorkAreaOvertimePreferenceValuesFinder"/>
+		</property>			  
     <property name="name" value="overtimePreference" />
     <property name="label" value="Overtime Preference" />
     <property name="description" value="overtimePreference" />

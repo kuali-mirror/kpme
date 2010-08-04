@@ -2,6 +2,7 @@ package org.kuali.hr.time.role.assign;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class TkRoleAssign extends PersistableBusinessObjectBase {
@@ -55,6 +56,21 @@ public class TkRoleAssign extends PersistableBusinessObjectBase {
 
     public void setTkRoleAssignId(Long tkRoleAssignId) {
 	this.tkRoleAssignId = tkRoleAssignId;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	boolean r = true;
+	
+	if (obj == null || !(obj instanceof TkRoleAssign)) {
+	    r = false;
+	} else {
+	    TkRoleAssign tra = (TkRoleAssign)obj;
+	    r &= StringUtils.equals(this.getPrincipalId(), tra.getPrincipalId());
+	    r &= StringUtils.equals(this.getRoleName(), tra.getRoleName());
+	}
+		
+	return r;
     }
 
 }

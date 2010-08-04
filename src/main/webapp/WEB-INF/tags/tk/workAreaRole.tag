@@ -22,8 +22,8 @@
 			<th>add</th>
 			<td align="left" valign="middle">
 				<div align="center">
-				<input type="text" name="principalId"/>
-				<kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalId:principalId" anchor="${tabKey}" />
+				<kul:htmlControlAttribute property="newRoleAssignment.principalId" attributeEntry="${roleAssignmentAttributes.principalId}" readOnly="${readOnly}"/>
+				<kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalId:newRoleAssignment.principalId" anchor="${tabKey}" />
 				</div>
 			</td>
 			<td align="left" valign="middle">
@@ -33,20 +33,17 @@
 			</td>
 			<td align="left" valign="middle">
 				<div align="center">
-				<select>
-					<option>TK_APPROVER</option>
-					<option>SOMETHING_ELSE</option>
-				</select>
+				<kul:htmlControlAttribute property="newRoleAssignment.roleName" attributeEntry="${roleAssignmentAttributes.roleName}" readOnly="${readOnly}"/>
 				</div>
 			</td>
 			<td>
 				<div align="center">
-				<html:image property="methodToCall.addMember.anchor${tabKey}" src='${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+				<html:image property="methodToCall.addPerson.anchor${tabKey}" src='${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 				</div>			
 			</td>
 		</tr>
 
-		<c:forEach var="member" items="${roleList}" varStatus="statusMember">
+		<c:forEach var="member" items="${document.workArea.roleAssignments}" varStatus="statusMember">
 		<tr>
 			<th class="infoline" valign="top">
 				<c:out value="${statusMember.index+1}"/>
@@ -62,7 +59,7 @@
 			</td>
 			<td>
 			<div align="center">
-				<html:image property='methodToCall.deleteMember.line${statusMember.index}.anchor${currentTabIndex}' src='${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif' styleClass='tinybutton'/>
+				<html:image property='methodToCall.removePerson.line${statusMember.index}.anchor${currentTabIndex}' src='${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif' styleClass='tinybutton'/>
 			</div>
 			</td>
 			

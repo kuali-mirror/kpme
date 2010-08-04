@@ -21,7 +21,9 @@
 	 	</tr>
 	 	<tr>
 	 		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${groupAttributes['workArea.active']}"/></div></th>
-	 		<td><kul:htmlControlAttribute property="document.workArea.active" attributeEntry="${groupAttributes['workArea.active']}" readOnly="${readOnly}" /></td>	 	
+	 		<td><kul:htmlControlAttribute property="document.workArea.active" attributeEntry="${groupAttributes['workArea.active']}" readOnly="${readOnly}" /></td>
+	 		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${groupAttributes['workArea.overtimePreference']}"/></div></th>
+			<td><kul:htmlControlAttribute property="document.workArea.overtimePreference" attributeEntry="${groupAttributes['workArea.overtimePreference']}" readOnly="${readOnly}" /></td>
 	 	</tr>
 	</table> 
 </div>

@@ -1,5 +1,6 @@
 package org.kuali.hr.time.workarea;
 
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.TransactionalDocumentBase;
 
 public class WorkAreaMaintenanceDocument extends TransactionalDocumentBase {

@@ -42,9 +42,9 @@
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
+	    <property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.workarea.web.WorkAreaRoleValuesFinder"/>
+	    </property>		
 		<property name="name" value="roleName" />
 		<property name="label" value="Role Name" />
 	</bean>
