@@ -7,7 +7,7 @@
 <c:set var="document" value="${KualiForm.document}" />
 <c:set var="readOnly" value="false"/>
 
-<kul:tab tabTitle="Role Assignments" defaultOpen="true" transparentBackground="${inquiry}" tabErrorKey="">
+<kul:tab tabTitle="Role Assignments" defaultOpen="true" transparentBackground="${inquiry}" tabErrorKey="newRoleAssignment*">
 <div class="tab-container" align="center">
 	<table cellpadding="0" cellspacing="0" summary="">
 		<tr>
@@ -23,12 +23,12 @@
 			<td align="left" valign="middle">
 				<div align="center">
 				<kul:htmlControlAttribute property="newRoleAssignment.principalId" attributeEntry="${roleAssignmentAttributes.principalId}" readOnly="${readOnly}"/>
-				<kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalId:newRoleAssignment.principalId" anchor="${tabKey}" />
+				<kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalId:newRoleAssignment.principalId,name:newRoleAssignment.username" anchor="${tabKey}" />
 				</div>
 			</td>
 			<td align="left" valign="middle">
 				<div align="center">
-				(username)
+				<kul:htmlControlAttribute property="newRoleAssignment.username" attributeEntry="${roleAssignmentAttributes.username}" readOnly="${true}"/>
 				</div>
 			</td>
 			<td align="left" valign="middle">
@@ -52,7 +52,7 @@
 				<div align="center">${member.principalId}</div>
 			</td>
 			<td align="left" valign="middle">
-				<div align="center">(users name)</div>
+				<div align="center">${member.username}</div>
 			</td>			
 			<td align="left" valign="middle">
 				<div align="center">${member.roleName}</div>

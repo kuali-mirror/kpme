@@ -3,6 +3,8 @@ package org.kuali.hr.time.role.assign;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class TkRoleAssign extends PersistableBusinessObjectBase {
@@ -71,6 +73,15 @@ public class TkRoleAssign extends PersistableBusinessObjectBase {
 	}
 		
 	return r;
+    }
+    
+    public String getUsername() {
+	StringBuffer sb = new StringBuffer();
+	
+	Person p = KIMServiceLocator.getPersonService().getPerson(this.principalId);
+	sb.append(p.getName());
+	
+	return sb.toString();
     }
 
 }

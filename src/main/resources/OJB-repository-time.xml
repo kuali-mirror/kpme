@@ -176,6 +176,16 @@
 			>
 			<inverse-foreignkey field-ref="workAreaId"/>
 		</collection-descriptor>
+
+		<collection-descriptor 
+			name="tasks" 
+			element-class-ref="org.kuali.hr.time.task.Task"
+			auto-retrieve="true"
+			auto-update="object"
+			auto-delete="object"
+			>
+			<inverse-foreignkey field-ref="workAreaId"/>
+		</collection-descriptor>
 							
 	</class-descriptor>		
 	

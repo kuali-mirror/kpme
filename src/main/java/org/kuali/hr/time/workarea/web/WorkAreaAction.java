@@ -1,39 +1,25 @@
 package org.kuali.hr.time.workarea.web;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.role.assign.TkRoleAssign;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workarea.WorkAreaMaintenanceDocument;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 
-import uk.ltd.getahead.dwr.util.Logger;
-
 public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 
     private static final Logger LOG = Logger.getLogger(WorkAreaAction.class);
     private WorkAreaMaintenanceDocumentRule rule = new WorkAreaMaintenanceDocumentRule();
-
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	log.debug("Call to save.");
-	return super.save(mapping, form, request, response);
-    }
-
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
-	// TODO Auto-generated method stub
-	return super.execute(mapping, form, request, response);
-    }
 
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -66,16 +52,12 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	ActionForward afw;
+	afw = super.route(mapping, form, request, response);
+	
 	WorkAreaService waService = TkServiceLocator.getWorkAreaService();
 	WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
 	WorkAreaMaintenanceDocument wamd = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
-	
-	if (rule.validate(wamd)) {
-	    waService.saveOrUpdate(wamd.getWorkArea());
-	    afw = super.route(mapping, form, request, response);
-	} else {
-	    afw = mapping.findForward(RiceConstants.MAPPING_BASIC);
-	}
+	waService.saveOrUpdate(wamd.getWorkArea());
 	
 	return afw;
     }
@@ -102,6 +84,32 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 	TkRoleAssign tra = workArea.getRoleAssignments().remove(deleteMe);
 	LOG.info("removed " + tra.getPrincipalId() + " from " + tra.getRoleName());
 	workAreaForm.setNewRoleAssignment(new TkRoleAssign());
+
+	return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward removeTask(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
+	WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
+	int deleteMe = this.getSelectedLine(request);
+	WorkArea workArea = document.getWorkArea();
+	Task task = workArea.getTasks().remove(deleteMe);
+	LOG.info("removed " + task.getTaskId());
+	workAreaForm.setNewTask(new Task());
+
+	return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward addTask(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
+	WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
+
+	Task task = workAreaForm.getNewTask();
+	if (rule.validateTaskAddition(task, document.getWorkArea().getTasks())) {
+	    LOG.info("Adding task: " + task.getDescription());
+	    document.getWorkArea().getTasks().add(task);
+	    workAreaForm.setNewTask(new Task());
+	}
 
 	return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }

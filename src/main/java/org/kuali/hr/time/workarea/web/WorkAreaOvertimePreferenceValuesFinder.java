@@ -10,8 +10,8 @@ public class WorkAreaOvertimePreferenceValuesFinder extends KeyValuesBase {
 
     static final List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>(2);
     static {
-	labels.add(new KeyLabelPair("IU_OT1", "Arbitrary IU OT 1"));
-	labels.add(new KeyLabelPair("IU_OT2", "Arbitrary IU OT 2"));
+	labels.add(new KeyLabelPair("OT1", "Arbitrary IU OT 1"));
+	labels.add(new KeyLabelPair("OT2", "Arbitrary IU OT 2"));
     }
     
     @Override

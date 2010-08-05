@@ -3,7 +3,9 @@
 <c:set var="inquiry" scope="request" value="false" />
 
 <kul:documentPage
+	showDocumentInfo="${!inquiry}"
 	documentTypeName="WorkAreaMaintenanceDocument" 
+	renderMultipart="${inquiry}"
 	htmlFormAction="WorkAreaMaintenance">
 
 <c:if test="${!inquiry}">
@@ -13,7 +15,12 @@
 
 <tk:workArea/>
 <tk:workAreaRole roleList="${workArea.roleAssignments}" inquiry="${inquiry}"/>
+<tk:workAreaTask taskList="${workArea.tasks}" inquiry="${inquiry}"/>
 
+<c:if test="${!inquiry}">
+    <kul:adHocRecipients /> 
+    <kul:routeLog />
+</c:if>
 <kul:panelFooter />
 
 <c:choose>
