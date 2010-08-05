@@ -3,6 +3,7 @@ package org.kuali.hr.time.service.base;
 import org.kuali.hr.job.service.JobService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
+import org.kuali.hr.time.cache.CacheManagementService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
@@ -26,6 +27,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_PAY_TYPE_SERVICE = "payTypeService";
 	public static final String TK_PAY_CALENDAR_SERVICE = "payCalendarService";
 	public static final String TK_PERSISTENCE_BROKER_TEMPLATE = "tkPersistenceBrokerTemplate";
+	public static final String TK_CACHE_MANAGER_SERVICE = "cacheManager";
 
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -74,6 +76,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static TkRuleControllerService getTkRuleControllerService(){
 		return (TkRuleControllerService) CONTEXT.getBean("tkRuleControllerService");
+	}
+	
+	public static CacheManagementService getCacheManagerService(){
+		return (CacheManagementService) CONTEXT.getBean(TK_CACHE_MANAGER_SERVICE);
 	}
 
 	@Override

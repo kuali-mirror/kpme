@@ -213,6 +213,12 @@
             </props>
         </constructor-arg>
     </bean>
+    
+    <bean id="cacheManager" class="org.kuali.hr.time.cache.CacheManagementServiceImpl" >
+        <property name="cacheAdministrator"><ref bean="cacheAdministrator" /></property>
+    </bean>	
+    
+    <bean id="cacheAspect" class="org.kuali.hr.time.cache.TKCacheAspect" />
 
 
     <bean id="timeModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
