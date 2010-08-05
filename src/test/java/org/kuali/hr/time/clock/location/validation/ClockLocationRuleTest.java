@@ -44,7 +44,7 @@ public class ClockLocationRuleTest extends TkTestCase {
 	//clr.setDepartment("TEST");
 	//clr.setWorkArea(BigDecimal.TEN);
 	clr.setPrincipalId("12345");
-	clr.setJobNumber(new BigInteger("0"));
+	clr.setJobNumber(0L);
 	clr.setActive(true);
 	clr.setTimestamp(ts_now);
 	clr.setEffectiveDate(date_now);
@@ -73,7 +73,7 @@ public class ClockLocationRuleTest extends TkTestCase {
 	//clr.setDepartment("TEST");
 	//clr.setWorkArea(BigDecimal.TEN);
 	clr.setPrincipalId("12345");
-	clr.setJobNumber(new BigInteger("0"));
+	clr.setJobNumber(0L);
 	clr.setActive(true);
 	clr.setTimestamp(ts_now);
 	clr.setEffectiveDate(date_now);
@@ -86,7 +86,7 @@ public class ClockLocationRuleTest extends TkTestCase {
 	//clr.setDepartment("TEST");
 	//clr.setWorkArea(BigDecimal.TEN);
 	clr.setPrincipalId("12345");
-	clr.setJobNumber(new BigInteger("0"));
+	clr.setJobNumber(0L);
 	clr.setActive(false);
 	clr.setTimestamp(ts_now);
 	clr.setEffectiveDate(date_now);

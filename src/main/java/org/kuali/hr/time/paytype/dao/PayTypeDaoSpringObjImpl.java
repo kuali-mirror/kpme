@@ -3,6 +3,8 @@ package org.kuali.hr.time.paytype.dao;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.paytype.PayType;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
@@ -20,5 +22,12 @@ public class PayTypeDaoSpringObjImpl extends PersistenceBrokerDaoSupport impleme
 				this.getPersistenceBrokerTemplate().store(payType);
 			}
 		}
+	}
+
+	public PayType getPayType(Long payTypeId) {
+		Criteria currentRecordCriteria = new Criteria();
+		currentRecordCriteria.addEqualTo("payTypeId", payTypeId);
+
+		return (PayType) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(PayType.class, currentRecordCriteria));
 	}
 }

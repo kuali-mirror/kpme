@@ -10,4 +10,6 @@ public interface PayTypeDao {
 
 	public void saveOrUpdate(List<PayType> payTypeList);
 
+	public PayType getPayType(Long payTypeId);
+
 }

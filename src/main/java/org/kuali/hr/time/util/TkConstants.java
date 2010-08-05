@@ -2,6 +2,7 @@ package org.kuali.hr.time.util;
 
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 public class TkConstants {
@@ -15,5 +16,6 @@ public class TkConstants {
 
     public static final String   GMT_TIME_ZONE_ID = "Etc/GMT";
     public static final TimeZone GMT_TIME_ZONE    = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
+    public static final SimpleDateFormat SDF = new SimpleDateFormat("MM/dd/yyyy");
     public static final MathContext MATH_CONTEXT = new MathContext(5,RoundingMode.HALF_EVEN);
 }

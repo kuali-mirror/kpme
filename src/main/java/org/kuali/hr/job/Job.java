@@ -1,10 +1,11 @@
 package org.kuali.hr.job;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.paytype.PayType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class Job  extends PersistableBusinessObjectBase {
@@ -14,19 +15,19 @@ public class Job  extends PersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = 1L;
     private String location;
-    private String payType;
-    private boolean fte;
+    private Long payTypeId;
+    private Boolean fte;
     private String payGrade;
-    private int standardHours;
+    private BigDecimal standardHours;
     private Long jobId;
     private String principalId;
-    private BigInteger jobNumber;
+    private Long jobNumber;
     private Date effectiveDate;
     private String deptId;
-    private Long payCalendarId;
     private String tkSalGroup;
     private Timestamp timestamp;
     private Boolean active;
+    private PayType payType;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -47,22 +48,22 @@ public class Job  extends PersistableBusinessObjectBase {
     public void setJobId(Long jobId) {
         this.jobId = jobId;
     }
-    public String getPayType() {
-		return payType;
+    public Long getPayTypeId() {
+		return payTypeId;
 	}
 
 
-	public void setPayType(String payType) {
-		this.payType = payType;
+	public void setPayTypeId(Long payTypeId) {
+		this.payTypeId = payTypeId;
 	}
 
 
-	public boolean getFte() {
+	public Boolean getFte() {
 		return fte;
 	}
 
 
-	public void setFte(boolean fte) {
+	public void setFte(Boolean fte) {
 		this.fte = fte;
 	}
 
@@ -77,12 +78,12 @@ public class Job  extends PersistableBusinessObjectBase {
 	}
 
 
-	public int getStandardHours() {
+	public BigDecimal getStandardHours() {
 		return standardHours;
 	}
 
 
-	public void setStandardHours(int standardHours) {
+	public void setStandardHours(BigDecimal standardHours) {
 		this.standardHours = standardHours;
 	}
 
@@ -96,12 +97,12 @@ public class Job  extends PersistableBusinessObjectBase {
     }
 
 
-    public BigInteger getJobNumber() {
+    public Long getJobNumber() {
         return jobNumber;
     }
 
 
-    public void setJobNumber(BigInteger jobNumber) {
+    public void setJobNumber(Long jobNumber) {
         this.jobNumber = jobNumber;
     }
 
@@ -114,17 +115,6 @@ public class Job  extends PersistableBusinessObjectBase {
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
-
-
-    public Long getPayCalendarId() {
-        return payCalendarId;
-    }
-
-
-    public void setPayCalendarId(Long payCalendarId) {
-        this.payCalendarId = payCalendarId;
-    }
-
 
     public String getTkSalGroup() {
         return tkSalGroup;
@@ -178,6 +168,16 @@ public class Job  extends PersistableBusinessObjectBase {
 	 */
 	public String getLocation() {
 		return location;
+	}
+
+
+	public PayType getPayType() {
+		return payType;
+	}
+
+
+	public void setPayType(PayType payType) {
+		this.payType = payType;
 	}
 
 }

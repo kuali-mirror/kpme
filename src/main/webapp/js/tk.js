@@ -44,8 +44,12 @@ $(document).ready(function() {
 	var d = date.getDate();
 	var m = date.getMonth();
 	var y = date.getFullYear();
+    var beginPeriodDate = $("#beginPeriodDate").val() != undefined ? $("#beginPeriodDate").val() : d + "/" + m + "/" + y;
+    var endPeriodDate = $("#endPeriodDate").val() != undefined ? $("#endPeriodDate").val() : d + "/" + m + "/" + y;
 
     var calendar = $('#cal').fullCalendar({
+            beginPeriodDate : beginPeriodDate,
+            endPeriodDate : endPeriodDate,
             theme : true,
             aspectRatio : 5, // the value here is just to match the height with the add time block panel
             allDaySlot : false,

@@ -10,7 +10,7 @@
 
   <bean id="JobMaintenanceDocument" parent="JobMaintenanceDocument-parentBean"/>
 
-  <bean id="JobMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  <bean id="JobMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.job.Job"
   		p:businessRulesClass="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"
   		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
@@ -34,14 +34,14 @@
         <bean parent="MaintainableFieldDefinition" p:name="jobNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="deptId" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="payCalendarId" p:required="true"/>
+        <!-- <bean parent="MaintainableFieldDefinition" p:name="payCalendarId" p:required="true"/> -->
         <bean parent="MaintainableFieldDefinition" p:name="tkSalGroup" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="timestamp" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="fte" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="payType" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="payTypeId" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="payGrade" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="standardHours" p:required="true"/>        
+        <bean parent="MaintainableFieldDefinition" p:name="standardHours" p:required="true"/>
       </list>
     </property>
   </bean>

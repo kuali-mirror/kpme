@@ -23,4 +23,9 @@ public class PayTypeServiceImpl implements PayTypeService {
 		this.payTypeDao = payTypeDao;
 	}
 
+	@Override
+	public PayType getPayType(Long payTypeId) {
+		return payTypeDao.getPayType(payTypeId);
+	}
+
 }

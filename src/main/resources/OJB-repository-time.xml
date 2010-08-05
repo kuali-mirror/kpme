@@ -175,16 +175,16 @@
 		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate" 			column="effdt" 				jdbc-type="DATE"    nullable="false" primarykey="false" />
 		<field-descriptor name="deptId" 				column="dept_id" 			jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
-		<field-descriptor name="payCalendarId" 			column="py_calendar_id" 	jdbc-type="BIGINT"  nullable="false" primarykey="false" />
+		<!-- <field-descriptor name="payCalendarId" 			column="py_calendar_id" 	jdbc-type="BIGINT"  nullable="false" primarykey="false" /> -->
 		<field-descriptor name="tkSalGroup" 			column="tk_sal_group" 		jdbc-type="VARCHAR" length="7" nullable="false" primarykey="false" />
 		<field-descriptor name="timestamp" 				column="timestamp" 			jdbc-type="TIMESTAMP"  nullable="false" primarykey="false" />
 		<field-descriptor name="active" 				column="active"				jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="location" 				column="location" 			jdbc-type="VARCHAR" nullable="false" length="27"  />
-		<field-descriptor name="standardHours" 			column="std_hours" 			jdbc-type="VARCHAR" nullable="false" length="27" />
+		<field-descriptor name="standardHours" 			column="std_hours" 			jdbc-type="NUMERIC" nullable="false" length="27" />
 		<field-descriptor name="fte" 					column="fte" 				jdbc-type="TINYINT" length="1" nullable="false" />
-		<field-descriptor name="payType" 				column="paytype" 			jdbc-type="VARCHAR" nullable="false" length="27" />
+		<field-descriptor name="payTypeId" 				column="hr_paytype_id"     	jdbc-type="BIGINT" nullable="false" primaryKey="false" />
 		<field-descriptor name="payGrade" 				column="pay_grade" 			jdbc-type="VARCHAR" nullable="false" length="27" />
 	</class-descriptor>
 
@@ -280,7 +280,7 @@
 		<field-descriptor name="regEarnCode" column="reg_ern_code" jdbc-type="VARCHAR" length="3" nullable="false"/>
 		<field-descriptor name="holidayCalendarGroup" column="holiday_calendar_group" jdbc-type="VARCHAR" length="30" nullable="false"/>
 		<field-descriptor name="effectiveDate" column="effdt" jdbc-type="DATE" nullable="false"/>
-		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIME" nullable="false"/>
+		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>

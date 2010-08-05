@@ -8,4 +8,5 @@ public interface PayTypeService {
 
 	public void saveOrUpdate(PayType payType);
 	public void saveOrUpdate(List<PayType> payTypeList);
+	public PayType getPayType(Long payTypeId);
 }

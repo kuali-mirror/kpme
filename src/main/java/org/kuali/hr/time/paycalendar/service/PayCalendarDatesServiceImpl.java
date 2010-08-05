@@ -23,4 +23,9 @@ public class PayCalendarDatesServiceImpl implements PayCalendarDatesService {
 		this.payCalendarDatesDao = payCalendarDatesDao;
 	}
 
+	@Override
+	public List<PayCalendarDates> getPayCalendarDates(Long payCalendarDatesId) {
+		return payCalendarDatesDao.getPayCalendarDates(payCalendarDatesId);
+	}
+
 }

@@ -2,6 +2,7 @@ package org.kuali.hr.time.paytype;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
@@ -11,7 +12,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 public class PayType extends PersistableBusinessObjectBase {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long payTypeId;
@@ -20,12 +21,12 @@ public class PayType extends PersistableBusinessObjectBase {
 	private String calendarGroup;
 	private String regEarnCode;
 	private Date effectiveDate;
-	private Time timestamp;
+	private Timestamp timestamp;
 	private String holidayCalendarGroup;
 
 	private HolidayCalendar holidayCalendarGroupObj;
 	private PayCalendar calendarGroupObj;
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
@@ -80,11 +81,11 @@ public class PayType extends PersistableBusinessObjectBase {
 		this.effectiveDate = effectiveDate;
 	}
 
-	public void setTimestamp(Time timestamp) {
+	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
 
-	public Time getTimestamp() {
+	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 
@@ -112,5 +113,5 @@ public class PayType extends PersistableBusinessObjectBase {
 		return calendarGroupObj;
 	}
 
-	
+
 }

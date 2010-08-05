@@ -4,14 +4,13 @@ import java.util.List;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
-import org.kuali.hr.job.dao.JobDaoSpringOjbImpl;
 
 public class JobServiceImpl implements JobService {
 
 	private JobDao jobDao;
 
 	@Override
-	public void saveOrUpdate(JobDaoSpringOjbImpl job) {
+	public void saveOrUpdate(Job job) {
 		jobDao.saveOrUpdate(job);
 	}
 
@@ -22,6 +21,11 @@ public class JobServiceImpl implements JobService {
 
 	public void setJobDao(JobDao jobDao) {
 		this.jobDao = jobDao;
+	}
+
+	@Override
+	public List<Job> getJobs(String principalId) {
+		return jobDao.getJobs(principalId);
 	}
 
 }

@@ -6,8 +6,10 @@ import org.kuali.hr.job.Job;
 
 public interface JobDao {
 
-	public void saveOrUpdate(JobDaoSpringOjbImpl job);
+	public void saveOrUpdate(Job job);
 
 	public void saveOrUpdate(List<Job> jobList);
+
+	public List<Job> getJobs(String principalId);
 
 }

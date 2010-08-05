@@ -21,7 +21,7 @@ public class ClockLocationRule extends PersistableBusinessObjectBase {
 
 	private Long workArea;
 	private String principalId;
-	private BigInteger jobNumber;
+	private Long jobNumber;
 
 	private Date effectiveDate;
 	private boolean active;
@@ -97,11 +97,11 @@ public class ClockLocationRule extends PersistableBusinessObjectBase {
 		this.userPrincipalId = userPrincipalId;
 	}
 
-	public BigInteger getJobNumber() {
+	public Long getJobNumber() {
 		return jobNumber;
 	}
 
-	public void setJobNumber(BigInteger jobNumber) {
+	public void setJobNumber(Long jobNumber) {
 		this.jobNumber = jobNumber;
 	}
 

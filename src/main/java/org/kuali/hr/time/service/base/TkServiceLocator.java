@@ -5,6 +5,7 @@ import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.cache.CacheManagementService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
+import org.kuali.hr.time.paycalendar.service.PayCalendarDatesService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
 import org.kuali.hr.time.rule.TkRuleControllerService;
@@ -26,6 +27,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_JOB_SERVICE = "jobService";
 	public static final String TK_PAY_TYPE_SERVICE = "payTypeService";
 	public static final String TK_PAY_CALENDAR_SERVICE = "payCalendarService";
+	public static final String TK_PAY_CALENDAR_DATES_SERVICE = "payCalendarDatesService";
 	public static final String TK_PERSISTENCE_BROKER_TEMPLATE = "tkPersistenceBrokerTemplate";
 	public static final String TK_CACHE_MANAGER_SERVICE = "cacheManager";
 
@@ -68,6 +70,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static PayCalendarService getPayCalendarSerivce() {
 		return (PayCalendarService)CONTEXT.getBean(TK_PAY_CALENDAR_SERVICE);
+	}
+
+	public static PayCalendarDatesService getPayCalendarDatesSerivce() {
+		return (PayCalendarDatesService)CONTEXT.getBean(TK_PAY_CALENDAR_DATES_SERVICE);
 	}
 
 	public static PersistenceBrokerTemplate getTkPersistenceBrokerTemplate() {

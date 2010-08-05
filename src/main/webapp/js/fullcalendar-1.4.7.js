@@ -95,7 +95,10 @@ var defaults = {
 	//selectable: false,
 	unselectAuto: true,
 
-	dropAccept: '*'
+	dropAccept: '*',
+
+    // pay period
+    payPeriodDate: new Date()
 
 };
 
@@ -961,9 +964,12 @@ views.month = function(element, options, viewName) {
 			}
 			// start/end
 			var start = this.start = cloneDate(date, true);
-            var today = new Date();
+             var today = new Date();
 			// start.setDate(1);
-            start.setDate(today.getDate())
+             start.setDate(today.getDate())
+            // var payPeriodDate = parseDate(options.payPeriodDate);
+
+            // start.setDate(payPeriodDate.getDate());
 			this.end = addMonths(cloneDate(start), 1);
 			// visStart/visEnd
 			var visStart = this.visStart = cloneDate(start),

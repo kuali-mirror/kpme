@@ -1,7 +1,9 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
+<c:set var="Form" value="${TimeDetailActionForm}" scope="request"/>
 
 <tk:tkHeader tabId="timeDetail">
 	<html:hidden property="methodToCall" value=""/>
+	<html:hidden property="beginPeriodDate" value="${Form.beginPeriodDate}" styleId="beginPeriodDate"/>
 
 	<div style="clear:both;" class="ui-widget-content">
 		<%--

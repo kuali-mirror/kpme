@@ -10,5 +10,7 @@ public interface PayCalendarDatesDao {
 
 	public void saveOrUpdate(List<PayCalendarDates> payCalendarDatesList);
 
+	public List<PayCalendarDates> getPayCalendarDates(Long payCalendarDatesId);
+
 
 }

@@ -8,4 +8,6 @@ public interface PayCalendarDatesService {
 	public void saveOrUpdate(PayCalendarDates payCalendarDates);
 
 	public void saveOrUpdate(List<PayCalendarDates> payCalendarDatesList);
+
+	public List<PayCalendarDates> getPayCalendarDates(Long payCalendarDatesId);
 }
