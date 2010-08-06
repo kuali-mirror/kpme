@@ -18,4 +18,6 @@ public class TkConstants {
     public static final TimeZone GMT_TIME_ZONE    = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
     public static final SimpleDateFormat SDF = new SimpleDateFormat("MM/dd/yyyy");
     public static final MathContext MATH_CONTEXT = new MathContext(5,RoundingMode.HALF_EVEN);
+    
+    public static final String SUPER_USER = "TK_SYSTEM_ADMIN";
 }
