@@ -4,6 +4,7 @@
 <tk:tkHeader tabId="timeDetail">
 	<html:hidden property="methodToCall" value=""/>
 	<html:hidden property="beginPeriodDate" value="${Form.beginPeriodDate}" styleId="beginPeriodDate"/>
+	<html:hidden property="endPeriodDate" value="${Form.endPeriodDate}" styleId="endPeriodDate"/>
 
 	<div style="clear:both;" class="ui-widget-content">
 		<%--

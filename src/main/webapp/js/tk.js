@@ -56,7 +56,7 @@ $(document).ready(function() {
             header: {
                   left : 'prev, today',
                   center : 'title',
-                  right : ''
+                  right : 'month,agendaWeek,agendaDay'
             },
             selectable: true,
             selectHelper: true,

@@ -22,8 +22,10 @@ public class TimeDetailAction extends TkAction {
 
 		List<Job> job = TkServiceLocator.getJobSerivce().getJobs("eric");
 		java.sql.Date beginPeriodDate = job.get(0).getPayType().getCalendarGroupObj().getPayCalendarDates().get(0).getBeginPeriodDate();
+		java.sql.Date endPeriodDate = job.get(0).getPayType().getCalendarGroupObj().getPayCalendarDates().get(0).getEndPeriodDate();
 
 		timeDetailForm.setBeginPeriodDate(TkConstants.SDF.format(beginPeriodDate));
+		timeDetailForm.setEndPeriodDate(TkConstants.SDF.format(endPeriodDate));
 		return super.execute(mapping, form, request, response);
 	}
 }
