@@ -21,6 +21,7 @@
         <ref bean="Task-effectiveDate" />
         <ref bean="Task-description" />
         <ref bean="Task-administrativeDescription" />
+        <ref bean="Task-userPrincipalId"/>
         <ref bean="Task-timestamp" />
         <ref bean="Task-active" />
        </list>
@@ -129,7 +130,22 @@
     <property name="label" value="Time Stamp"/>
   </bean>  
   
-  
+    
+  <bean id="Task-userPrincipalId" parent="Task-userPrincipalId-parentBean"/>
+  <bean id="Task-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="User Principal Id"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern">
+      	<property name="allowWhitespace" value="false"/>
+      </bean>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+    <property name="name" value="userPrincipalId"/>
+    <property name="label" value="User Principal Id"/>
+  </bean>  
   
 <!-- Business Object Inquiry Definition -->
 

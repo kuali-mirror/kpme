@@ -28,11 +28,6 @@
         <ref bean="WorkArea-timestamp" />
        </list>
     </property>
-    <property name="collections">
-      <list>
-        <bean parent="CollectionDefinition" p:name="roleAssignments" p:label="Role Assignments" p:shortLabel="Role Assignments" p:summary="Role Assignments" p:description="Role Assignments"/>
-      </list>
-    </property> 
     <property name="objectLabel" value="workAreaObj"/>
   </bean>
 
@@ -142,14 +137,14 @@
 
   <bean id="WorkArea-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="User Principal Id"/>
-    <property name="maxLength" value="10"/>
+    <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern">
       	<property name="allowWhitespace" value="false"/>
       </bean>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
     <property name="name" value="userPrincipalId"/>
     <property name="label" value="User Principal Id"/>

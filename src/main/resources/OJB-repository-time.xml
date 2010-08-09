@@ -168,16 +168,6 @@
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 		
 		<collection-descriptor 
-			name="roleAssignments" 
-			element-class-ref="org.kuali.hr.time.role.assign.TkRoleAssign"
-			auto-retrieve="true"
-			auto-update="object"
-			auto-delete="object"
-			>
-			<inverse-foreignkey field-ref="workAreaId"/>
-		</collection-descriptor>
-
-		<collection-descriptor 
 			name="tasks" 
 			element-class-ref="org.kuali.hr.time.task.Task"
 			auto-retrieve="true"
@@ -222,8 +212,7 @@
 		<field-descriptor name="workAreaId"         column="work_area_id" jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"      column="effdt" jdbc-type="DATE" nullable="false" primarykey="false"/>
 		<field-descriptor name="description"        column="descr" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
-		<field-descriptor name="administrativeDescription" column="admin_desc" jdbc-type="VARCHAR" length="30" nullable="false" />
-		<field-descriptor name="departmentId" 		column="dept_id" jdbc-type="VARCHAR" length="21" nullable="false" />
+		<field-descriptor name="administrativeDescription" column="admin_descr" jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="userPrincipalId"	column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
@@ -322,15 +311,6 @@
 		<field-descriptor name="holidayDate" column="holiday_date" jdbc-type="date" nullable="false" />
 		<field-descriptor name="holidayDescr" column="holiday_desc" jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="holidayCalendarId" column="holiday_calendar_id" jdbc-type="BIGINT" />
-		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.hr.time.role.assign.TkRoleAssign" table="tk_role_assign_t">
-		<field-descriptor name="tkRoleAssignId" column="tk_role_assign_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_holiday_calendar_dates_s"/>
-		<field-descriptor name="principalId" column="principal_id" jdbc-type="VARCHAR" length="10" nullable="false" />
-		<field-descriptor name="roleName" column="role_name" jdbc-type="VARCHAR" length="30" nullable="false"/>
-		<field-descriptor name="workAreaId" column="work_area_id" jdbc-type="BIGINT"/>
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>

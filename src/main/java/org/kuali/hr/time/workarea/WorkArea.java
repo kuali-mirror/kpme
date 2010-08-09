@@ -24,7 +24,7 @@ public class WorkArea extends PersistableBusinessObjectBase {
     private String userPrincipalId;
     private Timestamp timestamp;
     
-    private List<TkRoleAssign> roleAssignments = new ArrayList<TkRoleAssign>();
+    private transient List<TkRoleAssign> roleAssignments = new ArrayList<TkRoleAssign>();
     private List<Task> tasks = new ArrayList<Task>();
     
 

@@ -212,7 +212,13 @@
             </props>
         </constructor-arg>
     </bean>
-   
+    
+    <bean id="cacheManager" class="org.kuali.hr.time.cache.CacheManagementServiceImpl" >
+        <property name="cacheAdministrator"><ref bean="cacheAdministrator" /></property>
+    </bean>	
+    
+    <bean id="cacheAspect" class="org.kuali.hr.time.cache.TKCacheAspect" />
+
 
     <bean id="timeModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
         <property name="namespaceCode" value="TK"/>
@@ -258,6 +264,30 @@
     	<property name="jcdAlias" value="tkDataSource"/>	
     </bean>
 
+    <bean id="timeBlockDao" class="org.kuali.hr.time.timeblock.dao.TimeBlockDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="timeBlockHistoryDao" class="org.kuali.hr.time.timeblock.dao.TimeBlockHistoryDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="jobDao" class="org.kuali.hr.job.dao.JobDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="payTypeDao" class="org.kuali.hr.time.paytype.dao.PayTypeDaoSpringObjImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="payCalendarDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDaoSpringObjImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="payCalendarDatesDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDatesDaoSpringObjImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
 	<!-- Time Services for Business Logic -->
 
     <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
@@ -268,22 +298,29 @@
     	<property name="assignmentDao" ref="assignmentDao"/>
     </bean>
 
-<!-- 
-	<bean id="kfsService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition" abstract="true">
-      <property name="serviceNameSpaceURI" value="" />
-      <property name="retryAttempts" value="0" />
+    <bean id="timeBlockService" class="org.kuali.hr.time.timeblock.service.TimeBlockServiceImpl">
+    	<property name="timeBlockDao" ref="timeBlockDao"/>
     </bean>
 
-	<bean id="workAreaQualifierRoleTypeService" class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService">
-				<property name="service" ref="workAreaQualifierRoleTypeService"/>
-				<property name="localServiceName" value="workAreaQualifierRoleTypeService" />
-			</bean>
-		</property>
-	</bean>
- -->
+    <bean id="timeBlockHistoryService" class="org.kuali.hr.time.timeblock.service.TimeBlockHistoryServiceImpl">
+    	<property name="timeBlockHistoryDao" ref="timeBlockHistoryDao"/>
+    </bean>
+
+    <bean id="jobService" class="org.kuali.hr.job.service.JobServiceImpl">
+    	<property name="jobDao" ref="jobDao"/>
+    </bean>
+
+    <bean id="payTypeService" class="org.kuali.hr.time.paytype.service.PayTypeServiceImpl">
+    	<property name="payTypeDao" ref="payTypeDao"/>
+    </bean>
+
+    <bean id="payCalendarService" class="org.kuali.hr.time.paycalendar.service.PayCalendarServiceImpl">
+    	<property name="payCalendarDao" ref="payCalendarDao"/>
+    </bean>
+
+    <bean id="payCalendarDatesService" class="org.kuali.hr.time.paycalendar.service.PayCalendarDatesServiceImpl">
+    	<property name="payCalendarDatesDao" ref="payCalendarDatesDao"/>
+    </bean>
 
     <bean id="workAreaService" class="org.kuali.hr.time.workarea.service.WorkAreaServiceImpl">
     	<property name="workAreaDao" ref="workAreaDao"/>
@@ -298,6 +335,7 @@
 
     <bean id="tkRuleControllerService" class="org.kuali.hr.time.rule.TkRuleControllerServiceImpl"/>
 
+	<bean id="workAreaQualifierRoleTypeService" class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
 
     <bean id="workAreaLookupableHelperService" class="org.kuali.hr.time.workarea.web.WorkAreaLookupableHelper"/>
     <bean id="workAreaLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">

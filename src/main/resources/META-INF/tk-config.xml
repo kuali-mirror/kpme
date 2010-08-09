@@ -16,9 +16,9 @@
 
 	<!-- ksb messaging params -->
 	<!--<param name="ksb.authService">edu.iu.hrms.hredoc.authorization.HredocAuthorizationServiceImpl</param>-->
-	<param name="dev.mode">false</param>
+	<param name="dev.mode">true</param>
 	<param name="message.persistence">true</param>
-	<param name="message.delivery">asynchronous</param>
+	<param name="message.delivery">synchronous</param>
 	<!-- end ksb messaging params -->
 
 	<!-- general config location params -->
@@ -27,8 +27,9 @@
 	<!-- end general config location params -->
 
 	<!-- keystore config -->
-	<param name="keystore.alias">hr</param>
+	<param name="keystore.alias">rice</param>
 	<param name="keystore.file">${keystore.location}</param>
+	<param name="keystore.password">r1c3pw</param>
 
 	<!-- quartz and exception routing params -->
 

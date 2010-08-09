@@ -16,7 +16,6 @@ public class Task extends PersistableBusinessObjectBase {
     private Long taskId;
     private Long workAreaId;
     private String description;
-    private String departmentId;
     private String userPrincipalId;
     private Date effectiveDate;
     private String administrativeDescription;
@@ -50,15 +49,6 @@ public class Task extends PersistableBusinessObjectBase {
     public void setDescription(String desc)
     {
     	this.description = desc;
-    }
-
-    public String getDepartmentId()
-    {
-    	return departmentId;
-    }
-
-    public void setDepartmentId(String deptId){
-    	this.departmentId = deptId;
     }
 
     public String getUserPrincipalId(){
