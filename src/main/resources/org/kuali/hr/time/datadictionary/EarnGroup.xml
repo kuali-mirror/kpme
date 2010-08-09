@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+	<bean id="EarnGroup" parent="EarnGroup-parentBean" />
+	<bean id="EarnGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.time.earncode.EarnGroup" />
+		<property name="titleAttribute" value="earnGroupId" />
+		<property name="objectLabel" value="earnGroup" />
+		<property name="lookupDefinition">
+			<ref bean="EarnGroup-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="EarnGroup-earnGroupId" />
+				<ref bean="EarnGroup-earnGroup" />
+				<ref bean="EarnGroup-descr" />
+				<ref bean="EarnGroup-effectiveDate" />
+				<ref bean="EarnGroup-active" />
+			</list>
+		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="earnGroups"
+					p:label="Earn Group Definitions" p:shortLabel="Earn Group Definitions"
+					p:summary="Earn Group Definitions" p:description="Earn Group Definitions" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="EarnGroup-earnGroupId" parent="EarnGroup-earnGroupId-parentBean" />
+	<bean id="EarnGroup-earnGroupId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Id" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+		<property name="name" value="earnGroupId" />
+		<property name="label" value="Earn Group Id" />
+	</bean>
+
+	<bean id="EarnGroup-earnGroup" parent="EarnGroup-earnGroup-parentBean" />
+	<bean id="EarnGroup-earnGroup-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Earn Group" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="earnGroup" />
+		<property name="label" value="Earn Group" />
+	</bean>
+
+	<bean id="EarnGroup-descr" parent="EarnGroup-descr-parentBean" />
+	<bean id="EarnGroup-descr-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+		<property name="name" value="descr" />
+		<property name="label" value="Description" />
+	</bean>
+
+	<bean id="EarnGroup-effectiveDate" parent="EarnGroup-effectiveDate-parentBean" />
+	<bean id="EarnGroup-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+
+	<bean id="EarnGroup-active" parent="EarnGroup-active-parentBean" />
+	<bean id="EarnGroup-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+	</bean>
+	
+	<!-- -->
+	<!-- Lookup Definition: -->
+	<!-- -->
+
+	<bean id="EarnGroup-lookupDefinition" parent="EarnGroup-lookupDefinition-parentBean" />
+	<bean id="EarnGroup-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="earnGroupId" />
+				<bean parent="FieldDefinition" p:attributeName="earnGroup" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="earnGroupId" />
+				<bean parent="FieldDefinition" p:attributeName="earnGroup" />
+				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="title" value="Earn Group Lookup" />
+	</bean>
+
+</beans>
