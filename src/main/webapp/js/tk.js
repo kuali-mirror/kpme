@@ -44,15 +44,19 @@ $(document).ready(function() {
 	var d = date.getDate();
 	var m = date.getMonth();
 	var y = date.getFullYear();
+    var beginPeriodDate = $("#beginPeriodDate").val() != undefined ? $("#beginPeriodDate").val() : d + "/" + m + "/" + y;
+    var endPeriodDate = $("#endPeriodDate").val() != undefined ? $("#endPeriodDate").val() : d + "/" + m + "/" + y;
 
     var calendar = $('#cal').fullCalendar({
+            beginPeriodDate : beginPeriodDate,
+            endPeriodDate : endPeriodDate,
             theme : true,
             aspectRatio : 5, // the value here is just to match the height with the add time block panel
             allDaySlot : false,
             header: {
                   left : 'prev, today',
                   center : 'title',
-                  right : ''
+                  right : 'month,agendaWeek,agendaDay'
             },
             selectable: true,
             selectHelper: true,
@@ -205,15 +209,26 @@ $(document).ready(function() {
 
 	// elapsed time
 	// http://keith-wood.name/countdown.html
+//    if($("#clock-button").val() == "Clock Out") {
+//        $("#lastClockedInTime").val("");
+//        $("#elapsed-time").val("00:00:00");
+//    }
+    var lastClockedInTime = $("#lastClockedInTime").val();
+    var clockAction = $("#clockAction").val();
 
-	var lastClockedInTime = $("#lastClockedInTime").val();
-	var startTime = new Date(lastClockedInTime);
+//    console.log(lastClockedInTime);
+//    console.log(clockAction);
+
+    var startTime = clockAction == 'CO' ?  new Date(lastClockedInTime) : new Date() ;
+
+//    console.log(startTime);
+
 	$('.elapsedTime').countdown({
 				since : startTime,
 				compact : true,
 				format : 'dHMS',
 				description : ''
-			});
+	})
 
 	// tooltip
     // http://flowplayer.org/tools/tooltip/index.html

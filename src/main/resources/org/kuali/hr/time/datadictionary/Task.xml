@@ -20,7 +20,7 @@
       	<ref bean="Task-workAreaId" />
         <ref bean="Task-effectiveDate" />
         <ref bean="Task-description" />
-        <ref bean="Task-adminDescription" />
+        <ref bean="Task-administrativeDescription" />
         <ref bean="Task-timestamp" />
         <ref bean="Task-active" />
        </list>
@@ -103,16 +103,16 @@
   </bean>  
   
 
-  <bean id="Task-adminDescription" parent="Task-adminDescription-parentBean" />
-  <bean id="Task-adminDescription-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Task-administrativeDescription" parent="Task-administrativeDescription-parentBean" />
+  <bean id="Task-administrativeDescription-parentBean" abstract="true" parent="AttributeDefinition">
       <property name="forceUppercase" value="true" />
 	  <property name="maxLength" value="10" />
       <property name="control" >
       <bean parent="TextControlDefinition" p:size="10" />
       </property>
-    <property name="name" value="adminDescription" />
+    <property name="name" value="administrativeDescription" />
     <property name="label" value="Admin Description" />
-    <property name="description" value="adminDescription" />
+    <property name="description" value="administrativeDescription" />
   </bean>
   
 

@@ -95,7 +95,11 @@ var defaults = {
 	//selectable: false,
 	unselectAuto: true,
 
-	dropAccept: '*'
+	dropAccept: '*',
+
+    // pay period
+    beginPeriodDate: new Date(),
+    endPeriodDate: new Date()
 
 };
 
@@ -961,9 +965,13 @@ views.month = function(element, options, viewName) {
 			}
 			// start/end
 			var start = this.start = cloneDate(date, true);
-            var today = new Date();
+            // var today = new Date();
 			// start.setDate(1);
-            start.setDate(today.getDate())
+            // start.setDate(today.getDate())
+            var beginPeriodDate = parseDate(options.beginPeriodDate);
+            var endPeriodDate = parseDate(options.endPeriodDate);
+
+            start.setDate(beginPeriodDate.getDate());
 			this.end = addMonths(cloneDate(start), 1);
 			// visStart/visEnd
 			var visStart = this.visStart = cloneDate(start),
@@ -977,9 +985,18 @@ views.month = function(element, options, viewName) {
 			addDays(visEnd, (7 - visEnd.getDay() + Math.max(options.firstDay, nwe)) % 7);
 			// row count
 			var rowCnt = Math.round((visEnd - visStart) / (DAY_MS * 7));
+            //console.log(rowCnt);
+            //console.log(options.beginPeriodDate);
+            //console.log(options.endPeriodDate);
 			if (options.weekMode == 'fixed') {
 				addDays(visEnd, (6 - rowCnt) * 7);
-				rowCnt = 2;
+                dayCnt = Math.ceil((endPeriodDate - beginPeriodDate) / (DAY_MS));
+				rowCnt = Math.ceil((endPeriodDate - beginPeriodDate) / (DAY_MS * 7));
+                // deal with the case where the end date is the first day of the week
+                if(dayCnt % 7 == 0) {
+                    rowCnt++;
+                }
+                // console.log((endPeriodDate - beginPeriodDate) / (DAY_MS * 7));
 			}
 			// title
 			this.title = formatDate(

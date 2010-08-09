@@ -18,7 +18,8 @@ public class ClockActionForm extends TkForm {
 
     private String principalId;
     private List<Assignment> assignments;
-    private String clockAction;
+    private String currentClockAction;
+    private String nextClockAction;
     private String lastClockActionTimestamp;
     private String lastClockActionTimestampFormatted;
 
@@ -50,12 +51,12 @@ public class ClockActionForm extends TkForm {
         this.principalId = principalId;
     }
 
-    public String getClockAction() {
-        return clockAction;
+    public String getCurrentClockAction() {
+        return currentClockAction;
     }
 
-    public void setClockAction(String clockAction) {
-        this.clockAction = clockAction;
+    public void setCurrentClockAction(String currentClockAction) {
+        this.currentClockAction = currentClockAction;
     }
 
     public String getLastClockActionTimestampFormatted() {
@@ -73,6 +74,14 @@ public class ClockActionForm extends TkForm {
     public void setLastClockActionTimestamp(String lastClockActionTimestamp) {
         this.lastClockActionTimestamp = lastClockActionTimestamp;
     }
+
+	public String getNextClockAction() {
+		return nextClockAction;
+	}
+
+	public void setNextClockAction(String nextClockAction) {
+		this.nextClockAction = nextClockAction;
+	}
 
 
 }

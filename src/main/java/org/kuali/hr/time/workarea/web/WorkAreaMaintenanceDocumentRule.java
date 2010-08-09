@@ -140,7 +140,7 @@ public class WorkAreaMaintenanceDocumentRule extends TransactionalDocumentRuleBa
 	    addError(errorPrefix+".description", "error.required", "description");
 	}
 	
-	if (v && StringUtils.isBlank(task.getAdminDescription())) {
+	if (v && StringUtils.isBlank(task.getAdministrativeDescription())) {
 	    v = false;
 	    addError(errorPrefix+".adminDescription", "error.required", "admin description");
 	}

@@ -1,7 +1,10 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
+<c:set var="Form" value="${TimeDetailActionForm}" scope="request"/>
 
 <tk:tkHeader tabId="timeDetail">
 	<html:hidden property="methodToCall" value=""/>
+	<html:hidden property="beginPeriodDate" value="${Form.beginPeriodDate}" styleId="beginPeriodDate"/>
+	<html:hidden property="endPeriodDate" value="${Form.endPeriodDate}" styleId="endPeriodDate"/>
 
 	<div style="clear:both;" class="ui-widget-content">
 		<%--
@@ -74,126 +77,8 @@
 			</table>
 		</div>
 		--%>
-		<div id="tabs-demo">
-			<ul>
-				<li><a href="#tabs-1">Demo - tabular view</a></li>
-				<li><a href="#tabs-2">Demo - calendar view</a></li>
-			</ul>
-			<div id="tabs-1">
-				<form id="timesheetForm" method="post" action="#">
-					<div id="timesheet">
-						<!-- <div class="toolbar-timesheet-table-week1"></div>  -->
-						<table class="timesheet-table-week1">
-							<thead>
-								<tr>
-									<th></th>
-									<th><bean:message key="time.detail.assignment"/></th>
-									<th><bean:message key="time.detail.earnCode"/></th>
-									<th><bean:message key="time.detail.action"/></th>
-									<th>4/1 Sun</th>
-									<th>4/2 Mon</th>
-									<th>4/3 Tue</th>
-									<th>4/4 Wed</th>
-									<th>4/5 Thu</th>
-									<th>4/6 Fri</th>
-									<th>4/7 Sat</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td></td>
-									<td>
-										<select>
-											<option>HRMS Java Developer</option>
-											<option>HRMS PS Developer</option>
-										</select>
-									</td>
-									<td><tk:earnCode/></td>
-									<td>Time In <br/> Time Out</td>
-									<td><input type="text" size="8" name="1"/><br/><input type="text" size="8" name="2"/></td>
-									<td><input type="text" size="8" name="3"/><br/><input type="text" size="8" name="4"/></td>
-									<td><input type="text" size="8" name="5"/><br/><input type="text" size="8" name="6"/></td>
-									<td><input type="text" size="8" name="7"/><br/><input type="text" size="8" name="8"/></td>
-									<td><input type="text" size="8" name="9"/><br/><input type="text" size="8" name="10"/></td>
-									<td><input type="text" size="8" name="11"><br/><input type="text" size="8" name="12"/></td>
-									<td><input type="text" size="8" name="13"><br/><input type="text" size="8" name="14"/></td>
-								</tr>
-								<%--
-								<tr>
-									<td></td>
-									<td>RGN</td>
-									<td>Time Out</td>
-									<td><input type="text" size="8"/></td>
-									<td><input type="text" size="8"/></td>
-									<td><input type="text" size="8"/></td>
-									<td><input type="text" size="8"/></td>
-									<td><input type="text" size="8"/></td>
-									<td><input type="text" size="8"/></td>
-									<td><input type="text" size="8"/></td>
-								</tr>
-								 --%>
-							</tbody>
-						</table>
 
-						<!-- <div class="toolbar-timesheet-table-week2"></div>  -->
-						<table class="timesheet-table-week2">
-							<thead>
-								<tr>
-									<th></th>
-									<th>Account Name</th>
-									<th>Earn Code</th>
-									<th>Action</th>
-									<th>4/8 Sun</th>
-									<th>4/9 Mon</th>
-									<th>4/10 Tue</th>
-									<th>4/11 Wed</th>
-									<th>4/12 Thu</th>
-									<th>4/13 Fri</th>
-									<th>4/14 Sat</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td></td>
-									<td>
-										<select>
-											<option>HRMS Java Developer</option>
-											<option>HRMS PS Developer</option>
-										</select>
-									</td>
-									<td><tk:earnCode/></td>
-									<td>Time In <br/> Time Out</td>
-									<td><input type="text" size="8" name="1"/><br/><input type="text" size="8" name="2"/></td>
-									<td><input type="text" size="8" name="3"/><br/><input type="text" size="8" name="4"/></td>
-									<td><input type="text" size="8" name="5"/><br/><input type="text" size="8" name="6"/></td>
-									<td><input type="text" size="8" name="7"/><br/><input type="text" size="8" name="8"/></td>
-									<td><input type="text" size="8" name="9"/><br/><input type="text" size="8" name="10"/></td>
-									<td><input type="text" size="8" name="11"><br/><input type="text" size="8" name="12"/></td>
-									<td><input type="text" size="8" name="13"><br/><input type="text" size="8" name="14"/></td>
-								</tr>
-								<%--
-								<tr>
-									<td></td>
-									<td>RGN</td>
-									<td>Time Out</td>
-									<td><input type="text" size="8"/></td>
-									<td><input type="text" size="8"/></td>
-									<td><input type="text" size="8"/></td>
-									<td><input type="text" size="8"/></td>
-									<td><input type="text" size="8"/></td>
-									<td><input type="text" size="8"/></td>
-									<td><input type="text" size="8"/></td>
-								</tr>
-								 --%>
-							</tbody>
-						</table>
-						<div style="width:100%; font-size: .8em; text-align: center; margin-top: 10px;"><input type="submit" class="button" name="submit" value="Save"/></div>
-					</div>
-				</form>
-			</div>
-			<div id="tabs-2">
-
-				<div id="cal" style="margin-top: 20px; width:100%; font-size:.9em;"/>
+		<div id="cal" style="margin-top: 20px; width:100%; font-size:.9em;"/>
 
 				<div id="dialog-form" title="Add time blocks:">
 					<%-- <p class="validateTips">All form fields are required.</p>  --%>
@@ -260,9 +145,103 @@
 						</div>
 					</form>
 				</div> <%-- end of dialog-form --%>
-				<div style="width:100%; font-size: .8em; text-align: center; margin-top: 10px;"><input type="submit" class="button" name="submit" value="Save"/></div>
+		<div style="width:100%; font-size: .8em; text-align: center; margin-top: 10px;"><input type="submit" class="button" name="submit" value="Save"/></div>
+
+		<%--
+		<div id="tabs-demo">
+			<ul>
+				<li><a href="#tabs-1">Demo - tabular view</a></li>
+				<li><a href="#tabs-2">Demo - calendar view</a></li>
+			</ul>
+			<div id="tabs-1">
+				<form id="timesheetForm" method="post" action="#">
+					<div id="timesheet">
+						<!-- <div class="toolbar-timesheet-table-week1"></div>  -->
+						<table class="timesheet-table-week1">
+							<thead>
+								<tr>
+									<th></th>
+									<th><bean:message key="time.detail.assignment"/></th>
+									<th><bean:message key="time.detail.earnCode"/></th>
+									<th><bean:message key="time.detail.action"/></th>
+									<th>4/1 Sun</th>
+									<th>4/2 Mon</th>
+									<th>4/3 Tue</th>
+									<th>4/4 Wed</th>
+									<th>4/5 Thu</th>
+									<th>4/6 Fri</th>
+									<th>4/7 Sat</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td></td>
+									<td>
+										<select>
+											<option>HRMS Java Developer</option>
+											<option>HRMS PS Developer</option>
+										</select>
+									</td>
+									<td><tk:earnCode/></td>
+									<td>Time In <br/> Time Out</td>
+									<td><input type="text" size="8" name="1"/><br/><input type="text" size="8" name="2"/></td>
+									<td><input type="text" size="8" name="3"/><br/><input type="text" size="8" name="4"/></td>
+									<td><input type="text" size="8" name="5"/><br/><input type="text" size="8" name="6"/></td>
+									<td><input type="text" size="8" name="7"/><br/><input type="text" size="8" name="8"/></td>
+									<td><input type="text" size="8" name="9"/><br/><input type="text" size="8" name="10"/></td>
+									<td><input type="text" size="8" name="11"><br/><input type="text" size="8" name="12"/></td>
+									<td><input type="text" size="8" name="13"><br/><input type="text" size="8" name="14"/></td>
+								</tr>
+							</tbody>
+						</table>
+
+						<!-- <div class="toolbar-timesheet-table-week2"></div>  -->
+						<table class="timesheet-table-week2">
+							<thead>
+								<tr>
+									<th></th>
+									<th>Account Name</th>
+									<th>Earn Code</th>
+									<th>Action</th>
+									<th>4/8 Sun</th>
+									<th>4/9 Mon</th>
+									<th>4/10 Tue</th>
+									<th>4/11 Wed</th>
+									<th>4/12 Thu</th>
+									<th>4/13 Fri</th>
+									<th>4/14 Sat</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td></td>
+									<td>
+										<select>
+											<option>HRMS Java Developer</option>
+											<option>HRMS PS Developer</option>
+										</select>
+									</td>
+									<td><tk:earnCode/></td>
+									<td>Time In <br/> Time Out</td>
+									<td><input type="text" size="8" name="1"/><br/><input type="text" size="8" name="2"/></td>
+									<td><input type="text" size="8" name="3"/><br/><input type="text" size="8" name="4"/></td>
+									<td><input type="text" size="8" name="5"/><br/><input type="text" size="8" name="6"/></td>
+									<td><input type="text" size="8" name="7"/><br/><input type="text" size="8" name="8"/></td>
+									<td><input type="text" size="8" name="9"/><br/><input type="text" size="8" name="10"/></td>
+									<td><input type="text" size="8" name="11"><br/><input type="text" size="8" name="12"/></td>
+									<td><input type="text" size="8" name="13"><br/><input type="text" size="8" name="14"/></td>
+								</tr>
+							</tbody>
+						</table>
+						<div style="width:100%; font-size: .8em; text-align: center; margin-top: 10px;"><input type="submit" class="button" name="submit" value="Save"/></div>
+					</div>
+				</form>
+			</div>
+
+			<div id="tabs-2">
+
 			</div> <%-- end of tabs-2 --%>
-		</div> <%-- end of tabs-demo --%>
+		<%-- </div> end of tabs-demo --%>
 
 		<div id="timesheet-summary">
 			<div style="clear:both; text-align:center; font-weight: bold; margin-top:20px; margin-bottom: 5px;">Summary <%--(<a href="#" id="basic">Basic</a> / <a href="#" id="advance">Advanced</a> ) --%></div>

@@ -119,7 +119,7 @@
 	<!-- end performance logging params -->
 	
 	<!--  crazy stuff -->
-	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
+	<param name="filter.login.class">org.kuali.hr.time.web.TkLoginFilter</param>
 	<param name="filtermapping.login.1">/*</param>
 
 </config>

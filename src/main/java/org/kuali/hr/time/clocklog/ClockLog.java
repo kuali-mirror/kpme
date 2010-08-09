@@ -8,15 +8,15 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class ClockLog extends PersistableBusinessObjectBase {
-    
+
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -2499666820628979901L;
-    
+
     private Long clockLogId = null;
     private String principalId;
-    private Integer jobNumber;
+    private Long jobNumber;
     private Long workAreaId;
     private Long taskId;
     private Calendar clockTimestamp;
@@ -25,8 +25,8 @@ public class ClockLog extends PersistableBusinessObjectBase {
     private String ipAddress;
     private String userPrincipalId;
     private Timestamp timestamp;
-    
-    
+
+
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -42,11 +42,11 @@ public class ClockLog extends PersistableBusinessObjectBase {
         this.principalId = principalId;
     }
 
-    public Integer getJobNumber() {
+    public Long getJobNumber() {
         return jobNumber;
     }
 
-    public void setJobNumber(Integer jobNumber) {
+    public void setJobNumber(Long jobNumber) {
         this.jobNumber = jobNumber;
     }
 
@@ -121,7 +121,7 @@ public class ClockLog extends PersistableBusinessObjectBase {
     public void setClockLogId(Long clockLogId) {
         this.clockLogId = clockLogId;
     }
-    
+
     /**
      * TODO: Fix this - may need to return multiple actions, depending on how we want the system to work.
      * @return
@@ -144,8 +144,8 @@ public class ClockLog extends PersistableBusinessObjectBase {
 	} else {
 	    ret = TkConstants.CLOCK_IN;
 	}
-	
+
 	return ret;
     }
-        
+
 }

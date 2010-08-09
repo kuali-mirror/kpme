@@ -1,15 +1,18 @@
 package org.kuali.hr.time.paytype;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
+import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class PayType extends PersistableBusinessObjectBase {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long payTypeId;
@@ -18,10 +21,12 @@ public class PayType extends PersistableBusinessObjectBase {
 	private String calendarGroup;
 	private String regEarnCode;
 	private Date effectiveDate;
-	private Timestamp timeStamp;
-	private String holidayCalendar;
-	
-	
+	private Timestamp timestamp;
+	private String holidayCalendarGroup;
+
+	private HolidayCalendar holidayCalendarGroupObj;
+	private PayCalendar calendarGroupObj;
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
@@ -32,79 +37,81 @@ public class PayType extends PersistableBusinessObjectBase {
 		return payTypeId;
 	}
 
-
 	public void setPayTypeId(Long payTypeId) {
 		this.payTypeId = payTypeId;
 	}
-
 
 	public String getPayType() {
 		return payType;
 	}
 
-
 	public void setPayType(String payType) {
 		this.payType = payType;
 	}
-
 
 	public String getDescr() {
 		return descr;
 	}
 
-
 	public void setDescr(String descr) {
 		this.descr = descr;
 	}
-
 
 	public String getCalendarGroup() {
 		return calendarGroup;
 	}
 
-
 	public void setCalendarGroup(String calendarGroup) {
 		this.calendarGroup = calendarGroup;
 	}
-
 
 	public String getRegEarnCode() {
 		return regEarnCode;
 	}
 
-
 	public void setRegEarnCode(String regEarnCode) {
 		this.regEarnCode = regEarnCode;
 	}
-
 
 	public Date getEffectiveDate() {
 		return effectiveDate;
 	}
 
-
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
 
-
-	public Timestamp getTimeStamp() {
-		return timeStamp;
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
 	}
 
-
-	public void setTimeStamp(Timestamp timeStamp) {
-		this.timeStamp = timeStamp;
+	public Timestamp getTimestamp() {
+		return timestamp;
 	}
 
-
-	public String getHolidayCalendar() {
-		return holidayCalendar;
+	public void setHolidayCalendarGroup(String holidayCalendarGroup) {
+		this.holidayCalendarGroup = holidayCalendarGroup;
 	}
 
-
-	public void setHolidayCalendar(String holidayCalendar) {
-		this.holidayCalendar = holidayCalendar;
+	public String getHolidayCalendarGroup() {
+		return holidayCalendarGroup;
 	}
+
+	public void setHolidayCalendarGroupObj(HolidayCalendar holidayCalendarGroupObj) {
+		this.holidayCalendarGroupObj = holidayCalendarGroupObj;
+	}
+
+	public HolidayCalendar getHolidayCalendarGroupObj() {
+		return holidayCalendarGroupObj;
+	}
+
+	public void setCalendarGroupObj(PayCalendar calendarGroupObj) {
+		this.calendarGroupObj = calendarGroupObj;
+	}
+
+	public PayCalendar getCalendarGroupObj() {
+		return calendarGroupObj;
+	}
+
 
 }

@@ -1,6 +1,7 @@
 package org.kuali.hr.time.dept.lunch;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
@@ -8,27 +9,27 @@ import java.util.LinkedHashMap;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class DeptLunchRule extends PersistableBusinessObjectBase {
- 
+
     private static final long serialVersionUID = 1L;
-    
+
     private Long deptLunchRuleId;
     private String deptId;
     private BigDecimal workArea;
     private String principalId;         // like principal id
-    private BigDecimal jobNumber;    // like job number
+    private BigInteger jobNumber;    // like job number
     private Date effectiveDate;
-    private boolean active;      
+    private boolean active;
     private String requiredClockFl;
     private BigDecimal maxMins;
     private String userPrincipalId;
-    
+
     private Timestamp timestamp;
-    
+
 
     @SuppressWarnings("unchecked")
 	@Override
     protected LinkedHashMap toStringMapper() {
-	// TODO Auto-generated method stub	
+	// TODO Auto-generated method stub
 	LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
 		toStringMap.put("principalId", principalId);
 		return toStringMap;
@@ -114,12 +115,12 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
     }
 
 
-    public BigDecimal getJobNumber() {
+    public BigInteger getJobNumber() {
         return jobNumber;
     }
 
 
-    public void setJobNumber(BigDecimal jobNumber) {
+    public void setJobNumber(BigInteger jobNumber) {
         this.jobNumber = jobNumber;
     }
 

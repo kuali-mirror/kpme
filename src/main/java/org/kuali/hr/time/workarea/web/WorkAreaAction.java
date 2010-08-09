@@ -18,99 +18,124 @@ import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase
 
 public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 
-    private static final Logger LOG = Logger.getLogger(WorkAreaAction.class);
-    private WorkAreaMaintenanceDocumentRule rule = new WorkAreaMaintenanceDocumentRule();
+	private static final Logger LOG = Logger.getLogger(WorkAreaAction.class);
+	private WorkAreaMaintenanceDocumentRule rule = new WorkAreaMaintenanceDocumentRule();
 
-    @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	ActionForward actionForw = super.docHandler(mapping, form, request, response);
+	@Override
+	public ActionForward docHandler(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		ActionForward actionForw = super.docHandler(mapping, form, request,
+				response);
 
-	WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
-	WorkAreaMaintenanceDocument workAreaMaintenanceDocument = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
-	WorkAreaService waService = TkServiceLocator.getWorkAreaService();
-	String workAreaId_s = request.getParameter("workAreaId");
-	try {
-	    Long workAreaId = (workAreaId_s != null) ? Long.parseLong(workAreaId_s) : null;
-	    WorkArea workArea = waService.getWorkArea(workAreaId);
+		WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
+		WorkAreaMaintenanceDocument workAreaMaintenanceDocument = (WorkAreaMaintenanceDocument) workAreaForm
+				.getDocument();
+		WorkAreaService waService = TkServiceLocator.getWorkAreaService();
+		String workAreaId_s = request.getParameter("workAreaId");
+		try {
+			Long workAreaId = (workAreaId_s != null) ? Long
+					.parseLong(workAreaId_s) : null;
+			WorkArea workArea = waService.getWorkArea(workAreaId);
 
-	    if (workArea != null) {
-		LOG.debug("Obtained work area: " + workArea.getWorkAreaId());
-		workAreaMaintenanceDocument.setWorkArea(workArea);
-	    } else {
-		//TODO 
-		// We need to have a general page that we can forward to that will hold
-		// errors like this as well as security violations, since the user can 
-		// just arbitrarily change the workAreaId parameter.
-	    }
-	} catch (NumberFormatException nfe) {
-	    LOG.error("nfe", nfe);
+			if (workArea != null) {
+				LOG.debug("Obtained work area: " + workArea.getWorkAreaId());
+				workAreaMaintenanceDocument.setWorkArea(workArea);
+			} else {
+				// TODO
+				// We need to have a general page that we can forward to that
+				// will hold
+				// errors like this as well as security violations, since the
+				// user can
+				// just arbitrarily change the workAreaId parameter.
+			}
+		} catch (NumberFormatException nfe) {
+			LOG.error("nfe", nfe);
+		}
+
+		return actionForw;
 	}
 
-	return actionForw;
-    }
+	@Override
+	public ActionForward route(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		ActionForward afw;
+		afw = super.route(mapping, form, request, response);
 
-    @Override
-    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	ActionForward afw;
-	afw = super.route(mapping, form, request, response);
-	
-	WorkAreaService waService = TkServiceLocator.getWorkAreaService();
-	WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
-	WorkAreaMaintenanceDocument wamd = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
-	waService.saveOrUpdate(wamd.getWorkArea());
-	
-	return afw;
-    }
+		WorkAreaService waService = TkServiceLocator.getWorkAreaService();
+		WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
+		WorkAreaMaintenanceDocument wamd = (WorkAreaMaintenanceDocument) workAreaForm
+				.getDocument();
+		waService.saveOrUpdate(wamd.getWorkArea());
 
-    public ActionForward addPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
-	WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
-
-	TkRoleAssign tra = workAreaForm.getNewRoleAssignment();
-	if (rule.validateRoleAddition(tra, document.getWorkArea().getRoleAssignments())) {
-	    LOG.info("Adding role: " + tra.getRoleName() + " to principal " + tra.getPrincipalId());
-	    document.getWorkArea().getRoleAssignments().add(tra);
-	    workAreaForm.setNewRoleAssignment(new TkRoleAssign());
+		return afw;
 	}
 
-	return mapping.findForward(RiceConstants.MAPPING_BASIC);
-    }
+	public ActionForward addPerson(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
+		WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm
+				.getDocument();
 
-    public ActionForward removePerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
-	WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
-	int deleteMe = this.getSelectedLine(request);
-	WorkArea workArea = document.getWorkArea();
-	TkRoleAssign tra = workArea.getRoleAssignments().remove(deleteMe);
-	LOG.info("removed " + tra.getPrincipalId() + " from " + tra.getRoleName());
-	workAreaForm.setNewRoleAssignment(new TkRoleAssign());
+		TkRoleAssign tra = workAreaForm.getNewRoleAssignment();
+		if (rule.validateRoleAddition(tra, document.getWorkArea()
+				.getRoleAssignments())) {
+			LOG.info("Adding role: " + tra.getRoleName() + " to principal "
+					+ tra.getPrincipalId());
+			document.getWorkArea().getRoleAssignments().add(tra);
+			workAreaForm.setNewRoleAssignment(new TkRoleAssign());
+		}
 
-	return mapping.findForward(RiceConstants.MAPPING_BASIC);
-    }
-    
-    public ActionForward removeTask(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
-	WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
-	int deleteMe = this.getSelectedLine(request);
-	WorkArea workArea = document.getWorkArea();
-	Task task = workArea.getTasks().remove(deleteMe);
-	LOG.info("removed " + task.getTaskId());
-	workAreaForm.setNewTask(new Task());
-
-	return mapping.findForward(RiceConstants.MAPPING_BASIC);
-    }
-    
-    public ActionForward addTask(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
-	WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
-
-	Task task = workAreaForm.getNewTask();
-	if (rule.validateTaskAddition(task, document.getWorkArea().getTasks())) {
-	    LOG.info("Adding task: " + task.getDescription());
-	    document.getWorkArea().getTasks().add(task);
-	    workAreaForm.setNewTask(new Task());
+		return mapping.findForward(RiceConstants.MAPPING_BASIC);
 	}
 
-	return mapping.findForward(RiceConstants.MAPPING_BASIC);
-    }
+	public ActionForward removePerson(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
+		WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm
+				.getDocument();
+		int deleteMe = this.getSelectedLine(request);
+		WorkArea workArea = document.getWorkArea();
+		TkRoleAssign tra = workArea.getRoleAssignments().remove(deleteMe);
+		LOG.info("removed " + tra.getPrincipalId() + " from "
+				+ tra.getRoleName());
+		workAreaForm.setNewRoleAssignment(new TkRoleAssign());
+
+		return mapping.findForward(RiceConstants.MAPPING_BASIC);
+	}
+
+	public ActionForward removeTask(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
+		WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm
+				.getDocument();
+		int deleteMe = this.getSelectedLine(request);
+		WorkArea workArea = document.getWorkArea();
+		Task task = workArea.getTasks().remove(deleteMe);
+		LOG.info("removed " + task.getTaskId());
+		workAreaForm.setNewTask(new Task());
+
+		return mapping.findForward(RiceConstants.MAPPING_BASIC);
+	}
+
+	public ActionForward addTask(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
+		WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm
+				.getDocument();
+
+		Task task = workAreaForm.getNewTask();
+		if (rule.validateTaskAddition(task, document.getWorkArea().getTasks())) {
+			LOG.info("Adding task: " + task.getDescription());
+			document.getWorkArea().getTasks().add(task);
+			workAreaForm.setNewTask(new Task());
+		}
+
+		return mapping.findForward(RiceConstants.MAPPING_BASIC);
+	}
 }

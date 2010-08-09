@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="TimeOffAccrual" parent="TimeOffAccrual-parentBean" />
+
+	<bean id="TimeOffAccrual-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.time.accrual.TimeOffAccrual" />
+		<property name="titleAttribute" value="tkAccrualId" />
+		<property name="objectLabel" value="Time off Accrual" />
+		<property name="lookupDefinition">
+			<ref bean="TimeOffAccrual-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="TimeOffAccrual-tkAccrualId" />
+				<ref bean="TimeOffAccrual-principalId" />
+				<ref bean="TimeOffAccrual-accrualCategory" />
+				<ref bean="TimeOffAccrual-effectiveDate" />
+				<ref bean="TimeOffAccrual-hoursAccrued" />
+				<ref bean="TimeOffAccrual-hoursTaken" />
+				<ref bean="TimeOffAccrual-hoursAdjust" />
+			</list>
+		</property>
+		 <property name="relationships">
+  		<list>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="principal"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principal.principalId" p:targetName="principalId"/>
+                </list>
+              </property>
+            </bean>
+
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="accrualCategoryObj"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory" p:targetName="accrualCategory"/>
+                </list>
+              </property>
+            </bean>
+        </list>
+    </property>  
+	</bean>
+
+	<bean id="TimeOffAccrual-tkAccrualId" parent="TimeOffAccrual-tkAccrualId-parentBean" />
+	<bean id="TimeOffAccrual-tkAccrualId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Id" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="tkAccrualId" />
+		<property name="label" value="Time Off Accrual Id" />
+	</bean>
+
+	<bean id="TimeOffAccrual-principalId" parent="TimeOffAccrual-principalId-parentBean" />
+	<bean id="TimeOffAccrual-principalId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Principal" />
+		<property name="maxLength" value="21" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="21" />
+		</property>
+		<property name="name" value="principalId" />
+		<property name="label" value="Principal Id" />
+	</bean>
+
+	<bean id="TimeOffAccrual-accrualCategory" parent="TimeOffAccrual-accrualCategory-parentBean" />
+	<bean id="TimeOffAccrual-accrualCategory-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Accrual Category" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+		<property name="name" value="accrualCategory" />
+		<property name="label" value="Accrual Category" />
+	</bean>
+
+	<bean id="TimeOffAccrual-effectiveDate" parent="TimeOffAccrual-effectiveDate-parentBean" />
+	<bean id="TimeOffAccrual-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+
+	<bean id="TimeOffAccrual-hoursAccrued" parent="TimeOffAccrual-hoursAccrued-parentBean" />
+	<bean id="TimeOffAccrual-hoursAccrued-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Hours Accrued" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="hoursAccrued" />
+		<property name="label" value="Hours Accrued" />
+	</bean>
+	
+	<bean id="TimeOffAccrual-hoursTaken" parent="TimeOffAccrual-hoursTaken-parentBean" />
+	<bean id="TimeOffAccrual-hoursTaken-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Hours Taken" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="hoursTaken" />
+		<property name="label" value="Hours Taken" />
+	</bean>
+	
+	<bean id="TimeOffAccrual-hoursAdjust" parent="TimeOffAccrual-hoursAdjust-parentBean" />
+	<bean id="TimeOffAccrual-hoursAdjust-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Hours Adjust" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="hoursAdjust" />
+		<property name="label" value="Hours Adjust" />
+	</bean>
+
+	<!--  Inquiry Definitions  -->
+
+
+	<bean id="TimeOffAccrual-lookupDefinition" parent="TimeOffAccrual-lookupDefinition-parentBean" />
+	<bean id="TimeOffAccrual-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="tkAccrualId" />
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="tkAccrualId" />
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="hoursAccrued" />
+				<bean parent="FieldDefinition" p:attributeName="hoursTaken" />
+				<bean parent="FieldDefinition" p:attributeName="hoursAdjust" />
+			</list>
+		</property>
+		<property name="title" value="Time Off Accrual Lookup" />
+	</bean>
+
+</beans>

@@ -1,5 +1,6 @@
 package org.kuali.hr.time.assignment;
 
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -12,7 +13,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 public class Assignment extends PersistableBusinessObjectBase {
 
 	/**
-     * 
+     *
      */
 	private static final long serialVersionUID = -3408305833805778653L;
 
@@ -133,7 +134,7 @@ public class Assignment extends PersistableBusinessObjectBase {
 	/**
 	 * Provides us with the text to display to the user for clock actions on
 	 * this assignment.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getClockText() {

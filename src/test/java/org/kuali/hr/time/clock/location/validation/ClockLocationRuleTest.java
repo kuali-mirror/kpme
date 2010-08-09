@@ -1,5 +1,6 @@
 package org.kuali.hr.time.clock.location.validation;
 
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -10,14 +11,14 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
-import org.kuali.hr.time.test.TestHarnessWebBase;
+import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 /**
  * A really basic unit test testing persistence and searching over persisted business objects.
  */
-public class ClockLocationRuleTest extends TestHarnessWebBase {
+public class ClockLocationRuleTest extends TkTestCase {
 
     private static final Logger LOG = Logger.getLogger(ClockLocationRuleTest.class);
 
@@ -25,7 +26,7 @@ public class ClockLocationRuleTest extends TestHarnessWebBase {
     private static final String IP_ADDRESS_TWO = "127.0.1.1";
 
     private BusinessObjectService boService;
-    
+
     @Before
     public void setUp() throws Exception {
 	super.setUp();
@@ -35,7 +36,7 @@ public class ClockLocationRuleTest extends TestHarnessWebBase {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testSave() throws Exception {	
+    public void testSave() throws Exception {
 	ClockLocationRule clr = new ClockLocationRule();
 	Timestamp ts_now = new Timestamp(System.currentTimeMillis());
 	Date date_now = new Date(System.currentTimeMillis());
@@ -43,7 +44,7 @@ public class ClockLocationRuleTest extends TestHarnessWebBase {
 	//clr.setDepartment("TEST");
 	//clr.setWorkArea(BigDecimal.TEN);
 	clr.setPrincipalId("12345");
-	clr.setJobNumber(new Long(0));
+	clr.setJobNumber(0L);
 	clr.setActive(true);
 	clr.setTimestamp(ts_now);
 	clr.setEffectiveDate(date_now);
@@ -57,7 +58,7 @@ public class ClockLocationRuleTest extends TestHarnessWebBase {
 	assertEquals("One entry should be in list.", 1, collection.size());
 
 	for (ClockLocationRule crule : collection) {
-	    // There is only one 
+	    // There is only one
 	    assertEquals(crule.getIpAddress(), "127.0.0.1");
 	}
     }
@@ -72,7 +73,7 @@ public class ClockLocationRuleTest extends TestHarnessWebBase {
 	//clr.setDepartment("TEST");
 	//clr.setWorkArea(BigDecimal.TEN);
 	clr.setPrincipalId("12345");
-	clr.setJobNumber(new Long(0));
+	clr.setJobNumber(0L);
 	clr.setActive(true);
 	clr.setTimestamp(ts_now);
 	clr.setEffectiveDate(date_now);
@@ -85,7 +86,7 @@ public class ClockLocationRuleTest extends TestHarnessWebBase {
 	//clr.setDepartment("TEST");
 	//clr.setWorkArea(BigDecimal.TEN);
 	clr.setPrincipalId("12345");
-	clr.setJobNumber(new Long(0));
+	clr.setJobNumber(0L);
 	clr.setActive(false);
 	clr.setTimestamp(ts_now);
 	clr.setEffectiveDate(date_now);

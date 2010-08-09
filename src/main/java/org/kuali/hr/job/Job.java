@@ -1,34 +1,41 @@
 package org.kuali.hr.job;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.paytype.PayType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class Job  extends PersistableBusinessObjectBase {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
+    private String location;
+    private Long payTypeId;
+    private Boolean fte;
+    private String payGrade;
+    private BigDecimal standardHours;
     private Long jobId;
     private String principalId;
     private Long jobNumber;
     private Date effectiveDate;
     private String deptId;
-    private Long payCalendarId;
     private String tkSalGroup;
     private Timestamp timestamp;
     private Boolean active;
-    
+    private PayType payType;
+
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
 	LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
-	
+
 	toStringMap.put("principalId", principalId);
-	
+
 	return toStringMap;
     }
 
@@ -41,7 +48,44 @@ public class Job  extends PersistableBusinessObjectBase {
     public void setJobId(Long jobId) {
         this.jobId = jobId;
     }
+    public Long getPayTypeId() {
+		return payTypeId;
+	}
 
+
+	public void setPayTypeId(Long payTypeId) {
+		this.payTypeId = payTypeId;
+	}
+
+
+	public Boolean getFte() {
+		return fte;
+	}
+
+
+	public void setFte(Boolean fte) {
+		this.fte = fte;
+	}
+
+
+	public String getPayGrade() {
+		return payGrade;
+	}
+
+
+	public void setPayGrade(String payGrade) {
+		this.payGrade = payGrade;
+	}
+
+
+	public BigDecimal getStandardHours() {
+		return standardHours;
+	}
+
+
+	public void setStandardHours(BigDecimal standardHours) {
+		this.standardHours = standardHours;
+	}
 
     public String getPrincipalId() {
         return principalId;
@@ -71,17 +115,6 @@ public class Job  extends PersistableBusinessObjectBase {
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
-    
-
-    public Long getPayCalendarId() {
-        return payCalendarId;
-    }
-
-
-    public void setPayCalendarId(Long payCalendarId) {
-        this.payCalendarId = payCalendarId;
-    }
-
 
     public String getTkSalGroup() {
         return tkSalGroup;
@@ -120,5 +153,31 @@ public class Job  extends PersistableBusinessObjectBase {
     public void setDeptId(String deptId) {
         this.deptId = deptId;
     }
+
+
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+
+	/**
+	 * @return the location
+	 */
+	public String getLocation() {
+		return location;
+	}
+
+
+	public PayType getPayType() {
+		return payType;
+	}
+
+
+	public void setPayType(PayType payType) {
+		this.payType = payType;
+	}
 
 }
