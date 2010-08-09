@@ -231,3 +231,8 @@
 .ui-dialog-buttonpane .ui-button-text {
 	font-size: .8em !important;
 }
+
+.validateTips {
+	font-size: .8em;
+	padding: 0.3em;
+}

@@ -94,12 +94,13 @@ var defaults = {
 
 	//selectable: false,
 	unselectAuto: true,
+    multidaySelect: true, // @customConfig
 
 	dropAccept: '*',
 
     // pay period
-    beginPeriodDate: new Date(),
-    endPeriodDate: new Date()
+    beginPeriodDate: new Date(), // @customConfig
+    endPeriodDate: new Date()  // @customConfig
 
 };
 
@@ -1644,7 +1645,8 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 		}
 		html +=
 			"<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;left:"+left+"px'>" +
-            "<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + htmlEscape(event.title) + "<span style='float:right; color:black; font-weight:bold; margin-right: 3px;'>X</span></td></tr>" +
+//            "<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + htmlEscape(event.title) + " " + event.id + "<span style='float:right; color:black; font-weight:bold; margin-right: 3px;'>X</span></td></tr>" +
+            "<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<button class='delete-button' style='clear:both; float:right; width:14px; height:14px; margin: 3px 3px 0 0;' value='"+ event.id +"'>button</button></td></tr>" +
             "<tr><td align='center'>from: " + formatDate(event.start,view.option('timeFormat')) +"</td><td align='center'>to: " + formatDate(event.end,view.option('timeFormat')) + "</td></tr>" +
 //            "<tr><td align='center' style='color:black;'>L: 11:00a</td><td align='center' style='color:black;'>L: 12:00p</td></tr>" +
 //            "<tr><td align='center'>12:00p</td><td align='center'>4:00p</td></tr>" +
@@ -2886,6 +2888,12 @@ function Agenda(element, options, methods, viewName) {
 		}
 		startCol = Math.max(0, startCol);
 		endCol = Math.min(colCnt, endCol);
+
+        console.log(startCol);
+        console.log(endCol-1);
+
+        alert('test');
+
 		if (startCol < endCol) {
 			dayBind(
 				_renderDayOverlay(0, startCol, 0, endCol-1)
@@ -3396,6 +3404,12 @@ function selection_dayMousedown(view, hoverListener, cellDate, cellIsAllDay, ren
 			hoverListener.start(function(cell, origCell) {
 				clearSelection();
 				if (cell && cellIsAllDay(cell)) {
+
+                    // this is a custom function where selecting multiple days can be configurable.
+                    if(!view.option('multidaySelect')) {
+                        cell = origCell;
+                    }
+
 					dates = [ cellDate(origCell), cellDate(cell) ].sort(cmp);
 					renderSelection(dates[0], addDays(cloneDate(dates[1]), 1), true);
 				}else{
