@@ -11,9 +11,9 @@ import org.kuali.hr.time.task.Task;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class WorkArea extends PersistableBusinessObjectBase {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     private Long workAreaId;
     private Date effectiveDate;
     private boolean active = false;
@@ -23,10 +23,10 @@ public class WorkArea extends PersistableBusinessObjectBase {
     private String adminDescr;
     private String userPrincipalId;
     private Timestamp timestamp;
-    
+
     private transient List<TkRoleAssign> roleAssignments = new ArrayList<TkRoleAssign>();
     private List<Task> tasks = new ArrayList<Task>();
-    
+
 
     @SuppressWarnings("unchecked")
     @Override
@@ -93,7 +93,7 @@ public class WorkArea extends PersistableBusinessObjectBase {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
-    
+
     public String getUserPrincipalId() {
         return userPrincipalId;
     }
@@ -101,7 +101,7 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
     public void setUserPrincipalId(String userPrincipalId) {
         this.userPrincipalId = userPrincipalId;
-    }  
+    }
 
     public String getDescription() {
         return description;
