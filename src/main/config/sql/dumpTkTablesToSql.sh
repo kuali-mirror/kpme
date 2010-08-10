@@ -33,6 +33,7 @@ TK_TABLES=$TK_TABLES" tk_time_block_hist_t tk_time_block_hist_s"
 TK_TABLES=$TK_TABLES" tk_time_block_t "
 TK_TABLES=$TK_TABLES" tk_time_collection_rl_t"
 TK_TABLES=$TK_TABLES" tk_weekly_overtime_rl_t tk_weekly_overtime_rl_s"
+TK_TABLES=$TK_TABLES" tk_work_area_document_t"
 TK_TABLES=$TK_TABLES" tk_work_area_s tk_work_area_t"
 
 #mysql -B -h andover -u tk -p  -e "show tables like 'tk%'" tk
