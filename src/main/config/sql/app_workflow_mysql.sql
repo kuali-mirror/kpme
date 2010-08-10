@@ -52,6 +52,12 @@ CREATE TABLE `krsb_msg_pyld_t` (
 -- Table structure for table `krsb_msg_que_t`
 --
 
+DROP TABLE IF EXISTS `krsb_msg_que_s`;
+CREATE TABLE `krsb_msg_que_s` (
+  `id` bigint(19) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2000 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 DROP TABLE IF EXISTS `krsb_msg_que_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
