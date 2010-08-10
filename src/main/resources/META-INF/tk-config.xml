@@ -16,7 +16,6 @@
 
 	<!-- ksb messaging params -->
 	<!--<param name="ksb.authService">edu.iu.hrms.hredoc.authorization.HredocAuthorizationServiceImpl</param>-->
-	<param name="dev.mode">true</param>
 	<param name="message.persistence">true</param>
 	<param name="message.delivery">synchronous</param>
 	<!-- end ksb messaging params -->

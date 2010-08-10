@@ -13,7 +13,7 @@
 		<tr>
 			<th>&nbsp;</th> 
 			<kul:htmlAttributeHeaderCell attributeEntry="${taskAttributes.description}" horizontal="false" />
-			<kul:htmlAttributeHeaderCell attributeEntry="${taskAttributes.adminDescription}" horizontal="false" />
+			<kul:htmlAttributeHeaderCell attributeEntry="${taskAttributes.administrativeDescription}" horizontal="false" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${taskAttributes.effectiveDate}" horizontal="false" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${taskAttributes.active}" horizontal="false" />
 			<th>action</th>
@@ -28,7 +28,7 @@
 			</td>
 			<td align="left" valign="middle">
 				<div align="center">
-				<kul:htmlControlAttribute property="newTask.adminDescription" attributeEntry="${taskAttributes.adminDescription}" readOnly="${readOnly}"/>
+				<kul:htmlControlAttribute property="newTask.administrativeDescription" attributeEntry="${taskAttributes.administrativeDescription}" readOnly="${readOnly}"/>
 				</div>
 			</td>
 			<td align="left" valign="middle">
@@ -60,7 +60,7 @@
 			</td>
 			<td align="left" valign="middle">
 				<div align="center">
-				<kul:htmlControlAttribute property="document.workArea.tasks[${statusMember.index}].adminDescription" attributeEntry="${taskAttributes.adminDescription}" readOnly="${readOnly}"/>
+				<kul:htmlControlAttribute property="document.workArea.tasks[${statusMember.index}].administrativeDescription" attributeEntry="${taskAttributes.administrativeDescription}" readOnly="${readOnly}"/>
 				</div>
 			</td>			
 			<td align="left" valign="middle">

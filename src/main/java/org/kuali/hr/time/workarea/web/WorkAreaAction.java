@@ -84,8 +84,9 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 		WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
 
 		TkRoleAssign tra = workAreaForm.getNewRoleAssignment();
+		tra.setWorkAreaId(document.getWorkArea().getWorkAreaId());
 		if (rule.validateRoleAddition(tra, document.getWorkArea().getRoleAssignments())) {
-			LOG.info("Adding role: " + tra.getRoleName() + " to principal " + tra.getPrincipalId());
+			LOG.info("Adding role: " + tra.getRoleName() + " to principal " + tra.getPrincipalId());			
 			document.getWorkArea().getRoleAssignments().add(tra);
 			workAreaForm.setNewRoleAssignment(new TkRoleAssign());
 		}
