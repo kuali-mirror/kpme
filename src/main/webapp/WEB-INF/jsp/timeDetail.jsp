@@ -81,7 +81,7 @@
 		<div id="cal" style="margin-top: 20px; width:100%; font-size:.9em;"/>
 
 				<div id="dialog-form" title="Add time blocks:">
-					<%-- <p class="validateTips">All form fields are required.</p>  --%>
+					<p class="validateTips">All form fields are required.</p>
 
 					<form>
 						<div class="ui-widget" id="timesheet-panel">
@@ -103,7 +103,7 @@
 									</td>
 								</tr>
 								<tr id="clockIn">
-									<td>Clocked In:</td>
+									<td><span style="float:right;">In:</span></td>
 									<td>
 										<input name="beginTime" id="beginTimeField" type="text" size="10" onblur="magicTime(this)" onfocus="if (this.className != 'error') this.select()"/>
 										 <button tabindex="-1" style="width:20px; height:20px; vertical-align: text-top"
@@ -113,7 +113,7 @@
 									</td>
 								</tr>
 								<tr id="clockOut">
-									<td>Clocked Out:</td>
+									<td><span style="float:right;">Out:</span></td>
 									<td>
 										<input name="endTime" id="endTimeField" type="text" size="10" onblur="magicTime(this)" onfocus="if (this.className != 'error') this.select()"/>
 										<button style="width:20px; height:20px; vertical-align: text-top" id="endTimeHelp"
@@ -127,11 +127,11 @@
 										<input id="hoursField"/>
 									</td>
 								</tr>
+								<%--
 								<tr>
 									<td colspan="2"><input type="checkbox"/> Apply time to each day</td>
 									<td></td>
 								</tr>
-								<%--
 								<tr>
 									<td>Begin Date:</td>
 									<td><input type="text" id="timesheet-beginDate" size="10"/></td>

@@ -206,6 +206,30 @@
 		<field-descriptor name="effectiveDate"  column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" />
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.hr.time.earncode.EarnGroup" table="tk_earn_group_t">
+		<field-descriptor name="earnGroupId" 	column="earn_group_id" 	jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_earn_group_s"/>
+		<field-descriptor name="earnGroup"      column="earn_group"		jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
+		<field-descriptor name="active" 		column="active"			jdbc-type="BIT"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="descr"		    column="descr"			jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
+		<field-descriptor name="effectiveDate"  column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" />
+		<collection-descriptor
+			name="earnGroups"
+			element-class-ref="org.kuali.hr.time.earncode.EarnGroupDef"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+			auto-retrieve="true"
+			auto-delete="object"
+			auto-update="object"
+			proxy="false">
+			<inverse-foreignkey field-ref="earnsGroup"/>
+		</collection-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.hr.time.earncode.EarnGroupDef" table="tk_earn_group_def_t">
+		<field-descriptor name="earnGroupDefId" 	column="tk_earn_group_def_id" 	jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_earn_group_def_s"/>
+		<field-descriptor name="earnCode"       	column="earn_code"			jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
+		<field-descriptor name="earnsGroup"       	column="earns_group"		jdbc-type="BIGINT" length="10" nullable="false" primarykey="false" />
+		<field-descriptor name="effectiveDate"  	column="effdt"				jdbc-type="DATE" nullable="false" primarykey="false" />
+	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.task.Task" table="tk_task_t">
 		<field-descriptor name="taskId"         	column="task_id"       jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_task_s"/>

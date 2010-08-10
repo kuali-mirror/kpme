@@ -9,5 +9,6 @@
 <script type="text/javascript" src="js/jquery.tools.tooltip.min.js"></script>
 <script type="text/javascript" src="js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="js/tk.js"></script>
+<script type="text/javascript" src="js/tk.calendar.js"></script>
 <script type="text/javascript" src="js/dataTable.js"></script>
 <%-- End of javascript --%>

@@ -5,6 +5,11 @@
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
+			<name>EarnGroupDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>EarnGroupDocument</label>
+		</documentType>
+		<documentType>
 			<name>PayTypeDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>PayTypeDocument</label>

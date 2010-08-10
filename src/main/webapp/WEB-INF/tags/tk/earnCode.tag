@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
 <select id="earnCode">
-	<option value="RGN">RGN: Regular</option>
+	<option value="RGN" selected="selected">RGN: Regular</option>
 	<option value="SCK">SCK: Sick</option>
 	<option value="VAC">VAC: Vacation</option>
 	<option value="WEP">WEP: Emergency Weather</option>
