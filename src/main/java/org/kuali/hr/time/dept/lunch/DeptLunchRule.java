@@ -26,7 +26,8 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
     private Timestamp timestamp;
 
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     protected LinkedHashMap toStringMapper() {
 	// TODO Auto-generated method stub
 	LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();

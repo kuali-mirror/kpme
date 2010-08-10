@@ -11,6 +11,7 @@ import org.kuali.hr.time.paytype.service.PayTypeService;
 import org.kuali.hr.time.rule.TkRuleControllerService;
 import org.kuali.hr.time.timeblock.service.TimeBlockHistoryService;
 import org.kuali.hr.time.timeblock.service.TimeBlockService;
+import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -30,6 +31,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_PAY_CALENDAR_DATES_SERVICE = "payCalendarDatesService";
 	public static final String TK_PERSISTENCE_BROKER_TEMPLATE = "tkPersistenceBrokerTemplate";
 	public static final String TK_CACHE_MANAGER_SERVICE = "cacheManager";
+	public static final String TK_WORK_AREA_SERVICE = "workAreaService";
 
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -38,6 +40,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static void stop() throws Exception {
 //		CONTEXT.stop();
+	}
+	
+	public static WorkAreaService getWorkAreaService() {
+	    return (WorkAreaService)CONTEXT.getBean(TK_WORK_AREA_SERVICE);
 	}
 
 	public static ClockLogService getClockLogService(){

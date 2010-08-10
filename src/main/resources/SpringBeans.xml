@@ -154,8 +154,7 @@
         </property>
     </bean>
 
-	<bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />
-
+	<!--  <bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />-->
 	<!--  This is the service that KIM will look for to authenticate the user, we need something identified by this bean ID.  I'm
 	not sure about the other authentication services.
  	<bean id="kimAuthenticationService" class="edu.iu.uis.hr.TKWebAuthenticationService" />
@@ -256,6 +255,14 @@
     <bean id="assignmentDao" class="org.kuali.hr.time.assignment.dao.AssignmentDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+    <bean id="workAreaDao" class="org.kuali.hr.time.workarea.dao.WorkAreaDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
+    <bean id="tkRoleAssignDao" class="org.kuali.hr.time.role.assign.dao.TkRoleAssignDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>	
+    </bean>
 
     <bean id="timeBlockDao" class="org.kuali.hr.time.timeblock.dao.TimeBlockDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
@@ -315,9 +322,25 @@
     	<property name="payCalendarDatesDao" ref="payCalendarDatesDao"/>
     </bean>
 
+    <bean id="workAreaService" class="org.kuali.hr.time.workarea.service.WorkAreaServiceImpl">
+    	<property name="workAreaDao" ref="workAreaDao"/>
+    </bean>
+    
+    <bean id="tkRoleAssignmentService" class="org.kuali.hr.time.role.assign.service.TkRoleAssignServiceImpl">
+    	<property name="tkRoleAssignDao" ref="tkRoleAssignDao"/>
+    </bean>
+    
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
     </bean>
 
     <bean id="tkRuleControllerService" class="org.kuali.hr.time.rule.TkRuleControllerServiceImpl"/>
 
+	<bean id="workAreaQualifierRoleTypeService" class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
+
+    <bean id="workAreaLookupableHelperService" class="org.kuali.hr.time.workarea.web.WorkAreaLookupableHelper"/>
+    <bean id="workAreaLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+    	<property name="lookupableHelperService">
+    		<ref bean="workAreaLookupableHelperService"/>
+    	</property>
+    </bean>
 </beans>

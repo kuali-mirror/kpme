@@ -9,8 +9,8 @@
         <form-bean name="AdminActionForm" type="org.kuali.hr.time.admin.web.AdminActionForm"/>
         <form-bean name="PersonInfoActionForm" type="org.kuali.hr.time.base.web.PersonInfoActionForm"/>
         <form-bean name="TimesheetActionForm" type="org.kuali.hr.time.timesheet.web.TimesheetActionForm"/>
-   	    <form-bean name="WorkAreaMaintenanceDocumentForm" type="org.kuali.hr.time.workarea.web.WorkAreaMaintenanceDocumentForm" />
-		<form-bean name="CacheAdministrationActionForm" type="org.kuali.hr.time.cache.web.CacheAdministrationActionForm" />    	
+        <form-bean name="WorkAreaActionForm" type="org.kuali.hr.time.workarea.web.WorkAreaActionForm"/>
+        <form-bean name="CacheAdministrationActionForm" type="org.kuali.hr.time.cache.web.CacheAdministrationActionForm" />    	
     </form-beans>
 
     <global-forwards type="org.apache.struts.action.ActionForward">
@@ -41,13 +41,14 @@
             <forward name="basic" path="/WEB-INF/jsp/timesheet.jsp" />
         </action>
         
-        <action path="/WorkAreaMaintenanceDocument" name="WorkAreaMaintenanceDocumentForm" scope="request" input="/WEB-INF/jsp/workAreaMaintDoc.jsp" type="org.kuali.hr.time.workarea.web.WorkAreaMaintenanceDocumentAction" parameter="methodToCall" validate="false">
-        	<forward name="basic" path="/WEB-INF/jsp/workAreaMaintDoc.jsp" />
-        </action>
-        
+       <action attribute="KualiForm" path="/WorkAreaMaintenance" name="WorkAreaActionForm" type="org.kuali.hr.time.workarea.web.WorkAreaAction" scope="session" parameter="methodToCall">
+       		<forward name="basic" path="/WEB-INF/jsp/workAreaMaintenance.jsp" />
+       </action>
+
 		<action path="/CacheAdministration" name="CacheAdministrationActionForm" scope="request" input="/WEB-INF/jsp/cache.jsp" type="org.kuali.hr.time.cache.web.CacheAdministrationAction" parameter="methodToCall" validate="true" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/cache.jsp" />
         </action>        
+ 
 
 	</action-mappings>
 

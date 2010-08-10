@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean name="RoleAssign" parent="RoleAssign-parentBean" />
-
 	<bean id="RoleAssign-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.hr.time.role.assign.TkRoleAssign" />
 		<property name="titleAttribute" value="principalId" />
@@ -17,6 +14,7 @@
 				<ref bean="RoleAssign-principalId" />
 				<ref bean="RoleAssign-roleName" />
 				<ref bean="RoleAssign-workAreaId" />
+				<ref bean="RoleAssign-username" />
 			</list>
 		</property>
 	</bean>
@@ -45,9 +43,9 @@
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
+	    <property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.workarea.web.WorkAreaRoleValuesFinder"/>
+	    </property>		
 		<property name="name" value="roleName" />
 		<property name="label" value="Role Name" />
 	</bean>
@@ -68,6 +66,22 @@
 		<property name="name" value="workAreaId" />
 		<property name="label" value="Work Area ID" />
 	</bean>
+
+	<bean id="RoleAssign-username" parent="RoleAssign-username-parentBean" />
+	<bean id="RoleAssign-username-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Username" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern"/>
+		</property>
+	    <property name="control">
+	      <bean parent="LookupReadonlyControlDefinition"/>
+	    </property>		
+		<property name="name" value="username" />
+		<property name="label" value="Role Name" />
+	</bean>
+	
 
 	<!--  Inquiry Definitions  -->
 

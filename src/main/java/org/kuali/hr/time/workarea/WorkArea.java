@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.hr.time.role.assign.TkRoleAssign;
+import org.kuali.hr.time.task.Task;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class WorkArea extends PersistableBusinessObjectBase {
@@ -15,7 +16,7 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
     private Long workAreaId;
     private Date effectiveDate;
-    private boolean active;
+    private boolean active = false;
     private String description;
     private String deptId;
     private String overtimePreference;
@@ -23,7 +24,8 @@ public class WorkArea extends PersistableBusinessObjectBase {
     private String userPrincipalId;
     private Timestamp timestamp;
 
-    private List<TkRoleAssign> roleAssignments = new ArrayList<TkRoleAssign>();
+    private transient List<TkRoleAssign> roleAssignments = new ArrayList<TkRoleAssign>();
+    private List<Task> tasks = new ArrayList<Task>();
 
 
     @SuppressWarnings("unchecked")
@@ -58,7 +60,6 @@ public class WorkArea extends PersistableBusinessObjectBase {
     public boolean isActive() {
         return active;
     }
-
 
     public void setActive(boolean active) {
         this.active = active;
@@ -129,5 +130,15 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
 	public void setRoleAssignments(List<TkRoleAssign> roleAssignments) {
 		this.roleAssignments = roleAssignments;
+	}
+
+
+	public List<Task> getTasks() {
+	    return tasks;
+	}
+
+
+	public void setTasks(List<Task> tasks) {
+	    this.tasks = tasks;
 	}
 }

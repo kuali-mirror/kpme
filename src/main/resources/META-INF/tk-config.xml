@@ -16,9 +16,8 @@
 
 	<!-- ksb messaging params -->
 	<!--<param name="ksb.authService">edu.iu.hrms.hredoc.authorization.HredocAuthorizationServiceImpl</param>-->
-	<param name="dev.mode">false</param>
 	<param name="message.persistence">true</param>
-	<param name="message.delivery">asynchronous</param>
+	<param name="message.delivery">synchronous</param>
 	<!-- end ksb messaging params -->
 
 	<!-- general config location params -->
@@ -27,8 +26,9 @@
 	<!-- end general config location params -->
 
 	<!-- keystore config -->
-	<param name="keystore.alias">hr</param>
+	<param name="keystore.alias">rice</param>
 	<param name="keystore.file">${keystore.location}</param>
+	<param name="keystore.password">r1c3pw</param>
 
 	<!-- quartz and exception routing params -->
 
@@ -95,7 +95,8 @@
 	<param name="travel.externalizable.images.url">kr/static/images/</param>
 	<param name="javascript.files">kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/UserService.js,kr/scripts/objectInfo.js</param>
 	<param name="css.files">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
-	<param name="kr.url">/${app.context.name}/kr</param>
+	<param name="kr.url">kr</param>
+	<!--  <param name="kr.url">/${app.context.name}/kr</param>-->
 	<param name="institution">iu</param>
 	<param name="version">03/19/2007 01:59 PM</param>
 	<param name="security.directory">/usr/local/rice/</param>

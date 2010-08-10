@@ -1,7 +1,7 @@
 package org.kuali.hr.time.task;
 
-import java.math.BigInteger;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -16,10 +16,11 @@ public class Task extends PersistableBusinessObjectBase {
     private Long taskId;
     private Long workAreaId;
     private String description;
-    private String departmentId;
     private String userPrincipalId;
     private Date effectiveDate;
     private String administrativeDescription;
+    private Timestamp timestamp;
+    private boolean active;
 
     public Long getTaskId()
     {
@@ -48,15 +49,6 @@ public class Task extends PersistableBusinessObjectBase {
     public void setDescription(String desc)
     {
     	this.description = desc;
-    }
-
-    public String getDepartmentId()
-    {
-    	return departmentId;
-    }
-
-    public void setDepartmentId(String deptId){
-    	this.departmentId = deptId;
     }
 
     public String getUserPrincipalId(){
@@ -90,6 +82,22 @@ public class Task extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 
 		return null;
+	}
+
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 

@@ -11,6 +11,39 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class PayCalendarTest extends TkTestCase {
 
+	@Test
+	public void scratchTest() throws Exception {
+		//List<String> roleIds = new ArrayList<String>();
+		
+		//roleIds.add(KIMServiceLocator.getRoleService().getRoleIdByName("KUALI", "TK_APPROVER"));
+		//String role_id = KIMServiceLocator.getRoleService().getRoleIdByName("KUALI", "TK_APPROVER");
+		//KimRoleInfo kri = KIMServiceLocator.getRoleService().getRole(role_id);
+		//String tid = kri.getKimTypeId();
+		//KimTypeInfo kti = KIMServiceLocator.getTypeInfoService().getKimType("30");
+		//KIMServiceLocator.getRoleManagementService().saveRole("98", "TK_APPROVER", "i <3 rice", true, "30", "KUALI");
+
+
+//	        KimAttributeImpl documentTypeAttribute = new KimAttributeImpl();
+//	        documentTypeAttribute.setKimAttributeId("30");
+//	        documentTypeAttribute.setAttributeName("workAreaId");
+//	        documentTypeAttribute.setNamespaceCode("KUALI");
+//	        documentTypeAttribute.setAttributeLabel("");
+//	        documentTypeAttribute.setComponentName(KimAttributes.class.getName());
+//	        documentTypeAttribute.setActive(true);
+//	        KNSServiceLocator.getBusinessObjectService().save(documentTypeAttribute);
+		
+	
+		//AttributeSet as = new AttributeSet();
+//		as.put("workAreaId", "999");
+//		KIMServiceLocator.getRoleManagementService().assignPrincipalToRole("admin", "KUALI", "TK_APPROVER", as);
+//		
+//		List<RoleMembershipInfo> list = KIMServiceLocator.getRoleService().getRoleMembers(roleIds, as);
+		
+		
+		//KIMServiceLocator.getRoleService().getRoleQualifiersForPrincipal("0002170302", roleIds, new AttributeSet());
+		assertTrue(true);
+	}
+	
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();

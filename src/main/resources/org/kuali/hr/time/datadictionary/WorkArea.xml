@@ -28,11 +28,6 @@
         <ref bean="WorkArea-timestamp" />
        </list>
     </property>
-    <property name="collections">
-      <list>
-        <bean parent="CollectionDefinition" p:name="roleAssignments" p:label="Role Assignments" p:shortLabel="Role Assignments" p:summary="Role Assignments" p:description="Role Assignments"/>
-      </list>
-    </property> 
     <property name="objectLabel" value="workAreaObj"/>
   </bean>
 
@@ -57,12 +52,12 @@
 
   <bean id="WorkArea-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Effective Date"/>
-    <property name="maxLength" value="3"/>
+    <property name="maxLength" value="10"/>
     <property name="validationPattern">
  		<bean parent="DateValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="3" p:datePicker="true" />
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
     </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
     <property name="name" value="effectiveDate"/>
@@ -73,9 +68,11 @@
 
   <bean id="WorkArea-active-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Active"/>
+    <property name="maxLength" value="1"/>
     <property name="control">
       <bean parent="CheckboxControlDefinition"/>
     </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
     <property name="name" value="active"/>
     <property name="label" value="Active"/>
   </bean>
@@ -115,9 +112,9 @@
   <bean id="WorkArea-overtimePreference-parentBean" abstract="true" parent="AttributeDefinition">
       <property name="forceUppercase" value="true" />
 	  <property name="maxLength" value="10" />
-      <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10" />
-      </property>
+		<property name="control">
+		  <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.workarea.web.WorkAreaOvertimePreferenceValuesFinder"/>
+		</property>			  
     <property name="name" value="overtimePreference" />
     <property name="label" value="Overtime Preference" />
     <property name="description" value="overtimePreference" />
@@ -140,14 +137,14 @@
 
   <bean id="WorkArea-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="User Principal Id"/>
-    <property name="maxLength" value="10"/>
+    <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern">
       	<property name="allowWhitespace" value="false"/>
       </bean>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
     <property name="name" value="userPrincipalId"/>
     <property name="label" value="User Principal Id"/>
@@ -199,6 +196,7 @@
   <bean id="WorkArea-lookupDefinition" parent="WorkArea-lookupDefinition-parentBean" />
 
   <bean id="WorkArea-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  	<property name="lookupableID" value="workAreaLookupable"/>
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

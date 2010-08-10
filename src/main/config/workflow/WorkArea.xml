@@ -7,9 +7,9 @@
       <label>RoleAssignDocument</label>
     </documentType>     
     <documentType>
-      <name>WorkAreaDocumentType</name>
+      <name>WorkAreaMaintenanceDocument</name>
       <parent>RiceDocument</parent>
-      <label>WorkAreaDocument</label>
+      <label>WorkAreaMaintenanceDocument</label>
     </documentType>                
   </documentTypes>
 </data>
