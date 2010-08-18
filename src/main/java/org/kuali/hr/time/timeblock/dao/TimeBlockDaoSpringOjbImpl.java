@@ -44,7 +44,8 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 			Timestamp end = new Timestamp(TkConstants.SDF.parse(endDate).getTime());
 			Criteria currentRecordCriteria = new Criteria();
 			currentRecordCriteria.addEqualTo("user_principal_id", principalId);
-			currentRecordCriteria.addBetween("timestamp", begin, end);
+			currentRecordCriteria.addGreaterOrEqualThan("begin_ts", begin);
+			currentRecordCriteria.addLessOrEqualThan("end_ts", end);
 
 			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			Collection<TimeBlock> c = this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, currentRecordCriteria));

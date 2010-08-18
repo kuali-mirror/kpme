@@ -129,7 +129,7 @@ $(document).ready(function() {
 
     $("#dialog-form").dialog({
         autoOpen: false,
-        height: 400,
+        height: 450,
         width: 400,
         modal: true,
         buttons: {
@@ -193,7 +193,6 @@ $(document).ready(function() {
 	                    data: params,
 	                    cache: false,
 	                    success: function() {
-	                    	updateTips("Time block has been saved.");
 	                    	$("#dialog-form").dialog('close');
 	                    	calendar.fullCalendar('refetchEvents');
 	                    },

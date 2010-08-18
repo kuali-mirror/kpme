@@ -1658,7 +1658,8 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 		html +=
 			"<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;left:"+left+"px;margin-bottom:3px;' id='" + event.id + "'>" +
 //            "<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + htmlEscape(event.title) + " " + event.id + "<span style='float:right; color:black; font-weight:bold; margin-right: 3px;'>X</span></td></tr>" +
-            "<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<span style='float:right; margin: 2px 7px 0 0; '><a href='TimeDetail.do?methodToCall=deleteTimeBlock&timeBlockId=" + event.id + "' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em;'>X</a></span></td></tr>" +
+//            "<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<span style='float:right; margin: 2px 7px 0 0; z-index: 1;'><a id='test' href='TimeDetail.do?methodToCall=deleteTimeBlock&timeBlockId=" + event.id + "' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em;'>X</a></span></td></tr>" +
+            "<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<div style='float:right; margin: 2px 7px 0 0; z-index: 1;' id='delete-event'><a href='#' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em; z-index: 1;'>X</a></div></td></tr>" +
             "<tr><td align='center'>from: " + formatDate(event.start,view.option('timeFormat')) +"</td><td align='center'>to: " + formatDate(event.end,view.option('timeFormat')) + "</td></tr>" +
 //            "<tr><td align='center' style='color:black;'>L: 11:00a</td><td align='center' style='color:black;'>L: 12:00p</td></tr>" +
 //            "<tr><td align='center'>12:00p</td><td align='center'>4:00p</td></tr>" +
@@ -3261,21 +3262,36 @@ var viewMethods = {
 
 	eventElementHandlers: function(event, eventElement) {
 		var view = this;
-		eventElement
-			.click(function(ev) {
-				if (!eventElement.hasClass('ui-draggable-dragging') &&
-					!eventElement.hasClass('ui-resizable-resizing')) {
-						return view.trigger('eventClick', this, event, ev);
-					}
-			})
-			.hover(
-				function(ev) {
-					view.trigger('eventMouseover', this, event, ev);
-				},
-				function(ev) {
-					view.trigger('eventMouseout', this, event, ev);
-				}
-			);
+//        eventElement
+//			.click(function(ev) {
+//				if (!eventElement.hasClass('ui-draggable-dragging') &&
+//					!eventElement.hasClass('ui-resizable-resizing')) {
+//						return view.trigger('eventClick', this, event, ev);
+//					}
+//			})
+//			.hover(
+//				function(ev) {
+//					view.trigger('eventMouseover', this, event, ev);
+//				},
+//				function(ev) {
+//					view.trigger('eventMouseout', this, event, ev);
+//				}
+//			);
+        eventElement.find('a').click(function() {
+
+            var params = {};
+            params['methodToCall'] = 'deleteTimeBlock';
+            params['timeBlockId'] = event.id;
+
+			$.ajax({
+			    url: "TimeDetail.do",
+			    data: params,
+			    cache: false,
+                success: function() {
+	                $('#cal').fullCalendar('refetchEvents');
+                }
+            });
+        });
 	},
 
 

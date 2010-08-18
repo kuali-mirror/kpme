@@ -39,22 +39,25 @@ $(document).ready(function() {
 				text : false
 			});
 
+    var beginPeriodDate = $('#beginPeriodDate').val().split("/");
+    var endPeriodDate = $('#endPeriodDate').val().split("/");
+
 	// datepicker
-	$('#timesheet-beginDate, #timesheet-endDate').datepicker({
+	$('#date-range-begin, #date-range-end').datepicker({
 				changeMonth : true,
 				changeYear : true,
 				showOn : 'button',
 				showAnim : 'fadeIn',
 				buttonImage : 'kr/static/images/cal.gif',
 				buttonImageOnly : true,
-				buttonText : 'Choose a date',
+				buttonText : 'Select a date',
 				showButtonPanel : true,
 				numberOfMonths : 2,
 				// set default month based on the current browsing month
 				// appendText : '<br/>format: mm/dd/yyyy',
-				constrainInput : false,
-				minDate : -7,
-				maxDate : +7
+				constrainInput : true,
+				minDate : new Date(beginPeriodDate[2],beginPeriodDate[0],beginPeriodDate[1]),
+				maxDate : new Date(endPeriodDate[2],endPeriodDate[0],endPeriodDate[1])
 			});
 
 	// select All
