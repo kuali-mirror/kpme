@@ -196,7 +196,7 @@ $(document).ready(function() {
 	                    	updateTips("Time block has been saved.");
 	                    	$("#dialog-form").dialog('close');
 	                    	calendar.fullCalendar('refetchEvents');
-	                    }
+	                    },
                         error: function() {
                         	updateTips("Error: Can't save data.");
                         }
