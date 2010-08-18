@@ -12,6 +12,7 @@ public class TkForm extends KualiForm {
 	private static final long serialVersionUID = -3945893347262537122L;
 
 	private String methodToCall;
+	private String principalId;
 
 	public String getMethodToCall() {
 		return methodToCall;
@@ -23,6 +24,14 @@ public class TkForm extends KualiForm {
 
 	public TKUser getUser() {
 		return TKContext.getUser();
+	}
+
+	public String getPrincipalId() {
+		return principalId;
+	}
+
+	public void setPrincipalId(String principalId) {
+		this.principalId = principalId;
 	}
 
 }

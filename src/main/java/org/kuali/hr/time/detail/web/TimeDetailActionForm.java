@@ -11,6 +11,16 @@ public class TimeDetailActionForm extends TkForm {
 
 	private String beginPeriodDate;
 	private String endPeriodDate;
+	private String timeBlockJson;
+	private String timeBlockId;
+	private String earnCode;
+	private String assignment;
+	private String beginDate;
+	private String endDate;
+	private String beginTime;
+	private String endTime;
+	private String acrossDays;
+
 
 	public String getBeginPeriodDate() {
 		return beginPeriodDate;
@@ -26,5 +36,76 @@ public class TimeDetailActionForm extends TkForm {
 
 	public void setEndPeriodDate(String endPeriodDate) {
 		this.endPeriodDate = endPeriodDate;
+	}
+	public String getTimeBlockJson() {
+		return timeBlockJson;
+	}
+
+	public void setTimeBlockJson(String timeBlockJson) {
+		this.timeBlockJson = timeBlockJson;
+	}
+
+	public String getTimeBlockId() {
+		return timeBlockId;
+	}
+
+	public void setTimeBlockId(String timeBlockId) {
+		this.timeBlockId = timeBlockId;
+	}
+
+	public String getEarnCode() {
+		return earnCode;
+	}
+
+	public void setEarnCode(String earnCode) {
+		this.earnCode = earnCode;
+	}
+
+	public String getAssignment() {
+		return assignment;
+	}
+
+	public void setAssignment(String assignment) {
+		this.assignment = assignment;
+	}
+
+	public String getBeginDate() {
+		return beginDate;
+	}
+
+	public void setBeginDate(String beginDate) {
+		this.beginDate = beginDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getBeginTime() {
+		return beginTime;
+	}
+
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getAcrossDays() {
+		return acrossDays;
+	}
+
+	public void setAcrossDays(String acrossDays) {
+		this.acrossDays = acrossDays;
 	}
 }

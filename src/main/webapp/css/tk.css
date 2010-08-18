@@ -2,6 +2,11 @@
 .ui-state-focus {
 	font-weight: normal !important;
 }
+
+.ui-dialog-buttonpane .ui-button-text {
+	font-size: .8em !important;
+}
+
 /* end of jQuery style override */
 
 .backdoor {
@@ -228,11 +233,19 @@
 	font-size: .9em !important;
 }
 
-.ui-dialog-buttonpane .ui-button-text {
-	font-size: .8em !important;
-}
-
 .validateTips {
 	font-size: .8em;
 	padding: 0.3em;
+}
+
+
+.global-error {
+	font-size: .9em;
+	text-align: center;
+	margin-top: 10px;
+	color: red;
+}
+
+.block-error {
+	border: 2px solid red !important;
 }

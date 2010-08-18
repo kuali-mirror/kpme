@@ -1,7 +1,6 @@
 package org.kuali.hr.time.timeblock;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
@@ -23,7 +22,8 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	private Timestamp beginTimestamp;
 	private Timestamp endTimestamp;
 	private Boolean clockLogCreated;
-	private BigDecimal hours;
+	private BigDecimal hours = new BigDecimal("0.00");
+	private BigDecimal amount = new BigDecimal("0.00");
 	private String userPrincipalId;
 	private Timestamp timestamp;
 	private String beginTimestampTimezone;
@@ -113,6 +113,14 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 
 	public void setHours(BigDecimal hours) {
 		this.hours = hours;
+	}
+
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
 
 	public String getUserPrincipalId() {

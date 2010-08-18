@@ -9,7 +9,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.paytype.PayType;

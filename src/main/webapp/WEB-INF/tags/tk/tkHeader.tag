@@ -10,6 +10,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Trojan Time</title>
 		<tk:tkInclude/>
+		<tk:tkJsInclude/>
 	</head>
 	<body>
 

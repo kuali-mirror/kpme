@@ -19,6 +19,7 @@ import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
@@ -92,8 +93,7 @@ public class ClockAction extends TkAction {
     	    	Timestamp beginTimestamp = new Timestamp(beginTime);
     	    	Timestamp endTimestamp = new Timestamp(endTime);
 
-    	    	long diff = endTime - beginTime;
-    	    	BigDecimal hours = new BigDecimal((diff / 3600000.0) % 24).setScale(TkConstants.MATH_CONTEXT.getPrecision(), TkConstants.MATH_CONTEXT.getRoundingMode());
+    	    	BigDecimal hours = TKUtils.getHoursBetween(endTime, beginTime);
 
     	    	TimeBlock tb = new TimeBlock();
     	    	tb.setJobNumber(0L);
@@ -109,8 +109,8 @@ public class ClockAction extends TkAction {
     	    	tb.setBeginTimestampTimezone(cl.getClockTimestampTimezone());
     	    	tb.setEndTimestampTimezone(cl.getClockTimestampTimezone());
 
-//    	    	TkServiceLocator.getTimeBlockService().saveTimeBlock(tb);
-//
+    	    	TkServiceLocator.getTimeBlockService().saveTimeBlock(tb);
+
 //    	    	TimeBlockHistory tbs = new TimeBlockHistory(tb);
 //    	    	TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbs);
     	    }

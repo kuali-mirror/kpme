@@ -16,7 +16,7 @@ $(document).ready(function() {
             allDaySlot : false,
             multidaySelect : true,
             header: {
-                  left : 'prev, today',
+                  left : "prev, today",
                   center : 'title',
                   right : 'month,agendaWeek,agendaDay'
             },
@@ -92,30 +92,33 @@ $(document).ready(function() {
                 });
             },
             editable: false,
-	        events :
-            [
-                {
-					title : 'HRMS Java developer: RGN',
-					start : new Date(y, m, d, 8, 00),
-					end : new Date(y, m, d, 17, 00),
-					allDay : false,
-					id : 1 // this could be the unique sequence number from the table
-				},
-                {
-					title : 'HRMS PS developer: RGN',
-					start : new Date(y, m, d, 12, 0),
-					end : new Date(y, m, d, 13, 0),
-					allDay : false,
-					id : 2
-			    }
-            ]
-        });
+//            eventClick: function(calEvent, jsEvent, view) {
+//                alert('clicked');
+//            },
+//	        events :
+//            [
+//                {
+//					title : 'HRMS Java developer: RGN',
+//					start : new Date(y, m, d, 8, 00),
+//					end : new Date(y, m, d, 17, 00),
+//					allDay : false,
+//					id : 1 // this could be the unique sequence number from the table
+//				},
+//                {
+//					title : 'HRMS PS developer: RGN',
+//					start : new Date(y, m, d, 12, 0),
+//					end : new Date(y, m, d, 13, 0),
+//					allDay : false,
+//					id : 2
+//			    }
+//            ]
+            events : "TimeDetail.do?methodToCall=webService",
+            loading: function(bool) {
+                if (bool) $('#loading').show();
+                else $('#loading').hide();
+            }
 
-    $(".delete-button").click(function(){
-// var id = $(this).val();
-// calendar.fullCalendar('removeEvent');
-        // TODO: do an ajax call do delete the event
-    });
+        });
 
     var tips = $(".validateTips");
     var startTime = $('#beginTimeField');
@@ -134,6 +137,7 @@ $(document).ready(function() {
 
                 var bValid = true;
                 fieldsToValidate.removeClass('ui-state-error');
+                tips.val("");
 
                 function updateTips(t) {
                     tips
@@ -141,7 +145,7 @@ $(document).ready(function() {
                         .addClass('ui-state-highlight');
                     setTimeout(function() {
                         tips.removeClass('ui-state-highlight', 1500);
-                    }, 500);
+                    }, 1000);
                 }
 
                 function checkLength(o,n,min,max) {
@@ -174,7 +178,31 @@ $(document).ready(function() {
                 bValid = bValid && checkLength(endTime,"Out",8,8);
 
                 if(bValid) {
-                    $(this).dialog('close');
+                    var params = {};
+                    params['beginDate'] = $("#date-range-begin").val();
+                    params['endDate'] = $("#date-range-end").val();
+                    params['earnCode'] = $("#earnCode").val();
+                    params['assignment'] = $("#assignment").val();
+                    params['beginTime'] = $("#beginTimeField-entry").val();
+                    params['endTime'] = $("#endTimeField-entry").val();
+                    params['acrossDays'] = $('#acrossDays').is(':checked') ? 'y' : 'n';
+
+                    $.ajax({
+	                    url: "TimeDetail.do?methodToCall=addTimeBlock",
+	                    // dataType: 'json',
+	                    data: params,
+	                    cache: false,
+	                    success: function() {
+	                    	updateTips("Time block has been saved.");
+	                    	$("#dialog-form").dialog('close');
+	                    	calendar.fullCalendar('refetchEvents');
+	                    }
+                        error: function() {
+                        	updateTips("Error: Can't save data.");
+                        }
+	                });
+
+
                     fieldsToValidate.val('').removeClass('ui-state-error');
                 }
             },
@@ -185,12 +213,15 @@ $(document).ready(function() {
                 fieldsToValidate.val('').removeClass('ui-state-error');
             }
         }
-    }).createDeleteButton();
+    });
+
+    // error
+    $("#1").addClass('block-error');
 
 });
 
 $.fn.createDeleteButton= function() {
-    $(".delete-button").button({
+    $("#delete-button").button({
         icons : {
             primary : 'ui-icon-close'
         },

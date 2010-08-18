@@ -10,4 +10,10 @@ public interface TimeBlockDao {
 
 	public void saveOrUpdate(List<TimeBlock> timeBlockList);
 
+	public List<TimeBlock> getTimeBlocksByPeriod(String principalId, String beginDate, String endDate);
+
+	public void deleteTimeBlock(TimeBlock timeBlock);
+
+	public TimeBlock getTimeBlock(String timeBlockId);
+
 }

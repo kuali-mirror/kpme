@@ -77,7 +77,8 @@
 			</table>
 		</div>
 		--%>
-
+		<div id="test"></div>
+		<div class="global-error">Error: This is a global error for the demo purpose</div>
 		<div id="cal" style="margin-top: 20px; width:100%; font-size:.9em;"/>
 
 				<div id="dialog-form" title="Add time blocks:">
@@ -86,6 +87,10 @@
 					<form>
 						<div class="ui-widget" id="timesheet-panel">
 							<table>
+								<tr>
+									<td>Date range:</td>
+									<td><input type="text" id="date-range-begin" size="10"/> - <input type="text" id="date-range-end" size="10"/></td>
+								</tr>
 								<tr>
 									<td>Earn code: </td>
 									<td>
@@ -96,9 +101,9 @@
 									<td>Assignment: </td>
 									<td>
 										<select id="assignment">
-											<option>Operations/AIS</option>
-											<option>AIS Technical & User Support</option>
-											<option>System Support Services</option>
+											<option value="1">Operations/AIS</option>
+											<option value="2">AIS Technical & User Support</option>
+											<option value="3">System Support Services</option>
 										</select>
 									</td>
 								</tr>
@@ -127,11 +132,11 @@
 										<input id="hoursField"/>
 									</td>
 								</tr>
-								<%--
 								<tr>
-									<td colspan="2"><input type="checkbox"/> Apply time to each day</td>
 									<td></td>
+									<td><input type="checkbox" id="acrossDays"/> Apply time to each day</td>
 								</tr>
+								<%--
 								<tr>
 									<td>Begin Date:</td>
 									<td><input type="text" id="timesheet-beginDate" size="10"/></td>

@@ -34,7 +34,7 @@ var defaults = {
 	header: {
 		left: 'title',
 		center: '',
-		right: 'today prev,next'
+		right: 'today, prev,next'
 	},
 	weekends: true,
 
@@ -309,6 +309,7 @@ $.fn.fullCalendar = function(options) {
 					header.find('h2.fc-header-title').html(view.title);
 					// enable/disable 'today' button
 					var today = new Date();
+
 					if (today >= view.start && today < view.end) {
 						header.find('div.fc-button-today').addClass(tm + '-state-disabled');
 					}else{
@@ -701,6 +702,7 @@ $.fn.fullCalendar = function(options) {
 		var header,
 			sections = options.header;
 		if (sections) {
+            var ajaxIndicator = "<div id='loading' style='display:none; margin-left:10px;'><img src='images/ajax-loader.gif' alt='Loading' style='vertical-align:middle;'/></div>";
 			header = $("<table class='fc-header'/>")
 				.append($("<tr/>")
 					.append($("<td class='fc-header-left'/>").append(buildSection(sections.left)))
@@ -709,8 +711,11 @@ $.fn.fullCalendar = function(options) {
 				.prependTo(element);
 		}
 		function buildSection(buttonStr) {
+
+
 			if (buttonStr) {
 				var tr = $("<tr/>");
+
 				$.each(buttonStr.split(' '), function(i) {
 					if (i > 0) {
 						tr.append("<td><span class='fc-header-space'/></td>");
@@ -750,6 +755,7 @@ $.fn.fullCalendar = function(options) {
 										"<a><span>" + text + "</span></a></div>");
 								}
 								if (button) {
+
 									button
 										.click(function() {
 											if (!button.hasClass(tm + '-state-disabled')) {
@@ -802,6 +808,11 @@ $.fn.fullCalendar = function(options) {
 //		               tr.append(payPeriod);
 //                    }
 				});
+
+                // ajax indicator
+                if(buttonStr.indexOf('prev') > 0 || buttonStr.indexOf('today') > 0 || buttonStr.indexOf('next') > 0) {
+                    tr.append(ajaxIndicator);
+                }
 				return $("<table/>").append(tr);
 			}
 		}
@@ -1643,10 +1654,11 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 			left = seg.isStart ? dayContentLeft(seg.start.getDay()) : minLeft;
 			right = seg.isEnd ? dayContentRight(seg.end.getDay()-1) : maxLeft;
 		}
+
 		html +=
-			"<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;left:"+left+"px'>" +
+			"<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;left:"+left+"px;margin-bottom:3px;' id='" + event.id + "'>" +
 //            "<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + htmlEscape(event.title) + " " + event.id + "<span style='float:right; color:black; font-weight:bold; margin-right: 3px;'>X</span></td></tr>" +
-            "<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<button class='delete-button' style='clear:both; float:right; width:14px; height:14px; margin: 3px 3px 0 0;' value='"+ event.id +"'>button</button></td></tr>" +
+            "<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<span style='float:right; margin: 2px 7px 0 0; '><a href='TimeDetail.do?methodToCall=deleteTimeBlock&timeBlockId=" + event.id + "' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em;'>X</a></span></td></tr>" +
             "<tr><td align='center'>from: " + formatDate(event.start,view.option('timeFormat')) +"</td><td align='center'>to: " + formatDate(event.end,view.option('timeFormat')) + "</td></tr>" +
 //            "<tr><td align='center' style='color:black;'>L: 11:00a</td><td align='center' style='color:black;'>L: 12:00p</td></tr>" +
 //            "<tr><td align='center'>12:00p</td><td align='center'>4:00p</td></tr>" +
@@ -1666,6 +1678,7 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 			"</div>";
 		seg.left = left;
 		seg.outerWidth = right - left;
+
 	}
 	segmentContainer[0].innerHTML = html; // faster than html()
 	eventElements = segmentContainer.children();
@@ -2889,11 +2902,6 @@ function Agenda(element, options, methods, viewName) {
 		startCol = Math.max(0, startCol);
 		endCol = Math.min(colCnt, endCol);
 
-        console.log(startCol);
-        console.log(endCol-1);
-
-        alert('test');
-
 		if (startCol < endCol) {
 			dayBind(
 				_renderDayOverlay(0, startCol, 0, endCol-1)
@@ -3411,6 +3419,16 @@ function selection_dayMousedown(view, hoverListener, cellDate, cellIsAllDay, ren
                     }
 
 					dates = [ cellDate(origCell), cellDate(cell) ].sort(cmp);
+
+//                    console.log("start : " + formatDate(cellDate(origCell),'MM/dd/yyyy'));
+//                    console.log("end : " + formatDate(cellDate(cell),'MM/dd/yyyy'));
+
+                    var dateRangeBegin = formatDate(cellDate(origCell),'MM/dd/yyyy');
+                    var dateRangeEnd = formatDate(cellDate(cell),'MM/dd/yyyy');
+
+                    $("#date-range-begin").val(dateRangeBegin);
+                    $("#date-range-end").val(dateRangeEnd);
+
 					renderSelection(dates[0], addDays(cloneDate(dates[1]), 1), true);
 				}else{
 					dates = null;
@@ -4037,8 +4055,5 @@ function enableTextSelection(element) {
 		.unbind('selectstart.ui');
 }
 */
-
-
-
 
 })(jQuery);
