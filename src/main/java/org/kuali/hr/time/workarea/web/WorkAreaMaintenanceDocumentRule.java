@@ -13,28 +13,30 @@ import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class WorkAreaMaintenanceDocumentRule extends TransactionalDocumentRuleBase {
 
 	private static Logger LOG = Logger.getLogger(WorkAreaMaintenanceDocumentRule.class);
 
-	/**
-	 * TODO : If we already have a date, it is probably already valid, we need
-	 * to look at how to add back the kuali form binding validation for the date
-	 * type.
-	 * 
-	 * @param effectiveDate
-	 * @return
-	 */
-	protected boolean validateEffectiveDate(Date effectiveDate) {
-		boolean v = true;
-		return v;
+	private static final String WORK_AREA_FIELD_NAME_ADMIN_DESCR = "adminDescr";
+	private static final String WORK_AREA_FIELD_NAME_DESCR = "description";
+	private static final String TASK_FIELD_NAME_DESCR = "description";
+	private static final String TASK_FIELD_NAME_ADMIN_DESCR = "administrativeDescription";
+	
+	private DataDictionaryService ddservice;
+	
+	public WorkAreaMaintenanceDocumentRule() {
+		ddservice = KNSServiceLocator.getDataDictionaryService();	
 	}
-
+	
 	protected boolean validateDepartmentId(String deptId) {
 		boolean v = true;
-
+		
+		// Need to build department service // do department lookup for .
+		
 		return v;
 	}
 
@@ -62,27 +64,33 @@ public class WorkAreaMaintenanceDocumentRule extends TransactionalDocumentRuleBa
 
 		return v;
 	}
-
-	protected boolean validateAdminDescription(String desc) {
+	
+	@SuppressWarnings("unchecked")
+	private boolean genericDescriptionValidation(String desc, Class clazz, String errorKeyPrefix, String fieldName) {
 		boolean v = true;
 
+		Integer maxLength = ddservice.getAttributeMaxLength(clazz, fieldName);
+		String  label = ddservice.getAttributeErrorLabel(clazz, fieldName);
+		
 		if (v && StringUtils.isBlank(desc)) {
 			v = false;
-			addError("document.workArea.adminDescr", "error.required", "admin description");
+			addError(errorKeyPrefix+fieldName, "error.required", label);
+		}
+		
+		if (v && desc.length() > maxLength) {
+			v = false;
+			addError(errorKeyPrefix+fieldName, "error.maxLength", label, maxLength.toString());
 		}
 
-		return v;
+		return v;		
+	}
+
+	protected boolean validateAdminDescription(String desc) {
+		return genericDescriptionValidation(desc, WorkArea.class, "document.workArea.", WORK_AREA_FIELD_NAME_ADMIN_DESCR);
 	}
 
 	protected boolean validateDescription(String desc) {
-		boolean v = true;
-
-		if (v && StringUtils.isBlank(desc)) {
-			v = false;
-			addError("document.workArea.description", "error.required", "description");
-		}
-
-		return v;
+		return genericDescriptionValidation(desc, WorkArea.class, "document.workArea.", WORK_AREA_FIELD_NAME_DESCR);
 	}
 
 	protected boolean validateRoleAssignments(List<TkRoleAssign> list) {
@@ -115,7 +123,6 @@ public class WorkAreaMaintenanceDocumentRule extends TransactionalDocumentRuleBa
 		if (wa != null) {
 			valid = true;
 			valid &= this.validateDepartmentId(wa.getDeptId());
-			valid &= this.validateEffectiveDate(wa.getEffectiveDate());
 			valid &= this.validateOvertimePreference(wa.getOvertimePreference());
 			valid &= this.validateAdminDescription(wa.getAdminDescr());
 			valid &= this.validateDescription(wa.getDescription());
@@ -142,20 +149,23 @@ public class WorkAreaMaintenanceDocumentRule extends TransactionalDocumentRuleBa
 			v = false;
 			addError(errorPrefix + ".description", "error.required", "description");
 		}
-
+		
+		if (v) {
+			v = genericDescriptionValidation(task.getDescription(), Task.class, errorPrefix+".", TASK_FIELD_NAME_DESCR);
+		}
+		
 		if (v && StringUtils.isBlank(task.getAdministrativeDescription())) {
 			v = false;
 			addError(errorPrefix + ".adminDescription", "error.required", "admin description");
+		}
+		
+		if (v) {
+			v = genericDescriptionValidation(task.getAdministrativeDescription(), Task.class, errorPrefix+".", TASK_FIELD_NAME_ADMIN_DESCR);
 		}
 
 		if (v && task.getEffectiveDate() == null) {
 			v = false;
 			addError(errorPrefix + ".effectiveDate", "error.required", "effective date");
-		}
-
-		if (v && task.getEffectiveDate() != null) {
-			Date effectiveDate = task.getEffectiveDate();
-			// TODO: Not sure what to do with this to validate it...
 		}
 
 		return v;
@@ -189,7 +199,7 @@ public class WorkAreaMaintenanceDocumentRule extends TransactionalDocumentRuleBa
 
 		return v;
 	}
-
+	
 	@Override
 	protected boolean processCustomSaveDocumentBusinessRules(Document document) {
 		LOG.debug("Validation called from rice");

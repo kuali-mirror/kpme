@@ -42,7 +42,7 @@
             <forward name="basic" path="/WEB-INF/jsp/timesheet.jsp" />
         </action>
 
-       <action attribute="KualiForm" path="/WorkAreaMaintenance" name="WorkAreaActionForm" type="org.kuali.hr.time.workarea.web.WorkAreaAction" scope="session" parameter="methodToCall">
+       <action attribute="KualiForm" path="/WorkAreaMaintenance" input="/WEB-INF/jsp/workAreaMaintenance.jsp" name="WorkAreaActionForm" type="org.kuali.hr.time.workarea.web.WorkAreaAction" scope="session" parameter="methodToCall">
        		<forward name="basic" path="/WEB-INF/jsp/workAreaMaintenance.jsp" />
        </action>
 

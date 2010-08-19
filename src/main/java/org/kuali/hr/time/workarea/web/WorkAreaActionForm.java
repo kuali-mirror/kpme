@@ -7,41 +7,41 @@ import org.kuali.hr.time.task.Task;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 
 public class WorkAreaActionForm extends KualiTransactionalDocumentFormBase {
-    /**
+	/**
      * 
      */
-    private static final long serialVersionUID = 1L;
-    private TkRoleAssign newRoleAssignment;
-    private Task newTask;
+	private static final long serialVersionUID = 1L;
+	private TkRoleAssign newRoleAssignment;
+	private Task newTask;
 
-    @Override
-    public String getDefaultDocumentTypeName() {
-	return "WorkAreaMaintenanceDocument";
-    }
+	@Override
+	public String getDefaultDocumentTypeName() {
+		return "WorkAreaMaintenanceDocument";
+	}
 
-    @Override
-    public String getDocTypeName() {
-	return "WorkAreaMaintenanceDocument";
-    }
+	@Override
+	public String getDocTypeName() {
+		return "WorkAreaMaintenanceDocument";
+	}
 
-    @Override
-    public void populate(HttpServletRequest request) {
-	super.populate(request);
-    }
+	@Override
+	public void populate(HttpServletRequest request) {
+		super.populate(request);
+	}
 
-    public TkRoleAssign getNewRoleAssignment() {
-	return newRoleAssignment;
-    }
+	public TkRoleAssign getNewRoleAssignment() {
+		return newRoleAssignment;
+	}
 
-    public void setNewRoleAssignment(TkRoleAssign newRoleAssignment) {
-	this.newRoleAssignment = newRoleAssignment;
-    }
+	public void setNewRoleAssignment(TkRoleAssign newRoleAssignment) {
+		this.newRoleAssignment = newRoleAssignment;
+	}
 
-    public Task getNewTask() {
-	return newTask;
-    }
+	public Task getNewTask() {
+		return newTask;
+	}
 
-    public void setNewTask(Task newTask) {
-	this.newTask = newTask;
-    }
+	public void setNewTask(Task newTask) {
+		this.newTask = newTask;
+	}
 }
