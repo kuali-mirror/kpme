@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `hr_job_s`;
 CREATE TABLE `hr_job_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1015 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1024 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -540,7 +540,7 @@ DROP TABLE IF EXISTS `krsb_msg_que_s`;
 CREATE TABLE `krsb_msg_que_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2062 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2068 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -937,7 +937,7 @@ CREATE TABLE `tk_assign_acct_t` (
   `FIN_COA_CD` varchar(2) COLLATE utf8_bin DEFAULT NULL,
   `ACCOUNT_NBR` varchar(7) COLLATE utf8_bin DEFAULT NULL,
   `SUB_ACCT_NBR` varchar(5) COLLATE utf8_bin DEFAULT NULL,
-  `FIN_OBJECT_NBR` varchar(4) COLLATE utf8_bin DEFAULT NULL,
+  `FIN_OBJECT_CD` varchar(4) COLLATE utf8_bin DEFAULT NULL,
   `FIN_SUB_OBJ_CD` varchar(3) COLLATE utf8_bin DEFAULT NULL,
   `PROJECT_CD` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `ORG_REF_ID` varchar(8) COLLATE utf8_bin DEFAULT NULL,
@@ -945,9 +945,22 @@ CREATE TABLE `tk_assign_acct_t` (
   `ACTIVE` bit(1) DEFAULT NULL,
   `ASSIGNMENT_ID` bigint(19) NOT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
-  `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
+  `VER_NBR` decimal(8,0) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ASSIGN_ACCT_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tk_assignment_acct_s`
+--
+
+DROP TABLE IF EXISTS `tk_assignment_acct_s`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tk_assignment_acct_s` (
+  `ID` bigint(19) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -995,7 +1008,7 @@ DROP TABLE IF EXISTS `tk_clock_location_rl_s`;
 CREATE TABLE `tk_clock_location_rl_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2093 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2130 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1031,7 +1044,7 @@ DROP TABLE IF EXISTS `tk_clock_log_s`;
 CREATE TABLE `tk_clock_log_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2373 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2406 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1720,7 +1733,7 @@ DROP TABLE IF EXISTS `tk_time_block_s`;
 CREATE TABLE `tk_time_block_s` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1032 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1109 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1750,6 +1763,19 @@ CREATE TABLE `tk_time_block_t` (
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
   PRIMARY KEY (`TK_TIME_BLOCK_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tk_time_collection_rl_s`
+--
+
+DROP TABLE IF EXISTS `tk_time_collection_rl_s`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tk_time_collection_rl_s` (
+  `ID` bigint(19) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1870,4 +1896,4 @@ CREATE TABLE `tk_work_area_t` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-08-10 14:12:38
+-- Dump completed on 2010-08-20 13:14:21
