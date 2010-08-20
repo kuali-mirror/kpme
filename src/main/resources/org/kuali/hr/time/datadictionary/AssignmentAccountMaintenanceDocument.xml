@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="AssignmentAccountMaintenanceDocument" parent="AssignmentAccountMaintenanceDocument-parentBean"/>
+
+  <bean id="AssignmentAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  		p:businessObjectClass="org.kuali.hr.time.assignment.AssignmentAccount"
+  		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+    <property name="maintainableSections">
+      <list>
+        <ref bean="AssignmentAccountMaintenanceDocument-AssignmentAccountMaintenance"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>assignAcctId</value>
+      </list>
+    </property>
+    <property name="documentTypeName" value="AssignmentAccountDocumentType"/>
+  </bean>
+
+  <!-- Maintenance Section Definitions -->
+
+  <bean id="AssignmentAccountMaintenanceDocument-AssignmentAccountMaintenance" parent="AssignmentAccountMaintenanceDocument-AssignmentAccountMaintenance-parentBean"/>
+
+  <bean id="AssignmentAccountMaintenanceDocument-AssignmentAccountMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Assignment Account Maintenance"/>
+    <property name="maintainableItems">
+      <list>
+      	<bean parent="MaintainableFieldDefinition" p:name="finCoaCd"  />
+      	<bean parent="MaintainableFieldDefinition" p:name="accountNbr"  />
+      	<bean parent="MaintainableFieldDefinition" p:name="subAcctNbr"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="finObjectCd"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="finSubObjCd"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="projectCd"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="orgRefId"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="percent"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="assignment"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

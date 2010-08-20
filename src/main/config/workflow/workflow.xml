@@ -74,5 +74,30 @@
 			<parent>RiceDocument</parent>
 			<label>PayCalendarDocument</label>
 		</documentType>
+		<documentType>
+			<name>AssignmentDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>AssignmentDocument</label>
+	</documentType>
+	<documentType>
+			<name>AssignmentAccountDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>AssignmentAccountDocument</label>
+	</documentType>
+	<documentType>
+			<name>TimeCollectionRuleDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>TimeCollectionRuleDocument</label>
+	</documentType>		
+	<documentType>
+			<name>WorkScheduleDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>WorkScheduleDocument</label>
+	</documentType>
+	<documentType>
+			<name>WorkScheduleEntryDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>WorkScheduleEntryDocument</label>
+	</documentType>	
 	</documentTypes>
 </data>

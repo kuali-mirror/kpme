@@ -10,34 +10,50 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long hrWorkScheduleEntryId;
-	private Long hrWorkScheduleId;
+	private Long workScheduleEntryId;
+	private Long workScheduleId;
 	private Long calDayId;
-	private Integer dayOfPeriodId;
-	private Integer regHours;
+	private Long dayOfPeriodId;
+	private Long  regHours;
 	
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
+	public Long getDayOfPeriodId() {
+		return dayOfPeriodId;
 	}
 
-	public Long getHrWorkScheduleEntryId() {
-		return hrWorkScheduleEntryId;
+
+	public void setDayOfPeriodId(Long dayOfPeriodId) {
+		this.dayOfPeriodId = dayOfPeriodId;
 	}
 
-	public void setHrWorkScheduleEntryId(Long hrWorkScheduleEntryId) {
-		this.hrWorkScheduleEntryId = hrWorkScheduleEntryId;
+
+	public Long getRegHours() {
+		return regHours;
 	}
 
-	public Long getHrWorkScheduleId() {
-		return hrWorkScheduleId;
+
+	public void setRegHours(Long regHours) {
+		this.regHours = regHours;
+	}
+	
+	public Long getWorkScheduleEntryId() {
+		return workScheduleEntryId;
 	}
 
-	public void setHrWorkScheduleId(Long hrWorkScheduleId) {
-		this.hrWorkScheduleId = hrWorkScheduleId;
+
+	public void setWorkScheduleEntryId(Long workScheduleEntryId) {
+		this.workScheduleEntryId = workScheduleEntryId;
 	}
+
+ 
+	public Long getWorkScheduleId() {
+		return workScheduleId;
+	}
+
+
+	public void setWorkScheduleId(Long workScheduleId) {
+		this.workScheduleId = workScheduleId;
+	}
+
 
 	public Long getCalDayId() {
 		return calDayId;
@@ -46,21 +62,21 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 	public void setCalDayId(Long calDayId) {
 		this.calDayId = calDayId;
 	}
-
-	public Integer getDayOfPeriodId() {
-		return dayOfPeriodId;
+	 
+	@SuppressWarnings("unchecked")
+	@Override
+	protected LinkedHashMap toStringMapper() {
+		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
+		
+		toStringMap.put("workScheduleEntryId", workScheduleEntryId);
+		toStringMap.put("workScheduleId", workScheduleId);
+		toStringMap.put("calDayId", calDayId);
+		toStringMap.put("dayOfPeriodId", dayOfPeriodId);
+		toStringMap.put("regHours", regHours);		
+		 
+		return toStringMap;
+		
 	}
 
-	public void setDayOfPeriodId(Integer dayOfPeriodId) {
-		this.dayOfPeriodId = dayOfPeriodId;
-	}
-
-	public Integer getRegHours() {
-		return regHours;
-	}
-
-	public void setRegHours(Integer regHours) {
-		this.regHours = regHours;
-	}
-
+	 
 }

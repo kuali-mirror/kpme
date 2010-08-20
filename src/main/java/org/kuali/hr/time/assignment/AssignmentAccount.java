@@ -21,16 +21,20 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 	private String orgRefId;
 	private BigDecimal percent;
 	private boolean active;
-	private Long assignmentId;
+	private Long assignment;
+	private Assignment assignmentObj;
 	
 	
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
+	public Assignment getAssignmentObj() {
+		return assignmentObj;
 	}
+
+
+
+	public void setAssignmentObj(Assignment assignmentObj) {
+		this.assignmentObj = assignmentObj;
+	}
+
 
 
 
@@ -152,16 +156,30 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 		this.active = active;
 	}
 
+	public Long getAssignment() {
+		return assignment;
+	}
 
-
-	public Long getAssignmentId() {
-		return assignmentId;
+	public void setAssignment(Long assignment) {
+		this.assignment = assignment;
 	}
 
 
 
-	public void setAssignmentId(Long assignmentId) {
-		this.assignmentId = assignmentId;
+	@SuppressWarnings("unchecked")
+	@Override
+	protected LinkedHashMap toStringMapper() {
+		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
+		toStringMap.put("finCoaCd", finCoaCd);
+		toStringMap.put("accountNbr", accountNbr);
+		toStringMap.put("subAcctNbr", subAcctNbr);
+		toStringMap.put("finObjectCd", finObjectCd);
+		toStringMap.put("finSubObjCd", finSubObjCd);
+		toStringMap.put("projectCd", projectCd);
+		toStringMap.put("orgRefId", orgRefId);	
+		toStringMap.put("projectCd", projectCd);	
+		toStringMap.put("percent", percent);	
+		return toStringMap;
 	}
-
+	
 }

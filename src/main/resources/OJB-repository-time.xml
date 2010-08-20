@@ -45,13 +45,7 @@
 		<field-descriptor name="active"                 column="active"	            jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
-
-		<reference-descriptor name="task" class-ref="org.kuali.hr.time.task.Task" auto-retrieve="true" auto-delete="false" auto-update="false">
-			<foreignkey field-ref="taskId"/>
-		</reference-descriptor>
-		<reference-descriptor name="workArea" class-ref="org.kuali.hr.time.workarea.WorkArea" auto-retrieve="true" auto-delete="false" auto-update="false">
-			<foreignkey field-ref="workAreaId"/>
-		</reference-descriptor>
+ 
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.timeblock.TimeBlock" table="tk_time_block_t">
@@ -373,5 +367,62 @@
 			<inverse-foreignkey field-ref="holidayCalendarId"/>
 		</collection-descriptor>
 	</class-descriptor>
+	
+	<!-- Assignment Account -->
+
+	<class-descriptor class="org.kuali.hr.time.assignment.AssignmentAccount"
+		table="tk_assign_acct_t">
+		<field-descriptor name="assignAcctId" column="ASSIGN_ACCT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_assignment_acct_s" />
+		<field-descriptor name="finCoaCd" column="FIN_COA_CD" jdbc-type="VARCHAR" length="2" />
+		<field-descriptor name="accountNbr" column="ACCOUNT_NBR" jdbc-type="VARCHAR" length="7" />
+		<field-descriptor name="subAcctNbr" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" length="5" />
+		<field-descriptor name="finObjectCd" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" length="4" />
+		<field-descriptor name="finSubObjCd" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" length="3" />
+		<field-descriptor name="projectCd" column="PROJECT_CD" jdbc-type="VARCHAR" length="10" />
+		<field-descriptor name="orgRefId" column="ORG_REF_ID" jdbc-type="VARCHAR" length="8" />
+		<field-descriptor name="percent" column="PERCENT " jdbc-type="DECIMAL" />
+		<field-descriptor name="active" column="ACTIVE" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
+		<field-descriptor name="assignment" column="ASSIGNMENT_ID" jdbc-type="BIGINT" nullable="false" />
+		<field-descriptor name="objectId" column="obj_id" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />		
+	</class-descriptor>
+	<!-- Time Collection Rule -->
+	<class-descriptor class="org.kuali.hr.time.TimeCollectionRule" table="TK_TIME_COLLECTION_RL_T">
+		<field-descriptor name="timeCollectionRuleId" column="TIME_COLL_RULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_clock_location_rl_s"/>
+		<field-descriptor name="deptId" column="DEPTID" jdbc-type="VARCHAR" length="21" />
+	 	<field-descriptor name="workArea" column="work_area_id"  jdbc-type="BIGINT" precision="10" scale="0" nullable="false" primarykey="false" />
+		<field-descriptor name="effDate" column="EFFDT" jdbc-type="DATE" />
+		<field-descriptor name="clockUserFl" column="CLOCK_USERS_FL" jdbc-type="VARCHAR" length="1" />
+		<field-descriptor name="hrsDistributionF" column="HRS_DISTRIBUTION_FL" jdbc-type="VARCHAR" length="1" />
+		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
+		<field-descriptor name="timeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="objectId" column="obj_id" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />		
+	</class-descriptor>
+	
+	<!-- Work Schedule -->
+	<class-descriptor class="org.kuali.hr.time.workschedule.WorkSchedule"
+		table="hr_work_schedule_t">
+		<field-descriptor name="workScheduleId" column="WORK_SCHEDULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_work_schedule_s" />
+		<field-descriptor name="workScheduleDesc" column="WORK_SCHEDULE_DESC" jdbc-type="VARCHAR" length="30" nullable="false" />
+		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" nullable="false" />
+		<field-descriptor name="deptId" column="DEPT_ID" jdbc-type="VARCHAR" length="21" />
+		<field-descriptor name="workArea" column="work_area_id"  jdbc-type="BIGINT" precision="10" scale="0" nullable="false" primarykey="false" />
+		<field-descriptor name="principalId" column="PRINCIPAL_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="active" column="ACTIVE" jdbc-type="bit" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />		
+	</class-descriptor>
+
+	<!-- Work ScheduleEntry -->
+	<class-descriptor class="org.kuali.hr.time.workschedule.WorkScheduleEntry" table="hr_work_schedule_entry_t">
+		<field-descriptor name="workScheduleEntryId" column="WORK_SCHDULE_ENTRY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_work_schedule_entry_s"  />
+		<field-descriptor name="workScheduleId" column="WORK_SCHEDULE_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="calDayId" column="CAL_DAY_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="dayOfPeriodId" column="DAY_OF_PERIOD_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="regHours" column="REG_HOURS" jdbc-type="BIGINT" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>	
 
 </descriptor-repository>
