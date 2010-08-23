@@ -141,7 +141,7 @@
  		<bean parent="DateValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+      <bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
     </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
     <property name="name" value="effectiveDate"/>

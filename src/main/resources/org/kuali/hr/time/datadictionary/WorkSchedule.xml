@@ -19,8 +19,33 @@
         <ref bean="WorkSchedule-active"/>
       </list>
     </property>
-  </bean>
+   
+ 
+ <property name="relationships">
+  		<list>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="workAreaObj"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea" p:targetName="workAreaId"/>
+                </list>
+              </property>
+            </bean>    
 
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="department"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="deptId" p:targetName="deptId"/>
+                </list>
+              </property>
+            </bean>           
+                   
+                    
+        </list>
+    </property>        
+  </bean>
+  
   <!-- Attribute Definitions -->
   <bean id="WorkSchedule-WorkScheduleDesc" parent="WorkSchedule-WorkScheduleDesc-parentBean"/>
   <bean id="WorkSchedule-WorkScheduleDesc-parentBean" abstract="true" parent="AttributeDefinition">

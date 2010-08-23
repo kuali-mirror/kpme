@@ -3,6 +3,7 @@ package org.kuali.hr.time.workschedule;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -16,12 +17,23 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 	
 	private String workScheduleDesc;
 	private Date effectiveDate;
-	private String deptId;	
+	private String deptId;
+	private Department department;
 	private Long workArea;	
 	private Long principalId;
 	private boolean active;
 	private WorkArea workAreaObj;		
 	
+
+	public Department getDepartment() {
+		return department;
+	}
+
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
 
 	public Long getWorkScheduleId() {
 		return workScheduleId;
@@ -85,11 +97,6 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 
 	public Long getWorkArea() {
 		return workArea;
-	}
-
-
-	public void setWorkAreaId(Long workArea) {
-		this.workArea = workArea;
 	}
 
 

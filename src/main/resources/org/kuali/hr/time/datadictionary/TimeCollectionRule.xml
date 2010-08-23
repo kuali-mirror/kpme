@@ -52,7 +52,7 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-
+	
 	<bean id="TimeCollectionRule-deptId" parent="TimeCollectionRule-deptId-parentBean" />
 	<bean id="TimeCollectionRule-deptId-parentBean" abstract="true"
 		parent="AttributeDefinition">

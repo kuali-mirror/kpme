@@ -203,8 +203,6 @@
 
 	
 	<!--  Inquiry Definitions  -->
-
-
 	<bean id="AssignmentAccount-lookupDefinition" parent="AssignmentAccount-lookupDefinition-parentBean" />
 	<bean id="AssignmentAccount-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">

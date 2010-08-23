@@ -15,7 +15,19 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 	private Long calDayId;
 	private Long dayOfPeriodId;
 	private Long  regHours;
+	private WorkSchedule workScheduleObj;
 	
+	
+	public WorkSchedule getWorkScheduleObj() {
+		return workScheduleObj;
+	}
+
+
+	public void setWorkScheduleObj(WorkSchedule workScheduleObj) {
+		this.workScheduleObj = workScheduleObj;
+	}
+
+
 	public Long getDayOfPeriodId() {
 		return dayOfPeriodId;
 	}

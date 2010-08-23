@@ -34,7 +34,7 @@
 		<connection-pool maxActive="150"/>
 	</jdbc-connection-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.assignment.Assignment" table="tk_assignment_t">
+		<class-descriptor class="org.kuali.hr.time.assignment.Assignment" table="tk_assignment_t">
 		<field-descriptor name="assignmentId" 			column="assignment_id" 		jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_assignment_s"/>
 		<field-descriptor name="principalId"            column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
 		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
@@ -45,7 +45,14 @@
 		<field-descriptor name="active"                 column="active"	            jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
- 
+
+		<reference-descriptor name="task" class-ref="org.kuali.hr.time.task.Task" auto-retrieve="true" auto-delete="false" auto-update="false">
+			<foreignkey field-ref="taskId"/>
+		</reference-descriptor>
+		<reference-descriptor name="workArea" class-ref="org.kuali.hr.time.workarea.WorkArea" auto-retrieve="true" auto-delete="false" auto-update="false">
+			<foreignkey field-ref="workAreaId"/>
+		</reference-descriptor>
+				
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.timeblock.TimeBlock" table="tk_time_block_t">
@@ -384,7 +391,12 @@
 		<field-descriptor name="active" column="ACTIVE" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="assignment" column="ASSIGNMENT_ID" jdbc-type="BIGINT" nullable="false" />
 		<field-descriptor name="objectId" column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />		
+		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />	
+		
+		<reference-descriptor name="assignmentObj" class-ref="org.kuali.hr.time.assignment.Assignment" auto-retrieve="true" auto-delete="false" auto-update="false">
+			<foreignkey field-ref="assignment"/>
+		</reference-descriptor>
+			
 	</class-descriptor>
 	<!-- Time Collection Rule -->
 	<class-descriptor class="org.kuali.hr.time.TimeCollectionRule" table="TK_TIME_COLLECTION_RL_T">
