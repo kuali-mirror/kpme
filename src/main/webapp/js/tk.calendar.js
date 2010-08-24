@@ -217,6 +217,23 @@ $(document).ready(function() {
     // error
     $("#1").addClass('block-error');
 
+    // use keyboard to open the form
+    var isCtrl,isAlt = false;
+
+    $(this).keydown(function(e){
+
+        if(e.ctrlKey) isCtrl = true;
+        if(e.altKey) isAlt = true;
+
+        if(e.keyCode == 65 && isCtrl && isAlt) {
+            $("#dialog-form").dialog('open');
+        }
+
+    }).keyup(function(e){
+        isCtrl = false;
+        isAlt = false;
+    });
+
 });
 
 $.fn.createDeleteButton= function() {

@@ -77,6 +77,23 @@
 			</table>
 		</div>
 		--%>
+
+		<%--This is for visually impaired users --%>
+		<!--
+		<c:forEach var="timeBlock" items="${Form.timeBlocks}" varStatus="row">
+			Document Id: ${timeBlock.documentId}<br/>
+			Job Number: ${timeBlock.jobNumber}<br/>
+			Workarea Id: ${timeBlock.workAreaId}<br/>
+			Task Id: ${timeBlock.taskId}<br/>
+			Earn Code: ${timeBlock.earnCode}<br/>
+			Begin Time: <fmt:formatDate type="both" dateStyle="full" value="${timeBlock.beginTimestamp}"/><br/>
+			End Time: <fmt:formatDate type="both" dateStyle="full" value="${timeBlock.endTimestamp}"/><br/>
+			Hours: ${timeBlock.hours}<br/>
+			Amount: ${timeBlock.amount}<br/>
+			<br/>
+		</c:forEach>
+		 -->
+
 		<div class="global-error">Error: This is a global error for the demo purpose</div>
 		<div id="cal" style="margin-top: 20px; width:100%; font-size:.9em;"/>
 

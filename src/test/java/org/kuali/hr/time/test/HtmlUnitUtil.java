@@ -25,7 +25,7 @@ public class HtmlUnitUtil {
 
     public static HtmlPage gotoPageAndLogin(String url) throws Exception {
 	LOG.debug("URL: " + url);
-	final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_6_0);
+	final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7);
 	webClient.setJavaScriptEnabled(false);
 
 	HtmlPage loginPage = (HtmlPage) webClient.getPage(new URL(url));
@@ -36,20 +36,17 @@ public class HtmlUnitUtil {
     public static boolean pageContainsText(HtmlPage page, String text) {
 	return page.asText().indexOf(text) >= 0;
     }
-    
+
 	public static HtmlPage clickInputContainingText(HtmlPage page, String...values) throws Exception {
 		createTempFile(page);
 		page = (HtmlPage)getInputContainingText(page, values).click();
 		return page;
 	}
-	
-	@SuppressWarnings("unchecked")
+
     public static HtmlInput getInputContainingText(HtmlPage page, String... values) throws Exception {
 		List<HtmlForm> forms = page.getForms();
 		for (HtmlForm form : forms){
-			Iterator it = form.getAllHtmlChildElements();
-			while (it.hasNext()) {
-				HtmlElement element = (HtmlElement)it.next();
+			for(HtmlElement element : form.getHtmlElementDescendants()) {
 				if (element instanceof HtmlInput) {
 					if (elementContainsValues(element, values)) {
 						return (HtmlInput)element;
@@ -61,14 +58,12 @@ public class HtmlUnitUtil {
 	}
 
 
-	@SuppressWarnings("unchecked")
     public static List<HtmlInput> getInputsContainingText(HtmlPage page, String... values) throws Exception {
 		List<HtmlInput> inputs = new ArrayList<HtmlInput>();
 		List<HtmlForm> forms = page.getForms();
 		for (HtmlForm form : forms){
-			Iterator it = form.getAllHtmlChildElements();
-			while (it.hasNext()) {
-				HtmlElement element = (HtmlElement)it.next();
+
+			for(HtmlElement element : form.getHtmlElementDescendants()) {
 				if (element instanceof HtmlInput) {
 					if (elementContainsValues(element, values)) {
 						inputs.add((HtmlInput)element);
@@ -78,7 +73,7 @@ public class HtmlUnitUtil {
 		}
 		return inputs;
 	}
-	
+
 	protected static boolean elementContainsValues(HtmlElement element, String... values) {
 		for (String value : values) {
 			if (element.toString().indexOf(value) == -1) {
@@ -87,13 +82,12 @@ public class HtmlUnitUtil {
         }
 		return true;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	public static HtmlPage clickAnchorContainingText(HtmlPage page, String... values) throws Exception {
 		HtmlUnitUtil.createTempFile(page);
 		return (HtmlPage) getAnchorContainingText(page, values).click();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static HtmlAnchor getAnchorContainingText(HtmlPage page, String... values) throws Exception {
 		for (Iterator iterator = page.getAnchors().iterator(); iterator.hasNext();) {
@@ -141,19 +135,18 @@ public class HtmlUnitUtil {
 	}
     }
 
-    @SuppressWarnings("unchecked")
     public static HtmlInput getInputContainingText(HtmlForm form, String text) throws Exception {
-	for (Iterator iterator = form.getAllHtmlChildElements(); iterator.hasNext();) {
-	    HtmlElement element = (HtmlElement) iterator.next();
-	    if (element instanceof HtmlInput) {
-		HtmlInput i = (HtmlInput) element;
-		if (element.toString().contains(text)) {
-		    return i;
-		}
-	    }
 
-	}
-	return null;
+		for (HtmlElement element : form.getHtmlElementDescendants()) {
+			if (element instanceof HtmlInput) {
+				HtmlInput i = (HtmlInput) element;
+				if (element.toString().contains(text)) {
+					return i;
+				}
+			}
+
+		}
+		return null;
     }
 
 }

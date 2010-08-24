@@ -1,6 +1,9 @@
 package org.kuali.hr.time.detail.web;
 
+import java.util.List;
+
 import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.timeblock.TimeBlock;
 
 public class TimeDetailActionForm extends TkForm {
 
@@ -20,7 +23,7 @@ public class TimeDetailActionForm extends TkForm {
 	private String beginTime;
 	private String endTime;
 	private String acrossDays;
-
+	private List<TimeBlock> timeBlockList;
 
 	public String getBeginPeriodDate() {
 		return beginPeriodDate;
@@ -107,5 +110,13 @@ public class TimeDetailActionForm extends TkForm {
 
 	public void setAcrossDays(String acrossDays) {
 		this.acrossDays = acrossDays;
+	}
+
+	public List<TimeBlock> getTimeBlocks() {
+		return timeBlockList;
+	}
+
+	public void setTimeBlocks(List<TimeBlock> timeBlockList) {
+		this.timeBlockList = timeBlockList;
 	}
 }

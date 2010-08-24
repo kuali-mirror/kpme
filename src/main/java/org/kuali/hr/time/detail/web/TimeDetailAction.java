@@ -29,6 +29,9 @@ public class TimeDetailAction extends TkAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		TimeDetailActionForm timeDetailForm = (TimeDetailActionForm) form;
+		String principalId = TKContext.getUser().getPrincipalId();
+
+
 
 		List<Job> job = TKContext.getUser().getJobs();
 		java.sql.Date beginPeriodDate = job.get(0).getPayType().getCalendarGroupObj().getPayCalendarDates().get(0).getBeginPeriodDate();
@@ -36,6 +39,12 @@ public class TimeDetailAction extends TkAction {
 
 		timeDetailForm.setBeginPeriodDate(TkConstants.SDF.format(beginPeriodDate));
 		timeDetailForm.setEndPeriodDate(TkConstants.SDF.format(endPeriodDate));
+
+		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksByPeriod(principalId, timeDetailForm.getBeginPeriodDate(), timeDetailForm.getEndPeriodDate());
+
+		// for visually impaired users
+		timeDetailForm.setTimeBlocks(timeBlocks);
+
 		return super.execute(mapping, form, request, response);
 	}
 
@@ -65,6 +74,7 @@ public class TimeDetailAction extends TkAction {
 			timeBlockList.add(timeBlockMap);
 		}
 
+		// generate a JOSN string
 		timeDetailForm.setTimeBlockJson(JSONValue.toJSONString(timeBlockList));
 
 		return mapping.findForward("ws");
@@ -103,19 +113,19 @@ public class TimeDetailAction extends TkAction {
 		end.set(Calendar.HOUR_OF_DAY, Integer.parseInt(endTimeField[0]));
 		end.set(Calendar.MINUTE, Integer.parseInt(endTimeField[1]));
 		end.set(Calendar.SECOND, Integer.parseInt(endTimeField[2]));
-		
+
 		if(StringUtils.equals(timeDetailForm.getAcrossDays(),"y")) {
 			List<TimeBlock> timeBlockList = new LinkedList<TimeBlock>();
-			
+
 			long dayBetween = TKUtils.getDaysBetween(begin, end);
 			for (int i = 0; i < dayBetween; i++) {
-				
+
 				Calendar b = (Calendar)begin.clone();
 				Calendar e = (Calendar)end.clone();
-				
+
 				b.set(Calendar.DATE, begin.get(Calendar.DATE) + i);
 				e.set(Calendar.DATE, begin.get(Calendar.DATE) + i);
-				
+
 				TimeBlock tb = new TimeBlock();
 			  	tb.setJobNumber(0L);
 		    	tb.setWorkAreaId(0L);
@@ -129,14 +139,14 @@ public class TimeDetailAction extends TkAction {
 		    	tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		    	tb.setBeginTimestampTimezone(TKUtils.getTimeZone());
 		    	tb.setEndTimestampTimezone(TKUtils.getTimeZone());
-		    	
+
 		    	timeBlockList.add(tb);
 			}
-			
+
 			TkServiceLocator.getTimeBlockService().saveTimeBlockList(timeBlockList);
 		}
 		else {
-			
+
 			TimeBlock tb = new TimeBlock();
 		  	tb.setJobNumber(0L);
 	    	tb.setWorkAreaId(0L);
@@ -150,10 +160,10 @@ public class TimeDetailAction extends TkAction {
 	    	tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
 	    	tb.setBeginTimestampTimezone(TKUtils.getTimeZone());
 	    	tb.setEndTimestampTimezone(TKUtils.getTimeZone());
-	    	
+
 	    	TkServiceLocator.getTimeBlockService().saveTimeBlock(tb);
 		}
-		
+
 		return mapping.findForward("basic");
 	}
 }

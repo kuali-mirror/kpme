@@ -39,8 +39,6 @@ $(document).ready(function() {
 				text : false
 			});
 
-    var beginPeriodDate = $('#beginPeriodDate').val().split("/");
-    var endPeriodDate = $('#endPeriodDate').val().split("/");
 
 	// datepicker
 	$('#date-range-begin, #date-range-end').datepicker({
@@ -55,10 +53,32 @@ $(document).ready(function() {
 				numberOfMonths : 2,
 				// set default month based on the current browsing month
 				// appendText : '<br/>format: mm/dd/yyyy',
-				constrainInput : true,
-				minDate : new Date(beginPeriodDate[2],beginPeriodDate[0],beginPeriodDate[1]),
-				maxDate : new Date(endPeriodDate[2],endPeriodDate[0],endPeriodDate[1])
+				constrainInput : true
 			});
+
+
+    var beginPeriodDate = $('#beginPeriodDate').val();
+    var endPeriodDate = $('#endPeriodDate').val();
+
+    if( beginPeriodDate != undefined) {
+        var begin = beginPeriodDate.split("/")
+        $('#date-range-begin, #date-range-end').datepicker( "option", "minDate", new Date(begin[2],begin[0],begin[1]));
+    }
+
+    if( endPeriodDate != undefined) {
+        var end = endPeriodDate.split("/")
+        $('#date-range-begin, #date-range-end').datepicker( "option", "maxDate", new Date(end[2],end[0],end[1]));
+    }
+
+    if(beginPeriodDate != undefined && endPeriodDate != undefined) {
+        // the second argument is a Radix. 10 means to use the decimal numeral system
+        var beginMonth = parseInt(beginPeriodDate.split("/")[0],10);
+        var endMonth = parseInt(endPeriodDate.split("/")[0],10);
+
+        // if the pay period is across 2 months
+        var numberOfMonths = (endMonth - beginMonth) > 0 ? 2 : 1;
+        $('#date-range-begin, #date-range-end').datepicker( "option", "numberOfMonths", numberOfMonths);
+    }
 
 	// select All
 	$('#selectAll').click(function() {
@@ -187,7 +207,6 @@ $(document).ready(function() {
 
         $("select#earnCode option[value='" + $(this).val() +"']").attr("selected", "selected");
     });
-
 });
 
 $.fn.parseTime= function() {

@@ -1,12 +1,12 @@
 <%--
  Copyright 2007-2009 The Kuali Foundation
- 
+
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.opensource.org/licenses/ecl2.php
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,21 +26,21 @@
             background-repeat: no-repeat;
             padding-top: 5em;
         }
-        
+
         table#login {
-            margin: auto; 
-            background-color: #dfdda9; 
+            margin: auto;
+            background-color: #dfdda9;
             border: .5em solid #fffdd8;
             /* simple rounded corners for mozilla & webkit */
             -moz-border-radius: 10px;
             -webkit-border-radius: 10px;
         }
-        
+
         table#login th {
             height: 30 px;
             padding-top: .8em;
             padding-bottom: .8em;
-            color: #a02919; 
+            color: #a02919;
             font-size: 2em;
         }
 
@@ -52,7 +52,7 @@
         #login .rightTd {
             padding-right: 1.2em;
         }
-        
+
         #login .leftTd {
             padding-left: 1.2em;
         }
@@ -61,12 +61,12 @@
             padding-top: 1em;
             padding-bottom: .6em;
         }
-        
+
     </style>
   </head>
 <body>
 
-<form action="" method="post">
+<form action="" method="post" name="login-form">
 
 <div class="body">
         <table id="login" cellspacing="0" cellpadding="0" align="center">
@@ -96,10 +96,10 @@
             </tr>
             </c:if>
             <tr>
-              <td id="buttonRow" height="30" colspan="2" align="center"><input type="submit" value="Login"/>
+              <td id="buttonRow" height="30" colspan="2" align="center"><input type="submit" value="Login" name="login"/>
               <!-- input type="image" title="Click to login." value="login" name="imageField" src="${pageContext.request.contextPath}/rice-portal/images/tinybutton-login.gif"/ -->
               </td>
-            </tr>            
+            </tr>
           </tbody>
         </table>
 </div>
