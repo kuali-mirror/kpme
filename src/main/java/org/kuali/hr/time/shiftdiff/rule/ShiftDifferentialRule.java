@@ -1,6 +1,7 @@
 package org.kuali.hr.time.shiftdiff.rule;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
@@ -17,10 +18,10 @@ public class ShiftDifferentialRule extends TkRule {
 	private String location;
 	private String salGroup;
 	private String payGrade;
-	private String effectiveDate;
+	private Date effectiveDate;
 	private String earnCode;
-	private Timestamp beginTimestamp;
-	private Timestamp endTimestamp;
+	private String beginTime;
+	private String endTime;
 	private BigDecimal minHours;
 	private boolean sunday;
 	private boolean monday;
@@ -77,11 +78,11 @@ public class ShiftDifferentialRule extends TkRule {
 		this.payGrade = payGrade;
 	}
 
-	public String getEffectiveDate() {
+	public Date getEffectiveDate() {
 		return effectiveDate;
 	}
 
-	public void setEffectiveDate(String effectiveDate) {
+	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
 
@@ -93,20 +94,21 @@ public class ShiftDifferentialRule extends TkRule {
 		this.earnCode = earnCode;
 	}
 
-	public Timestamp getBeginTimestamp() {
-		return beginTimestamp;
+	 
+	public String getBeginTime() {
+		return beginTime;
 	}
 
-	public void setBeginTimestamp(Timestamp beginTimestamp) {
-		this.beginTimestamp = beginTimestamp;
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
 	}
 
-	public Timestamp getEndTimestamp() {
-		return endTimestamp;
+	public String getEndTime() {
+		return endTime;
 	}
 
-	public void setEndTimestamp(Timestamp endTimestamp) {
-		this.endTimestamp = endTimestamp;
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 
 	public BigDecimal getMinHours() {

@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="ShiftDifferentialRule" parent="ShiftDifferentialRule-parentBean" />
+
+	<bean id="ShiftDifferentialRule-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule" />
+		<property name="titleAttribute" value="tkShiftDiffRuleId" />
+		<property name="objectLabel" value="Shift Differential Rule" />
+		<property name="lookupDefinition">
+			<ref bean="ShiftDifferentialRule-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="ShiftDifferentialRule-location" />
+				<ref bean="ShiftDifferentialRule-salGroup" />
+				<ref bean="ShiftDifferentialRule-payGrade" />
+				<ref bean="ShiftDifferentialRule-effectiveDate" />
+				<ref bean="ShiftDifferentialRule-earnCode" />
+				<ref bean="ShiftDifferentialRule-beginTime" />
+				<ref bean="ShiftDifferentialRule-endTime" />
+				<ref bean="ShiftDifferentialRule-minHours" />
+				<ref bean="ShiftDifferentialRule-sunday" />
+				<ref bean="ShiftDifferentialRule-monday" />
+				<ref bean="ShiftDifferentialRule-tuesday" />
+				<ref bean="ShiftDifferentialRule-wednesday" />
+				<ref bean="ShiftDifferentialRule-thursday" />
+				<ref bean="ShiftDifferentialRule-friday" />
+				<ref bean="ShiftDifferentialRule-saturday" />
+				<ref bean="ShiftDifferentialRule-maxGap" />
+				<ref bean="ShiftDifferentialRule-userPrincipalId" />
+				<ref bean="ShiftDifferentialRule-timeStamp" />
+				<ref bean="ShiftDifferentialRule-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attributes  -->
+
+	<!-- location -->
+	<bean id="ShiftDifferentialRule-location" parent="ShiftDifferentialRule-location-parentBean" />
+	<bean id="ShiftDifferentialRule-location-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Location" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+		<property name="name" value="location" />
+		<property name="label" value="Location" />
+	</bean>
+
+	<!-- salGroup -->
+	<bean id="ShiftDifferentialRule-salGroup" parent="ShiftDifferentialRule-salGroup-parentBean" />
+	<bean id="ShiftDifferentialRule-salGroup-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Sal. Group" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="salGroup" />
+		<property name="label" value="Sal. Group" />
+	</bean>
+
+	<!-- payGrade -->
+	<bean id="ShiftDifferentialRule-payGrade" parent="ShiftDifferentialRule-payGrade-parentBean" />
+	<bean id="ShiftDifferentialRule-payGrade-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Pay Grade" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+		<property name="name" value="payGrade" />
+		<property name="label" value="Pay Grade" />
+	</bean>
+
+	<!-- effectiveDate-->
+	<bean id="ShiftDifferentialRule-effectiveDate" parent="ShiftDifferentialRule-effectiveDate-parentBean" />
+	<bean id="ShiftDifferentialRule-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+
+
+	<!-- earnCode -->
+	<bean id="ShiftDifferentialRule-earnCode" parent="ShiftDifferentialRule-earnCode-parentBean" />
+	<bean id="ShiftDifferentialRule-earnCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Earn Code" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+		<property name="name" value="earnCode" />
+		<property name="label" value="Earn Code" />
+	</bean>
+
+	<!-- beginTime -->
+	<bean id="ShiftDifferentialRule-beginTime" parent="ShiftDifferentialRule-beginTime-parentBean" />
+	<bean id="ShiftDifferentialRule-beginTime-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Begin Time" />
+		<property name="maxLength" value="10" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="validationPattern">
+			<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]"
+				p:validationErrorMessageKey="MISSING" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter" />
+		<property name="name" value="beginTime" />
+		<property name="label" value="Begin Time" />
+	</bean>
+
+	<!-- endTime -->
+	<bean id="ShiftDifferentialRule-endTime" parent="ShiftDifferentialRule-endTime-parentBean" />
+	<bean id="ShiftDifferentialRule-endTime-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="End Time" />
+		<property name="maxLength" value="10" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="validationPattern">
+			<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]"
+				p:validationErrorMessageKey="MISSING" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter" />
+		<property name="name" value="endTime" />
+		<property name="label" value="End Time" />
+	</bean>
+	<!-- minHours  -->
+	<bean id="ShiftDifferentialRule-minHours" parent="ShiftDifferentialRule-minHours-parentBean" />
+	<bean id="ShiftDifferentialRule-minHours-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Min. Hours" />
+		<property name="maxLength" value="2" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="name" value="minHours" />
+		<property name="label" value="Min. Hours" />
+	</bean>
+	<!-- sunday -->
+	<bean id="ShiftDifferentialRule-sunday" parent="ShiftDifferentialRule-sunday-parentBean" />
+	<bean id="ShiftDifferentialRule-sunday-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Sunday" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="sunday" />
+		<property name="label" value="Sunday" />
+	</bean>
+	<!-- monday -->
+	<bean id="ShiftDifferentialRule-monday" parent="ShiftDifferentialRule-monday-parentBean" />
+	<bean id="ShiftDifferentialRule-monday-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Monday" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="monday" />
+		<property name="label" value="Monday" />
+	</bean>
+	<!-- tuesday -->
+	<bean id="ShiftDifferentialRule-tuesday" parent="ShiftDifferentialRule-tuesday-parentBean" />
+	<bean id="ShiftDifferentialRule-tuesday-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Tuesday" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="tuesday" />
+		<property name="label" value="Tuesday" />
+	</bean>
+	<!-- wednesday -->
+	<bean id="ShiftDifferentialRule-wednesday" parent="ShiftDifferentialRule-wednesday-parentBean" />
+	<bean id="ShiftDifferentialRule-wednesday-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Wednesday" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="wednesday" />
+		<property name="label" value="Wednesday" />
+	</bean>
+	<!-- thursday -->
+	<bean id="ShiftDifferentialRule-thursday" parent="ShiftDifferentialRule-thursday-parentBean" />
+	<bean id="ShiftDifferentialRule-thursday-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Thursday" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="thursday" />
+		<property name="label" value="Thursday" />
+	</bean>
+	<!-- friday -->
+	<bean id="ShiftDifferentialRule-friday" parent="ShiftDifferentialRule-friday-parentBean" />
+	<bean id="ShiftDifferentialRule-friday-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Friday" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="friday" />
+		<property name="label" value="Friday" />
+	</bean>
+	<!-- Saturday -->
+	<bean id="ShiftDifferentialRule-saturday" parent="ShiftDifferentialRule-saturday-parentBean" />
+	<bean id="ShiftDifferentialRule-saturday-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Saturday" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="saturday" />
+		<property name="label" value="Saturday" />
+	</bean>
+
+	<!-- maxGap  -->
+	<bean id="ShiftDifferentialRule-maxGap" parent="ShiftDifferentialRule-maxGap-parentBean" />
+	<bean id="ShiftDifferentialRule-maxGap-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Max. Gap" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+		<property name="name" value="maxGap" />
+		<property name="label" value="Max. Gap" />
+	</bean>
+	<!-- userPrincipalId -->
+	<bean id="ShiftDifferentialRule-userPrincipalId" parent="ShiftDifferentialRule-userPrincipalId-parentBean" />
+	<bean id="ShiftDifferentialRule-userPrincipalId-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="User PrincipalId" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="userPrincipalId" />
+		<property name="label" value="UserPrincipal Id" />
+	</bean>
+
+	<!-- timeStamp -->
+	<bean id="ShiftDifferentialRule-timeStamp" parent="ShiftDifferentialRule-timeStamp-parentBean" />
+	<bean id="ShiftDifferentialRule-timeStamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp"/>
+    <property name="maxLength" value="15"/>
+
+    <property name="control">
+      <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>    
+    <property name="name" value="timeStamp"/>
+    <property name="label" value="Time Stamp"/>
+	</bean>
+	<!-- active -->
+	<bean id="ShiftDifferentialRule-active" parent="ShiftDifferentialRule-active-parentBean" />
+	<bean id="ShiftDifferentialRule-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+	</bean>
+	<!--  Inquiry Definitions  -->
+
+
+	<bean id="ShiftDifferentialRule-lookupDefinition" parent="ShiftDifferentialRule-lookupDefinition-parentBean" />
+	<bean id="ShiftDifferentialRule-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="location" />
+				<bean parent="FieldDefinition" p:attributeName="salGroup" />
+				<bean parent="FieldDefinition" p:attributeName="payGrade" />
+				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="location" />
+				<bean parent="FieldDefinition" p:attributeName="salGroup" />
+				<bean parent="FieldDefinition" p:attributeName="payGrade" />
+				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="earnCode" />
+				<bean parent="FieldDefinition" p:attributeName="beginTime" />
+				<bean parent="FieldDefinition" p:attributeName="endTime" />
+			</list>
+		</property>
+		<property name="title" value="ShiftDifferential Lookup" />
+	</bean>
+
+</beans>

@@ -436,5 +436,42 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>	
-
+	
+	<!-- System Launch Rule -->
+	<class-descriptor class="org.kuali.hr.time.syslunch.rule.SystemLunchRule" table="tk_system_lunch_rl_t">
+		<field-descriptor name="tkSystemLunchRuleId" column="TK_SYSTEM_LUNCH_RL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_system_lunch_rl_s"  />
+		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" nullable="false" />
+		<field-descriptor name="minMinutes" column="MIN_MINS" jdbc-type="DECIMAL"  primarykey="false" />
+		<field-descriptor name="blockHours" column="BLOCK_HOURS" jdbc-type="DECIMAL"  primarykey="false"  />
+		<field-descriptor name="active" column="ACTIVE" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jcolumn="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
+		<field-descriptor name="timeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>	
+ 	
+	<!-- ShiftDifferentialRule -->
+	<class-descriptor class="org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule" table="tk_shift_differential_rl_t">
+		<field-descriptor name="tkShiftDiffRuleId" column="TK_SHIFT_DIFF_RL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_shift_differential_rl_s"  />
+		<field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR" length="2"  />
+		<field-descriptor name="salGroup" column="TK_SAL_GROUP" jdbc-type="VARCHAR" length="10"  />
+		<field-descriptor name="payGrade" column="PAY_GRADE" jdbc-type="VARCHAR" length="3"  />
+		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" nullable="true"/>		
+		<field-descriptor name="earnCode" column="ERNCD" jdbc-type="VARCHAR" length="3"  />
+		<field-descriptor name="beginTime" column="BEGIN_TS" jdbc-type="VARCHAR" length="8"/>
+		<field-descriptor name="endTime" column="END_TS" jdbc-type="VARCHAR" length="8"/>
+		<field-descriptor name="minHours" column="MIN_HRS" jdbc-type="DECIMAL"  primarykey="false"  />
+		<field-descriptor name="sunday" column="SUN" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="monday" column="MON" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="tuesday" column="TUE" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="wednesday" column="WED" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="thursday" column="THU" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="friday" column="FRI" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="saturday" column="SAT" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="maxGap" column="MAX_GAP" jdbc-type="DECIMAL"  primarykey="false"  />
+		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
+		<field-descriptor name="timeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="active" column="ACTIVE" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+	</class-descriptor>
 </descriptor-repository>
+

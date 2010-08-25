@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean name="SystemLaunchRule" parent="SystemLaunchRule-parentBean" />
+
+	<bean id="SystemLaunchRule-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.hr.time.syslunch.rule.SystemLunchRule" />
+		<property name="titleAttribute" value="tkSystemLunchRuleId" />
+		<property name="objectLabel" value="System Lunch Rule" />
+		<property name="lookupDefinition">
+			<ref bean="SystemLunchRule-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="SystemLunchRule-effectiveDate" />
+				<ref bean="SystemLunchRule-minMinutes" />
+				<ref bean="SystemLunchRule-blockHours" />
+				<ref bean="SystemLunchRule-timeStamp" />
+				<ref bean="SystemLunchRule-active" />
+				<ref bean="SystemLunchRule-userPrincipalId" />
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- Attributes  -->
+
+	<bean id="SystemLunchRule-effectiveDate" parent="SystemLunchRule-effectiveDate-parentBean" />
+	<bean id="SystemLunchRule-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+
+
+	<bean id="SystemLunchRule-minMinutes" parent="SystemLunchRule-minMinutes-parentBean" />
+	<bean id="SystemLunchRule-minMinutes-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Min. Minutes" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+		<property name="name" value="minMinutes" />
+		<property name="label" value="Min. Minutes" />
+	</bean>
+
+	<bean id="SystemLunchRule-blockHours" parent="SystemLunchRule-blockHours-parentBean" />
+	<bean id="SystemLunchRule-blockHours-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Block Hours" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+		<property name="name" value="blockHours" />
+		<property name="label" value="Block Hours" />
+	</bean>
+	
+	<bean id="SystemLunchRule-timeStamp" parent="SystemLunchRule-timeStamp-parentBean" />
+	<bean id="SystemLunchRule-timeStamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="10" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="validationPattern">
+			<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]"
+				p:validationErrorMessageKey="MISSING" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter" />
+		<property name="name" value="timeStamp" />
+		<property name="label" value="Timestamp" />
+	</bean>
+
+	<bean id="SystemLunchRule-active" parent="SystemLunchRule-active-parentBean" />
+	<bean id="SystemLunchRule-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+	</bean>
+	 
+	<bean id="SystemLunchRule-userPrincipalId" parent="SystemLunchRule-userPrincipalId-parentBean" />
+	<bean id="SystemLunchRule-userPrincipalId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="User PrincipalId" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="userPrincipalId" />
+		<property name="label" value="UserPrincipal Id" />
+	</bean>
+
+	<!--  Inquiry Definitions  -->
+
+	<bean id="SystemLunchRule-lookupDefinition" parent="SystemLunchRule-lookupDefinition-parentBean" />
+	<bean id="SystemLunchRule-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+				<bean parent="FieldDefinition" p:attributeName="blockHours" />
+				<bean parent="FieldDefinition" p:attributeName="minMinutes" />
+				<bean parent="FieldDefinition" p:attributeName="active" />	
+				<bean parent="FieldDefinition" p:attributeName="timeStamp" />				
+			</list>
+		</property>
+		<property name="title" value="System Lunch Rule Lookup" />
+	</bean>
+
+</beans>

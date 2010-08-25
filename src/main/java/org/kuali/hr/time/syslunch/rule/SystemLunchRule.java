@@ -2,6 +2,7 @@ package org.kuali.hr.time.syslunch.rule;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.rule.TkRule;
@@ -19,7 +20,7 @@ public class SystemLunchRule extends TkRule {
 	private BigDecimal blockHours;
 	private boolean active;
 	private String userPrincipalId;
-	
+	private Timestamp timeStamp;
 	
 	
 	@Override
@@ -27,6 +28,17 @@ public class SystemLunchRule extends TkRule {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	
+	public Timestamp getTimeStamp() {
+		return timeStamp;
+	}
+
+
+	public void setTimeStamp(Timestamp timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
 
 	@SuppressWarnings("unchecked")
 	@Override

@@ -99,5 +99,10 @@
 			<parent>RiceDocument</parent>
 			<label>WorkScheduleEntryDocument</label>
 	</documentType>	
+	<documentType>
+			<name>SystemDefferentialRuleDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>SystemDefferentialRuleDocument</label>
+	</documentType>			
 	</documentTypes>
 </data>
