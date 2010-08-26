@@ -1,5 +1,6 @@
 package org.kuali.hr.time.detail.web;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -21,7 +22,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 
 public class TimeDetailAction extends TkAction {
 
@@ -31,14 +31,12 @@ public class TimeDetailAction extends TkAction {
 		TimeDetailActionForm timeDetailForm = (TimeDetailActionForm) form;
 		String principalId = TKContext.getUser().getPrincipalId();
 
-
-
 		List<Job> job = TKContext.getUser().getJobs();
 		java.sql.Date beginPeriodDate = job.get(0).getPayType().getCalendarGroupObj().getPayCalendarDates().get(0).getBeginPeriodDate();
 		java.sql.Date endPeriodDate = job.get(0).getPayType().getCalendarGroupObj().getPayCalendarDates().get(0).getEndPeriodDate();
 
-		timeDetailForm.setBeginPeriodDate(TkConstants.SDF.format(beginPeriodDate));
-		timeDetailForm.setEndPeriodDate(TkConstants.SDF.format(endPeriodDate));
+		timeDetailForm.setBeginPeriodDate(beginPeriodDate);
+		timeDetailForm.setEndPeriodDate(endPeriodDate);
 
 		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksByPeriod(principalId, timeDetailForm.getBeginPeriodDate(), timeDetailForm.getEndPeriodDate());
 
@@ -53,8 +51,8 @@ public class TimeDetailAction extends TkAction {
 		TimeDetailActionForm timeDetailForm = (TimeDetailActionForm) form;
 
 		String principalId = TKContext.getUser().getPrincipalId();
-		String beginDate = timeDetailForm.getBeginPeriodDate();
-		String endDate = timeDetailForm.getEndPeriodDate();
+		Date beginDate = timeDetailForm.getBeginPeriodDate();
+		Date endDate = timeDetailForm.getEndPeriodDate();
 
 //		List<Job> jobs = TKContext.getUser().getJobs();
 		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksByPeriod(principalId, beginDate, endDate);
@@ -92,27 +90,23 @@ public class TimeDetailAction extends TkAction {
 	public ActionForward addTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		TimeDetailActionForm timeDetailForm = (TimeDetailActionForm) form;
-		String[] beginDateField = timeDetailForm.getBeginDate().split("/");
-		String[] endDateField = timeDetailForm.getEndDate().split("/");
+		Date beginDateField = timeDetailForm.getBeginDate();
+		Date endDateField = timeDetailForm.getEndDate();
 		String[] beginTimeField = timeDetailForm.getBeginTime().split(":");
 		String[] endTimeField = timeDetailForm.getEndTime().split(":");
 
 		Calendar begin = Calendar.getInstance();
 		Calendar end = Calendar.getInstance();
 
-		begin.set(Calendar.MONTH, Integer.parseInt(beginDateField[0]) - 1);
-		begin.set(Calendar.DATE, Integer.parseInt(beginDateField[1]));
-		begin.set(Calendar.YEAR, Integer.parseInt(beginDateField[2]));
+		begin.setTime(beginDateField);
 		begin.set(Calendar.HOUR_OF_DAY, Integer.parseInt(beginTimeField[0]));
 		begin.set(Calendar.MINUTE, Integer.parseInt(beginTimeField[1]));
-		begin.set(Calendar.SECOND, Integer.parseInt(beginTimeField[2]));
+		begin.set(Calendar.SECOND, 0);
 
-		end.set(Calendar.MONTH, Integer.parseInt(endDateField[0]) - 1);
-		end.set(Calendar.DATE, Integer.parseInt(endDateField[1]));
-		end.set(Calendar.YEAR, Integer.parseInt(endDateField[2]));
+		end.setTime(endDateField);
 		end.set(Calendar.HOUR_OF_DAY, Integer.parseInt(endTimeField[0]));
 		end.set(Calendar.MINUTE, Integer.parseInt(endTimeField[1]));
-		end.set(Calendar.SECOND, Integer.parseInt(endTimeField[2]));
+		end.set(Calendar.SECOND, 0);
 
 		if(StringUtils.equals(timeDetailForm.getAcrossDays(),"y")) {
 			List<TimeBlock> timeBlockList = new LinkedList<TimeBlock>();

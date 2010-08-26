@@ -93,7 +93,6 @@
 			<br/>
 		</c:forEach>
 		 -->
-
 		<div class="global-error">Error: This is a global error for the demo purpose</div>
 		<div id="cal" style="margin-top: 20px; width:100%; font-size:.9em;"/>
 
@@ -166,7 +165,7 @@
 						</div>
 					</form>
 				</div> <%-- end of dialog-form --%>
-		<div style="width:100%; font-size: .8em; text-align: center; margin-top: 10px;"><input type="submit" class="button" name="submit" value="Save"/></div>
+		<%--<div style="width:100%; font-size: .8em; text-align: center; margin-top: 10px;"><input type="submit" class="button" name="submit" value="Save"/></div>  --%>
 
 		<%--
 		<div id="tabs-demo">

@@ -1,5 +1,6 @@
 package org.kuali.hr.time.detail.web;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.hr.time.base.web.TkForm;
@@ -12,32 +13,32 @@ public class TimeDetailActionForm extends TkForm {
      */
     private static final long serialVersionUID = 5277197287612035236L;
 
-	private String beginPeriodDate;
-	private String endPeriodDate;
+	private Date beginPeriodDate;
+	private Date endPeriodDate;
 	private String timeBlockJson;
 	private String timeBlockId;
 	private String earnCode;
 	private String assignment;
-	private String beginDate;
-	private String endDate;
+	private Date beginDate;
+	private Date endDate;
 	private String beginTime;
 	private String endTime;
 	private String acrossDays;
 	private List<TimeBlock> timeBlockList;
 
-	public String getBeginPeriodDate() {
+	public Date getBeginPeriodDate() {
 		return beginPeriodDate;
 	}
 
-	public void setBeginPeriodDate(String beginPeriodDate) {
+	public void setBeginPeriodDate(Date beginPeriodDate) {
 		this.beginPeriodDate = beginPeriodDate;
 	}
 
-	public String getEndPeriodDate() {
+	public Date getEndPeriodDate() {
 		return endPeriodDate;
 	}
 
-	public void setEndPeriodDate(String endPeriodDate) {
+	public void setEndPeriodDate(Date endPeriodDate) {
 		this.endPeriodDate = endPeriodDate;
 	}
 	public String getTimeBlockJson() {
@@ -72,19 +73,19 @@ public class TimeDetailActionForm extends TkForm {
 		this.assignment = assignment;
 	}
 
-	public String getBeginDate() {
+	public Date getBeginDate() {
 		return beginDate;
 	}
 
-	public void setBeginDate(String beginDate) {
+	public void setBeginDate(Date beginDate) {
 		this.beginDate = beginDate;
 	}
 
-	public String getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(String endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 

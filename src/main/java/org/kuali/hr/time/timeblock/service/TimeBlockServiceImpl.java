@@ -1,5 +1,6 @@
 package org.kuali.hr.time.timeblock.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -17,7 +18,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		timeBlockDao.saveOrUpdate(timeBlock);
 	}
 
-	public List<TimeBlock> getTimeBlocksByPeriod(String principalId, String beginDate, String endDate) {
+	public List<TimeBlock> getTimeBlocksByPeriod(String principalId, Date beginDate, Date endDate) {
 		return timeBlockDao.getTimeBlocksByPeriod(principalId, beginDate, endDate);
 	}
 
