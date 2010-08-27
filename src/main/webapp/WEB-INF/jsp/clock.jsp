@@ -29,6 +29,7 @@
 				<td class="sub-header"><bean:message key="clock.workStatus"/> : </td>
 				<td>${lastClockActionMessage}</td>
 			</tr>
+			<%--
 			<tr>
 				<td class="sub-header"><bean:message key="clock.elapsedTime"/> : </td>
 
@@ -43,6 +44,7 @@
 					</c:choose>
 				</td>
 			</tr>
+			 --%>
 			<tr>
 				<td class="sub-header"><bean:message key="clock.lastClockedHours"/> : </td>
 				<td>3.2</td>
