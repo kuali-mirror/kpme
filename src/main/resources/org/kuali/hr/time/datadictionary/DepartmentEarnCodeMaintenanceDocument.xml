@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="DepartmentEarnCodeMaintenanceDocument" parent="DepartmentEarnCodeMaintenanceDocument-parentBean" />
+
+	<bean id="DepartmentEarnCodeMaintenanceDocument-parentBean" abstract="true"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.dept.earncode.DepartmentEarnCode"
+		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+		<property name="maintainableSections">
+			<list>
+				<ref bean="DepartmentEarnCodeMaintenanceDocument-DepartmentEarnCodeMaintenance" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>deptEarnCodeId</value>
+			</list>
+		</property>
+		<property name="documentTypeName" value="DepartmentEarnCodeDocumentType" />
+	</bean>
+
+	<!-- Maintenance Section Definitions -->	
+	<bean id="DepartmentEarnCodeMaintenanceDocument-DepartmentEarnCodeMaintenance" parent="DepartmentEarnCodeMaintenanceDocument-DepartmentEarnCodeMaintenance-parentBean" />
+	<bean id="DepartmentEarnCodeMaintenanceDocument-DepartmentEarnCodeMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="title" value="Department Earn Code Maintenance" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="deptId" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="tkSalGroup" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="earnCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="employee" />
+				<bean parent="MaintainableFieldDefinition" p:name="approver" />
+				<bean parent="MaintainableFieldDefinition" p:name="org_admin" />
+			</list>
+		</property>
+	</bean>
+</beans>

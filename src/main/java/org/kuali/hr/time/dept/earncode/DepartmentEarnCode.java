@@ -2,6 +2,7 @@ package org.kuali.hr.time.dept.earncode;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.department.Department;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class DepartmentEarnCode extends PersistableBusinessObjectBase {
@@ -17,12 +18,23 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	private boolean employee;
 	private boolean approver;
 	private boolean org_admin;
+	private Department departmentObj;
 	
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		return null;
+	}
+
+
+	public Department getDepartmentObj() {
+		return departmentObj;
+	}
+
+
+	public void setDepartmentObj(Department departmentObj) {
+		this.departmentObj = departmentObj;
 	}
 
 

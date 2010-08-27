@@ -7,14 +7,14 @@
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
 
-	<bean id="SystemDefferentialRuleMaintenanceDocument" parent="SystemDefferentialRuleMaintenanceDocument-parentBean" />
+	<bean id="ShiftDefferentialRuleMaintenanceDocument" parent="ShiftDefferentialRuleMaintenanceDocument-parentBean" />
 
-	<bean id="SystemDefferentialRuleMaintenanceDocument-parentBean" abstract="true"
+	<bean id="ShiftDefferentialRuleMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule"
 		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
 		<property name="maintainableSections">
 			<list>
-				<ref bean="SystemDefferentialRuleMaintenanceDocument-SystemDefferentialRuleMaintenance" />
+				<ref bean="ShiftDefferentialRuleMaintenanceDocument-ShiftDefferentialRuleMaintenance" />
 			</list>
 		</property>
 		<property name="lockingKeys">
@@ -22,14 +22,14 @@
 				<value>tkShiftDiffRuleId</value>
 			</list>
 		</property>
-		<property name="documentTypeName" value="SystemDefferentialRuleDocumentType" />
+		<property name="documentTypeName" value="ShiftDefferentialRuleDocumentType" />
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
 
-	<bean id="SystemDefferentialRuleMaintenanceDocument-SystemDefferentialRuleMaintenance" parent="SystemDefferentialRuleMaintenanceDocument-SystemDefferentialRuleMaintenance-parentBean" />
+	<bean id="ShiftDefferentialRuleMaintenanceDocument-ShiftDefferentialRuleMaintenance" parent="ShiftDefferentialRuleMaintenanceDocument-ShiftDefferentialRuleMaintenance-parentBean" />
 
-	<bean id="SystemDefferentialRuleMaintenanceDocument-SystemDefferentialRuleMaintenance-parentBean"
+	<bean id="ShiftDefferentialRuleMaintenanceDocument-ShiftDefferentialRuleMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
 		<property name="title" value="Shift Differential Rule Maintenance" />
 		<property name="maintainableItems">
@@ -51,7 +51,6 @@
 				<bean parent="MaintainableFieldDefinition" p:name="saturday" />
 				<bean parent="MaintainableFieldDefinition" p:name="maxGap" />
 				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
-				<bean parent="MaintainableFieldDefinition" p:name="timeStamp"/>
 				<bean parent="MaintainableFieldDefinition" p:name="active" />			
 			</list>
 		</property>

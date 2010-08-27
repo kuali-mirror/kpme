@@ -100,9 +100,20 @@
 			<label>WorkScheduleEntryDocument</label>
 	</documentType>	
 	<documentType>
-			<name>SystemDefferentialRuleDocumentType</name>
+			<name>ShiftDefferentialRuleDocumentType</name>
 			<parent>RiceDocument</parent>
-			<label>SystemDefferentialRuleDocument</label>
+			<label>ShiftDefferentialRuleDocument</label>
 	</documentType>			
+	<documentType>
+			<name>WeeklyOvertimeRuleDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>WeeklyOvertimeRuleDocument</label>
+	</documentType>
+	<documentType>
+			<name>DepartmentEarnCodeDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>DepartmentEarnCodeDocument</label>
+	</documentType>
+	
 	</documentTypes>
 </data>

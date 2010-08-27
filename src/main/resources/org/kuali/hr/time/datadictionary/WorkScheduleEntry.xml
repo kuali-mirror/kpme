@@ -14,8 +14,7 @@
         <ref bean="WorkScheduleEntry-workScheduleId"/>
         <ref bean="WorkScheduleEntry-calDayId"/>
         <ref bean="WorkScheduleEntry-dayOfPeriodId"/>        
-        <ref bean="WorkScheduleEntry-regHours"/>
-         
+        <ref bean="WorkScheduleEntry-regHours"/>         
       </list>
     </property>
     
@@ -67,12 +66,12 @@
   <bean id="WorkScheduleEntry-dayOfPeriodId" parent="WorkScheduleEntry-dayOfPeriodId-parentBean"/>
   <bean id="WorkScheduleEntry-dayOfPeriodId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Day of period Id"/>
-    <property name="maxLength" value="2"/>
+    <property name="maxLength" value="10"/>
     <property name="validationPattern">
  		<bean parent="NumericValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
     <property name="name" value="dayOfPeriodId"/>
     <property name="label" value="Day of period id"/>
@@ -81,12 +80,12 @@
   <bean id="WorkScheduleEntry-regHours" parent="WorkScheduleEntry-regHours-parentBean"/>
   <bean id="WorkScheduleEntry-regHours-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Regular hour"/>
-    <property name="maxLength" value="5"/>
+    <property name="maxLength" value="10"/>
     <property name="validationPattern">
  		<bean parent="NumericValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="5"/>
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
     <property name="name" value="regHours"/>
     <property name="label" value="Regular hours"/>

@@ -17,7 +17,7 @@ public class WeeklyOvertimeRule extends TkRule {
 	private Long tkWeeklyOvertimeRuleId;
 	private String maxHoursEarnGroup;
 	private String convertFromEarnGroup;
-	private String convertToEarnGroup;
+	private String convertToEarnCode;
 	private Date effectiveDate;
 	private BigDecimal step;
 	private BigDecimal maxHours;
@@ -63,12 +63,14 @@ public class WeeklyOvertimeRule extends TkRule {
 		this.convertFromEarnGroup = convertFromEarnGroup;
 	}
 
-	public String getConvertToEarnGroup() {
-		return convertToEarnGroup;
+	 
+
+	public String getConvertToEarnCode() {
+		return convertToEarnCode;
 	}
 
-	public void setConvertToEarnGroup(String convertToEarnGroup) {
-		this.convertToEarnGroup = convertToEarnGroup;
+	public void setConvertToEarnCode(String convertToEarnCode) {
+		this.convertToEarnCode = convertToEarnCode;
 	}
 
 	public Date getEffectiveDate() {

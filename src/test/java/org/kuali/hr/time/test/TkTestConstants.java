@@ -24,6 +24,12 @@ public final class TkTestConstants {
 		
 		public static final String SHIFT_DIFFERENTIAL_RULE_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
+
+		public static final String WEEKLY_OVERTIME_RULE_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule&returnLocation="+
+		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
+		
+		public static final String DEPARTMENT_EARN_CODE_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.dept.earncode.DepartmentEarnCode&returnLocation="+
+		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 		
 		
 		

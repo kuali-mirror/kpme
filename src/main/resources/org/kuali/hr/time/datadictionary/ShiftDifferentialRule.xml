@@ -97,8 +97,8 @@
 
 	<!-- effectiveDate-->
 	<bean id="ShiftDifferentialRule-effectiveDate" parent="ShiftDifferentialRule-effectiveDate-parentBean" />
-	<bean id="ShiftDifferentialRule-effectiveDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="ShiftDifferentialRule-effectiveDate-parentBean"
+		abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Effective Date" />
 		<property name="maxLength" value="12" />
 		<property name="validationPattern">
@@ -133,8 +133,8 @@
 
 	<!-- beginTime -->
 	<bean id="ShiftDifferentialRule-beginTime" parent="ShiftDifferentialRule-beginTime-parentBean" />
-	<bean id="ShiftDifferentialRule-beginTime-parentBean"
-		abstract="true" parent="AttributeDefinition">
+	<bean id="ShiftDifferentialRule-beginTime-parentBean" abstract="true"
+		parent="AttributeDefinition">
 		<property name="shortLabel" value="Begin Time" />
 		<property name="maxLength" value="10" />
 		<property name="control">
@@ -298,15 +298,15 @@
 	<bean id="ShiftDifferentialRule-timeStamp" parent="ShiftDifferentialRule-timeStamp-parentBean" />
 	<bean id="ShiftDifferentialRule-timeStamp-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Timestamp"/>
-    <property name="maxLength" value="15"/>
-
-    <property name="control">
-      <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>    
-    <property name="name" value="timeStamp"/>
-    <property name="label" value="Time Stamp"/>
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timeStamp" />
+		<property name="label" value="Time Stamp" />
 	</bean>
 	<!-- active -->
 	<bean id="ShiftDifferentialRule-active" parent="ShiftDifferentialRule-active-parentBean" />

@@ -34,13 +34,12 @@
     <property name="title" value="TimeCollection Rule Maintenance"/>
     <property name="maintainableItems">
       <list>      
-      	<bean parent="MaintainableFieldDefinition" p:name="deptId"  p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true" />
-      	<bean parent="MaintainableFieldDefinition" p:name="effDate" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="clockUserFl" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="hrsDistributionF" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="timeStamp" p:required="true"/>      	
+      	<bean parent="MaintainableFieldDefinition" p:name="deptId" />
+      	<bean parent="MaintainableFieldDefinition" p:name="workArea"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="effDate" />
+      	<bean parent="MaintainableFieldDefinition" p:name="clockUserFl" />
+      	<bean parent="MaintainableFieldDefinition" p:name="hrsDistributionF"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />      	      	
       </list>
     </property>
   </bean>
