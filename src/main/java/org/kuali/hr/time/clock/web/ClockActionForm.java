@@ -20,10 +20,7 @@ public class ClockActionForm extends TimesheetActionForm {
     private String principalId;
     private List<Assignment> assignments;
     private String currentClockAction;
-    private String nextClockAction;
-    private String lastClockActionTimestamp;
-    private String lastClockActionTimestampFormatted;
-    
+    private String nextClockAction;    
     private Timestamp lastClockAction;
 
 
@@ -60,22 +57,6 @@ public class ClockActionForm extends TimesheetActionForm {
 
     public void setCurrentClockAction(String currentClockAction) {
         this.currentClockAction = currentClockAction;
-    }
-
-    public String getLastClockActionTimestampFormatted() {
-        return lastClockActionTimestampFormatted;
-    }
-
-    public void setLastClockActionTimestampFormatted(String lastClockActionTimestampFormatted) {
-        this.lastClockActionTimestampFormatted = lastClockActionTimestampFormatted;
-    }
-
-    public String getLastClockActionTimestamp() {
-        return lastClockActionTimestamp;
-    }
-
-    public void setLastClockActionTimestamp(String lastClockActionTimestamp) {
-        this.lastClockActionTimestamp = lastClockActionTimestamp;
     }
 
 	public String getNextClockAction() {

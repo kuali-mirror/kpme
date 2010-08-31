@@ -47,11 +47,7 @@ public class ClockAction extends TimesheetAction {
     	    	clockActionForm.setCurrentClockAction(clockLog.getNextValidClockAction());
 
 	    	    Timestamp clockTimestamp = clockLog.getClockTimestamp();
-	    	    clockActionForm.setLastClockActionTimestampFormatted(SDF.format(clockTimestamp.getTime()));
-
-	    	    // this may need to be changed in the future
-	    	    SimpleDateFormat dateTimeForOutput = new SimpleDateFormat("MMMM d, yyyy HH:mm:ss");
-	    	    clockActionForm.setLastClockActionTimestamp(dateTimeForOutput.format(clockTimestamp.getTime()));
+	    	    clockActionForm.setLastClockAction(clockTimestamp);
     	    }
 
     	    request.setAttribute("principalId", principalId);
