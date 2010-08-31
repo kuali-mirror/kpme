@@ -9,9 +9,9 @@ import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paytype.PayType;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class PayCalendarDaoSpringObjImpl extends PersistenceBrokerDaoSupport  implements PayCalendarDao {
+public class PayCalendarDaoSpringOjbImpl extends PersistenceBrokerDaoSupport  implements PayCalendarDao {
 
-	private static final Logger LOG = Logger.getLogger(PayCalendarDaoSpringObjImpl.class);
+	private static final Logger LOG = Logger.getLogger(PayCalendarDaoSpringOjbImpl.class);
 
 	public void saveOrUpdate(PayType payCalendar) {
 		this.getPersistenceBrokerTemplate().store(payCalendar);

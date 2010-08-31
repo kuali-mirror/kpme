@@ -8,9 +8,9 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.paytype.PayType;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class PayTypeDaoSpringObjImpl extends PersistenceBrokerDaoSupport implements PayTypeDao {
+public class PayTypeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements PayTypeDao {
 
-	private static final Logger LOG = Logger.getLogger(PayTypeDaoSpringObjImpl.class);
+	private static final Logger LOG = Logger.getLogger(PayTypeDaoSpringOjbImpl.class);
 
 	public void saveOrUpdate(PayType payType) {
 		this.getPersistenceBrokerTemplate().store(payType);

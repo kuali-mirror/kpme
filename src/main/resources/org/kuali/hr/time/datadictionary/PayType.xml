@@ -26,7 +26,7 @@
 		</property>
 		<property name="relationships">
 			<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="holidayCalendarGroupObj"/>
+              <property name="objectAttributeName" value="holidayCalendar"/>
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="holidayCalendarGroup" p:targetName="holidayCalendarGroup"/>

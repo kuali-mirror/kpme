@@ -8,8 +8,9 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
-public class ClockActionForm extends TkForm {
+public class ClockActionForm extends TimesheetActionForm {
 
     /**
      *

@@ -15,22 +15,22 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.timeblock.TimeBlockHistory;
+import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
-public class ClockAction extends TkAction {
+public class ClockAction extends TimesheetAction {
 
     	private static final Logger LOG = Logger.getLogger(ClockAction.class);
     	public static final SimpleDateFormat SDF =  new SimpleDateFormat("EEE, MMMM d yyyy HH:mm:ss, zzzz");
 
     	@Override
     	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    		ActionForward forward = super.execute(mapping, form, request, response);
     	    LOG.debug("Calling execute.");
     	    ClockActionForm clockActionForm = (ClockActionForm) form;
     	    String principalId = TKContext.getUser().getPrincipalId();
@@ -57,7 +57,7 @@ public class ClockAction extends TkAction {
     	    request.setAttribute("principalId", principalId);
     	    request.setAttribute("assignments", assignments);
 
-    	    return super.execute(mapping, form, request, response);
+    	    return forward; 
     	}
 
     	public ActionForward clockAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -111,6 +111,11 @@
 			<version>1.0.1</version>
 			<type>maven-plugin</type>
 		</dependency>
+		<dependency>
+    		<groupId>joda-time</groupId>
+    		<artifactId>joda-time</artifactId>
+    		<version>1.6.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

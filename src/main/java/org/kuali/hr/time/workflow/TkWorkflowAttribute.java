@@ -14,8 +14,7 @@ import org.kuali.rice.kew.rule.RoleAttribute;
 public class TkWorkflowAttribute implements RoleAttribute{
 
 	@Override
-	public List<String> getQualifiedRoleNames(String roleName,
-			DocumentContent documentContent) {
+	public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
 		List<String> roles = new ArrayList<String>();
 		roles.add(roleName);
 		return roles;
@@ -23,12 +22,14 @@ public class TkWorkflowAttribute implements RoleAttribute{
 
 	@Override
 	public List<Role> getRoleNames() {
+		// This is a list of "RoleNames" that this RoleAttribute supports - 
+		// we can use this to have branching logic in the resolveQualifiedRole() method for different types of "Roles" and have different principal Resolution.
+		// ... Now whether or not we need this is another question
 		throw new UnsupportedOperationException("Not supported in TkWorkflowAttribute");
 	}
 
 	@Override
-	public ResolvedQualifiedRole resolveQualifiedRole(
-			RouteContext routeContext, String roleName, String qualifiedRole) {
+	public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) {
 		ResolvedQualifiedRole rqr = new ResolvedQualifiedRole();
 		List<Id> principals = new ArrayList<Id>();
 		String docId = routeContext.getDocument().getAppDocId();

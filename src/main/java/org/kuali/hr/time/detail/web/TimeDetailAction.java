@@ -32,8 +32,8 @@ public class TimeDetailAction extends TkAction {
 		String principalId = TKContext.getUser().getPrincipalId();
 
 		List<Job> job = TKContext.getUser().getJobs();
-		java.sql.Date beginPeriodDate = job.get(0).getPayType().getCalendarGroupObj().getPayCalendarDates().get(0).getBeginPeriodDate();
-		java.sql.Date endPeriodDate = job.get(0).getPayType().getCalendarGroupObj().getPayCalendarDates().get(0).getEndPeriodDate();
+		java.sql.Date beginPeriodDate = job.get(0).getPayType().getPayCalendar().getPayCalendarDates().get(0).getBeginPeriodDate();
+		java.sql.Date endPeriodDate = job.get(0).getPayType().getPayCalendar().getPayCalendarDates().get(0).getEndPeriodDate();
 
 		timeDetailForm.setBeginPeriodDate(beginPeriodDate);
 		timeDetailForm.setEndPeriodDate(endPeriodDate);

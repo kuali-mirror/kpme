@@ -152,6 +152,12 @@
         		<property name="runMode" value="embedded"/>
         	</bean>
         </property>
+        
+            <property name="additionalSpringFiles">
+    		<list>
+      			<value>classpath:KEWOverrideSpringBeans.xml</value>
+    		</list>
+  	</property>
     </bean>
 
 	<!--  <bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />-->
@@ -276,15 +282,19 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <bean id="payTypeDao" class="org.kuali.hr.time.paytype.dao.PayTypeDaoSpringObjImpl">
+    <bean id="payTypeDao" class="org.kuali.hr.time.paytype.dao.PayTypeDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <bean id="payCalendarDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDaoSpringObjImpl">
+    <bean id="payCalendarDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <bean id="payCalendarDatesDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDatesDaoSpringObjImpl">
+    <bean id="payCalendarDatesDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDatesDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="documentHeaderDao" class="org.kuali.hr.time.workflow.dao.DocumentHeaderDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
@@ -322,8 +332,21 @@
     	<property name="payCalendarDatesDao" ref="payCalendarDatesDao"/>
     </bean>
 
+    <bean id="documentHeaderService" class="org.kuali.hr.time.workflow.service.DocumentHeaderServiceImpl">
+    	<property name="documentHeaderDao" ref="documentHeaderDao"/>
+    </bean>
+
     <bean id="workAreaService" class="org.kuali.hr.time.workarea.service.WorkAreaServiceImpl">
     	<property name="workAreaDao" ref="workAreaDao"/>
+    </bean>
+    
+    <bean id="documentService" class="org.kuali.hr.time.workflow.service.DocumentServiceImpl">
+    </bean>
+    
+    <bean id="timesheetService" class="org.kuali.hr.time.timesheet.service.TimesheetServiceImpl">
+    	<property name="documentService" ref="documentService"/>
+    	<property name="documentHeaderService" ref="documentHeaderService"/>
+    	<property name="assignmentService" ref="assignmentService"/>
     </bean>
     
     <bean id="tkRoleAssignmentService" class="org.kuali.hr.time.role.assign.service.TkRoleAssignServiceImpl">
@@ -343,4 +366,5 @@
     		<ref bean="workAreaLookupableHelperService"/>
     	</property>
     </bean>
+   
 </beans>

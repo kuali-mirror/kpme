@@ -24,8 +24,8 @@ public class PayType extends PersistableBusinessObjectBase {
 	private Timestamp timestamp;
 	private String holidayCalendarGroup;
 
-	private HolidayCalendar holidayCalendarGroupObj;
-	private PayCalendar calendarGroupObj;
+	private HolidayCalendar holidayCalendar;
+	private PayCalendar payCalendar;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -97,21 +97,19 @@ public class PayType extends PersistableBusinessObjectBase {
 		return holidayCalendarGroup;
 	}
 
-	public void setHolidayCalendarGroupObj(HolidayCalendar holidayCalendarGroupObj) {
-		this.holidayCalendarGroupObj = holidayCalendarGroupObj;
+	public HolidayCalendar getHolidayCalendar() {
+		return holidayCalendar;
 	}
 
-	public HolidayCalendar getHolidayCalendarGroupObj() {
-		return holidayCalendarGroupObj;
+	public void setHolidayCalendar(HolidayCalendar holidayCalendar) {
+		this.holidayCalendar = holidayCalendar;
 	}
 
-	public void setCalendarGroupObj(PayCalendar calendarGroupObj) {
-		this.calendarGroupObj = calendarGroupObj;
+	public PayCalendar getPayCalendar() {
+		return payCalendar;
 	}
 
-	public PayCalendar getCalendarGroupObj() {
-		return calendarGroupObj;
+	public void setPayCalendar(PayCalendar payCalendar) {
+		this.payCalendar = payCalendar;
 	}
-
-
 }

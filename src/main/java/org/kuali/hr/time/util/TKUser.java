@@ -8,35 +8,36 @@ import org.kuali.rice.kim.bo.Person;
 
 public class TKUser {
 
-    private Person actualPerson;
-    private Person backdoorPerson;
-    private List<Job> jobs;
-    private List<Assignment> assignments;
-//    private SecurityContext securityContext;
+	private Person actualPerson;
+	private Person backdoorPerson;
+	private List<Job> jobs;
+	private List<Assignment> assignments;
 
-    public Person getActualPerson() {
-        return actualPerson;
-    }
+	// private SecurityContext securityContext;
 
-    public void setActualPerson(Person person) {
-        this.actualPerson = person;
-    }
+	public Person getActualPerson() {
+		return actualPerson;
+	}
 
-    public Person getBackdoorPerson() {
-        return backdoorPerson;
-    }
+	public void setActualPerson(Person person) {
+		this.actualPerson = person;
+	}
 
-    public void setBackdoorPerson(Person backdoorPerson) {
-        this.backdoorPerson = backdoorPerson;
-    }
+	public Person getBackdoorPerson() {
+		return backdoorPerson;
+	}
 
-    public String getPrincipalId(){
-	return actualPerson.getPrincipalId();
-    }
+	public void setBackdoorPerson(Person backdoorPerson) {
+		this.backdoorPerson = backdoorPerson;
+	}
 
-    public String getPrincipalName(){
-	return actualPerson.getPrincipalName();
-    }
+	public String getPrincipalId() {
+		return actualPerson.getPrincipalId();
+	}
+
+	public String getPrincipalName() {
+		return actualPerson.getPrincipalName();
+	}
 
 	public List<Job> getJobs() {
 		return jobs;

@@ -61,10 +61,9 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 		for(Job job : jobs) {
 			PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getPayTypeId());
 			PayCalendar payCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(payType.getCalendarGroup());
-//			List<PayCalendarDates> payCalendarDates = TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(payCalendar.getPayCalendarId());
-//
-//			payCalendar.setPayCalendarDates(payCalendarDates);
-			payType.setCalendarGroupObj(payCalendar);
+			//List<PayCalendarDates> payCalendarDates = TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(payCalendar.getPayCalendarId());
+			//payCalendar.setPayCalendarDates(payCalendarDates);
+			payType.setPayCalendar(payCalendar);
 			job.setPayType(payType);
 
 			principalJobs.add(job);

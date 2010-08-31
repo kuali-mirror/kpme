@@ -1,17 +1,34 @@
 package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+import org.kuali.hr.job.Job;
+import org.kuali.hr.time.paycalendar.PayCalendar;
+import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.paytype.PayType;
 import org.kuali.rice.core.config.ConfigContext;
 
 public class TKUtils {
 
 	public static String getTimeZone() {
+		// TODO : Verify this
+		// TODO : Verify this
+		// TODO : Verify this
+		// TODO : Verify this
+		// TODO : Verify this
+		// TODO : Verify this
 		HttpServletRequest request = TKContext.getHttpServletRequest();
 		Locale clientLocale = request.getLocale();
 		Calendar calendar = Calendar.getInstance(clientLocale);
@@ -21,8 +38,38 @@ public class TKUtils {
 	}
 
 	public static String getEnvironment() {
-		return ConfigContext.getCurrentContextConfig().getProperty(
-				"environment");
+		return ConfigContext.getCurrentContextConfig().getProperty("environment");
+	}
+	
+	public static java.sql.Date getPayEndDate(TKUser user, java.util.Date now) {
+		Date payEndDate = null;
+		DateTime currentTime = new DateTime(now); 
+		
+		if (user != null) {
+			List<Job> jobs = user.getJobs();
+			if (jobs != null && jobs.size() > 0) {
+				Job job = jobs.get(0);
+				PayCalendar payCalendar = (job.getPayType() != null) ? job.getPayType().getPayCalendar() : null;
+				List<PayCalendarDates> dates = payCalendar.getPayCalendarDates();
+				for (PayCalendarDates pcdate : dates) {
+					LocalTime beginTime = new LocalTime(pcdate.getBeginPeriodTime()); 
+					LocalDate beginDate = new LocalDate(pcdate.getBeginPeriodDate());					
+					DateTime begin = beginDate.toDateTime(beginTime); 
+					
+					LocalTime endTime = new LocalTime(pcdate.getEndPeriodTime());
+					LocalDate endDate = new LocalDate(pcdate.getEndPeriodDate());
+					DateTime end = endDate.toDateTime(endTime);
+					
+					Interval range = new Interval(begin, end);
+					if (range.contains(currentTime)) {
+						// Joda-time is awesome.
+						return pcdate.getEndPeriodDate();
+					}
+				}
+			}
+		}
+		
+		return payEndDate;	
 	}
 
 	public static long getDaysBetween(Calendar startDate, Calendar endDate) {
@@ -34,28 +81,9 @@ public class TKUtils {
 		}
 		return daysBetween;
 	}
-	
+
 	public static BigDecimal getHoursBetween(long start, long end) {
 		long diff = end - start;
 		return new BigDecimal((diff / 3600000.0) % 24).setScale(TkConstants.MATH_CONTEXT.getPrecision(), TkConstants.MATH_CONTEXT.getRoundingMode()).abs();
 	}
-
-//	public static void main(String[] args) {
-//		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-//		DateFormat df = DateFormat.getDateTimeInstance();
-//		cal.set(Calendar.HOUR_OF_DAY, 01);
-//		cal.set(Calendar.MINUTE, 0);
-//		cal.set(Calendar.SECOND, 0);
-//
-//		df.setTimeZone(TimeZone.getTimeZone("GMT"));
-//		System.out.println("GMT Time: " + df.format(cal.getTime()));
-//		df.setTimeZone(TimeZone.getTimeZone("SystemV/EST5EDT"));
-//		System.out.println("EST Time: " + df.format(cal.getTime()));
-
-		// String[] tzids = TimeZone.getAvailableIDs();
-		// String[] tzids = TimeZone.getAvailableIDs(-1000*5*60*60);
-		// for (String s : tzids) {
-		// System.out.println(s);
-		// }
-//	}
 }

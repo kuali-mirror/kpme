@@ -39,6 +39,7 @@
 	<!-- end general config location params -->
 
 	<!-- keystore config -->
+	<param name="encryption.key">7IC64w6ksLU</param>
 	<param name="keystore.alias">hr</param>
 	<param name="keystore.file">${keystore.location}</param>
 	<!-- end keystore config -->

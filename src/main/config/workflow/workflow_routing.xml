@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+        <name>TkWorkflowAttribute</name>
+        <className>org.kuali.hr.time.workflow.TkWorkflowAttribute</className>
+        <label>TkWorkflowAttribute</label>
+        <description>TkWorkflowAttribute</description>
+        <type>RuleAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
+  
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        <ruleTemplate allowOverwrite="true">
+            <name>TkWorkflowTemplate</name>
+            <description>TkWorkflowTemplate</description>
+            <attributes>
+                <attribute>
+                    <name>TkWorkflowAttribute</name>
+                    <required>false</required>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+	</ruleTemplates>
+
+ 	
+ 	
+   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>TimesheetDocument</name>
+            <superUserWorkgroupName>TK_SYSTEM_ADMIN</superUserWorkgroupName>
+      		<blanketApproveWorkgroupName>TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
+      		<defaultExceptionWorkgroupName>TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
+            <description>TK Timesheet</description>
+            <label>TK Timesheet</label>
+            <postProcessorName>org.kuali.hr.time.workflow.postprocessor.TkPostProcessor</postProcessorName>
+            <docHandler>${tk_dochandlerprefix_url}/Timesheet.do?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>1</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="adhoc" nextNode="Timesheet Attribute"/>
+                    <requests name="Timesheet Attribute" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="adhoc">
+                    <exceptionWorkgroup>TK_SYSTEM_ADMIN</exceptionWorkgroup>
+                    <activationType>S</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                <requests name="Timesheet Attribute">
+                    <exceptionWorkgroup>TK_SYSTEM_ADMIN</exceptionWorkgroup>
+                    <activationType>S</activationType>
+                    <ruleTemplate>TkWorkflowTemplate</ruleTemplate>
+                    <mandatoryRoute>true</mandatoryRoute>
+                    <finalApproval>true</finalApproval>
+                </requests>
+            </routeNodes>
+        </documentType>
+     </documentTypes>
+     
+     	
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+	   <rule>
+        <documentType>TimesheetDocument</documentType>
+        <ruleTemplate>TkWorkflowTemplate</ruleTemplate>
+        <description>TkWorkflow</description>
+        <forceAction>true</forceAction>
+			<responsibilities>
+				<responsibility>
+                <role>org.kuali.hr.time.workflow.TkWorkflowAttribute!addIfYouNeedIt</role>
+                <approvePolicy>F</approvePolicy>
+                <actionRequested>A</actionRequested>
+                <priority>1</priority>
+				</responsibility>
+			</responsibilities>
+    </rule>
+ 	</rules>
+</data>
