@@ -81,7 +81,7 @@
 		<field-descriptor name="jobNumber"              column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="workAreaId"             column="work_area_id" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="taskId"                 column="task_id" 			jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="clockTimestamp"         column="clock_ts" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.Calendar2TimestampFieldConversion" />
+		<field-descriptor name="clockTimestamp"         column="clock_ts" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
 		<field-descriptor name="clockAction"            column="clock_action" 		jdbc-type="VARCHAR" length="2" nullable="false" primarykey="false" />
 		<field-descriptor name="ipAddress"              column="ip_address" 		jdbc-type="VARCHAR" length="15" nullable="false" primarykey="false" />
 		<field-descriptor name="userPrincipalId"        column="user_principal_id" 	jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />

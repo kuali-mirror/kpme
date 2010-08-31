@@ -46,12 +46,12 @@ public class ClockAction extends TimesheetAction {
     	    else {
     	    	clockActionForm.setCurrentClockAction(clockLog.getNextValidClockAction());
 
-	    	    Calendar calendar = clockLog.getClockTimestamp();
-	    	    clockActionForm.setLastClockActionTimestampFormatted(SDF.format(calendar.getTime()));
+	    	    Timestamp clockTimestamp = clockLog.getClockTimestamp();
+	    	    clockActionForm.setLastClockActionTimestampFormatted(SDF.format(clockTimestamp.getTime()));
 
 	    	    // this may need to be changed in the future
 	    	    SimpleDateFormat dateTimeForOutput = new SimpleDateFormat("MMMM d, yyyy HH:mm:ss");
-	    	    clockActionForm.setLastClockActionTimestamp(dateTimeForOutput.format(calendar.getTime()));
+	    	    clockActionForm.setLastClockActionTimestamp(dateTimeForOutput.format(clockTimestamp.getTime()));
     	    }
 
     	    request.setAttribute("principalId", principalId);
@@ -70,7 +70,9 @@ public class ClockAction extends TimesheetAction {
     	    ClockLog cl = new ClockLog();
     	    cl.setClockAction(caf.getCurrentClockAction());
     	    cl.setPrincipalId(principalId);
-    	    cl.setClockTimestamp(Calendar.getInstance(TkConstants.GMT_TIME_ZONE));
+    	    cl.setClockTimestamp(new Timestamp(System.currentTimeMillis()));//Calendar.getInstance(TkConstants.GMT_TIME_ZONE));
+    	    //
+    	    // TODO: This timezone is not correct, we will need to make a javascript call.
     	    cl.setClockTimestampTimezone(TKUtils.getTimeZone());
     	    cl.setIpAddress(request.getRemoteAddr());
     	    cl.setJobNumber(0L);
@@ -80,20 +82,18 @@ public class ClockAction extends TimesheetAction {
 
     	    TkServiceLocator.getClockLogService().saveClockAction(cl);
     	    caf.setCurrentClockAction(cl.getNextValidClockAction());
-    	    caf.setLastClockActionTimestampFormatted(SDF.format(cl.getClockTimestamp().getTime()));
+    	    caf.setLastClockAction(cl.getClockTimestamp());
+    	    //caf.setLastClockActionTimestampFormatted(SDF.format(cl.getClockTimestamp().getTime()));
+    	    //caf.setLastClockActionTimestamp(cl.getClockTimestamp());
 
     	    // end time
     	    // the clock action logic is reversed, so check if the clock action is "clocked in."
     	    if(StringUtils.equals(caf.getCurrentClockAction(), "CI")) {
-
-    	    	SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy HH:mm:ss");
-    	    	long beginTime = sdf.parse(caf.getLastClockActionTimestamp()).getTime();
-    	    	long endTime = cl.getClockTimestamp().getTime().getTime();
-    	    	cl.getClockTimestamp().getTimeInMillis();
+    	    	long beginTime = caf.getLastClockAction().getTime();
     	    	Timestamp beginTimestamp = new Timestamp(beginTime);
-    	    	Timestamp endTimestamp = new Timestamp(endTime);
+    	    	Timestamp endTimestamp = cl.getClockTimestamp();
 
-    	    	BigDecimal hours = TKUtils.getHoursBetween(endTime, beginTime);
+    	    	BigDecimal hours = TKUtils.getHoursBetween(endTimestamp.getTime(), beginTimestamp.getTime());
 
     	    	TimeBlock tb = new TimeBlock();
     	    	tb.setJobNumber(0L);

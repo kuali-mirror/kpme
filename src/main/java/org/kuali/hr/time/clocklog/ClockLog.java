@@ -1,7 +1,6 @@
 package org.kuali.hr.time.clocklog;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.util.TkConstants;
@@ -19,7 +18,7 @@ public class ClockLog extends PersistableBusinessObjectBase {
     private Long jobNumber;
     private Long workAreaId;
     private Long taskId;
-    private Calendar clockTimestamp;
+    private Timestamp clockTimestamp;
     private String clockTimestampTimezone;
     private String clockAction;
     private String ipAddress;
@@ -66,11 +65,11 @@ public class ClockLog extends PersistableBusinessObjectBase {
         this.taskId = taskId;
     }
 
-    public Calendar getClockTimestamp() {
+    public Timestamp getClockTimestamp() {
         return clockTimestamp;
     }
 
-    public void setClockTimestamp(Calendar clockTimestamp) {
+    public void setClockTimestamp(Timestamp clockTimestamp) {
         this.clockTimestamp = clockTimestamp;
     }
 

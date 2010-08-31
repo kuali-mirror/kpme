@@ -1,5 +1,6 @@
 package org.kuali.hr.time.clock.web;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.base.web.TkForm;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
 public class ClockActionForm extends TimesheetActionForm {
@@ -23,6 +23,8 @@ public class ClockActionForm extends TimesheetActionForm {
     private String nextClockAction;
     private String lastClockActionTimestamp;
     private String lastClockActionTimestampFormatted;
+    
+    private Timestamp lastClockAction;
 
 
 
@@ -82,6 +84,14 @@ public class ClockActionForm extends TimesheetActionForm {
 
 	public void setNextClockAction(String nextClockAction) {
 		this.nextClockAction = nextClockAction;
+	}
+
+	public Timestamp getLastClockAction() {
+		return lastClockAction;
+	}
+
+	public void setLastClockAction(Timestamp lastClockAction) {
+		this.lastClockAction = lastClockAction;
 	}
 
 
