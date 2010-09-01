@@ -297,11 +297,19 @@
     <bean id="documentHeaderDao" class="org.kuali.hr.time.workflow.dao.DocumentHeaderDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+    <bean id="clockLocationDao" class="org.kuali.hr.time.clock.location.dao.ClockLocationDaoOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 
 	<!-- Time Services for Business Logic -->
 
     <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
     	<property name="clockLogDao" ref="clockLogDao"/>
+    </bean>
+    
+    <bean id="clockLocationService" class="org.kuali.hr.time.clock.location.service.ClockLocationRuleServiceImpl">
+    	<property name="clockLocationDao" ref="clockLocationDao"/>
     </bean>
 
     <bean id="assignmentService" class="org.kuali.hr.time.assignment.service.AssignmentServiceImpl">
@@ -332,7 +340,7 @@
     	<property name="payCalendarDatesDao" ref="payCalendarDatesDao"/>
     </bean>
 
-    <bean id="documentHeaderService" class="org.kuali.hr.time.workflow.service.DocumentHeaderServiceImpl">
+    <bean id="tkDocumentHeaderService" class="org.kuali.hr.time.workflow.service.DocumentHeaderServiceImpl">
     	<property name="documentHeaderDao" ref="documentHeaderDao"/>
     </bean>
 
@@ -340,7 +348,7 @@
     	<property name="workAreaDao" ref="workAreaDao"/>
     </bean>
     
-    <bean id="documentService" class="org.kuali.hr.time.workflow.service.DocumentServiceImpl">
+    <bean id="tkDocumentService" class="org.kuali.hr.time.workflow.service.DocumentServiceImpl">
     </bean>
     
     <bean id="timesheetService" class="org.kuali.hr.time.timesheet.service.TimesheetServiceImpl">
