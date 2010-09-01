@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -28,6 +31,8 @@ public class Job  extends PersistableBusinessObjectBase {
     private Timestamp timestamp;
     private Boolean active;
     private PayType payType;
+    private List<Assignment> assignments;
+    private List<DepartmentEarnCode> deptEarnCodes;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -178,6 +183,26 @@ public class Job  extends PersistableBusinessObjectBase {
 
 	public void setPayType(PayType payType) {
 		this.payType = payType;
+	}
+
+
+	public List<Assignment> getAssignments() {
+		return assignments;
+	}
+
+
+	public void setAssignments(List<Assignment> assignments) {
+		this.assignments = assignments;
+	}
+
+
+	public List<DepartmentEarnCode> getDeptEarnCodes() {
+		return deptEarnCodes;
+	}
+
+
+	public void setDeptEarnCodes(List<DepartmentEarnCode> deptEarnCodes) {
+		this.deptEarnCodes = deptEarnCodes;
 	}
 
 }

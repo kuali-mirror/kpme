@@ -16,6 +16,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.clocklog.ClockLog;
+import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
@@ -35,25 +36,23 @@ public class ClockAction extends TimesheetAction {
     	    ClockActionForm clockActionForm = (ClockActionForm) form;
     	    String principalId = TKContext.getUser().getPrincipalId();
     	    List<Assignment> assignments = TkServiceLocator.getAssignmentService().getCurrentlyValidActiveAssignments(principalId);
+//    	    DepartmentEarnCode deptEarnCode = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodeList( )
     	    ClockLog clockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
 
     	    clockActionForm.setPrincipalId(principalId);
-    	    clockActionForm.setAssignments(assignments);
+    	    clockActionForm.setAssignmentFormatted(getFormattedAssignment());
 
     	    if(clockLog == null) {
     	    	clockActionForm.setCurrentClockAction(TkConstants.CLOCK_IN);
     	    }
-    	    else {
+	   	    else {
     	    	clockActionForm.setCurrentClockAction(clockLog.getNextValidClockAction());
 
 	    	    Timestamp clockTimestamp = clockLog.getClockTimestamp();
 	    	    clockActionForm.setLastClockAction(clockTimestamp);
     	    }
 
-    	    request.setAttribute("principalId", principalId);
-    	    request.setAttribute("assignments", assignments);
-
-    	    return forward; 
+    	    return forward;
     	}
 
     	public ActionForward clockAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

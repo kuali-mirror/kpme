@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.assignment.Assignment;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -20,20 +21,31 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
     @Override
     public List<Assignment> findCurrentlyValidActiveAssignments(String principalId) {
 	List<Assignment> list = new LinkedList<Assignment>();
-	
+
 	Criteria crit = new Criteria();
 	crit.addEqualTo("active", true);
 	crit.addEqualTo("principalId", principalId);
-	
-	Query query = QueryFactory.newQuery(Assignment.class, crit);
-	Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+	QueryByCriteria queryCriteria = new QueryByCriteria(Assignment.class, crit);
+	queryCriteria.addOrderByDescending("effdt");
+
+//	Query query =  QueryFactory.newQuery(Assignment.class, crit);
+
+	Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(queryCriteria);
 	if (c != null) {
 	    list.addAll(c);
 	}
-	
+
 	return list;
     }
-    
+
+    public Assignment findAssignmentByJobNumber(Long jobNumber) {
+    	Criteria crit = new Criteria();
+    	crit.addEqualTo("active", true);
+    	crit.addEqualTo("jobNumber", jobNumber);
+
+    	return (Assignment) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Assignment.class, crit));
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public List<Assignment> findAssignmentsOnOrAfter(Date date) {
@@ -56,11 +68,11 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
     public List<Assignment> findAllAssignments() {
 	List<Assignment> list = new LinkedList<Assignment>();
 	Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Assignment.class, (Criteria) null));
-	
+
 	if (c != null) {
 	    list.addAll(c);
 	}
-	
+
 	return list;
     }
 
@@ -87,7 +99,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 	    LOG.warn("Attempt to delete null assignment.");
 	}
     }
-    
+
     @Override
     public void deleteAllAssignments() {
 	Criteria crit = new Criteria();

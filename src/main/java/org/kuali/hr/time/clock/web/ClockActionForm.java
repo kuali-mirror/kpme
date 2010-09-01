@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
 public class ClockActionForm extends TimesheetActionForm {
@@ -18,10 +17,10 @@ public class ClockActionForm extends TimesheetActionForm {
     private static final long serialVersionUID = -3843074202863670372L;
 
     private String principalId;
-    private List<Assignment> assignments;
     private String currentClockAction;
     private String nextClockAction;    
     private Timestamp lastClockAction;
+    private List<String> assignmentFormatted;
 
 
 
@@ -33,14 +32,6 @@ public class ClockActionForm extends TimesheetActionForm {
     @Override
     public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
 	return super.validate(mapping, request);
-    }
-
-    public List<Assignment> getAssignments() {
-        return assignments;
-    }
-
-    public void setAssignments(List<Assignment> assignments) {
-        this.assignments = assignments;
     }
 
     public String getPrincipalId() {
@@ -65,6 +56,14 @@ public class ClockActionForm extends TimesheetActionForm {
 
 	public void setNextClockAction(String nextClockAction) {
 		this.nextClockAction = nextClockAction;
+	}
+
+	public List<String> getAssignmentFormatted() {
+		return assignmentFormatted;
+	}
+
+	public void setAssignmentFormatted(List<String> assignmentFormatted) {
+		this.assignmentFormatted = assignmentFormatted;
 	}
 
 	public Timestamp getLastClockAction() {

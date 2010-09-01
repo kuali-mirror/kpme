@@ -5,6 +5,7 @@ import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.cache.CacheManagementService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
+import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarDatesService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
@@ -34,6 +35,8 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_CACHE_MANAGER_SERVICE = "cacheManager";
 	public static final String TK_WORK_AREA_SERVICE = "workAreaService";
 	public static final String TK_TIMESHEET_SERVICE = "timesheetService";
+	public static final String TK_DEPARTMENT_EARN_CODE = "deptEarnCodeService";
+
 
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -43,6 +46,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static void stop() throws Exception {
 //		CONTEXT.stop();
 	}
+
 	
 	public static TimesheetService getTimesheetService() {
 		return (TimesheetService) CONTEXT.getBean(TK_TIMESHEET_SERVICE);
@@ -95,9 +99,13 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static TkRuleControllerService getTkRuleControllerService(){
 		return (TkRuleControllerService) CONTEXT.getBean("tkRuleControllerService");
 	}
-	
+
 	public static CacheManagementService getCacheManagerService(){
 		return (CacheManagementService) CONTEXT.getBean(TK_CACHE_MANAGER_SERVICE);
+	}
+
+	public static DepartmentEarnCodeService getDepartmentEarnCodeService() {
+		return (DepartmentEarnCodeService) CONTEXT.getBean(TK_DEPARTMENT_EARN_CODE);
 	}
 
 	@Override

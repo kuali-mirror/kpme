@@ -12,18 +12,18 @@ public class AssignmentServiceImpl implements AssignmentService {
     private AssignmentDao assignmentDao;
 
     @Override
-    public List<Assignment> getAssignmentsOnOrAfter(Date effectiveDate) {	
+    public List<Assignment> getAssignmentsOnOrAfter(Date effectiveDate) {
 	return assignmentDao.findAssignmentsOnOrAfter(effectiveDate);
     }
-    
+
     @Override
     public List<Assignment> getCurrentlyValidActiveAssignments(String principalId) {
 	List<Assignment> assignments;
 	LOG.debug("Locating assignments for principal id: " + principalId);
-	
+
 	assignments = assignmentDao.findCurrentlyValidActiveAssignments(principalId);
 	LOG.debug("Found " + assignments.size() + " assignments for principal id: " + principalId);
-	
+
 	return assignments;
     }
 
@@ -34,4 +34,8 @@ public class AssignmentServiceImpl implements AssignmentService {
     public void setAssignmentDao(AssignmentDao assignmentDao) {
 	this.assignmentDao = assignmentDao;
     }
+
+	public Assignment getAssignmentByJobNumber(Long jobNumber) {
+		return assignmentDao.findAssignmentByJobNumber(jobNumber);
+	}
 }

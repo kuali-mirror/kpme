@@ -53,9 +53,9 @@
 				<td class="sub-header"><bean:message key="clock.clockAssignment"/> : </td>
 				<td>
 					<select>
-							<option>Operations/AIS</option>
-							<option>AIS Technical & User Support</option>
-							<option>System Support Services</option>
+						<c:forEach var="assignment" items="${Form.assignmentFormatted}">
+							<option>${assignment}</option>
+						</c:forEach>
 					</select>
 				</td>
 			</tr>

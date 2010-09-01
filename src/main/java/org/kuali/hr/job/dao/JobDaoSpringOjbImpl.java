@@ -9,8 +9,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -61,10 +62,12 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 		for(Job job : jobs) {
 			PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getPayTypeId());
 			PayCalendar payCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(payType.getCalendarGroup());
-			//List<PayCalendarDates> payCalendarDates = TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(payCalendar.getPayCalendarId());
-			//payCalendar.setPayCalendarDates(payCalendarDates);
+			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getCurrentlyValidActiveAssignments(job.getPrincipalId());
 			payType.setPayCalendar(payCalendar);
 			job.setPayType(payType);
+			job.setAssignments(assignments);
+			List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodeList(job.getTkSalGroup());
+			job.setDeptEarnCodes(deptEarnCodes);
 
 			principalJobs.add(job);
 		}

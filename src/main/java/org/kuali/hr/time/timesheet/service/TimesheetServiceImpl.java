@@ -16,11 +16,11 @@ import org.kuali.rice.kew.service.WorkflowDocument;
 public class TimesheetServiceImpl implements TimesheetService {
 
 	private static final Logger LOG = Logger.getLogger(TimesheetServiceImpl.class);
-	
+
 	// set these IoC style in spring beans?  or we could just use the service locator...
 	//
-	private DocumentService documentService;
-	private DocumentHeaderService documentHeaderService;
+	private DocumentService tkDocumentService;
+	private DocumentHeaderService tkDocumentHeaderService;
 	private AssignmentService assignmentService;
 
 	@Override
@@ -35,10 +35,10 @@ public class TimesheetServiceImpl implements TimesheetService {
 			}
 		}
 	}
-	
+
 	@Override
 	public TimesheetDocument openTimesheetDocument(String principalId, Date payEndDate) {
-		TkDocumentHeader header = documentHeaderService.getDocumentHeader(principalId, payEndDate);
+		TkDocumentHeader header = tkDocumentHeaderService.getDocumentHeader(principalId, payEndDate);
 		TimesheetDocument timesheetDocument = null;
 
 		if (header == null) {
@@ -58,31 +58,31 @@ public class TimesheetServiceImpl implements TimesheetService {
 
 	private TimesheetDocument initiateWorkflowDocument(String principalId, Date payEndDate, String documentType, String title) {
 		TimesheetDocument timesheetDocument = null;
-		WorkflowDocument document = documentService.createWorkflowDocument(principalId, documentType, title);
+		WorkflowDocument document = tkDocumentService.createWorkflowDocument(principalId, documentType, title);
 		try {
 			String status = document.getRouteHeader().getDocRouteStatus();
 			TkDocumentHeader documentHeader = new TkDocumentHeader(document.getRouteHeaderId(), principalId, payEndDate, status);
-			
+
 			documentHeader.setDocumentNumber(document.getRouteHeaderId().toString());
 			documentHeader.setDocumentStatus("I");
 			documentHeader.setDocumentDescription("org.kuali.hr.time.timesheet.TimesheetDocument");
 			documentHeader.setExplanation(principalId);
-			
-			documentHeaderService.saveOrUpdate(documentHeader);
+
+			tkDocumentHeaderService.saveOrUpdate(documentHeader);
 			timesheetDocument = new TimesheetDocument(documentHeader);
 		} catch (WorkflowException e) {
 			LOG.error(e);
 		}
-		
+
 		return timesheetDocument;
 	}
 
-	public void setDocumentService(DocumentService documentService) {
-		this.documentService = documentService;
+	public void setTkDocumentService(DocumentService documentService) {
+		this.tkDocumentService = documentService;
 	}
 
-	public void setDocumentHeaderService(DocumentHeaderService documentHeaderService) {
-		this.documentHeaderService = documentHeaderService;
+	public void setTkDocumentHeaderService(DocumentHeaderService documentHeaderService) {
+		this.tkDocumentHeaderService = documentHeaderService;
 	}
 
 	public void setAssignmentService(AssignmentService assignmentService) {
