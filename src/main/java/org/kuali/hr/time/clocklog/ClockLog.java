@@ -3,7 +3,9 @@ package org.kuali.hr.time.clocklog;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class ClockLog extends PersistableBusinessObjectBase {
@@ -25,6 +27,8 @@ public class ClockLog extends PersistableBusinessObjectBase {
     private String userPrincipalId;
     private Timestamp timestamp;
 
+    private WorkArea workArea;
+    private Task task;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -33,7 +37,23 @@ public class ClockLog extends PersistableBusinessObjectBase {
 	return null;
     }
 
-    public String getPrincipalId() {
+    public WorkArea getWorkArea() {
+		return workArea;
+	}
+
+	public void setWorkArea(WorkArea workArea) {
+		this.workArea = workArea;
+	}
+
+	public Task getTask() {
+		return task;
+	}
+
+	public void setTask(Task task) {
+		this.task = task;
+	}
+
+	public String getPrincipalId() {
         return principalId;
     }
 

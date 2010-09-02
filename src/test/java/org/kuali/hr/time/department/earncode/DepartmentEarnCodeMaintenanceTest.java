@@ -20,10 +20,10 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	
 	@Test
 	public void testDepartmentEarnCodeMaint() throws Exception {
-		HtmlPage weeklyOvertimeRuleLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
-		weeklyOvertimeRuleLookUp = HtmlUnitUtil.clickInputContainingText(weeklyOvertimeRuleLookUp, "search");
-		assertTrue("Page contains test DepartmentEarnCode", weeklyOvertimeRuleLookUp.asText().contains(TEST_CODE.toString()));		
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(weeklyOvertimeRuleLookUp, "edit",departmentEarnCodeId.toString());		
+		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
+		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
+		assertTrue("Page contains test DepartmentEarnCode", deptEarnCodeLookup.asText().contains(TEST_CODE.toString()));		
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit",departmentEarnCodeId.toString());		
 		assertTrue("Maintenance Page contains test DepartmentEarnCode",maintPage.asText().contains(TEST_CODE.toString()));		
 	}
 

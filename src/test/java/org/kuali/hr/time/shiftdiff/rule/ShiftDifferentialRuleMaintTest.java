@@ -26,10 +26,10 @@ public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 	
 	@Test
 	public void testShiftDifferentialRuleMaint() throws Exception {	 
-		HtmlPage assignmentAccountLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.SHIFT_DIFFERENTIAL_RULE_MAINT_URL);
-		assignmentAccountLookup = HtmlUnitUtil.clickInputContainingText(assignmentAccountLookup, "search");
-		assertTrue("Page contains test ShiftDifferentialRule", assignmentAccountLookup.asText().contains(TEST_CODE.toString()));
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(assignmentAccountLookup, "edit",shiftDifferentialRuleId.toString());
+		HtmlPage shiftDifferentialRuleLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.SHIFT_DIFFERENTIAL_RULE_MAINT_URL);
+		shiftDifferentialRuleLookup = HtmlUnitUtil.clickInputContainingText(shiftDifferentialRuleLookup, "search");
+		assertTrue("Page contains test ShiftDifferentialRule", shiftDifferentialRuleLookup.asText().contains(TEST_CODE.toString()));
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(shiftDifferentialRuleLookup, "edit",shiftDifferentialRuleId.toString());
 		assertTrue("Maintenance Page contains test ShiftDifferentialRule",maintPage.asText().contains(TEST_CODE));	 
 	}
 

@@ -510,4 +510,37 @@
 		<field-descriptor name="documentStatus"     column="document_status" jdbc-type="VARCHAR" />
 	</class-descriptor>
 	
+	<!-- DailyOvertimeRule -->
+	<class-descriptor class="org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule" table="tk_daily_overtime_rl_t">
+		<field-descriptor name="tkDailyOvertimeRuleId" column="tk_daily_overtime_rl_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_daily_overtime_rl_s"  />
+		<field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR" length="2"/>
+		<field-descriptor name="hrPaytype" column="HR_PAYTYPE" jdbc-type="VARCHAR" length="4" />
+		<field-descriptor name="deptId" column="DEPTID" jdbc-type="VARCHAR" length="21"  />
+		<field-descriptor name="workAreaId" column="WORK_AREA_ID" jdbc-type="BIGINT"  primarykey="false" />
+		<field-descriptor name="taskId" column="TASK_ID" jdbc-type="BIGINT" primarykey="false" />
+		<field-descriptor name="maxGap" column="MAX_GAP" jdbc-type="DECIMAL"  primarykey="false" />		
+		<field-descriptor name="shiftHours" column="SHIFT_HOURS" jdbc-type="DECIMAL"  primarykey="false" />
+		<field-descriptor name="overtimePref" column="OVERTIME_PREFERENCE" jdbc-type="VARCHAR" length="3" />
+		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" />
+		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
+		<field-descriptor name="timeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="active" column="ACTIVE" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>		
+	</class-descriptor>
+	
+	<!-- Clock Log -->
+	<class-descriptor class="org.kuali.hr.time.clocklog.ClockLog" table="tk_clock_log_t">
+		<field-descriptor name="clockLogId" column="CLOCK_LOG_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_clock_log_s"  />
+		<field-descriptor name="principalId" column="PRINCIPAL_ID" jdbc-type="VARCHAR" length="40"/>
+		<field-descriptor name="jobNumber" column="JOB_NUMBER" jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="workAreaId" column="WORK_AREA_ID" jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="taskId" column="TASK_ID" jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="clockTimestamp" column="CLOCK_TS" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="clockTimestampTimezone" column="CLOCK_TS_TZ" jdbc-type="VARCHAR" length="50"/>		
+		<field-descriptor name="clockAction" column="CLOCK_ACTION" jdbc-type="VARCHAR" length="2"/>
+		<field-descriptor name="ipAddress" column="IP_ADDRESS" jdbc-type="VARCHAR" length="15" />
+		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="40" />
+		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />				
+	</class-descriptor>	
 </descriptor-repository>
