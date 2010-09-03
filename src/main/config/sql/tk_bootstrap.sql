@@ -27,7 +27,7 @@ INSERT INTO `tk`.`tk_task_t`	(`task_id`,	`work_area_id`,	`effdt`,	`descr`,	`admi
 DELETE FROM `tk`.`tk_assignment_s`;
 INSERT INTO `tk`.`tk_assignment_s` (`ID`) VALUES ('100');
 DELETE FROM `tk`.`tk_assignment_t`;
-INSERT INTO `tk`.`tk_assignment_t`	(`ASSIGNMENT_ID`,	`PRINCIPAL_ID`,	`JOB_NUMBER`,	`EFFDT`,	`ERNCD`,	`WORK_AREA_ID`,	`TASK_ID`,	`OBJ_ID`,	`VER_NBR`,	`active`)	VALUES
+INSERT INTO `tk`.`tk_assignment_t`	(`ASSIGNMENT_ID`,	`PRINCIPAL_ID`,	`JOB_NUMBER`,	`EFFDT`,	`EARN_CODE_ID`,	`WORK_AREA_ID`,	`TASK_ID`,	`OBJ_ID`,	`VER_NBR`,	`active`)	VALUES
 	('10', 'admin', '1015', '2010-08-01', 'ERNCD', '100', 'TASK_ID', null, '1', '1');
 
 #
@@ -43,7 +43,7 @@ INSERT INTO `tk`.`hr_paytype_t` (`PAYTYPE_ID`,`PAYTYPE`,`DESCR`,`CALENDAR_GROUP`
 DELETE FROM `tk`.`hr_job_s`;
 INSERT INTO `tk`.`hr_job_s` (`ID`)	VALUES	('10');
 DELETE FROM `tk`.`hr_job_t`;
-INSERT INTO `tk`.`hr_job_t` (`JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`dept_id`,`TK_SAL_GROUP`,`PAY_GRADE`,`TIMESTAMP`,`ACTIVE`,`OBJ_ID`,`VER_NBR`,`location`,`std_hours`,`fte`,`hr_paytype_id`) VALUES
+INSERT INTO `tk`.`hr_job_t` (`JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`dept_id`,`TK_SAL_GROUP_ID`,`PAY_GRADE`,`TIMESTAMP`,`ACTIVE`,`OBJ_ID`,`VER_NBR`,`location`,`std_hours`,`fte`,`hr_paytype_id`) VALUES
 	('1015', 'admin', '0', '2010-08-10', 'TEST-DEPT', NULL, NULL, '2010-08-10 16:00:13', '1', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1');
 
 #
