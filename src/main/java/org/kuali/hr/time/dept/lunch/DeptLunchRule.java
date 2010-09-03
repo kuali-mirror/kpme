@@ -1,11 +1,12 @@
 package org.kuali.hr.time.dept.lunch;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class DeptLunchRule extends PersistableBusinessObjectBase {
@@ -14,9 +15,9 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
 
     private Long deptLunchRuleId;
     private String deptId;
-    private BigDecimal workArea;
+    private Long workArea;
     private String principalId;         // like principal id
-    private BigInteger jobNumber;    // like job number
+    private Long jobNumber;    // like job number
     private Date effectiveDate;
     private boolean active;
     private String requiredClockFl;
@@ -25,8 +26,33 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
 
     private Timestamp timestamp;
 
+    WorkArea workAreaObj;
+    Department departmentObj;
+    
+   
 
-    @SuppressWarnings("unchecked")
+
+	public WorkArea getWorkAreaObj() {
+		return workAreaObj;
+	}
+
+
+	public void setWorkAreaObj(WorkArea workAreaObj) {
+		this.workAreaObj = workAreaObj;
+	}
+
+
+	public Department getDepartmentObj() {
+		return departmentObj;
+	}
+
+
+	public void setDepartmentObj(Department departmentObj) {
+		this.departmentObj = departmentObj;
+	}
+
+
+	@SuppressWarnings("unchecked")
 	@Override
     protected LinkedHashMap toStringMapper() {
 	// TODO Auto-generated method stub
@@ -45,17 +71,19 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
         this.deptLunchRuleId = deptLunchRuleId;
     }
 
-    public BigDecimal getWorkArea() {
-        return workArea;
-    }
+   
+
+    public Long getWorkArea() {
+		return workArea;
+	}
 
 
-    public void setWorkArea(BigDecimal workArea) {
-        this.workArea = workArea;
-    }
+	public void setWorkArea(Long workArea) {
+		this.workArea = workArea;
+	}
 
 
-    public Date getEffectiveDate() {
+	public Date getEffectiveDate() {
         return effectiveDate;
     }
 
@@ -112,20 +140,20 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
 
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
-    }
+    }  
 
 
-    public BigInteger getJobNumber() {
-        return jobNumber;
-    }
+    public Long getJobNumber() {
+		return jobNumber;
+	}
 
 
-    public void setJobNumber(BigInteger jobNumber) {
-        this.jobNumber = jobNumber;
-    }
+	public void setJobNumber(Long jobNumber) {
+		this.jobNumber = jobNumber;
+	}
 
 
-    public String getUserPrincipalId() {
+	public String getUserPrincipalId() {
         return userPrincipalId;
     }
 
