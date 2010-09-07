@@ -66,14 +66,11 @@
 
 	<!--
 		- creates the dbdeploy changelog table (only the first time)
-		
-		- ADD THIS LINE IF YOU WANT IT TO DROP THE DB 
-				DROP DATABASE ${db.schema};
-			
 	-->
 	<target name="create-changelog-table">
 		<echo>${db.url}${db.schema}</echo>
 		<sql driver="${db.driver}" url="${db.url}" userid="${db.user}" password="${db.password}" classpathref="mysql.classpath">
+			DROP DATABASE IF EXISTS ${db.schema};
 			
 			CREATE DATABASE IF NOT EXISTS ${db.schema};
 			USE ${db.schema};
