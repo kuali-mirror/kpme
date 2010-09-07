@@ -36,10 +36,10 @@ public class DailyOvertimeRule extends TkRule {
 	private WorkArea workArea;
 	private Department departmentObj;
 	
-	@Override
-	public boolean isValid(TkRuleContext tkRuleContext) {
-		return false;
-	}
+//	@Override
+//	public boolean isValid(TkRuleContext tkRuleContext) {
+//		return false;
+//	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -175,6 +175,12 @@ public class DailyOvertimeRule extends TkRule {
 
 	public void setDepartmentObj(Department departmentObj) {
 		this.departmentObj = departmentObj;
+	}
+
+	@Override
+	public void applyRule(TkRuleContext tkRuleContext) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

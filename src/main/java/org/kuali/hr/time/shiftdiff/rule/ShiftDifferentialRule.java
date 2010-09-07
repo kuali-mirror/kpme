@@ -35,11 +35,6 @@ public class ShiftDifferentialRule extends TkRule {
 	private Timestamp timeStamp;
 	private boolean active;
 	
-	@Override
-	public boolean isValid(TkRuleContext tkRuleContext) {
-		return false;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
@@ -205,6 +200,12 @@ public class ShiftDifferentialRule extends TkRule {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	@Override
+	public void applyRule(TkRuleContext tkRuleContext) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

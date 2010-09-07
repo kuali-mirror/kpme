@@ -1,16 +1,16 @@
 package org.kuali.hr.time.clock.location;
 
-import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.rule.TkRule;
+import org.kuali.hr.time.rule.TkRuleContext;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class ClockLocationRule extends PersistableBusinessObjectBase {
+public class ClockLocationRule extends TkRule {
 
 	private static final long serialVersionUID = 1L;
 
@@ -143,6 +143,12 @@ public class ClockLocationRule extends PersistableBusinessObjectBase {
 
 	public void setJob(Job job) {
 	    this.job = job;
+	}
+
+	@Override
+	public void applyRule(TkRuleContext tkRuleContext) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

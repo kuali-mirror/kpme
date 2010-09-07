@@ -390,7 +390,7 @@
 	<bean id="workAreaQualifierRoleTypeService" class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
 
     <bean id="workAreaLookupableHelperService" class="org.kuali.hr.time.workarea.web.WorkAreaLookupableHelper"/>
-    <bean id="workAreaLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+    <bean id="workAreaLookupable" class="org.kuali.hr.time.workarea.web.WorkAreaLookupableImpl">
     	<property name="lookupableHelperService">
     		<ref bean="workAreaLookupableHelperService"/>
     	</property>

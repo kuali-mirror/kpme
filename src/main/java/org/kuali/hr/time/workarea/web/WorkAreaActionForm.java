@@ -13,6 +13,7 @@ public class WorkAreaActionForm extends KualiTransactionalDocumentFormBase {
 	private static final long serialVersionUID = 1L;
 	private TkRoleAssign newRoleAssignment;
 	private Task newTask;
+	private boolean newWorkArea = false;
 
 	@Override
 	public String getDefaultDocumentTypeName() {
@@ -43,5 +44,13 @@ public class WorkAreaActionForm extends KualiTransactionalDocumentFormBase {
 
 	public void setNewTask(Task newTask) {
 		this.newTask = newTask;
+	}
+
+	public boolean isNewWorkArea() {
+		return newWorkArea;
+	}
+
+	public void setNewWorkArea(boolean newWorkArea) {
+		this.newWorkArea = newWorkArea;
 	}
 }

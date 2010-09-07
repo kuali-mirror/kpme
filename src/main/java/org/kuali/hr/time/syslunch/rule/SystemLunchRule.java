@@ -21,13 +21,6 @@ public class SystemLunchRule extends TkRule {
 	private boolean active;
 	private String userPrincipalId;
 	private Timestamp timeStamp;
-	
-	
-	@Override
-	public boolean isValid(TkRuleContext tkRuleContext) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	
 	public Timestamp getTimeStamp() {
@@ -93,6 +86,12 @@ public class SystemLunchRule extends TkRule {
 
 	public void setUserPrincipalId(String userPrincipalId) {
 		this.userPrincipalId = userPrincipalId;
+	}
+
+	@Override
+	public void applyRule(TkRuleContext tkRuleContext) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

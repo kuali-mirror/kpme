@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -32,5 +33,43 @@ public class WorkAreaLookupableHelper extends KualiLookupableHelperServiceImpl {
 
 	return urls;
     }
+
+	@Override
+	public boolean allowsMaintenanceNewOrCopyAction() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	protected String getActionUrlHref(BusinessObject businessObject,
+			String methodToCall, List pkNames) {
+		// TODO Auto-generated method stub
+		return super.getActionUrlHref(businessObject, methodToCall, pkNames);
+	}
+
+	@Override
+	protected AnchorHtmlData getUrlData(BusinessObject businessObject,
+			String methodToCall, List pkNames) {
+		// TODO Auto-generated method stub
+		return super.getUrlData(businessObject, methodToCall, pkNames);
+	}
+
+	@Override
+	protected AnchorHtmlData getUrlData(BusinessObject businessObject,
+			String methodToCall, String displayText, List pkNames) {
+		// TODO Auto-generated method stub
+		return super.getUrlData(businessObject, methodToCall, displayText, pkNames);
+	}
+
+	@Override
+	protected String getActionUrlTitleText(BusinessObject businessObject,
+			String displayText, List pkNames,
+			BusinessObjectRestrictions businessObjectRestrictions) {
+		// TODO Auto-generated method stub
+		return super.getActionUrlTitleText(businessObject, displayText, pkNames,
+				businessObjectRestrictions);
+	}
+    
+    
 
 }

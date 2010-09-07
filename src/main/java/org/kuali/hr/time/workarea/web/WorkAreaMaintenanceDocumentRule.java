@@ -123,7 +123,8 @@ public class WorkAreaMaintenanceDocumentRule extends TransactionalDocumentRuleBa
 		if (wa != null) {
 			valid = true;
 			valid &= this.validateDepartmentId(wa.getDeptId());
-			valid &= this.validateOvertimePreference(wa.getOvertimePreference());
+			//TODO add back if you need this
+			//valid &= this.validateOvertimePreference(wa.getOvertimePreference());
 			valid &= this.validateAdminDescription(wa.getAdminDescr());
 			valid &= this.validateDescription(wa.getDescription());
 			valid &= this.validateRoleAssignments(wa.getRoleAssignments());

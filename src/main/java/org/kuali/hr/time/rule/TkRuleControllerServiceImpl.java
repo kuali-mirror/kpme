@@ -35,13 +35,11 @@ public class TkRuleControllerServiceImpl implements TkRuleControllerService {
 		return lstRules;
 	}
 	
-	public boolean isValid(TkRuleContext tkRuleContext){
-		boolean isValid = true;
+	public void applyRules(TkRuleContext tkRuleContext){
 		List<TkRule> rules = getRulesForAction(tkRuleContext.getAction());
 		for(TkRule rule : rules){
-			isValid &= rule.isValid(tkRuleContext);
+			rule.applyRule(tkRuleContext);
 		}
-		return isValid;
 	}
 
 
