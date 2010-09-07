@@ -1,19 +1,11 @@
 package org.kuali.hr.time.assignment;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
+import java.util.Calendar;
 import org.junit.Test;
-import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class AssignmentMaintTest extends org.kuali.hr.time.test.TkTestCase {

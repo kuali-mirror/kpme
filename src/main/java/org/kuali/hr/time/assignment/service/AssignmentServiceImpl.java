@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
+import org.kuali.hr.time.cache.CacheResult;
 
 public class AssignmentServiceImpl implements AssignmentService {
     private static final Logger LOG = Logger.getLogger(AssignmentServiceImpl.class);

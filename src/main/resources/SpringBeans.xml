@@ -304,9 +304,14 @@
     </bean>
     -->
 
-    <bean id="deptEarnCodeDao" class="org.kuali.hr.time.dept.earncode.dao.DepartmentEarnCodeDaoSpringObjImpl">
+    <bean id="deptEarnCodeDao" class="org.kuali.hr.time.dept.earncode.dao.DepartmentEarnCodeDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
+
+    <bean id="earnCodeDao" class="org.kuali.hr.time.earncode.dao.EarnCodeDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
 
 	<!-- Time Services for Business Logic -->
 
@@ -369,6 +374,10 @@
     	<property name="deptEarnCodeDao" ref="deptEarnCodeDao"/>
     </bean>
 
+    <bean id="earnCodeService" class="org.kuali.hr.time.earncode.service.EarnCodeServiceImpl">
+    	<property name="earnCodeDao" ref="earnCodeDao"/>
+    </bean>
+
     <bean id="tkRoleAssignmentService" class="org.kuali.hr.time.role.assign.service.TkRoleAssignServiceImpl">
     	<property name="tkRoleAssignDao" ref="tkRoleAssignDao"/>
     </bean>
@@ -381,10 +390,34 @@
 	<bean id="workAreaQualifierRoleTypeService" class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
 
     <bean id="workAreaLookupableHelperService" class="org.kuali.hr.time.workarea.web.WorkAreaLookupableHelper"/>
-    <bean id="workAreaLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+    <bean id="workAreaLookupable" class="org.kuali.hr.time.workarea.web.WorkAreaLookupableImpl">
     	<property name="lookupableHelperService">
     		<ref bean="workAreaLookupableHelperService"/>
     	</property>
     </bean>
-
+    
+    <!-- Scheduler configuration -->
+	<!-- Serializer service -->
+	<bean id="timeBlockSerializerService" class="org.kuali.hr.time.scheduler.TimeBlockSerializerService"/>
+	<!-- Serializer Job Bean-->
+	<bean id="timeBlockSerializerJobBean" class="org.kuali.hr.time.scheduler.TimeBlockSerializerJobBean" scope="singleton">
+        <property name="timeBlockSerializerService" ref="timeBlockSerializerService" />
+    </bean>
+    <!-- Serializer Job -->
+    <bean id="serializerJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="org.kuali.hr.time.scheduler.TimeBlockSerializerJobBean"/>
+    </bean>
+    <!-- Serializer Job Trigger-->
+    <bean id="serializerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="serializerJob" />
+        <!-- cronTrigger for every minute -->
+        <property name="cronExpression" value="0 * * * * ?" />
+    </bean>    
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="serializerTrigger" />
+            </list>
+        </property>
+    </bean>
 </beans>

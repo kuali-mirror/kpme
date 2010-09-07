@@ -107,19 +107,15 @@
 									<td><input type="text" id="date-range-begin" size="10"/> - <input type="text" id="date-range-end" size="10"/></td>
 								</tr>
 								<tr>
-									<td>Earn code: </td>
+									<td>Assignment: </td>
 									<td>
-										<tk:earnCode/>
+										<tk:assignment assignments="${Form.formattedAssignments}"/>
 									</td>
 								</tr>
 								<tr>
-									<td>Assignment: </td>
+									<td>Earn code: </td>
 									<td>
-										<select id="assignment">
-											<option value="1">Operations/AIS</option>
-											<option value="2">AIS Technical & User Support</option>
-											<option value="3">System Support Services</option>
-										</select>
+										<tk:earnCode earnCodes="${Form.deptEarnCodes}"/>
 									</td>
 								</tr>
 								<tr id="clockIn">

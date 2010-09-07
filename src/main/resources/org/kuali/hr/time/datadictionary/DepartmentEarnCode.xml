@@ -17,8 +17,8 @@
 		<property name="attributes">
 			<list>
 				<ref bean="DepartmentEarnCode-deptId" />
-				<ref bean="DepartmentEarnCode-tkSalGroup" />
-				<ref bean="DepartmentEarnCode-earnCode" />
+				<ref bean="DepartmentEarnCode-tkSalGroupId" />
+				<ref bean="DepartmentEarnCode-earnCodeId" />
 				<ref bean="DepartmentEarnCode-employee" />
 				<ref bean="DepartmentEarnCode-approver" />
 				<ref bean="DepartmentEarnCode-org_admin" />
@@ -58,8 +58,8 @@
 	</bean>
 
 	<!-- salGroup -->
-	<bean id="DepartmentEarnCode-tkSalGroup" parent="DepartmentEarnCode-tkSalGroup-parentBean" />
-	<bean id="DepartmentEarnCode-tkSalGroup-parentBean" abstract="true"
+	<bean id="DepartmentEarnCode-tkSalGroupId" parent="DepartmentEarnCode-tkSalGroupId-parentBean" />
+	<bean id="DepartmentEarnCode-tkSalGroupId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Sal. Group" />
 		<property name="maxLength" value="10" />
@@ -71,12 +71,12 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="tkSalGroup" />
-		<property name="label" value="Sal. Group" />
+		<property name="name" value="tkSalGroupId" />
+		<property name="label" value="Sal. Group Id" />
 	</bean>
 	<!-- earnCode -->
-	<bean id="DepartmentEarnCode-earnCode" parent="DepartmentEarnCode-earnCode-parentBean" />
-	<bean id="DepartmentEarnCode-earnCode-parentBean" abstract="true"
+	<bean id="DepartmentEarnCode-earnCodeId" parent="DepartmentEarnCode-earnCodeId-parentBean" />
+	<bean id="DepartmentEarnCode-earnCodeId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Earn Code" />
 		<property name="maxLength" value="3" />
@@ -88,8 +88,8 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="3" />
 		</property>
-		<property name="name" value="earnCode" />
-		<property name="label" value="Earn Code" />
+		<property name="name" value="earnCodeId" />
+		<property name="label" value="Earn Code Id" />
 	</bean>
 	<!-- Employee -->
 	<bean id="DepartmentEarnCode-employee" parent="DepartmentEarnCode-employee-parentBean" />
@@ -133,20 +133,20 @@
 	<bean id="DepartmentEarnCode-lookupDefinition-parentBean"
 		abstract="true" parent="LookupDefinition">
 		<property name="lookupFields">
-			<list>				
+			<list>
 				<bean parent="FieldDefinition" p:attributeName="deptId" />
-				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
-				<bean parent="FieldDefinition" p:attributeName="earnCode" />
+				<bean parent="FieldDefinition" p:attributeName="tkSalGroupId" />
+				<bean parent="FieldDefinition" p:attributeName="earnCodeId" />
 			</list>
 		</property>
 		<property name="resultFields">
-			<list>				
+			<list>
 				<bean parent="FieldDefinition" p:attributeName="deptId" />
-				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
-				<bean parent="FieldDefinition" p:attributeName="earnCode" />
+				<bean parent="FieldDefinition" p:attributeName="tkSalGroupId" />
+				<bean parent="FieldDefinition" p:attributeName="earnCodeId" />
 				<bean parent="FieldDefinition" p:attributeName="employee" />
 				<bean parent="FieldDefinition" p:attributeName="approver" />
-				<bean parent="FieldDefinition" p:attributeName="org_admin" />				
+				<bean parent="FieldDefinition" p:attributeName="org_admin" />
 			</list>
 		</property>
 		<property name="title" value="Department Earn Code Lookup" />

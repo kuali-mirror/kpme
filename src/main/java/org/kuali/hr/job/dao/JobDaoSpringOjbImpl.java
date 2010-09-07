@@ -10,6 +10,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paytype.PayType;
@@ -32,6 +33,7 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 		}
 	}
 
+	@CacheResult
 	@SuppressWarnings("unchecked")
 	public List<Job> getJobs(String principalId) {
 		Criteria currentRecordCriteria = new Criteria();
@@ -66,7 +68,7 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 			payType.setPayCalendar(payCalendar);
 			job.setPayType(payType);
 			job.setAssignments(assignments);
-			List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodeList(job.getTkSalGroup());
+			List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodeList(job.getTkSalGroupId());
 			job.setDeptEarnCodes(deptEarnCodes);
 
 			principalJobs.add(job);

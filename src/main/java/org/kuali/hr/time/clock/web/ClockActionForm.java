@@ -1,7 +1,6 @@
 package org.kuali.hr.time.clock.web;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,11 +17,8 @@ public class ClockActionForm extends TimesheetActionForm {
 
     private String principalId;
     private String currentClockAction;
-    private String nextClockAction;    
+    private String nextClockAction;
     private Timestamp lastClockAction;
-    private List<String> assignmentFormatted;
-
-
 
     @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
@@ -56,14 +52,6 @@ public class ClockActionForm extends TimesheetActionForm {
 
 	public void setNextClockAction(String nextClockAction) {
 		this.nextClockAction = nextClockAction;
-	}
-
-	public List<String> getAssignmentFormatted() {
-		return assignmentFormatted;
-	}
-
-	public void setAssignmentFormatted(List<String> assignmentFormatted) {
-		this.assignmentFormatted = assignmentFormatted;
 	}
 
 	public Timestamp getLastClockAction() {

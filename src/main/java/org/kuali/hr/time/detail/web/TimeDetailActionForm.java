@@ -3,10 +3,10 @@ package org.kuali.hr.time.detail.web;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.hr.time.base.web.TkForm;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
-public class TimeDetailActionForm extends TkForm {
+public class TimeDetailActionForm extends TimesheetActionForm {
 
     /**
      *

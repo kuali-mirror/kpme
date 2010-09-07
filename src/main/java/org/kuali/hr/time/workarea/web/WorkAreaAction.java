@@ -33,7 +33,7 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 		WorkAreaMaintenanceDocument workAreaMaintenanceDocument = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
 		WorkAreaService waService = TkServiceLocator.getWorkAreaService();
 		String workAreaId_s = request.getParameter("workAreaId");
-		if (request.getParameter("command").equals("initiate")) {
+		if (request.getParameter("command").equals("initiate") && !Boolean.parseBoolean(request.getParameter("newWorkArea"))) {
 			try {
 				Long workAreaId = (workAreaId_s != null) ? Long.parseLong(workAreaId_s) : null;
 				WorkArea workArea = waService.getWorkArea(workAreaId);
@@ -52,9 +52,11 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 					// user can
 					// just arbitrarily change the workAreaId parameter.
 				}
-			} catch (NumberFormatException nfe) {
+			} catch (NumberFormatException nfe) {   
 				LOG.error("nfe", nfe);
 			}
+		} else{
+			workAreaForm.setNewWorkArea(true);
 		}
 
 		return actionForw;

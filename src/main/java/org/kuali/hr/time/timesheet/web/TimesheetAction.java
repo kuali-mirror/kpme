@@ -1,8 +1,10 @@
 package org.kuali.hr.time.timesheet.web;
 
 import java.sql.Date;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +16,7 @@ import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.util.TKContext;
@@ -35,28 +38,59 @@ public class TimesheetAction extends TkAction {
 		//TimesheetDocument timesheetDocument = timesheetService.openTimesheetDocument(user.getPrincipalId(), payEndDate);
 		//taForm.setTimesheetDocument(timesheetDocument);
 
+		// set assignments
+		taForm.setFormattedAssignments(getFormattedAssignment());
+		// set earn codes
+		taForm.setDeptEarnCode(getFormattedDeptEarnCodes());
+
 		return forward;
 	}
 
-	protected List<String> getFormattedAssignment() {
+	private Map<Long,List<String>> getFormattedAssignment() {
 		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getUser().getPrincipalId());
 
-		List<String> formattedAssignments = new LinkedList<String>();
+		Map<Long,List<String>> formattedAssignments = new LinkedHashMap<Long,List<String>>();
 		for(Job job : jobs) {
 
 			List<Assignment> assignments = job.getAssignments();
+			List<String> assignmentList = new LinkedList<String>();
 
 			for(Assignment assignment : assignments) {
 				String workAreaDesc = assignment.getWorkArea().getDescription();
 				// TODO: needs to grab the real value
 				String compRate = "CompRate";
 
-				String assignmentForOutput = workAreaDesc + " : " + compRate + " Rcd #" + job.getJobNumber().toString() + " " + job.getDeptId();
-				formattedAssignments.add(assignmentForOutput);
+				String assignmentStr = workAreaDesc + " : " + compRate + " Rcd #" + job.getJobNumber().toString() + " " + job.getDeptId();
+				assignmentList.add(assignmentStr);
 			}
+
+			formattedAssignments.put(job.getJobNumber(), assignmentList);
 		}
 
 		return formattedAssignments;
 	}
 
+	private Map<Long,List<String>> getFormattedDeptEarnCodes() {
+		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getUser().getPrincipalId());
+
+		Map<Long,List<String>> formattedDeptEarnCodes = new LinkedHashMap<Long,List<String>>();
+		for(Job job : jobs) {
+
+			List<DepartmentEarnCode> deptEarnCodes = job.getDeptEarnCodes();
+			List<String> earnCodeList = new LinkedList<String>();
+
+			for(DepartmentEarnCode deptEarnCode : deptEarnCodes) {
+				String earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCodeId()).getEarnCode();
+				String earnCodeDesc = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCodeId()).getDescription();
+
+				String earnCodeStr = earnCode + " : " + earnCodeDesc;
+				earnCodeList.add(earnCodeStr);
+			}
+
+			formattedDeptEarnCodes.put(job.getJobNumber(), earnCodeList);
+		}
+
+		return formattedDeptEarnCodes;
+
+	}
 }

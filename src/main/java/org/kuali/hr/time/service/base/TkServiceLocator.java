@@ -6,6 +6,7 @@ import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.cache.CacheManagementService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
 import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
+import org.kuali.hr.time.earncode.service.EarnCodeService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarDatesService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
@@ -36,6 +37,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_WORK_AREA_SERVICE = "workAreaService";
 	public static final String TK_TIMESHEET_SERVICE = "timesheetService";
 	public static final String TK_DEPARTMENT_EARN_CODE = "deptEarnCodeService";
+	public static final String TK_EARN_CODE = "earnCodeService";
 
 
 	public static void start() throws Exception {
@@ -47,11 +49,11 @@ public class TkServiceLocator implements ApplicationContextAware {
 //		CONTEXT.stop();
 	}
 
-	
+
 	public static TimesheetService getTimesheetService() {
 		return (TimesheetService) CONTEXT.getBean(TK_TIMESHEET_SERVICE);
 	}
-	
+
 	public static WorkAreaService getWorkAreaService() {
 	    return (WorkAreaService)CONTEXT.getBean(TK_WORK_AREA_SERVICE);
 	}
@@ -106,6 +108,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static DepartmentEarnCodeService getDepartmentEarnCodeService() {
 		return (DepartmentEarnCodeService) CONTEXT.getBean(TK_DEPARTMENT_EARN_CODE);
+	}
+
+	public static EarnCodeService getEarnCodeService() {
+		return (EarnCodeService) CONTEXT.getBean(TK_EARN_CODE);
 	}
 
 	@Override

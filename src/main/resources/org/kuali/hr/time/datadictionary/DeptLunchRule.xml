@@ -20,11 +20,32 @@
         <ref bean="DeptLunchRule-effectiveDate"/>
         <ref bean="DeptLunchRule-active"/>
   		<ref bean="DeptLunchRule-userPrincipalId"/>
-  		<ref bean="DeptLunchRule-timestamp"/>
-
- 
+  		<ref bean="DeptLunchRule-timestamp"/> 
       </list>
     </property>
+    <property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="workAreaObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
+								p:targetName="workAreaId" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="departmentObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="deptId"
+								p:targetName="deptId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
   </bean>
 
   <!-- Attribute Definitions -->
@@ -66,7 +87,7 @@
   
   <bean id="DeptLunchRule-principalId" parent="DeptLunchRule-principalId-parentBean"/>
   <bean id="DeptLunchRule-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Employee Id"/>
+    <property name="shortLabel" value="Principal Id"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern">
@@ -82,13 +103,13 @@
 
   <bean id="DeptLunchRule-jobNumber" parent="DeptLunchRule-jobNumber-parentBean"/>
   <bean id="DeptLunchRule-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Empl Rcd"/>
-    <property name="maxLength" value="3"/>
+    <property name="shortLabel" value="Job Number"/>
+    <property name="maxLength" value="20"/>
     <property name="validationPattern">
  		<bean parent="NumericValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
+      <bean parent="TextControlDefinition" p:size="20"/>
     </property>
     <property name="name" value="jobNumber"/>
     <property name="label" value="Job Number"/>
@@ -98,15 +119,14 @@
   <bean id="DeptLunchRule-requiredClockFl" parent="DeptLunchRule-requiredClockFl-parentBean"/>
   <bean id="DeptLunchRule-requiredClockFl-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Clock Use Required"/>
-    <property name="maxLength" value="3"/>
+    <property name="maxLength" value="1"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern">
       	<property name="allowWhitespace" value="false"/>
       </bean>
-    </property>
-   
+    </property>   
     <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
+     <bean parent="TextControlDefinition" p:size="1"/>
     </property>
     <property name="name" value="requiredClockFl"/>
     <property name="label" value="Clock Use Required"/>
@@ -148,12 +168,12 @@
   
   <bean id="DeptLunchRule-active" parent="DeptLunchRule-active-parentBean"/>
   <bean id="DeptLunchRule-active-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Active"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
-    <property name="name" value="active"/>
-    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
   </bean>
 
 

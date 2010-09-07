@@ -21,7 +21,7 @@ public class WorkflowTimesheetTest extends TkTestCase {
 
 	private static final Logger LOG = Logger.getLogger(WorkflowTimesheetTest.class);
 	
-	@Ignore
+	@Test
 	public void testRouting() throws Exception {
 		TimesheetService tsvc = TkServiceLocator.getTimesheetService();
 		assertNotNull("timesheet service null", tsvc);
@@ -33,7 +33,6 @@ public class WorkflowTimesheetTest extends TkTestCase {
 		tsvc.routeTimesheet(user.getPrincipalId(), tdoc);
 		
 		LOG.debug("Routing document: " + tdoc.getDocumentHeader().getDocumentId());
-		tdoc.getDocumentHeader().getWorkflowDocument().routeDocument("route");
 //		WorkflowDocument wd = new WorkflowDocument("admin","TimesheetDocument");
 //		wd.getRouteHeaderId();
 //		wd.saveDocument("saved");

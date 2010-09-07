@@ -77,6 +77,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 				AttributeSet qual = new AttributeSet();
 				qual.put(TkConstants.ROLE_WORK_AREA_QUALIFIER_ID, ""+workAreaId);
 				rms.assignPrincipalToRole(ra.getPrincipalId(), TkConstants.ROLE_NAMESAPCE, ra.getRoleName(), qual);
+				rms.flushRoleMemberCaches();
 			}
 		}
 		
@@ -87,6 +88,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 				AttributeSet qual = new AttributeSet();
 				qual.put(TkConstants.ROLE_WORK_AREA_QUALIFIER_ID, ""+ra.getWorkAreaId());
 				rms.removePrincipalFromRole(ra.getPrincipalId(), TkConstants.ROLE_NAMESAPCE, ra.getRoleName(), qual);
+				rms.flushRoleMemberCaches();
 			}
 		}
 	}

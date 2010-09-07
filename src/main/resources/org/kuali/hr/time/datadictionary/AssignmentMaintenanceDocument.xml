@@ -10,7 +10,7 @@
 
   <bean id="AssignmentMaintenanceDocument" parent="AssignmentMaintenanceDocument-parentBean"/>
 
-  <bean id="AssignmentMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  <bean id="AssignmentMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.time.assignment.Assignment"
   		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
     <property name="maintainableSections">
@@ -33,13 +33,13 @@
   <bean id="AssignmentMaintenanceDocument-AssignmentMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="title" value="Assignment Maintenance"/>
     <property name="maintainableItems">
-      <list>      	
+      <list>
       	<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="jobNumber" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="earnCode" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="earnCodeId" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="workAreaId" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="taskId" p:required="true"/>      	      	 
+      	<bean parent="MaintainableFieldDefinition" p:name="taskId" p:required="true"/>
       </list>
     </property>
   </bean>

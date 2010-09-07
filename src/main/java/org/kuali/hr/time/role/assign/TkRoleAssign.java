@@ -65,14 +65,13 @@ public class TkRoleAssign extends PersistableBusinessObjectBase {
 	@Override
 	public boolean equals(Object obj) {
 		boolean r = true;
-		
-		
-
 		if (obj == null || !(obj instanceof TkRoleAssign)) {
 			r = false;
 		} else {
 			TkRoleAssign tra = (TkRoleAssign) obj;
-			r &= this.getWorkAreaId().longValue() == tra.getWorkAreaId().longValue();
+			if(tra.getWorkAreaId() != null && this.getWorkAreaId() != null){
+				r &= tra.getWorkAreaId().equals(this.getWorkAreaId());
+			}
 			r &= StringUtils.equals(this.getPrincipalId(), tra.getPrincipalId());
 			r &= StringUtils.equals(this.getRoleName(), tra.getRoleName());
 		}

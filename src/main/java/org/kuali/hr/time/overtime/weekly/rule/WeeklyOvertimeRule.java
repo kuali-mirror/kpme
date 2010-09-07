@@ -24,13 +24,6 @@ public class WeeklyOvertimeRule extends TkRule {
 	private String userPrincipalId;
 	private Timestamp timeStamp;
 	private boolean active;
-	
-	
-	@Override
-	public boolean isValid(TkRuleContext tkRuleContext) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -119,6 +112,12 @@ public class WeeklyOvertimeRule extends TkRule {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	@Override
+	public void applyRule(TkRuleContext tkRuleContext) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

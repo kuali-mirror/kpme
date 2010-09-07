@@ -96,11 +96,10 @@ public class GracePeriodRule extends TkRule {
 	    this.timestamp = timestamp;
 	}
 
-
 	@Override
-	public boolean isValid(TkRuleContext tkRuleContext) {
+	public void applyRule(TkRuleContext tkRuleContext) {
 		// TODO Auto-generated method stub
-		return false;
+		
 	}
 
 

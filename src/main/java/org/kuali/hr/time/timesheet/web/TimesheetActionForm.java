@@ -1,10 +1,10 @@
 package org.kuali.hr.time.timesheet.web;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkForm;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 public class TimesheetActionForm extends TkForm {
@@ -16,7 +16,8 @@ public class TimesheetActionForm extends TkForm {
 	TimesheetDocument timesheetDocument;
 
 	private List<Assignment> assignments;
-	private DepartmentEarnCode deptEarnCode;
+	private Map<Long,List<String>> formattedDeptEarnCodes;
+	private Map<Long,List<String>>  formattedAssignments;
 
 	public TimesheetDocument getTimesheetDocument() {
 		return timesheetDocument;
@@ -34,12 +35,20 @@ public class TimesheetActionForm extends TkForm {
         this.assignments = assignments;
     }
 
-	public DepartmentEarnCode getDeptEarnCode() {
-		return deptEarnCode;
+	public Map<Long,List<String>> getDeptEarnCodes() {
+		return formattedDeptEarnCodes;
 	}
 
-	public void setDeptEarnCode(DepartmentEarnCode deptEarnCode) {
-		this.deptEarnCode = deptEarnCode;
+	public void setDeptEarnCode(Map<Long,List<String>> formattedDeptEarnCodes) {
+		this.formattedDeptEarnCodes = formattedDeptEarnCodes;
+	}
+
+	public Map<Long,List<String>>  getFormattedAssignments() {
+		return formattedAssignments;
+	}
+
+	public void setFormattedAssignments(Map<Long,List<String>>  formattedAssignments) {
+		this.formattedAssignments = formattedAssignments;
 	}
 
 }

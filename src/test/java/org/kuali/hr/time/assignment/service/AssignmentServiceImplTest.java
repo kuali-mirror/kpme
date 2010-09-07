@@ -24,6 +24,7 @@ public class AssignmentServiceImplTest extends TkTestCase {
 	assignmentDao = TkServiceLocator.getAssignmentDao();
     }
     
+    
     @Test
     public void testGetAssignmentsByDate() throws Exception {
 	Calendar cal = Calendar.getInstance();

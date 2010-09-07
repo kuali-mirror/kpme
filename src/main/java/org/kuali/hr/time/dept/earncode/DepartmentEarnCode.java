@@ -3,24 +3,26 @@ package org.kuali.hr.time.dept.earncode;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long deptEarnCodeId;
 	private String deptId;
-	private String tkSalGroup;
-	private String earnCode;
+	private Long tkSalGroupId;
+	private Long earnCodeId;
 	private boolean employee;
 	private boolean approver;
 	private boolean org_admin;
 	private Department departmentObj;
-	
-	
+	private EarnCode earnCodeObj;
+
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
@@ -58,23 +60,23 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	}
 
 
-	public String getTkSalGroup() {
-		return tkSalGroup;
+	public Long getTkSalGroupId() {
+		return tkSalGroupId;
 	}
 
 
-	public void setTkSalGroup(String tkSalGroup) {
-		this.tkSalGroup = tkSalGroup;
+	public void setTkSalGroupId(Long tkSalGroupId) {
+		this.tkSalGroupId = tkSalGroupId;
 	}
 
 
-	public String getEarnCode() {
-		return earnCode;
+	public Long getEarnCodeId() {
+		return earnCodeId;
 	}
 
 
-	public void setEarnCode(String earnCode) {
-		this.earnCode = earnCode;
+	public void setEarnCodeId(Long earnCodeId) {
+		this.earnCodeId = earnCodeId;
 	}
 
 
@@ -105,6 +107,16 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 
 	public void setOrg_admin(boolean orgAdmin) {
 		org_admin = orgAdmin;
+	}
+
+
+	public EarnCode getEarnCodeObj() {
+		return earnCodeObj;
+	}
+
+
+	public void setEarnCodeObj(EarnCode earnCodeObj) {
+		this.earnCodeObj = earnCodeObj;
 	}
 
 }

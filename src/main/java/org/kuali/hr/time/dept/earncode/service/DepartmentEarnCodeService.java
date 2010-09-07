@@ -6,6 +6,6 @@ import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 
 public interface DepartmentEarnCodeService {
 
-	public List<DepartmentEarnCode> getDepartmentEarnCodeList(String salGroup);
+	public List<DepartmentEarnCode> getDepartmentEarnCodeList(Long salGroup);
 
 }
