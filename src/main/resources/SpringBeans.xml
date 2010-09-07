@@ -395,5 +395,29 @@
     		<ref bean="workAreaLookupableHelperService"/>
     	</property>
     </bean>
-
+    
+    <!-- Scheduler configuration -->
+	<!-- Serializer service -->
+	<bean id="timeBlockSerializerService" class="org.kuali.hr.time.scheduler.TimeBlockSerializerService"/>
+	<!-- Serializer Job Bean-->
+	<bean id="timeBlockSerializerJobBean" class="org.kuali.hr.time.scheduler.TimeBlockSerializerJobBean" scope="singleton">
+        <property name="timeBlockSerializerService" ref="timeBlockSerializerService" />
+    </bean>
+    <!-- Serializer Job -->
+    <bean id="serializerJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="org.kuali.hr.time.scheduler.TimeBlockSerializerJobBean"/>
+    </bean>
+    <!-- Serializer Job Trigger-->
+    <bean id="serializerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="serializerJob" />
+        <!-- cronTrigger for every minute -->
+        <property name="cronExpression" value="0 * * * * ?" />
+    </bean>    
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="serializerTrigger" />
+            </list>
+        </property>
+    </bean>
 </beans>
