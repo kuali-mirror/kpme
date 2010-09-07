@@ -304,9 +304,14 @@
     </bean>
     -->
 
-    <bean id="deptEarnCodeDao" class="org.kuali.hr.time.dept.earncode.dao.DepartmentEarnCodeDaoSpringObjImpl">
+    <bean id="deptEarnCodeDao" class="org.kuali.hr.time.dept.earncode.dao.DepartmentEarnCodeDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
+
+    <bean id="earnCodeDao" class="org.kuali.hr.time.earncode.dao.EarnCodeDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
 
 	<!-- Time Services for Business Logic -->
 
@@ -367,6 +372,10 @@
 
     <bean id="deptEarnCodeService" class="org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeServiceImpl">
     	<property name="deptEarnCodeDao" ref="deptEarnCodeDao"/>
+    </bean>
+
+    <bean id="earnCodeService" class="org.kuali.hr.time.earncode.service.EarnCodeServiceImpl">
+    	<property name="earnCodeDao" ref="earnCodeDao"/>
     </bean>
 
     <bean id="tkRoleAssignmentService" class="org.kuali.hr.time.role.assign.service.TkRoleAssignServiceImpl">

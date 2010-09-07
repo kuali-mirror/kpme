@@ -130,7 +130,7 @@ $(document).ready(function() {
     $("#dialog-form").dialog({
         autoOpen: false,
         height: 450,
-        width: 400,
+        width: 550,
         modal: true,
         buttons: {
             Add: function() {
@@ -220,6 +220,7 @@ $(document).ready(function() {
     // use keyboard to open the form
     var isCtrl,isAlt = false;
 
+    // ctrl+alt+a will open the form
     $(this).keydown(function(e){
 
         if(e.ctrlKey) isCtrl = true;

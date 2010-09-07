@@ -1,6 +1,7 @@
 package org.kuali.hr.job;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
@@ -27,7 +28,7 @@ public class Job  extends PersistableBusinessObjectBase {
     private Long jobNumber;
     private Date effectiveDate;
     private String deptId;
-    private String tkSalGroup;
+    private Long tkSalGroupId;
     private Timestamp timestamp;
     private Boolean active;
     private PayType payType;
@@ -121,13 +122,13 @@ public class Job  extends PersistableBusinessObjectBase {
         this.effectiveDate = effectiveDate;
     }
 
-    public String getTkSalGroup() {
-        return tkSalGroup;
+    public Long getTkSalGroupId() {
+        return tkSalGroupId;
     }
 
 
-    public void setTkSalGroup(String tkSalGroup) {
-        this.tkSalGroup = tkSalGroup;
+    public void setTkSalGroup(Long tkSalGroupId) {
+        this.tkSalGroupId = tkSalGroupId;
     }
 
     public Timestamp getTimestamp() {

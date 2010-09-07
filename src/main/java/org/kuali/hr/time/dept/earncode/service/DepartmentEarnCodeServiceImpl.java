@@ -9,7 +9,7 @@ public class DepartmentEarnCodeServiceImpl implements DepartmentEarnCodeService 
 
     private DepartmentEarnCodeDao deptEarnCodeDao;
 
-    public List<DepartmentEarnCode> getDepartmentEarnCodeList(String salGroup) {
+    public List<DepartmentEarnCode> getDepartmentEarnCodeList(Long salGroup) {
         return deptEarnCodeDao.getDepartmentEarnCodeList(salGroup);
     }
 

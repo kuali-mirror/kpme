@@ -10,6 +10,6 @@ public interface DepartmentEarnCodeDao {
 
 	public void saveOrUpdate(List<DepartmentEarnCode> deptErncdList);
 
-	public List<DepartmentEarnCode> getDepartmentEarnCodeList(String salGroup);
+	public List<DepartmentEarnCode> getDepartmentEarnCodeList(Long salGroup);
 
 }

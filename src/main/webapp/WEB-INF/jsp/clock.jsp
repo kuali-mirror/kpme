@@ -52,11 +52,7 @@
 			<tr>
 				<td class="sub-header"><bean:message key="clock.clockAssignment"/> : </td>
 				<td>
-					<select>
-						<c:forEach var="assignment" items="${Form.assignmentFormatted}">
-							<option>${assignment}</option>
-						</c:forEach>
-					</select>
+					<tk:assignment assignments="${Form.formattedAssignments}"/>
 				</td>
 			</tr>
 			<tr class="footer">

@@ -11,9 +11,9 @@ import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 import uk.ltd.getahead.dwr.util.Logger;
 
-public class DepartmentEarnCodeDaoSpringObjImpl extends PersistenceBrokerDaoSupport implements DepartmentEarnCodeDao {
+public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements DepartmentEarnCodeDao {
 
-	private static final Logger LOG = Logger.getLogger(DepartmentEarnCodeDaoSpringObjImpl.class);
+	private static final Logger LOG = Logger.getLogger(DepartmentEarnCodeDaoSpringOjbImpl.class);
 
 	public void saveOrUpdate(DepartmentEarnCode deptErncd) {
 		this.getPersistenceBrokerTemplate().store(deptErncd);
@@ -28,9 +28,9 @@ public class DepartmentEarnCodeDaoSpringObjImpl extends PersistenceBrokerDaoSupp
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<DepartmentEarnCode> getDepartmentEarnCodeList(String salGroup) {
+	public List<DepartmentEarnCode> getDepartmentEarnCodeList(Long salGroupId) {
 		Criteria crit = new Criteria();
-		crit.addEqualTo("tkSalGroup", salGroup);
+		crit.addEqualTo("tkSalGroupId", salGroupId);
 
 		List<DepartmentEarnCode> deptErncds = new LinkedList<DepartmentEarnCode>();
 		Collection<DepartmentEarnCode> c= this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(DepartmentEarnCode.class, crit));

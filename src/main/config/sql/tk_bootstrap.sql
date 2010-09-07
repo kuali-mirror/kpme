@@ -1,7 +1,7 @@
 #
 # Departments
 DELETE FROM `tk`.`tk_dept_t`;
-INSERT INTO `tk`.`tk_dept_t`	(`dept_id`,	`DESCRIPTION`,	`ORG`,	`CHART`)	VALUES	
+INSERT INTO `tk`.`tk_dept_t`	(`dept_id`,	`DESCRIPTION`,	`ORG`,	`CHART`)	VALUES
 	('TEST-DEPT', 'test department', 'TEST', 'DEPT');
 
 #
@@ -28,7 +28,7 @@ DELETE FROM `tk`.`tk_assignment_s`;
 INSERT INTO `tk`.`tk_assignment_s` (`ID`) VALUES ('100');
 DELETE FROM `tk`.`tk_assignment_t`;
 INSERT INTO `tk`.`tk_assignment_t`	(`ASSIGNMENT_ID`,	`PRINCIPAL_ID`,	`JOB_NUMBER`,	`EFFDT`,	`EARN_CODE_ID`,	`WORK_AREA_ID`,	`TASK_ID`,	`OBJ_ID`,	`VER_NBR`,	`active`)	VALUES
-	('10', 'admin', '1015', '2010-08-01', 'ERNCD', '100', 'TASK_ID', null, '1', '1');
+	('10', 'admin', '1015', '2010-08-01', '10', '100', 'TASK_ID', null, '1', '1');
 
 #
 # HR Pay Types
@@ -43,8 +43,31 @@ INSERT INTO `tk`.`hr_paytype_t` (`PAYTYPE_ID`,`PAYTYPE`,`DESCR`,`CALENDAR_GROUP`
 DELETE FROM `tk`.`hr_job_s`;
 INSERT INTO `tk`.`hr_job_s` (`ID`)	VALUES	('10');
 DELETE FROM `tk`.`hr_job_t`;
-INSERT INTO `tk`.`hr_job_t` (`JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`dept_id`,`TK_SAL_GROUP_ID`,`PAY_GRADE`,`TIMESTAMP`,`ACTIVE`,`OBJ_ID`,`VER_NBR`,`location`,`std_hours`,`fte`,`hr_paytype_id`) VALUES
-	('1015', 'admin', '0', '2010-08-10', 'TEST-DEPT', NULL, NULL, '2010-08-10 16:00:13', '1', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1');
+INSERT INTO `tk`.`hr_job_t` (`JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`dept_id`,`TK_SAL_GROUP`,`PAY_GRADE`,`TIMESTAMP`,`ACTIVE`,`OBJ_ID`,`VER_NBR`,`location`,`std_hours`,`fte`,`hr_paytype_id`) VALUES
+	('1015', 'admin', '10', '2010-08-10', 'TEST-DEPT', '10', NULL, '2010-08-10 16:00:13', '1', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1');
+
+#
+# Sal Group
+DELETE FROM `tk`.`tk_sal_group_s`;
+INSERT INTO `tk`.`tk_sal_group_S` (`ID`) VALUES ('10');
+DELETE FROM `tk`.`tk_sal_group_t`;
+INSERT INTO `tk`.`tk_sal_group_t` (`SAL_GROUP_ID`, `SAL_GROUP`, `EFFDT`, `ACTIVE`) VALUES ('10', 'A10', '2010-01-01', 1);
+
+#
+# dept earn code
+DELETE FROM `tk`.`tk_dept_earn_code_s`;
+INSERT INTO `tk`.`tk_dept_earn_code_s` VALUES('10');
+DELETE FROM `tk`.`tk_dept_earn_code_t`;
+INSERT INTO `tk`.`tk_dept_earn_code_t` (`dept_earn_code_id`, `dept_id`, `tk_sal_group_id`, `earn_code_id`, `employee`, `approver`, `org_admin`) VALUES
+	('10', 'TEST-DEPT', '10', '10', 1, 1, 1);
+
+#
+# earn code
+DELETE FROM `tk`.`tk_earn_code_s`;
+INSERT INTO `tk`.`tk_earn_code_s` VALUES('10');
+DELETE FROM `tk`.`tk_earn_code_T`;
+INSERT INTO `tk`.`tk_earn_code_T` (`tk_earn_code_id`, `earn_code`, `descr`, `effdt`, `active`) VALUES
+	('10', 'RGN', 'Regular', '2010-01-01', 1);
 
 #
 # Pay Calendar

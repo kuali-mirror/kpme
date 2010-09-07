@@ -40,7 +40,6 @@ public class ClockAction extends TimesheetAction {
     	    ClockLog clockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
 
     	    clockActionForm.setPrincipalId(principalId);
-    	    clockActionForm.setAssignmentFormatted(getFormattedAssignment());
 
     	    if(clockLog == null) {
     	    	clockActionForm.setCurrentClockAction(TkConstants.CLOCK_IN);

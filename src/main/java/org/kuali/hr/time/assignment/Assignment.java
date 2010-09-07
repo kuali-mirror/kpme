@@ -11,36 +11,36 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 public class Assignment extends PersistableBusinessObjectBase {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -3408305833805778653L;
-    
+
     private Long assignmentId;
     private String principalId;
     private Long jobNumber;
     private Job job;
     private Date effectiveDate;
-    private String earnCode;
+    private Long earnCodeId;
     private Long workAreaId;
     private Long taskId;
     private boolean active;
-    
+
     private Task task;
     private WorkArea workArea;
-    
+
     public Assignment() {
-	
+
     }
-    
-    public Assignment(String principalId, Long jobNumber, Date effectiveDate, String earnCode, Long workAreaId, Long taskId) {
+
+    public Assignment(String principalId, Long jobNumber, Date effectiveDate, Long earnCode, Long workAreaId, Long taskId) {
 	this.principalId = principalId;
 	this.jobNumber = jobNumber;
 	this.effectiveDate = effectiveDate;
-	this.earnCode = earnCode;
+	this.earnCodeId = earnCode;
 	this.workAreaId = workAreaId;
 	this.taskId = taskId;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -80,12 +80,12 @@ public class Assignment extends PersistableBusinessObjectBase {
         this.effectiveDate = effectiveDate;
     }
 
-    public String getEarnCode() {
-        return earnCode;
+    public Long getEarnCodeId() {
+        return earnCodeId;
     }
 
-    public void setEarnCode(String earnCode) {
-        this.earnCode = earnCode;
+    public void setEarnCodeId(Long earnCodeId) {
+        this.earnCodeId = earnCodeId;
     }
 
     public Long getTaskId() {
@@ -135,14 +135,14 @@ public class Assignment extends PersistableBusinessObjectBase {
     public void setWorkArea(WorkArea workArea) {
         this.workArea = workArea;
     }
-    
+
     /**
      * Provides us with the text to display to the user for clock actions on this assignment.
      * @return
      */
     public String getClockText() {
 	StringBuilder sb = new StringBuilder("example assignment clock text");
-	
+
 	return sb.toString();
     }
 }
