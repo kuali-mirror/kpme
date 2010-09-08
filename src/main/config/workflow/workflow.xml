@@ -108,6 +108,21 @@
 			<name>ClockLogDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>ClockLogDocument</label>
-	</documentType>		
+	</documentType>
+	<documentType>
+			<name>ShiftDefferentialRuleDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>ShiftDefferentialRuleDocument</label>
+	</documentType>			
+	<documentType>
+			<name>WeeklyOvertimeRuleDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>WeeklyOvertimeRuleDocument</label>
+	</documentType>
+	<documentType>
+			<name>DepartmentEarnCodeDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>DepartmentEarnCodeDocument</label>
+	</documentType>
 	</documentTypes>
 </data>
