@@ -43,7 +43,7 @@ INSERT INTO `tk`.`hr_paytype_t` (`PAYTYPE_ID`,`PAYTYPE`,`DESCR`,`CALENDAR_GROUP`
 DELETE FROM `tk`.`hr_job_s`;
 INSERT INTO `tk`.`hr_job_s` (`ID`)	VALUES	('10');
 DELETE FROM `tk`.`hr_job_t`;
-INSERT INTO `tk`.`hr_job_t` (`JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`dept_id`,`TK_SAL_GROUP`,`PAY_GRADE`,`TIMESTAMP`,`ACTIVE`,`OBJ_ID`,`VER_NBR`,`location`,`std_hours`,`fte`,`hr_paytype_id`) VALUES
+INSERT INTO `tk`.`hr_job_t` (`JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`dept_id`,`TK_SAL_GROUP_ID`,`PAY_GRADE`,`TIMESTAMP`,`ACTIVE`,`OBJ_ID`,`VER_NBR`,`location`,`std_hours`,`fte`,`hr_paytype_id`) VALUES
 	('1015', 'admin', '10', '2010-08-10', 'TEST-DEPT', '10', NULL, '2010-08-10 16:00:13', '1', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1');
 
 #
@@ -66,7 +66,7 @@ INSERT INTO `tk`.`tk_dept_earn_code_t` (`dept_earn_code_id`, `dept_id`, `tk_sal_
 DELETE FROM `tk`.`tk_earn_code_s`;
 INSERT INTO `tk`.`tk_earn_code_s` VALUES('10');
 DELETE FROM `tk`.`tk_earn_code_T`;
-INSERT INTO `tk`.`tk_earn_code_T` (`tk_earn_code_id`, `earn_code`, `descr`, `effdt`, `active`) VALUES
+INSERT INTO `tk`.`tk_earn_code_T` (`earn_code_id`, `earn_code`, `descr`, `effdt`, `active`) VALUES
 	('10', 'RGN', 'Regular', '2010-01-01', 1);
 
 #
