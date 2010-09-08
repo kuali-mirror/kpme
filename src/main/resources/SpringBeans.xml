@@ -410,8 +410,8 @@
     <!-- Serializer Job Trigger-->
     <bean id="serializerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="serializerJob" />
-        <!-- cronTrigger for every minute -->
-        <property name="cronExpression" value="0 * * * * ?" />
+       <!-- cronTrigger to be executed at future date it is explicitly set temporarily just to avoid execution for now -->
+        <property name="cronExpression" value="0 53 17 8 9 ? 2020" />
     </bean>    
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">

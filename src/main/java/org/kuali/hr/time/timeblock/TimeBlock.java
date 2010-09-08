@@ -154,4 +154,22 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	public void setEndTimestampTimezone(String endTimestampTimezone) {
 		this.endTimestampTimezone = endTimestampTimezone;
 	}
+	public String toCSVString(){
+		StringBuffer sb = new StringBuffer();
+		sb.append(this.beginTimestampTimezone+",");
+		sb.append(this.earnCode+",");
+		sb.append(this.endTimestampTimezone+",");
+		sb.append(this.userPrincipalId+",");
+		sb.append(this.amount+",");
+		sb.append(this.beginTimestamp+",");
+		sb.append(this.clockLogCreated+",");
+		sb.append(this.endTimestamp+",");
+		sb.append(this.hours+",");
+		sb.append(this.jobNumber+",");
+		sb.append(this.taskId+",");
+		sb.append(this.timeBlockId+",");
+		sb.append(this.timestamp+",");
+		sb.append(this.workAreaId+ System.getProperty("line.separator") );
+		return sb.toString();
+	}
 }

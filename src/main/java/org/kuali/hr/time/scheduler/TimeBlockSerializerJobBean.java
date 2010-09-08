@@ -30,8 +30,9 @@ public class TimeBlockSerializerJobBean extends QuartzJobBean{
 		try {
 			//UnComment following 2 statements to apply the effect of Scheduled Job
 			
-			//System.out.println("Executed at :"+Calendar.getInstance().getTime());
-			//timeBlockSerializerService.serialize();
+			System.out.println("Executed at :"+Calendar.getInstance().getTime());
+			timeBlockSerializerService.serializeToCSV();
+			timeBlockSerializerService.serializeToXML();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

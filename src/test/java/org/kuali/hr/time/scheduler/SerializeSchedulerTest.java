@@ -34,7 +34,7 @@ public class SerializeSchedulerTest extends TkTestCase {
 		timeBlock.setTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
 		timeBlock.setWorkAreaId(10l);
 		//Uncomment following line to save the Object into DB
-		//KNSServiceLocator.getBusinessObjectService().save(timeBlock);
+		KNSServiceLocator.getBusinessObjectService().save(timeBlock);
 	
 	}
 
