@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `hr_job_s`;
 CREATE TABLE `hr_job_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1024 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1046 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `hr_job_t` (
   `JOB_NUMBER` bigint(20) DEFAULT NULL,
   `EFFDT` date NOT NULL DEFAULT '0000-00-00',
   `dept_id` varchar(21) COLLATE utf8_bin NOT NULL,
-  `TK_SAL_GROUP` varchar(7) COLLATE utf8_bin DEFAULT NULL,
+  `TK_SAL_GROUP_ID` bigint(20) DEFAULT NULL,
   `PAY_GRADE` varchar(3) COLLATE utf8_bin DEFAULT NULL,
   `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ACTIVE` bit(1) DEFAULT NULL,
@@ -100,7 +100,7 @@ DROP TABLE IF EXISTS `hr_work_schedule_entry_s`;
 CREATE TABLE `hr_work_schedule_entry_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1021 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,7 +132,7 @@ DROP TABLE IF EXISTS `hr_work_schedule_s`;
 CREATE TABLE `hr_work_schedule_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1022 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -960,7 +960,7 @@ DROP TABLE IF EXISTS `tk_assignment_acct_s`;
 CREATE TABLE `tk_assignment_acct_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1023 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -973,7 +973,7 @@ DROP TABLE IF EXISTS `tk_assignment_s`;
 CREATE TABLE `tk_assignment_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2085 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2106 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -988,7 +988,7 @@ CREATE TABLE `tk_assignment_t` (
   `PRINCIPAL_ID` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   `JOB_NUMBER` bigint(20) DEFAULT NULL,
   `EFFDT` date NOT NULL DEFAULT '0000-00-00',
-  `ERNCD` varchar(3) COLLATE utf8_bin DEFAULT NULL,
+  `EARN_CODE_ID` bigint(20) DEFAULT NULL,
   `WORK_AREA_ID` bigint(20) DEFAULT NULL,
   `TASK_ID` bigint(20) DEFAULT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
@@ -1008,7 +1008,7 @@ DROP TABLE IF EXISTS `tk_clock_location_rl_s`;
 CREATE TABLE `tk_clock_location_rl_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2130 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2223 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1044,7 +1044,7 @@ DROP TABLE IF EXISTS `tk_clock_log_s`;
 CREATE TABLE `tk_clock_log_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2406 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2442 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1082,7 +1082,7 @@ DROP TABLE IF EXISTS `tk_daily_overtime_rl_s`;
 CREATE TABLE `tk_daily_overtime_rl_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2085 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2094 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1120,7 +1120,7 @@ DROP TABLE IF EXISTS `tk_dept_earn_code_s`;
 CREATE TABLE `tk_dept_earn_code_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2085 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2101 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1133,8 +1133,8 @@ DROP TABLE IF EXISTS `tk_dept_earn_code_t`;
 CREATE TABLE `tk_dept_earn_code_t` (
   `dept_earn_code_id` bigint(20) NOT NULL,
   `dept_id` varchar(21) COLLATE utf8_bin NOT NULL,
-  `tk_sal_group` varchar(10) COLLATE utf8_bin NOT NULL,
-  `earn_code` varchar(3) COLLATE utf8_bin NOT NULL,
+  `tk_sal_group_id` bigint(20) NOT NULL,
+  `earn_code_id` bigint(20) NOT NULL,
   `employee` bit(1) DEFAULT b'0',
   `approver` bit(1) DEFAULT b'0',
   `org_admin` bit(1) DEFAULT b'0',
@@ -1154,7 +1154,7 @@ DROP TABLE IF EXISTS `tk_dept_lunch_rl_s`;
 CREATE TABLE `tk_dept_lunch_rl_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=2079 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2088 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1198,6 +1198,22 @@ CREATE TABLE `tk_dept_t` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `tk_document_header_t`
+--
+
+DROP TABLE IF EXISTS `tk_document_header_t`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tk_document_header_t` (
+  `DOCUMENT_ID` bigint(19) NOT NULL,
+  `PRINCIPAL_ID` varchar(40) COLLATE utf8_bin DEFAULT NULL,
+  `PAY_END_DT` date DEFAULT NULL,
+  `DOCUMENT_STATUS` varchar(1) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`DOCUMENT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `tk_earn_code_s`
 --
 
@@ -1218,7 +1234,7 @@ DROP TABLE IF EXISTS `tk_earn_code_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tk_earn_code_t` (
-  `tk_earn_code_id` bigint(20) NOT NULL,
+  `earn_code_id` int(11) NOT NULL,
   `earn_code` varchar(3) COLLATE utf8_bin NOT NULL,
   `descr` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `effdt` date DEFAULT NULL,
@@ -1228,7 +1244,7 @@ CREATE TABLE `tk_earn_code_t` (
   `active` bit(1) DEFAULT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) DEFAULT '1',
-  PRIMARY KEY (`tk_earn_code_id`)
+  PRIMARY KEY (`earn_code_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1455,10 +1471,10 @@ DROP TABLE IF EXISTS `tk_py_calendar_dates_t`;
 CREATE TABLE `tk_py_calendar_dates_t` (
   `tk_py_calendar_dates_id` bigint(20) NOT NULL,
   `tk_py_calendar_id` bigint(20) NOT NULL,
-  `begin_period_date` date DEFAULT NULL,
-  `begin_period_time` time DEFAULT NULL,
-  `end_period_date` date DEFAULT NULL,
-  `end_period_time` time DEFAULT NULL,
+  `begin_period_date` date NOT NULL,
+  `begin_period_time` time NOT NULL DEFAULT '00:00:00',
+  `end_period_date` date NOT NULL,
+  `end_period_time` time NOT NULL DEFAULT '23:59:59',
   `initiate_date` date DEFAULT NULL,
   `initiate_time` time DEFAULT NULL,
   `end_pay_period_date` date DEFAULT NULL,
@@ -1467,8 +1483,6 @@ CREATE TABLE `tk_py_calendar_dates_t` (
   `employee_approval_time` time DEFAULT NULL,
   `supervisor_approval_date` date DEFAULT NULL,
   `supervisor_approval_time` time DEFAULT NULL,
-  `pay_period_end_date` date DEFAULT NULL,
-  `pay_period_end_time` time DEFAULT NULL,
   PRIMARY KEY (`tk_py_calendar_dates_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1495,12 +1509,12 @@ DROP TABLE IF EXISTS `tk_py_calendar_t`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tk_py_calendar_t` (
   `tk_py_calendar_id` bigint(20) NOT NULL,
-  `calendar_group` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `chart` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `begin_date` date DEFAULT NULL,
-  `begin_time` time DEFAULT NULL,
-  `end_date` date DEFAULT NULL,
-  `end_time` time DEFAULT NULL,
+  `calendar_group` varchar(45) COLLATE utf8_bin NOT NULL,
+  `chart` varchar(45) COLLATE utf8_bin NOT NULL,
+  `begin_date` date NOT NULL,
+  `begin_time` time NOT NULL DEFAULT '00:00:00',
+  `end_date` date NOT NULL,
+  `end_time` time NOT NULL DEFAULT '23:59:59',
   PRIMARY KEY (`tk_py_calendar_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1560,7 +1574,7 @@ DROP TABLE IF EXISTS `tk_shift_differential_rl_s`;
 CREATE TABLE `tk_shift_differential_rl_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2085 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2104 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1652,7 +1666,7 @@ DROP TABLE IF EXISTS `tk_task_s`;
 CREATE TABLE `tk_task_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1004 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=1005 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1733,7 +1747,7 @@ DROP TABLE IF EXISTS `tk_time_block_s`;
 CREATE TABLE `tk_time_block_s` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1109 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1317 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1775,7 +1789,7 @@ DROP TABLE IF EXISTS `tk_time_collection_rl_s`;
 CREATE TABLE `tk_time_collection_rl_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1016 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1810,7 +1824,7 @@ DROP TABLE IF EXISTS `tk_weekly_overtime_rl_s`;
 CREATE TABLE `tk_weekly_overtime_rl_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1016 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1862,7 +1876,7 @@ DROP TABLE IF EXISTS `tk_work_area_s`;
 CREATE TABLE `tk_work_area_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1001 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1896,4 +1910,4 @@ CREATE TABLE `tk_work_area_t` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-08-20 13:14:21
+-- Dump completed on 2010-09-08  8:59:45
