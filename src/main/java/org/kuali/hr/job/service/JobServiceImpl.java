@@ -7,6 +7,7 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
+import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.paytype.service.PayTypeService;
 
 public class JobServiceImpl implements JobService {
@@ -41,9 +42,8 @@ public class JobServiceImpl implements JobService {
 			// Add Department Earn Codes
 			job.setDeptEarnCodes(deptEarnCodeService.getDepartmentEarnCodeList(job.getTkSalGroupId()));
 			// Pay Type
-			job.setPayType(payTypeService.getPayType(job.getPayTypeId()));
-			// TODO: Pay Calendar
-		
+			PayType payType = payTypeService.getPayType(job.getPayTypeId());
+			job.setPayType(payType);
 		}
 		
 		return jobs;

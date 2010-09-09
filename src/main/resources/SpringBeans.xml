@@ -345,6 +345,7 @@
     </bean>
 
     <bean id="payTypeService" class="org.kuali.hr.time.paytype.service.PayTypeServiceImpl">
+    	<property name="payCalendarService" ref="payCalendarService"/>
     	<property name="payTypeDao" ref="payTypeDao"/>
     </bean>
 

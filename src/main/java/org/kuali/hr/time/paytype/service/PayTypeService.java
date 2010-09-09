@@ -8,5 +8,11 @@ public interface PayTypeService {
 
 	public void saveOrUpdate(PayType payType);
 	public void saveOrUpdate(List<PayType> payTypeList);
+	
+	/**
+	 * Provides access to the PayType.   The PayCalendar will be loaded as well.
+	 * @param payTypeId
+	 * @return A fully populated PayType.
+	 */
 	public PayType getPayType(Long payTypeId);
 }
