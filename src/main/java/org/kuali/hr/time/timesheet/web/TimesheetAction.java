@@ -33,7 +33,8 @@ public class TimesheetAction extends TkAction {
 		TKUser user = TKContext.getUser();
 		TimesheetService timesheetService = TkServiceLocator.getTimesheetService();
 
-		Date payEndDate = TKUtils.getPayEndDate(user, (new DateTime()).toDate());
+		//Date payEndDate = TKUtils.getPayEndDate(user, (new DateTime()).toDate());
+		
 		// TODO : Re-enable these
 		//TimesheetDocument timesheetDocument = timesheetService.openTimesheetDocument(user.getPrincipalId(), payEndDate);
 		//taForm.setTimesheetDocument(timesheetDocument);

@@ -78,6 +78,9 @@ public class TKUtils {
 			if (jobs != null && jobs.size() > 0) {
 				Job job = jobs.get(0);
 				PayCalendar payCalendar = (job.getPayType() != null) ? job.getPayType().getPayCalendar() : null;
+				if (payCalendar == null) {
+					throw new RuntimeException("Job in system without PayCalendar.");
+				}
 				List<PayCalendarDates> dates = payCalendar.getPayCalendarDates();
 				for (PayCalendarDates pcdate : dates) {
 					LocalTime beginTime = new LocalTime(pcdate.getBeginPeriodTime()); 

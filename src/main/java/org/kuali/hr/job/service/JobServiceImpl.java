@@ -6,11 +6,15 @@ import java.util.List;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
+import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
+import org.kuali.hr.time.paytype.service.PayTypeService;
 
 public class JobServiceImpl implements JobService {
 
 	private JobDao jobDao;
 	private AssignmentService assignmentService;
+	private DepartmentEarnCodeService deptEarnCodeService;
+	private PayTypeService payTypeService;
 
 	@Override
 	public void saveOrUpdate(Job job) {
@@ -34,7 +38,12 @@ public class JobServiceImpl implements JobService {
 		for (Job job : jobs) {
 			// Add Assignments
 			job.setAssignments(assignmentService.getAssignmentsByJobNumber(job.getJobNumber(), payPeriodEndDate));
-			// TODO: Add Department Earn Codes
+			// Add Department Earn Codes
+			job.setDeptEarnCodes(deptEarnCodeService.getDepartmentEarnCodeList(job.getTkSalGroupId()));
+			// Pay Type
+			job.setPayType(payTypeService.getPayType(job.getPayTypeId()));
+			// TODO: Pay Calendar
+		
 		}
 		
 		return jobs;
@@ -42,6 +51,14 @@ public class JobServiceImpl implements JobService {
 
 	public void setAssignmentService(AssignmentService assignmentService) {
 		this.assignmentService = assignmentService;
+	}
+
+	public void setDeptEarnCodeService(DepartmentEarnCodeService earnCodeService) {
+		this.deptEarnCodeService = earnCodeService;
+	}
+
+	public void setPayTypeService(PayTypeService payTypeService) {
+		this.payTypeService = payTypeService;
 	}
 
 }
