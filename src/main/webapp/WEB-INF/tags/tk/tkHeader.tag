@@ -58,7 +58,6 @@
 			<li id="admin" class="ui-state-default ui-corner-top"><a href="Admin.do">Admin</a></li>
 			<li id="personInfo" class="ui-state-default ui-corner-top"><a href="PersonInfo.do">Person Info</a></li>
 			<li id="approvals" class="ui-state-default ui-corner-top"><a href="TimeApproval.do">Approvals</a></li>
-			<li id="timesheet" class="ui-state-default ui-corner-top"><a href="Timesheet.do">Historical Timesheets</a></li>
 			<li id="timeDetail" class="ui-state-default ui-corner-top"><a href="TimeDetail.do">Time Detail</a></li>
 			<li id="clock" class="ui-state-default ui-corner-top"><a href="Clock.do">Clock</a></li>
 		</ul>

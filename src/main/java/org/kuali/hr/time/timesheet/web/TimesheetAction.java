@@ -9,12 +9,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.dao.AssignmentDaoSpringOjbImpl;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -24,6 +26,8 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 
 public class TimesheetAction extends TkAction {
+
+	private static final Logger LOG = Logger.getLogger(TimesheetAction.class);
 
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -56,15 +60,22 @@ public class TimesheetAction extends TkAction {
 			List<Assignment> assignments = job.getAssignments();
 			List<String> assignmentList = new LinkedList<String>();
 
-			for(Assignment assignment : assignments) {
-				String workAreaDesc = assignment.getWorkArea().getDescription();
-				// TODO: needs to grab the real value
-				String compRate = "CompRate";
+			if(assignments.size() > 0) {
+				for(Assignment assignment : assignments) {
+					try {
 
-				String assignmentStr = workAreaDesc + " : " + compRate + " Rcd #" + job.getJobNumber().toString() + " " + job.getDeptId();
-				assignmentList.add(assignmentStr);
+						String workAreaDesc = assignment.getWorkArea().getDescription();
+						// TODO: needs to grab the real value
+						String compRate = "CompRate";
+
+						String assignmentStr = workAreaDesc + " : " + compRate + " Rcd #" + job.getJobNumber().toString() + " " + job.getDeptId();
+						assignmentList.add(assignmentStr);
+
+					} catch(NullPointerException npe) {
+						LOG.error("one of the values is missing for the assignment " + npe.getMessage());
+					}
+				}
 			}
-
 			formattedAssignments.put(job.getJobNumber(), assignmentList);
 		}
 
@@ -80,12 +91,20 @@ public class TimesheetAction extends TkAction {
 			List<DepartmentEarnCode> deptEarnCodes = job.getDeptEarnCodes();
 			List<String> earnCodeList = new LinkedList<String>();
 
-			for(DepartmentEarnCode deptEarnCode : deptEarnCodes) {
-				String earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCodeId()).getEarnCode();
-				String earnCodeDesc = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCodeId()).getDescription();
+			if(deptEarnCodes.size() > 0) {
+				for(DepartmentEarnCode deptEarnCode : deptEarnCodes) {
 
-				String earnCodeStr = earnCode + " : " + earnCodeDesc;
-				earnCodeList.add(earnCodeStr);
+					try {
+
+						String earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCodeId()).getEarnCode();
+						String earnCodeDesc = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCodeId()).getDescription();
+
+						String earnCodeStr = earnCode + " : " + earnCodeDesc;
+						earnCodeList.add(earnCodeStr);
+					} catch(NullPointerException npe) {
+						LOG.error("can't find the dept earn code. id: " + deptEarnCode.getEarnCodeId());
+					}
+				}
 			}
 
 			formattedDeptEarnCodes.put(job.getJobNumber(), earnCodeList);

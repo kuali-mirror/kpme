@@ -1,14 +1,32 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
+<jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport"/>
 <%@ attribute name="earnCodes" required="true" type="java.util.Map"%>
+<jsp:setProperty name="tagSupport" property="earnCodes" value="${earnCodes}" />
 
-<select id="earnCode">
-	<c:forEach var="earnCode" items="${earnCodes}">
-		<c:forEach var="earnCodeStr" items="${earnCode.value}">
-			<option value="${earnCode.key}">${earnCodeStr}</option>
+
+
+<c:choose>
+	<c:when test="${tagSupport.earnCodeSize <= 1}">
+		<c:forEach var="earnCode" items="${earnCodes}">
+			<c:forEach var="earnCodeStr" items="${earnCode.value}">
+				${earnCodeStr}
+				<input type="hidden" id="earnCode" name="earnCode" value="${earnCode.key}"/>
+			</c:forEach>
 		</c:forEach>
-	</c:forEach>
-</select>
+    </c:when>
+    <c:otherwise>
+		<select id="earnCode">
+			<c:forEach var="earnCode" items="${earnCodes}">
+				<c:forEach var="earnCodeStr" items="${earnCode.value}">
+					<option value="${earnCode.key}">${earnCodeStr}</option>
+				</c:forEach>
+			</c:forEach>
+		</select>
+    </c:otherwise>
+</c:choose>
+
+
 
 <%--
 <select id="earnCode">

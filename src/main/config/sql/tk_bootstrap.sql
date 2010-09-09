@@ -11,7 +11,12 @@ INSERT INTO `tk_work_area_s`	(`ID`)	VALUES	('1000');
 DELETE FROM `tk_work_area_t`;
 INSERT INTO `tk_work_area_t` (`WORK_AREA_ID`, `EFFDT`,`ACTIVE`,`DESCR`,`DEPT_ID`,`OVERTIME_PREFERENCE`,`ADMIN_DESCR`,`USER_PRINCIPAL_ID`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`) VALUES
 	('100', '2010-01-05', '1', 'work area description', 'TEST-DEPT', 'OT1', 'work area admin description', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20');
-
+INSERT INTO `tk_work_area_t` (`WORK_AREA_ID`, `EFFDT`,`ACTIVE`,`DESCR`,`DEPT_ID`,`OVERTIME_PREFERENCE`,`ADMIN_DESCR`,`USER_PRINCIPAL_ID`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`) VALUES
+	('101', '2010-01-05', '1', 'work area description2', 'TEST-DEPT2', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20');
+INSERT INTO `tk_work_area_t` (`WORK_AREA_ID`, `EFFDT`,`ACTIVE`,`DESCR`,`DEPT_ID`,`OVERTIME_PREFERENCE`,`ADMIN_DESCR`,`USER_PRINCIPAL_ID`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`) VALUES
+	('102', '2010-01-05', '1', 'work area description3', 'TEST-DEPT3', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20');
+INSERT INTO `tk_work_area_t` (`WORK_AREA_ID`, `EFFDT`,`ACTIVE`,`DESCR`,`DEPT_ID`,`OVERTIME_PREFERENCE`,`ADMIN_DESCR`,`USER_PRINCIPAL_ID`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`) VALUES
+	('103', '2010-01-05', '1', 'work area description4', 'TEST-DEPT4', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20');
 #
 # Task
 DELETE FROM `tk_task_s`;
@@ -28,10 +33,10 @@ DELETE FROM `tk_assignment_s`;
 INSERT INTO `tk_assignment_s` (`ID`) VALUES ('100');
 DELETE FROM `tk_assignment_t`;
 INSERT INTO `tk_assignment_t`	(`ASSIGNMENT_ID`,	`PRINCIPAL_ID`,	`JOB_NUMBER`,	`EFFDT`,	`EARN_CODE_ID`,	`WORK_AREA_ID`,	`TASK_ID`,	`OBJ_ID`,	`VER_NBR`,	`active`)	VALUES
-	('10', 'admin', '1015', '2010-08-01', '10', '100', 'TASK_ID', null, '1', '1'),
-	('11', 'admin', '1015', '2010-08-01', '10', '100', 'TASK_ID', null, '1', '1'),
-	('12', 'admin', '1015', '2010-08-01', '10', '100', 'TASK_ID', null, '1', '1'),
-	('13', 'admin', '1015', '2010-08-01', '10', '100', 'TASK_ID', null, '1', '1');
+	('10', 'admin', '1', '2010-08-01', '10', '100', 'TASK_ID', null, '1', '1'),
+	('11', 'admin', '2', '2010-08-01', '11', '101', 'TASK_ID', null, '1', '1'),
+	('12', 'admin', '3', '2010-08-01', '12', '102', 'TASK_ID', null, '1', '1'),
+	('13', 'admin', '4', '2010-08-01', '13', '103', 'TASK_ID', null, '1', '1');
 
 #
 # HR Pay Types
@@ -47,13 +52,13 @@ DELETE FROM `hr_job_s`;
 INSERT INTO `hr_job_s` (`ID`)	VALUES	('1100');
 DELETE FROM `hr_job_t`;
 INSERT INTO `hr_job_t` (`JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`active`,`dept_id`,`TK_SAL_GROUP_ID`,`PAY_GRADE`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`,`location`,`std_hours`,`fte`,`hr_paytype_id`) VALUES
-	('1012', 'admin', '12', '2010-08-10', '1', 'TEST-DEPT', '10', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1'),
-	('1013', 'admin', '12', '2010-08-12', '1', 'TEST-DEPT', '10', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1'),
-	('1014', 'admin', '12', '2010-08-12', '1', 'TEST-DEPT', '10', NULL, '2010-08-10 16:00:14', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1'),
-	('1015', 'admin', '10', '2010-08-10', '1', 'TEST-DEPT', '10', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1'),
-	('1016', 'admin', '10', '2010-08-11', '1', 'TEST-DEPT', '10', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1'),
-	('1017', 'admin', '10', '2010-08-12', '1', 'TEST-DEPT', '10', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1'),
-	('1018', 'admin', '10', '2010-08-12', '1', 'TEST-DEPT', '10', NULL, '2010-08-10 16:22:22', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1');
+	('1012', 'admin', '1', '2010-08-10', '1', 'TEST-DEPT', '10', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1'),
+	('1013', 'admin', '2', '2010-08-12', '1', 'TEST-DEPT', '10', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1'),
+	('1014', 'admin', '3', '2010-08-12', '1', 'TEST-DEPT', '10', NULL, '2010-08-10 16:00:14', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1'),
+	('1015', 'admin', '4', '2010-08-10', '1', 'TEST-DEPT', '10', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1'),
+	('1016', 'admin', '5', '2010-08-11', '1', 'TEST-DEPT2', '11', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1'),
+	('1017', 'admin', '6', '2010-08-12', '1', 'TEST-DEPT2', '11', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1'),
+	('1018', 'admin', '7', '2010-08-12', '1', 'TEST-DEPT2', '11', NULL, '2010-08-10 16:22:22', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, '1');
 
 #
 # Sal Group
@@ -61,22 +66,53 @@ DELETE FROM `tk_sal_group_s`;
 INSERT INTO `tk_sal_group_S` (`ID`) VALUES ('10');
 DELETE FROM `tk_sal_group_t`;
 INSERT INTO `tk_sal_group_t` (`SAL_GROUP_ID`, `SAL_GROUP`, `EFFDT`, `ACTIVE`) VALUES ('10', 'A10', '2010-01-01', 1);
+INSERT INTO `tk_sal_group_t` (`SAL_GROUP_ID`, `SAL_GROUP`, `EFFDT`, `ACTIVE`) VALUES ('11', 'S10', '2010-01-01', 1);
 
 #
 # dept earn code
 DELETE FROM `tk_dept_earn_code_s`;
 INSERT INTO `tk_dept_earn_code_s` VALUES('10');
 DELETE FROM `tk_dept_earn_code_t`;
-INSERT INTO `tk_dept_earn_code_t` (`dept_earn_code_id`, `dept_id`, `tk_sal_group_id`, `earn_code_id`, `employee`, `approver`, `org_admin`) VALUES
+INSERT INTO `TK`.`TK_DEPT_EARN_CODE_T` (`DEPT_EARN_CODE_ID`, `DEPT_ID`, `TK_SAL_GROUP_ID`, `EARN_CODE_ID`, `EMPLOYEE`, `APPROVER`, `ORG_ADMIN`) VALUES
 	('10', 'TEST-DEPT', '10', '10', 1, 1, 1);
+INSERT INTO `TK`.`TK_DEPT_EARN_CODE_T` (`DEPT_EARN_CODE_ID`, `DEPT_ID`, `TK_SAL_GROUP_ID`, `EARN_CODE_ID`, `EMPLOYEE`, `APPROVER`, `ORG_ADMIN`) VALUES
+	('11', 'TEST-DEPT', '10', '11', 1, 1, 1);
+INSERT INTO `TK`.`TK_DEPT_EARN_CODE_T` (`DEPT_EARN_CODE_ID`, `DEPT_ID`, `TK_SAL_GROUP_ID`, `EARN_CODE_ID`, `EMPLOYEE`, `APPROVER`, `ORG_ADMIN`) VALUES
+	('12', 'TEST-DEPT', '10', '12', 1, 1, 1);
+INSERT INTO `TK`.`TK_DEPT_EARN_CODE_T` (`DEPT_EARN_CODE_ID`, `DEPT_ID`, `TK_SAL_GROUP_ID`, `EARN_CODE_ID`, `EMPLOYEE`, `APPROVER`, `ORG_ADMIN`) VALUES
+	('13', 'TEST-DEPT', '10', '13', 1, 1, 1);
+INSERT INTO `TK`.`TK_DEPT_EARN_CODE_T` (`DEPT_EARN_CODE_ID`, `DEPT_ID`, `TK_SAL_GROUP_ID`, `EARN_CODE_ID`, `EMPLOYEE`, `APPROVER`, `ORG_ADMIN`) VALUES
+	('14', 'TEST-DEPT2', '11', '10', 1, 1, 1);
+INSERT INTO `TK`.`TK_DEPT_EARN_CODE_T` (`DEPT_EARN_CODE_ID`, `DEPT_ID`, `TK_SAL_GROUP_ID`, `EARN_CODE_ID`, `EMPLOYEE`, `APPROVER`, `ORG_ADMIN`) VALUES
+	('15', 'TEST-DEPT2', '11', '14', 1, 1, 1);
+INSERT INTO `TK`.`TK_DEPT_EARN_CODE_T` (`DEPT_EARN_CODE_ID`, `DEPT_ID`, `TK_SAL_GROUP_ID`, `EARN_CODE_ID`, `EMPLOYEE`, `APPROVER`, `ORG_ADMIN`) VALUES
+	('16', 'TEST-DEPT2', '11', '15', 1, 1, 1);
+INSERT INTO `TK`.`TK_DEPT_EARN_CODE_T` (`DEPT_EARN_CODE_ID`, `DEPT_ID`, `TK_SAL_GROUP_ID`, `EARN_CODE_ID`, `EMPLOYEE`, `APPROVER`, `ORG_ADMIN`) VALUES
+	('17', 'TEST-DEPT2', '11', '16', 1, 1, 1);
 
 #
 # earn code
 DELETE FROM `tk_earn_code_s`;
 INSERT INTO `tk_earn_code_s` VALUES('10');
 DELETE FROM `tk_earn_code_T`;
-INSERT INTO `tk_earn_code_T` (`earn_code_id`, `earn_code`, `descr`, `effdt`, `active`) VALUES
-	('10', 'RGN', 'Regular', '2010-01-01', 1);
+INSERT INTO `TK`.`TK_EARN_CODE_T` (`EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `EFFDT`, `ACTIVE`) VALUES
+	('10', 'RGH', 'REGULAR HOURLY', '2010-01-01', 1);
+INSERT INTO `TK`.`TK_EARN_CODE_T` (`EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `EFFDT`, `ACTIVE`) VALUES
+	('11', 'SCK', 'SICK', '2010-01-01', 1);
+INSERT INTO `TK`.`TK_EARN_CODE_T` (`EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `EFFDT`, `ACTIVE`) VALUES
+	('12', 'VAC', 'VACATION', '2010-01-01', 1);
+INSERT INTO `TK`.`TK_EARN_CODE_T` (`EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `EFFDT`, `ACTIVE`) VALUES
+	('13', 'WEP', 'EMERGENCY', '2010-01-01', 1);
+INSERT INTO `TK`.`TK_EARN_CODE_T` (`EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `EFFDT`, `ACTIVE`) VALUES
+	('14', 'HAZ', 'HAZARD DAY', '2010-01-01', 1);
+INSERT INTO `TK`.`TK_EARN_CODE_T` (`EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `EFFDT`, `ACTIVE`) VALUES
+	('15', 'HIP', 'HOLIDAY INCENTIVE', '2010-01-01', 1);
+INSERT INTO `TK`.`TK_EARN_CODE_T` (`EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `EFFDT`, `ACTIVE`) VALUES
+	('16', 'OC1', 'ON CALL - 1.50', '2010-01-01', 1);
+INSERT INTO `TK`.`TK_EARN_CODE_T` (`EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `EFFDT`, `ACTIVE`) VALUES
+	('17', 'OC2', 'ON CALL - 2.00', '2010-01-01', 1);
+INSERT INTO `TK`.`TK_EARN_CODE_T` (`EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `EFFDT`, `ACTIVE`) VALUES
+	('18', 'PRM', 'PREMIUM', '2010-01-01', 1);
 
 #
 # Pay Calendar
