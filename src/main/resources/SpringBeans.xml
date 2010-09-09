@@ -339,6 +339,7 @@
 
     <bean id="jobService" class="org.kuali.hr.job.service.JobServiceImpl">
     	<property name="jobDao" ref="jobDao"/>
+    	<property name="assignmentService" ref="assignmentService"/>
     </bean>
 
     <bean id="payTypeService" class="org.kuali.hr.time.paytype.service.PayTypeServiceImpl">

@@ -47,7 +47,7 @@ public class TimesheetAction extends TkAction {
 	}
 
 	private Map<Long,List<String>> getFormattedAssignment() {
-		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getUser().getPrincipalId());
+		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getUser().getPrincipalId(), TKUtils.getTimelessDate(null));
 
 		Map<Long,List<String>> formattedAssignments = new LinkedHashMap<Long,List<String>>();
 		for(Job job : jobs) {
@@ -71,7 +71,7 @@ public class TimesheetAction extends TkAction {
 	}
 
 	private Map<Long,List<String>> getFormattedDeptEarnCodes() {
-		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getUser().getPrincipalId());
+		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getUser().getPrincipalId(), TKUtils.getTimelessDate(null));
 
 		Map<Long,List<String>> formattedDeptEarnCodes = new LinkedHashMap<Long,List<String>>();
 		for(Job job : jobs) {

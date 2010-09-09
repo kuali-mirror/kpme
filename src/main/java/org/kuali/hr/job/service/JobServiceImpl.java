@@ -1,13 +1,16 @@
 package org.kuali.hr.job.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
+import org.kuali.hr.time.assignment.service.AssignmentService;
 
 public class JobServiceImpl implements JobService {
 
 	private JobDao jobDao;
+	private AssignmentService assignmentService;
 
 	@Override
 	public void saveOrUpdate(Job job) {
@@ -24,8 +27,21 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public List<Job> getJobs(String principalId) {
-		return jobDao.getJobs(principalId);
+	public List<Job> getJobs(String principalId, Date payPeriodEndDate) {
+		List<Job> jobs = jobDao.getJobs(principalId, payPeriodEndDate);
+		
+		// Add the child objects
+		for (Job job : jobs) {
+			// Add Assignments
+			job.setAssignments(assignmentService.getAssignmentsByJobNumber(job.getJobNumber(), payPeriodEndDate));
+			// TODO: Add Department Earn Codes
+		}
+		
+		return jobs;
+	}
+
+	public void setAssignmentService(AssignmentService assignmentService) {
+		this.assignmentService = assignmentService;
 	}
 
 }

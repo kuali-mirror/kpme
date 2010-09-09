@@ -12,29 +12,15 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
+/**
+ * This class needs refactored - the name job test implies that it should unit test on the Job object, especially considering it's package location.
+ * 
+ *
+ */
 public class JobTest extends TkTestCase {
 
 	private static final String TEST_USER_ID = "eric";
 	private static final String CALENDAR_GROUP = "BW-CAL";
-
-	@Test
-	public void testInsertJob() throws Exception{
-
-		long currentTimestamp = Calendar.getInstance().getTime().getTime();
-
-		Job job = new Job();
-		job.setPrincipalId(TEST_USER_ID);
-		job.setJobNumber(0L);
-		job.setEffectiveDate(new java.sql.Date(currentTimestamp));
-		job.setDeptId("UA-VPIT");
-		job.setPayTypeId(1L);
-		job.setStandardHours(new BigDecimal("40"));
-		job.setTimestamp(new Timestamp(currentTimestamp));
-		job.setActive(true);
-
-		KNSServiceLocator.getBusinessObjectService().save(job);
-		assertTrue(TkServiceLocator.getJobSerivce().getJobs(job.getPrincipalId()).size() > 0);
-	}
 
 	@Test
 	public void testInsertPayCalendar() throws Exception {

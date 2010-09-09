@@ -67,7 +67,7 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 				Person person = userSession.getActualPerson();
 				TKUser tkUser = new TKUser();
 				tkUser.setActualPerson(person);
-				List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(person.getPrincipalId());
+				List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(person.getPrincipalId(), new java.sql.Date(System.currentTimeMillis()));
 				tkUser.setJobs(jobs);
 				TKContext.setUser(tkUser);
 			}

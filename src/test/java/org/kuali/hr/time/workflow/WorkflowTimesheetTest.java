@@ -43,7 +43,7 @@ public class WorkflowTimesheetTest extends TkTestCase {
 
 		Person person = KIMServiceLocator.getPersonService().getPerson(TkLoginFilter.TEST_ID);
 		user.setActualPerson(person);
-		user.setJobs(TkServiceLocator.getJobSerivce().getJobs(user.getPrincipalId()));
+		user.setJobs(TkServiceLocator.getJobSerivce().getJobs(user.getPrincipalId(), TKUtils.getTimelessDate(null)));
 		
 		return user;
 	}

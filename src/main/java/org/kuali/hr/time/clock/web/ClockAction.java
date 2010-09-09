@@ -1,6 +1,7 @@
 package org.kuali.hr.time.clock.web;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,7 +36,8 @@ public class ClockAction extends TimesheetAction {
     	    LOG.debug("Calling execute.");
     	    ClockActionForm clockActionForm = (ClockActionForm) form;
     	    String principalId = TKContext.getUser().getPrincipalId();
-    	    List<Assignment> assignments = TkServiceLocator.getAssignmentService().getCurrentlyValidActiveAssignments(principalId);
+    	    Date payPeriodEndDate = null; 
+    	    List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, payPeriodEndDate);
 //    	    DepartmentEarnCode deptEarnCode = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodeList( )
     	    ClockLog clockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
 

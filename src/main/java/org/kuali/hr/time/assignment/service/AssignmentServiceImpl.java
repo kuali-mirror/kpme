@@ -9,34 +9,27 @@ import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.cache.CacheResult;
 
 public class AssignmentServiceImpl implements AssignmentService {
-    private static final Logger LOG = Logger.getLogger(AssignmentServiceImpl.class);
-    private AssignmentDao assignmentDao;
+	private static final Logger LOG = Logger.getLogger(AssignmentServiceImpl.class);
+	private AssignmentDao assignmentDao;
 
-    @Override
-    public List<Assignment> getAssignmentsOnOrAfter(Date effectiveDate) {
-	return assignmentDao.findAssignmentsOnOrAfter(effectiveDate);
-    }
+	public AssignmentDao getAssignmentDao() {
+		return assignmentDao;
+	}
 
-    @Override
-    public List<Assignment> getCurrentlyValidActiveAssignments(String principalId) {
-	List<Assignment> assignments;
-	LOG.debug("Locating assignments for principal id: " + principalId);
+	public void setAssignmentDao(AssignmentDao assignmentDao) {
+		this.assignmentDao = assignmentDao;
+	}
 
-	assignments = assignmentDao.findCurrentlyValidActiveAssignments(principalId);
-	LOG.debug("Found " + assignments.size() + " assignments for principal id: " + principalId);
-
-	return assignments;
-    }
-
-    public AssignmentDao getAssignmentDao() {
-	return assignmentDao;
-    }
-
-    public void setAssignmentDao(AssignmentDao assignmentDao) {
-	this.assignmentDao = assignmentDao;
-    }
-
-	public Assignment getAssignmentByJobNumber(Long jobNumber) {
-		return assignmentDao.findAssignmentByJobNumber(jobNumber);
+	@Override
+	public List<Assignment> getAssignments(String principalId, Date payPeriodEndDate) {
+		if (payPeriodEndDate == null) {
+			payPeriodEndDate = new Date(System.currentTimeMillis());
+		}
+		return assignmentDao.findAssignments(principalId, payPeriodEndDate);
+	}
+	
+	@Override
+	public List<Assignment> getAssignmentsByJobNumber(Long jobNumber, Date payPeriodEndDate) {
+		return assignmentDao.findAssignmentsByJobNumber(jobNumber, payPeriodEndDate);
 	}
 }

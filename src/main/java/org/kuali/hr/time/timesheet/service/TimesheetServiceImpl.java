@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TkDocumentHeader;
 import org.kuali.hr.time.workflow.service.DocumentHeaderService;
 import org.kuali.hr.time.workflow.service.DocumentService;
@@ -42,7 +43,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		TimesheetDocument timesheetDocument = null;
 
 		if (header == null) {
-			List<Assignment> assignments = assignmentService.getCurrentlyValidActiveAssignments(principalId);
+			List<Assignment> assignments = assignmentService.getAssignments(principalId, TKUtils.getTimelessDate(payEndDate));
 			if (assignments != null && assignments.size() > 0) {
 				timesheetDocument = this.initiateWorkflowDocument(principalId, payEndDate, TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
 			} else {

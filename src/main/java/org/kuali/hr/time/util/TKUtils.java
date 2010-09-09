@@ -41,6 +41,34 @@ public class TKUtils {
 		return ConfigContext.getCurrentContextConfig().getProperty("environment");
 	}
 	
+	/**
+	 * Returns a enforced timeless version of the provided date, if the date is null
+	 * the current date is returned.
+	 * @param date
+	 * @return A java.sql.Date version of the provided date, if provided date is null, the current date is returned.
+	 */
+	public static java.sql.Date getTimelessDate(java.util.Date date) {
+		java.sql.Date jsd = null;
+		if (date == null) {
+			jsd = new java.sql.Date(System.currentTimeMillis());
+		} else {
+			jsd = new java.sql.Date(date.getTime());
+		}
+		return jsd;
+	}
+	
+	/**
+	 * For the provided user, returns a currently valid payEndDate based on the PayCalendarDates, that the provided date is valid for.
+	 * 
+	 * Example:
+	 * 
+	 * If there is a pay calendar entry range for: 01/01/2010 to 01/15/2010, and 'now' is set 
+	 * to 01/03/2010, the return value will be 01/15/2010.
+	 * 
+	 * @param user
+	 * @param now
+	 * @return
+	 */
 	public static java.sql.Date getPayEndDate(TKUser user, java.util.Date now) {
 		Date payEndDate = null;
 		DateTime currentTime = new DateTime(now); 
