@@ -3,6 +3,12 @@ package org.kuali.hr.time.workflow;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.role.assign.TkRoleAssign;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.identity.Id;
 import org.kuali.rice.kew.identity.PrincipalId;
@@ -23,7 +29,8 @@ public class TkWorkflowAttribute implements RoleAttribute{
 	@Override
 	public List<Role> getRoleNames() {
 		// This is a list of "RoleNames" that this RoleAttribute supports - 
-		// we can use this to have branching logic in the resolveQualifiedRole() method for different types of "Roles" and have different principal Resolution.
+		// we can use this to have branching logic in the resolveQualifiedRole() method for different types of "Roles" 
+		// and have different principal Resolution.
 		// ... Now whether or not we need this is another question
 		throw new UnsupportedOperationException("Not supported in TkWorkflowAttribute");
 	}
@@ -32,12 +39,25 @@ public class TkWorkflowAttribute implements RoleAttribute{
 	public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) {
 		ResolvedQualifiedRole rqr = new ResolvedQualifiedRole();
 		List<Id> principals = new ArrayList<Id>();
-		String docId = routeContext.getDocument().getAppDocId();
-		//TODO set the people up as necessary from the role setup
-		//TODO find the work areas associated with this document 
-		//and route accordingly
-		//TODO confirm default delegate setup is used
-		principals.add(new PrincipalId("admin"));
+		Long routeHeaderId = routeContext.getDocument().getRouteHeaderId();
+		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId);
+		
+		if (timesheetDocument != null) {
+			List<Assignment> assignments = timesheetDocument.getAssignments();
+			for (Assignment assignment : assignments) {
+				List<TkRoleAssign> roles = TkServiceLocator.getWorkAreaService().getWorkAreaRoles(assignment.getWorkAreaId());
+				for (TkRoleAssign role : roles) {
+					if (StringUtils.equalsIgnoreCase(role.getRoleName(), roleName)) {
+						// TODO : Do something...
+						principals.add(new PrincipalId(role.getPrincipalId()));
+					}
+				}
+			}
+		} else {
+			// TODO Graceful Ballerina Dancing
+		}
+		
+		//principals.add(new PrincipalId("admin"));
 		rqr.setRecipients(principals);
 		return rqr;
 	}

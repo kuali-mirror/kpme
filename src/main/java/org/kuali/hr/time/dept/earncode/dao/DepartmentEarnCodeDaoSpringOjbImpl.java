@@ -26,7 +26,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 			}
 		}
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public List<DepartmentEarnCode> getDepartmentEarnCodeList(Long salGroupId) {
 		Criteria crit = new Criteria();

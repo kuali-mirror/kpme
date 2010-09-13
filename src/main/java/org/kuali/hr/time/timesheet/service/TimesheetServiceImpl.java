@@ -5,24 +5,16 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.assignment.service.AssignmentService;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.workflow.TkDocumentHeader;
-import org.kuali.hr.time.workflow.service.DocumentHeaderService;
-import org.kuali.hr.time.workflow.service.DocumentService;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
 
 public class TimesheetServiceImpl implements TimesheetService {
 
 	private static final Logger LOG = Logger.getLogger(TimesheetServiceImpl.class);
-
-	// set these IoC style in spring beans?  or we could just use the service locator...
-	//
-	private DocumentService tkDocumentService;
-	private DocumentHeaderService tkDocumentHeaderService;
-	private AssignmentService assignmentService;
 
 	@Override
 	public void routeTimesheet(String principalId, TimesheetDocument timesheetDocument) {
@@ -38,12 +30,12 @@ public class TimesheetServiceImpl implements TimesheetService {
 	}
 
 	@Override
-	public TimesheetDocument openTimesheetDocument(String principalId, Date payEndDate) {
-		TkDocumentHeader header = tkDocumentHeaderService.getDocumentHeader(principalId, payEndDate);
+	public TimesheetDocument openTimesheetDocument(String principalId, Date payEndDate) throws WorkflowException {
+		TimesheetDocumentHeader header = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payEndDate);
 		TimesheetDocument timesheetDocument = null;
 
 		if (header == null) {
-			List<Assignment> assignments = assignmentService.getAssignments(principalId, TKUtils.getTimelessDate(payEndDate));
+			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getTimelessDate(payEndDate));
 			if (assignments != null && assignments.size() > 0) {
 				timesheetDocument = this.initiateWorkflowDocument(principalId, payEndDate, TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
 			} else {
@@ -57,37 +49,38 @@ public class TimesheetServiceImpl implements TimesheetService {
 		return timesheetDocument;
 	}
 
-	private TimesheetDocument initiateWorkflowDocument(String principalId, Date payEndDate, String documentType, String title) {
-		TimesheetDocument timesheetDocument = null;
-		WorkflowDocument document = tkDocumentService.createWorkflowDocument(principalId, documentType, title);
-		try {
-			String status = document.getRouteHeader().getDocRouteStatus();
-			TkDocumentHeader documentHeader = new TkDocumentHeader(document.getRouteHeaderId(), principalId, payEndDate, status);
+	private TimesheetDocument initiateWorkflowDocument(String principalId, Date payEndDate, String documentType, String title) throws WorkflowException {
+		TimesheetDocument timesheetDocument = null;		
+		WorkflowDocument workflowDocument = null;
 
-			documentHeader.setDocumentNumber(document.getRouteHeaderId().toString());
-			documentHeader.setDocumentStatus("I");
-			documentHeader.setDocumentDescription("org.kuali.hr.time.timesheet.TimesheetDocument");
-			documentHeader.setExplanation(principalId);
+		workflowDocument = new WorkflowDocument(principalId, documentType);
+		workflowDocument.setTitle(title);
 
-			tkDocumentHeaderService.saveOrUpdate(documentHeader);
-			timesheetDocument = new TimesheetDocument(documentHeader);
-		} catch (WorkflowException e) {
-			LOG.error(e);
-		}
+		
+		String status = workflowDocument.getRouteHeader().getDocRouteStatus();
+		TimesheetDocumentHeader documentHeader = new TimesheetDocumentHeader(workflowDocument.getRouteHeaderId(), principalId, payEndDate, status);
+
+		documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
+		documentHeader.setDocumentStatus("I");
+		documentHeader.setDocumentDescription("org.kuali.hr.time.timesheet.TimesheetDocument");
+		documentHeader.setExplanation(principalId);
+
+		TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(documentHeader);
+		timesheetDocument = new TimesheetDocument(documentHeader);
 
 		return timesheetDocument;
 	}
 
-	public void setTkDocumentService(DocumentService documentService) {
-		this.tkDocumentService = documentService;
-	}
-
-	public void setTkDocumentHeaderService(DocumentHeaderService documentHeaderService) {
-		this.tkDocumentHeaderService = documentHeaderService;
-	}
-
-	public void setAssignmentService(AssignmentService assignmentService) {
-		this.assignmentService = assignmentService;
+	@Override
+	public TimesheetDocument getTimesheetDocument(Long documentId) {
+		TimesheetDocument timesheetDocument = null;
+		TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
+		if (tdh != null) {
+			timesheetDocument = new TimesheetDocument(tdh);
+			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(tdh.getPrincipalId(), TKUtils.getTimelessDate(tdh.getPayEndDate()));
+			timesheetDocument.setAssignments(assignments);
+		}
+		return timesheetDocument;
 	}
 
 }

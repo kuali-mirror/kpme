@@ -294,7 +294,7 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <bean id="documentHeaderDao" class="org.kuali.hr.time.workflow.dao.DocumentHeaderDaoSpringOjbImpl">
+    <bean id="timesheetDocumentHeaderDao" class="org.kuali.hr.time.workflow.dao.TimesheetDocumentHeaderDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
@@ -357,21 +357,15 @@
     	<property name="payCalendarDatesDao" ref="payCalendarDatesDao"/>
     </bean>
 
-    <bean id="tkDocumentHeaderService" class="org.kuali.hr.time.workflow.service.DocumentHeaderServiceImpl">
-    	<property name="documentHeaderDao" ref="documentHeaderDao"/>
+    <bean id="timesheetDocumentHeaderService" class="org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderServiceImpl">
+    	<property name="timesheetDocumentHeaderDao" ref="timesheetDocumentHeaderDao"/>
     </bean>
 
     <bean id="workAreaService" class="org.kuali.hr.time.workarea.service.WorkAreaServiceImpl">
     	<property name="workAreaDao" ref="workAreaDao"/>
     </bean>
 
-    <bean id="tkDocumentService" class="org.kuali.hr.time.workflow.service.DocumentServiceImpl">
-    </bean>
-
     <bean id="timesheetService" class="org.kuali.hr.time.timesheet.service.TimesheetServiceImpl">
-    	<property name="tkDocumentService" ref="tkDocumentService"/>
-    	<property name="tkDocumentHeaderService" ref="tkDocumentHeaderService"/>
-    	<property name="assignmentService" ref="assignmentService"/>
     </bean>
 
     <bean id="deptEarnCodeService" class="org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeServiceImpl">

@@ -15,6 +15,7 @@ import org.kuali.hr.time.timeblock.service.TimeBlockHistoryService;
 import org.kuali.hr.time.timeblock.service.TimeBlockService;
 import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
+import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -36,6 +37,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_CACHE_MANAGER_SERVICE = "cacheManager";
 	public static final String TK_WORK_AREA_SERVICE = "workAreaService";
 	public static final String TK_TIMESHEET_SERVICE = "timesheetService";
+	public static final String TK_TIMESHEET_DOCUMENT_HEADER_SERVICE = "timesheetDocumentHeaderService";
 	public static final String TK_DEPARTMENT_EARN_CODE = "deptEarnCodeService";
 	public static final String TK_EARN_CODE = "earnCodeService";
 
@@ -48,7 +50,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static void stop() throws Exception {
 //		CONTEXT.stop();
 	}
-
+	
+	public static TimesheetDocumentHeaderService getTimesheetDocumentHeaderService() {
+		return (TimesheetDocumentHeaderService) CONTEXT.getBean(TK_TIMESHEET_DOCUMENT_HEADER_SERVICE);
+	}
 
 	public static TimesheetService getTimesheetService() {
 		return (TimesheetService) CONTEXT.getBean(TK_TIMESHEET_SERVICE);

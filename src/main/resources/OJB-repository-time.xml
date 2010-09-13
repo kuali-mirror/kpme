@@ -517,7 +517,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.workflow.TkDocumentHeader" table="tk_document_header_t">
+	<class-descriptor class="org.kuali.hr.time.workflow.TimesheetDocumentHeader" table="tk_document_header_t">
 		<field-descriptor name="documentId"         column="document_id" jdbc-type="BIGINT" primarykey="true"/>
 		<field-descriptor name="principalId"        column="principal_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="payEndDate"         column="pay_end_dt" jdbc-type="DATE" />

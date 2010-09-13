@@ -1,5 +1,7 @@
 package org.kuali.hr.time.dept.earncode.service;
 
+import java.sql.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
@@ -15,6 +17,15 @@ public class DepartmentEarnCodeServiceImpl implements DepartmentEarnCodeService 
 
 	public void setDeptEarnCodeDao(DepartmentEarnCodeDao deptEarnCodeDao) {
 		this.deptEarnCodeDao = deptEarnCodeDao;
+	}
+
+	@Override
+	public List<DepartmentEarnCode> getDepartmentEarnCodes(Long salGroupId, Date payPeriodEndDate) {
+		List<DepartmentEarnCode> list = new LinkedList<DepartmentEarnCode>();
+
+		
+		
+		return list;
 	}
 
 

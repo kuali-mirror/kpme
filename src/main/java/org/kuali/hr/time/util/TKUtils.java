@@ -2,7 +2,6 @@ package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -17,7 +16,6 @@ import org.joda.time.LocalTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
-import org.kuali.hr.time.paytype.PayType;
 import org.kuali.rice.core.config.ConfigContext;
 
 public class TKUtils {

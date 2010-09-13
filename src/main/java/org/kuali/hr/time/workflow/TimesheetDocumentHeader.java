@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.kuali.rice.kns.bo.DocumentHeader;
 
-public class TkDocumentHeader extends DocumentHeader {
+public class TimesheetDocumentHeader extends DocumentHeader {
 
 	private static final long serialVersionUID = 1L;
 	private Long documentId;
@@ -12,11 +12,11 @@ public class TkDocumentHeader extends DocumentHeader {
 	private Date payEndDate;
 	private String documentStatus;
 	
-	public TkDocumentHeader() {
+	public TimesheetDocumentHeader() {
 		
 	}
 	
-	public TkDocumentHeader(Long documentId, String principalId, Date payEndDate, String documentStatus) {
+	public TimesheetDocumentHeader(Long documentId, String principalId, Date payEndDate, String documentStatus) {
 		this.documentId = documentId;
 		this.principalId = principalId;
 		this.payEndDate = payEndDate;
