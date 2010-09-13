@@ -11,15 +11,12 @@
 
 	<bean id="WorkScheduleMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.workschedule.WorkSchedule"
+		p:businessRulesClass="org.kuali.hr.time.workschedule.validation.WorkScheduleRule"
 		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="WorkScheduleMaintenanceDocument-WorkScheduleMaintenance" />
-			</list>
-		</property>
-		<property name="lockingKeys">
-			<list>
-				<value>workScheduleId</value>
+				<ref bean="WorkScheduleMaintenanceDocument-WorkScheduleEntryMaintenance" />
 			</list>
 		</property>
 		<property name="documentTypeName" value="WorkScheduleDocumentType" />
@@ -41,9 +38,45 @@
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="deptId" />
-				<bean parent="MaintainableFieldDefinition" p:name="workArea" />
+				<bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="principalId" />
 			</list>
 		</property>
 	</bean>
-</beans>									
+
+	<!-- WorkScheduleEntries maintenance section -->
+
+	<bean id="WorkScheduleMaintenanceDocument-WorkScheduleEntryMaintenance"
+		parent="WorkScheduleMaintenanceDocument-WorkScheduleEntryMaintenance-parentBean" />
+	<bean
+		id="WorkScheduleMaintenanceDocument-WorkScheduleEntryMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="workScheduleEntries" />
+		<property name="title" value="WorkSchedule Entries" />
+		<property name="defaultOpen" value="true" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="name" value="workScheduleEntries" />
+					<property name="businessObjectClass"
+						value="org.kuali.hr.time.workschedule.WorkScheduleEntry" />
+					<property name="alwaysAllowCollectionDeletion" value="true" />
+					<property name="maintainableFields">
+						<list>
+							 
+							<bean parent="MaintainableFieldDefinition" p:name="calDayId"
+								p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="dayOfPeriodId"
+								p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="regHours"
+								p:required="true" />
+
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

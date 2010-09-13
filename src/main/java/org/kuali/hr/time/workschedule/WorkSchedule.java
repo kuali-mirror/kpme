@@ -2,8 +2,11 @@ package org.kuali.hr.time.workschedule;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -24,6 +27,19 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 	private boolean active;
 	private WorkArea workAreaObj;		
 	
+	private List<WorkScheduleEntry> workScheduleEntries = new  LinkedList<WorkScheduleEntry>();
+	 
+	
+
+	public List<WorkScheduleEntry> getWorkScheduleEntries() {
+		return workScheduleEntries;
+	}
+
+
+	public void setWorkScheduleEntries(List<WorkScheduleEntry> workScheduleEntries) {
+		this.workScheduleEntries = workScheduleEntries;
+	}
+
 
 	public Department getDepartment() {
 		return department;

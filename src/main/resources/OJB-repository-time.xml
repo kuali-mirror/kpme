@@ -52,6 +52,16 @@
 		<reference-descriptor name="workArea" class-ref="org.kuali.hr.time.workarea.WorkArea" auto-retrieve="true" auto-delete="false" auto-update="false">
 			<foreignkey field-ref="workAreaId"/>
 		</reference-descriptor>
+		
+		<collection-descriptor
+			name="assignmentAccounts"
+			element-class-ref="org.kuali.hr.time.assignment.AssignmentAccount"
+			auto-retrieve="true"
+			auto-update="object"
+			auto-delete="object"
+			>
+			<inverse-foreignkey field-ref="assignment"/>
+		</collection-descriptor>
 
 	</class-descriptor>
 
@@ -144,7 +154,7 @@
 		<field-descriptor name="jobNumber"       column="job_number" jdbc-type="BIGINT"/>
 		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" nullable="false" primarykey="false"/>
 		<field-descriptor name="active"          column="active"	jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
-		<field-descriptor name="requiredClockFl" column="REQUIRED_CLOCK_FL"	jdbc-type="VARCHAR" length="3" nullable="false" />
+		<field-descriptor name="requiredClockFl" column="REQUIRED_CLOCK_FL"	jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="maxMins"         column="MAX_MINS"	jdbc-type="DECIMAL"/>
 		<field-descriptor name="userPrincipalId" column="user_principal_id"	jdbc-type="VARCHAR" length="10"/>
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
@@ -391,20 +401,15 @@
 		<field-descriptor name="assignment" column="ASSIGNMENT_ID" jdbc-type="BIGINT" nullable="false" />
 		<field-descriptor name="objectId" column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-
-		<reference-descriptor name="assignmentObj" class-ref="org.kuali.hr.time.assignment.Assignment" auto-retrieve="true" auto-delete="false" auto-update="true">
-			<foreignkey field-ref="assignment"/>
-		</reference-descriptor>
-
 	</class-descriptor>
 	<!-- Time Collection Rule -->
-	<class-descriptor class="org.kuali.hr.time.TimeCollectionRule" table="TK_TIME_COLLECTION_RL_T">
+	<class-descriptor class="org.kuali.hr.time.collection.rule.TimeCollectionRule" table="TK_TIME_COLLECTION_RL_T">
 		<field-descriptor name="timeCollectionRuleId" column="TIME_COLL_RULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_time_collection_rl_s"/>
 		<field-descriptor name="deptId" column="DEPTID" jdbc-type="VARCHAR" length="21" />
 	 	<field-descriptor name="workArea" column="work_area_id"  jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="effDate" column="EFFDT" jdbc-type="DATE" />
-		<field-descriptor name="clockUserFl" column="CLOCK_USERS_FL" jdbc-type="VARCHAR" length="1" />
-		<field-descriptor name="hrsDistributionF" column="HRS_DISTRIBUTION_FL" jdbc-type="VARCHAR" length="1" />
+		<field-descriptor name="clockUserFl" column="CLOCK_USERS_FL" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
+		<field-descriptor name="hrsDistributionF" column="HRS_DISTRIBUTION_FL" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
 		<field-descriptor name="timeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="objectId" column="obj_id" jdbc-type="VARCHAR" index="true" />
@@ -423,6 +428,16 @@
 		<field-descriptor name="active" column="ACTIVE" jdbc-type="bit" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		
+		<collection-descriptor
+			name="workScheduleEntries"
+			element-class-ref="org.kuali.hr.time.workschedule.WorkScheduleEntry"
+			auto-retrieve="true"
+			auto-update="object"
+			auto-delete="object"
+			>
+			<inverse-foreignkey field-ref="workScheduleId"/>
+		</collection-descriptor>		
 	</class-descriptor>
 
 	<!-- Work ScheduleEntry -->

@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class DepartmentEarnCode extends PersistableBusinessObjectBase {
@@ -19,14 +20,23 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	private boolean employee;
 	private boolean approver;
 	private boolean org_admin;
+	private SalGroup  salGroupObj;
 	private Department departmentObj;
 	private EarnCode earnCodeObj;
-
+	
 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		return null;
+	}
+	public SalGroup getSalGroupObj() {
+		return salGroupObj;
+	}
+
+
+	public void setSalGroupObj(SalGroup salGroupObj) {
+		this.salGroupObj = salGroupObj;
 	}
 
 

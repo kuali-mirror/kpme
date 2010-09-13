@@ -3,6 +3,7 @@ package org.kuali.hr.time.clocklog;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -27,6 +28,7 @@ public class ClockLog extends PersistableBusinessObjectBase {
     private String userPrincipalId;
     private Timestamp timestamp;
 
+    private Job job;
     private WorkArea workArea;
     private Task task;
 
@@ -39,6 +41,14 @@ public class ClockLog extends PersistableBusinessObjectBase {
 
     public WorkArea getWorkArea() {
 		return workArea;
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public void setJob(Job job) {
+		this.job = job;
 	}
 
 	public void setWorkArea(WorkArea workArea) {

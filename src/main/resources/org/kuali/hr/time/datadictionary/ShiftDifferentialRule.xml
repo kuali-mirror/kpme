@@ -288,7 +288,7 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
 		</property>
 		<property name="name" value="userPrincipalId" />
 		<property name="label" value="UserPrincipal Id" />

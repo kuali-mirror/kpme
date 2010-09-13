@@ -11,7 +11,8 @@
 
 	<bean id="ShiftDefferentialRuleMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule"
-		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+		p:businessRulesClass="org.kuali.hr.time.shiftdiff.rule.validation.ShiftDifferentialRuleRule"		
+  		p:maintainableClass="org.kuali.hr.time.shiftdiff.rule.service.ShiftDifferentialRuleMaintenableImpl">  		
 		<property name="maintainableSections">
 			<list>
 				<ref bean="ShiftDefferentialRuleMaintenanceDocument-ShiftDefferentialRuleMaintenance" />

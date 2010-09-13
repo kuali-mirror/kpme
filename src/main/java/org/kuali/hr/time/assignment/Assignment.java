@@ -2,8 +2,11 @@ package org.kuali.hr.time.assignment;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -27,12 +30,28 @@ public class Assignment extends PersistableBusinessObjectBase {
 
     private Task task;
     private WorkArea workArea;
+    
+    private List<AssignmentAccount> assignmentAccounts  = new LinkedList<AssignmentAccount>();
 
     public Assignment() {
 
     }
+    
+    
 
-    public Assignment(String principalId, Long jobNumber, Date effectiveDate, Long earnCode, Long workAreaId, Long taskId) {
+    public List<AssignmentAccount> getAssignmentAccounts() {
+		return assignmentAccounts;
+	}
+
+
+
+	public void setAssignmentAccounts(List<AssignmentAccount> assignmentAccounts) {
+		this.assignmentAccounts = assignmentAccounts;
+	}
+
+
+
+	public Assignment(String principalId, Long jobNumber, Date effectiveDate, Long earnCode, Long workAreaId, Long taskId) {
 	this.principalId = principalId;
 	this.jobNumber = jobNumber;
 	this.effectiveDate = effectiveDate;

@@ -135,8 +135,8 @@
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+		 <property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
 		</property>
 		<property name="name" value="userPrincipalId" />
 		<property name="label" value="UserPrincipal Id" />

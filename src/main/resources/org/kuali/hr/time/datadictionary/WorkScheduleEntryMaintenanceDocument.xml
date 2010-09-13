@@ -18,11 +18,7 @@
         <ref bean="WorkScheduleEntryMaintenanceDocument-WorkScheduleEntryMaintenance"/>
       </list>
     </property>
-    <property name="lockingKeys">
-      <list>
-        <value>workScheduleEntryId</value>
-      </list>
-    </property>
+     
     <property name="documentTypeName" value="WorkScheduleEntryDocumentType"/>
   </bean>
 
@@ -33,8 +29,7 @@
   <bean id="WorkScheduleEntryMaintenanceDocument-WorkScheduleEntryMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="title" value="WorkScheduleEntry Maintenance"/>
     <property name="maintainableItems">
-      <list>      
-      	<bean parent="MaintainableFieldDefinition" p:name="workScheduleId"  p:required="true" />
+      <list>
       	<bean parent="MaintainableFieldDefinition" p:name="calDayId"  p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="dayOfPeriodId" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="regHours"  p:required="true"/>  

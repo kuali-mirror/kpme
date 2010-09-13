@@ -1,4 +1,4 @@
-package org.kuali.hr.time;
+package org.kuali.hr.time.collection.rule;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -16,23 +16,25 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 	private String deptId;
 	private Long workArea;
 	private Date effDate;
-	private String clockUserFl;
-	private String hrsDistributionF;
+	private boolean clockUserFl;
+	private boolean hrsDistributionF;
 	private String userPrincipalId;
 	private Timestamp timeStamp;
 	
-	private Department department;	
+	private Department departmentObj;	
 	private WorkArea workAreaObj;
 		
 	
-	public Department getDepartment() {
-		return department;
+	 
+	
+	public Department getDepartmentObj() {
+		return departmentObj;
 	}
 
-	public void setDepartment(Department department) {
-		this.department = department;
+	public void setDepartmentObj(Department departmentObj) {
+		this.departmentObj = departmentObj;
 	}
-	
+
 	public WorkArea getWorkAreaObj() {
 		return workAreaObj;
 	}
@@ -41,14 +43,7 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 		this.workAreaObj = workAreaObj;
 	}
 
-	public String getHrsDistributionF() {
-		return hrsDistributionF;
-	}
-
-	public void setHrsDistributionF(String hrsDistributionF) {
-		this.hrsDistributionF = hrsDistributionF;
-	}
-
+	 
 	public long getTimeCollectionRuleId() {
 		return timeCollectionRuleId;
 	}
@@ -81,12 +76,21 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 		this.effDate = effDate;
 	}
 
-	public String getClockUserFl() {
+	 
+	public boolean isClockUserFl() {
 		return clockUserFl;
 	}
 
-	public void setClockUserFl(String clockUserFl) {
+	public void setClockUserFl(boolean clockUserFl) {
 		this.clockUserFl = clockUserFl;
+	}
+
+	public boolean isHrsDistributionF() {
+		return hrsDistributionF;
+	}
+
+	public void setHrsDistributionF(boolean hrsDistributionF) {
+		this.hrsDistributionF = hrsDistributionF;
 	}
 
 	public String getUserPrincipalId() {
@@ -111,7 +115,7 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
 
 		toStringMap.put("timeCollectionRuleId", timeCollectionRuleId);
-		toStringMap.put("department", department);
+		toStringMap.put("department", departmentObj);
 		toStringMap.put("deptId", deptId);
 		toStringMap.put("workAreaObj", workAreaObj);
 		toStringMap.put("workArea", workArea);

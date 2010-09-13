@@ -12,8 +12,8 @@
 
   <bean id="DeptLunchRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.time.dept.lunch.DeptLunchRule"
- 
-  		p:maintainableClass="org.kuali.hr.time.clock.location.service.DeptLunchMaintainableImpl">
+ 		p:businessRulesClass="org.kuali.hr.time.dept.lunch.validation.DeptLunchRuleRule"
+  		p:maintainableClass="org.kuali.hr.time.dept.lunch.service.DeptLunchRuleMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance"/>

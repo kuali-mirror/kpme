@@ -25,15 +25,37 @@
 			</list>
 		</property>
 		<property name="relationships">
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="departmentObj" />
-				<property name="primitiveAttributes">
-					<list>
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="deptId"
-							p:targetName="deptId" />
-					</list>
-				</property>
-			</bean>
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="departmentObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="deptId"
+								p:targetName="deptId" />
+						</list>
+					</property>
+				</bean>
+				
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="salGroupObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkSalGroupId"
+								p:targetName="salGroupId" />
+						</list>
+					</property>
+				</bean>
+				
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="earnCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCodeId"
+								p:targetName="earnCodeId" />
+						</list>
+					</property>
+				</bean>
+			</list>
 		</property>
 	</bean>
 

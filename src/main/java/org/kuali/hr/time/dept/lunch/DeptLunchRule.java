@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -20,16 +21,24 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
     private Long jobNumber;    // like job number
     private Date effectiveDate;
     private boolean active;
-    private String requiredClockFl;
+    private boolean requiredClockFl;
     private BigDecimal maxMins;
     private String userPrincipalId;
 
     private Timestamp timestamp;
 
     WorkArea workAreaObj;
-    Department departmentObj;
-    
-   
+    Department departmentObj;   
+    private Job job;
+
+	public Job getJob() {
+		return job;
+	}
+
+
+	public void setJob(Job job) {
+		this.job = job;
+	}
 
 
 	public WorkArea getWorkAreaObj() {
@@ -102,18 +111,17 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
     }
 
 
-    public String getRequiredClockFl() {
-        return requiredClockFl;
-    }
+    public boolean isRequiredClockFl() {
+		return requiredClockFl;
+	}
 
 
-    public void setRequiredClockFl(String requiredClockFl) {
-        this.requiredClockFl = requiredClockFl;
-    }
+	public void setRequiredClockFl(boolean requiredClockFl) {
+		this.requiredClockFl = requiredClockFl;
+	}
 
 
-
-    public BigDecimal getMaxMins() {
+	public BigDecimal getMaxMins() {
         return maxMins;
     }
 

@@ -30,7 +30,7 @@ public class DailyOvertimeRule extends TkRule {
 	private Date effectiveDate;
 	private String userPrincipalId;
 	private Timestamp timeStamp;
-	private boolean active;
+	private boolean active;	
 	
 	private Task task;
 	private WorkArea workArea;

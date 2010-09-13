@@ -17,12 +17,7 @@
       <list>
         <ref bean="AssignmentAccountMaintenanceDocument-AssignmentAccountMaintenance"/>
       </list>
-    </property>
-    <property name="lockingKeys">
-      <list>
-        <value>assignAcctId</value>
-      </list>
-    </property>
+    </property>    
     <property name="documentTypeName" value="AssignmentAccountDocumentType"/>
   </bean>
 

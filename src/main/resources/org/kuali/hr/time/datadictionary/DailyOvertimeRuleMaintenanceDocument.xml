@@ -11,7 +11,8 @@
 
 	<bean id="DailyOvertimeRuleMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule"
-		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+		p:businessRulesClass="org.kuali.hr.time.overtime.daily.rule.validation.DailyOvertimeRuleRule"
+  		p:maintainableClass="org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleMaintainableImpl">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="DailyOvertimeRuleMaintenanceDocument-DailyOvertimeRuleMaintenance" />

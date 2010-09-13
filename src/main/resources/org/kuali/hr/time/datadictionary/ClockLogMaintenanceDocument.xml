@@ -11,7 +11,8 @@
 
 	<bean id="ClockLogMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.clocklog.ClockLog"
-		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+		p:businessRulesClass="org.kuali.hr.time.clocklog.validation.ClockLogRule"
+		p:maintainableClass="org.kuali.hr.time.clocklog.service.ClockLogMaintainableImpl">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="ClockLogMaintenanceDocument-ClockLogMaintenance" />

@@ -11,8 +11,9 @@
   <bean id="TimeCollectionRuleMaintenanceDocument" parent="TimeCollectionRuleMaintenanceDocument-parentBean"/>
 
   <bean id="TimeCollectionRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		p:businessObjectClass="org.kuali.hr.time.TimeCollectionRule"
-  		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+  		p:businessObjectClass="org.kuali.hr.time.collection.rule.TimeCollectionRule"
+  		p:businessRulesClass="org.kuali.hr.time.collection.rule.validation.TimeCollectionRuleRule"
+  		p:maintainableClass="org.kuali.hr.time.collection.rule.service.TimeCollectionRuleMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="TimeCollectionRuleMaintenanceDocument-TimeCollectionRuleMaintenance"/>

@@ -22,27 +22,11 @@
 				<ref bean="WorkSchedule-active" />
 			</list>
 		</property>
-
-		<property name="relationships">
+		<property name="collections">
 			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="workAreaObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
-								p:targetName="workAreaId" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="department" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="deptId"
-								p:targetName="deptId" />
-						</list>
-					</property>
-				</bean>
+				<bean parent="CollectionDefinition" p:name="workScheduleEntries"
+					p:label="WorkScheduleEntries" p:shortLabel="WorkScheduleEntries"
+					p:summary="WorkScheduleEntries" p:description="WorkScheduleEntries" />
 			</list>
 		</property>
 	</bean>
