@@ -10,14 +10,14 @@ public interface AssignmentDao {
 	/**
 	 * Returns all assignments for the provided principalId that are valid as of
 	 * the specified payPeriodEndDate.
-	 * 
+	 *
 	 * @param principalId
 	 * @param payPeriodEndDate
 	 * @return
 	 */
 	public List<Assignment> findAssignments(String principalId, Date payPeriodEndDate);
-	
-	public List<Assignment> findAssignmentsByJobNumber(Long jobNumber, Date payPeriodEndDate);
+
+	public List<Assignment> findAssignmentsByJobNumber(Long jobNumber, String principalId, Date payPeriodEndDate);
 
 	public void saveOrUpdate(Assignment assignment);
 

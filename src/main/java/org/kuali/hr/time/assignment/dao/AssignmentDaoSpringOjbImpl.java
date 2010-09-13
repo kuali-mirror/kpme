@@ -78,7 +78,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Assignment> findAssignmentsByJobNumber(Long jobNumber, Date payPeriodEndDate) {
+	public List<Assignment> findAssignmentsByJobNumber(Long jobNumber, String principalId, Date payPeriodEndDate) {
 		List<Assignment> list = new LinkedList<Assignment>();
 		Criteria crit = new Criteria();
 		Criteria effdtJoinCriteria = new Criteria();
@@ -88,6 +88,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdtJoinCriteria);
 		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 
+		crit.addEqualTo("principalId", principalId);
 		crit.addEqualTo("jobNumber", jobNumber);
 		crit.addEqualTo("active", true);
 		crit.addEqualTo("effdt", effdtSubQuery);
@@ -103,6 +104,6 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		return list;
 	}
 
-	
+
 
 }

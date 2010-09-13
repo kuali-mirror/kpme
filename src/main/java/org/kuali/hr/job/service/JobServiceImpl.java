@@ -34,18 +34,18 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public List<Job> getJobs(String principalId, Date payPeriodEndDate) {
 		List<Job> jobs = jobDao.getJobs(principalId, payPeriodEndDate);
-		
+
 		// Add the child objects
 		for (Job job : jobs) {
 			// Add Assignments
-			job.setAssignments(assignmentService.getAssignmentsByJobNumber(job.getJobNumber(), payPeriodEndDate));
+			job.setAssignments(assignmentService.getAssignmentsByJobNumber(job.getJobNumber(), principalId, payPeriodEndDate));
 			// Add Department Earn Codes
 			job.setDeptEarnCodes(deptEarnCodeService.getDepartmentEarnCodeList(job.getTkSalGroupId()));
 			// Pay Type
 			PayType payType = payTypeService.getPayType(job.getPayTypeId());
 			job.setPayType(payType);
 		}
-		
+
 		return jobs;
 	}
 
