@@ -34,7 +34,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 	@Override
 	public void delete(Assignment assignment) {
 		if (assignment != null) {
-			LOG.debug("Deleting assignment:" + assignment.getAssignmentId());
+			LOG.debug("Deleting assignment:" + assignment.getTkAssignmentId());
 			this.getPersistenceBrokerTemplate().delete(assignment);
 		} else {
 			LOG.warn("Attempt to delete null assignment.");

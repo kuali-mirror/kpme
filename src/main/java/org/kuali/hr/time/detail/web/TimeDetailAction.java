@@ -67,7 +67,7 @@ public class TimeDetailAction extends TimesheetAction {
 			timeBlockMap.put("title", "HRMS Java Team : " + timeBlock.getEarnCode());
 			timeBlockMap.put("start", new java.util.Date(timeBlock.getBeginTimestamp().getTime()).toString());
 			timeBlockMap.put("end", new java.util.Date(timeBlock.getEndTimestamp().getTime()).toString());
-			timeBlockMap.put("id", timeBlock.getTimeBlockId().toString());
+			timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
 
 			timeBlockList.add(timeBlockMap);
 		}
@@ -122,8 +122,8 @@ public class TimeDetailAction extends TimesheetAction {
 
 				TimeBlock tb = new TimeBlock();
 			  	tb.setJobNumber(0L);
-		    	tb.setWorkAreaId(0L);
-		    	tb.setTaskId(0L);
+		    	tb.setWorkArea(0L);
+		    	tb.setTask(0L);
 		    	tb.setEarnCode(timeDetailForm.getEarnCode());
 		    	tb.setBeginTimestamp(new Timestamp(b.getTimeInMillis()));
 		    	tb.setEndTimestamp(new Timestamp(e.getTimeInMillis()));
@@ -143,8 +143,8 @@ public class TimeDetailAction extends TimesheetAction {
 
 			TimeBlock tb = new TimeBlock();
 		  	tb.setJobNumber(0L);
-	    	tb.setWorkAreaId(0L);
-	    	tb.setTaskId(0L);
+	    	tb.setWorkArea(0L);
+	    	tb.setTask(0L);
 	    	tb.setEarnCode(timeDetailForm.getEarnCode());
 	    	tb.setBeginTimestamp(new Timestamp(begin.getTimeInMillis()));
 	    	tb.setEndTimestamp(new Timestamp(end.getTimeInMillis()));

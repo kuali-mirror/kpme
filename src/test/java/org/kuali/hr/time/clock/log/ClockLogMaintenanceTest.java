@@ -87,7 +87,7 @@ public class ClockLogMaintenanceTest extends TkTestCase{
 				break;
 			}
 		}
-		clocklog.setTaskId(TEST_CODE_INVALID_TASK_ID);
+		clocklog.setTkTaskId(TEST_CODE_INVALID_TASK_ID);
 		//search for the WorkArea which doesn't exist
 		for (;;) {
 			long workAreaIndex = randomObj.nextInt();
@@ -98,9 +98,9 @@ public class ClockLogMaintenanceTest extends TkTestCase{
 				break;
 			}
 		}
-		clocklog.setWorkAreaId(TEST_CODE_INVALID_WORK_AREA_ID);		
+		clocklog.setTkWorkAreaId(TEST_CODE_INVALID_WORK_AREA_ID);		
 		KNSServiceLocator.getBusinessObjectService().save(clocklog);		
-		clockLogId=clocklog.getClockLogId();	
+		clockLogId=clocklog.getTkClockLogId();	
 	}
 
 	@Override

@@ -80,7 +80,7 @@ public class ClockLocationRuleTest extends TkTestCase {
 	clr.setIpAddress(IP_ADDRESS_ONE);
 
 	boService.save(clr);
-	LOG.info("ID:"  + clr.getClockLocationRuleId() + " oID: "  + clr.getObjectId());
+	LOG.info("ID:"  + clr.getTkClockLocationRuleId() + " oID: "  + clr.getObjectId());
 
 	clr = new ClockLocationRule();
 	//clr.setDepartment("TEST");
@@ -93,7 +93,7 @@ public class ClockLocationRuleTest extends TkTestCase {
 	clr.setIpAddress(IP_ADDRESS_TWO);
 
 	boService.save(clr);
-	LOG.info("ID:"  + clr.getClockLocationRuleId() + " oID: "  + clr.getObjectId());
+	LOG.info("ID:"  + clr.getTkClockLocationRuleId() + " oID: "  + clr.getObjectId());
 	assertEquals("Should have two records saved", 2, boService.findAll(ClockLocationRule.class).size());
 
 	Map<String, Object> matchMap = new HashMap<String, Object>();

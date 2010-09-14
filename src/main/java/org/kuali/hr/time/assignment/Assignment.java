@@ -1,12 +1,12 @@
 package org.kuali.hr.time.assignment;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -18,18 +18,20 @@ public class Assignment extends PersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = -3408305833805778653L;
 
-    private Long assignmentId;
+    private Long tkAssignmentId;
     private String principalId;
     private Long jobNumber;
     private Job job;
     private Date effectiveDate;
-    private Long earnCodeId;
-    private Long workAreaId;
-    private Long taskId;
+    private String earnCode;
+    private Long workArea;
+    private Long task;
     private boolean active;
+    private Timestamp timestamp;
 
-    private Task task;
-    private WorkArea workArea;
+    //TODO populate these in the service call
+    private Task taskObj;
+    private WorkArea workAreaObj;
     
     private List<AssignmentAccount> assignmentAccounts  = new LinkedList<AssignmentAccount>();
 
@@ -51,13 +53,13 @@ public class Assignment extends PersistableBusinessObjectBase {
 
 
 
-	public Assignment(String principalId, Long jobNumber, Date effectiveDate, Long earnCode, Long workAreaId, Long taskId) {
+	public Assignment(String principalId, Long jobNumber, Date effectiveDate, String earnCode, Long workAreaId, Long taskId) {
 	this.principalId = principalId;
 	this.jobNumber = jobNumber;
 	this.effectiveDate = effectiveDate;
-	this.earnCodeId = earnCode;
-	this.workAreaId = workAreaId;
-	this.taskId = taskId;
+	this.earnCode = earnCode;
+	this.workArea = workAreaId;
+	this.task = taskId;
     }
 
     @SuppressWarnings("unchecked")
@@ -99,30 +101,7 @@ public class Assignment extends PersistableBusinessObjectBase {
         this.effectiveDate = effectiveDate;
     }
 
-    public Long getEarnCodeId() {
-        return earnCodeId;
-    }
-
-    public void setEarnCodeId(Long earnCodeId) {
-        this.earnCodeId = earnCodeId;
-    }
-
-    public Long getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
-    }
-
-    public Long getAssignmentId() {
-        return assignmentId;
-    }
-
-    public void setAssignmentId(Long assignmentId) {
-        this.assignmentId = assignmentId;
-    }
-
+ 
     public boolean isActive() {
         return active;
     }
@@ -131,29 +110,6 @@ public class Assignment extends PersistableBusinessObjectBase {
         this.active = active;
     }
 
-    public Long getWorkAreaId() {
-        return workAreaId;
-    }
-
-    public void setWorkAreaId(Long workAreaId) {
-        this.workAreaId = workAreaId;
-    }
-
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
-    }
-
-    public WorkArea getWorkArea() {
-        return workArea;
-    }
-
-    public void setWorkArea(WorkArea workArea) {
-        this.workArea = workArea;
-    }
 
     /**
      * Provides us with the text to display to the user for clock actions on this assignment.
@@ -164,4 +120,88 @@ public class Assignment extends PersistableBusinessObjectBase {
 
 	return sb.toString();
     }
+
+
+
+	public Long getTkAssignmentId() {
+		return tkAssignmentId;
+	}
+
+
+
+	public void setTkAssignmentId(Long tkAssignmentId) {
+		this.tkAssignmentId = tkAssignmentId;
+	}
+
+
+
+	public String getEarnCode() {
+		return earnCode;
+	}
+
+
+
+	public void setEarnCode(String earnCode) {
+		this.earnCode = earnCode;
+	}
+
+
+
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
+
+
+	public void setWorkArea(Long workArea) {
+		this.workArea = workArea;
+	}
+
+
+
+	public void setTask(Long task) {
+		this.task = task;
+	}
+
+
+
+	public Task getTaskObj() {
+		return taskObj;
+	}
+
+
+
+	public void setTaskObj(Task taskObj) {
+		this.taskObj = taskObj;
+	}
+
+
+
+	public WorkArea getWorkAreaObj() {
+		return workAreaObj;
+	}
+
+
+
+	public void setWorkAreaObj(WorkArea workAreaObj) {
+		this.workAreaObj = workAreaObj;
+	}
+
+
+
+	public Long getWorkArea() {
+		return workArea;
+	}
+
+
+
+	public Long getTask() {
+		return task;
+	}
 }

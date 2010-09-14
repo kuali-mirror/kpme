@@ -26,7 +26,7 @@ public class WorkAreaMaintenanceTest extends TkTestCase {
 		super.setUp();
 		
 		WorkArea workArea = new WorkArea();
-		workArea.setWorkAreaId(1111L);
+		workArea.setTkWorkAreaId(1111L);
 		workArea.setEffectiveDate(new Date(System.currentTimeMillis()));
 		KNSServiceLocator.getBusinessObjectService().save(workArea);
 	}

@@ -20,8 +20,11 @@ public class TimeBlockHistory extends TimeBlock {
 	public TimeBlockHistory(TimeBlock tb) {
 		this.setDocumentId(tb.getDocumentId());
 		this.setJobNumber(tb.getJobNumber());
-		this.setWorkAreaId(tb.getWorkAreaId());
-		this.setTaskId(tb.getTaskId());
+		this.setWorkArea(tb.getWorkArea());
+		this.setTask(tb.getTask());
+		this.setHrJobId(tb.getHrJobId());
+		this.setTkWorkAreaId(tb.getTkWorkAreaId());
+		this.setTkTaskId(tb.getTkTaskId());
 		this.setEarnCode(tb.getEarnCode());
 		this.setBeginTimestamp(tb.getBeginTimestamp());
 		this.setEndTimestamp(tb.getEndTimestamp());

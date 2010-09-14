@@ -11,51 +11,51 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 
 
 public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
-
+//TODO fix this class
 	protected boolean validateSalGroup(DepartmentEarnCode departmentEarnCode ) {
 		boolean valid = false;
-		LOG.debug("Validating SalGroup: " + departmentEarnCode.getTkSalGroupId());
-		SalGroup salGroup = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(SalGroup.class, departmentEarnCode.getTkSalGroupId());
-		if (salGroup != null) {
-			valid = true;
-			LOG.debug("found SalGroup.");
-		} else {
-			this.putFieldError("tkSalGroupId", "error.existence", "Salgroup '"
-					+ departmentEarnCode.getTkSalGroupId()+ "'");
-		}
+//		LOG.debug("Validating SalGroup: " + departmentEarnCode.getTkSalGroupId());
+//		SalGroup salGroup = KNSServiceLocator.getBusinessObjectService()
+//				.findBySinglePrimaryKey(SalGroup.class, departmentEarnCode.getTkSalGroupId());
+//		if (salGroup != null) {
+//			valid = true;
+//			LOG.debug("found SalGroup.");
+//		} else {
+//			this.putFieldError("tkSalGroupId", "error.existence", "Salgroup '"
+//					+ departmentEarnCode.getTkSalGroupId()+ "'");
+//		}
 		return valid;
 	}
 
 	protected boolean validateDept(DepartmentEarnCode departmentEarnCode) {
 		boolean valid = false;
-		LOG.debug("Validating dept: " + departmentEarnCode.getDeptId());
-		// TODO: We may need a full DAO that handles bo lookups at some point,
-		// but we can use the provided one:
-		Department dept = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Department.class, departmentEarnCode.getDeptId());
-		if (dept != null) {
-			valid = true;
-			LOG.debug("found department.");
-		} else {
-			this.putFieldError("deptId", "error.existence", "Department '"
-					+ departmentEarnCode.getDeptId() + "'");
-		}
+//		LOG.debug("Validating dept: " + departmentEarnCode.getDeptId());
+//		// TODO: We may need a full DAO that handles bo lookups at some point,
+//		// but we can use the provided one:
+//		Department dept = KNSServiceLocator.getBusinessObjectService()
+//				.findBySinglePrimaryKey(Department.class, departmentEarnCode.getDeptId());
+//		if (dept != null) {
+//			valid = true;
+//			LOG.debug("found department.");
+//		} else {
+//			this.putFieldError("deptId", "error.existence", "Department '"
+//					+ departmentEarnCode.getDeptId() + "'");
+//		}
 		return valid;
 	}
 	
 	protected boolean validateEarnCode(DepartmentEarnCode departmentEarnCode ) {
 		boolean valid = false;
-		LOG.debug("Validating earnCode: " + departmentEarnCode.getEarnCodeId());
-		EarnCode earnCode = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(EarnCode.class, departmentEarnCode.getEarnCodeId());
-		if (earnCode != null) {
-			valid = true;
-			LOG.debug("found earnCode.");
-		} else {
-			this.putFieldError("earnCodeId", "error.existence", "Earncode '"
-					+ departmentEarnCode.getEarnCodeId()+ "'");
-		}
+//		LOG.debug("Validating earnCode: " + departmentEarnCode.getEarnCodeId());
+//		EarnCode earnCode = KNSServiceLocator.getBusinessObjectService()
+//				.findBySinglePrimaryKey(EarnCode.class, departmentEarnCode.getEarnCodeId());
+//		if (earnCode != null) {
+//			valid = true;
+//			LOG.debug("found earnCode.");
+//		} else {
+//			this.putFieldError("earnCodeId", "error.existence", "Earncode '"
+//					+ departmentEarnCode.getEarnCodeId()+ "'");
+//		}
 		return valid;
 	}
 	

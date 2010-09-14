@@ -39,10 +39,8 @@ public class JobServiceImpl implements JobService {
 		for (Job job : jobs) {
 			// Add Assignments
 			job.setAssignments(assignmentService.getAssignmentsByJobNumber(job.getJobNumber(), principalId, payPeriodEndDate));
-			// Add Department Earn Codes
-			job.setDeptEarnCodes(deptEarnCodeService.getDepartmentEarnCodeList(job.getTkSalGroupId()));
 			// Pay Type
-			PayType payType = payTypeService.getPayType(job.getPayTypeId());
+			PayType payType = payTypeService.getPayType(job.getHrPayType(), payPeriodEndDate);
 			job.setPayType(payType);
 		}
 

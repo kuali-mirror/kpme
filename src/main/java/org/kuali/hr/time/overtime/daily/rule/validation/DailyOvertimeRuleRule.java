@@ -14,48 +14,48 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateWorkArea(DailyOvertimeRule dailyOvertimeRule ) {
 		boolean valid = false;
-		LOG.debug("Validating workarea: " + dailyOvertimeRule.getWorkAreaId());
-		WorkArea workArea = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(WorkArea.class, dailyOvertimeRule.getWorkAreaId());
-		if (workArea != null) {
-			valid = true;
-			LOG.debug("found workArea.");
-		} else {
-			this.putFieldError("workAreaId", "error.existence", "Workarea '"
-					+ dailyOvertimeRule.getWorkAreaId()+ "'");
-		}
+//		LOG.debug("Validating workarea: " + dailyOvertimeRule.getWorkAreaId());
+//		WorkArea workArea = KNSServiceLocator.getBusinessObjectService()
+//				.findBySinglePrimaryKey(WorkArea.class, dailyOvertimeRule.getWorkAreaId());
+//		if (workArea != null) {
+//			valid = true;
+//			LOG.debug("found workArea.");
+//		} else {
+//			this.putFieldError("workAreaId", "error.existence", "Workarea '"
+//					+ dailyOvertimeRule.getWorkAreaId()+ "'");
+//		}
 		return valid;
 	}
 
 	protected boolean validateDepartment(DailyOvertimeRule dailyOvertimeRule) {
 		boolean valid = false;
-		LOG.debug("Validating dept: " + dailyOvertimeRule.getDeptId());
-		// TODO: We may need a full DAO that handles bo lookups at some point,
-		// but we can use the provided one:
-		Department dept = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Department.class, dailyOvertimeRule.getDeptId());
-		if (dept != null) {
-			valid = true;
-			LOG.debug("found department.");
-		} else {
-			this.putFieldError("deptId", "error.existence", "Department '"
-					+ dailyOvertimeRule.getDeptId() + "'");
-		}
+//		LOG.debug("Validating dept: " + dailyOvertimeRule.getDeptId());
+//		// TODO: We may need a full DAO that handles bo lookups at some point,
+//		// but we can use the provided one:
+//		Department dept = KNSServiceLocator.getBusinessObjectService()
+//				.findBySinglePrimaryKey(Department.class, dailyOvertimeRule.getDeptId());
+//		if (dept != null) {
+//			valid = true;
+//			LOG.debug("found department.");
+//		} else {
+//			this.putFieldError("deptId", "error.existence", "Department '"
+//					+ dailyOvertimeRule.getDeptId() + "'");
+//		}
 		return valid;
 	}
 	
 	protected boolean validateTask(DailyOvertimeRule dailyOvertimeRule ) {
 		boolean valid = false;
-		LOG.debug("Validating task: " + dailyOvertimeRule.getTaskId());
-		Task task = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Task.class, dailyOvertimeRule.getTaskId());
-		if (task != null) {
-			valid = true;
-			LOG.debug("found task");
-		} else {
-			this.putFieldError("taskId", "error.existence", "Task '"
-					+ dailyOvertimeRule.getTaskId()+ "'");
-		}
+//		LOG.debug("Validating task: " + dailyOvertimeRule.getTaskId());
+//		Task task = KNSServiceLocator.getBusinessObjectService()
+//				.findBySinglePrimaryKey(Task.class, dailyOvertimeRule.getTaskId());
+//		if (task != null) {
+//			valid = true;
+//			LOG.debug("found task");
+//		} else {
+//			this.putFieldError("taskId", "error.existence", "Task '"
+//					+ dailyOvertimeRule.getTaskId()+ "'");
+//		}
 		return valid;
 	}
 	

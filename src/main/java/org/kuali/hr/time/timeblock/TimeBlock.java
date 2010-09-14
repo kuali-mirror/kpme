@@ -13,11 +13,14 @@ public class TimeBlock extends PersistableBusinessObjectBase {
      */
 	private static final long serialVersionUID = -4164042707879641855L;
 
-	private Long timeBlockId = null;
+	private Long tkTimeBlockId;
 	private String documentId;
 	private Long jobNumber;
-	private Long workAreaId;
-	private Long taskId;
+	private Long workArea;
+	private Long task;
+	private Long hrJobId;
+	private Long tkWorkAreaId;
+	private Long tkTaskId;
 	private String earnCode;
 	private Timestamp beginTimestamp;
 	private Timestamp endTimestamp;
@@ -35,14 +38,6 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 		return null;
 	}
 
-	public Long getTimeBlockId() {
-		return timeBlockId;
-	}
-
-	public void setTimeBlockId(Long timeBlockId) {
-		this.timeBlockId = timeBlockId;
-	}
-
 	public String getDocumentId() {
 		return documentId;
 	}
@@ -57,22 +52,6 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 
 	public void setJobNumber(Long jobNumber) {
 		this.jobNumber = jobNumber;
-	}
-
-	public Long getWorkAreaId() {
-		return workAreaId;
-	}
-
-	public void setWorkAreaId(Long workAreaId) {
-		this.workAreaId = workAreaId;
-	}
-
-	public Long getTaskId() {
-		return taskId;
-	}
-
-	public void setTaskId(Long taskId) {
-		this.taskId = taskId;
 	}
 
 	public String getEarnCode() {
@@ -166,10 +145,58 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 		sb.append(this.endTimestamp+",");
 		sb.append(this.hours+",");
 		sb.append(this.jobNumber+",");
-		sb.append(this.taskId+",");
-		sb.append(this.timeBlockId+",");
+		sb.append(this.task+",");
+		sb.append(this.tkTimeBlockId+",");
 		sb.append(this.timestamp+",");
-		sb.append(this.workAreaId+ System.getProperty("line.separator") );
+		sb.append(this.workArea+ System.getProperty("line.separator") );
 		return sb.toString();
+	}
+
+	public Long getTkTimeBlockId() {
+		return tkTimeBlockId;
+	}
+
+	public void setTkTimeBlockId(Long tkTimeBlockId) {
+		this.tkTimeBlockId = tkTimeBlockId;
+	}
+
+	public Long getWorkArea() {
+		return workArea;
+	}
+
+	public void setWorkArea(Long workArea) {
+		this.workArea = workArea;
+	}
+
+	public Long getTask() {
+		return task;
+	}
+
+	public void setTask(Long task) {
+		this.task = task;
+	}
+
+	public Long getHrJobId() {
+		return hrJobId;
+	}
+
+	public void setHrJobId(Long hrJobId) {
+		this.hrJobId = hrJobId;
+	}
+
+	public Long getTkWorkAreaId() {
+		return tkWorkAreaId;
+	}
+
+	public void setTkWorkAreaId(Long tkWorkAreaId) {
+		this.tkWorkAreaId = tkWorkAreaId;
+	}
+
+	public Long getTkTaskId() {
+		return tkTaskId;
+	}
+
+	public void setTkTaskId(Long tkTaskId) {
+		this.tkTaskId = tkTaskId;
 	}
 }

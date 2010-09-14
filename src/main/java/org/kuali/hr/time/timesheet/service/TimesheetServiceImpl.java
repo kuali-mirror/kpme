@@ -11,6 +11,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class TimesheetServiceImpl implements TimesheetService {
 

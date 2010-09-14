@@ -1,5 +1,6 @@
 package org.kuali.hr.time.paytype.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -24,9 +25,12 @@ public class PayTypeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impleme
 		}
 	}
 
-	public PayType getPayType(Long payTypeId) {
+	public PayType getPayType(String payType, Date effectiveDate) {
 		Criteria currentRecordCriteria = new Criteria();
-		currentRecordCriteria.addEqualTo("payTypeId", payTypeId);
+		
+		currentRecordCriteria.addEqualTo("payType", payType);
+		currentRecordCriteria.addLessOrEqualThan("effectiveDate", effectiveDate);
+		//TODO timestamp max here
 
 		return (PayType) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(PayType.class, currentRecordCriteria));
 	}

@@ -40,7 +40,7 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 				List<TkRoleAssign> roleList = waService.getWorkAreaRoles(workAreaId);
 				workArea.setRoleAssignments(roleList);
 				if (workArea != null) {
-					LOG.debug("Obtained work area: " + workArea.getWorkAreaId());
+					LOG.debug("Obtained work area: " + workArea.getTkWorkAreaId());
 					workAreaMaintenanceDocument.setWorkArea(workArea);
 				} else {
 					// TODO
@@ -73,7 +73,7 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 		waService.saveOrUpdate(wamd.getWorkArea());
 		try {
 			// KIM roles are cranky...
-			waService.saveWorkAreaRoles(wamd.getWorkArea().getWorkAreaId(), wamd.getWorkArea().getRoleAssignments());
+			waService.saveWorkAreaRoles(wamd.getWorkArea().getTkWorkAreaId(), wamd.getWorkArea().getRoleAssignments());
 		} catch (Exception e) {
 			LOG.error("Swallowed exception - need to fix this", e);
 		}
@@ -86,7 +86,7 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 		WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
 
 		TkRoleAssign tra = workAreaForm.getNewRoleAssignment();
-		tra.setWorkAreaId(document.getWorkArea().getWorkAreaId());
+		tra.setWorkAreaId(document.getWorkArea().getTkWorkAreaId());
 		if (rule.validateRoleAddition(tra, document.getWorkArea().getRoleAssignments())) {
 			LOG.info("Adding role: " + tra.getRoleName() + " to principal " + tra.getPrincipalId());			
 			document.getWorkArea().getRoleAssignments().add(tra);
@@ -114,7 +114,7 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 		int deleteMe = this.getSelectedLine(request);
 		WorkArea workArea = document.getWorkArea();
 		Task task = workArea.getTasks().remove(deleteMe);
-		LOG.info("removed " + task.getTaskId());
+		LOG.info("removed " + task.getTkTaskId());
 		workAreaForm.setNewTask(new Task());
 
 		return mapping.findForward(RiceConstants.MAPPING_BASIC);

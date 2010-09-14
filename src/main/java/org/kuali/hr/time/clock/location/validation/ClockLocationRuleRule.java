@@ -43,17 +43,17 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateDepartment(ClockLocationRule clr) {
 		boolean valid = false;
-		LOG.debug("Validating department: " + clr.getDeptId());
+		LOG.debug("Validating department: " + clr.getDept());
 		// TODO: We may need a full DAO that handles bo lookups at some point,
 		// but we can use the provided one:
 		Department dept = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Department.class, clr.getDeptId());
+				.findBySinglePrimaryKey(Department.class, clr.getDept());
 		if (dept != null) {
 			valid = true;
 			LOG.debug("found department.");
 		} else {
 			this.putFieldError("deptId", "error.existence", "department '"
-					+ clr.getDeptId() + "'");
+					+ clr.getDept() + "'");
 		}
 		return valid;
 	}

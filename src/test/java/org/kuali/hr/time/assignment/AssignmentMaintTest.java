@@ -35,10 +35,10 @@ public class AssignmentMaintTest extends org.kuali.hr.time.test.TkTestCase {
 		Assignment assignment = new Assignment();		
 		assignment.setActive(true);
 		assignment.setEffectiveDate(TEST_DATE);
-		assignment.setTaskId(TEST_ID);		
+		assignment.setTask(TEST_ID);		
 		assignment.setPrincipalId(TEST_CODE);
 		assignment.setJobNumber(TEST_ID);
-		assignment.setEarnCodeId(TEST_ID);
+//		/assignment.setEarnCode(TEST_ID);
 		
 		Random randomObj = new Random();
 		for (;;) {
@@ -50,9 +50,9 @@ public class AssignmentMaintTest extends org.kuali.hr.time.test.TkTestCase {
 				break;
 			}
 		}
-		assignment.setWorkAreaId(TEST_CODE_WORKAREA_INVALID);		
+		assignment.setWorkArea(TEST_CODE_WORKAREA_INVALID);		
 		KNSServiceLocator.getBusinessObjectService().save(assignment);		
-		assignmentId=assignment.getAssignmentId();		
+		assignmentId=assignment.getTkAssignmentId();		
 	}
 
 	/**

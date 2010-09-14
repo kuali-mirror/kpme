@@ -20,10 +20,10 @@ public class DailyOvertimeRule extends TkRule {
 	private static final long serialVersionUID = 1L;
 	private Long tkDailyOvertimeRuleId;
 	private String location;
-	private String hrPaytype;
-	private String deptId;
-	private Long workAreaId;
-	private Long taskId;
+	private String paytype;
+	private String dept;
+	private Long workArea;
+	private Long task;
 	private BigDecimal maxGap;
 	private BigDecimal shiftHours;
 	private String overtimePref;
@@ -32,8 +32,8 @@ public class DailyOvertimeRule extends TkRule {
 	private Timestamp timeStamp;
 	private boolean active;	
 	
-	private Task task;
-	private WorkArea workArea;
+	private Task taskObj;
+	private WorkArea workAreaObj;
 	private Department departmentObj;
 	
 //	@Override
@@ -61,56 +61,6 @@ public class DailyOvertimeRule extends TkRule {
 
 	public void setLocation(String location) {
 		this.location = location;
-	}
-
-	public Task getTask() {
-		return task;
-	}
-
-	public void setTask(Task task) {
-		this.task = task;
-	}
-
-	 
-
-	public WorkArea getWorkArea() {
-		return workArea;
-	}
-
-	public void setWorkArea(WorkArea workArea) {
-		this.workArea = workArea;
-	}
-
-	public String getHrPaytype() {
-		return hrPaytype;
-	}
-
-	public void setHrPaytype(String hrPaytype) {
-		this.hrPaytype = hrPaytype;
-	}
-
-	public String getDeptId() {
-		return deptId;
-	}
-
-	public void setDeptId(String deptId) {
-		this.deptId = deptId;
-	}
-
-	public Long getWorkAreaId() {
-		return workAreaId;
-	}
-
-	public void setWorkAreaId(Long workAreaId) {
-		this.workAreaId = workAreaId;
-	}
-
-	public Long getTaskId() {
-		return taskId;
-	}
-
-	public void setTaskId(Long taskId) {
-		this.taskId = taskId;
 	}
 
 	public BigDecimal getMaxGap() {
@@ -181,6 +131,54 @@ public class DailyOvertimeRule extends TkRule {
 	public void applyRule(TkRuleContext tkRuleContext) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public String getPaytype() {
+		return paytype;
+	}
+
+	public void setPaytype(String paytype) {
+		this.paytype = paytype;
+	}
+
+	public String getDept() {
+		return dept;
+	}
+
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+
+	public Task getTaskObj() {
+		return taskObj;
+	}
+
+	public void setTaskObj(Task taskObj) {
+		this.taskObj = taskObj;
+	}
+
+	public WorkArea getWorkAreaObj() {
+		return workAreaObj;
+	}
+
+	public void setWorkAreaObj(WorkArea workAreaObj) {
+		this.workAreaObj = workAreaObj;
+	}
+
+	public void setWorkArea(Long workArea) {
+		this.workArea = workArea;
+	}
+
+	public void setTask(Long task) {
+		this.task = task;
+	}
+
+	public Long getWorkArea() {
+		return workArea;
+	}
+
+	public Long getTask() {
+		return task;
 	}
 
 }

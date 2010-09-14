@@ -60,7 +60,7 @@ public class JobTest extends TkTestCase {
 		long currentTimestamp = Calendar.getInstance().getTime().getTime();
 
 		PayType payType = new PayType();
-		payType.setPayTypeId(1L);
+		payType.setHrPayTypeId(1L);
 		payType.setPayType("BW");
 		payType.setCalendarGroup(CALENDAR_GROUP);
 		payType.setRegEarnCode("RGN");
@@ -69,6 +69,6 @@ public class JobTest extends TkTestCase {
 		payType.setHolidayCalendarGroup("HOL");
 
 		KNSServiceLocator.getBusinessObjectService().save(payType);
-		assertTrue(TkServiceLocator.getPayTypeSerivce().getPayType(payType.getPayTypeId()) != null);
+		assertTrue(TkServiceLocator.getPayTypeSerivce().getPayType(payType.getPayType(), payType.getEffectiveDate()) != null);
 	}
 }

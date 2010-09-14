@@ -29,18 +29,18 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateDepartment(TimeCollectionRule timeCollectionRule) {
 		boolean valid = false;
-		LOG.debug("Validating department: " + timeCollectionRule.getDeptId());
-		// TODO: We may need a full DAO that handles bo lookups at some point,
-		// but we can use the provided one:
-		Department dept = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Department.class, timeCollectionRule.getDeptId());
-		if (dept != null) {
-			valid = true;			
-			LOG.debug("found department.");
-		} else {						
-			this.putFieldError("deptId", "error.existence", "department '"
-					+ timeCollectionRule.getDeptId() + "'");
-		}
+//		LOG.debug("Validating department: " + timeCollectionRule.getDeptId());
+//		// TODO: We may need a full DAO that handles bo lookups at some point,
+//		// but we can use the provided one:
+//		Department dept = KNSServiceLocator.getBusinessObjectService()
+//				.findBySinglePrimaryKey(Department.class, timeCollectionRule.getDeptId());
+//		if (dept != null) {
+//			valid = true;			
+//			LOG.debug("found department.");
+//		} else {						
+//			this.putFieldError("deptId", "error.existence", "department '"
+//					+ timeCollectionRule.getDeptId() + "'");
+//		}
 		return valid;
 	}
 	

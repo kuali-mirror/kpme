@@ -1,6 +1,7 @@
 package org.kuali.hr.time.earncode;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -14,7 +15,7 @@ public class EarnGroup extends PersistableBusinessObjectBase {
 	 */
 	private static final long serialVersionUID = -3034933572755800531L;
 
-	private Long earnGroupId;
+	private Long tkEarnGroupId;
 
 	private String earnGroup;
 
@@ -23,16 +24,10 @@ public class EarnGroup extends PersistableBusinessObjectBase {
 	private Date effectiveDate;
 
 	private Boolean active;
+	
+	private Timestamp timestamp;
 
 	private List<EarnGroupDef> earnGroups = new ArrayList<EarnGroupDef>();
-	
-	public Long getEarnGroupId() {
-		return earnGroupId;
-	}
-
-	public void setEarnGroupId(Long earnGroupId) {
-		this.earnGroupId = earnGroupId;
-	}
 
 	public String getEarnGroup() {
 		return earnGroup;
@@ -78,6 +73,22 @@ public class EarnGroup extends PersistableBusinessObjectBase {
 
 	public String getDescr() {
 		return descr;
+	}
+
+	public Long getTkEarnGroupId() {
+		return tkEarnGroupId;
+	}
+
+	public void setTkEarnGroupId(Long tkEarnGroupId) {
+		this.tkEarnGroupId = tkEarnGroupId;
+	}
+
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
 	}
 
 }

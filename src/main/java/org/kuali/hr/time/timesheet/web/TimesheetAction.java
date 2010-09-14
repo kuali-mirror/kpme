@@ -64,11 +64,11 @@ public class TimesheetAction extends TkAction {
 				for(Assignment assignment : assignments) {
 					try {
 
-						String workAreaDesc = assignment.getWorkArea().getDescription();
+						String workAreaDesc = assignment.getWorkAreaObj().getDescription();
 						// TODO: needs to grab the real value
 						String compRate = "CompRate";
 
-						String assignmentStr = workAreaDesc + " : " + compRate + " Rcd #" + job.getJobNumber().toString() + " " + job.getDeptId();
+						String assignmentStr = workAreaDesc + " : " + compRate + " Rcd #" + job.getJobNumber().toString() + " " + job.getDept();
 						assignmentList.add(assignmentStr);
 
 					} catch(NullPointerException npe) {
@@ -93,17 +93,17 @@ public class TimesheetAction extends TkAction {
 
 			if(deptEarnCodes.size() > 0) {
 				for(DepartmentEarnCode deptEarnCode : deptEarnCodes) {
-
-					try {
-
-						String earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCodeId()).getEarnCode();
-						String earnCodeDesc = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCodeId()).getDescription();
-
-						String earnCodeStr = earnCode + " : " + earnCodeDesc;
-						earnCodeList.add(earnCodeStr);
-					} catch(NullPointerException npe) {
-						LOG.error("can't find the dept earn code. id: " + deptEarnCode.getEarnCodeId());
-					}
+//TODO fix this madness
+//					try {
+//
+//						String earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCode()).getEarnCode();
+//						String earnCodeDesc = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCodeId()).getDescription();
+//
+//						String earnCodeStr = earnCode + " : " + earnCodeDesc;
+//						earnCodeList.add(earnCodeStr);
+//					} catch(NullPointerException npe) {
+//						LOG.error("can't find the dept earn code. id: " + deptEarnCode.getEarnCodeId());
+//					}
 				}
 			}
 

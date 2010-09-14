@@ -1,7 +1,6 @@
 package org.kuali.hr.job;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
@@ -19,16 +18,16 @@ public class Job extends PersistableBusinessObjectBase {
      */
 	private static final long serialVersionUID = 1L;
 	private String location;
-	private Long payTypeId;
+	private String hrPayType;
 	private Boolean fte;
 	private String payGrade;
 	private BigDecimal standardHours;
-	private Long jobId;
+	private Long hrJobId;
 	private String principalId;
 	private Long jobNumber;
 	private Date effectiveDate;
-	private String deptId;
-	private Long tkSalGroupId;
+	private String dept;
+	private String tkSalGroup;
 	private Timestamp timestamp;
 	private Boolean active;
 	private PayType payType;
@@ -45,21 +44,6 @@ public class Job extends PersistableBusinessObjectBase {
 		return toStringMap;
 	}
 
-	public Long getJobId() {
-		return jobId;
-	}
-
-	public void setJobId(Long jobId) {
-		this.jobId = jobId;
-	}
-
-	public Long getPayTypeId() {
-		return payTypeId;
-	}
-
-	public void setPayTypeId(Long payTypeId) {
-		this.payTypeId = payTypeId;
-	}
 
 	public Boolean getFte() {
 		return fte;
@@ -109,14 +93,6 @@ public class Job extends PersistableBusinessObjectBase {
 		this.effectiveDate = effectiveDate;
 	}
 
-	public Long getTkSalGroupId() {
-		return tkSalGroupId;
-	}
-
-	public void setTkSalGroup(Long tkSalGroupId) {
-		this.tkSalGroupId = tkSalGroupId;
-	}
-
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
@@ -132,15 +108,6 @@ public class Job extends PersistableBusinessObjectBase {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-
-	public String getDeptId() {
-		return deptId;
-	}
-
-	public void setDeptId(String deptId) {
-		this.deptId = deptId;
-	}
-
 	/**
 	 * @param location
 	 *            the location to set
@@ -178,6 +145,38 @@ public class Job extends PersistableBusinessObjectBase {
 
 	public void setDeptEarnCodes(List<DepartmentEarnCode> deptEarnCodes) {
 		this.deptEarnCodes = deptEarnCodes;
+	}
+
+	public String getHrPayType() {
+		return hrPayType;
+	}
+
+	public void setHrPayType(String hrPayType) {
+		this.hrPayType = hrPayType;
+	}
+
+	public Long getHrJobId() {
+		return hrJobId;
+	}
+
+	public void setHrJobId(Long hrJobId) {
+		this.hrJobId = hrJobId;
+	}
+
+	public String getDept() {
+		return dept;
+	}
+
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+
+	public String getTkSalGroup() {
+		return tkSalGroup;
+	}
+
+	public void setTkSalGroup(String tkSalGroup) {
+		this.tkSalGroup = tkSalGroup;
 	}
 
 }

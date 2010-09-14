@@ -31,7 +31,7 @@ public class ClockLocationRuleLookupTest extends TkTestCase {
     	
     	ClockLocationRule clr = new ClockLocationRule();
     	clr.setActive(true);
-    	clr.setDeptId("12345");
+    	clr.setDept("12345");
     	clr.setIpAddress("ipaddress");
     	boService.save(clr);
     }

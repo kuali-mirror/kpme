@@ -85,7 +85,7 @@ public class DailyOvertimeRuleMaintenanceTest extends TkTestCase{
 		dailyOvertimeRule.setLocation(TEST_CODE);
 		dailyOvertimeRule.setMaxGap(TEST_NO);
 		dailyOvertimeRule.setUserPrincipalId(TEST_CODE);
-		dailyOvertimeRule.setHrPaytype(TEST_CODE);
+		dailyOvertimeRule.setPaytype(TEST_CODE);
 		dailyOvertimeRule.setOvertimePref(TEST_CODE);
 		dailyOvertimeRule.setShiftHours(TEST_NO);		
 		dailyOvertimeRule.setTimeStamp(TEST_TIMESTAMP);
@@ -101,7 +101,7 @@ public class DailyOvertimeRuleMaintenanceTest extends TkTestCase{
 				break;
 			}
 		}
-		dailyOvertimeRule.setDeptId(TEST_CODE_INVALID_DEPT_ID);
+		dailyOvertimeRule.setDept(TEST_CODE_INVALID_DEPT_ID);
 		//search for the Task which doesn't exist
 		for (;;) {
 			long taskIndex = randomObj.nextInt();
@@ -112,7 +112,7 @@ public class DailyOvertimeRuleMaintenanceTest extends TkTestCase{
 				break;
 			}
 		}
-		dailyOvertimeRule.setTaskId(TEST_CODE_INVALID_TASK_ID);
+		dailyOvertimeRule.setTask(TEST_CODE_INVALID_TASK_ID);
 		//search for the WorkArea which doesn't exist
 		for (;;) {
 			long workAreaIndex = randomObj.nextInt();
@@ -123,7 +123,7 @@ public class DailyOvertimeRuleMaintenanceTest extends TkTestCase{
 				break;
 			}
 		}
-		dailyOvertimeRule.setWorkAreaId(TEST_CODE_INVALID_WORK_AREA_ID);
+		dailyOvertimeRule.setWorkArea(TEST_CODE_INVALID_WORK_AREA_ID);
 		
 		KNSServiceLocator.getBusinessObjectService().save(dailyOvertimeRule);		
 		dailyOvertimeRuleId=dailyOvertimeRule.getTkDailyOvertimeRuleId();		

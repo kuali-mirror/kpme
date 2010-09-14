@@ -121,7 +121,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 				break;
 			}
 		}
-		timeCollectionRuleWIthInvalidDept.setDeptId(TEST_CODE_INVALID_DEPT_ID);
+		timeCollectionRuleWIthInvalidDept.setDept(TEST_CODE_INVALID_DEPT_ID);
 		timeCollectionRuleWIthInvalidDept.setEffDate(TEST_DATE);
 		timeCollectionRuleWIthInvalidDept.setHrsDistributionF(true);
 		timeCollectionRuleWIthInvalidDept.setTimeStamp(new Timestamp(Calendar
@@ -131,12 +131,12 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().save(
 				timeCollectionRuleWIthInvalidDept);
 		timeCollectionRuleIdWithInvalidDept = timeCollectionRuleWIthInvalidDept
-				.getTimeCollectionRuleId();
+				.getTkTimeCollectionRuleId();
 
 		// saving department
 		Department department = new Department();
 		department.setChart(TEST_CODE_DEPARTMENT_VALID);
-		department.setDeptId(TEST_CODE_DEPARTMENT_VALID);
+		department.setDept(TEST_CODE_DEPARTMENT_VALID);
 		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
 		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
 		KNSServiceLocator.getBusinessObjectService().save(department);
@@ -153,7 +153,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 			}
 		}
 		timeCollectionRuleWIthInvalidWorkArea
-				.setDeptId(TEST_CODE_DEPARTMENT_VALID);
+				.setDept(TEST_CODE_DEPARTMENT_VALID);
 		timeCollectionRuleWIthInvalidWorkArea.setEffDate(TEST_DATE);
 		timeCollectionRuleWIthInvalidWorkArea.setHrsDistributionF(true);
 		timeCollectionRuleWIthInvalidWorkArea.setTimeStamp(new Timestamp(
@@ -164,7 +164,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().save(
 				timeCollectionRuleWIthInvalidWorkArea);
 		timeCollectionRuleIdWithInvalidWorkArea = timeCollectionRuleWIthInvalidWorkArea
-				.getTimeCollectionRuleId();
+				.getTkTimeCollectionRuleId();
 
 	}
 

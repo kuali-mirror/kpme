@@ -72,8 +72,8 @@ public class ClockAction extends TimesheetAction {
     	    cl.setClockTimestampTimezone(TKUtils.getTimeZone());
     	    cl.setIpAddress(request.getRemoteAddr());
     	    cl.setJobNumber(0L);
-    	    cl.setWorkAreaId(0L);
-    	    cl.setTaskId(0L);
+    	    cl.setWorkArea(0L);
+    	    cl.setTask(0L);
     	    cl.setUserPrincipalId(principalId);
 
     	    TkServiceLocator.getClockLogService().saveClockAction(cl);
@@ -93,8 +93,8 @@ public class ClockAction extends TimesheetAction {
 
     	    	TimeBlock tb = new TimeBlock();
     	    	tb.setJobNumber(0L);
-    	    	tb.setWorkAreaId(0L);
-    	    	tb.setTaskId(0L);
+    	    	tb.setWorkArea(0L);
+    	    	tb.setTask(0L);
     	    	tb.setEarnCode("RGN");
     	    	tb.setBeginTimestamp(beginTimestamp);
     	    	tb.setEndTimestamp(endTimestamp);

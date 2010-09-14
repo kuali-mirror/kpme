@@ -1,5 +1,6 @@
 package org.kuali.hr.time.paytype.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.hr.time.paycalendar.PayCalendar;
@@ -27,14 +28,14 @@ public class PayTypeServiceImpl implements PayTypeService {
 	}
 
 	@Override
-	public PayType getPayType(Long payTypeId) {
-		PayType payType = null;
-		payType = payTypeDao.getPayType(payTypeId);
-		if (payType != null) {
-			PayCalendar payCalendar = payCalendarService.getPayCalendarByGroup(payType.getCalendarGroup());
-			payType.setPayCalendar(payCalendar);
+	public PayType getPayType(String payType, Date effectiveDate) {
+		PayType payTypeObj = null;
+		payTypeObj = payTypeDao.getPayType(payType, effectiveDate);
+		if (payTypeObj != null) {
+			PayCalendar payCalendar = payCalendarService.getPayCalendarByGroup(payTypeObj.getCalendarGroup());
+			payTypeObj.setPayCalendar(payCalendar);
 		}
-		return payType;
+		return payTypeObj;
 	}
 
 	public void setPayCalendarService(PayCalendarService payCalendarService) {

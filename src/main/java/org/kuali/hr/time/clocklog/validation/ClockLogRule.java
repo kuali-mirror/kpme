@@ -44,34 +44,34 @@ public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
-	
+	//TODO fix this class
 	protected boolean validateWorkArea(ClockLog clockLog ) {
 		boolean valid = false;
-		LOG.debug("Validating workarea: " + clockLog.getWorkAreaId());
-		WorkArea workArea = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(WorkArea.class, clockLog.getWorkAreaId());
-		if (workArea != null) {
-			valid = true;
-			LOG.debug("found workarea.");
-		} else {
-			this.putFieldError("workAreaId", "error.existence", "Workarea '"
-					+ clockLog.getWorkAreaId()+ "'");
-		}
+//		LOG.debug("Validating workarea: " + clockLog.getWorkAreaId());
+//		WorkArea workArea = KNSServiceLocator.getBusinessObjectService()
+//				.findBySinglePrimaryKey(WorkArea.class, clockLog.getWorkAreaId());
+//		if (workArea != null) {
+//			valid = true;
+//			LOG.debug("found workarea.");
+//		} else {
+//			this.putFieldError("workAreaId", "error.existence", "Workarea '"
+//					+ clockLog.getWorkAreaId()+ "'");
+//		}
 		return valid;
 	} 
 	
 	protected boolean validateTask(ClockLog clockLog ) {
 		boolean valid = false;
-		LOG.debug("Validating task: " + clockLog.getTaskId());
-		Task task = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Task.class, clockLog.getTaskId());
-		if (task != null) {
-			valid = true;
-			LOG.debug("found task.");
-		} else {
-			this.putFieldError("taskId", "error.existence", "Task '"
-					+ clockLog.getTaskId()+ "'");
-		}
+//		LOG.debug("Validating task: " + clockLog.getTaskId());
+//		Task task = KNSServiceLocator.getBusinessObjectService()
+//				.findBySinglePrimaryKey(Task.class, clockLog.getTaskId());
+//		if (task != null) {
+//			valid = true;
+//			LOG.debug("found task.");
+//		} else {
+//			this.putFieldError("taskId", "error.existence", "Task '"
+//					+ clockLog.getTaskId()+ "'");
+//		}
 		return valid;
 	}
 	

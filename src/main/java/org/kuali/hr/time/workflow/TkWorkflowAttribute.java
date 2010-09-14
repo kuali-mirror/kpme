@@ -42,20 +42,20 @@ public class TkWorkflowAttribute implements RoleAttribute{
 		Long routeHeaderId = routeContext.getDocument().getRouteHeaderId();
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId);
 		
-		if (timesheetDocument != null) {
-			List<Assignment> assignments = timesheetDocument.getAssignments();
-			for (Assignment assignment : assignments) {
-				List<TkRoleAssign> roles = TkServiceLocator.getWorkAreaService().getWorkAreaRoles(assignment.getWorkAreaId());
-				for (TkRoleAssign role : roles) {
-					if (StringUtils.equalsIgnoreCase(role.getRoleName(), roleName)) {
-						// TODO : Do something...
-						principals.add(new PrincipalId(role.getPrincipalId()));
-					}
-				}
-			}
-		} else {
-			// TODO Graceful Ballerina Dancing
-		}
+//		if (timesheetDocument != null) {
+//			List<Assignment> assignments = timesheetDocument.getAssignments();
+//			for (Assignment assignment : assignments) {
+//				List<TkRoleAssign> roles = TkServiceLocator.getWorkAreaService().getWorkAreaRoles(assignment.getWorkAreaId());
+//				for (TkRoleAssign role : roles) {
+//					if (StringUtils.equalsIgnoreCase(role.getRoleName(), roleName)) {
+//						// TODO : Do something...
+//						principals.add(new PrincipalId(role.getPrincipalId()));
+//					}
+//				}
+//			}
+//		} else {
+//			// TODO Graceful Ballerina Dancing
+//		}
 		
 		//principals.add(new PrincipalId("admin"));
 		rqr.setRecipients(principals);

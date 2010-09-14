@@ -129,7 +129,7 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 			}
 		}
 		deptLunchRuleWIthInvalidDept.setActive(true);
-		deptLunchRuleWIthInvalidDept.setDeptId(TEST_CODE_DEPT_INVALID);
+		deptLunchRuleWIthInvalidDept.setDept(TEST_CODE_DEPT_INVALID);
 		deptLunchRuleWIthInvalidDept.setEffectiveDate(TEST_DATE);
 		deptLunchRuleWIthInvalidDept.setJobNumber(TEST_ID);
 		deptLunchRuleWIthInvalidDept.setMaxMins(TEST_NO);
@@ -140,11 +140,11 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().save(
 				deptLunchRuleWIthInvalidDept);
 		deptLunchRuleIdWithInvalidDept = deptLunchRuleWIthInvalidDept
-				.getDeptLunchRuleId();
+				.getTkDeptLunchRuleId();
 
 		Department department = new Department();
 		department.setChart(TEST_CODE_DEPARTMENT_VALID);
-		department.setDeptId(TEST_CODE_DEPARTMENT_VALID);
+		department.setDept(TEST_CODE_DEPARTMENT_VALID);
 		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
 		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
 		KNSServiceLocator.getBusinessObjectService().save(department);
@@ -161,7 +161,7 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 			}
 		}
 		deptLunchRuleWIthInvalidWorkArea.setActive(true);
-		deptLunchRuleWIthInvalidWorkArea.setDeptId(TEST_CODE_DEPARTMENT_VALID);
+		deptLunchRuleWIthInvalidWorkArea.setDept(TEST_CODE_DEPARTMENT_VALID);
 		deptLunchRuleWIthInvalidWorkArea.setEffectiveDate(TEST_DATE);
 		deptLunchRuleWIthInvalidWorkArea.setJobNumber(TEST_ID);
 		deptLunchRuleWIthInvalidWorkArea.setMaxMins(TEST_NO);
@@ -172,7 +172,7 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().save(
 				deptLunchRuleWIthInvalidWorkArea);
 		deptLunchRuleIdWithInvalidWorkArea = deptLunchRuleWIthInvalidWorkArea
-				.getDeptLunchRuleId();
+				.getTkDeptLunchRuleId();
 
 	}
 

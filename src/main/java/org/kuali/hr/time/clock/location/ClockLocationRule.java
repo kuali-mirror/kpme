@@ -14,10 +14,10 @@ public class ClockLocationRule extends TkRule {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long clockLocationRuleId;
+	private Long tkClockLocationRuleId;
 
 	private Department department;
-	private String deptId;
+	private String dept;
 
 	private Long workArea;
 	private String principalId;
@@ -104,15 +104,6 @@ public class ClockLocationRule extends TkRule {
 	public void setJobNumber(Long jobNumber) {
 		this.jobNumber = jobNumber;
 	}
-
-	public Long getClockLocationRuleId() {
-	    return clockLocationRuleId;
-	}
-
-	public void setClockLocationRuleId(Long clockLocationRuleId) {
-	    this.clockLocationRuleId = clockLocationRuleId;
-	}
-
 	public Department getDepartment() {
 	    return department;
 	}
@@ -129,14 +120,6 @@ public class ClockLocationRule extends TkRule {
 	    this.workAreaObj = workAreaObj;
 	}
 
-	public String getDeptId() {
-	    return deptId;
-	}
-
-	public void setDeptId(String deptId) {
-	    this.deptId = deptId;
-	}
-
 	public Job getJob() {
 	    return job;
 	}
@@ -149,6 +132,22 @@ public class ClockLocationRule extends TkRule {
 	public void applyRule(TkRuleContext tkRuleContext) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public Long getTkClockLocationRuleId() {
+		return tkClockLocationRuleId;
+	}
+
+	public void setTkClockLocationRuleId(Long tkClockLocationRuleId) {
+		this.tkClockLocationRuleId = tkClockLocationRuleId;
+	}
+
+	public String getDept() {
+		return dept;
+	}
+
+	public void setDept(String dept) {
+		this.dept = dept;
 	}
 
 

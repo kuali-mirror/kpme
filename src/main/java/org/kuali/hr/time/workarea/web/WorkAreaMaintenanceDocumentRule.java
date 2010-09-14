@@ -122,7 +122,7 @@ public class WorkAreaMaintenanceDocumentRule extends TransactionalDocumentRuleBa
 		WorkArea wa = (wamd != null) ? wamd.getWorkArea() : null;
 		if (wa != null) {
 			valid = true;
-			valid &= this.validateDepartmentId(wa.getDeptId());
+			valid &= this.validateDepartmentId(wa.getDept());
 			//TODO add back if you need this
 			//valid &= this.validateOvertimePreference(wa.getOvertimePreference());
 			valid &= this.validateAdminDescription(wa.getAdminDescr());
@@ -162,11 +162,6 @@ public class WorkAreaMaintenanceDocumentRule extends TransactionalDocumentRuleBa
 		
 		if (v) {
 			v = genericDescriptionValidation(task.getAdministrativeDescription(), Task.class, errorPrefix+".", TASK_FIELD_NAME_ADMIN_DESCR);
-		}
-
-		if (v && task.getEffectiveDate() == null) {
-			v = false;
-			addError(errorPrefix + ".effectiveDate", "error.required", "effective date");
 		}
 
 		return v;

@@ -87,7 +87,7 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 				break;
 			}
 		}
-		departmentEarnCode.setDeptId(TEST_CODE_INVALID_DEPT_ID);
+		departmentEarnCode.setDept(TEST_CODE_INVALID_DEPT_ID);
 		//search for the earnCode which doesn't exist
 		for (;;) {
 			long earnCodeIndex = randomObj.nextInt();
@@ -98,7 +98,7 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 				break;
 			}
 		}		
-		departmentEarnCode.setEarnCodeId(TEST_CODE_INVALID_EARN_CODE_ID);
+		//departmentEarnCode.setEarnCode(TEST_CODE_INVALID_EARN_CODE_ID);
 		//search for the salGroup which doesn't exist
 		for (;;) {
 			long salGroupIndex = randomObj.nextInt();
@@ -109,11 +109,11 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 				break;
 			}
 		}
-		departmentEarnCode.setTkSalGroupId(TEST_CODE_INVALID_SAL_GROUP_ID);
+		//departmentEarnCode.setTkSalGroup(TEST_CODE_INVALID_SAL_GROUP_ID);
 		departmentEarnCode.setEmployee(false);
 		departmentEarnCode.setOrg_admin(false);
 		KNSServiceLocator.getBusinessObjectService().save(departmentEarnCode);
-		departmentEarnCodeId=departmentEarnCode.getDeptEarnCodeId();
+		departmentEarnCodeId=departmentEarnCode.getTkDeptEarnCodeId();
 	}
 
 	@Override

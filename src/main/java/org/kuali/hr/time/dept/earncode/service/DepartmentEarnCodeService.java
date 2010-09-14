@@ -7,7 +7,8 @@ import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 
 public interface DepartmentEarnCodeService {
 
-	public List<DepartmentEarnCode> getDepartmentEarnCodeList(Long salGroup);
+	public List<DepartmentEarnCode> getDepartmentEarnCodeList(String dept, String salGroup, boolean employee, 
+													boolean approver, boolean orgAdmin, Date payEndDate);
 
 	/**
 	 * Provides a list of DepartmentEarnCodes for the given salGroupId and payPeriodEndDate.

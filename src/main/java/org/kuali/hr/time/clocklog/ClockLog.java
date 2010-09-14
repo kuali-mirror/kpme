@@ -16,21 +16,24 @@ public class ClockLog extends PersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = -2499666820628979901L;
 
-    private Long clockLogId = null;
+    private Long tkClockLogId;
     private String principalId;
     private Long jobNumber;
-    private Long workAreaId;
-    private Long taskId;
+    private Long workArea;
+    private Long task;
+    private Long tkWorkAreaId;
+    private Long tkTaskId;
     private Timestamp clockTimestamp;
     private String clockTimestampTimezone;
     private String clockAction;
     private String ipAddress;
     private String userPrincipalId;
+    private Long hrJobId;
     private Timestamp timestamp;
 
     private Job job;
-    private WorkArea workArea;
-    private Task task;
+    private WorkArea workAreaObj;
+    private Task taskObj;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -38,29 +41,12 @@ public class ClockLog extends PersistableBusinessObjectBase {
 	// TODO Auto-generated method stub
 	return null;
     }
-
-    public WorkArea getWorkArea() {
-		return workArea;
-	}
-
 	public Job getJob() {
 		return job;
 	}
 
 	public void setJob(Job job) {
 		this.job = job;
-	}
-
-	public void setWorkArea(WorkArea workArea) {
-		this.workArea = workArea;
-	}
-
-	public Task getTask() {
-		return task;
-	}
-
-	public void setTask(Task task) {
-		this.task = task;
 	}
 
 	public String getPrincipalId() {
@@ -77,22 +63,6 @@ public class ClockLog extends PersistableBusinessObjectBase {
 
     public void setJobNumber(Long jobNumber) {
         this.jobNumber = jobNumber;
-    }
-
-    public Long getWorkAreaId() {
-        return workAreaId;
-    }
-
-    public void setWorkAreaId(Long workAreaId) {
-        this.workAreaId = workAreaId;
-    }
-
-    public Long getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
     }
 
     public Timestamp getClockTimestamp() {
@@ -143,14 +113,6 @@ public class ClockLog extends PersistableBusinessObjectBase {
         this.clockTimestampTimezone = clockTimestampTimezone;
     }
 
-    public Long getClockLogId() {
-        return clockLogId;
-    }
-
-    public void setClockLogId(Long clockLogId) {
-        this.clockLogId = clockLogId;
-    }
-
     /**
      * TODO: Fix this - may need to return multiple actions, depending on how we want the system to work.
      * @return
@@ -176,5 +138,67 @@ public class ClockLog extends PersistableBusinessObjectBase {
 
 	return ret;
     }
+
+	public Long getTkClockLogId() {
+		return tkClockLogId;
+	}
+
+	public void setTkClockLogId(Long tkClockLogId) {
+		this.tkClockLogId = tkClockLogId;
+	}
+
+	public Long getTkWorkAreaId() {
+		return tkWorkAreaId;
+	}
+
+	public void setTkWorkAreaId(Long tkWorkAreaId) {
+		this.tkWorkAreaId = tkWorkAreaId;
+	}
+
+	public Long getTkTaskId() {
+		return tkTaskId;
+	}
+
+	public void setTkTaskId(Long tkTaskId) {
+		this.tkTaskId = tkTaskId;
+	}
+
+	public Long getHrJobId() {
+		return hrJobId;
+	}
+
+	public void setHrJobId(Long hrJobId) {
+		this.hrJobId = hrJobId;
+	}
+
+	public WorkArea getWorkAreaObj() {
+		return workAreaObj;
+	}
+
+	public void setWorkAreaObj(WorkArea workAreaObj) {
+		this.workAreaObj = workAreaObj;
+	}
+
+	public Task getTaskObj() {
+		return taskObj;
+	}
+
+	public void setTaskObj(Task taskObj) {
+		this.taskObj = taskObj;
+	}
+
+	public void setWorkArea(Long workArea) {
+		this.workArea = workArea;
+	}
+
+	public void setTask(Long task) {
+		this.task = task;
+	}
+	public Long getWorkArea() {
+		return workArea;
+	}
+	public Long getTask() {
+		return task;
+	}
 
 }
