@@ -48,9 +48,14 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 	}
 
 	@Override
-	public List<TkRoleAssign> getWorkAreaRoles(Long workAreaId) {
+	public List<TkRoleAssign> getWorkAreaRoles(Long workArea) {
 		List<TkRoleAssign> traList = new ArrayList<TkRoleAssign>();
 		AttributeSet qualifiers = new AttributeSet();
+		
+		// TODO : Probalby need to either load the latest WorkArea, or link these based on the workArea name vs ID.
+		Long workAreaId = null;
+		// ^^ hackity hack fix this
+		
 		qualifiers.put(TkConstants.ROLE_WORK_AREA_QUALIFIER_ID, ""+workAreaId);
 		List<RoleMembershipInfo> members = KIMServiceLocator.getRoleService().getRoleMembers(roleIds, qualifiers);
 		for (RoleMembershipInfo rmi : members) {

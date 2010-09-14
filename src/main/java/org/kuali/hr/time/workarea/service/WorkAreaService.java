@@ -10,7 +10,16 @@ public interface WorkAreaService {
     public WorkArea getWorkArea(Long workAreaId);
 
     public void saveOrUpdate(WorkArea workArea);
-    
-    public List<TkRoleAssign> getWorkAreaRoles(Long workAreaId);
+
+    /**
+     * Returns the List<TkRoleAssign> for the currently active "Work Area" 
+     * based on the provided work area name.  If you want to retrieve a 
+     * specific List<TkRoleAssign> from a given workAreaId(Row ID), this is not
+     * the correct call!
+     * 
+     * @param workAreaId
+     * @return
+     */
+    public List<TkRoleAssign> getWorkAreaRoles(Long workArea);
     public void saveWorkAreaRoles(Long workAreaId, List<TkRoleAssign> roleList);
 }

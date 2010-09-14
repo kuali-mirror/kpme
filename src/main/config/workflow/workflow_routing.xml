@@ -70,7 +70,7 @@
         <forceAction>true</forceAction>
 			<responsibilities>
 				<responsibility>
-                <role>org.kuali.hr.time.workflow.TkWorkflowAttribute!TK_APPROVERS</role>
+                <role>org.kuali.hr.time.workflow.TkWorkflowAttribute!TK_APPROVER</role>
                 <approvePolicy>F</approvePolicy>
                 <actionRequested>A</actionRequested>
                 <priority>1</priority>

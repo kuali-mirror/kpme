@@ -36,28 +36,33 @@ public class TkWorkflowAttribute implements RoleAttribute{
 	}
 
 	@Override
+	/**
+	 * Role name is passed in in the routing rule.
+	 */
 	public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) {
 		ResolvedQualifiedRole rqr = new ResolvedQualifiedRole();
 		List<Id> principals = new ArrayList<Id>();
 		Long routeHeaderId = routeContext.getDocument().getRouteHeaderId();
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId);
 		
-//		if (timesheetDocument != null) {
-//			List<Assignment> assignments = timesheetDocument.getAssignments();
-//			for (Assignment assignment : assignments) {
-//				List<TkRoleAssign> roles = TkServiceLocator.getWorkAreaService().getWorkAreaRoles(assignment.getWorkAreaId());
-//				for (TkRoleAssign role : roles) {
-//					if (StringUtils.equalsIgnoreCase(role.getRoleName(), roleName)) {
-//						// TODO : Do something...
-//						principals.add(new PrincipalId(role.getPrincipalId()));
-//					}
-//				}
-//			}
-//		} else {
-//			// TODO Graceful Ballerina Dancing
-//		}
+		if (timesheetDocument != null) {
+			List<Assignment> assignments = timesheetDocument.getAssignments();
+			for (Assignment assignment : assignments) {
+				List<TkRoleAssign> roles = TkServiceLocator.getWorkAreaService().getWorkAreaRoles(assignment.getWorkArea());
+				for (TkRoleAssign role : roles) {
+					if (StringUtils.equalsIgnoreCase(role.getRoleName(), roleName)) {
+						PrincipalId pid = new PrincipalId(role.getPrincipalId());
+						if (!principals.contains(pid)) {
+							principals.add(pid);
+						}
+					}
+				}
+			}
+		} else {
+			// TODO Graceful Ballerina Dancing
+			throw new RuntimeException("Handle this gracefully - placeholder exception due to missing timesheet document");
+		}
 		
-		//principals.add(new PrincipalId("admin"));
 		rqr.setRecipients(principals);
 		return rqr;
 	}
