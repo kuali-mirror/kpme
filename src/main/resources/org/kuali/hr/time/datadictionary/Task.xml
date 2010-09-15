@@ -13,25 +13,23 @@
     <property name="lookupDefinition" >
       <ref bean="Task-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="taskId" />
+    <property name="titleAttribute" value="tkTaskId" />
     <property name="attributes" >
       <list>
-      	<ref bean="Task-taskId" />
-      	<ref bean="Task-workAreaId" />
-        <ref bean="Task-effectiveDate" />
+      	<ref bean="Task-tkTaskId" />
+      	<ref bean="Task-tkWorkAreaId" />
+      	<ref bean="Task-workArea"/>
         <ref bean="Task-description" />
         <ref bean="Task-administrativeDescription" />
         <ref bean="Task-userPrincipalId"/>
-        <ref bean="Task-timestamp" />
-        <ref bean="Task-active" />
        </list>
     </property>
     <property name="objectLabel" value="taskObj"/>
   </bean>
 
 <!-- Attribute Definitions -->
-  <bean id="Task-taskId" parent="Task-taskId-parentBean"/>
-  <bean id="Task-taskId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Task-tkTaskId" parent="Task-tkTaskId-parentBean"/>
+  <bean id="Task-tkTaskId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Task Id"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
@@ -40,13 +38,13 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
     </property>
-    <property name="name" value="taskId"/>
+    <property name="name" value="tkTaskId"/>
     <property name="label" value="Task Id"/>
   </bean>
 
 
-  <bean id="Task-workAreaId" parent="Task-workAreaId-parentBean"/>
-  <bean id="Task-workAreaId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Task-tkWorkAreaId" parent="Task-tkWorkAreaId-parentBean"/>
+  <bean id="Task-tkWorkAreaId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Work Area Id"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
@@ -55,38 +53,27 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
     </property>
-    <property name="name" value="workAreaId"/>
+    <property name="name" value="tkWorkAreaId"/>
     <property name="label" value="Work Area Id"/>
   </bean>
-  
-  <bean id="Task-effectiveDate" parent="Task-effectiveDate-parentBean"/>
-
-  <bean id="Task-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Effective Date"/>
-    <property name="maxLength" value="10"/>
+ 
+ 
+ <bean id="Task-workArea" parent="Task-workArea-parentBean"/>
+  <bean id="Task-workArea-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Work Area"/>
+    <property name="maxLength" value="7"/>
     <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
+ 		<bean parent="NumericValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
-    <property name="name" value="effectiveDate"/>
-    <property name="label" value="Effective Date"/>
+    <property name="name" value="workArea"/>
+    <property name="label" value="Work Area"/>
   </bean>
+ 
+ 
   
-  <bean id="Task-active" parent="Task-active-parentBean"/>
-
-  <bean id="Task-active-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Active"/>
-    <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
-    <property name="name" value="active"/>
-    <property name="label" value="Active"/>
-  </bean>
   
  <bean id="Task-description" parent="Task-description-parentBean" />
 
@@ -115,21 +102,7 @@
     <property name="label" value="Admin Description" />
     <property name="description" value="administrativeDescription" />
   </bean>
-  
-
- <bean id="Task-timestamp" parent="Task-timestamp-parentBean"/>
-  <bean id="Task-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Timestamp"/>
-    <property name="maxLength" value="15"/>
-
-    <property name="control">
-      <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
-    </property>
-     
-    <property name="name" value="timestamp"/>
-    <property name="label" value="Time Stamp"/>
-  </bean>  
-  
+   
     
   <bean id="Task-userPrincipalId" parent="Task-userPrincipalId-parentBean"/>
   <bean id="Task-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -158,8 +131,9 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="taskId" />
-              <bean parent="FieldDefinition" p:attributeName="workAreaId" />
+              <bean parent="FieldDefinition" p:attributeName="tkTaskId" />
+              <bean parent="FieldDefinition" p:attributeName="workArea"/>
+              <bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
               <bean parent="FieldDefinition" p:attributeName="description" />
             </list>
           </property>
@@ -182,15 +156,17 @@
     </property>
     <property name="lookupFields" >
       <list>
-      	<bean parent="FieldDefinition" p:attributeName="taskId" />
-      	<bean parent="FieldDefinition" p:attributeName="workAreaId" />
+      	<bean parent="FieldDefinition" p:attributeName="tkTaskId" />
+      	<bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
+      	<bean parent="FieldDefinition" p:attributeName="workArea"/>
         <bean parent="FieldDefinition" p:attributeName="description" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
-      	<bean parent="FieldDefinition" p:attributeName="taskId" />
-      	<bean parent="FieldDefinition" p:attributeName="workAreaId" />
+      	<bean parent="FieldDefinition" p:attributeName="tkTaskId" />
+      	<bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
+      	<bean parent="FieldDefinition" p:attributeName="workArea"/>
         <bean parent="FieldDefinition" p:attributeName="description" />
       </list>
     </property>

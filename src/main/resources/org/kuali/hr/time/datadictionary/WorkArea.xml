@@ -14,15 +14,15 @@
     <property name="lookupDefinition" >
       <ref bean="WorkArea-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="workAreaId" />
+    <property name="titleAttribute" value="tkWorkAreaId" />
     <property name="attributes" >
       <list>
-      	<ref bean="WorkArea-workAreaId" />
+      	<ref bean="WorkArea-tkWorkAreaId" />
         <ref bean="WorkArea-effectiveDate" />
         <ref bean="WorkArea-active" />
         <ref bean="WorkArea-description" />
-        <ref bean="WorkArea-deptId" />
-        <ref bean="WorkArea-overtimePreference" />
+        <ref bean="WorkArea-dept" />
+        <ref bean="WorkArea-defaultOvertimePreference" />
         <ref bean="WorkArea-adminDescr" />
         <ref bean="WorkArea-userPrincipalId" />
         <ref bean="WorkArea-timestamp" />
@@ -33,9 +33,9 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="WorkArea-workAreaId" parent="WorkArea-workAreaId-parentBean"/>
+  <bean id="WorkArea-tkWorkAreaId" parent="WorkArea-tkWorkAreaId-parentBean"/>
 
-  <bean id="WorkArea-workAreaId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="WorkArea-tkWorkAreaId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="WorkArea Id"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
@@ -44,7 +44,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
     </property>
-    <property name="name" value="workAreaId"/>
+    <property name="name" value="tkWorkAreaId"/>
     <property name="label" value="WorkArea Id"/>
   </bean>
   
@@ -92,9 +92,9 @@
     <property name="description" value="Description" />
   </bean>  
   
-  <bean id="WorkArea-deptId" parent="WorkArea-deptId-parentBean" />
+  <bean id="WorkArea-dept" parent="WorkArea-dept-parentBean" />
 
-  <bean id="WorkArea-deptId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="WorkArea-dept-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="forceUppercase" value="true" />
 
     <property name="maxLength" value="21" />
@@ -102,22 +102,22 @@
       <bean parent="TextControlDefinition" p:size="21" />
     </property>
 
-    <property name="name" value="deptId" />
+    <property name="name" value="dept" />
     <property name="label" value="Department Id" />
-    <property name="description" value="deptId" />
+    <property name="description" value="dept" />
   </bean>
   
-  <bean id="WorkArea-overtimePreference" parent="WorkArea-overtimePreference-parentBean" />
+  <bean id="WorkArea-defaultOvertimePreference" parent="WorkArea-defaultOvertimePreference-parentBean" />
 
-  <bean id="WorkArea-overtimePreference-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="WorkArea-defaultOvertimePreference-parentBean" abstract="true" parent="AttributeDefinition">
       <property name="forceUppercase" value="true" />
 	  <property name="maxLength" value="10" />
 		<property name="control">
 		  <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.workarea.web.WorkAreaOvertimePreferenceValuesFinder"/>
 		</property>			  
-    <property name="name" value="overtimePreference" />
+    <property name="name" value="defaultOvertimePreference" />
     <property name="label" value="Overtime Preference" />
-    <property name="description" value="overtimePreference" />
+    <property name="description" value="defaultOvertimePreference" />
   </bean>
 
 <bean id="WorkArea-adminDescr" parent="WorkArea-adminDescr-parentBean" />
@@ -178,9 +178,9 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="workAreaId" />
+              <bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
               <bean parent="FieldDefinition" p:attributeName="description" />
-              <bean parent="FieldDefinition" p:attributeName="deptId" />
+              <bean parent="FieldDefinition" p:attributeName="dept" />
             </list>
           </property>
           <property name="title" value="WorkArea" />
@@ -203,15 +203,15 @@
     </property>
     <property name="lookupFields" >
       <list>
-      	<bean parent="FieldDefinition" p:attributeName="workAreaId" />
+      	<bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
         <bean parent="FieldDefinition" p:attributeName="description" />
-        <bean parent="FieldDefinition" p:attributeName="deptId" />
+        <bean parent="FieldDefinition" p:attributeName="dept" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
-      	<bean parent="FieldDefinition" p:attributeName="workAreaId" />
-        <bean parent="FieldDefinition" p:attributeName="deptId" p:forceInquiry="true" />
+      	<bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
+        <bean parent="FieldDefinition" p:attributeName="dept" p:forceInquiry="true" />
         <bean parent="FieldDefinition" p:attributeName="description" />
       </list>
     </property>
