@@ -45,7 +45,7 @@
               </property>
             </bean>
 
-            <bean parent="RelationshipDefinition">
+           <bean parent="RelationshipDefinition">
               <property name="objectAttributeName" value="job"/>
               <property name="primitiveAttributes">
                 <list>
@@ -53,7 +53,7 @@
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber" p:targetName="jobNumber"/>
                 </list>
               </property>
-            </bean>
+            </bean>      
 
         </list>
     </property>
@@ -78,7 +78,7 @@
 
    <bean id="Assignment-jobNumber" parent="Assignment-jobNumber-parentBean"/>
   <bean id="Assignment-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Job Number"/>
+   <property name="shortLabel" value="Job Number"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
  		<bean parent="NumericValidationPattern"/>
@@ -167,6 +167,7 @@
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
 		<bean parent="FieldDefinition" p:attributeName="workAreaId"/>
       </list>
     </property>

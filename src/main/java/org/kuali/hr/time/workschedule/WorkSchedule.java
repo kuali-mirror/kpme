@@ -20,12 +20,14 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 	
 	private String workScheduleDesc;
 	private Date effectiveDate;
-	private String deptId;
-	private Department department;
+	private String deptId;	
 	private Long workArea;	
 	private Long principalId;
 	private boolean active;
-	private WorkArea workAreaObj;		
+	
+	private WorkArea workAreaObj;
+	private Department department;
+	
 	
 	private List<WorkScheduleEntry> workScheduleEntries = new  LinkedList<WorkScheduleEntry>();
 	 
