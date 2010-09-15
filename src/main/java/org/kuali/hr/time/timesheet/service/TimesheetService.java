@@ -2,21 +2,19 @@ package org.kuali.hr.time.timesheet.service;
 
 import java.util.Date;
 
+import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface TimesheetService {
 
 	/**
-	 * This method essentially:
-	 * 
-	 * gets pay calendar (provides pay end date)
-	 * gets assignments for principal id
-	 * 
+	 * Opens the timesheet document for the user at the given payEndDate provided.
+	 * If the timesheet does not exist, it is created.
 	 * @param principalId
 	 * @return
 	 */
-	public TimesheetDocument openTimesheetDocument(String principalId, Date payEndDate) throws WorkflowException;
+	public TimesheetDocument openTimesheetDocument(String principalId, PayCalendarDates payCalendarDates) throws WorkflowException;
 	
 	public void routeTimesheet(String principalId, TimesheetDocument timesheetDocument);
 	

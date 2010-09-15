@@ -9,13 +9,11 @@ import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.paytype.service.PayTypeService;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public class JobServiceImpl implements JobService {
 
 	private JobDao jobDao;
-	private AssignmentService assignmentService;
-	private DepartmentEarnCodeService deptEarnCodeService;
-	private PayTypeService payTypeService;
 
 	@Override
 	public void saveOrUpdate(Job job) {
@@ -32,31 +30,15 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public List<Job> getJobs(String principalId, Date payPeriodEndDate) {
-		List<Job> jobs = jobDao.getJobs(principalId, payPeriodEndDate);
+	public List<Job> getJobs(String principalId, Date currentDate) {
+		List<Job> jobs = jobDao.getJobs(principalId, currentDate);
 
-		// Add the child objects
 		for (Job job : jobs) {
-			// Add Assignments
-			job.setAssignments(assignmentService.getAssignmentsByJobNumber(job.getJobNumber(), principalId, payPeriodEndDate));
-			// Pay Type
-			PayType payType = payTypeService.getPayType(job.getHrPayType(), payPeriodEndDate);
+			PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), currentDate);
 			job.setPayType(payType);
 		}
 
 		return jobs;
-	}
-
-	public void setAssignmentService(AssignmentService assignmentService) {
-		this.assignmentService = assignmentService;
-	}
-
-	public void setDeptEarnCodeService(DepartmentEarnCodeService earnCodeService) {
-		this.deptEarnCodeService = earnCodeService;
-	}
-
-	public void setPayTypeService(PayTypeService payTypeService) {
-		this.payTypeService = payTypeService;
 	}
 
 }

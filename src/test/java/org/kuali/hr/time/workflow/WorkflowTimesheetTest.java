@@ -1,11 +1,12 @@
 package org.kuali.hr.time.workflow;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.hr.job.Job;
+import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -13,7 +14,6 @@ import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.web.TkLoginFilter;
-import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
@@ -27,8 +27,14 @@ public class WorkflowTimesheetTest extends TkTestCase {
 		assertNotNull("timesheet service null", tsvc);
 		TKUser user = getPopulatedTkUser();
 		assertNotNull("user was null", user);
-		Date payEndDate = TKUtils.getPayEndDate(user, (new DateTime()).toDate());
-		TimesheetDocument tdoc = tsvc.openTimesheetDocument(user.getPrincipalId(), payEndDate);
+
+		Date currentDate = TKUtils.getTimelessDate(null);
+		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(user.getPrincipalId(), currentDate);
+		assertNotNull("No jobs", jobs);
+		assertTrue("No jobs", jobs.size() > 0);
+		PayCalendarDates pcd = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(user.getPrincipalId(), jobs.get(0), currentDate);
+		assertNotNull("No PayCalendarDates", pcd);
+		TimesheetDocument tdoc = tsvc.openTimesheetDocument(user.getPrincipalId(), pcd);
 		
 		tsvc.routeTimesheet(user.getPrincipalId(), tdoc);
 		
@@ -43,7 +49,6 @@ public class WorkflowTimesheetTest extends TkTestCase {
 
 		Person person = KIMServiceLocator.getPersonService().getPerson(TkLoginFilter.TEST_ID);
 		user.setActualPerson(person);
-		user.setJobs(TkServiceLocator.getJobSerivce().getJobs(user.getPrincipalId(), TKUtils.getTimelessDate(null)));
 		
 		return user;
 	}

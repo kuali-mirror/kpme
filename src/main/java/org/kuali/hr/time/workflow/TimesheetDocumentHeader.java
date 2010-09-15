@@ -9,6 +9,7 @@ public class TimesheetDocumentHeader extends DocumentHeader {
 	private static final long serialVersionUID = 1L;
 	private Long documentId;
 	private String principalId;
+	private Date payBeginDate;
 	private Date payEndDate;
 	private String documentStatus;
 	
@@ -53,6 +54,14 @@ public class TimesheetDocumentHeader extends DocumentHeader {
 
 	public void setDocumentStatus(String documentStatus) {
 		this.documentStatus = documentStatus;
+	}
+
+	public Date getPayBeginDate() {
+		return payBeginDate;
+	}
+
+	public void setPayBeginDate(Date payBeginDate) {
+		this.payBeginDate = payBeginDate;
 	}
 
 }

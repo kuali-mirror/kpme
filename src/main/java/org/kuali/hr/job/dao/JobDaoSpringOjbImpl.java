@@ -41,6 +41,7 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
 		effdt.addLessOrEqualThan("effectiveDate", payPeriodEndDate);
 		effdt.addEqualTo("active", true);
+		effdt.addEqualTo("principalId", principalId);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
 		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 		
@@ -48,6 +49,7 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 		timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 		timestamp.addEqualTo("active", true);
+		timestamp.addEqualTo("principalId", principalId);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestamp);
 		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 		

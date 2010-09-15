@@ -1,10 +1,18 @@
 package org.kuali.hr.time.paycalendar.service;
 
+import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.paycalendar.PayCalendar;
+import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.paycalendar.dao.PayCalendarDao;
 import org.kuali.hr.time.paytype.PayType;
+import org.kuali.hr.time.util.TKUser;
 
 public class PayCalendarServiceImpl implements PayCalendarService {
 
@@ -32,6 +40,45 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 	@Override
 	public PayCalendar getPayCalendarByGroup(String calendarGroup) {
 		return payCalendarDao.getPayCalendarByGroup(calendarGroup);
+	}
+
+	@Override
+	public PayCalendarDates getCurrentPayCalendarDates(String principalId, Job job, Date currentDate) {
+		PayCalendarDates pcd = null;
+		DateTime currentTime = new DateTime(currentDate); 
+		
+		if (principalId == null || job == null) {
+			throw new RuntimeException("Null parameters passed to getPayEndDate");
+		} else {
+			PayType payType = job.getPayType();
+			if (payType == null) 
+				throw new RuntimeException("Null pay type on Job in getPayEndDate");
+			PayCalendar payCalendar = payType.getPayCalendar();
+			if (payCalendar == null)
+				throw new RuntimeException("Null pay calendar on payType in getPayEndDate");
+			List<PayCalendarDates> dates = payCalendar.getPayCalendarDates();
+			for (PayCalendarDates pcdate : dates) {
+				LocalTime beginTime = new LocalTime(pcdate.getBeginPeriodTime()); 
+				LocalDate beginDate = new LocalDate(pcdate.getBeginPeriodDate());					
+				DateTime begin = beginDate.toDateTime(beginTime); 
+				
+				LocalTime endTime = new LocalTime(pcdate.getEndPeriodTime());
+				LocalDate endDate = new LocalDate(pcdate.getEndPeriodDate());
+				DateTime end = endDate.toDateTime(endTime);
+				
+				Interval range = new Interval(begin, end);
+				// For a given principal_id + job_number combination, it is given that there 
+				// will be no overlapping PayCalendarDates, this way we know that if our 
+				// date fits within the range any given pay calendar date, we have the 
+				// correct PayCalendarDate.
+				if (range.contains(currentTime)) {
+					pcd = pcdate;
+					break;
+				}				
+			}
+		}
+		
+		return pcd;
 	}
 
 }

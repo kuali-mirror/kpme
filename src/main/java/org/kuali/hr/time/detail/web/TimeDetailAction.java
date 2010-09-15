@@ -27,23 +27,21 @@ public class TimeDetailAction extends TimesheetAction {
 
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward fw =  super.execute(mapping, form, request, response);
+		
+//		TimeDetailActionForm timeDetailForm = (TimeDetailActionForm) form;
+//		String principalId = TKContext.getUser().getPrincipalId();
+//
+//
+//		timeDetailForm.setBeginPeriodDate(beginPeriodDate);
+//		timeDetailForm.setEndPeriodDate(endPeriodDate);
+//
+//		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksByPeriod(principalId, timeDetailForm.getBeginPeriodDate(), timeDetailForm.getEndPeriodDate());
+//
+//		// for visually impaired users
+//		timeDetailForm.setTimeBlocks(timeBlocks);
 
-		TimeDetailActionForm timeDetailForm = (TimeDetailActionForm) form;
-		String principalId = TKContext.getUser().getPrincipalId();
-
-		List<Job> job = TKContext.getUser().getJobs();
-		java.sql.Date beginPeriodDate = job.get(0).getPayType().getPayCalendar().getPayCalendarDates().get(0).getBeginPeriodDate();
-		java.sql.Date endPeriodDate = job.get(0).getPayType().getPayCalendar().getPayCalendarDates().get(0).getEndPeriodDate();
-
-		timeDetailForm.setBeginPeriodDate(beginPeriodDate);
-		timeDetailForm.setEndPeriodDate(endPeriodDate);
-
-		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksByPeriod(principalId, timeDetailForm.getBeginPeriodDate(), timeDetailForm.getEndPeriodDate());
-
-		// for visually impaired users
-		timeDetailForm.setTimeBlocks(timeBlocks);
-
-		return super.execute(mapping, form, request, response);
+		return fw;
 	}
 
 	public ActionForward webService(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

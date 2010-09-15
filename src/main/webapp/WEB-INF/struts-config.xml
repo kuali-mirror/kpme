@@ -12,7 +12,15 @@
         <form-bean name="CacheAdministrationActionForm" type="org.kuali.hr.time.cache.web.CacheAdministrationActionForm" />
     </form-beans>
 
-    <global-forwards type="org.apache.struts.action.ActionForward">
+	<global-exceptions>
+    	<exception  
+    		type="java.lang.Exception" 
+    		handler="org.kuali.hr.time.web.StrutsExceptionHandler"
+    		path="/WEB-INF/jsp/exception.jsp" 
+    		key="whyisthisrequired"/>
+	</global-exceptions>
+
+	<global-forwards type="org.apache.struts.action.ActionForward">
     </global-forwards>
 
 	<action-mappings>
