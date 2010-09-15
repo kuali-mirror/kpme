@@ -17,9 +17,12 @@ public class ClockLocationMaintainableImpl extends KualiMaintainableImpl {
 		ClockLocationRule clockLocationRule = (ClockLocationRule)this.getBusinessObject();
 		ClockLocationRule oldClockLocationRule = (ClockLocationRule)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(
 													ClockLocationRule.class, clockLocationRule.getTkClockLocationRuleId());
-		oldClockLocationRule.setActive(false);
-		KNSServiceLocator.getBusinessObjectService().save(oldClockLocationRule);
+		if(oldClockLocationRule!=null){
+			oldClockLocationRule.setActive(false);
+			KNSServiceLocator.getBusinessObjectService().save(oldClockLocationRule);
+		}
 		clockLocationRule.setTkClockLocationRuleId(null);
+		clockLocationRule.setTimestamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(clockLocationRule);
 	}
     

@@ -80,26 +80,27 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 	@Override
 	public List<Assignment> findAssignmentsByJobNumber(Long jobNumber, String principalId, Date payPeriodEndDate) {
 		List<Assignment> list = new LinkedList<Assignment>();
-		Criteria crit = new Criteria();
-		Criteria effdtJoinCriteria = new Criteria();
-		effdtJoinCriteria.addEqualToField("assignmentId", Criteria.PARENT_QUERY_PREFIX + "assignmentId");
-		effdtJoinCriteria.addLessOrEqualThan("effectiveDate", payPeriodEndDate);
-
-		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdtJoinCriteria);
-		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-		crit.addEqualTo("principalId", principalId);
-		crit.addEqualTo("jobNumber", jobNumber);
-		crit.addEqualTo("active", true);
-		crit.addEqualTo("effdt", effdtSubQuery);
-
-
-		Query query = QueryFactory.newQuery(Assignment.class, crit);
-		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-
-		if (c != null) {
-			list.addAll(c);
-		}
+		//TODO make this work correctly
+//		Criteria crit = new Criteria();
+//		Criteria effdtJoinCriteria = new Criteria();
+//		effdtJoinCriteria.addEqualToField("assignmentId", Criteria.PARENT_QUERY_PREFIX + "assignmentId");
+//		effdtJoinCriteria.addLessOrEqualThan("effectiveDate", payPeriodEndDate);
+//
+//		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdtJoinCriteria);
+//		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+//
+//		crit.addEqualTo("principalId", principalId);
+//		crit.addEqualTo("jobNumber", jobNumber);
+//		crit.addEqualTo("active", true);
+//		crit.addEqualTo("effdt", effdtSubQuery);
+//
+//
+//		Query query = QueryFactory.newQuery(Assignment.class, crit);
+//		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+//
+//		if (c != null) {
+//			list.addAll(c);
+//		}
 
 		return list;
 	}

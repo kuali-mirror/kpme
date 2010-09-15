@@ -46,15 +46,15 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 		LOG.debug("Validating department: " + clr.getDept());
 		// TODO: We may need a full DAO that handles bo lookups at some point,
 		// but we can use the provided one:
-		Department dept = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Department.class, clr.getDept());
-		if (dept != null) {
-			valid = true;
-			LOG.debug("found department.");
-		} else {
-			this.putFieldError("deptId", "error.existence", "department '"
-					+ clr.getDept() + "'");
-		}
+//		Department dept = KNSServiceLocator.getBusinessObjectService()
+//				.findBySinglePrimaryKey(Department.class, clr.getDept());
+//		if (dept != null) {
+//			valid = true;
+//			LOG.debug("found department.");
+//		} else {
+//			this.putFieldError("deptId", "error.existence", "department '"
+//					+ clr.getDept() + "'");
+//		}
 		return valid;
 	}
 
