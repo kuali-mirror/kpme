@@ -20,6 +20,7 @@ import org.kuali.hr.time.assignment.dao.AssignmentDaoSpringOjbImpl;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
@@ -35,18 +36,22 @@ public class TimesheetAction extends TkAction {
 		TimesheetActionForm taForm = (TimesheetActionForm)form;
 
 		TKUser user = TKContext.getUser();
+		
 		TimesheetService timesheetService = TkServiceLocator.getTimesheetService();
-
 		Date payEndDate = TKUtils.getPayEndDate(user, (new DateTime()).toDate());
 		
+		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(user.getPrincipalId(), payEndDate);
+		
+		taForm.setTimesheetDocument(tdoc);
+		//
 		// TODO : Re-enable these
 		//TimesheetDocument timesheetDocument = timesheetService.openTimesheetDocument(user.getPrincipalId(), payEndDate);
 		//taForm.setTimesheetDocument(timesheetDocument);
 
 		// set assignments
-		taForm.setFormattedAssignments(getFormattedAssignment());
+		//taForm.setAssignmentDescriptions(getFormattedAssignment());
 		// set earn codes
-		taForm.setDeptEarnCode(getFormattedDeptEarnCodes());
+		//taForm.setDeptEarnCode(getFormattedDeptEarnCodes());
 
 		return forward;
 	}
