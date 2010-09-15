@@ -8,7 +8,6 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
 	<bean id="WorkScheduleMaintenanceDocument" parent="WorkScheduleMaintenanceDocument-parentBean" />
-
 	<bean id="WorkScheduleMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.workschedule.WorkSchedule"
 		p:businessRulesClass="org.kuali.hr.time.workschedule.validation.WorkScheduleRule"
@@ -37,7 +36,7 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="deptId" />
+				<bean parent="MaintainableFieldDefinition" p:name="dept" />
 				<bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="principalId" />
 			</list>
