@@ -33,13 +33,12 @@
       	<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="jobNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="deptId" p:required="true"/>
-        <!-- <bean parent="MaintainableFieldDefinition" p:name="payCalendarId" p:required="true"/> -->
-        <bean parent="MaintainableFieldDefinition" p:name="tkSalGroupId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="tkSalGroup" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="timestamp" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="fte" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="payTypeId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="payType" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="payGrade" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="standardHours" p:required="true"/>
       </list>

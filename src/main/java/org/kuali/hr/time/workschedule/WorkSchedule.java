@@ -16,7 +16,7 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long tkWorkScheduleId;
+	private Long hrWorkScheduleId;
 	
 	private String workScheduleDesc;
 	private Date effectiveDate;
@@ -115,7 +115,7 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
 		
-		toStringMap.put("workScheduleId", tkWorkScheduleId);
+		toStringMap.put("workScheduleId", hrWorkScheduleId);
 		toStringMap.put("workScheduleDesc", workScheduleDesc);
 		toStringMap.put("effectiveDate", effectiveDate);
 		toStringMap.put("dept", dept);
@@ -124,16 +124,6 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 		toStringMap.put("workAreaObj", workAreaObj); 	
 		 
 		return toStringMap;
-	}
-
-
-	public Long getTkWorkScheduleId() {
-		return tkWorkScheduleId;
-	}
-
-
-	public void setTkWorkScheduleId(Long tkWorkScheduleId) {
-		this.tkWorkScheduleId = tkWorkScheduleId;
 	}
 
 
@@ -154,6 +144,16 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+
+
+	public Long getHrWorkScheduleId() {
+		return hrWorkScheduleId;
+	}
+
+
+	public void setHrWorkScheduleId(Long hrWorkScheduleId) {
+		this.hrWorkScheduleId = hrWorkScheduleId;
 	}
 
 

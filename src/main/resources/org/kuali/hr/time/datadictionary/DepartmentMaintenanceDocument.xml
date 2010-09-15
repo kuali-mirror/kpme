@@ -30,7 +30,7 @@
     <property name="title" value="Department Maintenance"/>
     <property name="maintainableItems">
       <list>
-      	<bean parent="MaintainableFieldDefinition" p:name="deptId" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="chart" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="org" p:required="true"/>        

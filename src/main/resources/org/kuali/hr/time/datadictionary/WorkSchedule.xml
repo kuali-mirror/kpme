@@ -22,6 +22,7 @@
 				<ref bean="WorkSchedule-active" />
 			</list>
 		</property>
+		<!-- 
 		 <property name="relationships">
   		<list>
             <bean parent="RelationshipDefinition">
@@ -44,6 +45,7 @@
 
         </list>
     </property>
+    -->
 		<property name="collections">
 			<list>
 				<bean parent="CollectionDefinition" p:name="workScheduleEntries"

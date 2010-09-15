@@ -85,7 +85,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.clocklog.ClockLog" table="tk_clock_log_t">
-		<field-descriptor name="clockLogId" 			column="clock_log_id" 		jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_clock_log_s"/>
+		<field-descriptor name="tkClockLogId" 			column="tk_clock_log_id" 		jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_clock_log_s"/>
 		<field-descriptor name="principalId"            column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
 		<field-descriptor name="jobNumber"              column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="workAreaId"             column="work_area_id" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />

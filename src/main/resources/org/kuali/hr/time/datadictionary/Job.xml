@@ -13,20 +13,19 @@
 		<property name="lookupDefinition">
 			<ref bean="Job-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="job_id" />
+		<property name="titleAttribute" value="hrJobId" />
 		<property name="attributes">
 			<list>
-				<ref bean="Job-jobId" />
+				<ref bean="Job-hrJobId" />
 				<ref bean="Job-principalId" />
 				<ref bean="Job-jobNumber" />
 				<ref bean="Job-effectiveDate" />
-				<ref bean="Job-deptId" />
-				<!-- <ref bean="Job-payCalendarId" /> -->
-				<ref bean="Job-tkSalGroupId" />
+				<ref bean="Job-dept" />
+				<ref bean="Job-tkSalGroup" />
 				<ref bean="Job-timestamp" />
 				<ref bean="Job-location" />
 				<ref bean="Job-fte" />
-				<ref bean="Job-payTypeId" />
+				<ref bean="Job-payType" />
 				<ref bean="Job-payGrade" />
 				<ref bean="Job-standardHours" />
 			</list>
@@ -36,9 +35,9 @@
 
 	<!-- Attribute Definitions -->
 
-	<bean id="Job-jobId" parent="Job-jobId-parentBean" />
+	<bean id="Job-hrJobId" parent="Job-hrJobId-parentBean" />
 
-	<bean id="Job-jobId-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="Job-hrJobId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Job Id" />
 		<property name="maxLength" value="7" />
 		<property name="validationPattern">
@@ -47,7 +46,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="7" />
 		</property>
-		<property name="name" value="jobId" />
+		<property name="name" value="hrJobId" />
 		<property name="label" value="Job Id" />
 	</bean>
 
@@ -63,8 +62,8 @@
 	</bean>
 
 	<!-- The validation type and length on this may be wrong -->
-	<bean id="Job-payTypeId" parent="Job-payTypeId-parentBean" />
-	<bean id="Job-payTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="Job-payType" parent="Job-payType-parentBean" />
+	<bean id="Job-payType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Pay Type" />
 		<property name="maxLength" value="27" />
 		<property name="validationPattern">
@@ -75,7 +74,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="27" />
 		</property>
-		<property name="name" value="payTypeId" />
+		<property name="name" value="payType" />
 		<property name="label" value="Pay Type" />
 	</bean>
 
@@ -178,9 +177,9 @@
 		<property name="label" value="Effective Date" />
 	</bean>
 
-	<bean id="Job-deptId" parent="Job-deptId-parentBean" />
+	<bean id="Job-dept" parent="Job-dept-parentBean" />
 
-	<bean id="Job-deptId-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="Job-dept-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="forceUppercase" value="true" />
 
 		<property name="maxLength" value="7" />
@@ -188,9 +187,9 @@
 			<bean parent="TextControlDefinition" p:size="7" />
 		</property>
 
-		<property name="name" value="deptId" />
+		<property name="name" value="dept" />
 		<property name="label" value="Department Name" />
-		<property name="description" value="deptId" />
+		<property name="description" value="dept" />
 	</bean>
 
     <!--
@@ -211,9 +210,9 @@
 	</bean>
     -->
 
-	<bean id="Job-tkSalGroupId" parent="Job-tkSalGroupId-parentBean" />
+	<bean id="Job-tkSalGroup" parent="Job-tkSalGroup-parentBean" />
 
-	<bean id="Job-tkSalGroupId-parentBean" abstract="true"
+	<bean id="Job-tkSalGroup-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="forceUppercase" value="true" />
 
@@ -222,9 +221,9 @@
 			<bean parent="TextControlDefinition" p:size="7" />
 		</property>
 
-		<property name="name" value="tkSalGroupId" />
-		<property name="label" value="TK Sal Group ID" />
-		<property name="description" value="tkSalGroupId" />
+		<property name="name" value="tkSalGroup" />
+		<property name="label" value="TK Sal Group" />
+		<property name="description" value="tkSalGroup" />
 	</bean>
 
 	<bean id="Job-timestamp" parent="Job-timestamp-parentBean" />
@@ -258,7 +257,7 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="jobId" />
+							<bean parent="FieldDefinition" p:attributeName="hrJobId" />
 							<bean parent="FieldDefinition" p:attributeName="principalId" />
 						</list>
 					</property>
@@ -282,7 +281,7 @@
 		</property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="jobId" />
+				<bean parent="FieldDefinition" p:attributeName="hrJobId" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 			</list>
@@ -290,7 +289,7 @@
 		<!-- More information should be added here if needed -->
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="jobId"
+				<bean parent="FieldDefinition" p:attributeName="hrJobId"
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />

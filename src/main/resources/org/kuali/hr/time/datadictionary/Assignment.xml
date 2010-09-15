@@ -14,9 +14,9 @@
         <ref bean="Assignment-principalId"/>
         <ref bean="Assignment-jobNumber"/>
         <ref bean="Assignment-effectiveDate"/>
-        <ref bean="Assignment-earnCodeId"/>
-        <ref bean="Assignment-workAreaId"/>
-        <ref bean="Assignment-taskId"/>
+        <ref bean="Assignment-earnCode"/>
+        <ref bean="Assignment-workArea"/>
+        <ref bean="Assignment-task"/>
         <ref bean="Assignment-active"/>
       </list>
     </property>
@@ -25,9 +25,11 @@
         <bean parent="CollectionDefinition" p:name="assignmentAccounts" p:label="Assignment Accounts" p:shortLabel="Assignment Accounts" p:summary="Assignment Accounts" p:description="Assignment Accounts"/>
       </list>
     </property>   
+    <!-- 
      <property name="relationships">
   		<list>
             <bean parent="RelationshipDefinition">
+
               <property name="objectAttributeName" value="workArea"/>
               <property name="primitiveAttributes">
                 <list>
@@ -57,6 +59,7 @@
 
         </list>
     </property>
+   -->
   </bean>
 
   <!-- Attribute Definitions -->
@@ -105,8 +108,8 @@
     <property name="label" value="Effective Date"/>
   </bean>
 
-  <bean id="Assignment-earnCodeId" parent="Assignment-earnCodeId-parentBean"/>
-  <bean id="Assignment-earnCodeId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Assignment-earnCode" parent="Assignment-earnCode-parentBean"/>
+  <bean id="Assignment-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Earn Code"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
@@ -117,12 +120,12 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>
     </property>
-    <property name="name" value="earnCodeId"/>
-    <property name="label" value="Earn Code Id"/>
+    <property name="name" value="earnCode"/>
+    <property name="label" value="Earn Code"/>
   </bean>
 
-  <bean id="Assignment-workAreaId" parent="Assignment-workAreaId-parentBean"/>
-  <bean id="Assignment-workAreaId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Assignment-workArea" parent="Assignment-workArea-parentBean"/>
+  <bean id="Assignment-workArea-parentBean" abstract="true" parent="AttributeDefinition">
      <property name="shortLabel" value="Work Area"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
@@ -131,12 +134,12 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="name" value="workAreaId"/>
+    <property name="name" value="workArea"/>
     <property name="label" value="Work Area"/>
   </bean>
 
-  <bean id="Assignment-taskId" parent="Assignment-taskId-parentBean"/>
-  <bean id="Assignment-taskId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Assignment-task" parent="Assignment-task-parentBean"/>
+  <bean id="Assignment-task-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Task ID"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
@@ -145,7 +148,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="name" value="taskId"/>
+    <property name="name" value="task"/>
     <property name="label" value="Task ID"/>
   </bean>
 
@@ -167,8 +170,8 @@
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="principalId"/>
-        <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
-		<bean parent="FieldDefinition" p:attributeName="workAreaId"/>
+		<bean parent="FieldDefinition" p:attributeName="workArea"/>
+
       </list>
     </property>
     <property name="resultFields">
@@ -177,7 +180,7 @@
         <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
         <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
         <bean parent="FieldDefinition" p:attributeName="workArea"/>
-        <bean parent="FieldDefinition" p:attributeName="taskId"/>
+        <bean parent="FieldDefinition" p:attributeName="task"/>
       </list>
     </property>
     <property name="title" value="Assignment Lookup"/>

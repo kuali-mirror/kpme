@@ -8,22 +8,21 @@
 	<bean id="EarnGroupDef-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.hr.time.earncode.EarnGroupDef" />
-		<property name="titleAttribute" value="earnGroupDefId" />
+		<property name="titleAttribute" value="tkEarnGroupDefId" />
 		<property name="objectLabel" value="earnGroupDef" />
 		<property name="lookupDefinition">
 			<ref bean="EarnGroupDef-lookupDefinition" />
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="EarnGroupDef-earnGroupDefId" />
+				<ref bean="EarnGroupDef-tkEarnGroupDefId" />
 				<ref bean="EarnGroupDef-earnCode" />
-				<ref bean="EarnGroupDef-effectiveDate" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="EarnGroupDef-earnGroupDefId" parent="EarnGroupDef-earnGroupDefId-parentBean" />
-	<bean id="EarnGroupDef-earnGroupDefId-parentBean" abstract="true"
+	<bean id="EarnGroupDef-tkEarnGroupDefId" parent="EarnGroupDef-tkEarnGroupDefId-parentBean" />
+	<bean id="EarnGroupDef-tkEarnGroupDefId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Id" />
 		<property name="maxLength" value="10" />
@@ -33,7 +32,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="earnGroupDefId" />
+		<property name="name" value="tkEarnGroupDefId" />
 		<property name="label" value="Earn Group Def Id" />
 	</bean>
 
@@ -53,22 +52,6 @@
 		<property name="name" value="earnCode" />
 		<property name="label" value="Earn Code" />
 	</bean>
-	
-	<bean id="EarnGroupDef-effectiveDate" parent="EarnGroupDef-effectiveDate-parentBean" />
-	<bean id="EarnGroupDef-effectiveDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
 
 	<!--  Inquiry Definitions  -->
 
@@ -78,15 +61,14 @@
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="earnGroupDefId" />
+				<bean parent="FieldDefinition" p:attributeName="tkEarnGroupDefId" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="earnGroupDefId" />
+				<bean parent="FieldDefinition" p:attributeName="tkEarnGroupDefId" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 			</list>
 		</property>
 		<property name="title" value="Earn Group Definition Lookup" />

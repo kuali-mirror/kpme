@@ -21,7 +21,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>timeCollectionRuleId</value>
+        <value>tkTimeCollectionRuleId</value>
       </list>
     </property>
     <property name="documentTypeName" value="TimeCollectionRuleDocumentType"/>
@@ -35,7 +35,7 @@
     <property name="title" value="TimeCollection Rule Maintenance"/>
     <property name="maintainableItems">
       <list>      
-      	<bean parent="MaintainableFieldDefinition" p:name="deptId" />
+      	<bean parent="MaintainableFieldDefinition" p:name="dept" />
       	<bean parent="MaintainableFieldDefinition" p:name="workArea"/>
       	<bean parent="MaintainableFieldDefinition" p:name="effDate" />
       	<bean parent="MaintainableFieldDefinition" p:name="clockUserFl" />

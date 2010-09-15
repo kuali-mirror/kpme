@@ -15,7 +15,7 @@
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="TimeCollectionRule-deptId" />
+				<ref bean="TimeCollectionRule-dept" />
 				<ref bean="TimeCollectionRule-workArea" />
 				<ref bean="TimeCollectionRule-effDate" />
 				<ref bean="TimeCollectionRule-clockUserFl" />
@@ -24,6 +24,7 @@
 				<ref bean="TimeCollectionRule-timeStamp" />
 			</list>
 		</property>
+		<!-- 
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
@@ -48,14 +49,15 @@
 
 			</list>
 		</property>
+		-->
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="TimeCollectionRule-deptId" parent="TimeCollectionRule-deptId-parentBean" />
-	<bean id="TimeCollectionRule-deptId-parentBean" abstract="true"
+	<bean id="TimeCollectionRule-dept" parent="TimeCollectionRule-dept-parentBean" />
+	<bean id="TimeCollectionRule-dept-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Department Id" />
+		<property name="shortLabel" value="Department" />
 		<property name="maxLength" value="21" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -65,8 +67,8 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="21" />
 		</property>
-		<property name="name" value="deptId" />
-		<property name="label" value="Department Id" />
+		<property name="name" value="dept" />
+		<property name="label" value="Department" />
 	</bean>
 
 	<bean id="TimeCollectionRule-workArea" parent="TimeCollectionRule-workArea-parentBean" />
@@ -162,13 +164,13 @@
 		abstract="true" parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="deptId" />
+				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />				
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="deptId" />
+				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />				
 				<bean parent="FieldDefinition" p:attributeName="effDate" />
 				<bean parent="FieldDefinition" p:attributeName="clockUserFl" />				

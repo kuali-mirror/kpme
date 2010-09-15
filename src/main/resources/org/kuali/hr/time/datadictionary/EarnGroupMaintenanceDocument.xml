@@ -20,7 +20,7 @@
 		</property>
 		<property name="lockingKeys">
 			<list>
-				<value>earnGroupId</value>
+				<value>tkEarnGroupId</value>
 			</list>
 		</property>
 		<property name="documentTypeName" value="EarnGroupDocumentType" />
@@ -67,8 +67,6 @@
 					<property name="maintainableFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="earnCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
 								p:required="true" />
 						</list>
 					</property>

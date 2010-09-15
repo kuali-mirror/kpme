@@ -20,7 +20,7 @@
 		</property>
 		<property name="lockingKeys">
 			<list>
-				<value>deptEarnCodeId</value>
+				<value>tkDeptEarnCodeId</value>
 			</list>
 		</property>
 		<property name="documentTypeName" value="DepartmentEarnCodeDocumentType" />
@@ -33,9 +33,9 @@
 		<property name="title" value="Department Earn Code Maintenance" />
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="deptId" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="tkSalGroupId" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="earnCodeId" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="tkSalGroup" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="earnCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="employee" />
 				<bean parent="MaintainableFieldDefinition" p:name="approver" />
 				<bean parent="MaintainableFieldDefinition" p:name="org_admin" />
