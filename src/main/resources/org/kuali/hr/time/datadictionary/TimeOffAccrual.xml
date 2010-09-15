@@ -8,14 +8,14 @@
 	<bean id="TimeOffAccrual-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.hr.time.accrual.TimeOffAccrual" />
-		<property name="titleAttribute" value="tkAccrualId" />
+		<property name="titleAttribute" value="laAccrualId" />
 		<property name="objectLabel" value="Time off Accrual" />
 		<property name="lookupDefinition">
 			<ref bean="TimeOffAccrual-lookupDefinition" />
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="TimeOffAccrual-tkAccrualId" />
+				<ref bean="TimeOffAccrual-laAccrualId" />
 				<ref bean="TimeOffAccrual-principalId" />
 				<ref bean="TimeOffAccrual-accrualCategory" />
 				<ref bean="TimeOffAccrual-effectiveDate" />
@@ -47,8 +47,8 @@
     </property>  
 	</bean>
 
-	<bean id="TimeOffAccrual-tkAccrualId" parent="TimeOffAccrual-tkAccrualId-parentBean" />
-	<bean id="TimeOffAccrual-tkAccrualId-parentBean" abstract="true"
+	<bean id="TimeOffAccrual-laAccrualId" parent="TimeOffAccrual-laAccrualId-parentBean" />
+	<bean id="TimeOffAccrual-laAccrualId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Id" />
 		<property name="maxLength" value="10" />
@@ -58,7 +58,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="tkAccrualId" />
+		<property name="name" value="laAccrualId" />
 		<property name="label" value="Time Off Accrual Id" />
 	</bean>
 
@@ -165,14 +165,14 @@
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="tkAccrualId" />
+				<bean parent="FieldDefinition" p:attributeName="laAccrualId" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="tkAccrualId" />
+				<bean parent="FieldDefinition" p:attributeName="laAccrualId" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
