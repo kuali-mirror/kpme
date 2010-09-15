@@ -175,8 +175,7 @@
 	<bean id="WeeklyOvertimeRule-lookupDefinition-parentBean"
 		abstract="true" parent="LookupDefinition">
 		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+			<list>				
 				<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" />
 			</list>
 		</property>
