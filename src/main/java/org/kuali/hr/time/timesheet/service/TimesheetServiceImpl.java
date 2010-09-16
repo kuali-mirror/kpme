@@ -10,6 +10,7 @@ import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -90,6 +91,15 @@ public class TimesheetServiceImpl implements TimesheetService {
 		tdoc.setAssignments(assignments);
 		tdoc.setJobs(jobs);
 		tdoc.setTimeBlocks(timeBlocks);
+	}
+	
+	public boolean isSynchronousUser(){
+		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getUser().getPrincipalId(), TKUtils.getCurrentDate());
+		boolean isSynchronousUser = false;
+		for(Assignment assignment: assignments){
+			isSynchronousUser &= assignment.isSynchronous();
+		}
+		return isSynchronousUser;
 	}
 
 }

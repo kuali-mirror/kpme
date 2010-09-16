@@ -25,4 +25,5 @@ public interface TimesheetService {
 	 * @return
 	 */
 	public TimesheetDocument getTimesheetDocument(Long documentId);
+	public boolean isSynchronousUser();
 }

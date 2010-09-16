@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -27,7 +28,7 @@ public class Assignment extends PersistableBusinessObjectBase {
     private Long task;
     private boolean active;
     private Timestamp timestamp;
-
+    private TimeCollectionRule timeCollectionRule;
     //TODO populate these in the service call
     private Task taskObj;
     private WorkArea workAreaObj;
@@ -188,5 +189,21 @@ public class Assignment extends PersistableBusinessObjectBase {
 
 	public Long getTask() {
 		return task;
+	}
+
+
+
+	public void setTimeCollectionRule(TimeCollectionRule timeCollectionRule) {
+		this.timeCollectionRule = timeCollectionRule;
+	}
+
+
+
+	public TimeCollectionRule getTimeCollectionRule() {
+		return timeCollectionRule;
+	}
+	
+	public boolean isSynchronous(){
+		return timeCollectionRule.isClockUserFl();
 	}
 }

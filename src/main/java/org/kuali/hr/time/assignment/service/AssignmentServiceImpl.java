@@ -27,9 +27,4 @@ public class AssignmentServiceImpl implements AssignmentService {
 		}
 		return assignmentDao.findAssignments(principalId, asOfDate);
 	}
-
-//	@Override
-//	public List<Assignment> getAssignmentsByJobNumber(Long jobNumber, String principalId, Date payPeriodEndDate) {
-//		return assignmentDao.findAssignmentsByJobNumber(jobNumber, principalId, payPeriodEndDate);
-//	}
 }
