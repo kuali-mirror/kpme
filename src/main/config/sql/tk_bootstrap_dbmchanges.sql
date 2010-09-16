@@ -69,14 +69,14 @@ INSERT INTO `tk_dept_earn_code_s` VALUES('1000');
 DELETE FROM `tk_dept_earn_code_t`;
 INSERT INTO `TK_DEPT_EARN_CODE_T`
     (`TK_DEPT_EARN_CODE_ID`, `DEPT`, `TK_SAL_GROUP`, `EARN_CODE`, `EMPLOYEE`, `APPROVER`, `ORG_ADMIN`, `EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
-	('10' , 'TEST-DEPT'  , '10' , 'RGH' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('11' , 'TEST-DEPT'  , '10' , 'SCK' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('12' , 'TEST-DEPT'  , '10' , 'VAC' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('13' , 'TEST-DEPT'  , '10' , 'WEP' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('14' , 'TEST-DEPT2' , '11' , 'HAZ' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('15' , 'TEST-DEPT2' , '11' , 'HIP' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('16' , 'TEST-DEPT2' , '11' , 'OC1' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('17' , 'TEST-DEPT2' , '11' , 'OC2' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1);
+	('10' , 'TEST-DEPT'  , 'A10' , 'RGH' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
+	('11' , 'TEST-DEPT'  , 'A10' , 'SCK' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
+	('12' , 'TEST-DEPT'  , 'A10' , 'VAC' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
+	('13' , 'TEST-DEPT'  , 'A10' , 'WEP' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
+	('14' , 'TEST-DEPT2' , 'A10' , 'HAZ' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
+	('15' , 'TEST-DEPT2' , 'A10' , 'HIP' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
+	('16' , 'TEST-DEPT2' , 'A10' , 'OC1' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
+	('17' , 'TEST-DEPT2' , 'A10' , 'OC2' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1);
 
 #
 # earn code
@@ -93,14 +93,31 @@ INSERT INTO `TK_EARN_CODE_T` (`TK_EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `RECORD_T
 	('16' , 'OC1' , 'ON CALL - 1.50'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 1) ,
 	('17' , 'OC2' , 'ON CALL - 2.00'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 1) ,
 	('18' , 'PRM' , 'PREMIUM'           , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 1) ;
-	
+
+# Sal Group
+DELETE FROM `tk_sal_group_s`;
+INSERT INTO `tk_sal_group_S` (`ID`) VALUES ('1000');
+DELETE FROM `tk_sal_group_t`;
+INSERT INTO `tk_sal_group_t` (`TK_SAL_GROUP_ID`, `TK_SAL_GROUP`, `EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
+    ('10', 'A10', '2010-01-01', '2010-01-01 08:08:08' , 1),
+    ('11', 'S10', '2010-01-01', '2010-01-01 08:08:08' , 1),
+    ('12', 'A12', '2010-01-01', '2010-01-01 08:08:08' , 1),
+    ('13', 'S12', '2010-01-01', '2010-01-01 08:08:08' , 1);
+
+# HR Pay Types
+DELETE FROM `hr_paytype_s`;
+INSERT INTO `hr_paytype_s` (`ID`)	VALUES	('1000');
+DELETE FROM `hr_paytype_t`;
+INSERT INTO `hr_paytype_t` (`HR_PAYTYPE_ID`,`PAYTYPE`,`DESCR`,`CALENDAR_GROUP`,`REG_ERN_CODE`,`EFFDT`,`TIMESTAMP`,`HOLIDAY_CALENDAR_GROUP`,`OBJ_ID`,`VER_NBR`,`ACTIVE`) VALUES
+	('1', 'BW', 'description', 'BW-CAL1', 'RGN', '2010-08-04', '2010-08-04 16:01:07', 'HOL', '47326FEA-46E7-7D89-0B13-85DFA45EA8C1', '1','1');
+
 # time collection rule
 DELETE FROM `tk_time_collection_rl_s`;
 INSERT INTO `tk_time_collection_rl_s` VALUES('1000');
 DELETE FROM `tk_time_collection_rl_t`;
 INSERT INTO `tk_time_collection_rl_t` (`TK_TIME_COLL_RULE_ID`,`DEPT`,`WORK_AREA`,`EFFDT`,`CLOCK_USERS_FL`,`HRS_DISTRIBUTION_FL`,`USER_PRINCIPAL_ID`,
 `TIMESTAMP`,`ACTIVE`) VALUES
-	('1' , 'TEST-DEPT',1234,'2010-01-01',1,1,'admin','2010-01-01 08:08:08' , 1),
-	('2' , '*',1234,'2010-01-01',1,1,'admin','2010-01-01 08:08:08' , 1),
-	('3' , 'TEST-DEPT',-1,'2010-01-01',1,1,'admin','2010-01-01 08:08:08' , 1),
-	('4' , '*',-1,'2010-01-01',1,1,'admin','2010-01-01 08:08:08' , 1);
+	('1' , 'TEST-DEPT' , 1234 , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 1)  ,
+	('2' , '*'         , 1234 , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 1)  ,
+	('3' , 'TEST-DEPT' , -1   , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 1)  ,
+	('4' , '*'         , -1   , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 1);
