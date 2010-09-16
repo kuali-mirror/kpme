@@ -12,8 +12,8 @@ public class SalGroup extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long salGroupId;
-	private String salGroup;
+	private Long tkSalGroupId;
+	private String tkSalGroup;
 	private Date effectiveDate;
 	private Time timestamp;
 	private boolean active;
@@ -22,22 +22,6 @@ public class SalGroup extends PersistableBusinessObjectBase {
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		return null;
-	}
-
-	public Long getSalGroupId() {
-		return salGroupId;
-	}
-
-	public void setSalGroupId(Long salGroupId) {
-		this.salGroupId = salGroupId;
-	}
-
-	public String getSalGroup() {
-		return salGroup;
-	}
-
-	public void setSalGroup(String salGroup) {
-		this.salGroup = salGroup;
 	}
 
 	public Date getEffectiveDate() {
@@ -62,6 +46,22 @@ public class SalGroup extends PersistableBusinessObjectBase {
 
 	public Time getTimestamp() {
 		return timestamp;
+	}
+
+	public Long getTkSalGroupId() {
+		return tkSalGroupId;
+	}
+
+	public void setTkSalGroupId(Long tkSalGroupId) {
+		this.tkSalGroupId = tkSalGroupId;
+	}
+
+	public String getTkSalGroup() {
+		return tkSalGroup;
+	}
+
+	public void setTkSalGroup(String tkSalGroup) {
+		this.tkSalGroup = tkSalGroup;
 	}
 
 }

@@ -17,9 +17,9 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateSalGroup(ShiftDifferentialRule shiftDifferentialRule ) {
 		boolean valid = false;
-		LOG.debug("Validating Salgroup: " + shiftDifferentialRule.getSalGroup());
+		LOG.debug("Validating Salgroup: " + shiftDifferentialRule.getTkSalGroup());
 		Criteria crit = new Criteria();
-		crit.addEqualTo("salGroup", shiftDifferentialRule.getSalGroup());
+		crit.addEqualTo("salGroup", shiftDifferentialRule.getTkSalGroup());
 		crit.addLessOrEqualThan("effectiveDate", shiftDifferentialRule.getEffectiveDate());
 		
 		Query query = QueryFactory.newQuery(SalGroup.class, crit);
@@ -30,7 +30,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 			LOG.debug("found salgroup.");			
 		} else {
 			this.putFieldError("salGroup", "error.existence", "salGroup '"
-					+ shiftDifferentialRule.getSalGroup()+ "'");			
+					+ shiftDifferentialRule.getTkSalGroup()+ "'");			
 		}
 		return valid;
 	}

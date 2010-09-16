@@ -16,7 +16,7 @@ public class ShiftDifferentialRule extends TkRule {
 	private static final long serialVersionUID = 1L;
 	private Long tkShiftDiffRuleId;
 	private String location;
-	private String salGroup;
+	private String tkSalGroup;
 	private String payGrade;
 	private Date effectiveDate;
 	private String earnCode;
@@ -55,14 +55,6 @@ public class ShiftDifferentialRule extends TkRule {
 
 	public void setLocation(String location) {
 		this.location = location;
-	}
-
-	public String getSalGroup() {
-		return salGroup;
-	}
-
-	public void setSalGroup(String salGroup) {
-		this.salGroup = salGroup;
 	}
 
 	public String getPayGrade() {
@@ -206,6 +198,14 @@ public class ShiftDifferentialRule extends TkRule {
 	public void applyRule(TkRuleContext tkRuleContext) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public String getTkSalGroup() {
+		return tkSalGroup;
+	}
+
+	public void setTkSalGroup(String tkSalGroup) {
+		this.tkSalGroup = tkSalGroup;
 	}
 
 }

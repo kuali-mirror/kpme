@@ -316,8 +316,8 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.salgroup.SalGroup" table="tk_sal_group_t">
-		<field-descriptor name="salGroupId" column="tk_sal_group_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_sal_group_s"/>
-		<field-descriptor name="salGroup" column="sal_group" jdbc-type="VARCHAR" length="10" nullable="false"/>
+		<field-descriptor name="tkSalGroupId" column="tk_sal_group_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_sal_group_s"/>
+		<field-descriptor name="tkSalGroup" column="tk_sal_group" jdbc-type="VARCHAR" length="10" nullable="false"/>
 		<field-descriptor name="effectiveDate" column="effdt" jdbc-type="DATE" nullable="false"/>
 		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="active" column="active"	jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
@@ -479,7 +479,7 @@
 	<class-descriptor class="org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule" table="tk_shift_differential_rl_t">
 		<field-descriptor name="tkShiftDiffRuleId" column="TK_SHIFT_DIFF_RL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_shift_differential_rl_s"  />
 		<field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR" length="2"  />
-		<field-descriptor name="salGroup" column="TK_SAL_GROUP" jdbc-type="VARCHAR" length="10"  />
+		<field-descriptor name="tkSalGroup" column="TK_SAL_GROUP" jdbc-type="VARCHAR" length="10"  />
 		<field-descriptor name="payGrade" column="PAY_GRADE" jdbc-type="VARCHAR" length="3"  />
 		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" nullable="true"/>
 		<field-descriptor name="earnCode" column="EARN_CODE" jdbc-type="VARCHAR" length="3"  />
