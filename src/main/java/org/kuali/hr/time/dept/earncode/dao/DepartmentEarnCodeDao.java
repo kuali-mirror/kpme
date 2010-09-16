@@ -1,9 +1,10 @@
 package org.kuali.hr.time.dept.earncode.dao;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+import org.kuali.hr.time.earncode.EarnCode;
 
 public interface DepartmentEarnCodeDao {
 
@@ -11,7 +12,5 @@ public interface DepartmentEarnCodeDao {
 
 	public void saveOrUpdate(List<DepartmentEarnCode> deptErncdList);
 
-	public List<DepartmentEarnCode> getDepartmentEarnCodeList(String dept, String salGroup, boolean employee, boolean approver, 
-																boolean orgAdmin, Date payEndDate);
-
+	public List<EarnCode> getDepartmentEarnCodes(String department, String tk_sal_group, Date asOfDate);
 }
