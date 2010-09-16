@@ -13,6 +13,7 @@ import org.kuali.hr.time.paytype.service.PayTypeService;
 import org.kuali.hr.time.rule.TkRuleControllerService;
 import org.kuali.hr.time.timeblock.service.TimeBlockHistoryService;
 import org.kuali.hr.time.timeblock.service.TimeBlockService;
+import org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleService;
 import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
@@ -40,6 +41,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIMESHEET_DOCUMENT_HEADER_SERVICE = "timesheetDocumentHeaderService";
 	public static final String TK_DEPARTMENT_EARN_CODE = "deptEarnCodeService";
 	public static final String TK_EARN_CODE = "earnCodeService";
+	public static final String TK_TIME_COLLECTION_RULE_SERVICE = "timeCollectionRuleService";
 
 
 	public static void start() throws Exception {
@@ -117,6 +119,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static EarnCodeService getEarnCodeService() {
 		return (EarnCodeService) CONTEXT.getBean(TK_EARN_CODE);
+	}
+	
+	public static TimeCollectionRuleService getTimeCollectionRuleService() {
+		return (TimeCollectionRuleService) CONTEXT.getBean(TK_TIME_COLLECTION_RULE_SERVICE);
 	}
 
 	@Override

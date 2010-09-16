@@ -93,3 +93,14 @@ INSERT INTO `TK_EARN_CODE_T` (`TK_EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `RECORD_T
 	('16' , 'OC1' , 'ON CALL - 1.50'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 1) ,
 	('17' , 'OC2' , 'ON CALL - 2.00'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 1) ,
 	('18' , 'PRM' , 'PREMIUM'           , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 1) ;
+	
+# time collection rule
+DELETE FROM `tk_time_collection_rl_s`;
+INSERT INTO `tk_time_collection_rl_s` VALUES('1000');
+DELETE FROM `tk_time_collection_rl_t`;
+INSERT INTO `tk_time_collection_rl_t` (`TK_TIME_COLL_RULE_ID`,`DEPT`,`WORK_AREA`,`EFFDT`,`CLOCK_USERS_FL`,`HRS_DISTRIBUTION_FL`,`USER_PRINCIPAL_ID`,
+`TIMESTAMP`,`ACTIVE`) VALUES
+	('1' , 'TEST-DEPT',1234,'2010-01-01',1,1,'admin','2010-01-01 08:08:08' , 1),
+	('2' , '*',1234,'2010-01-01',1,1,'admin','2010-01-01 08:08:08' , 1),
+	('3' , 'TEST-DEPT',-1,'2010-01-01',1,1,'admin','2010-01-01 08:08:08' , 1),
+	('4' , '*',-1,'2010-01-01',1,1,'admin','2010-01-01 08:08:08' , 1);

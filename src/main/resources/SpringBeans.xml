@@ -311,8 +311,11 @@
     <bean id="earnCodeDao" class="org.kuali.hr.time.earncode.dao.EarnCodeDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
-
-
+    
+    <bean id="timeCollectionRuleDao" class="org.kuali.hr.time.timecollection.rule.dao.TimeCollectionRuleDaoServiceImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
 	<!-- Time Services for Business Logic -->
 
     <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
@@ -324,6 +327,10 @@
     	<property name="clockLocationDao" ref="clockLocationDao"/>
     </bean>
     -->
+    
+    <bean id="timeCollectionRuleService" class="org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleServiceImpl">
+    	<property name="timeCollectRuleDao" ref="timeCollectionRuleDao"/>
+    </bean>
 
     <bean id="assignmentService" class="org.kuali.hr.time.assignment.service.AssignmentServiceImpl">
     	<property name="assignmentDao" ref="assignmentDao"/>

@@ -23,7 +23,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea,Date asOfDate) {
 		
 		//First call confirm no exact match
-		TimeCollectionRule timeCollectionRule = getTimeCollectionRule(dept, workArea, asOfDate);
+		TimeCollectionRule timeCollectionRule = getTimeCollectionRuleWildCarded(dept, workArea, asOfDate);
 		if(timeCollectionRule!=null){
 			return timeCollectionRule;
 		}
@@ -55,14 +55,14 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 		Criteria timestamp = new Criteria();
 
 		effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+		effdt.addLessOrEqualThan("effDate", asOfDate);
 		effdt.addEqualTo("active", true);
 		effdt.addEqualTo("dept", dept);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(TimeCollectionRule.class, effdt);
 		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 		
 		timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+		timestamp.addEqualToField("effDate", Criteria.PARENT_QUERY_PREFIX + "effDate");
 		timestamp.addEqualTo("active", true);
 		timestamp.addEqualTo("dept", dept);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(TimeCollectionRule.class, timestamp);
@@ -70,11 +70,11 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 
 		root.addEqualTo("dept", dept);
 		root.addEqualTo("workArea", workArea);
-		root.addEqualTo("effectiveDate", effdtSubQuery);
+		root.addEqualTo("effDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
 		root.addEqualTo("active", true);
 		
-		Query query = QueryFactory.newQuery(Assignment.class, root);
+		Query query = QueryFactory.newQuery(TimeCollectionRule.class, root);
 		return (TimeCollectionRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 
 	}
