@@ -31,7 +31,7 @@ public class JobServiceImplTest extends TkTestCase {
 	@Test
 	public void testGetJobs() {
 		Set<Long> ids = new HashSet<Long>();
-		Date payPeriodEndDate = new Date((new DateTime(2010,8,1,1,0,0,0,DateTimeZone.forID("EST"))).getMillis());
+		Date payPeriodEndDate = new Date((new DateTime(2010,7,30,1,0,0,0,DateTimeZone.forID("EST"))).getMillis());
 		List<Job> jobs = jobService.getJobs(TEST_USER, payPeriodEndDate);
 		assertNotNull("Jobs was null", jobs);
 		assertEquals("Incorrect number of jobs", 0, jobs.size());

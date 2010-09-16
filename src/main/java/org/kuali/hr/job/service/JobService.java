@@ -19,10 +19,10 @@ public interface JobService {
 	 * getAssignments().
 	 * 
 	 * @param principalId
-	 * @param currentDate
+	 * @param asOfDate
 	 * @return
 	 */
-	public List<Job> getJobs(String principalId, Date currentDate);
+	public List<Job> getJobs(String principalId, Date asOfDate);
 	
 	public Job getJob(String principalId, Long jobNumber, Date asOfDate);
 	

@@ -1,9 +1,10 @@
 package org.kuali.hr.time.dept.earncode.service;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.dept.earncode.dao.DepartmentEarnCodeDao;
-import org.kuali.hr.time.earncode.EarnCode;
 
 public class DepartmentEarnCodeServiceImpl implements DepartmentEarnCodeService {
 
@@ -14,36 +15,33 @@ public class DepartmentEarnCodeServiceImpl implements DepartmentEarnCodeService 
 	}
 
 	@Override
-	public List<EarnCode> getDepartmentEarnCodes(String department, String tkSalGroup, java.util.Date asOfDate) {
-		// TODO Auto-generated method stub
-		return null;
+	/*
+	 * Handles the wildcarding.
+	 */
+	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tkSalGroup, java.util.Date asOfDate) {
+		List<DepartmentEarnCode> decs = new LinkedList<DepartmentEarnCode>();
+		
+		decs = deptEarnCodeDao.getDepartmentEarnCodes(department, tkSalGroup, asOfDate);
+		if (!decs.isEmpty()) {
+			return decs;
+		}
+		
+		decs = deptEarnCodeDao.getDepartmentEarnCodes("*", tkSalGroup, asOfDate);
+		if (!decs.isEmpty()) {
+			return decs;
+		}
+		
+		decs = deptEarnCodeDao.getDepartmentEarnCodes(department, "*", asOfDate);
+		if (!decs.isEmpty()) {
+			return decs;
+		}
+
+		decs = deptEarnCodeDao.getDepartmentEarnCodes("*", "*", asOfDate);
+		if (!decs.isEmpty()) {
+			return decs;
+		}
+
+		return decs;
 	}
 	
-	
-	
-	/*
-	 * 
-	 * Ignoing Boolean bits for now
-
-  List<earncodes> getEarnCode(Assignment assignment) {
-  
-   // assume Assignments have Jobs
-   Job = assignment.getjob()
-   Attach this to the front of the list: earnCodeService.getEarnCode(job.getPayType.getRegularNamlkajdsl)
-  	getDepartmentEarnCodes(job.getdept, job.gettksalgroup) attached to bottom of list
-  }
-
-
-
-list<earncodes> getDepartmentEarncodes(String dept, String tk_sal_group, effdt) {
-cached 
-wildcards
-4 queries, rolling into list once one has values
-}
-
-
-
-	 *
-	 *
-	 */
 }

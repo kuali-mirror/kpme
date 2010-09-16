@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncode.dao.EarnCodeDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -25,10 +26,19 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		if (a == null) 
 			throw new RuntimeException("Can not get earn codes for null assignment");
 		Job job = a.getJob();
-		if (job == null)
-			throw new RuntimeException("Null job on assignment!");
-		earnCodes.add(getEarnCode(job.getPayType().getRegEarnCode(), job.getEffectiveDate())); 
-		earnCodes.addAll(TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getTkSalGroup(), job.getEffectiveDate()));
+		if (job == null || job.getPayType() == null)
+			throw new RuntimeException("Null job/job paytype on assignment!");
+		
+		EarnCode regularEc = getEarnCode(job.getPayType().getRegEarnCode(), job.getEffectiveDate());
+		if (regularEc == null) 
+			throw new RuntimeException("No regular earn code defined.");
+		earnCodes.add(regularEc);
+		List<DepartmentEarnCode> decs = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getTkSalGroup(), job.getEffectiveDate());
+		for (DepartmentEarnCode dec : decs) {
+			// Iterating over these one by one, running a query because each earn code has effective dating/time stamp/active
+			EarnCode ec = getEarnCode(dec.getEarnCode(), dec.getEffectiveDate());
+			earnCodes.add(ec);
+		}
 		
 		return earnCodes;
 	}
@@ -36,7 +46,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	public EarnCode getEarnCode(String earnCode, Date asOfDate) {
 		EarnCode ec = null;
 		
-		earnCodeDao.getEarnCode(earnCode, asOfDate);
+		ec = earnCodeDao.getEarnCode(earnCode, asOfDate);
 		
 		return ec;
 	}

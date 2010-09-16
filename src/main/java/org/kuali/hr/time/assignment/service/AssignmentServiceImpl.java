@@ -9,6 +9,7 @@ import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.util.TKUtils;
 
 public class AssignmentServiceImpl implements AssignmentService {
+	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(AssignmentServiceImpl.class);
 	private AssignmentDao assignmentDao;
 

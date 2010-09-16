@@ -27,11 +27,11 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public List<Job> getJobs(String principalId, Date currentDate) {
-		List<Job> jobs = jobDao.getJobs(principalId, currentDate);
+	public List<Job> getJobs(String principalId, Date asOfDate) {
+		List<Job> jobs = jobDao.getJobs(principalId, asOfDate);
 
 		for (Job job : jobs) {
-			PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), currentDate);
+			PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), asOfDate);
 			job.setPayType(payType);
 		}
 
@@ -40,7 +40,13 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public Job getJob(String principalId, Long jobNumber, Date asOfDate) {
-		return jobDao.getJob(principalId, jobNumber, asOfDate);
+		Job job = jobDao.getJob(principalId, jobNumber, asOfDate);
+		PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), asOfDate);
+		if (payType == null)
+			throw new RuntimeException("No paytypes defined for this job!");
+		job.setPayType(payType);
+		
+		return job;
 	}
 	
 	
