@@ -1,1 +1,2 @@
 ALTER TABLE `tk_document_header_t` ADD COLUMN `PAY_BEGIN_DT` DATE NULL  AFTER `DOCUMENT_STATUS` ;
+ALTER TABLE `tk`.`tk_earn_code_t` CHANGE COLUMN `earn_code_id` `tk_earn_code_id` INT(11) NOT NULL, DROP PRIMARY KEY , ADD PRIMARY KEY (`tk_earn_code_id`) ;
