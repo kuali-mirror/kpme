@@ -24,4 +24,6 @@ public interface JobService {
 	 */
 	public List<Job> getJobs(String principalId, Date currentDate);
 	
+	public Job getJob(String principalId, Long jobNumber, Date asOfDate);
+	
 }

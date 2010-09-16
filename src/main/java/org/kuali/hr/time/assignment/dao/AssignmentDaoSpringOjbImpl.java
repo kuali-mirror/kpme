@@ -11,6 +11,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements AssignmentDao {
@@ -52,7 +53,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Assignment> findAssignments(String principalId, Date asOfDate) {
-		List<Assignment> list = new ArrayList<Assignment>();
+		List<Assignment> assignments = new ArrayList<Assignment>();
 		Criteria root = new Criteria();
 		Criteria effdt = new Criteria();
 		Criteria timestamp = new Criteria();
@@ -82,10 +83,14 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		
 		if (c != null) {
-			list.addAll(c);
+			assignments.addAll(c);
+		}
+		
+		for(Assignment assignment: assignments){
+			assignment.setJob(TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate()));
 		}
 
-		return list;
+		return assignments;
 	}
 
 

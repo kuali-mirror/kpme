@@ -34,6 +34,11 @@ public class AssignmentServiceImplTest extends TkTestCase {
 		List<Assignment> assignments = assignmentService.getAssignments("admin", new Date((new DateTime(2010,8,5,1,0,0,0,DateTimeZone.forID("EST"))).getMillis()));
 		assertNotNull("Null assignment list", assignments);
 		assertTrue("No assignments found", assignments.size() > 0);
+		
+		for(Assignment assign : assignments){
+			assertNotNull("Null job found", assign.getJob());
+			assertTrue("Job number is same", assign.getJob().getJobNumber().compareTo(assign.getJobNumber())==0);
+		}
 	}
 
 }

@@ -5,10 +5,7 @@ import java.util.List;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
-import org.kuali.hr.time.assignment.service.AssignmentService;
-import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.paytype.PayType;
-import org.kuali.hr.time.paytype.service.PayTypeService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public class JobServiceImpl implements JobService {
@@ -40,5 +37,12 @@ public class JobServiceImpl implements JobService {
 
 		return jobs;
 	}
+
+	@Override
+	public Job getJob(String principalId, Long jobNumber, Date asOfDate) {
+		return jobDao.getJob(principalId, jobNumber, asOfDate);
+	}
+	
+	
 
 }

@@ -21,5 +21,7 @@ public interface JobDao {
 	 * @return
 	 */
 	public List<Job> getJobs(String principalId, Date payPeriodEndDate);
+	
+	public Job getJob(String principalId, Long jobNumber, Date asOfDate);
 
 }
