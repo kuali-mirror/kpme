@@ -1,7 +1,5 @@
 package org.kuali.hr.time.timesheet.service;
 
-import java.util.Date;
-
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -20,6 +18,9 @@ public interface TimesheetService {
 	
 	/**
 	 * For a given document ID, return a fully populated time sheet document.
+	 * 
+	 * Fully populated means: TimeBlocks, Jobs, Assignments
+	 * 
 	 * @param documentId
 	 * @return
 	 */

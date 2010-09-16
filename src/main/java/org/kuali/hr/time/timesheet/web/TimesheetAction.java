@@ -2,7 +2,6 @@ package org.kuali.hr.time.timesheet.web;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,24 +12,19 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.assignment.dao.AssignmentDaoSpringOjbImpl;
 import org.kuali.hr.time.base.web.TkAction;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 
 public class TimesheetAction extends TkAction {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(TimesheetAction.class);
-
 	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

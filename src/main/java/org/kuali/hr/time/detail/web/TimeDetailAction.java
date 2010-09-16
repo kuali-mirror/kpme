@@ -25,24 +25,6 @@ import org.kuali.hr.time.util.TKUtils;
 
 public class TimeDetailAction extends TimesheetAction {
 
-	@Override
-	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward fw =  super.execute(mapping, form, request, response);
-		
-//		TimeDetailActionForm timeDetailForm = (TimeDetailActionForm) form;
-//		String principalId = TKContext.getUser().getPrincipalId();
-//
-//
-//		timeDetailForm.setBeginPeriodDate(beginPeriodDate);
-//		timeDetailForm.setEndPeriodDate(endPeriodDate);
-//
-//		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksByPeriod(principalId, timeDetailForm.getBeginPeriodDate(), timeDetailForm.getEndPeriodDate());
-//
-//		// for visually impaired users
-//		timeDetailForm.setTimeBlocks(timeBlocks);
-
-		return fw;
-	}
 
 	public ActionForward webService(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 

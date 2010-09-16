@@ -8,15 +8,16 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class TimesheetServiceImpl implements TimesheetService {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(TimesheetServiceImpl.class);
 
 	@Override
@@ -27,7 +28,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 				wd = new WorkflowDocument(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
 				wd.routeDocument("route");
 			} catch (WorkflowException e) {
-				LOG.error(e);
+				throw new RuntimeException("Exception during route", e);
 			}
 		}
 	}
@@ -38,15 +39,8 @@ public class TimesheetServiceImpl implements TimesheetService {
 		TimesheetDocument timesheetDocument = null;
 
 		if (header == null) {
-			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getTimelessDate(payCalendarDates.getBeginPeriodDate()));
-			List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(principalId, TKUtils.getTimelessDate(payCalendarDates.getBeginPeriodDate()));
-			if ((assignments != null && assignments.size() > 0) && (jobs != null && jobs.size() > 0) ) {
-				timesheetDocument = this.initiateWorkflowDocument(principalId, payCalendarDates.getEndPeriodDate(), TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
-				timesheetDocument.setAssignments(assignments);
-				timesheetDocument.setJobs(jobs);
-			} else {
-				throw new RuntimeException("No assignments/jobs for this user.");
-			}
+			timesheetDocument = this.initiateWorkflowDocument(principalId, payCalendarDates.getEndPeriodDate(), TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
+			this.loadTimesheetDocumentData(timesheetDocument, principalId, payCalendarDates.getBeginPeriodDate(), payCalendarDates.getEndPeriodDate());
 		} else {
 			timesheetDocument = this.getTimesheetDocument(header.getDocumentId());
 		}
@@ -61,7 +55,6 @@ public class TimesheetServiceImpl implements TimesheetService {
 		workflowDocument = new WorkflowDocument(principalId, documentType);
 		workflowDocument.setTitle(title);
 
-		
 		String status = workflowDocument.getRouteHeader().getDocRouteStatus();
 		TimesheetDocumentHeader documentHeader = new TimesheetDocumentHeader(workflowDocument.getRouteHeaderId(), principalId, payEndDate, status);
 
@@ -82,14 +75,21 @@ public class TimesheetServiceImpl implements TimesheetService {
 		TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
 		if (tdh != null) {
 			timesheetDocument = new TimesheetDocument(tdh);
-			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(tdh.getPrincipalId(), TKUtils.getTimelessDate(tdh.getPayBeginDate()));
-			List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(tdh.getPrincipalId(), TKUtils.getTimelessDate(tdh.getPayBeginDate()));
-			timesheetDocument.setAssignments(assignments);
-			timesheetDocument.setJobs(jobs);
+			loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), TKUtils.getTimelessDate(tdh.getPayBeginDate()), TKUtils.getTimelessDate(tdh.getPayEndDate()));
 		} else {
 			throw new RuntimeException("Could not find TimesheetDocumentHeader for DocumentID: " + documentId);
 		}
 		return timesheetDocument;
+	}
+	
+	private void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, java.sql.Date payPeriodBegin, java.sql.Date payPeriodEnd) {
+		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, payPeriodBegin);
+		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(principalId, payPeriodBegin);
+		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksByPeriod(principalId, payPeriodBegin, payPeriodEnd);
+		
+		tdoc.setAssignments(assignments);
+		tdoc.setJobs(jobs);
+		tdoc.setTimeBlocks(timeBlocks);
 	}
 
 }
