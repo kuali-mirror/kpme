@@ -7,6 +7,6 @@ import org.kuali.hr.time.assignment.Assignment;
 
 public interface AssignmentService {
 
-    public List<Assignment> getAssignments(String principalId, Date payPeriodEndDate);
-    public List<Assignment> getAssignmentsByJobNumber(Long jobNumber, String principalId, Date payPeriodEndDate);
+    public List<Assignment> getAssignments(String principalId, Date asOfDate);
+   // public List<Assignment> getAssignmentsByJobNumber(Long jobNumber, String principalId, Date payPeriodEndDate);
 }

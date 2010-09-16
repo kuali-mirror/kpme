@@ -1,6 +1,7 @@
 package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -59,5 +60,9 @@ public class TKUtils {
 	public static BigDecimal getHoursBetween(long start, long end) {
 		long diff = end - start;
 		return new BigDecimal((diff / 3600000.0) % 24).setScale(TkConstants.MATH_CONTEXT.getPrecision(), TkConstants.MATH_CONTEXT.getRoundingMode()).abs();
+	}
+	
+	public static Date getCurrentDate(){
+		return new Date(System.currentTimeMillis());
 	}
 }

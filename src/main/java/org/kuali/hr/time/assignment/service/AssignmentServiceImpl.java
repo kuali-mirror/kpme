@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
+import org.kuali.hr.time.util.TKUtils;
 
 public class AssignmentServiceImpl implements AssignmentService {
 	private static final Logger LOG = Logger.getLogger(AssignmentServiceImpl.class);
@@ -20,15 +21,15 @@ public class AssignmentServiceImpl implements AssignmentService {
 	}
 
 	@Override
-	public List<Assignment> getAssignments(String principalId, Date payPeriodEndDate) {
-		if (payPeriodEndDate == null) {
-			payPeriodEndDate = new Date(System.currentTimeMillis());
+	public List<Assignment> getAssignments(String principalId, Date asOfDate) {
+		if (asOfDate == null) {
+			asOfDate = TKUtils.getCurrentDate();
 		}
-		return assignmentDao.findAssignments(principalId, payPeriodEndDate);
+		return assignmentDao.findAssignments(principalId, asOfDate);
 	}
 
-	@Override
-	public List<Assignment> getAssignmentsByJobNumber(Long jobNumber, String principalId, Date payPeriodEndDate) {
-		return assignmentDao.findAssignmentsByJobNumber(jobNumber, principalId, payPeriodEndDate);
-	}
+//	@Override
+//	public List<Assignment> getAssignmentsByJobNumber(Long jobNumber, String principalId, Date payPeriodEndDate) {
+//		return assignmentDao.findAssignmentsByJobNumber(jobNumber, principalId, payPeriodEndDate);
+//	}
 }

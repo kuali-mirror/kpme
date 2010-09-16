@@ -16,7 +16,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONValue;
-import org.kuali.hr.job.Job;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
@@ -34,7 +33,6 @@ public class TimeDetailAction extends TimesheetAction {
 		Date beginDate = timeDetailForm.getBeginPeriodDate();
 		Date endDate = timeDetailForm.getEndPeriodDate();
 
-//		List<Job> jobs = TKContext.getUser().getJobs();
 		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksByPeriod(principalId, beginDate, endDate);
 
 		List<Map<String,Object>> timeBlockList = new LinkedList<Map<String,Object>>();
@@ -54,7 +52,7 @@ public class TimeDetailAction extends TimesheetAction {
 
 		// generate a JOSN string
 		timeDetailForm.setTimeBlockJson(JSONValue.toJSONString(timeBlockList));
-
+		
 		return mapping.findForward("ws");
 	}
 

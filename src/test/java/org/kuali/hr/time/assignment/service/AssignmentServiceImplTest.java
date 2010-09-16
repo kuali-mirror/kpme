@@ -31,7 +31,7 @@ public class AssignmentServiceImplTest extends TkTestCase {
 	
 	@Test
 	public void testGetAssignments() throws Exception {
-		List<Assignment> assignments = assignmentService.getAssignments("admin", new Date((new DateTime(2010,8,1,1,0,0,0,DateTimeZone.forID("EST"))).getMillis()));
+		List<Assignment> assignments = assignmentService.getAssignments("admin", new Date((new DateTime(2010,8,5,1,0,0,0,DateTimeZone.forID("EST"))).getMillis()));
 		assertNotNull("Null assignment list", assignments);
 		assertTrue("No assignments found", assignments.size() > 0);
 	}

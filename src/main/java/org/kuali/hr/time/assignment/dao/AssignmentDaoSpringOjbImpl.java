@@ -1,8 +1,8 @@
 package org.kuali.hr.time.assignment.dao;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -51,56 +51,39 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Assignment> findAssignments(String principalId, Date payPeriodEndDate) {
-		List<Assignment> list = new LinkedList<Assignment>();
-		Criteria crit = new Criteria();
-		Criteria effdtJoinCriteria = new Criteria();
-		effdtJoinCriteria.addEqualToField("assignmentId", Criteria.PARENT_QUERY_PREFIX + "assignmentId");
-		effdtJoinCriteria.addLessOrEqualThan("effectiveDate", payPeriodEndDate);
+	public List<Assignment> findAssignments(String principalId, Date asOfDate) {
+		List<Assignment> list = new ArrayList<Assignment>();
+		Criteria root = new Criteria();
+		Criteria effdt = new Criteria();
+		Criteria timestamp = new Criteria();
 
-		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdtJoinCriteria);
+		// OJB's awesome sub query setup part 1
+		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+		effdt.addEqualTo("active", true);
+		effdt.addEqualTo("principalId", principalId);
+		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
 		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+		
+		// OJB's awesome sub query setup part 2
+		timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+		timestamp.addEqualTo("active", true);
+		timestamp.addEqualTo("principalId", principalId);
+		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
+		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
-		crit.addEqualTo("principalId", principalId);
-		crit.addEqualTo("active", true);
-		crit.addEqualTo("effdt", effdtSubQuery);
-
-
-		Query query = QueryFactory.newQuery(Assignment.class, crit);
+		root.addEqualTo("principalId", principalId);
+		root.addEqualTo("effectiveDate", effdtSubQuery);
+		root.addEqualTo("timestamp", timestampSubQuery);
+		root.addEqualTo("active", true);
+		
+		Query query = QueryFactory.newQuery(Assignment.class, root);
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-
+		
 		if (c != null) {
 			list.addAll(c);
 		}
-
-		return list;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Assignment> findAssignmentsByJobNumber(Long jobNumber, String principalId, Date payPeriodEndDate) {
-		List<Assignment> list = new LinkedList<Assignment>();
-		//TODO make this work correctly
-//		Criteria crit = new Criteria();
-//		Criteria effdtJoinCriteria = new Criteria();
-//		effdtJoinCriteria.addEqualToField("assignmentId", Criteria.PARENT_QUERY_PREFIX + "assignmentId");
-//		effdtJoinCriteria.addLessOrEqualThan("effectiveDate", payPeriodEndDate);
-//
-//		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdtJoinCriteria);
-//		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-//
-//		crit.addEqualTo("principalId", principalId);
-//		crit.addEqualTo("jobNumber", jobNumber);
-//		crit.addEqualTo("active", true);
-//		crit.addEqualTo("effdt", effdtSubQuery);
-//
-//
-//		Query query = QueryFactory.newQuery(Assignment.class, crit);
-//		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-//
-//		if (c != null) {
-//			list.addAll(c);
-//		}
 
 		return list;
 	}
