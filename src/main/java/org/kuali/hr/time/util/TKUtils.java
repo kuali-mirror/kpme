@@ -31,6 +31,10 @@ public class TKUtils {
 		return ConfigContext.getCurrentContextConfig().getProperty("environment");
 	}
 	
+	public static java.sql.Date getCurrentDate(){
+		return getTimelessDate(null);
+	}
+	
 	/**
 	 * Returns a enforced timeless version of the provided date, if the date is null
 	 * the current date is returned.
@@ -60,9 +64,5 @@ public class TKUtils {
 	public static BigDecimal getHoursBetween(long start, long end) {
 		long diff = end - start;
 		return new BigDecimal((diff / 3600000.0) % 24).setScale(TkConstants.MATH_CONTEXT.getPrecision(), TkConstants.MATH_CONTEXT.getRoundingMode()).abs();
-	}
-	
-	public static Date getCurrentDate(){
-		return new Date(System.currentTimeMillis());
 	}
 }

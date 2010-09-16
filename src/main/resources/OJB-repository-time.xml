@@ -253,7 +253,7 @@
 		<field-descriptor name="tkTaskId"         	column="tk_task_id"       jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_task_s"/>
 		<field-descriptor name="task"        column="task" jdbc-type="BIGINT" />
 		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" />
-		<field-descriptor name="workAreaId"         column="work_area_id" jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="tkWorkAreaId"         column="tk_work_area_id" jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="description"        column="descr" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="administrativeDescription" column="admin_descr" jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="userPrincipalId"	column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />

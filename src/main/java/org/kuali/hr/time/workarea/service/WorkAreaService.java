@@ -1,5 +1,6 @@
 package org.kuali.hr.time.workarea.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.hr.time.role.assign.TkRoleAssign;
@@ -7,7 +8,7 @@ import org.kuali.hr.time.workarea.WorkArea;
 
 public interface WorkAreaService {
 
-    public WorkArea getWorkArea(Long workAreaId);
+    public WorkArea getWorkArea(Long workAreaId, Date asOfDate);
 
     public void saveOrUpdate(WorkArea workArea);
 

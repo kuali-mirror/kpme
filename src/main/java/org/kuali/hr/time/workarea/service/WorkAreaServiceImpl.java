@@ -1,5 +1,6 @@
 package org.kuali.hr.time.workarea.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +31,8 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 	}
 
 	@Override
-	public WorkArea getWorkArea(Long workAreaId) {
-		return workAreaDao.getWorkArea(workAreaId);
+	public WorkArea getWorkArea(Long workAreaId, Date asOfDate) {
+		return workAreaDao.getWorkArea(workAreaId, asOfDate);
 	}
 
 	@Override
@@ -97,4 +98,5 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 			}
 		}
 	}
+
 }

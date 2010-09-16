@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 

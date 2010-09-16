@@ -14,6 +14,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workarea.WorkAreaMaintenanceDocument;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
@@ -36,7 +37,7 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 		if (request.getParameter("command").equals("initiate") && !Boolean.parseBoolean(request.getParameter("newWorkArea"))) {
 			try {
 				Long workAreaId = (workAreaId_s != null) ? Long.parseLong(workAreaId_s) : null;
-				WorkArea workArea = waService.getWorkArea(workAreaId);
+				WorkArea workArea = waService.getWorkArea(workAreaId, TKUtils.getCurrentDate());
 				List<TkRoleAssign> roleList = waService.getWorkAreaRoles(workAreaId);
 				workArea.setRoleAssignments(roleList);
 				if (workArea != null) {

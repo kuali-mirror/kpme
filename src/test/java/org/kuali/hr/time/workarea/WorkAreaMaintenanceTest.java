@@ -3,8 +3,10 @@ package org.kuali.hr.time.workarea;
 import java.sql.Date;
 
 import org.junit.Test;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -27,6 +29,7 @@ public class WorkAreaMaintenanceTest extends TkTestCase {
 		
 		WorkArea workArea = new WorkArea();
 		workArea.setTkWorkAreaId(1111L);
+		workArea.setWorkArea(4444L);
 		workArea.setEffectiveDate(new Date(System.currentTimeMillis()));
 		KNSServiceLocator.getBusinessObjectService().save(workArea);
 	}
@@ -36,6 +39,12 @@ public class WorkAreaMaintenanceTest extends TkTestCase {
 		WorkArea workArea = (WorkArea)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(WorkArea.class, 1111);
 		KNSServiceLocator.getBusinessObjectService().delete(workArea);
 		super.tearDown();
+	}
+	
+	@Test
+	public void testWorkAreaFetch() throws Exception{
+		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(1234L, TKUtils.getCurrentDate());
+		assertTrue("Work area is not null and valid", workArea != null && workArea.getWorkArea().longValue() == 1234L);
 	}
 	
 	
