@@ -39,7 +39,6 @@
 		<field-descriptor name="principalId"            column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
 		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate" 			column="effdt" 				jdbc-type="DATE"    nullable="false" primarykey="false" />
-		<field-descriptor name="earnCode" 			    column="earn_code"		    jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
 		<field-descriptor name="workArea"				column="work_area"	 		jdbc-type="BIGINT"  nullable="false" primarykey="false" />
 		<field-descriptor name="task" 					column="task"	 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />
 		<field-descriptor name="active"                 column="active"	            jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
@@ -410,6 +409,7 @@
 		<field-descriptor name="tkAssignmentId" column="TK_ASSIGNMENT_ID" jdbc-type="BIGINT" nullable="false" />
 		<field-descriptor name="objectId" column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="earnCode" column="earn_code" jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
 	</class-descriptor>
 	<!-- Time Collection Rule -->
 	<class-descriptor class="org.kuali.hr.time.collection.rule.TimeCollectionRule" table="TK_TIME_COLLECTION_RL_T">

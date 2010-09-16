@@ -23,7 +23,6 @@ public class Assignment extends PersistableBusinessObjectBase {
     private Long jobNumber;
     private Job job;
     private Date effectiveDate;
-    private String earnCode;
     private Long workArea;
     private Long task;
     private boolean active;
@@ -57,7 +56,6 @@ public class Assignment extends PersistableBusinessObjectBase {
 	this.principalId = principalId;
 	this.jobNumber = jobNumber;
 	this.effectiveDate = effectiveDate;
-	this.earnCode = earnCode;
 	this.workArea = workAreaId;
 	this.task = taskId;
     }
@@ -132,19 +130,6 @@ public class Assignment extends PersistableBusinessObjectBase {
 	public void setTkAssignmentId(Long tkAssignmentId) {
 		this.tkAssignmentId = tkAssignmentId;
 	}
-
-
-
-	public String getEarnCode() {
-		return earnCode;
-	}
-
-
-
-	public void setEarnCode(String earnCode) {
-		this.earnCode = earnCode;
-	}
-
 
 
 	public Timestamp getTimestamp() {

@@ -21,6 +21,7 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 	private String orgRefId;
 	private BigDecimal percent;
 	private boolean active;
+	private String earnCode;
 	private Long tkAssignmentId;
 	private Assignment assignmentObj;
 	
@@ -180,6 +181,18 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 
 	public void setTkAssignmentId(Long tkAssignmentId) {
 		this.tkAssignmentId = tkAssignmentId;
+	}
+
+
+
+	public String getEarnCode() {
+		return earnCode;
+	}
+
+
+
+	public void setEarnCode(String earnCode) {
+		this.earnCode = earnCode;
 	}
 	
 }

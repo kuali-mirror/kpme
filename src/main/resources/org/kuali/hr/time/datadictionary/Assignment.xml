@@ -14,7 +14,6 @@
         <ref bean="Assignment-principalId"/>
         <ref bean="Assignment-jobNumber"/>
         <ref bean="Assignment-effectiveDate"/>
-        <ref bean="Assignment-earnCode"/>
         <ref bean="Assignment-workArea"/>
         <ref bean="Assignment-task"/>
         <ref bean="Assignment-active"/>
@@ -106,22 +105,6 @@
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
     <property name="name" value="effectiveDate"/>
     <property name="label" value="Effective Date"/>
-  </bean>
-
-  <bean id="Assignment-earnCode" parent="Assignment-earnCode-parentBean"/>
-  <bean id="Assignment-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Earn Code"/>
-    <property name="maxLength" value="3"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern">
-      	<property name="allowWhitespace" value="false"/>
-      </bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
-    </property>
-    <property name="name" value="earnCode"/>
-    <property name="label" value="Earn Code"/>
   </bean>
 
   <bean id="Assignment-workArea" parent="Assignment-workArea-parentBean"/>
