@@ -55,12 +55,12 @@ INSERT INTO `tk_task_t`(`tk_task_id`,`task`,`work_area`,`descr`,`admin_descr`,`o
 DELETE FROM `tk_assignment_s`;
 INSERT INTO `tk_assignment_s` (`ID`) VALUES ('1000');
 DELETE FROM `tk_assignment_t`;
-INSERT INTO `tk_assignment_t` (`TK_ASSIGNMENT_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`EARN_CODE`,`WORK_AREA`,`TASK`,`OBJ_ID`,`TIMESTAMP`,`VER_NBR`,`active`) VALUES
-    ('10', 'admin', '1', '2010-08-01', 'RGN', '1234', '1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE','2010-07-27 10:25:13', '1', '1'),
-    ('11', 'admin', '2', '2010-08-01', 'RGH', '1234', '2', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE','2010-07-27 10:25:13', '1', '1'),
-    ('12', 'eric', '1', '2010-08-01', 'RGH', '2345', '1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE','2010-07-27 10:25:13', '1', '1'),
-    ('13', 'eric', '2', '2010-08-01', 'RGI', '3456', '1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE','2010-07-27 10:25:13', '1', '1'),
-    ('14', 'admin', '1', '2010-08-04', 'RGN', '1234', '1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE','2010-08-27 10:25:13', '1', '1');
+INSERT INTO `tk_assignment_t` (`TK_ASSIGNMENT_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`WORK_AREA`,`TASK`,`OBJ_ID`,`TIMESTAMP`,`VER_NBR`,`active`) VALUES
+    ('10' , 'admin' , '1' , '2010-08-01' , '1234' , '1' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , '1')  ,
+    ('11' , 'admin' , '2' , '2010-08-01' , '1234' , '2' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , '1')  ,
+    ('12' , 'eric'  , '1' , '2010-08-01' , '2345' , '1' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , '1')  ,
+    ('13' , 'eric'  , '2' , '2010-08-01' , '3456' , '1' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , '1')  ,
+    ('14' , 'admin' , '1' , '2010-08-04' , '1234' , '1' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , '1');
 
 #
 # dept earn code
