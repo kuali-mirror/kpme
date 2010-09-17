@@ -397,7 +397,7 @@
 
 	<class-descriptor class="org.kuali.hr.time.assignment.AssignmentAccount"
 		table="tk_assign_acct_t">
-		<field-descriptor name="tkAssignAcctId" column="TK_ASSIGN_ACCT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_assignment_acct_s" />
+		<field-descriptor name="tkAssignAcctId" column="TK_ASSIGN_ACCT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_assign_acct_s" />
 		<field-descriptor name="finCoaCd" column="FIN_COA_CD" jdbc-type="VARCHAR" length="2" />
 		<field-descriptor name="accountNbr" column="ACCOUNT_NBR" jdbc-type="VARCHAR" length="7" />
 		<field-descriptor name="subAcctNbr" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" length="5" />

@@ -2,6 +2,7 @@ package org.kuali.hr.time.timesheet.web;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -25,6 +28,7 @@ public class TimesheetAction extends TkAction {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(TimesheetAction.class);
+
 	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -41,70 +45,45 @@ public class TimesheetAction extends TkAction {
 	
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(user.getPrincipalId(), payCalendarDates);
 		taForm.setTimesheetDocument(tdoc);
+		
+		taForm.setAssignmentDescriptions(getAssignmentDescriptions(tdoc));
+		// only get the earn codes for the first assignment when the form is loaded
+//		taForm.setEarnCodesDescriptions(getEarnCodeDescriptions(tdoc.getAssignments().get(0)));
+		
 		return forward;
 	}
 
-	private Map<Long,List<String>> getFormattedAssignment() {
-		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getUser().getPrincipalId(), TKUtils.getTimelessDate(null));
-
-		Map<Long,List<String>> formattedAssignments = new LinkedHashMap<Long,List<String>>();
-//		for(Job job : jobs) {
-//
-//			List<Assignment> assignments = job.getAssignments();
-//			List<String> assignmentList = new LinkedList<String>();
-//
-//			if(assignments.size() > 0) {
-//				for(Assignment assignment : assignments) {
-//					try {
-//
-//						String workAreaDesc = assignment.getWorkAreaObj().getDescription();
-//						// TODO: needs to grab the real value
-//						String compRate = "CompRate";
-//
-//						String assignmentStr = workAreaDesc + " : " + compRate + " Rcd #" + job.getJobNumber().toString() + " " + job.getDept();
-//						assignmentList.add(assignmentStr);
-//
-//					} catch(NullPointerException npe) {
-//						LOG.error("one of the values is missing for the assignment " + npe.getMessage());
-//					}
-//				}
-//			}
-//			formattedAssignments.put(job.getJobNumber(), assignmentList);
-//		}
-
-		return formattedAssignments;
+	protected Map<String,String> getAssignmentDescriptions(TimesheetDocument td) {
+		List<Assignment> assignments = td.getAssignments();
+		Map<String,String> assignmentDescriptions = new LinkedHashMap<String,String>();
+		
+		if(assignments.size() < 1) {
+			throw new RuntimeException("No assignment on the timesheet document.");
+		}
+		
+		for(Assignment assignment : assignments) {
+			String assignmentDescKey  = assignment.getJobNumber() + ":" + assignment.getWorkArea() + ":" + assignment.getTask();
+			// TODO: need to use real values
+			String assignmentDescValue =  "workAreaDesc : compRate Rcd #1 BL-UITS";
+			assignmentDescriptions.put(assignmentDescKey, assignmentDescValue);
+		}
+		
+		return assignmentDescriptions;
 	}
 
-	private Map<Long,List<String>> getFormattedDeptEarnCodes() {
-//		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getUser().getPrincipalId(), TKUtils.getTimelessDate(null));
-		Map<Long,List<String>> formattedDeptEarnCodes = new LinkedHashMap<Long,List<String>>();
-//		TODO fix this madness
+	protected Map<Long,String> getEarnCodeDescriptions(Assignment a) {
+		List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(a);
+		
+		if(earnCodes.size() < 1) {
+			throw new RuntimeException("No earn codes for assignment : " + a.getTkAssignmentId());
+		}
+		
+		Map<Long,String> earnCodeDescriptions = new LinkedHashMap<Long,String>();
 
-//		for(Job job : jobs) {
-//
-//			List<DepartmentEarnCode> deptEarnCodes = job.getDeptEarnCodes();
-//			List<String> earnCodeList = new LinkedList<String>();
-//
-//			if(deptEarnCodes.size() > 0) {
-//				for(DepartmentEarnCode deptEarnCode : deptEarnCodes) {
-//
-//					try {
-//
-//						String earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCode()).getEarnCode();
-//						String earnCodeDesc = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCodeId()).getDescription();
-//
-//						String earnCodeStr = earnCode + " : " + earnCodeDesc;
-//						earnCodeList.add(earnCodeStr);
-//					} catch(NullPointerException npe) {
-//						LOG.error("can't find the dept earn code. id: " + deptEarnCode.getEarnCodeId());
-//					}
-//				}
-//			}
-//
-//			formattedDeptEarnCodes.put(job.getJobNumber(), earnCodeList);
-//		}
-
-		return formattedDeptEarnCodes;
-
+		for(EarnCode earnCode : earnCodes) {
+			earnCodeDescriptions.put(a.getJobNumber(),earnCode.getDescription());
+		}
+		
+		return earnCodeDescriptions;
 	}
 }

@@ -15,7 +15,8 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 
 	private Date beginPeriodDate;
 	private Date endPeriodDate;
-	private String timeBlockJson;
+	// this is for the ajax call
+	private String outputString;
 	private String timeBlockId;
 	private String earnCode;
 	private String assignment;
@@ -25,6 +26,8 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	private String endTime;
 	private String acrossDays;
 	private List<TimeBlock> timeBlockList;
+	// (concat(job number, work_area, task))
+	private String assignmentUniqueKey;
 
 	public Date getBeginPeriodDate() {
 		return beginPeriodDate;
@@ -41,12 +44,12 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	public void setEndPeriodDate(Date endPeriodDate) {
 		this.endPeriodDate = endPeriodDate;
 	}
-	public String getTimeBlockJson() {
-		return timeBlockJson;
+	public String getOutputString() {
+		return outputString;
 	}
 
-	public void setTimeBlockJson(String timeBlockJson) {
-		this.timeBlockJson = timeBlockJson;
+	public void setOutputString(String outputString) {
+		this.outputString = outputString;
 	}
 
 	public String getTimeBlockId() {
@@ -119,5 +122,13 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 
 	public void setTimeBlocks(List<TimeBlock> timeBlockList) {
 		this.timeBlockList = timeBlockList;
+	}
+
+	public String getAssignmentUniqueKey() {
+		return assignmentUniqueKey;
+	}
+
+	public void setAssignmentUniqueKey(String assignmentUniqueKey) {
+		this.assignmentUniqueKey = assignmentUniqueKey;
 	}
 }

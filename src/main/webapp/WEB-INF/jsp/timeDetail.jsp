@@ -109,13 +109,13 @@
 								<tr>
 									<td>Assignment: </td>
 									<td>
-										<tk:assignment assignments="${Form.formattedAssignments}"/>
+										<tk:assignment assignments="${Form.assignmentDescriptions}"/>
 									</td>
 								</tr>
 								<tr>
 									<td>Earn code: </td>
 									<td>
-										<tk:earnCode earnCodes="${Form.deptEarnCodes}"/>
+										<tk:earnCode earnCodes="${Form.earnCodeDescriptions}"/>
 									</td>
 								</tr>
 								<tr id="clockIn">

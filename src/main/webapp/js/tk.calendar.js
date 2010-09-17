@@ -85,7 +85,32 @@ $(document).ready(function() {
                             );
                             calendar.fullCalendar('unselect');
                         }
-
+                        
+                        // reset assignment and earn code
+                        $('#assignment > option:first').attr('selected','selected');
+                        
+                    	var params = {};
+                        params['assignmentUniqueId'] = $('#assignment:first').val();
+                    	
+                        $.ajax({
+                            url: "TimeDetail.do?methodToCall=getEarnCodes",
+                            data: params,
+                            cache: false,
+                            success: function(data) {
+                            	$('#earnCode').html(data);
+                            },
+                            error: function() {
+                            	$('#earnCode').html("Error: Can't get earn codes.");
+                            }
+                        });
+                        
+                        $('#loading-earnCodes').ajaxStart(function() {
+                			$(this).show();
+                		});
+                		$('#loading-earnCodes').ajaxStop(function() {
+                			$(this).hide();
+                		}); 
+                        
                         //TODO: need to deal with week and day view where the clock in and out fields should be hidden
                         // var view = calendar.fullCalendar('getView');
                     }
@@ -112,7 +137,7 @@ $(document).ready(function() {
 //					id : 2
 //			    }
 //            ]
-            events : "TimeDetail.do?methodToCall=webService",
+            events : "TimeDetail.do?methodToCall=getTimeblocks",
             loading: function(bool) {
                 if (bool) $('#loading').show();
                 else $('#loading').hide();

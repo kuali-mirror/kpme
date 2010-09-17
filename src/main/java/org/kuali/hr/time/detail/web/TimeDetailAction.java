@@ -16,19 +16,68 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONValue;
+import org.kuali.hr.job.Job;
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 
 public class TimeDetailAction extends TimesheetAction {
 
+	@Override
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward forward = super.execute(mapping, form, request, response);
+		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+		TimesheetDocument td = tdaf.getTimesheetDocument();
+		
+		List<Job> job = td.getJobs();
+		
+		//TODO: create a util method to simplify the process to get pay period dates?
+		java.sql.Date beginPeriodDate = job.get(0).getPayType().getPayCalendar().getPayCalendarDates().get(0).getBeginPeriodDate();
+		java.sql.Date endPeriodDate = job.get(0).getPayType().getPayCalendar().getPayCalendarDates().get(0).getEndPeriodDate();
 
-	public ActionForward webService(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		tdaf.setBeginPeriodDate(beginPeriodDate);
+		tdaf.setEndPeriodDate(endPeriodDate);
+
+		List<TimeBlock> timeBlocks = td.getTimeBlocks();
+
+		// for visually impaired users
+		tdaf.setTimeBlocks(timeBlocks);
+		
+		return forward;
+	}
+	
+	public ActionForward getEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+		List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+		// jobNumber : workArea : task
+		String[] assignmentUniqueKey = tdaf.getAssignmentUniqueKey().split(":");
+		String earnCodeString = "";
+		
+		for(Assignment assignment : assignments) {
+			if(StringUtils.equals(assignment.getJobNumber().toString(), assignmentUniqueKey[0]) &&
+			    StringUtils.equals(assignment.getWorkArea().toString(), assignmentUniqueKey[1]) &&
+			    StringUtils.equals(assignment.getTask().toString(), assignmentUniqueKey[2])) {
+				
+				List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment);
+				for(EarnCode earnCode: earnCodes) {
+					earnCodeString.concat("<option value='" + earnCode.getEarnCode() + "'>" + earnCode.getEarnCode() + " : " + earnCode.getDescription() + "</option>");
+				}
+			}
+		}
+		
+		tdaf.setOutputString(earnCodeString);
+		return mapping.findForward("ws");
+	}
+
+	public ActionForward getTimeblocks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		TimeDetailActionForm timeDetailForm = (TimeDetailActionForm) form;
-
+		
 		String principalId = TKContext.getUser().getPrincipalId();
 		Date beginDate = timeDetailForm.getBeginPeriodDate();
 		Date endDate = timeDetailForm.getEndPeriodDate();
@@ -40,8 +89,6 @@ public class TimeDetailAction extends TimesheetAction {
 		for(TimeBlock timeBlock : timeBlocks) {
 			Map<String,Object> timeBlockMap = new LinkedHashMap<String, Object>();
 
-			// TODO: need to hook up the real assignment
-
 			timeBlockMap.put("title", "HRMS Java Team : " + timeBlock.getEarnCode());
 			timeBlockMap.put("start", new java.util.Date(timeBlock.getBeginTimestamp().getTime()).toString());
 			timeBlockMap.put("end", new java.util.Date(timeBlock.getEndTimestamp().getTime()).toString());
@@ -49,9 +96,8 @@ public class TimeDetailAction extends TimesheetAction {
 
 			timeBlockList.add(timeBlockMap);
 		}
-
-		// generate a JOSN string
-		timeDetailForm.setTimeBlockJson(JSONValue.toJSONString(timeBlockList));
+		
+		timeDetailForm.setOutputString(JSONValue.toJSONString(timeBlockList));
 		
 		return mapping.findForward("ws");
 	}
@@ -86,11 +132,12 @@ public class TimeDetailAction extends TimesheetAction {
 		end.set(Calendar.MINUTE, Integer.parseInt(endTimeField[1]));
 		end.set(Calendar.SECOND, 0);
 
+		// TODO: need to change the static data
 		if(StringUtils.equals(timeDetailForm.getAcrossDays(),"y")) {
 			List<TimeBlock> timeBlockList = new LinkedList<TimeBlock>();
 
-			long dayBetween = TKUtils.getDaysBetween(begin, end);
-			for (int i = 0; i < dayBetween; i++) {
+			long daysBetween = TKUtils.getDaysBetween(begin, end);
+			for (int i = 0; i < daysBetween; i++) {
 
 				Calendar b = (Calendar)begin.clone();
 				Calendar e = (Calendar)end.clone();

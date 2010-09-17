@@ -5,20 +5,17 @@
 <jsp:setProperty name="tagSupport" property="assignments" value="${assignments}" />
 
 <c:choose>
-	<c:when test="${tagSupport.assignmentSize <= 1}">
+	<c:when test="${fn:length(assignments) <= 1}">
 		<c:forEach var="assignment" items="${assignments}">
-			<c:forEach var="assignmentStr" items="${assignment.value}">
-				${assignmentStr}
-				<input type="hidden" id="assignment" name="assignment" value="${assignment.key}"/>
-			</c:forEach>
+			${assignment.value}
+			<input type="hidden" id="assignment" name="assignment" value="${assignment.key}"/>
 		</c:forEach>
 	</c:when>
 	<c:otherwise>
 		<select id="assignment">
+			<option value="" selected="selected">-- select one --</option>
 			<c:forEach var="assignment" items="${assignments}">
-				<c:forEach var="assignmentStr" items="${assignment.value}">
-					<option value="${assignment.key}">${assignmentStr}</option>
-				</c:forEach>
+				<option value="${assignment.key}">${assignment.value}</option>
 			</c:forEach>
 		</select>
 	</c:otherwise>

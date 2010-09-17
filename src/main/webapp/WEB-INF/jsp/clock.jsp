@@ -52,7 +52,7 @@
 			<tr>
 				<td class="sub-header"><bean:message key="clock.clockAssignment"/> : </td>
 				<td>
-					<tk:assignment assignments="${Form.formattedAssignments}"/>
+					<tk:assignment assignments="${Form.assignmentDescriptions}"/>
 				</td>
 			</tr>
 			<tr class="footer">
