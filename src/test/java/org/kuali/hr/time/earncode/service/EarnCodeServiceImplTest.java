@@ -19,6 +19,7 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 	public static final Long TEST_ASSIGNMENT_JOB_NUMBER = 1L;
 	public static final Long TEST_ASSIGNMENT_JOB_NUMBER_2 = 2L;
 	public static final Long TEST_ASSIGNMENT_JOB_NUMBER_3 = 3L;
+	public static final Long TEST_ASSIGNMENT_JOB_NUMBER_4 = 4L;
 	
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(JobServiceImplTest.class);
@@ -41,6 +42,7 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 		Assignment assignment1 = null;
 		Assignment assignment2 = null;
 		Assignment assignment3 = null;
+		Assignment assignment4 = null;
 		for (Assignment a : assignments) {
 			if (a.getJobNumber().equals(TEST_ASSIGNMENT_JOB_NUMBER)) {
 				assignment1 = a;
@@ -48,12 +50,16 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 				assignment2 = a;
 			} else if (a.getJobNumber().equals(TEST_ASSIGNMENT_JOB_NUMBER_3)) {
 				assignment3 = a;
+			} else if (a.getJobNumber().equals(TEST_ASSIGNMENT_JOB_NUMBER_4)) {
+				assignment4 = a;
 			}
 		}
 		
+		// one for each test scenario involving wildcards at least...
 		assertNotNull("Test assignment not found.", assignment1);
 		assertNotNull("Test assignment not found.", assignment2);
 		assertNotNull("Test assignment not found.", assignment3);
+		assertNotNull("Test assignment not found.", assignment4);
 		
 		// Testing standard lookup.
 		List<EarnCode> earnCodes = earnCodeService.getEarnCodes(assignment1);
@@ -66,10 +72,18 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 			assertTrue("Wrong earn codes.", (ec.getEarnCode().equals("RGN") || ec.getEarnCode().equals("XYY")));
 		}
 		
+		// Dual Wildcards
 		earnCodes = earnCodeService.getEarnCodes(assignment3);
 		assertEquals("Wrong number of earn codes returned.", 2, earnCodes.size());
 		for (EarnCode ec : earnCodes) {
 			assertTrue("Wrong earn codes.", (ec.getEarnCode().equals("RGN") || ec.getEarnCode().equals("XZZ")));
+		}
+		
+		// Wildcard on Department
+		earnCodes = earnCodeService.getEarnCodes(assignment4);
+		assertEquals("Wrong number of earn codes returned.", 2, earnCodes.size());
+		for (EarnCode ec : earnCodes) {
+			assertTrue("Wrong earn codes.", (ec.getEarnCode().equals("RGN") || ec.getEarnCode().equals("XYZ")));
 		}
 		
 	}
