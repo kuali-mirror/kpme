@@ -115,7 +115,8 @@
 								<tr>
 									<td>Earn code: </td>
 									<td>
-										<tk:earnCode earnCodes="${Form.earnCodeDescriptions}"/>
+										<!-- <tk:earnCode earnCodes="${Form.earnCodeDescriptions}"/> -->
+										<select id='earnCode'></select>
 									</td>
 								</tr>
 								<tr id="clockIn">

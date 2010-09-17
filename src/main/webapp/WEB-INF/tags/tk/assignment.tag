@@ -20,4 +20,4 @@
 		</select>
 	</c:otherwise>
 </c:choose>
-
+<span id='loading-earnCodes' style='display:none; margin-left:10px;'><img src='images/ajax-loader.gif' alt='Loading' style='vertical-align:middle;'/></span>

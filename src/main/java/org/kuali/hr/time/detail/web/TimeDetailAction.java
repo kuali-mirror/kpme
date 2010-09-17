@@ -55,7 +55,7 @@ public class TimeDetailAction extends TimesheetAction {
 		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
 		List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
 		// jobNumber : workArea : task
-		String[] assignmentUniqueKey = tdaf.getAssignmentUniqueKey().split(":");
+		String[] assignmentUniqueKey = tdaf.getAssignmentUniqueKey().split("_");
 		String earnCodeString = "";
 		
 		for(Assignment assignment : assignments) {
@@ -65,7 +65,7 @@ public class TimeDetailAction extends TimesheetAction {
 				
 				List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment);
 				for(EarnCode earnCode: earnCodes) {
-					earnCodeString.concat("<option value='" + earnCode.getEarnCode() + "'>" + earnCode.getEarnCode() + " : " + earnCode.getDescription() + "</option>");
+					earnCodeString += "<option value='" + earnCode.getEarnCode() + "'>" + earnCode.getEarnCode() + " : " + earnCode.getDescription() + "</option>";
 				}
 			}
 		}
@@ -96,7 +96,7 @@ public class TimeDetailAction extends TimesheetAction {
 
 			timeBlockList.add(timeBlockMap);
 		}
-		
+	
 		timeDetailForm.setOutputString(JSONValue.toJSONString(timeBlockList));
 		
 		return mapping.findForward("ws");

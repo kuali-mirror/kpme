@@ -2,7 +2,6 @@ package org.kuali.hr.time.timesheet.web;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +31,6 @@ public class TimesheetAction extends TkAction {
 	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward forward = super.execute(mapping, form, request, response);
 		TimesheetActionForm taForm = (TimesheetActionForm)form;
 		
 		TKUser user = TKContext.getUser();
@@ -50,7 +48,7 @@ public class TimesheetAction extends TkAction {
 		// only get the earn codes for the first assignment when the form is loaded
 //		taForm.setEarnCodesDescriptions(getEarnCodeDescriptions(tdoc.getAssignments().get(0)));
 		
-		return forward;
+		return super.execute(mapping, form, request, response);
 	}
 
 	protected Map<String,String> getAssignmentDescriptions(TimesheetDocument td) {
@@ -62,28 +60,12 @@ public class TimesheetAction extends TkAction {
 		}
 		
 		for(Assignment assignment : assignments) {
-			String assignmentDescKey  = assignment.getJobNumber() + ":" + assignment.getWorkArea() + ":" + assignment.getTask();
+			String assignmentDescKey  = assignment.getJobNumber() + "_" + assignment.getWorkArea() + "_" + assignment.getTask();
 			// TODO: need to use real values
 			String assignmentDescValue =  "workAreaDesc : compRate Rcd #1 BL-UITS";
 			assignmentDescriptions.put(assignmentDescKey, assignmentDescValue);
 		}
 		
 		return assignmentDescriptions;
-	}
-
-	protected Map<Long,String> getEarnCodeDescriptions(Assignment a) {
-		List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(a);
-		
-		if(earnCodes.size() < 1) {
-			throw new RuntimeException("No earn codes for assignment : " + a.getTkAssignmentId());
-		}
-		
-		Map<Long,String> earnCodeDescriptions = new LinkedHashMap<Long,String>();
-
-		for(EarnCode earnCode : earnCodes) {
-			earnCodeDescriptions.put(a.getJobNumber(),earnCode.getDescription());
-		}
-		
-		return earnCodeDescriptions;
 	}
 }

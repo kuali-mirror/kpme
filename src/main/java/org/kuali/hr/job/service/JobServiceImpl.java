@@ -3,6 +3,7 @@ package org.kuali.hr.job.service;
 import java.sql.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
 import org.kuali.hr.time.paytype.PayType;
@@ -41,7 +42,14 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public Job getJob(String principalId, Long jobNumber, Date asOfDate) {
 		Job job = jobDao.getJob(principalId, jobNumber, asOfDate);
-		PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), asOfDate);
+		if(job == null) {
+			throw new RuntimeException("No job for principal : " + principalId);
+		}
+		String hrPayType = job.getHrPayType();
+		if(StringUtils.isBlank(hrPayType)) {
+			throw new RuntimeException("No pay type for this job!");
+		}
+		PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(hrPayType, asOfDate);
 		if (payType == null)
 			throw new RuntimeException("No paytypes defined for this job!");
 		job.setPayType(payType);
