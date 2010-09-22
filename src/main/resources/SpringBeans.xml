@@ -316,6 +316,10 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
     
+    <bean id="earnGroupDao" class="org.kuali.hr.time.earngroup.dao.EarnGroupDaoServiceImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
 	<!-- Time Services for Business Logic -->
 
     <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
@@ -383,6 +387,12 @@
     <bean id="tkRoleAssignmentService" class="org.kuali.hr.time.role.assign.service.TkRoleAssignServiceImpl">
     	<property name="tkRoleAssignDao" ref="tkRoleAssignDao"/>
     </bean>
+    
+    <bean id="earnGroupService" class="org.kuali.hr.time.earngroup.service.EarnGroupServiceImpl">
+    	<property name="earnGroupDao" ref="earnGroupDao"/>
+    </bean>
+    
+    <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>
 
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
     </bean>

@@ -2,7 +2,9 @@ package org.kuali.hr.time.timeblock;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -31,6 +33,8 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	private Timestamp timestamp;
 	private String beginTimestampTimezone;
 	private String endTimestampTimezone;
+	
+	private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -198,5 +202,17 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 
 	public void setTkTaskId(Long tkTaskId) {
 		this.tkTaskId = tkTaskId;
+	}
+
+	public List<TimeHourDetail> getTimeHourDetails() {
+		return timeHourDetails;
+	}
+
+	public void setTimeHourDetails(List<TimeHourDetail> timeHourDetails) {
+		this.timeHourDetails = timeHourDetails;
+	}
+	
+	public String getAssignString(){
+		return this.jobNumber + "_" + this.workArea + "_" + this.task;
 	}
 }

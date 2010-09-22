@@ -39,15 +39,13 @@ public class TimesheetAction extends TkAction {
 		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(user.getPrincipalId(), currentDate);
 		if (jobs.size() < 1)
 			throw new RuntimeException("No jobs for a user.");
+		
 		PayCalendarDates payCalendarDates = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(user.getPrincipalId(), jobs.get(0), currentDate);
 	
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(user.getPrincipalId(), payCalendarDates);
 		taForm.setTimesheetDocument(tdoc);
 		
 		taForm.setAssignmentDescriptions(getAssignmentDescriptions(tdoc));
-		// only get the earn codes for the first assignment when the form is loaded
-//		taForm.setEarnCodesDescriptions(getEarnCodeDescriptions(tdoc.getAssignments().get(0)));
-		
 		return super.execute(mapping, form, request, response);
 	}
 

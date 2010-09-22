@@ -71,7 +71,7 @@ public class TimeDetailAction extends TimesheetAction {
 		}
 		
 		tdaf.setOutputString(earnCodeString);
-		return mapping.findForward("ws");
+		return mapping.findForward("basic");
 	}
 
 	public ActionForward getTimeblocks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -99,7 +99,7 @@ public class TimeDetailAction extends TimesheetAction {
 	
 		timeDetailForm.setOutputString(JSONValue.toJSONString(timeBlockList));
 		
-		return mapping.findForward("ws");
+		return mapping.findForward("basic");
 	}
 
 	public ActionForward deleteTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

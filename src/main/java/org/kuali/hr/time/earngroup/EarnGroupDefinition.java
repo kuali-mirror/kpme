@@ -1,6 +1,5 @@
 package org.kuali.hr.time.earngroup;
 
-import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -10,46 +9,41 @@ public class EarnGroupDefinition extends PersistableBusinessObjectBase {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private String earnsGroup;
+	private static final long serialVersionUID = -8463674251885306591L;
+
+	private Long tkEarnGroupDefId;
+
 	private String earnCode;
-	private Date effectiveDate;
-	
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		return null;
-	}
 
-
-	public String getEarnsGroup() {
-		return earnsGroup;
-	}
-
-
-	public void setEarnsGroup(String earnsGroup) {
-		this.earnsGroup = earnsGroup;
-	}
-
+	private Long tkEarnGroupId;
 
 	public String getEarnCode() {
 		return earnCode;
 	}
 
-
 	public void setEarnCode(String earnCode) {
 		this.earnCode = earnCode;
 	}
-
-
-	public Date getEffectiveDate() {
-		return effectiveDate;
+	@Override
+	protected LinkedHashMap<String, Object> toStringMapper() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	public Long getTkEarnGroupDefId() {
+		return tkEarnGroupDefId;
+	}
 
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
+	public void setTkEarnGroupDefId(Long tkEarnGroupDefId) {
+		this.tkEarnGroupDefId = tkEarnGroupDefId;
+	}
+
+	public Long getTkEarnGroupId() {
+		return tkEarnGroupId;
+	}
+
+	public void setTkEarnGroupId(Long tkEarnGroupId) {
+		this.tkEarnGroupId = tkEarnGroupId;
 	}
 
 }

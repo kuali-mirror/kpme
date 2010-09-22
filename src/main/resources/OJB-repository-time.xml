@@ -81,6 +81,18 @@
 		<field-descriptor name="workArea"				column="work_area"	 		jdbc-type="BIGINT"  nullable="false" primarykey="false" />
 		<field-descriptor name="task" 					column="task"	 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />
 		<field-descriptor name="hrJobId"              column="hr_job_id" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
+	
+		<collection-descriptor
+			name="timeHourDetails"
+			element-class-ref="org.kuali.hr.time.timeblock.TimeHourDetail"
+			auto-retrieve="true"
+			auto-update="object"
+			auto-delete="object"
+			>
+			<inverse-foreignkey field-ref="tkTimeBlockId"/>
+		</collection-descriptor>
+	
+	
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.clocklog.ClockLog" table="tk_clock_log_t">
@@ -224,7 +236,7 @@
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>	
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.earncode.EarnGroup" table="tk_earn_group_t">
+	<class-descriptor class="org.kuali.hr.time.earngroup.EarnGroup" table="tk_earn_group_t">
 		<field-descriptor name="tkEarnGroupId" 	column="tk_earn_group_id" 	jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_earn_group_s"/>
 		<field-descriptor name="earnGroup"      column="earn_group"		jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
 		<field-descriptor name="active" 		column="active"			jdbc-type="BIT"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
@@ -233,7 +245,7 @@
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>	
 		<collection-descriptor
 			name="earnGroups"
-			element-class-ref="org.kuali.hr.time.earncode.EarnGroupDef"
+			element-class-ref="org.kuali.hr.time.earngroup.EarnGroupDefinition"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
 			auto-retrieve="true"
 			auto-delete="object"
@@ -243,7 +255,7 @@
 		</collection-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.earncode.EarnGroupDef" table="tk_earn_group_def_t">
+	<class-descriptor class="org.kuali.hr.time.earngroup.EarnGroupDefinition" table="tk_earn_group_def_t">
 		<field-descriptor name="tkEarnGroupDefId" 	column="tk_earn_group_def_id" 	jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_earn_group_def_s"/>
 		<field-descriptor name="earnCode"       	column="earn_code"			jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
 		<field-descriptor name="tkEarnGroupId"       	column="tk_earn_group_id"		jdbc-type="BIGINT" nullable="false" primarykey="false" />
@@ -574,5 +586,15 @@
 		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />				
+	</class-descriptor>	
+	
+	<class-descriptor class="org.kuali.hr.time.timeblock.TimeHourDetail" table="tk_hour_detail_t">
+	    <field-descriptor name="tkTimeHourDetailId" 	column="tk_time_block_id"   jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_time_hour_detail_s" />
+		<field-descriptor name="tkTimeBlockId" 			column="tk_time_block_id"   jdbc-type="BIGINT" primarykey="false" />
+		<field-descriptor name="earnCode" 				column="earn_code" 		        jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
+		<field-descriptor name="hours" 					column="hours" 				jdbc-type="NUMERIC" precision="5" scale="2" nullable="false" primarykey="false" />
+		<field-descriptor name="amount" 				column="amount" 			jdbc-type="NUMERIC" precision="6" scale="2" nullable="yes" primarykey="false" />
+		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>	
 </descriptor-repository>

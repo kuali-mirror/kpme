@@ -134,3 +134,40 @@ INSERT INTO `tk_time_collection_rl_t` (`TK_TIME_COLL_RULE_ID`,`DEPT`,`WORK_AREA`
 	('2' , '*'         , 1234 , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 1)  ,
 	('3' , 'TEST-DEPT' , -1   , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 1)  ,
 	('4' , '*'         , -1   , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 1);
+	
+INSERT INTO `tk`.`tk_time_block_t`
+(`TK_TIME_BLOCK_ID`,`DOCUMENT_ID`,`JOB_NUMBER`,`WORK_AREA`,`TASK`,`TK_WORK_AREA_ID`,
+`HR_JOB_ID`,`TK_TASK_ID`,`EARN_CODE`,`BEGIN_TS`,`BEGIN_TS_TZ`,`END_TS`,`END_TS_TZ`,
+`CLOCK_LOG_CREATED`,`HOURS`,`amount`,`USER_PRINCIPAL_ID`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`)
+VALUES
+(2000,'4145',1,1234,0,100,1012,100,'RGN','2010-09-19 08:08:08', 'EST', '2010-09-19 10:08:08', 'EST',0,2,0,'admin','2010-09-19 08:08:08','38382',1),
+(2001,'4145',1,1234,0,100,1012,100,'RGN','2010-09-20 08:08:08', 'EST', '2010-09-20 10:08:08', 'EST',0,2,0,'admin','2010-09-20 08:08:08','38382',1);
+	
+INSERT INTO `tk`.`tk_hour_detail_t`
+(`TK_HOUR_DETAIL_ID`,`TK_TIME_BLOCK_ID`,`EARN_CODE`,`HOURS`,
+`amount`,`OBJ_ID`,`VER_NBR`)
+VALUES
+(100,2000,'RGN',2,0,'888223f',1),
+(101,2001,'RGN',2,0,'23432ff',1);
+
+INSERT INTO `tk`.`tk_earn_group_t` (`tk_earn_group_id`,`earn_group`,`descr`,`effdt`,
+`active`,`OBJ_ID`,`VER_NBR`,`timestamp`)
+VALUES
+('100','REG','Regular', '2010-01-01',1,'7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' );
+INSERT INTO `tk`.`tk_earn_group_t` (`tk_earn_group_id`,`earn_group`,`descr`,`effdt`,
+`active`,`OBJ_ID`,`VER_NBR`,`timestamp`)
+VALUES
+('101','OVT','Overtime', '2010-01-01',1,'7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' );
+
+INSERT INTO `tk`.`tk_earn_group_def_t`
+(`tk_earn_group_id`,`earn_code`,`OBJ_ID`,`VER_NBR`,`tk_earn_group_def_id`)
+VALUES
+(100,'REG','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1,100);
+
+INSERT INTO `tk`.`tk_earn_group_def_t`
+(`tk_earn_group_id`,`earn_code`,`OBJ_ID`,`VER_NBR`,`tk_earn_group_def_id`)
+VALUES
+(100,'RGN','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1,101);
+
+
+

@@ -35,7 +35,7 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 		return (TimeBlock)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(TimeBlock.class, currentRecordCriteria));
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	public List<TimeBlock> getTimeBlocksByPeriod(String principalId, Date beginDate, Date endDate) {
 
 		Timestamp begin = new Timestamp(beginDate.getTime());
@@ -44,7 +44,7 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 		currentRecordCriteria.addEqualTo("user_principal_id", principalId);
 		currentRecordCriteria.addGreaterOrEqualThan("begin_ts", begin);
 		currentRecordCriteria.addLessOrEqualThan("end_ts", end);
-
+		currentRecordCriteria.addOrderByDescending("begin_ts");
 		List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 		Collection<TimeBlock> c = this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, currentRecordCriteria));
 		timeBlocks.addAll(c);

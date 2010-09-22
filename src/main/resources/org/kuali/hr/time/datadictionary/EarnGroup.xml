@@ -6,8 +6,8 @@
 
 	<bean id="EarnGroup" parent="EarnGroup-parentBean" />
 	<bean id="EarnGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.time.earncode.EarnGroup" />
-		<property name="titleAttribute" value="earnGroupId" />
+		<property name="businessObjectClass" value="org.kuali.hr.time.earngroup.EarnGroup" />
+		<property name="titleAttribute" value="tkEarnGroupId" />
 		<property name="objectLabel" value="earnGroup" />
 		<property name="lookupDefinition">
 			<ref bean="EarnGroup-lookupDefinition" />

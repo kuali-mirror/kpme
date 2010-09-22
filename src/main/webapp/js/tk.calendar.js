@@ -137,7 +137,7 @@ $(document).ready(function() {
 //					id : 2
 //			    }
 //            ]
-            events : "TimeDetail.do?methodToCall=getTimeblocks",
+//            events : "TimeDetail.do?methodToCall=getTimeblocks",
             loading: function(bool) {
                 if (bool) $('#loading').show();
                 else $('#loading').hide();

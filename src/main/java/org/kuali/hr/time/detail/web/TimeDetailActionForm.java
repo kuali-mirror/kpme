@@ -29,6 +29,7 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	// (concat(job number, work_area, task))
 	private String assignmentUniqueKey;
 
+	
 	public Date getBeginPeriodDate() {
 		return beginPeriodDate;
 	}

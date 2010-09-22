@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 
 public class TimeCollectionRuleTest extends TkTestCase{
 
@@ -26,5 +27,7 @@ public class TimeCollectionRuleTest extends TkTestCase{
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME", 
 				234L, new Date(System.currentTimeMillis()));
 		assertTrue("Time collection rule present" , timeCollection!=null && timeCollection.getTkTimeCollectionRuleId().longValue() == 4L);
+		
+		
 	}
 }

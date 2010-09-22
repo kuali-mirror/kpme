@@ -93,11 +93,8 @@
 	              <h2>Administrative</h2> 
 	          </div>
 			  <div class="portlet-content">
-			  	
-
 				<form name="backdoorForm">
 				   BackdoorId <input type="text" name="backdoorId">
-
 				</form>
 			   </div>
 	       </div>

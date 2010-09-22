@@ -10,7 +10,7 @@
 	<bean id="EarnGroupMaintenanceDocument" parent="EarnGroupMaintenanceDocument-parentBean" />
 
 	<bean id="EarnGroupMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.earncode.EarnGroup"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.earngroup.EarnGroup"
 		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
 		<property name="maintainableSections">
 			<list>
@@ -62,7 +62,7 @@
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="earnGroups" />
 					<property name="businessObjectClass"
-						value="org.kuali.hr.time.earncode.EarnGroupDef" />
+						value="org.kuali.hr.time.earngroup.EarnGroupDefinition" />
 					<property name="alwaysAllowCollectionDeletion" value="true" />
 					<property name="maintainableFields">
 						<list>

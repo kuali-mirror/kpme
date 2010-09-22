@@ -3,6 +3,7 @@ package org.kuali.hr.time.util;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -59,6 +60,16 @@ public class TKUtils {
 			daysBetween++;
 		}
 		return daysBetween;
+	}
+	
+	public static long getDaysBetween(Date startDate, Date endDate){
+		Calendar beginCal = GregorianCalendar.getInstance();
+		Calendar endCal = GregorianCalendar.getInstance();
+		
+		beginCal.setTime(startDate);
+		endCal.setTime(endDate);
+		
+		return getDaysBetween(beginCal, endCal);
 	}
 
 	public static BigDecimal getHoursBetween(long start, long end) {

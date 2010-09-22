@@ -45,7 +45,8 @@ public class TimesheetServiceImpl implements TimesheetService {
 		} else {
 			timesheetDocument = this.getTimesheetDocument(header.getDocumentId());
 		}
-
+		timesheetDocument.setPayCalendarEntry(payCalendarDates);
+		timesheetDocument.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(timesheetDocument));
 		return timesheetDocument;
 	}
 
