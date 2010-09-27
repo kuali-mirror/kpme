@@ -17,7 +17,7 @@
 	<groupId>org.kuali</groupId>
 	<artifactId>trojan-time</artifactId>
 	<packaging>war</packaging>
-	<name>trojan-time</name>
+	<name>trojan-time</name> 
 	<description>Kuali's Trojan Time</description>
 	<version>0.1.0-SNAPSHOT</version>
 
