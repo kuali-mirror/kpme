@@ -34,7 +34,7 @@ public class TkConstants {
     public static final String ROLE_TK_EMPLOYEE  = "TK_EMPLOYEE";
     public static final String ROLE_TK_ORG_ADMIN = "TK_ORG_ADMIN";
     public static final String ROLE_TK_SYS_ADMIN = "TK_SYS_ADMIN";
-    public static final String ROLE_WORK_AREA_QUALIFIER_ID = "workAreaId";
+    public static final String ROLE_WORK_AREA_QUALIFIER_ID = "workArea";
     public static final List<String> ROLE_ASSIGNMENT_FOR_WORK_AREA = new ArrayList<String>(2);
     public static final Map<String,String> ROLE_NAME_TO_DESCRIPTION_MAP = new HashMap<String,String>();
     static {

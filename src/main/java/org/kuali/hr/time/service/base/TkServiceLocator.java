@@ -11,6 +11,7 @@ import org.kuali.hr.time.earngroup.service.EarnGroupService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarDatesService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
+import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.rule.TkRuleControllerService;
 import org.kuali.hr.time.timeblock.service.TimeBlockHistoryService;
 import org.kuali.hr.time.timeblock.service.TimeBlockService;
@@ -44,6 +45,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_DEPARTMENT_EARN_CODE = "deptEarnCodeService";
 	public static final String TK_EARN_CODE = "earnCodeService";
 	public static final String TK_TIME_COLLECTION_RULE_SERVICE = "timeCollectionRuleService";
+	public static final String TK_ROLE_SERVICE = "tkRoleService";
 	public static final String TK_TIME_SUMMARY_SERVICE = "timeSummaryService";
 	public static final String TK_TIME_EARN_GROUP_SERVICE = "earnGroupService";
 	
@@ -54,6 +56,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static void stop() throws Exception {
 //		CONTEXT.stop();
+	}
+	
+	public static TkRoleService getTkRoleService() {
+		return (TkRoleService) CONTEXT.getBean(TK_ROLE_SERVICE);
 	}
 	
 	public static TimesheetDocumentHeaderService getTimesheetDocumentHeaderService() {

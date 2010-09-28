@@ -586,7 +586,20 @@
 		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />				
-	</class-descriptor>	
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.hr.time.roles.TkRole" table="tk_roles_t">
+		<field-descriptor name="tkRolesId"       column="tk_roles_id"       jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_roles_s"/>
+		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
+		<field-descriptor name="userPrincipalId" column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />
+		<field-descriptor name="roleName"        column="role_name" jdbc-type="VARCHAR" length="20"/>		
+		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" />
+		<field-descriptor name="department"      column="dept" jdbc-type="VARCHAR" length="21"/>
+		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" />
+		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="active"          column="ACTIVE" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>			
+	</class-descriptor>
+	
 	
 	<class-descriptor class="org.kuali.hr.time.timeblock.TimeHourDetail" table="tk_hour_detail_t">
 	    <field-descriptor name="tkTimeHourDetailId" 	column="tk_time_block_id"   jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_time_hour_detail_s" />

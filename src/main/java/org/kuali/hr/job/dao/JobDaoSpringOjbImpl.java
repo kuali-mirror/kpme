@@ -11,11 +11,11 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements JobDao {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(JobDaoSpringOjbImpl.class);
 
 	public void saveOrUpdate(Job job) {
@@ -25,7 +25,7 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 	public void saveOrUpdate(List<Job> jobList) {
 		if (jobList != null) {
 			for (Job job : jobList) {
-				this.getPersistenceBrokerTemplate().store(job);
+				this.saveOrUpdate(job);
 			}
 		}
 	}
