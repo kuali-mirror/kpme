@@ -260,7 +260,7 @@
 			</div> <%-- end of tabs-2 --%>
 		<%-- </div> end of tabs-demo --%>
 
-		
+		<tk:timeSummary timeSummary="${Form.timesheetDocument.timeSummary}" />
 
 		<div id="timesheet-summary">
 			<div style="clear:both; text-align:center; font-weight: bold; margin-top:20px; margin-bottom: 5px;">Summary <%--(<a href="#" id="basic">Basic</a> / <a href="#" id="advance">Advanced</a> ) --%></div>

@@ -2,13 +2,21 @@ package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.Duration;
+import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.rice.core.config.ConfigContext;
 
 public class TKUtils {
@@ -75,5 +83,37 @@ public class TKUtils {
 	public static BigDecimal getHoursBetween(long start, long end) {
 		long diff = end - start;
 		return new BigDecimal((diff / 3600000.0) % 24).setScale(TkConstants.MATH_CONTEXT.getPrecision(), TkConstants.MATH_CONTEXT.getRoundingMode()).abs();
+	}
+	
+	public static Map<Timestamp, BigDecimal> getDateToHoursMap(TimeBlock timeBlock, TimeHourDetail timeHourDetail) {
+		Map<Timestamp,BigDecimal> dateToHoursMap = new HashMap<Timestamp,BigDecimal>();
+		DateTime beginTime = new DateTime(timeBlock.getBeginTimestamp());
+		DateTime endTime = new DateTime(timeBlock.getEndTimestamp());
+		
+		Days d = Days.daysBetween(beginTime, endTime);
+		int numberOfDays = d.getDays();
+		if(numberOfDays < 1){
+			dateToHoursMap.put(timeBlock.getBeginTimestamp(), timeHourDetail.getHours());
+			return dateToHoursMap;
+		}
+		DateTime currentTime = beginTime;
+		for(int i = 0 ;i<numberOfDays;i++){
+			DateTime nextDayAtMidnight = new DateTime(currentTime.plusDays(1).getMillis());
+			nextDayAtMidnight = nextDayAtMidnight.hourOfDay().setCopy(12);
+			nextDayAtMidnight = nextDayAtMidnight.minuteOfDay().setCopy(0);
+			nextDayAtMidnight = nextDayAtMidnight.secondOfDay().setCopy(0);
+			nextDayAtMidnight = nextDayAtMidnight.millisOfSecond().setCopy(0);
+			Duration dur = new Duration(currentTime, nextDayAtMidnight);
+			long duration = dur.getStandardSeconds();
+			BigDecimal hrs = new BigDecimal(duration/3600, TkConstants.MATH_CONTEXT);
+			dateToHoursMap.put(new Timestamp(currentTime.getMillis()),hrs);
+			currentTime = nextDayAtMidnight;
+		}
+		Duration dur = new Duration(currentTime, endTime);
+		long duration = dur.getStandardSeconds();
+		BigDecimal hrs = new BigDecimal(duration/3600, TkConstants.MATH_CONTEXT);
+		dateToHoursMap.put(new Timestamp(currentTime.getMillis()),hrs);
+		
+		return dateToHoursMap;
 	}
 }
