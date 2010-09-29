@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.hr.time.role.assign.TkRoleAssign;
+import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.task.Task;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -25,7 +25,7 @@ public class WorkArea extends PersistableBusinessObjectBase {
     private String userPrincipalId;
     private Timestamp timestamp;
 
-    private transient List<TkRoleAssign> roleAssignments = new ArrayList<TkRoleAssign>();
+    private transient List<TkRole> roles = new ArrayList<TkRole>();
     private List<Task> tasks = new ArrayList<Task>();
 
 
@@ -94,16 +94,6 @@ public class WorkArea extends PersistableBusinessObjectBase {
     }
 
 
-	public List<TkRoleAssign> getRoleAssignments() {
-		return roleAssignments;
-	}
-
-
-	public void setRoleAssignments(List<TkRoleAssign> roleAssignments) {
-		this.roleAssignments = roleAssignments;
-	}
-
-
 	public List<Task> getTasks() {
 	    return tasks;
 	}
@@ -151,5 +141,15 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
 	public void setDefaultOvertimePreference(String defaultOvertimePreference) {
 		this.defaultOvertimePreference = defaultOvertimePreference;
+	}
+
+
+	public List<TkRole> getRoles() {
+		return roles;
+	}
+
+
+	public void setRoles(List<TkRole> roles) {
+		this.roles = roles;
 	}
 }

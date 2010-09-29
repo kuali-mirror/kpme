@@ -265,10 +265,6 @@
     <bean id="workAreaDao" class="org.kuali.hr.time.workarea.dao.WorkAreaDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-
-    <bean id="tkRoleAssignDao" class="org.kuali.hr.time.role.assign.dao.TkRoleAssignDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
     
     <bean id="tkRoleDao" class="org.kuali.hr.time.roles.dao.TkRoleDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
@@ -390,10 +386,6 @@
 
     <bean id="earnCodeService" class="org.kuali.hr.time.earncode.service.EarnCodeServiceImpl">
     	<property name="earnCodeDao" ref="earnCodeDao"/>
-    </bean>
-
-    <bean id="tkRoleAssignmentService" class="org.kuali.hr.time.role.assign.service.TkRoleAssignServiceImpl">
-    	<property name="tkRoleAssignDao" ref="tkRoleAssignDao"/>
     </bean>
     
     <bean id="earnGroupService" class="org.kuali.hr.time.earngroup.service.EarnGroupServiceImpl">
