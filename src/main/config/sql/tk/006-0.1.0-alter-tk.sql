@@ -1,7 +1,7 @@
 CREATE TABLE `tk_roles_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2085 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
+) ENGINE=MyISAM AUTO_INCREMENT=2085 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE `tk_roles_t` (
   `tk_roles_id` bigint(19) NOT NULL,
@@ -14,4 +14,4 @@ CREATE TABLE `tk_roles_t` (
   `timestamp` timestamp NULL DEFAULT NULL,
   `active` bit(1) DEFAULT NULL,
   PRIMARY KEY (`tk_roles_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
