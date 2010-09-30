@@ -15,12 +15,12 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.web.TkLoginFilter;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
 public class WorkflowTimesheetTest extends TkTestCase {
 
-	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(WorkflowTimesheetTest.class);
 	
 	@Test
@@ -40,8 +40,17 @@ public class WorkflowTimesheetTest extends TkTestCase {
 		assertNotNull("No PayCalendarDates", pcd);
 		
 		TimesheetDocument tdoc = timesheetService.openTimesheetDocument(user.getPrincipalId(), pcd);
+		String kewSourceDocumentStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(tdoc.getDocumentHeader().getDocumentId());
+		String tkSourceDocumentStatus  = tdoc.getDocumentHeader().getDocumentStatus();
+		assertEquals("Status should be equal.", kewSourceDocumentStatus, tkSourceDocumentStatus);
+		assertEquals("Document is already routed.", "I", tkSourceDocumentStatus);
 		timesheetService.routeTimesheet(user.getPrincipalId(), tdoc);
-		LOG.debug("Routing document: " + tdoc.getDocumentHeader().getDocumentId());		
+		LOG.debug("Routing document: " + tdoc.getDocumentHeader().getDocumentId());
+		
+		kewSourceDocumentStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(tdoc.getDocumentHeader().getDocumentId());
+		tkSourceDocumentStatus  = tdoc.getDocumentHeader().getDocumentStatus();
+		
+		assertEquals("Status should be equal.", kewSourceDocumentStatus, tkSourceDocumentStatus);		
 	}
 	
 	public TKUser getPopulatedTkUser() {

@@ -14,6 +14,7 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowDocument;
 
 public class TimesheetServiceImpl implements TimesheetService {
@@ -28,6 +29,11 @@ public class TimesheetServiceImpl implements TimesheetService {
 			try {
 				wd = new WorkflowDocument(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
 				wd.routeDocument("route");
+				String kewStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(timesheetDocument.getDocumentHeader().getDocumentId());
+				if (!kewStatus.equals(timesheetDocument.getDocumentHeader().getDocumentStatus())) {
+					timesheetDocument.getDocumentHeader().setDocumentStatus(kewStatus);
+					TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(timesheetDocument.getDocumentHeader());
+				}
 			} catch (WorkflowException e) {
 				throw new RuntimeException("Exception during route", e);
 			}
@@ -75,6 +81,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 	public TimesheetDocument getTimesheetDocument(Long documentId) {
 		TimesheetDocument timesheetDocument = null;
 		TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
+	
 		if (tdh != null) {
 			timesheetDocument = new TimesheetDocument(tdh);
 			loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), TKUtils.getTimelessDate(tdh.getPayBeginDate()), TKUtils.getTimelessDate(tdh.getPayEndDate()));
