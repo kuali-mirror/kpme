@@ -58,11 +58,11 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 				throw new RuntimeException("Null pay calendar on payType in getPayEndDate");
 			List<PayCalendarDates> dates = payCalendar.getPayCalendarDates();
 			for (PayCalendarDates pcdate : dates) {
-				LocalTime beginTime = new LocalTime(pcdate.getBeginPeriodTime()); 
+				LocalTime beginTime = LocalTime.fromDateFields(pcdate.getBeginPeriodTime()); 
 				LocalDate beginDate = new LocalDate(pcdate.getBeginPeriodDate());					
 				DateTime begin = beginDate.toDateTime(beginTime); 
 				
-				LocalTime endTime = new LocalTime(pcdate.getEndPeriodTime());
+				LocalTime endTime = LocalTime.fromDateFields(pcdate.getEndPeriodTime());
 				LocalDate endDate = new LocalDate(pcdate.getEndPeriodDate());
 				DateTime end = endDate.toDateTime(endTime);
 				
