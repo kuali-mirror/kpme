@@ -34,18 +34,18 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateDepartment(DeptLunchRule deptLunchRule) {
 		boolean valid = false;
-//		LOG.debug("Validating dept : " + deptLunchRule.getDeptId());
-//		// TODO: We may need a full DAO that handles bo lookups at some point,
-//		// but we can use the provided one:
-//		Department dept = KNSServiceLocator.getBusinessObjectService()
-//				.findBySinglePrimaryKey(Department.class, deptLunchRule.getDeptId());
-//		if (dept != null) {
-//			valid = true;
-//			LOG.debug("found department.");
-//		} else {
-//			this.putFieldError("deptId", "error.existence", "department '"
-//					+ deptLunchRule.getDeptId() + "'");
-//		}
+		LOG.debug("Validating dept : " + deptLunchRule.getDept());
+		// TODO: We may need a full DAO that handles bo lookups at some point,
+		// but we can use the provided one:
+		Department dept = KNSServiceLocator.getBusinessObjectService()
+				.findBySinglePrimaryKey(Department.class, deptLunchRule.getDept());
+		if (dept != null) {
+			valid = true;
+			LOG.debug("found department.");
+		} else {
+			this.putFieldError("dept", "error.existence", "department '"
+					+ deptLunchRule.getDept() + "'");
+		}
 		return valid;
 	}
 	
