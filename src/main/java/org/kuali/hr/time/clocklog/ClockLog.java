@@ -38,9 +38,28 @@ public class ClockLog extends PersistableBusinessObjectBase {
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
-	// TODO Auto-generated method stub
-	return null;
+    	LinkedHashMap<String,Object> toStringMapper = new LinkedHashMap<String,Object>();
+    	toStringMapper.put("tkClockLogId", tkClockLogId);
+    	toStringMapper.put("tkClockLogId", principalId);
+    	toStringMapper.put("tkClockLogId", jobNumber);
+    	toStringMapper.put("tkClockLogId", workArea);
+    	toStringMapper.put("tkClockLogId", task);
+    	toStringMapper.put("tkClockLogId", tkWorkAreaId);
+    	toStringMapper.put("tkClockLogId", tkTaskId);
+    	toStringMapper.put("tkClockLogId", clockTimestamp);
+    	toStringMapper.put("tkClockLogId", clockTimestampTimezone);
+    	toStringMapper.put("tkClockLogId", clockAction);
+    	toStringMapper.put("tkClockLogId", ipAddress);
+    	toStringMapper.put("tkClockLogId", userPrincipalId);
+    	toStringMapper.put("tkClockLogId", hrJobId);
+    	toStringMapper.put("tkClockLogId", timestamp);
+    	toStringMapper.put("tkClockLogId", job);
+    	toStringMapper.put("tkClockLogId", workAreaObj);
+    	toStringMapper.put("tkClockLogId", taskObj);
+    	
+    	return toStringMapper;
     }
+    
 	public Job getJob() {
 		return job;
 	}

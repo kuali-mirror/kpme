@@ -2,10 +2,8 @@ package org.kuali.hr.time.clock.web;
 
 import java.sql.Timestamp;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
+import org.kuali.hr.time.clocklog.ClockLog;
+import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
 public class ClockActionForm extends TimesheetActionForm {
@@ -18,17 +16,10 @@ public class ClockActionForm extends TimesheetActionForm {
     private String principalId;
     private String currentClockAction;
     private String nextClockAction;
-    private Timestamp lastClockAction;
-
-    @Override
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
-	super.reset(mapping, request);
-    }
-
-    @Override
-    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
-	return super.validate(mapping, request);
-    }
+    private Timestamp lastClockTimestamp;
+    private String lastClockHours;
+    private ClockLog clockLog;
+    private TimeBlock timeBlock;
 
     public String getPrincipalId() {
         return principalId;
@@ -54,12 +45,36 @@ public class ClockActionForm extends TimesheetActionForm {
 		this.nextClockAction = nextClockAction;
 	}
 
-	public Timestamp getLastClockAction() {
-		return lastClockAction;
+	public Timestamp getLastClockTimestamp() {
+		return lastClockTimestamp;
 	}
 
-	public void setLastClockAction(Timestamp lastClockAction) {
-		this.lastClockAction = lastClockAction;
+	public void setLastClockTimestamp(Timestamp lastClockTimestamp) {
+		this.lastClockTimestamp = lastClockTimestamp;
+	}
+
+	public ClockLog getClockLog() {
+		return clockLog;
+	}
+
+	public void setClockLog(ClockLog clockLog) {
+		this.clockLog = clockLog;
+	}
+
+	public String getLastClockHours() {
+		return lastClockHours;
+	}
+
+	public void setLastClockHours(String lastClockHours) {
+		this.lastClockHours = lastClockHours;
+	}
+
+	public TimeBlock getTimeBlock() {
+		return timeBlock;
+	}
+
+	public void setTimeBlock(TimeBlock timeBlock) {
+		this.timeBlock = timeBlock;
 	}
 
 

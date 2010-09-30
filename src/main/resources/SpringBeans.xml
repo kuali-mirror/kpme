@@ -320,6 +320,10 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
     
+    <bean id="timeHourDetailDao" class="org.kuali.hr.time.timehourdetail.dao.TimeHourDetailDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
 	<!-- Time Services for Business Logic -->
 
     <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
@@ -390,6 +394,10 @@
     
     <bean id="earnGroupService" class="org.kuali.hr.time.earngroup.service.EarnGroupServiceImpl">
     	<property name="earnGroupDao" ref="earnGroupDao"/>
+    </bean>
+    
+    <bean id="timeHourDetailService" class="org.kuali.hr.time.timehourdetail.service.TimeHourDetailServiceImpl">
+    	<property name="timeHourDetailDao" ref="timeHourDetailDao"/>
     </bean>
     
     <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>

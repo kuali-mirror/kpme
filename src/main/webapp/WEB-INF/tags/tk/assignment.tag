@@ -8,11 +8,11 @@
 	<c:when test="${fn:length(assignments) <= 1}">
 		<c:forEach var="assignment" items="${assignments}">
 			${assignment.value}
-			<input type="hidden" id="assignment" name="assignment" value="${assignment.key}"/>
+			<input type="hidden" id="assignment" name="selectedAssignment" value="${assignment.key}"/>
 		</c:forEach>
 	</c:when>
 	<c:otherwise>
-		<select id="assignment">
+		<select id="assignment" name="selectedAssignment">
 			<option value="" selected="selected">-- select one --</option>
 			<c:forEach var="assignment" items="${assignments}">
 				<option value="${assignment.key}">${assignment.value}</option>

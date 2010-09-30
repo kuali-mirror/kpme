@@ -13,9 +13,11 @@ import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
 import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.rule.TkRuleControllerService;
+import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timeblock.service.TimeBlockHistoryService;
 import org.kuali.hr.time.timeblock.service.TimeBlockService;
 import org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleService;
+import org.kuali.hr.time.timehourdetail.service.TimeHourDetailService;
 import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.timesummary.service.TimeSummaryService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
@@ -48,6 +50,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_ROLE_SERVICE = "tkRoleService";
 	public static final String TK_TIME_SUMMARY_SERVICE = "timeSummaryService";
 	public static final String TK_TIME_EARN_GROUP_SERVICE = "earnGroupService";
+	public static final String TK_TIME_HOUR_DETAIL_SERVICE= "timeHourDetailService";
 	
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -140,6 +143,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	
 	public static EarnGroupService getEarnGroupService(){
 		return (EarnGroupService) CONTEXT.getBean(TK_TIME_EARN_GROUP_SERVICE);
+	}
+	
+	public static TimeHourDetailService getTimeHourDetailService(){
+		return (TimeHourDetailService) CONTEXT.getBean(TK_TIME_HOUR_DETAIL_SERVICE);
 	}
 
 	@Override

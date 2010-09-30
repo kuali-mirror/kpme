@@ -9,7 +9,7 @@ public class TimeBlockHistory extends TimeBlock {
 	 */
 	private static final long serialVersionUID = 3943771766084238699L;
 
-	private Long timeBlockHistoryId = null;
+	private Long tkTimeBlockHistoryId = null;
 	private String actionHistory;
 	private String modifiedByPrincipalId;
 	private Timestamp timestampModified;
@@ -18,6 +18,7 @@ public class TimeBlockHistory extends TimeBlock {
 	}
 
 	public TimeBlockHistory(TimeBlock tb) {
+		this.setTkTimeBlockId(tb.getTkTimeBlockId());
 		this.setDocumentId(tb.getDocumentId());
 		this.setJobNumber(tb.getJobNumber());
 		this.setWorkArea(tb.getWorkArea());
@@ -36,11 +37,11 @@ public class TimeBlockHistory extends TimeBlock {
 		this.setEndTimestampTimezone(tb.getEndTimestampTimezone());
 	}
 
-	public Long getTimeBlockHistoryId() {
-		return timeBlockHistoryId;
+	public Long getTkTimeBlockHistoryId() {
+		return tkTimeBlockHistoryId;
 	}
-	public void setTimeBlockHistoryId(Long timeBlockHistoryId) {
-		this.timeBlockHistoryId = timeBlockHistoryId;
+	public void setTkTimeBlockHistoryId(Long tkTimeBlockHistoryId) {
+		this.tkTimeBlockHistoryId = tkTimeBlockHistoryId;
 	}
 	public String getActionHistory() {
 		return actionHistory;

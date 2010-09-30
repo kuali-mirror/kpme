@@ -45,4 +45,7 @@ public class TkConstants {
     	ROLE_NAME_TO_DESCRIPTION_MAP.put(TkConstants.ROLE_TK_ORG_ADMIN, "Org Administrator");
     	ROLE_NAME_TO_DESCRIPTION_MAP.put(TkConstants.ROLE_TK_SYS_ADMIN, "System Administrator");
     }
+    
+    public static final String EARN_CODE_RGH = "RGN";
+    public static final String ASSIGNMENT_KEY_DELIMITER = "_";
 }

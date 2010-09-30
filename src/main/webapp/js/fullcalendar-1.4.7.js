@@ -403,9 +403,11 @@ $.fn.fullCalendar = function(options) {
 
 		// Fetch from a particular source. Append to the 'events' array
 		function fetchEventSource(src, callback) {
+			
 			var prevViewName = view.name,
 				prevDate = cloneDate(date),
 				reportEvents = function(a) {
+				
 					if (prevViewName == view.name && +prevDate == +date && // protects from fast switching
 						$.inArray(src, eventSources) != -1) {              // makes sure source hasn't been removed
 							for (var i=0; i<a.length; i++) {

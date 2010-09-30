@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class TimeHourDetail extends PersistableBusinessObjectBase {
+public class TimeHourDetail extends PersistableBusinessObjectBase{
 	
 	/**
 	 * 
@@ -18,7 +18,6 @@ public class TimeHourDetail extends PersistableBusinessObjectBase {
 	private BigDecimal amount = new BigDecimal("0.00");
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	protected LinkedHashMap toStringMapper() {
 		return null;
 	}

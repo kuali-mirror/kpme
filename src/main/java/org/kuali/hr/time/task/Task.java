@@ -19,6 +19,19 @@ public class Task extends PersistableBusinessObjectBase {
     private String userPrincipalId;
     private String administrativeDescription;
 
+	@SuppressWarnings("unchecked")
+	@Override
+	protected LinkedHashMap toStringMapper() {
+		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
+		toStringMap.put("tkTaskId", tkTaskId);
+		toStringMap.put("task", task);
+		toStringMap.put("workArea", workArea);
+		toStringMap.put("tkWorkAreaId", tkWorkAreaId);
+		toStringMap.put("description", description);
+		toStringMap.put("userPrincipalId", userPrincipalId);
+		toStringMap.put("administrativeDescription", administrativeDescription);
+		return toStringMap;
+	}
 
     public String getDescription()
     {
@@ -39,8 +52,6 @@ public class Task extends PersistableBusinessObjectBase {
     	this.userPrincipalId = pid;
     }
 
-
-
     public String getAdministrativeDescription(){
     	return administrativeDescription;
     }
@@ -49,13 +60,6 @@ public class Task extends PersistableBusinessObjectBase {
     {
     	this.administrativeDescription = addesc;
     }
-
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-
-		return null;
-	}
 
 	public Long getTkTaskId() {
 		return tkTaskId;

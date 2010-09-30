@@ -116,4 +116,8 @@ public class TKUtils {
 		
 		return dateToHoursMap;
 	}
+	
+	public static String formatAssignmentKey(Long jobNumber, Long workArea, Long task) {
+		return jobNumber + TkConstants.ASSIGNMENT_KEY_DELIMITER + workArea + TkConstants.ASSIGNMENT_KEY_DELIMITER + task; 
+	}
 }

@@ -4,11 +4,11 @@
 <c:choose>
 	<c:when test="${Form.currentClockAction eq 'CI'}">
 		<c:set var="clockActionDescription" value="Clock In"/>
-		<c:set var="lastClockActionMessage" value="Clocked out since ${Form.lastClockAction}"/>
+		<c:set var="lastClockActionMessage" value="Clocked out since ${Form.lastClockTimestamp}"/>
 	</c:when>
 	<c:otherwise>
 		<c:set var="clockActionDescription" value="Clock Out"/>
-		<c:set var="lastClockActionMessage" value="Clocked in since ${Form.lastClockAction}"/>
+		<c:set var="lastClockActionMessage" value="Clocked in since ${Form.lastClockTimestamp}"/>
 	</c:otherwise>
 </c:choose>
 <tk:tkHeader tabId="clock">
@@ -16,7 +16,7 @@
 	<html:form action="/Clock.do">
 	<html:hidden property="methodToCall" value=""/>
 	<html:hidden property="currentClockAction" styleId="clockAction"/>
-	<html:hidden property="lastClockedInTime" value="${Form.lastClockAction}" styleId="lastClockedInTime"/>
+	<html:hidden property="lastClockedInTime" value="${Form.lastClockTimestamp}" styleId="lastClockedInTime"/>
 
 	<div id="clock">
 		<table>
