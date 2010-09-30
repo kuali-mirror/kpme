@@ -343,7 +343,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.accrual.AccrualCategory" table="la_accrual_categories_t">
-		<field-descriptor name="laAccrualCategoryId" column="LA_ACCRUAL_CATEGORY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_accrual_categories_s"/>
+		<field-descriptor name="laAccrualCategoryId" column="LA_ACCRUAL_CATEGORY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="la_accrual_categories_s"/>
 		<field-descriptor name="accrualCategory" column="ACCRUAL_CATEGORY" jdbc-type="VARCHAR" length="3" nullable="false" />
 		<field-descriptor name="descr" column="DESCR" jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" nullable="false"/>
@@ -379,7 +379,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.accrual.TimeOffAccrual" table="la_accruals_t">
-		<field-descriptor name="laAccrualId" column="la_accruals_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_accruals_s"/>
+		<field-descriptor name="laAccrualId" column="la_accruals_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="la_accruals_s"/>
 		<field-descriptor name="principalId" column="principal_id" jdbc-type="VARCHAR" length="21" nullable="false"/>
 		<field-descriptor name="accrualCategory" column="accrual_category" jdbc-type="VARCHAR" length="3" nullable="false"/>
 		<field-descriptor name="hoursAccrued" column="hours_accrued" jdbc-type="BIGINT" nullable="false"/>
