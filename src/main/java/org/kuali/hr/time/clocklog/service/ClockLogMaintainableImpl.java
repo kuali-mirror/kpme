@@ -3,8 +3,10 @@ package org.kuali.hr.time.clocklog.service;
 import java.util.Map;
 
 import org.kuali.hr.time.clocklog.ClockLog;
-import org.kuali.hr.time.dept.lunch.DeptLunchRule;
+
+
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ClockLogMaintainableImpl extends org.kuali.rice.kns.maintenance.KualiMaintainableImpl {
@@ -35,4 +37,21 @@ public class ClockLogMaintainableImpl extends org.kuali.rice.kns.maintenance.Kua
 		clockLog.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
 		super.processAfterEdit(document, parameters);
 	}
+	
+	@Override
+	public void saveBusinessObject() {
+		ClockLog clockLog = (ClockLog) this.getBusinessObject();
+		ClockLog oldClockLog = (ClockLog) KNSServiceLocator
+				.getBusinessObjectService().findBySinglePrimaryKey(
+						ClockLog.class,
+						clockLog.getTkClockLogId());
+		if (oldClockLog != null) {
+			//oldClockLog.setActive(false);
+			//KNSServiceLocator.getBusinessObjectService().save(oldClockLog);
+		}
+		clockLog.setTkClockLogId(null);
+		clockLog.setTimestamp(null);
+		KNSServiceLocator.getBusinessObjectService().save(clockLog);
+	}
+
 }

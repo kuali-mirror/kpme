@@ -3,6 +3,11 @@ package org.kuali.hr.time.collection.rule;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Random;
+
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.junit.Test;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.department.Department;
@@ -23,6 +28,8 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 	
 	private static Long timeCollectionRuleIdWithInvalidDept;
 	private static Long timeCollectionRuleIdWithInvalidWorkArea;
+	private static Long deptId;
+	
 	
 	private static String TEST_CODE_INVALID_DEPT_ID = "0";
 	private static Long TEST_CODE_INVALID_WORKAREA = 0l;
@@ -109,14 +116,25 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		Department department = new Department();
+		department.setDept(TEST_CODE_DEPARTMENT_VALID);
+		department.setChart(TEST_CODE_DEPARTMENT_VALID);		
+		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
+		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
+		KNSServiceLocator.getBusinessObjectService().save(department);
+		deptId = department.getTkDeptId();
 		TimeCollectionRule timeCollectionRuleWIthInvalidDept = new TimeCollectionRule();
 		// setting deptId for which Department doesn't exist .
 		Random randomObj = new Random();
 		for (;;) {
 			long deptIdIndex = randomObj.nextInt();
-			Department deptObj = KNSServiceLocator.getBusinessObjectService()
-					.findBySinglePrimaryKey(Department.class, deptIdIndex);
-			if (deptObj == null) {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("dept", deptIdIndex);		
+			Query query = QueryFactory.newQuery(Department.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
+			
+		 
+			if (count == 0) {
 				TEST_CODE_INVALID_DEPT_ID = Long.toString(deptIdIndex);
 				break;
 			}
@@ -132,22 +150,18 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 				timeCollectionRuleWIthInvalidDept);
 		timeCollectionRuleIdWithInvalidDept = timeCollectionRuleWIthInvalidDept
 				.getTkTimeCollectionRuleId();
-
-		// saving department
-		Department department = new Department();
-		department.setChart(TEST_CODE_DEPARTMENT_VALID);
-		department.setDept(TEST_CODE_DEPARTMENT_VALID);
-		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
-		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
-		KNSServiceLocator.getBusinessObjectService().save(department);
-		
+ 	
 		TimeCollectionRule timeCollectionRuleWIthInvalidWorkArea = new TimeCollectionRule();
 		// setting workAreaId for which Workarea doesn't exist .
 		for (;;) {
 			long workAreaIndex = randomObj.nextInt();
-			WorkArea workAreaObj = KNSServiceLocator.getBusinessObjectService()
-					.findBySinglePrimaryKey(WorkArea.class, workAreaIndex);
-			if (workAreaObj == null) {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("workArea", workAreaIndex);		
+			Query query = QueryFactory.newQuery(WorkArea.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
+			
+		 
+			if (count == 0) {
 				TEST_CODE_INVALID_WORKAREA = new Long(workAreaIndex);
 				break;
 			}
@@ -186,7 +200,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 
 		Department deptObj = KNSServiceLocator.getBusinessObjectService()
 				.findBySinglePrimaryKey(Department.class,
-						TEST_CODE_DEPARTMENT_VALID);
+						deptId);
 		KNSServiceLocator.getBusinessObjectService().delete(deptObj);		
 		super.tearDown();
 	}

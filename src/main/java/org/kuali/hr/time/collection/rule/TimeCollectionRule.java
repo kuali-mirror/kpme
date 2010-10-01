@@ -20,7 +20,8 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 	private boolean hrsDistributionF;
 	private String userPrincipalId;
 	private Timestamp timeStamp;
-	private Boolean active;
+	private boolean active;
+	
 	
 	private Department departmentObj;	
 	private WorkArea workAreaObj;
@@ -51,6 +52,14 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 
 	public Date getEffDate() {
 		return effDate;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public void setEffDate(Date effDate) {
@@ -123,14 +132,6 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 
 	public void setDept(String dept) {
 		this.dept = dept;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
 

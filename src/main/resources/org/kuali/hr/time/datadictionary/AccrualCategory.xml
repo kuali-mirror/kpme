@@ -8,14 +8,13 @@
 	<bean id="AccrualCategory-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.hr.time.accrual.AccrualCategory" />
-		<property name="titleAttribute" value="tkAccrualCategoryId" />
+		<property name="titleAttribute" value="laAccrualCategoryId" />
 		<property name="objectLabel" value="accrualCategory" />
 		<property name="lookupDefinition">
 			<ref bean="AccrualCategory-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>
-				<ref bean="AccrualCategory-laAccrualCategoryId" />
+			<list>				
 				<ref bean="AccrualCategory-accrualCategory" />
 				<ref bean="AccrualCategory-descr" />
 				<ref bean="AccrualCategory-effectiveDate" />
@@ -24,20 +23,7 @@
 		</property>
 	</bean>
 
-	<bean id="AccrualCategory-laAccrualCategoryId" parent="AccrualCategory-laAccrualCategoryId-parentBean" />
-	<bean id="AccrualCategory-laAccrualCategoryId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Id" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="laAccrualCategoryId" />
-		<property name="label" value="Accrual Category Id" />
-	</bean>
+ 
 
 	<bean id="AccrualCategory-accrualCategory" parent="AccrualCategory-accrualCategory-parentBean" />
 	<bean id="AccrualCategory-accrualCategory-parentBean" abstract="true"
@@ -107,14 +93,14 @@
 	<bean id="AccrualCategory-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="laAccrualCategoryId" />
+			<list>				
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="descr" />
+				
 			</list>
 		</property>
 		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="laAccrualCategoryId" />
+			<list>				
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />

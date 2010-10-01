@@ -12,7 +12,7 @@
 	<bean id="DepartmentEarnCodeMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.dept.earncode.DepartmentEarnCode"
 		p:businessRulesClass="org.kuali.hr.time.dept.earncode.validation.DepartmentEarnCodeRule"
-		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+		p:maintainableClass="org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeMaintainableImpl">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="DepartmentEarnCodeMaintenanceDocument-DepartmentEarnCodeMaintenance" />

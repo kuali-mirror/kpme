@@ -3,6 +3,10 @@ package org.kuali.hr.time.clock.log;
 import java.util.Calendar;
 import java.util.Random;
 
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.junit.Test;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.department.Department;
@@ -47,7 +51,7 @@ public class ClockLogMaintenanceTest extends TkTestCase{
 		inputForDescription.setValueAttribute("Test_Description");
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");
-		System.out.println(resultantPageAfterEdit.asText());
+		
 		
 		assertTrue("Maintenance Page contains test Workarea ",
 				resultantPageAfterEdit.asText().contains(
@@ -80,25 +84,33 @@ public class ClockLogMaintenanceTest extends TkTestCase{
 		Random randomObj = new Random();
 		for (;;) {
 			long taskIndex = randomObj.nextInt();
-			Task taskObj = KNSServiceLocator.getBusinessObjectService()
-					.findBySinglePrimaryKey(Task.class, taskIndex);
-			if (taskObj == null) {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("task", taskIndex);		
+			Query query = QueryFactory.newQuery(Task.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
+			
+		 
+			if (count == 0) {
 				TEST_CODE_INVALID_TASK_ID = new Long(taskIndex);
 				break;
 			}
 		}
-		clocklog.setTkTaskId(TEST_CODE_INVALID_TASK_ID);
+		clocklog.setTask(TEST_CODE_INVALID_TASK_ID);
 		//search for the WorkArea which doesn't exist
 		for (;;) {
 			long workAreaIndex = randomObj.nextInt();
-			WorkArea workAreaObj = KNSServiceLocator.getBusinessObjectService()
-					.findBySinglePrimaryKey(WorkArea.class, workAreaIndex);
-			if (workAreaObj == null) {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("workArea", workAreaIndex);		
+			Query query = QueryFactory.newQuery(WorkArea.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
+			
+		 
+			if (count == 0) {
 				TEST_CODE_INVALID_WORK_AREA_ID = new Long(workAreaIndex);
 				break;
 			}
 		}
-		clocklog.setTkWorkAreaId(TEST_CODE_INVALID_WORK_AREA_ID);		
+		clocklog.setWorkArea(TEST_CODE_INVALID_WORK_AREA_ID);		
 		KNSServiceLocator.getBusinessObjectService().save(clocklog);		
 		clockLogId=clocklog.getTkClockLogId();	
 	}

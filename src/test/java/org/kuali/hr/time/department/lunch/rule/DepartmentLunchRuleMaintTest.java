@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Random;
 
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.junit.Test;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
@@ -41,7 +45,7 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 	 * 
 	 * @throws Exception
 	 */
-	//@Test
+	@Test
 	public void testDepartmentLunchRuleMaintForDeptErrorMessage()
 			throws Exception {
 		HtmlPage departmentLunchRuleLookUp = HtmlUnitUtil
@@ -74,7 +78,7 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 	 * 
 	 * @throws Exception
 	 */
-	//@Test
+	@Test
 	public void testDepartmentLunchRuleMaintForWorkAreaErrorMessage()
 			throws Exception {
 		HtmlPage departmentLunchRuleLookUp = HtmlUnitUtil
@@ -120,30 +124,25 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		
-		Department department = new Department();
-		department.setChart(TEST_CODE_DEPARTMENT_VALID);
-		department.setDept(TEST_CODE_DEPARTMENT_VALID);
-		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
-		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
-		department.setEffectiveDate(TEST_DATE);
-		department.setDescription(TEST_CODE);
-		department.setTimestamp(TEST_TIME_STAMP);	
-		KNSServiceLocator.getBusinessObjectService().save(department);
-		deptId = department.getTkDeptId();
+		 
 		DeptLunchRule deptLunchRuleWIthInvalidDept = new DeptLunchRule();
-//		// setting deptId for which Department doesn't exist .
-//		Random randomObj = new Random();
-//		for (;;) {
-//			long deptIdIndex = randomObj.nextInt();
-//			Department deptObj = KNSServiceLocator.getBusinessObjectService()
-//					.findBySinglePrimaryKey(Department.class, deptIdIndex);
-//			if (deptObj == null) {
-//				TEST_CODE_DEPT_INVALID = Long.toString(deptIdIndex);
-//				break;
-//			}
-//		}
+
+		// setting deptId for which Department doesn't exist .
+		Random randomObj = new Random();
+		for (;;) {
+			long deptIdIndex = randomObj.nextInt();
+			Criteria crit = new Criteria();
+			crit.addEqualTo("dept", deptIdIndex);		
+			Query query = QueryFactory.newQuery(Department.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
+		 
+			if (count == 0) {
+				TEST_CODE_DEPT_INVALID = Long.toString(deptIdIndex);
+				break;
+			}
+		}
 		deptLunchRuleWIthInvalidDept.setActive(true);
-		deptLunchRuleWIthInvalidDept.setDept(TEST_CODE_DEPARTMENT_VALID);
+		deptLunchRuleWIthInvalidDept.setDept(TEST_CODE_DEPT_INVALID);
 		deptLunchRuleWIthInvalidDept.setEffectiveDate(TEST_DATE);
 		deptLunchRuleWIthInvalidDept.setJobNumber(TEST_ID);
 		deptLunchRuleWIthInvalidDept.setMaxMins(TEST_NO);
@@ -157,42 +156,46 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 		deptLunchRuleIdWithInvalidDept = deptLunchRuleWIthInvalidDept
 				.getTkDeptLunchRuleId();
 
-//		Department department = new Department();
-//		department.setChart(TEST_CODE_DEPARTMENT_VALID);
-//		department.setDept(TEST_CODE_DEPARTMENT_VALID);
-//		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
-//		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
-//		department.setEffectiveDate(TEST_DATE);
-//		department.setDescription(TEST_CODE);
-//		department.setTimestamp(TEST_TIME_STAMP);	
-//		KNSServiceLocator.getBusinessObjectService().save(department);
-//		deptId = department.getTkDeptId();
-//		DeptLunchRule deptLunchRuleWIthInvalidWorkArea = new DeptLunchRule();
-//
-//		// setting workAreaID for which WorkArea doesn't exist .
-//		for (;;) {
-//			long workAreaIndex = randomObj.nextInt();
-//			WorkArea workAreaObj = KNSServiceLocator.getBusinessObjectService()
-//					.findBySinglePrimaryKey(WorkArea.class, workAreaIndex);
-//			if (workAreaObj == null) {
-//				TEST_CODE_WORKAREA_INVALID = new Long(workAreaIndex);
-//				break;
-//			}
-//		}
-//		deptLunchRuleWIthInvalidWorkArea.setActive(true);
-//		deptLunchRuleWIthInvalidWorkArea.setDept(TEST_CODE_DEPARTMENT_VALID);
-//		deptLunchRuleWIthInvalidWorkArea.setEffectiveDate(TEST_DATE);
-//		deptLunchRuleWIthInvalidWorkArea.setJobNumber(TEST_ID);
-//		deptLunchRuleWIthInvalidWorkArea.setMaxMins(TEST_NO);
-//		deptLunchRuleWIthInvalidWorkArea.setPrincipalId(TEST_CODE);
-//		deptLunchRuleWIthInvalidWorkArea.setRequiredClockFl(true);
-//		deptLunchRuleWIthInvalidWorkArea.setUserPrincipalId(TEST_CODE);
-//		deptLunchRuleWIthInvalidWorkArea.setTimestamp(TEST_TIME_STAMP);
-//		deptLunchRuleWIthInvalidWorkArea.setWorkArea(TEST_CODE_WORKAREA_INVALID);
-//		KNSServiceLocator.getBusinessObjectService().save(
-//				deptLunchRuleWIthInvalidWorkArea);
-//		deptLunchRuleIdWithInvalidWorkArea = deptLunchRuleWIthInvalidWorkArea
-//				.getTkDeptLunchRuleId();
+		Department department = new Department();
+		department.setChart(TEST_CODE_DEPARTMENT_VALID);
+		department.setDept(TEST_CODE_DEPARTMENT_VALID);
+		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
+		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
+		department.setEffectiveDate(TEST_DATE);
+		department.setDescription(TEST_CODE);
+		department.setTimestamp(TEST_TIME_STAMP);	
+		KNSServiceLocator.getBusinessObjectService().save(department);
+		deptId = department.getTkDeptId();
+		DeptLunchRule deptLunchRuleWIthInvalidWorkArea = new DeptLunchRule();
+
+		// setting workAreaID for which WorkArea doesn't exist .
+		for (;;) {
+			long workAreaIndex = randomObj.nextInt();
+			Criteria crit = new Criteria();
+			crit.addEqualTo("workArea", workAreaIndex);		
+			Query query = QueryFactory.newQuery(WorkArea.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
+			
+		 
+			if (count == 0) {
+				TEST_CODE_WORKAREA_INVALID = new Long(workAreaIndex);
+				break;
+			}
+		}
+		deptLunchRuleWIthInvalidWorkArea.setActive(true);
+		deptLunchRuleWIthInvalidWorkArea.setDept(TEST_CODE_DEPARTMENT_VALID);
+		deptLunchRuleWIthInvalidWorkArea.setEffectiveDate(TEST_DATE);
+		deptLunchRuleWIthInvalidWorkArea.setJobNumber(TEST_ID);
+		deptLunchRuleWIthInvalidWorkArea.setMaxMins(TEST_NO);
+		deptLunchRuleWIthInvalidWorkArea.setPrincipalId(TEST_CODE);
+		deptLunchRuleWIthInvalidWorkArea.setRequiredClockFl(true);
+		deptLunchRuleWIthInvalidWorkArea.setUserPrincipalId(TEST_CODE);
+		deptLunchRuleWIthInvalidWorkArea.setTimestamp(TEST_TIME_STAMP);
+		deptLunchRuleWIthInvalidWorkArea.setWorkArea(TEST_CODE_WORKAREA_INVALID);
+		KNSServiceLocator.getBusinessObjectService().save(
+				deptLunchRuleWIthInvalidWorkArea);
+		deptLunchRuleIdWithInvalidWorkArea = deptLunchRuleWIthInvalidWorkArea
+				.getTkDeptLunchRuleId();
 
 	}
 

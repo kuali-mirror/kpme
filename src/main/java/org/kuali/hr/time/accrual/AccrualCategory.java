@@ -16,8 +16,9 @@ public class AccrualCategory extends PersistableBusinessObjectBase {
 	private String accrualCategory;
 	private String descr;
 	private Date effectiveDate;
-	private boolean active;
 	private Timestamp timestamp;
+	private boolean active;
+	
 	
 	
 	@SuppressWarnings("unchecked")
@@ -75,28 +76,22 @@ public class AccrualCategory extends PersistableBusinessObjectBase {
 		this.effectiveDate = effectiveDate;
 	}
 
-
-
 	public Long getLaAccrualCategoryId() {
 		return laAccrualCategoryId;
 	}
-
-
 
 	public void setLaAccrualCategoryId(Long laAccrualCategoryId) {
 		this.laAccrualCategoryId = laAccrualCategoryId;
 	}
 
-
-
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 
-
-
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
+
+	 
 
 }

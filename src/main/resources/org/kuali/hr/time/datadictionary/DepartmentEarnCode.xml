@@ -24,15 +24,15 @@
 				<ref bean="DepartmentEarnCode-org_admin" />
 			</list>
 		</property>
-		<!-- 
+		  
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="departmentObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="deptId"
-								p:targetName="deptId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
+								p:targetName="dept" />
 						</list>
 					</property>
 				</bean>
@@ -41,8 +41,8 @@
 					<property name="objectAttributeName" value="salGroupObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkSalGroupId"
-								p:targetName="salGroupId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkSalGroup"
+								p:targetName="tkSalGroup" />
 						</list>
 					</property>
 				</bean>
@@ -51,14 +51,14 @@
 					<property name="objectAttributeName" value="earnCodeObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCodeId"
-								p:targetName="earnCodeId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode"
+								p:targetName="earnCode" />
 						</list>
 					</property>
 				</bean>
 			</list>
 		</property>
-		-->
+		
 	</bean>
 
 	<!-- Attributes  -->

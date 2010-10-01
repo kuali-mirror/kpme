@@ -1,9 +1,14 @@
 package org.kuali.hr.time.dept.earncode.validation;
 
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.salgroup.SalGroup;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -14,48 +19,57 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 //TODO fix this class
 	protected boolean validateSalGroup(DepartmentEarnCode departmentEarnCode ) {
 		boolean valid = false;
-//		LOG.debug("Validating SalGroup: " + departmentEarnCode.getTkSalGroupId());
-//		SalGroup salGroup = KNSServiceLocator.getBusinessObjectService()
-//				.findBySinglePrimaryKey(SalGroup.class, departmentEarnCode.getTkSalGroupId());
-//		if (salGroup != null) {
-//			valid = true;
-//			LOG.debug("found SalGroup.");
-//		} else {
-//			this.putFieldError("tkSalGroupId", "error.existence", "Salgroup '"
-//					+ departmentEarnCode.getTkSalGroupId()+ "'");
-//		}
+		LOG.debug("Validating SalGroup: " + departmentEarnCode.getTkSalGroup());
+		Criteria crit = new Criteria();
+		crit.addEqualTo("tkSalGroup", departmentEarnCode.getTkSalGroup());		
+		Query query = QueryFactory.newQuery(SalGroup.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+		
+		if (count >0 ) {
+			valid = true;
+			LOG.debug("found SalGroup.");
+		} else {
+			this.putFieldError("tkSalGroup", "error.existence", "Salgroup '"
+					+ departmentEarnCode.getTkSalGroup()+ "'");
+		}
 		return valid;
 	}
 
 	protected boolean validateDept(DepartmentEarnCode departmentEarnCode) {
 		boolean valid = false;
-//		LOG.debug("Validating dept: " + departmentEarnCode.getDeptId());
-//		// TODO: We may need a full DAO that handles bo lookups at some point,
+		LOG.debug("Validating dept: " + departmentEarnCode.getDept());
+		// TODO: We may need a full DAO that handles bo lookups at some point,
 //		// but we can use the provided one:
-//		Department dept = KNSServiceLocator.getBusinessObjectService()
-//				.findBySinglePrimaryKey(Department.class, departmentEarnCode.getDeptId());
-//		if (dept != null) {
-//			valid = true;
-//			LOG.debug("found department.");
-//		} else {
-//			this.putFieldError("deptId", "error.existence", "Department '"
-//					+ departmentEarnCode.getDeptId() + "'");
-//		}
+		Criteria crit = new Criteria();
+		crit.addEqualTo("dept", departmentEarnCode.getDept());		
+		Query query = QueryFactory.newQuery(Department.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+		
+		if (count >0 ) {
+			valid = true;
+			LOG.debug("found department.");
+		} else {
+			this.putFieldError("dept", "error.existence", "Department '"
+					+ departmentEarnCode.getDept() + "'");
+		}
 		return valid;
 	}
 	
 	protected boolean validateEarnCode(DepartmentEarnCode departmentEarnCode ) {
 		boolean valid = false;
-//		LOG.debug("Validating earnCode: " + departmentEarnCode.getEarnCodeId());
-//		EarnCode earnCode = KNSServiceLocator.getBusinessObjectService()
-//				.findBySinglePrimaryKey(EarnCode.class, departmentEarnCode.getEarnCodeId());
-//		if (earnCode != null) {
-//			valid = true;
-//			LOG.debug("found earnCode.");
-//		} else {
-//			this.putFieldError("earnCodeId", "error.existence", "Earncode '"
-//					+ departmentEarnCode.getEarnCodeId()+ "'");
-//		}
+		LOG.debug("Validating earnCode: " + departmentEarnCode.getEarnCode());
+		Criteria crit = new Criteria();
+		crit.addEqualTo("earnCode", departmentEarnCode.getEarnCode());		
+		Query query = QueryFactory.newQuery(EarnCode.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+		
+		if (count >0 ) {
+			valid = true;
+			LOG.debug("found earnCode.");
+		} else {
+			this.putFieldError("earnCode", "error.existence", "Earncode '"
+					+ departmentEarnCode.getEarnCode()+ "'");
+		}
 		return valid;
 	}
 	

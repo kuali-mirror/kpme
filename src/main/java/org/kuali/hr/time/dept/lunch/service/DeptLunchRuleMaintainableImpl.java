@@ -55,7 +55,7 @@ public class DeptLunchRuleMaintainableImpl extends
 						DeptLunchRule.class,
 						deptLunchRule.getTkDeptLunchRuleId());
 		if (oldDeptLunchRule != null) {
-			oldDeptLunchRule.setActive(false);
+			oldDeptLunchRule.setActive(false);			
 			KNSServiceLocator.getBusinessObjectService().save(oldDeptLunchRule);
 		}
 		deptLunchRule.setTkDeptLunchRuleId(null);

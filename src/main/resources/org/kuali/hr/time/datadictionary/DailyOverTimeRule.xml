@@ -30,25 +30,25 @@
 				<ref bean="DailyOvertimeRule-active" />
 			</list>
 		</property>
-		<!-- 
+	 
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="workArea" />
+					<property name="objectAttributeName" value="workAreaObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workAreaId"
-								p:targetName="workAreaId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
+								p:targetName="workArea" />
 						</list>
 					</property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="task" />
+					<property name="objectAttributeName" value="taskObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="taskId"
-								p:targetName="taskId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="task"
+								p:targetName="task" />
 						</list>
 					</property>
 				</bean>
@@ -57,14 +57,14 @@
 					<property name="objectAttributeName" value="departmentObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="deptId"
-								p:targetName="deptId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
+								p:targetName="dept" />
 						</list>
 					</property>
 				</bean>
 			</list>
 		</property>
-		-->
+		 
 	</bean>
 
 	<!-- Attribute Definitions -->

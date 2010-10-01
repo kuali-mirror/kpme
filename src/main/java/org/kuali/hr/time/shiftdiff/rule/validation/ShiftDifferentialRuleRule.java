@@ -19,7 +19,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 		LOG.debug("Validating Salgroup: " + shiftDifferentialRule.getTkSalGroup());
 		Criteria crit = new Criteria();
-		crit.addEqualTo("salGroup", shiftDifferentialRule.getTkSalGroup());
+		crit.addEqualTo("tkSalGroup", shiftDifferentialRule.getTkSalGroup());
 		crit.addLessOrEqualThan("effectiveDate", shiftDifferentialRule.getEffectiveDate());
 		
 		Query query = QueryFactory.newQuery(SalGroup.class, crit);

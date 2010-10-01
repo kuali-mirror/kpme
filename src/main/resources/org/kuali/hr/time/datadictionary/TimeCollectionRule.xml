@@ -24,7 +24,7 @@
 				<ref bean="TimeCollectionRule-timeStamp" />
 			</list>
 		</property>
-		<!-- 
+	 
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
@@ -32,7 +32,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
-								p:targetName="workAreaId" />
+								p:targetName="workArea" />
 						</list>
 					</property>
 				</bean>
@@ -41,15 +41,15 @@
 					<property name="objectAttributeName" value="departmentObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="deptId"
-								p:targetName="deptId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
+								p:targetName="dept" />
 						</list>
 					</property>
 				</bean>
 
 			</list>
 		</property>
-		-->
+		 
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -178,5 +178,4 @@
 		</property>
 		<property name="title" value="TimeCollectionRule Lookup" />
 	</bean>
-
 </beans>

@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Random;
 
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.junit.Test;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.task.Task;
@@ -94,9 +98,13 @@ public class DailyOvertimeRuleMaintenanceTest extends TkTestCase{
 		//search for the dept which doesn't exist		
 		for (;;) {
 			long deptIdIndex = randomObj.nextInt();
-			Department deptObj = KNSServiceLocator.getBusinessObjectService()
-					.findBySinglePrimaryKey(Department.class, deptIdIndex);
-			if (deptObj == null) {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("dept", deptIdIndex);		
+			Query query = QueryFactory.newQuery(Department.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
+			
+		 
+			if (count == 0) {
 				TEST_CODE_INVALID_DEPT_ID = Long.toString(deptIdIndex);
 				break;
 			}
@@ -105,9 +113,12 @@ public class DailyOvertimeRuleMaintenanceTest extends TkTestCase{
 		//search for the Task which doesn't exist
 		for (;;) {
 			long taskIndex = randomObj.nextInt();
-			Task taskObj = KNSServiceLocator.getBusinessObjectService()
-					.findBySinglePrimaryKey(Task.class, taskIndex);
-			if (taskObj == null) {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("task", taskIndex);		
+			Query query = QueryFactory.newQuery(Task.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
+		 
+			if (count == 0) {
 				TEST_CODE_INVALID_TASK_ID = new Long(taskIndex);
 				break;
 			}
@@ -116,9 +127,13 @@ public class DailyOvertimeRuleMaintenanceTest extends TkTestCase{
 		//search for the WorkArea which doesn't exist
 		for (;;) {
 			long workAreaIndex = randomObj.nextInt();
-			WorkArea workAreaObj = KNSServiceLocator.getBusinessObjectService()
-					.findBySinglePrimaryKey(WorkArea.class, workAreaIndex);
-			if (workAreaObj == null) {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("workArea", workAreaIndex);		
+			Query query = QueryFactory.newQuery(WorkArea.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
+		 
+			if (count == 0) {
+		
 				TEST_CODE_INVALID_WORK_AREA_ID = new Long(workAreaIndex);
 				break;
 			}

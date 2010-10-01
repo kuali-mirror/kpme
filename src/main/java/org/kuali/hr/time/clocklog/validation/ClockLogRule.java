@@ -4,6 +4,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.clock.location.validation.ClockLocationRuleRule;
 import org.kuali.hr.time.clocklog.ClockLog;
@@ -47,31 +51,37 @@ public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 	//TODO fix this class
 	protected boolean validateWorkArea(ClockLog clockLog ) {
 		boolean valid = false;
-//		LOG.debug("Validating workarea: " + clockLog.getWorkAreaId());
-//		WorkArea workArea = KNSServiceLocator.getBusinessObjectService()
-//				.findBySinglePrimaryKey(WorkArea.class, clockLog.getWorkAreaId());
-//		if (workArea != null) {
-//			valid = true;
-//			LOG.debug("found workarea.");
-//		} else {
-//			this.putFieldError("workAreaId", "error.existence", "Workarea '"
-//					+ clockLog.getWorkAreaId()+ "'");
-//		}
+		LOG.debug("Validating workarea: " + clockLog.getWorkArea());
+		Criteria crit = new Criteria();
+		crit.addEqualTo("workArea", clockLog.getWorkArea());		
+		Query query = QueryFactory.newQuery(WorkArea.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+		
+		if (count >0 ) {
+			valid = true;
+			LOG.debug("found workarea.");
+		} else {
+			this.putFieldError("workArea", "error.existence", "Workarea '"
+					+ clockLog.getWorkArea()+ "'");
+		}
 		return valid;
 	} 
 	
 	protected boolean validateTask(ClockLog clockLog ) {
 		boolean valid = false;
-//		LOG.debug("Validating task: " + clockLog.getTaskId());
-//		Task task = KNSServiceLocator.getBusinessObjectService()
-//				.findBySinglePrimaryKey(Task.class, clockLog.getTaskId());
-//		if (task != null) {
-//			valid = true;
-//			LOG.debug("found task.");
-//		} else {
-//			this.putFieldError("taskId", "error.existence", "Task '"
-//					+ clockLog.getTaskId()+ "'");
-//		}
+		LOG.debug("Validating task: " + clockLog.getTask());
+		Criteria crit = new Criteria();
+		crit.addEqualTo("task", clockLog.getTask());		
+		Query query = QueryFactory.newQuery(Task.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+		
+		if (count >0 ) {
+			valid = true;
+			LOG.debug("found task.");
+		} else {
+			this.putFieldError("task", "error.existence", "Task '"
+					+ clockLog.getTask()+ "'");
+		}
 		return valid;
 	}
 	

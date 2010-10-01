@@ -4,6 +4,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.clock.location.validation.ClockLocationRuleRule;
 import org.kuali.hr.time.department.Department;
@@ -20,13 +24,16 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateWorkArea(DeptLunchRule deptLunchRule ) {
 		boolean valid = false;
 		LOG.debug("Validating workarea: " + deptLunchRule.getWorkArea());
-		WorkArea workArea = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(WorkArea.class, deptLunchRule.getWorkArea());
-		if (workArea != null) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("workArea", deptLunchRule.getWorkArea());		
+		Query query = QueryFactory.newQuery(WorkArea.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+		
+		if (count >0 ) {
 			valid = true;
 			LOG.debug("found workarea.");
 		} else {
-			this.putFieldError("workarea", "error.existence", "workarea '"
+			this.putFieldError("workArea", "error.existence", "workarea '"
 					+ deptLunchRule.getWorkArea()+ "'");
 		}
 		return valid;
@@ -37,9 +44,12 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 		LOG.debug("Validating dept : " + deptLunchRule.getDept());
 		// TODO: We may need a full DAO that handles bo lookups at some point,
 		// but we can use the provided one:
-		Department dept = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Department.class, deptLunchRule.getDept());
-		if (dept != null) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("dept", deptLunchRule.getDept());		
+		Query query = QueryFactory.newQuery(Department.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+		
+		if (count >0 ) {
 			valid = true;
 			LOG.debug("found department.");
 		} else {

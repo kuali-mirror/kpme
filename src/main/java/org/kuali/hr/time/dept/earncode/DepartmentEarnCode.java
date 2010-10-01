@@ -25,6 +25,8 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	private Date effectiveDate;
 	private Timestamp timestamp;
 	private Boolean active;
+	
+	
 	private SalGroup  salGroupObj;
 	private Department departmentObj;
 	private EarnCode earnCodeObj;
