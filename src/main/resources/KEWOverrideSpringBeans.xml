@@ -25,7 +25,7 @@
                <property name="serviceEndPoint" value="http://localhost:8090/tk-dev/remoting/ImmediateEmailService" />
            </bean>
        </property>
-       <property name="exportIf" value="Email.useRemoteServices" />
+       <property name="exportIf" value="true" />
 </bean>
 
 </beans>                       

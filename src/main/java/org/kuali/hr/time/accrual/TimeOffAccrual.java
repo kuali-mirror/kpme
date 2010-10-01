@@ -12,7 +12,7 @@ public class TimeOffAccrual extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long tkAccrualId;
+	private Long laAccrualId;
 	private String principalId;
 	private String accrualCategory;
 	private Date effectiveDate;
@@ -30,13 +30,6 @@ public class TimeOffAccrual extends PersistableBusinessObjectBase {
 		return null;
 	}
 
-	public Long getTkAccrualId() {
-		return tkAccrualId;
-	}
-
-	public void setTkAccrualId(Long tkAccrualId) {
-		this.tkAccrualId = tkAccrualId;
-	}
 
 	public String getPrincipalId() {
 		return principalId;
@@ -100,6 +93,16 @@ public class TimeOffAccrual extends PersistableBusinessObjectBase {
 
 	public Person getPrincipal() {
 		return principal;
+	}
+
+
+	public Long getLaAccrualId() {
+		return laAccrualId;
+	}
+
+
+	public void setLaAccrualId(Long laAccrualId) {
+		this.laAccrualId = laAccrualId;
 	}
 
 }

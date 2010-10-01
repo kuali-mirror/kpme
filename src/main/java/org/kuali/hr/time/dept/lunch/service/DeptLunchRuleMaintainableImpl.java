@@ -13,32 +13,54 @@ import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
-public class DeptLunchRuleMaintainableImpl extends org.kuali.rice.kns.maintenance.KualiMaintainableImpl {
+public class DeptLunchRuleMaintainableImpl extends
+		org.kuali.rice.kns.maintenance.KualiMaintainableImpl {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	 @Override
+	@Override
 	public void processAfterNew(MaintenanceDocument document,
-			Map<String, String[]> parameters) {		 
+			Map<String, String[]> parameters) {
 		super.processAfterNew(document, parameters);
 	}
-	 
+
 	@Override
 	public void processAfterPost(MaintenanceDocument document,
-			Map<String, String[]> parameters) {		
-		DeptLunchRule deptLunchRule = (DeptLunchRule) document.getDocumentBusinessObject();
-		deptLunchRule.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+			Map<String, String[]> parameters) {
+		DeptLunchRule deptLunchRule = (DeptLunchRule) document
+				.getDocumentBusinessObject();
+		deptLunchRule.setUserPrincipalId(GlobalVariables.getUserSession()
+				.getPrincipalId());
 		super.processAfterPost(document, parameters);
 	}
-	
+
 	@Override
 	public void processAfterEdit(MaintenanceDocument document,
 			Map<String, String[]> parameters) {
-		DeptLunchRule deptLunchRule = (DeptLunchRule) document.getDocumentBusinessObject();
-		deptLunchRule.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+		DeptLunchRule deptLunchRule = (DeptLunchRule) document
+				.getDocumentBusinessObject();
+		deptLunchRule.setUserPrincipalId(GlobalVariables.getUserSession()
+				.getPrincipalId());
 		super.processAfterEdit(document, parameters);
 	}
+
+	@Override
+	public void saveBusinessObject() {
+		DeptLunchRule deptLunchRule = (DeptLunchRule) this.getBusinessObject();
+		DeptLunchRule oldDeptLunchRule = (DeptLunchRule) KNSServiceLocator
+				.getBusinessObjectService().findBySinglePrimaryKey(
+						DeptLunchRule.class,
+						deptLunchRule.getTkDeptLunchRuleId());
+		if (oldDeptLunchRule != null) {
+			oldDeptLunchRule.setActive(false);			
+			KNSServiceLocator.getBusinessObjectService().save(oldDeptLunchRule);
+		}
+		deptLunchRule.setTkDeptLunchRuleId(null);
+		deptLunchRule.setTimestamp(null);
+		KNSServiceLocator.getBusinessObjectService().save(deptLunchRule);
+	}
+
 }

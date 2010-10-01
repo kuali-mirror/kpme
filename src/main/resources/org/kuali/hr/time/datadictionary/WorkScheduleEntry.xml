@@ -4,14 +4,14 @@
 
   <bean id="WorkScheduleEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.hr.time.workschedule.WorkScheduleEntry"/>
-    <property name="titleAttribute" value="id"/>
+    <property name="titleAttribute" value="hrWorkScheduleEntryId"/>
     <property name="objectLabel" value="WorkScheduleEntry"/>   
     <property name="lookupDefinition">
       <ref bean="WorkScheduleEntry-lookupDefinition"/>
     </property>
     <property name="attributes">
       <list>      	
-        <ref bean="WorkScheduleEntry-workScheduleId"/>
+        <ref bean="WorkScheduleEntry-hrWorkScheduleId"/>
         <ref bean="WorkScheduleEntry-calDayId"/>
         <ref bean="WorkScheduleEntry-dayOfPeriodId"/>        
         <ref bean="WorkScheduleEntry-regHours"/>         
@@ -24,7 +24,7 @@
               <property name="objectAttributeName" value="workScheduleObj"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="workScheduleId" p:targetName="workScheduleId"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrWorkScheduleId" p:targetName="hrWorkScheduleId"/>
                 </list>
               </property>
             </bean>    
@@ -35,8 +35,8 @@
 
   <!-- Attribute Definitions -->
     
-  <bean id="WorkScheduleEntry-workScheduleId" parent="WorkScheduleEntry-workScheduleId-parentBean"/>
-  <bean id="WorkScheduleEntry-workScheduleId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="WorkScheduleEntry-hrWorkScheduleId" parent="WorkScheduleEntry-hrWorkScheduleId-parentBean"/>
+  <bean id="WorkScheduleEntry-hrWorkScheduleId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="WorkSchedule Id"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
@@ -45,7 +45,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="name" value="workScheduleId"/>
+    <property name="name" value="hrWorkScheduleId"/>
     <property name="label" value="WorkSchedule Id"/>
   </bean>
   
@@ -97,12 +97,12 @@
   <bean id="WorkScheduleEntry-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="workScheduleId"/>
+        <bean parent="FieldDefinition" p:attributeName="hrWorkScheduleId"/>
 	  </list>
     </property>
     <property name="resultFields">
       <list>       
-        <bean parent="FieldDefinition" p:attributeName="workScheduleId"/>
+        <bean parent="FieldDefinition" p:attributeName="hrWorkScheduleId"/>
         <bean parent="FieldDefinition" p:attributeName="calDayId"/>
         <bean parent="FieldDefinition" p:attributeName="dayOfPeriodId"/>
         <bean parent="FieldDefinition" p:attributeName="regHours"/>                   

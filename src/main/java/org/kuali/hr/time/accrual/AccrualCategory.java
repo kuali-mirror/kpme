@@ -1,6 +1,7 @@
 package org.kuali.hr.time.accrual;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -11,10 +12,11 @@ public class AccrualCategory extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long tkAccrualCategoryId;
+	private Long laAccrualCategoryId;
 	private String accrualCategory;
 	private String descr;
 	private Date effectiveDate;
+	private Timestamp timestamp;
 	private boolean active;
 	
 	
@@ -25,20 +27,6 @@ public class AccrualCategory extends PersistableBusinessObjectBase {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-
-	public Long getTkAccrualCategoryId() {
-		return tkAccrualCategoryId;
-	}
-
-
-
-	public void setTkAccrualCategoryId(Long tkAccrualCategoryId) {
-		this.tkAccrualCategoryId = tkAccrualCategoryId;
-	}
-
-
 
 	public String getAccrualCategory() {
 		return accrualCategory;
@@ -87,5 +75,23 @@ public class AccrualCategory extends PersistableBusinessObjectBase {
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
+
+	public Long getLaAccrualCategoryId() {
+		return laAccrualCategoryId;
+	}
+
+	public void setLaAccrualCategoryId(Long laAccrualCategoryId) {
+		this.laAccrualCategoryId = laAccrualCategoryId;
+	}
+
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	 
 
 }

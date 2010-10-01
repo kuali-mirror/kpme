@@ -1,11 +1,9 @@
 package org.kuali.hr.time.workarea.web;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.hr.time.role.assign.TkRoleAssign;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workarea.WorkAreaMaintenanceDocument;
@@ -93,18 +91,6 @@ public class WorkAreaMaintenanceDocumentRule extends TransactionalDocumentRuleBa
 		return genericDescriptionValidation(desc, WorkArea.class, "document.workArea.", WORK_AREA_FIELD_NAME_DESCR);
 	}
 
-	protected boolean validateRoleAssignments(List<TkRoleAssign> list) {
-		boolean v = true;
-
-		// we validate on each addition, though we may want to do more checks
-		// here.
-		// could be expensive - we may want to use Set instead of list, however
-		// rice
-		// supports easier index based deletions if we use list
-
-		return v;
-	}
-
 	protected boolean validateTasks(List<Task> list) {
 		boolean v = true;
 
@@ -122,12 +108,11 @@ public class WorkAreaMaintenanceDocumentRule extends TransactionalDocumentRuleBa
 		WorkArea wa = (wamd != null) ? wamd.getWorkArea() : null;
 		if (wa != null) {
 			valid = true;
-			valid &= this.validateDepartmentId(wa.getDeptId());
+			valid &= this.validateDepartmentId(wa.getDept());
 			//TODO add back if you need this
 			//valid &= this.validateOvertimePreference(wa.getOvertimePreference());
 			valid &= this.validateAdminDescription(wa.getAdminDescr());
 			valid &= this.validateDescription(wa.getDescription());
-			valid &= this.validateRoleAssignments(wa.getRoleAssignments());
 			valid &= this.validateTasks(wa.getTasks());
 		}
 
@@ -162,40 +147,6 @@ public class WorkAreaMaintenanceDocumentRule extends TransactionalDocumentRuleBa
 		
 		if (v) {
 			v = genericDescriptionValidation(task.getAdministrativeDescription(), Task.class, errorPrefix+".", TASK_FIELD_NAME_ADMIN_DESCR);
-		}
-
-		if (v && task.getEffectiveDate() == null) {
-			v = false;
-			addError(errorPrefix + ".effectiveDate", "error.required", "effective date");
-		}
-
-		return v;
-	}
-
-	public boolean validateRoleAddition(TkRoleAssign tra, List<TkRoleAssign> list) {
-		boolean v = true;
-
-		// Verify that we even have an object to look at.
-		if (tra == null) {
-			v = false;
-			addError("newRoleAssignment.principalId", "error.required", "principal id");
-		}
-
-		// 0 byte principal ID check
-		if (v && StringUtils.isBlank(tra.getPrincipalId())) {
-			addError("newRoleAssignment.principalId", "error.required", "principal id");
-			v = false;
-		}
-
-		// Validate that principal ID maps to a person.
-		if (v && (KIMServiceLocator.getIdentityService().getPrincipal(tra.getPrincipalId()) == null)) {
-			addError("newRoleAssignment.principalId", "error.existence", "user");
-			v = false;
-		}
-
-		if (v && list.contains(tra)) {
-			addError("newRoleAssignment.principalId", "error.duplicate.entry", "role");
-			v = false;
 		}
 
 		return v;

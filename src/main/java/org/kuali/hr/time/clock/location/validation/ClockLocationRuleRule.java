@@ -4,8 +4,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -43,17 +48,19 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateDepartment(ClockLocationRule clr) {
 		boolean valid = false;
-		LOG.debug("Validating department: " + clr.getDeptId());
+		LOG.debug("Validating department: " + clr.getDept());
 		// TODO: We may need a full DAO that handles bo lookups at some point,
 		// but we can use the provided one:
-		Department dept = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Department.class, clr.getDeptId());
-		if (dept != null) {
-			valid = true;
+		Criteria crit = new Criteria();
+		crit.addEqualTo("dept", clr.getDept());		
+		Query query = QueryFactory.newQuery(Department.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+		
+		if (count >0 ) {			valid = true;
 			LOG.debug("found department.");
 		} else {
-			this.putFieldError("deptId", "error.existence", "department '"
-					+ clr.getDeptId() + "'");
+			this.putFieldError("dept", "error.existence", "department '"
+					+ clr.getDept() + "'");
 		}
 		return valid;
 	}

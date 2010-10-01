@@ -7,26 +7,21 @@
 
 
 <c:choose>
-	<c:when test="${tagSupport.earnCodeSize <= 1}">
+	<c:when test="${fn:length(earnCodes) <= 1}">
 		<c:forEach var="earnCode" items="${earnCodes}">
-			<c:forEach var="earnCodeStr" items="${earnCode.value}">
-				${earnCodeStr}
-				<input type="hidden" id="earnCode" name="earnCode" value="${earnCode.key}"/>
-			</c:forEach>
+			${earnCode.key}
+			<input type="hidden" id="earnCode" name="earnCode" value="${earnCode.value}"/>
 		</c:forEach>
     </c:when>
     <c:otherwise>
 		<select id="earnCode">
+			<option value="" selected="selected">-- select one --</option>
 			<c:forEach var="earnCode" items="${earnCodes}">
-				<c:forEach var="earnCodeStr" items="${earnCode.value}">
-					<option value="${earnCode.key}">${earnCodeStr}</option>
-				</c:forEach>
+				<option value="${earnCode.key}">${earnCode.value}</option>
 			</c:forEach>
 		</select>
     </c:otherwise>
 </c:choose>
-
-
 
 <%--
 <select id="earnCode">

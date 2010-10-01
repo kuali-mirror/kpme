@@ -83,8 +83,8 @@
 		<c:forEach var="timeBlock" items="${Form.timeBlocks}" varStatus="row">
 			Document Id: ${timeBlock.documentId}<br/>
 			Job Number: ${timeBlock.jobNumber}<br/>
-			Workarea Id: ${timeBlock.workAreaId}<br/>
-			Task Id: ${timeBlock.taskId}<br/>
+			Workarea Id: ${timeBlock.workArea}<br/>
+			Task Id: ${timeBlock.task}<br/>
 			Earn Code: ${timeBlock.earnCode}<br/>
 			Begin Time: <fmt:formatDate type="both" dateStyle="full" value="${timeBlock.beginTimestamp}"/><br/>
 			End Time: <fmt:formatDate type="both" dateStyle="full" value="${timeBlock.endTimestamp}"/><br/>
@@ -109,13 +109,14 @@
 								<tr>
 									<td>Assignment: </td>
 									<td>
-										<tk:assignment assignments="${Form.formattedAssignments}"/>
+										<tk:assignment assignments="${Form.assignmentDescriptions}"/>
 									</td>
 								</tr>
 								<tr>
 									<td>Earn code: </td>
 									<td>
-										<tk:earnCode earnCodes="${Form.deptEarnCodes}"/>
+										<!-- <tk:earnCode earnCodes="${Form.earnCodeDescriptions}"/> -->
+										<select id='earnCode' name="selectedEarnCode"></select>
 									</td>
 								</tr>
 								<tr id="clockIn">
@@ -258,6 +259,8 @@
 
 			</div> <%-- end of tabs-2 --%>
 		<%-- </div> end of tabs-demo --%>
+
+		<tk:timeSummary timeSummary="${Form.timesheetDocument.timeSummary}" />
 
 		<div id="timesheet-summary">
 			<div style="clear:both; text-align:center; font-weight: bold; margin-top:20px; margin-bottom: 5px;">Summary <%--(<a href="#" id="basic">Basic</a> / <a href="#" id="advance">Advanced</a> ) --%></div>

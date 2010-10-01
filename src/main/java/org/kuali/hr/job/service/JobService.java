@@ -13,12 +13,17 @@ public interface JobService {
 	/**
 	 * Provides a list of current jobs that are valid relative to the provided effective date.  
 	 * Timestamp of row creation is taken into account when two rows with the same job number
-	 * have the same effective date. 
+	 * have the same effective date.
+	 * 
+	 * Assignments are NOT populated on this object.  We may want to consider removing 
+	 * getAssignments().
 	 * 
 	 * @param principalId
-	 * @param payPeriodEndDate
+	 * @param asOfDate
 	 * @return
 	 */
-	public List<Job> getJobs(String principalId, Date payPeriodEndDate);
+	public List<Job> getJobs(String principalId, Date asOfDate);
+	
+	public Job getJob(String principalId, Long jobNumber, Date asOfDate);
 	
 }

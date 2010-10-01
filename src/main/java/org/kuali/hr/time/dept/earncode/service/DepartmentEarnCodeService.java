@@ -1,21 +1,16 @@
 package org.kuali.hr.time.dept.earncode.service;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+import org.kuali.hr.time.earncode.EarnCode;
 
 public interface DepartmentEarnCodeService {
 
-	public List<DepartmentEarnCode> getDepartmentEarnCodeList(Long salGroup);
-
-	/**
-	 * Provides a list of DepartmentEarnCodes for the given salGroupId and payPeriodEndDate.
-	 * PayPeriodEndDate is used when pulling the actual earnCodes.
-	 * @param salGroupId
-	 * @param payPeriodEndDate
-	 * @return
+	/** This should handle wild cards on department and tk_sal_group. 
+	 * 
 	 */
-	public List<DepartmentEarnCode> getDepartmentEarnCodes(Long salGroupId, Date payPeriodEndDate);
-	
+	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tk_sal_group, Date asOfDate);
+
 }

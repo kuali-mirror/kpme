@@ -6,15 +6,15 @@
 
 	<bean id="EarnGroup" parent="EarnGroup-parentBean" />
 	<bean id="EarnGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.time.earncode.EarnGroup" />
-		<property name="titleAttribute" value="earnGroupId" />
+		<property name="businessObjectClass" value="org.kuali.hr.time.earngroup.EarnGroup" />
+		<property name="titleAttribute" value="tkEarnGroupId" />
 		<property name="objectLabel" value="earnGroup" />
 		<property name="lookupDefinition">
 			<ref bean="EarnGroup-lookupDefinition" />
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="EarnGroup-earnGroupId" />
+				<ref bean="EarnGroup-tkEarnGroupId" />
 				<ref bean="EarnGroup-earnGroup" />
 				<ref bean="EarnGroup-descr" />
 				<ref bean="EarnGroup-effectiveDate" />
@@ -32,8 +32,8 @@
 
 	<!-- Attribute Definitions -->
 
-	<bean id="EarnGroup-earnGroupId" parent="EarnGroup-earnGroupId-parentBean" />
-	<bean id="EarnGroup-earnGroupId-parentBean" abstract="true"
+	<bean id="EarnGroup-tkEarnGroupId" parent="EarnGroup-tkEarnGroupId-parentBean" />
+	<bean id="EarnGroup-tkEarnGroupId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Id" />
 		<property name="maxLength" value="20" />
@@ -43,7 +43,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="20" />
 		</property>
-		<property name="name" value="earnGroupId" />
+		<property name="name" value="tkEarnGroupId" />
 		<property name="label" value="Earn Group Id" />
 	</bean>
 
@@ -113,13 +113,13 @@
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="earnGroupId" />
+				<bean parent="FieldDefinition" p:attributeName="tkEarnGroupId" />
 				<bean parent="FieldDefinition" p:attributeName="earnGroup" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="earnGroupId" />
+				<bean parent="FieldDefinition" p:attributeName="tkEarnGroupId" />
 				<bean parent="FieldDefinition" p:attributeName="earnGroup" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />

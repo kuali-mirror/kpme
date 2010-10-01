@@ -1,10 +1,7 @@
 package org.kuali.hr.time.timesheet.web;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,104 +10,40 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.assignment.dao.AssignmentDaoSpringOjbImpl;
 import org.kuali.hr.time.base.web.TkAction;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.timesheet.service.TimesheetService;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 
 public class TimesheetAction extends TkAction {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(TimesheetAction.class);
 
+	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward forward = super.execute(mapping, form, request, response);
 		TimesheetActionForm taForm = (TimesheetActionForm)form;
-
-		TKUser user = TKContext.getUser();
-		TimesheetService timesheetService = TkServiceLocator.getTimesheetService();
-
-		Date payEndDate = TKUtils.getPayEndDate(user, (new DateTime()).toDate());
 		
-		// TODO : Re-enable these
-		//TimesheetDocument timesheetDocument = timesheetService.openTimesheetDocument(user.getPrincipalId(), payEndDate);
-		//taForm.setTimesheetDocument(timesheetDocument);
-
-		// set assignments
-		taForm.setFormattedAssignments(getFormattedAssignment());
-		// set earn codes
-		taForm.setDeptEarnCode(getFormattedDeptEarnCodes());
-
-		return forward;
+		TKUser user = TKContext.getUser();
+		Date currentDate = TKUtils.getTimelessDate(null);
+		
+		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(user.getPrincipalId(), currentDate);
+		if (jobs.size() < 1)
+			throw new RuntimeException("No jobs for a user.");
+		
+		PayCalendarDates payCalendarDates = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(user.getPrincipalId(), jobs.get(0), currentDate);
+		taForm.setPayCalendarDates(payCalendarDates);
+	
+		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(user.getPrincipalId(), payCalendarDates);
+		taForm.setTimesheetDocument(tdoc);
+		
+		taForm.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(tdoc));
+		return super.execute(mapping, form, request, response);
 	}
 
-	private Map<Long,List<String>> getFormattedAssignment() {
-		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getUser().getPrincipalId(), TKUtils.getTimelessDate(null));
-
-		Map<Long,List<String>> formattedAssignments = new LinkedHashMap<Long,List<String>>();
-		for(Job job : jobs) {
-
-			List<Assignment> assignments = job.getAssignments();
-			List<String> assignmentList = new LinkedList<String>();
-
-			if(assignments.size() > 0) {
-				for(Assignment assignment : assignments) {
-					try {
-
-						String workAreaDesc = assignment.getWorkArea().getDescription();
-						// TODO: needs to grab the real value
-						String compRate = "CompRate";
-
-						String assignmentStr = workAreaDesc + " : " + compRate + " Rcd #" + job.getJobNumber().toString() + " " + job.getDeptId();
-						assignmentList.add(assignmentStr);
-
-					} catch(NullPointerException npe) {
-						LOG.error("one of the values is missing for the assignment " + npe.getMessage());
-					}
-				}
-			}
-			formattedAssignments.put(job.getJobNumber(), assignmentList);
-		}
-
-		return formattedAssignments;
-	}
-
-	private Map<Long,List<String>> getFormattedDeptEarnCodes() {
-		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getUser().getPrincipalId(), TKUtils.getTimelessDate(null));
-
-		Map<Long,List<String>> formattedDeptEarnCodes = new LinkedHashMap<Long,List<String>>();
-		for(Job job : jobs) {
-
-			List<DepartmentEarnCode> deptEarnCodes = job.getDeptEarnCodes();
-			List<String> earnCodeList = new LinkedList<String>();
-
-			if(deptEarnCodes.size() > 0) {
-				for(DepartmentEarnCode deptEarnCode : deptEarnCodes) {
-
-					try {
-
-						String earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCodeId()).getEarnCode();
-						String earnCodeDesc = TkServiceLocator.getEarnCodeService().getEarnCodeById(deptEarnCode.getEarnCodeId()).getDescription();
-
-						String earnCodeStr = earnCode + " : " + earnCodeDesc;
-						earnCodeList.add(earnCodeStr);
-					} catch(NullPointerException npe) {
-						LOG.error("can't find the dept earn code. id: " + deptEarnCode.getEarnCodeId());
-					}
-				}
-			}
-
-			formattedDeptEarnCodes.put(job.getJobNumber(), earnCodeList);
-		}
-
-		return formattedDeptEarnCodes;
-
-	}
 }

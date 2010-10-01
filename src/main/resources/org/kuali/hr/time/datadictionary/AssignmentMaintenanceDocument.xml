@@ -39,11 +39,9 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="earnCodeId"
+				<bean parent="MaintainableFieldDefinition" p:name="workArea"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="workAreaId"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="taskId"
+				<bean parent="MaintainableFieldDefinition" p:name="task"
 					p:required="true" />
 			</list>
 		</property>
@@ -70,6 +68,7 @@
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="finCoaCd" />
 							<bean parent="MaintainableFieldDefinition" p:name="accountNbr" />
+							<bean parent="MaintainableFieldDefinition" p:name="earnCode"/>
 							<bean parent="MaintainableFieldDefinition" p:name="subAcctNbr" />
 							<bean parent="MaintainableFieldDefinition" p:name="finObjectCd" />
 							<bean parent="MaintainableFieldDefinition" p:name="finSubObjCd" />

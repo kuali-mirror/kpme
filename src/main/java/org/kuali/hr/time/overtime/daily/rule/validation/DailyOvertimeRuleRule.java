@@ -1,5 +1,9 @@
 package org.kuali.hr.time.overtime.daily.rule.validation;
 
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.task.Task;
@@ -14,47 +18,56 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateWorkArea(DailyOvertimeRule dailyOvertimeRule ) {
 		boolean valid = false;
-		LOG.debug("Validating workarea: " + dailyOvertimeRule.getWorkAreaId());
-		WorkArea workArea = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(WorkArea.class, dailyOvertimeRule.getWorkAreaId());
-		if (workArea != null) {
+		LOG.debug("Validating workarea: " + dailyOvertimeRule.getWorkArea());
+		Criteria crit = new Criteria();
+		crit.addEqualTo("workArea", dailyOvertimeRule.getWorkArea());		
+		Query query = QueryFactory.newQuery(WorkArea.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+		
+		if (count >0 ) {
 			valid = true;
 			LOG.debug("found workArea.");
 		} else {
-			this.putFieldError("workAreaId", "error.existence", "Workarea '"
-					+ dailyOvertimeRule.getWorkAreaId()+ "'");
+			this.putFieldError("workArea", "error.existence", "Workarea '"
+					+ dailyOvertimeRule.getWorkArea()+ "'");
 		}
 		return valid;
 	}
 
 	protected boolean validateDepartment(DailyOvertimeRule dailyOvertimeRule) {
 		boolean valid = false;
-		LOG.debug("Validating dept: " + dailyOvertimeRule.getDeptId());
+		LOG.debug("Validating dept: " + dailyOvertimeRule.getDept());
 		// TODO: We may need a full DAO that handles bo lookups at some point,
 		// but we can use the provided one:
-		Department dept = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Department.class, dailyOvertimeRule.getDeptId());
-		if (dept != null) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("dept", dailyOvertimeRule.getDept());		
+		Query query = QueryFactory.newQuery(Department.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+		
+		if (count >0 ) {
 			valid = true;
 			LOG.debug("found department.");
 		} else {
-			this.putFieldError("deptId", "error.existence", "Department '"
-					+ dailyOvertimeRule.getDeptId() + "'");
+			this.putFieldError("dept", "error.existence", "Department '"
+					+ dailyOvertimeRule.getDept() + "'");
 		}
 		return valid;
 	}
 	
 	protected boolean validateTask(DailyOvertimeRule dailyOvertimeRule ) {
 		boolean valid = false;
-		LOG.debug("Validating task: " + dailyOvertimeRule.getTaskId());
-		Task task = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Task.class, dailyOvertimeRule.getTaskId());
-		if (task != null) {
+		LOG.debug("Validating task: " + dailyOvertimeRule.getTask());
+		Criteria crit = new Criteria();
+		crit.addEqualTo("task", dailyOvertimeRule.getTask());		
+		Query query = QueryFactory.newQuery(Task.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+		
+		if (count >0 ) {
 			valid = true;
 			LOG.debug("found task");
 		} else {
-			this.putFieldError("taskId", "error.existence", "Task '"
-					+ dailyOvertimeRule.getTaskId()+ "'");
+			this.putFieldError("task", "error.existence", "Task '"
+					+ dailyOvertimeRule.getTask()+ "'");
 		}
 		return valid;
 	}

@@ -1,12 +1,12 @@
 package org.kuali.hr.time.workschedule;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -16,18 +16,17 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long workScheduleId;
+	private Long hrWorkScheduleId;
 	
 	private String workScheduleDesc;
 	private Date effectiveDate;
-	private String deptId;	
+	private String dept;
+	private Department department;
 	private Long workArea;	
 	private Long principalId;
+	private Timestamp timestamp;
 	private boolean active;
-	
-	private WorkArea workAreaObj;
-	private Department department;
-	
+	private WorkArea workAreaObj;		
 	
 	private List<WorkScheduleEntry> workScheduleEntries = new  LinkedList<WorkScheduleEntry>();
 	 
@@ -52,17 +51,6 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 		this.department = department;
 	}
 
-
-	public Long getWorkScheduleId() {
-		return workScheduleId;
-	}
-
-
-	public void setHrWorkScheduleId(Long workScheduleId) {
-		this.workScheduleId = workScheduleId;
-	}
-
-
 	public String getWorkScheduleDesc() {
 		return workScheduleDesc;
 	}
@@ -76,12 +64,6 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 	public void setWorkAreaObj(WorkArea workAreaObj) {
 		this.workAreaObj = workAreaObj;
 	}
-
-
-	public void setWorkScheduleId(Long workScheduleId) {
-		this.workScheduleId = workScheduleId;
-	}
-
 
 	public void setWorkArea(Long workArea) {
 		this.workArea = workArea;
@@ -101,17 +83,6 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
-
-
-	public String getDeptId() {
-		return deptId;
-	}
-
-
-	public void setDeptId(String deptId) {
-		this.deptId = deptId;
-	}
-
 
 	public Long getWorkArea() {
 		return workArea;
@@ -144,15 +115,45 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
 		
-		toStringMap.put("workScheduleId", workScheduleId);
+		toStringMap.put("workScheduleId", hrWorkScheduleId);
 		toStringMap.put("workScheduleDesc", workScheduleDesc);
 		toStringMap.put("effectiveDate", effectiveDate);
-		toStringMap.put("deptId", deptId);
+		toStringMap.put("dept", dept);
 		toStringMap.put("workArea", workArea);
 		toStringMap.put("active", active);
 		toStringMap.put("workAreaObj", workAreaObj); 	
 		 
 		return toStringMap;
+	}
+
+
+	public String getDept() {
+		return dept;
+	}
+
+
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+
+
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
+
+	public Long getHrWorkScheduleId() {
+		return hrWorkScheduleId;
+	}
+
+
+	public void setHrWorkScheduleId(Long hrWorkScheduleId) {
+		this.hrWorkScheduleId = hrWorkScheduleId;
 	}
 
 

@@ -14,7 +14,7 @@
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="DeptLunchRule-deptId" />
+				<ref bean="DeptLunchRule-dept" />
 				<ref bean="DeptLunchRule-workArea" />
 				<ref bean="DeptLunchRule-principalId" />
 				<ref bean="DeptLunchRule-jobNumber" />
@@ -26,14 +26,15 @@
 				<ref bean="DeptLunchRule-timestamp" />
 			</list>
 		</property>
-		<property name="relationships">
+ 
+			<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="workAreaObj" />
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
-								p:targetName="workAreaId" />
+								p:targetName="workArea" />
 						</list>
 					</property>
 				</bean>
@@ -42,8 +43,8 @@
 					<property name="objectAttributeName" value="departmentObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="deptId"
-								p:targetName="deptId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
+								p:targetName="dept" />
 						</list>
 					</property>
 				</bean>
@@ -60,14 +61,15 @@
 				</bean>
 			</list>
 		</property>
+	 
 	</bean>
 
 	<!-- Attribute Definitions -->
 
-	<bean id="DeptLunchRule-deptId" parent="DeptLunchRule-deptId-parentBean" />
-	<bean id="DeptLunchRule-deptId-parentBean" abstract="true"
+	<bean id="DeptLunchRule-dept" parent="DeptLunchRule-dept-parentBean" />
+	<bean id="DeptLunchRule-dept-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Dept Id" />
+		<property name="shortLabel" value="Department" />
 		<property name="maxLength" value="21" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -77,8 +79,8 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="21" />
 		</property>
-		<property name="name" value="deptId" />
-		<property name="label" value="Department Id" />
+		<property name="name" value="dept" />
+		<property name="label" value="Department" />
 	</bean>
 
 
@@ -238,7 +240,7 @@
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="deptId" />
+				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
@@ -246,7 +248,7 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="deptId" />
+				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />

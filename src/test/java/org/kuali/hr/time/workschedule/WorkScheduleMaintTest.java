@@ -128,14 +128,14 @@ public class WorkScheduleMaintTest extends TkTestCase{
 		workSchedulewithInvalidDept.setWorkScheduleDesc(TEST_CODE);		
 		workSchedulewithInvalidDept.setActive(true);		 
 		workSchedulewithInvalidDept.setWorkArea(TEST_ID);
-		workSchedulewithInvalidDept.setDeptId(TEST_CODE_DEPT_INVALID) ;
+		workSchedulewithInvalidDept.setDept(TEST_CODE_DEPT_INVALID) ;
 		KNSServiceLocator.getBusinessObjectService().save(
 				workSchedulewithInvalidDept);
-		workScheduleWithInvalidDept = workSchedulewithInvalidDept.getWorkScheduleId();
+		workScheduleWithInvalidDept = workSchedulewithInvalidDept.getHrWorkScheduleId();
 
 		Department department = new Department();
 		department.setChart(TEST_CODE_DEPARTMENT_VALID);
-		department.setDeptId(TEST_CODE_DEPARTMENT_VALID);
+		department.setDept(TEST_CODE_DEPARTMENT_VALID);
 		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
 		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
 		KNSServiceLocator.getBusinessObjectService().save(department);
@@ -158,10 +158,10 @@ public class WorkScheduleMaintTest extends TkTestCase{
 		workSchedulewithInvalidWorkArea.setWorkScheduleDesc(TEST_CODE);		
 		workSchedulewithInvalidWorkArea.setActive(true);		 
 		workSchedulewithInvalidWorkArea.setWorkArea(TEST_CODE_WORKAREA_INVALID);
-		workSchedulewithInvalidWorkArea.setDeptId(TEST_CODE_DEPARTMENT_VALID) ;
+		workSchedulewithInvalidWorkArea.setDept(TEST_CODE_DEPARTMENT_VALID) ;
 		KNSServiceLocator.getBusinessObjectService().save(
 				workSchedulewithInvalidWorkArea);
-		workScheduleIdWithInvalidWorkArea = workSchedulewithInvalidWorkArea.getWorkScheduleId();
+		workScheduleIdWithInvalidWorkArea = workSchedulewithInvalidWorkArea.getHrWorkScheduleId();
 
 	}
 

@@ -14,8 +14,8 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 
-    private Long deptLunchRuleId;
-    private String deptId;
+    private Long tkDeptLunchRuleId;
+    private String dept;
     private Long workArea;
     private String principalId;         // like principal id
     private Long jobNumber;    // like job number
@@ -69,18 +69,6 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
 		toStringMap.put("principalId", principalId);
 		return toStringMap;
     }
-
-
-    public Long getDeptLunchRuleId() {
-        return deptLunchRuleId;
-    }
-
-
-    public void setDeptLunchRuleId(Long deptLunchRuleId) {
-        this.deptLunchRuleId = deptLunchRuleId;
-    }
-
-   
 
     public Long getWorkArea() {
 		return workArea;
@@ -170,13 +158,22 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
         this.userPrincipalId = userPrincipalId;
     }
 
+	public Long getTkDeptLunchRuleId() {
+		return tkDeptLunchRuleId;
+	}
 
-    public String getDeptId() {
-        return deptId;
-    }
+
+	public void setTkDeptLunchRuleId(Long tkDeptLunchRuleId) {
+		this.tkDeptLunchRuleId = tkDeptLunchRuleId;
+	}
 
 
-    public void setDeptId(String deptId) {
-        this.deptId = deptId;
-    }
+	public String getDept() {
+		return dept;
+	}
+
+
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
 }

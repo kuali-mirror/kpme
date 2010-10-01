@@ -7,13 +7,19 @@ import org.kuali.hr.time.cache.CacheManagementService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
 import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.earncode.service.EarnCodeService;
+import org.kuali.hr.time.earngroup.service.EarnGroupService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarDatesService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
+import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.rule.TkRuleControllerService;
+import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timeblock.service.TimeBlockHistoryService;
 import org.kuali.hr.time.timeblock.service.TimeBlockService;
+import org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleService;
+import org.kuali.hr.time.timehourdetail.service.TimeHourDetailService;
 import org.kuali.hr.time.timesheet.service.TimesheetService;
+import org.kuali.hr.time.timesummary.service.TimeSummaryService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
 import org.springframework.beans.BeansException;
@@ -40,8 +46,12 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIMESHEET_DOCUMENT_HEADER_SERVICE = "timesheetDocumentHeaderService";
 	public static final String TK_DEPARTMENT_EARN_CODE = "deptEarnCodeService";
 	public static final String TK_EARN_CODE = "earnCodeService";
-
-
+	public static final String TK_TIME_COLLECTION_RULE_SERVICE = "timeCollectionRuleService";
+	public static final String TK_ROLE_SERVICE = "tkRoleService";
+	public static final String TK_TIME_SUMMARY_SERVICE = "timeSummaryService";
+	public static final String TK_TIME_EARN_GROUP_SERVICE = "earnGroupService";
+	public static final String TK_TIME_HOUR_DETAIL_SERVICE= "timeHourDetailService";
+	
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
 //		CONTEXT.start();
@@ -49,6 +59,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static void stop() throws Exception {
 //		CONTEXT.stop();
+	}
+	
+	public static TkRoleService getTkRoleService() {
+		return (TkRoleService) CONTEXT.getBean(TK_ROLE_SERVICE);
 	}
 	
 	public static TimesheetDocumentHeaderService getTimesheetDocumentHeaderService() {
@@ -117,6 +131,22 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static EarnCodeService getEarnCodeService() {
 		return (EarnCodeService) CONTEXT.getBean(TK_EARN_CODE);
+	}
+	
+	public static TimeCollectionRuleService getTimeCollectionRuleService() {
+		return (TimeCollectionRuleService) CONTEXT.getBean(TK_TIME_COLLECTION_RULE_SERVICE);
+	}
+	
+	public static TimeSummaryService getTimeSummaryService(){
+		return (TimeSummaryService) CONTEXT.getBean(TK_TIME_SUMMARY_SERVICE);
+	}
+	
+	public static EarnGroupService getEarnGroupService(){
+		return (EarnGroupService) CONTEXT.getBean(TK_TIME_EARN_GROUP_SERVICE);
+	}
+	
+	public static TimeHourDetailService getTimeHourDetailService(){
+		return (TimeHourDetailService) CONTEXT.getBean(TK_TIME_HOUR_DETAIL_SERVICE);
 	}
 
 	@Override

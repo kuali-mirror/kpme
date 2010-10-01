@@ -1,7 +1,5 @@
 package org.kuali.hr.time.workarea.web;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,11 +7,11 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.hr.time.role.assign.TkRoleAssign;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workarea.WorkAreaMaintenanceDocument;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
@@ -36,21 +34,14 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 		if (request.getParameter("command").equals("initiate") && !Boolean.parseBoolean(request.getParameter("newWorkArea"))) {
 			try {
 				Long workAreaId = (workAreaId_s != null) ? Long.parseLong(workAreaId_s) : null;
-				WorkArea workArea = waService.getWorkArea(workAreaId);
-				List<TkRoleAssign> roleList = waService.getWorkAreaRoles(workAreaId);
-				workArea.setRoleAssignments(roleList);
+				WorkArea workArea = waService.getWorkArea(workAreaId, TKUtils.getCurrentDate());
+				// TODO : Implement this - Need Roles
+				
 				if (workArea != null) {
-					LOG.debug("Obtained work area: " + workArea.getWorkAreaId());
+					LOG.debug("Obtained work area: " + workArea.getTkWorkAreaId());
 					workAreaMaintenanceDocument.setWorkArea(workArea);
 				} else {
-					// TODO
-					// We need to have a general page that we can forward to
-					// that
-					// will hold
-					// errors like this as well as security violations, since
-					// the
-					// user can
-					// just arbitrarily change the workAreaId parameter.
+					throw new RuntimeException("Work area was null.");
 				}
 			} catch (NumberFormatException nfe) {   
 				LOG.error("nfe", nfe);
@@ -66,46 +57,25 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 	public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward afw;
 		afw = super.route(mapping, form, request, response);
-
-		WorkAreaService waService = TkServiceLocator.getWorkAreaService();
-		WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
-		WorkAreaMaintenanceDocument wamd = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
-		waService.saveOrUpdate(wamd.getWorkArea());
-		try {
-			// KIM roles are cranky...
-			waService.saveWorkAreaRoles(wamd.getWorkArea().getWorkAreaId(), wamd.getWorkArea().getRoleAssignments());
-		} catch (Exception e) {
-			LOG.error("Swallowed exception - need to fix this", e);
-		}
-
-		return afw;
+		// TODO : Implement this
+		throw new RuntimeException("Implement this method.");
+		//return afw;
 	}
 
 	public ActionForward addPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
 		WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
-
-		TkRoleAssign tra = workAreaForm.getNewRoleAssignment();
-		tra.setWorkAreaId(document.getWorkArea().getWorkAreaId());
-		if (rule.validateRoleAddition(tra, document.getWorkArea().getRoleAssignments())) {
-			LOG.info("Adding role: " + tra.getRoleName() + " to principal " + tra.getPrincipalId());			
-			document.getWorkArea().getRoleAssignments().add(tra);
-			workAreaForm.setNewRoleAssignment(new TkRoleAssign());
-		}
-
-		return mapping.findForward(RiceConstants.MAPPING_BASIC);
+		// TODO : Implement this
+		throw new RuntimeException("Implement this method.");
+		//return mapping.findForward(RiceConstants.MAPPING_BASIC);
 	}
 
 	public ActionForward removePerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
 		WorkAreaMaintenanceDocument document = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
-		int deleteMe = this.getSelectedLine(request);
-		WorkArea workArea = document.getWorkArea();
-		TkRoleAssign tra = workArea.getRoleAssignments().remove(deleteMe);
-		LOG.info("removed " + tra.getPrincipalId() + " from " + tra.getRoleName());
-		workAreaForm.setNewRoleAssignment(new TkRoleAssign());
-
-		return mapping.findForward(RiceConstants.MAPPING_BASIC);
+		// TODO : Implement this
+		throw new RuntimeException("Implement this method.");
+		//return mapping.findForward(RiceConstants.MAPPING_BASIC);
 	}
 
 	public ActionForward removeTask(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -114,7 +84,7 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 		int deleteMe = this.getSelectedLine(request);
 		WorkArea workArea = document.getWorkArea();
 		Task task = workArea.getTasks().remove(deleteMe);
-		LOG.info("removed " + task.getTaskId());
+		LOG.info("removed " + task.getTkTaskId());
 		workAreaForm.setNewTask(new Task());
 
 		return mapping.findForward(RiceConstants.MAPPING_BASIC);

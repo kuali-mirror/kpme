@@ -51,6 +51,7 @@
 					<br/><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">DailyOverTimeRule</a>
 					<br/><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.clocklog.ClockLog&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Clock Log</a>
 					<br/><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.workarea.WorkArea&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Work Area Maintenance</a>
+					<br/><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.TimeCollectionRule&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Time Collection Rule</a>
 			   </div>    
            </div>
            <div class="portlet">
@@ -92,11 +93,8 @@
 	              <h2>Administrative</h2> 
 	          </div>
 			  <div class="portlet-content">
-			  	
-
 				<form name="backdoorForm">
 				   BackdoorId <input type="text" name="backdoorId">
-
 				</form>
 			   </div>
 	       </div>

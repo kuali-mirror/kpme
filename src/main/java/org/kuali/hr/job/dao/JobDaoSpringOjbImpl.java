@@ -15,6 +15,7 @@ import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements JobDao {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(JobDaoSpringOjbImpl.class);
 
 	public void saveOrUpdate(Job job) {
@@ -24,7 +25,7 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 	public void saveOrUpdate(List<Job> jobList) {
 		if (jobList != null) {
 			for (Job job : jobList) {
-				this.getPersistenceBrokerTemplate().store(job);
+				this.saveOrUpdate(job);
 			}
 		}
 	}
@@ -41,6 +42,7 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
 		effdt.addLessOrEqualThan("effectiveDate", payPeriodEndDate);
 		effdt.addEqualTo("active", true);
+		effdt.addEqualTo("principalId", principalId);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
 		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 		
@@ -48,6 +50,7 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 		timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 		timestamp.addEqualTo("active", true);
+		timestamp.addEqualTo("principalId", principalId);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestamp);
 		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 		
@@ -63,6 +66,40 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 			jobs.addAll(c);
 		}
 		
+		
+		
 		return jobs;
+	}
+	
+	public Job getJob(String principalId, Long jobNumber, Date asOfDate){
+		Criteria root = new Criteria();
+		Criteria effdt = new Criteria();
+		Criteria timestamp = new Criteria();
+
+		// OJB's awesome sub query setup part 1
+		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+		effdt.addEqualTo("active", true);
+		effdt.addEqualTo("principalId", principalId);
+		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
+		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+		
+		// OJB's awesome sub query setup part 2
+		timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+		timestamp.addEqualTo("active", true);
+		timestamp.addEqualTo("principalId", principalId);
+		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestamp);
+		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+		
+		root.addEqualTo("principalId", principalId);
+		root.addEqualTo("jobNumber", jobNumber);
+		root.addEqualTo("effectiveDate", effdtSubQuery);
+		root.addEqualTo("timestamp", timestampSubQuery);
+		root.addEqualTo("active", true);
+		
+		Query query = QueryFactory.newQuery(Job.class, root);
+		Job job = (Job)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		return job;
 	}
 }

@@ -1,167 +1,165 @@
 package org.kuali.hr.time.assignment;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
-import org.kuali.hr.time.task.Task;
+import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class Assignment extends PersistableBusinessObjectBase {
 
-    /**
+	/**
      *
      */
-    private static final long serialVersionUID = -3408305833805778653L;
+	private static final long serialVersionUID = -3408305833805778653L;
 
-    private Long assignmentId;
-    private String principalId;
-    private Long jobNumber;
-    private Job job;
-    private Date effectiveDate;
-    private Long earnCodeId;
-    private Long workAreaId;
-    private Long taskId;
-    private boolean active;
+	private Long tkAssignmentId;
+	private String principalId;
+	private Long jobNumber;
+	private Job job;
+	private Date effectiveDate;
+	private Long workArea;
+	private Long task;
+	private boolean active;
+	private Timestamp timestamp;
+	private TimeCollectionRule timeCollectionRule;
 
-    private Task task;
-    private WorkArea workArea;
-    
-    private List<AssignmentAccount> assignmentAccounts  = new LinkedList<AssignmentAccount>();
+	private WorkArea workAreaObj;
 
-    public Assignment() {
+	private List<AssignmentAccount> assignmentAccounts = new LinkedList<AssignmentAccount>();
 
-    }
-    
-    
-
-    public List<AssignmentAccount> getAssignmentAccounts() {
+	public List<AssignmentAccount> getAssignmentAccounts() {
 		return assignmentAccounts;
 	}
-
-
 
 	public void setAssignmentAccounts(List<AssignmentAccount> assignmentAccounts) {
 		this.assignmentAccounts = assignmentAccounts;
 	}
+	
+	public Assignment(){}
 
+	public Assignment(String principalId, Long jobNumber, Date effectiveDate,
+			String earnCode, Long workAreaId, Long taskId) {
+		this.principalId = principalId;
+		this.jobNumber = jobNumber;
+		this.effectiveDate = effectiveDate;
+		this.workArea = workAreaId;
+		this.task = taskId;
+	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	protected LinkedHashMap toStringMapper() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	public Assignment(String principalId, Long jobNumber, Date effectiveDate, Long earnCode, Long workAreaId, Long taskId) {
-	this.principalId = principalId;
-	this.jobNumber = jobNumber;
-	this.effectiveDate = effectiveDate;
-	this.earnCodeId = earnCode;
-	this.workAreaId = workAreaId;
-	this.taskId = taskId;
-    }
+	public String getPrincipalId() {
+		return principalId;
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-	// TODO Auto-generated method stub
-	return null;
-    }
+	public void setPrincipalId(String principalId) {
+		this.principalId = principalId;
+	}
 
+	public Job getJob() {
+		return job;
+	}
 
+	public void setJob(Job job) {
+		this.job = job;
+	}
 
-    public String getPrincipalId() {
-        return principalId;
-    }
+	public Long getJobNumber() {
+		return jobNumber;
+	}
 
-    public void setPrincipalId(String principalId) {
-        this.principalId = principalId;
-    }
-    public Job getJob() {
-        return job;
-    }
+	public void setJobNumber(Long jobNumber) {
+		this.jobNumber = jobNumber;
+	}
 
-    public void setJob(Job job) {
-        this.job = job;
-    }
-    public Long getJobNumber() {
-        return jobNumber;
-    }
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
 
-    public void setJobNumber(Long jobNumber) {
-        this.jobNumber = jobNumber;
-    }
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
 
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
+	public boolean isActive() {
+		return active;
+	}
 
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
-    public Long getEarnCodeId() {
-        return earnCodeId;
-    }
+	/**
+	 * Provides us with the text to display to the user for clock actions on
+	 * this assignment.
+	 * 
+	 * @return
+	 */
+	public String getClockText() {
+		StringBuilder sb = new StringBuilder("example assignment clock text");
 
-    public void setEarnCodeId(Long earnCodeId) {
-        this.earnCodeId = earnCodeId;
-    }
+		return sb.toString();
+	}
 
-    public Long getTaskId() {
-        return taskId;
-    }
+	public Long getTkAssignmentId() {
+		return tkAssignmentId;
+	}
 
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
-    }
+	public void setTkAssignmentId(Long tkAssignmentId) {
+		this.tkAssignmentId = tkAssignmentId;
+	}
 
-    public Long getAssignmentId() {
-        return assignmentId;
-    }
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
 
-    public void setAssignmentId(Long assignmentId) {
-        this.assignmentId = assignmentId;
-    }
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
 
-    public boolean isActive() {
-        return active;
-    }
+	public void setWorkArea(Long workArea) {
+		this.workArea = workArea;
+	}
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+	public void setTask(Long task) {
+		this.task = task;
+	}
+	
+	public WorkArea getWorkAreaObj() {
+		return workAreaObj;
+	}
 
-    public Long getWorkAreaId() {
-        return workAreaId;
-    }
+	public void setWorkAreaObj(WorkArea workAreaObj) {
+		this.workAreaObj = workAreaObj;
+	}
 
-    public void setWorkAreaId(Long workAreaId) {
-        this.workAreaId = workAreaId;
-    }
+	public Long getWorkArea() {
+		return workArea;
+	}
 
-    public Task getTask() {
-        return task;
-    }
+	public Long getTask() {
+		return task;
+	}
 
-    public void setTask(Task task) {
-        this.task = task;
-    }
+	public void setTimeCollectionRule(TimeCollectionRule timeCollectionRule) {
+		this.timeCollectionRule = timeCollectionRule;
+	}
 
-    public WorkArea getWorkArea() {
-        return workArea;
-    }
+	public TimeCollectionRule getTimeCollectionRule() {
+		return timeCollectionRule;
+	}
 
-    public void setWorkArea(WorkArea workArea) {
-        this.workArea = workArea;
-    }
-
-    /**
-     * Provides us with the text to display to the user for clock actions on this assignment.
-     * @return
-     */
-    public String getClockText() {
-	StringBuilder sb = new StringBuilder("example assignment clock text");
-
-	return sb.toString();
-    }
+	public boolean isSynchronous() {
+		return timeCollectionRule.isClockUserFl();
+	}
 }

@@ -10,8 +10,8 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long workScheduleEntryId;
-	private Long workScheduleId;
+	private Long hrWorkScheduleEntryId;
+	private Long hrWorkScheduleId;
 	private Long calDayId;
 	private Long dayOfPeriodId;
 	private Long  regHours;
@@ -46,26 +46,6 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 	public void setRegHours(Long regHours) {
 		this.regHours = regHours;
 	}
-	
-	public Long getWorkScheduleEntryId() {
-		return workScheduleEntryId;
-	}
-
-
-	public void setWorkScheduleEntryId(Long workScheduleEntryId) {
-		this.workScheduleEntryId = workScheduleEntryId;
-	}
-
- 
-	public Long getWorkScheduleId() {
-		return workScheduleId;
-	}
-
-
-	public void setWorkScheduleId(Long workScheduleId) {
-		this.workScheduleId = workScheduleId;
-	}
-
 
 	public Long getCalDayId() {
 		return calDayId;
@@ -80,14 +60,34 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
 		
-		toStringMap.put("workScheduleEntryId", workScheduleEntryId);
-		toStringMap.put("workScheduleId", workScheduleId);
+		toStringMap.put("workScheduleEntryId", hrWorkScheduleEntryId);
+		toStringMap.put("workScheduleId", hrWorkScheduleId);
 		toStringMap.put("calDayId", calDayId);
 		toStringMap.put("dayOfPeriodId", dayOfPeriodId);
 		toStringMap.put("regHours", regHours);		
 		 
 		return toStringMap;
 		
+	}
+
+
+	public Long getHrWorkScheduleEntryId() {
+		return hrWorkScheduleEntryId;
+	}
+
+
+	public void setHrWorkScheduleEntryId(Long hrWorkScheduleEntryId) {
+		this.hrWorkScheduleEntryId = hrWorkScheduleEntryId;
+	}
+
+
+	public Long getHrWorkScheduleId() {
+		return hrWorkScheduleId;
+	}
+
+
+	public void setHrWorkScheduleId(Long hrWorkScheduleId) {
+		this.hrWorkScheduleId = hrWorkScheduleId;
 	}
 
 	 

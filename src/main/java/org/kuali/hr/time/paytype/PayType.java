@@ -1,7 +1,6 @@
 package org.kuali.hr.time.paytype;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
@@ -15,7 +14,7 @@ public class PayType extends PersistableBusinessObjectBase {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long payTypeId;
+	private Long hrPayTypeId;
 	private String payType;
 	private String descr;
 	private String calendarGroup;
@@ -23,7 +22,8 @@ public class PayType extends PersistableBusinessObjectBase {
 	private Date effectiveDate;
 	private Timestamp timestamp;
 	private String holidayCalendarGroup;
-
+	private Boolean active;
+	
 	private HolidayCalendar holidayCalendar;
 	private PayCalendar payCalendar;
 
@@ -33,13 +33,6 @@ public class PayType extends PersistableBusinessObjectBase {
 		return null;
 	}
 
-	public Long getPayTypeId() {
-		return payTypeId;
-	}
-
-	public void setPayTypeId(Long payTypeId) {
-		this.payTypeId = payTypeId;
-	}
 
 	public String getPayType() {
 		return payType;
@@ -111,5 +104,25 @@ public class PayType extends PersistableBusinessObjectBase {
 
 	public void setPayCalendar(PayCalendar payCalendar) {
 		this.payCalendar = payCalendar;
+	}
+
+
+	public Long getHrPayTypeId() {
+		return hrPayTypeId;
+	}
+
+
+	public void setHrPayTypeId(Long hrPayTypeId) {
+		this.hrPayTypeId = hrPayTypeId;
+	}
+
+
+	public Boolean getActive() {
+		return active;
+	}
+
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 }

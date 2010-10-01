@@ -1,11 +1,8 @@
 package org.kuali.hr.time.clock.web;
 
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,13 +13,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.clocklog.ClockLog;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 public class ClockAction extends TimesheetAction {
@@ -33,82 +29,52 @@ public class ClockAction extends TimesheetAction {
     	@Override
     	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     		ActionForward forward = super.execute(mapping, form, request, response);
-    	    LOG.debug("Calling execute.");
-    	    ClockActionForm clockActionForm = (ClockActionForm) form;
+    	    ClockActionForm caf = (ClockActionForm) form;
     	    String principalId = TKContext.getUser().getPrincipalId();
-    	    Date payPeriodEndDate = null; 
-    	    List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, payPeriodEndDate);
-//    	    DepartmentEarnCode deptEarnCode = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodeList( )
+
     	    ClockLog clockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
 
-    	    clockActionForm.setPrincipalId(principalId);
-
-    	    if(clockLog == null) {
-    	    	clockActionForm.setCurrentClockAction(TkConstants.CLOCK_IN);
+    	    if(clockLog == null || StringUtils.equals(clockLog.getClockAction(), TkConstants.CLOCK_OUT)) {
+    	    	caf.setCurrentClockAction(TkConstants.CLOCK_IN);
     	    }
 	   	    else {
-    	    	clockActionForm.setCurrentClockAction(clockLog.getNextValidClockAction());
+    	    	caf.setCurrentClockAction(TkConstants.CLOCK_OUT);
+    	    	// if the current clock action is clock out, displays only the clocked-in assignment
+    	    	String selectedAssignment = new AssignmentDescriptionKey(clockLog.getJobNumber(), clockLog.getWorkArea(), clockLog.getTask()).toAssignmentKeyString();
+    	    	Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), selectedAssignment);
+    	    	Map<String,String> assignmentDesc = TkServiceLocator.getAssignmentService().getAssignmentDescriptions(assignment);
+    	    	caf.setAssignmentDescriptions(assignmentDesc);
 
-	    	    Timestamp clockTimestamp = clockLog.getClockTimestamp();
-	    	    clockActionForm.setLastClockAction(clockTimestamp);
     	    }
 
-    	    return forward;
+    	    return forward; 
     	}
 
     	public ActionForward clockAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	    ClockActionForm caf = (ClockActionForm)form;
 
-    	    LOG.debug("Clock action: " + caf.getCurrentClockAction());
     	    // TODO: Validate that clock action is valid for this user
+    	    // TODO: this needs to be integrated with the error tag
+    	    if(StringUtils.isBlank(caf.getSelectedAssignment())) {
+    	    	throw new RuntimeException("no assignment selected");
+    	    }
+    	    
+    	    // this logic is required in order to get the last clocked-in timestamp for the hour calculation when saving the time block.
+    	    ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId());
+    	    if(lastClockLog != null) {
+	    	    Timestamp lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId()).getTimestamp();
+	    	    caf.setLastClockTimestamp(lastClockTimestamp);
+    	    }
+    	    
+    	    ClockLog clockLog = TkServiceLocator.getClockLogService().saveClockAction(caf);
+    	    caf.setClockLog(clockLog);
+    	    
+    	    if(StringUtils.equals(caf.getCurrentClockAction(), "CO")) {
 
-    	    String principalId = TKContext.getUser().getPrincipalId();
-    	    ClockLog cl = new ClockLog();
-    	    cl.setClockAction(caf.getCurrentClockAction());
-    	    cl.setPrincipalId(principalId);
-    	    cl.setClockTimestamp(new Timestamp(System.currentTimeMillis()));//Calendar.getInstance(TkConstants.GMT_TIME_ZONE));
-    	    //
-    	    // TODO: This timezone is not correct, we will need to make a javascript call.
-    	    cl.setClockTimestampTimezone(TKUtils.getTimeZone());
-    	    cl.setIpAddress(request.getRemoteAddr());
-    	    cl.setJobNumber(0L);
-    	    cl.setWorkAreaId(0L);
-    	    cl.setTaskId(0L);
-    	    cl.setUserPrincipalId(principalId);
-
-    	    TkServiceLocator.getClockLogService().saveClockAction(cl);
-    	    caf.setCurrentClockAction(cl.getNextValidClockAction());
-    	    caf.setLastClockAction(cl.getClockTimestamp());
-    	    //caf.setLastClockActionTimestampFormatted(SDF.format(cl.getClockTimestamp().getTime()));
-    	    //caf.setLastClockActionTimestamp(cl.getClockTimestamp());
-
-    	    // end time
-    	    // the clock action logic is reversed, so check if the clock action is "clocked in."
-    	    if(StringUtils.equals(caf.getCurrentClockAction(), "CI")) {
-    	    	long beginTime = caf.getLastClockAction().getTime();
-    	    	Timestamp beginTimestamp = new Timestamp(beginTime);
-    	    	Timestamp endTimestamp = cl.getClockTimestamp();
-
-    	    	BigDecimal hours = TKUtils.getHoursBetween(endTimestamp.getTime(), beginTimestamp.getTime());
-
-    	    	TimeBlock tb = new TimeBlock();
-    	    	tb.setJobNumber(0L);
-    	    	tb.setWorkAreaId(0L);
-    	    	tb.setTaskId(0L);
-    	    	tb.setEarnCode("RGN");
-    	    	tb.setBeginTimestamp(beginTimestamp);
-    	    	tb.setEndTimestamp(endTimestamp);
-    	    	tb.setClockLogCreated(true);
-    	    	tb.setHours(hours);
-    	    	tb.setUserPrincipalId(principalId);
-    	    	tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
-    	    	tb.setBeginTimestampTimezone(cl.getClockTimestampTimezone());
-    	    	tb.setEndTimestampTimezone(cl.getClockTimestampTimezone());
-
-    	    	TkServiceLocator.getTimeBlockService().saveTimeBlock(tb);
-
-//    	    	TimeBlockHistory tbs = new TimeBlockHistory(tb);
-//    	    	TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbs);
+    	    	TimeBlock tb = TkServiceLocator.getTimeBlockService().saveTimeBlock(caf);
+    	    	caf.setTimeBlock(tb);
+    	    	TkServiceLocator.getTimeHourDetailService().saveTimeHourDetail(tb);
+    	    	TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(caf);
     	    }
     	    return mapping.findForward("basic");
     	}

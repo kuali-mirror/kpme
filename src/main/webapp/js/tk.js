@@ -207,6 +207,33 @@ $(document).ready(function() {
 
         $("select#earnCode option[value='" + $(this).val() +"']").attr("selected", "selected");
     });
+
+    // filter earn codes
+    // There is a copy of this code in fullcalendar.js #90. The reason to have a copy is to reset the assignments and earn codes every time the day is clicked.
+    $('#assignment').change(function(){
+    	
+    	var params = {};
+        params['assignmentUniqueKey'] = $(this).val();
+    	
+        $.ajax({
+            url: "TimeDetail.do?methodToCall=getEarnCodes",
+            data: params,
+            cache: false,
+            success: function(data) {
+            	$('#earnCode').html(data);
+            },
+            error: function() {
+            	$('#earnCode').html("Error: Can't get earn codes.");
+            }
+        });
+        
+        $('#loading-earnCodes').ajaxStart(function() {
+			$(this).show();
+		});
+		$('#loading-earnCodes').ajaxStop(function() {
+			$(this).hide();
+		}); 
+    });
 });
 
 $.fn.parseTime= function() {

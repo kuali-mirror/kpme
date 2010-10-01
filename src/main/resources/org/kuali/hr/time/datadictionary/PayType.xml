@@ -14,7 +14,7 @@
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="PayType-payTypeId" />
+				<ref bean="PayType-hrPayTypeId" />
 				<ref bean="PayType-payType" />
 				<ref bean="PayType-descr" />
 				<ref bean="PayType-calendarGroup" />
@@ -37,8 +37,8 @@
 		</property>
 	</bean>
 
-	<bean id="PayType-payTypeId" parent="PayType-payTypeId-parentBean" />
-	<bean id="PayType-payTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="PayType-hrPayTypeId" parent="PayType-hrPayTypeId-parentBean" />
+	<bean id="PayType-hrPayTypeId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Id" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
@@ -47,7 +47,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="payTypeId" />
+		<property name="name" value="hrPayTypeId" />
 		<property name="label" value="Pay Type Id" />
 	</bean>
 
@@ -177,13 +177,13 @@
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="payTypeId" />
+				<bean parent="FieldDefinition" p:attributeName="hrPayTypeId" />
 				<bean parent="FieldDefinition" p:attributeName="payType" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="payTypeId" />
+				<bean parent="FieldDefinition" p:attributeName="hrPayTypeId" />
 				<bean parent="FieldDefinition" p:attributeName="payType" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="calendarGroup" />

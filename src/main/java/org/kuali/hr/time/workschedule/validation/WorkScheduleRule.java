@@ -1,7 +1,6 @@
 package org.kuali.hr.time.workschedule.validation;
 
 import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workschedule.WorkSchedule;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -29,17 +28,17 @@ public class WorkScheduleRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateDepartment(WorkSchedule workSchedule) {
 		boolean valid = false;
-		LOG.debug("Validating dept: " + workSchedule.getDeptId());
+		LOG.debug("Validating dept: " + workSchedule.getDept());
 		// TODO: We may need a full DAO that handles bo lookups at some point,
 		// but we can use the provided one:
 		Department dept = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Department.class, workSchedule.getDeptId());
+				.findBySinglePrimaryKey(Department.class, workSchedule.getDept());
 		if (dept != null) {
 			valid = true;
 			LOG.debug("found department.");
 		} else {
 			this.putFieldError("deptId", "error.existence", "department '"
-					+ workSchedule.getDeptId() + "'");
+					+ workSchedule.getDept() + "'");
 		}
 		return valid;
 	}

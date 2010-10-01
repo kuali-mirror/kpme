@@ -19,7 +19,7 @@
 		</property>
 		<property name="lockingKeys">
 			<list>
-				<value>tkAccrualId</value>
+				<value>laAccrualId</value>
 			</list>
 		</property>
 		<property name="documentTypeName" value="TimeOffAccrualDocumentType" />

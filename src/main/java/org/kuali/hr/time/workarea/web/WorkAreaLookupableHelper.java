@@ -28,7 +28,7 @@ public class WorkAreaLookupableHelper extends KualiLookupableHelperServiceImpl {
 
 	String url =  urlPathHelper.getOriginatingContextPath(TKContext.getHttpServletRequest());
 	
-	AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url + "/WorkAreaMaintenance.do?methodToCall=docHandler&command=initiate&workAreaId=" + ((WorkArea)businessObject).getWorkAreaId(), KNSConstants.DOC_HANDLER_METHOD, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
+	AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url + "/WorkAreaMaintenance.do?methodToCall=docHandler&command=initiate&workAreaId=" + ((WorkArea)businessObject).getTkWorkAreaId(), KNSConstants.DOC_HANDLER_METHOD, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
 	urls.add(anchorHtmlData);
 
 	return urls;

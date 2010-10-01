@@ -3,19 +3,15 @@ package org.kuali.hr.job.service;
 import java.sql.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
-import org.kuali.hr.time.assignment.service.AssignmentService;
-import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.paytype.PayType;
-import org.kuali.hr.time.paytype.service.PayTypeService;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public class JobServiceImpl implements JobService {
 
 	private JobDao jobDao;
-	private AssignmentService assignmentService;
-	private DepartmentEarnCodeService deptEarnCodeService;
-	private PayTypeService payTypeService;
 
 	@Override
 	public void saveOrUpdate(Job job) {
@@ -32,33 +28,35 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public List<Job> getJobs(String principalId, Date payPeriodEndDate) {
-		List<Job> jobs = jobDao.getJobs(principalId, payPeriodEndDate);
+	public List<Job> getJobs(String principalId, Date asOfDate) {
+		List<Job> jobs = jobDao.getJobs(principalId, asOfDate);
 
-		// Add the child objects
 		for (Job job : jobs) {
-			// Add Assignments
-			job.setAssignments(assignmentService.getAssignmentsByJobNumber(job.getJobNumber(), principalId, payPeriodEndDate));
-			// Add Department Earn Codes
-			job.setDeptEarnCodes(deptEarnCodeService.getDepartmentEarnCodeList(job.getTkSalGroupId()));
-			// Pay Type
-			PayType payType = payTypeService.getPayType(job.getPayTypeId());
+			PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), asOfDate);
 			job.setPayType(payType);
 		}
 
 		return jobs;
 	}
 
-	public void setAssignmentService(AssignmentService assignmentService) {
-		this.assignmentService = assignmentService;
+	@Override
+	public Job getJob(String principalId, Long jobNumber, Date asOfDate) {
+		Job job = jobDao.getJob(principalId, jobNumber, asOfDate);
+		if(job == null) {
+			throw new RuntimeException("No job for principal : " + principalId);
+		}
+		String hrPayType = job.getHrPayType();
+		if(StringUtils.isBlank(hrPayType)) {
+			throw new RuntimeException("No pay type for this job!");
+		}
+		PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(hrPayType, asOfDate);
+		if (payType == null)
+			throw new RuntimeException("No paytypes defined for this job!");
+		job.setPayType(payType);
+		
+		return job;
 	}
-
-	public void setDeptEarnCodeService(DepartmentEarnCodeService earnCodeService) {
-		this.deptEarnCodeService = earnCodeService;
-	}
-
-	public void setPayTypeService(PayTypeService payTypeService) {
-		this.payTypeService = payTypeService;
-	}
+	
+	
 
 }

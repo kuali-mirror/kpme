@@ -90,5 +90,10 @@ public class TKContext {
 		}
 		return tkSessionState.getTargetEmployee();
 	}
+	
+	public static void setTargetEmployee(TKUser employee) {
+		TKSessionState tkSessionState = new TKSessionState(getHttpServletRequest().getSession());
+		tkSessionState.setTargetEmployee(employee);
+	}
 
 }

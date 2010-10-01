@@ -3,9 +3,9 @@ package org.kuali.hr.time.workflow;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.role.assign.TkRoleAssign;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -17,7 +17,7 @@ import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
 import org.kuali.rice.kew.rule.Role;
 import org.kuali.rice.kew.rule.RoleAttribute;
 
-public class TkWorkflowAttribute implements RoleAttribute{
+public class TkWorkflowAttribute implements RoleAttribute {
 
 	@Override
 	public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
@@ -28,8 +28,9 @@ public class TkWorkflowAttribute implements RoleAttribute{
 
 	@Override
 	public List<Role> getRoleNames() {
-		// This is a list of "RoleNames" that this RoleAttribute supports - 
-		// we can use this to have branching logic in the resolveQualifiedRole() method for different types of "Roles" 
+		// This is a list of "RoleNames" that this RoleAttribute supports -
+		// we can use this to have branching logic in the resolveQualifiedRole()
+		// method for different types of "Roles"
 		// and have different principal Resolution.
 		// ... Now whether or not we need this is another question
 		throw new UnsupportedOperationException("Not supported in TkWorkflowAttribute");
@@ -44,17 +45,17 @@ public class TkWorkflowAttribute implements RoleAttribute{
 		List<Id> principals = new ArrayList<Id>();
 		Long routeHeaderId = routeContext.getDocument().getRouteHeaderId();
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId);
-		
+		TkRoleService roleService = TkServiceLocator.getTkRoleService();
+
 		if (timesheetDocument != null) {
 			List<Assignment> assignments = timesheetDocument.getAssignments();
 			for (Assignment assignment : assignments) {
-				List<TkRoleAssign> roles = TkServiceLocator.getWorkAreaService().getWorkAreaRoles(assignment.getWorkAreaId());
-				for (TkRoleAssign role : roles) {
-					if (StringUtils.equalsIgnoreCase(role.getRoleName(), roleName)) {
-						PrincipalId pid = new PrincipalId(role.getPrincipalId());
-						if (!principals.contains(pid)) {
-							principals.add(pid);
-						}
+				WorkArea workArea = assignment.getWorkAreaObj();
+				List<TkRole> roles = roleService.getWorkAreaRoles(workArea.getWorkArea(), roleName, workArea.getEffectiveDate());
+				for (TkRole role : roles) {
+					PrincipalId pid = new PrincipalId(role.getPrincipalId());
+					if (!principals.contains(pid)) {
+						principals.add(pid);
 					}
 				}
 			}
@@ -62,6 +63,9 @@ public class TkWorkflowAttribute implements RoleAttribute{
 			// TODO Graceful Ballerina Dancing
 			throw new RuntimeException("Handle this gracefully - placeholder exception due to missing timesheet document");
 		}
+
+		if (principals.size() == 0) 
+			throw new RuntimeException("No principals to route to. Push to exception routing.");
 		
 		rqr.setRecipients(principals);
 		return rqr;

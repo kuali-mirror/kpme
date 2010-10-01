@@ -27,16 +27,15 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 			.getLogger(TKRequestProcessor.class);
 
 	@Override
-	public void process(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
-
-		try {
+	public void process(HttpServletRequest request, HttpServletResponse response)	throws IOException, ServletException {
+//		try {
 			TKContext.setHttpServletRequest(request);
 			setUserOnContext(request);
 			super.process(request, response);
-		} catch (Exception e) {
-			LOG.warn("Caught exception processing request", e);
-		}
+//		} catch (Exception e) {
+//			throw new ServletException(e);
+//			//LOG.warn("Caught exception processing request", e);
+//		}
 	}
 
 	public void setUserOnContext(HttpServletRequest request) {
@@ -67,8 +66,6 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 				Person person = userSession.getActualPerson();
 				TKUser tkUser = new TKUser();
 				tkUser.setActualPerson(person);
-				List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(person.getPrincipalId(), new java.sql.Date(System.currentTimeMillis()));
-				tkUser.setJobs(jobs);
 				TKContext.setUser(tkUser);
 			}
 

@@ -265,8 +265,8 @@
     <bean id="workAreaDao" class="org.kuali.hr.time.workarea.dao.WorkAreaDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-
-    <bean id="tkRoleAssignDao" class="org.kuali.hr.time.role.assign.dao.TkRoleAssignDaoSpringOjbImpl">
+    
+    <bean id="tkRoleDao" class="org.kuali.hr.time.roles.dao.TkRoleDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
@@ -311,8 +311,19 @@
     <bean id="earnCodeDao" class="org.kuali.hr.time.earncode.dao.EarnCodeDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
-
-
+    
+    <bean id="timeCollectionRuleDao" class="org.kuali.hr.time.timecollection.rule.dao.TimeCollectionRuleDaoServiceImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
+    <bean id="earnGroupDao" class="org.kuali.hr.time.earngroup.dao.EarnGroupDaoServiceImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
+    <bean id="timeHourDetailDao" class="org.kuali.hr.time.timehourdetail.dao.TimeHourDetailDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
 	<!-- Time Services for Business Logic -->
 
     <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
@@ -324,6 +335,10 @@
     	<property name="clockLocationDao" ref="clockLocationDao"/>
     </bean>
     -->
+    
+    <bean id="timeCollectionRuleService" class="org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleServiceImpl">
+    	<property name="timeCollectRuleDao" ref="timeCollectionRuleDao"/>
+    </bean>
 
     <bean id="assignmentService" class="org.kuali.hr.time.assignment.service.AssignmentServiceImpl">
     	<property name="assignmentDao" ref="assignmentDao"/>
@@ -339,14 +354,15 @@
 
     <bean id="jobService" class="org.kuali.hr.job.service.JobServiceImpl">
     	<property name="jobDao" ref="jobDao"/>
-    	<property name="assignmentService" ref="assignmentService"/>
-    	<property name="deptEarnCodeService" ref="deptEarnCodeService"/>
-    	<property name="payTypeService" ref="payTypeService"/>
     </bean>
 
     <bean id="payTypeService" class="org.kuali.hr.time.paytype.service.PayTypeServiceImpl">
     	<property name="payCalendarService" ref="payCalendarService"/>
     	<property name="payTypeDao" ref="payTypeDao"/>
+    </bean>
+    
+    <bean id="tkRoleService" class="org.kuali.hr.time.roles.service.TkRoleServiceImpl">
+    	<property name="tkRoleDao" ref="tkRoleDao"/>
     </bean>
 
     <bean id="payCalendarService" class="org.kuali.hr.time.paycalendar.service.PayCalendarServiceImpl">
@@ -375,10 +391,16 @@
     <bean id="earnCodeService" class="org.kuali.hr.time.earncode.service.EarnCodeServiceImpl">
     	<property name="earnCodeDao" ref="earnCodeDao"/>
     </bean>
-
-    <bean id="tkRoleAssignmentService" class="org.kuali.hr.time.role.assign.service.TkRoleAssignServiceImpl">
-    	<property name="tkRoleAssignDao" ref="tkRoleAssignDao"/>
+    
+    <bean id="earnGroupService" class="org.kuali.hr.time.earngroup.service.EarnGroupServiceImpl">
+    	<property name="earnGroupDao" ref="earnGroupDao"/>
     </bean>
+    
+    <bean id="timeHourDetailService" class="org.kuali.hr.time.timehourdetail.service.TimeHourDetailServiceImpl">
+    	<property name="timeHourDetailDao" ref="timeHourDetailDao"/>
+    </bean>
+    
+    <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>
 
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
     </bean>

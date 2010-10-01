@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.hr.time.role.assign.TkRoleAssign;
+import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.task.Task;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -14,17 +14,18 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 
-    private Long workAreaId;
+    private Long tkWorkAreaId;
+    private Long workArea;
     private Date effectiveDate;
     private boolean active = false;
     private String description;
-    private String deptId;
-    private String overtimePreference;
+    private String dept;
+    private String defaultOvertimePreference;
     private String adminDescr;
     private String userPrincipalId;
     private Timestamp timestamp;
 
-    private transient List<TkRoleAssign> roleAssignments = new ArrayList<TkRoleAssign>();
+    private transient List<TkRole> roles = new ArrayList<TkRole>();
     private List<Task> tasks = new ArrayList<Task>();
 
 
@@ -32,18 +33,8 @@ public class WorkArea extends PersistableBusinessObjectBase {
     @Override
     protected LinkedHashMap toStringMapper() {
 	LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
-	toStringMap.put("workAreaId", workAreaId);
+	toStringMap.put("workAreaId", tkWorkAreaId);
 	return toStringMap;
-    }
-
-
-    public Long getWorkAreaId() {
-        return workAreaId;
-    }
-
-
-    public void setWorkAreaId(Long workAreaId) {
-        this.workAreaId = workAreaId;
     }
 
 
@@ -63,16 +54,6 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-
-    public String getOvertimePreference() {
-        return overtimePreference;
-    }
-
-
-    public void setOvertimePreference(String overtimePreference) {
-        this.overtimePreference = overtimePreference;
     }
 
 
@@ -113,26 +94,6 @@ public class WorkArea extends PersistableBusinessObjectBase {
     }
 
 
-    public String getDeptId() {
-        return deptId;
-    }
-
-
-    public void setDeptId(String deptId) {
-        this.deptId = deptId;
-    }
-
-
-	public List<TkRoleAssign> getRoleAssignments() {
-		return roleAssignments;
-	}
-
-
-	public void setRoleAssignments(List<TkRoleAssign> roleAssignments) {
-		this.roleAssignments = roleAssignments;
-	}
-
-
 	public List<Task> getTasks() {
 	    return tasks;
 	}
@@ -140,5 +101,55 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
 	public void setTasks(List<Task> tasks) {
 	    this.tasks = tasks;
+	}
+
+
+	public Long getTkWorkAreaId() {
+		return tkWorkAreaId;
+	}
+
+
+	public void setTkWorkAreaId(Long tkWorkAreaId) {
+		this.tkWorkAreaId = tkWorkAreaId;
+	}
+
+
+	public Long getWorkArea() {
+		return workArea;
+	}
+
+
+	public void setWorkArea(Long workArea) {
+		this.workArea = workArea;
+	}
+
+
+	public String getDept() {
+		return dept;
+	}
+
+
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+
+
+	public String getDefaultOvertimePreference() {
+		return defaultOvertimePreference;
+	}
+
+
+	public void setDefaultOvertimePreference(String defaultOvertimePreference) {
+		this.defaultOvertimePreference = defaultOvertimePreference;
+	}
+
+
+	public List<TkRole> getRoles() {
+		return roles;
+	}
+
+
+	public void setRoles(List<TkRole> roles) {
+		this.roles = roles;
 	}
 }

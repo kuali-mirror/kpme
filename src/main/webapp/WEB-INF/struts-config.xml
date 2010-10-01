@@ -12,7 +12,9 @@
         <form-bean name="CacheAdministrationActionForm" type="org.kuali.hr.time.cache.web.CacheAdministrationActionForm" />
     </form-beans>
 
-    <global-forwards type="org.apache.struts.action.ActionForward">
+
+
+	<global-forwards type="org.apache.struts.action.ActionForward">
     </global-forwards>
 
 	<action-mappings>

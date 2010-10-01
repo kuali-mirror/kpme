@@ -34,10 +34,10 @@
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="location"/>
-				<bean parent="MaintainableFieldDefinition" p:name="hrPaytype"/>
-				<bean parent="MaintainableFieldDefinition" p:name="deptId"/>
-				<bean parent="MaintainableFieldDefinition" p:name="workAreaId" />
-				<bean parent="MaintainableFieldDefinition" p:name="taskId" />
+				<bean parent="MaintainableFieldDefinition" p:name="paytype"/>
+				<bean parent="MaintainableFieldDefinition" p:name="dept"/>
+				<bean parent="MaintainableFieldDefinition" p:name="workArea" />
+				<bean parent="MaintainableFieldDefinition" p:name="task" />
 				<bean parent="MaintainableFieldDefinition" p:name="maxGap" />
 				<bean parent="MaintainableFieldDefinition" p:name="shiftHours" />
 				<bean parent="MaintainableFieldDefinition" p:name="overtimePref" />

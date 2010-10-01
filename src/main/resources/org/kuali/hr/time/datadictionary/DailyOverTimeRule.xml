@@ -17,10 +17,10 @@
 		<property name="attributes">
 			<list>
 				<ref bean="DailyOvertimeRule-location" />
-				<ref bean="DailyOvertimeRule-hrPaytype" />
-				<ref bean="DailyOvertimeRule-deptId" />
-				<ref bean="DailyOvertimeRule-workAreaId" />
-				<ref bean="DailyOvertimeRule-taskId" />
+				<ref bean="DailyOvertimeRule-paytype" />
+				<ref bean="DailyOvertimeRule-dept" />
+				<ref bean="DailyOvertimeRule-workArea" />
+				<ref bean="DailyOvertimeRule-task" />
 				<ref bean="DailyOvertimeRule-maxGap" />
 				<ref bean="DailyOvertimeRule-shiftHours" />
 				<ref bean="DailyOvertimeRule-overtimePref" />
@@ -30,24 +30,25 @@
 				<ref bean="DailyOvertimeRule-active" />
 			</list>
 		</property>
+	 
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="workArea" />
+					<property name="objectAttributeName" value="workAreaObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workAreaId"
-								p:targetName="workAreaId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
+								p:targetName="workArea" />
 						</list>
 					</property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="task" />
+					<property name="objectAttributeName" value="taskObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="taskId"
-								p:targetName="taskId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="task"
+								p:targetName="task" />
 						</list>
 					</property>
 				</bean>
@@ -56,13 +57,14 @@
 					<property name="objectAttributeName" value="departmentObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="deptId"
-								p:targetName="deptId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
+								p:targetName="dept" />
 						</list>
 					</property>
 				</bean>
 			</list>
 		</property>
+		 
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -84,8 +86,8 @@
 		<property name="label" value="Location" />
 	</bean>
 	<!-- hrPayType  -->
-	<bean id="DailyOvertimeRule-hrPaytype" parent="DailyOvertimeRule-hrPaytype-parentBean" />
-	<bean id="DailyOvertimeRule-hrPaytype-parentBean" abstract="true"
+	<bean id="DailyOvertimeRule-paytype" parent="DailyOvertimeRule-paytype-parentBean" />
+	<bean id="DailyOvertimeRule-paytype-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="PayType" />
 		<property name="maxLength" value="4" />
@@ -97,14 +99,14 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="4" />
 		</property>
-		<property name="name" value="hrPaytype" />
+		<property name="name" value="paytype" />
 		<property name="label" value="PayType" />
 	</bean>
 	<!-- deptId -->
-	<bean id="DailyOvertimeRule-deptId" parent="DailyOvertimeRule-deptId-parentBean" />
-	<bean id="DailyOvertimeRule-deptId-parentBean" abstract="true"
+	<bean id="DailyOvertimeRule-dept" parent="DailyOvertimeRule-dept-parentBean" />
+	<bean id="DailyOvertimeRule-dept-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Dept. Id" />
+		<property name="shortLabel" value="Dept" />
 		<property name="maxLength" value="21" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -114,12 +116,12 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="21" />
 		</property>
-		<property name="name" value="deptId" />
-		<property name="label" value="Dept. Id" />
+		<property name="name" value="dept" />
+		<property name="label" value="Department" />
 	</bean>
 	<!--workArea  -->
-	<bean id="DailyOvertimeRule-workAreaId" parent="DailyOvertimeRule-workAreaId-parentBean" />
-	<bean id="DailyOvertimeRule-workAreaId-parentBean" abstract="true"
+	<bean id="DailyOvertimeRule-workArea" parent="DailyOvertimeRule-workArea-parentBean" />
+	<bean id="DailyOvertimeRule-workArea-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Work Area" />
 		<property name="maxLength" value="10" />
@@ -129,14 +131,14 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="workAreaId" />
+		<property name="name" value="workArea" />
 		<property name="label" value="Work Area" />
 	</bean>
 	<!-- taskId -->
-	<bean id="DailyOvertimeRule-taskId" parent="DailyOvertimeRule-taskId-parentBean" />
-	<bean id="DailyOvertimeRule-taskId-parentBean" abstract="true"
+	<bean id="DailyOvertimeRule-task" parent="DailyOvertimeRule-task-parentBean" />
+	<bean id="DailyOvertimeRule-task-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Task ID" />
+		<property name="shortLabel" value="Task" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
@@ -144,8 +146,8 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="taskId" />
-		<property name="label" value="Task ID" />
+		<property name="name" value="task" />
+		<property name="label" value="Task" />
 	</bean>
 	<!-- maxGap  -->
 	<bean id="DailyOvertimeRule-maxGap" parent="DailyOvertimeRule-maxGap-parentBean" />
@@ -260,19 +262,19 @@
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="deptId" />
-				<bean parent="FieldDefinition" p:attributeName="workAreaId" />
-				<bean parent="FieldDefinition" p:attributeName="taskId" />
+				<bean parent="FieldDefinition" p:attributeName="dept" />
+				<bean parent="FieldDefinition" p:attributeName="workArea" />
+				<bean parent="FieldDefinition" p:attributeName="task" />
 				<bean parent="FieldDefinition" p:attributeName="location" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="deptId" />
-				<bean parent="FieldDefinition" p:attributeName="workAreaId" />
-				<bean parent="FieldDefinition" p:attributeName="taskId" />
+				<bean parent="FieldDefinition" p:attributeName="dept" />
+				<bean parent="FieldDefinition" p:attributeName="workArea" />
+				<bean parent="FieldDefinition" p:attributeName="task" />
 				<bean parent="FieldDefinition" p:attributeName="location" />
-				<bean parent="FieldDefinition" p:attributeName="hrPaytype" />
+				<bean parent="FieldDefinition" p:attributeName="paytype" />
 				<bean parent="FieldDefinition" p:attributeName="shiftHours" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timeStamp" />

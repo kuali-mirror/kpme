@@ -25,7 +25,7 @@ public class DepartmentTest extends TkTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		Department dept = new Department();
-		dept.setDeptId("__TEST");
+		dept.setDept("__TEST");
 		dept.setDescription("TESTING_DEPT");
 		
 		KNSServiceLocator.getBusinessObjectService().save(dept);
@@ -34,7 +34,7 @@ public class DepartmentTest extends TkTestCase {
 	@Override
 	public void tearDown() throws Exception {
 		Department dept = new Department();
-		dept.setDeptId("__TEST");
+		dept.setDept("__TEST");
 		dept.setDescription("TESTING_DEPT");
 		
 		KNSServiceLocator.getBusinessObjectService().delete(dept);

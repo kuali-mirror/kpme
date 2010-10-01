@@ -28,7 +28,6 @@ public class TimeBlockSerializerService {
 				.findAll(TimeBlock.class);
 		Iterator<TimeBlock> itr = timeBlocks.iterator();
 		while (itr.hasNext()) {
-
 			TimeBlock timeBlockObj = itr.next();
 			XStream xs = new XStream(new DomDriver());
 			FileOutputStream fos;

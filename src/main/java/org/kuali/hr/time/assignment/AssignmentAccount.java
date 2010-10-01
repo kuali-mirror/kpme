@@ -11,7 +11,7 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long assignAcctId;
+	private Long tkAssignAcctId;
 	private String finCoaCd;
 	private String accountNbr;
 	private String subAcctNbr;
@@ -21,7 +21,8 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 	private String orgRefId;
 	private BigDecimal percent;
 	private boolean active;
-	private Long assignment;
+	private String earnCode;
+	private Long tkAssignmentId;
 	private Assignment assignmentObj;
 	
 	
@@ -34,20 +35,6 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 	public void setAssignmentObj(Assignment assignmentObj) {
 		this.assignmentObj = assignmentObj;
 	}
-
-
-
-
-	public Long getAssignAcctId() {
-		return assignAcctId;
-	}
-
-
-
-	public void setAssignAcctId(Long assignAcctId) {
-		this.assignAcctId = assignAcctId;
-	}
-
 
 
 	public String getFinCoaCd() {
@@ -156,16 +143,6 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 		this.active = active;
 	}
 
-	public Long getAssignment() {
-		return assignment;
-	}
-
-	public void setAssignment(Long assignment) {
-		this.assignment = assignment;
-	}
-
-
-
 	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
@@ -180,6 +157,42 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 		toStringMap.put("projectCd", projectCd);	
 		toStringMap.put("percent", percent);	
 		return toStringMap;
+	}
+
+
+
+	public Long getTkAssignAcctId() {
+		return tkAssignAcctId;
+	}
+
+
+
+	public void setTkAssignAcctId(Long tkAssignAcctId) {
+		this.tkAssignAcctId = tkAssignAcctId;
+	}
+
+
+
+	public Long getTkAssignmentId() {
+		return tkAssignmentId;
+	}
+
+
+
+	public void setTkAssignmentId(Long tkAssignmentId) {
+		this.tkAssignmentId = tkAssignmentId;
+	}
+
+
+
+	public String getEarnCode() {
+		return earnCode;
+	}
+
+
+
+	public void setEarnCode(String earnCode) {
+		this.earnCode = earnCode;
 	}
 	
 }

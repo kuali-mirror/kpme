@@ -1,6 +1,7 @@
 package org.kuali.hr.time.earngroup;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,97 +9,86 @@ import java.util.List;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class EarnGroup extends PersistableBusinessObjectBase {
-	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private Long earnsGroupId;
+	private static final long serialVersionUID = -3034933572755800531L;
+
+	private Long tkEarnGroupId;
+
 	private String earnGroup;
+
 	private String descr;
+
 	private Date effectiveDate;
-	private boolean active;
+
+	private Boolean active;
 	
-	private List<EarnGroupDefinition> earnGroupsDefs = new ArrayList<EarnGroupDefinition>();
-	
-	
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		return null;
-	}
+	private Timestamp timestamp;
 
-
-
-	public Long getEarnsGroupId() {
-		return earnsGroupId;
-	}
-
-
-
-	public void setEarnsGroupId(Long earnsGroupId) {
-		this.earnsGroupId = earnsGroupId;
-	}
-
-
+	private List<EarnGroupDefinition> earnGroups = new ArrayList<EarnGroupDefinition>();
 
 	public String getEarnGroup() {
 		return earnGroup;
 	}
 
-
-
 	public void setEarnGroup(String earnGroup) {
 		this.earnGroup = earnGroup;
 	}
-
-
-
-	public String getDescr() {
-		return descr;
-	}
-
-
-
-	public void setDescr(String descr) {
-		this.descr = descr;
-	}
-
-
 
 	public Date getEffectiveDate() {
 		return effectiveDate;
 	}
 
-
-
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
 
-
-
-	public boolean isActive() {
+	public Boolean getActive() {
 		return active;
 	}
 
-
-
-	public void setActive(boolean active) {
+	public void setActive(Boolean active) {
 		this.active = active;
 	}
 
-
-
-	public List<EarnGroupDefinition> getEarnGroupsDefs() {
-		return earnGroupsDefs;
+	@Override
+	protected LinkedHashMap<String, Object> toStringMapper() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	public void setEarnGroups(List<EarnGroupDefinition> earnGroups) {
+		this.earnGroups = earnGroups;
+	}
 
+	public List<EarnGroupDefinition> getEarnGroups() {
+		return earnGroups;
+	}
 
-	public void setEarnGroupsDefs(List<EarnGroupDefinition> earnGroupsDefs) {
-		this.earnGroupsDefs = earnGroupsDefs;
+	public void setDescr(String descr) {
+		this.descr = descr;
+	}
+
+	public String getDescr() {
+		return descr;
+	}
+
+	public Long getTkEarnGroupId() {
+		return tkEarnGroupId;
+	}
+
+	public void setTkEarnGroupId(Long tkEarnGroupId) {
+		this.tkEarnGroupId = tkEarnGroupId;
+	}
+
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
 	}
 
 }

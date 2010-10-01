@@ -37,7 +37,7 @@
       	<bean parent="MaintainableFieldDefinition" p:name="projectCd"/>
       	<bean parent="MaintainableFieldDefinition" p:name="orgRefId"/>
       	<bean parent="MaintainableFieldDefinition" p:name="percent"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="assignment" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="tkAssignmentId" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="active"/>
       </list>
     </property>

@@ -35,23 +35,16 @@
 	</jdbc-connection-descriptor>
 
 		<class-descriptor class="org.kuali.hr.time.assignment.Assignment" table="tk_assignment_t">
-		<field-descriptor name="assignmentId" 			column="assignment_id" 		jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_assignment_s"/>
+		<field-descriptor name="tkAssignmentId" 		column="tk_assignment_id" 		jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_assignment_s"/>
 		<field-descriptor name="principalId"            column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
 		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate" 			column="effdt" 				jdbc-type="DATE"    nullable="false" primarykey="false" />
-		<field-descriptor name="earnCodeId" 			column="earn_code_id"		jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="workAreaId"				column="work_area_id" 		jdbc-type="BIGINT"  nullable="false" primarykey="false" />
-		<field-descriptor name="taskId" 				column="task_id" 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />
+		<field-descriptor name="workArea"				column="work_area"	 		jdbc-type="BIGINT"  nullable="false" primarykey="false" />
+		<field-descriptor name="task" 					column="task"	 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />
 		<field-descriptor name="active"                 column="active"	            jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
-
-		<reference-descriptor name="task" class-ref="org.kuali.hr.time.task.Task" auto-retrieve="true" auto-delete="false" auto-update="false">
-			<foreignkey field-ref="taskId"/>
-		</reference-descriptor>
-		<reference-descriptor name="workArea" class-ref="org.kuali.hr.time.workarea.WorkArea" auto-retrieve="true" auto-delete="false" auto-update="false">
-			<foreignkey field-ref="workAreaId"/>
-		</reference-descriptor>
+		<field-descriptor name="timestamp" 				column="timestamp" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
 		
 		<collection-descriptor
 			name="assignmentAccounts"
@@ -60,18 +53,18 @@
 			auto-update="object"
 			auto-delete="object"
 			>
-			<inverse-foreignkey field-ref="assignment"/>
+			<inverse-foreignkey field-ref="tkAssignmentId"/>
 		</collection-descriptor>
 
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.timeblock.TimeBlock" table="tk_time_block_t">
-		<field-descriptor name="timeBlockId" 			column="tk_time_block_id"   jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_time_block_s" />
+		<field-descriptor name="tkTimeBlockId" 			column="tk_time_block_id"   jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_time_block_s" />
 		<field-descriptor name="documentId" 			column="document_id" 		jdbc-type="VARCHAR" length="14" nullable="false" primarykey="false" />
 		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="workAreaId" 			column="work_area_id" 		jdbc-type="BIGINT"  nullable="false" primarykey="false" />
-		<field-descriptor name="taskId" 				column="task_id" 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />
-		<field-descriptor name="earnCode" 				column="erncd" 		        jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
+		<field-descriptor name="tkWorkAreaId" 			column="tk_work_area_id" 		jdbc-type="BIGINT"  nullable="false" primarykey="false" />
+		<field-descriptor name="tkTaskId" 				column="tk_task_id" 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />
+		<field-descriptor name="earnCode" 				column="earn_code" 		        jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
 		<field-descriptor name="beginTimestamp" 		column="begin_ts" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
 		<field-descriptor name="endTimestamp" 			column="end_ts" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
 		<field-descriptor name="clockLogCreated" 		column="clock_log_created"	jdbc-type="BIT" 	length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
@@ -83,28 +76,71 @@
 		<field-descriptor name="endTimestampTimezone" 	column="end_ts_tz" 			jdbc-type="VARCHAR" length="50" nullable="false" primarykey="false" />
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="workArea"				column="work_area"	 		jdbc-type="BIGINT"  nullable="false" primarykey="false" />
+		<field-descriptor name="task" 					column="task"	 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />
+		<field-descriptor name="hrJobId"              column="hr_job_id" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
+	
+		<collection-descriptor
+			name="timeHourDetails"
+			element-class-ref="org.kuali.hr.time.timeblock.TimeHourDetail"
+			auto-retrieve="true"
+			auto-update="object"
+			auto-delete="object"
+			>
+			<inverse-foreignkey field-ref="tkTimeBlockId"/>
+		</collection-descriptor>
 	</class-descriptor>
-
+	
+	<class-descriptor class="org.kuali.hr.time.timeblock.TimeBlockHistory" table="tk_time_block_hist_t">
+		<field-descriptor name="tkTimeBlockHistoryId"	column="tk_time_block_hist_id" 		jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_time_block_hist_s" />
+		<field-descriptor name="tkTimeBlockId"			column="tk_time_block_id" 			jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="documentId" 			column="document_id" 				jdbc-type="VARCHAR" length="14" nullable="false" primarykey="false" />
+		<field-descriptor name="jobNumber" 				column="job_number" 				jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="tkWorkAreaId" 			column="tk_work_area_id" 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />
+		<field-descriptor name="tkTaskId" 				column="tk_task_id" 				jdbc-type="BIGINT"  nullable="false" primarykey="false" />
+		<field-descriptor name="earnCode" 				column="earn_code" 		    		jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
+		<field-descriptor name="beginTimestamp" 		column="begin_ts" 					jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
+		<field-descriptor name="endTimestamp" 			column="end_ts" 					jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
+		<field-descriptor name="clockLogCreated" 		column="clock_log_created"			jdbc-type="BIT" 	length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
+		<field-descriptor name="hours" 					column="hours" 						jdbc-type="NUMERIC" precision="5" scale="2" nullable="false" primarykey="false" />
+		<field-descriptor name="amount" 				column="amount" 					jdbc-type="NUMERIC" precision="6" scale="2" nullable="yes" primarykey="false" />
+		<field-descriptor name="userPrincipalId" 		column="user_principal_id" 			jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
+		<field-descriptor name="timestamp" 				column="timestamp" 					jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
+		<field-descriptor name="beginTimestampTimezone" column="begin_ts_tz" 				jdbc-type="VARCHAR" length="50" nullable="false" primarykey="false" />
+		<field-descriptor name="endTimestampTimezone" 	column="end_ts_tz" 					jdbc-type="VARCHAR" length="50" nullable="false" primarykey="false" />
+		<field-descriptor name="objectId" 				column="obj_id" 					jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" 			column="ver_nbr" 					jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="workArea"				column="work_area"	 				jdbc-type="BIGINT"  nullable="false" primarykey="false" />
+		<field-descriptor name="task" 					column="task"	 					jdbc-type="BIGINT"  nullable="false" primarykey="false" />
+		<field-descriptor name="hrJobId"              	column="hr_job_id" 					jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="actionHistory"         	column="action_history"				jdbc-type="VARCHAR" nullable="false" primarykey="false" />
+		<field-descriptor name="modifiedByPrincipalId" 	column="modified_by_principal_id"   jdbc-type="VARCHAR" nullable="false" primarykey="false" />
+		<field-descriptor name="timestampModified"    	column="timestamp_modified" 		jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
+	</class-descriptor>
+	
 	<class-descriptor class="org.kuali.hr.time.clocklog.ClockLog" table="tk_clock_log_t">
-		<field-descriptor name="clockLogId" 			column="clock_log_id" 		jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_clock_log_s"/>
+		<field-descriptor name="tkClockLogId" 			column="tk_clock_log_id" 		jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_clock_log_s"/>
 		<field-descriptor name="principalId"            column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
 		<field-descriptor name="jobNumber"              column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="workAreaId"             column="work_area_id" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="taskId"                 column="task_id" 			jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="workArea"             	column="work_area" 			jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="task"                 	column="task" 				jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="TkWorkAreaId"           column="tk_work_area_id"	jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="TkTaskId"               column="tk_task_id" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="clockTimestamp"         column="clock_ts" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
+		<field-descriptor name="clockTimestampTimezone" column="clock_ts_tz" 		jdbc-type="VARCHAR" length="50" nullable="false" primarykey="false" />
 		<field-descriptor name="clockAction"            column="clock_action" 		jdbc-type="VARCHAR" length="2" nullable="false" primarykey="false" />
 		<field-descriptor name="ipAddress"              column="ip_address" 		jdbc-type="VARCHAR" length="15" nullable="false" primarykey="false" />
+		<field-descriptor name="HrJobId"              	column="hr_job_id" 			jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="userPrincipalId"        column="user_principal_id" 	jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
 		<field-descriptor name="timestamp"              column="timestamp" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
-		<field-descriptor name="clockTimestampTimezone" column="clock_ts_tz" 		jdbc-type="VARCHAR" length="50" nullable="false" primarykey="false" />
 		<field-descriptor name="objectId"               column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"          column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.clock.location.ClockLocationRule" table="tk_clock_location_rl_t">
-		<field-descriptor name="clockLocationRuleId" column="CLOCK_LOC_RULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_clock_location_rl_s"/>
-		<field-descriptor name="deptId"          column="dept_id"       jdbc-type="VARCHAR" length="21"/>
-		<field-descriptor name="workArea"        column="work_area_id"  jdbc-type="BIGINT" precision="10" scale="0" nullable="false" primarykey="false" />
+		<field-descriptor name="tkClockLocationRuleId" column="TK_CLOCK_LOC_RULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_clock_location_rl_s"/>
+		<field-descriptor name="dept"          column="dept"       jdbc-type="VARCHAR" length="21"/>
+		<field-descriptor name="workArea"        column="work_area"  jdbc-type="BIGINT" precision="10" scale="0" nullable="false" primarykey="false" />
 		<field-descriptor name="principalId"     column="principal_id"   jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
 		<field-descriptor name="jobNumber"       column="job_number"    jdbc-type="BIGINT" precision="3" scale="0" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"   column="effdt"         jdbc-type="DATE" nullable="false" primarykey="false"/>
@@ -123,15 +159,20 @@
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.hr.time.department.Department" table="tk_dept_t">
-        <field-descriptor name="deptId"         column="dept_id"      jdbc-type="VARCHAR" length="21" nullable="false" primarykey="true" />
+		<field-descriptor name="tkDeptId"     column="tk_dept_id"    jdbc-type="BIGINT" nullable="false" primarykey="true"  autoincrement="true" sequence-name="tk_dept_s"/>
+        <field-descriptor name="dept"         column="dept"          jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
         <field-descriptor name="description"    column="description" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
         <field-descriptor name="org"            column="org"         jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
         <field-descriptor name="chart"          column="chart"       jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
+		<field-descriptor name="effectiveDate"  column="effdt"       jdbc-type="DATE" primarykey="false" />
+		<field-descriptor name="timestamp"      column="timestamp"   jdbc-type="TIMESTAMP" nullable="false" primarykey="false"/>
+		<field-descriptor name="active"         column="active"	     jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
+	
     </class-descriptor>    
 
 		<!-- add grace period rule -->
 	<class-descriptor class="org.kuali.hr.time.graceperiod.rule.GracePeriodRule" table="TK_GRACE_PERIOD_RL_T">
-		<field-descriptor name="gracePeriodRuleId" column="GRACE_PERIOD_RULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_grace_period_rl_s"/>
+		<field-descriptor name="tkGracePeriodRuleId" column="TK_GRACE_PERIOD_RULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_grace_period_rl_s"/>
 		<field-descriptor name="graceMins"         column="GRACE_MINS"           jdbc-type="NUMERIC" precision="2" scale="0" nullable="false" primarykey="false" />
 		<field-descriptor name="hourFactor"        column="HOUR_FACTOR"          jdbc-type="NUMERIC" precision="2" scale="0" nullable="false" primarykey="false" />
  		<field-descriptor name="effDt"             column="EFFDT"                jdbc-type="DATE" primarykey="false" />
@@ -146,10 +187,10 @@
 
 	<class-descriptor class="org.kuali.hr.time.dept.lunch.DeptLunchRule" table="tk_dept_lunch_rl_t">
 
-		<field-descriptor name="deptLunchRuleId" column="DEPT_LUNCH_RULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_dept_lunch_rl_s"/>
+		<field-descriptor name="tkDeptLunchRuleId" column="TK_DEPT_LUNCH_RL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_dept_lunch_rl_s"/>
 		<!-- put field descriptors -->
-		<field-descriptor name="deptId"          column="DEPT_ID" jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
-		<field-descriptor name="workArea"        column="WORK_AREA_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="dept"          column="DEPT" jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
+		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" />
 		<field-descriptor name="principalId"     column="principal_id" jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
 		<field-descriptor name="jobNumber"       column="job_number" jdbc-type="BIGINT"/>
 		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" nullable="false" primarykey="false"/>
@@ -165,13 +206,14 @@
 	<!--  Added for Work Area Table -->
 
 	<class-descriptor class="org.kuali.hr.time.workarea.WorkArea" table="tk_work_area_t">
-		<field-descriptor name="workAreaId"         column="WORK_AREA_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_dept_lunch_rl_s"/>
+		<field-descriptor name="tkWorkAreaId"         column="TK_WORK_AREA_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_dept_lunch_rl_s"/>
 		<!-- put field descriptors -->
+		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" />
 		<field-descriptor name="effectiveDate"      column="effdt" jdbc-type="DATE" nullable="false" primarykey="false"/>
 		<field-descriptor name="active"             column="active"	jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="description"        column="descr" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
-		<field-descriptor name="deptId"             column="dept_id" jdbc-type="VARCHAR" length="9" nullable="false" primarykey="false" />
-		<field-descriptor name="overtimePreference" column="overtime_preference" jdbc-type="VARCHAR"  length="3" nullable="false" primarykey="false" />
+		<field-descriptor name="dept"               column="dept" jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
+		<field-descriptor name="defaultOvertimePreference" column="default_overtime_preference" jdbc-type="VARCHAR"  length="3" nullable="false" primarykey="false" />
 		<field-descriptor name="adminDescr"         column="admin_descr"	jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="userPrincipalId"    column="user_principal_id"	jdbc-type="VARCHAR" length="10" nullable="false" />
 
@@ -186,67 +228,71 @@
 			auto-update="object"
 			auto-delete="object"
 			>
-			<inverse-foreignkey field-ref="workAreaId"/>
+			<inverse-foreignkey field-ref="tkWorkAreaId"/>
 		</collection-descriptor>
 
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.job.Job" table="hr_job_t">
-		<field-descriptor name="jobId" 					column="job_id" 			jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="hr_job_s"/>
+		<field-descriptor name="hrJobId" 				column="hr_job_id" 			jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="hr_job_s"/>
 		<field-descriptor name="principalId"            column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
 		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate" 			column="effdt" 				jdbc-type="DATE"    nullable="false" primarykey="false" />
-		<field-descriptor name="deptId" 				column="dept_id" 			jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
-		<!-- <field-descriptor name="payCalendarId" 			column="py_calendar_id" 	jdbc-type="BIGINT"  nullable="false" primarykey="false" /> -->
-		<field-descriptor name="tkSalGroupId" 			column="tk_sal_group_id" 	jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="dept" 					column="dept" 				jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
+		<field-descriptor name="tkSalGroup" 			column="tk_sal_group" 	    jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
 		<field-descriptor name="timestamp" 				column="timestamp" 			jdbc-type="TIMESTAMP"  nullable="false" primarykey="false" />
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="location" 				column="location" 			jdbc-type="VARCHAR" nullable="false" length="27"  />
 		<field-descriptor name="standardHours" 			column="std_hours" 			jdbc-type="NUMERIC" nullable="false" length="27" />
 		<field-descriptor name="fte" 					column="fte" 				jdbc-type="TINYINT" length="1" nullable="false" />
-		<field-descriptor name="payTypeId" 				column="hr_paytype_id"     	jdbc-type="BIGINT" nullable="false" primaryKey="false" />
+		<field-descriptor name="hrPayType" 			    column="hr_paytype"     	jdbc-type="VARCHAR" length="5" nullable="false" primaryKey="false" />
 		<field-descriptor name="payGrade" 				column="pay_grade" 			jdbc-type="VARCHAR" nullable="false" length="27" />
 		<field-descriptor name="active"                 column="active"	            jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.earncode.EarnCode" table="tk_earn_code_t">
-		<field-descriptor name="earnCodeId" 	column="earn_code_id" 	jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_earn_code_s"/>
+		<field-descriptor name="tkEarnCodeId" 	column="tk_earn_code_id" 	jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_earn_code_s"/>
 		<field-descriptor name="earnCode"       column="earn_code"		jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
 		<field-descriptor name="active" 		column="active"			jdbc-type="BIT"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="description"    column="descr"			jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"  column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" />
+		<field-descriptor name="recordHours" 	column="record_hours"	jdbc-type="BIT"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>		
+		<field-descriptor name="recordTime" 	column="record_time"			jdbc-type="BIT"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="recordAmount" 		column="record_amount"			jdbc-type="BIT"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>	
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.earncode.EarnGroup" table="tk_earn_group_t">
-		<field-descriptor name="earnGroupId" 	column="earn_group_id" 	jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_earn_group_s"/>
+	<class-descriptor class="org.kuali.hr.time.earngroup.EarnGroup" table="tk_earn_group_t">
+		<field-descriptor name="tkEarnGroupId" 	column="tk_earn_group_id" 	jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_earn_group_s"/>
 		<field-descriptor name="earnGroup"      column="earn_group"		jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
 		<field-descriptor name="active" 		column="active"			jdbc-type="BIT"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="descr"		    column="descr"			jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"  column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" />
+		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>	
 		<collection-descriptor
 			name="earnGroups"
-			element-class-ref="org.kuali.hr.time.earncode.EarnGroupDef"
+			element-class-ref="org.kuali.hr.time.earngroup.EarnGroupDefinition"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
 			auto-retrieve="true"
 			auto-delete="object"
 			auto-update="object"
 			proxy="false">
-			<inverse-foreignkey field-ref="earnsGroup"/>
+			<inverse-foreignkey field-ref="tkEarnGroupId"/>
 		</collection-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.earncode.EarnGroupDef" table="tk_earn_group_def_t">
-		<field-descriptor name="earnGroupDefId" 	column="tk_earn_group_def_id" 	jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_earn_group_def_s"/>
-		<field-descriptor name="earnCode"       	column="earn_code"			jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
-		<field-descriptor name="earnsGroup"       	column="earns_group"		jdbc-type="BIGINT" length="10" nullable="false" primarykey="false" />
-		<field-descriptor name="effectiveDate"  	column="effdt"				jdbc-type="DATE" nullable="false" primarykey="false" />
+	<class-descriptor class="org.kuali.hr.time.earngroup.EarnGroupDefinition" table="tk_earn_group_def_t">
+		<field-descriptor name="tkEarnGroupDefId" 	column="tk_earn_group_def_id" 	jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_earn_group_def_s"/>
+		<field-descriptor name="earnCode"       	column="earn_code"			jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
+		<field-descriptor name="tkEarnGroupId"       	column="tk_earn_group_id"		jdbc-type="BIGINT" nullable="false" primarykey="false" />
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.task.Task" table="tk_task_t">
-		<field-descriptor name="taskId"         	column="task_id"       jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_task_s"/>
-		<field-descriptor name="workAreaId"         column="work_area_id" jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="effectiveDate"      column="effdt" jdbc-type="DATE" nullable="false" primarykey="false"/>
+		<field-descriptor name="tkTaskId"         	column="tk_task_id"       jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_task_s"/>
+		<field-descriptor name="task"        column="task" jdbc-type="BIGINT" />
+		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" />
+		<field-descriptor name="tkWorkAreaId"         column="tk_work_area_id" jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="description"        column="descr" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="administrativeDescription" column="admin_descr" jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="userPrincipalId"	column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />
@@ -297,28 +343,30 @@
 		</collection-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.accrual.AccrualCategory" table="tk_accrual_categories_t">
-		<field-descriptor name="tkAccrualCategoryId" column="tk_accrual_category_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_accrual_categories_s"/>
-		<field-descriptor name="accrualCategory" column="accrual_category" jdbc-type="VARCHAR" length="3" nullable="false" />
-		<field-descriptor name="descr" column="descr" jdbc-type="VARCHAR" length="30" nullable="false" />
-		<field-descriptor name="effectiveDate" column="effdt" jdbc-type="DATE" nullable="false"/>
+	<class-descriptor class="org.kuali.hr.time.accrual.AccrualCategory" table="la_accrual_categories_t">
+		<field-descriptor name="laAccrualCategoryId" column="LA_ACCRUAL_CATEGORY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="la_accrual_categories_s"/>
+		<field-descriptor name="accrualCategory" column="ACCRUAL_CATEGORY" jdbc-type="VARCHAR" length="3" nullable="false" />
+		<field-descriptor name="descr" column="DESCR" jdbc-type="VARCHAR" length="30" nullable="false" />
+		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" nullable="false"/>
+		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="active" column="active"	jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
+		
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.salgroup.SalGroup" table="tk_sal_group_t">
-		<field-descriptor name="salGroupId" column="tk_sal_group_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_sal_group_s"/>
-		<field-descriptor name="salGroup" column="sal_group" jdbc-type="VARCHAR" length="10" nullable="false"/>
+		<field-descriptor name="tkSalGroupId" column="tk_sal_group_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_sal_group_s"/>
+		<field-descriptor name="tkSalGroup" column="tk_sal_group" jdbc-type="VARCHAR" length="10" nullable="false"/>
 		<field-descriptor name="effectiveDate" column="effdt" jdbc-type="DATE" nullable="false"/>
-		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIME" nullable="false"/>
+		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="active" column="active"	jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.paytype.PayType" table="hr_paytype_t">
-		<field-descriptor name="payTypeId" column="paytype_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_paytype_s"/>
+		<field-descriptor name="hrPayTypeId" column="hr_paytype_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_paytype_s"/>
 		<field-descriptor name="payType" column="paytype" jdbc-type="VARCHAR" length="5" nullable="false"/>
 		<field-descriptor name="descr" column="descr" jdbc-type="VARCHAR" length="30"/>
 		<field-descriptor name="calendarGroup" column="calendar_group" jdbc-type="VARCHAR" length="30" nullable="false"/>
@@ -328,10 +376,11 @@
 		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="active" column="active"	jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.accrual.TimeOffAccrual" table="tk_accruals_t">
-		<field-descriptor name="tkAccrualId" column="tk_accruals_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_accruals_s"/>
+	<class-descriptor class="org.kuali.hr.time.accrual.TimeOffAccrual" table="la_accruals_t">
+		<field-descriptor name="laAccrualId" column="la_accruals_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="la_accruals_s"/>
 		<field-descriptor name="principalId" column="principal_id" jdbc-type="VARCHAR" length="21" nullable="false"/>
 		<field-descriptor name="accrualCategory" column="accrual_category" jdbc-type="VARCHAR" length="3" nullable="false"/>
 		<field-descriptor name="hoursAccrued" column="hours_accrued" jdbc-type="BIGINT" nullable="false"/>
@@ -388,7 +437,7 @@
 
 	<class-descriptor class="org.kuali.hr.time.assignment.AssignmentAccount"
 		table="tk_assign_acct_t">
-		<field-descriptor name="assignAcctId" column="ASSIGN_ACCT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_assignment_acct_s" />
+		<field-descriptor name="tkAssignAcctId" column="TK_ASSIGN_ACCT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_assign_acct_s" />
 		<field-descriptor name="finCoaCd" column="FIN_COA_CD" jdbc-type="VARCHAR" length="2" />
 		<field-descriptor name="accountNbr" column="ACCOUNT_NBR" jdbc-type="VARCHAR" length="7" />
 		<field-descriptor name="subAcctNbr" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" length="5" />
@@ -397,35 +446,37 @@
 		<field-descriptor name="projectCd" column="PROJECT_CD" jdbc-type="VARCHAR" length="10" />
 		<field-descriptor name="orgRefId" column="ORG_REF_ID" jdbc-type="VARCHAR" length="8" />
 		<field-descriptor name="percent" column="PERCENT " jdbc-type="DECIMAL" />
-		<field-descriptor name="active" column="ACTIVE" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
-		<field-descriptor name="assignment" column="ASSIGNMENT_ID" jdbc-type="BIGINT" nullable="false" />
+		<field-descriptor name="tkAssignmentId" column="TK_ASSIGNMENT_ID" jdbc-type="BIGINT" nullable="false" />
 		<field-descriptor name="objectId" column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="earnCode" column="earn_code" jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
 	</class-descriptor>
 	<!-- Time Collection Rule -->
 	<class-descriptor class="org.kuali.hr.time.collection.rule.TimeCollectionRule" table="TK_TIME_COLLECTION_RL_T">
-		<field-descriptor name="timeCollectionRuleId" column="TIME_COLL_RULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_time_collection_rl_s"/>
-		<field-descriptor name="deptId" column="DEPTID" jdbc-type="VARCHAR" length="21" />
-	 	<field-descriptor name="workArea" column="work_area_id"  jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="tkTimeCollectionRuleId" column="TK_TIME_COLL_RULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_time_collection_rl_s"/>
+		<field-descriptor name="dept" column="DEPT" jdbc-type="VARCHAR" length="21" />
+	 	<field-descriptor name="workArea" column="WORK_AREA"  jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="effDate" column="EFFDT" jdbc-type="DATE" />
 		<field-descriptor name="clockUserFl" column="CLOCK_USERS_FL" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="hrsDistributionF" column="HRS_DISTRIBUTION_FL" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
 		<field-descriptor name="timeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="objectId" column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="active" column="ACTIVE" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
+		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />		
 	</class-descriptor>
 
 	<!-- Work Schedule -->
 	<class-descriptor class="org.kuali.hr.time.workschedule.WorkSchedule"
 		table="hr_work_schedule_t">
-		<field-descriptor name="workScheduleId" column="WORK_SCHEDULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_work_schedule_s" />
+		<field-descriptor name="hrWorkScheduleId" column="HR_WORK_SCHEDULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_work_schedule_s" />
 		<field-descriptor name="workScheduleDesc" column="WORK_SCHEDULE_DESC" jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" nullable="false" />
-		<field-descriptor name="deptId" column="DEPT_ID" jdbc-type="VARCHAR" length="21" />
-		<field-descriptor name="workArea" column="work_area_id"  jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="dept" column="DEPT" jdbc-type="VARCHAR" length="21" />
+		<field-descriptor name="workArea" column="work_area"  jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="principalId" column="PRINCIPAL_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="active" column="ACTIVE" jdbc-type="bit" />
+		<field-descriptor name="timeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		
@@ -436,14 +487,14 @@
 			auto-update="object"
 			auto-delete="object"
 			>
-			<inverse-foreignkey field-ref="workScheduleId"/>
+			<inverse-foreignkey field-ref="hrWorkScheduleId"/>
 		</collection-descriptor>		
 	</class-descriptor>
 
 	<!-- Work ScheduleEntry -->
 	<class-descriptor class="org.kuali.hr.time.workschedule.WorkScheduleEntry" table="hr_work_schedule_entry_t">
-		<field-descriptor name="workScheduleEntryId" column="WORK_SCHDULE_ENTRY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_work_schedule_entry_s"  />
-		<field-descriptor name="workScheduleId" column="WORK_SCHEDULE_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="hrWorkScheduleEntryId" column="HR_WORK_SCHDULE_ENTRY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_work_schedule_entry_s"  />
+		<field-descriptor name="hrWorkScheduleId" column="HR_WORK_SCHEDULE_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="calDayId" column="CAL_DAY_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="dayOfPeriodId" column="DAY_OF_PERIOD_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="regHours" column="REG_HOURS" jdbc-type="BIGINT" />
@@ -468,10 +519,10 @@
 	<class-descriptor class="org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule" table="tk_shift_differential_rl_t">
 		<field-descriptor name="tkShiftDiffRuleId" column="TK_SHIFT_DIFF_RL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_shift_differential_rl_s"  />
 		<field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR" length="2"  />
-		<field-descriptor name="salGroup" column="TK_SAL_GROUP" jdbc-type="VARCHAR" length="10"  />
+		<field-descriptor name="tkSalGroup" column="TK_SAL_GROUP" jdbc-type="VARCHAR" length="10"  />
 		<field-descriptor name="payGrade" column="PAY_GRADE" jdbc-type="VARCHAR" length="3"  />
 		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" nullable="true"/>
-		<field-descriptor name="earnCode" column="ERNCD" jdbc-type="VARCHAR" length="3"  />
+		<field-descriptor name="earnCode" column="EARN_CODE" jdbc-type="VARCHAR" length="3"  />
 		<field-descriptor name="beginTime" column="BEGIN_TS" jdbc-type="VARCHAR" length="8"/>
 		<field-descriptor name="endTime" column="END_TS" jdbc-type="VARCHAR" length="8"/>
 		<field-descriptor name="minHours" column="MIN_HRS" jdbc-type="DECIMAL"  primarykey="false"  />
@@ -506,21 +557,25 @@
 
 	<!-- Department Earn Code -->
 	<class-descriptor class="org.kuali.hr.time.dept.earncode.DepartmentEarnCode" table="tk_dept_earn_code_t">
-		<field-descriptor name="deptEarnCodeId" column="dept_earn_code_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_dept_earn_code_s"  />
-		<field-descriptor name="deptId" column="dept_id" jdbc-type="VARCHAR" length="21"/>
-		<field-descriptor name="tkSalGroupId" column="tk_sal_group_id" jdbc-type="BIGINT" />
-		<field-descriptor name="earnCodeId" column="earn_code_id" jdbc-type="BIGINT" />
+		<field-descriptor name="tkDeptEarnCodeId" column="tk_dept_earn_code_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_dept_earn_code_s"  />
+		<field-descriptor name="dept" column="dept" jdbc-type="VARCHAR" length="21"/>
+		<field-descriptor name="tkSalGroup" column="tk_sal_group" jdbc-type="VARCHAR" length="10" />
+		<field-descriptor name="earnCode" column="earn_code" jdbc-type="VARCHAR" length="3" />
 		<field-descriptor name="employee" column="employee" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="approver" column="approver"  jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="org_admin" column="org_admin" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" />
+		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="active" column="ACTIVE" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>				
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.workflow.TimesheetDocumentHeader" table="tk_document_header_t">
 		<field-descriptor name="documentId"         column="document_id" jdbc-type="BIGINT" primarykey="true"/>
 		<field-descriptor name="principalId"        column="principal_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="payEndDate"         column="pay_end_dt" jdbc-type="DATE" />
+		<field-descriptor name="payBeginDate"         column="pay_begin_dt" jdbc-type="DATE" />
 		<field-descriptor name="documentStatus"     column="document_status" jdbc-type="VARCHAR" />
 	</class-descriptor>
 
@@ -528,10 +583,10 @@
 	<class-descriptor class="org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule" table="tk_daily_overtime_rl_t">
 		<field-descriptor name="tkDailyOvertimeRuleId" column="tk_daily_overtime_rl_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_daily_overtime_rl_s"  />
 		<field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR" length="2"/>
-		<field-descriptor name="hrPaytype" column="HR_PAYTYPE" jdbc-type="VARCHAR" length="4" />
-		<field-descriptor name="deptId" column="DEPTID" jdbc-type="VARCHAR" length="21"  />
-		<field-descriptor name="workAreaId" column="WORK_AREA_ID" jdbc-type="BIGINT"  primarykey="false" />
-		<field-descriptor name="taskId" column="TASK_ID" jdbc-type="BIGINT" primarykey="false" />
+		<field-descriptor name="paytype" column="PAYTYPE" jdbc-type="VARCHAR" length="4" />
+		<field-descriptor name="dept" column="DEPT" jdbc-type="VARCHAR" length="21"  />
+		<field-descriptor name="workArea" column="WORK_AREA" jdbc-type="BIGINT"  primarykey="false" />
+		<field-descriptor name="task" column="TASK" jdbc-type="BIGINT" primarykey="false" />
 		<field-descriptor name="maxGap" column="MAX_GAP" jdbc-type="DECIMAL"  primarykey="false" />		
 		<field-descriptor name="shiftHours" column="SHIFT_HOURS" jdbc-type="DECIMAL"  primarykey="false" />
 		<field-descriptor name="overtimePref" column="OVERTIME_PREFERENCE" jdbc-type="VARCHAR" length="3" />
@@ -543,18 +598,44 @@
 	
 	<!-- Clock Log -->
 	<class-descriptor class="org.kuali.hr.time.clocklog.ClockLog" table="tk_clock_log_t">
-		<field-descriptor name="clockLogId" column="CLOCK_LOG_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_clock_log_s"  />
+		<field-descriptor name="tkClockLogId" column="TK_CLOCK_LOG_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_clock_log_s"  />
 		<field-descriptor name="principalId" column="PRINCIPAL_ID" jdbc-type="VARCHAR" length="40"/>
 		<field-descriptor name="jobNumber" column="JOB_NUMBER" jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="workAreaId" column="WORK_AREA_ID" jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="taskId" column="TASK_ID" jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="workArea" column="WORK_AREA" jdbc-type="BIGINT"  primarykey="false" />
+		<field-descriptor name="task" column="TASK" jdbc-type="BIGINT" primarykey="false" />
+		<field-descriptor name="tkWorkAreaId" column="TK_WORK_AREA_ID" jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="tkTaskId" column="TK_TASK_ID" jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="clockTimestamp" column="CLOCK_TS" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="clockTimestampTimezone" column="CLOCK_TS_TZ" jdbc-type="VARCHAR" length="50"/>		
 		<field-descriptor name="clockAction" column="CLOCK_ACTION" jdbc-type="VARCHAR" length="2"/>
 		<field-descriptor name="ipAddress" column="IP_ADDRESS" jdbc-type="VARCHAR" length="15" />
+		<field-descriptor name="hrJobId" column="HR_JOB_ID" jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="40" />
 		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />				
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.hr.time.roles.TkRole" table="tk_roles_t">
+		<field-descriptor name="tkRolesId"       column="tk_roles_id"       jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_roles_s"/>
+		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
+		<field-descriptor name="userPrincipalId" column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />
+		<field-descriptor name="roleName"        column="role_name" jdbc-type="VARCHAR" length="20"/>		
+		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" />
+		<field-descriptor name="department"      column="dept" jdbc-type="VARCHAR" length="21"/>
+		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" />
+		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="active"          column="ACTIVE" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>			
+	</class-descriptor>
+	
+	
+	<class-descriptor class="org.kuali.hr.time.timeblock.TimeHourDetail" table="tk_hour_detail_t">
+	    <field-descriptor name="tkTimeHourDetailId" 	column="tk_hour_detail_id"   jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_hour_detail_s" />
+		<field-descriptor name="tkTimeBlockId" 			column="tk_time_block_id"   jdbc-type="BIGINT" primarykey="false" />
+		<field-descriptor name="earnCode" 				column="earn_code" 		        jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
+		<field-descriptor name="hours" 					column="hours" 				jdbc-type="NUMERIC" precision="5" scale="2" nullable="false" primarykey="false" />
+		<field-descriptor name="amount" 				column="amount" 			jdbc-type="NUMERIC" precision="6" scale="2" nullable="yes" primarykey="false" />
+		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>	
 </descriptor-repository>

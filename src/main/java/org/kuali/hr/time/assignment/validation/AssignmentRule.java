@@ -16,30 +16,30 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateWorkArea(Assignment assignment ) {
 		boolean valid = false;
-		LOG.debug("Validating workarea: " + assignment.getWorkAreaId());
+		LOG.debug("Validating workarea: " + assignment.getWorkArea());
 		WorkArea workArea = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(WorkArea.class, assignment.getWorkAreaId());
+				.findBySinglePrimaryKey(WorkArea.class, assignment.getWorkArea());
 		if (workArea != null) {
 			valid = true;
 			LOG.debug("found workarea.");
 		} else {
 			this.putFieldError("workAreaId", "error.existence", "workarea '"
-					+ assignment.getWorkAreaId()+ "'");
+					+ assignment.getWorkArea()+ "'");
 		}
 		return valid;
 	} 
 	
 	protected boolean validateTask(Assignment assignment ) {
 		boolean valid = false;
-		LOG.debug("Validating task: " + assignment.getTaskId());
+		LOG.debug("Validating task: " + assignment.getTask());
 		Task task = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Task.class, assignment.getTaskId());
+				.findBySinglePrimaryKey(Task.class, assignment.getTask());
 		if (task != null) {
 			valid = true;
 			LOG.debug("found task.");
 		} else {
 			this.putFieldError("taskId", "error.existence", "taskId '"
-					+ assignment.getTaskId()+ "'");
+					+ assignment.getTask()+ "'");
 		}
 		return valid;
 	}
@@ -60,18 +60,19 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	} 
 	
+	//TODO fix this class
 	protected boolean validateEarnCode(Assignment assignment ) {
 		boolean valid = false;
-		LOG.debug("Validating EarnCode: " + assignment.getEarnCodeId());
-		EarnCode earnCode = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(EarnCode.class, assignment.getEarnCodeId());
-		if (earnCode != null) {
-			valid = true;			
-			LOG.debug("found earnCode.");
-		} else {
-			this.putFieldError("earnCodeId", "error.existence", "earnCodeId '"
-					+ assignment.getEarnCodeId()+ "'");
-		}
+//		LOG.debug("Validating EarnCode: " + assignment.getEarnCode()());
+//		EarnCode earnCode = KNSServiceLocator.getBusinessObjectService()
+//				.findBySinglePrimaryKey(EarnCode.class, assignment.getEarnCodeId());
+//		if (earnCode != null) {
+//			valid = true;			
+//			LOG.debug("found earnCode.");
+//		} else {
+//			this.putFieldError("earnCodeId", "error.existence", "earnCodeId '"
+//					+ assignment.getEarnCodeId()+ "'");
+//		}
 		return valid;
 	} 
 	

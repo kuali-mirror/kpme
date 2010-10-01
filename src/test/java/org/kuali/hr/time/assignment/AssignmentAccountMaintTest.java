@@ -38,13 +38,13 @@ public class AssignmentAccountMaintTest extends TkTestCase{
 		AssignmentAccount assignmentAccount = new AssignmentAccount();
 		assignmentAccount.setAccountNbr(TEST_ID);
 		assignmentAccount.setActive(true);
-		assignmentAccount.setAssignment(TEST_ASSIGN_ID);
+		assignmentAccount.setTkAssignmentId(TEST_ASSIGN_ID);
 		assignmentAccount.setFinCoaCd(TEST_CODE);
 		assignmentAccount.setFinObjectCd(TEST_CODE);
 		assignmentAccount.setFinSubObjCd(TEST_CODE);
 		assignmentAccount.setPercent(TEST_PERCENT);		
 		KNSServiceLocator.getBusinessObjectService().save(assignmentAccount);
-		assignmentAccountId = assignmentAccount.getAssignAcctId();
+		assignmentAccountId = assignmentAccount.getTkAssignAcctId();
 	}
 
 	@Override

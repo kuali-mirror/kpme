@@ -29,10 +29,10 @@ public class SerializeSchedulerTest extends TkTestCase {
 		timeBlock.setEndTimestampTimezone("endTimestampTimezone");
 		timeBlock.setHours(new java.math.BigDecimal(10));
 		timeBlock.setJobNumber(1l);
-		timeBlock.setTaskId(10l);
+		timeBlock.setTkTaskId(10l);
 		timeBlock.setUserPrincipalId("userPrincipalId");
 		timeBlock.setTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
-		timeBlock.setWorkAreaId(10l);
+		timeBlock.setTkWorkAreaId(10l);
 		//Uncomment following line to save the Object into DB
 		KNSServiceLocator.getBusinessObjectService().save(timeBlock);
 	

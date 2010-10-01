@@ -13,7 +13,7 @@
   <bean id="AccrualCategoryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.time.accrual.AccrualCategory"
   		p:businessRulesClass="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"
-  		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+  		p:maintainableClass="org.kuali.hr.time.accrual.service.AccuralCategoryMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="AccrualCategoryMaintenanceDocument-AccrualCategoryMaintenance"/>

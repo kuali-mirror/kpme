@@ -10,7 +10,7 @@
 	<bean id="EarnGroupMaintenanceDocument" parent="EarnGroupMaintenanceDocument-parentBean" />
 
 	<bean id="EarnGroupMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.earncode.EarnGroup"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.earngroup.EarnGroup"
 		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
 		<property name="maintainableSections">
 			<list>
@@ -20,7 +20,7 @@
 		</property>
 		<property name="lockingKeys">
 			<list>
-				<value>earnGroupId</value>
+				<value>tkEarnGroupId</value>
 			</list>
 		</property>
 		<property name="documentTypeName" value="EarnGroupDocumentType" />
@@ -62,13 +62,11 @@
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="earnGroups" />
 					<property name="businessObjectClass"
-						value="org.kuali.hr.time.earncode.EarnGroupDef" />
+						value="org.kuali.hr.time.earngroup.EarnGroupDefinition" />
 					<property name="alwaysAllowCollectionDeletion" value="true" />
 					<property name="maintainableFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="earnCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
 								p:required="true" />
 						</list>
 					</property>

@@ -38,10 +38,12 @@
 	<param name="log4j.settings.path">${config.dir}/log4j.properties</param>
 	<!-- end general config location params -->
 
+
 	<!-- keystore config -->
-	<param name="encryption.key">7IC64w6ksLU</param>
-	<param name="keystore.alias">hr</param>
+	<param name="encryption.key">7IC64w6ksLU</param>	
+	<param name="keystore.alias">rice</param>
 	<param name="keystore.file">${keystore.location}</param>
+	<param name="keystore.password">r1c3pw</param>	
 	<!-- end keystore config -->
 
 	<!-- ksb messaging params !!!ALL CHANGED FOR TESTS!!!-->

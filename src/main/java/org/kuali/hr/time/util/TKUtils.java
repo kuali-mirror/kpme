@@ -2,20 +2,21 @@ package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.List;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.joda.time.DateTime;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
-import org.kuali.hr.job.Job;
-import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.joda.time.Days;
+import org.joda.time.Duration;
+import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.rice.core.config.ConfigContext;
 
 public class TKUtils {
@@ -39,6 +40,10 @@ public class TKUtils {
 		return ConfigContext.getCurrentContextConfig().getProperty("environment");
 	}
 	
+	public static java.sql.Date getCurrentDate(){
+		return getTimelessDate(null);
+	}
+	
 	/**
 	 * Returns a enforced timeless version of the provided date, if the date is null
 	 * the current date is returned.
@@ -55,52 +60,6 @@ public class TKUtils {
 		return jsd;
 	}
 	
-	/**
-	 * For the provided user, returns a currently valid payEndDate based on the PayCalendarDates, that the provided date is valid for.
-	 * 
-	 * Example:
-	 * 
-	 * If there is a pay calendar entry range for: 01/01/2010 to 01/15/2010, and 'now' is set 
-	 * to 01/03/2010, the return value will be 01/15/2010.
-	 * 
-	 * @param user
-	 * @param now
-	 * @return
-	 */
-	public static java.sql.Date getPayEndDate(TKUser user, java.util.Date now) {
-		Date payEndDate = null;
-		DateTime currentTime = new DateTime(now); 
-		
-		if (user != null) {
-			List<Job> jobs = user.getJobs();
-			if (jobs != null && jobs.size() > 0) {
-				Job job = jobs.get(0);
-				PayCalendar payCalendar = (job.getPayType() != null) ? job.getPayType().getPayCalendar() : null;
-				if (payCalendar == null) {
-					throw new RuntimeException("Job in system without PayCalendar.");
-				}
-				List<PayCalendarDates> dates = payCalendar.getPayCalendarDates();
-				for (PayCalendarDates pcdate : dates) {
-					LocalTime beginTime = new LocalTime(pcdate.getBeginPeriodTime()); 
-					LocalDate beginDate = new LocalDate(pcdate.getBeginPeriodDate());					
-					DateTime begin = beginDate.toDateTime(beginTime); 
-					
-					LocalTime endTime = new LocalTime(pcdate.getEndPeriodTime());
-					LocalDate endDate = new LocalDate(pcdate.getEndPeriodDate());
-					DateTime end = endDate.toDateTime(endTime);
-					
-					Interval range = new Interval(begin, end);
-					if (range.contains(currentTime)) {
-						// Joda-time is awesome.
-						return pcdate.getEndPeriodDate();
-					}
-				}
-			}
-		}
-		
-		return payEndDate;	
-	}
-
 	public static long getDaysBetween(Calendar startDate, Calendar endDate) {
 		Calendar date = (Calendar) startDate.clone();
 		long daysBetween = 0;
@@ -110,9 +69,55 @@ public class TKUtils {
 		}
 		return daysBetween;
 	}
+	
+	public static long getDaysBetween(Date startDate, Date endDate){
+		Calendar beginCal = GregorianCalendar.getInstance();
+		Calendar endCal = GregorianCalendar.getInstance();
+		
+		beginCal.setTime(startDate);
+		endCal.setTime(endDate);
+		
+		return getDaysBetween(beginCal, endCal);
+	}
 
 	public static BigDecimal getHoursBetween(long start, long end) {
 		long diff = end - start;
 		return new BigDecimal((diff / 3600000.0) % 24).setScale(TkConstants.MATH_CONTEXT.getPrecision(), TkConstants.MATH_CONTEXT.getRoundingMode()).abs();
+	}
+	
+	public static Map<Timestamp, BigDecimal> getDateToHoursMap(TimeBlock timeBlock, TimeHourDetail timeHourDetail) {
+		Map<Timestamp,BigDecimal> dateToHoursMap = new HashMap<Timestamp,BigDecimal>();
+		DateTime beginTime = new DateTime(timeBlock.getBeginTimestamp());
+		DateTime endTime = new DateTime(timeBlock.getEndTimestamp());
+		
+		Days d = Days.daysBetween(beginTime, endTime);
+		int numberOfDays = d.getDays();
+		if(numberOfDays < 1){
+			dateToHoursMap.put(timeBlock.getBeginTimestamp(), timeHourDetail.getHours());
+			return dateToHoursMap;
+		}
+		DateTime currentTime = beginTime;
+		for(int i = 0 ;i<numberOfDays;i++){
+			DateTime nextDayAtMidnight = new DateTime(currentTime.plusDays(1).getMillis());
+			nextDayAtMidnight = nextDayAtMidnight.hourOfDay().setCopy(12);
+			nextDayAtMidnight = nextDayAtMidnight.minuteOfDay().setCopy(0);
+			nextDayAtMidnight = nextDayAtMidnight.secondOfDay().setCopy(0);
+			nextDayAtMidnight = nextDayAtMidnight.millisOfSecond().setCopy(0);
+			Duration dur = new Duration(currentTime, nextDayAtMidnight);
+			long duration = dur.getStandardSeconds();
+			BigDecimal hrs = new BigDecimal(duration/3600, TkConstants.MATH_CONTEXT);
+			dateToHoursMap.put(new Timestamp(currentTime.getMillis()),hrs);
+			currentTime = nextDayAtMidnight;
+		}
+		Duration dur = new Duration(currentTime, endTime);
+		long duration = dur.getStandardSeconds();
+		BigDecimal hrs = new BigDecimal(duration/3600, TkConstants.MATH_CONTEXT);
+		dateToHoursMap.put(new Timestamp(currentTime.getMillis()),hrs);
+		
+		return dateToHoursMap;
+	}
+	
+	public static String formatAssignmentKey(Long jobNumber, Long workArea, Long task) {
+		return jobNumber + TkConstants.ASSIGNMENT_KEY_DELIMITER + workArea + TkConstants.ASSIGNMENT_KEY_DELIMITER + task; 
 	}
 }

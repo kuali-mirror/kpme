@@ -1,8 +1,13 @@
 package org.kuali.hr.time.collection.rule.validation;
 
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
+import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -13,11 +18,14 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateWorkArea(TimeCollectionRule timeCollectionRule ) {
-		boolean valid = false;
+		boolean valid = false;	
 		LOG.debug("Validating workarea: " + timeCollectionRule.getWorkArea());
-		WorkArea workArea = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(WorkArea.class, timeCollectionRule.getWorkArea());
-		if (workArea != null) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("workArea", timeCollectionRule.getWorkArea());		
+		Query query = QueryFactory.newQuery(WorkArea.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+		
+		if (count >0 ) {
 			valid = true;
 			LOG.debug("found workarea.");			
 		} else {
@@ -29,17 +37,21 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateDepartment(TimeCollectionRule timeCollectionRule) {
 		boolean valid = false;
-		LOG.debug("Validating department: " + timeCollectionRule.getDeptId());
+		LOG.debug("Validating department: " + timeCollectionRule.getDept());
 		// TODO: We may need a full DAO that handles bo lookups at some point,
 		// but we can use the provided one:
-		Department dept = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Department.class, timeCollectionRule.getDeptId());
-		if (dept != null) {
+		
+		Criteria crit = new Criteria();
+		crit.addEqualTo("dept", timeCollectionRule.getDept());		
+		Query query = QueryFactory.newQuery(Department.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
+		
+		if (count >0 ) {
 			valid = true;			
 			LOG.debug("found department.");
 		} else {						
-			this.putFieldError("deptId", "error.existence", "department '"
-					+ timeCollectionRule.getDeptId() + "'");
+			this.putFieldError("dept", "error.existence", "department '"
+					+ timeCollectionRule.getDept() + "'");
 		}
 		return valid;
 	}
@@ -54,6 +66,9 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 		LOG.debug("entering custom validation for TimeCollectionRule");
 		PersistableBusinessObject pbo = this.getNewBo();
+		
+		
+		
 		if (pbo instanceof TimeCollectionRule) {
 			TimeCollectionRule timeCollectionRule = (TimeCollectionRule) pbo;
 			timeCollectionRule.setUserPrincipalId(GlobalVariables.getUserSession().getLoggedInUserPrincipalName());

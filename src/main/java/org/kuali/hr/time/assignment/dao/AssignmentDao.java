@@ -15,9 +15,7 @@ public interface AssignmentDao {
 	 * @param payPeriodEndDate
 	 * @return
 	 */
-	public List<Assignment> findAssignments(String principalId, Date payPeriodEndDate);
-
-	public List<Assignment> findAssignmentsByJobNumber(Long jobNumber, String principalId, Date payPeriodEndDate);
+	public List<Assignment> findAssignments(String principalId, Date asOfDate);
 
 	public void saveOrUpdate(Assignment assignment);
 

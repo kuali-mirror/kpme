@@ -1,37 +1,24 @@
 package org.kuali.hr.time.workarea.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
 
 import org.apache.log4j.Logger;
-import org.kuali.hr.time.role.assign.TkRoleAssign;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workarea.dao.WorkAreaDao;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kim.service.RoleManagementService;
 
 public class WorkAreaServiceImpl implements WorkAreaService {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(WorkAreaServiceImpl.class);
 	
 	private WorkAreaDao workAreaDao;
-	private static List<String> roleIds = new ArrayList<String>(TkConstants.ROLE_ASSIGNMENT_FOR_WORK_AREA.size());
-	static {
-		for(String role : TkConstants.ROLE_ASSIGNMENT_FOR_WORK_AREA) {
-			roleIds.add(KIMServiceLocator.getRoleService().getRoleIdByName(TkConstants.ROLE_NAMESAPCE, role));
-		}
-	}
 	
 	public WorkAreaServiceImpl() {
 	}
 
 	@Override
-	public WorkArea getWorkArea(Long workAreaId) {
-		return workAreaDao.getWorkArea(workAreaId);
+	public WorkArea getWorkArea(Long workAreaId, Date asOfDate) {
+		return workAreaDao.getWorkArea(workAreaId, asOfDate);
 	}
 
 	@Override
@@ -47,49 +34,4 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 		this.workAreaDao = workAreaDao;
 	}
 
-	@Override
-	public List<TkRoleAssign> getWorkAreaRoles(Long workAreaId) {
-		List<TkRoleAssign> traList = new ArrayList<TkRoleAssign>();
-		AttributeSet qualifiers = new AttributeSet();
-		qualifiers.put(TkConstants.ROLE_WORK_AREA_QUALIFIER_ID, ""+workAreaId);
-		List<RoleMembershipInfo> members = KIMServiceLocator.getRoleService().getRoleMembers(roleIds, qualifiers);
-		for (RoleMembershipInfo rmi : members) {
-			KimRoleInfo kri = KIMServiceLocator.getRoleService().getRole(rmi.getRoleId());
-			String roleName = kri.getRoleName();
-			String principalId = rmi.getMemberId();
-			TkRoleAssign tra = new TkRoleAssign();
-			tra.setRoleName(roleName);
-			tra.setPrincipalId(principalId);
-			tra.setWorkAreaId(workAreaId);
-			traList.add(tra);
-		}
-		return traList;
-	}
-
-	@Override
-	public void saveWorkAreaRoles(Long workAreaId, List<TkRoleAssign> newRoleList) {
-		List<TkRoleAssign> currentRoles = getWorkAreaRoles(workAreaId);
-		RoleManagementService rms = KIMServiceLocator.getRoleManagementService();
-		for (TkRoleAssign ra : newRoleList) {
-			if (!currentRoles.contains(ra)) {
-				// add role
-				LOG.debug("Adding role: " + ra);
-				AttributeSet qual = new AttributeSet();
-				qual.put(TkConstants.ROLE_WORK_AREA_QUALIFIER_ID, ""+workAreaId);
-				rms.assignPrincipalToRole(ra.getPrincipalId(), TkConstants.ROLE_NAMESAPCE, ra.getRoleName(), qual);
-				rms.flushRoleMemberCaches();
-			}
-		}
-		
-		for (TkRoleAssign ra : currentRoles) {
-			if (!newRoleList.contains(ra)) {
-				// remove role
-				LOG.debug("Removing role: " + ra);
-				AttributeSet qual = new AttributeSet();
-				qual.put(TkConstants.ROLE_WORK_AREA_QUALIFIER_ID, ""+ra.getWorkAreaId());
-				rms.removePrincipalFromRole(ra.getPrincipalId(), TkConstants.ROLE_NAMESAPCE, ra.getRoleName(), qual);
-				rms.flushRoleMemberCaches();
-			}
-		}
-	}
 }

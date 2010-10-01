@@ -12,21 +12,20 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private long timeCollectionRuleId;
-	private String deptId;
+	private Long tkTimeCollectionRuleId;
+	private String dept;
 	private Long workArea;
 	private Date effDate;
 	private boolean clockUserFl;
 	private boolean hrsDistributionF;
 	private String userPrincipalId;
 	private Timestamp timeStamp;
+	private boolean active;
+	
 	
 	private Department departmentObj;	
 	private WorkArea workAreaObj;
-		
-	
-	 
-	
+
 	public Department getDepartmentObj() {
 		return departmentObj;
 	}
@@ -43,23 +42,6 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 		this.workAreaObj = workAreaObj;
 	}
 
-	 
-	public long getTimeCollectionRuleId() {
-		return timeCollectionRuleId;
-	}
-
-	public void setTimeCollectionRuleId(long timeCollectionRuleId) {
-		this.timeCollectionRuleId = timeCollectionRuleId;
-	}
-
-	public String getDeptId() {
-		return deptId;
-	}
-
-	public void setDeptId(String deptId) {
-		this.deptId = deptId;
-	}
-
 	public Long getWorkArea() {
 		return workArea;
 	}
@@ -70,6 +52,14 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 
 	public Date getEffDate() {
 		return effDate;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public void setEffDate(Date effDate) {
@@ -114,9 +104,9 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 	protected LinkedHashMap<String,Object> toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
 
-		toStringMap.put("timeCollectionRuleId", timeCollectionRuleId);
+		toStringMap.put("tkTimeCollectionRuleId", tkTimeCollectionRuleId);
 		toStringMap.put("department", departmentObj);
-		toStringMap.put("deptId", deptId);
+		toStringMap.put("dept", dept);
 		toStringMap.put("workAreaObj", workAreaObj);
 		toStringMap.put("workArea", workArea);
 		toStringMap.put("effDate", effDate);
@@ -126,6 +116,22 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 		toStringMap.put("timeStamp", timeStamp);		
 
 		return toStringMap;
+	}
+
+	public Long getTkTimeCollectionRuleId() {
+		return tkTimeCollectionRuleId;
+	}
+
+	public void setTkTimeCollectionRuleId(Long tkTimeCollectionRuleId) {
+		this.tkTimeCollectionRuleId = tkTimeCollectionRuleId;
+	}
+
+	public String getDept() {
+		return dept;
+	}
+
+	public void setDept(String dept) {
+		this.dept = dept;
 	}
 
 

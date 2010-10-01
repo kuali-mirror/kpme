@@ -1,6 +1,5 @@
 package org.kuali.hr.time.dept.earncode.service;
 
-import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,22 +10,38 @@ public class DepartmentEarnCodeServiceImpl implements DepartmentEarnCodeService 
 
     private DepartmentEarnCodeDao deptEarnCodeDao;
 
-    public List<DepartmentEarnCode> getDepartmentEarnCodeList(Long salGroup) {
-        return deptEarnCodeDao.getDepartmentEarnCodeList(salGroup);
-    }
-
 	public void setDeptEarnCodeDao(DepartmentEarnCodeDao deptEarnCodeDao) {
 		this.deptEarnCodeDao = deptEarnCodeDao;
 	}
 
 	@Override
-	public List<DepartmentEarnCode> getDepartmentEarnCodes(Long salGroupId, Date payPeriodEndDate) {
-		List<DepartmentEarnCode> list = new LinkedList<DepartmentEarnCode>();
+	/*
+	 * Handles the wildcarding.
+	 */
+	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tkSalGroup, java.util.Date asOfDate) {
+		List<DepartmentEarnCode> decs = new LinkedList<DepartmentEarnCode>();
+		
+		decs = deptEarnCodeDao.getDepartmentEarnCodes(department, tkSalGroup, asOfDate);
+		if (!decs.isEmpty()) {
+			return decs;
+		}
+		
+		decs = deptEarnCodeDao.getDepartmentEarnCodes("*", tkSalGroup, asOfDate);
+		if (!decs.isEmpty()) {
+			return decs;
+		}
+		
+		decs = deptEarnCodeDao.getDepartmentEarnCodes(department, "*", asOfDate);
+		if (!decs.isEmpty()) {
+			return decs;
+		}
 
-		
-		
-		return list;
+		decs = deptEarnCodeDao.getDepartmentEarnCodes("*", "*", asOfDate);
+		if (!decs.isEmpty()) {
+			return decs;
+		}
+
+		return decs;
 	}
-
-
+	
 }

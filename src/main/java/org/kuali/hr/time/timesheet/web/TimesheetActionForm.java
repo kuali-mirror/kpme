@@ -1,10 +1,9 @@
 package org.kuali.hr.time.timesheet.web;
 
-import java.util.List;
 import java.util.Map;
 
-import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 public class TimesheetActionForm extends TkForm {
@@ -14,11 +13,17 @@ public class TimesheetActionForm extends TkForm {
 	 */
 	private static final long serialVersionUID = 6938733178369007689L;
 	TimesheetDocument timesheetDocument;
-
-	private List<Assignment> assignments;
-	private Map<Long,List<String>> formattedDeptEarnCodes;
-	private Map<Long,List<String>>  formattedAssignments;
-
+	
+	/**Job Number -> Formatted department earn codes  */
+	private Map<Long,String> earnCodeDescriptions;
+	/** String (concat(job number, work_area, task)) -> Formatted Assignment Descriptions */
+	private Map<String,String>  assignmentDescriptions;
+	private PayCalendarDates payCalendarDates;
+	private String selectedAssignment;
+	private String selectedEarnCode;
+	
+	
+	
 	public TimesheetDocument getTimesheetDocument() {
 		return timesheetDocument;
 	}
@@ -27,28 +32,44 @@ public class TimesheetActionForm extends TkForm {
 		this.timesheetDocument = timesheetDocument;
 	}
 
-    public List<Assignment> getAssignments() {
-        return assignments;
-    }
-
-    public void setAssignments(List<Assignment> assignments) {
-        this.assignments = assignments;
-    }
-
-	public Map<Long,List<String>> getDeptEarnCodes() {
-		return formattedDeptEarnCodes;
+	public Map<Long,String> getEarnCodeDescriptions() {
+		return earnCodeDescriptions;
 	}
 
-	public void setDeptEarnCode(Map<Long,List<String>> formattedDeptEarnCodes) {
-		this.formattedDeptEarnCodes = formattedDeptEarnCodes;
+	public void setEarnCodeDescriptions(Map<Long,String> earnCodeDescriptions) {
+		this.earnCodeDescriptions = earnCodeDescriptions;
 	}
 
-	public Map<Long,List<String>>  getFormattedAssignments() {
-		return formattedAssignments;
+	public Map<String,String>  getAssignmentDescriptions() {
+		return assignmentDescriptions;
 	}
 
-	public void setFormattedAssignments(Map<Long,List<String>>  formattedAssignments) {
-		this.formattedAssignments = formattedAssignments;
+	public void setAssignmentDescriptions(Map<String,String>  assignmentDescriptions) {
+		this.assignmentDescriptions = assignmentDescriptions;
+	}
+
+	public String getSelectedAssignment() {
+		return selectedAssignment;
+	}
+
+	public void setSelectedAssignment(String selectedAssignment) {
+		this.selectedAssignment = selectedAssignment;
+	}
+
+	public String getSelectedEarnCode() {
+		return selectedEarnCode;
+	}
+
+	public void setSelectedEarnCode(String selectedEarnCode) {
+		this.selectedEarnCode = selectedEarnCode;
+	}
+
+	public PayCalendarDates getPayCalendarDates() {
+		return payCalendarDates;
+	}
+
+	public void setPayCalendarDates(PayCalendarDates payCalendarDates) {
+		this.payCalendarDates = payCalendarDates;
 	}
 
 }

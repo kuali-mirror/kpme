@@ -14,7 +14,7 @@ public class GracePeriodRule extends TkRule {
     
 	private static final long serialVersionUID = 1L;
 
-	private Long gracePeriodRuleId;
+	private Long tkGracePeriodRuleId;
 	private Date effDt;
 	private boolean active;
 	private BigDecimal graceMins;
@@ -30,16 +30,6 @@ public class GracePeriodRule extends TkRule {
 		toStringMap.put("hourFactor", hourFactor);
 		
 		return toStringMap;
-	}
-
-	
-	public Long getGracePeriodRuleId() {
-	    return gracePeriodRuleId;
-	}
-
-
-	public void setGracePeriodRuleId(Long gracePeriodRuleId) {
-	    this.gracePeriodRuleId = gracePeriodRuleId;
 	}
 
 
@@ -100,6 +90,16 @@ public class GracePeriodRule extends TkRule {
 	public void applyRule(TkRuleContext tkRuleContext) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	public Long getTkGracePeriodRuleId() {
+		return tkGracePeriodRuleId;
+	}
+
+
+	public void setTkGracePeriodRuleId(Long tkGracePeriodRuleId) {
+		this.tkGracePeriodRuleId = tkGracePeriodRuleId;
 	}
 
 

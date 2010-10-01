@@ -17,7 +17,7 @@
 		<property name="attributes">
 			<list>
 				<ref bean="ShiftDifferentialRule-location" />
-				<ref bean="ShiftDifferentialRule-salGroup" />
+				<ref bean="ShiftDifferentialRule-tkSalGroup" />
 				<ref bean="ShiftDifferentialRule-payGrade" />
 				<ref bean="ShiftDifferentialRule-effectiveDate" />
 				<ref bean="ShiftDifferentialRule-earnCode" />
@@ -59,9 +59,9 @@
 		<property name="label" value="Location" />
 	</bean>
 
-	<!-- salGroup -->
-	<bean id="ShiftDifferentialRule-salGroup" parent="ShiftDifferentialRule-salGroup-parentBean" />
-	<bean id="ShiftDifferentialRule-salGroup-parentBean" abstract="true"
+	<!-- tkSalGroup -->
+	<bean id="ShiftDifferentialRule-tkSalGroup" parent="ShiftDifferentialRule-tkSalGroup-parentBean" />
+	<bean id="ShiftDifferentialRule-tkSalGroup-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Sal. Group" />
 		<property name="maxLength" value="10" />
@@ -73,7 +73,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="salGroup" />
+		<property name="name" value="tkSalGroup" />
 		<property name="label" value="Sal. Group" />
 	</bean>
 
@@ -328,7 +328,7 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="location" />
-				<bean parent="FieldDefinition" p:attributeName="salGroup" />
+				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
 				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 			</list>
@@ -336,7 +336,7 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="location" />
-				<bean parent="FieldDefinition" p:attributeName="salGroup" />
+				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
 				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
