@@ -49,9 +49,9 @@ DELETE FROM `tk_task_s`;
 INSERT INTO `tk_task_s` (`ID`) VALUES ('1000');
 DELETE FROM `tk_task_t`;
 INSERT INTO `tk_task_t`(`tk_task_id`,`task`,`work_area`,`descr`,`admin_descr`,`obj_id`, `ver_nbr`,`USER_PRINCIPAL_ID`)  VALUES
-    (100, '1', '1234', 'description 1', 'admin description 1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
-    (101, '2', '1234', 'description 2', 'admin description 2', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
-    (102, '3', '1234', 'description 3', 'admin description 3', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin');
+    (100, 1, 1234, 100, 'description 1', 'admin description 1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', 1, 'admin');
+	(101, 2, 1234, 101, 'description 2', 'admin description 2', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', 1, 'admin');
+	(102, 3, 1234, 102, 'description 3', 'admin description 3', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', 1, 'admin');
 
 #
 # Assignments
@@ -192,7 +192,7 @@ INSERT INTO `tk_roles_t` (`TK_ROLES_ID`, `PRINCIPAL_ID`, `ROLE_NAME`, `USER_PRIN
     ('20','eric',  'TK_ORG_ADMIN', 'admin', '999', NULL, '2010-08-20', '2010-08-20 16:12:57', 1),
     ('21','eric',  'TK_APPROVER', 'admin', '999', NULL, '2010-08-20', '2010-08-20 16:13:57', 0),
     ('22','admin', 'TK_APPROVER', 'admin', '1234', NULL, '2010-01-05', '2010-01-05 15:12:57', 1);
-
+    
 #
 # Pay Calendar
 DELETE FROM `tk_py_calendar_s`;

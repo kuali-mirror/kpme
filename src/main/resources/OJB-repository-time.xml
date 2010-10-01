@@ -93,6 +93,7 @@
 	
 	<class-descriptor class="org.kuali.hr.time.timeblock.TimeBlockHistory" table="tk_time_block_hist_t">
 		<field-descriptor name="tkTimeBlockHistoryId"	column="tk_time_block_hist_id" 		jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_time_block_hist_s" />
+		<field-descriptor name="tkTimeBlockId"			column="tk_time_block_id" 			jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="documentId" 			column="document_id" 				jdbc-type="VARCHAR" length="14" nullable="false" primarykey="false" />
 		<field-descriptor name="jobNumber" 				column="job_number" 				jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="tkWorkAreaId" 			column="tk_work_area_id" 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />

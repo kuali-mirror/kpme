@@ -60,8 +60,11 @@ public class ClockAction extends TimesheetAction {
     	    }
     	    
     	    // this logic is required in order to get the last clocked-in timestamp for the hour calculation when saving the time block.
-    	    Timestamp lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId()).getTimestamp();
-    	    caf.setLastClockTimestamp(lastClockTimestamp);
+    	    ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId());
+    	    if(lastClockLog != null) {
+	    	    Timestamp lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId()).getTimestamp();
+	    	    caf.setLastClockTimestamp(lastClockTimestamp);
+    	    }
     	    
     	    ClockLog clockLog = TkServiceLocator.getClockLogService().saveClockAction(caf);
     	    caf.setClockLog(clockLog);
