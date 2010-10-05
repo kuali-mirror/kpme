@@ -230,6 +230,7 @@
 					<wtpmanifest>true</wtpmanifest>
 					<wtpapplicationxml>true</wtpapplicationxml>
 					<wtpversion>2.0</wtpversion>
+					<wtpContextName>tk-dev</wtpContextName>
 				</configuration>
 			</plugin>
 			<plugin>

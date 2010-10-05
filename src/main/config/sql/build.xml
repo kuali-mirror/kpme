@@ -50,7 +50,8 @@
 				<fileset dir="./${db.schema}" includes="*.sql" />
 			</path>
 			<sequential>
-				<propertyregex override="yes" property="file.num" input="@{file}" regexp="(\d*)-.*?" select="\1" casesensitive="false" />
+				
+				<propertyregex override="yes" property="file.num" input="@{file}" regexp=".*?${my.file.seperator}(\d*)-.*?" select="\1" casesensitive="false" />
 				<propertyregex override="yes" property="sql.version" input="@{file}" regexp=".*?-(\d\.\d\.\d)-.*?" select="\1" casesensitive="false" />
 				<versionComparator appVersion="${app.version}" sqlVersion="${sql.version}" resultVar="result.var" />
 				<if>
@@ -66,11 +67,12 @@
 
 	<!--
 		- creates the dbdeploy changelog table (only the first time)
-		- DROP DATABASE IF EXISTS ${db.schema};
 	-->
 	<target name="create-changelog-table">
 		<echo>${db.url}${db.schema}</echo>
 		<sql driver="${db.driver}" url="${db.url}" userid="${db.user}" password="${db.password}" classpathref="mysql.classpath">
+			DROP DATABASE IF EXISTS ${db.schema};
+			
 			CREATE DATABASE IF NOT EXISTS ${db.schema};
 			USE ${db.schema};
 			CREATE TABLE IF NOT EXISTS changelog (
@@ -118,13 +120,23 @@
 		- for each folder call the create-and-apply-database or create-database-scripts task  (depending on the environment) to create the databases for each schema										 
 	-->
 	<target name="dbdeploy-maven">
+		<if>
+			<equals arg1="${env.OS}" arg2="Windows_NT"/>
+			<then>
+				<var name="my.file.seperator" value="\\" />
+			</then>
+			<else>
+				<var name="my.file.seperator" value="/" />
+			</else>
+		</if>
 		<for param="folder">
 			<path>
 				<dirset dir="${basedir}" />
 			</path>
 			<sequential>
 				<var name="schema.name" value="-1" />
-				<propertyregex override="yes" property="schema.name" input="@{folder}" regexp=".*?sql\\(.*)" select="\1" casesensitive="false" />
+				
+				<propertyregex override="yes" property="schema.name" input="@{folder}" regexp=".*?sql${my.file.seperator}(.*)" select="\1" casesensitive="false" />
 				<if>
 					<not>
 						<equals arg1="${schema.name}" arg2="-1" />
