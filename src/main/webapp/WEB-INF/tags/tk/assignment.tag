@@ -13,7 +13,7 @@
 	</c:when>
 	<c:otherwise>
 		<select id="assignment" name="selectedAssignment">
-			<option value="" selected="selected">-- select one --</option>
+			<option value="" selected="selected">-- select an assignment --</option>
 			<c:forEach var="assignment" items="${assignments}">
 				<option value="${assignment.key}">${assignment.value}</option>
 			</c:forEach>

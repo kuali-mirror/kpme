@@ -33,64 +33,12 @@ $(document).ready(function() {
 
                 form.dialog({
                     beforeclose: function(event, ui) {
-                        var title;
-                        var startTime = $('#beginTimeField');
-                        var endTime = $('#endTimeField');
-                        var hours = $('#hoursField');
-
-                        // this is for non-clock in / out earn codes, like vac, sick, etc.
-                        if(hours.val() != '') {
-                            title = $('#assignment').val() + " - " + $('#earnCode').val();
-
-                            start.setHours(9);
-                            start.setMinutes(0);
-
-                            end.setHours(9+Number(hours.val()));
-                            end.setMinutes(0);
-
-                            calendar.fullCalendar('renderEvent',
-                              {
-                                  title: title,
-                                  start: start,
-                                  end: end,
-                                  allDay: false
-                              },
-                              true // make the event "stick"
-                            );
-                            calendar.fullCalendar('unselect');
-                        }
-
-                        // this is for stardard clock in / out earn codes
-                        if(startTime.val() != '' && endTime.val() != '') {
-
-                            startTime = $('#beginTimeField').parseTime();
-                            endTime = $('#endTimeField').parseTime();
-
-                            title = $('#assignment').val() + " - " + $('#earnCode').val();
-
-                            start.setHours(startTime['hour']);
-                            start.setMinutes(startTime['minute']);
-
-                            end.setHours(endTime['hour']);
-                            end.setMinutes(endTime['minute']);
-
-                            calendar.fullCalendar('renderEvent',
-                              {
-                                  title: title,
-                                  start: start,
-                                  end: end,
-                                  allDay: false
-                              },
-                              true // make the event "stick"
-                            );
-                            calendar.fullCalendar('unselect');
-                        }
                         
                         // reset assignment and earn code
                         $('#assignment > option:first').attr('selected','selected');
                         
                     	var params = {};
-                        params['assignmentUniqueId'] = $('#assignment:first').val();
+                        params['selectedAssignment'] = $('#assignment:first').val();
                     	
                         $.ajax({
                             url: "TimeDetail.do?methodToCall=getEarnCodes",
@@ -204,17 +152,32 @@ $(document).ready(function() {
 
                 if(bValid) {
                     var params = {};
-                    params['beginDate'] = $("#date-range-begin").val();
-                    params['endDate'] = $("#date-range-end").val();
-                    params['earnCode'] = $("#earnCode").val();
-                    params['assignment'] = $("#assignment").val();
-                    params['beginTime'] = $("#beginTimeField-entry").val();
-                    params['endTime'] = $("#endTimeField-entry").val();
+                    var dateRangeStart = $("#date-range-begin").val().split("/");
+                    var dateRangeEnd = $("#date-range-end").val().split("/");
+                    var start = startTime.parseTime();
+                    var end = endTime.parseTime();
+                    
+                    var startDateTime = new Date();
+                    startDateTime.setFullYear(dateRangeStart[2], dateRangeStart[0]-1, dateRangeStart[1]);
+                    startDateTime.setHours(start['hour']);
+                    startDateTime.setMinutes(start['minute']);
+                    startDateTime.setSeconds(0)
+                    startDateTime.setMilliseconds(0);
+                    var endDateTime = new Date();
+                    endDateTime.setFullYear(dateRangeEnd[2], dateRangeEnd[0]-1, dateRangeEnd[1]);
+                    endDateTime.setHours(end['hour']);
+                    endDateTime.setMinutes(end['minute']);
+                    endDateTime.setSeconds(0)
+                    endDateTime.setMilliseconds(0);
+
+                    params['startTime'] = startDateTime.getTime();
+                    params['endTime'] = endDateTime.getTime();
+                    params['selectedEarnCode'] = $("#earnCode").val();
+                    params['selectedAssignment'] = $("#assignment").val();
                     params['acrossDays'] = $('#acrossDays').is(':checked') ? 'y' : 'n';
 
                     $.ajax({
 	                    url: "TimeDetail.do?methodToCall=addTimeBlock",
-	                    // dataType: 'json',
 	                    data: params,
 	                    cache: false,
 	                    success: function() {
@@ -225,7 +188,6 @@ $(document).ready(function() {
                         	updateTips("Error: Can't save data.");
                         }
 	                });
-
 
                     fieldsToValidate.val('').removeClass('ui-state-error');
                 }

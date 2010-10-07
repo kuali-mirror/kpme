@@ -30,8 +30,9 @@ public class Job extends PersistableBusinessObjectBase {
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-
+		toStringMap.put("jobId", hrJobId);
 		toStringMap.put("principalId", principalId);
+		toStringMap.put("tkSalGroup", tkSalGroup);
 
 		return toStringMap;
 	}

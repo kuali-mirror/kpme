@@ -22,8 +22,6 @@ public class TimesheetActionForm extends TkForm {
 	private String selectedAssignment;
 	private String selectedEarnCode;
 	
-	
-	
 	public TimesheetDocument getTimesheetDocument() {
 		return timesheetDocument;
 	}
@@ -71,5 +69,4 @@ public class TimesheetActionForm extends TkForm {
 	public void setPayCalendarDates(PayCalendarDates payCalendarDates) {
 		this.payCalendarDates = payCalendarDates;
 	}
-
 }

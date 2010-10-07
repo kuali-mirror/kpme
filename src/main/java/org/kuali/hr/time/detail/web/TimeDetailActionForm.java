@@ -18,17 +18,12 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	// this is for the ajax call
 	private String outputString;
 	private String timeBlockId;
-	private String earnCode;
-	private String assignment;
-	private Date beginDate;
-	private Date endDate;
-	private String beginTime;
-	private String endTime;
+	private Long startTime;
+	private Long endTime;
 	private String acrossDays;
 	private List<TimeBlock> timeBlockList;
-	// (concat(job number, work_area, task))
-	private String assignmentUniqueKey;
-
+	private TimeBlock timeBlock;
+	private String clockAction;
 	
 	public Date getBeginPeriodDate() {
 		return beginPeriodDate;
@@ -61,51 +56,19 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 		this.timeBlockId = timeBlockId;
 	}
 
-	public String getEarnCode() {
-		return earnCode;
+	public Long getStartTime() {
+		return startTime;
 	}
 
-	public void setEarnCode(String earnCode) {
-		this.earnCode = earnCode;
+	public void setStartTime(Long startTime) {
+		this.startTime = startTime;
 	}
 
-	public String getAssignment() {
-		return assignment;
-	}
-
-	public void setAssignment(String assignment) {
-		this.assignment = assignment;
-	}
-
-	public Date getBeginDate() {
-		return beginDate;
-	}
-
-	public void setBeginDate(Date beginDate) {
-		this.beginDate = beginDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public String getBeginTime() {
-		return beginTime;
-	}
-
-	public void setBeginTime(String beginTime) {
-		this.beginTime = beginTime;
-	}
-
-	public String getEndTime() {
+	public Long getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(String endTime) {
+	public void setEndTime(Long endTime) {
 		this.endTime = endTime;
 	}
 
@@ -117,19 +80,28 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 		this.acrossDays = acrossDays;
 	}
 
-	public List<TimeBlock> getTimeBlocks() {
+	public List<TimeBlock> getTimeBlockList() {
 		return timeBlockList;
 	}
 
-	public void setTimeBlocks(List<TimeBlock> timeBlockList) {
+	public void setTimeBlockList(List<TimeBlock> timeBlockList) {
 		this.timeBlockList = timeBlockList;
 	}
 
-	public String getAssignmentUniqueKey() {
-		return assignmentUniqueKey;
+	public TimeBlock getTimeBlock() {
+		return timeBlock;
 	}
 
-	public void setAssignmentUniqueKey(String assignmentUniqueKey) {
-		this.assignmentUniqueKey = assignmentUniqueKey;
+	public void setTimeBlock(TimeBlock timeBlock) {
+		this.timeBlock = timeBlock;
 	}
+	
+	public String getClockAction() {
+		return clockAction;
+	}
+
+	public void setClockAction(String clockAction) {
+		this.clockAction = clockAction;
+	}
+
 }

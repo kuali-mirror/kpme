@@ -229,7 +229,8 @@ function magicTime(input) {
             // el.firstChild.nodeValue = d.toTimeString();
             // el.innerHTML = d.toTimeString();
             // el.innerHTML = "<input type='hidden' id='"+ input.id +"-entry' value='" + d.getHours() + ":" + d.getMinutes() + "'/>";
-            el.innerHTML = "<input type='hidden' id='"+ input.id +"-entry' value='" + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + "'/>";
+            // el.innerHTML = "<input type='hidden' id='"+ input.id +"-entry' value='" + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + "'/>";
+            el.innerHTML = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
             // the line below will generate the text in the message div
             // el.innerHTML = formatDate(d);
             el.className = 'normal';

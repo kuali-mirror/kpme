@@ -213,7 +213,7 @@ $(document).ready(function() {
     $('#assignment').change(function(){
     	
     	var params = {};
-        params['assignmentUniqueKey'] = $(this).val();
+        params['selectedAssignment'] = $(this).val();
     	
         $.ajax({
             url: "TimeDetail.do?methodToCall=getEarnCodes",

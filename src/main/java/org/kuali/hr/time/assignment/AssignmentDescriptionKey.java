@@ -3,9 +3,11 @@ package org.kuali.hr.time.assignment;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.kuali.hr.time.util.TkConstants;
 
 public class AssignmentDescriptionKey {
+	private static final Logger LOG = Logger.getLogger(AssignmentDescriptionKey.class);
 	
 	private Long jobNumber;
 	private Long workArea;
@@ -32,6 +34,7 @@ public class AssignmentDescriptionKey {
 	}
 	public AssignmentDescriptionKey(String assignmentKey) {
 		
+		try {
 		Pattern keyPattern = Pattern.compile("^\\d{1,}_\\d{1,}_\\d{1,}");
 		Matcher match = keyPattern.matcher(assignmentKey);
 		if(!match.matches()) {
@@ -43,6 +46,10 @@ public class AssignmentDescriptionKey {
 		this.jobNumber = Long.parseLong(key[0]);
 		this.workArea = Long.parseLong(key[1]);
 		this.task = Long.parseLong(key[2]);
+		}
+		catch(NullPointerException npe) {
+			LOG.error("The assignment key is null");
+		}
 		
 	}
 	public Long getJobNumber() {

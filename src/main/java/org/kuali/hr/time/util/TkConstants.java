@@ -17,6 +17,10 @@ public class TkConstants {
     public static final String LUNCH_OUT = "LO";
     public static final String BREAK_IN = "BI";
     public static final String BREAK_OUT = "BO";
+    // action history
+    public static final String DELETE = "DELETE";
+    public static final String ADD = "ADD";
+    public static final String MODIFIED = "MODIFIED";
 
     public static final String   GMT_TIME_ZONE_ID = "Etc/GMT";
     public static final TimeZone GMT_TIME_ZONE    = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
@@ -48,4 +52,5 @@ public class TkConstants {
     
     public static final String EARN_CODE_RGH = "RGN";
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";
+    
 }

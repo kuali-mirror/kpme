@@ -224,10 +224,11 @@
 		<collection-descriptor
 			name="tasks"
 			element-class-ref="org.kuali.hr.time.task.Task"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
 			auto-retrieve="true"
 			auto-update="object"
 			auto-delete="object"
-			>
+			proxy="false">
 			<inverse-foreignkey field-ref="tkWorkAreaId"/>
 		</collection-descriptor>
 

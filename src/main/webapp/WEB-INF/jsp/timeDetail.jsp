@@ -80,7 +80,7 @@
 
 		<%--This is for visually impaired users --%>
 		<!--
-		<c:forEach var="timeBlock" items="${Form.timeBlocks}" varStatus="row">
+		<c:forEach var="timeBlock" items="${Form.timeBlockList}" varStatus="row">
 			Document Id: ${timeBlock.documentId}<br/>
 			Job Number: ${timeBlock.jobNumber}<br/>
 			Workarea Id: ${timeBlock.workArea}<br/>
@@ -116,26 +116,28 @@
 									<td>Earn code: </td>
 									<td>
 										<!-- <tk:earnCode earnCodes="${Form.earnCodeDescriptions}"/> -->
-										<select id='earnCode' name="selectedEarnCode"></select>
+										<select id='earnCode' name="selectedEarnCode">
+											<option value=''>-- select an assignment --</option>
+										</select>
 									</td>
 								</tr>
 								<tr id="clockIn">
 									<td><span style="float:right;">In:</span></td>
 									<td>
-										<input name="beginTime" id="beginTimeField" type="text" size="10" onblur="magicTime(this)" onfocus="if (this.className != 'error') this.select()"/>
+										<input name="beginTimeField" id="beginTimeField" type="text" size="10" onblur="magicTime(this)" onfocus="if (this.className != 'error') this.select()"/>
 										 <button tabindex="-1" style="width:20px; height:20px; vertical-align: text-top"
 										 title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530"
 										 id="beginTimeHelp">help</button>
-										<div id="beginTimeField-messages"></div>
+										<div id="beginTimeField-messages" style="display:none;"></div>
 									</td>
 								</tr>
 								<tr id="clockOut">
 									<td><span style="float:right;">Out:</span></td>
 									<td>
-										<input name="endTime" id="endTimeField" type="text" size="10" onblur="magicTime(this)" onfocus="if (this.className != 'error') this.select()"/>
+										<input name="endTimeField" id="endTimeField" type="text" size="10" onblur="magicTime(this)" onfocus="if (this.className != 'error') this.select()"/>
 										<button style="width:20px; height:20px; vertical-align: text-top" id="endTimeHelp"
 										title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">help</button>
-										<div id="endTimeField-messages"></div>
+										<div id="endTimeField-messages" style="display:none;"></div>
 									</td>
 								</tr>
 								<tr id="hours" style="display:none;">
@@ -262,8 +264,9 @@
 
 		<tk:timeSummary timeSummary="${Form.timesheetDocument.timeSummary}" />
 
+		<%--
 		<div id="timesheet-summary">
-			<div style="clear:both; text-align:center; font-weight: bold; margin-top:20px; margin-bottom: 5px;">Summary <%--(<a href="#" id="basic">Basic</a> / <a href="#" id="advance">Advanced</a> ) --%></div>
+			<div style="clear:both; text-align:center; font-weight: bold; margin-top:20px; margin-bottom: 5px;">Summary (<a href="#" id="basic">Basic</a> / <a href="#" id="advance">Advanced</a> )</div>
 			<div id="timesheet-table-basic">
 
 			<table style="width:100%;">
