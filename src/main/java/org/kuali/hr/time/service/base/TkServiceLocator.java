@@ -8,6 +8,7 @@ import org.kuali.hr.time.clocklog.service.ClockLogService;
 import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.earncode.service.EarnCodeService;
 import org.kuali.hr.time.earngroup.service.EarnGroupService;
+import org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarDatesService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
@@ -22,6 +23,7 @@ import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.timesummary.service.TimeSummaryService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
+import org.kuali.hr.time.workschedule.service.WorkScheduleService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -51,6 +53,8 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIME_SUMMARY_SERVICE = "timeSummaryService";
 	public static final String TK_TIME_EARN_GROUP_SERVICE = "earnGroupService";
 	public static final String TK_TIME_HOUR_DETAIL_SERVICE= "timeHourDetailService";
+	public static final String TK_DAILY_OVERTIME_RULE_SERVICE = "dailyOvertimeRuleService";
+	public static final String TK_WORK_SCHEDULE_SERVICE = "workScheduleService";
 	
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -59,6 +63,14 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static void stop() throws Exception {
 //		CONTEXT.stop();
+	}
+	
+	public static WorkScheduleService getWorkScheduleService() {
+		return (WorkScheduleService) CONTEXT.getBean(TK_WORK_SCHEDULE_SERVICE);
+	}
+	
+	public static DailyOvertimeRuleService getDailyOvertimeRuleService() {
+		return (DailyOvertimeRuleService) CONTEXT.getBean(TK_DAILY_OVERTIME_RULE_SERVICE);
 	}
 	
 	public static TkRoleService getTkRoleService() {

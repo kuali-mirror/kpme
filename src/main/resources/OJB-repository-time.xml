@@ -474,9 +474,9 @@
 		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" nullable="false" />
 		<field-descriptor name="dept" column="DEPT" jdbc-type="VARCHAR" length="21" />
 		<field-descriptor name="workArea" column="work_area"  jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="principalId" column="PRINCIPAL_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="principalId" column="PRINCIPAL_ID" jdbc-type="VARCHAR" length="40" />
 		<field-descriptor name="active" column="ACTIVE" jdbc-type="bit" />
-		<field-descriptor name="timeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		
@@ -493,7 +493,7 @@
 
 	<!-- Work ScheduleEntry -->
 	<class-descriptor class="org.kuali.hr.time.workschedule.WorkScheduleEntry" table="hr_work_schedule_entry_t">
-		<field-descriptor name="hrWorkScheduleEntryId" column="HR_WORK_SCHDULE_ENTRY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_work_schedule_entry_s"  />
+		<field-descriptor name="hrWorkScheduleEntryId" column="HR_WORK_SCHEDULE_ENTRY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_work_schedule_entry_s"  />
 		<field-descriptor name="hrWorkScheduleId" column="HR_WORK_SCHEDULE_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="calDayId" column="CAL_DAY_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="dayOfPeriodId" column="DAY_OF_PERIOD_ID" jdbc-type="BIGINT" />

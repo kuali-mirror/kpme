@@ -297,6 +297,10 @@
     <bean id="timesheetDocumentHeaderDao" class="org.kuali.hr.time.workflow.dao.TimesheetDocumentHeaderDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+    <bean id="dailyOvertimeRuleDao" class="org.kuali.hr.time.overtime.daily.rule.dao.DailyOvertimeRuleDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 
     <!--
     <bean id="clockLocationDao" class="org.kuali.hr.time.clock.location.dao.ClockLocationDaoOjbImpl">
@@ -324,6 +328,10 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
     
+    <bean id="workScheduleDao" class="org.kuali.hr.time.workschedule.dao.WorkScheduleDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
 	<!-- Time Services for Business Logic -->
 
     <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
@@ -335,6 +343,14 @@
     	<property name="clockLocationDao" ref="clockLocationDao"/>
     </bean>
     -->
+    
+    <bean id="workScheduleService" class="org.kuali.hr.time.workschedule.service.WorkScheduleServiceImpl">
+    	<property name="workScheduleDao" ref="workScheduleDao"/>
+    </bean>
+    
+    <bean id="dailyOvertimeRuleService" class="org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleServiceImpl">
+    	<property name="dailyOvertimeRuleDao" ref="dailyOvertimeRuleDao"/>
+    </bean>
     
     <bean id="timeCollectionRuleService" class="org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleServiceImpl">
     	<property name="timeCollectRuleDao" ref="timeCollectionRuleDao"/>

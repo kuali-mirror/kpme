@@ -50,7 +50,7 @@ public class WorkflowTimesheetTest extends TkTestCase {
 		kewSourceDocumentStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(tdoc.getDocumentHeader().getDocumentId());
 		tkSourceDocumentStatus  = tdoc.getDocumentHeader().getDocumentStatus();
 		
-		assertEquals("Status should be equal.", kewSourceDocumentStatus, tkSourceDocumentStatus);		
+		assertEquals("Status should be equal.", kewSourceDocumentStatus, tkSourceDocumentStatus);
 	}
 	
 	public TKUser getPopulatedTkUser() {

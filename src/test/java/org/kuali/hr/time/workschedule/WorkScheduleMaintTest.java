@@ -13,6 +13,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+// djunk touched 7 oct 2010 - why are principal IDs set as longs?
 public class WorkScheduleMaintTest extends TkTestCase{
 
 	private static final String TEST_CODE = "0";	
@@ -124,7 +125,7 @@ public class WorkScheduleMaintTest extends TkTestCase{
 		}
 		
 		workSchedulewithInvalidDept.setEffectiveDate(TEST_DATE);		
-		workSchedulewithInvalidDept.setPrincipalId(TEST_ID);
+		//workSchedulewithInvalidDept.setPrincipalId(TEST_ID);
 		workSchedulewithInvalidDept.setWorkScheduleDesc(TEST_CODE);		
 		workSchedulewithInvalidDept.setActive(true);		 
 		workSchedulewithInvalidDept.setWorkArea(TEST_ID);
@@ -154,7 +155,7 @@ public class WorkScheduleMaintTest extends TkTestCase{
 			}
 		}
 		workSchedulewithInvalidWorkArea.setEffectiveDate(TEST_DATE);		
-		workSchedulewithInvalidWorkArea.setPrincipalId(TEST_ID);
+		//workSchedulewithInvalidWorkArea.setPrincipalId(TEST_ID);
 		workSchedulewithInvalidWorkArea.setWorkScheduleDesc(TEST_CODE);		
 		workSchedulewithInvalidWorkArea.setActive(true);		 
 		workSchedulewithInvalidWorkArea.setWorkArea(TEST_CODE_WORKAREA_INVALID);

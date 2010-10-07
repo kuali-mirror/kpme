@@ -23,7 +23,7 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 	private String dept;
 	private Department department;
 	private Long workArea;	
-	private Long principalId;
+	private String principalId;
 	private Timestamp timestamp;
 	private boolean active;
 	private WorkArea workAreaObj;		
@@ -88,17 +88,6 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 		return workArea;
 	}
 
-
-	public Long getPrincipalId() {
-		return principalId;
-	}
-
-
-	public void setPrincipalId(Long principalId) {
-		this.principalId = principalId;
-	}
-
-
 	public boolean isActive() {
 		return active;
 	}
@@ -154,6 +143,16 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 
 	public void setHrWorkScheduleId(Long hrWorkScheduleId) {
 		this.hrWorkScheduleId = hrWorkScheduleId;
+	}
+
+
+	public String getPrincipalId() {
+		return principalId;
+	}
+
+
+	public void setPrincipalId(String principalId) {
+		this.principalId = principalId;
 	}
 
 
