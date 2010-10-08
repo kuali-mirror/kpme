@@ -14,7 +14,8 @@ INSERT INTO `hr_job_t` (`HR_JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`active`
 	('1019', 'eric', '2', '2010-08-10', 1, 'TEST-DEPT', '10', NULL, '2010-08-10 16:22:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW'),
 	('1020', 'eric', '2', '2010-08-13', 1, 'TEST-DEPT', '11', NULL, '2010-08-13 16:22:22', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW'),
 	('1021', 'admin', '3', '2010-08-15', 1, 'NODEP', 'NOP', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW'),
-	('1022', 'admin', '4', '2010-08-15', 1, 'NODEP', 'A10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW');
+	('1022', 'admin', '4', '2010-08-15', 1, 'NODEP', 'A10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW'),
+	('1023', 'admin', '5', '2010-08-15', 1, 'LORA-DEPT', 'A10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW');
 
 #
 # Departments
@@ -30,7 +31,8 @@ INSERT INTO `tk_dept_t` (`tk_dept_id`,`dept`,`DESCRIPTION`,`ORG`,`CHART`,`EFFDT`
     (105 , 'TEST-DEPT5' , 'test department5' , 'TEST' , 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 1)  ,
     (106 , 'TEST-DEPT6' , 'test department6' , 'TEST' , 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 1)  ,
     (107 , 'NODEP'      , 'test department7' , 'NODEP', 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 1),
-    (108 , 'TEST-DEPT7' , 'test department7' , 'TEST' , 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 1);
+    (108 , 'TEST-DEPT7' , 'test department7' , 'TEST' , 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 1),
+    (109 , 'LORA-DEPT'  , 'lora\'s department' , 'LORA' , 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 1);
 
 #
 # Work Areas
@@ -41,7 +43,8 @@ INSERT INTO `tk_work_area_t` (`TK_WORK_AREA_ID`, `WORK_AREA`, `EFFDT`,`ACTIVE`,`
     (100,'1234', '2010-01-05', 1, 'work area description', 'TEST-DEPT', 'OT1', 'work area admin description', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20'),
     (101, '2345', '2010-01-05', 1, 'work area description2', 'TEST-DEPT2', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20'),
     (102, '3456', '2010-01-05', 1, 'work area description3', 'TEST-DEPT3', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20'),
-    (103, '4567', '2010-01-05', 1, 'work area description4', 'TEST-DEPT4', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20');
+    (103, '4567', '2010-01-05', 1, 'work area description4', 'TEST-DEPT4', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20'),
+    (104, '1000', '2010-01-05', 1, 'lora\'s work area', 'LORA-DEPT', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20');
 
 #
 # Task
@@ -51,7 +54,8 @@ DELETE FROM `tk_task_t`;
 INSERT INTO `tk_task_t`(`tk_task_id`,`task`,`work_area`,`descr`,`admin_descr`,`obj_id`, `ver_nbr`,`USER_PRINCIPAL_ID`)  VALUES
     (100, '1', '1234', 'description 1', 'admin description 1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
     (101, '2', '1234', 'description 2', 'admin description 2', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
-    (102, '3', '1234', 'description 3', 'admin description 3', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin');
+    (102, '3', '1234', 'description 3', 'admin description 3', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
+    (103, '4', '1000', 'task 4', 'admin description 4', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin');
 
 #
 # Assignments
@@ -59,13 +63,14 @@ DELETE FROM `tk_assignment_s`;
 INSERT INTO `tk_assignment_s` (`ID`) VALUES ('1000');
 DELETE FROM `tk_assignment_t`;
 INSERT INTO `tk_assignment_t` (`TK_ASSIGNMENT_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`WORK_AREA`,`TASK`,`OBJ_ID`,`TIMESTAMP`,`VER_NBR`,`active`) VALUES
-    ('10' , 'admin' , '1' , '2010-08-01' , '1234' , '1' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 1)  ,
-    ('11' , 'admin' , '2' , '2010-08-01' , '1234' , '2' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 1)  ,
-    ('12' , 'eric'  , '1' , '2010-08-01' , '2345' , '1' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 1)  ,
-    ('13' , 'eric'  , '2' , '2010-08-01' , '3456' , '1' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 1)  ,
-    ('14' , 'admin' , '3' , '2010-08-15' , '1234' , '1' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , 1)  ,
-    ('15' , 'admin' , '1' , '2010-08-04' , '1234' , '1' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , 1)  ,
-    ('16' , 'admin' , '4' , '2010-08-15' , '1234' , '1' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , 1)  ;
+    (10 , 'admin' , 1 , '2010-08-01' , 1234 , 1 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 1)  ,
+    (11 , 'admin' , 2 , '2010-08-01' , 1234 , 2 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 1)  ,
+    (12 , 'eric'  , 1 , '2010-08-01' , 2345 , 1 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 1)  ,
+    (13 , 'eric'  , 2 , '2010-08-01' , 3456 , 1 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 1)  ,
+    (14 , 'admin' , 3 , '2010-08-15' , 1234 , 1 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , 1)  ,
+    (15 , 'admin' , 1 , '2010-08-04' , 1234 , 1 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , 1)  ,
+    (16 , 'admin' , 4 , '2010-08-15' , 1234 , 1 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , 1)  ,
+    (17 , 'admin' , 5 , '2010-08-15' , 1000 , 4 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , 1)  ;
 
 #
 # dept earn code
@@ -73,18 +78,21 @@ DELETE FROM `tk_dept_earn_code_s`;
 INSERT INTO `tk_dept_earn_code_s` VALUES('1000');
 DELETE FROM `tk_dept_earn_code_t`;
 INSERT INTO `TK_DEPT_EARN_CODE_T`
-    (`TK_DEPT_EARN_CODE_ID`, `DEPT`, `TK_SAL_GROUP`, `EARN_CODE`, `EMPLOYEE`, `APPROVER`, `ORG_ADMIN`, `EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
-	('10' , 'TEST-DEPT'  , 'A10' , 'RGH' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('11' , 'TEST-DEPT'  , 'A10' , 'SCK' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('12' , 'TEST-DEPT'  , 'A10' , 'VAC' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('13' , 'TEST-DEPT'  , 'A10' , 'WEP' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('14' , 'TEST-DEPT2' , 'A10' , 'HAZ' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('15' , 'TEST-DEPT2' , 'A10' , 'HIP' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('16' , 'TEST-DEPT2' , 'A10' , 'OC1' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ,
-	('17' , 'TEST-DEPT2' , 'A10' , 'OC2' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)    ,
-	('18' , '*'          , 'A10' , 'XYZ' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)    ,
-	('19' , 'TEST-DEPT'  , '*'   , 'XYY' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)    ,
-	('20' , '*'          , '*'   , 'XZZ' , 1 , 1 , 1 , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ;
+    (`TK_DEPT_EARN_CODE_ID` , `DEPT`       , `TK_SAL_GROUP` , `EARN_CODE` , `EMPLOYEE` , `APPROVER` , `ORG_ADMIN` , `EFFDT`      , `TIMESTAMP`           , `ACTIVE`) VALUES
+    ('10'                   , 'TEST-DEPT'  , 'A10'          , 'RGH'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
+    ('11'                   , 'TEST-DEPT'  , 'A10'          , 'SCK'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
+    ('12'                   , 'TEST-DEPT'  , 'A10'          , 'VAC'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
+    ('13'                   , 'TEST-DEPT'  , 'A10'          , 'WEP'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
+    ('14'                   , 'TEST-DEPT2' , 'A10'          , 'HAZ'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
+    ('15'                   , 'TEST-DEPT2' , 'A10'          , 'HIP'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
+    ('16'                   , 'TEST-DEPT2' , 'A10'          , 'OC1'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
+    ('17'                   , 'TEST-DEPT2' , 'A10'          , 'OC2'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
+    ('18'                   , '*'          , 'A10'          , 'XYZ'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
+    ('19'                   , 'TEST-DEPT'  , '*'            , 'XYY'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
+    ('20'                   , '*'          , '*'            , 'XZZ'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
+    ('21'                   , 'LORA-DEPT'  , 'A10'          , 'RGH'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
+    ('22'                   , 'LORA-DEPT'  , 'A10'          , 'SCK'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
+    ('23'                   , 'LORA-DEPT'  , 'A10'          , 'VAC'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)  ;
 
 #
 # earn code
