@@ -332,6 +332,10 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
     
+    <bean id="weeklyOvertimeRuleDao" class="org.kuali.hr.time.overtime.weekly.rule.dao.WeeklyOvertimeRuleDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
 	<!-- Time Services for Business Logic -->
 
     <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
@@ -346,6 +350,10 @@
     
     <bean id="workScheduleService" class="org.kuali.hr.time.workschedule.service.WorkScheduleServiceImpl">
     	<property name="workScheduleDao" ref="workScheduleDao"/>
+    </bean>
+    
+    <bean id="weeklyOvertimeRuleService" class="org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleServiceImpl">
+    	<property name="weeklyOvertimeRuleDao" ref="weeklyOvertimeRuleDao"/>
     </bean>
     
     <bean id="dailyOvertimeRuleService" class="org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleServiceImpl">

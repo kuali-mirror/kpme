@@ -31,7 +31,6 @@ public class DailyOvertimeRuleDaoSpringOjbImpl extends PersistenceBrokerDaoSuppo
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DailyOvertimeRule.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
-		// OJB's awesome sub query setup part 2
 		timestamp.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
 		timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
 		timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");

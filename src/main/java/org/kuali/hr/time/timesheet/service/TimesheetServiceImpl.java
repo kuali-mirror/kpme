@@ -46,7 +46,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		TimesheetDocument timesheetDocument = null;
 
 		if (header == null) {
-			timesheetDocument = this.initiateWorkflowDocument(principalId, payCalendarDates.getEndPeriodDate(), TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
+			timesheetDocument = this.initiateWorkflowDocument(principalId, payCalendarDates.getBeginPeriodDate(), payCalendarDates.getEndPeriodDate(), TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
 			this.loadTimesheetDocumentData(timesheetDocument, principalId, payCalendarDates.getBeginPeriodDate(), payCalendarDates.getEndPeriodDate());
 		} else {
 			timesheetDocument = this.getTimesheetDocument(header.getDocumentId());
@@ -56,7 +56,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		return timesheetDocument;
 	}
 
-	private TimesheetDocument initiateWorkflowDocument(String principalId, Date payEndDate, String documentType, String title) throws WorkflowException {
+	private TimesheetDocument initiateWorkflowDocument(String principalId, Date payBeginDate, Date payEndDate, String documentType, String title) throws WorkflowException {
 		TimesheetDocument timesheetDocument = null;		
 		WorkflowDocument workflowDocument = null;
 
@@ -64,7 +64,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		workflowDocument.setTitle(title);
 
 		String status = workflowDocument.getRouteHeader().getDocRouteStatus();
-		TimesheetDocumentHeader documentHeader = new TimesheetDocumentHeader(workflowDocument.getRouteHeaderId(), principalId, payEndDate, status);
+		TimesheetDocumentHeader documentHeader = new TimesheetDocumentHeader(workflowDocument.getRouteHeaderId(), principalId, payBeginDate, payEndDate, status);
 
 		documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
 		documentHeader.setDocumentStatus("I");

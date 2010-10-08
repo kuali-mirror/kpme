@@ -49,9 +49,9 @@ DELETE FROM `tk_task_s`;
 INSERT INTO `tk_task_s` (`ID`) VALUES ('1000');
 DELETE FROM `tk_task_t`;
 INSERT INTO `tk_task_t`(`tk_task_id`,`task`,`work_area`,`descr`,`admin_descr`,`obj_id`, `ver_nbr`,`USER_PRINCIPAL_ID`)  VALUES
-    (100, 1, 1234, 100, 'description 1', 'admin description 1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', 1, 'admin');
-	(101, 2, 1234, 101, 'description 2', 'admin description 2', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', 1, 'admin');
-	(102, 3, 1234, 102, 'description 3', 'admin description 3', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', 1, 'admin');
+    (100, 1, 1234, 'description 1', 'admin description 1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', 1, 'admin'),
+	(101, 2, 1234, 'description 2', 'admin description 2', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', 1, 'admin'),
+	(102, 3, 1234, 'description 3', 'admin description 3', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', 1, 'admin');
 
 #
 # Assignments
@@ -138,7 +138,7 @@ INSERT INTO `tk_time_collection_rl_t` (`TK_TIME_COLL_RULE_ID`,`DEPT`,`WORK_AREA`
 
 DELETE FROM `tk_time_block_s`;
 INSERT INTO `tk_time_block_s` VALUES ('5000');
-DELETE FROM `tk_time_blcok_t`;
+DELETE FROM `tk_time_block_t`;
 INSERT INTO `tk_time_block_t` (`TK_TIME_BLOCK_ID`,`DOCUMENT_ID`,`JOB_NUMBER`,`WORK_AREA`,`TASK`,`TK_WORK_AREA_ID`,
 	`HR_JOB_ID`,`TK_TASK_ID`,`EARN_CODE`,`BEGIN_TS`,`BEGIN_TS_TZ`,`END_TS`,`END_TS_TZ`,
 	`CLOCK_LOG_CREATED`,`HOURS`,`amount`,`USER_PRINCIPAL_ID`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`) VALUES
@@ -242,13 +242,13 @@ DELETE FROM `HR_WORK_SCHEDULE_S`;
 INSERT INTO `HR_WORK_SCHEDULE_S` (`ID`) VALUES (1000);
 DELETE FROM `HR_WORK_SCHEDULE_T`;
 INSERT INTO `HR_WORK_SCHEDULE_T` (`HR_WORK_SCHEDULE_ID`,`WORK_SCHEDULE_DESC`,`PRINCIPAL_ID`,`DEPT`,`WORK_AREA`,`ACTIVE`,`EFFDT`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`) VALUES
-    (1 , 'used for testing' , 'admin' , 'TEST-DEPT' , 1234 , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1) ,
-    (2 , 'used for testing' , 'admin' , 'TEST-DEPT' , -1   , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1) ,
-    (3 , 'used for testing' , 'admin' , '*'         , 1234 , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1) ,
-    (4 , 'used for testing' , 'admin' , '*'         , -1   , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1) ,
-    (5 , 'used for testing' , '*'     , 'TEST-DEPT' , 1234 , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1) ,
-    (6 , 'used for testing' , '*'     , 'TEST-DEPT' , -1   , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1) ,
-    (7 , 'used for testing' , '*'     , '*'         , 1234 , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1) ,
+    (1 , 'used for testing' , 'admin' , 'TEST-DEPT' , 1234 , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
+    (2 , 'used for testing' , 'admin' , 'TEST-DEPT' , -1   , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
+    (3 , 'used for testing' , 'admin' , '*'         , 1234 , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
+    (4 , 'used for testing' , 'admin' , '*'         , -1   , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
+    (5 , 'used for testing' , '*'     , 'TEST-DEPT' , 1234 , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
+    (6 , 'used for testing' , '*'     , 'TEST-DEPT' , -1   , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
+    (7 , 'used for testing' , '*'     , '*'         , 1234 , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
     (8 , 'used for testing' , '*'     , '*'         , -1   , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1);
 
 #
@@ -273,3 +273,9 @@ INSERT INTO `HR_WORK_SCHEDULE_ENTRY_T` (`HR_WORK_SCHEDULE_ENTRY_ID`, `HR_WORK_SC
 	(14, 7, 1, 1, 40, 'uuid', 1),
 	(15, 8, 1, 1, 40, 'uuid', 1),
 	(16, 8, 1, 1, 40, 'uuid', 1);
+
+DELETE FROM `TK_WEEKLY_OVERTIME_RL_S`;
+INSERT INTO `TK_WEEKLY_OVERTIME_RL_S` (`ID`) VALUES (1000);
+DELETE FROM `TK_WEEKLY_OVERTIME_RL_T`;
+#INSERT INTO `TK_WEEKLY_OVERTIME_RL_T` (`tk_weekly_overtime_rl_id`,`max_hrs_ern_group`,`convert_from_ern_group`,`convert_to_erncd`,`step`,`max_hrs`,`user_principal_id`,`effdt`,`active`,`timestamp`,`obj_id`,`ver_nbr`) VALUES
+#    ();

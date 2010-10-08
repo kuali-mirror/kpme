@@ -17,9 +17,10 @@ public class TimesheetDocumentHeader extends DocumentHeader {
 		
 	}
 	
-	public TimesheetDocumentHeader(Long documentId, String principalId, Date payEndDate, String documentStatus) {
+	public TimesheetDocumentHeader(Long documentId, String principalId, Date payBeginDate, Date payEndDate, String documentStatus) {
 		this.documentId = documentId;
 		this.principalId = principalId;
+		this.payBeginDate = payBeginDate;
 		this.payEndDate = payEndDate;
 		this.documentStatus = documentStatus;
 	}

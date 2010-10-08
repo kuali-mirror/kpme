@@ -9,6 +9,7 @@ import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.earncode.service.EarnCodeService;
 import org.kuali.hr.time.earngroup.service.EarnGroupService;
 import org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleService;
+import org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarDatesService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
@@ -54,6 +55,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIME_EARN_GROUP_SERVICE = "earnGroupService";
 	public static final String TK_TIME_HOUR_DETAIL_SERVICE= "timeHourDetailService";
 	public static final String TK_DAILY_OVERTIME_RULE_SERVICE = "dailyOvertimeRuleService";
+	public static final String TK_WEEKLY_OVERTIME_RULE_SERVICE = "weeklyOvertimeRuleService";
 	public static final String TK_WORK_SCHEDULE_SERVICE = "workScheduleService";
 	
 	public static void start() throws Exception {
@@ -67,6 +69,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	
 	public static WorkScheduleService getWorkScheduleService() {
 		return (WorkScheduleService) CONTEXT.getBean(TK_WORK_SCHEDULE_SERVICE);
+	}
+	
+	public static WeeklyOvertimeRuleService getWeeklyOvertimeRuleService() {
+		return (WeeklyOvertimeRuleService) CONTEXT.getBean(TK_WEEKLY_OVERTIME_RULE_SERVICE);
 	}
 	
 	public static DailyOvertimeRuleService getDailyOvertimeRuleService() {

@@ -40,6 +40,7 @@ TK_TABLES=$TK_TABLES" tk_hour_detail_s tk_hour_detail_t"
 TK_TABLES=$TK_TABLES" tk_roles_s tk_roles_t"
 TK_TABLES=$TK_TABLES" tk_work_area_ovt_pref_t tk_work_area_ovt_pref_s"
 TK_TABLES=$TK_TABLES" tk_hour_detail_hist_t tk_hour_detail_hist_s"
+TK_TABLES=$TK_TABLES" tk_document_header_t"
 
 #mysql -B -h andover -u tk -p  -e "show tables like 'tk%'" tk
 mysqldump -d -u tk -p -h andover tk $TK_TABLES > app_time_mysql.sql

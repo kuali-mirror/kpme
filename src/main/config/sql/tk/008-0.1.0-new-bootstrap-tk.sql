@@ -212,5 +212,71 @@ INSERT INTO `tk_py_calendar_dates_t` (`tk_py_calendar_dates_id`,`tk_py_calendar_
 	('1', '20', '2010-08-01', '00:00:00', '2010-08-14', '23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('2', '20', '2010-08-15', '00:00:00', '2010-08-31', '23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('3', '20', '2010-09-01', '00:00:00', '2010-09-14', '23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('4', '20', '2010-09-15', '00:00:00', '2010-09-30', '23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	('4', '20', '2010-09-15', '00:00:00', '2010-09-30', '23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('5', '20', '2010-10-01', '00:00:00', '2010-10-15', '23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
+#
+# Daily Overtime Rule
+#
+# Note - Do not change IDs, Dept, WorkArea or Task.  These values are used in
+# the test cases.  Other values may be modified for now, until the test cases
+# start looking at them as well
+DELETE FROM `tk_daily_overtime_rl_s`;
+INSERT INTO `tk_daily_overtime_rl_s` (`ID`) VALUES (1000);
+DELETE FROM `tk_daily_overtime_rl_t`;
+INSERT INTO `tk_daily_overtime_rl_t` (`tk_daily_overtime_rl_id`,`dept`,`work_area`,`task`,`location`,`paytype`,`max_gap`,`shift_hours`,`overtime_preference`,`user_principal_id`,`effdt`,`active`,`timestamp`) VALUES
+    (1,  'TEST-DEPT', 1234, 1, 'IN', 'BW', -1, -1, 'OVT', 'admin', '2010-01-01', 1, '2010-08-20 16:13:57'),
+    (2,  'TEST-DEPT', 1234,-1, 'IN', 'BW', -1, -1, 'OVT', 'admin', '2010-01-01', 1, '2010-08-20 16:13:57'),
+    (3,  'TEST-DEPT',   -1, 1, 'IN', 'BW', -1, -1, 'OVT', 'admin', '2010-01-01', 1, '2010-08-20 16:13:57'),
+    (4,  'TEST-DEPT',   -1,-1, 'IN', 'BW', -1, -1, 'OVT', 'admin', '2010-01-01', 1, '2010-08-20 16:13:57'),
+    (5,  '*',         1234, 1, 'IN', 'BW', -1, -1, 'OVT', 'admin', '2010-01-01', 1, '2010-08-20 16:13:57'),
+    (6,  '*',         1234,-1, 'IN', 'BW', -1, -1, 'OVT', 'admin', '2010-01-01', 1, '2010-08-20 16:13:57'),
+    (7,  '*',           -1, 1, 'IN', 'BW', -1, -1, 'OVT', 'admin', '2010-01-01', 1, '2010-08-20 16:13:57'),
+    (8,  '*',           -1,-1, 'IN', 'BW', -1, -1, 'OVT', 'admin', '2010-01-01', 1, '2010-08-20 16:13:57'),
+    (9,  'TEST-DEPT2',  -1,-1, 'IN', 'BW', -1, -1, 'OVT', 'admin', '2010-01-01', 1, '2010-08-20 16:13:57');
+
+#
+# Hr Work Schedule
+#
+# 1-8: Basic wildcard test data
+DELETE FROM `HR_WORK_SCHEDULE_S`;
+INSERT INTO `HR_WORK_SCHEDULE_S` (`ID`) VALUES (1000);
+DELETE FROM `HR_WORK_SCHEDULE_T`;
+INSERT INTO `HR_WORK_SCHEDULE_T` (`HR_WORK_SCHEDULE_ID`,`WORK_SCHEDULE_DESC`,`PRINCIPAL_ID`,`DEPT`,`WORK_AREA`,`ACTIVE`,`EFFDT`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`) VALUES
+    (1 , 'used for testing' , 'admin' , 'TEST-DEPT' , 1234 , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
+    (2 , 'used for testing' , 'admin' , 'TEST-DEPT' , -1   , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
+    (3 , 'used for testing' , 'admin' , '*'         , 1234 , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
+    (4 , 'used for testing' , 'admin' , '*'         , -1   , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
+    (5 , 'used for testing' , '*'     , 'TEST-DEPT' , 1234 , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
+    (6 , 'used for testing' , '*'     , 'TEST-DEPT' , -1   , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
+    (7 , 'used for testing' , '*'     , '*'         , 1234 , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1)  ,
+    (8 , 'used for testing' , '*'     , '*'         , -1   , 1 , '2010-01-01' , '2010-01-01 12:00:00' , 'uuid' , 1);
+
+#
+# 1-16: Basic entries, 2 per Work schedule for wildcard testing
+DELETE FROM `HR_WORK_SCHEDULE_ENTRY_S`;
+INSERT INTO `HR_WORK_SCHEDULE_ENTRY_S` (`ID`) VALUES (1000);
+DELETE FROM `HR_WORK_SCHEDULE_ENTRY_T`;
+INSERT INTO `HR_WORK_SCHEDULE_ENTRY_T` (`HR_WORK_SCHEDULE_ENTRY_ID`, `HR_WORK_SCHEDULE_ID`, `CAL_DAY_ID`, `DAY_OF_PERIOD_ID`, `REG_HOURS`, `OBJ_ID`, `VER_NBR`) VALUES
+	(1, 1, 1, 1, 40, 'uuid', 1),
+	(2, 1, 1, 1, 40, 'uuid', 1),
+	(3, 2, 1, 1, 40, 'uuid', 1),
+	(4, 2, 1, 1, 40, 'uuid', 1),
+	(5, 3, 1, 1, 40, 'uuid', 1),
+	(6, 3, 1, 1, 40, 'uuid', 1),
+	(7, 4, 1, 1, 40, 'uuid', 1),
+	(8, 4, 1, 1, 40, 'uuid', 1),
+	(9, 5, 1, 1, 40, 'uuid', 1),
+	(10, 5, 1, 1, 40, 'uuid', 1),
+	(11, 6, 1, 1, 40, 'uuid', 1),
+	(12, 6, 1, 1, 40, 'uuid', 1),
+	(13, 7, 1, 1, 40, 'uuid', 1),
+	(14, 7, 1, 1, 40, 'uuid', 1),
+	(15, 8, 1, 1, 40, 'uuid', 1),
+	(16, 8, 1, 1, 40, 'uuid', 1);
+
+DELETE FROM `TK_WEEKLY_OVERTIME_RL_S`;
+INSERT INTO `TK_WEEKLY_OVERTIME_RL_S` (`ID`) VALUES (1000);
+DELETE FROM `TK_WEEKLY_OVERTIME_RL_T`;
+#INSERT INTO `TK_WEEKLY_OVERTIME_RL_T` (`tk_weekly_overtime_rl_id`,`max_hrs_ern_group`,`convert_from_ern_group`,`convert_to_erncd`,`step`,`max_hrs`,`user_principal_id`,`effdt`,`active`,`timestamp`,`obj_id`,`ver_nbr`) VALUES
+#    ();
