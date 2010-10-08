@@ -76,11 +76,11 @@ public class TimeDetailAction extends TimesheetAction {
 
 	public ActionForward deleteTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		// TODO: need to set the clock action to DELETE
-		
 		// the corresponding js code resides in the fullcalendar-1.4.7.js somewhere around #1664
 		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-		TkServiceLocator.getTimeBlockService().deleteTimeBlock(tdaf);
+		tdaf.setTimeBlock(TkServiceLocator.getTimeBlockService().deleteTimeBlock(tdaf));
+		tdaf.setClockAction(TkConstants.DELETE);
+		TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tdaf);
 
 		return mapping.findForward("basic");
 	}

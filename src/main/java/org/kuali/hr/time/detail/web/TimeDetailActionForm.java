@@ -1,5 +1,6 @@
 package org.kuali.hr.time.detail.web;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -15,8 +16,10 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 
 	private Date beginPeriodDate;
 	private Date endPeriodDate;
+	
 	// this is for the ajax call
 	private String outputString;
+	
 	private Long tkTimeBlockId;
 	private Long startTime;
 	private Long endTime;
@@ -24,6 +27,9 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	private List<TimeBlock> timeBlockList;
 	private TimeBlock timeBlock;
 	private String clockAction;
+	private BigDecimal hours;
+	private String startDate;
+	private String endDate;
 	
 	public Date getBeginPeriodDate() {
 		return beginPeriodDate;
@@ -102,6 +108,30 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 
 	public void setClockAction(String clockAction) {
 		this.clockAction = clockAction;
+	}
+
+	public BigDecimal getHours() {
+		return hours;
+	}
+
+	public void setHours(BigDecimal hours) {
+		this.hours = hours;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 
 }

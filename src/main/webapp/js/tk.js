@@ -240,15 +240,19 @@ $.fn.parseTime= function() {
     var parsedTime = new Array();
     var timeAndAmPm = $(this).val().split(" ");
     var time = timeAndAmPm[0].split(":");
-
-    if(timeAndAmPm[1] == 'PM') {
-        parsedTime['hour'] = Number(time[0]) == 12 ? time[0] : Number(time[0]) + 12;
+    
+    if(timeAndAmPm == '') {
+    	parsedTime['hour'] = 00;
+    	parsedTime['minute'] = 00;
     }
     else {
-        parsedTime['hour'] = Number(time[0]);
+	    if(timeAndAmPm[1] == 'PM') {
+	        parsedTime['hour'] = Number(time[0]) == 12 ? time[0] : Number(time[0]) + 12;
+	    }
+	    else {
+	        parsedTime['hour'] = Number(time[0]);
+	    }
+	    parsedTime['minute'] = Number(time[1]);
     }
-
-    parsedTime['minute'] = Number(time[1]);
-
     return parsedTime;
 }

@@ -143,7 +143,7 @@
 								<tr id="hours" style="display:none;">
 									<td>Hours:</td>
 									<td>
-										<input id="hoursField"/>
+										<input id="hoursField" name="hours"/>
 									</td>
 								</tr>
 								<tr>

@@ -33,6 +33,58 @@ $(document).ready(function() {
 
                 form.dialog({
                     beforeclose: function(event, ui) {
+                        var title;
+                        var startTime = $('#beginTimeField');
+                        var endTime = $('#endTimeField');
+                        var hours = $('#hoursField');
+
+                        // this is for non-clock in / out earn codes, like vac, sick, etc.
+//                        if(hours.val() != '') {
+//                            title = $('#selectedAssignment').val() + " - " + $('#selectedEarnCode').val();
+//
+//                            start.setHours(9);
+//                            start.setMinutes(0);
+//
+//                            end.setHours(9+Number(hours.val()));
+//                            end.setMinutes(0);
+//
+//                            calendar.fullCalendar('renderEvent',
+//                              {
+//                                  title: title,
+//                                  start: start,
+//                                  end: end,
+//                                  allDay: false
+//                              },
+//                              true // make the event "stick"
+//                            );
+//                            calendar.fullCalendar('unselect');
+//                        }
+//
+//                        // this is for stardard clock in / out earn codes
+//                        if(startTime.val() != '' && endTime.val() != '') {
+//
+//                            startTime = $('#beginTimeField').parseTime();
+//                            endTime = $('#endTimeField').parseTime();
+//
+//                            title = $('#assignment').val() + " - " + $('#earnCode').val();
+//
+//                            start.setHours(startTime['hour']);
+//                            start.setMinutes(startTime['minute']);
+//
+//                            end.setHours(endTime['hour']);
+//                            end.setMinutes(endTime['minute']);
+//
+//                            calendar.fullCalendar('renderEvent',
+//                              {
+//                                  title: title,
+//                                  start: start,
+//                                  end: end,
+//                                  allDay: false
+//                              },
+//                              true // make the event "stick"
+//                            );
+//                            calendar.fullCalendar('unselect');
+//                        }
                         
                         // reset assignment and earn code
                         $('#assignment > option:first').attr('selected','selected');
@@ -147,10 +199,14 @@ $(document).ready(function() {
                     }
                 }
 
-                bValid = bValid && checkLength(startTime,"In",8,8);
-                bValid = bValid && checkLength(endTime,"Out",8,8);
+                
 
-                if(bValid) {
+                if($('#hoursField').val() == '') {
+                	bValid = bValid && checkLength(startTime,"In",8,8);
+                    bValid = bValid && checkLength(endTime,"Out",8,8);
+                }
+                
+                if($('#hoursField').val() != '' || bValid) {             
                     var params = {};
                     var dateRangeStart = $("#date-range-begin").val().split("/");
                     var dateRangeEnd = $("#date-range-end").val().split("/");
@@ -170,8 +226,11 @@ $(document).ready(function() {
                     endDateTime.setSeconds(0)
                     endDateTime.setMilliseconds(0);
 
+                    params['startDate'] = $("#date-range-begin").val();
+                    params['endDate'] = $("#date-range-end").val();
                     params['startTime'] = startDateTime.getTime();
                     params['endTime'] = endDateTime.getTime();
+                    params['hours'] = $('#hoursField').val();
                     params['selectedEarnCode'] = $("#earnCode").val();
                     params['selectedAssignment'] = $("#assignment").val();
                     params['acrossDays'] = $('#acrossDays').is(':checked') ? 'y' : 'n';

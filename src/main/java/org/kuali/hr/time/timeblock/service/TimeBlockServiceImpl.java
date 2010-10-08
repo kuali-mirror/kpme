@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.clock.web.ClockActionForm;
@@ -20,22 +21,23 @@ import org.kuali.hr.time.timeblock.dao.TimeBlockDao;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 
 public class TimeBlockServiceImpl implements TimeBlockService {
-
+	
+	private static final Logger LOG = Logger.getLogger(TimeBlockServiceImpl.class);
 	private TimeBlockDao timeBlockDao;
 
 	public void setTimeBlockDao(TimeBlockDao timeBlockDao) {
 		this.timeBlockDao = timeBlockDao;
 	}
 
-	// TODO: need to figure out how to get the correct user timezone
+	// TODO: need to figure out how to get the correct user's timezone
 	@Override
 	public TimeBlock saveTimeBlock(TimesheetActionForm form) {
 
-		Timestamp beginTimestamp;
-		Timestamp endTimestamp;
+		Timestamp beginTimestamp = null;
+		Timestamp endTimestamp = null;
+		BigDecimal hours = new BigDecimal("0.0");
 		
 		AssignmentDescriptionKey key = new AssignmentDescriptionKey(form.getSelectedAssignment());
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(form.getTimesheetDocument(), form.getSelectedAssignment());
@@ -45,14 +47,28 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			long beginTime = caf.getLastClockTimestamp().getTime();
 			beginTimestamp = new Timestamp(beginTime);
 			endTimestamp = caf.getClockLog().getClockTimestamp();
+			hours = TKUtils.getHoursBetween(endTimestamp.getTime(), beginTimestamp.getTime());
 		}
 		else {
 			TimeDetailActionForm tdaf = (TimeDetailActionForm) form; 
-			beginTimestamp = new Timestamp(tdaf.getStartTime());
-			endTimestamp = new Timestamp(tdaf.getEndTime());
+			
+			// TODO: need to figure out what begin time and end time should be used
+			// for earn codes like VAC
+			if(tdaf.getHours() != null) {
+				Calendar start = Calendar.getInstance();
+				Calendar end = Calendar.getInstance();
+				beginTimestamp = new Timestamp(tdaf.getStartTime());
+				endTimestamp = new Timestamp(tdaf.getEndTime());
+				start.setTimeInMillis(beginTimestamp.getTime());
+				end.setTimeInMillis(endTimestamp.getTime());
+				hours = tdaf.getHours();
+			}
+			else {
+				beginTimestamp = new Timestamp(tdaf.getStartTime());
+				endTimestamp = new Timestamp(tdaf.getEndTime());
+  				hours = TKUtils.getHoursBetween(endTimestamp.getTime(), beginTimestamp.getTime());
+			}
 		}
-
-    	BigDecimal hours = TKUtils.getHoursBetween(endTimestamp.getTime(), beginTimestamp.getTime());
 
     	TimeBlock tb = new TimeBlock();
     	tb.setDocumentId(form.getTimesheetDocument().getDocumentHeader().getDocumentId().toString());
@@ -69,7 +85,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	    	}
 	    }
     	tb.setTkTaskId(tkTaskId);
-    	tb.setEarnCode(TkConstants.EARN_CODE_RGH);
+    	tb.setEarnCode(form.getSelectedEarnCode());
     	tb.setBeginTimestamp(beginTimestamp);
 //    	tb.setBeginTimestampTimezone(clockLog.getClockTimestampTimezone());
     	tb.setEndTimestamp(endTimestamp);
@@ -88,14 +104,17 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		return timeBlockDao.getTimeBlocksByPeriod(principalId, beginDate, endDate);
 	}
 
-	public void deleteTimeBlock(TimeDetailActionForm tdaf) {
+	public TimeBlock deleteTimeBlock(TimeDetailActionForm tdaf) {
 		List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
 		for(TimeBlock tb : timeBlocks) {
 			if(tb.getTkTimeBlockId().compareTo(tdaf.getTkTimeBlockId()) == 0) {
 				timeBlockDao.deleteTimeBlock(tb);
-				break;
+				return tb;
 			}
 		}
+		
+		LOG.error("no mathced time block to delete");
+		return new TimeBlock();
 	}
 
 	public TimeBlock getTimeBlock(String timeBlockId) {
@@ -104,24 +123,38 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	
 	// TODO: need to figure out how to get the correct user timezone
 	public List<TimeBlock> saveTimeBlockList(TimeDetailActionForm form) {
-		Calendar begin = Calendar.getInstance();
+		Timestamp beginTimestamp = null;
+		Timestamp endTimestamp = null;
+		BigDecimal hours = new BigDecimal("0.0");
+		Calendar start = Calendar.getInstance();
 		Calendar end = Calendar.getInstance();
-		begin.setTimeInMillis(form.getStartTime());
-		end.setTimeInMillis(form.getEndTime() );
+		
+		if(form.getHours() != null) {
+			beginTimestamp = new Timestamp(form.getStartTime());
+			endTimestamp = new Timestamp(form.getEndTime());
+			start.setTimeInMillis(beginTimestamp.getTime());
+			end.setTimeInMillis(endTimestamp.getTime());
+			hours = form.getHours();
+		}
+		else {
+			beginTimestamp = new Timestamp(form.getStartTime());
+			endTimestamp = new Timestamp(form.getEndTime());
+			hours = TKUtils.getHoursBetween(endTimestamp.getTime(), beginTimestamp.getTime());
+		}
 		
 		AssignmentDescriptionKey key = new AssignmentDescriptionKey(form.getSelectedAssignment());
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(form.getTimesheetDocument(), form.getSelectedAssignment());
 		
 		List<TimeBlock> timeBlockList = new LinkedList<TimeBlock>();
 
-		long daysBetween = TKUtils.getDaysBetween(begin, end);
-		for (int i = 0; i < daysBetween; i++) {
+		long daysBetween = TKUtils.getDaysBetween(start, end);
+		for (int i = 0; i <= daysBetween; i++) {
 
-			Calendar b = (Calendar)begin.clone();
+			Calendar b = (Calendar)start.clone();
 			Calendar e = (Calendar)end.clone();
 
-			b.set(Calendar.DATE, begin.get(Calendar.DATE) + i);
-			e.set(Calendar.DATE, begin.get(Calendar.DATE) + i);
+			b.set(Calendar.DATE, start.get(Calendar.DATE) + i);
+			e.set(Calendar.DATE, start.get(Calendar.DATE) + i);
 
 	       	TimeBlock tb = new TimeBlock();
 	    	tb.setDocumentId(form.getTimesheetDocument().getDocumentHeader().getDocumentId().toString());
@@ -138,13 +171,12 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		    	}
 		    }
 	    	tb.setTkTaskId(tkTaskId);
-	    	tb.setEarnCode(TkConstants.EARN_CODE_RGH);
+	    	tb.setEarnCode(form.getSelectedEarnCode());
 	    	tb.setBeginTimestamp(new Timestamp(b.getTimeInMillis()));
 //	    	tb.setBeginTimestampTimezone(clockLog.getClockTimestampTimezone());
 	    	tb.setEndTimestamp(new Timestamp(e.getTimeInMillis()));
 //	    	tb.setEndTimestampTimezone(clockLog.getClockTimestampTimezone());
 	    	tb.setClockLogCreated(true);
-	    	BigDecimal hours = TKUtils.getHoursBetween(e.getTime().getTime(), b.getTime().getTime());
 	    	tb.setHours(hours);
 	    	tb.setUserPrincipalId(TKContext.getUser().getPrincipalId());
 	    	tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -169,6 +201,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			timeBlockMap.put("start", new java.util.Date(timeBlock.getBeginTimestamp().getTime()).toString());
 			timeBlockMap.put("end", new java.util.Date(timeBlock.getEndTimestamp().getTime()).toString());
 			timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
+			timeBlockMap.put("hours", timeBlock.getHours());
 
 			timeBlockList.add(timeBlockMap);
 		}
@@ -176,5 +209,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		return timeBlockList;
 	
 	}
+	
+//	private TimeBlock buildTimeBlock()
 
 }

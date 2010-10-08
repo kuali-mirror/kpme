@@ -1656,29 +1656,23 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 			left = seg.isStart ? dayContentLeft(seg.start.getDay()) : minLeft;
 			right = seg.isEnd ? dayContentRight(seg.end.getDay()-1) : maxLeft;
 		}
-
+		
+		var fromTo = "";
+		
+		if(event.title.indexOf('VAC') > -1 || event.title.indexOf('SCK') > -1) {
+            fromTo = "<tr><td align='center'>" + event.hours + " hours</td></tr>";
+		}
+		else {
+			fromTo = "<tr><td align='center'>from: " + formatDate(event.start,view.option('timeFormat')) +"</td><td align='center'>to: " + formatDate(event.end,view.option('timeFormat')) + "</td></tr>";
+		}
+		
 		html +=
 			"<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;left:"+left+"px;margin-bottom:3px;' id='" + event.id + "'>" +
-//            "<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + htmlEscape(event.title) + " " + event.id + "<span style='float:right; color:black; font-weight:bold; margin-right: 3px;'>X</span></td></tr>" +
-//            "<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<span style='float:right; margin: 2px 7px 0 0; z-index: 1;'><a id='test' href='TimeDetail.do?methodToCall=deleteTimeBlock&timeBlockId=" + event.id + "' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em;'>X</a></span></td></tr>" +
-            "<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<div style='float:right; margin: 2px 7px 0 0; z-index: 1;' id='delete-event'><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "' id='delete-link' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em; z-index: 1;'>X</a></div></td></tr>" +
-            "<tr><td align='center'>from: " + formatDate(event.start,view.option('timeFormat')) +"</td><td align='center'>to: " + formatDate(event.end,view.option('timeFormat')) + "</td></tr>" +
-//            "<tr><td align='center' style='color:black;'>L: 11:00a</td><td align='center' style='color:black;'>L: 12:00p</td></tr>" +
-//            "<tr><td align='center'>12:00p</td><td align='center'>4:00p</td></tr>" +
-            "</table>" +
-
-//				"<a" + (event.url ? " href='" + htmlEscape(event.url) + "'" : '') + ">" +
-//					(!event.allDay && seg.isStart ?
-//						"<span class='fc-event-time'>" +
-//							htmlEscape(formatDates(event.start, event.end, view.option('timeFormat'), options)) +
-//						"</span>"
-//					:'') +
-//					"<span class='fc-event-title'>" + htmlEscape(event.title) + "</span>" +
-//				"</a>" +
-//				((event.editable || event.editable === undefined && options.editable) && !options.disableResizing && $.fn.resizable ?
-//					"<div class='ui-resizable-handle ui-resizable-" + (rtl ? 'w' : 'e') + "'></div>"
-//					: '') +
+			"<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<div style='float:right; margin: 2px 7px 0 0; z-index: 1;' id='delete-event'><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "' id='delete-link' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em; z-index: 1;'>X</a></div></td></tr>" +
+			fromTo +
+			"</table>" +
 			"</div>";
+
 		seg.left = left;
 		seg.outerWidth = right - left;
 
