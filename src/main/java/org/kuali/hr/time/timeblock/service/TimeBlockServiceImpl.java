@@ -88,9 +88,14 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		return timeBlockDao.getTimeBlocksByPeriod(principalId, beginDate, endDate);
 	}
 
-	public void deleteTimeBlock(TimeBlock timeBlock) {
-		timeBlockDao.deleteTimeBlock(timeBlock);
-
+	public void deleteTimeBlock(TimeDetailActionForm tdaf) {
+		List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+		for(TimeBlock tb : timeBlocks) {
+			if(tb.getTkTimeBlockId().compareTo(tdaf.getTkTimeBlockId()) == 0) {
+				timeBlockDao.deleteTimeBlock(tb);
+				break;
+			}
+		}
 	}
 
 	public TimeBlock getTimeBlock(String timeBlockId) {

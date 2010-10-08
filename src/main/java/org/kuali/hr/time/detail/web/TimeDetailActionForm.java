@@ -17,7 +17,7 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	private Date endPeriodDate;
 	// this is for the ajax call
 	private String outputString;
-	private String timeBlockId;
+	private Long tkTimeBlockId;
 	private Long startTime;
 	private Long endTime;
 	private String acrossDays;
@@ -48,12 +48,12 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 		this.outputString = outputString;
 	}
 
-	public String getTimeBlockId() {
-		return timeBlockId;
+	public Long getTkTimeBlockId() {
+		return tkTimeBlockId;
 	}
 
-	public void setTimeBlockId(String timeBlockId) {
-		this.timeBlockId = timeBlockId;
+	public void setTkTimeBlockId(Long tkTimeBlockId) {
+		this.tkTimeBlockId = tkTimeBlockId;
 	}
 
 	public Long getStartTime() {

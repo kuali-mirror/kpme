@@ -15,7 +15,6 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -79,9 +78,9 @@ public class TimeDetailAction extends TimesheetAction {
 
 		// TODO: need to set the clock action to DELETE
 		
-		TimeDetailActionForm timeDetailForm = (TimeDetailActionForm) form;
-		TimeBlock timeBlockToDelete = TkServiceLocator.getTimeBlockService().getTimeBlock(timeDetailForm.getTimeBlockId());
-		TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlockToDelete);
+		// the corresponding js code resides in the fullcalendar-1.4.7.js somewhere around #1664
+		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+		TkServiceLocator.getTimeBlockService().deleteTimeBlock(tdaf);
 
 		return mapping.findForward("basic");
 	}
