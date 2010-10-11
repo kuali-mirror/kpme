@@ -30,8 +30,8 @@
     <property name="title" value="WorkScheduleEntry Maintenance"/>
     <property name="maintainableItems">
       <list>
-      	<bean parent="MaintainableFieldDefinition" p:name="calDayId"  p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="dayOfPeriodId" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="calendarGroup"  p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="dayOfPeriod" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="regHours"  p:required="true"/>  
       </list>
     </property>

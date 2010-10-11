@@ -63,9 +63,9 @@
 					<property name="maintainableFields">
 						<list>
 							 
-							<bean parent="MaintainableFieldDefinition" p:name="calDayId"
+							<bean parent="MaintainableFieldDefinition" p:name="calendarGroup"
 								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="dayOfPeriodId"
+							<bean parent="MaintainableFieldDefinition" p:name="dayOfPeriod"
 								p:required="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="regHours"
 								p:required="true" />

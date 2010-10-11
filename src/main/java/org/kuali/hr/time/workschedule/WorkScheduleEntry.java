@@ -12,8 +12,11 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 	private static final long serialVersionUID = 1L;
 	private Long hrWorkScheduleEntryId;
 	private Long hrWorkScheduleId;
-	private Long calDayId;
-	private Long dayOfPeriodId;
+	private String calendarGroup;
+
+
+
+	private Long dayOfPeriod;
 	private Long  regHours;
 	private WorkSchedule workScheduleObj;
 	
@@ -28,13 +31,13 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 	}
 
 
-	public Long getDayOfPeriodId() {
-		return dayOfPeriodId;
+	public Long getDayOfPeriod() {
+		return dayOfPeriod;
 	}
 
 
-	public void setDayOfPeriodId(Long dayOfPeriodId) {
-		this.dayOfPeriodId = dayOfPeriodId;
+	public void setDayOfPeriod(Long dayOfPeriod) {
+		this.dayOfPeriod = dayOfPeriod;
 	}
 
 
@@ -47,13 +50,6 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 		this.regHours = regHours;
 	}
 
-	public Long getCalDayId() {
-		return calDayId;
-	}
-
-	public void setCalDayId(Long calDayId) {
-		this.calDayId = calDayId;
-	}
 	 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -62,8 +58,8 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 		
 		toStringMap.put("workScheduleEntryId", hrWorkScheduleEntryId);
 		toStringMap.put("workScheduleId", hrWorkScheduleId);
-		toStringMap.put("calDayId", calDayId);
-		toStringMap.put("dayOfPeriodId", dayOfPeriodId);
+		toStringMap.put("calendarGroup", calendarGroup);
+		toStringMap.put("dayOfPeriod", dayOfPeriod);
 		toStringMap.put("regHours", regHours);		
 		 
 		return toStringMap;
@@ -90,5 +86,12 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 		this.hrWorkScheduleId = hrWorkScheduleId;
 	}
 
-	 
+	public String getCalendarGroup() {
+		return calendarGroup;
+	}
+
+
+	public void setCalendarGroup(String calendarGroup) {
+		this.calendarGroup = calendarGroup;
+	}
 }
