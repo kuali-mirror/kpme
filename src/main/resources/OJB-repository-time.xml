@@ -575,8 +575,8 @@
 	<class-descriptor class="org.kuali.hr.time.workflow.TimesheetDocumentHeader" table="tk_document_header_t">
 		<field-descriptor name="documentId"         column="document_id" jdbc-type="BIGINT" primarykey="true"/>
 		<field-descriptor name="principalId"        column="principal_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="payEndDate"         column="pay_end_dt" jdbc-type="DATE" />
-		<field-descriptor name="payBeginDate"         column="pay_begin_dt" jdbc-type="DATE" />
+		<field-descriptor name="payEndDate"         column="pay_end_dt" jdbc-type="TIMESTAMP" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
+		<field-descriptor name="payBeginDate"         column="pay_begin_dt" jdbc-type="TIMESTAMP" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
 		<field-descriptor name="documentStatus"     column="document_status" jdbc-type="VARCHAR" />
 	</class-descriptor>
 

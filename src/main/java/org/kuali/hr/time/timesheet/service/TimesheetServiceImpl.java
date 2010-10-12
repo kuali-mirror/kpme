@@ -1,5 +1,6 @@
 package org.kuali.hr.time.timesheet.service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -42,12 +43,35 @@ public class TimesheetServiceImpl implements TimesheetService {
 
 	@Override
 	public TimesheetDocument openTimesheetDocument(String principalId, PayCalendarDates payCalendarDates) throws WorkflowException {
-		TimesheetDocumentHeader header = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payCalendarDates.getEndPeriodDate());
 		TimesheetDocument timesheetDocument = null;
 
+		// We need to merge the date and time together, so we can pass a correct java.util.Date, since we're storing the values
+		// separately in the pay calendar table.
+		//
+		// Should move this code to a util class and investigate the performance.  Could also go right on the PayCalendarDates pojo.
+		Calendar dCal = Calendar.getInstance();
+		Calendar tCal = Calendar.getInstance();
+		dCal.setTime(payCalendarDates.getBeginPeriodDate());
+		tCal.setTime(payCalendarDates.getBeginPeriodTime());
+		dCal.set(Calendar.HOUR_OF_DAY, tCal.get(Calendar.HOUR_OF_DAY));
+		dCal.set(Calendar.MINUTE, tCal.get(Calendar.MINUTE));
+		dCal.set(Calendar.SECOND, tCal.get(Calendar.SECOND));
+		dCal.set(Calendar.MILLISECOND, tCal.get(Calendar.MILLISECOND));
+		Date begin = dCal.getTime();		
+			
+		dCal.setTime(payCalendarDates.getEndPeriodDate());
+		tCal.setTime(payCalendarDates.getEndPeriodTime());
+		dCal.set(Calendar.HOUR_OF_DAY, tCal.get(Calendar.HOUR_OF_DAY));
+		dCal.set(Calendar.MINUTE, tCal.get(Calendar.MINUTE));
+		dCal.set(Calendar.SECOND, tCal.get(Calendar.SECOND));
+		dCal.set(Calendar.MILLISECOND, tCal.get(Calendar.MILLISECOND));
+		Date end = dCal.getTime();
+
+		TimesheetDocumentHeader header = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, begin, end);
+
 		if (header == null) {
-			timesheetDocument = this.initiateWorkflowDocument(principalId, payCalendarDates.getBeginPeriodDate(), payCalendarDates.getEndPeriodDate(), TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
-			this.loadTimesheetDocumentData(timesheetDocument, principalId, payCalendarDates.getBeginPeriodDate(), payCalendarDates.getEndPeriodDate());
+			timesheetDocument = this.initiateWorkflowDocument(principalId, begin, end, TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
+			this.loadTimesheetDocumentData(timesheetDocument, principalId, begin, end);
 		} else {
 			timesheetDocument = this.getTimesheetDocument(header.getDocumentId());
 		}
@@ -84,16 +108,16 @@ public class TimesheetServiceImpl implements TimesheetService {
 	
 		if (tdh != null) {
 			timesheetDocument = new TimesheetDocument(tdh);
-			loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), TKUtils.getTimelessDate(tdh.getPayBeginDate()), TKUtils.getTimelessDate(tdh.getPayEndDate()));
+			loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), tdh.getPayBeginDate(), tdh.getPayEndDate());
 		} else {
 			throw new RuntimeException("Could not find TimesheetDocumentHeader for DocumentID: " + documentId);
 		}
 		return timesheetDocument;
 	}
 	
-	private void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, java.sql.Date payPeriodBegin, java.sql.Date payPeriodEnd) {
-		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, payPeriodBegin);
-		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(principalId, payPeriodBegin);
+	private void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, Date payPeriodBegin, Date payPeriodEnd) {
+		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getTimelessDate(payPeriodBegin));
+		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(principalId, TKUtils.getTimelessDate(payPeriodBegin));
 		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksByPeriod(principalId, payPeriodBegin, payPeriodEnd);
 		
 		tdoc.setAssignments(assignments);

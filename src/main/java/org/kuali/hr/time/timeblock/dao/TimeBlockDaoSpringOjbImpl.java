@@ -1,6 +1,6 @@
 package org.kuali.hr.time.timeblock.dao;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -14,6 +14,7 @@ import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements TimeBlockDao {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(TimeBlockDaoSpringOjbImpl.class);
 
 	public void saveOrUpdate(TimeBlock timeBlock) {

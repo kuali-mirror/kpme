@@ -24,7 +24,7 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
 	}
 
 	@Override
-	public TimesheetDocumentHeader getDocumentHeader(String principalId, Date payEndDate) {
-		return documentHeaderDao.getTimesheetDocumentHeader(principalId, payEndDate);
+	public TimesheetDocumentHeader getDocumentHeader(String principalId, Date payBeginDate, Date payEndDate) {
+		return documentHeaderDao.getTimesheetDocumentHeader(principalId, payBeginDate, payEndDate);
 	}
 }

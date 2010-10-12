@@ -10,5 +10,5 @@ public interface TimesheetDocumentHeaderDao {
 	
 	public TimesheetDocumentHeader getTimesheetDocumentHeader(Long documentId);
 	
-	public TimesheetDocumentHeader getTimesheetDocumentHeader(String principalId, Date payEndDate);
+	public TimesheetDocumentHeader getTimesheetDocumentHeader(String principalId, Date PayBeginDate, Date payEndDate);
 }

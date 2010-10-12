@@ -1,7 +1,7 @@
 package org.kuali.hr.time.timeblock.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.LinkedHashMap;

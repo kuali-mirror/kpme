@@ -9,5 +9,5 @@ public interface TimesheetDocumentHeaderService {
 	public void saveOrUpdate(TimesheetDocumentHeader documentHeader);
 	public TimesheetDocumentHeader getDocumentHeader(Long documentId);
 	
-	public TimesheetDocumentHeader getDocumentHeader(String principalId, Date payEndDate);
+	public TimesheetDocumentHeader getDocumentHeader(String principalId, Date payBeginDate, Date payEndDate);
 }
