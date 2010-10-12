@@ -24,7 +24,7 @@ public class WeeklyOvertimeRuleDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		Criteria timestamp = new Criteria();
 
 		effdt.addEqualToField("convertFromEarnGroup", Criteria.PARENT_QUERY_PREFIX + "convertFromEarnGroup");
-		effdt.addEqualToField("convertToEarnGroup", Criteria.PARENT_QUERY_PREFIX + "convertToEarnGroup");
+		effdt.addEqualToField("convertToEarnCode", Criteria.PARENT_QUERY_PREFIX + "convertToEarnCode");
 		effdt.addEqualToField("maxHoursEarnGroup", Criteria.PARENT_QUERY_PREFIX + "maxHoursEarnGroup");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 		effdt.addEqualTo("active", true);
@@ -32,7 +32,7 @@ public class WeeklyOvertimeRuleDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
 		timestamp.addEqualToField("convertFromEarnGroup", Criteria.PARENT_QUERY_PREFIX + "convertFromEarnGroup");
-		timestamp.addEqualToField("convertToEarnGroup", Criteria.PARENT_QUERY_PREFIX + "convertToEarnGroup");
+		timestamp.addEqualToField("convertToEarnCode", Criteria.PARENT_QUERY_PREFIX + "convertToEarnCode");
 		timestamp.addEqualToField("maxHoursEarnGroup", Criteria.PARENT_QUERY_PREFIX + "maxHoursEarnGroup");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 		timestamp.addEqualTo("active", true);

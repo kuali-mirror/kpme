@@ -36,6 +36,7 @@ public class AssignmentServiceImplTest extends TkTestCase {
 			assertNotNull("Null job found", assign.getJob());
 			assertTrue("Job number is same", assign.getJob().getJobNumber().compareTo(assign.getJobNumber())==0);
 		}
+		
 	}
 
 }

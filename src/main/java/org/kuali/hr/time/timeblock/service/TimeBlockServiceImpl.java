@@ -1,7 +1,7 @@
 package org.kuali.hr.time.timeblock.service;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -113,7 +113,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			}
 		}
 		
-		LOG.error("no mathced time block to delete");
+		LOG.error("no matched time block to delete");
 		return new TimeBlock();
 	}
 
@@ -208,6 +208,19 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		
 		return timeBlockList;
 	
+	}
+
+	@Override
+	public void deleteTimeBlock(TimeBlock timeBlock) {
+		timeBlockDao.deleteTimeBlock(timeBlock);
+		
+	}
+
+	@Override
+	public List<TimeBlock> getTimeBlocksByPeriod(String principalId,
+			java.util.Date beginDate, java.util.Date endDate) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 //	private TimeBlock buildTimeBlock()

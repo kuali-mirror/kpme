@@ -1,7 +1,6 @@
 package org.kuali.hr.time.web;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -9,9 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.hr.job.Job;
 import org.kuali.hr.time.exceptions.UnauthorizedException;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKSessionState;
 import org.kuali.hr.time.util.TKUser;
@@ -20,6 +17,7 @@ import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;
 
 public class TKRequestProcessor extends KualiRequestProcessor {
@@ -61,6 +59,16 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 		} else {
 			if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("test.mode"))) {
 				request.setAttribute("principalName", TkLoginFilter.TEST_ID);
+				TKUser tkUser = new TKUser();
+				Person p = KIMServiceLocator.getPersonService().getPerson(TkLoginFilter.TEST_ID);
+				tkUser.setActualPerson(p);
+				tkUser.setBackdoorPerson(p);
+				TKContext.setBackdoorUser(tkUser);
+				TKContext.setUser(tkUser);
+
+				TKSessionState tkSessionState = new TKSessionState(TKContext.getHttpServletRequest().getSession());
+				tkSessionState.setTargetEmployee(tkUser);
+				tkSessionState.setBackdoorUser(tkUser);
 			} else {
 				UserSession userSession = UserLoginFilter.getUserSession(request);
 				Person person = userSession.getActualPerson();

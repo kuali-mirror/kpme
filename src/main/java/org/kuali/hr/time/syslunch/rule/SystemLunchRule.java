@@ -88,10 +88,4 @@ public class SystemLunchRule extends TkRule {
 		this.userPrincipalId = userPrincipalId;
 	}
 
-	@Override
-	public void applyRule(TkRuleContext tkRuleContext) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

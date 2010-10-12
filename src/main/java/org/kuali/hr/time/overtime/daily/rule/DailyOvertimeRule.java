@@ -127,12 +127,6 @@ public class DailyOvertimeRule extends TkRule {
 		this.departmentObj = departmentObj;
 	}
 
-	@Override
-	public void applyRule(TkRuleContext tkRuleContext) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public String getPaytype() {
 		return paytype;
 	}

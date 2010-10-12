@@ -24,7 +24,7 @@ public class TimeDetailAction extends TimesheetAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = super.execute(mapping, form, request, response);
 		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-		
+
 		tdaf.setBeginPeriodDate(tdaf.getPayCalendarDates().getBeginPeriodDate());
 		tdaf.setEndPeriodDate(tdaf.getPayCalendarDates().getEndPeriodDate());
 

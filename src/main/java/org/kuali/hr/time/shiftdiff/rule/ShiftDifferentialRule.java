@@ -194,12 +194,6 @@ public class ShiftDifferentialRule extends TkRule {
 		this.active = active;
 	}
 
-	@Override
-	public void applyRule(TkRuleContext tkRuleContext) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public String getTkSalGroup() {
 		return tkSalGroup;
 	}

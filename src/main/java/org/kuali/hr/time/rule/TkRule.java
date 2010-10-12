@@ -7,6 +7,4 @@ public abstract class TkRule extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public abstract void applyRule(TkRuleContext tkRuleContext);
 }

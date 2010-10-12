@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class TimeBlock extends PersistableBusinessObjectBase {

@@ -38,6 +38,13 @@ public class TKContext {
 
 		}
 	}
+	
+	public static String getPrincipalId(){
+		if(getUser()!= null){
+			return getUser().getPrincipalId();
+		}
+		return null;
+	}
 
 	public static HttpServletRequest getHttpServletRequest() {
 		return (HttpServletRequest) getStorageMap().get("REQUEST");

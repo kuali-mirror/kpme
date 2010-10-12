@@ -1,14 +1,15 @@
 package org.kuali.hr.time.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.hr.job.Job;
 import org.kuali.rice.kim.bo.Person;
 
 public class TKUser {
 
 	private Person actualPerson;
 	private Person backdoorPerson;
-
-
-	// private SecurityContext securityContext;
 
 	public Person getActualPerson() {
 		return actualPerson;

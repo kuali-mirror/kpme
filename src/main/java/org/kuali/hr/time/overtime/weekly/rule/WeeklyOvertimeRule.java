@@ -6,7 +6,6 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.rule.TkRule;
-import org.kuali.hr.time.rule.TkRuleContext;
 
 public class WeeklyOvertimeRule extends TkRule {
 
@@ -24,6 +23,7 @@ public class WeeklyOvertimeRule extends TkRule {
 	private String userPrincipalId;
 	private Timestamp timeStamp;
 	private boolean active;
+	
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -113,11 +113,4 @@ public class WeeklyOvertimeRule extends TkRule {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
-	@Override
-	public void applyRule(TkRuleContext tkRuleContext) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

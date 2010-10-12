@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Duration;
+import org.joda.time.Weeks;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.rice.core.config.ConfigContext;
@@ -115,6 +116,19 @@ public class TKUtils {
 		dateToHoursMap.put(new Timestamp(currentTime.getMillis()),hrs);
 		
 		return dateToHoursMap;
+	}
+	
+	public static int getNumberOfWeeks(java.util.Date beginDate, java.util.Date endDate){
+		
+		DateTime beginTime = new DateTime(beginDate);
+		DateTime endTime = new DateTime(endDate);
+		
+		int numOfDays = Days.daysBetween(beginTime, endTime).getDays();
+		int numOfWeeks = numOfDays / 7 ;
+		if(numOfDays % 7 != 0){
+			numOfWeeks++;
+		}
+		return numOfWeeks;
 	}
 	
 	public static String formatAssignmentKey(Long jobNumber, Long workArea, Long task) {

@@ -127,13 +127,7 @@ public class ClockLocationRule extends TkRule {
 	public void setJob(Job job) {
 	    this.job = job;
 	}
-
-	@Override
-	public void applyRule(TkRuleContext tkRuleContext) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	public Long getTkClockLocationRuleId() {
 		return tkClockLocationRuleId;
 	}

@@ -86,12 +86,6 @@ public class GracePeriodRule extends TkRule {
 	    this.timestamp = timestamp;
 	}
 
-	@Override
-	public void applyRule(TkRuleContext tkRuleContext) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	public Long getTkGracePeriodRuleId() {
 		return tkGracePeriodRuleId;
