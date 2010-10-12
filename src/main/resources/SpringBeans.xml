@@ -1,4 +1,3 @@
-
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
@@ -24,6 +23,8 @@
         </property>
     </bean>
 
+	<bean name="springContext" class="org.kuali.hr.sys.context.SpringContext"></bean>
+	
     <bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
         <property name="defaultTimeout" value="3600"/>
     </bean>
@@ -36,6 +37,7 @@
     	<property name="pathLocations">
     		<list>
     			<value>OJB-repository-time.xml</value>
+    			<value>OJB-repository-coa.xml</value>
     		</list>
     	</property>
     </bean>
@@ -232,6 +234,7 @@
         <property name="dataDictionaryPackages">
             <list>
                 <value>classpath:org/kuali/hr/time/datadictionary</value>
+                <value>classpath:org/kuali/kfs/coa/datadictionary</value>
             </list>
         </property>
         <!--
@@ -244,6 +247,7 @@
         <property name="packagePrefixes">
             <list>
 				<value>org.kuali.hr.time.domain</value>
+				<value>org.kuali.kfs.coa.domain</value>
             </list>
         </property>
     </bean>
@@ -464,4 +468,6 @@
             </list>
         </property>
     </bean>
+     
+     
 </beans>
