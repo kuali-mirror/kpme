@@ -16,6 +16,166 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `ca_account_t`
+--
+
+DROP TABLE IF EXISTS `ca_account_t`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ca_account_t` (
+  `FIN_COA_CD` varchar(2) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `ACCOUNT_NBR` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
+  `VER_NBR` decimal(8,0) NOT NULL DEFAULT '1',
+  `ACCOUNT_NM` varchar(40) COLLATE utf8_bin DEFAULT NULL,
+  `ORG_CD` varchar(10) COLLATE utf8_bin DEFAULT NULL,
+  `ACCT_CREATE_DT` datetime DEFAULT NULL,
+  `ACCT_EFFECT_DT` datetime DEFAULT NULL,
+  `ACCT_EXPIRATION_DT` datetime DEFAULT NULL,
+  `ACCT_CLOSED_IND` varchar(1) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`FIN_COA_CD`,`ACCOUNT_NBR`),
+  UNIQUE KEY `CA_ACCOUNT_TC0` (`OBJ_ID`),
+  KEY `CA_ACCOUNT_TI2` (`ACCOUNT_NBR`,`FIN_COA_CD`),
+  KEY `CA_ACCOUNT_TR2` (`FIN_COA_CD`,`ORG_CD`),
+  CONSTRAINT `CA_ACCOUNT_TR1` FOREIGN KEY (`FIN_COA_CD`) REFERENCES `ca_chart_t` (`FIN_COA_CD`),
+  CONSTRAINT `CA_ACCOUNT_TR2` FOREIGN KEY (`FIN_COA_CD`, `ORG_CD`) REFERENCES `ca_org_t` (`FIN_COA_CD`, `ORG_CD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ca_chart_t`
+--
+
+DROP TABLE IF EXISTS `ca_chart_t`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ca_chart_t` (
+  `FIN_COA_CD` varchar(2) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
+  `VER_NBR` decimal(8,0) NOT NULL DEFAULT '1',
+  `FIN_COA_DESC` varchar(40) COLLATE utf8_bin DEFAULT NULL,
+  `FIN_COA_ACTIVE_CD` varchar(1) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`FIN_COA_CD`),
+  UNIQUE KEY `CA_CHART_TC0` (`OBJ_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ca_object_code_t`
+--
+
+DROP TABLE IF EXISTS `ca_object_code_t`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ca_object_code_t` (
+  `UNIV_FISCAL_YR` decimal(4,0) NOT NULL DEFAULT '0',
+  `FIN_COA_CD` varchar(2) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `FIN_OBJECT_CD` varchar(5) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
+  `VER_NBR` decimal(8,0) NOT NULL DEFAULT '1',
+  `FIN_OBJ_CD_NM` varchar(40) COLLATE utf8_bin DEFAULT NULL,
+  `FIN_OBJ_CD_SHRT_NM` varchar(12) COLLATE utf8_bin DEFAULT NULL,
+  `FIN_OBJ_ACTIVE_CD` varchar(1) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`UNIV_FISCAL_YR`,`FIN_COA_CD`,`FIN_OBJECT_CD`),
+  UNIQUE KEY `CA_OBJECT_CODE_TC0` (`OBJ_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ca_org_t`
+--
+
+DROP TABLE IF EXISTS `ca_org_t`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ca_org_t` (
+  `FIN_COA_CD` varchar(2) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `ORG_CD` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
+  `VER_NBR` decimal(8,0) NOT NULL DEFAULT '1',
+  `ORG_NM` varchar(40) COLLATE utf8_bin DEFAULT NULL,
+  `ORG_ACTIVE_CD` varchar(1) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`FIN_COA_CD`,`ORG_CD`),
+  UNIQUE KEY `CA_ORG_TC0` (`OBJ_ID`),
+  CONSTRAINT `CA_ORG_TR1` FOREIGN KEY (`FIN_COA_CD`) REFERENCES `ca_chart_t` (`FIN_COA_CD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ca_project_t`
+--
+
+DROP TABLE IF EXISTS `ca_project_t`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ca_project_t` (
+  `PROJECT_CD` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
+  `VER_NBR` decimal(8,0) NOT NULL DEFAULT '1',
+  `PROJECT_NM` varchar(40) COLLATE utf8_bin DEFAULT NULL,
+  `FIN_COA_CD` varchar(2) COLLATE utf8_bin DEFAULT NULL,
+  `ORG_CD` varchar(10) COLLATE utf8_bin DEFAULT NULL,
+  `PROJ_ACTIVE_CD` varchar(1) COLLATE utf8_bin DEFAULT NULL,
+  `PROJECT_DESC` varchar(400) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`PROJECT_CD`),
+  UNIQUE KEY `CA_PROJECT_TC0` (`OBJ_ID`),
+  KEY `CA_PROJECT_TI2` (`FIN_COA_CD`,`ORG_CD`),
+  CONSTRAINT `CA_PROJECT_TR1` FOREIGN KEY (`FIN_COA_CD`) REFERENCES `ca_chart_t` (`FIN_COA_CD`),
+  CONSTRAINT `CA_PROJECT_TR2` FOREIGN KEY (`FIN_COA_CD`, `ORG_CD`) REFERENCES `ca_org_t` (`FIN_COA_CD`, `ORG_CD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ca_sub_acct_t`
+--
+
+DROP TABLE IF EXISTS `ca_sub_acct_t`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ca_sub_acct_t` (
+  `FIN_COA_CD` varchar(2) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `ACCOUNT_NBR` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `SUB_ACCT_NBR` varchar(5) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
+  `VER_NBR` decimal(8,0) NOT NULL DEFAULT '1',
+  `SUB_ACCT_NM` varchar(40) COLLATE utf8_bin DEFAULT NULL,
+  `SUB_ACCT_ACTV_CD` varchar(1) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`FIN_COA_CD`,`ACCOUNT_NBR`,`SUB_ACCT_NBR`),
+  UNIQUE KEY `CA_SUB_ACCT_TC0` (`OBJ_ID`),
+  KEY `CA_SUB_ACCT_TI2` (`FIN_COA_CD`,`ACCOUNT_NBR`),
+  CONSTRAINT `CA_SUB_ACCT_TR2` FOREIGN KEY (`FIN_COA_CD`) REFERENCES `ca_chart_t` (`FIN_COA_CD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ca_sub_object_cd_t`
+--
+
+DROP TABLE IF EXISTS `ca_sub_object_cd_t`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ca_sub_object_cd_t` (
+  `UNIV_FISCAL_YR` decimal(4,0) NOT NULL DEFAULT '0',
+  `FIN_COA_CD` varchar(2) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `ACCOUNT_NBR` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `FIN_OBJECT_CD` varchar(5) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `FIN_SUB_OBJ_CD` varchar(3) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
+  `VER_NBR` decimal(8,0) NOT NULL DEFAULT '1',
+  `FIN_SUB_OBJ_CD_NM` varchar(40) COLLATE utf8_bin DEFAULT NULL,
+  `FIN_SUBOBJ_SHRT_NM` varchar(12) COLLATE utf8_bin DEFAULT NULL,
+  `FIN_SUBOBJ_ACTV_CD` varchar(1) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`UNIV_FISCAL_YR`,`FIN_COA_CD`,`ACCOUNT_NBR`,`FIN_OBJECT_CD`,`FIN_SUB_OBJ_CD`),
+  UNIQUE KEY `CA_SUB_OBJECT_CD_TC0` (`OBJ_ID`),
+  KEY `CA_SUB_OBJECT_CD_TI2` (`UNIV_FISCAL_YR`),
+  KEY `CA_SUB_OBJECT_CD_TR3` (`FIN_COA_CD`),
+  KEY `CA_SUB_OBJECT_CD_TR1` (`UNIV_FISCAL_YR`,`FIN_COA_CD`,`FIN_OBJECT_CD`),
+  CONSTRAINT `CA_SUB_OBJECT_CD_TR1` FOREIGN KEY (`UNIV_FISCAL_YR`, `FIN_COA_CD`, `FIN_OBJECT_CD`) REFERENCES `ca_object_code_t` (`UNIV_FISCAL_YR`, `FIN_COA_CD`, `FIN_OBJECT_CD`),
+  CONSTRAINT `CA_SUB_OBJECT_CD_TR3` FOREIGN KEY (`FIN_COA_CD`) REFERENCES `ca_chart_t` (`FIN_COA_CD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `hr_job_t`
 --
 
@@ -99,14 +259,14 @@ DROP TABLE IF EXISTS `hr_work_schedule_entry_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hr_work_schedule_entry_t` (
-  `HR_WORK_SCHDULE_ENTRY_ID` bigint(20) NOT NULL,
+  `HR_WORK_SCHEDULE_ENTRY_ID` bigint(20) NOT NULL,
   `HR_WORK_SCHEDULE_ID` bigint(20) NOT NULL,
-  `CAL_DAY_ID` bigint(19) NOT NULL,
-  `DAY_OF_PERIOD_ID` int(11) NOT NULL,
+  `CALENDAR_GROUP` varchar(45) COLLATE utf8_bin NOT NULL,
+  `DAY_OF_PERIOD` int(11) NOT NULL,
   `REG_HOURS` int(11) NOT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`HR_WORK_SCHDULE_ENTRY_ID`)
+  PRIMARY KEY (`HR_WORK_SCHEDULE_ENTRY_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -136,10 +296,11 @@ CREATE TABLE `hr_work_schedule_t` (
   `EFFDT` date NOT NULL DEFAULT '0000-00-00',
   `DEPT` varchar(21) COLLATE utf8_bin DEFAULT NULL,
   `WORK_AREA` bigint(10) DEFAULT NULL,
-  `PRINCIPAL_ID` bigint(20) DEFAULT NULL,
+  `PRINCIPAL_ID` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   `ACTIVE` bit(1) DEFAULT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
+  `TIMESTAMP` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`HR_WORK_SCHEDULE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -343,7 +504,7 @@ DROP TABLE IF EXISTS `tk_clock_log_s`;
 CREATE TABLE `tk_clock_log_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2451 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2478 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -975,7 +1136,7 @@ DROP TABLE IF EXISTS `tk_time_block_hist_s`;
 CREATE TABLE `tk_time_block_hist_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1005 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1096 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1067,7 +1228,7 @@ DROP TABLE IF EXISTS `tk_weekly_overtime_rl_s`;
 CREATE TABLE `tk_weekly_overtime_rl_s` (
   `ID` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1018 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1021 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1132,7 +1293,7 @@ DROP TABLE IF EXISTS `tk_hour_detail_s`;
 CREATE TABLE `tk_hour_detail_s` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1036 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1049 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1250,6 +1411,23 @@ CREATE TABLE `tk_hour_detail_hist_s` (
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tk_document_header_t`
+--
+
+DROP TABLE IF EXISTS `tk_document_header_t`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tk_document_header_t` (
+  `DOCUMENT_ID` bigint(19) NOT NULL,
+  `PRINCIPAL_ID` varchar(40) COLLATE utf8_bin DEFAULT NULL,
+  `PAY_END_DT` datetime DEFAULT NULL,
+  `DOCUMENT_STATUS` varchar(1) COLLATE utf8_bin DEFAULT NULL,
+  `PAY_BEGIN_DT` datetime DEFAULT NULL,
+  PRIMARY KEY (`DOCUMENT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1260,4 +1438,4 @@ CREATE TABLE `tk_hour_detail_hist_s` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-09-30 16:12:02
+-- Dump completed on 2010-10-13  9:15:55

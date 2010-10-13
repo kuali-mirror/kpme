@@ -2,6 +2,15 @@
 
 
 TK_TABLES=""
+
+TK_TABLES=$TK_TABLES" ca_account_t"
+TK_TABLES=$TK_TABLES" ca_chart_t"
+TK_TABLES=$TK_TABLES" ca_object_code_t"
+TK_TABLES=$TK_TABLES" ca_org_t"
+TK_TABLES=$TK_TABLES" ca_project_t"
+TK_TABLES=$TK_TABLES" ca_sub_acct_t"
+TK_TABLES=$TK_TABLES" ca_sub_object_cd_t"
+
 TK_TABLES=$TK_TABLES" hr_job_t hr_job_s"
 TK_TABLES=$TK_TABLES" hr_paytype_t hr_paytype_s"
 TK_TABLES=$TK_TABLES" hr_work_schedule_entry_t hr_work_schedule_entry_s"
