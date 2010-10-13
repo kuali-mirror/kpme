@@ -231,8 +231,27 @@
 			proxy="false">
 			<inverse-foreignkey field-ref="tkWorkAreaId"/>
 		</collection-descriptor>
+		
+		<collection-descriptor
+			name="overTimePrefs"
+			element-class-ref="org.kuali.hr.time.workarea.WorkAreaOvertimePref"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+			auto-retrieve="true"
+			auto-update="object"
+			auto-delete="object"
+			proxy="false">
+			<inverse-foreignkey field-ref="tkWorkAreaId"/>
+		</collection-descriptor>		
 
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.hr.time.workarea.WorkAreaOvertimePref" table="tk_work_area_ovt_pref_t">
+		<field-descriptor name="tkWorkAreaOvtPrefId" 	column="tk_work_area_ovt_pref_id" 	jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_work_area_ovt_pref_s"/>
+		<field-descriptor name="tkWorkAreaId"       	column="TK_WORK_AREA_ID"	jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="payType" 	    		column="paytype"     	jdbc-type="VARCHAR" length="5" nullable="false" primaryKey="false" />
+	    <field-descriptor name="overtimePreference" 	column="overtime_preference"  jdbc-type="VARCHAR" length="3" nullable="false" primaryKey="false" />
+	</class-descriptor>	
+	
 
 	<class-descriptor class="org.kuali.hr.job.Job" table="hr_job_t">
 		<field-descriptor name="hrJobId" 				column="hr_job_id" 			jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="hr_job_s"/>

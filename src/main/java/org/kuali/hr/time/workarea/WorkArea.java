@@ -27,6 +27,7 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
     private transient List<TkRole> roles = new ArrayList<TkRole>();
     private List<Task> tasks = new ArrayList<Task>();
+    private List<WorkAreaOvertimePref> overTimePrefs = new ArrayList<WorkAreaOvertimePref>();
 
 
     @SuppressWarnings("unchecked")
@@ -151,5 +152,15 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
 	public void setRoles(List<TkRole> roles) {
 		this.roles = roles;
+	}
+
+
+	public List<WorkAreaOvertimePref> getOverTimePrefs() {
+		return overTimePrefs;
+	}
+
+
+	public void setOverTimePrefs(List<WorkAreaOvertimePref> overTimePrefs) {
+		this.overTimePrefs = overTimePrefs;
 	}
 }
