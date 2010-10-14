@@ -55,10 +55,8 @@
           <property name="alwaysAllowCollectionDeletion" value="true"/>          
           <property name="maintainableFields">
             <list> 
-              <bean parent="MaintainableFieldDefinition" p:name="beginPeriodDate" p:required="true"  />
-              <bean parent="MaintainableFieldDefinition" p:name="beginPeriodTime" p:required="true"  />
-              <bean parent="MaintainableFieldDefinition" p:name="endPeriodDate" p:required="true"  />
-              <bean parent="MaintainableFieldDefinition" p:name="endPeriodTime" p:required="true"  />
+              <bean parent="MaintainableFieldDefinition" p:name="beginPeriodDateTime" p:required="true"  />
+              <bean parent="MaintainableFieldDefinition" p:name="endPeriodDateTime" p:required="true"  />
        		  <bean parent="MaintainableFieldDefinition" p:name="initiateDate"   p:required="true"/>
         	  <bean parent="MaintainableFieldDefinition" p:name="initiateTime"   p:required="true"/>
       		  <bean parent="MaintainableFieldDefinition" p:name="endPayPeriodDate"   p:required="true"/>

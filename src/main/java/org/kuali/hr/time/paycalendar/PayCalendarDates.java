@@ -26,11 +26,9 @@ public class PayCalendarDates extends PersistableBusinessObjectBase {
     private Long payCalendarDatesId;
     private Long payCalendarId;
 
-    private Date beginPeriodDate;
-    private Time beginPeriodTime;
+    private java.util.Date beginPeriodDateTime;
 
-    private Date endPeriodDate;
-    private Time endPeriodTime;
+    private java.util.Date endPeriodDateTime;
     
 	private Date initiateDate;
 	private Time initiateTime;
@@ -67,38 +65,6 @@ public class PayCalendarDates extends PersistableBusinessObjectBase {
 
     public void setPayCalendarDatesId(Long payCalendarDatesId) {
         this.payCalendarDatesId = payCalendarDatesId;
-    }
-
-    public Date getBeginPeriodDate() {
-        return beginPeriodDate;
-    }
-
-    public void setBeginPeriodDate(Date beginPeriodDate) {
-        this.beginPeriodDate = beginPeriodDate;
-    }
-
-    public Time getBeginPeriodTime() {
-        return beginPeriodTime;
-    }
-
-    public void setBeginPeriodTime(Time beginPeriodTime) {
-        this.beginPeriodTime = beginPeriodTime;
-    }
-
-    public Date getEndPeriodDate() {
-        return endPeriodDate;
-    }
-
-    public void setEndPeriodDate(Date endPeriodDate) {
-        this.endPeriodDate = endPeriodDate;
-    }
-
-    public Time getEndPeriodTime() {
-        return endPeriodTime;
-    }
-
-    public void setEndPeriodTime(Time endPeriodTime) {
-        this.endPeriodTime = endPeriodTime;
     }
 
 	public Date getInitiateDate() {
@@ -163,5 +129,21 @@ public class PayCalendarDates extends PersistableBusinessObjectBase {
 
 	public void setSupervisorApprovalTime(Time supervisorApprovalTime) {
 		this.supervisorApprovalTime = supervisorApprovalTime;
+	}
+
+	public java.util.Date getBeginPeriodDateTime() {
+		return beginPeriodDateTime;
+	}
+
+	public void setBeginPeriodDateTime(java.util.Date beginPeriodDateTime) {
+		this.beginPeriodDateTime = beginPeriodDateTime;
+	}
+
+	public java.util.Date getEndPeriodDateTime() {
+		return endPeriodDateTime;
+	}
+
+	public void setEndPeriodDateTime(java.util.Date endPeriodDateTime) {
+		this.endPeriodDateTime = endPeriodDateTime;
 	}
 }

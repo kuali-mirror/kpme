@@ -5,14 +5,11 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.paycalendar.dao.PayCalendarDao;
 import org.kuali.hr.time.paytype.PayType;
-import org.kuali.hr.time.util.TKUser;
 
 public class PayCalendarServiceImpl implements PayCalendarService {
 
@@ -57,16 +54,12 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 			if (payCalendar == null)
 				throw new RuntimeException("Null pay calendar on payType in getPayEndDate");
 			List<PayCalendarDates> dates = payCalendar.getPayCalendarDates();
-			for (PayCalendarDates pcdate : dates) {
-				LocalTime beginTime = LocalTime.fromDateFields(pcdate.getBeginPeriodTime()); 
-				LocalDate beginDate = new LocalDate(pcdate.getBeginPeriodDate());					
-				DateTime begin = beginDate.toDateTime(beginTime); 
+			for (PayCalendarDates pcdate : dates) { 
+				DateTime beginDate = new DateTime(pcdate.getBeginPeriodDateTime());					
 				
-				LocalTime endTime = LocalTime.fromDateFields(pcdate.getEndPeriodTime());
-				LocalDate endDate = new LocalDate(pcdate.getEndPeriodDate());
-				DateTime end = endDate.toDateTime(endTime);
+				DateTime endDate = new DateTime(pcdate.getEndPeriodDateTime());
 				
-				Interval range = new Interval(begin, end);
+				Interval range = new Interval(beginDate, endDate);
 				// For a given principal_id + job_number combination, it is given that there 
 				// will be no overlapping PayCalendarDates, this way we know that if our 
 				// date fits within the range any given pay calendar date, we have the 

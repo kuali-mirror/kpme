@@ -13,10 +13,9 @@
     <property name="attributes">
       <list>
         <ref bean="PayCalendarDates-payCalendarId"/>
-        <ref bean="PayCalendarDates-beginPeriodDate"/>
-        <ref bean="PayCalendarDates-beginPeriodTime"/>
-        <ref bean="PayCalendarDates-endPeriodDate"/>
-        <ref bean="PayCalendarDates-endPeriodTime"/>
+        <ref bean="PayCalendarDates-beginPeriodDateTime"/>
+
+        <ref bean="PayCalendarDates-endPeriodDateTime"/>
         <ref bean="PayCalendar-initiateDate"/>
         <ref bean="PayCalendar-initiateTime"/>
         <ref bean="PayCalendar-endPayPeriodDate"/>
@@ -46,9 +45,9 @@
   </bean>
   
     
-  <bean id="PayCalendarDates-beginPeriodDate" parent="PayCalendarDates-beginPeriodDate-parentBean"/>
-  <bean id="PayCalendarDates-beginPeriodDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Begin Period Date"/>
+  <bean id="PayCalendarDates-beginPeriodDateTime" parent="PayCalendarDates-beginPeriodDateTime-parentBean"/>
+  <bean id="PayCalendarDates-beginPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Begin Period Date Time"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
  		<bean parent="DateValidationPattern"/>
@@ -57,28 +56,14 @@
       <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
     </property>
     <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
-    <property name="name" value="beginPeriodDate"/>
-    <property name="label" value="Begin Period Date"/>
+    <property name="name" value="beginPeriodDateTime"/>
+    <property name="label" value="Begin Period Date Time"/>
   </bean>
 
-  <bean id="PayCalendarDates-beginPeriodTime" parent="PayCalendarDates-beginPeriodTime-parentBean"/>
-  <bean id="PayCalendarDates-beginPeriodTime-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Begin Period Time"/>
-    <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>    
-    <property name="validationPattern">
- 		<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]" p:validationErrorMessageKey="MISSING"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
-    <property name="name" value="beginPeriodTime"/>
-    <property name="label" value="Begin Period Time"/>
-  </bean>
 
-  <bean id="PayCalendarDates-endPeriodDate" parent="PayCalendarDates-endPeriodDate-parentBean"/>
-  <bean id="PayCalendarDates-endPeriodDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="End Period Date"/>
+  <bean id="PayCalendarDates-endPeriodDateTime" parent="PayCalendarDates-endPeriodDateTime-parentBean"/>
+  <bean id="PayCalendarDates-endPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="End Period Date Time"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
  		<bean parent="DateValidationPattern"/>
@@ -87,23 +72,8 @@
       <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
     </property>
     <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
-    <property name="name" value="endPeriodDate"/>
-    <property name="label" value="End Period Date"/>
-  </bean>
-
-  <bean id="PayCalendarDates-endPeriodTime" parent="PayCalendarDates-endPeriodTime-parentBean"/>
-  <bean id="PayCalendarDates-endPeriodTime-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="End Period Time"/>
-    <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>      
-    <property name="validationPattern">
- 		<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]" p:validationErrorMessageKey="MISSING"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
-    <property name="name" value="endPeriodTime"/>
-    <property name="label" value="End Period Time"/>
+    <property name="name" value="endPeriodDateTime"/>
+    <property name="label" value="End Period Date Time"/>
   </bean>
   
   <bean id="PayCalendar-initiateDate" parent="PayCalendar-initiateDate-parentBean"/>
@@ -239,19 +209,15 @@
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="payCalendarId"/>
-        <bean parent="FieldDefinition" p:attributeName="beginPeriodDate"/>
-        <bean parent="FieldDefinition" p:attributeName="beginPeriodTime"/>
-        <bean parent="FieldDefinition" p:attributeName="endPeriodDate"/>
-        <bean parent="FieldDefinition" p:attributeName="endPeriodTime"/>
+        <bean parent="FieldDefinition" p:attributeName="beginPeriodDateTime"/>
+        <bean parent="FieldDefinition" p:attributeName="endPeriodDateTime"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="payCalendarId"/>
-        <bean parent="FieldDefinition" p:attributeName="beginPeriodDate"/>
-        <bean parent="FieldDefinition" p:attributeName="beginPeriodTime"/>
-        <bean parent="FieldDefinition" p:attributeName="endPeriodDate"/>
-        <bean parent="FieldDefinition" p:attributeName="endPeriodTime"/>
+        <bean parent="FieldDefinition" p:attributeName="beginPeriodDateTime"/>
+        <bean parent="FieldDefinition" p:attributeName="endPeriodDateTime"/>
       </list>
     </property>
     <property name="title" value="Pay Calendar Dates Lookup"/>
