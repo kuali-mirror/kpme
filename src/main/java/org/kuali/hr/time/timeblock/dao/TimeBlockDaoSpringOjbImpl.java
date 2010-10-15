@@ -1,13 +1,10 @@
 package org.kuali.hr.time.timeblock.dao;
 
-import java.util.Date;
-import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -36,21 +33,12 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 		return (TimeBlock)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(TimeBlock.class, currentRecordCriteria));
 	}
 
-	@SuppressWarnings({ "unchecked", "deprecation" })
-	public List<TimeBlock> getTimeBlocksByPeriod(String principalId, Date beginDate, Date endDate) {
-
-		Timestamp begin = new Timestamp(beginDate.getTime());
-		Timestamp end = new Timestamp(endDate.getTime());
+	@SuppressWarnings("unchecked")
+	public List<TimeBlock> getTimeBlocks(Long documentId){
 		Criteria currentRecordCriteria = new Criteria();
-		currentRecordCriteria.addEqualTo("user_principal_id", principalId);
-		currentRecordCriteria.addGreaterOrEqualThan("begin_ts", begin);
-		currentRecordCriteria.addLessOrEqualThan("end_ts", end);
-		currentRecordCriteria.addOrderByDescending("begin_ts");
-		List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
-		Collection<TimeBlock> c = this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, currentRecordCriteria));
-		timeBlocks.addAll(c);
-
-		return timeBlocks;
+		currentRecordCriteria.addEqualTo("documentId", documentId);
+		Query query = QueryFactory.newQuery(TimeBlock.class, currentRecordCriteria);
+		return (List<TimeBlock>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 	}
 
 	public void deleteTimeBlock(TimeBlock timeBlock) {

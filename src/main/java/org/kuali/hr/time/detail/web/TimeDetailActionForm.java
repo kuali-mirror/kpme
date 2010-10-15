@@ -71,11 +71,7 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	}
 
 	public List<TimeBlock> getTimeBlockList() {
-		return timeBlockList;
-	}
-
-	public void setTimeBlockList(List<TimeBlock> timeBlockList) {
-		this.timeBlockList = timeBlockList;
+		return this.getTimesheetDocument().getTimeBlocks();
 	}
 
 	public TimeBlock getTimeBlock() {

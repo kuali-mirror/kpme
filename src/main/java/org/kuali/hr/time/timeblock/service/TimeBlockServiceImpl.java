@@ -1,7 +1,6 @@
 package org.kuali.hr.time.timeblock.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,7 +13,6 @@ import org.apache.log4j.Logger;
 import org.joda.time.Interval;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.clock.web.ClockActionForm;
 import org.kuali.hr.time.detail.web.TimeDetailActionForm;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
@@ -22,7 +20,6 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timeblock.dao.TimeBlockDao;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 
@@ -93,77 +90,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		}
 		
 	}
-	
-	// TODO: need to figure out how to get the correct user's timezone
-	@Override
-	public void saveTimeBlock(TimesheetActionForm form) {
-		Timestamp beginTimestamp = null;
-		Timestamp endTimestamp = null;
-		TimesheetDocument timesheetDocument = form.getTimesheetDocument();
 
-		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(form.getTimesheetDocument(), form.getSelectedAssignment());
-		
-		if(form instanceof ClockActionForm) {
-			ClockActionForm caf = (ClockActionForm) form;
-			long beginTime = caf.getLastClockTimestamp().getTime();
-			beginTimestamp = new Timestamp(beginTime);
-			endTimestamp = caf.getClockLog().getClockTimestamp();
-		}
-		else {
-			TimeDetailActionForm tdaf = (TimeDetailActionForm) form; 
-			
-			// TODO: need to figure out what begin time and end time should be used
-			// for earn codes like VAC
-			if(tdaf.getHours() != null) {
-				Calendar start = Calendar.getInstance();
-				Calendar end = Calendar.getInstance();
-				beginTimestamp = new Timestamp(tdaf.getStartTime());
-				endTimestamp = new Timestamp(tdaf.getEndTime());
-				start.setTimeInMillis(beginTimestamp.getTime());
-				end.setTimeInMillis(endTimestamp.getTime());
-			}
-			else {
-				beginTimestamp = new Timestamp(tdaf.getStartTime());
-				endTimestamp = new Timestamp(tdaf.getEndTime());
-			}
-		}
-		//Create 1 or many timeblocks if the span of timeblocks exceed more than one 
-		//day that is determined by pay period day(24 hrs + period begin date)
-		Interval firstDay = null;
-		List<Interval> dayIntervals = TKUtils.getDaySpanForPayCalendarEntry(timesheetDocument.getPayCalendarEntry());
-		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
-		for(Interval dayInt : dayIntervals){
-			//on second day of span so safe to assume doesnt go furthur than this
-			if(firstDay != null){
-				TimeBlock tb = new TimeBlock();
-				tb.setBeginTimestamp(new Timestamp(dayInt.getStartMillis()));
-				tb.setEndTimestamp(endTimestamp);
-				lstTimeBlocks.add(tb);
-				break;
-			}
-			if(dayInt.contains(beginTimestamp.getTime()) ){
-				firstDay = dayInt;
-				if(dayInt.contains(endTimestamp.getTime())){
-					//create one timeblock if contained in one day interval
-					TimeBlock tb = createTimeBlock(timesheetDocument, beginTimestamp, endTimestamp, assignment, form.getSelectedEarnCode());
-					tb.setBeginTimestamp(beginTimestamp);
-					tb.setEndTimestamp(endTimestamp);
-					lstTimeBlocks.add(tb);
-					break;
-				} else {
-					//create a timeblock that wraps the 24 hr day
-					TimeBlock tb = createTimeBlock(timesheetDocument, beginTimestamp, endTimestamp, assignment, form.getSelectedEarnCode());
-					tb.setBeginTimestamp(beginTimestamp);
-					tb.setEndTimestamp(new Timestamp(firstDay.getEndMillis()));
-					lstTimeBlocks.add(tb);
-				}
-			}
-		}
-
-		for(TimeBlock tb : lstTimeBlocks){
-			timeBlockDao.saveOrUpdate(tb);
-		}
-	}
 	
 	private TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode){
 		TimeBlock tb = new TimeBlock();
@@ -193,24 +120,6 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     	tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
     	
     	return tb;
-	}
-	
-
-	public List<TimeBlock> getTimeBlocksByPeriod(String principalId, Date beginDate, Date endDate) {
-		return timeBlockDao.getTimeBlocksByPeriod(principalId, beginDate, endDate);
-	}
-
-	public TimeBlock deleteTimeBlock(TimeDetailActionForm tdaf) {
-		List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
-		for(TimeBlock tb : timeBlocks) {
-			if(tb.getTkTimeBlockId().compareTo(tdaf.getTkTimeBlockId()) == 0) {
-				timeBlockDao.deleteTimeBlock(tb);
-				return tb;
-			}
-		}
-		
-		LOG.error("no matched time block to delete");
-		return new TimeBlock();
 	}
 
 	public TimeBlock getTimeBlock(String timeBlockId) {
@@ -285,9 +194,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	}
 	
 	@Override
-	public List<Map<String,Object>> getTimeBlocksForOurput(TimeDetailActionForm form) {
-		List<TimeBlock> timeBlocks = form.getTimesheetDocument().getTimeBlocks();
-
+	public List<Map<String,Object>> getTimeBlocksForOurput(List<TimeBlock> timeBlocks) {
 		List<Map<String,Object>> timeBlockList = new LinkedList<Map<String,Object>>();
 
 		for(TimeBlock timeBlock : timeBlocks) {
@@ -325,12 +232,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		
 		return origTimeBlocks;
 	}
-
-	@Override
-	public List<TimeBlock> getTimeBlocksByPeriod(String principalId,
-			java.util.Date beginDate, java.util.Date endDate) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public List<TimeBlock> getTimeBlocks(Long documentId){
+		return timeBlockDao.getTimeBlocks(documentId);
 	}
 
 }

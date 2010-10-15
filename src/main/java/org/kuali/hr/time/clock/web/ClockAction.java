@@ -2,6 +2,7 @@ package org.kuali.hr.time.clock.web;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -70,9 +71,27 @@ public class ClockAction extends TimesheetAction {
     	    caf.setClockLog(clockLog);
     	    
     	    if(StringUtils.equals(caf.getCurrentClockAction(), "CO")) {
+    			long beginTime = caf.getLastClockTimestamp().getTime();
+    			Timestamp beginTimestamp = new Timestamp(beginTime);
+    			Timestamp endTimestamp = caf.getClockLog().getClockTimestamp();
+    			
+    			Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), 
+						caf.getSelectedAssignment());
+    			//create the list of timeblocks based on the range passed in
+    			List<TimeBlock> lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 
+    					caf.getSelectedEarnCode(), caf.getTimesheetDocument(),beginTimestamp, endTimestamp);
+    			//concat delta of timeblocks (new and original)
+    			lstNewTimeBlocks.addAll(caf.getTimesheetDocument().getTimeBlocks());
+    			//TODO do any server side validation of adding checking for overlapping timeblocks etc
+    			//return if any issues
 
-    	    	TkServiceLocator.getTimeBlockService().saveTimeBlock(caf);
-    	    	//caf.setTimeBlock(tb);
+    			//reset time hour details
+    			lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().resetTimeHourDetail(lstNewTimeBlocks);
+    			//apply any rules for this action
+    			lstNewTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.CLOCK_OUT, lstNewTimeBlocks);
+
+    			//call persist method that only saves added/deleted/changed timeblocks
+    			TkServiceLocator.getTimeBlockService().saveTimeBlocks(caf.getTimesheetDocument().getTimeBlocks(), lstNewTimeBlocks);
     	    	//TkServiceLocator.getTimeHourDetailService().saveTimeHourDetail(tb);
     	    	//TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(caf);
     	    }

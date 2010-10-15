@@ -72,7 +72,7 @@ public class TimeDetailAction extends TimesheetAction {
 
 		TimeDetailActionForm timeDetailForm = (TimeDetailActionForm) form;
 		
-		List<Map<String,Object>> timeBlockList = TkServiceLocator.getTimeBlockService().getTimeBlocksForOurput(timeDetailForm);
+		List<Map<String,Object>> timeBlockList = TkServiceLocator.getTimeBlockService().getTimeBlocksForOurput(timeDetailForm.getTimeBlockList());
 		timeDetailForm.setOutputString(JSONValue.toJSONString(timeBlockList));
 		
 		return mapping.findForward("ws");
