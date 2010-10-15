@@ -19,6 +19,7 @@ import org.kuali.hr.time.detail.web.TimeDetailActionForm;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timeblock.dao.TimeBlockDao;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
@@ -309,6 +310,20 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	public void deleteTimeBlock(TimeBlock timeBlock) {
 		timeBlockDao.deleteTimeBlock(timeBlock);
 		
+	}
+	
+	public List<TimeBlock> resetTimeHourDetail(List<TimeBlock> origTimeBlocks){
+		for(TimeBlock tb : origTimeBlocks){
+			List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
+			TimeHourDetail timeHourDetail = new TimeHourDetail();
+			timeHourDetail.setEarnCode(tb.getEarnCode());
+			timeHourDetail.setHours(tb.getHours());
+			timeHourDetail.setTkTimeBlockId(tb.getTkTimeBlockId());
+			timeHourDetails.add(timeHourDetail);
+			tb.setTimeHourDetails(timeHourDetails);
+		}
+		
+		return origTimeBlocks;
 	}
 
 	@Override

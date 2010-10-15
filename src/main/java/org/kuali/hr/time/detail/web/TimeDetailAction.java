@@ -79,13 +79,33 @@ public class TimeDetailAction extends TimesheetAction {
 	}
 
 	public ActionForward deleteTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		// the corresponding js code resides in the fullcalendar-1.4.7.js somewhere around #1664
 		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-		tdaf.setTimeBlock(TkServiceLocator.getTimeBlockService().deleteTimeBlock(tdaf));
-		tdaf.setClockAction(TkConstants.DELETE);
-		TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tdaf);
-
+		//Grab timeblock to be deleted from form
+		List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+		TimeBlock deletedTimeBlock = null;
+		for(TimeBlock tb : timeBlocks) {
+			if(tb.getTkTimeBlockId().compareTo(tdaf.getTkTimeBlockId()) == 0) {
+				deletedTimeBlock = tb;
+				break;
+			}
+		}
+		//Remove from the list of timeblocks
+		List<TimeBlock> lstNewTimeBlocks = new ArrayList<TimeBlock>();
+		lstNewTimeBlocks.addAll(tdaf.getTimesheetDocument().getTimeBlocks());
+		lstNewTimeBlocks.remove(deletedTimeBlock);
+		//Delete timeblock
+		TkServiceLocator.getTimeBlockService().deleteTimeBlock(deletedTimeBlock);
+		//Reset time hour details on timeblocks for rule processing
+		lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().resetTimeHourDetail(lstNewTimeBlocks);
+		//apply any rules for this action
+		lstNewTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, lstNewTimeBlocks);
+		
+		//call persist method that only saves added/deleted/changed timeblocks
+		TkServiceLocator.getTimeBlockService().saveTimeBlocks(tdaf.getTimesheetDocument().getTimeBlocks(), lstNewTimeBlocks);
+		
+		//TODO call timesheet history service
+		
 		return mapping.findForward("basic");
 	}
 
@@ -103,15 +123,7 @@ public class TimeDetailAction extends TimesheetAction {
 		//return if any issues
 		
 		//reset time hour details
-		for(TimeBlock tb : lstNewTimeBlocks){
-			List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
-			TimeHourDetail timeHourDetail = new TimeHourDetail();
-			timeHourDetail.setEarnCode(tb.getEarnCode());
-			timeHourDetail.setHours(tb.getHours());
-			timeHourDetail.setTkTimeBlockId(tb.getTkTimeBlockId());
-			timeHourDetails.add(timeHourDetail);
-			tb.setTimeHourDetails(timeHourDetails);
-		}
+		lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().resetTimeHourDetail(lstNewTimeBlocks);
 		//apply any rules for this action
 		lstNewTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, lstNewTimeBlocks);
 		

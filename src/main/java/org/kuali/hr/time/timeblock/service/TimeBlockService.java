@@ -23,4 +23,5 @@ public interface TimeBlockService {
 	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument, 
 											Timestamp beginTimestamp, Timestamp endTimestamp);
 	public void saveTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks);
+	public List<TimeBlock> resetTimeHourDetail(List<TimeBlock> origTimeBlocks);
 }

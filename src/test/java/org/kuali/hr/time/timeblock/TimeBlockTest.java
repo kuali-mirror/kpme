@@ -14,10 +14,6 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TKUtils;
 
 public class TimeBlockTest extends TkTestCase {
-	@Test
-	public void testTimeBlockPersistence() throws Exception {
-		
-	}
 	
 	@Test
 	public void testTimeBlockComparison() throws Exception {
