@@ -53,6 +53,7 @@ public class TkConstants {
     public static final class ACTIONS {
     	public static final String CLOCK_IN = "clockIn";
     	public static final String CLOCK_OUT = "clockOut";
+    	public static final String ADD_TIME_BLOCK = "addTimeBlock";
     }
 
     public static final String EARN_CODE_RGH = "RGN";

@@ -1,11 +1,12 @@
 package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -15,7 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Duration;
-import org.joda.time.Weeks;
+import org.joda.time.Interval;
+import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.rice.core.config.ConfigContext;
@@ -71,10 +73,9 @@ public class TKUtils {
 		return daysBetween;
 	}
 	
-	public static long getDaysBetween(Date startDate, Date endDate){
+	public static long getDaysBetween(java.util.Date startDate, java.util.Date endDate){
 		Calendar beginCal = GregorianCalendar.getInstance();
 		Calendar endCal = GregorianCalendar.getInstance();
-		
 		beginCal.setTime(startDate);
 		endCal.setTime(endDate);
 		
@@ -133,5 +134,21 @@ public class TKUtils {
 	
 	public static String formatAssignmentKey(Long jobNumber, Long workArea, Long task) {
 		return jobNumber + TkConstants.ASSIGNMENT_KEY_DELIMITER + workArea + TkConstants.ASSIGNMENT_KEY_DELIMITER + task; 
+	}
+	
+	public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarDates payCalendarEntry){
+		DateTime beginDateTime = new DateTime(payCalendarEntry.getBeginPeriodDateTime());
+		DateTime endDateTime = new DateTime(payCalendarEntry.getEndPeriodDateTime());
+		List<Interval> dayIntervals = new ArrayList<Interval>();
+		
+		DateTime currDateTime = beginDateTime;
+		while(currDateTime.isBefore(endDateTime)){
+			DateTime prevDateTime = currDateTime;
+			currDateTime = currDateTime.plusDays(1);
+			Interval daySpan = new Interval(prevDateTime, currDateTime);
+			dayIntervals.add(daySpan);
+		}
+
+		return dayIntervals;
 	}
 }

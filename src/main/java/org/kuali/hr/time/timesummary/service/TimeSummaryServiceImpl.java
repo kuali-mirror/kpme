@@ -25,9 +25,9 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument) {
 		TimeSummary timeSummary = new TimeSummary();
 		timeSummary.setPayBeginDate(timesheetDocument.getPayCalendarEntry()
-				.getBeginPeriodDate());
+				.getBeginPeriodDateTime());
 		timeSummary.setPayEndDate(timesheetDocument.getPayCalendarEntry()
-				.getEndPeriodDate());
+				.getEndPeriodDateTime());
 		timeSummary.setNumberOfDays(TKUtils.getDaysBetween(timeSummary
 				.getPayBeginDate(), timeSummary.getPayEndDate()));
 

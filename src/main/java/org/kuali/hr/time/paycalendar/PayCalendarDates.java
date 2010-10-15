@@ -33,6 +33,8 @@ public class PayCalendarDates extends PersistableBusinessObjectBase {
 	private Date initiateDate;
 	private Time initiateTime;
 
+	//this property is for the batch job 
+	//that runs at the end of pay period
 	private Date endPayPeriodDate;
 	private Time endPayPeriodTime;
 

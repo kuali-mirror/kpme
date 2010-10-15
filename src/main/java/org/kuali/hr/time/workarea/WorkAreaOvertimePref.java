@@ -9,8 +9,6 @@ public class WorkAreaOvertimePref extends PersistableBusinessObjectBase {
 	/**
 	 * 
 	 */
-	
-	
 	private static final long serialVersionUID = 1L;
 	
 	private Long tkWorkAreaOvtPrefId;
@@ -48,6 +46,16 @@ public class WorkAreaOvertimePref extends PersistableBusinessObjectBase {
 
 	public void setOvertimePreference(String overtimePreference) {
 		this.overtimePreference = overtimePreference;
+	}
+
+
+	public Long getTkWorkAreaOvtPrefId() {
+		return tkWorkAreaOvtPrefId;
+	}
+
+
+	public void setTkWorkAreaOvtPrefId(Long tkWorkAreaOvtPrefId) {
+		this.tkWorkAreaOvtPrefId = tkWorkAreaOvtPrefId;
 	}
 
 }

@@ -1,11 +1,17 @@
 package org.kuali.hr.time.paycalendar;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Interval;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.util.TKUtils;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -47,18 +53,18 @@ public class PayCalendarTest extends TkTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		PayCalendar payCalendar = new PayCalendar();
-		payCalendar.setCalendarGroup("test");
-		payCalendar.setChart("BL");
-		payCalendar.setBeginDate(new Date(System.currentTimeMillis()));
-		payCalendar.setEndDate(new Date(System.currentTimeMillis()));
-		payCalendar.setPayCalendarId(new Long(1000));
-		
-		KNSServiceLocator.getBusinessObjectService().save(payCalendar);
-		PayCalendarDates payCalendarDates = new PayCalendarDates();
-		payCalendarDates.setPayCalendarId(new Long(1000));
-		payCalendarDates.setPayCalendarDatesId(new Long(1000));
-		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);
+//		PayCalendar payCalendar = new PayCalendar();
+//		payCalendar.setCalendarGroup("test");
+//		payCalendar.setChart("BL");
+//		payCalendar.setBeginDate(new Date(System.currentTimeMillis()));
+//		payCalendar.setEndDate(new Date(System.currentTimeMillis()));
+//		payCalendar.setPayCalendarId(new Long(1000));
+//		
+//		KNSServiceLocator.getBusinessObjectService().save(payCalendar);
+//		PayCalendarDates payCalendarDates = new PayCalendarDates();
+//		payCalendarDates.setPayCalendarId(new Long(1000));
+//		payCalendarDates.setPayCalendarDatesId(new Long(1000));
+//		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);
 	}
 
 	
@@ -74,13 +80,10 @@ public class PayCalendarTest extends TkTestCase {
 	
 	@Override
 	public void tearDown() throws Exception {
-		PayCalendar payCal = (PayCalendar)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(PayCalendar.class, 1000);
-		PayCalendarDates payCalDates = (PayCalendarDates)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(PayCalendarDates.class, 1000);
-		KNSServiceLocator.getBusinessObjectService().delete(payCal);
-		KNSServiceLocator.getBusinessObjectService().delete(payCalDates);
+//		PayCalendar payCal = (PayCalendar)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(PayCalendar.class, 1000);
+//		PayCalendarDates payCalDates = (PayCalendarDates)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(PayCalendarDates.class, 1000);
+//		KNSServiceLocator.getBusinessObjectService().delete(payCal);
+//		KNSServiceLocator.getBusinessObjectService().delete(payCalDates);
 		super.tearDown();
 	}
-
-	
-	
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class TimeBlock extends PersistableBusinessObjectBase {
@@ -216,4 +216,23 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	public String getAssignString(){
 		return this.jobNumber + "_" + this.workArea + "_" + this.task;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(hashCode() == obj.hashCode()){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		StringBuilder key = new StringBuilder(getAssignString()+"_"+getEarnCode()+"_"+getWorkArea()+"_"+getTask()+"_"+getBeginTimestamp()+"_"+getEndTimestamp());
+		for(TimeHourDetail timeHourDetail : getTimeHourDetails()){
+			key.append(timeHourDetail.getEarnCode()+"_"+timeHourDetail.getAmount()+"_"+timeHourDetail.getHours());
+		}
+		return HashCodeBuilder.reflectionHashCode(key);
+	}
+	
+	
 }

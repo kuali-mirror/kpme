@@ -1,5 +1,7 @@
 package org.kuali.hr.time.detail.web;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +17,8 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -25,8 +29,8 @@ public class TimeDetailAction extends TimesheetAction {
 		ActionForward forward = super.execute(mapping, form, request, response);
 		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
 
-		tdaf.setBeginPeriodDate(tdaf.getPayCalendarDates().getBeginPeriodDate());
-		tdaf.setEndPeriodDate(tdaf.getPayCalendarDates().getEndPeriodDate());
+		tdaf.setBeginPeriodDate(tdaf.getPayCalendarDates().getBeginPeriodDateTime());
+		tdaf.setEndPeriodDate(tdaf.getPayCalendarDates().getEndPeriodDateTime());
 
 		// for visually impaired users 
 		// TimesheetDocument td = tdaf.getTimesheetDocument();
@@ -86,18 +90,35 @@ public class TimeDetailAction extends TimesheetAction {
 	}
 
 	public ActionForward addTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-		tdaf.setClockAction(TkConstants.ADD);
-
-		if(StringUtils.equals(tdaf.getAcrossDays(),"y")) {
-			tdaf.setTimeBlockList(TkServiceLocator.getTimeBlockService().saveTimeBlockList(tdaf));
-			TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistoryList(tdaf);
+		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), 
+									tdaf.getSelectedAssignment());
+		//create the list of timeblocks based on the range passed in
+		List<TimeBlock> lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 
+											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),new Timestamp(tdaf.getStartTime()), 
+											new Timestamp(tdaf.getEndTime()));
+		//concat delta of timeblocks (new and original)
+		lstNewTimeBlocks.addAll(tdaf.getTimesheetDocument().getTimeBlocks());
+		//TODO do any server side validation of adding checking for overlapping timeblocks etc
+		//return if any issues
+		
+		//reset time hour details
+		for(TimeBlock tb : lstNewTimeBlocks){
+			List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
+			TimeHourDetail timeHourDetail = new TimeHourDetail();
+			timeHourDetail.setEarnCode(tb.getEarnCode());
+			timeHourDetail.setHours(tb.getHours());
+			timeHourDetail.setTkTimeBlockId(tb.getTkTimeBlockId());
+			timeHourDetails.add(timeHourDetail);
+			tb.setTimeHourDetails(timeHourDetails);
 		}
-		else {
-	    	tdaf.setTimeBlock(TkServiceLocator.getTimeBlockService().saveTimeBlock(tdaf));
-	    	TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tdaf);
-		}
+		//apply any rules for this action
+		lstNewTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, lstNewTimeBlocks);
+		
+		//call persist method that only saves added/deleted/changed timeblocks
+		TkServiceLocator.getTimeBlockService().saveTimeBlocks(tdaf.getTimesheetDocument().getTimeBlocks(), lstNewTimeBlocks);
+		//call history service
+		
 
 		return mapping.findForward("basic");
 	}

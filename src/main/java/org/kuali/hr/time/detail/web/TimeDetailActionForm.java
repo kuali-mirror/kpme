@@ -1,7 +1,6 @@
 package org.kuali.hr.time.detail.web;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -14,8 +13,8 @@ public class TimeDetailActionForm extends TimesheetActionForm {
      */
     private static final long serialVersionUID = 5277197287612035236L;
 
-	private Date beginPeriodDate;
-	private Date endPeriodDate;
+	private java.util.Date beginPeriodDate;
+	private java.util.Date endPeriodDate;
 	
 	// this is for the ajax call
 	private String outputString;
@@ -31,21 +30,6 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	private String startDate;
 	private String endDate;
 	
-	public Date getBeginPeriodDate() {
-		return beginPeriodDate;
-	}
-
-	public void setBeginPeriodDate(Date beginPeriodDate) {
-		this.beginPeriodDate = beginPeriodDate;
-	}
-
-	public Date getEndPeriodDate() {
-		return endPeriodDate;
-	}
-
-	public void setEndPeriodDate(Date endPeriodDate) {
-		this.endPeriodDate = endPeriodDate;
-	}
 	public String getOutputString() {
 		return outputString;
 	}
@@ -132,6 +116,22 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	public java.util.Date getBeginPeriodDate() {
+		return beginPeriodDate;
+	}
+
+	public void setBeginPeriodDate(java.util.Date beginPeriodDate) {
+		this.beginPeriodDate = beginPeriodDate;
+	}
+
+	public java.util.Date getEndPeriodDate() {
+		return endPeriodDate;
+	}
+
+	public void setEndPeriodDate(java.util.Date endPeriodDate) {
+		this.endPeriodDate = endPeriodDate;
 	}
 
 }

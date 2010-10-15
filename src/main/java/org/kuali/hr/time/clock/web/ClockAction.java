@@ -71,10 +71,10 @@ public class ClockAction extends TimesheetAction {
     	    
     	    if(StringUtils.equals(caf.getCurrentClockAction(), "CO")) {
 
-    	    	TimeBlock tb = TkServiceLocator.getTimeBlockService().saveTimeBlock(caf);
-    	    	caf.setTimeBlock(tb);
-    	    	TkServiceLocator.getTimeHourDetailService().saveTimeHourDetail(tb);
-    	    	TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(caf);
+    	    	TkServiceLocator.getTimeBlockService().saveTimeBlock(caf);
+    	    	//caf.setTimeBlock(tb);
+    	    	//TkServiceLocator.getTimeHourDetailService().saveTimeHourDetail(tb);
+    	    	//TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(caf);
     	    }
     	    return mapping.findForward("basic");
     	}

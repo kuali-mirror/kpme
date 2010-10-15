@@ -48,7 +48,7 @@ public class TkTestUtils {
 	public static TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, int dayInPeriod, int numHours){
 		TimeBlock timeBlock = new TimeBlock();
 		Calendar cal = GregorianCalendar.getInstance();
-		cal.setTimeInMillis(timesheetDocument.getPayCalendarEntry().getBeginPeriodDate().getTime());
+		cal.setTimeInMillis(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime().getTime());
 		for(int i = 1; i< dayInPeriod;i++){
 			cal.add(Calendar.DAY_OF_MONTH, 1);
 		}

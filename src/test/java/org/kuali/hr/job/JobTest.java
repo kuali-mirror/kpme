@@ -1,6 +1,5 @@
 package org.kuali.hr.job;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -44,10 +43,10 @@ public class JobTest extends TkTestCase {
 		cal.set(Calendar.DATE, 1);
 		cal.set(Calendar.YEAR, 2010);
 
-		payCalendarDates.setBeginPeriodDate(new java.sql.Date(cal.getTime().getTime()));
+		payCalendarDates.setBeginPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
 
 		cal.set(Calendar.DATE, 14);
-		payCalendarDates.setEndPeriodDate(new java.sql.Date(cal.getTime().getTime()));
+		payCalendarDates.setEndPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
 
 		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);
 		assertTrue(TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(payCalendarDates.getPayCalendarDatesId()) != null);
