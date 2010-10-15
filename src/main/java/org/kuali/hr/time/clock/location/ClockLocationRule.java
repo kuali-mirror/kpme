@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.rule.TkRule;
-import org.kuali.hr.time.rule.TkRuleContext;
 import org.kuali.hr.time.workarea.WorkArea;
 
 public class ClockLocationRule extends TkRule {

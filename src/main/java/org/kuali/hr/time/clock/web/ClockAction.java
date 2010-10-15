@@ -46,8 +46,7 @@ public class ClockAction extends TimesheetAction {
     	    	Map<String,String> assignmentDesc = TkServiceLocator.getAssignmentService().getAssignmentDescriptions(assignment);
     	    	caf.setAssignmentDescriptions(assignmentDesc);
 
-    	    }
-
+	   	    }
     	    return forward; 
     	}
 

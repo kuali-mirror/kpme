@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.rule.TkRule;
-import org.kuali.hr.time.rule.TkRuleContext;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 

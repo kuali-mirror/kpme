@@ -6,7 +6,6 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.rule.TkRule;
-import org.kuali.hr.time.rule.TkRuleContext;
 
 public class ShiftDifferentialRule extends TkRule {
 
