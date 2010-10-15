@@ -916,8 +916,8 @@ DROP TABLE IF EXISTS `tk_py_calendar_dates_t`;
 CREATE TABLE `tk_py_calendar_dates_t` (
   `tk_py_calendar_dates_id` bigint(20) NOT NULL,
   `tk_py_calendar_id` bigint(20) NOT NULL,
-  `begin_period_date` date NOT NULL,
-  `end_period_date` date NOT NULL,
+  `begin_period_date` timestamp NOT NULL,
+  `end_period_date` timestamp NOT NULL,
   `initiate_date` date DEFAULT NULL,
   `initiate_time` time DEFAULT NULL,
   `end_pay_period_date` date DEFAULT NULL,
