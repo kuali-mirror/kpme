@@ -1,9 +1,7 @@
 package org.kuali.hr.time.timeblock.service;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,9 +10,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.joda.time.Interval;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.detail.web.TimeDetailActionForm;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -126,72 +121,6 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		return timeBlockDao.getTimeBlock(timeBlockId);
 	}
 	
-	// TODO: need to figure out how to get the correct user timezone
-	public List<TimeBlock> saveTimeBlockList(TimeDetailActionForm form) {
-		Timestamp beginTimestamp = null;
-		Timestamp endTimestamp = null;
-		BigDecimal hours = new BigDecimal("0.0");
-		Calendar start = Calendar.getInstance();
-		Calendar end = Calendar.getInstance();
-		
-		if(form.getHours() != null) {
-			beginTimestamp = new Timestamp(form.getStartTime());
-			endTimestamp = new Timestamp(form.getEndTime());
-			start.setTimeInMillis(beginTimestamp.getTime());
-			end.setTimeInMillis(endTimestamp.getTime());
-			hours = form.getHours();
-		}
-		else {
-			beginTimestamp = new Timestamp(form.getStartTime());
-			endTimestamp = new Timestamp(form.getEndTime());
-			hours = TKUtils.getHoursBetween(endTimestamp.getTime(), beginTimestamp.getTime());
-		}
-		
-		AssignmentDescriptionKey key = new AssignmentDescriptionKey(form.getSelectedAssignment());
-		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(form.getTimesheetDocument(), form.getSelectedAssignment());
-		
-		List<TimeBlock> timeBlockList = new LinkedList<TimeBlock>();
-
-		long daysBetween = TKUtils.getDaysBetween(start, end);
-		for (int i = 0; i <= daysBetween; i++) {
-
-			Calendar b = (Calendar)start.clone();
-			Calendar e = (Calendar)end.clone();
-
-			b.set(Calendar.DATE, start.get(Calendar.DATE) + i);
-			e.set(Calendar.DATE, start.get(Calendar.DATE) + i);
-
-	       	TimeBlock tb = new TimeBlock();
-	    	tb.setDocumentId(form.getTimesheetDocument().getDocumentHeader().getDocumentId().toString());
-	    	tb.setJobNumber(key.getJobNumber());
-	    	tb.setWorkArea(key.getWorkArea());
-	    	tb.setTask(key.getTask());
-	    	tb.setTkWorkAreaId(assignment.getWorkAreaObj().getTkWorkAreaId());
-	    	tb.setHrJobId(assignment.getJob().getHrJobId());
-		    Long tkTaskId = null;
-		    for(Task task : assignment.getWorkAreaObj().getTasks()) {
-		    	if(task.getTask().compareTo(key.getTask()) == 0 ) {
-		    		tkTaskId = task.getTkTaskId();
-		    		break;
-		    	}
-		    }
-	    	tb.setTkTaskId(tkTaskId);
-	    	tb.setEarnCode(form.getSelectedEarnCode());
-	    	tb.setBeginTimestamp(new Timestamp(b.getTimeInMillis()));
-//	    	tb.setBeginTimestampTimezone(clockLog.getClockTimestampTimezone());
-	    	tb.setEndTimestamp(new Timestamp(e.getTimeInMillis()));
-//	    	tb.setEndTimestampTimezone(clockLog.getClockTimestampTimezone());
-	    	tb.setClockLogCreated(true);
-	    	tb.setHours(hours);
-	    	tb.setUserPrincipalId(TKContext.getUser().getPrincipalId());
-	    	tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
-
-	    	timeBlockList.add(tb);
-		}
-		timeBlockDao.saveOrUpdate(timeBlockList);
-		
-		return timeBlockList;
-	}
 	
 	@Override
 	public List<Map<String,Object>> getTimeBlocksForOurput(List<TimeBlock> timeBlocks) {
