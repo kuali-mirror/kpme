@@ -221,12 +221,12 @@ INSERT INTO `tk_py_calendar_t`	(`tk_py_calendar_id`,	`calendar_group`,	`chart`,	
 DELETE FROM `tk_py_calendar_dates_s`;
 INSERT INTO `tk_py_calendar_dates_s`	(`ID`)	VALUES	('30');
 DELETE FROM `tk_py_calendar_dates_t`;
-INSERT INTO `tk_py_calendar_dates_t` (`tk_py_calendar_dates_id`,`tk_py_calendar_id`,`begin_period_date`,`begin_period_time`,`end_period_date`,`end_period_time`,`initiate_date`,`initiate_time`,`end_pay_period_date`,`end_pay_period_time`,`employee_approval_date`,`employee_approval_time`,`supervisor_approval_date`,`supervisor_approval_time`) VALUES
-	('1', '20', '2010-08-01', '00:00:00', '2010-08-14', '23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('2', '20', '2010-08-15', '00:00:00', '2010-08-31', '23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('3', '20', '2010-09-01', '00:00:00', '2010-09-14', '23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('4', '20', '2010-09-15', '00:00:00', '2010-09-30', '23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('5', '20', '2010-10-01', '00:00:00', '2010-10-15', '23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tk_py_calendar_dates_t` (`tk_py_calendar_dates_id`,`tk_py_calendar_id`,`begin_period_date`,`end_period_date`,`initiate_date`,`initiate_time`,`end_pay_period_date`,`end_pay_period_time`,`employee_approval_date`,`employee_approval_time`,`supervisor_approval_date`,`supervisor_approval_time`) VALUES
+	('1', '20', '2010-08-01 00:00:00', '2010-08-14 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('2', '20', '2010-08-15 00:00:00', '2010-08-31 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('3', '20', '2010-09-01 00:00:00', '2010-09-14 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('4', '20', '2010-09-15 00:00:00', '2010-09-30 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('5', '20', '2010-10-01 00:00:00', '2010-10-15 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 #
 # Daily Overtime Rule
@@ -270,23 +270,23 @@ INSERT INTO `HR_WORK_SCHEDULE_T` (`HR_WORK_SCHEDULE_ID`,`WORK_SCHEDULE_DESC`,`PR
 DELETE FROM `HR_WORK_SCHEDULE_ENTRY_S`;
 INSERT INTO `HR_WORK_SCHEDULE_ENTRY_S` (`ID`) VALUES (1000);
 DELETE FROM `HR_WORK_SCHEDULE_ENTRY_T`;
-INSERT INTO `HR_WORK_SCHEDULE_ENTRY_T` (`HR_WORK_SCHEDULE_ENTRY_ID`, `HR_WORK_SCHEDULE_ID`, `CAL_DAY_ID`, `DAY_OF_PERIOD_ID`, `REG_HOURS`, `OBJ_ID`, `VER_NBR`) VALUES
-	(1, 1, 1, 1, 40, 'uuid', 1),
-	(2, 1, 1, 1, 40, 'uuid', 1),
-	(3, 2, 1, 1, 40, 'uuid', 1),
-	(4, 2, 1, 1, 40, 'uuid', 1),
-	(5, 3, 1, 1, 40, 'uuid', 1),
-	(6, 3, 1, 1, 40, 'uuid', 1),
-	(7, 4, 1, 1, 40, 'uuid', 1),
-	(8, 4, 1, 1, 40, 'uuid', 1),
-	(9, 5, 1, 1, 40, 'uuid', 1),
-	(10, 5, 1, 1, 40, 'uuid', 1),
-	(11, 6, 1, 1, 40, 'uuid', 1),
-	(12, 6, 1, 1, 40, 'uuid', 1),
-	(13, 7, 1, 1, 40, 'uuid', 1),
-	(14, 7, 1, 1, 40, 'uuid', 1),
-	(15, 8, 1, 1, 40, 'uuid', 1),
-	(16, 8, 1, 1, 40, 'uuid', 1);
+INSERT INTO `HR_WORK_SCHEDULE_ENTRY_T` (`HR_WORK_SCHEDULE_ENTRY_ID`, `HR_WORK_SCHEDULE_ID`, `CALENDAR_GROUP`, `DAY_OF_PERIOD`, `REG_HOURS`, `OBJ_ID`, `VER_NBR`) VALUES
+	(1  , 1 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(2  , 1 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(3  , 2 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(4  , 2 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(5  , 3 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(6  , 3 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(7  , 4 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(8  , 4 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(9  , 5 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(10 , 5 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(11 , 6 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(12 , 6 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(13 , 7 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(14 , 7 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(15 , 8 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1)  ,
+	(16 , 8 , 'BW-CAL1' , 1 , 40 , 'uuid' , 1);
 
 DELETE FROM `TK_WEEKLY_OVERTIME_RL_S`;
 INSERT INTO `TK_WEEKLY_OVERTIME_RL_S` (`ID`) VALUES (1000);

@@ -917,9 +917,7 @@ CREATE TABLE `tk_py_calendar_dates_t` (
   `tk_py_calendar_dates_id` bigint(20) NOT NULL,
   `tk_py_calendar_id` bigint(20) NOT NULL,
   `begin_period_date` date NOT NULL,
-  `begin_period_time` time NOT NULL DEFAULT '00:00:00',
   `end_period_date` date NOT NULL,
-  `end_period_time` time NOT NULL DEFAULT '23:59:59',
   `initiate_date` date DEFAULT NULL,
   `initiate_time` time DEFAULT NULL,
   `end_pay_period_date` date DEFAULT NULL,
@@ -1438,4 +1436,4 @@ CREATE TABLE `tk_document_header_t` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-10-13  9:15:55
+-- Dump completed on 2010-10-15 11:10:06
