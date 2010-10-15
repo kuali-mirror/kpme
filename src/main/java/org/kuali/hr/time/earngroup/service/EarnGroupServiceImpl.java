@@ -1,8 +1,8 @@
 package org.kuali.hr.time.earngroup.service;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
@@ -34,8 +34,8 @@ public class EarnGroupServiceImpl implements EarnGroupService {
 		return earnGroupDao.getEarnGroupForEarnCode(earnCode, asOfDate);
 	}
 	
-	public List<String> getEarnCodeListForEarnGroup(String earnGroup, Date asOfDate) {
-		List<String> earnCodes = new ArrayList<String>();
+	public Set<String> getEarnCodeListForEarnGroup(String earnGroup, Date asOfDate) {
+		Set<String> earnCodes = new HashSet<String>();
 		EarnGroup earnGroupObj = earnGroupDao.getEarnGroup(earnGroup, asOfDate);
 		for(EarnGroupDefinition earnGroupDef : earnGroupObj.getEarnGroups()){
 			if(!earnCodes.contains(earnGroupDef.getEarnCode())){
