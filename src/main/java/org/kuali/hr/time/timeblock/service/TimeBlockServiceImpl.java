@@ -1,5 +1,6 @@
 package org.kuali.hr.time.timeblock.service;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.task.Task;
@@ -27,6 +29,20 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		this.timeBlockDao = timeBlockDao;
 	}
 
+//	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument, 
+//			Date startSpanDate, Date endSpanDate, Timestamp beginTimestamp, Timestamp endTimestamp){
+//		DateTime startDate = new DateTime(startSpanDate);
+//		startDate = startDate.plus(beginTimestamp.getTime());
+//		DateTime endDateTime = new DateTime(endSpanDate);
+//		endDateTime = endDateTime.plus(endTimestamp.getTime());
+//		DateTime currentDateTime = startDate;
+//		while(currentDateTime.isBefore(endDateTime)){
+//			
+//			currentDateTime.plusDays(1);
+//		}
+//		
+//	}
+	
 	
 	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument, 
 						Timestamp beginTimestamp, Timestamp endTimestamp){
@@ -38,9 +54,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		for(Interval dayInt : dayIntervals){
 			//on second day of span so safe to assume doesnt go furthur than this
 			if(firstDay != null){
-				TimeBlock tb = new TimeBlock();
-				tb.setBeginTimestamp(new Timestamp(dayInt.getStartMillis()));
-				tb.setEndTimestamp(endTimestamp);
+				TimeBlock tb = createTimeBlock(timesheetDocument, new Timestamp(dayInt.getStartMillis()), endTimestamp, assignment, earnCode);
 				lstTimeBlocks.add(tb);
 				break;
 			}
