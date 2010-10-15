@@ -325,8 +325,8 @@
 	<class-descriptor class="org.kuali.hr.time.paycalendar.PayCalendarDates" table="tk_py_calendar_dates_t">
 		<field-descriptor name="payCalendarDatesId" column="tk_py_calendar_dates_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_py_calendar_dates_s"/>/>
 		<field-descriptor name="payCalendarId"		column="tk_py_calendar_id"		jdbc-type="BIGINT"/>
-		<field-descriptor name="beginPeriodDateTime"    column="begin_period_date"	jdbc-type="DATE" />
-		<field-descriptor name="endPeriodDateTime"      column="end_period_date"	jdbc-type="DATE" />
+		<field-descriptor name="beginPeriodDateTime"    column="begin_period_date"	jdbc-type="TIMESTAMP" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+		<field-descriptor name="endPeriodDateTime"      column="end_period_date"	jdbc-type="TIMESTAMP" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
 		<field-descriptor name="initiateDate"    	  column="initiate_date"	jdbc-type="DATE"/>
 		<field-descriptor name="initiateTime"    	  column="initiate_time"	jdbc-type="TIME"/>
 
