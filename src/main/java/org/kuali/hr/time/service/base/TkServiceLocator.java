@@ -15,7 +15,7 @@ import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
 import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.rule.TkRuleControllerService;
-import org.kuali.hr.time.timeblock.TimeHourDetail;
+import org.kuali.hr.time.shiftdiff.rule.service.ShiftDifferentialRuleService;
 import org.kuali.hr.time.timeblock.service.TimeBlockHistoryService;
 import org.kuali.hr.time.timeblock.service.TimeBlockService;
 import org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleService;
@@ -56,6 +56,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIME_HOUR_DETAIL_SERVICE= "timeHourDetailService";
 	public static final String TK_DAILY_OVERTIME_RULE_SERVICE = "dailyOvertimeRuleService";
 	public static final String TK_WEEKLY_OVERTIME_RULE_SERVICE = "weeklyOvertimeRuleService";
+	public static final String TK_SHIFT_DIFFERENTIAL_RULE_SERVICE = "shiftDifferentialRuleService";
 	public static final String TK_WORK_SCHEDULE_SERVICE = "workScheduleService";
 	
 	public static void start() throws Exception {
@@ -65,6 +66,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static void stop() throws Exception {
 //		CONTEXT.stop();
+	}
+	
+	public static ShiftDifferentialRuleService getShiftDifferentialRuleService() {
+		return (ShiftDifferentialRuleService) CONTEXT.getBean(TK_SHIFT_DIFFERENTIAL_RULE_SERVICE);
 	}
 	
 	public static WorkScheduleService getWorkScheduleService() {
