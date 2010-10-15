@@ -1,6 +1,6 @@
 package org.kuali.hr.time.timeblock;
 
-import java.sql.Date;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,6 @@ import org.joda.time.Interval;
 import org.junit.Test;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.test.TkTestCase;
-import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 
 public class TimeBlockTest extends TkTestCase {
@@ -23,13 +21,33 @@ public class TimeBlockTest extends TkTestCase {
 	
 	@Test
 	public void testTimeBlockComparison() throws Exception {
-		TimesheetDocument timesheetDocument = TkTestUtils.populateTimesheetDocument(new Date(System.currentTimeMillis()));
+		TimeBlock timeBlock = new TimeBlock();
+		timeBlock.setJobNumber(2L);
+		timeBlock.setWorkArea(1234L);
+		timeBlock.setTask(1L);
+		timeBlock.setEarnCode("REG");
+		Timestamp beginTimestamp = new Timestamp(System.currentTimeMillis());
+		timeBlock.setBeginTimestamp(beginTimestamp);
+		Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
+		timeBlock.setEndTimestamp(endTimestamp);
+		TimeHourDetail timeHourDetail = new TimeHourDetail();
+		timeHourDetail.setEarnCode("REG");
+		timeHourDetail.setHours(new BigDecimal(2.0));
+		timeBlock.getTimeHourDetails().add(timeHourDetail);
 		
-		TimeBlock timeBlock = TkTestUtils.createTimeBlock(timesheetDocument, 1, 6);
-		TimeBlock timeBlock2 = TkTestUtils.createTimeBlock(timesheetDocument, 1, 6);
+		TimeBlock timeBlock2 = new TimeBlock();
+		timeBlock2.setJobNumber(2L);
+		timeBlock2.setWorkArea(1234L);
+		timeBlock2.setTask(1L);
+		timeBlock2.setEarnCode("REG");
+		timeBlock2.setBeginTimestamp(beginTimestamp);
+		timeBlock2.setEndTimestamp(endTimestamp);
+		TimeHourDetail timeHourDetail2 = new TimeHourDetail();
+		timeHourDetail2.setEarnCode("REG");
+		timeHourDetail2.setHours(new BigDecimal(2.0));
+		timeBlock2.getTimeHourDetails().add(timeHourDetail);
 		
 		assertTrue("Timeblock has been equal", timeBlock.equals(timeBlock2));
-		
 	}
 	
 	@Test

@@ -227,7 +227,7 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 
 	@Override
 	public int hashCode() {
-		StringBuilder key = new StringBuilder(getAssignString()+"_"+getEarnCode()+"_"+getWorkArea()+"_"+getTask()+"_"+getBeginTimestamp()+"_"+getEndTimestamp());
+		StringBuilder key = new StringBuilder(getAssignString()+"_"+getEarnCode()+"_"+"_"+getBeginTimestamp()+"_"+getEndTimestamp());
 		for(TimeHourDetail timeHourDetail : getTimeHourDetails()){
 			key.append(timeHourDetail.getEarnCode()+"_"+timeHourDetail.getAmount()+"_"+timeHourDetail.getHours());
 		}
