@@ -1,6 +1,7 @@
 package org.kuali.hr.time.timeblock;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
+import org.joda.time.LocalTime;
 import org.junit.Test;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.test.TkTestCase;
@@ -123,6 +125,35 @@ public class TimeBlockTest extends TkTestCase {
 			}
 		}
 		assertTrue("One time block creation", lstTimeBlocks.size() == 1);
+	}
+	
+	@Test
+	public void testTimeBlockClockBuilding() throws Exception {
+//		DateTime beginDateTimeObj = new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"));
+//		LocalTime beginTime = new LocalTime(beginDateTimeObj);
+//		DateTime endDateTimeObj = new DateTime(2010, 1, 4, 18, 0, 0, 0, DateTimeZone.forID("EST"));
+//		LocalTime endTime = new LocalTime(endDateTimeObj);
+//		Date beginDate = new Date(beginDateTimeObj.getMillis());
+//		Date endDate = new Date(endDateTimeObj.getMillis());
+//		
+//		DateTime startDate = new DateTime(beginDate);
+//		startDate = startDate.plus(beginTime.getMillisOfDay());
+//		DateTime endDateTimez = new DateTime(endDate);
+//		endDateTimez = endDateTimez.plus(endTime.getMillisOfDay());
+//		DateTime currentDateTime = startDate;
+//		long timeOfTimeBlock = endTimeStamp.getTime()-beginTimeStamp.getTime();
+//		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
+//		while(currentDateTime.isBefore(endDateTimez)){
+//			DateTime endTimeBlockTime = currentDateTime.plus(timeOfTimeBlock);
+//			TimeBlock tb = new TimeBlock();
+//			tb.setBeginTimestamp(new Timestamp(currentDateTime.getMillis()));
+//			tb.setEndTimestamp(new Timestamp(endTimeBlockTime.getMillis()));
+//			currentDateTime.plusDays(1);
+//			lstTimeBlocks.add(tb);
+//		}
+//		
+//		assertTrue("time block creation for date span",lstTimeBlocks.size() == 4);
+			
 	}
 	
 }

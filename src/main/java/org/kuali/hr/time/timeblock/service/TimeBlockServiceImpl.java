@@ -29,19 +29,25 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		this.timeBlockDao = timeBlockDao;
 	}
 
-//	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument, 
-//			Date startSpanDate, Date endSpanDate, Timestamp beginTimestamp, Timestamp endTimestamp){
-//		DateTime startDate = new DateTime(startSpanDate);
-//		startDate = startDate.plus(beginTimestamp.getTime());
-//		DateTime endDateTime = new DateTime(endSpanDate);
-//		endDateTime = endDateTime.plus(endTimestamp.getTime());
-//		DateTime currentDateTime = startDate;
-//		while(currentDateTime.isBefore(endDateTime)){
-//			
-//			currentDateTime.plusDays(1);
-//		}
-//		
-//	}
+	//This function is used to build timeblocks that span days
+	public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument, 
+			Date startSpanDate, Date endSpanDate, Timestamp beginTimestamp, Timestamp endTimestamp){
+		DateTime startDate = new DateTime(startSpanDate);
+		startDate = startDate.plus(beginTimestamp.getTime());
+		DateTime endDateTime = new DateTime(endSpanDate);
+		endDateTime = endDateTime.plus(endTimestamp.getTime());
+		DateTime currentDateTime = startDate;
+		long timeOfTimeBlock = endTimestamp.getTime()-beginTimestamp.getTime();
+		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
+		while(currentDateTime.isBefore(endDateTime)){
+			DateTime endTimeBlockTime = currentDateTime.plus(timeOfTimeBlock);
+			TimeBlock tb = createTimeBlock(timesheetDocument, new Timestamp(currentDateTime.getMillis()), 
+								new Timestamp(endTimeBlockTime.getMillis()), assignment, earnCode);
+			currentDateTime.plusDays(1);
+			lstTimeBlocks.add(tb);
+		}
+		return lstTimeBlocks;
+	}
 	
 	
 	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument, 

@@ -18,7 +18,6 @@ import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -99,7 +98,7 @@ public class TimeDetailAction extends TimesheetAction {
 		//Reset time hour details on timeblocks for rule processing
 		lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().resetTimeHourDetail(lstNewTimeBlocks);
 		//apply any rules for this action
-		lstNewTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, lstNewTimeBlocks);
+		lstNewTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, lstNewTimeBlocks, tdaf.getPayCalendarDates());
 		
 		//call persist method that only saves added/deleted/changed timeblocks
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(tdaf.getTimesheetDocument().getTimeBlocks(), lstNewTimeBlocks);
@@ -114,18 +113,24 @@ public class TimeDetailAction extends TimesheetAction {
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), 
 									tdaf.getSelectedAssignment());
 		//create the list of timeblocks based on the range passed in
-		List<TimeBlock> lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 
+		
+		List<TimeBlock> lstNewTimeBlocks = null; 
+		lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 
 											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),new Timestamp(tdaf.getStartTime()), 
 											new Timestamp(tdaf.getEndTime()));
+		
+		
+		
 		//concat delta of timeblocks (new and original)
 		lstNewTimeBlocks.addAll(tdaf.getTimesheetDocument().getTimeBlocks());
 		//TODO do any server side validation of adding checking for overlapping timeblocks etc
 		//return if any issues
+		//TODO add validation to not allow apply to everyday and a span that overlaps the 24 hr offset days
 		
 		//reset time hour details
 		lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().resetTimeHourDetail(lstNewTimeBlocks);
 		//apply any rules for this action
-		lstNewTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, lstNewTimeBlocks);
+		lstNewTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, lstNewTimeBlocks, tdaf.getPayCalendarDates());
 		
 		//call persist method that only saves added/deleted/changed timeblocks
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(tdaf.getTimesheetDocument().getTimeBlocks(), lstNewTimeBlocks);

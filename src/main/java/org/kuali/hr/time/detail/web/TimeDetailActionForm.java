@@ -23,7 +23,6 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	private Long startTime;
 	private Long endTime;
 	private String acrossDays;
-	private List<TimeBlock> timeBlockList;
 	private TimeBlock timeBlock;
 	private String clockAction;
 	private BigDecimal hours;
