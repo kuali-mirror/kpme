@@ -35,10 +35,10 @@ public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 		super.setUp();
 		ShiftDifferentialRule shiftDifferentialRule = new ShiftDifferentialRule();
 		shiftDifferentialRule.setActive(true);
-		shiftDifferentialRule.setBeginTime(TEST_TIME);
+		//shiftDifferentialRule.setBeginTime(TEST_TIME);
 		shiftDifferentialRule.setEarnCode(TEST_CODE);
 		shiftDifferentialRule.setEffectiveDate(TEST_DATE);
-		shiftDifferentialRule.setEndTime(TEST_TIME);
+		//shiftDifferentialRule.setEndTime(TEST_TIME);
 		shiftDifferentialRule.setLocation(TEST_CODE);
 		shiftDifferentialRule.setMaxGap(TEST_NO);
 		shiftDifferentialRule.setMinHours(TEST_NO);
