@@ -24,13 +24,13 @@
 				<ref bean="ShiftDifferentialRule-beginTime" />
 				<ref bean="ShiftDifferentialRule-endTime" />
 				<ref bean="ShiftDifferentialRule-minHours" />
-				<ref bean="ShiftDifferentialRule-sunday" />
-				<ref bean="ShiftDifferentialRule-monday" />
-				<ref bean="ShiftDifferentialRule-tuesday" />
-				<ref bean="ShiftDifferentialRule-wednesday" />
-				<ref bean="ShiftDifferentialRule-thursday" />
-				<ref bean="ShiftDifferentialRule-friday" />
-				<ref bean="ShiftDifferentialRule-saturday" />
+				<ref bean="ShiftDifferentialRule-day0" />
+				<ref bean="ShiftDifferentialRule-day1" />
+				<ref bean="ShiftDifferentialRule-day2" />
+				<ref bean="ShiftDifferentialRule-day3" />
+				<ref bean="ShiftDifferentialRule-day4" />
+				<ref bean="ShiftDifferentialRule-day5" />
+				<ref bean="ShiftDifferentialRule-day6" />
 				<ref bean="ShiftDifferentialRule-maxGap" />
 				<ref bean="ShiftDifferentialRule-userPrincipalId" />
 				<ref bean="ShiftDifferentialRule-timeStamp" />
@@ -183,82 +183,82 @@
 		<property name="name" value="minHours" />
 		<property name="label" value="Min. Hours" />
 	</bean>
-	<!-- sunday -->
-	<bean id="ShiftDifferentialRule-sunday" parent="ShiftDifferentialRule-sunday-parentBean" />
-	<bean id="ShiftDifferentialRule-sunday-parentBean" abstract="true"
+	<!-- day0 -->
+	<bean id="ShiftDifferentialRule-day0" parent="ShiftDifferentialRule-day0-parentBean" />
+	<bean id="ShiftDifferentialRule-day0-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Sunday" />
+		<property name="shortLabel" value="day0" />
 		<property name="control">
 			<bean parent="CheckboxControlDefinition" />
 		</property>
-		<property name="name" value="sunday" />
-		<property name="label" value="Sunday" />
+		<property name="name" value="day0" />
+		<property name="label" value="day0" />
 	</bean>
-	<!-- monday -->
-	<bean id="ShiftDifferentialRule-monday" parent="ShiftDifferentialRule-monday-parentBean" />
-	<bean id="ShiftDifferentialRule-monday-parentBean" abstract="true"
+	<!-- day1 -->
+	<bean id="ShiftDifferentialRule-day1" parent="ShiftDifferentialRule-day1-parentBean" />
+	<bean id="ShiftDifferentialRule-day1-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Monday" />
+		<property name="shortLabel" value="day1" />
 		<property name="control">
 			<bean parent="CheckboxControlDefinition" />
 		</property>
-		<property name="name" value="monday" />
-		<property name="label" value="Monday" />
+		<property name="name" value="day1" />
+		<property name="label" value="day1" />
 	</bean>
-	<!-- tuesday -->
-	<bean id="ShiftDifferentialRule-tuesday" parent="ShiftDifferentialRule-tuesday-parentBean" />
-	<bean id="ShiftDifferentialRule-tuesday-parentBean" abstract="true"
+	<!-- day2 -->
+	<bean id="ShiftDifferentialRule-day2" parent="ShiftDifferentialRule-day2-parentBean" />
+	<bean id="ShiftDifferentialRule-day2-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Tuesday" />
+		<property name="shortLabel" value="day2" />
 		<property name="control">
 			<bean parent="CheckboxControlDefinition" />
 		</property>
-		<property name="name" value="tuesday" />
-		<property name="label" value="Tuesday" />
+		<property name="name" value="day2" />
+		<property name="label" value="day2" />
 	</bean>
-	<!-- wednesday -->
-	<bean id="ShiftDifferentialRule-wednesday" parent="ShiftDifferentialRule-wednesday-parentBean" />
-	<bean id="ShiftDifferentialRule-wednesday-parentBean" abstract="true"
+	<!-- day3 -->
+	<bean id="ShiftDifferentialRule-day3" parent="ShiftDifferentialRule-day3-parentBean" />
+	<bean id="ShiftDifferentialRule-day3-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Wednesday" />
+		<property name="shortLabel" value="day3" />
 		<property name="control">
 			<bean parent="CheckboxControlDefinition" />
 		</property>
-		<property name="name" value="wednesday" />
-		<property name="label" value="Wednesday" />
+		<property name="name" value="day3" />
+		<property name="label" value="day3" />
 	</bean>
-	<!-- thursday -->
-	<bean id="ShiftDifferentialRule-thursday" parent="ShiftDifferentialRule-thursday-parentBean" />
-	<bean id="ShiftDifferentialRule-thursday-parentBean" abstract="true"
+	<!-- day4 -->
+	<bean id="ShiftDifferentialRule-day4" parent="ShiftDifferentialRule-day4-parentBean" />
+	<bean id="ShiftDifferentialRule-day4-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Thursday" />
+		<property name="shortLabel" value="day4" />
 		<property name="control">
 			<bean parent="CheckboxControlDefinition" />
 		</property>
-		<property name="name" value="thursday" />
-		<property name="label" value="Thursday" />
+		<property name="name" value="day4" />
+		<property name="label" value="day4" />
 	</bean>
-	<!-- friday -->
-	<bean id="ShiftDifferentialRule-friday" parent="ShiftDifferentialRule-friday-parentBean" />
-	<bean id="ShiftDifferentialRule-friday-parentBean" abstract="true"
+	<!-- day5 -->
+	<bean id="ShiftDifferentialRule-day5" parent="ShiftDifferentialRule-day5-parentBean" />
+	<bean id="ShiftDifferentialRule-day5-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Friday" />
+		<property name="shortLabel" value="day5" />
 		<property name="control">
 			<bean parent="CheckboxControlDefinition" />
 		</property>
-		<property name="name" value="friday" />
-		<property name="label" value="Friday" />
+		<property name="name" value="day5" />
+		<property name="label" value="day5" />
 	</bean>
-	<!-- Saturday -->
-	<bean id="ShiftDifferentialRule-saturday" parent="ShiftDifferentialRule-saturday-parentBean" />
-	<bean id="ShiftDifferentialRule-saturday-parentBean" abstract="true"
+	<!-- day6 -->
+	<bean id="ShiftDifferentialRule-day6" parent="ShiftDifferentialRule-day6-parentBean" />
+	<bean id="ShiftDifferentialRule-day6-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Saturday" />
+		<property name="shortLabel" value="day6" />
 		<property name="control">
 			<bean parent="CheckboxControlDefinition" />
 		</property>
-		<property name="name" value="saturday" />
-		<property name="label" value="Saturday" />
+		<property name="name" value="day6" />
+		<property name="label" value="day6" />
 	</bean>
 
 	<!-- maxGap  -->

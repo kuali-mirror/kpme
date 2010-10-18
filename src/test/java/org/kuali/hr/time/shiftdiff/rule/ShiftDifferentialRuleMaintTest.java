@@ -2,18 +2,15 @@ package org.kuali.hr.time.shiftdiff.rule;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.Calendar;
 
 import org.junit.Test;
-import org.kuali.hr.time.assignment.AssignmentAccount;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 	private static final String TEST_CODE="_T";
@@ -46,13 +43,13 @@ public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 		shiftDifferentialRule.setMaxGap(TEST_NO);
 		shiftDifferentialRule.setMinHours(TEST_NO);
 		shiftDifferentialRule.setPayGrade(TEST_CODE);		
-		shiftDifferentialRule.setSunday(true);		
-		shiftDifferentialRule.setMonday(true);
-		shiftDifferentialRule.setTuesday(true);
-		shiftDifferentialRule.setWednesday(true);
-		shiftDifferentialRule.setThursday(true);
-		shiftDifferentialRule.setFriday(true);
-		shiftDifferentialRule.setSaturday(true);
+		shiftDifferentialRule.setDay0(true);		
+		shiftDifferentialRule.setDay1(true);
+		shiftDifferentialRule.setDay2(true);
+		shiftDifferentialRule.setDay3(true);
+		shiftDifferentialRule.setDay4(true);
+		shiftDifferentialRule.setDay5(true);
+		shiftDifferentialRule.setDay6(true);
 		
 		
 		
