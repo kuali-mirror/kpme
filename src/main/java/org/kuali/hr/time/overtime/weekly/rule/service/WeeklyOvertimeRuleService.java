@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
 public interface WeeklyOvertimeRuleService {
 
@@ -14,5 +15,5 @@ public interface WeeklyOvertimeRuleService {
 
 	public List<WeeklyOvertimeRule> getWeeklyOvertimeRules(String fromEarnGroup, Date asOfDate);
 	
-	public void processWeeklyOvertimeRule(List<WeeklyOvertimeRule> lstWeeklyOvertime, TimesheetDocument timesheetDocument);
+	public void processWeeklyOvertimeRule(List<WeeklyOvertimeRule> weeklyOvertimeRules, TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate);
 }

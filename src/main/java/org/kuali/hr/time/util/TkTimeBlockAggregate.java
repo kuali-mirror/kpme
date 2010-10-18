@@ -30,6 +30,20 @@ public class TkTimeBlockAggregate {
 		}
 	}
 	
+	/**
+	 * Provides a way to access all of the time blocks for a given week.
+	 * 
+	 * Outer list is 0 indexed list representing days in a week.
+	 * Inner List are all of the time blocks for that day.
+	 * 
+	 * Ex.
+	 * 
+	 * List<List<TimeBlock>> week0 = getWeekTimeBlocks(0);
+	 * List<TimeBlock> day0 = week0.get(0); 
+	 * 
+	 * @param week
+	 * @return
+	 */
 	public List<List<TimeBlock>> getWeekTimeBlocks(int week){
 		int startIndex = week*7;
 		int endIndex = (week*7)+7;

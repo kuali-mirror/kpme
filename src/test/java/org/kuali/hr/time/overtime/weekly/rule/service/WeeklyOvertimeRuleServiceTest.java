@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -38,85 +39,27 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		Set<String> maxHoursEarnCodes = new HashSet<String>();
 		maxHoursEarnCodes.add("T1");
 		maxHoursEarnCodes.add("T2");
-		List<TimeBlock> weekBlock = new ArrayList<TimeBlock>();
+		List<List<TimeBlock>> weekBlock = new ArrayList<List<TimeBlock>>();
 		
 		BigDecimal sum = wors.getWeekHourSum(weekBlock, maxHoursEarnCodes);
 		assertTrue(sum.equals(BigDecimal.ZERO));
 		
-		weekBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "EC", null, null));
-		weekBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "EC", null, null));
-		weekBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T1", null, null));
-		weekBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T1", null, null));
-		weekBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T2", null, null));
-		weekBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T2", null, null));
+		List<TimeBlock> dayBlock = new LinkedList<TimeBlock>();
+		dayBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "EC", null, null));
+		dayBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "EC", null, null));
+		dayBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T1", null, null));
+		weekBlock.add(dayBlock);
+		dayBlock = new LinkedList<TimeBlock>();
+		
+		dayBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T1", null, null));
+		dayBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T2", null, null));
+		dayBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T2", null, null));
+		weekBlock.add(dayBlock);
 
 		sum = wors.getWeekHourSum(weekBlock, maxHoursEarnCodes);
 		assertTrue(sum.equals(new BigDecimal("40")));
 	}
-	
-	@Test
-	public void testGetTimeBlockWeekArrayList() throws Exception {
-		WeeklyOvertimeRuleService wors_b = TkServiceLocator.getWeeklyOvertimeRuleService();
-		assertTrue(wors_b instanceof WeeklyOvertimeRuleServiceImpl);
-		WeeklyOvertimeRuleServiceImpl wors = (WeeklyOvertimeRuleServiceImpl)wors_b;		
-		// We don't care about the workArea / jobNumber
-		Long workArea = 1L;
-		Long jobNumber = 1L;
 		
-		Timestamp in = null;
-		Timestamp out = null;
-		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
-		// Week 1 Blocks
-		in  = new Timestamp((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		out = new Timestamp((new DateTime(2010, 1, 1, 15, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());		
-		timeBlocks.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "EC", in, out));		
-		in  = new Timestamp((new DateTime(2010, 1, 2, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		out = new Timestamp((new DateTime(2010, 1, 2, 15, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		timeBlocks.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "EC", in,out));
-		in  = new Timestamp((new DateTime(2010, 1, 8, 10, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		out = new Timestamp((new DateTime(2010, 1, 8, 11, 59, 59, 999, DateTimeZone.forID("EST"))).getMillis());
-		
-		// Week 2 Blocks
-		timeBlocks.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T1", in,out));
-		in  = new Timestamp((new DateTime(2010, 1, 8, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		out = new Timestamp((new DateTime(2010, 1, 8, 15, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		timeBlocks.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T1", in,out));
-		in  = new Timestamp((new DateTime(2010, 1, 8, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		out = new Timestamp((new DateTime(2010, 1, 8, 15, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());		
-		timeBlocks.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T2", in,out));
-		in  = new Timestamp((new DateTime(2010, 1, 15, 10, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		out = new Timestamp((new DateTime(2010, 1, 15, 11, 59, 59, 0, DateTimeZone.forID("EST"))).getMillis());		
-		timeBlocks.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T2", in,out));
-
-		
-		
-		java.util.Date beginDate = (new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).toDate();
-		java.util.Date endDate = (new DateTime(2010, 1, 15, 12, 0, 0, 0, DateTimeZone.forID("EST"))).toDate();
-		List<Interval> weekIntervals = TKUtils.getWeekIntervals(beginDate, endDate);
-		assertTrue("Wrong number of Intervals.",weekIntervals.size() == 2);
-		
-		List<List<TimeBlock>> weekBlocks = wors.getTimeBlockWeekArrayList(timeBlocks, weekIntervals);
-		assertEquals("Wrong number of weeks", 2, weekBlocks.size());
-		
-		for (List<TimeBlock> tlist : weekBlocks) {
-			assertEquals("Wrong TimeBlock Split", 3, tlist.size());
-		}
-		
-		// Out of bounds Time Block
-		in  = new Timestamp((new DateTime(2010, 1, 15, 10, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		out = new Timestamp((new DateTime(2010, 1, 15, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());		
-		timeBlocks.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T2", in,out));
-		
-		boolean rte = false;
-		try {
-			weekBlocks = wors.getTimeBlockWeekArrayList(timeBlocks, weekIntervals);
-		} catch (Exception e) {
-			rte = true;
-		}
-		
-		assertTrue("Expected out of boundary exception",rte);
-	}
-	
 	@Test
 	public void testGetWeeklyOvertimeRules() throws Exception {
 		WeeklyOvertimeRuleService wors = TkServiceLocator.getWeeklyOvertimeRuleService();
@@ -145,11 +88,11 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		
 		
 		//fetch all of the rules that apply for above collection
-		List<WeeklyOvertimeRule> lstWeeklyOvtRules = new ArrayList<WeeklyOvertimeRule>();
+		List<WeeklyOvertimeRule> WeeklyOvertimeRules = new ArrayList<WeeklyOvertimeRule>();
 		for(String fromEarnGroup : earnGroups){
-			lstWeeklyOvtRules = (TkServiceLocator.getWeeklyOvertimeRuleService().getWeeklyOvertimeRules(fromEarnGroup, new Date(System.currentTimeMillis())));
+			WeeklyOvertimeRules = (TkServiceLocator.getWeeklyOvertimeRuleService().getWeeklyOvertimeRules(fromEarnGroup, new Date(System.currentTimeMillis())));
 			//call rule logic
-			TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(lstWeeklyOvtRules, timeSheetDocument);
+			//TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(lstWeeklyOvtRules, timeSheetDocument);
 		}	
 		
 		//validate output of rule logic on state of timeblocks
