@@ -114,10 +114,16 @@ public class TimeDetailAction extends TimesheetAction {
 									tdaf.getSelectedAssignment());
 		//create the list of timeblocks based on the range passed in
 		
-		List<TimeBlock> lstNewTimeBlocks = null; 
-		lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 
+		List<TimeBlock> lstNewTimeBlocks = null;
+		if(StringUtils.equals(tdaf.getAcrossDays(), "y")){
+			lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment, 
+											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),new Timestamp(tdaf.getStartTime()), 
+												new Timestamp(tdaf.getEndTime()));
+		} else {
+			lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 
 											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),new Timestamp(tdaf.getStartTime()), 
 											new Timestamp(tdaf.getEndTime()));
+		}
 		
 		
 		

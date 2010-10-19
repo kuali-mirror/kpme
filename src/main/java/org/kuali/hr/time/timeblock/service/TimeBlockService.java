@@ -1,6 +1,5 @@
 package org.kuali.hr.time.timeblock.service;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -20,5 +19,5 @@ public interface TimeBlockService {
 	public List<TimeBlock> resetTimeHourDetail(List<TimeBlock> origTimeBlocks);
 	public List<TimeBlock> getTimeBlocks(Long documentId);
 	public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument, 
-			Date startSpanDate, Date endSpanDate, Timestamp beginTimestamp, Timestamp endTimestamp);
+												Timestamp beginTimestamp, Timestamp endTimestamp);
 }

@@ -1,8 +1,9 @@
 package org.kuali.hr.time.timeblock.service;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,19 +32,42 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
 	//This function is used to build timeblocks that span days
 	public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument, 
-			Date startSpanDate, Date endSpanDate, Timestamp beginTimestamp, Timestamp endTimestamp){
-		DateTime startDate = new DateTime(startSpanDate);
-		startDate = startDate.plus(beginTimestamp.getTime());
-		DateTime endDateTime = new DateTime(endSpanDate);
-		endDateTime = endDateTime.plus(endTimestamp.getTime());
-		DateTime currentDateTime = startDate;
-		long timeOfTimeBlock = endTimestamp.getTime()-beginTimestamp.getTime();
+														Timestamp beginTimestamp, Timestamp endTimestamp){
+		Calendar beginCal = GregorianCalendar.getInstance();
+		beginCal.setTimeInMillis(beginTimestamp.getTime());
+		Calendar beginCalCompare = GregorianCalendar.getInstance();
+		beginCalCompare.setTimeInMillis(endTimestamp.getTime());
+		beginCalCompare.set(beginCal.get(Calendar.YEAR), beginCal.get(Calendar.MONTH), beginCal.get(Calendar.DATE));
+		if(beginCalCompare.before(beginCal)){
+			beginCalCompare.add(Calendar.DATE, 1);
+		}
+		List<Interval> dayInt = TKUtils.getDaySpanForPayCalendarEntry(timesheetDocument.getPayCalendarEntry());
+		TimeBlock firstTimeBlock = new TimeBlock();
 		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
-		while(currentDateTime.isBefore(endDateTime)){
-			DateTime endTimeBlockTime = currentDateTime.plus(timeOfTimeBlock);
-			TimeBlock tb = createTimeBlock(timesheetDocument, new Timestamp(currentDateTime.getMillis()), 
-								new Timestamp(endTimeBlockTime.getMillis()), assignment, earnCode);
-			currentDateTime.plusDays(1);
+		for(Interval dayIn : dayInt){
+			if(dayIn.contains(beginTimestamp.getTime())){
+				if(dayIn.contains(beginCalCompare.getTimeInMillis())){
+					firstTimeBlock = createTimeBlock(timesheetDocument, beginTimestamp, new Timestamp(beginCalCompare.getTimeInMillis()), 
+										assignment, earnCode);
+					lstTimeBlocks.add(firstTimeBlock);
+				} else {
+					//TODO move this to prerule validation
+					//throw validation error if this case met error
+				}
+			}
+		}
+		
+		DateTime beginTime = new DateTime(beginCal.getTimeInMillis());
+		DateTime endTime = new DateTime(endTimestamp.getTime());
+		
+		DateTime endOfFirstDay = new DateTime(firstTimeBlock.getEndTimestamp());
+		long diffInMillis = endOfFirstDay.minus(beginTime.getMillis()).getMillis();
+		DateTime currTime = beginTime.plusDays(1);
+		while(currTime.isBefore(endTime)){
+			Timestamp begin = new Timestamp(currTime.getMillis());
+			Timestamp end = new Timestamp((currTime.plus(diffInMillis).getMillis()));
+			TimeBlock tb = createTimeBlock(timesheetDocument, begin, end, assignment, earnCode);
+			currTime = currTime.plusDays(1);
 			lstTimeBlocks.add(tb);
 		}
 		return lstTimeBlocks;
