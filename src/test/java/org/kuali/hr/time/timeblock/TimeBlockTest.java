@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
 public class TimeBlockTest extends TkTestCase {
 	
@@ -123,6 +124,95 @@ public class TimeBlockTest extends TkTestCase {
 			}
 		}
 		assertTrue("One time block creation", lstTimeBlocks.size() == 1);
+	}
+	
+	@Test
+	public void testTimeBlockAggregate() throws Exception {
+		DateTime beginTime = new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"));
+		DateTime endTime = new DateTime(2010, 1, 16, 12, 0, 0, 0, DateTimeZone.forID("EST"));
+		
+		PayCalendarDates payCalendarEntry = new PayCalendarDates();
+		java.util.Date beginDateTime = new java.util.Date(beginTime.getMillis());
+		java.util.Date endDateTime = new java.util.Date(endTime.getMillis());
+		payCalendarEntry.setBeginPeriodDateTime(beginDateTime);
+		payCalendarEntry.setEndPeriodDateTime(endDateTime);
+		
+		List<TimeBlock> lstTimeBlocks = setupTimeBlocks(beginTime, endTime, payCalendarEntry);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, payCalendarEntry);
+		assertTrue("Aggregate built correctly ", tkTimeBlockAggregate!= null && tkTimeBlockAggregate.getWeekTimeBlocks(0).size() == 7);
+		assertTrue("Total number of days is correct",tkTimeBlockAggregate.getDayTimeBlockList().size()==15);
+	}
+	
+	private List<TimeBlock> setupTimeBlocks(DateTime startTime, DateTime endTime, PayCalendarDates payCalendarEntry){
+		List<Interval> dayInterval = TKUtils.getDaySpanForPayCalendarEntry(payCalendarEntry);
+		Timestamp beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		Timestamp endTimeStamp = new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		
+		Interval firstDay = null;
+		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
+		for(Interval dayInt : dayInterval){
+			//on second day of span so safe to assume doesnt go furthur than this
+			if(firstDay != null){
+				TimeBlock tb = new TimeBlock();
+				tb.setBeginTimestamp(new Timestamp(dayInt.getStartMillis()));
+				tb.setEndTimestamp(endTimeStamp);
+				lstTimeBlocks.add(tb);
+				break;
+			}
+			if(dayInt.contains(beginTimeStamp.getTime()) ){
+				firstDay = dayInt;
+				if(dayInt.contains(endTimeStamp.getTime())){
+					//create one timeblock if contained in one day interval
+					TimeBlock tb = new TimeBlock();
+					tb.setBeginTimestamp(beginTimeStamp);
+					tb.setEndTimestamp(endTimeStamp);
+					lstTimeBlocks.add(tb);
+					break;
+				} else {
+					//create a timeblock that wraps the 24 hr day
+					TimeBlock tb = new TimeBlock();
+					tb.setBeginTimestamp(beginTimeStamp);
+					tb.setEndTimestamp(new Timestamp(firstDay.getEndMillis()));
+					lstTimeBlocks.add(tb);
+				}
+			}
+		}
+		assertTrue("Two timeblocks created", lstTimeBlocks.size() == 2);
+		
+		lstTimeBlocks.clear();
+		
+		beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		endTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 15, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		
+		firstDay = null;
+		for(Interval dayInt : dayInterval){
+			//on second day of span so safe to assume doesnt go furthur than this
+			if(firstDay != null){
+				TimeBlock tb = new TimeBlock();
+				tb.setBeginTimestamp(new Timestamp(dayInt.getStartMillis()));
+				tb.setEndTimestamp(endTimeStamp);
+				lstTimeBlocks.add(tb);
+				break;
+			}
+			if(dayInt.contains(beginTimeStamp.getTime()) ){
+				firstDay = dayInt;
+				if(dayInt.contains(endTimeStamp.getTime())){
+					//create one timeblock if contained in one day interval
+					TimeBlock tb = new TimeBlock();
+					tb.setBeginTimestamp(beginTimeStamp);
+					tb.setEndTimestamp(endTimeStamp);
+					lstTimeBlocks.add(tb);
+					break;
+				} else {
+					//create a timeblock that wraps the 24 hr day
+					TimeBlock tb = new TimeBlock();
+					tb.setBeginTimestamp(beginTimeStamp);
+					tb.setEndTimestamp(new Timestamp(firstDay.getEndMillis()));
+					lstTimeBlocks.add(tb);
+				}
+			}
+		}
+		return lstTimeBlocks;
 	}
 
 }

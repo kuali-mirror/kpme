@@ -124,9 +124,7 @@ public class TimeDetailAction extends TimesheetAction {
 											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),new Timestamp(tdaf.getStartTime()), 
 											new Timestamp(tdaf.getEndTime()));
 		}
-		
-		
-		
+
 		//concat delta of timeblocks (new and original)
 		lstNewTimeBlocks.addAll(tdaf.getTimesheetDocument().getTimeBlocks());
 		//TODO do any server side validation of adding checking for overlapping timeblocks etc

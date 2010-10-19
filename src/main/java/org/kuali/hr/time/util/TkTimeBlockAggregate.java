@@ -21,13 +21,15 @@ public class TkTimeBlockAggregate {
 				if(dayInt.contains(beginTime)){
 					if(dayInt.contains(endTime)){
 						dayTimeBlocks.add(timeBlock);
-					} else {
-						throw new RuntimeException("Time block is not divided up into days properly");
-					}
+					} 
 				}
 			}
 			dayTimeBlockList.add(dayTimeBlocks);
 		}
+	}
+	
+	public List<List<TimeBlock>> getDayTimeBlockList(){
+		return dayTimeBlockList;
 	}
 	
 	/**
