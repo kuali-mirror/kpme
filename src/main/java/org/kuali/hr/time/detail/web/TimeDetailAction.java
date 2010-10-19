@@ -28,8 +28,8 @@ public class TimeDetailAction extends TimesheetAction {
 		ActionForward forward = super.execute(mapping, form, request, response);
 		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
 
-		tdaf.setBeginPeriodDate(tdaf.getPayCalendarDates().getBeginPeriodDateTime());
-		tdaf.setEndPeriodDate(tdaf.getPayCalendarDates().getEndPeriodDateTime());
+		tdaf.setBeginPeriodDateTime(tdaf.getPayCalendarDates().getBeginPeriodDateTime());
+		tdaf.setEndPeriodDateTime(tdaf.getPayCalendarDates().getEndPeriodDateTime());
 
 		// for visually impaired users 
 		// TimesheetDocument td = tdaf.getTimesheetDocument();
@@ -71,7 +71,7 @@ public class TimeDetailAction extends TimesheetAction {
 
 		TimeDetailActionForm timeDetailForm = (TimeDetailActionForm) form;
 		
-		List<Map<String,Object>> timeBlockList = TkServiceLocator.getTimeBlockService().getTimeBlocksForOurput(timeDetailForm.getTimeBlockList());
+		List<Map<String,Object>> timeBlockList = TkServiceLocator.getTimeBlockService().getTimeBlocksForOurput(timeDetailForm.getTimesheetDocument());
 		timeDetailForm.setOutputString(JSONValue.toJSONString(timeBlockList));
 		
 		return mapping.findForward("ws");
@@ -130,6 +130,7 @@ public class TimeDetailAction extends TimesheetAction {
 		//TODO do any server side validation of adding checking for overlapping timeblocks etc
 		//return if any issues
 		//TODO add validation to not allow apply to everyday and a span that overlaps the 24 hr offset days
+		//TODO need to save timeblocks to the hist table 
 		
 		//reset time hour details
 		lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().resetTimeHourDetail(lstNewTimeBlocks);

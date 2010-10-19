@@ -24,6 +24,11 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 	@Override
 	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument) {
 		TimeSummary timeSummary = new TimeSummary();
+		
+		if(timesheetDocument.getTimeBlocks() == null) {
+			return timeSummary;
+		}
+		
 		timeSummary.setPayBeginDate(timesheetDocument.getPayCalendarEntry()
 				.getBeginPeriodDateTime());
 		timeSummary.setPayEndDate(timesheetDocument.getPayCalendarEntry()
@@ -63,6 +68,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 
 		TimeSummaryRow workedHours = timeSummary.getWorkedHours();
 
+		
+		
 		//Iterate over timeblocks /timehourdetails
 		for (TimeBlock timeBlock : timesheetDocument.getTimeBlocks()) {
 			for (TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {

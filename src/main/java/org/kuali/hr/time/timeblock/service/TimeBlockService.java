@@ -11,7 +11,7 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 public interface TimeBlockService {
 
 	public TimeBlock getTimeBlock(String timeBlockId);
-	public List<Map<String,Object>> getTimeBlocksForOurput(List<TimeBlock> timeBlocks);
+	public List<Map<String,Object>> getTimeBlocksForOurput(TimesheetDocument tsd);
 	public void deleteTimeBlock(TimeBlock timeBlock);
 	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument, 
 											Timestamp beginTimestamp, Timestamp endTimestamp);

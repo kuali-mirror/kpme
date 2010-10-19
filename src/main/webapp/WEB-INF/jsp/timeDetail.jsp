@@ -3,8 +3,8 @@
 
 <tk:tkHeader tabId="timeDetail">
 	<html:hidden property="methodToCall" value=""/>
-	<html:hidden property="beginPeriodDate" value="${Form.beginPeriodDate}" styleId="beginPeriodDate"/>
-	<html:hidden property="endPeriodDate" value="${Form.endPeriodDate}" styleId="endPeriodDate"/>
+	<html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDate"/>
+	<html:hidden property="endPeriodDateTime" value="${Form.endPeriodDateTime}" styleId="endPeriodDate"/>
 
 	<div style="clear:both;" class="ui-widget-content">
 		<%--

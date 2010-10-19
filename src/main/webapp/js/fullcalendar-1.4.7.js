@@ -305,8 +305,15 @@ $.fn.fullCalendar = function(options) {
 				view.eventsDirty = false;
 
 				if (header) {
+				    
+				    var begin = parseDate(view.options.beginPeriodDate);
+				    var end = parseDate(view.options.endPeriodDate);
+				    
+				    begin = (begin.getMonth()+1) + "/" + begin.getDate() + "/" + begin.getFullYear() + " " + begin.getHours() + ":" + begin.getMinutes() + ":" + begin.getSeconds(); 
+				    end = (end.getMonth()+1) + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds(); 
+				    
 					// update title text
-					header.find('h2.fc-header-title').html(view.title);
+					header.find('h2.fc-header-title').html(view.title + "(" + begin + " - " + end +")");
 					// enable/disable 'today' button
 					var today = new Date();
 
@@ -1087,7 +1094,7 @@ var tdHeightBug;
 
 
 function Grid(element, options, methods, viewName) {
-
+    
 	var tm, firstDay,
 		nwe,            // no weekends (int)
 		rtl, dis, dit,  // day index sign / translate
@@ -1116,9 +1123,7 @@ function Grid(element, options, methods, viewName) {
 	});
 	view.name = viewName;
 	view.init(element, options);
-
-
-
+    
 	/* Grid Rendering
 	-----------------------------------------------------------------------------*/
 
@@ -1350,8 +1355,10 @@ function Grid(element, options, methods, viewName) {
 			j, level,
 			k, seg,
 			segs=[];
+			
 		for (i=0; i<rowCnt; i++) {
 			row = stackSegs(view.sliceSegs(events, visEventsEnds, d1, d2));
+			
 			for (j=0; j<row.length; j++) {
 				level = row[j];
 				for (k=0; k<level.length; k++) {
@@ -1364,11 +1371,13 @@ function Grid(element, options, methods, viewName) {
 			addDays(d1, 7);
 			addDays(d2, 7);
 		}
+		
 		return segs;
 	}
 
 
 	function renderSegs(segs, modifiedEventId) {
+	    
 		_renderDaySegs(
 			segs,
 			rowCnt,
@@ -1632,10 +1641,13 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 		rowDivs=[],
 		rowDivTops=[];
 
+    console.log(segs);
+
 	// calculate desired position/dimensions, create html
 	for (i=0; i<segCnt; i++) {
 		seg = segs[i];
 		event = seg.event;
+		
 		className = 'fc-event fc-event-hori ';
 		if (rtl) {
 			if (seg.isStart) {
@@ -1655,11 +1667,26 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 			}
 			left = seg.isStart ? dayContentLeft(seg.start.getDay()) : minLeft;
 			right = seg.isEnd ? dayContentRight(seg.end.getDay()-1) : maxLeft;
+			
+			if(event.isStandardPayPeriod == "false") {
+    			if (event.isWithinVirtualDay === "true") {
+    			    if (seg.end.getDay() - seg.start.getDay() >= 2) {
+        			    right = seg.isEnd ? dayContentRight(seg.end.getDay()-2) : maxLeft;
+    			    }
+    			}
+    			else {
+			        left = seg.isStart ? dayContentLeft(seg.start.getDay()+1) : minLeft;
+			        right = seg.isEnd ? dayContentRight(seg.end.getDay()) : maxLeft;
+			        seg.level--;
+			        
+    			}
+            }			
 		}
 		
 		var fromTo = "";
 		
-		if(event.title.indexOf('VAC') > -1 || event.title.indexOf('SCK') > -1) {
+		//TODO: create an array which contains all the earn codes that need to display hours only
+        if(event.earnCode == 'VAC' || event.earnCode == 'SCK') {
             fromTo = "<tr><td align='center'>" + event.hours + " hours</td></tr>";
 		}
 		else {
@@ -1732,11 +1759,12 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 		seg = segs[i];
 		if (eventElement = seg.element) {
 			val = vmarginCache[key = seg.key];
+			
 			seg.outerHeight = eventElement[0].offsetHeight + (
 				val === undefined ? (vmarginCache[key] = vmargins(eventElement[0])) : val
 			);
 		}
-	}
+	}  
 
 	// set row heights, calculate event tops (in relation to row top)
 	for (i=0, rowI=0; rowI<rowCnt; rowI++) {
@@ -1748,11 +1776,13 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 				levelI++;
 			}
 			levelHeight = Math.max(levelHeight, seg.outerHeight||0);
+			console.log(top);
 			seg.top = top;
 			i++;
 		}
 		rowDivs[rowI] = getRow(rowI).find('td:first div.fc-day-content > div') // optimal selector?
 			.height(top + levelHeight);
+		
 	}
 
 	// calculate row tops
@@ -1769,7 +1799,6 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 			view.trigger('eventAfterRender', event, event, eventElement);
 		}
 	}
-
 }
 
 

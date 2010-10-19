@@ -13,8 +13,8 @@ public class TimeDetailActionForm extends TimesheetActionForm {
      */
     private static final long serialVersionUID = 5277197287612035236L;
 
-	private java.util.Date beginPeriodDate;
-	private java.util.Date endPeriodDate;
+	private java.util.Date beginPeriodDateTime;
+	private java.util.Date endPeriodDateTime;
 	
 	// this is for the ajax call
 	private String outputString;
@@ -113,20 +113,20 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 		this.endDate = endDate;
 	}
 
-	public java.util.Date getBeginPeriodDate() {
-		return beginPeriodDate;
+	public java.util.Date getBeginPeriodDateTime() {
+		return beginPeriodDateTime;
 	}
 
-	public void setBeginPeriodDate(java.util.Date beginPeriodDate) {
-		this.beginPeriodDate = beginPeriodDate;
+	public void setBeginPeriodDateTime(java.util.Date beginPeriodDateTime) {
+		this.beginPeriodDateTime = beginPeriodDateTime;
 	}
 
-	public java.util.Date getEndPeriodDate() {
-		return endPeriodDate;
+	public java.util.Date getEndPeriodDateTime() {
+		return endPeriodDateTime;
 	}
 
-	public void setEndPeriodDate(java.util.Date endPeriodDate) {
-		this.endPeriodDate = endPeriodDate;
+	public void setEndPeriodDateTime(java.util.Date endPeriodDateTime) {
+		this.endPeriodDateTime = endPeriodDateTime;
 	}
 
 }

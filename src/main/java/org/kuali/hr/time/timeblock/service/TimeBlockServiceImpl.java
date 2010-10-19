@@ -1,5 +1,6 @@
 package org.kuali.hr.time.timeblock.service;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -111,17 +113,16 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	
 	public void saveTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks){
 		List<TimeBlock> alteredTimeBlocks = new ArrayList<TimeBlock>();
-		boolean persist = false;
+		boolean persist = true;
 		for(TimeBlock tb : newTimeBlocks){
 			for(TimeBlock tbOld : oldTimeBlocks){
 				if(tb.equals(tbOld)){
-					persist = true;
+					persist = false;
 					break;
 				}
 			}
 			if(persist){
 				alteredTimeBlocks.add(tb);
-				persist = false;
 			}
 		}
 		for(TimeBlock tb : alteredTimeBlocks){
@@ -165,9 +166,14 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		return timeBlockDao.getTimeBlock(timeBlockId);
 	}
 	
-	
-	@Override
-	public List<Map<String,Object>> getTimeBlocksForOurput(List<TimeBlock> timeBlocks) {
+	public List<Map<String,Object>> getTimeBlocksForOurput(TimesheetDocument tsd) {
+		
+		List<TimeBlock> timeBlocks = tsd.getTimeBlocks();
+		
+		if(timeBlocks == null || timeBlocks.size() == 0) {
+			return new ArrayList<Map<String,Object>>();
+		}
+		
 		List<Map<String,Object>> timeBlockList = new LinkedList<Map<String,Object>>();
 
 		for(TimeBlock timeBlock : timeBlocks) {
@@ -177,7 +183,32 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			timeBlockMap.put("start", new java.util.Date(timeBlock.getBeginTimestamp().getTime()).toString());
 			timeBlockMap.put("end", new java.util.Date(timeBlock.getEndTimestamp().getTime()).toString());
 			timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
+			timeBlockMap.put("earnCode", timeBlock.getEarnCode());
 			timeBlockMap.put("hours", timeBlock.getHours());
+			
+			Calendar beginTimeCal = Calendar.getInstance();
+			beginTimeCal.setTimeInMillis(timeBlock.getBeginTimestamp().getTime());
+			Calendar endTimeCal = Calendar.getInstance();
+			endTimeCal.setTimeInMillis(timeBlock.getEndTimestamp().getTime());
+
+			// check if the pay period is the standard one
+			String isStandardPayPeriod = endTimeCal.get(Calendar.HOUR_OF_DAY) == 0 ? "true" : "false";
+			timeBlockMap.put("isStandardPayPeriod", isStandardPayPeriod);
+			
+			// if it is NOT a standard pay period, do the virtual day logic
+			if(StringUtils.equals(isStandardPayPeriod, "false")) {
+				
+//				java.util.Date beginPeriodDateTime = tsd.getPayCalendarEntry().getBeginPeriodDateTime();
+//				Calendar beginPayPeriodCal = Calendar.getInstance();
+//				beginPayPeriodCal.setTime(beginPeriodDateTime);
+				java.util.Date endPeriodDateTime = tsd.getPayCalendarEntry().getEndPeriodDateTime();
+				Calendar endPayPeriodCal = Calendar.getInstance();
+				endPayPeriodCal.setTime(endPeriodDateTime);
+				
+				// need to plus one for the pay period end hour, since 11:59:59 should be considered as 12
+				timeBlockMap.put("isWithinVirtualDay", endTimeCal.get(Calendar.HOUR_OF_DAY) <= endPayPeriodCal.get(Calendar.HOUR_OF_DAY)+1 ? "true" : "false");
+//				timeBlockMap.put("isPushTimeBlockNeeded", beginTimeCal.get(Calendar.HOUR_OF_DAY) == beginPayPeriodCal.get(Calendar.HOUR_OF_DAY) ? "true" : "false");
+			}
 
 			timeBlockList.add(timeBlockMap);
 		}

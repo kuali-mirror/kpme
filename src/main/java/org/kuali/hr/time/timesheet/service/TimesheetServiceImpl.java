@@ -45,7 +45,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		TimesheetDocument timesheetDocument = null;
 
 		Date begin = payCalendarDates.getBeginPeriodDateTime();		
-		Date end = payCalendarDates.getEndPeriodDateTime();
+		Date end = payCalendarDates.getEndPeriodDateTime(); 
 
 		TimesheetDocumentHeader header = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, begin, end);
 
