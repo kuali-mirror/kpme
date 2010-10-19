@@ -3,7 +3,6 @@ package org.kuali.hr.time.paycalendar.service;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.hr.job.Job;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.paytype.PayType;
@@ -27,5 +26,5 @@ public interface PayCalendarService {
 	 * @param currentDate
 	 * @return
 	 */
-	public PayCalendarDates getCurrentPayCalendarDates(String principalId, Job job, Date currentDate);	
+	public PayCalendarDates getCurrentPayCalendarDates(String principalId, Date currentDate);	
 }

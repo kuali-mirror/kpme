@@ -16,11 +16,10 @@ import org.kuali.rice.kew.exception.WorkflowException;
 
 public class TkTestUtils {
 	public static TimesheetDocument populateTimesheetDocument(Date calDate) {
-		List<Job> jobs = getJobs(calDate);
 		try {
 			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(), 
 							TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(), 
-							  jobs.get(0), calDate));
+							  calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
 			}
@@ -28,7 +27,7 @@ public class TkTestUtils {
 			//refetch clean document
 			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(), 
 					TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(), 
-					  jobs.get(0), calDate));
+					   calDate));
 			for(int i = 0;i<5;i++){
 				TimeBlock timeBlock = createTimeBlock(timesheet, i+1, 10);
 				timesheet.getTimeBlocks().add(timeBlock);

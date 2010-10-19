@@ -32,11 +32,11 @@ public class TimesheetAction extends TkAction {
 		TKUser user = TKContext.getUser();
 		Date currentDate = TKUtils.getTimelessDate(null);
 		
-		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(user.getPrincipalId(), currentDate);
-		if (jobs.size() < 1)
-			throw new RuntimeException("No jobs for a user.");
+//		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(user.getPrincipalId(), currentDate);
+//		if (jobs.size() < 1)
+//			throw new RuntimeException("No jobs for a user.");
 		
-		PayCalendarDates payCalendarDates = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(user.getPrincipalId(), jobs.get(0), currentDate);
+		PayCalendarDates payCalendarDates = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(user.getPrincipalId(),  currentDate);
 		taForm.setPayCalendarDates(payCalendarDates);
 	
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(user.getPrincipalId(), payCalendarDates);

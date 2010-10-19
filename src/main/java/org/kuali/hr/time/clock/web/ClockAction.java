@@ -66,7 +66,7 @@ public class ClockAction extends TimesheetAction {
 	    	    caf.setLastClockTimestamp(lastClockTimestamp);
     	    }
     	    
-    	    ClockLog clockLog = TkServiceLocator.getClockLogService().saveClockAction(caf);
+    	    ClockLog clockLog = TkServiceLocator.getClockLogService().saveClockAction(caf.getSelectedAssignment(),caf.getTimesheetDocument(),caf.getCurrentClockAction());
     	    caf.setClockLog(clockLog);
     	    
     	    if(StringUtils.equals(caf.getCurrentClockAction(), "CO")) {

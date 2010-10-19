@@ -10,6 +10,7 @@ import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.paycalendar.dao.PayCalendarDao;
 import org.kuali.hr.time.paytype.PayType;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public class PayCalendarServiceImpl implements PayCalendarService {
 
@@ -40,9 +41,15 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 	}
 
 	@Override
-	public PayCalendarDates getCurrentPayCalendarDates(String principalId, Job job, Date currentDate) {
+	public PayCalendarDates getCurrentPayCalendarDates(String principalId, Date currentDate) {
 		PayCalendarDates pcd = null;
 		DateTime currentTime = new DateTime(currentDate); 
+		
+		List<Job> currentJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, currentDate);
+		if(currentJobs.size() < 1){
+			throw new RuntimeException("No jobs found for principal id "+principalId);
+		}
+		Job job = currentJobs.get(0);
 		
 		if (principalId == null || job == null) {
 			throw new RuntimeException("Null parameters passed to getPayEndDate");
