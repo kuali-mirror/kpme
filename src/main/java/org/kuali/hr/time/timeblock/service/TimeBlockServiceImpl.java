@@ -132,7 +132,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	}
 
 	
-	private TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode){
+	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode){
 		TimeBlock tb = new TimeBlock();
     	tb.setDocumentId(timesheetDocument.getDocumentHeader().getDocumentId().toString());
     	tb.setJobNumber(assignment.getJobNumber());

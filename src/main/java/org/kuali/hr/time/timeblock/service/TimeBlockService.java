@@ -20,4 +20,6 @@ public interface TimeBlockService {
 	public List<TimeBlock> getTimeBlocks(Long documentId);
 	public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument, 
 												Timestamp beginTimestamp, Timestamp endTimestamp);
+	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, 
+										Assignment assignment, String earnCode);
 }
