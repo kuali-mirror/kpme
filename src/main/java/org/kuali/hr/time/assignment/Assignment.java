@@ -162,4 +162,5 @@ public class Assignment extends PersistableBusinessObjectBase {
 	public boolean isSynchronous() {
 		return timeCollectionRule.isClockUserFl();
 	}
+	
 }

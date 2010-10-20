@@ -1,7 +1,9 @@
 package org.kuali.hr.time.timesheet;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
@@ -22,6 +24,7 @@ public class TimesheetDocument  {
 	private List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 	private PayCalendarDates payCalendarEntry = new PayCalendarDates();
 	private TimeSummary timeSummary = new TimeSummary();
+	private Map<Long, Job> jobNumberToJobMap = new HashMap<Long,Job>();
 	
 	public TimesheetDocument(TimesheetDocumentHeader documentHeader) {
 		this.documentHeader = documentHeader;
@@ -49,6 +52,12 @@ public class TimesheetDocument  {
 
 	public void setJobs(List<Job> jobs) {
 		this.jobs = jobs;
+		jobNumberToJobMap.clear();
+		if(jobs!=null){
+			for(Job job : jobs){
+				jobNumberToJobMap.put(job.getJobNumber(), job);
+			}
+		}
 	}
 
 	public List<TimeBlock> getTimeBlocks() {
@@ -73,5 +82,17 @@ public class TimesheetDocument  {
 
 	public TimeSummary getTimeSummary() {
 		return timeSummary;
+	}
+	
+	public String getPrincipalId(){
+		return getDocumentHeader().getPrincipalId();
+	}
+	
+	public Job getJob(Long jobNumber){
+		return jobNumberToJobMap.get(jobNumber);
+	}
+	
+	public java.sql.Date getAsOfDate(){
+		return new java.sql.Date(getPayCalendarEntry().getBeginPeriodDateTime().getTime());
 	}
 }

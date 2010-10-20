@@ -32,6 +32,14 @@ public class TkTimeBlockAggregate {
 		return dayTimeBlockList;
 	}
 	
+	public List<TimeBlock> getFlattenedTimeBlockList(){
+		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
+		for(List<TimeBlock> timeBlocks : dayTimeBlockList){
+			lstTimeBlocks.addAll(timeBlocks);
+		}
+		return lstTimeBlocks;
+	}
+	
 	/**
 	 * Provides a way to access all of the time blocks for a given week.
 	 * 

@@ -1,11 +1,21 @@
 package org.kuali.hr.time.overtime.daily.rule.service;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.overtime.daily.rule.dao.DailyOvertimeRuleDao;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.workschedule.WorkSchedule;
 
 public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	
@@ -74,6 +84,50 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 	public void setDailyOvertimeRuleDao(DailyOvertimeRuleDao dailyOvertimeRuleDao) {
 		this.dailyOvertimeRuleDao = dailyOvertimeRuleDao;
+	}
+	
+	public List<TimeBlock> processDailyOvertimeRule(TkTimeBlockAggregate timeBlockAggregate, TimesheetDocument timesheetDocument){
+		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
+		Map<String, List<DailyOvertimeRule>> assignKeyToDailyOverTimeRuleList = new HashMap<String, List<DailyOvertimeRule>>();
+		Map<String, List<WorkSchedule>> assignKeyToWorkScheduleList = new HashMap<String, List<WorkSchedule>>();
+		//iterate over all assignments and place the list of rules if any in map
+		for(Assignment assign : timesheetDocument.getAssignments()){
+			List<DailyOvertimeRule> dailyOvertimeRules = getDailyOvertimeRules(assign.getJob().getDept(), assign.getWorkArea(), assign.getTask(), timesheetDocument.getAsOfDate());
+	
+			if(dailyOvertimeRules!=null && !dailyOvertimeRules.isEmpty()){
+				String assignKey = assign.getJobNumber()+"_"+assign.getWorkArea()+"_"+assign.getTask();
+				assignKeyToDailyOverTimeRuleList.put(assignKey, dailyOvertimeRules);
+				List<WorkSchedule> workScheduleList = TkServiceLocator.getWorkScheduleService().getWorkSchedules(timesheetDocument.getPrincipalId(), assign.getJob().getDept(), 
+														assign.getWorkArea(), timesheetDocument.getAsOfDate());
+				
+				if(workScheduleList!=null && !workScheduleList.isEmpty()){
+					assignKeyToWorkScheduleList.put(assignKey, workScheduleList);
+				}
+			}
+		}
+		//if no daily overtime rules found for this person bail out
+		if(assignKeyToDailyOverTimeRuleList.isEmpty()){
+			return timeBlockAggregate.getFlattenedTimeBlockList();
+		}
+
+		for(List<TimeBlock> lstDayTimeBlocks : timeBlockAggregate.getDayTimeBlockList()){
+			Map<String,BigDecimal> assignKeyToDailyTotals = new HashMap<String,BigDecimal>();
+			for(TimeBlock timeBlock : lstDayTimeBlocks){
+				String assignKey = timeBlock.getJobNumber()+"_"+timeBlock.getWorkArea()+"_"+timeBlock.getTask();
+				BigDecimal currVal = assignKeyToDailyTotals.get(assignKey);
+				if(currVal == null){
+					currVal = new BigDecimal(0);
+				}
+				currVal = currVal.add(timeBlock.getHours(), TkConstants.MATH_CONTEXT);
+				assignKeyToDailyTotals.put(assignKey, currVal);
+			}
+			//TODO iterate over the daily totals that were just calculated and compare with rules for entry
+			//TODO if work schedule entry for this day then ignore daily ovt rule as this may need to be impl specific logic 
+			//TODO modify lstTimeBlocks accordingly
+		}
+		
+		
+		return lstTimeBlocks;
 	}
 
 }
