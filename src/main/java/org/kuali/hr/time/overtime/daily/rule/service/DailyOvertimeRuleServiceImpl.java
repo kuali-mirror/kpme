@@ -122,6 +122,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 				assignKeyToDailyTotals.put(assignKey, currVal);
 			}
 			//TODO iterate over the daily totals that were just calculated and compare with rules for entry
+			//TODO match up assignments to rules based on hours worked
 			//TODO if work schedule entry for this day then ignore daily ovt rule as this may need to be impl specific logic 
 			//TODO modify lstTimeBlocks accordingly
 		}

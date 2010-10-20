@@ -306,11 +306,11 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <!--
+    
     <bean id="clockLocationDao" class="org.kuali.hr.time.clock.location.dao.ClockLocationDaoOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    -->
+    
 
     <bean id="deptEarnCodeDao" class="org.kuali.hr.time.dept.earncode.dao.DepartmentEarnCodeDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
@@ -351,11 +351,11 @@
     	<property name="clockLogDao" ref="clockLogDao"/>
     </bean>
 
-    <!--
+    
     <bean id="clockLocationService" class="org.kuali.hr.time.clock.location.service.ClockLocationRuleServiceImpl">
     	<property name="clockLocationDao" ref="clockLocationDao"/>
     </bean>
-    -->
+    
     
     <bean id="workScheduleService" class="org.kuali.hr.time.workschedule.service.WorkScheduleServiceImpl">
     	<property name="workScheduleDao" ref="workScheduleDao"/>
