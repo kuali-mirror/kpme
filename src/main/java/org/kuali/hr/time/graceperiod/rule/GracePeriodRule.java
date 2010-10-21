@@ -16,18 +16,14 @@ public class GracePeriodRule extends TkRule {
 	private Long tkGracePeriodRuleId;
 	private Date effDt;
 	private boolean active;
-	private BigDecimal graceMins;
 	private BigDecimal hourFactor;
 	private String userPrincipalId;
 	private Timestamp timestamp; 
 	
 	protected LinkedHashMap<String,Object> toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
-		
 		toStringMap.put("effDt", effDt);
-		toStringMap.put("graceMins", graceMins);
 		toStringMap.put("hourFactor", hourFactor);
-		
 		return toStringMap;
 	}
 
@@ -44,18 +40,8 @@ public class GracePeriodRule extends TkRule {
 	    return active;
 	}
 
-
 	public void setActive(boolean active) {
 	    this.active = active;
-	}
-
-
-	public BigDecimal getGraceMins() {
-	    return graceMins;
-	}
-
-	public void setGraceMins(BigDecimal graceMins) {
-	    this.graceMins = graceMins;
 	}
 
 	public BigDecimal getHourFactor() {

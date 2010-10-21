@@ -29,7 +29,6 @@
     <property name="title" value="Grace Period Rule Maintenance"/>
     <property name="maintainableItems">
       <list>
-         <bean parent="MaintainableFieldDefinition" p:name="graceMins" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="hourFactor" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="effDt" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>

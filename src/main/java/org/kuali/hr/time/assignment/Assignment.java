@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
+import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -28,6 +29,7 @@ public class Assignment extends PersistableBusinessObjectBase {
 	private boolean active;
 	private Timestamp timestamp;
 	private TimeCollectionRule timeCollectionRule;
+	private DeptLunchRule deptLunchRule;
 
 	private WorkArea workAreaObj;
 
@@ -161,6 +163,14 @@ public class Assignment extends PersistableBusinessObjectBase {
 
 	public boolean isSynchronous() {
 		return timeCollectionRule.isClockUserFl();
+	}
+
+	public DeptLunchRule getDeptLunchRule() {
+		return deptLunchRule;
+	}
+
+	public void setDeptLunchRule(DeptLunchRule deptLunchRule) {
+		this.deptLunchRule = deptLunchRule;
 	}
 	
 }

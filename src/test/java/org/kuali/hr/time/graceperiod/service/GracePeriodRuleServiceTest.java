@@ -19,7 +19,6 @@ public class GracePeriodRuleServiceTest extends TkTestCase{
 		GracePeriodRule gpr = new GracePeriodRule();
 		gpr.setActive(true);
 		gpr.setEffDt(new Date(System.currentTimeMillis()));
-		gpr.setGraceMins(new BigDecimal(3));
 		gpr.setHourFactor(new BigDecimal(0.1));
 		
 		KNSServiceLocator.getBusinessObjectService().save(gpr);
@@ -33,7 +32,6 @@ public class GracePeriodRuleServiceTest extends TkTestCase{
 		GracePeriodRule gpr = new GracePeriodRule();
 		gpr.setActive(true);
 		gpr.setEffDt(new Date(System.currentTimeMillis()));
-		gpr.setGraceMins(new BigDecimal(3));
 		gpr.setHourFactor(new BigDecimal(0.1));
 		
 		KNSServiceLocator.getBusinessObjectService().save(gpr);
@@ -53,7 +51,7 @@ public class GracePeriodRuleServiceTest extends TkTestCase{
 		beginDateTime = new Timestamp((new DateTime(2010, 10, 16, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		derivedTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, new Date(System.currentTimeMillis()));
 
-		assertTrue("rounded to 2:00", derivedTimestamp.getMinutes()==0 && derivedTimestamp.getHours()==1);
+		assertTrue("rounded to 1:00", derivedTimestamp.getMinutes()==0 && derivedTimestamp.getHours()==1);
 
 
 	}

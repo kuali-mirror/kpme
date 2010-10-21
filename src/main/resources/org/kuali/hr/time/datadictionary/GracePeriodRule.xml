@@ -12,7 +12,6 @@
     </property>
     <property name="attributes">
       <list>
-         <ref bean="GracePeriodRule-graceMins"/>
         <ref bean="GracePeriodRule-hourFactor"/>
         <ref bean="GracePeriodRule-effDt"/>
         <ref bean="GracePeriodRule-active"/>
@@ -23,21 +22,6 @@
   </bean>
 
   <!-- Attribute Definitions -->
-  <bean id="GracePeriodRule-graceMins" parent="GracePeriodRule-graceMins-parentBean"/>
-
-  <bean id="GracePeriodRule-graceMins-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Grace Mins"/>
-    <property name="maxLength" value="5"/>
-    <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="5"/>
-    </property>
-    <property name="name" value="graceMins"/>
-    <property name="label" value="Grace Minutes"/>
-  </bean>
-  
 
   <bean id="GracePeriodRule-hourFactor" parent="GracePeriodRule-hourFactor-parentBean"/>
 
@@ -121,7 +105,6 @@
   <bean id="GracePeriodRule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="lookupFields">
       <list>
-          <bean parent="FieldDefinition" p:attributeName="graceMins"/>
         <bean parent="FieldDefinition" p:attributeName="effDt"/>
         <bean parent="FieldDefinition" p:attributeName="hourFactor"/>
         <bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
@@ -129,7 +112,6 @@
     </property>
     <property name="resultFields">
       <list>
-         <bean parent="FieldDefinition" p:attributeName="graceMins"/>
         <bean parent="FieldDefinition" p:attributeName="hourFactor"/>
         <bean parent="FieldDefinition" p:attributeName="effDt"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>

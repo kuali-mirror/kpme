@@ -347,7 +347,23 @@
     <bean id="gracePeriodDao" class="org.kuali.hr.time.graceperiod.dao.GracePeriodDaoImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+    <bean id="systemLunchRuleDao" class="org.kuali.hr.time.syslunch.dao.SystemLunchRuleDaoImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
+    <bean id="deptLunchRuleDao" class="org.kuali.hr.time.dept.lunch.dao.DepartmentLunchRuleDaoImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 	<!-- Time Services for Business Logic -->
+	
+	<bean id="deptLunchRuleService" class="org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleServiceImpl">
+		<property name="deptLunchRuleDao" ref="deptLunchRuleDao"/>
+	</bean>
+	
+	<bean id="systemLunchRuleService" class="org.kuali.hr.time.syslunch.service.SystemLunchRuleServiceImpl">
+		<property name="systemLunchRuleDao" ref="systemLunchRuleDao"/>
+	</bean>
 	
     <bean id="gracePeriodService" class="org.kuali.hr.time.graceperiod.service.GracePeriodServiceImpl">
     	<property name="gracePeriodDao" ref="gracePeriodDao"/>

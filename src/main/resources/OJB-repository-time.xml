@@ -173,7 +173,6 @@
 		<!-- add grace period rule -->
 	<class-descriptor class="org.kuali.hr.time.graceperiod.rule.GracePeriodRule" table="TK_GRACE_PERIOD_RL_T">
 		<field-descriptor name="tkGracePeriodRuleId" column="TK_GRACE_PERIOD_RULE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_grace_period_rl_s"/>
-		<field-descriptor name="graceMins"         column="GRACE_MINS"           jdbc-type="NUMERIC" precision="2" scale="0" nullable="false" primarykey="false" />
 		<field-descriptor name="hourFactor"        column="HOUR_FACTOR"          jdbc-type="NUMERIC" precision="2" scale="0" nullable="false" primarykey="false" />
  		<field-descriptor name="effDt"             column="EFFDT"                jdbc-type="DATE" primarykey="false" />
 		<field-descriptor name="active"            column="active"	             jdbc-type="BIT" length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />

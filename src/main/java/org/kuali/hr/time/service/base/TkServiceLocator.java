@@ -7,6 +7,7 @@ import org.kuali.hr.time.cache.CacheManagementService;
 import org.kuali.hr.time.clock.location.service.ClockLocationRuleService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
 import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
+import org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleService;
 import org.kuali.hr.time.earncode.service.EarnCodeService;
 import org.kuali.hr.time.earngroup.service.EarnGroupService;
 import org.kuali.hr.time.graceperiod.service.GracePeriodService;
@@ -18,6 +19,7 @@ import org.kuali.hr.time.paytype.service.PayTypeService;
 import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.rule.TkRuleControllerService;
 import org.kuali.hr.time.shiftdiff.rule.service.ShiftDifferentialRuleService;
+import org.kuali.hr.time.syslunch.service.SystemLunchRuleService;
 import org.kuali.hr.time.timeblock.service.TimeBlockHistoryService;
 import org.kuali.hr.time.timeblock.service.TimeBlockService;
 import org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleService;
@@ -62,6 +64,8 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_WORK_SCHEDULE_SERVICE = "workScheduleService";
 	public static final String TK_CLOCK_LOCATION_RULE_SERVICE = "clockLocationService";
 	public static final String TK_GRACE_PERIOD_SERVICE = "gracePeriodService";
+	public static final String TK_SYSTEM_LUNCH_RULE_SERVICE = "systemLunchRuleService";
+	public static final String TK_DEPT_LUNCH_RULE_SERVICE = "deptLunchRuleService";
 	
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -182,6 +186,14 @@ public class TkServiceLocator implements ApplicationContextAware {
 	
 	public static GracePeriodService getGracePeriodService(){
 		return (GracePeriodService) CONTEXT.getBean(TK_GRACE_PERIOD_SERVICE);
+	}
+	
+	public static SystemLunchRuleService getSystemLunchRuleService(){
+		return (SystemLunchRuleService) CONTEXT.getBean(TK_SYSTEM_LUNCH_RULE_SERVICE);
+	}
+	
+	public static DepartmentLunchRuleService getDepartmentLunchRuleService(){
+		return (DepartmentLunchRuleService) CONTEXT.getBean(TK_DEPT_LUNCH_RULE_SERVICE);
 	}
 
 	@Override
