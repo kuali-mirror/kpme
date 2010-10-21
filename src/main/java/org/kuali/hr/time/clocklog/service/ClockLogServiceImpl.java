@@ -23,7 +23,7 @@ public class ClockLogServiceImpl implements ClockLogService {
 		clockLogDao.saveOrUpdate(clockLog);
 	}
 	
-	public ClockLog saveClockAction(String selectedAssign, TimesheetDocument timesheetDocument, String clockAction){
+	public ClockLog saveClockAction(Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction){
 		String principalId = TKContext.getUser().getPrincipalId();
 		
 	    ClockLog clockLog = new ClockLog();
@@ -45,7 +45,7 @@ public class ClockLogServiceImpl implements ClockLogService {
 	    clockLog.setTkTaskId(tkTaskId);
 	    
 	    // TODO: This timezone is not correct, we will need to make a javascript call.
-	    clockLog.setClockTimestamp(new Timestamp(System.currentTimeMillis()));//Calendar.getInstance(TkConstants.GMT_TIME_ZONE));
+	    clockLog.setClockTimestamp(clockTimestamp);//Calendar.getInstance(TkConstants.GMT_TIME_ZONE));
 	    clockLog.setClockTimestampTimezone(TKUtils.getTimeZone());
 	    clockLog.setClockAction(clockAction);
 	    clockLog.setIpAddress("127.0.0.1");

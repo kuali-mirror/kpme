@@ -9,6 +9,7 @@ import org.kuali.hr.time.clocklog.service.ClockLogService;
 import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.earncode.service.EarnCodeService;
 import org.kuali.hr.time.earngroup.service.EarnGroupService;
+import org.kuali.hr.time.graceperiod.service.GracePeriodService;
 import org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleService;
 import org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarDatesService;
@@ -60,6 +61,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_SHIFT_DIFFERENTIAL_RULE_SERVICE = "shiftDifferentialRuleService";
 	public static final String TK_WORK_SCHEDULE_SERVICE = "workScheduleService";
 	public static final String TK_CLOCK_LOCATION_RULE_SERVICE = "clockLocationService";
+	public static final String TK_GRACE_PERIOD_SERVICE = "gracePeriodService";
 	
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -176,6 +178,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	
 	public static ClockLocationRuleService getClockLocationRuleService(){
 		return (ClockLocationRuleService) CONTEXT.getBean(TK_CLOCK_LOCATION_RULE_SERVICE);
+	}
+	
+	public static GracePeriodService getGracePeriodService(){
+		return (GracePeriodService) CONTEXT.getBean(TK_GRACE_PERIOD_SERVICE);
 	}
 
 	@Override

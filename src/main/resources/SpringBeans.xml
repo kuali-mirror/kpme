@@ -344,8 +344,14 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
     
-    
+    <bean id="gracePeriodDao" class="org.kuali.hr.time.graceperiod.dao.GracePeriodDaoImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 	<!-- Time Services for Business Logic -->
+	
+    <bean id="gracePeriodService" class="org.kuali.hr.time.graceperiod.service.GracePeriodServiceImpl">
+    	<property name="gracePeriodDao" ref="gracePeriodDao"/>
+    </bean>
 
     <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
     	<property name="clockLogDao" ref="clockLogDao"/>
