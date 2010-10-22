@@ -8,7 +8,8 @@ import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 public interface DailyOvertimeRuleDao {
 
 	/**
-	 * Given a Department, Work Area, Task and Effective Date, provides a list of Daily Overtime Rules.
+	 * Given a Department, Work Area, Task and Effective Date, provides the
+	 * daily overtime rule that applies.
 	 * 
 	 * @param dept 
 	 * @param workArea 
@@ -16,7 +17,7 @@ public interface DailyOvertimeRuleDao {
 	 * @param asOfDate Required.
 	 * @return
 	 */
-	public List<DailyOvertimeRule> findDailyOvertimeRules(String dept, Long workArea, Long task, Date asOfDate);
+	public DailyOvertimeRule findDailyOvertimeRule(String dept, Long workArea, Long task, Date asOfDate);
 	
 	public void saveOrUpdate(DailyOvertimeRule dailyOvertimeRule);
 	

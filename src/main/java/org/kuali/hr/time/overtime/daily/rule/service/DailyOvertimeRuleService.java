@@ -11,5 +11,5 @@ public interface DailyOvertimeRuleService {
 	
 	public void saveOrUpdate(List<DailyOvertimeRule> dailyOvertimeRules);
 	
-	public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, Long workArea, Long task, Date asOfDate);
+	public DailyOvertimeRule getDailyOvertimeRule(String dept, Long workArea, Long task, Date asOfDate);
 }

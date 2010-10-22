@@ -1,8 +1,6 @@
 package org.kuali.hr.time.overtime.daily.rule.dao;
 
-import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -14,10 +12,9 @@ import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class DailyOvertimeRuleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements DailyOvertimeRuleDao {
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<DailyOvertimeRule> findDailyOvertimeRules(String dept, Long workArea, Long task, Date asOfDate) {
-		List<DailyOvertimeRule> dorList = new LinkedList<DailyOvertimeRule>();
+	public DailyOvertimeRule findDailyOvertimeRule(String dept, Long workArea, Long task, Date asOfDate) {
+		DailyOvertimeRule dailyOvertimeRule;
 
 		Criteria root = new Criteria();
 		Criteria effdt = new Criteria();
@@ -47,13 +44,9 @@ public class DailyOvertimeRuleDaoSpringOjbImpl extends PersistenceBrokerDaoSuppo
 		root.addEqualTo("active", true);
 
 		Query query = QueryFactory.newQuery(DailyOvertimeRule.class, root);
-		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		dailyOvertimeRule = (DailyOvertimeRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 		
-		if (c != null) {
-			dorList.addAll(c);
-		}
-
-		return dorList;
+		return dailyOvertimeRule;
 	}
 
 	@Override

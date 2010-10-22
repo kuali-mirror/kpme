@@ -34,50 +34,49 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	 * For now this will be implemented with all possible cases - need to improve this, though caching will alleviate 
 	 * A lot of this insanity.
 	 * 
-	 * We have a binary permutation 2^n of our n independent variables, (in this case n=3; dept, work area, task).
-	 * 
-	 * This SHOULD be the only class that has this wacknuttery. 
+	 * We have a binary permutation 2^n of our n independent variables, (in this case n=3; dept, work area, task). 
 	 */
-	public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, Long workArea, Long task, Date asOfDate) {
-		List<DailyOvertimeRule> dotrls = new ArrayList<DailyOvertimeRule>();
+	public DailyOvertimeRule getDailyOvertimeRule(String dept, Long workArea, Long task, Date asOfDate) {
+		DailyOvertimeRule dailyOvertimeRule = null;
 		
 		// department, workarea, task
-		if (dotrls.isEmpty())
-			dotrls = dailyOvertimeRuleDao.findDailyOvertimeRules(dept, workArea, task, asOfDate);
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(dept, workArea, task, asOfDate);
 		
 		// department, workarea, -1
-		if (dotrls.isEmpty())
-			dotrls = dailyOvertimeRuleDao.findDailyOvertimeRules(dept, workArea, -1L, asOfDate);
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(dept, workArea, -1L, asOfDate);
 		
 		// department, -1, task
-		if (dotrls.isEmpty())
-			dotrls = dailyOvertimeRuleDao.findDailyOvertimeRules(dept, -1L, task, asOfDate);
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(dept, -1L, task, asOfDate);
 		
 		// department, -1, -1
-		if (dotrls.isEmpty())
-			dotrls = dailyOvertimeRuleDao.findDailyOvertimeRules(dept, -1L, -1L, asOfDate);
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(dept, -1L, -1L, asOfDate);
 		
 		// *, workarea, task
-		if (dotrls.isEmpty())
-			dotrls = dailyOvertimeRuleDao.findDailyOvertimeRules("*", workArea, task, asOfDate);
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", workArea, task, asOfDate);
 		
 		// *, workarea, -1
-		if (dotrls.isEmpty())
-			dotrls = dailyOvertimeRuleDao.findDailyOvertimeRules("*", workArea, -1L, asOfDate);
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", workArea, -1L, asOfDate);
 		
+		// This is not a valid case.
 		// *, -1, task
-		if (dotrls.isEmpty())
-			dotrls = dailyOvertimeRuleDao.findDailyOvertimeRules("*", -1L, task, asOfDate);
+		//if (dailyOvertimeRule == null)
+		//	dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRules("*", -1L, task, asOfDate);
 		
 		// *, -1, -1
-		if (dotrls.isEmpty())
-			dotrls = dailyOvertimeRuleDao.findDailyOvertimeRules("*", -1L, -1L, asOfDate);
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", -1L, -1L, asOfDate);
 		
 		// Do anything else we have to do to the list, which is probably nothing.
 		// ...
 		//
 		
-		return dotrls;
+		return dailyOvertimeRule;
 	}
 
 
@@ -88,15 +87,15 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	
 	public List<TimeBlock> processDailyOvertimeRule(TkTimeBlockAggregate timeBlockAggregate, TimesheetDocument timesheetDocument){
 		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
-		Map<String, List<DailyOvertimeRule>> assignKeyToDailyOverTimeRuleList = new HashMap<String, List<DailyOvertimeRule>>();
+		Map<String, DailyOvertimeRule> assignKeyToDailyOverTimeRuleList = new HashMap<String, DailyOvertimeRule>();
 		Map<String, List<WorkSchedule>> assignKeyToWorkScheduleList = new HashMap<String, List<WorkSchedule>>();
 		//iterate over all assignments and place the list of rules if any in map
 		for(Assignment assign : timesheetDocument.getAssignments()){
-			List<DailyOvertimeRule> dailyOvertimeRules = getDailyOvertimeRules(assign.getJob().getDept(), assign.getWorkArea(), assign.getTask(), timesheetDocument.getAsOfDate());
+			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(assign.getJob().getDept(), assign.getWorkArea(), assign.getTask(), timesheetDocument.getAsOfDate());
 	
-			if(dailyOvertimeRules!=null && !dailyOvertimeRules.isEmpty()){
+			if(dailyOvertimeRule !=null) {
 				String assignKey = assign.getJobNumber()+"_"+assign.getWorkArea()+"_"+assign.getTask();
-				assignKeyToDailyOverTimeRuleList.put(assignKey, dailyOvertimeRules);
+				assignKeyToDailyOverTimeRuleList.put(assignKey, dailyOvertimeRule);
 				List<WorkSchedule> workScheduleList = TkServiceLocator.getWorkScheduleService().getWorkSchedules(timesheetDocument.getPrincipalId(), assign.getJob().getDept(), 
 														assign.getWorkArea(), timesheetDocument.getAsOfDate());
 				

@@ -15,7 +15,8 @@ INSERT INTO `hr_job_t` (`HR_JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`active`
 	('1020', 'eric', '2', '2010-08-13', 1, 'TEST-DEPT', '11', NULL, '2010-08-13 16:22:22', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW'),
 	('1021', 'admin', '3', '2010-08-15', 1, 'NODEP', 'NOP', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW'),
 	('1022', 'admin', '4', '2010-08-15', 1, 'NODEP', 'A10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW'),
-	('1023', 'admin', '5', '2010-08-15', 1, 'LORA-DEPT', 'A10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW');
+	('1023', 'admin', '5', '2010-08-15', 1, 'LORA-DEPT', 'A10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW'),
+	('1024', 'admin', '6', '2010-01-01', 1, 'SHFT-DEPT', 'A10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW');
 
 #
 # Departments
@@ -32,7 +33,8 @@ INSERT INTO `tk_dept_t` (`tk_dept_id`,`dept`,`DESCRIPTION`,`ORG`,`CHART`,`EFFDT`
     (106 , 'TEST-DEPT6' , 'test department6' , 'TEST' , 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 1)  ,
     (107 , 'NODEP'      , 'test department7' , 'NODEP', 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 1),
     (108 , 'TEST-DEPT7' , 'test department7' , 'TEST' , 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 1),
-    (109 , 'LORA-DEPT'  , 'lora\'s department' , 'LORA' , 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 1);
+    (109 , 'LORA-DEPT'  , 'lora\'s department' , 'LORA' , 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 1),
+    (110 , 'SHFT-DEPT'  , 'shift department' , 'SHFT' , 'DEPT' , '2010-01-01' , '2010-07-27 10:25:13' , 1);
 
 #
 # Work Areas
@@ -44,7 +46,8 @@ INSERT INTO `tk_work_area_t` (`TK_WORK_AREA_ID`, `WORK_AREA`, `EFFDT`,`ACTIVE`,`
     (101, '2345', '2010-01-05', 1, 'work area description2', 'TEST-DEPT2', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20'),
     (102, '3456', '2010-01-05', 1, 'work area description3', 'TEST-DEPT3', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20'),
     (103, '4567', '2010-01-05', 1, 'work area description4', 'TEST-DEPT4', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20'),
-    (104, '1000', '2010-01-05', 1, 'lora\'s work area', 'LORA-DEPT', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20');
+    (104, '1000', '2010-01-05', 1, 'lora\'s work area', 'LORA-DEPT', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20'),
+    (105, '1100', '2010-01-01', 1, 'shift-workarea', 'SHFT-DEPT', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20');
 
 #
 # Task
@@ -52,10 +55,11 @@ DELETE FROM `tk_task_s`;
 INSERT INTO `tk_task_s` (`ID`) VALUES ('1000');
 DELETE FROM `tk_task_t`;
 INSERT INTO `tk_task_t`(`tk_task_id`,`task`,`work_area`,`descr`,`admin_descr`,`obj_id`, `ver_nbr`,`USER_PRINCIPAL_ID`)  VALUES
-    (100, '1', '1234', 'description 1', 'admin description 1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
-    (101, '2', '1234', 'description 2', 'admin description 2', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
-    (102, '3', '1234', 'description 3', 'admin description 3', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
-    (103, '4', '1000', 'task 4', 'admin description 4', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin');
+    (100, 1, '1234', 'description 1', 'admin description 1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
+    (101, 2, '1234', 'description 2', 'admin description 2', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
+    (102, 3, '1234', 'description 3', 'admin description 3', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
+    (103, 4, '1000', 'task 4', 'admin description 4', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
+    (104, 5, '1100', 'task 5', 'admin description 4', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin');
 
 #
 # Assignments
@@ -70,7 +74,8 @@ INSERT INTO `tk_assignment_t` (`TK_ASSIGNMENT_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`E
     (14 , 'admin' , 3 , '2010-08-15' , 1234 , 1 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , 1)  ,
     (15 , 'admin' , 1 , '2010-08-04' , 1234 , 1 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , 1)  ,
     (16 , 'admin' , 4 , '2010-08-15' , 1234 , 1 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , 1)  ,
-    (17 , 'admin' , 5 , '2010-08-15' , 1000 , 4 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , 1)  ;
+    (17 , 'admin' , 5 , '2010-08-15' , 1000 , 4 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , 1)  ,
+    (18 , 'admin' , 6 , '2010-01-01' , 1100 , 5 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-08-27 10:25:13' , '1' , 1)  ;
 
 #
 # dept earn code
@@ -130,7 +135,8 @@ DELETE FROM `hr_paytype_s`;
 INSERT INTO `hr_paytype_s` (`ID`)	VALUES	('1000');
 DELETE FROM `hr_paytype_t`;
 INSERT INTO `hr_paytype_t` (`HR_PAYTYPE_ID`,`PAYTYPE`,`DESCR`,`CALENDAR_GROUP`,`REG_ERN_CODE`,`EFFDT`,`TIMESTAMP`,`HOLIDAY_CALENDAR_GROUP`,`OBJ_ID`,`VER_NBR`,`ACTIVE`) VALUES
-	('1', 'BW', 'description', 'BW-CAL1', 'RGN', '2010-08-01', '2010-08-01 16:01:07', 'HOL', '47326FEA-46E7-7D89-0B13-85DFA45EA8C1', '1',1);
+	(1, 'BW', 'description', 'BW-CAL1', 'RGN', '2010-08-01', '2010-08-01 16:01:07', 'HOL', '47326FEA-46E7-7D89-0B13-85DFA45EA8C1', '1',1),
+	(2, 'BW', 'description', 'TST-CAL', 'RGN', '2010-01-01', '2010-08-01 16:01:07', 'HOL', '47326FEA-46E7-7D89-0B13-85DFA45EA8C1', '1',1);
 
 # time collection rule
 DELETE FROM `tk_time_collection_rl_s`;
@@ -212,6 +218,7 @@ DELETE FROM `tk_py_calendar_s`;
 INSERT INTO `tk_py_calendar_s`	(`ID`)	VALUES	('30');
 DELETE FROM `tk_py_calendar_t`;
 INSERT INTO `tk_py_calendar_t`	(`tk_py_calendar_id`,	`calendar_group`,	`chart`,	`begin_date`,	`begin_time`,	`end_date`,	`end_time`)	VALUES
+	('1',  'TST-CAL', 'CHART1', '2010-01-01', '12:00:00', '2011-01-01', '12:00:00'),
 	('20', 'BW-CAL1', 'CHART1', '2010-01-01', '00:00:00', '2010-12-31', '23:59:59'),
 	('21', 'BW-CAL2', 'CHART2', '2010-01-01', '00:00:00', '2010-12-31', '23:59:59'),
 	('22', 'BW-CAL3', 'CHART3', '2010-01-01', '00:00:00', '2010-12-31', '23:59:59');
@@ -226,7 +233,10 @@ INSERT INTO `tk_py_calendar_dates_t` (`tk_py_calendar_dates_id`,`tk_py_calendar_
 	('2', '20', '2010-08-15 00:00:00', '2010-08-31 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('3', '20', '2010-09-01 00:00:00', '2010-09-14 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('4', '20', '2010-09-15 00:00:00', '2010-09-30 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('5', '20', '2010-10-01 00:00:00', '2010-10-15 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	('5', '20', '2010-10-01 00:00:00', '2010-10-15 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('6', '1',  '2010-01-01 12:00:00', '2010-01-16 12:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('7', '1',  '2010-01-16 12:00:00', '2010-01-31 12:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8', '20', '2010-10-16 00:00:00', '2010-10-31 24:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 #
 # Daily Overtime Rule
@@ -247,6 +257,7 @@ INSERT INTO `tk_daily_overtime_rl_t` (`tk_daily_overtime_rl_id`,`dept`,`work_are
     (7,  '*',           -1, 1, 'IN', 'BW', -1, -1, 'OVT', 'admin', '2010-01-01', 1, '2010-08-20 16:13:57'),
     (8,  '*',           -1,-1, 'IN', 'BW', -1, -1, 'OVT', 'admin', '2010-01-01', 1, '2010-08-20 16:13:57'),
     (9,  'TEST-DEPT2',  -1,-1, 'IN', 'BW', -1, -1, 'OVT', 'admin', '2010-01-01', 1, '2010-08-20 16:13:57');
+# Task ID 7 above doesn't really make sense, the lookup form is not supported.
 
 #
 # Hr Work Schedule

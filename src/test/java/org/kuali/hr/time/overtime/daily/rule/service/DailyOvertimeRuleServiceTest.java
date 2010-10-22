@@ -21,86 +21,79 @@ public class DailyOvertimeRuleServiceTest extends TkTestCase {
 		Long workArea = null;
 		Long task = null;
 		Date asOfDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		List<DailyOvertimeRule> rules = null;
+		DailyOvertimeRule rule = null;
 
 		// 1: dept, workarea task
 		dept = "TEST-DEPT";
 		ruleId = 1L;
 		workArea = 1234L;
 		task = 1L;		
-		rules = doors.getDailyOvertimeRules(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rules);
-		assertEquals("Wrong number of results returned", 1, rules.size());
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), (rules.get(0)).getTkDailyOvertimeRuleId().longValue());
+		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
+		assertNotNull("Null list of rules", rule);
+		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
 
 		// 2: dept, workarea, -1 
 		dept = "TEST-DEPT";
 		ruleId = 2L;
 		workArea = 1234L;
 		task = -999L;		
-		rules = doors.getDailyOvertimeRules(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rules);
-		assertEquals("Wrong number of results returned", 1, rules.size());
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), (rules.get(0)).getTkDailyOvertimeRuleId().longValue());
+		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
+		assertNotNull("Null list of rules", rule);
+		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
 
 		// 3: dept, -1, task
 		dept = "TEST-DEPT";
 		ruleId = 3L;
 		workArea = -999L;
 		task = 1L;		
-		rules = doors.getDailyOvertimeRules(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rules);
-		assertEquals("Wrong number of results returned", 1, rules.size());
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), (rules.get(0)).getTkDailyOvertimeRuleId().longValue());
+		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
+		assertNotNull("Null list of rules", rule);
+		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
 
 		// 4: dept, -1, -1
 		dept = "TEST-DEPT";
 		ruleId = 4L;
 		workArea = -999L;
 		task = -999L;		
-		rules = doors.getDailyOvertimeRules(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rules);
-		assertEquals("Wrong number of results returned", 1, rules.size());
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), (rules.get(0)).getTkDailyOvertimeRuleId().longValue());
+		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
+		assertNotNull("Null list of rules", rule);
+		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
 
 		// 5: *, workarea, task
 		dept = "NOTFOUND";
 		ruleId = 5L;
 		workArea = 1234L;
 		task = 1L;		
-		rules = doors.getDailyOvertimeRules(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rules);
-		assertEquals("Wrong number of results returned", 1, rules.size());
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), (rules.get(0)).getTkDailyOvertimeRuleId().longValue());
+		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
+		assertNotNull("Null list of rules", rule);
+		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
 
 		// 6: *, workarea, -1
 		dept = "NOTFOUND";
 		ruleId = 6L;
 		workArea = 1234L;
 		task = -999L;		
-		rules = doors.getDailyOvertimeRules(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rules);
-		assertEquals("Wrong number of results returned", 1, rules.size());
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), (rules.get(0)).getTkDailyOvertimeRuleId().longValue());
+		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
+		assertNotNull("Null list of rules", rule);
+		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
 
 		// 7: *, -1, task
-		dept = "NOTFOUND";
-		ruleId = 7L;
-		workArea = -999L;
-		task = 1L;		
-		rules = doors.getDailyOvertimeRules(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rules);
-		assertEquals("Wrong number of results returned", 1, rules.size());
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), (rules.get(0)).getTkDailyOvertimeRuleId().longValue());
+		// This one doesn't make sense.
+		//dept = "NOTFOUND";
+		//ruleId = 7L;
+		//workArea = -999L;
+		//task = 1L;		
+		//rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
+		//assertNotNull("Null list of rules", rule);
+		//assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
 
 		// 8: *,-1,-1 
 		dept = "NOTFOUND";
 		ruleId = 8L;
 		workArea = -999L;
 		task = -999L;		
-		rules = doors.getDailyOvertimeRules(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rules);
-		assertEquals("Wrong number of results returned", 1, rules.size());
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), (rules.get(0)).getTkDailyOvertimeRuleId().longValue());
+		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
+		assertNotNull("Null list of rules", rule);
+		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
 	}
 }
