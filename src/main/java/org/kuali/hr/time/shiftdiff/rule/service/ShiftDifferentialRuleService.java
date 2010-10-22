@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
 public interface ShiftDifferentialRuleService {
 
@@ -13,6 +14,6 @@ public interface ShiftDifferentialRuleService {
 	
 	public List<ShiftDifferentialRule> getShiftDifferentalRules(String location, String tkSalGroup, String payGrade, Date asOfDate);
 	
-	public void processShiftDifferentialRules(List<ShiftDifferentialRule> shiftDifferentalRules, TimesheetDocument timesheetDocument);
+	public void processShiftDifferentialRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate);
 
 }

@@ -28,10 +28,6 @@ public class TkTimeBlockAggregate {
 		}
 	}
 	
-	public List<List<TimeBlock>> getDayTimeBlockList(){
-		return dayTimeBlockList;
-	}
-	
 	public List<TimeBlock> getFlattenedTimeBlockList(){
 		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
 		for(List<TimeBlock> timeBlocks : dayTimeBlockList){
@@ -59,6 +55,25 @@ public class TkTimeBlockAggregate {
 		int endIndex = (week*7)+7;
 		endIndex = endIndex > dayTimeBlockList.size() ? dayTimeBlockList.size() : endIndex;
 		return dayTimeBlockList.subList(startIndex, endIndex);
+	}
+	
+	/**
+	 * @return the total number of weeks that this object represents.
+	 */
+	public int numberOfAggregatedWeeks() {
+		int weeks = 0;
+		
+		if (this.dayTimeBlockList.size() > 0) {
+			weeks = this.dayTimeBlockList.size() / 7;
+			if (this.dayTimeBlockList.size() % 7 > 0)
+				weeks++;
+		}
+		
+		return weeks;
+	}
+
+	public List<List<TimeBlock>> getDayTimeBlockList() {
+		return dayTimeBlockList;
 	}
 	
 }

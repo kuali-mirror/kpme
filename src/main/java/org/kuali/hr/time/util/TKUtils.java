@@ -188,4 +188,8 @@ public class TKUtils {
 
 		return intervals;
 	}
+	
+	public static BigDecimal convertMillisToHours(long millis) {
+		return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT);
+	}
 }
