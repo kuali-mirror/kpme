@@ -172,16 +172,16 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 		
 		//Build up weekly totals for each summary row
 		for(String dateDescr : timeSummary.getDateDescr()){
-			if((dayCount % 7)==0){
-				timeSummary.getWorkedHours().getWeeklyTotals().add(weeklyTotal);
-				weeklyTotal = new BigDecimal(0);
-			}
+
 			BigDecimal hrs = timeSummary.getWorkedHours().getDayToHours().get(dateDescr);
 			if(hrs!=null){
 				weeklyTotal = weeklyTotal.add(hrs, TkConstants.MATH_CONTEXT);
 				periodTotal = periodTotal.add(hrs, TkConstants.MATH_CONTEXT);
 			}
-			
+			if((dayCount % 7)==0){
+				timeSummary.getWorkedHours().getWeeklyTotals().add(weeklyTotal);
+				weeklyTotal = new BigDecimal(0);
+			}
 			
 			for(TimeSummarySection timeSection : timeSummary.getSections()){
 				BigDecimal sectionHrs = new BigDecimal(0.00);
@@ -189,16 +189,18 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 					sectionHrs = sectionToPeriodTotalHours.get(timeSection.getEarnGroup());
 				} 
 				
-				if((dayCount % 7)==0){
-					timeSection.getSummaryRow().getWeeklyTotals().add(sectionWeeklyTotal);
-					sectionWeeklyTotal = new BigDecimal(0);
-				}
+
 				hrs = timeSection.getSummaryRow().getDayToHours().get(dateDescr);
 				if(hrs!=null){
 					sectionWeeklyTotal = sectionWeeklyTotal.add(hrs, TkConstants.MATH_CONTEXT);
 					sectionHrs = sectionHrs.add(hrs, TkConstants.MATH_CONTEXT);
 					sectionToPeriodTotalHours.put(timeSection.getEarnGroup(), sectionHrs);
 					timeSection.getSummaryRow().setPeriodTotal(sectionHrs);
+				}
+				
+				if((dayCount % 7)==0){
+					timeSection.getSummaryRow().getWeeklyTotals().add(sectionWeeklyTotal);
+					sectionWeeklyTotal = new BigDecimal(0);
 				}
 				
 				for(TimeSummaryRow assignRow : timeSection.getAssignRows()){
@@ -211,16 +213,17 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 					if(assignRowToSummaryHours.get(assignRow.getDescr())!=null){
 						assignHrs = assignRowToSummaryHours.get(assignRow.getDescr());
 					}
-					if((dayCount % 7)==0){
-						assignRow.getWeeklyTotals().add(assignHrs);
-						assignRowToSummaryHours.put(assignRow.getDescr(), BigDecimal.ZERO);
-					}
+
 					hrs = assignRow.getDayToHours().get(dateDescr);
 					if(hrs!=null){
 						assignHrs = assignHrs.add(hrs, TkConstants.MATH_CONTEXT);
 						assignRowToSummaryHours.put(assignRow.getDescr(), assignHrs);
 						assignPeriodTotal = assignPeriodTotal.add(assignHrs, TkConstants.MATH_CONTEXT);
 						assignRow.setPeriodTotal(assignPeriodTotal);
+					}
+					if((dayCount % 7)==0){
+						assignRow.getWeeklyTotals().add(assignHrs);
+						assignRowToSummaryHours.put(assignRow.getDescr(), BigDecimal.ZERO);
 					}
 				}
 			}

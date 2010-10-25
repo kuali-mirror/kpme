@@ -34,6 +34,8 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
 		root.addEqualTo("active", true);
+		//do not include the summary setup earn groups
+		root.addNotLike("descr", "Summary%");
 
 		Query query = QueryFactory.newQuery(EarnGroup.class, root);
 		EarnGroup earnGroupObj  = (EarnGroup)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
