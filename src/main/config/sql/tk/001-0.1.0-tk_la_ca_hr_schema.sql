@@ -1142,6 +1142,13 @@ CREATE TABLE `tk_time_block_hist_s` (
 -- Table structure for table `tk_time_block_t`
 --
 
+DROP TABLE IF EXISTS `tk_time_block_s`;
+CREATE TABLE `tk_time_block_s` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=5109 DEFAULT CHARSET=latin1;
+
+
 DROP TABLE IF EXISTS `tk_time_block_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
