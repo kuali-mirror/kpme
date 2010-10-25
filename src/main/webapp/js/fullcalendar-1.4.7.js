@@ -1642,7 +1642,7 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 		rowDivs=[],
 		rowDivTops=[];
 
-    console.log(segs);
+    // console.log(segs);
 
 	// calculate desired position/dimensions, create html
 	for (i=0; i<segCnt; i++) {
@@ -1777,7 +1777,7 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 				levelI++;
 			}
 			levelHeight = Math.max(levelHeight, seg.outerHeight||0);
-			console.log(top);
+			// console.log(top);
 			seg.top = top;
 			i++;
 		}
