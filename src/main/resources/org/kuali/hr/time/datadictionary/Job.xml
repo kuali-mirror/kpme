@@ -28,6 +28,7 @@
 				<ref bean="Job-payType" />
 				<ref bean="Job-payGrade" />
 				<ref bean="Job-standardHours" />
+				<ref bean="Job-compRate" />
 			</list>
 		</property>
 		<property name="objectLabel" value="job" />
@@ -128,6 +129,21 @@
 		</property>
 		<property name="name" value="standardHours" />
 		<property name="label" value="Standard Hours" />
+	</bean>
+	
+	<bean id="Job-compRate" parent="Job-compRate-parentBean" />
+	<bean id="Job-compRate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Compensation Rate" />
+		<property name="maxLength" value="6" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+		<property name="name" value="compRate" />
+		<property name="label" value="Compensation Rate" />
 	</bean>
 
 	<bean id="Job-principalId" parent="Job-principalId-parentBean" />

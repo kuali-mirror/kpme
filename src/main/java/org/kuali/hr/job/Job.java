@@ -25,6 +25,7 @@ public class Job extends PersistableBusinessObjectBase {
 	private Timestamp timestamp;
 	private Boolean active;
 	private PayType payType;
+	private BigDecimal compRate = new BigDecimal(0);
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -148,6 +149,16 @@ public class Job extends PersistableBusinessObjectBase {
 
 	public void setTkSalGroup(String tkSalGroup) {
 		this.tkSalGroup = tkSalGroup;
+	}
+
+
+	public BigDecimal getCompRate() {
+		return compRate;
+	}
+
+
+	public void setCompRate(BigDecimal compRate) {
+		this.compRate = compRate;
 	}
 
 

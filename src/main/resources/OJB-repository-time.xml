@@ -264,6 +264,7 @@
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="location" 				column="location" 			jdbc-type="VARCHAR" nullable="false" length="27"  />
 		<field-descriptor name="standardHours" 			column="std_hours" 			jdbc-type="NUMERIC" nullable="false" length="27" />
+		<field-descriptor name="compRate" 			column="comp_rate" 				jdbc-type="NUMERIC" nullable="false" length="27" />
 		<field-descriptor name="fte" 					column="fte" 				jdbc-type="TINYINT" length="1" nullable="false" />
 		<field-descriptor name="hrPayType" 			    column="hr_paytype"     	jdbc-type="VARCHAR" length="5" nullable="false" primaryKey="false" />
 		<field-descriptor name="payGrade" 				column="pay_grade" 			jdbc-type="VARCHAR" nullable="false" length="27" />

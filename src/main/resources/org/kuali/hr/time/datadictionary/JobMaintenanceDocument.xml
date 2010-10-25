@@ -40,6 +40,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="fte" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="payType" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="payGrade" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="compRate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="standardHours" p:required="true"/>
       </list>
     </property>
