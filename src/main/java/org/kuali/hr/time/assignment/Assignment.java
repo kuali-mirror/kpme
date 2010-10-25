@@ -9,6 +9,7 @@ import java.util.List;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -30,6 +31,7 @@ public class Assignment extends PersistableBusinessObjectBase {
 	private Timestamp timestamp;
 	private TimeCollectionRule timeCollectionRule;
 	private DeptLunchRule deptLunchRule;
+	private String assignmentDescription;
 
 	private WorkArea workAreaObj;
 
@@ -171,6 +173,14 @@ public class Assignment extends PersistableBusinessObjectBase {
 
 	public void setDeptLunchRule(DeptLunchRule deptLunchRule) {
 		this.deptLunchRule = deptLunchRule;
+	}
+
+	public String getAssignmentDescription() {
+		return TKUtils.getAssignmentString(this);
+	}
+
+	public void setAssignmentDescription(String assignmentDescription) {
+		this.assignmentDescription = assignmentDescription;
 	}
 	
 }

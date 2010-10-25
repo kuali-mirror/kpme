@@ -40,6 +40,9 @@ public class AssignmentServiceImpl implements AssignmentService {
 	
 	@Override
 	public Map<String,String> getAssignmentDescriptions(TimesheetDocument td) {
+		if(td == null) {
+			throw new RuntimeException("timesheet document is null.");
+		}
 		List<Assignment> assignments = td.getAssignments();
 		if(assignments.size() < 1) {
 			throw new RuntimeException("No assignment on the timesheet document.");
@@ -47,7 +50,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 		
 		Map<String,String> assignmentDescriptions = new LinkedHashMap<String,String>();
 		for(Assignment assignment : assignments) {
-			assignmentDescriptions.putAll(formatAssignmentDescription(assignment));
+			assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
 		}
 		
 		return assignmentDescriptions;
@@ -59,22 +62,12 @@ public class AssignmentServiceImpl implements AssignmentService {
 		}
 		
 		Map<String,String> assignmentDescriptions = new LinkedHashMap<String,String>();
-		assignmentDescriptions.putAll(formatAssignmentDescription(assignment));
+		assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
 		
 		return assignmentDescriptions;
 		
 	}
 	
-	private Map<String,String> formatAssignmentDescription(Assignment assignment) {
-		Map<String,String> assignmentDescriptions = new LinkedHashMap<String,String>();
-		String assignmentDescKey  = TKUtils.formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask());
-		// TODO: do we still need to display comp rate?
-		String assignmentDescValue =  assignment.getWorkAreaObj().getDescription() + " : compRate Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
-		assignmentDescriptions.put(assignmentDescKey, assignmentDescValue);
-		
-		return assignmentDescriptions;
-	}
-
 	@Override
 	public Assignment getAssignment(TimesheetDocument timesheetDocument, String assignmentKey) {
 		List<Assignment> assignments = timesheetDocument.getAssignments();

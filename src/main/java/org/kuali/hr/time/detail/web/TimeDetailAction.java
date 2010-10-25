@@ -30,7 +30,7 @@ public class TimeDetailAction extends TimesheetAction {
 
 		tdaf.setBeginPeriodDateTime(tdaf.getPayCalendarDates().getBeginPeriodDateTime());
 		tdaf.setEndPeriodDateTime(tdaf.getPayCalendarDates().getEndPeriodDateTime());
-
+		
 		// for visually impaired users 
 		// TimesheetDocument td = tdaf.getTimesheetDocument();
 		// List<TimeBlock> timeBlocks = td.getTimeBlocks();

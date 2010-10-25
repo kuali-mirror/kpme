@@ -5,8 +5,6 @@
 }
 
 .ui-widget-header {
-    /*background-color: #FFFDD9 !important;
-    #ffffff url(ui-iu/images/headerback.gif) 50% 50% repeat-x;*/
 }
 
 .ui-button {
@@ -15,13 +13,18 @@
 } 
 
 .ui-tabs-nav {
-   background: #ffffff url(ui-iu/images/headerback.gif) 30% 30% repeat-x; 
+   background: #ffffff url(ui-iu/images/headerback.gif) 100% 100% repeat-x;
 }
 
+.ui-tabs .ui-tabs-nav ul {
+} 
+
 .ui-tabs .ui-tabs-nav li { 
+    clear: left !important;
     float: right !important;
     font-size: .8em !important;
     font-weight: bold;
+    position: relative;
 }
 
 .ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
@@ -40,7 +43,7 @@
 }
 
 .ui-state-hover {
-    text-decoration: underline;
+    /*text-decoration: underline;*/
 }
 
 .ui-dialog-buttonpane .ui-button-text {
@@ -65,6 +68,10 @@
 	/*background-color: #A02919;*/
 	background: #ffffff url(ui-iu/images/headerback.gif) 50% 50% repeat-x;
 	height: 55px;
+}
+
+.person-info table {
+    float: right;
 }
 
 .person-info table, .person-detail table {
@@ -110,6 +117,7 @@
 	font-weight: bold;
 	font-size: 2em;
 	padding: 5px 0 5px 10px;
+	clear: both;
 	float:left;
 }
 
@@ -303,3 +311,4 @@
 .block-error {
 	border: 2px solid red !important;
 }
+

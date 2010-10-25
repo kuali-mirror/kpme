@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -133,7 +135,20 @@ public class TKUtils {
 	public static String formatAssignmentKey(Long jobNumber, Long workArea, Long task) {
 		return jobNumber + TkConstants.ASSIGNMENT_KEY_DELIMITER + workArea + TkConstants.ASSIGNMENT_KEY_DELIMITER + task;
 	}
-
+	
+	public static Map<String,String> formatAssignmentDescription(Assignment assignment) {
+		Map<String,String> assignmentDescriptions = new LinkedHashMap<String,String>();
+		String assignmentDescKey  = formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask());
+		String assignmentDescValue = getAssignmentString(assignment);  
+		assignmentDescriptions.put(assignmentDescKey, assignmentDescValue);
+		
+		return assignmentDescriptions;
+	}
+	
+	public static String getAssignmentString(Assignment assignment) {
+		return assignment.getWorkAreaObj().getDescription() + " : compRate " + assignment.getJob().getCompRate() + " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
+	}
+	
 	public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarDates payCalendarEntry) {
 		DateTime beginDateTime = new DateTime(payCalendarEntry.getBeginPeriodDateTime());
 		DateTime endDateTime = new DateTime(payCalendarEntry.getEndPeriodDateTime());
@@ -188,4 +203,5 @@ public class TKUtils {
 	public static BigDecimal convertMillisToHours(long millis) {
 		return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT);
 	}
+	
 }

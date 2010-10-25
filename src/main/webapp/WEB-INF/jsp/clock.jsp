@@ -44,11 +44,11 @@
 					</c:choose>
 				</td>
 			</tr>
-			 --%>
 			<tr>
 				<td class="sub-header"><bean:message key="clock.lastClockedHours"/> : </td>
 				<td>3.2</td>
 			</tr>
+			 --%>
 			<tr>
 				<td class="sub-header"><bean:message key="clock.clockAssignment"/> : </td>
 				<td>

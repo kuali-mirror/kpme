@@ -154,8 +154,8 @@ $(document).ready(function() {
 
     $("#dialog-form").dialog({
         autoOpen: false,
-        height: 450,
-        width: 550,
+        height: 'auto',
+        width: 'auto',
         modal: true,
         buttons: {
             Add: function() {

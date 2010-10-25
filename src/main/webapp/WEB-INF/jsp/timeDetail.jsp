@@ -6,7 +6,7 @@
 	<html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDate"/>
 	<html:hidden property="endPeriodDateTime" value="${Form.endPeriodDateTime}" styleId="endPeriodDate"/>
 
-	<div style="clear:both;" class="ui-widget-content">
+	<div style="clear:both;" class="">
 		<%--
 		<div class="ui-widget" id="timesheet-panel">
 			<table>
