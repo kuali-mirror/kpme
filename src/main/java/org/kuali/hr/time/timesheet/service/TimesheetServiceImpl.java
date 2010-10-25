@@ -107,7 +107,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 	
 	public boolean isSynchronousUser(){
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getUser().getPrincipalId(), TKUtils.getCurrentDate());
-		boolean isSynchronousUser = false;
+		boolean isSynchronousUser = true;
 		for(Assignment assignment: assignments){
 			isSynchronousUser &= assignment.isSynchronous();
 		}

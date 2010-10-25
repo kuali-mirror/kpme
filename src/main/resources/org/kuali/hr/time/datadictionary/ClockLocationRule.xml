@@ -153,10 +153,8 @@
     </property>
     <property name="name" value="active"/>
     <property name="label" value="Active"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
-
-
-
 
   <!-- 
   
@@ -212,6 +210,7 @@
         <bean parent="FieldDefinition" p:attributeName="workArea"/>
         <bean parent="FieldDefinition" p:attributeName="principalId"/>
         <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields">
