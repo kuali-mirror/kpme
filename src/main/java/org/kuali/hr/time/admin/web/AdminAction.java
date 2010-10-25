@@ -10,43 +10,37 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKSessionState;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AdminAction extends TkAction {
 
-    private static final Logger LOG = Logger.getLogger(AdminAction.class);
+	private static final Logger LOG = Logger.getLogger(AdminAction.class);
 
-    public ActionForward backdoor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward backdoor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		AdminActionForm adminForm = (AdminActionForm) form;
+		
+		if (StringUtils.isNotBlank(adminForm.getBackdoorPrincipalName())) {
+			TKUser tkUser = TKContext.getUser();
+			Person backdoorPerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getBackdoorPrincipalName());
 
-	AdminActionForm adminForm = (AdminActionForm ) form;
-	if (StringUtils.isNotBlank(adminForm.getBackdoorPrincipalName())) {
+			if (backdoorPerson != null && tkUser != null) {
+				UserSession userSession = UserLoginFilter.getUserSession(request);
+				
+				userSession.establishBackdoorWithPrincipalName(backdoorPerson.getPrincipalId());
+				GlobalVariables.getUserSession().setBackdoorUser(backdoorPerson.getPrincipalId());
+				
+				tkUser.setBackdoorPerson(backdoorPerson);
+				
+				LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + backdoorPerson.getPrincipalName() + "\n\n");
+			}
+			
+		}
 
-	    Person backdoorPerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getBackdoorPrincipalName());
-
-	    if (backdoorPerson != null) {
-		    TKUser tkUser = new TKUser();
-		    UserSession userSession = UserLoginFilter.getUserSession(request);
-		    Person backdoor = userSession.getBackdoorPerson();
-		    Person person = userSession.getActualPerson();
-
-		    tkUser.setBackdoorPerson(backdoor);
-		    tkUser.setActualPerson(person);
-		    TKContext.setBackdoorUser(tkUser);
-		    TKContext.setUser(tkUser);
-
-		    TKSessionState tkSessionState = new TKSessionState(TKContext.getHttpServletRequest().getSession());
-		    tkSessionState.setTargetEmployee(tkUser);
-		    tkSessionState.setBackdoorUser(tkUser);
-	    }
-
-	    LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + backdoorPerson.getPrincipalName() + "\n\n");
+		return mapping.findForward("basic");
 	}
-
-	return mapping.findForward("basic");
-    }
 }

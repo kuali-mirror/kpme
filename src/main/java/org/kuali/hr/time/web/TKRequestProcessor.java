@@ -6,77 +6,73 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.exceptions.UnauthorizedException;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKSessionState;
 import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;
 
 public class TKRequestProcessor extends KualiRequestProcessor {
-	private static final Logger LOG = Logger
-			.getLogger(TKRequestProcessor.class);
+	private static final Logger LOG = Logger.getLogger(TKRequestProcessor.class);
 
 	@Override
-	public void process(HttpServletRequest request, HttpServletResponse response)	throws IOException, ServletException {
-//		try {
-			TKContext.setHttpServletRequest(request);
-			setUserOnContext(request);
-			super.process(request, response);
-//		} catch (Exception e) {
-//			throw new ServletException(e);
-//			//LOG.warn("Caught exception processing request", e);
-//		}
+	public void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		TKContext.setHttpServletRequest(request);
+		super.process(request, response);
 	}
-
+	
+	@Override
+	/**
+	 * This method calls into our backdoor and TKUser setup.
+	 */
+	protected boolean processPreprocess(HttpServletRequest request, HttpServletResponse response) {
+		boolean status = super.processPreprocess(request, response);
+		
+		setUserOnContext(request);
+		
+		return status;
+	}
+	
+	/**
+	 * This method exists because the UnitTests need to set the request as well.
+	 * 
+	 * @param request
+	 */
 	public void setUserOnContext(HttpServletRequest request) {
-		if (request != null && StringUtils.isNotBlank(request.getParameter("backdoorId"))) {
-			if (StringUtils.equalsIgnoreCase(TKUtils.getEnvironment(), "prd")) {
-				throw new UnauthorizedException(
-						"Cannot backdoor in production environment");
-			}
-
-			TKUser tkUser = new TKUser();
+		if (request != null) {
 			UserSession userSession = UserLoginFilter.getUserSession(request);
+			TKUser tkUser = new TKUser();
 			Person backdoorPerson = userSession.getBackdoorPerson();
 			Person person = userSession.getActualPerson();
 
-			tkUser.setBackdoorPerson(backdoorPerson);
-			tkUser.setActualPerson(person);
-			TKContext.setBackdoorUser(tkUser);
-			TKContext.setUser(tkUser);
-
-			TKSessionState tkSessionState = new TKSessionState(TKContext.getHttpServletRequest().getSession());
-			tkSessionState.setTargetEmployee(tkUser);
-			tkSessionState.setBackdoorUser(tkUser);
-		} else {
+			// Check for test mode; if not test mode check for backDoor validity.
 			if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("test.mode"))) {
 				request.setAttribute("principalName", TkLoginFilter.TEST_ID);
-				TKUser tkUser = new TKUser();
-				Person p = KIMServiceLocator.getPersonService().getPerson(TkLoginFilter.TEST_ID);
-				tkUser.setActualPerson(p);
-				tkUser.setBackdoorPerson(p);
-				TKContext.setBackdoorUser(tkUser);
-				TKContext.setUser(tkUser);
-
-				TKSessionState tkSessionState = new TKSessionState(TKContext.getHttpServletRequest().getSession());
-				tkSessionState.setTargetEmployee(tkUser);
-				tkSessionState.setBackdoorUser(tkUser);
+				person = KIMServiceLocator.getPersonService().getPerson(TkLoginFilter.TEST_ID);
+				backdoorPerson = null;
 			} else {
-				UserSession userSession = UserLoginFilter.getUserSession(request);
-				Person person = userSession.getActualPerson();
-				TKUser tkUser = new TKUser();
-				tkUser.setActualPerson(person);
-				TKContext.setUser(tkUser);
+				if (backdoorPerson != null) {
+					LOG.debug("Backdoor user in use:" + backdoorPerson.getPrincipalId());
+					if (KNSServiceLocator.getKualiConfigurationService().isProductionEnvironment()) {
+						userSession.clearBackdoor();
+						// TODO : we could simply clear the backdoor as well.
+						throw new UnauthorizedException("Cannot backdoor in production environment");
+					}
+				}
 			}
-
-		}
+			
+			tkUser.setBackdoorPerson(backdoorPerson);
+			tkUser.setActualPerson(person);
+			TKContext.setUser(tkUser);
+		} else {
+			// Bail with Exception
+			throw new RuntimeException("Null HttpServletRequest while setting user.");
+		}		
 	}
 }

@@ -39,10 +39,6 @@ public class TKUtils {
 		return clientTimeZone.getID();
 	}
 
-	public static String getEnvironment() {
-		return ConfigContext.getCurrentContextConfig().getProperty("environment");
-	}
-
 	public static java.sql.Date getCurrentDate() {
 		return getTimelessDate(null);
 	}
