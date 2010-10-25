@@ -236,7 +236,7 @@ INSERT INTO `tk_py_calendar_dates_t` (`tk_py_calendar_dates_id`,`tk_py_calendar_
 	('5', '20', '2010-10-01 00:00:00', '2010-10-15 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('6', '1',  '2010-01-01 12:00:00', '2010-01-16 12:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('7', '1',  '2010-01-16 12:00:00', '2010-01-31 12:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('8', '20', '2010-10-16 00:00:00', '2010-10-31 24:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	('8', '20', '2010-10-16 00:00:00', '2010-10-31 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 #
 # Daily Overtime Rule
