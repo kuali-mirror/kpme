@@ -1170,6 +1170,13 @@ CREATE TABLE `tk_time_block_t` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+DROP TABLE IF EXISTS `tk_time_collection_rl_s`;
+CREATE TABLE `tk_time_collection_rl_s` (
+  `ID` bigint(19) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=1018 DEFAULT CHARSET=latin1;
+
 --
 -- Table structure for table `tk_time_collection_rl_t`
 --
