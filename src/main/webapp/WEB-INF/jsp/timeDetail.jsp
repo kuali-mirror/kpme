@@ -93,7 +93,7 @@
 			<br/>
 		</c:forEach>
 		 -->
-		<div class="global-error">Error: This is a global error for the demo purpose</div>
+		<div class="global-error"><!-- Error: This is a global error for the demo purpose  --></div>
 		<div id="cal" style="margin-top: 20px; width:100%; font-size:.9em;"/>
 
 				<div id="dialog-form" title="Add time blocks:">

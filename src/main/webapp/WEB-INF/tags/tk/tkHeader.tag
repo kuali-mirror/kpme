@@ -30,8 +30,8 @@
 	<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 		<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-corner-all ui-header ${highlight}">
 			<span class="title ${backdoor}" >
-			<img src="images/kuali_base.png" style="width:5em; height:2em; vertical-align: middle" />
-				TIME
+			<img src="images/kuali_base.png" style="width:4em; height:1em; vertical-align: text-top" />
+			TIME
 			</span>
 
 			<div class="person-info" style="float:right">

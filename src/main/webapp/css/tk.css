@@ -1,10 +1,58 @@
 /* jQuery style override */
+
+.ui-widget {
+    font-family: "Trebuchet MS",Verdana,Arial,sans-serif !important; 
+}
+
+.ui-widget-header {
+    /*background-color: #FFFDD9 !important;
+    #ffffff url(ui-iu/images/headerback.gif) 50% 50% repeat-x;*/
+}
+
+.ui-button {
+    font-family: "Trebuchet MS",Verdana,Arial,sans-serif !important;
+    font-weight: bold !important;
+} 
+
+.ui-tabs-nav {
+   background: #ffffff url(ui-iu/images/headerback.gif) 30% 30% repeat-x; 
+}
+
+.ui-tabs .ui-tabs-nav li { 
+    float: right !important;
+    font-size: .8em !important;
+    font-weight: bold;
+}
+
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
+    font-weight: bold;
+    background-color: #DFDDA9 !important;
+    color: #33335E;
+}
+
+.ui-tabs-nav li.ui-tabs-selected a {
+    background-color: #9C2512 !important;
+    color: white !important;
+}
+
 .ui-state-focus {
 	font-weight: normal !important;
 }
 
+.ui-state-hover {
+    text-decoration: underline;
+}
+
 .ui-dialog-buttonpane .ui-button-text {
 	font-size: .8em !important;
+}
+
+.ui-accordion-header {
+    font-weight: bold !important;
+}
+
+.ui-accordion-content {
+    background: #ffffff url(ui-iu/images/headerback.gif) 100% 100% repeat-x;
 }
 
 /* end of jQuery style override */
@@ -14,12 +62,14 @@
 }
 
 .ui-header {
-	background-color: #A02919;
+	/*background-color: #A02919;*/
+	background: #ffffff url(ui-iu/images/headerback.gif) 50% 50% repeat-x;
+	height: 55px;
 }
 
 .person-info table, .person-detail table {
 	border-collapse: collapse;
-	color: white;
+	color: black;
 	font-size: .8em;
 }
 
@@ -28,7 +78,7 @@
 }
 
 .person-info a {
-	color:white;
+	color:black;
 }
 
 .person-detail table {
@@ -56,7 +106,7 @@
 
 #tabs .title, .sub-title {
 	font-family: Georgia,"Times New Roman",Serif;
-	color:white;
+	color: black;
 	font-weight: bold;
 	font-size: 2em;
 	padding: 5px 0 5px 10px;
@@ -149,7 +199,7 @@
 
 #clock table {
 	margin: 20px auto 20px auto;
-	background-color: #EEEEEE;
+	background-color: #FBF9EE;
 	font-size: .9em;
 	border: 2px solid gray;
 	padding: 5px;
@@ -160,8 +210,13 @@
 #clock .header {
 	font-weight: bold;
 	font-size: 1.2em;
-	color: #1c94c4;
-	background-color: #FBF9EE;
+	/*color: #1c94c4;*/
+	color: #8D2C1B;
+	/*background-color: #FBF9EE;*/
+}
+
+#clock .header, #clock .footer {
+    background: #ffffff url(ui-iu/images/headerback.gif) 50% 50% repeat-x;;    
 }
 
 #clock .sub-header {
@@ -169,7 +224,6 @@
 }
 
 #clock .footer {
-	background-color: #FBF9EE;
 }
 
 #clock tr, td {

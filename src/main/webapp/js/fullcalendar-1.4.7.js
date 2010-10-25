@@ -313,7 +313,8 @@ $.fn.fullCalendar = function(options) {
 				    end = (end.getMonth()+1) + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds(); 
 				    
 					// update title text
-					header.find('h2.fc-header-title').html(view.title + "(" + begin + " - " + end +")");
+					/*header.find('h2.fc-header-title').html(view.title + "(" + begin + " - " + end +")");*/
+					header.find('h2.fc-header-title').html(view.title);
 					// enable/disable 'today' button
 					var today = new Date();
 
