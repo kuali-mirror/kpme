@@ -52,13 +52,25 @@ public class TkUserRoles {
 	public boolean isSystemAdmin() {
 		return systemAdmin != null;
 	}
+	
+	public boolean isTkEmployee() {
+		return tkEmployeeRoles.size() > 0;
+	}
 
 	public boolean isTkEmployee(Long tkAssignmentId) {
 		return tkEmployeeRoles.contains(tkAssignmentId);
 	}
+	
+	public boolean isApprover() {
+		return approverRoles.size() > 0;
+	}
 
 	public boolean isApprover(Long workArea) {
 		return approverRoles.containsKey(workArea);
+	}
+	
+	public boolean isOrgAdmin() {
+		return orgAdminRoles.size() > 0;
 	}
 
 	public boolean isOrgAdmin(String department) {
@@ -86,6 +98,10 @@ public class TkUserRoles {
 		for (Assignment a : assignments) {
 			tkEmployeeRoles.add(a.getTkAssignmentId());
 		}
+	}
+
+	public Set<Long> getTkEmployeeRoles() {
+		return tkEmployeeRoles;
 	}
 	
 }

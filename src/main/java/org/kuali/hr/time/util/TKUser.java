@@ -115,35 +115,35 @@ public class TKUser {
 	 * @param assignment
 	 * @return
 	 */
-	public boolean isTkEmployee(Long assignmentId) {
+	public boolean isTkEmployee() {
 		boolean employee = false;
 
 		if (getBackdoorPersonRoles() != null)
-			employee = getBackdoorPersonRoles().isTkEmployee(assignmentId);
+			employee = getBackdoorPersonRoles().isTkEmployee();
 		else if (getActualPersonRoles() != null)
-			employee = getActualPersonRoles().isTkEmployee(assignmentId);
+			employee = getActualPersonRoles().isTkEmployee();
 		
 		return employee;		
 	}
 	
-	public boolean isTkApprover(Long workArea) {
+	public boolean isTkApprover() {
 		boolean approver = false;
 
 		if (getBackdoorPersonRoles() != null)
-			approver = getBackdoorPersonRoles().isApprover(workArea);
+			approver = getBackdoorPersonRoles().isApprover();
 		else if (getActualPersonRoles() != null)
-			approver = getActualPersonRoles().isApprover(workArea);
+			approver = getActualPersonRoles().isApprover();
 		
 		return approver;			
 	}
 	
-	public boolean isOrgAdmin(String department) {
+	public boolean isOrgAdmin() {
 		boolean orgadmin = false;
 
 		if (getBackdoorPersonRoles() != null)
-			orgadmin = getBackdoorPersonRoles().isOrgAdmin(department);
+			orgadmin = getBackdoorPersonRoles().isOrgAdmin();
 		else if (getActualPersonRoles() != null)
-			orgadmin = getActualPersonRoles().isOrgAdmin(department);
+			orgadmin = getActualPersonRoles().isOrgAdmin();
 		
 		return orgadmin;					
 	}
