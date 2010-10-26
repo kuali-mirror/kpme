@@ -1,15 +1,24 @@
 package org.kuali.hr.time.web;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.exceptions.UnauthorizedException;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.roles.TkUserRoles;
+import org.kuali.hr.time.roles.service.TkRoleService;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kew.web.session.UserSession;
@@ -69,10 +78,46 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 			
 			tkUser.setBackdoorPerson(backdoorPerson);
 			tkUser.setActualPerson(person);
+			loadRoles(tkUser);
 			TKContext.setUser(tkUser);
 		} else {
 			// Bail with Exception
 			throw new RuntimeException("Null HttpServletRequest while setting user.");
 		}		
+	}
+	
+	/**
+	 * Helper method to load roles.  
+	 * 
+	 * TODO : Do we want to load both backdoor and Regular roles?  In most
+	 * situations if there is a backdoor user, we are looking at the backdoor
+	 * roles.
+	 * 
+	 * We are looking looking for the roles with the most recent effective
+	 * date.
+	 * 
+	 * @param user
+	 */
+	private void loadRoles(TKUser user) {
+		TkRoleService roleService = TkServiceLocator.getTkRoleService();
+		AssignmentService assignmentService = TkServiceLocator.getAssignmentService();
+		
+		Date asOfDate = TKUtils.getCurrentDate();
+		Date payPeriodBeginDate = TKUtils.getCurrentDate(); // TODO : Fix this!
+		
+		if (user.getBackdoorPerson() != null) {
+			List<TkRole> roles = roleService.getRoles(user.getBackdoorPerson().getPrincipalId(), asOfDate);
+			List<Assignment> assignments = assignmentService.getAssignments(user.getBackdoorPerson().getPrincipalId(), payPeriodBeginDate);
+			user.setBackdoorPersonRoles(new TkUserRoles(roles,assignments));
+		}
+		
+		List<TkRole> roles = roleService.getRoles(user.getActualPerson().getPrincipalId(), asOfDate);
+		// TODO - we need to handle the Assignment / Employee role.
+		// 
+		// This seems expensive/excessive, unless it's cached.
+		List<Assignment> assignments = assignmentService.getAssignments(user.getActualPerson().getPrincipalId(), payPeriodBeginDate);
+		
+		// 
+		user.setActualPersonRoles(new TkUserRoles(roles, assignments));
 	}
 }

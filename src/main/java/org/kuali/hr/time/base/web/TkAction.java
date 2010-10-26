@@ -36,5 +36,9 @@ public class TkAction extends KualiAction {
 
 		return mapping.findForward("basic");
 	}
+	
+	public ActionForward clearTargetUser(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return mapping.findForward("basic");
+	}
 
 }

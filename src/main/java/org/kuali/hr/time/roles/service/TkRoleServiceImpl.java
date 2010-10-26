@@ -44,10 +44,20 @@ public class TkRoleServiceImpl implements TkRoleService {
 		this.tkRoleDao.saveOrUpdateRole(role);
 	}
 	
+	/**
+	 * Returns all active roles for the given principal as of the indi
+	 */
 	public List<TkRole> getRoles(String principalId, Date asOfDate) {
 		return this.tkRoleDao.findRoles(null, null, null, asOfDate, principalId);
 	}
 	
+	/**
+	 * Return a List of TkRoles that match the principal ID and roleName.
+	 * 
+	 * ex:
+	 * 
+	 * admin,TK_APPROVER will return all TK_APPROVER roles for the user admin.
+	 */
 	public List<TkRole> getRoles(String principalId, String roleName, Date asOfDate) {
 		return this.tkRoleDao.findRoles(null, null, roleName, asOfDate, principalId);
 	}
