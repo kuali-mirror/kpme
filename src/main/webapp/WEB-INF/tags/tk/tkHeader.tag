@@ -48,7 +48,7 @@
 					<c:if test="${form.user.backdoorPerson ne null}">
 						<tr>
 							<td colspan="2" align="right">
-							<a href="./Clock.do?methodToCall=clearBackdoor"><input type="button" class="button" value="Clear Backdoor" name="clearBackdoor" style="font-size:.7em;"></a>
+							<a href="?methodToCall=clearBackdoor"><input type="button" class="button" value="Clear Backdoor" name="clearBackdoor" style="font-size:.7em;"></a>
 							</td>
 						</tr>
 					</c:if>

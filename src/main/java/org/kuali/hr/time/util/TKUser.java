@@ -34,15 +34,17 @@ public class TKUser {
 	}
 
 	/**
-	 * TODO: Handle backdoor vs Real user
-	 * @return
+	 * @return The principal ID of the User: Backdoor has precedence. 
 	 */
 	public String getPrincipalId() {
-		return actualPerson.getPrincipalId();
+		return (backdoorPerson != null) ? backdoorPerson.getPrincipalId() : actualPerson.getPrincipalId();
 	}
 
+	/**
+	 * @return The principal name of the User: Backdoor has precedence.
+	 */
 	public String getPrincipalName() {
-		return actualPerson.getPrincipalName();
+		return (backdoorPerson != null) ? backdoorPerson.getPrincipalName() : actualPerson.getPrincipalName();
 	}
 	
 	public void clearBackdoorUser() {
