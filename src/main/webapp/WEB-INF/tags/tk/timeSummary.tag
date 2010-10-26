@@ -13,8 +13,6 @@
 		<c:forEach items="${timeSummary.dateDescr}" var="entry">
 			<td>${entry}</td>
 		</c:forEach>
-		<td></td>
-		<td></td>
 		</tr>
 	</thead>
 	<tbody>

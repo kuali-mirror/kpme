@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -106,7 +107,9 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 						earnGroup.setEarnGroup("Other");
 					}
 
-					String assignDescr = timeBlock.getAssignString();
+					
+					Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument,timeBlock.getAssignString());
+					
 					// aggregate for each section
 					if (earnGroupToSection.get(earnGroup.getEarnGroup()) != null) {
 						TimeSummarySection timeSection = earnGroupToSection
@@ -123,7 +126,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 						summaryRow.setDescr(earnGroup.getEarnGroup());
 
 						TimeSummaryRow assignRow = timeSection
-								.getRowForAssignment(assignDescr);
+								.getRowForAssignment(assign.getAssignmentDescription());
 						if (assignRow != null) {
 							BigDecimal assignHrs = assignRow.getDayToHours()
 									.get(dayDescr);
@@ -137,7 +140,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 							}
 						} else {
 							TimeSummaryRow tr = new TimeSummaryRow();
-							tr.setDescr(assignDescr);
+							tr.setDescr(assign.getAssignmentDescription());
 							tr.getDayToHours().put(dayDescr,
 									dateToHoursMap.get(timestamp));
 							timeSection.getAssignRows().add(tr);
@@ -150,7 +153,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 						summaryRow.setDescr(earnGroup.getEarnGroup());
 						summaryRow.getDayToHours().put(dayDescr, currHrs);
 						TimeSummaryRow assignRow = new TimeSummaryRow();
-						assignRow.setDescr(assignDescr);
+						assignRow.setDescr(assign.getAssignmentDescription());
 						assignRow.getDayToHours().put(dayDescr,
 								dateToHoursMap.get(timestamp));
 						timeSection.getAssignRows().add(assignRow);

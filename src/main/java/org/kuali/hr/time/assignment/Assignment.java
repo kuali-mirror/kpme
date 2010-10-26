@@ -31,8 +31,6 @@ public class Assignment extends PersistableBusinessObjectBase {
 	private Timestamp timestamp;
 	private TimeCollectionRule timeCollectionRule;
 	private DeptLunchRule deptLunchRule;
-	private String assignmentDescription;
-
 	private WorkArea workAreaObj;
 
 	private List<AssignmentAccount> assignmentAccounts = new LinkedList<AssignmentAccount>();
@@ -177,10 +175,6 @@ public class Assignment extends PersistableBusinessObjectBase {
 
 	public String getAssignmentDescription() {
 		return TKUtils.getAssignmentString(this);
-	}
-
-	public void setAssignmentDescription(String assignmentDescription) {
-		this.assignmentDescription = assignmentDescription;
 	}
 	
 }
