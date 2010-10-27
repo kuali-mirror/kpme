@@ -1,7 +1,7 @@
 package org.kuali.hr.time.approval.web;
 
-import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.timesheet.web.TimesheetAction;
 
-public class TimeApprovalAction extends TkAction {
+public class TimeApprovalAction extends TimesheetAction {
 
 }

@@ -25,38 +25,9 @@
 			<c:set var="person" value="${form.user.actualPerson}" />
 		</c:otherwise>
 	</c:choose>
-
 <input type="hidden" id="tabId" value="${tabId}"/>
 	<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-	   <%--
-		<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-corner-all ui-header ${highlight}">
-			<span class="title ${backdoor}" >
-			<img src="images/kuali_base.png" style="width:4em; height:1em; vertical-align: text-top" />
-			TIME
-			</span>
-
-			<div class="person-info" style="float:right">
-				<table class="${backdoor}">
-					<tr>
-						<td align="right">${prefix} <bean:message key="person.info.employeeName"/>:</td>
-						<td><a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo">${person.principalName}</a></td>
-					</tr>
-					<tr>
-						<td align="right">${prefix} <bean:message key="person.info.employeeId"/>:</td>
-						<td>${person.principalId}</td>
-					</tr>
-					<c:if test="${form.user.backdoorPerson ne null}">
-						<tr>
-							<td colspan="2" align="right">
-							<a href="?methodToCall=clearBackdoor"><input type="button" class="button" value="Clear Backdoor" name="clearBackdoor" style="font-size:.7em;"></a>
-							</td>
-						</tr>
-					</c:if>
-				</table>
-			</div>
-		</ul>
-		 --%>
-		<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+		<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ${highlight}">
 			<span class="title ${backdoor}" >
 	            <img src="images/kuali_base.png" style="width:4em;"/>
 	            TIME
@@ -80,11 +51,7 @@
                     </c:if>
                 </table>
             </div>
-			<li id="admin" class="ui-state-default ui-corner-top"><a href="Admin.do">Admin</a></li>
-			<li id="personInfo" class="ui-state-default ui-corner-top"><a href="PersonInfo.do">Person Info</a></li>
-			<li id="approvals" class="ui-state-default ui-corner-top"><a href="TimeApproval.do">Approvals</a></li>
-			<li id="timeDetail" class="ui-state-default ui-corner-top"><a href="TimeDetail.do">Time Detail</a></li>
-			<li id="clock" class="ui-state-default ui-corner-top"><a href="Clock.do">Clock</a></li>
+            <tk:tabs/>
 		</ul>
 
 		<jsp:doBody />

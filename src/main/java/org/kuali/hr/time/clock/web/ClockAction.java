@@ -34,6 +34,8 @@ public class ClockAction extends TimesheetAction {
     	    String principalId = TKContext.getUser().getPrincipalId();
 
     	    ClockLog clockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
+     	    Timestamp lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId()).getClockTimestamp();
+    	    caf.setLastClockTimestamp(lastClockTimestamp);
 
     	    if(clockLog == null || StringUtils.equals(clockLog.getClockAction(), TkConstants.CLOCK_OUT)) {
     	    	caf.setCurrentClockAction(TkConstants.CLOCK_IN);

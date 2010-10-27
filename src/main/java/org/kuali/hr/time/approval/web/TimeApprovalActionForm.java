@@ -1,8 +1,8 @@
 package org.kuali.hr.time.approval.web;
 
-import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
-public class TimeApprovalActionForm extends TkForm {
+public class TimeApprovalActionForm extends TimesheetActionForm {
 
     /**
      *

@@ -33,13 +33,18 @@ $(document).ready(function() {
 	$(".button").button();
 
 	$("button").button({
-				icons : {
-					primary : 'ui-icon-help'
-				},
-				text : false
-			});
+		icons : {
+			primary : 'ui-icon-help'
+		},
+		text : false
+	});
 
-
+    $(".expand").button({
+        icons: {
+            primary: 'ui-icon-plus'
+        }            
+    });
+    
 	// datepicker
 	$('#date-range-begin, #date-range-end').datepicker({
 				changeMonth : true,

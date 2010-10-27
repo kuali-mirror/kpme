@@ -60,6 +60,11 @@
 
 /* end of jQuery style override */
 
+select {
+    font-family: "Trebuchet MS",Verdana,Arial,sans-serif !important; 
+    font-size: inherit !important;
+}
+
 .backdoor {
 	color: #990000 !important;
 }
@@ -206,7 +211,6 @@
 }
 
 #clock table {
-	margin: 20px auto 20px auto;
 	background-color: #FBF9EE;
 	font-size: .9em;
 	border: 2px solid gray;
@@ -312,3 +316,6 @@
 	border: 2px solid red !important;
 }
 
+button .expand {
+    font-size: 1em;
+}

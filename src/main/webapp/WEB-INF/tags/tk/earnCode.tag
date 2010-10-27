@@ -2,9 +2,6 @@
 
 <jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport"/>
 <%@ attribute name="earnCodes" required="true" type="java.util.Map"%>
-<jsp:setProperty name="tagSupport" property="earnCodes" value="${earnCodes}" />
-
-
 
 <c:choose>
 	<c:when test="${fn:length(earnCodes) <= 1}">

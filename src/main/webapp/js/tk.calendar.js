@@ -183,7 +183,8 @@ $(document).ready(function() {
                         return true;
                     }
                 }
-
+                
+                
                 function checkTimeEntryFields(o,n) {
                     var val = o.val();
                 }

@@ -1,14 +1,15 @@
 <%@include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
 <c:set var="Form" value="${ClockActionForm}" scope="request"/>
+
 <c:choose>
 	<c:when test="${Form.currentClockAction eq 'CI'}">
 		<c:set var="clockActionDescription" value="Clock In"/>
-		<c:set var="lastClockActionMessage" value="Clocked out since ${Form.lastClockTimestamp}"/>
+		<c:set var="lastClockActionMessage" value="Clocked out since : "/>
 	</c:when>
 	<c:otherwise>
 		<c:set var="clockActionDescription" value="Clock Out"/>
-		<c:set var="lastClockActionMessage" value="Clocked in since ${Form.lastClockTimestamp}"/>
+		<c:set var="lastClockActionMessage" value="Clocked in since : "/>
 	</c:otherwise>
 </c:choose>
 <tk:tkHeader tabId="clock">
@@ -27,7 +28,7 @@
 			</tr>
 			<tr>
 				<td class="sub-header"><bean:message key="clock.workStatus"/> : </td>
-				<td>${lastClockActionMessage}</td>
+				<td>${lastClockActionMessage}<fmt:formatDate type="both" value="${Form.lastClockTimestamp}" pattern="EEE, MMMM d yyyy HH:mm:ss, zzzz"/></td>
 			</tr>
 			<%--
 			<tr>
