@@ -18,7 +18,7 @@
 		<c:when test="${form.user.backdoorPerson ne null}">
 			<c:set var="person" value="${form.user.backdoorPerson}" />
 			<c:set var="prefix" value="Backdoor" />
-			<c:set var="highlight" value="ui-state-highlight" />
+			<c:set var="highlight" value="highlight" />
 			<c:set var="backdoor" value="backdoor" />
 		</c:when>
 		<c:otherwise>

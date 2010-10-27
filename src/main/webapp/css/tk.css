@@ -60,6 +60,10 @@
 
 /* end of jQuery style override */
 
+.highlight {
+    background: #FFD20F;   
+}
+
 select {
     font-family: "Trebuchet MS",Verdana,Arial,sans-serif !important; 
     font-size: inherit !important;

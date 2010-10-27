@@ -11,7 +11,6 @@
 				<td colspan="18" align="center" style="border:none;">
 					<span style="font-weight: bold; font-size: 1.5em;">Aaron Neal</span>
 				</td>
-				<!-- <span style="clear:both; float: right;">Pay Period:  -->
 			    <td colspan="2" style="border: none;">
 			        Pay periods:
 					<select>
@@ -19,7 +18,6 @@
 						<option>11/15 - 11/30</option>
 					</select>
 			    </td>
-					<!-- </span>  -->
 			</tr>
 			<tr class="ui-widget-header" style="border:none; white-space: nowrap;">
 				<td style="border: none; background: #EEEEEE;"></td>
@@ -45,19 +43,19 @@
 			</tr>
 
 			<tr>
-				<td style="border: none;"><button class="expand"></button><a href="TimeApproval.do?backdoorId=earl">Earl Hines</a> <br/> (assignment #1)</td>
+				<td style="border: none;"><!-- <button class="expand">  --></button><a href="TimeApproval.do?backdoorId=fran">Fran</a> <br/> (assignment #1)</td>
 				<td>RGN: 4</td>
 				<td>RGN: 4</td>
 				<td>RGN: 4</td>
 				<td>RGN: 4</td>
-				<td>VAC: 4</td>
+				<td></td>
 				<td></td>
 				<td></td>
 				<td>16</td>
 				<td>RGN: 4</td>
 				<td>RGN: 4</td>
 				<td></td>
-				<td>SCK: 4</td>
+				<td></td>
 				<td>RGN: 4</td>
 				<td>RGN: 4</td>
 				<td></td>
@@ -90,55 +88,8 @@
                 <td style="border: none;"></td>
             </tr>
             
-            <tr>
-                <td style="border: none;">VAC</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>4</td>
-                <td></td>
-                <td></td>
-                <td>4</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>0</td>
-                <td>4</td>
-                <td style="border: none;"></td>
-                <td style="border: none;"></td>
-            </tr>
-
-            <tr>
-                <td style="border: none;">SCK</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td4</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>4</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>4</td>
-                <td>4</td>
-                <td style="border: none;"></td>
-                <td style="border: none;"></td>
-            </tr>
-
 			<tr>
-				<td style="border: none;"><a href="TimeApproval.do?backdoorId=eric">Eric Dolphy</a> <br/> (assignment #2)</td>
+				<td style="border: none;"><a href="TimeApproval.do?backdoorId=frank">Frank</a> <br/> (assignment #2)</td>
 				<td>RGN: 3</td>
 				<td>RGN: 4</td>
 				<td>RGN: 2</td>
