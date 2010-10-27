@@ -9,7 +9,7 @@
 		<table id="approvals-table">
 			<tr>
 				<td colspan="18" align="center" style="border:none;">
-					<span style="font-weight: bold; font-size: 1.5em;">Aaron Neal</span>
+					<span style="font-weight: bold; font-size: 1.5em;">Edna</span>
 				</td>
 			    <td colspan="2" style="border: none;">
 			        Pay periods:
