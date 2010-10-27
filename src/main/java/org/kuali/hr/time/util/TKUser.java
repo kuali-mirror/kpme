@@ -42,13 +42,7 @@ public class TKUser {
 	 *  Target User > Back Door User > Actual User
 	 */
 	public String getPrincipalId() {
-		if (targetPerson != null)
-			return targetPerson.getPrincipalId();
-		
-		if (backdoorPerson != null)
-			return backdoorPerson.getPrincipalId();
-		
-		return actualPerson.getPrincipalId();
+		return getCurrentPerson().getPrincipalId();
 	}
 
 	/**
@@ -57,13 +51,7 @@ public class TKUser {
 	 * Target User > Back Door User > Actual User
 	 */
 	public String getPrincipalName() {
-		if (targetPerson != null)
-			return targetPerson.getPrincipalName();
-		
-		if (backdoorPerson != null)
-			return backdoorPerson.getPrincipalName();
-		
-		return actualPerson.getPrincipalName();		
+		return getCurrentPerson().getPrincipalName();
 	}
 	
 	public void clearBackdoorUser() {
@@ -100,14 +88,11 @@ public class TKUser {
 	}
 
 	public boolean isSystemAdmin() {
-		boolean admin = false;
-
-		if (getBackdoorPersonRoles() != null)
-			admin = getBackdoorPersonRoles().isSystemAdmin();
-		else if (getActualPersonRoles() != null)
-			admin = getActualPersonRoles().isSystemAdmin();
-		
-		return admin;
+		return getCurrentUserRoles().isSystemAdmin();
+	}
+	
+	public boolean hasSynchronousAspect() {
+		return getCurrentUserRoles().hasSynchronousAspect();
 	}
 	
 	/**
@@ -116,35 +101,32 @@ public class TKUser {
 	 * @return
 	 */
 	public boolean isTkEmployee() {
-		boolean employee = false;
-
-		if (getBackdoorPersonRoles() != null)
-			employee = getBackdoorPersonRoles().isTkEmployee();
-		else if (getActualPersonRoles() != null)
-			employee = getActualPersonRoles().isTkEmployee();
-		
-		return employee;		
+		return getCurrentUserRoles().isTkEmployee();
 	}
 	
 	public boolean isTkApprover() {
-		boolean approver = false;
-
-		if (getBackdoorPersonRoles() != null)
-			approver = getBackdoorPersonRoles().isApprover();
-		else if (getActualPersonRoles() != null)
-			approver = getActualPersonRoles().isApprover();
-		
-		return approver;			
+		return getCurrentUserRoles().isApprover();
 	}
 	
 	public boolean isOrgAdmin() {
-		boolean orgadmin = false;
-
-		if (getBackdoorPersonRoles() != null)
-			orgadmin = getBackdoorPersonRoles().isOrgAdmin();
-		else if (getActualPersonRoles() != null)
-			orgadmin = getActualPersonRoles().isOrgAdmin();
+		return getCurrentUserRoles().isOrgAdmin();
+	}
+	
+	private TkUserRoles getCurrentUserRoles() {
+		if (getBackdoorPersonRoles() != null) {
+			return getBackdoorPersonRoles();
+		} else {
+			return getActualPersonRoles();	
+		}
+	}
+	
+	private Person getCurrentPerson() {
+		if (targetPerson != null)
+			return targetPerson;
 		
-		return orgadmin;					
+		if (backdoorPerson != null)
+			return backdoorPerson;
+		
+		return actualPerson;		
 	}
 }

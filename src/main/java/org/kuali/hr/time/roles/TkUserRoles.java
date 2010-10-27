@@ -23,6 +23,8 @@ public class TkUserRoles {
 	/** Set of TkAssignmentIds */
 	private Set<Long> tkEmployeeRoles = new HashSet<Long>();
 	
+	private boolean synchronousAspect;
+	
 	public TkUserRoles() {
 	}
 	
@@ -77,6 +79,10 @@ public class TkUserRoles {
 		return orgAdminRoles.containsKey(department);
 	}
 	
+	public boolean hasSynchronousAspect() {
+		return synchronousAspect;
+	}
+	
 	public void setRoles(List<TkRole> roles) {
 		for (TkRole role : roles) {
 			if (role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER)) {
@@ -97,6 +103,8 @@ public class TkUserRoles {
 	public void setAssignments(List<Assignment> assignments) {
 		for (Assignment a : assignments) {
 			tkEmployeeRoles.add(a.getTkAssignmentId());
+			if (a.isSynchronous())
+				synchronousAspect = true;
 		}
 	}
 
