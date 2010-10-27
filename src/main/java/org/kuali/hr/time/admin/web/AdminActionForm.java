@@ -1,8 +1,8 @@
 package org.kuali.hr.time.admin.web;
 
-import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
+import org.kuali.hr.time.base.web.TkForm;
 
-public class AdminActionForm extends TimesheetActionForm {
+public class AdminActionForm extends TkForm {
 
     private static final long serialVersionUID = -4827349215638585861L;
 

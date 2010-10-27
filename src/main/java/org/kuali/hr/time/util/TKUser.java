@@ -91,7 +91,7 @@ public class TKUser {
 		return getCurrentUserRoles().isSystemAdmin();
 	}
 	
-	public boolean hasSynchronousAspect() {
+	public boolean isSynchronousAspect() {
 		return getCurrentUserRoles().hasSynchronousAspect();
 	}
 	

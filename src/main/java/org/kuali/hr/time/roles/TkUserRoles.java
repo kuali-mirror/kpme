@@ -23,7 +23,7 @@ public class TkUserRoles {
 	/** Set of TkAssignmentIds */
 	private Set<Long> tkEmployeeRoles = new HashSet<Long>();
 	
-	private boolean synchronousAspect;
+	private boolean synchronousAspect = false;
 	
 	public TkUserRoles() {
 	}
