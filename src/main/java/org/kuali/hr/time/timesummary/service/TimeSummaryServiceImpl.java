@@ -207,7 +207,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 				}
 				
 				for(TimeSummaryRow assignRow : timeSection.getAssignRows()){
-					BigDecimal assignPeriodTotal = new BigDecimal(0.00);
+					BigDecimal assignPeriodTotal = assignRow.getPeriodTotal() != null ? assignRow.getPeriodTotal() : new BigDecimal(0.00);
 					BigDecimal assignHrs = new BigDecimal(0.00);
 					
 					if(assignRowToPeriodTotalHours.get(assignRow.getDescr())!=null){
