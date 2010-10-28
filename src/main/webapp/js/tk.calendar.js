@@ -23,46 +23,46 @@ $(document).ready(function() {
             selectable: true,
             selectHelper: true,
             select: function(start, end, allDay) {
-
+                
                 // clear any existing values
                 $('#beginTimeField, #endTimeField, #hoursField').val("");
-
                 $('#dialog-form').dialog('enable');
 
+                var title;
+                var startTime = $('#beginTimeField');
+                var endTime = $('#endTimeField');
+                var hours = $('#hoursField');
+
+                // reset assignment and earn code
+                $('#assignment > option:first').attr('selected','selected');
+                
+            	var params = {};
+            	
+                params['selectedAssignment'] = $('#selectedAssignment').val() || $('#assignment:first').val();
+            	
+                $.ajax({
+                    url: "TimeDetail.do?methodToCall=getEarnCodes",
+                    data: params,
+                    cache: false,
+                    success: function(data) {
+                    	$('#earnCode').html(data);
+                    },
+                    error: function() {
+                    	$('#earnCode').html("Error: Can't get earn codes.");
+                    }
+                });
+                
+                $('#loading-earnCodes').ajaxStart(function() {
+        			$(this).show();
+        		});
+        		$('#loading-earnCodes').ajaxStop(function() {
+        			$(this).hide();
+        		}); 
+        		
                 var form = $('#dialog-form').dialog('open');
 
                 form.dialog({
                     beforeclose: function(event, ui) {
-                        var title;
-                        var startTime = $('#beginTimeField');
-                        var endTime = $('#endTimeField');
-                        var hours = $('#hoursField');
-
-                        // reset assignment and earn code
-                        $('#assignment > option:first').attr('selected','selected');
-                        
-                    	var params = {};
-                        params['selectedAssignment'] = $('#assignment:first').val() || $('#selectedAssignment').val();
-                    	
-                        $.ajax({
-                            url: "TimeDetail.do?methodToCall=getEarnCodes",
-                            data: params,
-                            cache: false,
-                            success: function(data) {
-                            	$('#earnCode').html(data);
-                            },
-                            error: function() {
-                            	$('#earnCode').html("Error: Can't get earn codes.");
-                            }
-                        });
-                        
-                        $('#loading-earnCodes').ajaxStart(function() {
-                			$(this).show();
-                		});
-                		$('#loading-earnCodes').ajaxStop(function() {
-                			$(this).hide();
-                		}); 
-                        
                         //TODO: need to deal with week and day view where the clock in and out fields should be hidden
                         // var view = calendar.fullCalendar('getView');
                     }
@@ -187,7 +187,7 @@ $(document).ready(function() {
                     $("#hours").val($('#hoursField').val());
                     $("#selectedEarnCode").val($("#earnCode").val());
                     $("#selectedAssignment").val($("#assignment").val());
-                    $("#acrossDays").val($('#acrossDays').is(':checked') ? 'y' : 'n');
+                    $("#acrossDays").val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
                     
                     $("#time-detail").submit();
                     

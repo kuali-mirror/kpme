@@ -87,7 +87,7 @@
 								</tr>
 								<tr>
 									<td></td>
-									<td><input type="checkbox" id="acrossDays"/> Apply time to each day</td>
+									<td><input type="checkbox" id="acrossDaysField"/> Apply time to each day</td>
 								</tr>
 							</table>
 						</div>

@@ -181,7 +181,6 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			Map<String,Object> timeBlockMap = new LinkedHashMap<String, Object>();
 		
 			String assignmentKey = TKUtils.formatAssignmentKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask());
-			
 			String workAreaDesc = TkServiceLocator.getAssignmentService().getAssignment(tsd, assignmentKey).getWorkAreaObj().getDescription();
 			
 			timeBlockMap.put("title", workAreaDesc + " : " + timeBlock.getEarnCode());
