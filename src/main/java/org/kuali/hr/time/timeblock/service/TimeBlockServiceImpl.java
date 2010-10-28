@@ -1,6 +1,6 @@
 package org.kuali.hr.time.timeblock.service;
 
-import java.sql.Time;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,7 +35,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
 	//This function is used to build timeblocks that span days
 	public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument, 
-														Timestamp beginTimestamp, Timestamp endTimestamp){
+														Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours){
 		Calendar beginCal = GregorianCalendar.getInstance();
 		beginCal.setTimeInMillis(beginTimestamp.getTime());
 		Calendar beginCalCompare = GregorianCalendar.getInstance();
@@ -51,7 +51,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			if(dayIn.contains(beginTimestamp.getTime())){
 				if(dayIn.contains(beginCalCompare.getTimeInMillis())){
 					firstTimeBlock = createTimeBlock(timesheetDocument, beginTimestamp, new Timestamp(beginCalCompare.getTimeInMillis()), 
-										assignment, earnCode);
+										assignment, earnCode,hours);
 					lstTimeBlocks.add(firstTimeBlock);
 				} else {
 					//TODO move this to prerule validation
@@ -66,10 +66,10 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		DateTime endOfFirstDay = new DateTime(firstTimeBlock.getEndTimestamp());
 		long diffInMillis = endOfFirstDay.minus(beginTime.getMillis()).getMillis();
 		DateTime currTime = beginTime.plusDays(1);
-		while(currTime.isBefore(endTime)){
+		while(currTime.isBefore(endTime) || currTime.isEqual(endTime)){
 			Timestamp begin = new Timestamp(currTime.getMillis());
 			Timestamp end = new Timestamp((currTime.plus(diffInMillis).getMillis()));
-			TimeBlock tb = createTimeBlock(timesheetDocument, begin, end, assignment, earnCode);
+			TimeBlock tb = createTimeBlock(timesheetDocument, begin, end, assignment, earnCode,hours);
 			currTime = currTime.plusDays(1);
 			lstTimeBlocks.add(tb);
 		}
@@ -78,7 +78,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	
 	
 	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument, 
-						Timestamp beginTimestamp, Timestamp endTimestamp){
+						Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours){
 		//Create 1 or many timeblocks if the span of timeblocks exceed more than one 
 		//day that is determined by pay period day(24 hrs + period begin date)
 		Interval firstDay = null;
@@ -87,7 +87,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		for(Interval dayInt : dayIntervals){
 			//on second day of span so safe to assume doesnt go furthur than this
 			if(firstDay != null){
-				TimeBlock tb = createTimeBlock(timesheetDocument, new Timestamp(dayInt.getStartMillis()), endTimestamp, assignment, earnCode);
+				TimeBlock tb = createTimeBlock(timesheetDocument, new Timestamp(dayInt.getStartMillis()), endTimestamp, assignment, earnCode,hours);
 				lstTimeBlocks.add(tb);
 				break;
 			}
@@ -95,14 +95,14 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 				firstDay = dayInt;
 				if(dayInt.contains(endTimestamp.getTime())){
 					//create one timeblock if contained in one day interval
-					TimeBlock tb = createTimeBlock(timesheetDocument, beginTimestamp, endTimestamp, assignment, earnCode);
+					TimeBlock tb = createTimeBlock(timesheetDocument, beginTimestamp, endTimestamp, assignment, earnCode,hours);
 					tb.setBeginTimestamp(beginTimestamp);
 					tb.setEndTimestamp(endTimestamp);
 					lstTimeBlocks.add(tb);
 					break;
 				} else {
 					//create a timeblock that wraps the 24 hr day
-					TimeBlock tb = createTimeBlock(timesheetDocument, beginTimestamp, endTimestamp, assignment, earnCode);
+					TimeBlock tb = createTimeBlock(timesheetDocument, beginTimestamp, endTimestamp, assignment, earnCode,hours);
 					tb.setBeginTimestamp(beginTimestamp);
 					tb.setEndTimestamp(new Timestamp(firstDay.getEndMillis()));
 					lstTimeBlocks.add(tb);
@@ -133,7 +133,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	}
 
 	
-	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode){
+	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode, BigDecimal hours){
 		TimeBlock tb = new TimeBlock();
     	tb.setDocumentId(timesheetDocument.getDocumentHeader().getDocumentId().toString());
     	tb.setJobNumber(assignment.getJobNumber());
@@ -157,6 +157,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 //    	tb.setEndTimestampTimezone(clockLog.getClockTimestampTimezone());
     	tb.setClockLogCreated(true);
     	tb.setHours(TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime()));
+    	if(tb.getHours().compareTo(BigDecimal.ZERO) == 0){
+    		tb.setHours(hours);
+    	}
     	tb.setUserPrincipalId(TKContext.getUser().getPrincipalId());
     	tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
     	

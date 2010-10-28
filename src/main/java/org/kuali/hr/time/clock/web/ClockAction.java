@@ -1,5 +1,6 @@
 package org.kuali.hr.time.clock.web;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -87,7 +88,7 @@ public class ClockAction extends TimesheetAction {
     			
     			//create the list of timeblocks based on the range passed in
     			List<TimeBlock> lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 
-    					earnCode, caf.getTimesheetDocument(),beginTimestamp, endTimestamp);
+    					earnCode, caf.getTimesheetDocument(),beginTimestamp, endTimestamp,BigDecimal.ZERO);
     			//concat delta of timeblocks (new and original)
     			lstNewTimeBlocks.addAll(caf.getTimesheetDocument().getTimeBlocks());
     			//TODO do any server side validation of adding checking for overlapping timeblocks etc

@@ -155,7 +155,7 @@ public class ShiftDifferentialRuleServiceTest extends TkTestCase {
 		
 		Timestamp in = new Timestamp(new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST")).getMillis());
 		Timestamp out = new Timestamp(new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST")).getMillis());
-		TimeBlock block = tbService.createTimeBlock(timesheetDocument, in, out, assignment, earnCode);
+		TimeBlock block = tbService.createTimeBlock(timesheetDocument, in, out, assignment, earnCode, BigDecimal.ZERO);
 		timeBlocks.add(block);
 		tbService.saveTimeBlocks(timesheetDocument.getTimeBlocks(), timeBlocks);
 		
@@ -165,6 +165,7 @@ public class ShiftDifferentialRuleServiceTest extends TkTestCase {
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
 		assertNotNull(aggregate);
 		
+		ShiftDifferentialRule shiftDiffRule = new ShiftDifferentialRule();
 		
 		// TODO call into rule and evaluate
 

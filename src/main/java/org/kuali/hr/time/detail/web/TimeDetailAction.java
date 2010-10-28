@@ -118,11 +118,11 @@ public class TimeDetailAction extends TimesheetAction {
 		if(StringUtils.equals(tdaf.getAcrossDays(), "y")){
 			lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment, 
 											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),new Timestamp(tdaf.getStartTime()), 
-												new Timestamp(tdaf.getEndTime()));
+												new Timestamp(tdaf.getEndTime()),tdaf.getHours());
 		} else {
 			lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 
 											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),new Timestamp(tdaf.getStartTime()), 
-											new Timestamp(tdaf.getEndTime()));
+											new Timestamp(tdaf.getEndTime()),tdaf.getHours());
 		}
 
 		//concat delta of timeblocks (new and original)
