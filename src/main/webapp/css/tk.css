@@ -46,7 +46,7 @@
     /*text-decoration: underline;*/
 }
 
-.ui-dialog-buttonpane .ui-button-text {
+.ui-dialog-buttonpane {
 	font-size: .8em !important;
 }
 
@@ -187,16 +187,13 @@ select {
 
 #timesheet-summary {
 	margin: 10px auto 20px auto;
-	width: 95%;
 }
 
 #timesheet-summary table{
-	margin: 0 auto 5px auto;
 	font-size: .7em;
 	text-align: center;
 	border-collapse: collapse;
-	width: 95%;
-
+	width: 100%
 }
 
 #timesheet-summary .header {
@@ -220,6 +217,7 @@ select {
 	border: 2px solid gray;
 	padding: 5px;
 	border-collapse: collapse;
+	margin: 20px auto 20px auto;
 }
 
 
@@ -320,6 +318,19 @@ select {
 	border: 2px solid red !important;
 }
 
-button .expand {
-    font-size: 1em;
+.expand {
+    height: 1em;
+    width: 1.2em;
+    
+}
+
+/* This is just a temp solution */
+
+.fran td, .frank td {
+    background-color: #EEEEEE;
+    font-size: .9em;
+}
+
+.fran-main td, .frank-main td {
+    font-weight: bold;
 }

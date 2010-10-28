@@ -126,13 +126,7 @@ $(document).ready(function() {
 //    }
     var lastClockedInTime = $("#lastClockedInTime").val();
     var clockAction = $("#clockAction").val();
-
-//    console.log(lastClockedInTime);
-//    console.log(clockAction);
-
     var startTime = clockAction == 'CO' ?  new Date(lastClockedInTime) : new Date() ;
-
-//    console.log(startTime);
 
 	$('.elapsedTime').countdown({
 				since : startTime,
@@ -167,21 +161,25 @@ $(document).ready(function() {
 	});
 
     // summary table
-    $('a#basic').click(function(){
-        var options = {};
-        $('#timesheet-table-basic').fadeIn();
-        $('#timesheet-table-advance').hide();
+    // $('a#basic').click(function(){
+    //     var options = {};
+    //     $('#timesheet-table-basic').fadeIn();
+    //     $('#timesheet-table-advance').hide();
+    // });
+    // 
+    // $('a#advance').click(function(){
+    //     var options = {};
+    //     $('#timesheet-table-advance').fadeIn();
+    //     $('#timesheet-table-basic').hide();
+    // });
+    
+    // show-hide earn codes in the approval page
+    $("#fran-button").click(function() {
+        $(".fran").toggle();
     });
-
-    $('a#advance').click(function(){
-        var options = {};
-        $('#timesheet-table-advance').fadeIn();
-        $('#timesheet-table-basic').hide();
+    $("#frank-button").click(function() {
+        $(".frank").toggle();
     });
-
-    // demo
-    $("#tabs-demo").tabs();
-
     // apply time entry widget to the tabular view
     $(".timesheet-table-week1 :input, .timesheet-table-week2 :input").blur(function(){
         magicTime(this);

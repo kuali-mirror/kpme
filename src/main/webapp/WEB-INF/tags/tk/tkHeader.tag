@@ -36,11 +36,11 @@
                 <table class="${backdoor}">
                     <tr>
                         <td align="right">${prefix} <bean:message key="person.info.employeeName"/>:</td>
-                        <td><a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo">${person.principalName}</a></td>
+                        <td><a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo">${person.name}</a></td>
                     </tr>
                     <tr>
                         <td align="right">${prefix} <bean:message key="person.info.employeeId"/>:</td>
-                        <td>${person.principalId}</td>
+                        <td>${person.name}</td>
                     </tr>
                     <c:if test="${form.user.backdoorPerson ne null}">
                         <tr>
