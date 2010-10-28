@@ -79,7 +79,7 @@
 										<div id="endTimeField-messages" style="display:none;"></div>
 									</td>
 								</tr>
-								<tr id="hours" style="display:none;">
+								<tr id="hoursSection" style="display: none;">
 									<td>Hours:</td>
 									<td>
 										<input id="hoursField" name="hours"/>

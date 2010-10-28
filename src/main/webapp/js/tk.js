@@ -195,7 +195,7 @@ $(document).ready(function() {
         if($(this).val() == 'SCK' || $(this).val() == 'VAC') {
 			$('#beginTimeField,#endTimeField').val("");
             $('#clockIn, #clockOut').hide();
-            $('#hours').show();
+            $('#hoursSection').show();
 
             if($(this).val() == 'SCK') {
                 $('#hoursField').val('8');
@@ -205,7 +205,7 @@ $(document).ready(function() {
         else {
             $('#hours').val("");
             $('#clockIn, #clockOut').show();
-            $('#hours').hide();
+            $('#hoursSection').hide();
         }
 
         $("select#earnCode option[value='" + $(this).val() +"']").attr("selected", "selected");
