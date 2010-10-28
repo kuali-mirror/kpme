@@ -55,6 +55,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 				timestamp.addEqualToField("department", Criteria.PARENT_QUERY_PREFIX + "department");
 			}
 			
+			effdt.addEqualToField("roleName", Criteria.PARENT_QUERY_PREFIX + "roleName");
 			effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 			effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 			effdt.addEqualTo("active", true);
@@ -63,6 +64,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 			effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 		
 
+			timestamp.addEqualToField("roleName", Criteria.PARENT_QUERY_PREFIX + "roleName");
 			timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 			timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 			timestamp.addEqualTo("active", true);
