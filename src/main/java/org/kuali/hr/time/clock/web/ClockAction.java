@@ -82,9 +82,13 @@ public class ClockAction extends TimesheetAction {
     			
     			Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), 
 						caf.getSelectedAssignment());
+    			
+    			// TODO: need to replace the hardcoded RGH
+    			String earnCode = TKContext.getUser().isSynchronousAspect() ? "RGH" : caf.getSelectedEarnCode();
+    			
     			//create the list of timeblocks based on the range passed in
     			List<TimeBlock> lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 
-    					caf.getSelectedEarnCode(), caf.getTimesheetDocument(),beginTimestamp, endTimestamp);
+    					earnCode, caf.getTimesheetDocument(),beginTimestamp, endTimestamp);
     			//concat delta of timeblocks (new and original)
     			lstNewTimeBlocks.addAll(caf.getTimesheetDocument().getTimeBlocks());
     			//TODO do any server side validation of adding checking for overlapping timeblocks etc

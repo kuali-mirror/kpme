@@ -38,54 +38,6 @@ $(document).ready(function() {
                         var endTime = $('#endTimeField');
                         var hours = $('#hoursField');
 
-                        // this is for non-clock in / out earn codes, like vac, sick, etc.
-//                        if(hours.val() != '') {
-//                            title = $('#selectedAssignment').val() + " - " + $('#selectedEarnCode').val();
-//
-//                            start.setHours(9);
-//                            start.setMinutes(0);
-//
-//                            end.setHours(9+Number(hours.val()));
-//                            end.setMinutes(0);
-//
-//                            calendar.fullCalendar('renderEvent',
-//                              {
-//                                  title: title,
-//                                  start: start,
-//                                  end: end,
-//                                  allDay: false
-//                              },
-//                              true // make the event "stick"
-//                            );
-//                            calendar.fullCalendar('unselect');
-//                        }
-//
-//                        // this is for stardard clock in / out earn codes
-//                        if(startTime.val() != '' && endTime.val() != '') {
-//
-//                            startTime = $('#beginTimeField').parseTime();
-//                            endTime = $('#endTimeField').parseTime();
-//
-//                            title = $('#assignment').val() + " - " + $('#earnCode').val();
-//
-//                            start.setHours(startTime['hour']);
-//                            start.setMinutes(startTime['minute']);
-//
-//                            end.setHours(endTime['hour']);
-//                            end.setMinutes(endTime['minute']);
-//
-//                            calendar.fullCalendar('renderEvent',
-//                              {
-//                                  title: title,
-//                                  start: start,
-//                                  end: end,
-//                                  allDay: false
-//                              },
-//                              true // make the event "stick"
-//                            );
-//                            calendar.fullCalendar('unselect');
-//                        }
-                        
                         // reset assignment and earn code
                         $('#assignment > option:first').attr('selected','selected');
                         
