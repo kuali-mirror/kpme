@@ -83,8 +83,7 @@ public class ClockAction extends TimesheetAction {
     			Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), 
 						caf.getSelectedAssignment());
     			
-    			// TODO: need to replace the hardcoded RGH
-    			String earnCode = TKContext.getUser().isSynchronousAspect() ? "RGH" : caf.getSelectedEarnCode();
+    			String earnCode = TKContext.getUser().isSynchronousAspect() ? assignment.getJob().getPayType().getRegEarnCode() : caf.getSelectedEarnCode();
     			
     			//create the list of timeblocks based on the range passed in
     			List<TimeBlock> lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 

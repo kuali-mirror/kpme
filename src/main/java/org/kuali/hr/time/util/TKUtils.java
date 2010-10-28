@@ -146,7 +146,7 @@ public class TKUtils {
 	}
 	
 	public static String getAssignmentString(Assignment assignment) {
-		return assignment.getWorkAreaObj().getDescription() + " : compRate " + assignment.getJob().getCompRate() + " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
+		return assignment.getWorkAreaObj().getDescription() + " : $" + assignment.getJob().getCompRate() + " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
 	}
 	
 	public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarDates payCalendarEntry) {

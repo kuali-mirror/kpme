@@ -42,7 +42,7 @@ $(document).ready(function() {
                         $('#assignment > option:first').attr('selected','selected');
                         
                     	var params = {};
-                        params['selectedAssignment'] = $('#assignment:first').val();
+                        params['selectedAssignment'] = $('#assignment:first').val() || $('#selectedAssignment').val();
                     	
                         $.ajax({
                             url: "TimeDetail.do?methodToCall=getEarnCodes",
@@ -178,28 +178,40 @@ $(document).ready(function() {
                     endDateTime.setMinutes(end['minute']);
                     endDateTime.setSeconds(0)
                     endDateTime.setMilliseconds(0);
+                    
+                    $("#methodToCall").val("addTimeBlock");
+                    $("#startDate").val($("#date-range-begin").val());
+                    $("#endDate").val($("#date-range-end").val());
+                    $("#startTime").val(startDateTime.getTime());
+                    $("#endTime").val(endDateTime.getTime());
+                    $("#hours").val($('#hoursField').val());
+                    $("#selectedEarnCode").val($("#earnCode").val());
+                    $("#selectedAssignment").val($("#assignment").val());
+                    $("#acrossDays").val($('#acrossDays').is(':checked') ? 'y' : 'n');
+                    
+                    $("#time-detail").submit();
+                    
+                    // params['startDate'] = $("#date-range-begin").val();
+                    // params['endDate'] = $("#date-range-end").val();
+                    // params['startTime'] = startDateTime.getTime();
+                    // params['endTime'] = endDateTime.getTime();
+                    // params['hours'] = $('#hoursField').val();
+                    // params['selectedEarnCode'] = $("#earnCode").val();
+                    // params['selectedAssignment'] = $("#assignment").val();
+                    // params['acrossDays'] = $('#acrossDays').is(':checked') ? 'y' : 'n';
 
-                    params['startDate'] = $("#date-range-begin").val();
-                    params['endDate'] = $("#date-range-end").val();
-                    params['startTime'] = startDateTime.getTime();
-                    params['endTime'] = endDateTime.getTime();
-                    params['hours'] = $('#hoursField').val();
-                    params['selectedEarnCode'] = $("#earnCode").val();
-                    params['selectedAssignment'] = $("#assignment").val();
-                    params['acrossDays'] = $('#acrossDays').is(':checked') ? 'y' : 'n';
-
-                    $.ajax({
-	                    url: "TimeDetail.do?methodToCall=addTimeBlock",
-	                    data: params,
-	                    cache: false,
-	                    success: function() {
-	                    	$("#dialog-form").dialog('close');
-	                    	calendar.fullCalendar('refetchEvents');
-	                    },
-                        error: function() {
-                        	updateTips("Error: Can't save data.");
-                        }
-	                });
+	                //                     $.ajax({
+	                //     url: "TimeDetail.do?methodToCall=addTimeBlock",
+	                //     data: params,
+	                //     cache: false,
+	                //     success: function() {
+	                //     	$("#dialog-form").dialog('close');
+	                //     	calendar.fullCalendar('refetchEvents');
+	                //     },
+	                //                         error: function() {
+	                //                         	updateTips("Error: Can't save data.");
+	                //                         }
+	                // });
 
                     fieldsToValidate.val('').removeClass('ui-state-error');
                 }

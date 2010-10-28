@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -178,8 +179,12 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
 		for(TimeBlock timeBlock : timeBlocks) {
 			Map<String,Object> timeBlockMap = new LinkedHashMap<String, Object>();
-
-			timeBlockMap.put("title", "HRMS Java Team : " + timeBlock.getEarnCode());
+		
+			String assignmentKey = TKUtils.formatAssignmentKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask());
+			
+			String workAreaDesc = TkServiceLocator.getAssignmentService().getAssignment(tsd, assignmentKey).getWorkAreaObj().getDescription();
+			
+			timeBlockMap.put("title", workAreaDesc + " : " + timeBlock.getEarnCode());
 			timeBlockMap.put("start", new java.util.Date(timeBlock.getBeginTimestamp().getTime()).toString());
 			timeBlockMap.put("end", new java.util.Date(timeBlock.getEndTimestamp().getTime()).toString());
 			timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());

@@ -2,11 +2,9 @@
 <c:set var="Form" value="${TimeDetailActionForm}" scope="request"/>
 
 <tk:tkHeader tabId="timeDetail">
-	<html:hidden property="methodToCall" value=""/>
+	<div style="clear:both;" class="">
 	<html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDate"/>
 	<html:hidden property="endPeriodDateTime" value="${Form.endPeriodDateTime}" styleId="endPeriodDate"/>
-
-	<div style="clear:both;" class="">
 	
 		<%--This is for visually impaired users --%>
 		<!--
@@ -30,7 +28,17 @@
 				<div id="dialog-form" title="Add time blocks:">
 					<p class="validateTips">All form fields are required.</p>
 
-					<form>
+					<html:form action="/TimeDetail.do" styleId="time-detail">
+						<html:hidden property="methodToCall" value="" styleId="methodToCall"/>
+						<html:hidden property="startDate" styleId="startDate"/>
+						<html:hidden property="endDate" styleId="endDate"/>
+						<html:hidden property="startTime" styleId="startTime"/>
+						<html:hidden property="endTime" styleId="endTime"/>
+						<html:hidden property="hours" styleId="hours"/>
+						<html:hidden property="selectedEarnCode" styleId="selectedEarnCode"/>
+						<html:hidden property="selectedAssignment" styleId="selectedAssignment"/>
+						<html:hidden property="acrossDays" styleId="acrossDays"/>
+					
 						<div class="ui-widget" id="timesheet-panel">
 							<table>
 								<tr>
@@ -83,7 +91,7 @@
 								</tr>
 							</table>
 						</div>
-					</form>
+					</html:form>
 				</div> <%-- end of dialog-form --%>
 
 		        <tk:timeSummary timeSummary="${Form.timesheetDocument.timeSummary}" />
