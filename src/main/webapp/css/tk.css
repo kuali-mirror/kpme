@@ -334,3 +334,16 @@ select {
 .fran-main td, .frank-main td {
     font-weight: bold;
 }
+
+#admin {
+    font-size: .9em;
+    /*margin: 20px 0 20px 0;*/
+}
+
+#admin table {
+    line-height: 1.5em;
+}
+
+#admin table a {
+    text-decoration: none;
+}
