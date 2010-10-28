@@ -36,7 +36,7 @@
                 <table class="${backdoor}">
                     <tr>
                         <td align="right">${prefix} <bean:message key="person.info.employeeName"/>:</td>
-                        <td><a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo">${person.name}</a></td>
+                        <td><a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo">${person.name}</a> <a href="<%=request.getContextPath() %>/Logout.do"/>Logout</td>
                     </tr>
                     <tr>
                         <td align="right">${prefix} <bean:message key="person.info.employeeId"/>:</td>

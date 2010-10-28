@@ -43,8 +43,12 @@
        		<forward name="basic" path="/WEB-INF/jsp/workAreaMaintenance.jsp" />
        </action>
 
-		<action path="/CacheAdministration" name="CacheAdministrationActionForm" scope="request" input="/WEB-INF/jsp/cache.jsp" type="org.kuali.hr.time.cache.web.CacheAdministrationAction" parameter="methodToCall" validate="true" attribute="KualiForm">
+		    <action path="/CacheAdministration" name="CacheAdministrationActionForm" scope="request" input="/WEB-INF/jsp/cache.jsp" type="org.kuali.hr.time.cache.web.CacheAdministrationAction" parameter="methodToCall" validate="true" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/cache.jsp" />
+        </action>
+        
+        <action path="/Logout" scope="request" type="org.kuali.hr.time.web.SimpleLogout">
+          <forward name="basic" path="/WEB-INF/jsp/loggedOut.jsp" />
         </action>
        
 	</action-mappings>
