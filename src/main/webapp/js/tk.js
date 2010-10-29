@@ -197,10 +197,10 @@ $(document).ready(function() {
             $('#clockIn, #clockOut').hide();
             $('#hoursSection').show();
 
-            if($(this).val() == 'SCK') {
-                $('#hoursField').val('8');
-                $('#hoursField').attr('readonly',true).css('background',"#EEEEEE");
-            }
+            // if($(this).val() == 'SCK') {
+            //     $('#hoursField').val('8');
+            //     $('#hoursField').attr('readonly',true).css('background',"#EEEEEE");
+            // }
         }
         else {
             $('#hours').val("");
