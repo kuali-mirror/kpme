@@ -24,7 +24,7 @@ $(document).ready(function() {
 
 	var tabId = $("#tabId").val();
 	if (tabId != undefined) {
-		$("#tabs ul > #" + tabId)
+		$("#tab-section > #" + tabId)
 				.addClass("ui-tabs-selected ui-state-focus ui-state-active");
 	}
 	// end of tab

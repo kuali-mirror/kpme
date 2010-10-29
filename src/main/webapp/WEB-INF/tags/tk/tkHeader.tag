@@ -35,20 +35,22 @@
             <div class="person-info">
                 <table class="${backdoor}">
                     <tr>
+                        <td align="right" colspan="2">
+                           <c:if test="${form.user.backdoorPerson ne null}">
+                            <a href="?methodToCall=clearBackdoor" style="font-size: .8em;">Remove backdoor</a> | 
+                           </c:if>
+                            <a href="<%=request.getContextPath() %>/Logout.do" style="font-size: .8em;">Logout</a>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
                         <td align="right">${prefix} <bean:message key="person.info.employeeName"/>:</td>
-                        <td><a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo">${person.name}</a> <a href="<%=request.getContextPath() %>/Logout.do"/>Logout</td>
+                        <td><a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo">${person.name}</a></td>
                     </tr>
                     <tr>
                         <td align="right">${prefix} <bean:message key="person.info.employeeId"/>:</td>
                         <td>${person.name}</td>
                     </tr>
-                    <c:if test="${form.user.backdoorPerson ne null}">
-                        <tr>
-                            <td colspan="2" align="right">
-                            <a href="?methodToCall=clearBackdoor"><input type="button" class="button" value="Clear Backdoor" name="clearBackdoor" style="font-size:.7em;"></a>
-                            </td>
-                        </tr>
-                    </c:if>
                 </table>
             </div>
             <tk:tabs/>

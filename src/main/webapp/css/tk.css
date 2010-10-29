@@ -1,4 +1,4 @@
-/* jQuery style override */
+  /* jQuery style override */
 
 .ui-widget {
     font-family: "Trebuchet MS",Verdana,Arial,sans-serif !important; 
@@ -17,10 +17,11 @@
 }
 
 .ui-tabs .ui-tabs-nav ul {
+    clear: right !important;
 } 
 
 .ui-tabs .ui-tabs-nav li { 
-    clear: left !important;
+    
     float: right !important;
     font-size: .8em !important;
     font-weight: bold;
@@ -61,7 +62,8 @@
 /* end of jQuery style override */
 
 .highlight {
-    background: #FFD20F;   
+    /*background: #FFD20F;*/   
+    background: #FFE79F;   
 }
 
 select {
@@ -79,8 +81,12 @@ select {
 	height: 55px;
 }
 
-.person-info table {
+.person-info {
     float: right;
+}
+
+.person-info table {
+    margin-bottom: 5px;
 }
 
 .person-info table, .person-detail table {
@@ -91,6 +97,7 @@ select {
 
 .person-info table td{
 	padding:3px;
+	
 }
 
 .person-info a {
@@ -266,6 +273,7 @@ select {
 
 #note {
 	font-size: .8em;
+	clear:both;
 }
 
 .tooltip {
@@ -324,6 +332,53 @@ select {
     
 }
 
+/* admin section */
+#admin-page {
+    font-size: .8em;
+}
+
+#admin-page #content {
+    float:left;
+    width: 30%;
+    margin:10px;
+}
+
+#admin-page table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#admin-page tr td {
+    border: 1px solid #999999;
+}
+
+#admin-page table ul li {
+    display: disc;
+}
+
+#admin-page table .header {
+    font-weight: bold;
+    color: #8D2C1B !important;
+    background: #ffffff url(ui-iu/images/headerback.gif) 20% 20% repeat-x;
+    padding-left:5px;
+}
+
+#admin-page li:hover {
+    background: none;
+    border: none;
+}
+
+#admin-page a:hover {
+    color: red;
+    text-decoration: underline;
+}
+
+#tab-section {
+    clear:both;
+}
+
+/* end of admin section */
+
 /* This is just a temp solution */
 
 .fran td, .frank td {
@@ -335,15 +390,3 @@ select {
     font-weight: bold;
 }
 
-#admin {
-    font-size: .9em;
-    /*margin: 20px 0 20px 0;*/
-}
-
-#admin table {
-    line-height: 1.5em;
-}
-
-#admin table a {
-    text-decoration: none;
-}
