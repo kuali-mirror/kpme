@@ -1,4 +1,4 @@
-  /* jQuery style override */
+butt  /* jQuery style override */
 
 .ui-widget {
     font-family: "Trebuchet MS",Verdana,Arial,sans-serif !important; 
@@ -49,6 +49,8 @@
 
 .ui-dialog-buttonpane {
 	font-size: .8em !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
 }
 
 .ui-accordion-header {
@@ -102,6 +104,22 @@ select {
 
 .person-info a {
 	color:black;
+}
+
+.person-detail {
+    width: 95%;
+    margin: 20px auto 20px auto;
+    font-size: .8em;
+}
+
+.person-detail ul{
+    list-style: none;
+    margin-left: -20px;
+}
+
+.person-detail li:hover {
+    background: none;
+    border: none;
 }
 
 .person-detail table {

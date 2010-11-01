@@ -154,11 +154,18 @@ $(document).ready(function() {
                 fadeInSpeed : 500
 			});
 
-	// note
+	// note accordion
 	$("#note").accordion({
 		collapsible : true,
 		active : 2
 	});
+	
+	// person detail accordion
+    $("#person-detail-accordion").accordion({
+        collapsible : true,
+        active : 0
+    });
+	
 
     // summary table
     // $('a#basic').click(function(){
@@ -237,6 +244,7 @@ $(document).ready(function() {
 			$(this).hide();
 		}); 
     });
+    
 });
 
 $.fn.parseTime= function() {
