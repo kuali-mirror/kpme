@@ -21,7 +21,7 @@
 
 	<path id="mysql.classpath">
 		<fileset dir="/java/drivers">
-			<include name="mysql-connector-java-5.0.5-bin.jar" />
+			<include name="mysql-connector-java-*.jar" />
 		</fileset>
 	</path>
 
