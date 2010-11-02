@@ -45,10 +45,10 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 	private List<BigDecimal> getWorkedHours(TkTimeBlockAggregate timeBlockAggregate){
 		List<BigDecimal> workedHours = new ArrayList<BigDecimal>();
 		int dayCount = 1;
-		BigDecimal weeklyTotal = new BigDecimal(0,TkConstants.MATH_CONTEXT);
-		BigDecimal periodTotal = new BigDecimal(0,TkConstants.MATH_CONTEXT);
+		BigDecimal weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+		BigDecimal periodTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 		for(List<TimeBlock> lstDayTimeblocks : timeBlockAggregate.getDayTimeBlockList()){
-			BigDecimal totalForDay = new BigDecimal(0,TkConstants.MATH_CONTEXT);
+			BigDecimal totalForDay = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 			for(TimeBlock tb : lstDayTimeblocks){
 				totalForDay = totalForDay.add(tb.getHours(), TkConstants.MATH_CONTEXT);
 				weeklyTotal = weeklyTotal.add(tb.getHours(), TkConstants.MATH_CONTEXT);
@@ -57,7 +57,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 			if((dayCount % 7) == 0){
 				dayCount = 0;
 				workedHours.add(weeklyTotal);
-				weeklyTotal = BigDecimal.ZERO;
+				weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 			}
 			dayCount++;
 			workedHours.add(totalForDay);
@@ -136,11 +136,11 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 				AssignmentRow assignRow = new AssignmentRow();
 				Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument,assignmentDescr);
 				assignRow.setDescr(assign.getAssignmentDescription());
-				BigDecimal weeklyTotal = BigDecimal.ZERO;
-				BigDecimal periodTotal = BigDecimal.ZERO;
+				BigDecimal weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+				BigDecimal periodTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 				for(int i = 1; i< dayToEarnGroupAssignToHoursMap.size()+1;i++){
 					Map<String,BigDecimal> earnGroupAssignToHoursMap = dayToEarnGroupAssignToHoursMap.get(i);
-					BigDecimal hrs = BigDecimal.ZERO;
+					BigDecimal hrs = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 					if(earnGroupAssignToHoursMap != null && earnGroupAssignToHoursMap.get(earnGroup+"_"+assignmentDescr)!=null){
 						hrs = earnGroupAssignToHoursMap.get(earnGroup+"_"+assignmentDescr);
 					}
@@ -150,7 +150,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 					periodTotal = periodTotal.add(hrs, TkConstants.MATH_CONTEXT);
 					if((i % 7)== 0){
 						assignRow.getTotal().add(weeklyTotal);
-						weeklyTotal = BigDecimal.ZERO;
+						weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 					}
 				}
 				assignRow.getTotal().add(periodTotal);
@@ -175,7 +175,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 	
 	private Map<String,BigDecimal> buildTimeHourDetail(Map<String,BigDecimal> earnGroupAssignToHoursMap, BigDecimal hours, 
 															String earnGroupAssignDescr){
-		BigDecimal currentDayHrs = new BigDecimal(0,TkConstants.MATH_CONTEXT);
+		BigDecimal currentDayHrs = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 		if(earnGroupAssignToHoursMap == null){
 			earnGroupAssignToHoursMap = new HashMap<String,BigDecimal>();
 		} else {

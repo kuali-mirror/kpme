@@ -32,7 +32,7 @@ public class EarnGroupSection {
 		} else {
 			for(int i = 0;i<assignRow.getTotal().size();i++){
 				BigDecimal value = totals.get(i).add(assignRow.getTotal().get(i), TkConstants.MATH_CONTEXT);
-				totals.set(i, value);
+				totals.set(i, value.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING));
 			}
 		}
 		assignmentRows.add(assignRow);
