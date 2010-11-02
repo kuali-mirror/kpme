@@ -1,54 +1,31 @@
 package org.kuali.hr.time.timesummary;
 
-import java.util.Date;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class TimeSummary {
-	private Long numberOfDays;
-	private Date payBeginDate;
-	private Date payEndDate;
-	private List<String> dateDescr = new LinkedList<String>();
-	private List<TimeSummarySection> sections = new ArrayList<TimeSummarySection>();
+	private List<String> summaryHeader = new ArrayList<String>();
+	private List<EarnGroupSection> sections = new ArrayList<EarnGroupSection>();
 	
-	private TimeSummaryRow workedHours = new TimeSummaryRow();
-	
-	public Long getNumberOfDays() {
-		return numberOfDays;
+	private List<BigDecimal> workedHours = new ArrayList<BigDecimal>();
+
+	public List<String> getSummaryHeader() {
+		return summaryHeader;
 	}
-	public void setNumberOfDays(Long numberOfDays) {
-		this.numberOfDays = numberOfDays;
+	public void setSummaryHeader(List<String> summaryHeader) {
+		this.summaryHeader = summaryHeader;
 	}
-	public Date getPayBeginDate() {
-		return payBeginDate;
-	}
-	public void setPayBeginDate(Date payBeginDate) {
-		this.payBeginDate = payBeginDate;
-	}
-	public Date getPayEndDate() {
-		return payEndDate;
-	}
-	public void setPayEndDate(Date payEndDate) {
-		this.payEndDate = payEndDate;
-	}
-	
-	public void setDateDescr(List<String> dateDescr) {
-		this.dateDescr = dateDescr;
-	}
-	public List<String> getDateDescr() {
-		return dateDescr;
-	}
-	public List<TimeSummarySection> getSections() {
+	public List<EarnGroupSection> getSections() {
 		return sections;
 	}
-	public void setSections(List<TimeSummarySection> sections) {
+	public void setSections(List<EarnGroupSection> sections) {
 		this.sections = sections;
 	}
-	public TimeSummaryRow getWorkedHours() {
+	public List<BigDecimal> getWorkedHours() {
 		return workedHours;
 	}
-	public void setWorkedHours(TimeSummaryRow workedHours) {
+	public void setWorkedHours(List<BigDecimal> workedHours) {
 		this.workedHours = workedHours;
 	}
 	
