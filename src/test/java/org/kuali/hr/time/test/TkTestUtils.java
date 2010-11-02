@@ -12,6 +12,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 public class TkTestUtils {
@@ -56,7 +57,7 @@ public class TkTestUtils {
 		timeBlock.setBeginTimestamp(new Timestamp(cal.getTimeInMillis()));
 		timeBlock.setBeginTimestampTimezone("EST");
 		timeBlock.setEarnCode("REG");
-		timeBlock.setHours(new BigDecimal(numHours));
+		timeBlock.setHours((new BigDecimal(numHours)).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING));
 		cal.add(Calendar.HOUR, numHours);
 		timeBlock.setEndTimestamp(new Timestamp(cal.getTimeInMillis()));
 		

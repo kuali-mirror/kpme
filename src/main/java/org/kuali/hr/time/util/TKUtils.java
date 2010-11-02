@@ -83,7 +83,7 @@ public class TKUtils {
 
 	public static BigDecimal getHoursBetween(long start, long end) {
 		long diff = end - start;
-		return new BigDecimal((diff / 3600000.0) % 24).setScale(TkConstants.MATH_CONTEXT.getPrecision(), TkConstants.MATH_CONTEXT.getRoundingMode()).abs();
+		return new BigDecimal((diff / 3600000.0) % 24).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
 	}
 
 	public static Map<Timestamp, BigDecimal> getDateToHoursMap(TimeBlock timeBlock, TimeHourDetail timeHourDetail) {
