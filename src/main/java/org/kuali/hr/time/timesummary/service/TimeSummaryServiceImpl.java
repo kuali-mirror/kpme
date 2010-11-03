@@ -54,13 +54,12 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 				weeklyTotal = weeklyTotal.add(tb.getHours(), TkConstants.MATH_CONTEXT);
 				periodTotal = periodTotal.add(tb.getHours(), TkConstants.MATH_CONTEXT);
 			}
+			workedHours.add(totalForDay);
 			if((dayCount % 7) == 0){
-				dayCount = 0;
 				workedHours.add(weeklyTotal);
 				weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 			}
 			dayCount++;
-			workedHours.add(totalForDay);
 		}
 		workedHours.add(periodTotal);
 		return workedHours;
