@@ -383,6 +383,14 @@
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.hr.time.paytype.PrincipalPayType" table="hr_principal_pay_type_t">
+		<field-descriptor name="principalPayTypeId" column="hr_principal_pay_type_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_principal_pay_type_s"/>
+		<field-descriptor name="hrPayType" column="HR_PAYTYPE" jdbc-type="VARCHAR" length="5" nullable="false"/>
+		<field-descriptor name="principalId" column="principal_id" jdbc-type="VARCHAR" length="21" nullable="false"/>
+		<field-descriptor name="objectId" column="obj_id" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>
+
 	<class-descriptor class="org.kuali.hr.time.paytype.PayType" table="hr_paytype_t">
 		<field-descriptor name="hrPayTypeId" column="hr_paytype_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_paytype_s"/>
 		<field-descriptor name="payType" column="paytype" jdbc-type="VARCHAR" length="5" nullable="false"/>

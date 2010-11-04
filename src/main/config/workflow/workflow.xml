@@ -78,51 +78,56 @@
 			<name>AssignmentDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>AssignmentDocument</label>
-	</documentType>
-	<documentType>
+		</documentType>
+		<documentType>
 			<name>AssignmentAccountDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>AssignmentAccountDocument</label>
-	</documentType>
-	<documentType>
+		</documentType>
+		<documentType>
 			<name>TimeCollectionRuleDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>TimeCollectionRuleDocument</label>
-	</documentType>		
-	<documentType>
+		</documentType>
+		<documentType>
 			<name>WorkScheduleDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>WorkScheduleDocument</label>
-	</documentType>
-	<documentType>
+		</documentType>
+		<documentType>
 			<name>WorkScheduleEntryDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>WorkScheduleEntryDocument</label>
-	</documentType>
-	<documentType>
+		</documentType>
+		<documentType>
 			<name>DailyOvertimeRuleDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>DailyOvertimeRuleDocument</label>
-	</documentType>
-	<documentType>
+		</documentType>
+		<documentType>
 			<name>ClockLogDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>ClockLogDocument</label>
-	</documentType>
-	<documentType>
+		</documentType>
+		<documentType>
 			<name>ShiftDefferentialRuleDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>ShiftDefferentialRuleDocument</label>
-	</documentType>			
-	<documentType>
+		</documentType>
+		<documentType>
 			<name>WeeklyOvertimeRuleDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>WeeklyOvertimeRuleDocument</label>
-	</documentType>
-	<documentType>
+		</documentType>
+		<documentType>
 			<name>DepartmentEarnCodeDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>DepartmentEarnCodeDocument</label>
-	</documentType>
+		</documentType>
+		<documentType>
+			<name>PrincipalPayTypeDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>PrincipalPayTypeDocument</label>
+		</documentType>
 	</documentTypes>
 </data>

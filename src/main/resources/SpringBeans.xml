@@ -1,504 +1,598 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<aop:aspectj-autoproxy/>
+	<aop:aspectj-autoproxy />
 
-   <!-- Properties  10/20/08   -->
-   <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties" ref="configProperties" />
-    </bean>
-   <bean id="configProperties" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="targetObject" ref="config" />
-        <property name="targetMethod" value="getProperties" />
-    </bean>
-    <bean id="config" class="org.kuali.rice.core.config.spring.ConfigFactoryBean">
-        <property name="configLocations">
-            <list>
-                <value>classpath:META-INF/tk-config.xml</value>
-            </list>
-        </property>
-    </bean>
+	<!-- Properties  10/20/08   -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" ref="configProperties" />
+	</bean>
+	<bean id="configProperties"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="config" />
+		<property name="targetMethod" value="getProperties" />
+	</bean>
+	<bean id="config" class="org.kuali.rice.core.config.spring.ConfigFactoryBean">
+		<property name="configLocations">
+			<list>
+				<value>classpath:META-INF/tk-config.xml</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean name="springContext" class="org.kuali.hr.sys.context.SpringContext"></bean>
-	
-    <bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
-        <property name="defaultTimeout" value="3600"/>
-    </bean>
 
-    <bean id="ojbConfigurer" class="org.kuali.rice.core.ojb.JtaOjbConfigurer">
-        <property name="transactionManager" ref="jotm" />
-    </bean>
+	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
+		<property name="defaultTimeout" value="3600" />
+	</bean>
 
-    <bean id="ojbRepoLoader" class="org.kuali.hr.time.SpringBasedOJBRepositoryLoader">
-    	<property name="pathLocations">
-    		<list>
-    			<value>OJB-repository-time.xml</value>
-    			<value>OJB-repository-coa.xml</value>
-    		</list>
-    	</property>
-    </bean>
+	<bean id="ojbConfigurer" class="org.kuali.rice.core.ojb.JtaOjbConfigurer">
+		<property name="transactionManager" ref="jotm" />
+	</bean>
+
+	<bean id="ojbRepoLoader" class="org.kuali.hr.time.SpringBasedOJBRepositoryLoader">
+		<property name="pathLocations">
+			<list>
+				<value>OJB-repository-time.xml</value>
+				<value>OJB-repository-coa.xml</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="tkDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
-        <property name="transactionManager" ref="jotm" />
-        <property name="driverClassName" value="${tk.datasource.driver.name}" />
-        <property name="maxSize" value="${tk.datasource.pool.maxSize}" />
-        <property name="minSize" value="${tk.datasource.pool.minSize}" />
-        <property name="maxWait" value="${tk.datasource.pool.maxWait}" />
-        <property name="validationQuery" value="${tk.datasource.pool.validationQuery}" />
-        <property name="url" value="${tk.datasource.url}" />
-        <property name="username" value="${tk.datasource.username}" />
-        <property name="password" value="${tk.datasource.password}" />
-    </bean>
+		<property name="transactionManager" ref="jotm" />
+		<property name="driverClassName" value="${tk.datasource.driver.name}" />
+		<property name="maxSize" value="${tk.datasource.pool.maxSize}" />
+		<property name="minSize" value="${tk.datasource.pool.minSize}" />
+		<property name="maxWait" value="${tk.datasource.pool.maxWait}" />
+		<property name="validationQuery" value="${tk.datasource.pool.validationQuery}" />
+		<property name="url" value="${tk.datasource.url}" />
+		<property name="username" value="${tk.datasource.username}" />
+		<property name="password" value="${tk.datasource.password}" />
+	</bean>
 
-    <bean id="enWorkflowDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
-        <property name="transactionManager" ref="jotm" />
-        <property name="driverClassName" value="${kr.datasource.driver.name}" />
-        <property name="maxSize" value="${kr.datasource.pool.maxSize}" />
-        <property name="minSize" value="${kr.datasource.pool.minSize}" />
-        <property name="maxWait" value="${kr.datasource.pool.maxWait}" />
-        <property name="validationQuery" value="${kr.datasource.pool.validationQuery}" />
-        <property name="url" value="${kr.datasource.url}" />
-        <property name="username" value="${kr.datasource.username}" />
-        <property name="password" value="${kr.datasource.password}" />
-    </bean>
-
-
-	<bean id="nonTransDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${tk.datasource.driver.name}" />
-        <property name="maxWait" value="30000" />
-        <property name="validationQuery" value="select 1" />
-        <property name="url" value="${tk.datasource.url}" />
-        <property name="username" value="${tk.datasource.username}" />
-        <property name="password" value="${tk.datasource.password}" />
-        <property name="maxActive" value="50" />
-        <property name="minIdle" value="3" />
-        <property name="initialSize" value="3" />
-    </bean>
+	<bean id="enWorkflowDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
+		<property name="transactionManager" ref="jotm" />
+		<property name="driverClassName" value="${kr.datasource.driver.name}" />
+		<property name="maxSize" value="${kr.datasource.pool.maxSize}" />
+		<property name="minSize" value="${kr.datasource.pool.minSize}" />
+		<property name="maxWait" value="${kr.datasource.pool.maxWait}" />
+		<property name="validationQuery" value="${kr.datasource.pool.validationQuery}" />
+		<property name="url" value="${kr.datasource.url}" />
+		<property name="username" value="${kr.datasource.username}" />
+		<property name="password" value="${kr.datasource.password}" />
+	</bean>
 
 
-	<bean id="ksbScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" destroy-method="stop" lazy-init="true">
+	<bean id="nonTransDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${tk.datasource.driver.name}" />
+		<property name="maxWait" value="30000" />
+		<property name="validationQuery" value="select 1" />
+		<property name="url" value="${tk.datasource.url}" />
+		<property name="username" value="${tk.datasource.username}" />
+		<property name="password" value="${tk.datasource.password}" />
+		<property name="maxActive" value="50" />
+		<property name="minIdle" value="3" />
+		<property name="initialSize" value="3" />
+	</bean>
+
+
+	<bean id="ksbScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
+		destroy-method="stop" lazy-init="true">
 		<property name="jobListeners">
 			<list>
-				<bean class="org.kuali.rice.ksb.messaging.quartz.MessageServiceExecutorJobListener"/>
+				<bean
+					class="org.kuali.rice.ksb.messaging.quartz.MessageServiceExecutorJobListener" />
 			</list>
 		</property>
 		<property name="quartzProperties">
-	        <props>
-	          <prop key="org.quartz.scheduler.instanceName">TK Scheduler</prop>
-	          <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
-	          <prop key="org.quartz.jobStore.isClustered">true</prop>
-	          <prop key="org.quartz.jobStore.driverDelegateClass">org.quartz.impl.jdbcjobstore.StdJDBCDelegate</prop>
-	          <prop key="org.quartz.threadPool.threadCount">1</prop>
-	          <prop key="org.quartz.jobStore.clusterCheckinInterval">1000</prop>
-	        </props>
-      	</property>
-      	<property name="waitForJobsToCompleteOnShutdown" value="false"/>
-		<property name="transactionManager" ref="transactionManager"/>
+			<props>
+				<prop key="org.quartz.scheduler.instanceName">TK Scheduler</prop>
+				<prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+				<prop key="org.quartz.jobStore.isClustered">true</prop>
+				<prop key="org.quartz.jobStore.driverDelegateClass">org.quartz.impl.jdbcjobstore.StdJDBCDelegate</prop>
+				<prop key="org.quartz.threadPool.threadCount">1</prop>
+				<prop key="org.quartz.jobStore.clusterCheckinInterval">1000</prop>
+			</props>
+		</property>
+		<property name="waitForJobsToCompleteOnShutdown" value="false" />
+		<property name="transactionManager" ref="transactionManager" />
 		<property name="dataSource" ref="tkDataSource" />
 		<property name="nonTransactionalDataSource" ref="nonTransDataSource" />
 	</bean>
 
 
-    <bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer" >
-        <property name="dataSource" ref="tkDataSource" />
-        <property name="serverDataSource" ref="enWorkflowDataSource" />
-        <property name="transactionManager" ref="jotm" />
-        <property name="userTransaction" ref="jotm" />
-        <property name="rootResourceLoader">
-            <bean class="org.kuali.rice.core.resourceloader.SpringBeanFactoryResourceLoader" />
-        </property>
+	<bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
+		<property name="dataSource" ref="tkDataSource" />
+		<property name="serverDataSource" ref="enWorkflowDataSource" />
+		<property name="transactionManager" ref="jotm" />
+		<property name="userTransaction" ref="jotm" />
+		<property name="rootResourceLoader">
+			<bean
+				class="org.kuali.rice.core.resourceloader.SpringBeanFactoryResourceLoader" />
+		</property>
 
-        <property name="rootConfig" ref="config" />
-        <property name="environment" value="${environment}" />
-        <property name="serviceNamespace" value="TK" />
+		<property name="rootConfig" ref="config" />
+		<property name="environment" value="${environment}" />
+		<property name="serviceNamespace" value="TK" />
 
-	<property name="ksbConfigurer">
-		<bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
-			<property name="messageDataSource">
-				<ref local="tkDataSource" />
-			</property>
-			<property name="serviceServletUrl" value="${serviceServletUrl}" />
-			<property name="registryDataSource">
-				<ref local="enWorkflowDataSource" />
-			</property>
-			<property name="exceptionMessagingScheduler" ref="ksbScheduler" />
+		<property name="ksbConfigurer">
+			<bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
+				<property name="messageDataSource">
+					<ref local="tkDataSource" />
+				</property>
+				<property name="serviceServletUrl" value="${serviceServletUrl}" />
+				<property name="registryDataSource">
+					<ref local="enWorkflowDataSource" />
+				</property>
+				<property name="exceptionMessagingScheduler" ref="ksbScheduler" />
 
-			<property name="webModuleConfigurationFiles" value="/ksb/WEB-INF/struts-config.xml" />
+				<property name="webModuleConfigurationFiles" value="/ksb/WEB-INF/struts-config.xml" />
+				<property name="services">
+					<list>			  
+						<bean parent="webServiceParentBean">
+							<property name="service">
+								<ref bean="holidayCalendarService" />
+							</property>
+							<property name="serviceInterface">
+								<value>org.kuali.hr.time.holidaycalendar.service.HolidayCalendarService</value>
+							</property>
 
-		</bean>
+							<property name="serviceEndPoint">
+								<bean class="java.net.URL">
+									<constructor-arg type="java.lang.String"
+										value="http://localhost:8080/tk-dev/remoting/holidayCalendarServiceSOAP" />
+								</bean>
+							</property>
+							<property name="localServiceName" value="holidayCalendarServiceSOAP" />
+						</bean>
+					</list>
+				</property>
+			</bean>
 		</property>
 
 		<property name="kewConfigurer">
-           <bean class="org.kuali.rice.kew.config.KEWConfigurer">
-                    <property name="dataSource">
-                        <ref local="enWorkflowDataSource"/>
-                    </property>
-                    <property name="runMode" value="embedded"/>
-           </bean>
-        </property>
-
-        <property name="knsConfigurer">
-           <bean class="org.kuali.rice.kns.config.KNSConfigurer">
-                  <property name="validateDataDictionary" value="true"/>
-                  <property name="webModuleConfigurationFiles" value="/kr/WEB-INF/struts-config.xml"/>
-
-
-            </bean>
-        </property>
-        <property name="kimConfigurer">
-        	<bean class="org.kuali.rice.kim.config.KIMConfigurer">
-        		<property name="runMode" value="embedded"/>
-        	</bean>
-        </property>
-
-            <property name="additionalSpringFiles">
-    		<list>
-      			<value>classpath:KEWOverrideSpringBeans.xml</value>
-    		</list>
-  	</property>
-    </bean>
-
-	<!--  <bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />-->
-	<!--  This is the service that KIM will look for to authenticate the user, we need something identified by this bean ID.  I'm
-	not sure about the other authentication services.
- 	<bean id="kimAuthenticationService" class="edu.iu.uis.hr.TKWebAuthenticationService" />
-	-->
-    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
-        <property name="userTransaction">
-            <ref local="jotm" />
-        </property>
-        <property name="transactionManager">
-            <ref local="jotm" />
-        </property>
-    </bean>
-
-    <bean id="matchAllWithPropReqCheckedException" class="org.springframework.transaction.interceptor.MatchAlwaysTransactionAttributeSource" lazy-init="true">
-        <property name="transactionAttribute">
-            <value>PROPAGATION_REQUIRED,-Exception</value>
-        </property>
-    </bean>
-
-    <bean id="matchAllWithPropReq" class="org.springframework.transaction.interceptor.MatchAlwaysTransactionAttributeSource" lazy-init="true">
-        <property name="transactionAttribute">
-            <value>PROPAGATION_REQUIRED</value>
-        </property>
-    </bean>
-
-    <bean id="matchAllTxInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor" lazy-init="true">
-        <property name="transactionManager">
-            <ref bean="transactionManager" />
-        </property>
-        <property name="transactionAttributeSource">
-            <ref bean="matchAllWithPropReq" />
-        </property>
-    </bean>
-<!--
-	<bean id="autoProxyCreator"
-		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
-		<property name="interceptorNames">
-			<list>
-				<idref local="matchAllTxInterceptor" />
-			</list>
+			<bean class="org.kuali.rice.kew.config.KEWConfigurer">
+				<property name="dataSource">
+					<ref local="enWorkflowDataSource" />
+				</property>
+				<property name="runMode" value="embedded" />
+			</bean>
 		</property>
-		<property name="beanNames">
+
+		<property name="knsConfigurer">
+			<bean class="org.kuali.rice.kns.config.KNSConfigurer">
+				<property name="validateDataDictionary" value="true" />
+				<property name="webModuleConfigurationFiles" value="/kr/WEB-INF/struts-config.xml" />
+
+
+			</bean>
+		</property>
+		<property name="kimConfigurer">
+			<bean class="org.kuali.rice.kim.config.KIMConfigurer">
+				<property name="runMode" value="embedded" />
+			</bean>
+		</property>
+
+		<property name="additionalSpringFiles">
 			<list>
+				<value>classpath:KEWOverrideSpringBeans.xml</value>
 			</list>
 		</property>
 	</bean>
--->
+
+	<bean id="webServiceParentBean" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition"
+		abstract="true">
+		<property name="jaxWsService" value="true"></property>
+		<property name="messageExceptionHandler" value="ServiceException" />
+		<property name="millisToLive" value="360000000" />
+		<property name="priority" value="1" />
+		<property name="serviceNameSpaceURI" value="tk" />
+		<property name="queue" value="true" />
+		<property name="retryAttempts" value="0" />
+		<property name="busSecurity" value="false" />
+	</bean>
+
+	<!--
+		<bean id="kualiModuleService"
+		class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />
+	-->
+	<!--
+		This is the service that KIM will look for to authenticate the user,
+		we need something identified by this bean ID. I'm not sure about the
+		other authentication services. <bean id="kimAuthenticationService"
+		class="edu.iu.uis.hr.TKWebAuthenticationService" />
+	-->
+	<bean id="transactionManager"
+		class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="userTransaction">
+			<ref local="jotm" />
+		</property>
+		<property name="transactionManager">
+			<ref local="jotm" />
+		</property>
+	</bean>
+
+	<bean id="matchAllWithPropReqCheckedException"
+		class="org.springframework.transaction.interceptor.MatchAlwaysTransactionAttributeSource"
+		lazy-init="true">
+		<property name="transactionAttribute">
+			<value>PROPAGATION_REQUIRED,-Exception</value>
+		</property>
+	</bean>
+
+	<bean id="matchAllWithPropReq"
+		class="org.springframework.transaction.interceptor.MatchAlwaysTransactionAttributeSource"
+		lazy-init="true">
+		<property name="transactionAttribute">
+			<value>PROPAGATION_REQUIRED</value>
+		</property>
+	</bean>
+
+	<bean id="matchAllTxInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor"
+		lazy-init="true">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="transactionAttributeSource">
+			<ref bean="matchAllWithPropReq" />
+		</property>
+	</bean>
+	<!--
+		<bean id="autoProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="interceptorNames"> <list> <idref
+		local="matchAllTxInterceptor" /> </list> </property> <property
+		name="beanNames"> <list> </list> </property> </bean>
+	-->
 	<!-- oscache -->
-	<bean id="cacheAdministrator" class="com.opensymphony.oscache.general.GeneralCacheAdministrator" destroy-method="destroy" depends-on="rice">
-        <constructor-arg index="0">
-            <props>
-                <prop key="cache.memory">true</prop>
-                <prop key="cache.capacity">20000</prop>
-                <prop key="cache.algorithm">com.opensymphony.oscache.base.algorithm.LRUCache</prop>
-            </props>
-        </constructor-arg>
-    </bean>
+	<bean id="cacheAdministrator"
+		class="com.opensymphony.oscache.general.GeneralCacheAdministrator"
+		destroy-method="destroy" depends-on="rice">
+		<constructor-arg index="0">
+			<props>
+				<prop key="cache.memory">true</prop>
+				<prop key="cache.capacity">20000</prop>
+				<prop key="cache.algorithm">com.opensymphony.oscache.base.algorithm.LRUCache
+				</prop>
+			</props>
+		</constructor-arg>
+	</bean>
 
-    <bean id="cacheManager" class="org.kuali.hr.time.cache.CacheManagementServiceImpl" >
-        <property name="cacheAdministrator"><ref bean="cacheAdministrator" /></property>
-    </bean>
+	<bean id="cacheManager" class="org.kuali.hr.time.cache.CacheManagementServiceImpl">
+		<property name="cacheAdministrator">
+			<ref bean="cacheAdministrator" />
+		</property>
+	</bean>
 
-    <bean id="cacheAspect" class="org.kuali.hr.time.cache.TKCacheAspect" />
+	<bean id="cacheAspect" class="org.kuali.hr.time.cache.TKCacheAspect" />
 
 
-    <bean id="timeModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
-        <property name="namespaceCode" value="TK"/>
-        <property name="initializeDataDictionary" value="true"/>
-        <property name="dataDictionaryPackages">
-            <list>
-                <value>classpath:org/kuali/hr/time/datadictionary</value>
-                <value>classpath:org/kuali/kfs/coa/datadictionary</value>
-            </list>
-        </property>
-        <!--
-        <property name="databaseRepositoryFilePaths">
-            <list>
-				<value>OJB-repository-time.xml</value>
-            </list>
-        </property>
-        -->
-        <property name="packagePrefixes">
-            <list>
+	<bean id="timeModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
+		<property name="namespaceCode" value="TK" />
+		<property name="initializeDataDictionary" value="true" />
+		<property name="dataDictionaryPackages">
+			<list>
+				<value>classpath:org/kuali/hr/time/datadictionary</value>
+				<value>classpath:org/kuali/kfs/coa/datadictionary</value>
+			</list>
+		</property>
+		<!--
+			<property name="databaseRepositoryFilePaths"> <list>
+			<value>OJB-repository-time.xml</value> </list> </property>
+		-->
+		<property name="packagePrefixes">
+			<list>
 				<value>org.kuali.hr.time.domain</value>
 				<value>org.kuali.kfs.coa.domain</value>
-            </list>
-        </property>
-    </bean>
+			</list>
+		</property>
+	</bean>
 
-    <bean class="org.kuali.rice.kns.service.impl.ModuleServiceBase">
-        <property name="moduleConfiguration" ref="timeModuleConfiguration" />
-    </bean>
+	<bean class="org.kuali.rice.kns.service.impl.ModuleServiceBase">
+		<property name="moduleConfiguration" ref="timeModuleConfiguration" />
+	</bean>
 
 	<!-- DAOs for wrapping database criteria queries -->
 
-    <bean id="clockLogDao" class="org.kuali.hr.time.clocklog.dao.ClockLogDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
+	<bean id="clockLogDao" class="org.kuali.hr.time.clocklog.dao.ClockLogDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
 
-    <bean id="assignmentDao" class="org.kuali.hr.time.assignment.dao.AssignmentDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
+	<bean id="assignmentDao"
+		class="org.kuali.hr.time.assignment.dao.AssignmentDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
 
-    <bean id="workAreaDao" class="org.kuali.hr.time.workarea.dao.WorkAreaDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
-    
-    <bean id="tkRoleDao" class="org.kuali.hr.time.roles.dao.TkRoleDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
+	<bean id="workAreaDao" class="org.kuali.hr.time.workarea.dao.WorkAreaDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
 
-    <bean id="timeBlockDao" class="org.kuali.hr.time.timeblock.dao.TimeBlockDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
+	<bean id="tkRoleDao" class="org.kuali.hr.time.roles.dao.TkRoleDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
 
-    <bean id="timeBlockHistoryDao" class="org.kuali.hr.time.timeblock.dao.TimeBlockHistoryDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
+	<bean id="timeBlockDao"
+		class="org.kuali.hr.time.timeblock.dao.TimeBlockDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
 
-    <bean id="jobDao" class="org.kuali.hr.job.dao.JobDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
+	<bean id="timeBlockHistoryDao"
+		class="org.kuali.hr.time.timeblock.dao.TimeBlockHistoryDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
 
-    <bean id="payTypeDao" class="org.kuali.hr.time.paytype.dao.PayTypeDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
+	<bean id="jobDao" class="org.kuali.hr.job.dao.JobDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
 
-    <bean id="payCalendarDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
+	<bean id="payTypeDao" class="org.kuali.hr.time.paytype.dao.PayTypeDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
 
-    <bean id="payCalendarDatesDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDatesDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
+	<bean id="payCalendarDao"
+		class="org.kuali.hr.time.paycalendar.dao.PayCalendarDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
 
-    <bean id="timesheetDocumentHeaderDao" class="org.kuali.hr.time.workflow.dao.TimesheetDocumentHeaderDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
-    
-    <bean id="dailyOvertimeRuleDao" class="org.kuali.hr.time.overtime.daily.rule.dao.DailyOvertimeRuleDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
+	<bean id="payCalendarDatesDao"
+		class="org.kuali.hr.time.paycalendar.dao.PayCalendarDatesDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
 
-    
-    <bean id="clockLocationDao" class="org.kuali.hr.time.clock.location.dao.ClockLocationDaoOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
-    
+	<bean id="timesheetDocumentHeaderDao"
+		class="org.kuali.hr.time.workflow.dao.TimesheetDocumentHeaderDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
 
-    <bean id="deptEarnCodeDao" class="org.kuali.hr.time.dept.earncode.dao.DepartmentEarnCodeDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
+	<bean id="dailyOvertimeRuleDao"
+		class="org.kuali.hr.time.overtime.daily.rule.dao.DailyOvertimeRuleDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
 
-    <bean id="earnCodeDao" class="org.kuali.hr.time.earncode.dao.EarnCodeDaoSpringOjbImpl">
-        <property name="jcdAlias" value="tkDataSource"/>
-    </bean>
-    
-    <bean id="timeCollectionRuleDao" class="org.kuali.hr.time.timecollection.rule.dao.TimeCollectionRuleDaoServiceImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
-    
-    <bean id="earnGroupDao" class="org.kuali.hr.time.earngroup.dao.EarnGroupDaoServiceImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
-    
-    <bean id="timeHourDetailDao" class="org.kuali.hr.time.timehourdetail.dao.TimeHourDetailDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
-    
-    <bean id="workScheduleDao" class="org.kuali.hr.time.workschedule.dao.WorkScheduleDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
-    
-    <bean id="weeklyOvertimeRuleDao" class="org.kuali.hr.time.overtime.weekly.rule.dao.WeeklyOvertimeRuleDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
-    
-    <bean id="shiftDifferentialRuleDao" class="org.kuali.hr.time.shiftdiff.rule.dao.ShiftDifferentialRuleDaoSpringOjbImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
-    
-    <bean id="gracePeriodDao" class="org.kuali.hr.time.graceperiod.dao.GracePeriodDaoImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
-    
-    <bean id="systemLunchRuleDao" class="org.kuali.hr.time.syslunch.dao.SystemLunchRuleDaoImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
-    
-    <bean id="deptLunchRuleDao" class="org.kuali.hr.time.dept.lunch.dao.DepartmentLunchRuleDaoImpl">
-    	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>
+
+	<bean id="clockLocationDao"
+		class="org.kuali.hr.time.clock.location.dao.ClockLocationDaoOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
+
+
+	<bean id="deptEarnCodeDao"
+		class="org.kuali.hr.time.dept.earncode.dao.DepartmentEarnCodeDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
+
+	<bean id="earnCodeDao" class="org.kuali.hr.time.earncode.dao.EarnCodeDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
+
+	<bean id="timeCollectionRuleDao"
+		class="org.kuali.hr.time.timecollection.rule.dao.TimeCollectionRuleDaoServiceImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
+
+	<bean id="earnGroupDao" class="org.kuali.hr.time.earngroup.dao.EarnGroupDaoServiceImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
+
+	<bean id="timeHourDetailDao"
+		class="org.kuali.hr.time.timehourdetail.dao.TimeHourDetailDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
+
+	<bean id="workScheduleDao"
+		class="org.kuali.hr.time.workschedule.dao.WorkScheduleDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
+
+	<bean id="weeklyOvertimeRuleDao"
+		class="org.kuali.hr.time.overtime.weekly.rule.dao.WeeklyOvertimeRuleDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
+
+	<bean id="shiftDifferentialRuleDao"
+		class="org.kuali.hr.time.shiftdiff.rule.dao.ShiftDifferentialRuleDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
+
+	<bean id="gracePeriodDao" class="org.kuali.hr.time.graceperiod.dao.GracePeriodDaoImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
+
+	<bean id="systemLunchRuleDao" class="org.kuali.hr.time.syslunch.dao.SystemLunchRuleDaoImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
+
+	<bean id="deptLunchRuleDao"
+		class="org.kuali.hr.time.dept.lunch.dao.DepartmentLunchRuleDaoImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
+	
+	<bean id="holidayCalendarDao"
+		class="org.kuali.hr.time.holidaycalendar.dao.HolidayCalendarDaoImpl">
+		<property name="jcdAlias" value="tkDataSource" />
+	</bean>
 	<!-- Time Services for Business Logic -->
-	
-	<bean id="deptLunchRuleService" class="org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleServiceImpl">
-		<property name="deptLunchRuleDao" ref="deptLunchRuleDao"/>
+
+	<bean id="deptLunchRuleService"
+		class="org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleServiceImpl">
+		<property name="deptLunchRuleDao" ref="deptLunchRuleDao" />
 	</bean>
-	
-	<bean id="systemLunchRuleService" class="org.kuali.hr.time.syslunch.service.SystemLunchRuleServiceImpl">
-		<property name="systemLunchRuleDao" ref="systemLunchRuleDao"/>
+
+	<bean id="systemLunchRuleService"
+		class="org.kuali.hr.time.syslunch.service.SystemLunchRuleServiceImpl">
+		<property name="systemLunchRuleDao" ref="systemLunchRuleDao" />
 	</bean>
+
+	<bean id="gracePeriodService"
+		class="org.kuali.hr.time.graceperiod.service.GracePeriodServiceImpl">
+		<property name="gracePeriodDao" ref="gracePeriodDao" />
+	</bean>
+
+	<bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
+		<property name="clockLogDao" ref="clockLogDao" />
+	</bean>
+
+
+	<bean id="clockLocationService"
+		class="org.kuali.hr.time.clock.location.service.ClockLocationRuleServiceImpl">
+		<property name="clockLocationDao" ref="clockLocationDao" />
+	</bean>
+
+
+	<bean id="workScheduleService"
+		class="org.kuali.hr.time.workschedule.service.WorkScheduleServiceImpl">
+		<property name="workScheduleDao" ref="workScheduleDao" />
+	</bean>
+
+	<bean id="weeklyOvertimeRuleService"
+		class="org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleServiceImpl">
+		<property name="weeklyOvertimeRuleDao" ref="weeklyOvertimeRuleDao" />
+	</bean>
+
+	<bean id="shiftDifferentialRuleService"
+		class="org.kuali.hr.time.shiftdiff.rule.service.ShiftDifferentialRuleServiceImpl">
+		<property name="shiftDifferentialRuleDao" ref="shiftDifferentialRuleDao" />
+	</bean>
+
+	<bean id="dailyOvertimeRuleService"
+		class="org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleServiceImpl">
+		<property name="dailyOvertimeRuleDao" ref="dailyOvertimeRuleDao" />
+	</bean>
+
+	<bean id="timeCollectionRuleService"
+		class="org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleServiceImpl">
+		<property name="timeCollectRuleDao" ref="timeCollectionRuleDao" />
+	</bean>
+
+	<bean id="assignmentService"
+		class="org.kuali.hr.time.assignment.service.AssignmentServiceImpl">
+		<property name="assignmentDao" ref="assignmentDao" />
+	</bean>
+
+	<bean id="timeBlockService"
+		class="org.kuali.hr.time.timeblock.service.TimeBlockServiceImpl">
+		<property name="timeBlockDao" ref="timeBlockDao" />
+	</bean>
+
+	<bean id="timeBlockHistoryService"
+		class="org.kuali.hr.time.timeblock.service.TimeBlockHistoryServiceImpl">
+		<property name="timeBlockHistoryDao" ref="timeBlockHistoryDao" />
+	</bean>
+
+	<bean id="jobService" class="org.kuali.hr.job.service.JobServiceImpl">
+		<property name="jobDao" ref="jobDao" />
+	</bean>
+
+	<bean id="payTypeService" class="org.kuali.hr.time.paytype.service.PayTypeServiceImpl">
+		<property name="payCalendarService" ref="payCalendarService" />
+		<property name="payTypeDao" ref="payTypeDao" />
+	</bean>
+
+	<bean id="tkRoleService" class="org.kuali.hr.time.roles.service.TkRoleServiceImpl">
+		<property name="tkRoleDao" ref="tkRoleDao" />
+	</bean>
+
+	<bean id="payCalendarService"
+		class="org.kuali.hr.time.paycalendar.service.PayCalendarServiceImpl">
+		<property name="payCalendarDao" ref="payCalendarDao" />
+	</bean>
+
+	<bean id="payCalendarDatesService"
+		class="org.kuali.hr.time.paycalendar.service.PayCalendarDatesServiceImpl">
+		<property name="payCalendarDatesDao" ref="payCalendarDatesDao" />
+	</bean>
+
+	<bean id="timesheetDocumentHeaderService"
+		class="org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderServiceImpl">
+		<property name="timesheetDocumentHeaderDao" ref="timesheetDocumentHeaderDao" />
+	</bean>
+
+	<bean id="workAreaService" class="org.kuali.hr.time.workarea.service.WorkAreaServiceImpl">
+		<property name="workAreaDao" ref="workAreaDao" />
+	</bean>
+
+	<bean id="timesheetService"
+		class="org.kuali.hr.time.timesheet.service.TimesheetServiceImpl">
+	</bean>
+
+	<bean id="deptEarnCodeService"
+		class="org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeServiceImpl">
+		<property name="deptEarnCodeDao" ref="deptEarnCodeDao" />
+	</bean>
+
+	<bean id="earnCodeService" class="org.kuali.hr.time.earncode.service.EarnCodeServiceImpl">
+		<property name="earnCodeDao" ref="earnCodeDao" />
+	</bean>
+
+	<bean id="earnGroupService"
+		class="org.kuali.hr.time.earngroup.service.EarnGroupServiceImpl">
+		<property name="earnGroupDao" ref="earnGroupDao" />
+	</bean>
+
+	<bean id="timeHourDetailService"
+		class="org.kuali.hr.time.timehourdetail.service.TimeHourDetailServiceImpl">
+		<property name="timeHourDetailDao" ref="timeHourDetailDao" />
+	</bean>
+
+	<bean id="timeSummaryService"
+		class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl" />
+
+	<bean id="holidayCalendarService"
+		class="org.kuali.hr.time.holidaycalendar.service.HolidayCalendarServiceImpl" />
 	
-    <bean id="gracePeriodService" class="org.kuali.hr.time.graceperiod.service.GracePeriodServiceImpl">
-    	<property name="gracePeriodDao" ref="gracePeriodDao"/>
-    </bean>
+	
+	<bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
+	</bean>
 
-    <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
-    	<property name="clockLogDao" ref="clockLogDao"/>
-    </bean>
+	<bean id="tkRuleControllerService" class="org.kuali.hr.time.rule.TkRuleControllerServiceImpl" />
 
-    
-    <bean id="clockLocationService" class="org.kuali.hr.time.clock.location.service.ClockLocationRuleServiceImpl">
-    	<property name="clockLocationDao" ref="clockLocationDao"/>
-    </bean>
-    
-    
-    <bean id="workScheduleService" class="org.kuali.hr.time.workschedule.service.WorkScheduleServiceImpl">
-    	<property name="workScheduleDao" ref="workScheduleDao"/>
-    </bean>
-    
-    <bean id="weeklyOvertimeRuleService" class="org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleServiceImpl">
-    	<property name="weeklyOvertimeRuleDao" ref="weeklyOvertimeRuleDao"/>
-    </bean>
-    
-    <bean id="shiftDifferentialRuleService" class="org.kuali.hr.time.shiftdiff.rule.service.ShiftDifferentialRuleServiceImpl">
-    	<property name="shiftDifferentialRuleDao" ref="shiftDifferentialRuleDao"/>
-    </bean>
-    
-    <bean id="dailyOvertimeRuleService" class="org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleServiceImpl">
-    	<property name="dailyOvertimeRuleDao" ref="dailyOvertimeRuleDao"/>
-    </bean>
-    
-    <bean id="timeCollectionRuleService" class="org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleServiceImpl">
-    	<property name="timeCollectRuleDao" ref="timeCollectionRuleDao"/>
-    </bean>
+	<bean id="workAreaQualifierRoleTypeService"
+		class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService" />
 
-    <bean id="assignmentService" class="org.kuali.hr.time.assignment.service.AssignmentServiceImpl">
-    	<property name="assignmentDao" ref="assignmentDao"/>
-    </bean>
+	<bean id="workAreaLookupableHelperService" class="org.kuali.hr.time.workarea.web.WorkAreaLookupableHelper" />
+	<bean id="workAreaLookupable" class="org.kuali.hr.time.workarea.web.WorkAreaLookupableImpl">
+		<property name="lookupableHelperService">
+			<ref bean="workAreaLookupableHelperService" />
+		</property>
+	</bean>
 
-    <bean id="timeBlockService" class="org.kuali.hr.time.timeblock.service.TimeBlockServiceImpl">
-    	<property name="timeBlockDao" ref="timeBlockDao"/>
-    </bean>
-
-    <bean id="timeBlockHistoryService" class="org.kuali.hr.time.timeblock.service.TimeBlockHistoryServiceImpl">
-    	<property name="timeBlockHistoryDao" ref="timeBlockHistoryDao"/>
-    </bean>
-
-    <bean id="jobService" class="org.kuali.hr.job.service.JobServiceImpl">
-    	<property name="jobDao" ref="jobDao"/>
-    </bean>
-
-    <bean id="payTypeService" class="org.kuali.hr.time.paytype.service.PayTypeServiceImpl">
-    	<property name="payCalendarService" ref="payCalendarService"/>
-    	<property name="payTypeDao" ref="payTypeDao"/>
-    </bean>
-    
-    <bean id="tkRoleService" class="org.kuali.hr.time.roles.service.TkRoleServiceImpl">
-    	<property name="tkRoleDao" ref="tkRoleDao"/>
-    </bean>
-
-    <bean id="payCalendarService" class="org.kuali.hr.time.paycalendar.service.PayCalendarServiceImpl">
-    	<property name="payCalendarDao" ref="payCalendarDao"/>
-    </bean>
-
-    <bean id="payCalendarDatesService" class="org.kuali.hr.time.paycalendar.service.PayCalendarDatesServiceImpl">
-    	<property name="payCalendarDatesDao" ref="payCalendarDatesDao"/>
-    </bean>
-
-    <bean id="timesheetDocumentHeaderService" class="org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderServiceImpl">
-    	<property name="timesheetDocumentHeaderDao" ref="timesheetDocumentHeaderDao"/>
-    </bean>
-
-    <bean id="workAreaService" class="org.kuali.hr.time.workarea.service.WorkAreaServiceImpl">
-    	<property name="workAreaDao" ref="workAreaDao"/>
-    </bean>
-
-    <bean id="timesheetService" class="org.kuali.hr.time.timesheet.service.TimesheetServiceImpl">
-    </bean>
-
-    <bean id="deptEarnCodeService" class="org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeServiceImpl">
-    	<property name="deptEarnCodeDao" ref="deptEarnCodeDao"/>
-    </bean>
-
-    <bean id="earnCodeService" class="org.kuali.hr.time.earncode.service.EarnCodeServiceImpl">
-    	<property name="earnCodeDao" ref="earnCodeDao"/>
-    </bean>
-    
-    <bean id="earnGroupService" class="org.kuali.hr.time.earngroup.service.EarnGroupServiceImpl">
-    	<property name="earnGroupDao" ref="earnGroupDao"/>
-    </bean>
-    
-    <bean id="timeHourDetailService" class="org.kuali.hr.time.timehourdetail.service.TimeHourDetailServiceImpl">
-    	<property name="timeHourDetailDao" ref="timeHourDetailDao"/>
-    </bean>
-    
-    <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>
-
-    <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
-    </bean>
-
-    <bean id="tkRuleControllerService" class="org.kuali.hr.time.rule.TkRuleControllerServiceImpl"/>
-
-	<bean id="workAreaQualifierRoleTypeService" class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
-
-    <bean id="workAreaLookupableHelperService" class="org.kuali.hr.time.workarea.web.WorkAreaLookupableHelper"/>
-    <bean id="workAreaLookupable" class="org.kuali.hr.time.workarea.web.WorkAreaLookupableImpl">
-    	<property name="lookupableHelperService">
-    		<ref bean="workAreaLookupableHelperService"/>
-    	</property>
-    </bean>
-    
-    <!-- Scheduler configuration -->
+	<!-- Scheduler configuration -->
 	<!-- Serializer service -->
-	<bean id="timeBlockSerializerService" class="org.kuali.hr.time.scheduler.TimeBlockSerializerService"/>
+	<bean id="timeBlockSerializerService" class="org.kuali.hr.time.scheduler.TimeBlockSerializerService" />
 	<!-- Serializer Job Bean-->
-	<bean id="timeBlockSerializerJobBean" class="org.kuali.hr.time.scheduler.TimeBlockSerializerJobBean" scope="singleton">
-        <property name="timeBlockSerializerService" ref="timeBlockSerializerService" />
-    </bean>
-    <!-- Serializer Job -->
-    <bean id="serializerJob" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="org.kuali.hr.time.scheduler.TimeBlockSerializerJobBean"/>
-    </bean>
-    <!-- Serializer Job Trigger-->
-    <bean id="serializerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="serializerJob" />
-       <!-- cronTrigger to be executed at future date it is explicitly set temporarily just to avoid execution for now -->
-        <property name="cronExpression" value="0 53 17 8 9 ? 2020" />
-    </bean>    
-    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="triggers">
-            <list>
-                <ref bean="serializerTrigger" />
-            </list>
-        </property>
-    </bean>
-     
-     
+	<bean id="timeBlockSerializerJobBean" class="org.kuali.hr.time.scheduler.TimeBlockSerializerJobBean"
+		scope="singleton">
+		<property name="timeBlockSerializerService" ref="timeBlockSerializerService" />
+	</bean>
+	<!-- Serializer Job -->
+	<bean id="serializerJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass"
+			value="org.kuali.hr.time.scheduler.TimeBlockSerializerJobBean" />
+	</bean>
+	<!-- Serializer Job Trigger-->
+	<bean id="serializerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="serializerJob" />
+		<!--
+			cronTrigger to be executed at future date it is explicitly set
+			temporarily just to avoid execution for now
+		-->
+		<property name="cronExpression" value="0 53 17 8 9 ? 2020" />
+	</bean>
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="serializerTrigger" />
+			</list>
+		</property>
+	</bean>
+
+
 </beans>

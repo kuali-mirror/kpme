@@ -3,4 +3,13 @@ See following JIRA issues
 
 1. https://jira.kuali.org/browse/KULRICE-2810
 2. https://jira.kuali.org/browse/KULRICE-3897
- 
+
+
+
+- move config folder out of source folders  
+- junits dont work
+- code formatting and coding standards
+- spring reconfig
+- cache is weird... why clone objects returned? why have a needs refresh exception? if object timed out its not there anymore (OSCache specific?)
+- why use OSCache(last update 2007 http://www.opensymphony.com/oscache/download.action)? not EHCache
+- 
