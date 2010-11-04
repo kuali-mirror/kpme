@@ -183,9 +183,11 @@ $(document).ready(function() {
     // show-hide earn codes in the approval page
     $("#fran-button").click(function() {
         $(".fran").toggle();
+        $("#fran-button span").toggleClass('ui-icon-minus');
     });
     $("#frank-button").click(function() {
         $(".frank").toggle();
+        $("#frank-button span").toggleClass('ui-icon-minus');
     });
     // apply time entry widget to the tabular view
     $(".timesheet-table-week1 :input, .timesheet-table-week2 :input").blur(function(){

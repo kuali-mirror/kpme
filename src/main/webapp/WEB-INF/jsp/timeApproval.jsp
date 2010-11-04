@@ -21,10 +21,10 @@
 			    </td>
 			     -->
 			</tr>
-			<tr class="ui-widget-header" style="border:none; white-space: nowrap;">
-				<td style="border: none; background: #EEEEEE;"></td>
-				<td style="border: none; background: #EEEEEE;"></td>
-				<td style="border: none; background: #EEEEEE;"></td>
+			<tr class="ui-state-default" style="border:none;">
+				<td style="border: none;"></td>
+				<td style="border: none;"></td>
+				<td style="border: none;"></td>
 				<td>11/1</td>
 				<td>11/2</td>
 				<td>11/3</td>
@@ -48,26 +48,26 @@
 
 			<tr class="fran-main">
 			    <td style="border: none;"><button class="expand" id="fran-button"></td>
-				<td style="border: none;"></button><a href="TimeApproval.do?backdoorId=fran">Fran</a> <br/> (assignment #1)</td>
+				<td style="border: none;"></button><a href="TimeApproval.do?backdoorId=fran">Fran</a></td>
                 <td style="border: none;">Worked Hours</td>				
-				<td style="font-size: 30.0px;">4</td>
-				<td style="font-size: 30.0px;">4</td>
-				<td style="font-size: 30.0px;">4</td>
-				<td style="font-size: 30.0px;">4</td>
+				<td>4.00</td>
+				<td>4.00</td>
+				<td>4.00</td>
+				<td>4.00</td>
 				<td></td>
 				<td></td>
 				<td></td>
-				<td style="font-size: 30.0px;">16</td>
-				<td style="font-size: 30.0px;">4</td>
-				<td style="font-size: 30.0px;">4</td>
+				<td>16.00</td>
+				<td>4.00</td>
+				<td>4.00</td>
 				<td></td>
 				<td></td>
-				<td style="font-size: 30.0px;">4</td>
-				<td style="font-size: 30.0px;">4</td>
+				<td>4.00</td>
+				<td>4.00</td>
 				<td></td>
-				<td style="font-size: 30.0px;">16</td>
-				<td style="font-size: 30.0px;">32</td>
-				<td style="font-size: 30.0px;">Approved</td>
+				<td>16.00</td>
+				<td>32.00</td>
+				<td>Approved</td>
 				<td align="center"><!-- <input type="checkbox" name="selectedEmpl" />  --></td>
 			</tr>
 			
@@ -75,48 +75,48 @@
 			    <td style="border: none;"></td>
                 <td style="border: none;"></td>
                 <td style="border: none;">RGH</td>
-                <td style="font-size: 30.0px;">4</td>
-                <td style="font-size: 30.0px;">4</td>
-                <td style="font-size: 30.0px;">4</td>
-                <td style="font-size: 30.0px;">4</td>
+                <td>4.00</td>
+                <td>4.00</td>
+                <td>4.00</td>
+                <td>4.00</td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="font-size: 30.0px;">16</td>
-                <td style="font-size: 30.0px;">4</td>
-                <td style="font-size: 30.0px;">4</td>
+                <td>16.00</td>
+                <td>4.00</td>
+                <td>4.00</td>
                 <td></td>
                 <td></td>
-                <td style="font-size: 30.0px;">4</td>
-                <td style="font-size: 30.0px;">4</td>
+                <td>4.00</td>
+                <td>4.00</td>
                 <td></td>
-                <td style="font-size: 30.0px;">16</td>
-                <td style="font-size: 30.0px;">32</td>
+                <td>16.00</td>
+                <td>32.00</td>
                 <td></td>
                 <td></td>
             </tr>
             
 			<tr class="frank-main">
 			    <td style="border: none;"><button class="expand" id="frank-button"></td>
-				<td style="border: none;"><a href="TimeApproval.do?backdoorId=frank">Frank</a> <br/> (assignment #2)</td>
+				<td style="border: none;"><a href="TimeApproval.do?backdoorId=frank">Frank</a></td>
 				<td style="border: none;">Worked Hours</td>
-				<td style="font-size: 30.0px;">3</td>
-				<td style="font-size: 30.0px;">4</td>
-				<td style="font-size: 30.0px;">2</td>
-				<td style="font-size: 30.0px;"> 4</td>
-				<td style="font-size: 30.0px;"> 4</td>
+				<td>3.00</td>
+				<td>4.00</td>
+				<td>2.00</td>
+				<td>4.00</td>
+				<td>4.00</td>
 				<td></td>
 				<td></td>
-				<td style="font-size: 30.0px;">9</td>
-				<td style="font-size: 30.0px;">4</td>
-				<td style="font-size: 30.0px;"> 4</td>
+				<td>17.00</td>
+				<td>4.00</td>
+				<td>4.00</td>
 				<td></td>
 				<td></td>
-				<td style="font-size: 30.0px;">4</td>
+				<td>4.00</td>
 				<td></td>
 				<td></td>
-				<td style="font-size: 30.0px;">8</td>
-				<td style="font-size: 30.0px;">17</td>
+				<td>12.00</td>
+				<td>29.00</td>
 			    <td></td>
                 <td align="center"><input type="checkbox" name="selectedEmpl" /></td>
 			</tr>
@@ -125,23 +125,23 @@
 			    <td style="border: none;"></td>
 				<td style="border: none;"></td>
 				<td style="border: none;">RGH</td>
-				<td style="font-size: 30.0px;">3</td>
-				<td style="font-size: 30.0px;">4</td>
-				<td style="font-size: 30.0px;">2</td>
-				<td style="font-size: 30.0px;"></td>
+				<td>3.00</td>
+				<td>4.00</td>
+				<td>2.00</td>
+				<td>4.00</td>
+				<td>4.00</td>
 				<td></td>
 				<td></td>
-				<td></td>
-				<td style="font-size: 30.0px;">9</td>
-				<td style="font-size: 30.0px;">4</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td style="font-size: 30.0px;">4</td>
+				<td>17.00</td>
+				<td>4.00</td>
+				<td>4.00</td>
 				<td></td>
 				<td></td>
-				<td style="font-size: 30.0px;">8</td>
-				<td style="font-size: 30.0px;">17</td>
+				<td>4.00</td>
+				<td></td>
+				<td></td>
+				<td>12.00</td>
+				<td>29.00</td>
                 <td></td>
                 <td></td>
 			</tr>
@@ -153,20 +153,20 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<td style="font-size: 30.0px;">4</td>
-				<td style="font-size: 30.0px;">4</td>
+				<td>4.00</td>
+				<td>4.00</td>
 				<td></td>
 				<td></td>
-				<td style="font-size: 30.0px;">8</td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td>8.00</td>
 				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
-				<td style="font-size: 30.0px;">0</td>
-				<td style="font-size: 30.0px;">8</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>0.00</td>
+				<td>8.00</td>
                 <td></td>
                 <td></td>
 			</tr>
@@ -178,22 +178,21 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<td style="font-size: 30.0px;">4</td>
+				<td>4.00</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>4.00</td>
+				<td></td>
+				<td></td>
+				<td>4.00</td>
 				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
-				<td style="font-size: 30.0px;">0</td>
+				<td>4.00</td>
+				<td>8.00</td>
 				<td></td>
-				<td style="font-size: 30.0px;">4</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td style="font-size: 30.0px;">4</td>
-				<td style="font-size: 30.0px;">4</td>
-                <td></td>
                 <td></td>
 			</tr>
 
