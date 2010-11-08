@@ -56,7 +56,7 @@ public class TkTestUtils {
 		cal.set(Calendar.MINUTE, 0);
 		timeBlock.setBeginTimestamp(new Timestamp(cal.getTimeInMillis()));
 		timeBlock.setBeginTimestampTimezone("EST");
-		timeBlock.setEarnCode("REG");
+		timeBlock.setEarnCode("RGN");
 		timeBlock.setHours((new BigDecimal(numHours)).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING));
 		cal.add(Calendar.HOUR, numHours);
 		timeBlock.setEndTimestamp(new Timestamp(cal.getTimeInMillis()));

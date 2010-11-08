@@ -113,10 +113,11 @@ public class ClockLocationRuleTest extends TkTestCase {
     		assertEquals(true, crule.isActive());
     	}
 
-    	matchMap = new HashMap<String, Object>();
-    	matchMap.put("dept", "TEST");
-    	found = boService.findMatching(ClockLocationRule.class, matchMap);
-    	assertEquals(2, found.size());
+	matchMap = new HashMap<String, Object>();
+	matchMap.put("dept", "TEST");
+	found = boService.findMatching(ClockLocationRule.class, matchMap);
+	assertEquals(2, found.size());
+
     }
     
     @Test

@@ -1,12 +1,13 @@
 package org.kuali.hr.time.web;
 
+import org.junit.Ignore;
 import org.openqa.selenium.server.SeleniumServer;
 
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.SeleneseTestCase;
 import com.thoughtworks.selenium.Selenium;
 
-
+@Ignore
 public class UICalendarTest extends SeleneseTestCase {
 
 	private static final String BASE_URL = "http://localhost:8080/tk-dev/";

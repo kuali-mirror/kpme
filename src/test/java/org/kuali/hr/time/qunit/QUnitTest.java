@@ -71,8 +71,8 @@ public class QUnitTest extends TkTestCase {
         synchronized (page) {
             page.wait(5000);
         }
-		HtmlElement element = page.getHtmlElementById("qunit-testresult");
-
+        HtmlUnitUtil.createTempFile(page);
+		HtmlElement element = page.getHtmlElementById("qunit-tests");
 		if (element.asText().indexOf("0 tests of 0") != -1)
 			failures.add(file.getName() + " - No tests were run - " + element.asText());
 		else if (element.asText().indexOf("0 failed") == -1)

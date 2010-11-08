@@ -87,7 +87,7 @@ public class DailyOvertimeRuleMaintenanceTest extends TkTestCase{
 		dailyOvertimeRule.setActive(true);
 		dailyOvertimeRule.setEffectiveDate(TEST_DATE);
 		dailyOvertimeRule.setLocation(TEST_CODE);
-		dailyOvertimeRule.setMaxGap(TEST_NO);
+		dailyOvertimeRule.setMaxGap(new BigDecimal(0));
 		dailyOvertimeRule.setUserPrincipalId(TEST_CODE);
 		dailyOvertimeRule.setPaytype(TEST_CODE);
 		dailyOvertimeRule.setOvertimePref(TEST_CODE);

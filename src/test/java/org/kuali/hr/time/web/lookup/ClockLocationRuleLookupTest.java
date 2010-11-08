@@ -57,7 +57,7 @@ public class ClockLocationRuleLookupTest extends TkTestCase {
     	form = page.getFormByName("KualiForm");
     	assertNotNull("Search form was missing from page.", form);
     	HtmlUnitUtil.createTempFile(page);
-    	form.getInputByName("deptId").setValueAttribute("20");
+    	form.getInputByName("dept").setValueAttribute("20");
     	input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.search");
     	assertNotNull("Could not locate search submit button", input);
     	page = (HtmlPage) input.click();

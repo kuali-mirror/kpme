@@ -61,7 +61,7 @@ public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 		shiftDifferentialRule.setDay4(true);
 		shiftDifferentialRule.setDay5(true);
 		shiftDifferentialRule.setDay6(true);
-		
+		shiftDifferentialRule.setCalendarGroup("TEST");	
 		
 		
 		KNSServiceLocator.getBusinessObjectService().save(shiftDifferentialRule);
