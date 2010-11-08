@@ -57,9 +57,13 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 		if (request != null) {
 			UserSession userSession = UserLoginFilter.getUserSession(request);
 			TKUser tkUser = new TKUser();
-			Person backdoorPerson = userSession.getBackdoorPerson();
-			Person person = userSession.getActualPerson();
-
+			Person person = null;
+			Person backdoorPerson = null;
+			if(userSession!=null){
+				backdoorPerson = userSession.getBackdoorPerson();
+				person = userSession.getActualPerson();
+			}
+			
 			// Check for test mode; if not test mode check for backDoor validity.
 			if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("test.mode"))) {
 				request.setAttribute("principalName", TkLoginFilter.TEST_ID);
