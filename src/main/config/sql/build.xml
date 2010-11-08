@@ -50,7 +50,7 @@
 				<fileset dir="./${db.schema}" includes="*.sql" />
 			</path>
 			<sequential>
-				
+
 				<propertyregex override="yes" property="file.num" input="@{file}" regexp=".*?${my.file.seperator}(\d*)-.*?" select="\1" casesensitive="false" />
 				<propertyregex override="yes" property="sql.version" input="@{file}" regexp=".*?-(\d\.\d\.\d)-.*?" select="\1" casesensitive="false" />
 				<versionComparator appVersion="${app.version}" sqlVersion="${sql.version}" resultVar="result.var" />
@@ -72,7 +72,7 @@
 		<echo>${db.url}${db.schema}</echo>
 		<sql driver="${db.driver}" url="${db.url}" userid="${db.user}" password="${db.password}" classpathref="mysql.classpath">
 			DROP DATABASE IF EXISTS ${db.schema};
-			
+
 			CREATE DATABASE IF NOT EXISTS ${db.schema};
 			USE ${db.schema};
 			CREATE TABLE IF NOT EXISTS changelog (
@@ -89,7 +89,7 @@
 		- first calls create-changelong-table task
 		- then calls prepare update task
 		- then calls actually dbdeploy to do the magic
-		- creates out sql files that hold all the statements needed for this patricular version 
+		- creates out sql files that hold all the statements needed for this patricular version
 	-->
 	<target name="create-database-scripts" description="generate a sql upgrade script" depends="create-changelog-table, prepare-update">
 		<var name="app.db.script" value="database-schema-${db.schema}-${app.version}.sql" />
@@ -102,7 +102,7 @@
 		- first calls create-changelong-table task
 		- then calls prepare update task
 		- then calls actually dbdeploy to do the magic
-		- creates out sql files that hold all the statements needed for this patricular version 
+		- creates out sql files that hold all the statements needed for this patricular version
 	-->
 	<target name="create-and-apply-database" description="generate a sql upgrade script" depends="create-changelog-table, prepare-update">
 		<var name="app.db.script" value="database-schema-${db.schema}-${app.version}.sql" />
@@ -117,7 +117,7 @@
 										 <argument>-Dapp.version=${project.version}</argument>
 										 <argument>-Denvironment=${environment}</argument>
 		- checks all folders in this directory that the build.xml (this file) is and iterates over them
-		- for each folder call the create-and-apply-database or create-database-scripts task  (depending on the environment) to create the databases for each schema										 
+		- for each folder call the create-and-apply-database or create-database-scripts task  (depending on the environment) to create the databases for each schema
 	-->
 	<target name="dbdeploy-maven">
 		<if>
@@ -135,7 +135,7 @@
 			</path>
 			<sequential>
 				<var name="schema.name" value="-1" />
-				
+
 				<propertyregex override="yes" property="schema.name" input="@{folder}" regexp=".*?sql${my.file.seperator}(.*)" select="\1" casesensitive="false" />
 				<if>
 					<not>
