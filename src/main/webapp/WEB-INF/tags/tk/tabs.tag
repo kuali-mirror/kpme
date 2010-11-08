@@ -1,5 +1,6 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
+<div id="tab-section">
 <c:if test="${Form.user.systemAdmin}">
     <li id="admin" class="ui-state-default ui-corner-top"><a href="Admin.do">Admin</a></li>
 </c:if>
@@ -13,3 +14,4 @@
 	 <li id="clock" class="ui-state-default ui-corner-top"><a href="Clock.do">Clock</a></li>
   </c:if>
 </c:if>
+</div>

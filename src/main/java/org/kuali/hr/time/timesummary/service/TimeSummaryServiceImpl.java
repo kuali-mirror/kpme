@@ -1,24 +1,29 @@
 package org.kuali.hr.time.timesummary.service;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earngroup.EarnGroup;
+import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.timesummary.AssignmentRow;
+import org.kuali.hr.time.timesummary.EarnGroupSection;
 import org.kuali.hr.time.timesummary.TimeSummary;
-import org.kuali.hr.time.timesummary.TimeSummaryRow;
-import org.kuali.hr.time.timesummary.TimeSummarySection;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
 public class TimeSummaryServiceImpl implements TimeSummaryService{
 
@@ -29,215 +34,160 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 		if(timesheetDocument.getTimeBlocks() == null) {
 			return timeSummary;
 		}
+		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getPayCalendarEntry()));
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getPayCalendarEntry());
+		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
+		timeSummary.setSections(buildSummarySections(tkTimeBlockAggregate,timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime(),timesheetDocument));
 		
-		timeSummary.setPayBeginDate(timesheetDocument.getPayCalendarEntry()
-				.getBeginPeriodDateTime());
-		timeSummary.setPayEndDate(timesheetDocument.getPayCalendarEntry()
-				.getEndPeriodDateTime());
-		timeSummary.setNumberOfDays(TKUtils.getDaysBetween(timeSummary
-				.getPayBeginDate(), timeSummary.getPayEndDate()));
-
-		Map<String, String> dateToDateDescrMap = new HashMap<String, String>();
-
-		Map<String, TimeSummarySection> earnGroupToSection = new HashMap<String, TimeSummarySection>();
-
-		// Iterate over date range and setup a map of days to day strings
+		return timeSummary;
+	}
+	
+	private List<BigDecimal> getWorkedHours(TkTimeBlockAggregate timeBlockAggregate){
+		List<BigDecimal> workedHours = new ArrayList<BigDecimal>();
+		int dayCount = 1;
+		BigDecimal weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+		BigDecimal periodTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+		for(List<TimeBlock> lstDayTimeblocks : timeBlockAggregate.getDayTimeBlockList()){
+			BigDecimal totalForDay = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+			for(TimeBlock tb : lstDayTimeblocks){
+				totalForDay = totalForDay.add(tb.getHours(), TkConstants.MATH_CONTEXT);
+				weeklyTotal = weeklyTotal.add(tb.getHours(), TkConstants.MATH_CONTEXT);
+				periodTotal = periodTotal.add(tb.getHours(), TkConstants.MATH_CONTEXT);
+			}
+			workedHours.add(totalForDay);
+			if((dayCount % 7) == 0){
+				workedHours.add(weeklyTotal);
+				weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+			}
+			dayCount++;
+		}
+		workedHours.add(periodTotal);
+		return workedHours;
+	}
+	
+	private List<String> getHeaderForSummary(PayCalendarDates payEntry){
+		// Iterate over date range and setup a list for the header
 		Calendar payBeginCal = GregorianCalendar.getInstance();
 		Calendar payEndCal = GregorianCalendar.getInstance();
-
-		payBeginCal.setTime(timeSummary.getPayBeginDate());
-		payEndCal.setTime(timeSummary.getPayEndDate());
-
+		payBeginCal.setTime(payEntry.getBeginPeriodDateTime());
+		payEndCal.setTime(payEntry.getEndPeriodDateTime());
+		
+		List<String> summaryHeader = new ArrayList<String>();
+		
 		int dayCount = 1;
 		//Build up map for date to day description
 		while (payBeginCal.before(payEndCal) || payBeginCal.equals(payEndCal)) {
 			String displayName = (payBeginCal.get(Calendar.MONTH) + 1) + "/"
-					+ payBeginCal.get(Calendar.DAY_OF_MONTH);
-			Date dt = new Date(payBeginCal.getTime().getTime());
-			dateToDateDescrMap.put(dt.toString(), displayName);
-			timeSummary.getDateDescr().add(displayName);
+							+ payBeginCal.get(Calendar.DAY_OF_MONTH);
 			payBeginCal.add(Calendar.DAY_OF_MONTH, 1);
+			if(TKUtils.isVirtualWorkDay(payBeginCal)){	
+				displayName += " - " + (payBeginCal.get(Calendar.MONTH) + 1) + "/"
+								+ payBeginCal.get(Calendar.DAY_OF_MONTH);
+			}
+			summaryHeader.add(displayName);
 			//Add weekly total column
 			if ((dayCount % 7) == 0) {
-				timeSummary.getDateDescr().add("Week " + (dayCount / 7));
+				summaryHeader.add("Week " + (dayCount / 7));
 			}
 			dayCount++;
-
+		
 		}
 		// add period total column
-		timeSummary.getDateDescr().add("Period Total");
-
-		TimeSummaryRow workedHours = timeSummary.getWorkedHours();
-
+		summaryHeader.add("Period Total");
+		return summaryHeader;
+	}
+	
+	private List<EarnGroupSection> buildSummarySections(TkTimeBlockAggregate timeBlockAggregate, Date asOfDate, TimesheetDocument timesheetDocument){
+		Map<Integer,Map<String,BigDecimal>> dayToEarnGroupAssignToHoursMap = new HashMap<Integer,Map<String,BigDecimal>>();
+		Map<String,Set<String>> earnGroupToAssignmentSets = new HashMap<String,Set<String>>();
+		List<EarnGroupSection> lstEarnGroupSections = new ArrayList<EarnGroupSection>();
 		
-		
-		//Iterate over timeblocks /timehourdetails
-		for (TimeBlock timeBlock : timesheetDocument.getTimeBlocks()) {
-			for (TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {
-				// break timehourdetail into days
-				Map<Timestamp, BigDecimal> dateToHoursMap = TKUtils
-						.getDateToHoursMap(timeBlock, timeHourDetail);
-				// iterate over each timestamp days
-				for (Timestamp timestamp : dateToHoursMap.keySet()) {
-					Date day = new Date(timestamp.getTime());
-					String dayDescr = dateToDateDescrMap.get(day.toString());
-					// Setup worked hours
-					if (workedHours.getDayToHours().get(dayDescr) != null) {
-						BigDecimal currHours = workedHours.getDayToHours().get(
-								dayDescr);
-						currHours.add(dateToHoursMap.get(timestamp),
-								TkConstants.MATH_CONTEXT);
-						workedHours.getDayToHours().put(dayDescr, currHours);
-					} else {
-						workedHours.getDayToHours().put(dayDescr,
-								dateToHoursMap.get(timestamp));
-					}
+		int dayCount = 1;
 
-					EarnGroup earnGroup = TkServiceLocator
-							.getEarnGroupService()
-							.getEarnGroupSummaryForEarnCode(
-									timeHourDetail.getEarnCode(),
-									new Date(timeBlock.getBeginTimestamp()
-											.getTime()));
-
-					// setup other earn group to catch any earncodes not setup
-					// in summary
-					if (earnGroup == null) {
+		for(List<TimeBlock> timeBlocksForDay : timeBlockAggregate.getDayTimeBlockList()){
+			Map<String,BigDecimal> earnGroupAssignToHoursMap = null;
+			for(TimeBlock tb : timeBlocksForDay){
+				for(TimeHourDetail thd : tb.getTimeHourDetails()){
+					EarnGroup earnGroup = TkServiceLocator.getEarnGroupService().getEarnGroupForEarnCode(thd.getEarnCode(), TKUtils.getTimelessDate(asOfDate));
+					if(earnGroup == null){
 						earnGroup = new EarnGroup();
 						earnGroup.setEarnGroup("Other");
 					}
-
+					buildAssignmentSetForEarnGroup(earnGroupToAssignmentSets, tb.getAssignString(), earnGroup.getEarnGroup());
 					
-					Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument,timeBlock.getAssignString());
-					
-					// aggregate for each section
-					if (earnGroupToSection.get(earnGroup.getEarnGroup()) != null) {
-						TimeSummarySection timeSection = earnGroupToSection
-								.get(earnGroup.getEarnGroup());
-						TimeSummaryRow summaryRow = timeSection.getSummaryRow();
-						BigDecimal hrs = summaryRow.getDayToHours().get(
-								dayDescr);
-						if (hrs != null) {
-							hrs = hrs.add(dateToHoursMap.get(timestamp));
-						} else {
-							hrs = dateToHoursMap.get(timestamp);
-						}
-						summaryRow.getDayToHours().put(dayDescr, hrs);
-						summaryRow.setDescr(earnGroup.getEarnGroup());
-
-						TimeSummaryRow assignRow = timeSection
-								.getRowForAssignment(assign.getAssignmentDescription());
-						if (assignRow != null) {
-							BigDecimal assignHrs = assignRow.getDayToHours()
-									.get(dayDescr);
-							if (assignHrs != null) {
-								assignHrs = assignHrs.add(dateToHoursMap.get(timestamp), TkConstants.MATH_CONTEXT);
-								assignRow.getDayToHours().put(dayDescr,
-										assignHrs);
-							} else {
-								assignRow.getDayToHours().put(dayDescr,
-										dateToHoursMap.get(timestamp));
-							}
-						} else {
-							TimeSummaryRow tr = new TimeSummaryRow();
-							tr.setDescr(assign.getAssignmentDescription());
-							tr.getDayToHours().put(dayDescr,
-									dateToHoursMap.get(timestamp));
-							timeSection.getAssignRows().add(tr);
-						}
-					} else {
-						TimeSummarySection timeSection = new TimeSummarySection();
-						timeSection.setEarnGroup(earnGroup.getEarnGroup());
-						TimeSummaryRow summaryRow = timeSection.getSummaryRow();
-						BigDecimal currHrs = dateToHoursMap.get(timestamp);
-						summaryRow.setDescr(earnGroup.getEarnGroup());
-						summaryRow.getDayToHours().put(dayDescr, currHrs);
-						TimeSummaryRow assignRow = new TimeSummaryRow();
-						assignRow.setDescr(assign.getAssignmentDescription());
-						assignRow.getDayToHours().put(dayDescr,
-								dateToHoursMap.get(timestamp));
-						timeSection.getAssignRows().add(assignRow);
-						timeSummary.getSections().add(timeSection);
-						earnGroupToSection.put(earnGroup.getEarnGroup(),
-								timeSection);
-					}
+					String earnGroupAssignDescr = earnGroup.getEarnGroup()+"_"+tb.getAssignString();
+					earnGroupAssignToHoursMap = dayToEarnGroupAssignToHoursMap.get(dayCount); 
+					earnGroupAssignToHoursMap = buildTimeHourDetail(earnGroupAssignToHoursMap, thd.getHours(), earnGroupAssignDescr);
+					dayToEarnGroupAssignToHoursMap.put(dayCount, earnGroupAssignToHoursMap);
 				}
 			}
-		}
-		
-		dayCount = 1;
-		BigDecimal weeklyTotal = new BigDecimal(0.00);
-		BigDecimal sectionWeeklyTotal = new BigDecimal(0.00);
-		BigDecimal periodTotal = new BigDecimal(0.00);
-		Map<String,BigDecimal> assignRowToSummaryHours = new HashMap<String,BigDecimal>();
-		Map<String,BigDecimal> assignRowToPeriodTotalHours = new HashMap<String, BigDecimal>();
-		Map<String,BigDecimal> sectionToPeriodTotalHours = new HashMap<String, BigDecimal>();
-		
-		//Build up weekly totals for each summary row
-		for(String dateDescr : timeSummary.getDateDescr()){
-
-			BigDecimal hrs = timeSummary.getWorkedHours().getDayToHours().get(dateDescr);
-			if(hrs!=null){
-				weeklyTotal = weeklyTotal.add(hrs, TkConstants.MATH_CONTEXT);
-				periodTotal = periodTotal.add(hrs, TkConstants.MATH_CONTEXT);
-			}
-			if((dayCount % 7)==0){
-				timeSummary.getWorkedHours().getWeeklyTotals().add(weeklyTotal);
-				weeklyTotal = new BigDecimal(0);
-			}
-			
-			for(TimeSummarySection timeSection : timeSummary.getSections()){
-				BigDecimal sectionHrs = new BigDecimal(0.00);
-				if(sectionToPeriodTotalHours.get(timeSection.getEarnGroup())!=null){
-					sectionHrs = sectionToPeriodTotalHours.get(timeSection.getEarnGroup());
-				} 
-				
-
-				hrs = timeSection.getSummaryRow().getDayToHours().get(dateDescr);
-				if(hrs!=null){
-					sectionWeeklyTotal = sectionWeeklyTotal.add(hrs, TkConstants.MATH_CONTEXT);
-					sectionHrs = sectionHrs.add(hrs, TkConstants.MATH_CONTEXT);
-					sectionToPeriodTotalHours.put(timeSection.getEarnGroup(), sectionHrs);
-					timeSection.getSummaryRow().setPeriodTotal(sectionHrs);
-				}
-				
-				if((dayCount % 7)==0){
-					timeSection.getSummaryRow().getWeeklyTotals().add(sectionWeeklyTotal);
-					sectionWeeklyTotal = new BigDecimal(0);
-				}
-				
-				for(TimeSummaryRow assignRow : timeSection.getAssignRows()){
-					BigDecimal assignPeriodTotal = assignRow.getPeriodTotal() != null ? assignRow.getPeriodTotal() : new BigDecimal(0.00);
-					BigDecimal assignHrs = new BigDecimal(0.00);
-					
-					if(assignRowToPeriodTotalHours.get(assignRow.getDescr())!=null){
-						assignPeriodTotal = assignRowToPeriodTotalHours.get(assignRow.getDescr());
-					}
-					if(assignRowToSummaryHours.get(assignRow.getDescr())!=null){
-						assignHrs = assignRowToSummaryHours.get(assignRow.getDescr());
-					}
-
-					hrs = assignRow.getDayToHours().get(dateDescr);
-					if(hrs!=null){
-						assignHrs = assignHrs.add(hrs, TkConstants.MATH_CONTEXT);
-						assignRowToSummaryHours.put(assignRow.getDescr(), assignHrs);
-						assignPeriodTotal = assignPeriodTotal.add(assignHrs, TkConstants.MATH_CONTEXT);
-						assignRow.setPeriodTotal(assignPeriodTotal);
-					}
-					if((dayCount % 7)==0){
-						assignRow.getWeeklyTotals().add(assignHrs);
-						assignRowToSummaryHours.put(assignRow.getDescr(), BigDecimal.ZERO);
-					}
-				}
-			}
+			dayToEarnGroupAssignToHoursMap.put(dayCount, earnGroupAssignToHoursMap);
+			earnGroupAssignToHoursMap = null;
 			dayCount++;
 		}
 		
-		//Add period totals for each row
-		timeSummary.getWorkedHours().setPeriodTotal(periodTotal);
 		
-		return timeSummary;
+		for(String earnGroup : earnGroupToAssignmentSets.keySet()){
+			//for each assignment
+			EarnGroupSection earnGroupSection = new EarnGroupSection();
+			earnGroupSection.setEarnGroup(earnGroup);
+			for(String assignmentDescr : earnGroupToAssignmentSets.get(earnGroup)){
+				AssignmentRow assignRow = new AssignmentRow();
+				Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument,assignmentDescr);
+				assignRow.setDescr(assign.getAssignmentDescription());
+				BigDecimal weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+				BigDecimal periodTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+				for(int i = 1; i< dayToEarnGroupAssignToHoursMap.size()+1;i++){
+					Map<String,BigDecimal> earnGroupAssignToHoursMap = dayToEarnGroupAssignToHoursMap.get(i);
+					BigDecimal hrs = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+					if(earnGroupAssignToHoursMap != null && earnGroupAssignToHoursMap.get(earnGroup+"_"+assignmentDescr)!=null){
+						hrs = earnGroupAssignToHoursMap.get(earnGroup+"_"+assignmentDescr);
+					}
+					
+					assignRow.getTotal().add(hrs);
+					weeklyTotal = weeklyTotal.add(hrs,TkConstants.MATH_CONTEXT);
+					periodTotal = periodTotal.add(hrs, TkConstants.MATH_CONTEXT);
+					if((i % 7)== 0){
+						assignRow.getTotal().add(weeklyTotal);
+						weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+					}
+				}
+				assignRow.getTotal().add(periodTotal);
+				earnGroupSection.addAssignmentRow(assignRow);
+			}
+			lstEarnGroupSections.add(earnGroupSection);
+		}
+		
+		return lstEarnGroupSections;
+		
 	}
+	
+	private void buildAssignmentSetForEarnGroup(Map<String,Set<String>> earnGroupToAssignmentSets, String assignDescr,String earnGroup){
+		Set<String> assignmentSet = earnGroupToAssignmentSets.get(earnGroup);
+		if(assignmentSet == null){
+			assignmentSet = new HashSet<String>();
+		}
+		assignmentSet.add(assignDescr);
+		earnGroupToAssignmentSets.put(earnGroup, assignmentSet);
+	}
+	
+	
+	private Map<String,BigDecimal> buildTimeHourDetail(Map<String,BigDecimal> earnGroupAssignToHoursMap, BigDecimal hours, 
+															String earnGroupAssignDescr){
+		BigDecimal currentDayHrs = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+		if(earnGroupAssignToHoursMap == null){
+			earnGroupAssignToHoursMap = new HashMap<String,BigDecimal>();
+		} else {
+			if(earnGroupAssignToHoursMap.get(earnGroupAssignDescr)!=null){
+				currentDayHrs = earnGroupAssignToHoursMap.get(earnGroupAssignDescr);
+			}
+		}
+		currentDayHrs = currentDayHrs.add(hours, TkConstants.MATH_CONTEXT);
+		earnGroupAssignToHoursMap.put(earnGroupAssignDescr, currentDayHrs);
+		
+		return earnGroupAssignToHoursMap;
+	}
+	
 
 
 }

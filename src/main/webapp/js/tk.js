@@ -24,7 +24,7 @@ $(document).ready(function() {
 
 	var tabId = $("#tabId").val();
 	if (tabId != undefined) {
-		$("#tabs ul > #" + tabId)
+		$("#tab-section > #" + tabId)
 				.addClass("ui-tabs-selected ui-state-focus ui-state-active");
 	}
 	// end of tab
@@ -154,11 +154,18 @@ $(document).ready(function() {
                 fadeInSpeed : 500
 			});
 
-	// note
+	// note accordion
 	$("#note").accordion({
 		collapsible : true,
 		active : 2
 	});
+	
+	// person detail accordion
+    $("#person-detail-accordion").accordion({
+        collapsible : true,
+        active : 0
+    });
+	
 
     // summary table
     // $('a#basic').click(function(){
@@ -176,9 +183,11 @@ $(document).ready(function() {
     // show-hide earn codes in the approval page
     $("#fran-button").click(function() {
         $(".fran").toggle();
+        $("#fran-button span").toggleClass('ui-icon-minus');
     });
     $("#frank-button").click(function() {
         $(".frank").toggle();
+        $("#frank-button span").toggleClass('ui-icon-minus');
     });
     // apply time entry widget to the tabular view
     $(".timesheet-table-week1 :input, .timesheet-table-week2 :input").blur(function(){
@@ -197,10 +206,10 @@ $(document).ready(function() {
             $('#clockIn, #clockOut').hide();
             $('#hoursSection').show();
 
-            if($(this).val() == 'SCK') {
-                $('#hoursField').val('8');
-                $('#hoursField').attr('readonly',true).css('background',"#EEEEEE");
-            }
+            // if($(this).val() == 'SCK') {
+            //     $('#hoursField').val('8');
+            //     $('#hoursField').attr('readonly',true).css('background',"#EEEEEE");
+            // }
         }
         else {
             $('#hours').val("");
@@ -237,6 +246,7 @@ $(document).ready(function() {
 			$(this).hide();
 		}); 
     });
+    
 });
 
 $.fn.parseTime= function() {

@@ -1669,19 +1669,19 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 			left = seg.isStart ? dayContentLeft(seg.start.getDay()) : minLeft;
 			right = seg.isEnd ? dayContentRight(seg.end.getDay()-1) : maxLeft;
 			
-			if(event.isStandardPayPeriod == "false") {
-    			if (event.isWithinVirtualDay === "true") {
-    			    if (seg.end.getDay() - seg.start.getDay() >= 2) {
-        			    right = seg.isEnd ? dayContentRight(seg.end.getDay()-2) : maxLeft;
-    			    }
-    			}
-    			else {
-			        left = seg.isStart ? dayContentLeft(seg.start.getDay()+1) : minLeft;
-			        right = seg.isEnd ? dayContentRight(seg.end.getDay()) : maxLeft;
-			        seg.level--;
-			        
-    			}
-            }			
+			// if(event.isStandardPayPeriod == "false") {
+			//     			if (event.isWithinVirtualDay === "true") {
+			//     			    if (seg.end.getDay() - seg.start.getDay() >= 2) {
+			//         			    right = seg.isEnd ? dayContentRight(seg.end.getDay()-2) : maxLeft;
+			//     			    }
+			//     			}
+			//     			else {
+			//         left = seg.isStart ? dayContentLeft(seg.start.getDay()+1) : minLeft;
+			//         right = seg.isEnd ? dayContentRight(seg.end.getDay()) : maxLeft;
+			//         seg.level--;
+			//         
+			//     			}
+			//             }			
 		}
 		
 		var fromTo = "";

@@ -11,69 +11,37 @@
 			<thead>
 				<tr class="ui-state-default">
 				<td/>
-				<c:forEach items="${timeSummary.dateDescr}" var="entry">
-					<td>${entry}</td>
-				</c:forEach>
+					<c:forEach items="${timeSummary.summaryHeader}" var="entry">
+						<td>${entry}</td>
+					</c:forEach>
 				</tr>
 			</thead>
 	    	<tbody>
 				<tr style="border-bottom-style: double; font-weight: bold;">
 					<td>Worked Hours:</td>
-					<c:forEach items="${timeSummary.dateDescr}" var="entry">
-						<c:choose>
-						<c:when test="${fn:startsWith(entry,'Week')}">
-							<td>${timeSummary.workedHours.weeklyTotals[fn:substringAfter(entry,'Week ')-1]}</td>
-						</c:when>
-						<c:when test="${fn:startsWith(entry,'Period')}">
-							<td>${timeSummary.workedHours.periodTotal}</td>
-						</c:when>
-						<c:otherwise>
-							<td>${timeSummary.workedHours.dayToHours[entry]}</td>
-						</c:otherwise> 
-						</c:choose>
+					<c:forEach items="${timeSummary.workedHours}" var="entry">
+						<td>${entry}</td>
 					</c:forEach>
 				</tr>
 				<c:forEach items="${timeSummary.sections}" var="section">
-					<tr style="">
-						<td>${section.earnGroup}</td>
-					</tr>
-					
-					<c:forEach items="${section.assignRows}" var="assignRow">
-						<tr style="">
+				<tr>
+					<td>${section.earnGroup}</td>
+				</tr>
+					<c:forEach items="${section.assignmentRows}" var="assignRow">
+						<tr style="border-bottom-style: double; font-weight: bold;">
 							<td>${assignRow.descr}</td>
-							<c:forEach items="${timeSummary.dateDescr}" var="entry">
-								<c:choose>
-								<c:when test="${fn:startsWith(entry,'Week')}">
-									<td>${assignRow.weeklyTotals[fn:substringAfter(entry,'Week ')-1]}</td>
-								</c:when>
-								<c:when test="${fn:startsWith(entry,'Period')}">
-									<td>${assignRow.periodTotal}</td>
-								</c:when>					
-								<c:otherwise>
-									<td>${assignRow.dayToHours[entry]}</td>
-								</c:otherwise> 
-								</c:choose>				
+							<c:forEach items="${assignRow.total}" var="entry">
+								<td>${entry}</td>
 							</c:forEach>
 						</tr>
 					</c:forEach>
-				
 					<tr style="border-bottom-style: double; font-weight: bold;">
-						<td>${section.summaryRow.descr}</td>
-						<c:forEach items="${timeSummary.dateDescr}" var="entry">
-							<c:choose>
-							<c:when test="${fn:startsWith(entry,'Week')}">
-								<td>${section.summaryRow.weeklyTotals[fn:substringAfter(entry,'Week ')-1]}</td>
-							</c:when>
-							<c:when test="${fn:startsWith(entry,'Period')}">
-								<td>${section.summaryRow.periodTotal}</td>
-							</c:when>				
-							<c:otherwise>
-								<td>${section.summaryRow.dayToHours[entry]}</td>
-							</c:otherwise> 
-							</c:choose>	
+						<td>${section.earnGroup}</td>
+						<c:forEach items="${section.totals}" var="entry">
+							<td>${entry}</td>
 						</c:forEach>
 					</tr>
-			   </c:forEach>
+				</c:forEach>
 		   </tbody>
 		</table>
 	</div>

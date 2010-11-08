@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class TimeBlock extends PersistableBusinessObjectBase {
@@ -28,8 +29,8 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	private Timestamp beginTimestamp;
 	private Timestamp endTimestamp;
 	private Boolean clockLogCreated;
-	private BigDecimal hours = new BigDecimal("0.00");
-	private BigDecimal amount = new BigDecimal("0.00");
+	private BigDecimal hours = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+	private BigDecimal amount = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 	private String userPrincipalId;
 	private Timestamp timestamp;
 	private String beginTimestampTimezone;

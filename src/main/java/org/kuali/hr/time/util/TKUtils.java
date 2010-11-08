@@ -22,7 +22,6 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
-import org.kuali.rice.core.config.ConfigContext;
 
 public class TKUtils {
 
@@ -84,7 +83,7 @@ public class TKUtils {
 
 	public static BigDecimal getHoursBetween(long start, long end) {
 		long diff = end - start;
-		return new BigDecimal((diff / 3600000.0) % 24).setScale(TkConstants.MATH_CONTEXT.getPrecision(), TkConstants.MATH_CONTEXT.getRoundingMode()).abs();
+		return new BigDecimal((diff / 3600000.0) % 24).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
 	}
 
 	public static Map<Timestamp, BigDecimal> getDateToHoursMap(TimeBlock timeBlock, TimeHourDetail timeHourDetail) {
@@ -202,6 +201,15 @@ public class TKUtils {
 	
 	public static BigDecimal convertMillisToHours(long millis) {
 		return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT);
+	}
+	
+	/*
+	 * Compares and confirms if the start of the day is at midnight or on a virtual day boundary
+	 * returns true if at midnight false otherwise(assuming 24 hr days)
+	 */
+	public static boolean isVirtualWorkDay(Calendar payCalendarStartTime){
+		return (payCalendarStartTime.get(Calendar.HOUR) != 0 || payCalendarStartTime.get(Calendar.MINUTE) != 0 
+				&& payCalendarStartTime.get(Calendar.AM_PM) != Calendar.AM);
 	}
 	
 }
