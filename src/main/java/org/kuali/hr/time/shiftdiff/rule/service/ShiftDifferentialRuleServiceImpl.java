@@ -8,12 +8,14 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalTime;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.shiftdiff.rule.dao.ShiftDifferentialRuleDao;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -83,8 +85,9 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 			
 			// Iteration over Keyset of Job->Shift map
 			for (Long jobNumber: jobNumberToShifts.keySet()) {
-				List<ShiftDifferentialRule> shiftDifferentialRules = jobNumberToShifts.get(jobNumber);
+				List<ShiftDifferentialRule> shiftDifferentialRules = jobNumberToShifts.get(jobNumber);				
 				for (ShiftDifferentialRule rule : shiftDifferentialRules) {
+					Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(rule.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
 					if (dayIsRuleActive(dayOfWeek, rule)) {
 						List<TimeBlock> ruleTimeBlocks = jobNumberToTimeBlocks.get(jobNumber);
 						
@@ -105,7 +108,17 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 						// Iterate over sorted list, checking time boundaries vs Shift Intervals.
 						long accumulatedMillis = 0L;
 						
+						/*
+						 * We will touch each time block and accumulate time blocks that are applicable to
+						 * the current rule we are on.  
+						 */
 						for (TimeBlock current : ruleTimeBlocks) {
+							if (!fromEarnGroup.contains(current.getEarnCode())) {
+								// The timeblock's earn code is not in the earn group list of earn codes.
+								// Move to next timeblock.
+								continue;
+							}
+							
 							Interval blockInterval = createAdjustedTimeBlockInterval(current, periodStartTime);
 							Interval overlap = shiftInterval.overlap(blockInterval);
 							if (overlap != null) {

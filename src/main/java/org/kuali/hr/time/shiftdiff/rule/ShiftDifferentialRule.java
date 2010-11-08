@@ -29,6 +29,7 @@ public class ShiftDifferentialRule extends TkRule {
 	private boolean day4;
 	private boolean day5;
 	private boolean day6;
+	private String fromEarnGroup;
 	private String calendarGroup;
 	private BigDecimal maxGap;
 	private String userPrincipalId;
@@ -207,6 +208,14 @@ public class ShiftDifferentialRule extends TkRule {
 
 	public void setEndTime(java.util.Date endTime) {
 		this.endTime = endTime;
+	}
+
+	public String getFromEarnGroup() {
+		return fromEarnGroup;
+	}
+
+	public void setFromEarnGroup(String fromEarnGroup) {
+		this.fromEarnGroup = fromEarnGroup;
 	}
 
 }
