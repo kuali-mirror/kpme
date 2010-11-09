@@ -18,8 +18,8 @@
 				<ref bean="DeptLunchRule-workArea" />
 				<ref bean="DeptLunchRule-principalId" />
 				<ref bean="DeptLunchRule-jobNumber" />
-				<ref bean="DeptLunchRule-requiredClockFl" />
-				<ref bean="DeptLunchRule-maxMins" />
+				<ref bean="DeptLunchRule-deductionMins" />
+				<ref bean="DeptLunchRule-shiftHours" />
 				<ref bean="DeptLunchRule-effectiveDate" />
 				<ref bean="DeptLunchRule-active" />
 				<ref bean="DeptLunchRule-userPrincipalId" />
@@ -135,32 +135,34 @@
 		<property name="label" value="Job Number" />
 	</bean>
 
-
-	<bean id="DeptLunchRule-requiredClockFl" parent="DeptLunchRule-requiredClockFl-parentBean" />
-	<bean id="DeptLunchRule-requiredClockFl-parentBean" abstract="true"
+	<bean id="DeptLunchRule-deductionMins" parent="DeptLunchRule-deductionMins-parentBean" />
+	<bean id="DeptLunchRule-deductionMins-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Clock Use Required" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="requiredClockFl" />
-		<property name="label" value="Clock Use Required" />
-	</bean>
-
-
-	<bean id="DeptLunchRule-maxMins" parent="DeptLunchRule-maxMins-parentBean" />
-	<bean id="DeptLunchRule-maxMins-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Max Minutes" />
+		<property name="shortLabel" value="Lunch Deduction Minutes" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="2" />
+			<bean parent="TextControlDefinition" p:size="4" />
 		</property>
-		<property name="name" value="maxMins" />
-		<property name="label" value="Max Minutes" />
+		<property name="name" value="deductionMins" />
+		<property name="label" value="Lunch Deduction Minutes" />
+	</bean>
+	
+	<bean id="DeptLunchRule-shiftHours" parent="DeptLunchRule-shiftHours-parentBean" />
+	<bean id="DeptLunchRule-shiftHours-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Shift Hours" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="4" />
+		</property>
+		<property name="name" value="shiftHours" />
+		<property name="label" value="Shift Hours" />
 	</bean>
 
 
@@ -189,6 +191,7 @@
 		</property>
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
 	</bean>
 
 
@@ -244,6 +247,7 @@
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
 		<property name="resultFields">

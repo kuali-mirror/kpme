@@ -1,6 +1,5 @@
 package org.kuali.hr.time.syslunch.rule;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
@@ -15,8 +14,7 @@ public class SystemLunchRule extends TkRule {
 	private static final long serialVersionUID = 1L;
 	private Long tkSystemLunchRuleId;
 	private Date effectiveDate;
-	private BigDecimal minMinutes;
-	private BigDecimal blockHours;
+	private Boolean showLunchButton = false;
 	private boolean active;
 	private String userPrincipalId;
 	private Timestamp timeStamp;
@@ -55,22 +53,6 @@ public class SystemLunchRule extends TkRule {
 		this.effectiveDate = effectiveDate;
 	}
 
-	public BigDecimal getMinMinutes() {
-		return minMinutes;
-	}
-
-	public void setMinMinutes(BigDecimal minMinutes) {
-		this.minMinutes = minMinutes;
-	}
-
-	public BigDecimal getBlockHours() {
-		return blockHours;
-	}
-
-	public void setBlockHours(BigDecimal blockHours) {
-		this.blockHours = blockHours;
-	}
-
 	public boolean isActive() {
 		return active;
 	}
@@ -85,6 +67,16 @@ public class SystemLunchRule extends TkRule {
 
 	public void setUserPrincipalId(String userPrincipalId) {
 		this.userPrincipalId = userPrincipalId;
+	}
+
+
+	public Boolean getShowLunchButton() {
+		return showLunchButton;
+	}
+
+
+	public void setShowLunchButton(Boolean showLunchButton) {
+		this.showLunchButton = showLunchButton;
 	}
 
 }

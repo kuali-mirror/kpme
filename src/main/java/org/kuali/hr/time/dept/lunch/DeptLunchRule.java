@@ -21,8 +21,8 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
     private Long jobNumber;    // like job number
     private Date effectiveDate;
     private boolean active;
-    private boolean requiredClockFl;
-    private BigDecimal maxMins;
+    private BigDecimal deductionMins;
+    private BigDecimal shiftHours;
     private String userPrincipalId;
 
     private Timestamp timestamp;
@@ -98,27 +98,6 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
         this.active = active;
     }
 
-
-    public boolean isRequiredClockFl() {
-		return requiredClockFl;
-	}
-
-
-	public void setRequiredClockFl(boolean requiredClockFl) {
-		this.requiredClockFl = requiredClockFl;
-	}
-
-
-	public BigDecimal getMaxMins() {
-        return maxMins;
-    }
-
-
-    public void setMaxMins(BigDecimal maxMins) {
-        this.maxMins = maxMins;
-    }
-
-
     public Timestamp getTimestamp() {
         return timestamp;
     }
@@ -175,5 +154,25 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
 
 	public void setDept(String dept) {
 		this.dept = dept;
+	}
+
+
+	public BigDecimal getDeductionMins() {
+		return deductionMins;
+	}
+
+
+	public void setDeductionMins(BigDecimal deductionMins) {
+		this.deductionMins = deductionMins;
+	}
+
+
+	public BigDecimal getShiftHours() {
+		return shiftHours;
+	}
+
+
+	public void setShiftHours(BigDecimal shiftHours) {
+		this.shiftHours = shiftHours;
 	}
 }

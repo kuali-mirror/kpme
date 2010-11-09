@@ -266,6 +266,7 @@
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="task" />
 				<bean parent="FieldDefinition" p:attributeName="location" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
 		<property name="resultFields">

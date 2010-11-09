@@ -1,6 +1,5 @@
 package org.kuali.hr.time.systemlunch.rule;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.junit.Test;
@@ -14,9 +13,8 @@ public class SystemLunchRuleTest extends TkTestCase {
 	public void testSystemLunchRuleFetch() throws Exception{
 		SystemLunchRule systemLunchRule = new SystemLunchRule();
 		systemLunchRule.setActive(true);
-		systemLunchRule.setBlockHours(new BigDecimal(1.5));
+		systemLunchRule.setShowLunchButton(true);
 		systemLunchRule.setEffectiveDate(new Date(System.currentTimeMillis()));
-		systemLunchRule.setMinMinutes(new BigDecimal(30));
 		
 		KNSServiceLocator.getBusinessObjectService().save(systemLunchRule);
 		

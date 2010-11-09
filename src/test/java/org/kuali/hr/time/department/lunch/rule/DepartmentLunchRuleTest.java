@@ -19,8 +19,8 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		deptLunchRule.setEffectiveDate(new Date(System.currentTimeMillis()));
 		deptLunchRule.setJobNumber(0L);
 		deptLunchRule.setPrincipalId("admin");
-		deptLunchRule.setMaxMins(new BigDecimal(30));
-		deptLunchRule.setRequiredClockFl(true);
+		deptLunchRule.setDeductionMins(new BigDecimal(30));
+		deptLunchRule.setShiftHours(new BigDecimal(6));
 		
 		KNSServiceLocator.getBusinessObjectService().save(deptLunchRule);
 		

@@ -18,6 +18,7 @@
 				<ref bean="EarnGroup-earnGroup" />
 				<ref bean="EarnGroup-descr" />
 				<ref bean="EarnGroup-effectiveDate" />
+				<ref bean="EarnGroup-showSummary" />
 				<ref bean="EarnGroup-active" />
 			</list>
 		</property>
@@ -61,6 +62,18 @@
 		<property name="name" value="earnGroup" />
 		<property name="label" value="Earn Group" />
 	</bean>
+	
+	<bean id="EarnGroup-showSummary" parent="EarnGroup-showSummary-parentBean"/>
+  	<bean id="EarnGroup-showSummary-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Show On Summary"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="showSummary"/>
+    <property name="label" value="Show On Summary"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
+	
 
 	<bean id="EarnGroup-descr" parent="EarnGroup-descr-parentBean" />
 	<bean id="EarnGroup-descr-parentBean" abstract="true"

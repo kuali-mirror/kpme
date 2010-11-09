@@ -17,8 +17,7 @@
 		<property name="attributes">
 			<list>
 				<ref bean="SystemLunchRule-effectiveDate" />
-				<ref bean="SystemLunchRule-minMinutes" />
-				<ref bean="SystemLunchRule-blockHours" />
+				<ref bean="SystemLunchRule-showLunchButton" />
 				<ref bean="SystemLunchRule-timeStamp" />
 				<ref bean="SystemLunchRule-active" />
 				<ref bean="SystemLunchRule-userPrincipalId" />
@@ -46,34 +45,16 @@
 	</bean>
 
 
-	<bean id="SystemLunchRule-minMinutes" parent="SystemLunchRule-minMinutes-parentBean" />
-	<bean id="SystemLunchRule-minMinutes-parentBean" abstract="true"
+	<bean id="SystemLunchRule-showLunchButton" parent="SystemLunchRule-showLunchButton-parentBean" />
+	<bean id="SystemLunchRule-showLunchButton-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Min. Minutes" />
-		<property name="maxLength" value="3" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="3" />
-		</property>
-		<property name="name" value="minMinutes" />
-		<property name="label" value="Min. Minutes" />
-	</bean>
-
-	<bean id="SystemLunchRule-blockHours" parent="SystemLunchRule-blockHours-parentBean" />
-	<bean id="SystemLunchRule-blockHours-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Block Hours" />
-		<property name="maxLength" value="3" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="3" />
-		</property>
-		<property name="name" value="blockHours" />
-		<property name="label" value="Block Hours" />
+		<property name="shortLabel" value="Show Lunch Button" />
+    	<property name="control">
+      		<bean parent="CheckboxControlDefinition"/>
+    	</property>
+    	<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+		<property name="name" value="showLunchButton" />
+		<property name="label" value="Show Lunch Button" />
 	</bean>
 
 	<bean id="SystemLunchRule-timeStamp" parent="SystemLunchRule-timeStamp-parentBean" />
@@ -133,8 +114,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
-				<bean parent="FieldDefinition" p:attributeName="blockHours" />
-				<bean parent="FieldDefinition" p:attributeName="minMinutes" />
+				<bean parent="FieldDefinition" p:attributeName="showLunchButton" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="timeStamp" />
 			</list>

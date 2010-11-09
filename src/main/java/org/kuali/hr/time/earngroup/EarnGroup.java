@@ -26,6 +26,8 @@ public class EarnGroup extends PersistableBusinessObjectBase {
 	private Boolean active;
 	
 	private Timestamp timestamp;
+	
+	private Boolean showSummary;
 
 	private List<EarnGroupDefinition> earnGroups = new ArrayList<EarnGroupDefinition>();
 
@@ -89,6 +91,14 @@ public class EarnGroup extends PersistableBusinessObjectBase {
 
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public Boolean getShowSummary() {
+		return showSummary;
+	}
+
+	public void setShowSummary(Boolean showSummary) {
+		this.showSummary = showSummary;
 	}
 
 }

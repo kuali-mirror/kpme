@@ -23,6 +23,17 @@
     </property>
     <property name="relationships">
   		<list>
+  			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="workAreaObj" />
+				<property name="primitiveAttributes">
+				<list>
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
+								p:targetName="workArea" />
+				</list>
+				</property>
+			</bean>
+  		
+  		
             <bean parent="RelationshipDefinition">
               <property name="objectAttributeName" value="department"/>
               <property name="primitiveAttributes">

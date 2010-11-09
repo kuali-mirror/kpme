@@ -25,7 +25,6 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 	
 	private static final String TEST_CODE = "0";	
 	private static final Long TEST_ID = 20L;
-	private static final BigDecimal TEST_NO = new BigDecimal(10);
 	private static final String TEST_CODE_DEPARTMENT_VALID = "_test";	
 	private static final java.sql.Date TEST_DATE = new java.sql.Date(Calendar
 			.getInstance().getTimeInMillis());
@@ -145,12 +144,12 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 		deptLunchRuleWIthInvalidDept.setDept(TEST_CODE_DEPT_INVALID);
 		deptLunchRuleWIthInvalidDept.setEffectiveDate(TEST_DATE);
 		deptLunchRuleWIthInvalidDept.setJobNumber(TEST_ID);
-		deptLunchRuleWIthInvalidDept.setMaxMins(TEST_NO);
 		deptLunchRuleWIthInvalidDept.setPrincipalId(TEST_CODE);
-		deptLunchRuleWIthInvalidDept.setRequiredClockFl(true);
 		deptLunchRuleWIthInvalidDept.setUserPrincipalId(TEST_CODE);
 		deptLunchRuleWIthInvalidDept.setWorkArea(TEST_ID);
 		deptLunchRuleWIthInvalidDept.setTimestamp(TEST_TIME_STAMP);
+		deptLunchRuleWIthInvalidDept.setDeductionMins(new BigDecimal(30));
+		deptLunchRuleWIthInvalidDept.setShiftHours(new BigDecimal(6));
 		KNSServiceLocator.getBusinessObjectService().save(
 				deptLunchRuleWIthInvalidDept);
 		deptLunchRuleIdWithInvalidDept = deptLunchRuleWIthInvalidDept
@@ -186,12 +185,12 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 		deptLunchRuleWIthInvalidWorkArea.setDept(TEST_CODE_DEPARTMENT_VALID);
 		deptLunchRuleWIthInvalidWorkArea.setEffectiveDate(TEST_DATE);
 		deptLunchRuleWIthInvalidWorkArea.setJobNumber(TEST_ID);
-		deptLunchRuleWIthInvalidWorkArea.setMaxMins(TEST_NO);
 		deptLunchRuleWIthInvalidWorkArea.setPrincipalId(TEST_CODE);
-		deptLunchRuleWIthInvalidWorkArea.setRequiredClockFl(true);
 		deptLunchRuleWIthInvalidWorkArea.setUserPrincipalId(TEST_CODE);
 		deptLunchRuleWIthInvalidWorkArea.setTimestamp(TEST_TIME_STAMP);
 		deptLunchRuleWIthInvalidWorkArea.setWorkArea(TEST_CODE_WORKAREA_INVALID);
+		deptLunchRuleWIthInvalidDept.setDeductionMins(new BigDecimal(30));
+		deptLunchRuleWIthInvalidDept.setShiftHours(new BigDecimal(6));
 		KNSServiceLocator.getBusinessObjectService().save(
 				deptLunchRuleWIthInvalidWorkArea);
 		deptLunchRuleIdWithInvalidWorkArea = deptLunchRuleWIthInvalidWorkArea

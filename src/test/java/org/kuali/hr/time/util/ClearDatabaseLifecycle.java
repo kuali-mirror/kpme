@@ -5,20 +5,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
 import junit.framework.Assert;
 
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.enhydra.jdbc.pool.StandardXAPoolDataSource;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.core.config.ConfigContext;
-import org.enhydra.jdbc.pool.StandardXAPoolDataSource;
 import org.kuali.rice.core.lifecycle.BaseLifecycle;
-import org.openqa.jetty.http.ContextLoader;
-import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.StatementCallback;
@@ -34,84 +34,57 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 	private static List<String> TABLES_TO_CLEAR = new ArrayList<String>();
 
 	static {
-		TABLES_TO_CLEAR.add("TK_ASSIGNMENT_S");
 		TABLES_TO_CLEAR.add("TK_PY_CALENDAR_T");
 		TABLES_TO_CLEAR.add("TK_PY_CALENDAR_DATES_T");
 		TABLES_TO_CLEAR.add("TK_DEPT_T");
-		TABLES_TO_CLEAR.add("TK_DEPT_S");
-		TABLES_TO_CLEAR.add("TK_DOCUMENT_HEADER_T");
-		TABLES_TO_CLEAR.add("TK_ACCRUAL_CATEGORIES_S");
-		TABLES_TO_CLEAR.add("TK_ACCRUAL_CATEGORIES_T");
-		TABLES_TO_CLEAR.add("TK_ACCRUALS_S");
-		TABLES_TO_CLEAR.add("TK_ACCRUALS_T");
-		TABLES_TO_CLEAR.add("TK_ASSIGN_ACCT_S");
 		TABLES_TO_CLEAR.add("TK_ASSIGN_ACCT_T");
-		TABLES_TO_CLEAR.add("TK_ASSIGNMENT_ACCT_S");
 		TABLES_TO_CLEAR.add("TK_ASSIGNMENT_T");
-		TABLES_TO_CLEAR.add("TK_ASSIGNMENT_S");
-		TABLES_TO_CLEAR.add("TK_CLOCK_LOCATION_RL_S");
 		TABLES_TO_CLEAR.add("TK_CLOCK_LOCATION_RL_T");
-		TABLES_TO_CLEAR.add("TK_CLOCK_LOG_S");
 		TABLES_TO_CLEAR.add("TK_CLOCK_LOG_T");
-		TABLES_TO_CLEAR.add("TK_DAILY_OVERTIME_RL_S");
 		TABLES_TO_CLEAR.add("TK_DAILY_OVERTIME_RL_T");
-		TABLES_TO_CLEAR.add("TK_DEPT_EARN_CODE_S");
 		TABLES_TO_CLEAR.add("TK_DEPT_EARN_CODE_T");
-		TABLES_TO_CLEAR.add("TK_DEPT_LUNCH_RL_S");
 		TABLES_TO_CLEAR.add("TK_DEPT_LUNCH_RL_T");
-		TABLES_TO_CLEAR.add("TK_DOCUMENT_HEADER_T");
 		TABLES_TO_CLEAR.add("TK_EARN_CODE_T");
-		TABLES_TO_CLEAR.add("TK_EARN_CODE_S");
 		TABLES_TO_CLEAR.add("TK_EARN_GROUP_T");
-		TABLES_TO_CLEAR.add("TK_EARN_GROUP_S");
-		TABLES_TO_CLEAR.add("TK_EARN_GROUP_DEF_S");
 		TABLES_TO_CLEAR.add("TK_EARN_GROUP_DEF_T");
-		TABLES_TO_CLEAR.add("TK_GRACE_PERIOD_RL_S");
 		TABLES_TO_CLEAR.add("TK_GRACE_PERIOD_RL_T");
-		TABLES_TO_CLEAR.add("TK_HOLIDAY_CALENDAR_DATES_S");
 		TABLES_TO_CLEAR.add("TK_HOLIDAY_CALENDAR_DATES_T");
-		TABLES_TO_CLEAR.add("TK_HOLIDAY_CALENDAR_S");
 		TABLES_TO_CLEAR.add("TK_HOLIDAY_CALENDAR_T");
 		TABLES_TO_CLEAR.add("TK_HOUR_DETAIL_HIST_T");
-		TABLES_TO_CLEAR.add("TK_HOUR_DETAIL_S");
-		TABLES_TO_CLEAR.add("TK_HOUR_DETAIL_S");
-		TABLES_TO_CLEAR.add("TK_PY_CALENDAR_DATES_S");
+		TABLES_TO_CLEAR.add("TK_HOUR_DETAIL_T");
 		TABLES_TO_CLEAR.add("TK_PY_CALENDAR_DATES_T");
-		TABLES_TO_CLEAR.add("TK_PY_CALENDAR_S");
 		TABLES_TO_CLEAR.add("TK_PY_CALENDAR_T");
 		TABLES_TO_CLEAR.add("TK_ROLES_T");
-		TABLES_TO_CLEAR.add("TK_SAL_GROUP_S");
 		TABLES_TO_CLEAR.add("TK_SAL_GROUP_T");
-		TABLES_TO_CLEAR.add("TK_SHIFT_DIFF_RL_S");
-		TABLES_TO_CLEAR.add("TK_SHIFT_DIFFERENTIAL_RL_S");
 		TABLES_TO_CLEAR.add("TK_SHIFT_DIFFERENTIAL_RL_T");
-		TABLES_TO_CLEAR.add("TK_SYS_LUNCH_RL_S");
-		TABLES_TO_CLEAR.add("TK_TASK_S");
+		TABLES_TO_CLEAR.add("TK_SYSTEM_LUNCH_RL_T");
 		TABLES_TO_CLEAR.add("TK_TASK_T");
-		TABLES_TO_CLEAR.add("TK_TIME_BLOCK_HIST_S");
 		TABLES_TO_CLEAR.add("TK_TIME_BLOCK_HIST_T");
-		TABLES_TO_CLEAR.add("TK_TIME_BLOCK_S");
 		TABLES_TO_CLEAR.add("TK_TIME_BLOCK_T");
-		TABLES_TO_CLEAR.add("TK_TIME_COLLECTION_RL_S");
 		TABLES_TO_CLEAR.add("TK_TIME_COLLECTION_RL_T");
-		TABLES_TO_CLEAR.add("TK_WEEKLY_OVERTIME_RL_S");
 		TABLES_TO_CLEAR.add("TK_WEEKLY_OVERTIME_RL_T");
-		TABLES_TO_CLEAR.add("TK_WORK_AREA_DOCUMENT_T");
-		TABLES_TO_CLEAR.add("TK_WORK_AREA_OVT_PREF_S");
 		TABLES_TO_CLEAR.add("TK_WORK_AREA_OVT_PREF_T");
-		TABLES_TO_CLEAR.add("TK_WORK_AREA_S");
 		TABLES_TO_CLEAR.add("TK_WORK_AREA_T");	
-		TABLES_TO_CLEAR.add("HR_JOB_S");
-		TABLES_TO_CLEAR.add("HR_JOB_T");
-		TABLES_TO_CLEAR.add("HR_PAYTYPE_S");		
+		TABLES_TO_CLEAR.add("HR_JOB_T");	
 		TABLES_TO_CLEAR.add("HR_PAYTYPE_T");
-		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_ENTRY_S");
 		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_ENTRY_T");
-		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_S");
 		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_T");
 	}
-
+	
+	private static final Map<String,String> TABLE_TO_ID_MAP = new HashMap<String,String>();
+	static{
+		TABLE_TO_ID_MAP.put("TK_TIME_COLLECTION_RL_T", "TK_TIME_COLL_RULE_ID");
+		TABLE_TO_ID_MAP.put("TK_SHIFT_DIFFERENTIAL_RL_T", "TK_SHIFT_DIFF_RL_ID");
+		TABLE_TO_ID_MAP.put("TK_HOLIDAY_CALENDAR_T", "HOLIDAY_CALENDAR_ID");
+		TABLE_TO_ID_MAP.put("TK_HOLIDAY_CALENDAR_DATES_T", "HOLIDAY_CALENDAR_DATES_ID");
+		TABLE_TO_ID_MAP.put("TK_GRACE_PERIOD_RL_T", "TK_GRACE_PERIOD_RULE_ID");
+		TABLE_TO_ID_MAP.put("TK_CLOCK_LOCATION_RL_T", "TK_CLOCK_LOC_RULE_ID");
+	}
+	
+	
 	public static final String TEST_TABLE_NAME = "KR_UNITTEST_T";
+	
+	public static final Integer START_CLEAR_ID = 1000;
 
 	public void start() throws Exception {
 		if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("tk.use.clearDatabaseLifecycle"))) {
@@ -152,7 +125,15 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
                 	public Object doInStatement(Statement statement) throws SQLException {
                     		final List<String> reEnableConstraints = new ArrayList<String>();
                     		for (String tableName : TABLES_TO_CLEAR) {
-                            	String deleteStatement = "DELETE FROM " + tableName;
+                    			//if there is an id name that doesnt follow convention check and limit accordingly
+                    			String idName = TABLE_TO_ID_MAP.get(tableName);
+                    			String deleteStatement = null;
+                    			if(idName == null){
+                    				deleteStatement = "DELETE FROM " + tableName +" WHERE "+StringUtils.removeEnd(tableName, "_T")+"_ID"+ " = "+START_CLEAR_ID;
+                    			} else {
+                    				deleteStatement = "DELETE FROM " + tableName +" WHERE "+ idName + " = "+START_CLEAR_ID;
+                    			}
+                            	
                             	LOG.error("Clearing contents using statement ->" + deleteStatement + "<-");
                             	statement.addBatch(deleteStatement);
                             }
