@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -12,6 +11,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalTime;
 import org.junit.Test;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
@@ -19,19 +19,17 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timeblock.service.TimeBlockService;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class ShiftDifferentialRuleServiceTest extends TkTestCase {
 
-	private static final String TEST_CODE = "_T";
-	private static final BigDecimal TEST_NO = new BigDecimal(10);
-	private static Long shiftDifferentialRuleId;
-	private static final String TEST_TIME = "11:00 PM";
-	private static final Date TEST_DATE = new Date(Calendar.getInstance().getTimeInMillis());
+	public static final String USER_PRINCIPAL_ID = "admin";
+	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 	
 	@Test
 	public void testCreateAdjustedShiftInterval() throws Exception {
@@ -130,107 +128,200 @@ public class ShiftDifferentialRuleServiceTest extends TkTestCase {
 
 	@Test
 	public void testProcessShiftDifferentialRules() throws Exception {
-		TimeBlockService tbService = TkServiceLocator.getTimeBlockService();
-		PayCalendar payCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(1L);
+		String calendarGroup = "BWS-CAL"; // Biweekly Standard Cal [midnight, midnight)
+		
+		PayCalendar payCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(calendarGroup);
 		assertNotNull("Pay calendar not found", payCalendar);
 		List<PayCalendarDates> dates = payCalendar.getPayCalendarDates();
 		assertNotNull("Test Pay Calendar not found.", dates);
 		assertTrue("No dates in list.", dates.size() > 0);
-		PayCalendarDates payCalendarEntry = dates.get(0); // Should only be one.
-		assertNotNull("Missing default test pay calendar.", payCalendarEntry);
+		PayCalendarDates payCalendarEntry = null;
+		for (PayCalendarDates d : dates) {
+			if (d.getPayCalendarDatesId().longValue() == 11L) 
+				payCalendarEntry = d;
+		}
+		assertNotNull("Missing test pay calendar.", payCalendarEntry);
 
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getPrincipalId(), payCalendarEntry);
 		assertNotNull("Missing timesheet.", timesheetDocument);
-		Assignment assignment = timesheetDocument.getAssignments().get(0);
-		assertNotNull("Missing assignment.", assignment);
-		String earnCode = "REG";
+		
 		
 		// Delete blocks, refetch.
 		this.deleteTimeBlocks(timesheetDocument);
 		timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getPrincipalId(), payCalendarEntry);
 		assertEquals("TimeBlock list not empty.", 0, timesheetDocument.getTimeBlocks().size());
+		
+		// Case 1
+		runCase1(timesheetDocument, payCalendarEntry);
+	}
+	
+	
+	/**
+	 * 	SDR for Case 1:
+	 *  [begin, end) :: [6pm, Midnight/DayBoundary)
+	 *  Created intervals follow inclusive beginning and exclusive ending as indicated above.
+	 *  Minimum Hours: 4 hours
+	 *  Maximum Gap: .25 hours (15 minutes)
+	 *  Active Every Day
+	 * 
+	 * @param timesheetDocument
+	 * @param payCalendarEntry
+	 * @throws Exception
+	 */
+	private void runCase1(TimesheetDocument timesheetDocument, PayCalendarDates payCalendarEntry) throws Exception {
+		TimeBlockService tbService = TkServiceLocator.getTimeBlockService();
+		ShiftDifferentialRuleService sdrService = TkServiceLocator.getShiftDifferentialRuleService();
+		assertNotNull("No Shift Differential Rule Service", sdrService);
+		String earnCode = "REG";
 
+		Long jobNumber = 30L;
+		Job job = timesheetDocument.getJob(jobNumber);
+		assertNotNull("SDR1 Job is missing from test data.", job);
+		Assignment assignment = null;
+		for (Assignment a : timesheetDocument.getAssignments()) {
+			if (a.getJobNumber().longValue() == jobNumber.longValue()) {
+				assignment = a;
+			}
+		}
+		assertNotNull("Missing SDR1 assignment.", assignment);
 		
-		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
-		
-		Timestamp in = new Timestamp(new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST")).getMillis());
-		Timestamp out = new Timestamp(new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST")).getMillis());
-		TimeBlock block = tbService.createTimeBlock(timesheetDocument, in, out, assignment, earnCode, BigDecimal.ZERO);
-		timeBlocks.add(block);
-		tbService.saveTimeBlocks(timesheetDocument.getTimeBlocks(), timeBlocks);
+		tbService.saveTimeBlocks(timesheetDocument.getTimeBlocks(), createTimeBlocksCase1(timesheetDocument, assignment, earnCode));
 		
 		timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getPrincipalId(), payCalendarEntry);
-		assertTrue("Should be a time block", timesheetDocument.getTimeBlocks().size() == 1);
-
-		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
+		assertEquals("Wrong number of time blocks.", 4, timesheetDocument.getTimeBlocks().size());
+		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), payCalendarEntry);
 		assertNotNull(aggregate);
+		sdrService.processShiftDifferentialRules(timesheetDocument, aggregate);
 		
-		ShiftDifferentialRule shiftDiffRule = new ShiftDifferentialRule();
+		List<TimeBlock> modifiedBlocks = timesheetDocument.getTimeBlocks();
+		BigDecimal shiftHours = BigDecimal.ZERO;
+		for (TimeBlock tb : modifiedBlocks) {
+			List<TimeHourDetail> details = tb.getTimeHourDetails();
+			for (TimeHourDetail thd : details) {
+				if (thd.getEarnCode().equals("SDR")) {
+					shiftHours = shiftHours.add(thd.getHours(), TkConstants.MATH_CONTEXT);
+				}
+			}
+		}
 		
-		// TODO call into rule and evaluate
+		assertEquals("Premium Hours should be 5.", 0, (new BigDecimal("5")).compareTo(shiftHours));
+	}
+	
+	/**
+	 * Creates the following Clock-IN and Clock-OUT time blocks:
+	 * 
+	 * 2:00p - 3:00p (not in shift)
+	 * 5:30p - 5:46p (not in shift)
+	 * 6:00p - 9:00p (in shift)
+	 * 9:15p - 11:15p (in shift, meets min gap)
+	 * 
+	 * @param timesheetDocument
+	 * @param assignment
+	 * @param earnCode
+	 * @return
+	 */
+	private List<TimeBlock> createTimeBlocksCase1(TimesheetDocument timesheetDocument, Assignment assignment, String earnCode) {
+		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
+		
+		Timestamp in = new Timestamp(new DateTime(2010, 1, 1, 14, 0, 0, 0, DateTimeZone.forID("EST")).getMillis());
+		Timestamp out = new Timestamp(new DateTime(2010, 1, 1, 15, 0, 0, 0, DateTimeZone.forID("EST")).getMillis());
+		TimeBlock block = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, in, out, assignment, earnCode, BigDecimal.ZERO);
+		timeBlocks.add(block);
+		
+		in = new Timestamp(new DateTime(2010, 1, 1, 17, 30, 0, 0, DateTimeZone.forID("EST")).getMillis());
+		out = new Timestamp(new DateTime(2010, 1, 1, 17, 46, 0, 0, DateTimeZone.forID("EST")).getMillis());
+		block = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, in, out, assignment, earnCode, BigDecimal.ZERO);
+		timeBlocks.add(block);
+		
+		in = new Timestamp(new DateTime(2010 , 1, 1, 18, 00, 0, 0, DateTimeZone.forID("EST")).getMillis());
+		out = new Timestamp(new DateTime(2010, 1, 1, 21, 00, 0, 0, DateTimeZone.forID("EST")).getMillis());
+		block = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, in, out, assignment, earnCode, BigDecimal.ZERO);
+		timeBlocks.add(block);
 
-		// scenario 1 continuous timeblock through the shift on one day and
-		// meets min hours
-
-		// scenario 2 continuous timeblock that does not meet min hours on one
-		// day
-
-		// scenario 3 2 timeblocks that are less than maxGap apart on one day
-		// and meet min hours
-
-		// scenario 4 2 timeblocks that are less than maxGap apart on one day
-		// but do not meet min hours
-
-		// scenario 5 2 timeblocks split by virtual day that have no maxGap and
-		// meet min hours criteria
-
-		// scenario 6 2 timeblocks split by virtual day that have no maxGap and
-		// do not meet min hours criteria
-
-		// scenario 7 2 timeblocks split by virtual day that have a < maxGap
-		// difference and do not meet min hours critieria
-
-		// scenario 8 3 timeblocks on day 1 that are < maxGap apart and 1
-		// timeblock linking them to day 2 and meets min hours
-		// rule is setup for both days
-
-		// scenario 9 3 timeblocks on day 1 that are < maxGap apart and 1
-		// timeblock linking them to day 2 and meets min hours
-		// rule is setup for only 2 day
-
+		in = new Timestamp(new DateTime(2010 , 1, 1, 21, 15, 0, 0, DateTimeZone.forID("EST")).getMillis());
+		out = new Timestamp(new DateTime(2010, 1, 1, 23, 15, 0, 0, DateTimeZone.forID("EST")).getMillis());
+		block = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, in, out, assignment, earnCode, BigDecimal.ZERO);
+		timeBlocks.add(block);
+		
+		return timeBlocks;
+	}
+	
+	/**
+	 * Creates a variety of Shift Differential Rules that we will be using in 
+	 * this test.
+	 * 
+	 * Earn Groups Used:
+	 * 
+	 * SD1 - Contains only REG and RGN earn codes.
+	 * 
+	 * Calendar Groups Used:
+	 * 
+	 * BWS-CAL : Standard Calendar [Midnight-Midnight)
+	 * BWN-CAL : NonStd Calendar [Noon-Noon)
+	 */
+	private void createShiftDifferentialRules(Date asOfDate) {
+		ShiftDifferentialRuleServiceImpl service = getServiceImpl();
+		
+		ShiftDifferentialRule sdr = null;		
+		java.util.Date beginTime = null; 
+		java.util.Date endTime = null;
+		BigDecimal minHours = BigDecimal.ZERO;
+		BigDecimal maxGap = BigDecimal.ZERO;
+		String calendarGroup = "BWS-CAL";
+		String fromEarnGroup = "SD1";		
+		String location = "SD1";
+		String payGrade = "SD1";
+		String tkSalGroup = "SD1";
+		
+		// SDR for Case 1:
+		// [begin, end) :: [6pm, Midnight/DayBoundary)
+		// Created intervals follow inclusive beginning and exclusive ending as indicated above.
+		//
+		// Minimum Hours: 4 hours
+		// Maximum Gap: .25 hours (15 minutes)
+		// Active Every Day
+		// Target Earn Code: SDR
+		sdr = new ShiftDifferentialRule();
+		beginTime = new java.util.Date((new DateTime(2010, 1, 1, 18, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		endTime = new java.util.Date((new DateTime(2010, 1, 2, 0, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		minHours = new BigDecimal(4);
+		maxGap = new BigDecimal("0.25");
+		sdr.setEffectiveDate(asOfDate);
+		sdr.setBeginTime(beginTime);
+		sdr.setEndTime(endTime);
+		sdr.setDay0(true);
+		sdr.setDay1(true);
+		sdr.setDay2(true);
+		sdr.setDay3(true);
+		sdr.setDay4(true);
+		sdr.setDay5(true);
+		sdr.setDay6(true);
+		sdr.setLocation(location);
+		sdr.setPayGrade(payGrade);
+		sdr.setTkSalGroup(tkSalGroup);
+		sdr.setFromEarnGroup(fromEarnGroup);
+		sdr.setCalendarGroup(calendarGroup);
+		sdr.setMaxGap(maxGap);
+		sdr.setMinHours(minHours);
+		sdr.setActive(true);
+		sdr.setUserPrincipalId(USER_PRINCIPAL_ID);
+		sdr.setEarnCode("SDR");
+		
+		// Store Case 1
+		service.saveOrUpdate(sdr);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		ShiftDifferentialRule shiftDifferentialRuleObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(ShiftDifferentialRule.class, shiftDifferentialRuleId);
-		KNSServiceLocator.getBusinessObjectService().delete(shiftDifferentialRuleObj);
+//		ShiftDifferentialRule shiftDifferentialRuleObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(ShiftDifferentialRule.class, shiftDifferentialRuleId);
+//		KNSServiceLocator.getBusinessObjectService().delete(shiftDifferentialRuleObj);
 		super.tearDown();
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		ShiftDifferentialRule shiftDifferentialRule = new ShiftDifferentialRule();
-		shiftDifferentialRule.setActive(true);
-		// shiftDifferentialRule.setBeginTime(TEST_TIME);
-		shiftDifferentialRule.setEarnCode(TEST_CODE);
-		shiftDifferentialRule.setEffectiveDate(TEST_DATE);
-		// shiftDifferentialRule.setEndTime(TEST_TIME);
-		shiftDifferentialRule.setLocation(TEST_CODE);
-		shiftDifferentialRule.setMaxGap(TEST_NO);
-		shiftDifferentialRule.setMinHours(TEST_NO);
-		shiftDifferentialRule.setPayGrade(TEST_CODE);
-		shiftDifferentialRule.setCalendarGroup("BW-CAL1");
-		shiftDifferentialRule.setDay0(true);
-		shiftDifferentialRule.setDay1(true);
-		shiftDifferentialRule.setDay2(true);
-		shiftDifferentialRule.setDay3(true);
-		shiftDifferentialRule.setDay4(true);
-		shiftDifferentialRule.setDay5(true);
-		shiftDifferentialRule.setDay6(true);
-
-		KNSServiceLocator.getBusinessObjectService().save(shiftDifferentialRule);
-		shiftDifferentialRuleId = shiftDifferentialRule.getTkShiftDiffRuleId();
+		this.createShiftDifferentialRules(JAN_AS_OF_DATE);
 	}
 	
 	private void deleteTimeBlocks(TimesheetDocument document) {

@@ -52,7 +52,8 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 					job.getPayGrade(),
 					job.getPayType().getCalendarGroup(),
 					TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
-			jobNumberToShifts.put(job.getJobNumber(), shiftDifferentialRules);
+			if (shiftDifferentialRules.size() > 0) 
+				jobNumberToShifts.put(job.getJobNumber(), shiftDifferentialRules);
 		}
 		
 		if (jobNumberToShifts.isEmpty()) {
@@ -190,8 +191,8 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 			
 			// TODO: Verify assumption about the contents of details.size...
 			// for now just to catch it while debugging, I'll throw RuntimeException.
-			if (details.size() > 0)
-				throw new RuntimeException("Should only be one entry in the details list this point <TODO: Refactor this Throw!>");
+			if (details.size() > 1 || details.size() == 0)
+				throw new RuntimeException("Should only (and at least) be one entry in the details list this point <TODO: Refactor this Throw!>");
 			
 			TimeHourDetail detail = details.get(0);
 			if (detail.getHours().compareTo(hours) > 0) {

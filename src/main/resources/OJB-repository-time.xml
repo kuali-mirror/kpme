@@ -260,7 +260,7 @@
 		<field-descriptor name="timestamp" 				column="timestamp" 			jdbc-type="TIMESTAMP"  nullable="false" primarykey="false" />
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="location" 				column="location" 			jdbc-type="VARCHAR" nullable="false" length="27"  />
+		<field-descriptor name="location" 				column="location" 			jdbc-type="VARCHAR" nullable="false" length="30"  />
 		<field-descriptor name="standardHours" 			column="std_hours" 			jdbc-type="NUMERIC" nullable="false" length="27" />
 		<field-descriptor name="compRate" 			column="comp_rate" 				jdbc-type="NUMERIC" nullable="false" length="27" />
 		<field-descriptor name="fte" 					column="fte" 				jdbc-type="TINYINT" length="1" nullable="false" />
@@ -534,7 +534,7 @@
 	<!-- ShiftDifferentialRule -->
 	<class-descriptor class="org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule" table="tk_shift_differential_rl_t">
 		<field-descriptor name="tkShiftDiffRuleId" column="TK_SHIFT_DIFF_RL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_shift_differential_rl_s"  />
-		<field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR" length="2"  />
+		<field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR" length="30"  />
 		<field-descriptor name="tkSalGroup" column="TK_SAL_GROUP" jdbc-type="VARCHAR" length="10"  />
 		<field-descriptor name="payGrade" column="PAY_GRADE" jdbc-type="VARCHAR" length="3"  />
 		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" nullable="true"/>
@@ -600,7 +600,7 @@
 	<!-- DailyOvertimeRule -->
 	<class-descriptor class="org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule" table="tk_daily_overtime_rl_t">
 		<field-descriptor name="tkDailyOvertimeRuleId" column="tk_daily_overtime_rl_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_daily_overtime_rl_s"  />
-		<field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR" length="2"/>
+		<field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR" length="30"/>
 		<field-descriptor name="paytype" column="PAYTYPE" jdbc-type="VARCHAR" length="4" />
 		<field-descriptor name="dept" column="DEPT" jdbc-type="VARCHAR" length="21"  />
 		<field-descriptor name="workArea" column="WORK_AREA" jdbc-type="BIGINT"  primarykey="false" />

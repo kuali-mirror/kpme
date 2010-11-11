@@ -43,7 +43,7 @@ public class JobServiceImpl implements JobService {
 	public Job getJob(String principalId, Long jobNumber, Date asOfDate) {
 		Job job = jobDao.getJob(principalId, jobNumber, asOfDate);
 		if(job == null) {
-			throw new RuntimeException("No job for principal : " + principalId);
+			throw new RuntimeException("No job for principal : " + principalId + " Job Number: " + jobNumber);
 		}
 		String hrPayType = job.getHrPayType();
 		if(StringUtils.isBlank(hrPayType)) {

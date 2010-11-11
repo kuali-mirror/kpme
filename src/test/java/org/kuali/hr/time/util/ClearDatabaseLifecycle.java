@@ -129,9 +129,9 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
                     			String idName = TABLE_TO_ID_MAP.get(tableName);
                     			String deleteStatement = null;
                     			if(idName == null){
-                    				deleteStatement = "DELETE FROM " + tableName +" WHERE "+StringUtils.removeEnd(tableName, "_T")+"_ID"+ " = "+START_CLEAR_ID;
+                    				deleteStatement = "DELETE FROM " + tableName +" WHERE "+StringUtils.removeEnd(tableName, "_T")+"_ID"+ " >= "+START_CLEAR_ID;
                     			} else {
-                    				deleteStatement = "DELETE FROM " + tableName +" WHERE "+ idName + " = "+START_CLEAR_ID;
+                    				deleteStatement = "DELETE FROM " + tableName +" WHERE "+ idName + " >= "+START_CLEAR_ID;
                     			}
                             	
                             	LOG.error("Clearing contents using statement ->" + deleteStatement + "<-");

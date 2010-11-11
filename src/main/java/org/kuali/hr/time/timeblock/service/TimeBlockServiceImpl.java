@@ -163,6 +163,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     	tb.setUserPrincipalId(TKContext.getUser().getPrincipalId());
     	tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
     	
+    	tb.setTimeHourDetails(this.createTimeHourDetails(tb.getEarnCode(), tb.getHours(), tb.getTkTimeBlockId()));
+    	
     	return tb;
 	}
 
@@ -232,16 +234,22 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	
 	public List<TimeBlock> resetTimeHourDetail(List<TimeBlock> origTimeBlocks){
 		for(TimeBlock tb : origTimeBlocks){
-			List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
-			TimeHourDetail timeHourDetail = new TimeHourDetail();
-			timeHourDetail.setEarnCode(tb.getEarnCode());
-			timeHourDetail.setHours(tb.getHours());
-			timeHourDetail.setTkTimeBlockId(tb.getTkTimeBlockId());
-			timeHourDetails.add(timeHourDetail);
-			tb.setTimeHourDetails(timeHourDetails);
+			tb.setTimeHourDetails(createTimeHourDetails(tb.getEarnCode(), tb.getHours(), tb.getTkTimeBlockId()));
 		}
 		
 		return origTimeBlocks;
+	}
+	
+	private List<TimeHourDetail> createTimeHourDetails(String earnCode, BigDecimal hours, Long timeBlockId) {
+		List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
+		
+		TimeHourDetail timeHourDetail = new TimeHourDetail();
+		timeHourDetail.setEarnCode(earnCode);
+		timeHourDetail.setHours(hours);
+		timeHourDetail.setTkTimeBlockId(timeBlockId);
+		timeHourDetails.add(timeHourDetail);
+
+		return timeHourDetails;
 	}
 	
 	public List<TimeBlock> getTimeBlocks(Long documentId){
