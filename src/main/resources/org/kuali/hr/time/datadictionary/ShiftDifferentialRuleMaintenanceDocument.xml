@@ -43,13 +43,13 @@
 				<bean parent="MaintainableFieldDefinition" p:name="beginTime" />
 				<bean parent="MaintainableFieldDefinition" p:name="endTime" />
 				<bean parent="MaintainableFieldDefinition" p:name="minHours" />
-				<bean parent="MaintainableFieldDefinition" p:name="day0" />
-				<bean parent="MaintainableFieldDefinition" p:name="day1" />
-				<bean parent="MaintainableFieldDefinition" p:name="day2" />
-				<bean parent="MaintainableFieldDefinition" p:name="day3" />
-				<bean parent="MaintainableFieldDefinition" p:name="day4" />
-				<bean parent="MaintainableFieldDefinition" p:name="day5" />
-				<bean parent="MaintainableFieldDefinition" p:name="day6" />
+				<bean parent="MaintainableFieldDefinition" p:name="sunday" />
+				<bean parent="MaintainableFieldDefinition" p:name="monday" />
+				<bean parent="MaintainableFieldDefinition" p:name="tuesday" />
+				<bean parent="MaintainableFieldDefinition" p:name="wednesday" />
+				<bean parent="MaintainableFieldDefinition" p:name="thursday" />
+				<bean parent="MaintainableFieldDefinition" p:name="friday" />
+				<bean parent="MaintainableFieldDefinition" p:name="saturday" />
 				<bean parent="MaintainableFieldDefinition" p:name="maxGap" />
 				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" />			

@@ -54,15 +54,14 @@ public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 		shiftDifferentialRule.setMinHours(TEST_NO);
 		shiftDifferentialRule.setPayGrade(TEST_CODE);	
 		shiftDifferentialRule.setCalendarGroup("BW-CAL1");
-		shiftDifferentialRule.setDay0(true);		
-		shiftDifferentialRule.setDay1(true);
-		shiftDifferentialRule.setDay2(true);
-		shiftDifferentialRule.setDay3(true);
-		shiftDifferentialRule.setDay4(true);
-		shiftDifferentialRule.setDay5(true);
-		shiftDifferentialRule.setDay6(true);
+		shiftDifferentialRule.setSunday(true);	
+		shiftDifferentialRule.setMonday(true);
+		shiftDifferentialRule.setTuesday(true);
+		shiftDifferentialRule.setWednesday(true);
+		shiftDifferentialRule.setThursday(true);
+		shiftDifferentialRule.setFriday(true);
+		shiftDifferentialRule.setSaturday(true);
 		shiftDifferentialRule.setCalendarGroup("TEST");	
-		
 		
 		KNSServiceLocator.getBusinessObjectService().save(shiftDifferentialRule);
 		shiftDifferentialRuleId = shiftDifferentialRule.getTkShiftDiffRuleId();

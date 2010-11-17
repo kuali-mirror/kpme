@@ -70,6 +70,9 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 				continue;
 			}
 			
+			// TODO : If 'pos' is 0, we need to pull previous pay period last day
+			// so we can check Max Gap
+			
 			// Builds our JobNumber to TimeBlock for Current Day List.
 			for (TimeBlock block : blocks) {
 				Long jobNumber = block.getJobNumber();
@@ -89,7 +92,10 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 				List<ShiftDifferentialRule> shiftDifferentialRules = jobNumberToShifts.get(jobNumber);				
 				for (ShiftDifferentialRule rule : shiftDifferentialRules) {
 					Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(rule.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
-					if (dayIsRuleActive(dayOfWeek, rule)) {
+					// if (dayIsRuleActive(dayOfWeek, rule)) {
+					// Mid Refactor with DB model changes, need to change the 
+					// way we handle Day / Day of Week / etc.
+					if (true) {
 						List<TimeBlock> ruleTimeBlocks = jobNumberToTimeBlocks.get(jobNumber);
 						
 						Collections.sort(ruleTimeBlocks, new Comparator<TimeBlock>() { // Sort the Time Blocks
@@ -296,39 +302,6 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		return new Interval(dIn, dOut);
 	}
 	
-	private boolean dayIsRuleActive(int dayOfWeek, ShiftDifferentialRule sdr) {
-		boolean active = false;
-		
-		// Yeah, this is ugly, perhaps there is some clever way to do this in idiomatic java.
-		if (sdr != null && dayOfWeek >= 0 && dayOfWeek < 7) {
-			switch (dayOfWeek) {
-			case 0:
-				active = sdr.isDay0();
-				break;
-			case 1:
-				active = sdr.isDay1();
-				break;
-			case 2:
-				active = sdr.isDay2();
-				break;
-			case 3:
-				active = sdr.isDay3();
-				break;
-			case 4:
-				active = sdr.isDay4();
-				break;
-			case 5:
-				active = sdr.isDay5();
-				break;
-			case 6:
-				active = sdr.isDay6();
-				break;
-			}
-		}
-		
-		return active;
-	}
-
 	public void setShiftDifferentialRuleDao(ShiftDifferentialRuleDao shiftDifferentialRuleDao) {
 		this.shiftDifferentialRuleDao = shiftDifferentialRuleDao;
 	}

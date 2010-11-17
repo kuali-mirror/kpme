@@ -56,7 +56,7 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PersistenceBrokerDaoS
 		if (c != null) {
 			list.addAll(c);
 		}
-
+		
 		return list;
 	}
 
