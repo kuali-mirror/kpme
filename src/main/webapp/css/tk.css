@@ -1,4 +1,4 @@
-butt  /* jQuery style override */
+/* jQuery style override */
 
 .ui-widget {
     font-family: "Trebuchet MS",Verdana,Arial,sans-serif !important; 
@@ -47,8 +47,12 @@ butt  /* jQuery style override */
     /*text-decoration: underline;*/
 }
 
+#dialog-form {
+	font-size: .8em !important;	
+}
+
 .ui-dialog-buttonpane {
-	font-size: .8em !important;
+	font-size: .9em !important;
 	margin-left: auto !important;
 	margin-right: auto !important;
 }
@@ -61,8 +65,17 @@ butt  /* jQuery style override */
     background: #ffffff url(ui-iu/images/headerback.gif) 100% 100% repeat-x;
 }
 
+.ui-datepicker {
+	font-size: .8em !important;
+}
+
 /* end of jQuery style override */
 
+/* full calendar override */
+.fc-day-number {
+	font-size: .8em !important;
+}
+/* end of full calendar override */
 .highlight {
     /*background: #FFD20F;*/   
     background: #FFE79F;   

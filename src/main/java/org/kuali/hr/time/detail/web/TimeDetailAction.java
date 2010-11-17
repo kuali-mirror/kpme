@@ -57,7 +57,7 @@ public class TimeDetailAction extends TimesheetAction {
 					
 					List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment);
 					for(EarnCode earnCode: earnCodes) {
-						earnCodeString += "<option value='" + earnCode.getEarnCode() + "'>" + earnCode.getEarnCode() + " : " + earnCode.getDescription() + "</option>";
+						earnCodeString += "<option value='" + earnCode.getEarnCode() + "_" + earnCode.getEarnCodeType() +"'>" + earnCode.getEarnCode() + " : " + earnCode.getDescription() + "</option>";
 					}
 				}
 			}

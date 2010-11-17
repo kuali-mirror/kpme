@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.accrual.AccrualCategory;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class EarnCode extends PersistableBusinessObjectBase {
@@ -141,4 +142,23 @@ public class EarnCode extends PersistableBusinessObjectBase {
 		this.inflateFactor = inflateFactor;
 	}
 
+	/**
+	 * This is used by the timeblock json object. 
+	 * The purpose of this function is to create a string based on the record_* fields which can be used to render hour / begin(end) time input box   
+	 * @return String fieldType
+	 */
+	public String getEarnCodeType() {
+		if(getRecordHours()) {
+			return TkConstants.EARN_CODE_HOUR;
+		}
+		else if(getRecordTime()) {
+			return TkConstants.EARN_CODE_TIME;
+		}
+		else if(getRecordAmount()) {
+			return TkConstants.EARN_CODE_AMOUNT;
+		}
+		else {
+			return "";
+		}
+	}
 }

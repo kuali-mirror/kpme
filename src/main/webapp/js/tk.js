@@ -47,43 +47,21 @@ $(document).ready(function() {
     
 	// datepicker
 	$('#date-range-begin, #date-range-end').datepicker({
-				changeMonth : true,
-				changeYear : true,
-				showOn : 'button',
-				showAnim : 'fadeIn',
-				buttonImage : 'kr/static/images/cal.gif',
-				buttonImageOnly : true,
-				buttonText : 'Select a date',
-				showButtonPanel : true,
-				numberOfMonths : 2,
-				// set default month based on the current browsing month
-				// appendText : '<br/>format: mm/dd/yyyy',
-				constrainInput : true
-			});
-
-
-    var beginPeriodDate = $('#beginPeriodDate').val();
-    var endPeriodDate = $('#endPeriodDate').val();
-
-    if( beginPeriodDate != undefined) {
-        var begin = beginPeriodDate.split("/")
-        $('#date-range-begin, #date-range-end').datepicker( "option", "minDate", new Date(begin[2],begin[0],begin[1]));
-    }
-
-    if( endPeriodDate != undefined) {
-        var end = endPeriodDate.split("/")
-        $('#date-range-begin, #date-range-end').datepicker( "option", "maxDate", new Date(end[2],end[0],end[1]));
-    }
-
-    if(beginPeriodDate != undefined && endPeriodDate != undefined) {
-        // the second argument is a Radix. 10 means to use the decimal numeral system
-        var beginMonth = parseInt(beginPeriodDate.split("/")[0],10);
-        var endMonth = parseInt(endPeriodDate.split("/")[0],10);
-
-        // if the pay period is across 2 months
-        var numberOfMonths = (endMonth - beginMonth) > 0 ? 2 : 1;
-        $('#date-range-begin, #date-range-end').datepicker( "option", "numberOfMonths", numberOfMonths);
-    }
+		changeMonth : true,
+		changeYear : true,
+		showOn : 'button',
+		showAnim : 'fadeIn',
+		buttonImage : 'kr/static/images/cal.gif',
+		buttonImageOnly : true,
+		buttonText : 'Select a date',
+		showButtonPanel : true,
+		//numberOfMonths : 2,
+		// set default month based on the current browsing month
+		// appendText : '<br/>format: mm/dd/yyyy',
+		constrainInput : true,
+		minDate : new Date($('#beginPeriodDate').val()),
+		maxDate : new Date($('#endPeriodDate').val())
+	});
 
 	// select All
 	$('#selectAll').click(function() {
@@ -201,16 +179,14 @@ $(document).ready(function() {
 
 		$('#hoursField').attr('readonly',false).css('background',"white").val("");
 
-        if($(this).val() == 'SCK' || $(this).val() == 'VAC') {
+        var fieldType = $(this).val().split("_")[1];
+
+        if(fieldType == 'HOUR') {
 			$('#beginTimeField,#endTimeField').val("");
             $('#clockIn, #clockOut').hide();
             $('#hoursSection').show();
-
-            // if($(this).val() == 'SCK') {
-            //     $('#hoursField').val('8');
-            //     $('#hoursField').attr('readonly',true).css('background',"#EEEEEE");
-            // }
         }
+        // TODO: need to handle the amount field
         else {
             $('#hours').val("");
             $('#clockIn, #clockOut').show();

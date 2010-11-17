@@ -12,13 +12,17 @@
 		<c:set var="lastClockActionMessage" value="Clocked in since : "/>
 	</c:otherwise>
 </c:choose>
+<c:if test="${Form.lastClockTimestamp eq null}">
+    <c:set var="clockActionDescription" value="Clock In"/>
+    <c:set var="lastClockActionMessage" value="No previous clock information"/>
+</c:if>
+
 <tk:tkHeader tabId="clock">
 
 	<html:form action="/Clock.do">
 	<html:hidden property="methodToCall" value=""/>
 	<html:hidden property="currentClockAction" styleId="clockAction"/>
 	<html:hidden property="lastClockedInTime" value="${Form.lastClockTimestamp}" styleId="lastClockedInTime"/>
-
 	<div id="clock">
 		<table>
 			<tr class="header"><td colspan="2"><bean:message key="clock.title"/></td></tr>

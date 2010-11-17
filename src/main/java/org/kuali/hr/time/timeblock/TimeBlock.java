@@ -35,13 +35,17 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	private Timestamp timestamp;
 	private String beginTimestampTimezone;
 	private String endTimestampTimezone;
+	// the two variables below are used to determine if a time block needs to be visually pushed forward / backward  
+	private Boolean pushBackward = false;
 	
 	private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
-		return null;
+		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
+		toStringMap.put("tkTimeBlockId", tkTimeBlockId);
+		return toStringMap;
 	}
 
 	public String getDocumentId() {
@@ -233,6 +237,14 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 			key.append(timeHourDetail.getEarnCode()+"_"+timeHourDetail.getAmount()+"_"+timeHourDetail.getHours());
 		}
 		return HashCodeBuilder.reflectionHashCode(key);
+	}
+
+	public Boolean isPushBackward() {
+		return pushBackward;
+	}
+
+	public void setPushBackward(Boolean pushBackward) {
+		this.pushBackward = pushBackward;
 	}
 	
 	

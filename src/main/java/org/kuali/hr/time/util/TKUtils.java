@@ -208,7 +208,7 @@ public class TKUtils {
 	 * returns true if at midnight false otherwise(assuming 24 hr days)
 	 */
 	public static boolean isVirtualWorkDay(Calendar payCalendarStartTime){
-		return (payCalendarStartTime.get(Calendar.HOUR) != 0 || payCalendarStartTime.get(Calendar.MINUTE) != 0 
+		return (payCalendarStartTime.get(Calendar.HOUR_OF_DAY) != 0 || payCalendarStartTime.get(Calendar.MINUTE) != 0 
 				&& payCalendarStartTime.get(Calendar.AM_PM) != Calendar.AM);
 	}
 	

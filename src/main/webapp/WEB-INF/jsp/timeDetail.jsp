@@ -5,6 +5,7 @@
 	<div style="clear:both;" class="">
 	<html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDate"/>
 	<html:hidden property="endPeriodDateTime" value="${Form.endPeriodDateTime}" styleId="endPeriodDate"/>
+	<html:hidden property="isVirtualWorkDay" value="${Form.isVirtualWorkDay}" styleId="isVirtualWorkDay"/>
 	
 		<%--This is for visually impaired users --%>
 		<!--

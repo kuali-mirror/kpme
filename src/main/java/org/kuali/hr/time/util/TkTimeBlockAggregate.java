@@ -1,6 +1,7 @@
 package org.kuali.hr.time.util;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -14,14 +15,23 @@ public class TkTimeBlockAggregate {
 	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, PayCalendarDates payCalendarEntry){
 		List<Interval> dayIntervals = TKUtils.getDaySpanForPayCalendarEntry(payCalendarEntry);
 		for(Interval dayInt : dayIntervals){
+			Calendar dayIntBeginCal = Calendar.getInstance();
+			dayIntBeginCal.setTimeInMillis(dayInt.getStartMillis());
+			Calendar dayIntEndCal = Calendar.getInstance();
+			dayIntEndCal.setTimeInMillis(dayInt.getEndMillis());
 			List<TimeBlock> dayTimeBlocks = new ArrayList<TimeBlock>();
 			for(TimeBlock timeBlock : timeBlocks){
 				DateTime beginTime = new DateTime(timeBlock.getBeginTimestamp());
 				DateTime endTime = new DateTime(timeBlock.getEndTimestamp());
 				if(dayInt.contains(beginTime)){
-					if(dayInt.contains(endTime)){
+					if(dayInt.contains(endTime) || endTime.compareTo(dayInt.getEnd()) == 0){
+						// determine if the time block needs to be pushed forward / backward
+						if(beginTime.getHourOfDay() < dayIntBeginCal.get(Calendar.HOUR_OF_DAY)) {
+							timeBlock.setPushBackward(true);
+						}
+
 						dayTimeBlocks.add(timeBlock);
-					} 
+					}
 				}
 			}
 			dayTimeBlockList.add(dayTimeBlocks);

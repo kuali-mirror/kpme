@@ -22,6 +22,11 @@ public class TkConstants {
     public static final String DELETE = "DELETE";
     public static final String ADD = "ADD";
     public static final String MODIFIED = "MODIFIED";
+    
+    // earn code type
+    public static final String EARN_CODE_HOUR = "HOUR";
+    public static final String EARN_CODE_TIME = "TIME";
+    public static final String EARN_CODE_AMOUNT = "AMOUNT";
 
     public static final String   GMT_TIME_ZONE_ID = "Etc/GMT";
     public static final TimeZone GMT_TIME_ZONE    = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
@@ -65,7 +70,6 @@ public class TkConstants {
     	public static final String ADD_TIME_BLOCK = "addTimeBlock";
     }
 
-    public static final String EARN_CODE_RGH = "RGN";
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";
     
 }

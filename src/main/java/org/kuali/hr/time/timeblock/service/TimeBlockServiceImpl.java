@@ -10,11 +10,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -23,6 +23,7 @@ import org.kuali.hr.time.timeblock.dao.TimeBlockDao;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
 public class TimeBlockServiceImpl implements TimeBlockService {
 	
@@ -101,8 +102,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 					lstTimeBlocks.add(tb);
 					break;
 				} else {
-					//create a timeblock that wraps the 24 hr day
-					TimeBlock tb = createTimeBlock(timesheetDocument, beginTimestamp, endTimestamp, assignment, earnCode,hours);
+					// create a timeblock that wraps the 24 hr day					
+					TimeBlock tb = createTimeBlock(timesheetDocument, beginTimestamp, new Timestamp(dayInt.getEndMillis()), assignment, earnCode,hours);
 					tb.setBeginTimestamp(beginTimestamp);
 					tb.setEndTimestamp(new Timestamp(firstDay.getEndMillis()));
 					lstTimeBlocks.add(tb);
@@ -174,7 +175,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	
 	public List<Map<String,Object>> getTimeBlocksForOurput(TimesheetDocument tsd) {
 		
-		List<TimeBlock> timeBlocks = tsd.getTimeBlocks();
+//		List<TimeBlock> timeBlocks = tsd.getTimeBlocks();
+		List<TimeBlock> timeBlocks = new TkTimeBlockAggregate(tsd.getTimeBlocks(), tsd.getPayCalendarEntry()).getFlattenedTimeBlockList();
+		
 		
 		if(timeBlocks == null || timeBlocks.size() == 0) {
 			return new ArrayList<Map<String,Object>>();
@@ -188,36 +191,36 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			String assignmentKey = TKUtils.formatAssignmentKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask());
 			String workAreaDesc = TkServiceLocator.getAssignmentService().getAssignment(tsd, assignmentKey).getWorkAreaObj().getDescription();
 			
-			timeBlockMap.put("title", workAreaDesc + " : " + timeBlock.getEarnCode());
-			timeBlockMap.put("start", new java.util.Date(timeBlock.getBeginTimestamp().getTime()).toString());
-			timeBlockMap.put("end", new java.util.Date(timeBlock.getEndTimestamp().getTime()).toString());
-			timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
-			timeBlockMap.put("earnCode", timeBlock.getEarnCode());
-			timeBlockMap.put("hours", timeBlock.getHours());
-			
 			Calendar beginTimeCal = Calendar.getInstance();
 			beginTimeCal.setTimeInMillis(timeBlock.getBeginTimestamp().getTime());
 			Calendar endTimeCal = Calendar.getInstance();
 			endTimeCal.setTimeInMillis(timeBlock.getEndTimestamp().getTime());
-
-			// check if the pay period is the standard one
-			String isStandardPayPeriod = endTimeCal.get(Calendar.HOUR_OF_DAY) == 0 ? "true" : "false";
-			timeBlockMap.put("isStandardPayPeriod", isStandardPayPeriod);
 			
-			// if it is NOT a standard pay period, do the virtual day logic
-			if(StringUtils.equals(isStandardPayPeriod, "false")) {
-				
-//				java.util.Date beginPeriodDateTime = tsd.getPayCalendarEntry().getBeginPeriodDateTime();
-//				Calendar beginPayPeriodCal = Calendar.getInstance();
-//				beginPayPeriodCal.setTime(beginPeriodDateTime);
-				java.util.Date endPeriodDateTime = tsd.getPayCalendarEntry().getEndPeriodDateTime();
-				Calendar endPayPeriodCal = Calendar.getInstance();
-				endPayPeriodCal.setTime(endPeriodDateTime);
-				
-				// need to plus one for the pay period end hour, since 11:59:59 should be considered as 12
-				timeBlockMap.put("isWithinVirtualDay", endTimeCal.get(Calendar.HOUR_OF_DAY) <= endPayPeriodCal.get(Calendar.HOUR_OF_DAY)+1 ? "true" : "false");
-//				timeBlockMap.put("isPushTimeBlockNeeded", beginTimeCal.get(Calendar.HOUR_OF_DAY) == beginPayPeriodCal.get(Calendar.HOUR_OF_DAY) ? "true" : "false");
+			timeBlockMap.put("origStart", beginTimeCal.getTime().toString());
+			timeBlockMap.put("origEnd", endTimeCal.getTime().toString());
+			/**
+			 * This is the timeblock pushing forward/backward logic.
+			 * Since the calendar widget uses the standard 12a to 12a time period to determine the location of the timeblocks,
+			 * Putting this logic here in the java side is because the difficulty to hack the calendar grid building logic.
+			 * the purpose of this is to accommodate the virtual day mode where the start/end period time is not from 12a to 12a.
+			 * A timeblock will be pushed forward if the begin time is greater than the end period time;
+			 * it will be pushed back if the timeblock is still within than previous pay period 
+			 */
+			// TODO: need to add / subtract 1 month if the timeblock is in the last / first day of the month
+			if(timeBlock.isPushBackward()) {
+				beginTimeCal.add(Calendar.DAY_OF_MONTH, -1);
+				endTimeCal.add(Calendar.DAY_OF_MONTH, -1);
 			}
+			
+			timeBlockMap.put("title", workAreaDesc + " : " + timeBlock.getEarnCode());
+			timeBlockMap.put("start", beginTimeCal.getTime().toString());
+			timeBlockMap.put("end", endTimeCal.getTime().toString());
+			timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
+			timeBlockMap.put("earnCode", timeBlock.getEarnCode());
+			//TODO: need to cache this or pre-load it when the app boots up
+			EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
+			timeBlockMap.put("earnCodeType", earnCode.getEarnCodeType());
+			timeBlockMap.put("hours", timeBlock.getHours());
 
 			timeBlockList.add(timeBlockMap);
 		}

@@ -1,10 +1,12 @@
 package org.kuali.hr.time.detail.web;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.List;
 
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
+import org.kuali.hr.time.util.TKUtils;
 
 public class TimeDetailActionForm extends TimesheetActionForm {
 
@@ -28,6 +30,8 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	private BigDecimal hours;
 	private String startDate;
 	private String endDate;
+	
+	private String isVirtualWorkDay;
 	
 	public String getOutputString() {
 		return outputString;
@@ -129,4 +133,9 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 		this.endPeriodDateTime = endPeriodDateTime;
 	}
 
+	public String getIsVirtualWorkDay() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(getBeginPeriodDateTime());
+		return new Boolean(TKUtils.isVirtualWorkDay(cal)).toString();
+	}
 }
