@@ -27,4 +27,8 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
 	public TimesheetDocumentHeader getDocumentHeader(String principalId, Date payBeginDate, Date payEndDate) {
 		return documentHeaderDao.getTimesheetDocumentHeader(principalId, payBeginDate, payEndDate);
 	}
+	
+	public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, Long currDocumentId){
+		return documentHeaderDao.getPreviousDocumentHeader(principalId, currDocumentId);
+	}
 }

@@ -10,4 +10,5 @@ public interface TimesheetDocumentHeaderService {
 	public TimesheetDocumentHeader getDocumentHeader(Long documentId);
 	
 	public TimesheetDocumentHeader getDocumentHeader(String principalId, Date payBeginDate, Date payEndDate);
+	public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, Long currDocumentId);
 }

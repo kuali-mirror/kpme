@@ -3,6 +3,7 @@ package org.kuali.hr.time.workflow.dao;
 import java.util.Date;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -31,6 +32,18 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PersistenceBrokerDa
 		crit.addEqualTo("payBeginDate", payBeginDate);
 		
 		return (TimesheetDocumentHeader)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(TimesheetDocumentHeader.class, crit));
+	}
+	
+	public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, Long currDocumentId){
+		Criteria crit = new Criteria();
+		crit.addEqualTo("principalId", principalId);
+		crit.addNotEqualTo("documentId", currDocumentId);
+		QueryByCriteria query = new QueryByCriteria(TimesheetDocumentHeader.class, crit);
+		query.addOrderByDescending("documentId");
+		query.setStartAtIndex(0);
+		query.setEndAtIndex(1);
+		TimesheetDocumentHeader prevDocumentHeader = (TimesheetDocumentHeader)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		return prevDocumentHeader;
 	}
 
 }

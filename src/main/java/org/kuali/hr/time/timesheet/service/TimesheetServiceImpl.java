@@ -1,5 +1,6 @@
 package org.kuali.hr.time.timesheet.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -79,6 +80,14 @@ public class TimesheetServiceImpl implements TimesheetService {
 		timesheetDocument = new TimesheetDocument(documentHeader);
 
 		return timesheetDocument;
+	}
+	
+	public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, Long currDocumentId){
+		TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, currDocumentId);
+		if(prevTdh == null){
+			return new ArrayList<TimeBlock>();
+		}
+		return TkServiceLocator.getTimeBlockService().getTimeBlocks(prevTdh.getDocumentId());
 	}
 
 	@Override
