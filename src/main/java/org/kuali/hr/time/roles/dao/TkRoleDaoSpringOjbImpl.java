@@ -41,6 +41,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 		ReportQueryByCriteria timestampSubQuery = null;
 		
 		// Only need effective date/time stamp criteria if we're doing date checking.
+		// date checking is to account for roles are currently effective
 		if (dateCheck) {
 			effdt = new Criteria();
 			timestamp = new Criteria();
@@ -63,12 +64,17 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 			effdtSubQuery = QueryFactory.newReportQuery(TkRole.class, effdt);
 			effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 		
-
+			//Configure the actual "criteria" in the where clause
 			timestamp.addEqualToField("roleName", Criteria.PARENT_QUERY_PREFIX + "roleName");
 			timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 			timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 			timestamp.addEqualTo("active", true);
+			
+			//Create a subquery based on the just configured where clause
 			timestampSubQuery = QueryFactory.newReportQuery(TkRole.class, timestamp);
+			
+			//Specify the result set of the subquery, this is retrieving the max value of the timestamp field based
+			//on all of the items that meet the various criteria specified earlier
 			timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 		}	
 		

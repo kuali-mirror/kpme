@@ -10,7 +10,11 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class Job extends PersistableBusinessObjectBase {
 
+	/*
+	 * Standard field included for serialization support
+	 */
 	private static final long serialVersionUID = 1L;
+	
 	private String location;
 	private String hrPayType;
 	private Boolean fte;
