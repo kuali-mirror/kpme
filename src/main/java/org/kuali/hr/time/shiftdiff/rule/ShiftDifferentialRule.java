@@ -5,7 +5,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.rule.TkRule;
+import org.kuali.hr.time.salgroup.SalGroup;
 
 public class ShiftDifferentialRule extends TkRule {
 
@@ -35,6 +37,9 @@ public class ShiftDifferentialRule extends TkRule {
 	private String userPrincipalId;
 	private Timestamp timeStamp;
 	private boolean active;
+	
+	private EarnCode earnCodeObj;
+	private SalGroup salGroupObj;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -216,6 +221,22 @@ public class ShiftDifferentialRule extends TkRule {
 
 	public void setSaturday(boolean saturday) {
 		this.saturday = saturday;
+	}
+
+	public EarnCode getEarnCodeObj() {
+		return earnCodeObj;
+	}
+
+	public void setEarnCodeObj(EarnCode earnCodeObj) {
+		this.earnCodeObj = earnCodeObj;
+	}
+
+	public SalGroup getSalGroupObj() {
+		return salGroupObj;
+	}
+
+	public void setSalGroupObj(SalGroup salGroupObj) {
+		this.salGroupObj = salGroupObj;
 	}
 
 }

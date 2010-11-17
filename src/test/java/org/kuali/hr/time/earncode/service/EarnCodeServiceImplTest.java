@@ -88,4 +88,12 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 		
 	}
 	
+	@Test
+	public void testEarnCodeMaintenancePage() throws Exception{
+		//TODO - Sai confirm the maintenance page renders
+		//TODO - Sai confirm that the error is throw by not selecting a record type
+		//TODO - Sai confirm that the error is thrown if more than one record type is selected
+	}
+	
+	
 }

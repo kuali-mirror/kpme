@@ -33,7 +33,7 @@ public class JobServiceImpl implements JobService {
 
 		for (Job job : jobs) {
 			PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), asOfDate);
-			job.setPayType(payType);
+			job.setPayTypeObj(payType);
 		}
 
 		return jobs;
@@ -52,7 +52,7 @@ public class JobServiceImpl implements JobService {
 		PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(hrPayType, asOfDate);
 		if (payType == null)
 			throw new RuntimeException("No paytypes defined for this job!");
-		job.setPayType(payType);
+		job.setPayTypeObj(payType);
 		
 		return job;
 	}

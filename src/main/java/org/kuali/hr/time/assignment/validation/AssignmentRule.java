@@ -4,7 +4,6 @@ package org.kuali.hr.time.assignment.validation;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;

@@ -62,6 +62,16 @@
 						</list>
 					</property>
 				</bean>
+				
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="payTypeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="paytype"
+								p:targetName="payType" />
+						</list>
+					</property>
+				</bean>				
 			</list>
 		</property>
 		 

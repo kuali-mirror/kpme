@@ -26,6 +26,13 @@ public class GracePeriodRuleServiceTest extends TkTestCase{
 		assertTrue("fetched one rule", gpr != null);
 	}
 	
+	@Test
+	public void testGracePeriodFetchValidation() throws Exception{
+		//TODO: Sai - confirm maintenance page renders
+		//TODO: Sai - confirm if hour factor is less than or equal 0 and greater than 1 it throws 
+		//appropriate error
+		
+	}
 	
 	@Test
 	public void testGracePeriodRuleTest() throws Exception{

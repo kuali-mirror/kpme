@@ -39,6 +39,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="employee" />
 				<bean parent="MaintainableFieldDefinition" p:name="approver" />
 				<bean parent="MaintainableFieldDefinition" p:name="org_admin" />
+				<bean parent="MaintainableFieldDefinition" p:name="active" />
 			</list>
 		</property>
 	</bean>

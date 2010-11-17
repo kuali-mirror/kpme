@@ -22,6 +22,7 @@
 				<ref bean="DepartmentEarnCode-employee" />
 				<ref bean="DepartmentEarnCode-approver" />
 				<ref bean="DepartmentEarnCode-org_admin" />
+				<ref bean="DepartmentEarnCode-active" />
 			</list>
 		</property>
 		  
@@ -150,6 +151,17 @@
 		<property name="name" value="org_admin" />
 		<property name="label" value="Org. Admin" />
 	</bean>
+	
+	<bean id="DepartmentEarnCode-active" parent="DepartmentEarnCode-active-parentBean"/>
+    <bean id="DepartmentEarnCode-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Active"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
 	<!--  Inquiry Definitions  -->
 
 
@@ -161,6 +173,7 @@
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<property name="resultFields">

@@ -11,7 +11,7 @@
 
 	<bean id="PayTypeMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.paytype.PayType"
-		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+		p:maintainableClass="org.kuali.hr.time.paytype.service.PayTypeMaintainableImpl">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="PayTypeMaintenanceDocument-PayTypeMaintenance" />

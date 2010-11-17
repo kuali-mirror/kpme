@@ -9,7 +9,7 @@
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.hr.time.earngroup.EarnGroupDefinition" />
 		<property name="titleAttribute" value="tkEarnGroupDefId" />
-		<property name="objectLabel" value="earnGroupDef" />
+		<property name="objectLabel" value="Earn Group Entry" />
 		<property name="lookupDefinition">
 			<ref bean="EarnGroupDef-lookupDefinition" />
 		</property>

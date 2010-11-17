@@ -12,8 +12,8 @@
 
   <bean id="JobMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.job.Job"
-  		p:businessRulesClass="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"
-  		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+  		p:businessRulesClass="org.kuali.hr.job.validation.JobValidation"
+  		p:maintainableClass="org.kuali.hr.job.service.JobMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="JobMaintenanceDocument-JobMaintenance"/>
@@ -27,7 +27,7 @@
   <bean id="JobMaintenanceDocument-JobMaintenance" parent="JobMaintenanceDocument-JobMaintenance-parentBean"/>
 
   <bean id="JobMaintenanceDocument-JobMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Department Maintenance"/>
+    <property name="title" value="Job Maintenance"/>
     <property name="maintainableItems">
       <list>
       	<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true"/>
@@ -35,10 +35,9 @@
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="tkSalGroup" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="timestamp" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="fte" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="payType" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="hrPayType" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="payGrade" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="compRate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="standardHours" p:required="true"/>

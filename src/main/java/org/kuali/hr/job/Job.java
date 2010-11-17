@@ -5,7 +5,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.paytype.PayType;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class Job extends PersistableBusinessObjectBase {
@@ -28,8 +30,11 @@ public class Job extends PersistableBusinessObjectBase {
 	private String tkSalGroup;
 	private Timestamp timestamp;
 	private Boolean active;
-	private PayType payType;
 	private BigDecimal compRate = new BigDecimal(0);
+	
+	private Person principal;
+	private Department deptObj;
+	private PayType payTypeObj;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -114,14 +119,6 @@ public class Job extends PersistableBusinessObjectBase {
 	public String getLocation() {
 		return location;
 	}
-
-	public PayType getPayType() {
-		return payType;
-	}
-
-	public void setPayType(PayType payType) {
-		this.payType = payType;
-	}
 	
 	public String getHrPayType() {
 		return hrPayType;
@@ -163,6 +160,35 @@ public class Job extends PersistableBusinessObjectBase {
 
 	public void setCompRate(BigDecimal compRate) {
 		this.compRate = compRate;
+	}
+
+	public Department getDeptObj() {
+		return deptObj;
+	}
+
+
+	public void setDeptObj(Department deptObj) {
+		this.deptObj = deptObj;
+	}
+
+
+	public PayType getPayTypeObj() {
+		return payTypeObj;
+	}
+
+
+	public void setPayTypeObj(PayType payTypeObj) {
+		this.payTypeObj = payTypeObj;
+	}
+
+
+	public Person getPrincipal() {
+		return principal;
+	}
+
+
+	public void setPrincipal(Person principal) {
+		this.principal = principal;
 	}
 
 

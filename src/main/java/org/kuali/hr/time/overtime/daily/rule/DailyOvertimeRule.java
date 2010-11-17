@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -34,6 +35,7 @@ public class DailyOvertimeRule extends TkRule {
 	private Task taskObj;
 	private WorkArea workAreaObj;
 	private Department departmentObj;
+	private PayType payTypeObj;
 	
 //	@Override
 //	public boolean isValid(TkRuleContext tkRuleContext) {
@@ -172,6 +174,14 @@ public class DailyOvertimeRule extends TkRule {
 
 	public Long getTask() {
 		return task;
+	}
+
+	public PayType getPayTypeObj() {
+		return payTypeObj;
+	}
+
+	public void setPayTypeObj(PayType payTypeObj) {
+		this.payTypeObj = payTypeObj;
 	}
 
 }

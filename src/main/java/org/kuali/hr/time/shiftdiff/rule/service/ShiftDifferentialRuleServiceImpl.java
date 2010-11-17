@@ -50,7 +50,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 					job.getLocation(), 
 					job.getTkSalGroup(), 
 					job.getPayGrade(),
-					job.getPayType().getCalendarGroup(),
+					job.getPayTypeObj().getCalendarGroup(),
 					TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
 			if (shiftDifferentialRules.size() > 0) 
 				jobNumberToShifts.put(job.getJobNumber(), shiftDifferentialRules);

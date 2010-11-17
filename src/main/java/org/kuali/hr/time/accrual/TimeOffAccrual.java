@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class TimeOffAccrual extends PersistableBusinessObjectBase {
@@ -22,7 +23,7 @@ public class TimeOffAccrual extends PersistableBusinessObjectBase {
 
 	private AccrualCategory accrualCategoryObj;
 
-	private Person principal;
+	protected PersonImpl principal;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -87,10 +88,6 @@ public class TimeOffAccrual extends PersistableBusinessObjectBase {
 		return accrualCategoryObj;
 	}
 
-	public void setPrincipal(Person principal) {
-		this.principal = principal;
-	}
-
 	public Person getPrincipal() {
 		return principal;
 	}
@@ -103,6 +100,11 @@ public class TimeOffAccrual extends PersistableBusinessObjectBase {
 
 	public void setLaAccrualId(Long laAccrualId) {
 		this.laAccrualId = laAccrualId;
+	}
+
+
+	public void setPrincipal(PersonImpl principal) {
+		this.principal = principal;
 	}
 
 }

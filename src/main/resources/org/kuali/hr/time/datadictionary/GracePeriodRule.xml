@@ -105,9 +105,9 @@
   <bean id="GracePeriodRule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="effDt"/>
         <bean parent="FieldDefinition" p:attributeName="hourFactor"/>
         <bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields">

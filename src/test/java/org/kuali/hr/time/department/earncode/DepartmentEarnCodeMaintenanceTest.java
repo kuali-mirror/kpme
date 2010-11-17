@@ -27,6 +27,7 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	
 	private static Long departmentEarnCodeId;
 
+	//TODO Sai - confirm this test is appropriate
 
 	@Test
 	public void testDepartmentEarnCodeMaint() throws Exception {

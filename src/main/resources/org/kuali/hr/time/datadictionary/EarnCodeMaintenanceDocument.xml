@@ -11,8 +11,8 @@
   <bean id="EarnCodeMaintenanceDocument" parent="EarnCodeMaintenanceDocument-parentBean"/>
   <bean id="EarnCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.time.earncode.EarnCode"
-  		p:businessRulesClass="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"
-  		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+  		p:businessRulesClass="org.kuali.hr.time.earncode.validation.EarnCodeValidation"
+  		p:maintainableClass="org.kuali.hr.time.earncode.service.EarnCodeMaintainableServiceImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="EarnCodeMaintenanceDocument-EarnCodeMaintenance"/>
@@ -25,11 +25,16 @@
 
   <bean id="EarnCodeMaintenanceDocument-EarnCodeMaintenance" parent="EarnCodeMaintenanceDocument-EarnCodeMaintenance-parentBean"/>
   <bean id="EarnCodeMaintenanceDocument-EarnCodeMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Department Maintenance"/>
+    <property name="title" value="Earn Code Maintenance"/>
     <property name="maintainableItems">
       <list>
-      	<bean parent="MaintainableFieldDefinition" p:name="tkEarnCodeId" 		p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="earnCode" 		p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="recordTime" 		p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="recordHours" 		p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="recordAmount" 		p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accrualCategory" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="inflateMinHours" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="inflateFactor" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active"   		p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" 		p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" 		p:required="true"/>        

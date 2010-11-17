@@ -1,7 +1,7 @@
 package org.kuali.hr.time.salgroup;
 
 import java.sql.Date;
-import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -15,7 +15,7 @@ public class SalGroup extends PersistableBusinessObjectBase {
 	private Long tkSalGroupId;
 	private String tkSalGroup;
 	private Date effectiveDate;
-	private Time timestamp;
+	private Timestamp timestamp;
 	private boolean active;
 
 	@SuppressWarnings("unchecked")
@@ -40,11 +40,11 @@ public class SalGroup extends PersistableBusinessObjectBase {
 		this.active = active;
 	}
 
-	public void setTimestamp(Time timestamp) {
+	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
 
-	public Time getTimestamp() {
+	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 

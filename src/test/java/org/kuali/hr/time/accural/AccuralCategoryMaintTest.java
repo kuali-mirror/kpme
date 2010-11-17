@@ -16,6 +16,8 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class AccuralCategoryMaintTest extends TkTestCase {
+	//TODO - Sai confirm this test is working
+	
 	private static final String TEST_CODE = "_T";
 	private static Long accuralCategoryId;
 	private static final Date TEST_DATE = new Date(Calendar.getInstance()
@@ -42,7 +44,7 @@ public class AccuralCategoryMaintTest extends TkTestCase {
 		super.setUp();
 		AccrualCategory accrualCategory = new AccrualCategory();
 		accrualCategory.setAccrualCategory(TEST_CODE);
-		accrualCategory.setActive(Boolean.TRUE);
+		accrualCategory.setActive(true);
 		accrualCategory.setDescr(TEST_CODE);
 		accrualCategory.setEffectiveDate(TEST_DATE);
 		accrualCategory.setTimestamp(TEST_TIMESTAMP);

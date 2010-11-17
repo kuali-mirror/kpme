@@ -12,7 +12,8 @@
 
   <bean id="GracePeriodRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.time.graceperiod.rule.GracePeriodRule"
-   		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+  		p:businessRulesClass="org.kuali.hr.time.graceperiod.rule.validation.GracePeriodRuleValidation"
+   		p:maintainableClass=" org.kuali.hr.time.graceperiod.service.GracePeriodRuleMaintainableServiceImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="GracePeriodRuleMaintenanceDocument-GracePeriodRuleMaintenance"/>
@@ -32,7 +33,6 @@
         <bean parent="MaintainableFieldDefinition" p:name="hourFactor" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="effDt" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" p:required="true"/>
       </list>
     </property>
   </bean>

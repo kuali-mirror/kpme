@@ -10,8 +10,10 @@
 	<bean id="EarnGroupMaintenanceDocument" parent="EarnGroupMaintenanceDocument-parentBean" />
 
 	<bean id="EarnGroupMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.earngroup.EarnGroup"
-		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+		parent="MaintenanceDocumentEntry" 
+		p:businessObjectClass="org.kuali.hr.time.earngroup.EarnGroup"
+		p:businessRulesClass="org.kuali.hr.time.earngroup.validation.EarnGroupValidation"
+		p:maintainableClass="org.kuali.hr.time.earngroup.service.EarnGroupMaintainableImpl">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="EarnGroupMaintenanceDocument-EarnGroupMaintenance" />

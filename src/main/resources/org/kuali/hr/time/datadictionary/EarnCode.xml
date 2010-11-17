@@ -19,11 +19,31 @@
       <list>
         <ref bean="EarnCode-tkEarnCodeId" />
         <ref bean="EarnCode-earnCode" />
+        <ref bean="EarnCode-recordTime" />
+        <ref bean="EarnCode-recordHours" />
+        <ref bean="EarnCode-recordAmount" />
+        <ref bean="EarnCode-accrualCategory" />
         <ref bean="EarnCode-active" />
         <ref bean="EarnCode-description" />
         <ref bean="EarnCode-effectiveDate" />
+        <ref bean="EarnCode-inflateMinHours"/>
+        <ref bean="EarnCode-inflateFactor"/>
        </list>
     </property>
+    
+ 	<property name="relationships">
+  		<list>
+  			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="accrualCategoryObj" />
+				<property name="primitiveAttributes">
+				<list>
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory"
+								p:targetName="accrualCategory" />
+				</list>
+				</property>
+			</bean>
+        </list>
+    </property>      
     <property name="objectLabel" value="earnCode"/>
   </bean>
 
@@ -65,17 +85,99 @@
     </property>
     <property name="name" value="active"/>
     <property name="label" value="Active"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
+  
+  <bean id="EarnCode-recordTime" parent="EarnCode-recordTime-parentBean"/>
+  <bean id="EarnCode-recordTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Record Time"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="recordTime"/>
+    <property name="label" value="Record Time"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
+  
+  <bean id="EarnCode-recordHours" parent="EarnCode-recordHours-parentBean"/>
+  <bean id="EarnCode-recordHours-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Record Hours"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="recordHours"/>
+    <property name="label" value="Record Hours"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
+  
+  <bean id="EarnCode-recordAmount" parent="EarnCode-recordAmount-parentBean"/>
+  <bean id="EarnCode-recordAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Record Amount"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="recordAmount"/>
+    <property name="label" value="Record Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>    
+  
+  <bean id="EarnCode-accrualCategory" parent="EarnCode-accrualCategory-parentBean"/>
+  <bean id="EarnCode-accrualCategory-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Accrual Category"/>
+    <property name="maxLength" value="3"/>
+	<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+	</property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="name" value="accrualCategory"/>
+    <property name="label" value="Accrual Category"/>
+  </bean>
+  
+  <bean id="EarnCode-inflateMinHours" parent="EarnCode-inflateMinHours-parentBean" />
+	<bean id="EarnCode-inflateMinHours-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Inflate Min Hours" />
+		<property name="maxLength" value="6" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+		<property name="name" value="inflateMinHours" />
+		<property name="label" value="Inflate Min Hours" />
+	</bean>
+	
+  <bean id="EarnCode-inflateFactor" parent="EarnCode-inflateFactor-parentBean" />
+	<bean id="EarnCode-inflateFactor-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Inflate Factor" />
+		<property name="maxLength" value="6" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+		<property name="name" value="inflateFactor" />
+		<property name="label" value="Inflate Factor" />
+	</bean>	
 
  <bean id="EarnCode-description" parent="EarnCode-description-parentBean"/>
   <bean id="EarnCode-description-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="30"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <bean parent="TextControlDefinition" p:size="25"/>
     </property>
     <property name="name" value="description"/>
     <property name="label" value="Description"/>
@@ -133,7 +235,6 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="tkEarnCodeId" />
         <bean parent="FieldDefinition" p:attributeName="earnCode" />
       </list>
     </property>

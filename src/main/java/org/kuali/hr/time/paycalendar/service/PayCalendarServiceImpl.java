@@ -39,7 +39,7 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 	public PayCalendar getPayCalendarByGroup(String calendarGroup) {
 		return payCalendarDao.getPayCalendarByGroup(calendarGroup);
 	}
-
+	
 	@Override
 	public PayCalendarDates getCurrentPayCalendarDates(String principalId, Date currentDate) {
 		PayCalendarDates pcd = null;
@@ -54,7 +54,7 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 		if (principalId == null || job == null) {
 			throw new RuntimeException("Null parameters passed to getPayEndDate");
 		} else {
-			PayType payType = job.getPayType();
+			PayType payType = job.getPayTypeObj();
 			if (payType == null) 
 				throw new RuntimeException("Null pay type on Job in getPayEndDate");
 			PayCalendar payCalendar = payType.getPayCalendar();

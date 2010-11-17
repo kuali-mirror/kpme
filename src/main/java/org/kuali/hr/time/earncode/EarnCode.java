@@ -1,9 +1,11 @@
 package org.kuali.hr.time.earncode;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class EarnCode extends PersistableBusinessObjectBase {
@@ -19,9 +21,15 @@ public class EarnCode extends PersistableBusinessObjectBase {
 	private Boolean recordHours;
 	private Boolean recordTime;
 	private Boolean recordAmount;
+	private String accrualCategory;
+	private BigDecimal inflateMinHours;
+	private BigDecimal inflateFactor;
+	
 	private Timestamp timestamp;
 	private Date effectiveDate;
 	private boolean active;
+	
+	private AccrualCategory accrualCategoryObj;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -99,6 +107,38 @@ public class EarnCode extends PersistableBusinessObjectBase {
 
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public String getAccrualCategory() {
+		return accrualCategory;
+	}
+
+	public void setAccrualCategory(String accrualCategory) {
+		this.accrualCategory = accrualCategory;
+	}
+
+	public AccrualCategory getAccrualCategoryObj() {
+		return accrualCategoryObj;
+	}
+
+	public void setAccrualCategoryObj(AccrualCategory accrualCategoryObj) {
+		this.accrualCategoryObj = accrualCategoryObj;
+	}
+
+	public BigDecimal getInflateMinHours() {
+		return inflateMinHours;
+	}
+
+	public void setInflateMinHours(BigDecimal inflateMinHours) {
+		this.inflateMinHours = inflateMinHours;
+	}
+
+	public BigDecimal getInflateFactor() {
+		return inflateFactor;
+	}
+
+	public void setInflateFactor(BigDecimal inflateFactor) {
+		this.inflateFactor = inflateFactor;
 	}
 
 }

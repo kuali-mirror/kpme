@@ -68,7 +68,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 							List<WorkAreaOvertimePref> otPrefs = workArea.getOverTimePrefs();
 							String otEarnCode = null;
 							for (WorkAreaOvertimePref waop : otPrefs) {
-								if (waop.getPayType().equals(job.getPayType().getPayType())) {
+								if (waop.getPayType().equals(job.getPayTypeObj().getPayType())) {
 									otEarnCode = waop.getOvertimePreference();
 								}
 							}

@@ -97,6 +97,7 @@
 		</property>
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
 	</bean>
 
 	<!--  Inquiry Definitions  -->
@@ -109,6 +110,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroupId" />
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
+				 <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
 		<property name="resultFields">

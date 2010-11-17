@@ -37,6 +37,30 @@
 				<ref bean="ShiftDifferentialRule-active" />
 			</list>
 		</property>
+    	<property name="relationships">
+  		<list>
+  			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="salGroupObj" />
+				<property name="primitiveAttributes">
+				<list>
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkSalGroup"
+								p:targetName="tkSalGroup" />
+				</list>
+				</property>
+			</bean>
+  		
+  		
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="earnCodeObj"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode" p:targetName="earnCode"/>
+                </list>
+              </property>
+            </bean>            
+                    
+        </list>
+    	</property>        		
 	</bean>
 
 	<!-- Attributes  -->
@@ -330,7 +354,6 @@
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
-				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 			</list>
 		</property>
 		<property name="resultFields">

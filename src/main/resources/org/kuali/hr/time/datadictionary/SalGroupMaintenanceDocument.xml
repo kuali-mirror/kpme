@@ -11,7 +11,7 @@
 
 	<bean id="SalGroupMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.salgroup.SalGroup"
-		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+		p:maintainableClass="org.kuali.hr.time.salgroup.service.SalGroupMaintainableImpl">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="SalGroupMaintenanceDocument-SalGroupMaintenance" />
@@ -36,7 +36,6 @@
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="tkSalGroup" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="timestamp" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" />
 			</list>
 		</property>

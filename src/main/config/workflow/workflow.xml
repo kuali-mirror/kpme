@@ -124,5 +124,10 @@
 			<parent>RiceDocument</parent>
 			<label>DepartmentEarnCodeDocument</label>
 	</documentType>	
+	<documentType>
+			<name>EarnCodeMaintenanceDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>EarnCodeMaintenanceDocument</label>
+	</documentType>			
 	</documentTypes>
 </data>

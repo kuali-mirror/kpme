@@ -26,10 +26,10 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		if (a == null) 
 			throw new RuntimeException("Can not get earn codes for null assignment");
 		Job job = a.getJob();
-		if (job == null || job.getPayType() == null)
+		if (job == null || job.getPayTypeObj() == null)
 			throw new RuntimeException("Null job/job paytype on assignment!");
 		
-		EarnCode regularEc = getEarnCode(job.getPayType().getRegEarnCode(), job.getEffectiveDate());
+		EarnCode regularEc = getEarnCode(job.getPayTypeObj().getRegEarnCode(), job.getEffectiveDate());
 		if (regularEc == null) 
 			throw new RuntimeException("No regular earn code defined.");
 		earnCodes.add(regularEc);
