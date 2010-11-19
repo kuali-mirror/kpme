@@ -31,14 +31,14 @@
 						<tr style="border-bottom-style: double; font-weight: bold;">
 							<td>${assignRow.descr}</td>
 							<c:forEach items="${assignRow.total}" var="entry">
-								<td>${entry}</td>
+								<td><c:if test="${entry ne '0.00' and entry%7 != 0}">${entry}</c:if></td>
 							</c:forEach>
 						</tr>
 					</c:forEach>
 					<tr style="border-bottom-style: double; font-weight: bold;">
 						<td>${section.earnGroup}</td>
 						<c:forEach items="${section.totals}" var="entry">
-							<td>${entry}</td>
+							<td><c:if test="${entry ne '0.00' and entry%7 != 0}">${entry}</c:if></td>
 						</c:forEach>
 					</tr>
 				</c:forEach>

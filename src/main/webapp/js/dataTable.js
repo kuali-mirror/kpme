@@ -9,7 +9,6 @@ $(document).ready(function() {
     // TODO: integrate the time entry widget to the text field
     $('#timesheetForm').submit( function() {
         var sData = $('input', oTable.fnGetNodes()).serializeArray();
-        console.log(sData);
 
         return false;
     });
@@ -82,7 +81,6 @@ $.fn.createTimesheetTable = function(id, seq) {
         var $newRow = $('.' + id +' tbody>tr:first').clone().insertAfter('.' + id +' tbody>tr:last');
         $newRow.addRemoveRowButton();
         return false;
-//      console.log(jQuery($('#timesheet-table tbody>tr:last').clone(true).find('td:first-child')));
     });
 
 }

@@ -7,6 +7,9 @@
 	<html:hidden property="endPeriodDateTime" value="${Form.endPeriodDateTime}" styleId="endPeriodDate"/>
 	<html:hidden property="isVirtualWorkDay" value="${Form.isVirtualWorkDay}" styleId="isVirtualWorkDay"/>
 	
+	<div id="jsonOutput" style="display:none;">
+	   ${Form.jsonOutput}
+	</div>
 		<%--This is for visually impaired users --%>
 		<!--
 		<c:forEach var="timeBlock" items="${Form.timeBlockList}" varStatus="row">
@@ -95,7 +98,8 @@
 					</html:form>
 				</div> <%-- end of dialog-form --%>
 
-		        <tk:timeSummary timeSummary="${Form.timesheetDocument.timeSummary}" />
+		        <%--<tk:timeSummary timeSummary="${Form.timesheetDocument.timeSummary}" />  --%>
+		        <tk:timeSummary timeSummary="${Form.timeSummary}" />
 			</div>
 		</div>
 	</div>

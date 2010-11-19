@@ -47,8 +47,8 @@
 			</tr>
 
 			<tr class="fran-main">
-			    <td style="border: none;"><button class="expand" id="fran-button"></td>
-				<td style="border: none;"></button><a href="TimeApproval.do?backdoorId=fran">Fran</a></td>
+			    <td style="border: none;"><button class="expand" id="fran-button"></button></td>
+				<td style="border: none;"><a href="TimeApproval.do?backdoorId=fran">Fran</a></td>
                 <td style="border: none;">Worked Hours</td>				
 				<td>4.00</td>
 				<td>4.00</td>

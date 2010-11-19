@@ -42,6 +42,21 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 		return timeSummary;
 	}
 	
+	@Override
+	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument, List<TimeBlock> timeBlocks) {
+		TimeSummary timeSummary = new TimeSummary();
+		
+		if(timesheetDocument.getTimeBlocks() == null) {
+			return timeSummary;
+		}
+		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getPayCalendarEntry()));
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getPayCalendarEntry());
+		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
+		timeSummary.setSections(buildSummarySections(tkTimeBlockAggregate,timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime(),timesheetDocument));
+		
+		return timeSummary;
+	}
+	
 	private List<BigDecimal> getWorkedHours(TkTimeBlockAggregate timeBlockAggregate){
 		List<BigDecimal> workedHours = new ArrayList<BigDecimal>();
 		int dayCount = 1;

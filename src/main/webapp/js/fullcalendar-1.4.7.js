@@ -438,7 +438,7 @@ $.fn.fullCalendar = function(options) {
 				if (options.cacheParam) {
 					params[options.cacheParam] = (new Date()).getTime(); // TODO: deprecate cacheParam
 				}
-				pushLoading();
+				pushLoading();				
 				$.ajax({
 					url: src,
 					dataType: 'json',
@@ -976,7 +976,7 @@ function normalizeEvent(event, options) {
 -----------------------------------------------------------------------------*/
 
 setDefaults({
-	weekMode: 'fixed',
+	weekMode: 'fixed'
 });
 
 views.month = function(element, options, viewName) {
@@ -1674,20 +1674,6 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 			}
 			left = seg.isStart ? dayContentLeft(seg.start.getDay()) : minLeft;
 			right = seg.isEnd ? dayContentRight(seg.end.getDay()-1) : maxLeft;
-			
-			// if(event.isVirtualWorkDay == "false") {
-			//     
-			//     			if (event.isWithinVirtualDay === "true") {
-			//     			    if (seg.end.getDay() - seg.start.getDay() >= 2) {
-			//         			    right = seg.isEnd ? dayContentRight(seg.end.getDay()-2) : maxLeft;
-			//     			    }
-			//     			}
-			//     			else {
-			//         left = seg.isStart ? dayContentLeft(seg.start.getDay()+1) : minLeft;
-			//         right = seg.isEnd ? dayContentRight(seg.end.getDay()) : maxLeft;
-			//         seg.level--;
-			//     }
-			// }			
 		}
 		
 		var fromTo = "";
@@ -1703,11 +1689,14 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 		
 		html +=
 			"<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;left:"+left+"px;margin-bottom:3px;' id='" + event.id + "'>" +
-			"<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<div style='float:right; margin: 2px 7px 0 0; z-index: 1;' id='delete-event'><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "' id='delete-link' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em; z-index: 1;'>X</a></div></td></tr>" +
+			//"<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<div style='float:right; margin: 2px 7px 0 0; z-index: 1;' id='delete-event'><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "' id='delete-link' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em; z-index: 1;'>X</a></div></td></tr>" +
+			"<table style='font-size:0.7em;'><tr><td colspan='2' style='text-align:center;'>" + event.title + "</td>" +   
+			"<td><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "'id='delete-link' style='margin-left:-3px;'><span class='ui-icon ui-icon-close' style='float:right;'></span></a></td>" +
+			"</tr>" +
 			fromTo +
 			"</table>" +
 			"</div>";
-
+			
 		seg.left = left;
 		seg.outerWidth = right - left;
 

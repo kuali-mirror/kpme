@@ -173,56 +173,6 @@ $(document).ready(function() {
     }).focus(function(){
         if(this.className != 'error') this.select();
     });
-
-    // earn code
-    $("select#earnCode").change(function(){
-
-		$('#hoursField').attr('readonly',false).css('background',"white").val("");
-
-        var fieldType = $(this).val().split("_")[1];
-
-        if(fieldType == 'HOUR') {
-			$('#beginTimeField,#endTimeField').val("");
-            $('#clockIn, #clockOut').hide();
-            $('#hoursSection').show();
-        }
-        // TODO: need to handle the amount field
-        else {
-            $('#hours').val("");
-            $('#clockIn, #clockOut').show();
-            $('#hoursSection').hide();
-        }
-
-        $("select#earnCode option[value='" + $(this).val() +"']").attr("selected", "selected");
-    });
-
-    // filter earn codes
-    // There is a copy of this code in fullcalendar.js #90. The reason to have a copy is to reset the assignments and earn codes every time the day is clicked.
-    $('#assignment').change(function(){
-    	
-    	var params = {};
-        params['selectedAssignment'] = $(this).val();
-    	
-        $.ajax({
-            url: "TimeDetail.do?methodToCall=getEarnCodes",
-            data: params,
-            cache: false,
-            success: function(data) {
-            	$('#earnCode').html(data);
-            },
-            error: function() {
-            	$('#earnCode').html("Error: Can't get earn codes.");
-            }
-        });
-        
-        $('#loading-earnCodes').ajaxStart(function() {
-			$(this).show();
-		});
-		$('#loading-earnCodes').ajaxStop(function() {
-			$(this).hide();
-		}); 
-    });
-    
 });
 
 $.fn.parseTime= function() {

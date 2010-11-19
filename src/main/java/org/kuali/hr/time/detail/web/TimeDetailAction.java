@@ -31,6 +31,12 @@ public class TimeDetailAction extends TimesheetAction {
 		tdaf.setBeginPeriodDateTime(tdaf.getPayCalendarDates().getBeginPeriodDateTime());
 		tdaf.setEndPeriodDateTime(tdaf.getPayCalendarDates().getEndPeriodDateTime());
 		
+		// TODO: may need to revisit this:
+		// when adding / removing timeblocks, it should update the timeblocks on the timesheet document, 
+		// so that we can directly fetch the timeblocks from the document
+		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentId());
+		tdaf.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument(), timeBlocks));
+		
 		// for visually impaired users 
 		// TimesheetDocument td = tdaf.getTimesheetDocument();
 		// List<TimeBlock> timeBlocks = td.getTimeBlocks();
@@ -141,7 +147,6 @@ public class TimeDetailAction extends TimesheetAction {
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(tdaf.getTimesheetDocument().getTimeBlocks(), lstNewTimeBlocks);
 		//call history service
 		
-
 		return mapping.findForward("basic");
 	}
 }
