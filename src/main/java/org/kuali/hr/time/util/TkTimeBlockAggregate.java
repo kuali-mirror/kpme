@@ -1,11 +1,13 @@
 package org.kuali.hr.time.util;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.joda.time.LocalTime;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
@@ -84,8 +86,31 @@ public class TkTimeBlockAggregate {
 //		//return collection
 //	}
 	
+	/**
+	 * When consuming these weeks, you must be aware that you could be on a 
+	 * virtual day, ie noon to noon schedule and have your FLSA time start 
+	 * before the virtual day start, 
+	 * but still have a full 7 days for your week.
+	 */
 	public FlsaWeek getFlsaWeek(int week){
-		FlsaWeek flsaWeek = new FlsaWeek();
+		int flsaDayConstant = payCalendar.getFlsaBeginDayConstant();
+		Time flsaBeginTime  = payCalendar.getFlsaBeginTime();
+
+		// We can use these to build our interval, we have to make sure we 
+		// place them on the proper day when we construct it.
+		LocalTime flsaBeginLocalTime = LocalTime.fromDateFields(flsaBeginTime);
+		LocalTime flsaEndLocalTime = flsaBeginLocalTime.plusHours(24);
+		
+		FlsaWeek flsaWeek = new FlsaWeek(flsaDayConstant, flsaBeginTime);
+		
+		int dayPos = 0;
+		
+		for (List<TimeBlock> dayBlocks : dayTimeBlockList) {
+			// Here we have a block representing a virtual day.
+			//
+			// Create an interval for the flsa Day so we can determine overlap
+			// and break apart time blocks if necessary
+		}
 		
 		return flsaWeek;
 	}
