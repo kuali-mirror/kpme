@@ -18,6 +18,7 @@ import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.test.TkTestCase;
+import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timeblock.service.TimeBlockService;
@@ -75,8 +76,8 @@ public class ShiftDifferentialRuleServiceTest extends TkTestCase {
 		LocalTime periodStartTime = new LocalTime(12,0,0,0); // Noon to Noon
 		
 		// Scenario 1: Clock in and out on same natural day
-		TimeBlock block = this.getDummyTimeBlock(new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST")), 
-				new DateTime(2010, 1, 1, 15, 0, 0, 0, DateTimeZone.forID("EST")));
+		TimeBlock block = TkTestUtils.createDummyTimeBlock(new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST")), 
+				new DateTime(2010, 1, 1, 15, 0, 0, 0, DateTimeZone.forID("EST")), null, null);
 		Interval interval = service.createAdjustedTimeBlockInterval(block, periodStartTime);
 		assertNotNull("Missing interval.", interval);
 		assertEquals("Incorrect Days", 0, interval.toPeriod().getDays());
@@ -85,8 +86,8 @@ public class ShiftDifferentialRuleServiceTest extends TkTestCase {
 		
 		
 		// Scenario 2: Clock in and out spans 2 natural days (24 hour day defn)
-		block = this.getDummyTimeBlock(	new DateTime(2010, 1, 1, 16, 0, 0, 0, DateTimeZone.forID("EST")),
-				new DateTime(2010, 1, 2, 3, 0, 0, 0, DateTimeZone.forID("EST")));
+		block = TkTestUtils.createDummyTimeBlock(new DateTime(2010, 1, 1, 16, 0, 0, 0, DateTimeZone.forID("EST")),
+				new DateTime(2010, 1, 2, 3, 0, 0, 0, DateTimeZone.forID("EST")), null, null);
 		interval = service.createAdjustedTimeBlockInterval(block, periodStartTime);
 		assertNotNull("Missing interval.", interval);
 		assertEquals("Incorrect Days", 0, interval.toPeriod().getDays());
@@ -105,8 +106,8 @@ public class ShiftDifferentialRuleServiceTest extends TkTestCase {
 		Interval shiftInterval = service.createAdjustedShiftInterval(sci, sco);
 		assertNotNull("Missing Shift Interval", shiftInterval);
 		
-		block = this.getDummyTimeBlock(new DateTime(2010, 1, 2, 1, 0, 0, 0, DateTimeZone.forID("EST")),
-				new DateTime(2010, 1, 2, 2, 0, 0, 0, DateTimeZone.forID("EST")));
+		block =  TkTestUtils.createDummyTimeBlock(new DateTime(2010, 1, 2, 1, 0, 0, 0, DateTimeZone.forID("EST")),
+				new DateTime(2010, 1, 2, 2, 0, 0, 0, DateTimeZone.forID("EST")), null, null);
 		interval = service.createAdjustedTimeBlockInterval(block, periodStartTime);
 		assertNotNull("Missing interval.", interval);
 		assertEquals("Incorrect Days", 0, interval.toPeriod().getDays());
@@ -115,17 +116,6 @@ public class ShiftDifferentialRuleServiceTest extends TkTestCase {
 		assertTrue("interval should overlap shift interval", interval.overlaps(shiftInterval));
 	}
 	
-	
-	
-	private TimeBlock getDummyTimeBlock(DateTime clockIn, DateTime clockOut) {
-		TimeBlock block = new TimeBlock();
-		Timestamp ci = new Timestamp(clockIn.getMillis());
-		Timestamp co = new Timestamp(clockOut.getMillis());
-		block.setBeginTimestamp(ci);
-		block.setEndTimestamp(co);
-		return block;
-	}
-
 	@Test
 	public void testProcessShiftDifferentialRules() throws Exception {
 		String calendarGroup = "BWS-CAL"; // Biweekly Standard Cal [midnight, midnight)
@@ -152,7 +142,7 @@ public class ShiftDifferentialRuleServiceTest extends TkTestCase {
 		assertEquals("TimeBlock list not empty.", 0, timesheetDocument.getTimeBlocks().size());
 		
 		// Case 1
-		runCase1(timesheetDocument, payCalendarEntry);
+		runCase1(timesheetDocument, payCalendarEntry, payCalendar);
 	}
 	
 	
@@ -168,7 +158,7 @@ public class ShiftDifferentialRuleServiceTest extends TkTestCase {
 	 * @param payCalendarEntry
 	 * @throws Exception
 	 */
-	private void runCase1(TimesheetDocument timesheetDocument, PayCalendarDates payCalendarEntry) throws Exception {
+	private void runCase1(TimesheetDocument timesheetDocument, PayCalendarDates payCalendarEntry, PayCalendar payCalendar) throws Exception {
 		TimeBlockService tbService = TkServiceLocator.getTimeBlockService();
 		ShiftDifferentialRuleService sdrService = TkServiceLocator.getShiftDifferentialRuleService();
 		assertNotNull("No Shift Differential Rule Service", sdrService);
@@ -189,7 +179,7 @@ public class ShiftDifferentialRuleServiceTest extends TkTestCase {
 		
 		timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getPrincipalId(), payCalendarEntry);
 		assertEquals("Wrong number of time blocks.", 4, timesheetDocument.getTimeBlocks().size());
-		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), payCalendarEntry);
+		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), payCalendarEntry, payCalendar);
 		assertNotNull(aggregate);
 		sdrService.processShiftDifferentialRules(timesheetDocument, aggregate);
 		

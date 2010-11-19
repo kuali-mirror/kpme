@@ -3,11 +3,14 @@ package org.kuali.hr.time.util;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalTime;
+import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
@@ -20,8 +23,12 @@ public class TkTimeBlockAggregate {
 	private PayCalendar payCalendar;
 	
 	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, PayCalendarDates payCalendarEntry){
+		this(timeBlocks, payCalendarEntry, TkServiceLocator.getPayCalendarSerivce().getPayCalendar(payCalendarEntry.getPayCalendarId()));
+	}
+	
+	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, PayCalendarDates payCalendarEntry, PayCalendar payCalendar){
 		this.payCalendarEntry = payCalendarEntry;
-		this.payCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(payCalendarEntry.getPayCalendarId());
+		this.payCalendar = payCalendar;
 		List<Interval> dayIntervals = TKUtils.getDaySpanForPayCalendarEntry(payCalendarEntry);
 		for(Interval dayInt : dayIntervals){
 			Calendar dayIntBeginCal = Calendar.getInstance();
@@ -52,6 +59,15 @@ public class TkTimeBlockAggregate {
 		for(List<TimeBlock> timeBlocks : dayTimeBlockList){
 			lstTimeBlocks.addAll(timeBlocks);
 		}
+		
+		Collections.sort(lstTimeBlocks, new Comparator<TimeBlock>() { // Sort the Time Blocks
+			public int compare(TimeBlock tb1, TimeBlock tb2) {
+				if (tb1 != null && tb2 != null)
+					return tb1.getBeginTimestamp().compareTo(tb2.getBeginTimestamp());
+				return 0;
+			}	
+		});
+		
 		return lstTimeBlocks;
 	}
 	
@@ -75,44 +91,48 @@ public class TkTimeBlockAggregate {
 		endIndex = endIndex > dayTimeBlockList.size() ? dayTimeBlockList.size() : endIndex;
 		return dayTimeBlockList.subList(startIndex, endIndex);
 	}
-	
-	// TODO : Implement this.
-//	public List<List<TimeBlock>> getFlsaWeekTimeBlocks(int week) {
-//		int flsaDayConstant = this.getPayCalendar().getFlsaBeginDayConstant();
-//		Time flsaBeginTime = this.getPayCalendar().getFlsaBeginTime();
-//		
-//		//Build a interval for each flsa day using the start day and time
-//		//bucket each timeblock into 24 hr flsa days starting at start day
-//		//return collection
-//	}
-	
+		
 	/**
 	 * When consuming these weeks, you must be aware that you could be on a 
 	 * virtual day, ie noon to noon schedule and have your FLSA time start 
 	 * before the virtual day start, 
 	 * but still have a full 7 days for your week.
 	 */
-	public FlsaWeek getFlsaWeek(int week){
+	public List<FlsaWeek> getFlsaWeeks(){
 		int flsaDayConstant = payCalendar.getFlsaBeginDayConstant();
 		Time flsaBeginTime  = payCalendar.getFlsaBeginTime();
 
 		// We can use these to build our interval, we have to make sure we 
 		// place them on the proper day when we construct it.
 		LocalTime flsaBeginLocalTime = LocalTime.fromDateFields(flsaBeginTime);
-		LocalTime flsaEndLocalTime = flsaBeginLocalTime.plusHours(24);
 		
-		FlsaWeek flsaWeek = new FlsaWeek(flsaDayConstant, flsaBeginTime);
+		// Defines both the start date and the start virtual time.
+		// We will add 1 day to this to move over all days.
+		//
+		// FLSA time is set.  This is an FLSA start date.
+		DateTime startDate = new DateTime(payCalendarEntry.getBeginPeriodDateTime());
+		startDate = startDate.toLocalDate().toDateTime(flsaBeginLocalTime);
 		
-		int dayPos = 0;
+		List<FlsaWeek> flsaWeeks = new ArrayList<FlsaWeek>();
+		List<TimeBlock> flatSortedBlockList = getFlattenedTimeBlockList();
+		FlsaWeek currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime);
+		flsaWeeks.add(currentWeek);
 		
-		for (List<TimeBlock> dayBlocks : dayTimeBlockList) {
-			// Here we have a block representing a virtual day.
-			//
-			// Create an interval for the flsa Day so we can determine overlap
-			// and break apart time blocks if necessary
+		for (int i = 0; i<dayTimeBlockList.size(); i++) {
+			DateTime currentDate = startDate.plusDays(i);
+			FlsaDay flsaDay = new FlsaDay(currentDate, flatSortedBlockList);
+			
+			if (currentDate.getDayOfWeek() == flsaDayConstant) {
+				currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime);
+				flsaWeeks.add(currentWeek);
+				currentWeek.addFlsaDay(flsaDay);
+			} else {
+				// add to existing week.
+				currentWeek.addFlsaDay(flsaDay);
+			}
 		}
 		
-		return flsaWeek;
+		return flsaWeeks;
 	}
 	
 	/**

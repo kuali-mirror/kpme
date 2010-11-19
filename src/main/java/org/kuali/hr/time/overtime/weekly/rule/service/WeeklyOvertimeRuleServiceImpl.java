@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.joda.time.Interval;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
 import org.kuali.hr.time.overtime.weekly.rule.dao.WeeklyOvertimeRuleDao;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
@@ -41,6 +42,25 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 			Set<String> convertFromEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(wor.getConvertFromEarnGroup(), asOfDate);
 			List<Interval> weekIntervals = TKUtils.getWeekIntervals(timesheetDocument.getDocumentHeader().getPayBeginDate(), timesheetDocument.getDocumentHeader().getPayEndDate());
 					
+			// Current
+			List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks();
+			
+			for (int weekCounter = 0; weekCounter < weekIntervals.size(); weekCounter++) {
+				if (weekCounter == 0) {
+					// Handle Previous Flsa Time Merge if Necessary
+					 List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
+					 TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
+					 PayCalendarDates prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId, TKUtils.getTimelessDate(prevTdh.getPayBeginDate()));
+					 //TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
+
+				}
+			}
+			
+			
+			// TODO : LEFT OFF HERE.
+			
+			
+			
 			// using new data structure.
 			for (int weekCounter = 0; weekCounter < weekIntervals.size(); weekCounter++) {
 				
@@ -51,7 +71,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 					 List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
 					 TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
 					 PayCalendarDates prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId, TKUtils.getTimelessDate(prevTdh.getPayBeginDate()));
-					 TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
+					 //TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
 					 
 				}
 				

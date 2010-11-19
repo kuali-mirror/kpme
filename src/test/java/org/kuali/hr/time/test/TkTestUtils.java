@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -44,6 +45,18 @@ public class TkTestUtils {
 	public static void createEarnGroup(String earnGroup, List<String> earnCodes, Date asOfDate){
 		
 	}
+	
+	public static TimeBlock createDummyTimeBlock(DateTime clockIn, DateTime clockOut, BigDecimal hours, String earnCode) {
+		TimeBlock block = new TimeBlock();
+		Timestamp ci = new Timestamp(clockIn.getMillis());
+		Timestamp co = new Timestamp(clockOut.getMillis());
+		block.setBeginTimestamp(ci);
+		block.setEndTimestamp(co);
+		block.setHours(hours);
+		block.setEarnCode(earnCode);
+		return block;
+	}
+
 	
 	public static TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, int dayInPeriod, int numHours){
 		TimeBlock timeBlock = new TimeBlock();

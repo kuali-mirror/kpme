@@ -1,19 +1,20 @@
 package org.kuali.hr.time.flsa;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.joda.time.LocalTime;
 
 public class FlsaWeek {
 	private List<FlsaDay> flsaDays = new ArrayList<FlsaDay>();
 	private int flsaDayConstant;
-	private Time flsaTime;
+	private LocalTime flsaTime;
 	
 	public FlsaWeek() {
 		
 	}
 	
-	public FlsaWeek(int dayConstant, Time time) {
+	public FlsaWeek(int dayConstant, LocalTime time) {
 		this.flsaDayConstant = dayConstant;
 		this.flsaTime = time;
 	}
@@ -21,9 +22,9 @@ public class FlsaWeek {
 	public List<FlsaDay> getFlsaDays() {
 		return flsaDays;
 	}
-
-	public void setFlsaDays(List<FlsaDay> flsaDays) {
-		this.flsaDays = flsaDays;
+	
+	public void addFlsaDay(FlsaDay flsaDay) {
+		flsaDays.add(flsaDay);
 	}
 	
 	public boolean isFullWeek(){
@@ -40,11 +41,11 @@ public class FlsaWeek {
 		this.flsaDayConstant = flsaDayConstant;
 	}
 
-	public Time getFlsaTime() {
+	public LocalTime getFlsaTime() {
 		return flsaTime;
 	}
 
-	public void setFlsaTime(Time flsaTime) {
+	public void setFlsaTime(LocalTime flsaTime) {
 		this.flsaTime = flsaTime;
 	}
 }
