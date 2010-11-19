@@ -20,6 +20,7 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workarea.WorkAreaOvertimePref;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -28,10 +29,11 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	private WeeklyOvertimeRuleDao weeklyOvertimeRuleDao;
 
 	@Override
-	public void processWeeklyOvertimeRule(List<WeeklyOvertimeRule> weeklyOvertimeRules, TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate) {
+	public void processWeeklyOvertimeRule(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate) {
 		java.sql.Date asOfDate = TKUtils.getTimelessDate(timesheetDocument.getDocumentHeader().getPayBeginDate());
 		String principalId = timesheetDocument.getDocumentHeader().getPrincipalId();
-		// Iterate over Weekly Overtime Rules
+		List<WeeklyOvertimeRule> weeklyOvertimeRules = this.getWeeklyOvertimeRules(asOfDate);
+		
 		for (WeeklyOvertimeRule wor : weeklyOvertimeRules) {
 			// Grab all the earn codes for the convert from max hours group
 			Set<String> maxHoursEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(wor.getMaxHoursEarnGroup(), asOfDate);
@@ -40,7 +42,17 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 					
 			// using new data structure.
 			for (int weekCounter = 0; weekCounter < weekIntervals.size(); weekCounter++) {
-				List<List<TimeBlock>> weekDaysBlock = aggregate.getWeekTimeBlocks(weekCounter);
+				
+				// At Week 0, we need to look back and figure out the number of 
+				// hours that are counting towards Max Hours, no retroactive
+				// application is necessary.
+				if (weekCounter == 0) {
+					 List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
+					 TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
+				
+				}
+				
+				List<List<TimeBlock>> weekDaysBlock = aggregate.getFlsaWeekTimeBlocks(weekCounter);
 				BigDecimal weekHours = this.getWeekHourSum(weekDaysBlock, maxHoursEarnCodes);
 				BigDecimal ovtHours  = weekHours.subtract(wor.getMaxHours(), TkConstants.MATH_CONTEXT);
 				
@@ -163,8 +175,8 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	}
 
 	@Override
-	public List<WeeklyOvertimeRule> getWeeklyOvertimeRules(String fromEarnGroup, Date asOfDate) {
-		return weeklyOvertimeRuleDao.findWeeklyOvertimeRules(fromEarnGroup, asOfDate);
+	public List<WeeklyOvertimeRule> getWeeklyOvertimeRules(Date asOfDate) {
+		return weeklyOvertimeRuleDao.findWeeklyOvertimeRules(asOfDate);
 	}
 
 	@Override

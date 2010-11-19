@@ -10,5 +10,5 @@ public interface WeeklyOvertimeRuleDao {
 	
 	public void saveOrUpdate(List<WeeklyOvertimeRule> weeklyOvertimeRules);
 	
-	public List<WeeklyOvertimeRule> findWeeklyOvertimeRules(String fromEarnGroup, Date asOfDate);
+	public List<WeeklyOvertimeRule> findWeeklyOvertimeRules(Date asOfDate);
 }

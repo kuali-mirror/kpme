@@ -12,7 +12,9 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -43,6 +45,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		
 		List<List<TimeBlock>> blockDays = aggregate.getDayTimeBlockList();
 		LocalTime periodStartTime = LocalTime.fromDateFields(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime());
+		LocalDate periodStartDate = LocalDate.fromDateFields(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime());
 		
 		// Create JobNumber -> Shift Rules ...
 		for (Job job : timesheetDocument.getJobs()) {
@@ -62,7 +65,10 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		
 		// Day By Day
 		for (int pos = 0; pos < blockDays.size(); pos++) {
-			int dayOfWeek = pos % 6; // 0 indexed
+			// Because we can support a varying start day in monthly calendars,
+			// we can use this day position added to the period start day to
+			// calculate the current actual day.
+			LocalDate currentDay = periodStartDate.plusDays(pos); 
 			List<TimeBlock> blocks = blockDays.get(pos); // Timeblocks for this day.
 			Map<Long, List<TimeBlock>> jobNumberToTimeBlocks = new HashMap<Long,List<TimeBlock>>();
 			
@@ -72,7 +78,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 			
 			// TODO : If 'pos' is 0, we need to pull previous pay period last day
 			// so we can check Max Gap
-			
+						
 			// Builds our JobNumber to TimeBlock for Current Day List.
 			for (TimeBlock block : blocks) {
 				Long jobNumber = block.getJobNumber();
@@ -92,10 +98,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 				List<ShiftDifferentialRule> shiftDifferentialRules = jobNumberToShifts.get(jobNumber);				
 				for (ShiftDifferentialRule rule : shiftDifferentialRules) {
 					Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(rule.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
-					// if (dayIsRuleActive(dayOfWeek, rule)) {
-					// Mid Refactor with DB model changes, need to change the 
-					// way we handle Day / Day of Week / etc.
-					if (true) {
+					if (dayIsRuleActive(currentDay, rule)) {
 						List<TimeBlock> ruleTimeBlocks = jobNumberToTimeBlocks.get(jobNumber);
 						
 						Collections.sort(ruleTimeBlocks, new Comparator<TimeBlock>() { // Sort the Time Blocks
@@ -346,7 +349,37 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 			sdrs = Collections.emptyList();
 		
 		return sdrs;
-	}	
+	}
+	
+	private boolean dayIsRuleActive(LocalDate currentDate, ShiftDifferentialRule sdr) {
+		boolean active = false;
+		
+		switch (currentDate.getDayOfWeek()) {
+		case DateTimeConstants.MONDAY:
+			active = sdr.isMonday();
+			break;
+		case DateTimeConstants.TUESDAY:
+			active = sdr.isTuesday();
+			break;
+		case DateTimeConstants.WEDNESDAY:
+			active = sdr.isWednesday();
+			break;
+		case DateTimeConstants.THURSDAY:
+			active = sdr.isThursday();
+			break;
+		case DateTimeConstants.FRIDAY:
+			active = sdr.isFriday();
+			break;
+		case DateTimeConstants.SATURDAY:
+			active = sdr.isSaturday();
+			break;
+		case DateTimeConstants.SUNDAY:
+			active = sdr.isSunday();
+			break;
+		}
+		
+		return active;
+	}
 	
 	@Override
 	public void saveOrUpdate(List<ShiftDifferentialRule> shiftDifferentialRules) {

@@ -13,7 +13,7 @@ public interface WeeklyOvertimeRuleService {
 	
 	public void saveOrUpdate(List<WeeklyOvertimeRule> weeklyOvertimeRules);
 
-	public List<WeeklyOvertimeRule> getWeeklyOvertimeRules(String fromEarnGroup, Date asOfDate);
+	public List<WeeklyOvertimeRule> getWeeklyOvertimeRules(Date asOfDate);
 	
-	public void processWeeklyOvertimeRule(List<WeeklyOvertimeRule> weeklyOvertimeRules, TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate);
+	public void processWeeklyOvertimeRule(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate);
 }
