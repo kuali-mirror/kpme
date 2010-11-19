@@ -166,7 +166,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		String fromEarnGroup = "";
 		Date asOfDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		
-		wors.getWeeklyOvertimeRules(fromEarnGroup, asOfDate);
+		//wors.getWeeklyOvertimeRules(fromEarnGroup, asOfDate);
 	}
 	
 	@Test
@@ -189,7 +189,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		//fetch all of the rules that apply for above collection
 		List<WeeklyOvertimeRule> WeeklyOvertimeRules = new ArrayList<WeeklyOvertimeRule>();
 		for(String fromEarnGroup : earnGroups){
-			WeeklyOvertimeRules = (TkServiceLocator.getWeeklyOvertimeRuleService().getWeeklyOvertimeRules(fromEarnGroup, new Date(System.currentTimeMillis())));
+			//WeeklyOvertimeRules = (TkServiceLocator.getWeeklyOvertimeRuleService().getWeeklyOvertimeRules(fromEarnGroup, new Date(System.currentTimeMillis())));
 			//call rule logic
 			//TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(lstWeeklyOvtRules, timeSheetDocument);
 		}	

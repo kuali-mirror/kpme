@@ -55,7 +55,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 					 
 				}
 				
-				List<List<TimeBlock>> weekDaysBlock = aggregate.getFlsaWeekTimeBlocks(weekCounter);
+				List<List<TimeBlock>> weekDaysBlock = null;
 				BigDecimal weekHours = this.getWeekHourSum(weekDaysBlock, maxHoursEarnCodes);
 				BigDecimal ovtHours  = weekHours.subtract(wor.getMaxHours(), TkConstants.MATH_CONTEXT);
 				
