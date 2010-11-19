@@ -11,6 +11,7 @@ import org.joda.time.Interval;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
 import org.kuali.hr.time.overtime.weekly.rule.dao.WeeklyOvertimeRuleDao;
+import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -49,7 +50,9 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (weekCounter == 0) {
 					 List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
 					 TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
-				
+					 PayCalendarDates prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId, TKUtils.getTimelessDate(prevTdh.getPayBeginDate()));
+					 TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
+					 
 				}
 				
 				List<List<TimeBlock>> weekDaysBlock = aggregate.getFlsaWeekTimeBlocks(weekCounter);

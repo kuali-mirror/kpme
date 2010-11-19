@@ -6,13 +6,20 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.kuali.hr.time.flsa.FlsaWeek;
+import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 
 public class TkTimeBlockAggregate {
 	public List<List<TimeBlock>> dayTimeBlockList = new ArrayList<List<TimeBlock>>();
+	private PayCalendarDates payCalendarEntry;
+	private PayCalendar payCalendar;
 	
 	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, PayCalendarDates payCalendarEntry){
+		this.payCalendarEntry = payCalendarEntry;
+		this.payCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(payCalendarEntry.getPayCalendarId());
 		List<Interval> dayIntervals = TKUtils.getDaySpanForPayCalendarEntry(payCalendarEntry);
 		for(Interval dayInt : dayIntervals){
 			Calendar dayIntBeginCal = Calendar.getInstance();
@@ -68,8 +75,19 @@ public class TkTimeBlockAggregate {
 	}
 	
 	// TODO : Implement this.
-	public List<List<TimeBlock>> getFlsaWeekTimeBlocks(int week) {
-		return null;
+//	public List<List<TimeBlock>> getFlsaWeekTimeBlocks(int week) {
+//		int flsaDayConstant = this.getPayCalendar().getFlsaBeginDayConstant();
+//		Time flsaBeginTime = this.getPayCalendar().getFlsaBeginTime();
+//		
+//		//Build a interval for each flsa day using the start day and time
+//		//bucket each timeblock into 24 hr flsa days starting at start day
+//		//return collection
+//	}
+	
+	public FlsaWeek getFlsaWeek(int week){
+		FlsaWeek flsaWeek = new FlsaWeek();
+		
+		return flsaWeek;
 	}
 	
 	/**
@@ -89,6 +107,22 @@ public class TkTimeBlockAggregate {
 
 	public List<List<TimeBlock>> getDayTimeBlockList() {
 		return dayTimeBlockList;
+	}
+
+	public PayCalendarDates getPayCalendarEntry() {
+		return payCalendarEntry;
+	}
+
+	public void setPayCalendarEntry(PayCalendarDates payCalendarEntry) {
+		this.payCalendarEntry = payCalendarEntry;
+	}
+
+	public PayCalendar getPayCalendar() {
+		return payCalendar;
+	}
+
+	public void setPayCalendar(PayCalendar payCalendar) {
+		this.payCalendar = payCalendar;
 	}
 	
 }
