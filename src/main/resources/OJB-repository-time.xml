@@ -389,9 +389,7 @@
 		<field-descriptor name="hrPayTypeId" column="hr_paytype_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_paytype_s"/>
 		<field-descriptor name="payType" column="paytype" jdbc-type="VARCHAR" length="5" nullable="false"/>
 		<field-descriptor name="descr" column="descr" jdbc-type="VARCHAR" length="30"/>
-		<field-descriptor name="calendarGroup" column="calendar_group" jdbc-type="VARCHAR" length="30" nullable="false"/>
 		<field-descriptor name="regEarnCode" column="reg_ern_code" jdbc-type="VARCHAR" length="3" nullable="false"/>
-		<field-descriptor name="holidayCalendarGroup" column="holiday_calendar_group" jdbc-type="VARCHAR" length="30" nullable="false"/>
 		<field-descriptor name="effectiveDate" column="effdt" jdbc-type="DATE" nullable="false"/>
 		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
@@ -659,4 +657,13 @@
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>	
+	
+	<class-descriptor class="org.kuali.hr.time.principal.calendar.PrincipalCalendar" table="tk_principal_calendar_t">
+		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="true" />
+		<field-descriptor name="calendarGroup"   column="calendar_group" jdbc-type="VARCHAR" length="30"/>		
+		<field-descriptor name="holidayCalendarGroup" column="holiday_calendar_group" jdbc-type="VARCHAR" length="30"/>
+		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" />
+		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+	</class-descriptor>
+		
 </descriptor-repository>

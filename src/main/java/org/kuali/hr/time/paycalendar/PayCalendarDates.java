@@ -44,6 +44,7 @@ public class PayCalendarDates extends PersistableBusinessObjectBase {
 	private Date supervisorApprovalDate;
 	private Time supervisorApprovalTime;
 
+
     public Long getPayCalendarId() {
 	return payCalendarId;
     }

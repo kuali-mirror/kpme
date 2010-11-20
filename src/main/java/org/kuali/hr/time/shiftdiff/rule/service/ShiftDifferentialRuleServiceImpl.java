@@ -17,6 +17,7 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.shiftdiff.rule.dao.ShiftDifferentialRuleDao;
@@ -47,13 +48,14 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		LocalTime periodStartTime = LocalTime.fromDateFields(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime());
 		LocalDate periodStartDate = LocalDate.fromDateFields(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime());
 		
+		PrincipalCalendar principalCal = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(timesheetDocument.getPrincipalId(),timesheetDocument.getAsOfDate());
 		// Create JobNumber -> Shift Rules ...
 		for (Job job : timesheetDocument.getJobs()) {
 			List<ShiftDifferentialRule> shiftDifferentialRules = getShiftDifferentalRules(
 					job.getLocation(), 
 					job.getTkSalGroup(), 
 					job.getPayGrade(),
-					job.getPayTypeObj().getCalendarGroup(),
+					principalCal.getCalendarGroup(),
 					TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
 			if (shiftDifferentialRules.size() > 0) 
 				jobNumberToShifts.put(job.getJobNumber(), shiftDifferentialRules);

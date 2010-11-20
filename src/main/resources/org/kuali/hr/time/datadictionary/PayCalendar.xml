@@ -12,7 +12,6 @@
     </property>
     <property name="attributes">
       <list>
-        <ref bean="PayCalendar-payCalendarId"/>
         <ref bean="PayCalendar-calendarGroup"/>
         <ref bean="PayCalendar-chart"/>
         <ref bean="PayCalendar-beginDate"/>
@@ -30,20 +29,6 @@
   </bean>
 
   <!-- Attribute Definitions -->
-  
-  <bean id="PayCalendar-payCalendarId" parent="PayCalendar-payCalendarId-parentBean"/>
-  <bean id="PayCalendar-payCalendarId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Id"/>
-    <property name="maxLength" value="20"/>
-    <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="20"/>
-    </property>
-    <property name="name" value="payCalendarId"/>
-    <property name="label" value="Pay Calendar Id"/>
-  </bean>
 
   <bean id="PayCalendar-calendarGroup" parent="PayCalendar-calendarGroup-parentBean"/>
   <bean id="PayCalendar-calendarGroup-parentBean" abstract="true" parent="AttributeDefinition">
@@ -146,7 +131,6 @@
     <!--  property name="lookupableID" value="payCalendarLookupable"/ -->
     <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="payCalendarId"/>
         <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
         <bean parent="FieldDefinition" p:attributeName="chart"/>
         <bean parent="FieldDefinition" p:attributeName="beginDate"/>
@@ -157,7 +141,6 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="payCalendarId"/>
         <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
         <bean parent="FieldDefinition" p:attributeName="chart"/>
         <bean parent="FieldDefinition" p:attributeName="beginDate"/>

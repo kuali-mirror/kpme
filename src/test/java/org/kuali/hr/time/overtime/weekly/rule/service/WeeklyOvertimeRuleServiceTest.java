@@ -61,11 +61,9 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		PayType payType = new PayType();
 		payType.setHrPayTypeId(1L);
 		payType.setPayType("BW");
-		payType.setCalendarGroup("BW-CAL1");
 		payType.setRegEarnCode("RGN");
 		payType.setEffectiveDate(new Date(14823L*24L*60L*60L*1000L));
 		payType.setTimestamp(new Timestamp(14823L*24L*60L*60L*1000L + 16L*60L*60L*1000L + 13L*1000L));
-		payType.setHolidayCalendarGroup("HOL");
 		payType.setActive(true);
 		KNSServiceLocator.getBusinessObjectService().save(payType);
 		

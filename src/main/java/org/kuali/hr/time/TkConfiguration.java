@@ -4,6 +4,7 @@ import java.util.TimeZone;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.springframework.core.io.DefaultResourceLoader;
 
 public class TkConfiguration {

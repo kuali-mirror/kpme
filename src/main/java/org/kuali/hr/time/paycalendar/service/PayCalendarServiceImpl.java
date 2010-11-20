@@ -10,6 +10,7 @@ import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.paycalendar.dao.PayCalendarDao;
 import org.kuali.hr.time.paytype.PayType;
+import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public class PayCalendarServiceImpl implements PayCalendarService {
@@ -57,9 +58,13 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 			PayType payType = job.getPayTypeObj();
 			if (payType == null) 
 				throw new RuntimeException("Null pay type on Job in getPayEndDate");
-			PayCalendar payCalendar = payType.getPayCalendar();
+			PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, currentDate);
+			if(principalCalendar == null){
+				throw new RuntimeException("Null principal calendar for principalid "+principalId);
+			}
+			PayCalendar payCalendar = principalCalendar.getPayCalendar();
 			if (payCalendar == null)
-				throw new RuntimeException("Null pay calendar on payType in getPayEndDate");
+				throw new RuntimeException("Null pay calendar on principal calendar in getPayEndDate");
 			List<PayCalendarDates> dates = payCalendar.getPayCalendarDates();
 			for (PayCalendarDates pcdate : dates) { 
 				DateTime beginDate = new DateTime(pcdate.getBeginPeriodDateTime());					

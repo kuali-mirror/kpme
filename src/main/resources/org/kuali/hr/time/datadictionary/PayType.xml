@@ -17,23 +17,10 @@
 				<ref bean="PayType-hrPayTypeId" />
 				<ref bean="PayType-payType" />
 				<ref bean="PayType-descr" />
-				<ref bean="PayType-calendarGroup" />
 				<ref bean="PayType-regEarnCode" />
-				<ref bean="PayType-holidayCalendarGroup" />
 				<ref bean="PayType-effectiveDate" />
 				<ref bean="PayType-timestamp" />
 			</list>
-		</property>
-		<property name="relationships">
-			<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="holidayCalendar"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="holidayCalendarGroup" p:targetName="holidayCalendarGroup"/>
-                </list>
-              </property>
-            </bean>
-
 		</property>
 	</bean>
 
@@ -84,23 +71,6 @@
 		<property name="label" value="Description" />
 	</bean>
 
-	<bean id="PayType-calendarGroup" parent="PayType-calendarGroup-parentBean" />
-	<bean id="PayType-calendarGroup-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Cal Group" />
-		<property name="maxLength" value="30" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
-		</property>
-		<property name="name" value="calendarGroup" />
-		<property name="label" value="Calendar Group" />
-	</bean>
-
 	<bean id="PayType-regEarnCode" parent="PayType-regEarnCode-parentBean" />
 	<bean id="PayType-regEarnCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -116,23 +86,6 @@
 		</property>
 		<property name="name" value="regEarnCode" />
 		<property name="label" value="Regular Earn Code" />
-	</bean>
-
-	<bean id="PayType-holidayCalendarGroup" parent="PayType-holidayCalendarGroup-parentBean" />
-	<bean id="PayType-holidayCalendarGroup-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Holiday Group" />
-		<property name="maxLength" value="30" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
-		</property>
-		<property name="name" value="holidayCalendarGroup" />
-		<property name="label" value="Holiday Calendar Group" />
 	</bean>
 
 	<bean id="PayType-effectiveDate" parent="PayType-effectiveDate-parentBean" />
@@ -186,9 +139,7 @@
 				<bean parent="FieldDefinition" p:attributeName="hrPayTypeId" />
 				<bean parent="FieldDefinition" p:attributeName="payType" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
-				<bean parent="FieldDefinition" p:attributeName="calendarGroup" />
 				<bean parent="FieldDefinition" p:attributeName="regEarnCode" />
-				<bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 			</list>

@@ -29,13 +29,7 @@ public class PayTypeServiceImpl implements PayTypeService {
 
 	@Override
 	public PayType getPayType(String payType, Date effectiveDate) {
-		PayType payTypeObj = null;
-		payTypeObj = payTypeDao.getPayType(payType, effectiveDate);
-		if (payTypeObj != null) {
-			PayCalendar payCalendar = payCalendarService.getPayCalendarByGroup(payTypeObj.getCalendarGroup());
-			payTypeObj.setPayCalendar(payCalendar);
-		}
-		return payTypeObj;
+		return payTypeDao.getPayType(payType, effectiveDate);
 	}
 
 	public void setPayCalendarService(PayCalendarService payCalendarService) {

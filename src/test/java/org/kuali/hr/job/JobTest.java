@@ -1,7 +1,6 @@
 package org.kuali.hr.job;
 
 import java.sql.Timestamp;
-import java.sql.Date;
 import java.util.Calendar;
 
 import org.junit.Test;
@@ -67,11 +66,9 @@ public class JobTest extends TkTestCase {
 		PayType payType = new PayType();
 		payType.setHrPayTypeId(1L);
 		payType.setPayType("BW");
-		payType.setCalendarGroup(CALENDAR_GROUP);
 		payType.setRegEarnCode("RGN");
 		payType.setEffectiveDate(new java.sql.Date(currentTimestamp));
 		payType.setTimestamp(new Timestamp(currentTimestamp));
-		payType.setHolidayCalendarGroup("HOL");
 
 		KNSServiceLocator.getBusinessObjectService().save(payType);
 		assertTrue(TkServiceLocator.getPayTypeSerivce().getPayType(payType.getPayType(), payType.getEffectiveDate()) != null);

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="PrincipalCalendar" parent="PrincipalCalendar-parentBean" />
+
+	<bean id="PrincipalCalendar-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.time.principal.calendar.PrincipalCalendar" />
+		<property name="titleAttribute" value="principalId" />
+		<property name="objectLabel" value="principalId" />
+		<property name="lookupDefinition">
+			<ref bean="PrincipalCalendar-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>				
+				<ref bean="PrincipalCalendar-principalId" />
+				<ref bean="PrincipalCalendar-calendarGroup" />
+				<ref bean="PrincipalCalendar-holidayCalendarGroup" />
+				<ref bean="PrincipalCalendar-effectiveDate" />
+			</list>
+		</property>
+		<property name="relationships">
+  		<list>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="person"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
+                </list>
+              </property>
+            </bean>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="payCalendar"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarGroup" p:targetName="calendarGroup"/>
+                </list>
+              </property>
+            </bean>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="holidayCalendar"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="holidayCalendarGroup" p:targetName="holidayCalendarGroup"/>
+                </list>
+              </property>
+            </bean>                        
+        </list>
+    </property>  		
+	</bean>
+
+	<bean id="PrincipalCalendar-principalId" parent="PrincipalCalendar-principalId-parentBean" />
+	<bean id="PrincipalCalendar-principalId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Principal Id" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+		<property name="name" value="principalId" />
+		<property name="label" value="Principal Id" />
+	</bean>
+
+	<bean id="PrincipalCalendar-calendarGroup" parent="PrincipalCalendar-calendarGroup-parentBean" />
+	<bean id="PrincipalCalendar-calendarGroup-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Calendar Group" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+		<property name="name" value="calendarGroup" />
+		<property name="label" value="Calendar Group" />
+	</bean>
+
+	<bean id="PrincipalCalendar-effectiveDate" parent="PrincipalCalendar-effectiveDate-parentBean" />
+	<bean id="PrincipalCalendar-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+
+	<bean id="PrincipalCalendar-holidayCalendarGroup" parent="PrincipalCalendar-holidayCalendarGroup-parentBean" />
+	<bean id="PrincipalCalendar-holidayCalendarGroup-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Holiday Calendar Group" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+		<property name="name" value="holidayCalendarGroup" />
+		<property name="label" value="Holiday Calendar Group" />
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+	</bean>
+
+	<!--  Inquiry Definitions  -->
+
+
+	<bean id="PrincipalCalendar-lookupDefinition" parent="PrincipalCalendar-lookupDefinition-parentBean" />
+	<bean id="PrincipalCalendar-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupFields">
+			<list>				
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>				
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="calendarGroup" />
+				<bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+			</list>
+		</property>
+		<property name="title" value="Principal Calendar Lookup" />
+	</bean>
+
+</beans>
