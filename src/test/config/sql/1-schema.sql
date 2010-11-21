@@ -1483,6 +1483,8 @@ ALTER TABLE hr_job_t CHANGE COLUMN `active` `active` VARCHAR(1) NULL DEFAULT 'N'
 
 ALTER TABLE tk_earn_code_t ADD COLUMN `inflate_factor` DECIMAL(3,2) NOT NULL DEFAULT 1  AFTER `accrual_category` , ADD COLUMN `inflate_min_hours` DECIMAL(3,2) NOT NULL DEFAULT 0  AFTER `accrual_category` ;
 
+create table kr_unittest_t ( foo varchar(1) );
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
