@@ -1443,6 +1443,18 @@ CREATE TABLE `tk_document_header_t` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+DROP TABLE IF EXISTS `tk_principal_calendar_t`;
+CREATE TABLE `tk_principal_calendar_t` (
+  `principal_id` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `calendar_group` varchar(45) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `holiday_calendar_group` varchar(45) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `EFFDT` date NOT NULL DEFAULT '0000-00-00',
+  `TIMESTAMP` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
+  `VER_NBR` decimal(8,0) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`principal_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
