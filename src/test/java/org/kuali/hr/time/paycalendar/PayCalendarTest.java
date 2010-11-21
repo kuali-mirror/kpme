@@ -2,18 +2,10 @@ package org.kuali.hr.time.paycalendar;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Interval;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
-import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -63,6 +55,8 @@ public class PayCalendarTest extends TkTestCase {
 		payCalendar.setBeginTime(new Time(System.currentTimeMillis()));
 		payCalendar.setEndDate(new Date(System.currentTimeMillis()));
 		payCalendar.setEndTime(new Time(System.currentTimeMillis()));
+		payCalendar.setFlsaBeginDay("Sun");
+		payCalendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
 		payCalendar.setPayCalendarId(new Long(1000));
 		
 		KNSServiceLocator.getBusinessObjectService().save(payCalendar);

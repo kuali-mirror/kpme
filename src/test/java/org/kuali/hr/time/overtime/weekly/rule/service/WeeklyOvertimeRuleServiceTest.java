@@ -75,6 +75,8 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		payCalendar.setBeginTime(new Time(0L));
 		payCalendar.setEndDate(new Date(14975L*24L*60L*60L*1000L));
 		payCalendar.setEndTime(new Time(24L*60L*59L*1000L));
+		payCalendar.setFlsaBeginDay("Sun");
+		payCalendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
 		KNSServiceLocator.getBusinessObjectService().save(payCalendar);
 		
 		PayCalendarDates payCalendarDates = new PayCalendarDates();

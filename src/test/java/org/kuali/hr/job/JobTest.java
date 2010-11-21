@@ -1,5 +1,6 @@
 package org.kuali.hr.job;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -31,7 +32,8 @@ public class JobTest extends TkTestCase {
 		payCalendar.setEndDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 		payCalendar.setBeginTime(new java.sql.Time(Calendar.getInstance().getTimeInMillis()));
 		payCalendar.setEndTime(new java.sql.Time(Calendar.getInstance().getTimeInMillis()));
-
+		payCalendar.setFlsaBeginDay("Sun");
+		payCalendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
 		KNSServiceLocator.getBusinessObjectService().save(payCalendar);
 		assertTrue(TkServiceLocator.getPayCalendarSerivce().getPayCalendar(payCalendar.getPayCalendarId()) != null);
 
