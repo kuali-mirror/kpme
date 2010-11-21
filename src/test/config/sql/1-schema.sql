@@ -1483,6 +1483,9 @@ ALTER TABLE hr_job_t CHANGE COLUMN `active` `active` VARCHAR(1) NULL DEFAULT 'N'
 
 ALTER TABLE tk_earn_code_t ADD COLUMN `inflate_factor` DECIMAL(3,2) NOT NULL DEFAULT 1  AFTER `accrual_category` , ADD COLUMN `inflate_min_hours` DECIMAL(3,2) NOT NULL DEFAULT 0  AFTER `accrual_category` ;
 
+ALTER TABLE tk_py_calendar_t ADD COLUMN `FLSA_BEGIN_DAY` VARCHAR(9) NOT NULL DEFAULT 'SUN';
+ALTER TABLE tk_py_calendar_t ADD COLUMN `FLSA_BEGIN_TIME` TIME NOT NULL DEFAULT '0:00:00';
+
 create table kr_unittest_t ( foo varchar(1) );
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
