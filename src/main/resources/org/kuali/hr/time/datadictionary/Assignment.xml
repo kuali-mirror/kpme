@@ -108,6 +108,7 @@
     </property>
     <property name="name" value="active"/>
     <property name="label" value="Active"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
 
   <!--  Inquiry Definitions  -->

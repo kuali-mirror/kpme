@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,8 +12,8 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Interval;
 import org.junit.Test;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
@@ -24,12 +23,8 @@ import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
-import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.job.Job;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
@@ -59,7 +54,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().save(job);
 		
 		PayType payType = new PayType();
-		payType.setHrPayTypeId(1L);
+		payType.setHrPayTypeId(1001L);
 		payType.setPayType("BW");
 		payType.setRegEarnCode("RGN");
 		payType.setEffectiveDate(new Date(14823L*24L*60L*60L*1000L));
@@ -68,7 +63,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().save(payType);
 		
 		PayCalendar payCalendar = new PayCalendar();
-		payCalendar.setPayCalendarId(20L);
+		payCalendar.setPayCalendarId(1020L);
 		payCalendar.setCalendarGroup("BW-CAL1");
 		payCalendar.setChart("CHART1");
 		payCalendar.setBeginDate(new Date(14611L*24L*60L*60L*1000L));
@@ -87,21 +82,21 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);	
 		
 		payCalendarDates = new PayCalendarDates();
-		payCalendarDates.setPayCalendarDatesId(2L);
-		payCalendarDates.setPayCalendarId(20L);
+		payCalendarDates.setPayCalendarDatesId(1002L);
+		payCalendarDates.setPayCalendarId(1020L);
 		payCalendarDates.setBeginPeriodDateTime(new Date(14883L*24L*60L*60L*1000L));
 		payCalendarDates.setEndPeriodDateTime(new Date(14913L*24L*60L*60L*1000L + 24L*60L*59L*1000L));
 		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);	
 		
 		payCalendarDates = new PayCalendarDates();
-		payCalendarDates.setPayCalendarDatesId(3L);
-		payCalendarDates.setPayCalendarId(20L);
+		payCalendarDates.setPayCalendarDatesId(1003L);
+		payCalendarDates.setPayCalendarId(1020L);
 		payCalendarDates.setBeginPeriodDateTime(new Date(14914L*24L*60L*60L*1000L));
 		payCalendarDates.setEndPeriodDateTime(new Date(14984L*24L*60L*60L*1000L + 24L*60L*59L*1000L));
 		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);	
 		
 		EarnCode earnCode = new EarnCode();
-		earnCode.setTkEarnCodeId(9L);
+		earnCode.setTkEarnCodeId(1001L);
 		earnCode.setEarnCode("RGN");
 		earnCode.setActive(true);
 		earnCode.setEffectiveDate(new Date(14883L*24L*60L*60L*1000L));
@@ -109,15 +104,15 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().save(earnCode);
 		
 		EarnGroupDefinition earnGroupDefinition = new EarnGroupDefinition();
-		earnGroupDefinition.setTkEarnGroupDefId(100L);
-		earnGroupDefinition.setTkEarnGroupId(100L);
+		earnGroupDefinition.setTkEarnGroupDefId(1001L);
+		earnGroupDefinition.setTkEarnGroupId(1001L);
 		earnGroupDefinition.setEarnCode("RGN");
 		earnGroupDefinition.setVersionNumber(1L);
 		earnGroupDefinition.setObjectId("7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97");
 		KNSServiceLocator.getBusinessObjectService().save(earnGroupDefinition);	
 		
 		EarnGroup earnGroup = new EarnGroup();
-		earnGroup.setTkEarnGroupId(100L);
+		earnGroup.setTkEarnGroupId(1001L);
 		earnGroup.setEarnGroup("REG");
 		earnGroup.setEffectiveDate(new Date(14883L*24L*60L*60L*1000L));
 		earnGroup.setActive(true);
@@ -126,79 +121,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().save(earnGroup);
 	}
 
-	@Test
-	public void testGetWeekHourSum() throws Exception {
-		WeeklyOvertimeRuleService wors_b = TkServiceLocator.getWeeklyOvertimeRuleService();
-		assertTrue(wors_b instanceof WeeklyOvertimeRuleServiceImpl);
-		WeeklyOvertimeRuleServiceImpl wors = (WeeklyOvertimeRuleServiceImpl)wors_b;
-		// We don't care about the workArea / jobNumber
-		Long workArea = 1L;
-		Long jobNumber = 1L;
-		
-		Set<String> maxHoursEarnCodes = new HashSet<String>();
-		maxHoursEarnCodes.add("T1");
-		maxHoursEarnCodes.add("T2");
-		List<List<TimeBlock>> weekBlock = new ArrayList<List<TimeBlock>>();
-		
-		BigDecimal sum = wors.getWeekHourSum(weekBlock, maxHoursEarnCodes);
-		assertTrue(sum.equals(BigDecimal.ZERO));
-		
-		List<TimeBlock> dayBlock = new LinkedList<TimeBlock>();
-		dayBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "EC", null, null));
-		dayBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "EC", null, null));
-		dayBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T1", null, null));
-		weekBlock.add(dayBlock);
-		dayBlock = new LinkedList<TimeBlock>();
-		
-		dayBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T1", null, null));
-		dayBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T2", null, null));
-		dayBlock.add(createDummyTimeBlock(workArea, jobNumber, BigDecimal.TEN, BigDecimal.ZERO, "T2", null, null));
-		weekBlock.add(dayBlock);
 
-		sum = wors.getWeekHourSum(weekBlock, maxHoursEarnCodes);
-		assertTrue(sum.equals(new BigDecimal("40")));
-	}
-		
-	@Test
-	public void testGetWeeklyOvertimeRules() throws Exception {
-		WeeklyOvertimeRuleService wors = TkServiceLocator.getWeeklyOvertimeRuleService();
-		
-		String fromEarnGroup = "";
-		Date asOfDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		
-		//wors.getWeeklyOvertimeRules(fromEarnGroup, asOfDate);
-	}
-	
-	@Test
-	public void testWeeklyOvertimeRules() throws Exception {
-		//Create document with timeblocks
-		TimesheetDocument timeSheetDocument = TkTestUtils.populateTimesheetDocument(new Date(System.currentTimeMillis()));
-		
-		List<String> earnGroups = new ArrayList<String>();
-		for(TimeBlock timeBlock : timeSheetDocument.getTimeBlocks()){
-			EarnGroup earnGroup = TkServiceLocator.getEarnGroupService().getEarnGroupForEarnCode(timeBlock.getEarnCode(), new Date(System.currentTimeMillis()));
-			if(!earnGroups.contains(earnGroup.getEarnGroup())){
-				earnGroups.add(earnGroup.getEarnGroup());
-			}
-			
-		}
-		//setup a weekly overtime rule for this
-		setupWeeklyOvertimeRules("REG", "OVT", "REG", 1, new BigDecimal(15), DEFAULT_EFFDT);
-		
-		
-		//fetch all of the rules that apply for above collection
-		List<WeeklyOvertimeRule> WeeklyOvertimeRules = new ArrayList<WeeklyOvertimeRule>();
-		for(String fromEarnGroup : earnGroups){
-			//WeeklyOvertimeRules = (TkServiceLocator.getWeeklyOvertimeRuleService().getWeeklyOvertimeRules(fromEarnGroup, new Date(System.currentTimeMillis())));
-			//call rule logic
-			//TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(lstWeeklyOvtRules, timeSheetDocument);
-		}	
-		
-		//validate output of rule logic on state of timeblocks
-		
-		System.err.println("testing");
-	}
-	
 	
 	/**
 	 * Creates a TimeBlock / TimeHourDetail that is not persisted.

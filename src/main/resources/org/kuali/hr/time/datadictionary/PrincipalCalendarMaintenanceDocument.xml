@@ -11,7 +11,7 @@
 
 	<bean id="PrincipalCalendarMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.principal.calendar.PrincipalCalendar"
-		p:businessRulesClass="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"
+		p:businessRulesClass="org.kuali.hr.time.principal.calendar.validation.PrincipalCalendarRule"
 		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
 		<property name="maintainableSections">
 			<list>

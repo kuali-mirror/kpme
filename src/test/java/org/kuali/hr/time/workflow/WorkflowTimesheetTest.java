@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
@@ -18,7 +19,7 @@ import org.kuali.hr.time.web.TkLoginFilter;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-
+@Ignore
 public class WorkflowTimesheetTest extends TkTestCase {
 
 	private static final Logger LOG = Logger.getLogger(WorkflowTimesheetTest.class);

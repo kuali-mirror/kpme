@@ -80,6 +80,7 @@
 		</property>
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
 	</bean>
 
 	<bean id="SystemLunchRule-userPrincipalId" parent="SystemLunchRule-userPrincipalId-parentBean" />

@@ -1,7 +1,6 @@
 package org.kuali.hr.time.overtime.daily.rule.service;
 
 import java.sql.Date;
-import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -27,7 +26,7 @@ public class DailyOvertimeRuleServiceTest extends TkTestCase {
 		dept = "TEST-DEPT";
 		ruleId = 1L;
 		workArea = 1234L;
-		task = 1L;		
+		task = 0L;		
 		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
 		assertNotNull("Null list of rules", rule);
 		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
@@ -45,7 +44,7 @@ public class DailyOvertimeRuleServiceTest extends TkTestCase {
 		dept = "TEST-DEPT";
 		ruleId = 3L;
 		workArea = -999L;
-		task = 1L;		
+		task = 0L;		
 		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
 		assertNotNull("Null list of rules", rule);
 		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
@@ -57,43 +56,5 @@ public class DailyOvertimeRuleServiceTest extends TkTestCase {
 		task = -999L;		
 		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
 		assertNotNull("Null list of rules", rule);
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
-
-		// 5: *, workarea, task
-		dept = "NOTFOUND";
-		ruleId = 5L;
-		workArea = 1234L;
-		task = 1L;		
-		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rule);
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
-
-		// 6: *, workarea, -1
-		dept = "NOTFOUND";
-		ruleId = 6L;
-		workArea = 1234L;
-		task = -999L;		
-		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rule);
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
-
-		// 7: *, -1, task
-		// This one doesn't make sense.
-		//dept = "NOTFOUND";
-		//ruleId = 7L;
-		//workArea = -999L;
-		//task = 1L;		
-		//rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
-		//assertNotNull("Null list of rules", rule);
-		//assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
-
-		// 8: *,-1,-1 
-		dept = "NOTFOUND";
-		ruleId = 8L;
-		workArea = -999L;
-		task = -999L;		
-		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rule);
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
 	}
 }

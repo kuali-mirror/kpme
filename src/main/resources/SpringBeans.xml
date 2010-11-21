@@ -359,6 +359,10 @@
     <bean id="principalCalendarDao" class="org.kuali.hr.time.principal.calendar.dao.PrincipalCalendarDaoImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>    
+    
+    <bean id="holidayCalendarDao" class="org.kuali.hr.time.holidaycalendar.dao.HolidayCalendarDaoImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 	<!-- Time Services for Business Logic -->
 	
 	<bean id="deptLunchRuleService" class="org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleServiceImpl">
@@ -465,6 +469,10 @@
     
     <bean id="principalCalendarService" class="org.kuali.hr.time.principal.calendar.service.PrincipalCalendarServiceImpl">
     	<property name="principalCalendarDao" ref="principalCalendarDao"/>
+    </bean>
+    
+    <bean id="holidayCalendarService" class="org.kuali.hr.time.holidaycalendar.service.HolidayCalendarServiceImpl">
+    	<property name="holidayCalendarDao" ref="holidayCalendarDao"/>
     </bean>
     
     <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>

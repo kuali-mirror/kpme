@@ -30,9 +30,7 @@ public class WorkScheduleServiceTest extends TkTestCase {
 		schedules = wss.getWorkSchedules(principalId, dept, workArea, asOfDate);
 		assertNotNull("Null return list", schedules);
 		assertEquals("Wrong number of elements returned.", 1, schedules.size());
-		assertEquals("Wrong ID returned", workScheduleId, (schedules.get(0)).getHrWorkScheduleId());
-		assertEquals("Incorrect number of Work Schedule Entries", 2, (schedules.get(0)).getWorkScheduleEntries().size());
-		
+		assertEquals("Wrong ID returned", workScheduleId, (schedules.get(0)).getHrWorkScheduleId());		
 		// principal, department, -1
 		workScheduleId = 2L;
 		dept = "TEST-DEPT";
@@ -42,7 +40,6 @@ public class WorkScheduleServiceTest extends TkTestCase {
 		assertNotNull("Null return list", schedules);
 		assertEquals("Wrong number of elements returned.", 1, schedules.size());
 		assertEquals("Wrong ID returned", workScheduleId, (schedules.get(0)).getHrWorkScheduleId());
-		assertEquals("Incorrect number of Work Schedule Entries", 2, (schedules.get(0)).getWorkScheduleEntries().size());
 		
 		// principal, *, workarea
 		workScheduleId = 3L;
@@ -53,62 +50,5 @@ public class WorkScheduleServiceTest extends TkTestCase {
 		assertNotNull("Null return list", schedules);
 		assertEquals("Wrong number of elements returned.", 1, schedules.size());
 		assertEquals("Wrong ID returned", workScheduleId, (schedules.get(0)).getHrWorkScheduleId());
-		assertEquals("Incorrect number of Work Schedule Entries", 2, (schedules.get(0)).getWorkScheduleEntries().size());
-		
-		// principal, *, -1
-		workScheduleId = 4L;
-		dept = "NOTFOUND";
-		principalId = "admin";
-		workArea = -999L;
-		schedules = wss.getWorkSchedules(principalId, dept, workArea, asOfDate);
-		assertNotNull("Null return list", schedules);
-		assertEquals("Wrong number of elements returned.", 1, schedules.size());
-		assertEquals("Wrong ID returned", workScheduleId, (schedules.get(0)).getHrWorkScheduleId());
-		assertEquals("Incorrect number of Work Schedule Entries", 2, (schedules.get(0)).getWorkScheduleEntries().size());
-		
-		// *, department, workarea
-		workScheduleId = 5L;
-		dept = "TEST-DEPT";
-		principalId = "nobodyweknow";
-		workArea = 1234L;
-		schedules = wss.getWorkSchedules(principalId, dept, workArea, asOfDate);
-		assertNotNull("Null return list", schedules);
-		assertEquals("Wrong number of elements returned.", 1, schedules.size());
-		assertEquals("Wrong ID returned", workScheduleId, (schedules.get(0)).getHrWorkScheduleId());
-		assertEquals("Incorrect number of Work Schedule Entries", 2, (schedules.get(0)).getWorkScheduleEntries().size());
-		
-		// *, department, -1
-		workScheduleId = 6L;
-		dept = "TEST-DEPT";
-		principalId = "nobodyweknow";
-		workArea = -999L;
-		schedules = wss.getWorkSchedules(principalId, dept, workArea, asOfDate);
-		assertNotNull("Null return list", schedules);
-		assertEquals("Wrong number of elements returned.", 1, schedules.size());
-		assertEquals("Wrong ID returned", workScheduleId, (schedules.get(0)).getHrWorkScheduleId());
-		assertEquals("Incorrect number of Work Schedule Entries", 2, (schedules.get(0)).getWorkScheduleEntries().size());
-		
-		// *, *, workarea
-		workScheduleId = 7L;
-		dept = "NOTFOUND";
-		principalId = "nobodyweknow";
-		workArea = 1234L;
-		schedules = wss.getWorkSchedules(principalId, dept, workArea, asOfDate);
-		assertNotNull("Null return list", schedules);
-		assertEquals("Wrong number of elements returned.", 1, schedules.size());
-		assertEquals("Wrong ID returned", workScheduleId, (schedules.get(0)).getHrWorkScheduleId());
-		assertEquals("Incorrect number of Work Schedule Entries", 2, (schedules.get(0)).getWorkScheduleEntries().size());
-		
-		// *, *, -1
-		workScheduleId = 8L;
-		dept = "NOTFOUND";
-		principalId = "nobodyweknow";
-		workArea = -999L;
-		schedules = wss.getWorkSchedules(principalId, dept, workArea, asOfDate);
-		assertNotNull("Null return list", schedules);
-		assertEquals("Wrong number of elements returned.", 1, schedules.size());
-		assertEquals("Wrong ID returned", workScheduleId, (schedules.get(0)).getHrWorkScheduleId());
-		assertEquals("Incorrect number of Work Schedule Entries", 2, (schedules.get(0)).getWorkScheduleEntries().size());
-		
 	}
 }

@@ -24,7 +24,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 	private static final String TEST_CODE="_T";
 		
-	private static final BigDecimal TEST_NO=new BigDecimal(10);
+	private static final BigDecimal TEST_NO=new BigDecimal(2);
 	private static Long shiftDifferentialRuleId;
 	private static final String TEST_TIME= "11:00 PM";
 	private static final Date TEST_DATE= new Date(Calendar.getInstance().getTimeInMillis());
@@ -50,7 +50,7 @@ public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 		shiftDifferentialRule.setEffectiveDate(TEST_DATE);
 		//shiftDifferentialRule.setEndTime(TEST_TIME);
 		shiftDifferentialRule.setLocation(TEST_CODE);
-		shiftDifferentialRule.setMaxGap(TEST_NO);
+		shiftDifferentialRule.setMaxGap(new BigDecimal(2));
 		shiftDifferentialRule.setMinHours(TEST_NO);
 		shiftDifferentialRule.setPayGrade(TEST_CODE);	
 		shiftDifferentialRule.setCalendarGroup("BW-CAL1");

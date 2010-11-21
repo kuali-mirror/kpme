@@ -66,7 +66,7 @@ public class JobTest extends TkTestCase {
 		long currentTimestamp = Calendar.getInstance().getTime().getTime();
 
 		PayType payType = new PayType();
-		payType.setHrPayTypeId(1L);
+		payType.setHrPayTypeId(1001L);
 		payType.setPayType("BW");
 		payType.setRegEarnCode("RGN");
 		payType.setEffectiveDate(new java.sql.Date(currentTimestamp));

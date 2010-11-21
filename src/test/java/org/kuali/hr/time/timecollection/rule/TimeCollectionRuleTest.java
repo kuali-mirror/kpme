@@ -18,21 +18,19 @@ public class TimeCollectionRuleTest extends TkTestCase{
 		loadData();
 		TimeCollectionRule timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT", 
 												1234L, new Date(System.currentTimeMillis()));
-		assertTrue("Time collection rule present" , timeCollection!=null && timeCollection.getTkTimeCollectionRuleId().longValue() == 1L);
+		assertTrue("Time collection rule present" , timeCollection!=null);
 		
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME", 
 				1234L, new Date(System.currentTimeMillis()));
-		assertTrue("Time collection rule present" , timeCollection!=null && timeCollection.getTkTimeCollectionRuleId().longValue() == 2L);
+		assertTrue("Time collection rule present" , timeCollection!=null);
 		
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT", 
 				234L, new Date(System.currentTimeMillis()));
-		assertTrue("Time collection rule present" , timeCollection!=null && timeCollection.getTkTimeCollectionRuleId().longValue() == 3L);
+		assertTrue("Time collection rule present" , timeCollection!=null);
 		
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME", 
 				234L, new Date(System.currentTimeMillis()));
-		assertTrue("Time collection rule present" , timeCollection!=null && timeCollection.getTkTimeCollectionRuleId().longValue() == 4L);
-		
-		
+		assertTrue("Time collection rule present" , timeCollection!=null);
 	}
 
 	private void loadData() 

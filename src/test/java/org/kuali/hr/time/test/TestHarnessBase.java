@@ -7,10 +7,11 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 import org.kuali.rice.test.TransactionalLifecycle;
- 
+ @Ignore
 public class TestHarnessBase extends Assert {
 
     
