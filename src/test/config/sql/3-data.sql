@@ -260,7 +260,7 @@ insert into hr_work_schedule_t values(5,'test-schedule','2010-01-01','*',
 
 DELETE FROM `tk_time_collection_rl_s`;
 INSERT INTO `tk_time_collection_rl_s` VALUES('1000');
-DELETE FROM `tk_time_collection_rl_t`
+DELETE FROM `tk_time_collection_rl_t`;
 INSERT INTO `tk_time_collection_rl_t` (`TK_TIME_COLL_RULE_ID`,`DEPT`,`WORK_AREA`,`EFFDT`,`CLOCK_USERS_FL`,`HRS_DISTRIBUTION_FL`,`USER_PRINCIPAL_ID`,`TIMESTAMP`,`ACTIVE`) VALUES
   ('1' , 'TEST-DEPT' , 1234 , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y')  ,
   ('2' , '*'         , 1234 , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y')  ,
