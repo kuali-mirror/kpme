@@ -115,7 +115,7 @@ public class TkTimeBlockAggregate {
 		
 		List<FlsaWeek> flsaWeeks = new ArrayList<FlsaWeek>();
 		List<TimeBlock> flatSortedBlockList = getFlattenedTimeBlockList();
-		FlsaWeek currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime);
+		FlsaWeek currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime, LocalTime.fromDateFields(payCalendarEntry.getBeginPeriodDateTime()));
 		flsaWeeks.add(currentWeek);
 		
 		for (int i = 0; i<dayTimeBlockList.size(); i++) {
@@ -123,7 +123,7 @@ public class TkTimeBlockAggregate {
 			FlsaDay flsaDay = new FlsaDay(currentDate, flatSortedBlockList);
 			
 			if (currentDate.getDayOfWeek() == flsaDayConstant) {
-				currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime);
+				currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime, flsaBeginLocalTime);
 				flsaWeeks.add(currentWeek);
 				currentWeek.addFlsaDay(flsaDay);
 			} else {

@@ -2,13 +2,14 @@ package org.kuali.hr.time.overtime.weekly.rule.service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.joda.time.Interval;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
 import org.kuali.hr.time.overtime.weekly.rule.dao.WeeklyOvertimeRuleDao;
@@ -24,8 +25,6 @@ import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workarea.WorkAreaOvertimePref;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
 public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService {
 
 	private WeeklyOvertimeRuleDao weeklyOvertimeRuleDao;
@@ -35,92 +34,121 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 		java.sql.Date asOfDate = TKUtils.getTimelessDate(timesheetDocument.getDocumentHeader().getPayBeginDate());
 		String principalId = timesheetDocument.getDocumentHeader().getPrincipalId();
 		List<WeeklyOvertimeRule> weeklyOvertimeRules = this.getWeeklyOvertimeRules(asOfDate);
+
+		// For the given payperiod, this is our time broken into FLSA weeks.
+		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks();
+		List<FlsaWeek> previousWeeks = null;
 		
+		if (flsaWeeks.size() == 0) {
+			return;
+		}
+			
+		FlsaWeek firstWeek = flsaWeeks.get(0);
+		
+		// Grab the previous list of FLSA Weeks.
+		if (!firstWeek.isFirstWeekFull()) {		
+			 List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
+			 TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
+			 PayCalendarDates prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId, TKUtils.getTimelessDate(prevTdh.getPayBeginDate()));
+			 TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
+			 previousWeeks = prevTimeAggregate.getFlsaWeeks();
+			 if (previousWeeks.size() == 0) {
+				 previousWeeks = null;
+			 }
+		}
+		
+		// Iterate over each Weekly Overtime Rule (We have to grab them all to see if they apply)
 		for (WeeklyOvertimeRule wor : weeklyOvertimeRules) {
 			// Grab all the earn codes for the convert from max hours group
 			Set<String> maxHoursEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(wor.getMaxHoursEarnGroup(), asOfDate);
 			Set<String> convertFromEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(wor.getConvertFromEarnGroup(), asOfDate);
-			List<Interval> weekIntervals = TKUtils.getWeekIntervals(timesheetDocument.getDocumentHeader().getPayBeginDate(), timesheetDocument.getDocumentHeader().getPayEndDate());
-					
-			// Current
-			List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks();
-			
-			for (int weekCounter = 0; weekCounter < weekIntervals.size(); weekCounter++) {
-				if (weekCounter == 0) {
-					// Handle Previous Flsa Time Merge if Necessary
-					 List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
-					 TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
-					 PayCalendarDates prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId, TKUtils.getTimelessDate(prevTdh.getPayBeginDate()));
-					 //TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
 
-				}
-			}
-			
-			
-			// TODO : LEFT OFF HERE.
-			
-			
-			
-			// using new data structure.
-			for (int weekCounter = 0; weekCounter < weekIntervals.size(); weekCounter++) {
+			// Iterate over the weeks for this Pay Period (FLSA)
+			//
+			// Moving Week By week..
+			for (int i = 0; i < flsaWeeks.size(); i++) {			
+				BigDecimal maxHoursSum = BigDecimal.ZERO; // To consider whether we've met overtime
+				BigDecimal overtimeHours = BigDecimal.ZERO; // The number of hours to apply
 				
-				// At Week 0, we need to look back and figure out the number of 
-				// hours that are counting towards Max Hours, no retroactive
-				// application is necessary.
-				if (weekCounter == 0) {
-					 List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
-					 TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
-					 PayCalendarDates prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId, TKUtils.getTimelessDate(prevTdh.getPayBeginDate()));
-					 //TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
-					 
-				}
-				
-				List<List<TimeBlock>> weekDaysBlock = null;
-				BigDecimal weekHours = this.getWeekHourSum(weekDaysBlock, maxHoursEarnCodes);
-				BigDecimal ovtHours  = weekHours.subtract(wor.getMaxHours(), TkConstants.MATH_CONTEXT);
-				
-				// Start at the End of the week, and move to Day 0.
-				for (int backwardsDayCounter = weekDaysBlock.size()-1; backwardsDayCounter >= 0; backwardsDayCounter--) {
-					List<TimeBlock> dayBlock = weekDaysBlock.get(backwardsDayCounter);
-					// This is an overtime condition. (ovtHours is decremented as we go)
-					if (ovtHours.compareTo(BigDecimal.ZERO) > 0) {
-						// We will reverse sort the list of Time Blocks for this day
-						Collections.sort(dayBlock, new Comparator<TimeBlock>() {
-							public int compare(TimeBlock tb1, TimeBlock tb2) {
-								if (tb1 != null && tb2 != null)
-									return -1 * tb1.getBeginTimestamp().compareTo(tb2.getBeginTimestamp());
-								return 0;
-							}	
-						});
-						
-						// Iterate and apply hours, only if we have time blocks and overtime hours > 0.
-						for (int pos=0; (pos<dayBlock.size() && ovtHours.compareTo(BigDecimal.ZERO) > 0); pos++) {
-							TimeBlock block = dayBlock.get(pos);
-							
-							// Check for Work Area Overtime Preference
-							WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(block.getWorkArea(), asOfDate);
-							Job job = TkServiceLocator.getJobSerivce().getJob(principalId, block.getJobNumber(), asOfDate);
-							List<WorkAreaOvertimePref> otPrefs = workArea.getOverTimePrefs();
-							String otEarnCode = null;
-							for (WorkAreaOvertimePref waop : otPrefs) {
-								if (waop.getPayType().equals(job.getPayTypeObj().getPayType())) {
-									otEarnCode = waop.getOvertimePreference();
-								}
+				// TODO : Step 1 - get maxHours from previous pay period week if available.
+				// We have to consider our previous pay period, last week,
+				// starting from the flsa begin day to the end.
+				if (i == 0 && previousWeeks != null) {
+					FlsaWeek previousLastWeek = previousWeeks.get(previousWeeks.size() - 1);
+					// We know that this week is all admissible, we have already 
+					// filtered by time and days.
+					for (FlsaDay day : previousLastWeek.getFlsaDays()) {
+						// figure out our reg hours to count towards this week.
+						for (TimeBlock block : day.getTimeBlocks()) {
+							if (maxHoursEarnCodes.contains(block.getEarnCode())) {
+								maxHoursSum = maxHoursSum.add(block.getHours(), TkConstants.MATH_CONTEXT);
 							}
-							
-							// If no Work Area Overtime Preference, set to the Weekly Overtime Rule Earn Code
-							if (otEarnCode == null)	
-								otEarnCode = wor.getConvertToEarnCode();
-							
-							// Apply OT Hours to otEarnCode by looking for earn codes in the convert_from_earngroup
-							//
-							ovtHours = applyOvertimeToTimeBlock(block, otEarnCode, convertFromEarnCodes, ovtHours);	
+						}
+					}
+				}
+				
+				// TODO : Step 2 - Continue Computing Max Hours
+				FlsaWeek currentWeek = flsaWeeks.get(i);
+				for (FlsaDay day : currentWeek.getFlsaDays()) {
+					for (TimeBlock block : day.getTimeBlocks()) {
+						if (maxHoursEarnCodes.contains(block.getEarnCode())) {
+							maxHoursSum = maxHoursSum.add(block.getHours(), TkConstants.MATH_CONTEXT);
 						}
 					}					
 				}
-			}
-			
+				
+				// TODO : Compute how many hours to apply
+				overtimeHours = maxHoursSum.subtract(wor.getMaxHours(), TkConstants.MATH_CONTEXT);				
+				if (overtimeHours.compareTo(BigDecimal.ZERO) <= 0) {
+					// nothing for this week, move to next week.
+					continue;
+				}
+				
+				// TODO : Step 3 - Reverse Sort current Time Blocks for this week.
+				List<FlsaDay> daysOfCurrentWeek = currentWeek.getFlsaDays();
+				if (daysOfCurrentWeek.size() > 0) {
+					for (int j=daysOfCurrentWeek.size()-1; j >= 0; j--) {
+						FlsaDay day = daysOfCurrentWeek.get(j);
+						List<TimeBlock> dayBlocks = day.getTimeBlocks();
+						
+						Collections.sort(dayBlocks, new Comparator<TimeBlock>() { // Sort the Time Blocks
+							public int compare(TimeBlock tb1, TimeBlock tb2) {
+								if (tb1 != null && tb2 != null)
+									return -1*tb1.getBeginTimestamp().compareTo(tb2.getBeginTimestamp());
+								return 0;
+							}	
+						});
+				
+						// Apply OT 
+						for (TimeBlock block : dayBlocks) {
+							if (overtimeHours.compareTo(BigDecimal.ZERO) <= 0) {
+								String overtimeEarnCode = getOvertimeEarnCode(principalId, block, wor, asOfDate);
+								overtimeHours = applyOvertimeToTimeBlock(block, overtimeEarnCode, convertFromEarnCodes, overtimeHours);
+							}
+						}
+					}
+				}
+			}		
 		}
+	}
+	
+	
+	private String getOvertimeEarnCode(String principalId, TimeBlock block, WeeklyOvertimeRule wor, Date asOfDate) {
+		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(block.getWorkArea(), asOfDate);
+		Job job = TkServiceLocator.getJobSerivce().getJob(principalId, block.getJobNumber(), asOfDate);
+		List<WorkAreaOvertimePref> otPrefs = workArea.getOverTimePrefs();
+		String otEarnCode = null;
+		for (WorkAreaOvertimePref waop : otPrefs) {
+			if (waop.getPayType().equals(job.getPayTypeObj().getPayType())) {
+				otEarnCode = waop.getOvertimePreference();
+			}
+		}
+		
+		// If no Work Area Overtime Preference, set to the Weekly Overtime Rule Earn Code
+		if (otEarnCode == null)	
+			otEarnCode = wor.getConvertToEarnCode();
+
+		return otEarnCode;
 	}
 	
 	/**
@@ -173,30 +201,6 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 		return otHours.subtract(applied);
 	}
 	
-	/**
-	 * Iterates over each day of week list, time block and time block details to sum the hours.
-	 * 
-	 * @param weekDaysBlock
-	 * @param maxHoursEarnCodes
-	 * @return A sum of the hours for the provided week based on hours contained within the maxHoursEarnCodes.
-	 */
-	protected BigDecimal getWeekHourSum(List<List<TimeBlock>> weekDaysBlock, Set<String> maxHoursEarnCodes) {
-		BigDecimal sum = BigDecimal.ZERO;
-		
-		for (List<TimeBlock> days : weekDaysBlock) {
-			for (TimeBlock block : days) {
-				List<TimeHourDetail> details = block.getTimeHourDetails();
-				for (TimeHourDetail detail : details) {
-					if (maxHoursEarnCodes.contains(detail.getEarnCode())) {
-						sum = sum.add(detail.getHours());
-					}
-				}				
-			}
-		}
-		
-		return sum;
-	}
-
 	@Override
 	public List<WeeklyOvertimeRule> getWeeklyOvertimeRules(Date asOfDate) {
 		return weeklyOvertimeRuleDao.findWeeklyOvertimeRules(asOfDate);
