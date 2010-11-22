@@ -281,3 +281,5 @@ insert into tk_daily_overtime_rl_t values(1,'BL','BW','2010-01-01','admin',now()
 insert into tk_daily_overtime_rl_t values(2,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',1234,-1,2,3,'OVT','Y');
 insert into tk_daily_overtime_rl_t values(3,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',-1,0,2,3,'OVT','Y');
 insert into tk_daily_overtime_rl_t values(4,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',-1,-1,2,3,'OVT','Y');
+
+ALTER TABLE tk_shift_differential_rl_t add column `from_earn_group` varchar(10) NULL DEFAULT NULL;

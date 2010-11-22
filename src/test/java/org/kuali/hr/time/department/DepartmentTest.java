@@ -13,11 +13,11 @@ public class DepartmentTest extends TkTestCase {
 	public void testDepartmentMaint() throws Exception {
 		HtmlPage deptLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPT_MAINT_URL);
 		deptLookup = HtmlUnitUtil.clickInputContainingText(deptLookup, "search");
-		assertTrue("Page contains test dept", deptLookup.asText().contains("__TEST"));
+		assertTrue("Page contains test dept", deptLookup.asText().contains("TEST"));
+		HtmlUnitUtil.createTempFile(deptLookup);
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptLookup, "edit","100");
 		
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptLookup, "edit");
-		
-		assertTrue("Maintenance Page contains test dept",maintPage.asText().contains("__TEST"));
+		assertTrue("Maintenance Page contains test dept",maintPage.asText().contains("TEST"));
 		
 	}
 
@@ -27,6 +27,7 @@ public class DepartmentTest extends TkTestCase {
 		Department dept = new Department();
 		dept.setDept("__TEST");
 		dept.setDescription("TESTING_DEPT");
+		dept.setActive(true);
 		
 		KNSServiceLocator.getBusinessObjectService().save(dept);
 	}

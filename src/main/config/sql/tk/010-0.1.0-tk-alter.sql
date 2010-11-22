@@ -22,3 +22,5 @@ ALTER TABLE tk_roles_t CHANGE COLUMN `active` `active` VARCHAR(1) NULL DEFAULT '
 ALTER TABLE tk_shift_differential_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) NULL DEFAULT 'N'  ;
 ALTER TABLE tk_time_collection_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) NULL DEFAULT 'N'  ;
 ALTER TABLE tk_weekly_overtime_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) NULL DEFAULT 'N'  ;
+
+ALTER TABLE tk_shift_differential_rl_t add column `from_earn_group` varchar(10) NULL DEFAULT NULL;

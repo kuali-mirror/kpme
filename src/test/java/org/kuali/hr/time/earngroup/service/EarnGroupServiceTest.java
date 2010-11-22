@@ -13,10 +13,7 @@ public class EarnGroupServiceTest extends TkTestCase{
 	public void testEarnGroupFetch() throws Exception{
 		EarnGroup earnGroup = TkServiceLocator.getEarnGroupService().getEarnGroup("REG", new Date(System.currentTimeMillis()));
 		assertTrue("Test Earn Group fetch failed", earnGroup!=null && StringUtils.equals("REG", earnGroup.getEarnGroup()));
-		assertTrue("Test earn group def fetch failed", earnGroup.getEarnGroups()!=null && earnGroup.getEarnGroups().get(0).getTkEarnGroupId()==100);
-	
-		earnGroup = TkServiceLocator.getEarnGroupService().getEarnGroupSummaryForEarnCode("RGN", new Date(System.currentTimeMillis()));
-		assertTrue("Test earn group fetch from earn code", earnGroup!=null && StringUtils.equals("REG",earnGroup.getEarnGroup()));
+		assertTrue("Test earn group def fetch failed", earnGroup.getEarnGroups()!=null && earnGroup.getEarnGroups().get(0).getTkEarnGroupId()==100);	
 	}
 	
 	

@@ -2,6 +2,7 @@ package org.kuali.hr.time.test;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.kuali.hr.time.ApplicationInitializeListener;
 import org.kuali.hr.time.util.ClearDatabaseLifecycle;
 import org.kuali.hr.time.util.TKContext;
@@ -17,6 +18,7 @@ import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 @SuppressWarnings("deprecation")
+@Ignore
 public class TkTestCase extends KNSTestCase{
 	
 	public void setUp() throws Exception {

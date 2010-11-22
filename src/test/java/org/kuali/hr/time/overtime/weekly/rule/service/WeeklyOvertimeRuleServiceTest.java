@@ -5,14 +5,11 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.junit.Test;
+import org.junit.Ignore;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
@@ -26,7 +23,7 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-
+@Ignore
 public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 	
 	private static Date DEFAULT_EFFDT = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
