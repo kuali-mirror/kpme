@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -14,8 +15,9 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 public class FlsaDay {
-	private List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 	private Map<String,BigDecimal> earnCodeToHours = new HashMap<String,BigDecimal>();
+	private Map<String,List<TimeBlock>> earnCodeToTimeBlocks = new HashMap<String,List<TimeBlock>>();
+	private List<TimeBlock> appliedTimeBlocks = new ArrayList<TimeBlock>();
 	LocalTime flsaBeginTime;
 	
 	Interval flsaDateInterval;
@@ -27,20 +29,16 @@ public class FlsaDay {
 		this.setTimeBlocks(timeBlocks);
 	}
 	
-	public List<TimeBlock> getTimeBlocks() {
-		return timeBlocks;
-	}
-
 	/**
 	 * Handles the breaking apart of existing time blocks around FLSA boundaries.
 	 * @param timeBlocks a sorted list of time blocks.
 	 */
 	public void setTimeBlocks(List<TimeBlock> timeBlocks) {
-		this.timeBlocks = timeBlocks;
-		
 		for (TimeBlock block : timeBlocks) {
-			DateTime beginDateTime = new DateTime(block.getBeginTimestamp());
-			DateTime endDateTime = new DateTime(block.getEndTimestamp());
+			
+			DateTime beginDateTime = new DateTime(block.getBeginTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+			DateTime endDateTime = new DateTime(block.getEndTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+			
 			if (beginDateTime.isAfter(flsaDateInterval.getEnd())) {
 				break;
 			}
@@ -54,6 +52,14 @@ public class FlsaDay {
 				BigDecimal sum = earnCodeToHours.containsKey(block.getEarnCode()) ? earnCodeToHours.get(block.getEarnCode()) : BigDecimal.ZERO;
 				sum = sum.add(hours, TkConstants.MATH_CONTEXT);
 				earnCodeToHours.put(block.getEarnCode(), sum);
+				
+				List<TimeBlock> blocks = earnCodeToTimeBlocks.get(block.getEarnCode());
+				if (blocks == null) {
+					blocks = new ArrayList<TimeBlock>();
+					earnCodeToTimeBlocks.put(block.getEarnCode(), blocks);
+				}
+				blocks.add(block);
+				appliedTimeBlocks.add(block);
 			}
 		}
 	}
@@ -61,5 +67,22 @@ public class FlsaDay {
 	public Map<String, BigDecimal> getEarnCodeToHours() {
 		return earnCodeToHours;
 	}
+
+	public Map<String, List<TimeBlock>> getEarnCodeToTimeBlocks() {
+		return earnCodeToTimeBlocks;
+	}
+
+	public void setEarnCodeToTimeBlocks(Map<String, List<TimeBlock>> earnCodeToTimeBlocks) {
+		this.earnCodeToTimeBlocks = earnCodeToTimeBlocks;
+	}
+
+	public List<TimeBlock> getAppliedTimeBlocks() {
+		return appliedTimeBlocks;
+	}
+
+	public void setAppliedTimeBlocks(List<TimeBlock> appliedTimeBlocks) {
+		this.appliedTimeBlocks = appliedTimeBlocks;
+	}
+	
 	
 }

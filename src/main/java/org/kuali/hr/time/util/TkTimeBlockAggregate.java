@@ -111,7 +111,7 @@ public class TkTimeBlockAggregate {
 		//
 		// FLSA time is set.  This is an FLSA start date.
 		DateTime startDate = new DateTime(payCalendarEntry.getBeginPeriodDateTime());
-		startDate = startDate.toLocalDate().toDateTime(flsaBeginLocalTime);
+		startDate = startDate.toLocalDate().toDateTime(flsaBeginLocalTime,TkConstants.SYSTEM_DATE_TIME_ZONE);
 		
 		List<FlsaWeek> flsaWeeks = new ArrayList<FlsaWeek>();
 		List<TimeBlock> flatSortedBlockList = getFlattenedTimeBlockList();

@@ -18,6 +18,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
+import org.joda.time.LocalTime;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.timeblock.TimeBlock;

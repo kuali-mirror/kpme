@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.kuali.hr.job.Job;
@@ -48,12 +49,16 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 		// Grab the previous list of FLSA Weeks.
 		if (!firstWeek.isFirstWeekFull()) {		
 			 List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
-			 TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
-			 PayCalendarDates prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId, TKUtils.getTimelessDate(prevTdh.getPayBeginDate()));
-			 TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
-			 previousWeeks = prevTimeAggregate.getFlsaWeeks();
-			 if (previousWeeks.size() == 0) {
-				 previousWeeks = null;
+			 if (prevBlocks.size() > 0) {
+				TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
+				if (prevTdh != null) {
+					PayCalendarDates prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId, TKUtils.getTimelessDate(prevTdh.getPayBeginDate()));
+					TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
+					previousWeeks = prevTimeAggregate.getFlsaWeeks();
+					if (previousWeeks.size() == 0) {
+						previousWeeks = null;
+					}
+				}
 			 }
 		}
 		
@@ -78,21 +83,21 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 					// We know that this week is all admissible, we have already 
 					// filtered by time and days.
 					for (FlsaDay day : previousLastWeek.getFlsaDays()) {
-						// figure out our reg hours to count towards this week.
-						for (TimeBlock block : day.getTimeBlocks()) {
-							if (maxHoursEarnCodes.contains(block.getEarnCode())) {
-								maxHoursSum = maxHoursSum.add(block.getHours(), TkConstants.MATH_CONTEXT);
+						// figure out our reg hours to count towards this week.						
+						for (String ec : day.getEarnCodeToHours().keySet()) {
+							if (maxHoursEarnCodes.contains(ec)) {
+								maxHoursSum = maxHoursSum.add(day.getEarnCodeToHours().get(ec), TkConstants.MATH_CONTEXT);
 							}
-						}
+						}						
 					}
 				}
 				
 				// TODO : Step 2 - Continue Computing Max Hours
 				FlsaWeek currentWeek = flsaWeeks.get(i);
 				for (FlsaDay day : currentWeek.getFlsaDays()) {
-					for (TimeBlock block : day.getTimeBlocks()) {
-						if (maxHoursEarnCodes.contains(block.getEarnCode())) {
-							maxHoursSum = maxHoursSum.add(block.getHours(), TkConstants.MATH_CONTEXT);
+					for (String ec : day.getEarnCodeToHours().keySet()) {
+						if (maxHoursEarnCodes.contains(ec)) {
+							maxHoursSum = maxHoursSum.add(day.getEarnCodeToHours().get(ec), TkConstants.MATH_CONTEXT);
 						}
 					}					
 				}
@@ -109,8 +114,8 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (daysOfCurrentWeek.size() > 0) {
 					for (int j=daysOfCurrentWeek.size()-1; j >= 0; j--) {
 						FlsaDay day = daysOfCurrentWeek.get(j);
-						List<TimeBlock> dayBlocks = day.getTimeBlocks();
 						
+						List<TimeBlock> dayBlocks = day.getAppliedTimeBlocks();
 						Collections.sort(dayBlocks, new Comparator<TimeBlock>() { // Sort the Time Blocks
 							public int compare(TimeBlock tb1, TimeBlock tb2) {
 								if (tb1 != null && tb2 != null)
@@ -121,7 +126,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				
 						// Apply OT 
 						for (TimeBlock block : dayBlocks) {
-							if (overtimeHours.compareTo(BigDecimal.ZERO) <= 0) {
+							if (overtimeHours.compareTo(BigDecimal.ZERO) > 0) {
 								String overtimeEarnCode = getOvertimeEarnCode(principalId, block, wor, asOfDate);
 								overtimeHours = applyOvertimeToTimeBlock(block, overtimeEarnCode, convertFromEarnCodes, overtimeHours);
 							}
@@ -169,7 +174,8 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 		List<TimeHourDetail> addDetails = new LinkedList<TimeHourDetail>();
 		for (TimeHourDetail detail : details) {
 			// Apply
-			if (convertFromEarnCodes.contains(detail.getEarnCode())) {
+			String thdEarnCode = detail.getEarnCode();
+			if (convertFromEarnCodes.contains(thdEarnCode)) {
 				// n = detailHours - otHours
 				BigDecimal n = detail.getHours().subtract(otHours, TkConstants.MATH_CONTEXT);
 				// n >= 0 (meaning there are greater than or equal amount of Detail hours vs. OT hours, so apply all OT hours here)
@@ -186,6 +192,9 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				timeHourDetail.setHours(applied);
 				timeHourDetail.setEarnCode(otEarnCode);
 				timeHourDetail.setTkTimeBlockId(block.getTkTimeBlockId());
+				
+				// Decrement existing matched FROM earn code.
+				detail.setHours(detail.getHours().subtract(applied, TkConstants.MATH_CONTEXT));				
 				addDetails.add(timeHourDetail);
 			}
 		}

@@ -29,7 +29,7 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 
 	private String flsaBeginDay;
 	private Time flsaBeginTime;
-	private int flsaBeginDayConstant;
+	private int flsaBeginDayConstant = -1;
 	
 	private List<PayCalendarDates> payCalendarDates = new LinkedList<PayCalendarDates>();
 
@@ -165,6 +165,9 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 	 * org.joda.time.DateTimeConstants in the interval [1,7].
 	 */
 	public int getFlsaBeginDayConstant() {
+		if (flsaBeginDayConstant < 0) {
+			this.setFlsaBeinDayConstant(this.getFlsaBeginDay());
+		}
 		return flsaBeginDayConstant;
 	}
 }

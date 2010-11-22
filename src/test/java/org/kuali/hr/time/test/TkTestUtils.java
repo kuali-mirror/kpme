@@ -3,6 +3,7 @@ package org.kuali.hr.time.test;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -11,12 +12,29 @@ import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 public class TkTestUtils {
+	
+	public static TimesheetDocument populateBlankTimesheetDocument(Date calDate) {
+		try {
+			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(), 
+							TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(), 
+							  calDate));
+			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
+				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
+			}
+			
+			return timesheet;			
+		} catch (WorkflowException e) {
+			throw new RuntimeException("Problem fetching document");
+		}		
+	}
+	
 	public static TimesheetDocument populateTimesheetDocument(Date calDate) {
 		try {
 			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(), 
@@ -45,8 +63,12 @@ public class TkTestUtils {
 	public static void createEarnGroup(String earnGroup, List<String> earnCodes, Date asOfDate){
 		
 	}
-	
+
 	public static TimeBlock createDummyTimeBlock(DateTime clockIn, DateTime clockOut, BigDecimal hours, String earnCode) {
+		return TkTestUtils.createDummyTimeBlock(clockIn, clockOut, hours, earnCode, -1L, -1L);
+	}
+	
+	public static TimeBlock createDummyTimeBlock(DateTime clockIn, DateTime clockOut, BigDecimal hours, String earnCode, Long jobNumber, Long workArea) {
 		TimeBlock block = new TimeBlock();
 		Timestamp ci = new Timestamp(clockIn.getMillis());
 		Timestamp co = new Timestamp(clockOut.getMillis());
@@ -54,6 +76,16 @@ public class TkTestUtils {
 		block.setEndTimestamp(co);
 		block.setHours(hours);
 		block.setEarnCode(earnCode);
+		block.setJobNumber(jobNumber);
+		block.setWorkArea(workArea);
+		
+		TimeHourDetail thd = new TimeHourDetail();
+		thd.setHours(hours);
+		thd.setEarnCode(earnCode);
+		List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
+		timeHourDetails.add(thd);
+		block.setTimeHourDetails(timeHourDetails);
+		
 		return block;
 	}
 

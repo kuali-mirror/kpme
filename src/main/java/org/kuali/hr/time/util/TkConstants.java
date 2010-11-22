@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.joda.time.DateTimeZone;
+
 public class TkConstants {
 
     public static final String CLOCK_IN = "CI";
@@ -30,8 +32,10 @@ public class TkConstants {
 
     public static final String   GMT_TIME_ZONE_ID = "Etc/GMT";
     public static final TimeZone GMT_TIME_ZONE    = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
+    public static final String   SYSTEM_TIME_ZONE = "EST";
+    public static final DateTimeZone SYSTEM_DATE_TIME_ZONE = DateTimeZone.forID(TkConstants.SYSTEM_TIME_ZONE);
     public static final SimpleDateFormat SDF = new SimpleDateFormat("MM/dd/yyyy");
-
+    
     public static final int BIG_DECIMAL_SCALE = 2;
     public static final RoundingMode BIG_DECIMAL_SCALE_ROUNDING = RoundingMode.HALF_EVEN; 
     public static final BigDecimal BIG_DECIMAL_SCALED_ZERO = BigDecimal.ZERO.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);

@@ -274,7 +274,7 @@ INSERT INTO `tk_time_block_s` VALUES ('1000');
 DELETE FROM `tk_hour_detail_s`;
 INSERT INTO `tk_hour_detail_s` VALUES ('1000');
 
-insert into tk_principal_calendar_t values('admin','BW-CAL1','HOL','2010-01-01', now(),uuid(),1);
+insert into tk_principal_calendar_t values('admin','BWS-CAL','HOL','2010-01-01', now(),uuid(),1);
 insert into tk_principal_calendar_t values('eric','BW-CAL1','HOL','2010-01-01', now(),uuid(),1);
 
 insert into tk_daily_overtime_rl_t values(1,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',1234,0,2,3,'OVT','Y');
