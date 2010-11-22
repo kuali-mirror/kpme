@@ -2,6 +2,7 @@ package org.kuali.hr.time.workschedule;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class WorkScheduleEntry extends PersistableBusinessObjectBase {
@@ -19,7 +20,16 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 	private Long dayOfPeriod;
 	private Long  regHours;
 	private WorkSchedule workScheduleObj;
+	private PayCalendar payCalendarObj;
 	
+	public PayCalendar getPayCalendarObj() {
+		return payCalendarObj;
+	}
+
+
+	public void setPayCalendarObj(PayCalendar payCalendarObj) {
+		this.payCalendarObj = payCalendarObj;
+	}
 	
 	public WorkSchedule getWorkScheduleObj() {
 		return workScheduleObj;

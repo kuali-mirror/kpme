@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 

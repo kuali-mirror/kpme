@@ -27,7 +27,16 @@
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrWorkScheduleId" p:targetName="hrWorkScheduleId"/>
                 </list>
               </property>
-            </bean>    
+            </bean> 
+            
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="payCalendarObj"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarGroup" p:targetName="calendarGroup"/>
+                </list>
+              </property>
+            </bean>   
                     
         </list>
     </property>  
