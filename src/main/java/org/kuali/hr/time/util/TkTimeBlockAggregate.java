@@ -2,7 +2,6 @@ package org.kuali.hr.time.util;
 
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -31,18 +30,14 @@ public class TkTimeBlockAggregate {
 		this.payCalendar = payCalendar;
 		List<Interval> dayIntervals = TKUtils.getDaySpanForPayCalendarEntry(payCalendarEntry);
 		for(Interval dayInt : dayIntervals){
-			Calendar dayIntBeginCal = Calendar.getInstance();
-			dayIntBeginCal.setTimeInMillis(dayInt.getStartMillis());
-			Calendar dayIntEndCal = Calendar.getInstance();
-			dayIntEndCal.setTimeInMillis(dayInt.getEndMillis());
 			List<TimeBlock> dayTimeBlocks = new ArrayList<TimeBlock>();
 			for(TimeBlock timeBlock : timeBlocks){
-				DateTime beginTime = new DateTime(timeBlock.getBeginTimestamp());
-				DateTime endTime = new DateTime(timeBlock.getEndTimestamp());
+				DateTime beginTime = new DateTime(timeBlock.getBeginTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+				DateTime endTime = new DateTime(timeBlock.getEndTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
 				if(dayInt.contains(beginTime)){
 					if(dayInt.contains(endTime) || endTime.compareTo(dayInt.getEnd()) == 0){
 						// determine if the time block needs to be pushed forward / backward
-						if(beginTime.getHourOfDay() < dayIntBeginCal.get(Calendar.HOUR_OF_DAY)) {
+						if(beginTime.getHourOfDay() < dayInt.getStart().getHourOfDay()) {
 							timeBlock.setPushBackward(true);
 						}
 

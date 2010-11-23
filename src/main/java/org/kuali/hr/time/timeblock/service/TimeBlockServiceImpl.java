@@ -23,6 +23,7 @@ import org.kuali.hr.time.timeblock.dao.TimeBlockDao;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
 public class TimeBlockServiceImpl implements TimeBlockService {
@@ -61,10 +62,10 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			}
 		}
 		
-		DateTime beginTime = new DateTime(beginCal.getTimeInMillis());
-		DateTime endTime = new DateTime(endTimestamp.getTime());
+		DateTime beginTime = new DateTime(beginCal.getTimeInMillis(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+		DateTime endTime = new DateTime(endTimestamp.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
 		
-		DateTime endOfFirstDay = new DateTime(firstTimeBlock.getEndTimestamp());
+		DateTime endOfFirstDay = new DateTime(firstTimeBlock.getEndTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
 		long diffInMillis = endOfFirstDay.minus(beginTime.getMillis()).getMillis();
 		DateTime currTime = beginTime.plusDays(1);
 		while(currTime.isBefore(endTime) || currTime.isEqual(endTime)){
@@ -115,8 +116,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	
 	public void saveTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks){
 		List<TimeBlock> alteredTimeBlocks = new ArrayList<TimeBlock>();
-		boolean persist = true;
 		for(TimeBlock tb : newTimeBlocks){
+			boolean persist = true;
 			for(TimeBlock tbOld : oldTimeBlocks){
 				if(tb.equals(tbOld)){
 					persist = false;
@@ -173,7 +174,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		return timeBlockDao.getTimeBlock(timeBlockId);
 	}
 	
-	public List<Map<String,Object>> getTimeBlocksForOurput(TimesheetDocument tsd) {
+	public List<Map<String,Object>> getTimeBlocksForOurput(TimesheetDocument tsd) { 
 		
 //		List<TimeBlock> timeBlocks = tsd.getTimeBlocks();
 		List<TimeBlock> timeBlocks = new TkTimeBlockAggregate(tsd.getTimeBlocks(), tsd.getPayCalendarEntry()).getFlattenedTimeBlockList();

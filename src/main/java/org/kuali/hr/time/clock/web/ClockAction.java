@@ -97,7 +97,7 @@ public class ClockAction extends TimesheetAction {
     			//reset time hour details
     			lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().resetTimeHourDetail(lstNewTimeBlocks);
     			//apply any rules for this action
-    			lstNewTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.CLOCK_OUT, lstNewTimeBlocks, caf.getPayCalendarDates());
+    			lstNewTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.CLOCK_OUT, lstNewTimeBlocks, caf.getPayCalendarDates(), caf.getTimesheetDocument());
 
     			//call persist method that only saves added/deleted/changed timeblocks
     			TkServiceLocator.getTimeBlockService().saveTimeBlocks(caf.getTimesheetDocument().getTimeBlocks(), lstNewTimeBlocks);

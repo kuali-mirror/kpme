@@ -15,6 +15,7 @@ import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
@@ -150,8 +151,9 @@ public class TKUtils {
 	}
 	
 	public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarDates payCalendarEntry) {
-		DateTime beginDateTime = new DateTime(payCalendarEntry.getBeginPeriodDateTime());
-		DateTime endDateTime = new DateTime(payCalendarEntry.getEndPeriodDateTime());
+		DateTime beginDateTime = new DateTime(payCalendarEntry.getBeginPeriodDateTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+		DateTime endDateTime = new DateTime(payCalendarEntry.getEndPeriodDateTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+
 		List<Interval> dayIntervals = new ArrayList<Interval>();
 
 		DateTime currDateTime = beginDateTime;

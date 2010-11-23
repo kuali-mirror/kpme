@@ -32,7 +32,8 @@ public class TkConstants {
 
     public static final String   GMT_TIME_ZONE_ID = "Etc/GMT";
     public static final TimeZone GMT_TIME_ZONE    = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
-    public static final String   SYSTEM_TIME_ZONE = "EST";
+    public static final String   SYSTEM_TIME_ZONE = "America/Indianapolis";
+    
     public static final DateTimeZone SYSTEM_DATE_TIME_ZONE = DateTimeZone.forID(TkConstants.SYSTEM_TIME_ZONE);
     public static final SimpleDateFormat SDF = new SimpleDateFormat("MM/dd/yyyy");
     
@@ -46,6 +47,12 @@ public class TkConstants {
     public static final BigDecimal BIG_DECIMAL_MS_IN_H = BIG_DECIMAL_1000.multiply(BIG_DECIMAL_60).multiply(BIG_DECIMAL_60);
     
     public static final String SUPER_USER = TkConstants.ROLE_TK_SYS_ADMIN;
+    
+    //Used to map job locations to specify the timezone for display purposes
+    public static final Map<String,String> LOCATION_TO_TIME_ZONE_MAP = new HashMap<String,String>();
+    static {
+    	LOCATION_TO_TIME_ZONE_MAP.put("NW", "America/Chicago");
+    }
     
     /**
      * The following ROLE_* constants need to match what is in the workflow database.  They will be
