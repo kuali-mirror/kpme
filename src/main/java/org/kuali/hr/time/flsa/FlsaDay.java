@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -31,6 +31,10 @@ public class FlsaDay {
 	
 	/**
 	 * Handles the breaking apart of existing time blocks around FLSA boundaries.
+	 * 
+	 * This method will compare the FLSA interval against the timeblock interval
+	 * to determine how many hours overlap.  It will then examine the time hour 
+	 * details 
 	 * @param timeBlocks a sorted list of time blocks.
 	 */
 	public void setTimeBlocks(List<TimeBlock> timeBlocks) {
@@ -46,13 +50,23 @@ public class FlsaDay {
 			
 			Interval overlapInterval = flsaDateInterval.overlap(timeBlockInterval);
 			long overlap = (overlapInterval == null) ? 0L : overlapInterval.toDurationMillis();
-			BigDecimal hours = TKUtils.convertMillisToHours(overlap);
+			BigDecimal overlapHours = TKUtils.convertMillisToHours(overlap);
 			
-			if (hours.compareTo(BigDecimal.ZERO) > 0) {
-				BigDecimal sum = earnCodeToHours.containsKey(block.getEarnCode()) ? earnCodeToHours.get(block.getEarnCode()) : BigDecimal.ZERO;
-				sum = sum.add(hours, TkConstants.MATH_CONTEXT);
-				earnCodeToHours.put(block.getEarnCode(), sum);
+			if (overlapHours.compareTo(BigDecimal.ZERO) > 0) {
 				
+				// TODO : Looking at the overlap and bucketing isn't really 
+				// accurate for non REG earn codes, since we are equally
+				// applying the overlap to every earn code that exists.
+				
+				List<TimeHourDetail> details = block.getTimeHourDetails();
+				for (TimeHourDetail thd : details) {
+					BigDecimal ecHours = earnCodeToHours.containsKey(thd.getEarnCode()) ? earnCodeToHours.get(thd.getEarnCode()) : BigDecimal.ZERO;
+					if (overlapHours.compareTo(ecHours) >= 0) {
+						ecHours = ecHours.add(overlapHours, TkConstants.MATH_CONTEXT);
+						earnCodeToHours.put(thd.getEarnCode(), ecHours);
+					}
+				}
+								
 				List<TimeBlock> blocks = earnCodeToTimeBlocks.get(block.getEarnCode());
 				if (blocks == null) {
 					blocks = new ArrayList<TimeBlock>();
