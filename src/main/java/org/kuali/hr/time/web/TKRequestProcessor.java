@@ -82,6 +82,7 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 			
 			tkUser.setBackdoorPerson(backdoorPerson);
 			tkUser.setActualPerson(person);
+			tkUser.setUserPreference(TkServiceLocator.getUserPreferenceService().getUserPreferences(tkUser.getPrincipalId()));
 			loadRoles(tkUser);
 			TKContext.setUser(tkUser);
 		} else {

@@ -666,4 +666,8 @@
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
 	</class-descriptor>
 		
+	<class-descriptor class="org.kuali.hr.time.user.pref.UserPreferences" table="tk_user_pref_t">
+		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="true" />
+		<field-descriptor name="timezone"   column="time_zone" jdbc-type="VARCHAR" length="30"/>		
+	</class-descriptor>		
 </descriptor-repository>

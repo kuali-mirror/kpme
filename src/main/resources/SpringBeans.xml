@@ -363,6 +363,10 @@
     <bean id="holidayCalendarDao" class="org.kuali.hr.time.holidaycalendar.dao.HolidayCalendarDaoImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+    <bean id="userPrefDao" class="org.kuali.hr.time.user.pref.dao.UserPreferenceDaoImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>    
 	<!-- Time Services for Business Logic -->
 	
 	<bean id="deptLunchRuleService" class="org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleServiceImpl">
@@ -475,6 +479,10 @@
     	<property name="holidayCalendarDao" ref="holidayCalendarDao"/>
     </bean>
     
+    <bean id="userPrefService" class="org.kuali.hr.time.user.pref.service.UserPreferenceServiceImpl">
+    	<property name="userPrefDao" ref="userPrefDao"/>
+    </bean>    
+    
     <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>
 
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
@@ -490,6 +498,8 @@
     		<ref bean="workAreaLookupableHelperService"/>
     	</property>
     </bean>
+    
+    <bean id="timezoneService" class="org.kuali.hr.time.timezone.service.TimezoneServiceImpl"/>
     
     <!-- Scheduler configuration -->
 	<!-- Serializer service -->

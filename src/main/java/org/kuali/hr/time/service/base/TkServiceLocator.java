@@ -28,6 +28,9 @@ import org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleService;
 import org.kuali.hr.time.timehourdetail.service.TimeHourDetailService;
 import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.timesummary.service.TimeSummaryService;
+import org.kuali.hr.time.timezone.service.TimezoneService;
+import org.kuali.hr.time.user.pref.UserPreferences;
+import org.kuali.hr.time.user.pref.service.UserPreferenceService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
 import org.kuali.hr.time.workschedule.service.WorkScheduleService;
@@ -70,6 +73,8 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_DEPT_LUNCH_RULE_SERVICE = "deptLunchRuleService";
 	public static final String TK_PRINCIPAL_CALENDAR_SERVICE = "principalCalendarService";
 	public static final String TK_HOLIDAY_CALENDAR_SERVICE = "holidayCalendarService";
+	public static final String TK_USER_PREF_SERVICE = "userPrefService";
+	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
 	
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -206,6 +211,14 @@ public class TkServiceLocator implements ApplicationContextAware {
 	
 	public static HolidayCalendarService getHolidayCalendarService(){
 		return (HolidayCalendarService) CONTEXT.getBean(TK_HOLIDAY_CALENDAR_SERVICE);
+	}
+	
+	public static UserPreferenceService getUserPreferenceService(){
+		return (UserPreferenceService) CONTEXT.getBean(TK_USER_PREF_SERVICE);
+	}
+	
+	public static TimezoneService getTimezoneService(){
+		return (TimezoneService) CONTEXT.getBean(TK_TIME_ZONE_SERVICE);
 	}
 
 	@Override

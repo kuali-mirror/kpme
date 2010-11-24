@@ -35,6 +35,8 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	private Timestamp timestamp;
 	private String beginTimestampTimezone;
 	private String endTimestampTimezone;
+	private String beginTimeDisplay;
+	private String endTimeDisplay;
 	// the two variables below are used to determine if a time block needs to be visually pushed forward / backward  
 	private Boolean pushBackward = false;
 	
@@ -245,6 +247,22 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 
 	public void setPushBackward(Boolean pushBackward) {
 		this.pushBackward = pushBackward;
+	}
+
+	public String getBeginTimeDisplay() {
+		return beginTimeDisplay;
+	}
+
+	public void setBeginTimeDisplay(String beginTimeDisplay) {
+		this.beginTimeDisplay = beginTimeDisplay;
+	}
+
+	public String getEndTimeDisplay() {
+		return endTimeDisplay;
+	}
+
+	public void setEndTimeDisplay(String endTimeDisplay) {
+		this.endTimeDisplay = endTimeDisplay;
 	}
 	
 	

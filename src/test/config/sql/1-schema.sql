@@ -1503,6 +1503,12 @@ ALTER TABLE tk_shift_differential_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1
 ALTER TABLE tk_time_collection_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) NULL DEFAULT 'N'  ;
 ALTER TABLE tk_weekly_overtime_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) NULL DEFAULT 'N'  ;
 
+create table tk_user_pref_t (
+  `PRINCIPAL_ID` varchar(40) NOT NULL,
+  `TIME_ZONE` varchar(30) NULL,
+    PRIMARY KEY (`PRINCIPAL_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 create table kr_unittest_t ( foo varchar(1) );
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

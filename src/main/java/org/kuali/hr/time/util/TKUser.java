@@ -1,6 +1,7 @@
 package org.kuali.hr.time.util;
 
 import org.kuali.hr.time.roles.TkUserRoles;
+import org.kuali.hr.time.user.pref.UserPreferences;
 import org.kuali.rice.kim.bo.Person;
 
 /**
@@ -19,6 +20,8 @@ public class TKUser {
 	
 	private TkUserRoles actualPersonRoles = null;
 	private TkUserRoles backdoorPersonRoles = null;
+	
+	private UserPreferences userPreference;
 
 	public Person getActualPerson() {
 		return actualPerson;
@@ -128,5 +131,13 @@ public class TKUser {
 			return backdoorPerson;
 		
 		return actualPerson;		
+	}
+
+	public UserPreferences getUserPreference() {
+		return userPreference;
+	}
+
+	public void setUserPreference(UserPreferences userPreference) {
+		this.userPreference = userPreference;
 	}
 }
