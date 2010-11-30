@@ -21,6 +21,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	
+	//TODO -sai remove the Random things and confirm this still works
+	
 	private static String TEST_CODE_INVALID_DEPT_ID ="0";
 	private static Long TEST_CODE_INVALID_EARN_CODE_ID =0L;
 	private static Long TEST_CODE_INVALID_SAL_GROUP_ID =0L;

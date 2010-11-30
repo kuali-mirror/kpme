@@ -50,6 +50,16 @@
 					</property>
 				</bean>
 			
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="principal" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
+								p:targetName="principalId" />
+						</list>
+					</property>
+				</bean>
+						
 				 
 			</list>
 		</property>

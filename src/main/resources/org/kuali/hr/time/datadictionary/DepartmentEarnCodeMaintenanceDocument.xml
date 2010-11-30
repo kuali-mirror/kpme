@@ -36,6 +36,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="tkSalGroup" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="earnCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="employee" />
 				<bean parent="MaintainableFieldDefinition" p:name="approver" />
 				<bean parent="MaintainableFieldDefinition" p:name="org_admin" />

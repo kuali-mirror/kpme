@@ -21,6 +21,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class ClockLogMaintenanceTest extends TkTestCase{
+	//TODO - sai remove the random and use the hard coded data in the bootstrap(add if no clock logs are present)
+	
 	private static final String TEST_CODE_ONE="TST";
 	private static final String TEST_CODE_TWO="_";
 	private static final Long TEST_ID=20L;		

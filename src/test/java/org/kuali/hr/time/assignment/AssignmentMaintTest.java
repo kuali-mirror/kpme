@@ -15,6 +15,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class AssignmentMaintTest extends org.kuali.hr.time.test.TkTestCase {
 	
+	//TODO - sai take out the random stuff and use the hard coded test data in script
+	
 	private static final String TEST_CODE="__TEST";
 	private static final Long TEST_ID=20L;
 	private static Long TEST_CODE_WORKAREA_INVALID;

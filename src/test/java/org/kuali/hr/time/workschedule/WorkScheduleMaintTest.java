@@ -16,6 +16,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 // djunk touched 7 oct 2010 - why are principal IDs set as longs?
 public class WorkScheduleMaintTest extends TkTestCase{
 
+	//TODO - sai remove the random calls here and use bootstrap data for setup
+	
 	private static final String TEST_CODE = "0";	
 	private static final Long TEST_ID = 20L;	
 	private static final String TEST_CODE_DEPARTMENT_VALID = "_test";	

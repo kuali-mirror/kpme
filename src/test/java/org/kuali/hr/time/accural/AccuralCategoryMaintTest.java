@@ -1,13 +1,11 @@
 package org.kuali.hr.time.accural;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
 import org.junit.Test;
 import org.kuali.hr.time.accrual.AccrualCategory;
-import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;

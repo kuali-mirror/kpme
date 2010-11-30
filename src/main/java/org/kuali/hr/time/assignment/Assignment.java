@@ -11,6 +11,7 @@ import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class Assignment extends PersistableBusinessObjectBase {
@@ -32,6 +33,8 @@ public class Assignment extends PersistableBusinessObjectBase {
 	private TimeCollectionRule timeCollectionRule;
 	private DeptLunchRule deptLunchRule;
 	private WorkArea workAreaObj;
+	
+	private Person principal;
 
 	private List<AssignmentAccount> assignmentAccounts = new LinkedList<AssignmentAccount>();
 
@@ -175,6 +178,14 @@ public class Assignment extends PersistableBusinessObjectBase {
 
 	public String getAssignmentDescription() {
 		return TKUtils.getAssignmentString(this);
+	}
+
+	public Person getPrincipal() {
+		return principal;
+	}
+
+	public void setPrincipal(Person principal) {
+		this.principal = principal;
 	}
 	
 }

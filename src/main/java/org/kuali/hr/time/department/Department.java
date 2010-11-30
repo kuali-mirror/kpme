@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class Department extends PersistableBusinessObjectBase {
@@ -21,6 +23,10 @@ public class Department extends PersistableBusinessObjectBase {
     private Date effectiveDate;
     private Timestamp timestamp;
     private Boolean active;
+    
+    private Chart chartObj;
+    private Organization orgObj;
+    
 
     @SuppressWarnings("unchecked")
     @Override
@@ -91,6 +97,22 @@ public class Department extends PersistableBusinessObjectBase {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public Chart getChartObj() {
+		return chartObj;
+	}
+
+	public void setChartObj(Chart chartObj) {
+		this.chartObj = chartObj;
+	}
+
+	public Organization getOrgObj() {
+		return orgObj;
+	}
+
+	public void setOrgObj(Organization orgObj) {
+		this.orgObj = orgObj;
 	}
 
 }

@@ -22,6 +22,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class DepartmentLunchRuleMaintTest extends TkTestCase {
 
+	//TODO - sai remove for(;;) and Random calls and use bootstrap data to test
 	
 	private static final String TEST_CODE = "0";	
 	private static final Long TEST_ID = 20L;

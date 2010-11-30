@@ -7,6 +7,7 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class ClockLog extends PersistableBusinessObjectBase {
@@ -34,6 +35,8 @@ public class ClockLog extends PersistableBusinessObjectBase {
     private Job job;
     private WorkArea workAreaObj;
     private Task taskObj;
+    
+    private Person principal;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -218,6 +221,14 @@ public class ClockLog extends PersistableBusinessObjectBase {
 	}
 	public Long getTask() {
 		return task;
+	}
+
+	public Person getPrincipal() {
+		return principal;
+	}
+
+	public void setPrincipal(Person principal) {
+		this.principal = principal;
 	}
 
 }

@@ -80,6 +80,14 @@ public class TkConstants {
     	public static final String CLOCK_OUT = "clockOut";
     	public static final String ADD_TIME_BLOCK = "addTimeBlock";
     }
+    
+    public static final List<String> ClOCK_ACTIONS = new ArrayList<String>();
+    static{
+    	ClOCK_ACTIONS.add("CI");
+    	ClOCK_ACTIONS.add("CO");
+    	ClOCK_ACTIONS.add("LI");
+    	ClOCK_ACTIONS.add("LO");
+    }
 
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";
     

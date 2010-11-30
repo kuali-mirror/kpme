@@ -24,6 +24,27 @@
         <bean parent="CollectionDefinition" p:name="assignmentAccounts" p:label="Assignment Accounts" p:shortLabel="Assignment Accounts" p:summary="Assignment Accounts" p:description="Assignment Accounts"/>
       </list>
     </property>   
+		 <property name="relationships">
+  		<list>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="principal"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
+                </list>
+              </property>
+            </bean>
+
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="workAreaObj"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea" p:targetName="workArea"/>
+                </list>
+              </property>
+            </bean>
+        </list>
+    </property>     
   </bean>
 
   <!-- Attribute Definitions -->

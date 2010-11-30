@@ -19,6 +19,7 @@
 				<ref bean="DepartmentEarnCode-dept" />
 				<ref bean="DepartmentEarnCode-tkSalGroup" />
 				<ref bean="DepartmentEarnCode-earnCode" />
+				<ref bean="DepartmentEarnCode-effectiveDate" />
 				<ref bean="DepartmentEarnCode-employee" />
 				<ref bean="DepartmentEarnCode-approver" />
 				<ref bean="DepartmentEarnCode-org_admin" />
@@ -116,6 +117,22 @@
 		<property name="name" value="earnCode" />
 		<property name="label" value="Earn Code" />
 	</bean>
+	
+  <bean id="DepartmentEarnCode-effectiveDate" parent="DepartmentEarnCode-effectiveDate-parentBean"/>
+  <bean id="DepartmentEarnCode-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Effective Date"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+ 		<bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
+    <property name="name" value="effectiveDate"/>
+    <property name="label" value="Effective Date"/>
+  </bean>
+  	
 	<!-- Employee -->
 	<bean id="DepartmentEarnCode-employee" parent="DepartmentEarnCode-employee-parentBean" />
 	<bean id="DepartmentEarnCode-employee-parentBean" abstract="true"
@@ -128,7 +145,7 @@
 		<property name="label" value="Employee" />
 	</bean>
 
-	<!-- Aproover -->
+	<!-- Approver -->
 	<bean id="DepartmentEarnCode-approver" parent="DepartmentEarnCode-approver-parentBean" />
 	<bean id="DepartmentEarnCode-approver-parentBean" abstract="true"
 		parent="AttributeDefinition">

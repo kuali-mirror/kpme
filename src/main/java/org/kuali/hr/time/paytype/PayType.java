@@ -17,15 +17,11 @@ public class PayType extends PersistableBusinessObjectBase {
 	private Long hrPayTypeId;
 	private String payType;
 	private String descr;
-	//private String calendarGroup;
 	private String regEarnCode;
 	private Date effectiveDate;
 	private Timestamp timestamp;
-	//private String holidayCalendarGroup;
 	private Boolean active;
-	
-	//private HolidayCalendar holidayCalendar;
-	//private PayCalendar payCalendar;
+
 
 	@SuppressWarnings("unchecked")
 	@Override
