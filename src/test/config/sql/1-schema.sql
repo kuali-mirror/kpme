@@ -889,6 +889,8 @@ CREATE TABLE `tk_py_calendar_t` (
   `begin_time` time NOT NULL DEFAULT '00:00:00',
   `end_date` date NOT NULL,
   `end_time` time NOT NULL DEFAULT '23:59:59',
+  `flsa_begin_day` varchar(9) not null,
+  `flsa_begin_time` time not null,
   PRIMARY KEY (`tk_py_calendar_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1483,9 +1485,6 @@ ALTER TABLE hr_job_t CHANGE COLUMN `active` `active` VARCHAR(1) NULL DEFAULT 'N'
 
 ALTER TABLE tk_earn_code_t ADD COLUMN `inflate_factor` DECIMAL(3,2) NOT NULL DEFAULT 1  AFTER `accrual_category` , ADD COLUMN `inflate_min_hours` DECIMAL(3,2) NOT NULL DEFAULT 0  AFTER `accrual_category` ;
 
-ALTER TABLE tk_py_calendar_t ADD COLUMN `FLSA_BEGIN_DAY` VARCHAR(9) NOT NULL DEFAULT 'SUN';
-ALTER TABLE tk_py_calendar_t ADD COLUMN `FLSA_BEGIN_TIME` TIME NOT NULL DEFAULT '0:00:00';
-
 ALTER TABLE tk_system_lunch_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) NULL DEFAULT NULL  ;
 
 ALTER TABLE tk_shift_differential_rl_t DROP COLUMN `day0`,DROP COLUMN `day1`,DROP COLUMN `day2`,DROP COLUMN `day3`,
@@ -1503,13 +1502,12 @@ ALTER TABLE tk_shift_differential_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1
 ALTER TABLE tk_time_collection_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) NULL DEFAULT 'N'  ;
 ALTER TABLE tk_weekly_overtime_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) NULL DEFAULT 'N'  ;
 
+DROP TABLE IF EXISTS `tk_user_pref_t`;
 create table tk_user_pref_t (
   `PRINCIPAL_ID` varchar(40) NOT NULL,
   `TIME_ZONE` varchar(30) NULL,
     PRIMARY KEY (`PRINCIPAL_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-create table kr_unittest_t ( foo varchar(1) );
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
