@@ -420,3 +420,15 @@ select {
     font-weight: bold;
 }
 
+.msg-excol {
+    width: 95%;
+    margin-top: 10px;
+    text-align: center;
+    font-size: .8em;
+    font-family: inherit;
+    color: red;
+}
+
+.left-errmsg div div{
+    display: inline !important;
+}

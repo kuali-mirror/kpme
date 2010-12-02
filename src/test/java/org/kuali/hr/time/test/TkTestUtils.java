@@ -7,13 +7,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import junit.framework.Assert;
-
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.junit.Assert;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.assignment.service.AssignmentServiceImpl;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -25,7 +29,20 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.kew.exception.WorkflowException;
 
+import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSelect;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
+
 public class TkTestUtils {
+	
+	private static final Logger LOG = Logger.getLogger(AssignmentServiceImpl.class);
 	
 	public static TimesheetDocument populateBlankTimesheetDocument(Date calDate) {
 		try {
@@ -55,9 +72,11 @@ public class TkTestUtils {
 			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(), 
 					TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(), 
 					   calDate));
+			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			for(int i = 0;i<5;i++){
 				TimeBlock timeBlock = createTimeBlock(timesheet, i+1, 10);
-				timesheet.getTimeBlocks().add(timeBlock);
+				timeBlocks.add(timeBlock);
+				timesheet.setTimeBlocks(timeBlocks);
 			}
 			return timesheet;
 			
@@ -131,9 +150,12 @@ public class TkTestUtils {
 		}
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
+		
 		timeBlock.setBeginTimestamp(new Timestamp(cal.getTimeInMillis()));
 		timeBlock.setBeginTimestampTimezone("EST");
 		timeBlock.setEarnCode("RGN");
+		timeBlock.setJobNumber(1L);
+		timeBlock.setWorkArea(1234L);
 		timeBlock.setHours((new BigDecimal(numHours)).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING));
 		cal.add(Calendar.HOUR, numHours);
 		timeBlock.setEndTimestamp(new Timestamp(cal.getTimeInMillis()));
@@ -143,6 +165,113 @@ public class TkTestUtils {
 	
 	public static List<Job> getJobs(Date calDate){
 		return TkServiceLocator.getJobSerivce().getJobs(TKContext.getPrincipalId(), calDate);
+	}
+	/**
+	 * 
+	 * @param page: current html page
+	 * @param criteria: The key is the field name and the value is a string array which contains the field value and the field type which can be chosen from TkTestConstants
+	 * @return HtmlPage resultPage
+	 * @throws Exception
+	 */
+	public static HtmlPage fillOutForm(HtmlPage page, Map<String, Object> criteria) throws Exception {
+		HtmlForm lookupForm = HtmlUnitUtil.getDefaultForm(page);
+		String formFieldPrefix = "";
+		HtmlPage resultPage = null;
+		HtmlSelect select = null;
+		HtmlInput input = null;
+		HtmlCheckBoxInput checkBox = null;
+		HtmlTextArea textArea = null;
+
+
+		// Common class of both HtmlInput and HtmlTextArea -- since either of these can appear
+		// on a web-form.
+		HtmlElement htmlBasicInput = null;
+
+		Set<Map.Entry<String, Object>> entries = criteria.entrySet();
+		Iterator<Map.Entry<String, Object>> it = entries.iterator();
+
+		while (it.hasNext()) {
+			Map.Entry<String,Object> entry = it.next();
+
+			// if the field type is not <input>
+			if(entry.getValue() instanceof String[]) {
+				String key = Arrays.asList((String[])entry.getValue()).get(0).toString();
+				String value = Arrays.asList((String[])entry.getValue()).get(1).toString();
+
+				// drop-down
+				if(key.equals(TkTestConstants.FormElementTypes.DROPDOWN)) {
+
+					try {
+						select = (HtmlSelect) lookupForm.getSelectByName(formFieldPrefix  + entry.getKey());
+					} catch (Exception e) {
+						select = (HtmlSelect) lookupForm.getElementById(formFieldPrefix  + entry.getKey());
+					}
+
+					resultPage = (HtmlPage) select.getOptionByValue((String)value).setSelected(true);
+				}
+				// check box
+				else if(key.equals(TkTestConstants.FormElementTypes.CHECKBOX)) {
+					try {
+					  checkBox = page.getHtmlElementById(formFieldPrefix  + entry.getKey());
+					}
+					catch(Exception e) {
+						checkBox = page.getElementByName(formFieldPrefix  + entry.getKey());
+					}
+					resultPage = (HtmlPage) checkBox.setChecked(Boolean.parseBoolean(value));
+				}
+				// text area
+				else if(key.equals(TkTestConstants.FormElementTypes.TEXTAREA)) {
+					try {
+					   textArea = page.getHtmlElementById(formFieldPrefix  + entry.getKey());
+					} catch (Exception e){
+						textArea = page.getElementByName(formFieldPrefix  + entry.getKey());
+					}
+					textArea.setText(Arrays.asList((String[])entry.getValue()).get(1).toString());
+				}
+			} else {
+				try {
+					htmlBasicInput = page.getHtmlElementById(formFieldPrefix + entry.getKey());
+					if (htmlBasicInput instanceof HtmlTextArea) {
+						textArea = (HtmlTextArea)htmlBasicInput;
+						textArea.setText(entry.getValue().toString());
+						resultPage = (HtmlPage) textArea.getPage();
+					} else if (htmlBasicInput instanceof HtmlInput) {
+						input = (HtmlInput)htmlBasicInput;
+						resultPage = (HtmlPage) input.setValueAttribute(entry.getValue().toString());
+					} else {
+						LOG.error("Request to populate a non-input html form field.");
+					}
+				} catch (Exception e) {
+					htmlBasicInput = page.getElementByName(formFieldPrefix + entry.getKey());
+
+					if (htmlBasicInput instanceof HtmlTextArea) {
+						textArea = (HtmlTextArea)htmlBasicInput;
+						textArea.setText(entry.getValue().toString());
+						resultPage = (HtmlPage) textArea.getPage();
+					} else if (htmlBasicInput instanceof HtmlInput) {
+						input = (HtmlInput)htmlBasicInput;
+						resultPage = (HtmlPage) input.setValueAttribute(entry.getValue().toString());
+					} else {
+						LOG.error("Request to populate a non-input html form field.");
+					}
+				}
+			}
+		}
+
+		return resultPage;
+	}
+
+	/**
+	 * 
+	 * @param page: current html page
+	 * @param name: the button name
+	 * @return
+	 * @throws Exception
+	 */
+	public static HtmlPage clickButton(HtmlPage page, String name) throws Exception {
+		HtmlForm form = HtmlUnitUtil.getDefaultForm(page);
+		HtmlSubmitInput input = form.getInputByName(name);
+		return (HtmlPage) input.click();
 	}
 	
 	/**
@@ -177,6 +306,4 @@ public class TkTestUtils {
 		for (String key : ecToHoursMap.keySet())
 			Assert.assertEquals("Wrong number of hours.", 0, ecToHoursMap.get(key).compareTo(ecToSumMap.get(key)));
 	}
-	
-	
 }

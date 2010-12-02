@@ -55,7 +55,12 @@
             </div>
             <tk:tabs/>
 		</ul>
-
+        <div class="msg-excol">
+	      <div class="left-errmsg">
+	        <kul:errors errorTitle="Error:" />
+	        <kul:messages/>
+	      </div>
+	    </div>
 		<jsp:doBody />
 	<tk:note/>
 	</div>

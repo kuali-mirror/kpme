@@ -39,14 +39,14 @@
 	<!-- time database params -->
 	<param name="tk.datasource.ojb.platform">MySQL</param>
 
-	<param name="tk.datasource.driver.name">com.p6spy.engine.spy.P6SpyDriver</param>
 	<!-- <param name="tk.datasource.platform">org.kuali.rice.core.database.platform.MySQLDatabasePlatform</param>-->
     <param name="tk.datasource.driver.name">com.mysql.jdbc.Driver</param>
+	<!-- <param name="tk.datasource.driver.name">com.p6spy.engine.spy.P6SpyDriver</param> -->
 	<param name="tk.datasource.pool.validationQuery">select 1</param>
 	<param name="tk.datasource.pool.maxWait">30000</param>
 	<param name="tk.datasource.pool.minSize">10</param>
 	<param name="tk.datasource.pool.maxSize">150</param>
-	
+	  
 	<!-- end time database params -->
 
    	<!-- workflow database params -->

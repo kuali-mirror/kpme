@@ -9,6 +9,6 @@ public interface ClockLogService {
 
     public void saveClockLog(ClockLog clockLog);
     public ClockLog getLastClockLog(String principalId);
-	public ClockLog saveClockAction(Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction);
-    
+    public ClockLog getLastClockLog(String principalId, String clockAction);
+	public ClockLog buildClockLog(Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction, String ip);
 }

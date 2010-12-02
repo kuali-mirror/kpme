@@ -10,7 +10,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 
 public class ClockLogServiceImpl implements ClockLogService {
 
@@ -23,13 +22,15 @@ public class ClockLogServiceImpl implements ClockLogService {
 		clockLogDao.saveOrUpdate(clockLog);
 	}
 	
-	public ClockLog saveClockAction(Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction){
+	@Override
+	public ClockLog buildClockLog(Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction, String ip) {
 		String principalId = TKContext.getUser().getPrincipalId();
 		
 	    ClockLog clockLog = new ClockLog();
 	    clockLog.setPrincipalId(principalId);
 	    AssignmentDescriptionKey assignmentDesc = TkServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssign);
 	    Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument, selectedAssign);
+	    clockLog.setJob(timesheetDocument.getJob(assignment.getJobNumber()));
 	    clockLog.setJobNumber(assignment.getJobNumber());
 	    clockLog.setWorkArea(assignment.getWorkArea());
 	    clockLog.setTkWorkAreaId(assignment.getWorkAreaObj().getTkWorkAreaId());
@@ -47,12 +48,10 @@ public class ClockLogServiceImpl implements ClockLogService {
 	    // TODO: This timezone is not correct, we will need to make a javascript call.
 	    clockLog.setClockTimestamp(clockTimestamp);//Calendar.getInstance(TkConstants.GMT_TIME_ZONE));
 	    clockLog.setClockAction(clockAction);
-	    clockLog.setIpAddress("127.0.0.1");
+	    clockLog.setIpAddress(ip);
 	    clockLog.setHrJobId(assignment.getJob().getHrJobId());
 	    clockLog.setUserPrincipalId(principalId);
 	    clockLog.setTimestamp(new Timestamp(System.currentTimeMillis()));
-	    
-	    saveClockLog(clockLog);
 	    
 	    return clockLog;
 	}
@@ -63,6 +62,10 @@ public class ClockLogServiceImpl implements ClockLogService {
 
 	public ClockLog getLastClockLog(String principalId) {
 		return clockLogDao.getLastClockLog(principalId);
+	}
+
+	public ClockLog getLastClockLog(String principalId, String clockAction) {
+		return clockLogDao.getLastClockLog(principalId, clockAction);
 	}
 	
 }

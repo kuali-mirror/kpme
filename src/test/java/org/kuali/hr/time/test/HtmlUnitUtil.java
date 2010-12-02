@@ -26,7 +26,8 @@ public class HtmlUnitUtil {
     public static HtmlPage gotoPageAndLogin(String url) throws Exception {
 	LOG.debug("URL: " + url);
 	final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7);
-	webClient.setJavaScriptEnabled(false);
+	// this is required and needs to set to true, otherwise the values set by the onClick event won't be triggered, e.g. methodToCall
+	webClient.setJavaScriptEnabled(true);
 
 	HtmlPage loginPage = (HtmlPage) webClient.getPage(new URL(url));
 
@@ -38,7 +39,6 @@ public class HtmlUnitUtil {
     }
 
 	public static HtmlPage clickInputContainingText(HtmlPage page, String...values) throws Exception {
-		createTempFile(page);
 		page = (HtmlPage)getInputContainingText(page, values).click();
 		return page;
 	}
@@ -84,7 +84,6 @@ public class HtmlUnitUtil {
 	}
 
 	public static HtmlPage clickAnchorContainingText(HtmlPage page, String... values) throws Exception {
-		HtmlUnitUtil.createTempFile(page);
 		return (HtmlPage) getAnchorContainingText(page, values).click();
 	}
 
@@ -148,5 +147,12 @@ public class HtmlUnitUtil {
 		}
 		return null;
     }
+    
+	public static HtmlForm getDefaultForm(HtmlPage htmlPage) {
+		if (htmlPage.getForms().size() == 1) {
+			return (HtmlForm)htmlPage.getForms().get(0);
+		}
+		return (HtmlForm)htmlPage.getForms().get(1);
+	}
 
 }

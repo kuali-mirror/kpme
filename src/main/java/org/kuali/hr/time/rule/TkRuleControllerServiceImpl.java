@@ -20,7 +20,8 @@ public class TkRuleControllerServiceImpl implements TkRuleControllerService {
 		} else if(StringUtils.equals(action, TkConstants.ACTIONS.ADD_TIME_BLOCK)){
 			TkTimeBlockAggregate timeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, payEntry);
 			TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(timesheetDocument, timeBlockAggregate);
-			newTimeBlocks = timeBlockAggregate.getFlattenedTimeBlockList();
+			// dept lunch rule
+			newTimeBlocks = TkServiceLocator.getDepartmentLunchRuleService().applyDepartmentLunchRule(timeBlockAggregate.getFlattenedTimeBlockList());
 		}
 
 		

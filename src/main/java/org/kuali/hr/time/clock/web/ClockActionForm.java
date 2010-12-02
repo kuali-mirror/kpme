@@ -15,6 +15,8 @@ public class ClockActionForm extends TimesheetActionForm {
 
     private String principalId;
     private String currentClockAction;
+    private String lastClockAction;
+    // do we still need nextClockAction?
     private String nextClockAction;
     private Timestamp lastClockTimestamp;
     private String lastClockHours;
@@ -75,6 +77,14 @@ public class ClockActionForm extends TimesheetActionForm {
 
 	public void setTimeBlock(TimeBlock timeBlock) {
 		this.timeBlock = timeBlock;
+	}
+
+	public String getLastClockAction() {
+		return lastClockAction;
+	}
+
+	public void setLastClockAction(String lastClockAction) {
+		this.lastClockAction = lastClockAction;
 	}
 
 

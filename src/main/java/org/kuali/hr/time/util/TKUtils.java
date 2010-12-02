@@ -15,11 +15,9 @@ import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
-import org.joda.time.LocalTime;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendarDates;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -204,6 +202,10 @@ public class TKUtils {
 	
 	public static BigDecimal convertMillisToHours(long millis) {
 		return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT);
+	}
+	
+	public static BigDecimal convertMinutesToHours(BigDecimal minutes) {
+		return minutes.divide(TkConstants.BIG_DECIMAL_60, TkConstants.MATH_CONTEXT);
 	}
 	
 	/*

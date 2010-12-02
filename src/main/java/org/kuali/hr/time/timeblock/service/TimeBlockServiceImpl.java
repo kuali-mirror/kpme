@@ -13,6 +13,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -179,7 +180,6 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 //		List<TimeBlock> timeBlocks = tsd.getTimeBlocks();
 		List<TimeBlock> timeBlocks = new TkTimeBlockAggregate(tsd.getTimeBlocks(), tsd.getPayCalendarEntry()).getFlattenedTimeBlockList();
 		
-		
 		if(timeBlocks == null || timeBlocks.size() == 0) {
 			return new ArrayList<Map<String,Object>>();
 		}
@@ -222,6 +222,17 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
 			timeBlockMap.put("earnCodeType", earnCode.getEarnCodeType());
 			timeBlockMap.put("hours", timeBlock.getHours());
+			
+			List<Map<String,Object>> timeHourDetailList = new LinkedList<Map<String,Object>>();
+			for(TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {
+				Map<String, Object> timeHourDetailMap = new LinkedHashMap<String,Object>();
+				timeHourDetailMap.put("earnCode", timeHourDetail.getEarnCode());
+				timeHourDetailMap.put("hours", timeHourDetail.getHours());
+				timeHourDetailMap.put("amount", timeHourDetail.getAmount());
+				
+				timeHourDetailList.add(timeHourDetailMap);
+			}
+			timeBlockMap.put("timeHourDetails", JSONValue.toJSONString(timeHourDetailList));
 
 			timeBlockList.add(timeBlockMap);
 		}

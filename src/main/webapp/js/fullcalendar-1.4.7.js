@@ -1192,7 +1192,11 @@ function Grid(element, options, methods, viewName) {
                         "<div class='fc-day-number'>" + formatDate(d,"MM/dd") + " " + beginDateString + 
                         " - " + formatDate(addDays(d,1),"MM/dd") + " " + endDateString +"</div>") +
 						"<div class='fc-day-content'><div style='position:relative'>&nbsp;</div></div></td>";
-					// addDays(d, 1);
+
+                    // this is for the regular day mode
+                    if(showNumbers) {
+    					addDays(d, 1);
+                    }
 					if (nwe) {
 						skipWeekend(d);
 					}
@@ -1225,8 +1229,10 @@ function Grid(element, options, methods, viewName) {
                             "<div class='fc-day-number'>" + formatDate(d,"MM/dd") + " " + beginDateString + 
                             " - " + formatDate(addDays(d,1),"MM/dd") + " " + endDateString +"</div>") +
                             "<div class='fc-day-content'><div style='position:relative'>&nbsp;</div></div></td>";
-						// addDays(d, 1);
-						if (nwe) {
+                        if(showNumbers) {
+        					addDays(d, 1);
+                        }
+                        if (nwe) {
 							skipWeekend(d);
 						}
 					}
@@ -1673,27 +1679,45 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 				className += 'fc-corner-right ';
 			}
 			left = seg.isStart ? dayContentLeft(seg.start.getDay()) : minLeft;
-			right = seg.isEnd ? dayContentRight(seg.end.getDay()-1) : maxLeft;
+			// right = seg.isEnd ? dayContentRight(seg.end.getDay()-1) : maxRight;
+            // this is hack to always set the day cell within one day
+			right = seg.isEnd ? dayContentRight(seg.start.getDay()) : maxRight;
+
 		}
 		
 		var fromTo = "";
 		
 		//TODO: create an array which contains all the earn codes that need to display hours only
         if(event.earnCodeType == 'HOUR') {
-            fromTo = "<tr><td align='center'>" + event.hours + " hours</td></tr>";
+            fromTo = "<tr><td align='center' colspan='3'>" + event.hours + " hours</td></tr>";
 		}
 		else {
 			fromTo = "<tr><td align='center'>from: " + formatDate(event.start,view.option('timeFormat')) 
 			+"</td><td align='center'>to: " + formatDate(event.end,view.option('timeFormat')) + "</td></tr>";
 		}
 		
+		timeHourDetail = "";
+		// convert the string to a json obj by using the jquery-json plugin
+		var jsonString = jQuery.parseJSON(event.timeHourDetails);
+		
+		$.each (jsonString, function (index) {
+            timeHourDetail += "<tr>";
+            timeHourDetail += "<td align='center'>Earn Code: " + jsonString[index].earnCode + "</td>";
+            timeHourDetail += "<td align='center'>Hours: " + jsonString[index].hours + "</td>"; 
+            timeHourDetail += "<td align='center'>Amount: " + jsonString[index].amount + "</td>";
+            timeHourDetail += "</tr>";
+        });
+
+		
+
+		
 		html +=
 			"<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;left:"+left+"px;margin-bottom:3px;' id='" + event.id + "'>" +
 			//"<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<div style='float:right; margin: 2px 7px 0 0; z-index: 1;' id='delete-event'><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "' id='delete-link' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em; z-index: 1;'>X</a></div></td></tr>" +
-			"<table style='font-size:0.7em;'><tr><td colspan='2' style='text-align:center;'>" + event.title + "</td>" +   
+			"<table style='font-size:0.7em;'><tr><td colspan='3' style='text-align:center;'>" + event.title + "</td>" +   
 			"<td><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "'id='delete-link' style='margin-left:-3px;'><span class='ui-icon ui-icon-close' style='float:right;'></span></a></td>" +
 			"</tr>" +
-			fromTo +
+			fromTo + timeHourDetail + 
 			"</table>" +
 			"</div>";
 			
@@ -3375,7 +3399,6 @@ var viewMethods = {
 					segEnd = eventEnd;
 					isEnd = true;
 				}
-				
 				segs.push({
 					event: event,
 					start: segStart,

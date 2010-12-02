@@ -1,11 +1,18 @@
 <%@include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
 <c:set var="Form" value="${ClockActionForm}" scope="request"/>
-
 <c:choose>
 	<c:when test="${Form.currentClockAction eq 'CI'}">
 		<c:set var="clockActionDescription" value="Clock In"/>
 		<c:set var="lastClockActionMessage" value="Clocked out since : "/>
+	</c:when>
+	<c:when test="${Form.currentClockAction eq 'LI'}">
+	    <c:set var="clockActionDescription" value="Clock Out"/>
+	    <c:set var="lastClockActionMessage" value="Return from lunch since : "/>
+	</c:when>
+	<c:when test="${Form.currentClockAction eq 'LO'}">
+	<c:set var="clockActionDescription" value="Clock Out"/>
+		<c:set var="lastClockActionMessage" value="Take lunch since : "/>
 	</c:when>
 	<c:otherwise>
 		<c:set var="clockActionDescription" value="Clock Out"/>
@@ -18,7 +25,6 @@
 </c:if>
 
 <tk:tkHeader tabId="clock">
-
 	<html:form action="/Clock.do">
 	<html:hidden property="methodToCall" value=""/>
 	<html:hidden property="currentClockAction" styleId="clockAction"/>
@@ -62,8 +68,18 @@
 			</tr>
 			<tr class="footer">
 				<td colspan="2" align="center">
-					<input id="clock-button" type="button" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction'; this.form.submit();"/>
-					<input type="button" class="button" value="Skip Entry" name="skipEntry"/>
+                    <%--<c:if test="${Form.currentClockAction eq 'CI' or Form.currentClockAction eq 'CO'}">  --%>
+                        <input id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';"/>
+                    <%--</c:if>  --%>				
+                    <c:choose>
+						<c:when test="${Form.currentClockAction eq 'CO'}">
+						   <input type="submit" class="button" value="Take Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/>
+						</c:when>
+						<c:when test="${Form.currentClockAction eq 'LO'}">
+						   <input type="submit" class="button" value="Return From Lunch" name="lunchOut" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LO';"/>
+						</c:when>
+                    </c:choose>
+					<input type="submit" class="button" value="Skip Entry" name="skipEntry"/>
 				</td>
 			</tr>
 		</table>

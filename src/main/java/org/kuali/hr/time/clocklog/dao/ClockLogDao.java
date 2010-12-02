@@ -9,4 +9,5 @@ public interface ClockLogDao {
     public void saveOrUpdate(ClockLog clockLog);
     public void saveOrUpdate(List<ClockLog> clockLogList);
     public ClockLog getLastClockLog(String principalId);
+	public ClockLog getLastClockLog(String principalId, String clockAction);
 }
