@@ -136,40 +136,40 @@
 	</documentType>		
 	<documentType>
       <name>ACCT</name>
-      <parent>COA</parent>
+      <parent>RiceDocument</parent>
       <label>Account</label>
     </documentType>
 	<documentType>
       <name>COA</name>
-      <parent>KualiDocument</parent>
+      <parent>RiceDocument</parent>
     </documentType>
     <documentType>
       <name>COAT</name>
-      <parent>COA</parent>
+      <parent>RiceDocument</parent>
       <label>Chart Code</label>
     </documentType>	
     <documentType>
       <name>OBJT</name>
-      <parent>COA</parent>
+      <parent>RiceDocument</parent>
       <label>Object Code</label>
     </documentType>	
     <documentType>
       <name>ORGN</name>
-      <parent>COA</parent>
+      <parent>RiceDocument</parent>
       <label>Organization</label>
     </documentType>
     <documentType>
       <name>PROJ</name>
-      <parent>COA</parent>
+      <parent>RiceDocument</parent>
     </documentType>
     <documentType>
       <name>SACC</name>
-      <parent>COA</parent>
+      <parent>RiceDocument</parent>
       <label>Sub Account</label>
     </documentType>        	
     <documentType>
       <name>SOBJ</name>
-      <parent>COA</parent>
+      <parent>RiceDocument</parent>
       <label>Sub Object Code</label>
     </documentType>	
 	</documentTypes>
