@@ -129,7 +129,7 @@
                                         <include>src/test/config/sql/1-schema.sql</include>
                                         <include>src/test/config/sql/2-schema.sql</include>
                                         <include>src/test/config/sql/3-data.sql</include>
-                                        <include>src/test/config/sql/4-testtable.sql</include.
+                                        <include>src/test/config/sql/4-testtable.sql</include>
                                     </includes>
                                 </fileset>
                             </configuration>
