@@ -17,12 +17,13 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.assignment.service.AssignmentServiceImpl;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
+import org.kuali.hr.time.timeblock.service.TimeBlockService;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
@@ -42,7 +43,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class TkTestUtils {
 	
-	private static final Logger LOG = Logger.getLogger(AssignmentServiceImpl.class);
+	private static final Logger LOG = Logger.getLogger(TkTestUtils.class);
 	
 	public static TimesheetDocument populateBlankTimesheetDocument(Date calDate) {
 		try {
@@ -285,16 +286,16 @@ public class TkTestUtils {
 	 * @param flsaWeek 0 indexed start week (pulling from aggregate)
 	 */
 	@SuppressWarnings("serial")
-	public static void verifyAggregateHourSums(final Map<String,BigDecimal> ecToHoursMap, TkTimeBlockAggregate aggregate, int flsaWeek) {
+	public static void verifyAggregateHourSums(String msg, final Map<String,BigDecimal> ecToHoursMap, TkTimeBlockAggregate aggregate, int flsaWeek) {
 		// Initializes sum map to zeros, since we only care about the entires 
 		// that were passed in.
 		Map<String,BigDecimal> ecToSumMap = new HashMap<String,BigDecimal>() {{ for (String ec : ecToHoursMap.keySet()) { put(ec, BigDecimal.ZERO); }}};
 	
 		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks();	
-		Assert.assertTrue("Not enough FLSA weeks to verify aggregate hours", flsaWeeks.size() > flsaWeek);
+		Assert.assertTrue(msg + " >> Not enough FLSA weeks to verify aggregate hours, max: " + (flsaWeeks.size() - 1), flsaWeeks.size() > flsaWeek);
 		
 		// Build our Sum Map.
-		FlsaWeek week = flsaWeeks.get(1);
+		FlsaWeek week = flsaWeeks.get(flsaWeek);
 		List<FlsaDay> flsaDays = week.getFlsaDays();
 		for (FlsaDay day : flsaDays) 
 			for (TimeBlock bl : day.getAppliedTimeBlocks()) 
@@ -304,6 +305,34 @@ public class TkTestUtils {
 		
 		// Assert that our values are correct.
 		for (String key : ecToHoursMap.keySet())
-			Assert.assertEquals("Wrong number of hours.", 0, ecToHoursMap.get(key).compareTo(ecToSumMap.get(key)));
+			Assert.assertEquals(
+					msg + " >> ("+key+") Wrong number of hours expected: " + ecToHoursMap.get(key) + " found: " + ecToSumMap.get(key) + " :: ", 
+					0, 
+					ecToHoursMap.get(key).compareTo(ecToSumMap.get(key)));
 	}
+	public static void verifyAggregateHourSums(final Map<String,BigDecimal> ecToHoursMap, TkTimeBlockAggregate aggregate, int flsaWeek) {
+		TkTestUtils.verifyAggregateHourSums("", ecToHoursMap, aggregate, flsaWeek);
+	}
+	
+	
+	/**
+	 * Helper method to generate time blocks suitable for db persistence in
+	 * unit tests. 
+	 */
+	public static List<TimeBlock> createUniformActualTimeBlocks(TimesheetDocument timesheetDocument, Assignment assignment, String earnCode, DateTime start, int days, BigDecimal hours) {
+		TimeBlockService service = TkServiceLocator.getTimeBlockService();
+		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+		
+		for (int i=0; i<days; i++) {
+			DateTime ci = start.plusDays(i);
+			DateTime co = ci.plusHours(hours.intValue());
+			Timestamp tsin = new Timestamp(ci.getMillis());
+			Timestamp tsout = new Timestamp(co.getMillis());
+			
+			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours));
+		}
+		
+		return blocks;
+	}
+	
 }

@@ -47,6 +47,12 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
 		toStringMap.put("tkTimeBlockId", tkTimeBlockId);
+		toStringMap.put("earnCode", earnCode);
+		toStringMap.put("hours", hours);
+		for (TimeHourDetail thd : timeHourDetails) {
+			toStringMap.put("thd:earnCode:"+thd.getEarnCode(), thd.getHours());
+			toStringMap.put("thd:earnCode:"+thd.getEarnCode(), thd.getHours());
+		}
 		return toStringMap;
 	}
 

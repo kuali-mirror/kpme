@@ -34,10 +34,14 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PersistenceBrokerDa
 		return (TimesheetDocumentHeader)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(TimesheetDocumentHeader.class, crit));
 	}
 	
+	/**
+	 * Document header IDs are ordered, so an ID less than the current will 
+	 * always be previous to current.
+	 */
 	public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, Long currDocumentId){
-		Criteria crit = new Criteria();
+		Criteria crit = new Criteria();		
 		crit.addEqualTo("principalId", principalId);
-		crit.addNotEqualTo("documentId", currDocumentId);
+		crit.addLessThan("documentId", currDocumentId);
 		QueryByCriteria query = new QueryByCriteria(TimesheetDocumentHeader.class, crit);
 		query.addOrderByDescending("documentId");
 		query.setStartAtIndex(0);

@@ -151,6 +151,8 @@ INSERT INTO `tk_earn_group_s` VALUES ('1000');
 DELETE FROM `tk_earn_group_t`;
 INSERT INTO `tk_earn_group_t` (`tk_earn_group_id`,`earn_group`,`descr`,`effdt`,`active`,`OBJ_ID`,`VER_NBR`,`timestamp`) VALUES
   (  1,'SD1','Test SD1', '2010-01-01', 'Y', '', 1, '2010-01-01 01:01:01'),
+  (  2,'SD2','Test SD2', '2010-01-01', 'Y', '', 1, '2010-01-01 01:01:01'),
+  (  3,'SD3','Test SD3', '2010-01-01', 'Y', '', 1, '2010-01-01 01:01:01'),
 	(100,'REG','Regular', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' ),
 	(101,'OVT','Overtime', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' ),
 	(102,'TC1','Regular', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' ),
@@ -162,7 +164,9 @@ INSERT INTO `tk_earn_group_def_s` VALUES ('1000');
 DELETE FROM `tk_earn_group_def_t`;
 INSERT INTO `tk_earn_group_def_t` (`tk_earn_group_def_id`, `tk_earn_group_id`,`earn_code`,`OBJ_ID`,`VER_NBR`) VALUES
   (  1,  1,'REG','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
-  (  2,  1,'RGN','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),  
+  (  2,  1,'RGN','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
+  (  3,  2,'ABC', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
+  (  4,  3,'XYZ','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
 	(100,100,'REG','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
 	(101,100,'RGN','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
 	(102,100,'RGH','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),

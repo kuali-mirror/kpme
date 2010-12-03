@@ -113,6 +113,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (daysOfCurrentWeek.size() > 0) {
 					for (int j=daysOfCurrentWeek.size()-1; j >= 0; j--) {
 						FlsaDay day = daysOfCurrentWeek.get(j);
+						boolean otApplied = false;
 						
 						List<TimeBlock> dayBlocks = day.getAppliedTimeBlocks();
 						Collections.sort(dayBlocks, new Comparator<TimeBlock>() { // Sort the Time Blocks
@@ -128,8 +129,13 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 							if (overtimeHours.compareTo(BigDecimal.ZERO) > 0) {
 								String overtimeEarnCode = getOvertimeEarnCode(principalId, block, wor, asOfDate);
 								overtimeHours = applyOvertimeToTimeBlock(block, overtimeEarnCode, convertFromEarnCodes, overtimeHours);
+								otApplied = true;
 							}
 						}
+						
+						// ReCalculate FlsaDay Information if necessary.
+						if (otApplied)
+							day.remapTimeHourDetails();
 					}
 				}
 			}		
