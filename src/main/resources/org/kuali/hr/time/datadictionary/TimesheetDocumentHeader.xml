@@ -72,7 +72,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
     </property>
-    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
     <property name="name" value="payBeginDate" />
     <property name="label" value="Pay Begin Date" />
   </bean> 
@@ -87,7 +87,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
     </property>
-    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
     <property name="name" value="payEndDate" />
     <property name="label" value="Pay End Date" />
   </bean>

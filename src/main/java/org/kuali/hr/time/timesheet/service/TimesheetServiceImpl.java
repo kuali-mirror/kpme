@@ -71,10 +71,8 @@ public class TimesheetServiceImpl implements TimesheetService {
 		String status = workflowDocument.getRouteHeader().getDocRouteStatus();
 		TimesheetDocumentHeader documentHeader = new TimesheetDocumentHeader(workflowDocument.getRouteHeaderId(), principalId, payBeginDate, payEndDate, status);
 
-		documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
+		documentHeader.setDocumentId(workflowDocument.getRouteHeaderId());
 		documentHeader.setDocumentStatus("I");
-		documentHeader.setDocumentDescription("org.kuali.hr.time.timesheet.TimesheetDocument");
-		documentHeader.setExplanation(principalId);
 
 		TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(documentHeader);
 		timesheetDocument = new TimesheetDocument(documentHeader);

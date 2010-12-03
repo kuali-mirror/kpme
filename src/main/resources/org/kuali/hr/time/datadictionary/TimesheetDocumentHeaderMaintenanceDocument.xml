@@ -12,7 +12,8 @@
 	<bean id="TimesheetDocumentHeaderMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" 
 		p:businessObjectClass="org.kuali.hr.time.workflow.TimesheetDocumentHeader"
-		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"
+		p:allowsNewOrCopy="false">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="TimesheetDocumentHeaderMaintenanceDocument-TimesheetDocumentHeaderMaintenance" />
@@ -35,10 +36,10 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="principalId"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="payEndDate"
-					p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="payBeginDate"
-					p:required="false" />
+					p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="payEndDate"
+					p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="documentStatus"
 					p:required="true" />
 			</list>

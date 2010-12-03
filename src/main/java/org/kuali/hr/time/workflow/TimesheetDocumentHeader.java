@@ -1,10 +1,11 @@
 package org.kuali.hr.time.workflow;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class TimesheetDocumentHeader extends DocumentHeader {
+public class TimesheetDocumentHeader extends PersistableBusinessObjectBase {
 
 	private static final long serialVersionUID = 1L;
 	private Long documentId;
@@ -81,6 +82,12 @@ public class TimesheetDocumentHeader extends DocumentHeader {
 
 	public void setPayBeginDate(Date payBeginDate) {
 		this.payBeginDate = payBeginDate;
+	}
+
+	@Override
+	protected LinkedHashMap toStringMapper() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
