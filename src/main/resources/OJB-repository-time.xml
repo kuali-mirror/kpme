@@ -268,6 +268,16 @@
 		<field-descriptor name="payGrade" 				column="pay_grade" 			jdbc-type="VARCHAR" nullable="false" length="27" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.hr.time.workflow.TimesheetDocumentHeader" table="tk_document_header_t">
+		<field-descriptor name="documentId" 	column="document_id"     jdbc-type="BIGINT"  primarykey="true" autoincrement="true"/>
+		<field-descriptor name="principalId"    column="principal_id"    jdbc-type="VARCHAR" length="40" primarykey="false" />
+		<field-descriptor name="payEndDate"     column="pay_end_dt"	     jdbc-type="DATE"    primarykey="false" />
+		<field-descriptor name="documentStatus" column="document_status" jdbc-type="VARCHAR" length="1"  primarykey="false" />
+		<field-descriptor name="payBeginDate"   column="pay_begin_dt"	 jdbc-type="DATE"    primarykey="false" />
+		<field-descriptor name="objectId" 	    column="obj_id"	 		 jdbc-type="VARCHAR" index="true"/>		
+		<field-descriptor name="versionNumber" 	column="ver_nbr"	     jdbc-type="BIGINT"  locking="true"/>
+	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.earncode.EarnCode" table="tk_earn_code_t">
 		<field-descriptor name="tkEarnCodeId" 	column="tk_earn_code_id" jdbc-type="BIGINT"  primarykey="true" autoincrement="true" sequence-name="tk_earn_code_s"/>

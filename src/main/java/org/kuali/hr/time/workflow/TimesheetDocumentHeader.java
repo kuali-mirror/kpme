@@ -12,7 +12,25 @@ public class TimesheetDocumentHeader extends DocumentHeader {
 	private Date payBeginDate;
 	private Date payEndDate;
 	private String documentStatus;
+	private String objectId;
+	private Long versionNumber;
 	
+	public String getObjectId() {
+		return objectId;
+	}
+
+	public void setObjectId(String objectId) {
+		this.objectId = objectId;
+	}
+
+	public Long getVersionNumber() {
+		return versionNumber;
+	}
+
+	public void setVersionNumber(long versionNumber) {
+		this.versionNumber = versionNumber;
+	}
+
 	public TimesheetDocumentHeader() {
 		
 	}

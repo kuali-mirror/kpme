@@ -133,44 +133,16 @@
 			<name>PrincipalCalendarMaintenanceDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>PrincipalCalendarMaintenanceDocument</label>
-	</documentType>		
+	</documentType>	
 	<documentType>
-      <name>ACCT</name>
-      <parent>RiceDocument</parent>
-      <label>Account</label>
-    </documentType>
+			<name>TimesheetDocumentHeaderDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>TimesheetDocumentHeaderDocument</label>
+	</documentType>
 	<documentType>
-      <name>COA</name>
-      <parent>RiceDocument</parent>
-    </documentType>
-    <documentType>
-      <name>COAT</name>
-      <parent>RiceDocument</parent>
-      <label>Chart Code</label>
-    </documentType>	
-    <documentType>
-      <name>OBJT</name>
-      <parent>RiceDocument</parent>
-      <label>Object Code</label>
-    </documentType>	
-    <documentType>
-      <name>ORGN</name>
-      <parent>RiceDocument</parent>
-      <label>Organization</label>
-    </documentType>
-    <documentType>
-      <name>PROJ</name>
-      <parent>RiceDocument</parent>
-    </documentType>
-    <documentType>
-      <name>SACC</name>
-      <parent>RiceDocument</parent>
-      <label>Sub Account</label>
-    </documentType>        	
-    <documentType>
-      <name>SOBJ</name>
-      <parent>RiceDocument</parent>
-      <label>Sub Object Code</label>
-    </documentType>	
+			<name>TimesheetDocumentHeaderMaintenanceDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>TimesheetDocumentHeaderMaintenanceDocument</label>
+		</documentType>	
 	</documentTypes>
 </data>
