@@ -1502,6 +1502,15 @@ ALTER TABLE tk_shift_differential_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1
 ALTER TABLE tk_time_collection_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) NULL DEFAULT 'N'  ;
 ALTER TABLE tk_weekly_overtime_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) NULL DEFAULT 'N'  ;
 
+ALTER TABLE tk_py_calendar_t DROP COLUMN `begin_date` , 
+DROP COLUMN `begin_time` , DROP COLUMN `chart` , DROP COLUMN `end_date` , DROP COLUMN `end_time` ;
+
+alter table tk_py_calendar_dates_t rename tk_py_calendar_entries_t;
+alter table tk_py_calendar_dates_s rename tk_py_calendar_entries_s;
+
+ALTER TABLE tk_py_calendar_entries_t CHANGE COLUMN `tk_py_calendar_dates_id` `tk_py_calendar_entry_id` BIGINT(20) NOT NULL  
+, DROP PRIMARY KEY , ADD PRIMARY KEY (`tk_py_calendar_entry_id`) ;
+
 DROP TABLE IF EXISTS `tk_user_pref_t`;
 create table tk_user_pref_t (
   `PRINCIPAL_ID` varchar(40) NOT NULL,
