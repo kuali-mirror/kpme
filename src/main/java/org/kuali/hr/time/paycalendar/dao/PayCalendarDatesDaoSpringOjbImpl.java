@@ -5,20 +5,20 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class PayCalendarDatesDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements PayCalendarDatesDao {
 
 	private static final Logger LOG = Logger.getLogger(PayCalendarDatesDaoSpringOjbImpl.class);
 
-	public void saveOrUpdate(PayCalendarDates payCalendarDates) {
+	public void saveOrUpdate(PayCalendarEntries payCalendarDates) {
 		this.getPersistenceBrokerTemplate().store(payCalendarDates);
 	}
 
-	public void saveOrUpdate(List<PayCalendarDates> payCalendarDatesList) {
+	public void saveOrUpdate(List<PayCalendarEntries> payCalendarDatesList) {
 		if (payCalendarDatesList != null) {
-			for (PayCalendarDates payCalendarDates : payCalendarDatesList) {
+			for (PayCalendarEntries payCalendarDates : payCalendarDatesList) {
 				this.getPersistenceBrokerTemplate().store(payCalendarDates);
 			}
 		}
@@ -28,10 +28,10 @@ public class PayCalendarDatesDaoSpringOjbImpl extends PersistenceBrokerDaoSuppor
 	 * The name PayCalendarDates is a bit confusing, and will eventually 
 	 * be changed to PayCalendarEntry.
 	 */
-	public PayCalendarDates getPayCalendarDates(Long payCalendarDatesId) {
+	public PayCalendarEntries getPayCalendarDates(Long payCalendarDatesId) {
 		Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("payCalendarDatesId", payCalendarDatesId);
 
-		return (PayCalendarDates) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(PayCalendarDates.class, currentRecordCriteria));
+		return (PayCalendarEntries) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(PayCalendarEntries.class, currentRecordCriteria));
 	}
 }

@@ -10,7 +10,7 @@ import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -24,7 +24,7 @@ public class TkTimeBlockAggregateTest extends TkTestCase {
 		cal.setFlsaBeginDay("mo");
 		cal.setFlsaBeginTime(new Time((new DateTime(2012, 3, 1, 0, 0, 0, 0, DateTimeZone.forID("EST")).getMillis())));
 		
-		PayCalendarDates pcd = new PayCalendarDates();
+		PayCalendarEntries pcd = new PayCalendarEntries();
 		pcd.setBeginPeriodDateTime((new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("EST")).toDate()));
 		pcd.setEndPeriodDateTime((new DateTime(2010, 1, 6, 0, 0, 0, 0, DateTimeZone.forID("EST")).toDate()));
 	

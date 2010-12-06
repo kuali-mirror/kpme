@@ -18,19 +18,14 @@ public class PayCalendarTest extends TkTestCase {
 		super.setUp();
 		PayCalendar payCalendar = new PayCalendar();
 		payCalendar.setCalendarGroup("test");
-		payCalendar.setChart("BL");
-		payCalendar.setBeginDate(new Date(System.currentTimeMillis()));
-		payCalendar.setBeginTime(new Time(System.currentTimeMillis()));
-		payCalendar.setEndDate(new Date(System.currentTimeMillis()));
-		payCalendar.setEndTime(new Time(System.currentTimeMillis()));
 		payCalendar.setFlsaBeginDay("Sun");
 		payCalendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
 		payCalendar.setPayCalendarId(new Long(1000));
 		
 		KNSServiceLocator.getBusinessObjectService().save(payCalendar);
-		PayCalendarDates payCalendarDates = new PayCalendarDates();
+		PayCalendarEntries payCalendarDates = new PayCalendarEntries();
 		payCalendarDates.setPayCalendarId(new Long(1000));
-		payCalendarDates.setPayCalendarDatesId(new Long(1000));
+		payCalendarDates.setPayCalendarEntriesId(new Long(1000));
 		payCalendarDates.setBeginPeriodDateTime(new Date(System.currentTimeMillis()));
 		payCalendarDates.setEndPeriodDateTime(new Date(System.currentTimeMillis()));
 		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);

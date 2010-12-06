@@ -3,6 +3,8 @@ package org.kuali.hr.time.paycalendar;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 

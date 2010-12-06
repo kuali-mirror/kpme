@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -22,7 +22,7 @@ public class TimesheetDocument  {
 	private List<Assignment> assignments = new LinkedList<Assignment>();
 	private List<Job> jobs = new LinkedList<Job>();
 	private List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
-	private PayCalendarDates payCalendarEntry = new PayCalendarDates();
+	private PayCalendarEntries payCalendarEntry = new PayCalendarEntries();
 	private TimeSummary timeSummary = new TimeSummary();
 	private Map<Long, Job> jobNumberToJobMap = new HashMap<Long,Job>();
 	
@@ -68,11 +68,11 @@ public class TimesheetDocument  {
 		this.timeBlocks = timeBlocks;
 	}
 
-	public PayCalendarDates getPayCalendarEntry() {
+	public PayCalendarEntries getPayCalendarEntry() {
 		return payCalendarEntry;
 	}
 
-	public void setPayCalendarEntry(PayCalendarDates payCalendarEntry) {
+	public void setPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
 		this.payCalendarEntry = payCalendarEntry;
 	}
 

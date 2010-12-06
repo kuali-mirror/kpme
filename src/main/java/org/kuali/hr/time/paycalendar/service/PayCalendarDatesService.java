@@ -2,12 +2,13 @@ package org.kuali.hr.time.paycalendar.service;
 
 import java.util.List;
 
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 
 public interface PayCalendarDatesService {
-	public void saveOrUpdate(PayCalendarDates payCalendarDates);
+	public void saveOrUpdate(PayCalendarEntries payCalendarDates);
 
-	public void saveOrUpdate(List<PayCalendarDates> payCalendarDatesList);
+	public void saveOrUpdate(List<PayCalendarEntries> payCalendarDatesList);
 
-	public PayCalendarDates getPayCalendarDates(Long payCalendarDatesId);
+	public PayCalendarEntries getPayCalendarDates(Long payCalendarDatesId);
+
 }

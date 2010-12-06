@@ -1,9 +1,8 @@
 package org.kuali.hr.time.paycalendar;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -19,19 +18,12 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 
 	private Long payCalendarId;
 	private String calendarGroup;
-	private String chart;
-
-	private Date beginDate;
-	private Time beginTime;
-
-	private Date endDate;
-	private Time endTime;
 
 	private String flsaBeginDay;
 	private Time flsaBeginTime;
 	private int flsaBeginDayConstant = -1;
 	
-	private List<PayCalendarDates> payCalendarDates = new LinkedList<PayCalendarDates>();
+	private List<PayCalendarEntries> payCalendarEntries = new ArrayList<PayCalendarEntries>();
 
 	public PayCalendar() {
 
@@ -53,52 +45,12 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 		this.calendarGroup = calendarGroup;
 	}
 
-	public String getChart() {
-		return chart;
+	public List<PayCalendarEntries> getPayCalendarEntries() {
+		return payCalendarEntries;
 	}
 
-	public void setChart(String chart) {
-		this.chart = chart;
-	}
-
-	public Date getBeginDate() {
-		return beginDate;
-	}
-
-	public void setBeginDate(Date beginDate) {
-		this.beginDate = beginDate;
-	}
-
-	public Time getBeginTime() {
-		return beginTime;
-	}
-
-	public void setBeginTime(Time beginTime) {
-		this.beginTime = beginTime;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public Time getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Time endTime) {
-		this.endTime = endTime;
-	}
-
-	public List<PayCalendarDates> getPayCalendarDates() {
-		return payCalendarDates;
-	}
-
-	public void setPayCalendarDates(List<PayCalendarDates> payCalendarDates) {
-		this.payCalendarDates = payCalendarDates;
+	public void setPayCalendarEntries(List<PayCalendarEntries> payCalendarEntries) {
+		this.payCalendarEntries = payCalendarEntries;
 	}
 
 	@SuppressWarnings("unchecked")

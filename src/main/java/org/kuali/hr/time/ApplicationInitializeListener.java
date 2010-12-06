@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.config.RiceConfigurer;
+import org.kuali.rice.kns.web.format.DateFormatter;
+import org.kuali.rice.kns.web.format.Formatter;
 import org.springframework.web.context.ContextLoaderListener;
 
 public class ApplicationInitializeListener extends ContextLoaderListener implements ServletContextListener {
@@ -27,6 +29,7 @@ public class ApplicationInitializeListener extends ContextLoaderListener impleme
 		throw new RuntimeException("Failed to start TK app lifecycle", e);
         }
         super.contextInitialized(servletContextEvent);
+        Formatter.registerFormatter(java.util.Date.class, DateFormatter.class);
 //        ConfigContext.getCurrentContextConfig().setApplicationContext(WebApplicationContextUtils.getRequiredWebApplicationContext(servletContextEvent.getServletContext()));
 //        servletContextEvent.getServletContext().setAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE, Context.getApplicationContext());
 //        servletContextEvent.getServletContext().setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, Context.getLocaleResolver());

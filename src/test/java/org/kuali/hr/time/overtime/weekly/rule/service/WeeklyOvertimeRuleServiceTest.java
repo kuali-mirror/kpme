@@ -10,7 +10,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestUtils;
@@ -40,7 +40,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 		DateTime start = new DateTime(2010, 1, 4, 5, 0, 0, 0, DateTimeZone.forID("EST"));
 		timeBlocks = TkTestUtils.createUniformTimeBlocks(start, 5, BigDecimal.TEN, "REG", DEFAULT_JOB_NUMBER, DEFAULT_WORK_AREA);
-		PayCalendarDates payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", DEFAULT_EFFDT);
+		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", DEFAULT_EFFDT);
 
 		// Check our initial data.
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
@@ -80,7 +80,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 		DateTime start = new DateTime(2010, 3, 29, 5, 0, 0, 0, DateTimeZone.forID("EST"));
 		// ID 16 in the test data is the end of march
-		PayCalendarDates endOfMarch = TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(16L);
+		PayCalendarEntries endOfMarch = TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(16L);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfMarch);
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "REG", start, 3, BigDecimal.TEN);
@@ -88,7 +88,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		tdoc.setTimeBlocks(timeBlocks);
 		
 		// Verify previous calendar times
-		PayCalendarDates payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
+		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
 		TkTestUtils.verifyAggregateHourSums("Prior month", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(30));}},aggregate,2);
 				
@@ -128,7 +128,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 		DateTime start = new DateTime(2010, 6, 27, 5, 0, 0, 0, DateTimeZone.forID("EST"));
 		// ID 22 is end of June
-		PayCalendarDates endOfJune = TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(22L);
+		PayCalendarEntries endOfJune = TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(22L);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "REG", start, 4, new BigDecimal(11));
@@ -140,7 +140,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 
 
 		// Verify previous calendar times
-		PayCalendarDates payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
+		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
 		
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
 		// Create and Process Previous month to have totals set up correctly
@@ -207,7 +207,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 		DateTime start = new DateTime(2010, 6, 27, 5, 0, 0, 0, DateTimeZone.forID("EST"));
 		// ID 22 is end of June
-		PayCalendarDates endOfJune = TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(22L);
+		PayCalendarEntries endOfJune = TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(22L);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
 		
@@ -221,7 +221,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 
 
 		// Verify previous calendar times
-		PayCalendarDates payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));		
+		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));		
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
 		// Create and Process Previous month to have totals set up correctly
 		TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(tdoc, aggregate);

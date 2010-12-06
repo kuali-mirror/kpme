@@ -2,7 +2,7 @@ package org.kuali.hr.time.timesheet.service;
 
 import java.util.List;
 
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -15,7 +15,7 @@ public interface TimesheetService {
 	 * @param principalId
 	 * @return
 	 */
-	public TimesheetDocument openTimesheetDocument(String principalId, PayCalendarDates payCalendarDates) throws WorkflowException;
+	public TimesheetDocument openTimesheetDocument(String principalId, PayCalendarEntries payCalendarDates) throws WorkflowException;
 	
 	public void routeTimesheet(String principalId, TimesheetDocument timesheetDocument);
 	

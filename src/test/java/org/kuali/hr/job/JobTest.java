@@ -6,7 +6,7 @@ import java.util.Calendar;
 
 import org.junit.Test;
 import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
@@ -27,11 +27,7 @@ public class JobTest extends TkTestCase {
 		PayCalendar payCalendar = new PayCalendar();
 		payCalendar.setPayCalendarId(1L);
 		payCalendar.setCalendarGroup(CALENDAR_GROUP);
-		payCalendar.setChart("Test");
-		payCalendar.setBeginDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-		payCalendar.setEndDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-		payCalendar.setBeginTime(new java.sql.Time(Calendar.getInstance().getTimeInMillis()));
-		payCalendar.setEndTime(new java.sql.Time(Calendar.getInstance().getTimeInMillis()));
+
 		payCalendar.setFlsaBeginDay("Sun");
 		payCalendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
 		KNSServiceLocator.getBusinessObjectService().save(payCalendar);
@@ -41,8 +37,8 @@ public class JobTest extends TkTestCase {
 
 	@Test
 	public void testInsertPayCalendarDates() throws Exception {
-		PayCalendarDates payCalendarDates = new PayCalendarDates();
-		payCalendarDates.setPayCalendarDatesId(1L);
+		PayCalendarEntries payCalendarDates = new PayCalendarEntries();
+		payCalendarDates.setPayCalendarEntriesId(1L);
 		payCalendarDates.setPayCalendarId(1L);
 
 		Calendar cal = Calendar.getInstance();
@@ -56,7 +52,7 @@ public class JobTest extends TkTestCase {
 		payCalendarDates.setEndPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
 
 		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);
-		assertTrue(TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(payCalendarDates.getPayCalendarDatesId()) != null);
+		assertTrue(TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(payCalendarDates.getPayCalendarEntriesId()) != null);
 
 	}
 

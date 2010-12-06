@@ -12,20 +12,20 @@ import org.joda.time.LocalTime;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 
 public class TkTimeBlockAggregate {
 	public List<List<TimeBlock>> dayTimeBlockList = new ArrayList<List<TimeBlock>>();
-	private PayCalendarDates payCalendarEntry;
+	private PayCalendarEntries payCalendarEntry;
 	private PayCalendar payCalendar;
 	
-	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, PayCalendarDates payCalendarEntry){
+	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, PayCalendarEntries payCalendarEntry){
 		this(timeBlocks, payCalendarEntry, TkServiceLocator.getPayCalendarSerivce().getPayCalendar(payCalendarEntry.getPayCalendarId()));
 	}
 	
-	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, PayCalendarDates payCalendarEntry, PayCalendar payCalendar){
+	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, PayCalendarEntries payCalendarEntry, PayCalendar payCalendar){
 		this.payCalendarEntry = payCalendarEntry;
 		this.payCalendar = payCalendar;
 		List<Interval> dayIntervals = TKUtils.getDaySpanForPayCalendarEntry(payCalendarEntry);
@@ -149,11 +149,11 @@ public class TkTimeBlockAggregate {
 		return dayTimeBlockList;
 	}
 
-	public PayCalendarDates getPayCalendarEntry() {
+	public PayCalendarEntries getPayCalendarEntry() {
 		return payCalendarEntry;
 	}
 
-	public void setPayCalendarEntry(PayCalendarDates payCalendarEntry) {
+	public void setPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
 		this.payCalendarEntry = payCalendarEntry;
 	}
 

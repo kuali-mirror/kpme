@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.test.TkTestCase;
@@ -123,12 +123,12 @@ public class ShiftDifferentialRuleServiceTest extends TkTestCase {
 		
 		PayCalendar payCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(calendarGroup);
 		assertNotNull("Pay calendar not found", payCalendar);
-		List<PayCalendarDates> dates = payCalendar.getPayCalendarDates();
+		List<PayCalendarEntries> dates = payCalendar.getPayCalendarEntries();
 		assertNotNull("Test Pay Calendar not found.", dates);
 		assertTrue("No dates in list.", dates.size() > 0);
-		PayCalendarDates payCalendarEntry = null;
-		for (PayCalendarDates d : dates) {
-			if (d.getPayCalendarDatesId().longValue() == 11L) 
+		PayCalendarEntries payCalendarEntry = null;
+		for (PayCalendarEntries d : dates) {
+			if (d.getPayCalendarEntriesId().longValue() == 11L) 
 				payCalendarEntry = d;
 		}
 		assertNotNull("Missing test pay calendar.", payCalendarEntry);
@@ -159,7 +159,7 @@ public class ShiftDifferentialRuleServiceTest extends TkTestCase {
 	 * @param payCalendarEntry
 	 * @throws Exception
 	 */
-	private void runCase1(TimesheetDocument timesheetDocument, PayCalendarDates payCalendarEntry, PayCalendar payCalendar) throws Exception {
+	private void runCase1(TimesheetDocument timesheetDocument, PayCalendarEntries payCalendarEntry, PayCalendar payCalendar) throws Exception {
 		TimeBlockService tbService = TkServiceLocator.getTimeBlockService();
 		ShiftDifferentialRuleService sdrService = TkServiceLocator.getShiftDifferentialRuleService();
 		assertNotNull("No Shift Differential Rule Service", sdrService);

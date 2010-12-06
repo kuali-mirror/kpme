@@ -331,40 +331,33 @@
 
 	<!--  Pay Calendar -->
 
-	<class-descriptor class="org.kuali.hr.time.paycalendar.PayCalendarDates" table="tk_py_calendar_dates_t">
-		<field-descriptor name="payCalendarDatesId" column="tk_py_calendar_dates_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_py_calendar_dates_s"/>/>
+	<class-descriptor class="org.kuali.hr.time.paycalendar.PayCalendarEntries" table="tk_py_calendar_entries_t">
+		<field-descriptor name="payCalendarEntriesId" column="tk_py_calendar_entry_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_py_calendar_entries_s"/>/>
 		<field-descriptor name="payCalendarId"		column="tk_py_calendar_id"		jdbc-type="BIGINT"/>
 		<field-descriptor name="beginPeriodDateTime"    column="begin_period_date"	jdbc-type="TIMESTAMP" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
 		<field-descriptor name="endPeriodDateTime"      column="end_period_date"	jdbc-type="TIMESTAMP" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-		<field-descriptor name="initiateDate"    	  column="initiate_date"	jdbc-type="DATE"/>
-		<field-descriptor name="initiateTime"    	  column="initiate_time"	jdbc-type="TIME"/>
+		<field-descriptor name="batchInitiateDate"    	  column="initiate_date"	jdbc-type="DATE"/>
+		<field-descriptor name="batchInitiateTime"    	  column="initiate_time"	jdbc-type="TIME"/>
 
-		<field-descriptor name="endPayPeriodDate"  	  column="end_pay_period_date"	jdbc-type="DATE"/>
-		<field-descriptor name="endPayPeriodTime"  	  column="end_pay_period_time"	jdbc-type="TIME"/>
+		<field-descriptor name="batchEndPayPeriodDate"  	  column="end_pay_period_date"	jdbc-type="DATE"/>
+		<field-descriptor name="batchEndPayPeriodTime"  	  column="end_pay_period_time"	jdbc-type="TIME"/>
 
-		<field-descriptor name="employeeApprovalDate"  column="employee_approval_date"	jdbc-type="DATE"/>
-		<field-descriptor name="employeeApprovalTime"  column="employee_approval_time"	jdbc-type="TIME"/>
+		<field-descriptor name="batchEmployeeApprovalDate"  column="employee_approval_date"	jdbc-type="DATE"/>
+		<field-descriptor name="batchEmployeeApprovalTime"  column="employee_approval_time"	jdbc-type="TIME"/>
 
-		<field-descriptor name="supervisorApprovalDate" column="supervisor_approval_date"	jdbc-type="DATE"/>
-		<field-descriptor name="supervisorApprovalTime" column="supervisor_approval_time"	jdbc-type="TIME"/>
+		<field-descriptor name="batchSupervisorApprovalDate" column="supervisor_approval_date"	jdbc-type="DATE"/>
+		<field-descriptor name="batchSupervisorApprovalTime" column="supervisor_approval_time"	jdbc-type="TIME"/>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.paycalendar.PayCalendar" table="tk_py_calendar_t">
 		<field-descriptor name="payCalendarId"        column="tk_py_calendar_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_py_calendar_s"/>
 		<field-descriptor name="calendarGroup"        column="calendar_group" jdbc-type="VARCHAR" length="30" nullable="true" primarykey="false" />
-		<field-descriptor name="chart"   		      column="chart" 		  jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
-
-		<field-descriptor name="beginDate"    		  column="begin_date"	jdbc-type="DATE"/>
-		<field-descriptor name="beginTime"    		  column="begin_time"	jdbc-type="TIME"/>
-		<field-descriptor name="endDate"    		  column="end_date"	jdbc-type="DATE"/>
-		<field-descriptor name="endTime"    		  column="end_time"	jdbc-type="TIME"/>
-		
 		<field-descriptor name="flsaBeginDay"  column="flsa_begin_day" jdbc-type="VARCHAR" length="9"/>
 		<field-descriptor name="flsaBeginTime" column="flsa_begin_time" jdbc-type="TIME"/>
 
 		<collection-descriptor
-			name="payCalendarDates"
-			element-class-ref="org.kuali.hr.time.paycalendar.PayCalendarDates"
+			name="payCalendarEntries"
+			element-class-ref="org.kuali.hr.time.paycalendar.PayCalendarEntries"
 			auto-retrieve="true"
 			auto-update="object"
 			auto-delete="object"

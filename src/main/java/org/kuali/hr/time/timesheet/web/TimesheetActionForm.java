@@ -3,7 +3,7 @@ package org.kuali.hr.time.timesheet.web;
 import java.util.Map;
 
 import org.kuali.hr.time.base.web.TkForm;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 public class TimesheetActionForm extends TkForm {
@@ -18,7 +18,7 @@ public class TimesheetActionForm extends TkForm {
 	private Map<Long,String> earnCodeDescriptions;
 	/** String (concat(job number, work_area, task)) -> Formatted Assignment Descriptions */
 	private Map<String,String>  assignmentDescriptions;
-	private PayCalendarDates payCalendarDates;
+	private PayCalendarEntries payCalendarDates;
 	private String selectedAssignment;
 	private String selectedEarnCode;
 	
@@ -62,11 +62,11 @@ public class TimesheetActionForm extends TkForm {
 		this.selectedEarnCode = selectedEarnCode;
 	}
 
-	public PayCalendarDates getPayCalendarDates() {
+	public PayCalendarEntries getPayCalendarDates() {
 		return payCalendarDates;
 	}
 
-	public void setPayCalendarDates(PayCalendarDates payCalendarDates) {
+	public void setPayCalendarDates(PayCalendarEntries payCalendarDates) {
 		this.payCalendarDates = payCalendarDates;
 	}
 }

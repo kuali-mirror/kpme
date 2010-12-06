@@ -13,7 +13,7 @@ import java.util.Set;
 
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earngroup.EarnGroup;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -80,7 +80,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 		return workedHours;
 	}
 	
-	private List<String> getHeaderForSummary(PayCalendarDates payEntry){
+	private List<String> getHeaderForSummary(PayCalendarEntries payEntry){
 		// Iterate over date range and setup a list for the header
 		Calendar payBeginCal = GregorianCalendar.getInstance();
 		Calendar payEndCal = GregorianCalendar.getInstance();

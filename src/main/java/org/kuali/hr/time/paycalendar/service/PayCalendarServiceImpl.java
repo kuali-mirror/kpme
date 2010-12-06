@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarDates;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.paycalendar.dao.PayCalendarDao;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
@@ -42,8 +42,8 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 	}
 	
 	@Override
-	public PayCalendarDates getCurrentPayCalendarDates(String principalId, Date currentDate) {
-		PayCalendarDates pcd = null;
+	public PayCalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate) {
+		PayCalendarEntries pcd = null;
 		DateTime currentTime = new DateTime(currentDate); 
 		
 		List<Job> currentJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, currentDate);
@@ -65,8 +65,8 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 			PayCalendar payCalendar = principalCalendar.getPayCalendar();
 			if (payCalendar == null)
 				throw new RuntimeException("Null pay calendar on principal calendar in getPayEndDate");
-			List<PayCalendarDates> dates = payCalendar.getPayCalendarDates();
-			for (PayCalendarDates pcdate : dates) { 
+			List<PayCalendarEntries> dates = payCalendar.getPayCalendarEntries();
+			for (PayCalendarEntries pcdate : dates) { 
 				DateTime beginDate = new DateTime(pcdate.getBeginPeriodDateTime());					
 				
 				DateTime endDate = new DateTime(pcdate.getEndPeriodDateTime());

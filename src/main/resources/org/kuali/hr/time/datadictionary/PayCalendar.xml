@@ -13,17 +13,13 @@
     <property name="attributes">
       <list>
         <ref bean="PayCalendar-calendarGroup"/>
-        <ref bean="PayCalendar-chart"/>
-        <ref bean="PayCalendar-beginDate"/>
-        <ref bean="PayCalendar-beginTime"/>
-        <ref bean="PayCalendar-endDate"/>
-        <ref bean="PayCalendar-endTime"/>
-
+		<ref bean="PayCalendar-flsaBeginDay"/>
+		<ref bean="PayCalendar-flsaBeginTime"/>
       </list>
     </property>
     <property name="collections">
       <list>
-        <bean parent="CollectionDefinition" p:name="payCalendarDates" p:label="Pay Calendar Dates" p:shortLabel="Pay Calendar Dates" p:summary="Pay Calendar Dates" p:description="Pay Calendar Dates"/>
+        <bean parent="CollectionDefinition" p:name="payCalendarEntries" p:label="Pay Calendar Entries" p:shortLabel="Pay Calendar Entries" p:summary="Pay Calendar Entries" p:description="Pay Calendar Entries"/>
       </list>
     </property>        
   </bean>
@@ -34,9 +30,6 @@
   <bean id="PayCalendar-calendarGroup-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Calendar Group"/>
     <property name="maxLength" value="21"/>
-    <property name="validationPattern">
- 		<bean parent="AlphaNumericValidationPattern"/>
-    </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
@@ -44,40 +37,23 @@
     <property name="label" value="Calendar Group"/>
   </bean>
 
-  <bean id="PayCalendar-chart" parent="PayCalendar-chart-parentBean"/>
-  <bean id="PayCalendar-chart-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Chart"/>
+  <bean id="PayCalendar-flsaBeginDay" parent="PayCalendar-flsaBeginDay-parentBean"/>
+  <bean id="PayCalendar-flsaBeginDay-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Flsa Begin Day"/>
     <property name="maxLength" value="21"/>
     <property name="validationPattern">
  		<bean parent="AlphaNumericValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="21"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.paycalendar.FlsaDayKeyValue" p:includeKeyInLabel="false"/>
     </property>
-    <property name="name" value="chart"/>
-    <property name="label" value="Chart"/>
+    <property name="name" value="flsaBeginDay"/>
+    <property name="label" value="Flsa Begin Day"/>
   </bean>
 
-  
-    
-  <bean id="PayCalendar-beginDate" parent="PayCalendar-beginDate-parentBean"/>
-  <bean id="PayCalendar-beginDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Begin Date"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
-    <property name="name" value="beginDate"/>
-    <property name="label" value="Begin Date"/>
-  </bean>
-
-  <bean id="PayCalendar-beginTime" parent="PayCalendar-beginTime-parentBean"/>
-  <bean id="PayCalendar-beginTime-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Begin Time"/>
+  <bean id="PayCalendar-flsaBeginTime" parent="PayCalendar-flsaBeginTime-parentBean"/>
+  <bean id="PayCalendar-flsaBeginTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Flsa Begin Time"/>
     <property name="maxLength" value="10"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
@@ -86,40 +62,8 @@
  		<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]" p:validationErrorMessageKey="MISSING"/>
     </property>
     <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
-    <property name="name" value="beginTime"/>
-    <property name="label" value="Begin Time"/>
-  </bean>
-
-  <!--  -->
-
-  <bean id="PayCalendar-endDate" parent="PayCalendar-endDate-parentBean"/>
-  <bean id="PayCalendar-endDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="End Date"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
-    <property name="name" value="endDate"/>
-    <property name="label" value="End Date"/>
-  </bean>
-
-  <bean id="PayCalendar-endTime" parent="PayCalendar-endTime-parentBean"/>
-  <bean id="PayCalendar-endTime-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="End Time"/>
-    <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>    
-    <property name="validationPattern">
- 		<bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]" p:validationErrorMessageKey="MISSING"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
-    <property name="name" value="endTime"/>
-    <property name="label" value="End Time"/>
+    <property name="name" value="flsaBeginTime"/>
+    <property name="label" value="Flsa Begin Time"/>
   </bean>
 
   <!-- -->
@@ -132,21 +76,15 @@
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
-        <bean parent="FieldDefinition" p:attributeName="chart"/>
-        <bean parent="FieldDefinition" p:attributeName="beginDate"/>
-        <bean parent="FieldDefinition" p:attributeName="beginTime"/>
-        <bean parent="FieldDefinition" p:attributeName="endDate"/>
-        <bean parent="FieldDefinition" p:attributeName="endTime"/>
-      </list>
+        <bean parent="FieldDefinition" p:attributeName="flsaBeginDay"/>
+        <bean parent="FieldDefinition" p:attributeName="flsaBeginTime"/>
+       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
-        <bean parent="FieldDefinition" p:attributeName="chart"/>
-        <bean parent="FieldDefinition" p:attributeName="beginDate"/>
-        <bean parent="FieldDefinition" p:attributeName="beginTime"/>
-        <bean parent="FieldDefinition" p:attributeName="endDate"/>
-        <bean parent="FieldDefinition" p:attributeName="endTime"/> 
+        <bean parent="FieldDefinition" p:attributeName="flsaBeginDay"/>
+        <bean parent="FieldDefinition" p:attributeName="flsaBeginTime"/>
       </list>
     </property>
     <property name="title" value="Pay Calendar Lookup"/>
