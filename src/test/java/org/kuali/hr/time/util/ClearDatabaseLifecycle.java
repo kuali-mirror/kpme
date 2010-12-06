@@ -35,7 +35,7 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 
 	static {
 		TABLES_TO_CLEAR.add("TK_PY_CALENDAR_T");
-		TABLES_TO_CLEAR.add("TK_PY_CALENDAR_DATES_T");
+		TABLES_TO_CLEAR.add("TK_PY_CALENDAR_ENTRIES_T");
 		TABLES_TO_CLEAR.add("TK_DEPT_T");
 		TABLES_TO_CLEAR.add("TK_ASSIGN_ACCT_T");
 		TABLES_TO_CLEAR.add("TK_ASSIGNMENT_T");
