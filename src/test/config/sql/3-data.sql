@@ -204,7 +204,7 @@ INSERT INTO `tk_roles_t` (`TK_ROLES_ID`, `PRINCIPAL_ID`, `ROLE_NAME`, `USER_PRIN
 DELETE FROM `tk_py_calendar_s`;
 INSERT INTO `tk_py_calendar_s`	(`ID`)	VALUES	(1000);
 DELETE FROM `tk_py_calendar_t`;
-INSERT INTO `tk_py_calendar_t`	(`tk_py_calendar_id`,	`calendar_group`,	`chart`,	`begin_date`,	`begin_time`,	`end_date`,	`end_time`, `flsa_begin_day`, `flsa_begin_time`)	VALUES
+INSERT INTO `tk_py_calendar_t`	(`tk_py_calendar_id`,	`calendar_group`,`flsa_begin_day`, `flsa_begin_time`)	VALUES
 	(1,  'BWN-CAL', 'Sun', '0:00:00'),
 	(2,  'BWS-CAL', 'Sun', '0:00:00');
 
