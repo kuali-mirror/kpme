@@ -210,10 +210,10 @@ INSERT INTO `tk_py_calendar_t`	(`tk_py_calendar_id`,	`calendar_group`,`flsa_begi
 
 #
 # Pay Calendar Dates
-DELETE FROM `tk_py_calendar_dates_s`;
-INSERT INTO `tk_py_calendar_dates_s`	(`ID`)	VALUES	(1000);
-DELETE FROM `tk_py_calendar_dates_t`;
-INSERT INTO `tk_py_calendar_dates_t` (`tk_py_calendar_entry_id`,`tk_py_calendar_id`,`begin_period_date`,`end_period_date`,`initiate_date`,`initiate_time`,`end_pay_period_date`,`end_pay_period_time`,`employee_approval_date`,`employee_approval_time`,`supervisor_approval_date`,`supervisor_approval_time`) VALUES
+DELETE FROM `tk_py_calendar_entries_s`;
+INSERT INTO `tk_py_calendar_entries_s`	(`ID`)	VALUES	(1000);
+DELETE FROM `tk_py_calendar_entries_t`;
+INSERT INTO `tk_py_calendar_entries_t` (`tk_py_calendar_entry_id`,`tk_py_calendar_id`,`begin_period_date`,`end_period_date`,`initiate_date`,`initiate_time`,`end_pay_period_date`,`end_pay_period_time`,`employee_approval_date`,`employee_approval_time`,`supervisor_approval_date`,`supervisor_approval_time`) VALUES
 	(1,  2, '2010-08-01 00:00:00', '2010-08-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	(2,  2, '2010-08-15 00:00:00', '2010-09-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	(3,  2, '2010-09-01 00:00:00', '2010-09-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
