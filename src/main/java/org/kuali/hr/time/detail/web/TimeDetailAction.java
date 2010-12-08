@@ -1,6 +1,7 @@
 package org.kuali.hr.time.detail.web;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.Interval;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -130,7 +133,7 @@ public class TimeDetailAction extends TimesheetAction {
 											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),new Timestamp(tdaf.getStartTime()), 
 											new Timestamp(tdaf.getEndTime()),tdaf.getHours());
 		}
-
+		
 		//concat delta of timeblocks (new and original)
 		lstNewTimeBlocks.addAll(tdaf.getTimesheetDocument().getTimeBlocks());
 		//TODO do any server side validation of adding checking for overlapping timeblocks etc
@@ -148,5 +151,65 @@ public class TimeDetailAction extends TimesheetAction {
 		//call history service
 		
 		return mapping.findForward("basic");
+	}
+	
+	/**
+	 * This is method called via ajax which is triggered after a user submits the time entry form.
+	 * If there is any error, it will add the error messages into a json object and the javascript will grab the error messages
+	 * and render them directly on the form before it is submitted.
+	 * 
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return jsonObj
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public ActionForward validateTimeBlocks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+		Long startTime = tdaf.getStartTime();
+		Long endTime = tdaf.getEndTime();
+		
+		// this is for the output of the error message
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss z");
+		String beginDateTime = sdf.format(new java.util.Date(startTime));
+		String endDateTime = sdf.format(new java.util.Date(endTime));
+		
+		JSONArray errorMsgList = new JSONArray();
+
+		//------------------------
+		// some of the simple validations are in the js side in order to reduce the server calls 
+		// 1. check if the begin / end time is empty - tk.calenadr.js
+		// 2. check the time format - timeparse.js
+		//------------------------
+
+		
+		//------------------------
+		// check if the begin / end time are valid
+		//------------------------
+		if(tdaf.getHours() != null && startTime.compareTo(endTime) > 0 || endTime.compareTo(startTime) < 0) {
+			errorMsgList.add("The begin time or end time is not valid.");
+			tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+			return mapping.findForward("ws");
+		}
+		
+		//------------------------
+		// check if time blocks overlap with each other
+		//------------------------
+		Interval addedTimeblockInterval = new Interval(tdaf.getStartTime(),tdaf.getEndTime());
+		
+		for(TimeBlock timeBlock : tdaf.getTimesheetDocument().getTimeBlocks()){
+			Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
+			
+			if(timeBlockInterval.overlaps(addedTimeblockInterval)){
+				errorMsgList.add("The added time block " + beginDateTime + "-" + endDateTime + " overlaps with an existing time block.");
+				break;
+			}
+		}
+		
+		tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+		return mapping.findForward("ws");
 	}
 }

@@ -1680,20 +1680,20 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 			}
 			left = seg.isStart ? dayContentLeft(seg.start.getDay()) : minLeft;
 			// right = seg.isEnd ? dayContentRight(seg.end.getDay()-1) : maxRight;
-            // this is hack to always set the day cell within one day
+      // this is hack to always set the day cell within one day
 			right = seg.isEnd ? dayContentRight(seg.start.getDay()) : maxRight;
 
 		}
 		
 		var fromTo = "";
 		
-		//TODO: create an array which contains all the earn codes that need to display hours only
-        if(event.earnCodeType == 'HOUR') {
-            fromTo = "<tr><td align='center' colspan='3'>" + event.hours + " hours</td></tr>";
+		
+    if(event.earnCodeType == 'HOUR') {
+      fromTo = "<tr><td align='center' colspan='3'>" + event.hours + " hours</td></tr>";
 		}
 		else {
-			fromTo = "<tr><td align='center'>from: " + formatDate(event.start,view.option('timeFormat')) 
-			+"</td><td align='center'>to: " + formatDate(event.end,view.option('timeFormat')) + "</td></tr>";
+			fromTo = "<tr><td align='center' colspan='3'>" + formatDate(event.start,view.option('timeFormat')) 
+			+" - " + formatDate(event.end,view.option('timeFormat')) + "</td></tr>";
 		}
 		
 		timeHourDetail = "";
