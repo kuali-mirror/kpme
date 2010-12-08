@@ -13,10 +13,12 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.Duration;
 import org.joda.time.Interval;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.joda.time.Period;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
@@ -27,6 +29,7 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 
 public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleService {
@@ -39,49 +42,91 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 	 */
 	private ShiftDifferentialRuleDao shiftDifferentialRuleDao = null;
 	
-
-	@Override
-	public void processShiftDifferentialRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate) {
+	private Map<Long,List<ShiftDifferentialRule>> getJobNumberToShiftRuleMap(TimesheetDocument timesheetDocument) {
 		Map<Long,List<ShiftDifferentialRule>> jobNumberToShifts = new HashMap<Long,List<ShiftDifferentialRule>>();
-		
-		List<List<TimeBlock>> blockDays = aggregate.getDayTimeBlockList();
-		LocalTime periodStartTime = LocalTime.fromDateFields(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime());
-		LocalDate periodStartDate = LocalDate.fromDateFields(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime());
-		
 		PrincipalCalendar principalCal = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(timesheetDocument.getPrincipalId(),timesheetDocument.getAsOfDate());
-		// Create JobNumber -> Shift Rules ...
+		
 		for (Job job : timesheetDocument.getJobs()) {
-			List<ShiftDifferentialRule> shiftDifferentialRules = getShiftDifferentalRules(
-					job.getLocation(), 
-					job.getTkSalGroup(), 
-					job.getPayGrade(),
-					principalCal.getCalendarGroup(),
+			List<ShiftDifferentialRule> shiftDifferentialRules = getShiftDifferentalRules(job.getLocation(),job.getTkSalGroup(),job.getPayGrade(),principalCal.getCalendarGroup(),
 					TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
 			if (shiftDifferentialRules.size() > 0) 
 				jobNumberToShifts.put(job.getJobNumber(), shiftDifferentialRules);
 		}
 		
+		return jobNumberToShifts;
+	}
+	
+	private Map<Long,List<TimeBlock>> getPreviousPayPeriodLastDayJobToTimeBlockMap(TimesheetDocument timesheetDocument, Map<Long,List<ShiftDifferentialRule>> jobNumberToShifts) {
+		Map<Long, List<TimeBlock>> jobNumberToTimeBlocksPreviousDay = null;
+
+		// Get the last day of the last week of the previous pay period.
+		// This is the only day that can have impact on the current day.
+		List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getDocumentId());
+		if (prevBlocks.size() > 0) {
+			TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getDocumentId());
+			if (prevTdh != null) {
+				PayCalendarEntries prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(timesheetDocument.getPrincipalId(), TKUtils.getTimelessDate(prevTdh.getPayBeginDate()));
+				TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
+				List<List<TimeBlock>> dayBlocks = prevTimeAggregate.getDayTimeBlockList();
+				List<TimeBlock> previousPeriodLastDayBlocks = dayBlocks.get(dayBlocks.size() - 1);
+				// Set back to null if there is nothing in the list.
+				if (previousPeriodLastDayBlocks.size() > 0) {
+					jobNumberToTimeBlocksPreviousDay = new HashMap<Long, List<TimeBlock>>();
+
+					for (TimeBlock block : previousPeriodLastDayBlocks) {
+						// Job Number to TimeBlock for Last Day of Previous Time
+						// Period
+						Long jobNumber = block.getJobNumber();
+						if (jobNumberToShifts.containsKey(jobNumber)) {
+							// we have a useful timeblock.
+							List<TimeBlock> jblist = jobNumberToTimeBlocksPreviousDay.get(jobNumber);
+							if (jblist == null) {
+								jblist = new ArrayList<TimeBlock>();
+								jobNumberToTimeBlocksPreviousDay.put(jobNumber, jblist);
+							}
+							jblist.add(block);
+						}
+					}
+				}
+			}
+		}		
+
+		return jobNumberToTimeBlocksPreviousDay;
+	}
+	
+	private boolean timeBlockHasEarnCode(Set<String> earnCodes, TimeBlock block) {
+		boolean present = false;
+		
+		if (block != null && earnCodes != null)
+			present = earnCodes.contains(block.getEarnCode());
+		
+		return present;
+	}
+
+	@Override
+	public void processShiftDifferentialRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate) {
+		List<List<TimeBlock>> blockDays = aggregate.getDayTimeBlockList();
+		DateTime periodStartDateTime = new DateTime(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime());
+		Map<Long,List<ShiftDifferentialRule>> jobNumberToShifts = getJobNumberToShiftRuleMap(timesheetDocument);
+		
 		if (jobNumberToShifts.isEmpty()) {
 			return;
 		}
 		
+		// Get the last day of the previous pay period, null if nothing / irrelevant.
+		Map<Long, List<TimeBlock>> jobNumberToTimeBlocksPreviousDay = getPreviousPayPeriodLastDayJobToTimeBlockMap(timesheetDocument, jobNumberToShifts);
+		
 		// Day By Day
-		for (int pos = 0; pos < blockDays.size(); pos++) {
-			// Because we can support a varying start day in monthly calendars,
-			// we can use this day position added to the period start day to
-			// calculate the current actual day.
-			LocalDate currentDay = periodStartDate.plusDays(pos); 
+		for (int pos = 0; pos < blockDays.size(); pos++) {			
 			List<TimeBlock> blocks = blockDays.get(pos); // Timeblocks for this day.
-			Map<Long, List<TimeBlock>> jobNumberToTimeBlocks = new HashMap<Long,List<TimeBlock>>();
+			if (blocks.isEmpty())
+				continue; // No Time blocks, no worries.
 			
-			if (blocks.isEmpty()) {
-				continue;
-			}
-			
-			// TODO : If 'pos' is 0, we need to pull previous pay period last day
-			// so we can check Max Gap
-						
+			DateTime currentDay = periodStartDateTime.plusDays(pos);
+			Interval virtualDay = new Interval(currentDay, currentDay.plusHours(24));
+
 			// Builds our JobNumber to TimeBlock for Current Day List.
+			Map<Long, List<TimeBlock>> jobNumberToTimeBlocks = new HashMap<Long,List<TimeBlock>>();								
 			for (TimeBlock block : blocks) {
 				Long jobNumber = block.getJobNumber();
 				if (jobNumberToShifts.containsKey(jobNumber)) {
@@ -96,132 +141,219 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 			}
 			
 			// Iteration over Keyset of Job->Shift map
+			// We're doing the work of Job->SDR and applying each SDR/Job combination
+			// to a list of time blocks for the dayPos that we're currently on.
 			for (Long jobNumber: jobNumberToShifts.keySet()) {
-				List<ShiftDifferentialRule> shiftDifferentialRules = jobNumberToShifts.get(jobNumber);				
+				List<ShiftDifferentialRule> shiftDifferentialRules = jobNumberToShifts.get(jobNumber);
+				// Obtain and sort our previous and current time blocks.
+				List<TimeBlock> ruleTimeBlocksPrev = null;
+				List<TimeBlock> ruleTimeBlocksCurr = jobNumberToTimeBlocks.get(jobNumber);
+				if (ruleTimeBlocksCurr != null && ruleTimeBlocksCurr.size() > 0) {
+					ruleTimeBlocksPrev = jobNumberToTimeBlocksPreviousDay.get(jobNumber);
+					if (ruleTimeBlocksPrev != null && ruleTimeBlocksPrev.size() > 0) 
+						this.sortTimeBlocksInverse(ruleTimeBlocksPrev);
+					this.sortTimeBlocksNatural(ruleTimeBlocksCurr);						
+				} else {
+					// Skip to next job, there is nothing for this job
+					// on this day, and because of this we don't care
+					// about the previous day either.
+					continue;
+				}
+				
 				for (ShiftDifferentialRule rule : shiftDifferentialRules) {
 					Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(rule.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
-					if (dayIsRuleActive(currentDay, rule)) {
-						List<TimeBlock> ruleTimeBlocks = jobNumberToTimeBlocks.get(jobNumber);
-						
-						Collections.sort(ruleTimeBlocks, new Comparator<TimeBlock>() { // Sort the Time Blocks
-							public int compare(TimeBlock tb1, TimeBlock tb2) {
-								if (tb1 != null && tb2 != null)
-									return tb1.getBeginTimestamp().compareTo(tb2.getBeginTimestamp());
-								return 0;
-							}	
-						});
-						
-						LocalTime shiftStart = LocalTime.fromDateFields(rule.getBeginTime());
-						LocalTime shiftEnd = LocalTime.fromDateFields(rule.getEndTime());
-						Interval shiftInterval = this.createAdjustedShiftInterval(shiftStart, shiftEnd);
-						
-						TimeBlock previous = null; // Previous Time Block
-						List<TimeBlock> accumulatedBlocks = new ArrayList<TimeBlock>(); // TimeBlocks we MAY or MAY NOT apply Shift Premium to.  
-						// Iterate over sorted list, checking time boundaries vs Shift Intervals.
-						long accumulatedMillis = 0L;
-						
-						/*
-						 * We will touch each time block and accumulate time blocks that are applicable to
-						 * the current rule we are on.  
-						 */
-						for (TimeBlock current : ruleTimeBlocks) {
-							if (!fromEarnGroup.contains(current.getEarnCode())) {
-								// The timeblock's earn code is not in the earn group list of earn codes.
-								// Move to next timeblock.
-								continue;
-							}
-							
-							Interval blockInterval = createAdjustedTimeBlockInterval(current, periodStartTime);
-							Interval overlap = shiftInterval.overlap(blockInterval);
-							if (overlap != null) {
-								// There IS overlap.
-								if (previous != null) {
-									if (exceedsMaxGap(previous, current, rule.getMaxGap())) {
-										BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
-										if (accumHours.compareTo(rule.getMinHours()) >= 0) {
-											applyShiftPremiumToTimeBlocks(accumulatedBlocks, shiftInterval, rule.getEarnCode(), periodStartTime);
-										}
-										accumulatedBlocks.clear();
-										accumulatedMillis = 0L; // reset accumulated hours..
-									} else {
-										accumulatedMillis  += overlap.toDuration().getMillis();
-									}	
-								} else {
-									// Overlap shift at first time block.
-									accumulatedMillis  += overlap.toDuration().getMillis();
+					DateTime shiftEnd = (LocalTime.fromDateFields(rule.getEndTime())).toDateTime(currentDay);
+					DateTime shiftStart = (LocalTime.fromDateFields(rule.getBeginTime())).toDateTime(currentDay);
+					Interval shiftInterval = new Interval(shiftStart, shiftEnd);
+					
+					// TODO : Set up buckets to handle previous days time accumulations
+					BigDecimal hoursBeforeVirtualDay = BigDecimal.ZERO;
+					
+					// TODO: Check current day first block to see if start time gap from virtual day start is greater than max gap
+					// if so, we can skip the previous day checks.
+					TimeBlock firstBlockOfCurrentDay = null;
+					for (TimeBlock b : ruleTimeBlocksCurr) {
+						if (timeBlockHasEarnCode(fromEarnGroup, b)) {
+							firstBlockOfCurrentDay = b;
+							break;
+						}
+					}
+					
+					// TODO: Previous Day :: We have prior block container of nonzero size, and the previous day is active.
+					if (ruleTimeBlocksPrev != null && ruleTimeBlocksPrev.size() > 0 && dayIsRuleActive(currentDay.minusDays(1), rule)) {
+						// Simple heuristic to see if we even need to worry about 
+						// the Shift rule for this set of data.
+						if (shiftEnd.isAfter(virtualDay.getEnd())) {
+							// TODO : Compare first block of previous day with first block of current day for max gaptitude.
+							TimeBlock firstBlockOfPreviousDay = null;
+							for (TimeBlock b : ruleTimeBlocksPrev) {
+								if (timeBlockHasEarnCode(fromEarnGroup, b)) {
+									firstBlockOfPreviousDay = b;
+									break;
 								}
-								accumulatedBlocks.add(current);
-								previous = current; // current can still apply to next.
-							} else {
-								// No Overlap / Outside of Rule 
-								if (previous != null) {
+							}
+							// Only if we actually have at least one block.
+							if (firstBlockOfPreviousDay != null) {
+								Duration blockGapDuration = new Duration(new DateTime(firstBlockOfPreviousDay.getEndTimestamp()), new DateTime(firstBlockOfCurrentDay.getBeginTimestamp()));
+								BigDecimal bgdHours = TKUtils.convertMillisToHours(blockGapDuration.getMillis());
+								if (bgdHours.compareTo(rule.getMaxGap()) <= 0) {
+									// If we are here, we know we have at least one valid time block to pull some hours forward from.
+							
+									Interval previousDayShiftInterval = new Interval(shiftStart.minusDays(1), shiftEnd.minusDays(1));
+									Interval previousBlockInterval = null;
+									// These are inversely sorted.
+									for (int i=0; i<ruleTimeBlocksPrev.size(); i++) {
+										TimeBlock b = ruleTimeBlocksPrev.get(i);
+										if (timeBlockHasEarnCode(fromEarnGroup, b)) {
+											Interval blockInterval = new Interval(new DateTime(b.getBeginTimestamp()), new DateTime(b.getEndTimestamp()));
+											
+											// Calculate Block Gap, the duration between clock outs and clock ins of adjacent time blocks.
+											if (previousBlockInterval != null) {
+												blockGapDuration = new Duration(new DateTime(b.getEndTimestamp()), previousBlockInterval.getStart());
+												bgdHours = TKUtils.convertMillisToHours(blockGapDuration.getMillis());
+											}
+											
+											
+											// Check Gap, if good, sum hours
+											if (bgdHours.compareTo(rule.getMaxGap()) <= 0) {
+												// Calculate Overlap and add it to hours before virtual day bucket.
+												if (blockInterval.overlaps(previousDayShiftInterval)) {
+													BigDecimal hrs = TKUtils.convertMillisToHours(blockInterval.overlap(previousDayShiftInterval).toDurationMillis());
+													hoursBeforeVirtualDay = hoursBeforeVirtualDay.add(hrs);
+												}
+												
+											} else {
+												// Time blocks are reverse sorted, we can jump out as soon as the max gap is exceeded.
+												break;
+											}
+																			
+											previousBlockInterval = blockInterval;
+											
+										}
+									}
+								} else {
+									// DO NOTHING!
+								}
+							}
+						}
+					}
+					
+					BigDecimal hoursToApply = BigDecimal.ZERO;
+					// TODO: How many un-applied hours from the previous day
+					if (hoursBeforeVirtualDay.compareTo(rule.getMinHours()) <= 0) {
+						// we need to apply these hours.
+						hoursToApply = hoursBeforeVirtualDay;
+					}
+					
+					
+					// TODO: Current Day
+					
+					TimeBlock previous = null; // Previous Time Block
+					List<TimeBlock> accumulatedBlocks = new ArrayList<TimeBlock>(); // TimeBlocks we MAY or MAY NOT apply Shift Premium to.  
+					// Iterate over sorted list, checking time boundaries vs Shift Intervals.
+					long accumulatedMillis = TKUtils.convertHoursToMillis(hoursBeforeVirtualDay);
+					
+					/*
+					 * We will touch each time block and accumulate time blocks that are applicable to
+					 * the current rule we are on.  
+					 */
+					for (TimeBlock current : ruleTimeBlocksCurr) {
+						if (!timeBlockHasEarnCode(fromEarnGroup, current))
+							continue;
+						
+						Interval blockInterval = new Interval(new DateTime(current.getBeginTimestamp()), new DateTime(current.getEndTimestamp()));
+						Interval overlap = shiftInterval.overlap(blockInterval);
+						if (overlap != null) {
+							// There IS overlap.
+							if (previous != null) {
+								if (exceedsMaxGap(previous, current, rule.getMaxGap())) {
 									BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
 									if (accumHours.compareTo(rule.getMinHours()) >= 0) {
-										applyShiftPremiumToTimeBlocks(accumulatedBlocks, shiftInterval, rule.getEarnCode(), periodStartTime);
-									}
+										// TODO : TODO APPLY!									}
 									accumulatedBlocks.clear();
-									accumulatedMillis = 0L; // reset accumulated hours..									
-								} 
+									accumulatedMillis = 0L; // reset accumulated hours..
+									hoursToApply = BigDecimal.ZERO;
+								} else {
+									long millis = overlap.toDurationMillis();
+									accumulatedMillis  += millis;
+									hoursToApply = hoursToApply.add(TKUtils.convertMillisToHours(millis));
+								}	
+							} else {
+								// Overlap shift at first time block.
+								long millis = overlap.toDurationMillis();
+								accumulatedMillis  += millis;
+								hoursToApply = hoursToApply.add(TKUtils.convertMillisToHours(millis));
 							}
-							
+							accumulatedBlocks.add(current);
+							previous = current; // current can still apply to next.
+						} else {
+							// No Overlap / Outside of Rule 
+							if (previous != null) {
+								BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
+								if (accumHours.compareTo(rule.getMinHours()) >= 0) {
+									// TODO : TODO APPLY!
+								}
+								accumulatedBlocks.clear();
+								accumulatedMillis = 0L; // reset accumulated hours..
+								hoursToApply = BigDecimal.ZERO;
+							} 
 						}
-						// Check containers for time, and apply if needed.
-						BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
-						if (accumHours.compareTo(rule.getMinHours()) >= 0) {
-							applyShiftPremiumToTimeBlocks(accumulatedBlocks, shiftInterval, rule.getEarnCode(), periodStartTime);
-						}
+						
+					}
+
+					// All time blocks are iterated over, check for remainders.
+					// Check containers for time, and apply if needed.
+					BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
+					if (accumHours.compareTo(rule.getMinHours()) >= 0) {
+						// TODO : TODO APPLY!
 					}
 				}
 			}
-		}		
-	}
-	
-	/**
-	 * This method takes blocks that have some sort of overlap of the shift boundary
-	 * and applies the shift premium earn code to that time block for the hours that
-	 * are represented by that time block.
-	 * 
-	 * If overlap hours is equal to block hours, then we remove the block detail
-	 * and add a new detail entry with the premium earn code containing the 
-	 * number of hours.
-	 * 
-	 * An assumption about the state of the block.getTimeHourDetails() is made,
-	 * and commented about below.
-	 * 
-	 * @param blocks
-	 * @param shiftInterval
-	 * @param earnCode, 
-	 */
-	void applyShiftPremiumToTimeBlocks(List<TimeBlock> blocks, Interval shiftInterval, String earnCode, LocalTime periodStartTime) {
-		// Iterate over TimeBlocks
-		for (TimeBlock block : blocks) {
-			Interval blockInterval = createAdjustedTimeBlockInterval(block, periodStartTime);
-			Interval overlap = shiftInterval.overlap(blockInterval);
-			BigDecimal hours = TKUtils.convertMillisToHours(overlap.toDurationMillis());
-			List<TimeHourDetail> details = block.getTimeHourDetails();
-			
-			// TODO: Verify assumption about the contents of details.size...
-			// for now just to catch it while debugging, I'll throw RuntimeException.
-			if (details.size() > 1 || details.size() == 0)
-				throw new RuntimeException("Should only (and at least) be one entry in the details list this point <TODO: Refactor this Throw!>");
-			
-			TimeHourDetail detail = details.get(0);
-			if (detail.getHours().compareTo(hours) > 0) {
-				BigDecimal newHours = detail.getHours().subtract(hours, TkConstants.MATH_CONTEXT);
-				detail.setHours(newHours);
-			} else {
-				// in this case hours == the detail hours, we just add a new THD
-				// that == hours.
-				details.clear();
+			// Keep track of previous as we move day by day.
+			jobNumberToTimeBlocksPreviousDay = jobNumberToTimeBlocks;
 			}
-			TimeHourDetail premium = new TimeHourDetail();
-			premium.setHours(hours);
-			premium.setEarnCode(earnCode);
-			premium.setTkTimeBlockId(detail.getTkTimeBlockId());
-			details.add(premium);
-		}		
+		}
 	}
 	
+	private void sortTimeBlocksInverse(List<TimeBlock> blocks) {
+		Collections.sort(blocks, new Comparator<TimeBlock>() { // Sort the Time Blocks
+			public int compare(TimeBlock tb1, TimeBlock tb2) {
+				if (tb1 != null && tb2 != null)
+					return -1 * tb1.getBeginTimestamp().compareTo(tb2.getBeginTimestamp());
+				return 0;
+			}	
+		});				
+	}
+	
+	private void sortTimeBlocksNatural(List<TimeBlock> blocks) {
+		Collections.sort(blocks, new Comparator<TimeBlock>() { // Sort the Time Blocks
+			public int compare(TimeBlock tb1, TimeBlock tb2) {
+				if (tb1 != null && tb2 != null)
+					return tb1.getBeginTimestamp().compareTo(tb2.getBeginTimestamp());
+				return 0;
+			}	
+		});		
+	}
+	
+	void applyPremium(List<TimeBlock> blocks, BigDecimal initialHours, BigDecimal hours, String earnCode) {
+		for (int i=0; i<blocks.size(); i++) {
+			TimeBlock b = blocks.get(i);
+			if (i == 0 && (initialHours.compareTo(BigDecimal.ZERO) > 0)) 
+				addPremiumTimeHourDetail(b, initialHours, earnCode);
+			addPremiumTimeHourDetail(b, hours.min(b.getHours()), earnCode);
+			hours = hours.subtract(b.getHours(), TkConstants.MATH_CONTEXT);
+		}
+	}
+	
+	void addPremiumTimeHourDetail(TimeBlock block, BigDecimal hours, String earnCode) {
+		List<TimeHourDetail> details = block.getTimeHourDetails();
+		TimeHourDetail premium = new TimeHourDetail();
+		premium.setHours(hours);
+		premium.setEarnCode(earnCode);
+		premium.setTkTimeBlockId(block.getTkTimeBlockId());
+		details.add(premium);
+	}
+		
 	/**
 	 * Does the difference between the previous time blocks clock out time and the 
 	 * current time blocks clock in time exceed the max gap?
@@ -237,76 +369,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		
 		return (gapHours.compareTo(maxGap) < 0);
 	}
-		
-	/**
-	 * Method to let us know if the given time block overlaps the shift 
-	 * interval.  Handles non-natural 24hour day definitions (noon-noon).
-	 * 
-	 * @param block The block we are checking against the Shift Interval
-	 * @param shiftStart Shift interval start time
-	 * @param shiftEnd Shift interval end time - it is possible that this time
-	 * is before the shift start time, which indicates a non-natural 24 hour
-	 * day.
-	 * 
-	 * @return True if block overlaps the shift interval in any way.
-	 */
-	boolean timeblockInShiftInterval(TimeBlock block, Interval shiftInterval, LocalTime periodStartTime) {
-		boolean inInterval = false;
-		
-		Interval blockInterval = createAdjustedTimeBlockInterval(block, periodStartTime);
-		
-		if (blockInterval.overlaps(shiftInterval))
-			inInterval = true;
-		
-		return inInterval;
-	}
-				
-	/**
-	 * Generates an interval for a clockIN and clockOUT time, checking if the 
-	 * out time is before in-time and adjusting accordingly.
-	 * 	 * 
-	 * @param clockIn
-	 * @param clockOut
-	 * @return An interval based on TODAY - since we were dealing with partials.
-	 */
-	Interval createAdjustedShiftInterval(LocalTime clockIn, LocalTime clockOut) {
-		DateTime dIn = clockIn.toDateTimeToday();
-		DateTime dOut = clockOut.toDateTimeToday();
-		
-		if (dOut.isBefore(dIn) || dOut.isEqual(dIn))
-			dOut = dOut.plusDays(1);
-		
-		return new Interval(dIn, dOut);
-	}
-
-	/**
-	 * For a given time block, generates a Today-Based interval that is 
-	 * compatible with our shift intervals.  
-	 * 
-	 * @param block
-	 * @param periodStartTime The time that the pay periods are starting.
-	 * An assumption is made that all day definitions are 24 hour periods, 
-	 * which can start at any time, but within a pay period are consistent.	
-	 *  
-	 * @return
-	 */
-	Interval createAdjustedTimeBlockInterval(TimeBlock block, LocalTime periodStartTime) {
-		LocalTime start = LocalTime.fromDateFields(block.getBeginTimestamp());
-		LocalTime end = LocalTime.fromDateFields(block.getEndTimestamp());
-		
-		DateTime dIn = start.toDateTimeToday();
-		DateTime dOut = end.toDateTimeToday();
-
-		if (end.isBefore(start)) {
-			dOut = dOut.plusDays(1);
-		} else if (start.isBefore(periodStartTime)) {
-			dIn = dIn.plusDays(1);
-			dOut = dOut.plusDays(1);
-		}
-		
-		return new Interval(dIn, dOut);
-	}
-	
+							
 	public void setShiftDifferentialRuleDao(ShiftDifferentialRuleDao shiftDifferentialRuleDao) {
 		this.shiftDifferentialRuleDao = shiftDifferentialRuleDao;
 	}
@@ -353,7 +416,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		return sdrs;
 	}
 	
-	private boolean dayIsRuleActive(LocalDate currentDate, ShiftDifferentialRule sdr) {
+	private boolean dayIsRuleActive(DateTime currentDate, ShiftDifferentialRule sdr) {
 		boolean active = false;
 		
 		switch (currentDate.getDayOfWeek()) {
