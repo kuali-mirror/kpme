@@ -150,6 +150,11 @@
 			<label>SystemLunchRuleMaintenanceDocument</label>
 		</documentType>			
 	<documentType>
+			<name>WeeklyOvertimeRuleGroupDocumentType</name>
+			<parent>RiceDocument</parent>
+			<label>WeeklyOvertimeRuleMaintenanceDocument</label>
+		</documentType>		
+	<documentType>
       <name>ACCT</name>
       <parent>RiceDocument</parent>
       <label>Account</label>

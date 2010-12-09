@@ -575,6 +575,7 @@
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="tkWeeklyOvertimeRuleGroupId" column="TK_WEEKLY_OVT_GROUP_ID" jdbc-type="BIGINT" />
 	</class-descriptor>
 
 	<!-- Department Earn Code -->
@@ -673,4 +674,16 @@
 		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="true" />
 		<field-descriptor name="timezone"   column="time_zone" jdbc-type="VARCHAR" length="30"/>		
 	</class-descriptor>		
+	
+	<class-descriptor class="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRuleGroup" table="tk_weekly_ovt_group_t">
+		<field-descriptor name="tkWeeklyOvertimeRuleGroupId" column="TK_WEEKLY_OVERTIME_GROUP_ID" jdbc-type="BIGINT"  primarykey="true" />		
+		<collection-descriptor
+			name="lstWeeklyOvertimeRules"
+			element-class-ref="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule"
+			auto-retrieve="true"
+			auto-update="object"
+			auto-delete="object">
+			<inverse-foreignkey field-ref="tkWeeklyOvertimeRuleGroupId"/>
+		</collection-descriptor>		
+	</class-descriptor>			
 </descriptor-repository>

@@ -27,6 +27,40 @@
 				<ref bean="WeeklyOvertimeRule-active" />
 			</list>
 		</property>
+		
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="maxHoursEarnGroupObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="maxHoursEarnGroup"
+								p:targetName="earnGroup" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="convertFromEarnGroupObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="convertFromEarnGroup"
+								p:targetName="earnGroup" />
+						</list>
+					</property>
+				</bean>
+				
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="convertToEarnCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="convertToEarnCode"
+								p:targetName="earnCode" />
+						</list>
+					</property>
+				</bean>				
+			</list>
+		</property>	
 	</bean>
 
 	<bean id="WeeklyOvertimeRule-maxHoursEarnGroup" parent="WeeklyOvertimeRule-maxHoursEarnGroup-parentBean" />
@@ -181,7 +215,6 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 				<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" />
 				<bean parent="FieldDefinition" p:attributeName="convertFromEarnGroup" />
 				<bean parent="FieldDefinition" p:attributeName="convertToEarnCode" />

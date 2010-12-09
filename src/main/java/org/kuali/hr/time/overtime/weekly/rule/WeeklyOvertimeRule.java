@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.rule.TkRule;
 
 public class WeeklyOvertimeRule extends TkRule {
@@ -23,6 +25,12 @@ public class WeeklyOvertimeRule extends TkRule {
 	private String userPrincipalId;
 	private Timestamp timeStamp;
 	private boolean active;
+	
+	private Long tkWeeklyOvertimeRuleGroupId;
+	
+	private EarnGroup maxHoursEarnGroupObj;
+	private EarnGroup convertFromEarnGroupObj;
+	private EarnCode convertToEarnCodeObj;
 	
 
 	@SuppressWarnings("unchecked")
@@ -112,5 +120,37 @@ public class WeeklyOvertimeRule extends TkRule {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public EarnGroup getMaxHoursEarnGroupObj() {
+		return maxHoursEarnGroupObj;
+	}
+
+	public void setMaxHoursEarnGroupObj(EarnGroup maxHoursEarnGroupObj) {
+		this.maxHoursEarnGroupObj = maxHoursEarnGroupObj;
+	}
+
+	public EarnGroup getConvertFromEarnGroupObj() {
+		return convertFromEarnGroupObj;
+	}
+
+	public void setConvertFromEarnGroupObj(EarnGroup convertFromEarnGroupObj) {
+		this.convertFromEarnGroupObj = convertFromEarnGroupObj;
+	}
+
+	public EarnCode getConvertToEarnCodeObj() {
+		return convertToEarnCodeObj;
+	}
+
+	public void setConvertToEarnCodeObj(EarnCode convertToEarnCodeObj) {
+		this.convertToEarnCodeObj = convertToEarnCodeObj;
+	}
+
+	public Long getTkWeeklyOvertimeRuleGroupId() {
+		return tkWeeklyOvertimeRuleGroupId;
+	}
+
+	public void setTkWeeklyOvertimeRuleGroupId(Long tkWeeklyOvertimeRuleGroupId) {
+		this.tkWeeklyOvertimeRuleGroupId = tkWeeklyOvertimeRuleGroupId;
 	}
 }
