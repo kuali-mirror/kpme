@@ -10,10 +10,16 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class ShiftDifferentialRuleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements ShiftDifferentialRuleDao {
+	
+	@Override
+	public ShiftDifferentialRule findShiftDifferentialRule(long id) {
+		Object o = this.getPersistenceBrokerTemplate().getObjectById(ShiftDifferentialRule.class, id);
+		
+		return (ShiftDifferentialRule)o;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

@@ -12,6 +12,7 @@ public interface ShiftDifferentialRuleService {
 	public void saveOrUpdate(List<ShiftDifferentialRule> shiftDifferentialRules);
 	public void saveOrUpdate(ShiftDifferentialRule shiftDifferentialRule);
 	
+	public ShiftDifferentialRule getShiftDifferentialRule(long tkShiftDifferentialRuleId);
 	public List<ShiftDifferentialRule> getShiftDifferentalRules(String location, String tkSalGroup, String payGrade, String calendarGroup, Date asOfDate);
 	
 	public void processShiftDifferentialRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate);

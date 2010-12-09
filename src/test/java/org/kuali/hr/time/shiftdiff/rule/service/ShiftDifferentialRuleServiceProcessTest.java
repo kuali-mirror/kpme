@@ -2,12 +2,12 @@ package org.kuali.hr.time.shiftdiff.rule.service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -16,6 +16,7 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
 /**
@@ -27,7 +28,8 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 
 	
 	public static final String USER_PRINCIPAL_ID = "admin";
-	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+	
 
 	@SuppressWarnings("serial")
 	@Test
@@ -51,14 +53,14 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 				"SD1", 
 				"SD1", 
 				"SD1",
-				(new DateTime(2010, 3, 29, 16, 0, 0, 0, DateTimeZone.forID("EST"))),
-				(new DateTime(2010, 3, 30, 0, 0, 0, 0, DateTimeZone.forID("EST"))),
+				(new DateTime(2010, 3, 29, 16, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				(new DateTime(2010, 3, 30, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
 				new BigDecimal(4), // minHours
 				new BigDecimal("0.25"), // maxGap
 				dayArray);
 		
 		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
-		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, DateTimeZone.forID("EST"));
+		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 2, new BigDecimal("4"), "REG", jobNumber, workArea));
@@ -74,7 +76,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 		
 		// Verify post-Rule Run
-		TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(8));put("REG", new BigDecimal(12));}},aggregate,1);
+		TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(8));put("REG", new BigDecimal(12));}},aggregate,2);
 	}
 	
 	/**
@@ -87,8 +89,9 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		
 		ShiftDifferentialRuleService service = TkServiceLocator.getShiftDifferentialRuleService();	
 		ShiftDifferentialRule sdr = new ShiftDifferentialRule();
-		sdr.setBeginTime(startTime.toDate());
-		sdr.setEndTime(endTime.toDate());
+		
+		sdr.setBeginTime(new Timestamp(startTime.getMillis()));
+		sdr.setEndTime(new Timestamp(endTime.getMillis()));
 		sdr.setMinHours(minHours);
 		sdr.setMaxGap(maxGap);
 		sdr.setActive(true);
@@ -128,5 +131,15 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		}
 		
 		service.saveOrUpdate(sdr);
+		
+		ShiftDifferentialRule sdrBack = TkServiceLocator.getShiftDifferentialRuleService().getShiftDifferentialRule(sdr.getTkShiftDiffRuleId());
+		DateTime orig_start = new DateTime(sdr.getBeginTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+		DateTime orig_end = new DateTime(sdr.getEndTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+		
+		DateTime stored_start = new DateTime(sdrBack.getBeginTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+		DateTime stored_end = new DateTime(sdrBack.getEndTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+		
+		assertTrue("Start times not equal.", orig_start.equals(stored_start));
+		assertTrue("End times not equal.", orig_end.equals(stored_end));
 	}
 }

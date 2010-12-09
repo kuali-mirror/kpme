@@ -21,8 +21,8 @@ public class ShiftDifferentialRule extends TkRule {
 	private String payGrade;
 	private Date effectiveDate;
 	private String earnCode;
-	private java.util.Date beginTime;
-	private java.util.Date endTime;
+	private Timestamp beginTime;
+	private Timestamp endTime;
 	private BigDecimal minHours;
 	private boolean sunday;
 	private boolean monday;
@@ -143,19 +143,19 @@ public class ShiftDifferentialRule extends TkRule {
 		this.calendarGroup = calendarGroup;
 	}
 
-	public java.util.Date getBeginTime() {
+	public Timestamp getBeginTime() {
 		return beginTime;
 	}
 
-	public void setBeginTime(java.util.Date beginTime) {
+	public void setBeginTime(Timestamp beginTime) {
 		this.beginTime = beginTime;
 	}
 
-	public java.util.Date getEndTime() {
+	public Timestamp getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(java.util.Date endTime) {
+	public void setEndTime(Timestamp endTime) {
 		this.endTime = endTime;
 	}
 
@@ -238,5 +238,4 @@ public class ShiftDifferentialRule extends TkRule {
 	public void setSalGroupObj(SalGroup salGroupObj) {
 		this.salGroupObj = salGroupObj;
 	}
-
 }

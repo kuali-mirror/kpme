@@ -15,8 +15,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
-import org.joda.time.LocalTime;
-import org.joda.time.Period;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
@@ -106,7 +104,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 	@Override
 	public void processShiftDifferentialRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate) {
 		List<List<TimeBlock>> blockDays = aggregate.getDayTimeBlockList();
-		DateTime periodStartDateTime = new DateTime(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime());
+		DateTime periodStartDateTime = new DateTime(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
 		Map<Long,List<ShiftDifferentialRule>> jobNumberToShifts = getJobNumberToShiftRuleMap(timesheetDocument);
 		
 		if (jobNumberToShifts.isEmpty()) {
@@ -149,7 +147,8 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 				List<TimeBlock> ruleTimeBlocksPrev = null;
 				List<TimeBlock> ruleTimeBlocksCurr = jobNumberToTimeBlocks.get(jobNumber);
 				if (ruleTimeBlocksCurr != null && ruleTimeBlocksCurr.size() > 0) {
-					ruleTimeBlocksPrev = jobNumberToTimeBlocksPreviousDay.get(jobNumber);
+					if (jobNumberToTimeBlocksPreviousDay != null)
+						ruleTimeBlocksPrev = jobNumberToTimeBlocksPreviousDay.get(jobNumber);
 					if (ruleTimeBlocksPrev != null && ruleTimeBlocksPrev.size() > 0) 
 						this.sortTimeBlocksInverse(ruleTimeBlocksPrev);
 					this.sortTimeBlocksNatural(ruleTimeBlocksCurr);						
@@ -162,8 +161,14 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 				
 				for (ShiftDifferentialRule rule : shiftDifferentialRules) {
 					Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(rule.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
-					DateTime shiftEnd = (LocalTime.fromDateFields(rule.getEndTime())).toDateTime(currentDay);
-					DateTime shiftStart = (LocalTime.fromDateFields(rule.getBeginTime())).toDateTime(currentDay);
+					
+					DateTime ruleStart = new DateTime(rule.getBeginTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+					DateTime ruleEnd = new DateTime(rule.getEndTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+					
+					DateTime shiftEnd = (ruleEnd.toLocalTime()).toDateTime(currentDay);
+					DateTime shiftStart = (ruleStart.toLocalTime()).toDateTime(currentDay);
+					if (shiftEnd.isBefore(shiftStart))
+						shiftEnd = shiftEnd.plusDays(1);
 					Interval shiftInterval = new Interval(shiftStart, shiftEnd);
 					
 					// TODO : Set up buckets to handle previous days time accumulations
@@ -239,10 +244,11 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 					}
 					
 					BigDecimal hoursToApply = BigDecimal.ZERO;
+					BigDecimal hoursToApplyPrevious = BigDecimal.ZERO;
 					// TODO: How many un-applied hours from the previous day
 					if (hoursBeforeVirtualDay.compareTo(rule.getMinHours()) <= 0) {
 						// we need to apply these hours.
-						hoursToApply = hoursBeforeVirtualDay;
+						hoursToApplyPrevious = hoursBeforeVirtualDay;
 					}
 					
 					
@@ -269,10 +275,15 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 								if (exceedsMaxGap(previous, current, rule.getMaxGap())) {
 									BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
 									if (accumHours.compareTo(rule.getMinHours()) >= 0) {
-										// TODO : TODO APPLY!									}
+										//
+										// Apply Premium
+										// 
+										this.applyPremium(accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
+									}
 									accumulatedBlocks.clear();
 									accumulatedMillis = 0L; // reset accumulated hours..
 									hoursToApply = BigDecimal.ZERO;
+									hoursToApplyPrevious = BigDecimal.ZERO;
 								} else {
 									long millis = overlap.toDurationMillis();
 									accumulatedMillis  += millis;
@@ -291,11 +302,15 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 							if (previous != null) {
 								BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
 								if (accumHours.compareTo(rule.getMinHours()) >= 0) {
-									// TODO : TODO APPLY!
+									//
+									// Apply Premium
+									// 
+									this.applyPremium(accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
 								}
 								accumulatedBlocks.clear();
 								accumulatedMillis = 0L; // reset accumulated hours..
 								hoursToApply = BigDecimal.ZERO;
+								hoursToApplyPrevious = BigDecimal.ZERO;
 							} 
 						}
 						
@@ -305,14 +320,17 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 					// Check containers for time, and apply if needed.
 					BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
 					if (accumHours.compareTo(rule.getMinHours()) >= 0) {
-						// TODO : TODO APPLY!
+						//
+						// Apply Premium
+						// 
+						this.applyPremium(accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
 					}
 				}
 			}
-			// Keep track of previous as we move day by day.
+			// 	Keep track of previous as we move day by day.
 			jobNumberToTimeBlocksPreviousDay = jobNumberToTimeBlocks;
-			}
 		}
+		
 	}
 	
 	private void sortTimeBlocksInverse(List<TimeBlock> blocks) {
@@ -340,8 +358,10 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 			TimeBlock b = blocks.get(i);
 			if (i == 0 && (initialHours.compareTo(BigDecimal.ZERO) > 0)) 
 				addPremiumTimeHourDetail(b, initialHours, earnCode);
-			addPremiumTimeHourDetail(b, hours.min(b.getHours()), earnCode);
-			hours = hours.subtract(b.getHours(), TkConstants.MATH_CONTEXT);
+			if (hours.compareTo(BigDecimal.ZERO) > 0) {
+				addPremiumTimeHourDetail(b, hours.min(b.getHours()), earnCode);
+				hours = hours.subtract(b.getHours(), TkConstants.MATH_CONTEXT);
+			}
 		}
 	}
 	
@@ -372,6 +392,11 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 							
 	public void setShiftDifferentialRuleDao(ShiftDifferentialRuleDao shiftDifferentialRuleDao) {
 		this.shiftDifferentialRuleDao = shiftDifferentialRuleDao;
+	}
+	
+	@Override
+	public ShiftDifferentialRule getShiftDifferentialRule(long tkShiftDifferentialRuleId) {
+		return this.shiftDifferentialRuleDao.findShiftDifferentialRule(tkShiftDifferentialRuleId);
 	}
 
 	@Override
