@@ -289,3 +289,5 @@ insert into tk_daily_overtime_rl_t values(4,'BL','BW','2010-01-01','admin',now()
 insert into tk_user_pref_t values('admin','America/Chicago');
 
 ALTER TABLE tk_shift_differential_rl_t add column `from_earn_group` varchar(10) NULL DEFAULT NULL;
+
+insert into tk_weekly_ovt_group_t values(1);
