@@ -27,7 +27,7 @@ public class HtmlUnitUtil {
 	LOG.debug("URL: " + url);
 	final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7);
 	// this is required and needs to set to true, otherwise the values set by the onClick event won't be triggered, e.g. methodToCall
-	webClient.setJavaScriptEnabled(true);
+	webClient.setJavaScriptEnabled(false);
 
 	HtmlPage loginPage = (HtmlPage) webClient.getPage(new URL(url));
 
