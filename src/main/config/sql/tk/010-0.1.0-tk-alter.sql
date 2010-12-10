@@ -6,9 +6,7 @@ ALTER TABLE tk_shift_differential_rl_t DROP COLUMN `day0`,DROP COLUMN `day1`,DRO
 										DROP COLUMN `day4`,DROP COLUMN `day5`,DROP COLUMN `day6`,ADD COLUMN `sun` BIT(1) NOT NULL DEFAULT 0,
 										ADD COLUMN `mon` BIT(1) NOT NULL DEFAULT 0,ADD COLUMN `tue` BIT(1) NOT NULL DEFAULT 0,ADD COLUMN `wed` BIT(1) NOT NULL DEFAULT 0,
 										ADD COLUMN `thu` BIT(1) NOT NULL DEFAULT 0,ADD COLUMN `fri` BIT(1) NOT NULL DEFAULT 0,ADD COLUMN `sat` BIT(1) NOT NULL DEFAULT 0;
-										
-ALTER TABLE tk_shift_differential_rl_t ADD COLUMN `from_earn_group` VARCHAR(10) NULL DEFAULT NULL  AFTER `ACTIVE` ;
-
+	
 ALTER TABLE hr_paytype_t DROP COLUMN `CALENDAR_GROUP`, DROP COLUMN `HOLIDAY_CALENDAR_GROUP`;
 
 ALTER TABLE tk_daily_overtime_rl_t CHANGE COLUMN `active` `active` VARCHAR(1) NULL DEFAULT 'N'  ;
@@ -23,4 +21,3 @@ ALTER TABLE tk_shift_differential_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1
 ALTER TABLE tk_time_collection_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) NULL DEFAULT 'N'  ;
 ALTER TABLE tk_weekly_overtime_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) NULL DEFAULT 'N'  ;
 
-ALTER TABLE tk_shift_differential_rl_t add column `from_earn_group` varchar(10) NULL DEFAULT NULL;
