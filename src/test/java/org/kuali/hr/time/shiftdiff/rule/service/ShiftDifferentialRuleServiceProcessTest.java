@@ -30,6 +30,125 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 	public static final String USER_PRINCIPAL_ID = "admin";
 	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
 	
+	/**
+	 * Test where previous time sheet contains hours that should be added to
+	 * the next pay periods first day shift.
+	 * 
+	 * Runs on Tu, Th on the interval: [22:00, 4:00)
+	 * Max Gap: 15 minutes
+	 * Min Hours: 3
+	 * 
+	 * |--------------+----+------------+-------------|
+	 * | Tu : 8/31/10 | XX | W : 9/1/10 | Th : 9/2/10 |
+	 * |--------------+----+------------+-------------|
+	 * | 10pm - Mid   | XX | Mid - 5am  | 5pm - 11pm  |
+	 * |--------------+----+------------+-------------|
+	 * 
+	 * @throws Exception
+	 */
+	@SuppressWarnings("serial")
+	@Test
+	public void testProcessShiftTimesheeetBoundaryCarryoverCase() throws Exception {
+		// Create the Rule    Sun,   Mon,   Tue,  Wed,   Thu,  Fri,  Sat
+		boolean[] dayArray = {false, false, true, false, true, true, true};
+		// Matches HR Job ID #1 (job # 30)
+		Long jobNumber = 30L;
+		Long workArea = 0L;
+		this.createShiftDifferentialRule(
+				"BWS-CAL", 
+				"REG", 
+				"PRM", 
+				"SD1", 
+				"SD1", 
+				"SD1",
+				(new DateTime(2010, 8, 31, 22, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				(new DateTime(2010, 8, 31,  5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				new BigDecimal(3), // minHours
+				new BigDecimal("0.25"), // maxGap
+				dayArray);
+		
+		// August
+		PayCalendarEntries endOfAugust = TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(2L);
+		DateTime start = new DateTime(2010, 8, 31, 22, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);		
+		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
+		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "REG", start, 1, new BigDecimal(2)));		
+		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust);
+	
+
+		
+		tdoc.setTimeBlocks(blocks);
+		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
+		TkTestUtils.verifyAggregateHourSumsFlatList("August Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(2));}},aggregate);
+		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), aggregate.getFlattenedTimeBlockList());
+		
+		
+		// September
+		start = new DateTime(2010, 9, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
+		tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", payCalendarEntry);
+		blocks = new ArrayList<TimeBlock>();
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 1, new BigDecimal("5"), "REG", jobNumber, workArea));
+		aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+		TkTestUtils.verifyAggregateHourSumsFlatList("September Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(5));}},aggregate);
+		
+		// Verify carry over and applied PRM bucket
+		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
+		TkTestUtils.verifyAggregateHourSumsFlatList("September Post-Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(7));put("REG", new BigDecimal(5));}},aggregate);
+	}
+	
+	@SuppressWarnings("serial")
+	@Test
+	/**
+	 * Runs on every day on the interval: [16:00, 24:00)
+	 * Max Gap: 15 minutes
+	 * Min Hours: 4
+	 * 
+	 * Added some extra time blocks that are not in the shift interval, but 
+	 * close to the time blocks that are.
+	 * 
+	 * @throws Exception
+	 */	
+	public void testProcessShiftSimpleNoisyCase() throws Exception {
+		// Create the Rule
+		boolean[] dayArray = {true, true, true, true, true, true, true};
+		// Matches HR Job ID #1 (job # 30)
+		Long jobNumber = 30L;
+		Long workArea = 0L;
+		this.createShiftDifferentialRule(
+				"BWS-CAL", 
+				"REG", 
+				"PRM", 
+				"SD1", 
+				"SD1", 
+				"SD1",
+				(new DateTime(2010, 3, 29, 16, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				(new DateTime(2010, 3, 30, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				new BigDecimal(4), // minHours
+				new BigDecimal("0.25"), // maxGap
+				dayArray);
+		
+		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
+		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 2, new BigDecimal("4"), "REG", jobNumber, workArea));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(4).plusMinutes(15), 2, new BigDecimal("2"), "REG", jobNumber, workArea));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(new DateTime(2010, 3, 29, 12, 58, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE), 2, new BigDecimal(1), "REG", jobNumber, workArea));
+		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+		
+		// Verify pre-Rule Run
+		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(14));}},aggregate,2);
+		
+		// Run Rule
+		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(new Date(start.getMillis()));
+		tdoc.setTimeBlocks(blocks);
+		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
+		
+		// Verify post-Rule Run
+		TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(8));put("REG", new BigDecimal(14));}},aggregate,2);		
+	}
 
 	@SuppressWarnings("serial")
 	@Test

@@ -275,6 +275,25 @@ public class TkTestUtils {
 		return (HtmlPage) input.click();
 	}
 	
+	@SuppressWarnings("serial")
+	public static void verifyAggregateHourSumsFlatList(String msg, final Map<String,BigDecimal> ecToHoursMap, TkTimeBlockAggregate aggregate) {
+		// Initializes sum map to zeros, since we only care about the entires 
+		// that were passed in.
+		Map<String,BigDecimal> ecToSumMap = new HashMap<String,BigDecimal>() {{ for (String ec : ecToHoursMap.keySet()) { put(ec, BigDecimal.ZERO); }}};
+	
+		for (TimeBlock bl : aggregate.getFlattenedTimeBlockList())
+			for (TimeHourDetail thd : bl.getTimeHourDetails())
+				if (ecToSumMap.containsKey(thd.getEarnCode())) 
+					ecToSumMap.put(thd.getEarnCode(), ecToSumMap.get(thd.getEarnCode()).add(thd.getHours()));
+		
+		// Assert that our values are correct.
+		for (String key : ecToHoursMap.keySet())
+			Assert.assertEquals(
+					msg + " >> ("+key+") Wrong number of hours expected: " + ecToHoursMap.get(key) + " found: " + ecToSumMap.get(key) + " :: ", 
+					0, 
+					ecToHoursMap.get(key).compareTo(ecToSumMap.get(key)));		
+	}
+	
 	/**
 	 * Helper method to verify that the aggregate contains the correct sums as 
 	 * indicated in the ecToHoursMapping, on a SINGLE given flsaWeek.
