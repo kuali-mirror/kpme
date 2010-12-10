@@ -594,14 +594,6 @@
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />				
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.workflow.TimesheetDocumentHeader" table="tk_document_header_t">
-		<field-descriptor name="documentId"         column="document_id" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="principalId"        column="principal_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="payEndDate"         column="pay_end_dt" jdbc-type="TIMESTAMP" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-		<field-descriptor name="payBeginDate"         column="pay_begin_dt" jdbc-type="TIMESTAMP" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-		<field-descriptor name="documentStatus"     column="document_status" jdbc-type="VARCHAR" />
-	</class-descriptor>
-
 	<!-- DailyOvertimeRule -->
 	<class-descriptor class="org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule" table="tk_daily_overtime_rl_t">
 		<field-descriptor name="tkDailyOvertimeRuleId" column="tk_daily_overtime_rl_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_daily_overtime_rl_s"  />

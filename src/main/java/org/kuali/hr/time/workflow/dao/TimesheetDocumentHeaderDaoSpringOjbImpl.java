@@ -23,7 +23,6 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PersistenceBrokerDa
 			this.getPersistenceBrokerTemplate().store(documentHeader);
 		}
 	}
-
 	@Override
 	public TimesheetDocumentHeader getTimesheetDocumentHeader(String principalId, Date payBeginDate, Date payEndDate) {
 		Criteria crit = new Criteria();
