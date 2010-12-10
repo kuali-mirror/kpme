@@ -275,8 +275,6 @@
 		<field-descriptor name="payEndDate"     column="pay_end_dt"	     jdbc-type="DATE"    primarykey="false" />
 		<field-descriptor name="documentStatus" column="document_status" jdbc-type="VARCHAR" length="1"  primarykey="false" />
 		<field-descriptor name="payBeginDate"   column="pay_begin_dt"	 jdbc-type="DATE"    primarykey="false" />
-		<field-descriptor name="objectId" 	    column="obj_id"	 		 jdbc-type="VARCHAR" index="true"/>		
-		<field-descriptor name="versionNumber" 	column="ver_nbr"	     jdbc-type="BIGINT"  locking="true"/>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.earncode.EarnCode" table="tk_earn_code_t">
