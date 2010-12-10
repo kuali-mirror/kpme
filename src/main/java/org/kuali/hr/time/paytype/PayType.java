@@ -4,8 +4,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class PayType extends PersistableBusinessObjectBase {

@@ -1,6 +1,8 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 <c:set var="Form" value="${TimeApprovalActionForm}" scope="request"/>
 
+${Form}
+
 <tk:tkHeader tabId="approvals">
 	<html:hidden property="methodToCall" value=""/>
 

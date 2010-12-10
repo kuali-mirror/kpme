@@ -17,7 +17,7 @@
 								<li>Pay Grade: ${assignment.job.payGrade }</li>
 								<li>Standard Hours: ${assignment.job.standardHours }</li>
 								<li>FTE: ${assignment.job.fte }</li>
-								<li>Pay Type: ${assignment.job.hrPayType.descr}</li>
+								<li>Pay Type: ${assignment.job.payTypeObj.descr}</li>
 								<li>Location: ${assignment.job.location }</li>
 								<li>Compensation Rate: ${assignment.job.compRate }</li>
 							</ul>

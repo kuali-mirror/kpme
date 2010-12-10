@@ -312,7 +312,7 @@ $.fn.fullCalendar = function(options) {
 				    end = (end.getMonth()+1) + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds(); 
 				    
 					// update title text
-					// header.find('h2.fc-header-title').html(view.title + "(" + begin + " - " + end +")");
+					//header.find('h2.fc-header-title').html(view.title + "(" + begin + " - " + end +")");
 					header.find('h2.fc-header-title').html(view.title);
 					// enable/disable 'today' button
 					var today = new Date();
@@ -1592,11 +1592,13 @@ function Grid(element, options, methods, viewName) {
 	function renderDayOverlay(overlayStart, overlayEnd) { // overlayEnd is exclusive
 		var rowStart = cloneDate(view.visStart);
 		var rowEnd = addDays(cloneDate(rowStart), colCnt);
+		
 		for (var i=0; i<rowCnt; i++) {
 			var stretchStart = new Date(Math.max(rowStart, overlayStart));
 			var stretchEnd = new Date(Math.min(rowEnd, overlayEnd));
 			if (stretchStart < stretchEnd) {
 				var colStart, colEnd;
+				
 				if (rtl) {
 					colStart = dayDiff(stretchEnd, rowStart)*dis+dit+1;
 					colEnd = dayDiff(stretchStart, rowStart)*dis+dit+1;
@@ -1689,7 +1691,7 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 		
 		
     if(event.earnCodeType == 'HOUR') {
-      fromTo = "<tr><td align='center' colspan='3'>" + event.hours + " hours</td></tr>";
+        fromTo = "<tr><td align='center' colspan='3'>" + event.hours + " hours</td></tr>";
 		}
 		else {
 			fromTo = "<tr><td align='center' colspan='3'>" + formatDate(event.start,view.option('timeFormat')) 
@@ -2835,6 +2837,7 @@ function Agenda(element, options, methods, viewName) {
 				if (!endDate) {
 					endDate = cloneDate(startDate);
 				}
+				
 				renderDayOverlay(startDate, addDays(cloneDate(endDate), 1));
 			}
 		}else{

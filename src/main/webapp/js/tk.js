@@ -141,7 +141,8 @@ $(document).ready(function() {
 	// person detail accordion
     $("#person-detail-accordion").accordion({
         collapsible : true,
-        active : 0
+        active : 0,
+        autoHeight: false
     });
 	
 

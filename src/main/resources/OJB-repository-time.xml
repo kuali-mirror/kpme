@@ -402,9 +402,9 @@
 		<field-descriptor name="laAccrualId" column="la_accruals_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="la_accruals_s"/>
 		<field-descriptor name="principalId" column="principal_id" jdbc-type="VARCHAR" length="21" nullable="false"/>
 		<field-descriptor name="accrualCategory" column="accrual_category" jdbc-type="VARCHAR" length="3" nullable="false"/>
-		<field-descriptor name="hoursAccrued" column="hours_accrued" jdbc-type="BIGINT" nullable="false"/>
-		<field-descriptor name="hoursTaken" column="hours_taken" jdbc-type="BIGINT" nullable="false"/>
-		<field-descriptor name="hoursAdjust" column="hours_adjust" jdbc-type="BIGINT" nullable="false"/>
+		<field-descriptor name="hoursAccrued" column="hours_accrued" jdbc-type="NUMERIC" nullable="false"/>
+		<field-descriptor name="hoursTaken" column="hours_taken" jdbc-type="NUMERIC" nullable="false"/>
+		<field-descriptor name="hoursAdjust" column="hours_adjust" jdbc-type="NUMERIC" nullable="false"/>
 		<field-descriptor name="effectiveDate" column="effdt" jdbc-type="DATE" nullable="false"/>
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
@@ -415,7 +415,6 @@
 		<field-descriptor name="holidayDate" column="holiday_date" jdbc-type="date" nullable="false" />
 		<field-descriptor name="holidayDescr" column="holiday_desc" jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="holidayCalendarId" column="holiday_calendar_id" jdbc-type="BIGINT" />
-		<field-descriptor name="holidayHours" column="holiday_hours" jdbc-type="DECIMAL" />
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>

@@ -18,12 +18,12 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ClockAction extends TimesheetAction {
 
@@ -48,9 +48,7 @@ public class ClockAction extends TimesheetAction {
     	    }
 	   	    else {
 	   	    	
-	   	    	Boolean isShowLunchButton = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(new java.sql.Date(System.currentTimeMillis())).getShowLunchButton();
-	   	    	
-	   	    	if(StringUtils.equals(lastClockLog.getClockAction(),TkConstants.LUNCH_IN) && isShowLunchButton) {
+	   	    	if(StringUtils.equals(lastClockLog.getClockAction(),TkConstants.LUNCH_IN) && TkServiceLocator.getSystemLunchRuleService().isShowLunchButton()) {
 	   	    		caf.setCurrentClockAction(TkConstants.LUNCH_OUT);
 	   	    	}
 //	   	    	else if(StringUtils.equals(lastClockLog.getClockAction(),TkConstants.LUNCH_OUT)) {

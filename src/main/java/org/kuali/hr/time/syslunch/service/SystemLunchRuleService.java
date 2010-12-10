@@ -6,4 +6,6 @@ import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
 
 public interface SystemLunchRuleService {
 	public SystemLunchRule getSystemLunchRule(Date asOfDate);
+
+	public boolean isShowLunchButton();
 }

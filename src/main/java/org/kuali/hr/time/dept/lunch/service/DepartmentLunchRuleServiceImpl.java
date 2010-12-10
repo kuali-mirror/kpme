@@ -58,7 +58,7 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 			DeptLunchRule deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(
 					dept, timeBlock.getWorkArea(), TKContext.getPrincipalId(), timeBlock.getJobNumber(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
 			
-			if(deptLunchRule.getDeductionMins() != null && timeBlock.getHours().compareTo(deptLunchRule.getShiftHours()) >= 0) {
+			if(deptLunchRule!= null && deptLunchRule.getDeductionMins() != null && timeBlock.getHours().compareTo(deptLunchRule.getShiftHours()) >= 0) {
 				// convert deduction minutes to hours 
 				BigDecimal hours = timeBlock.getHours().subtract(TKUtils.convertMinutesToHours(deptLunchRule.getDeductionMins()));
 				timeBlock.setHours(hours);

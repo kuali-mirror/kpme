@@ -1,5 +1,6 @@
 package org.kuali.hr.time.accrual;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
@@ -17,9 +18,9 @@ public class TimeOffAccrual extends PersistableBusinessObjectBase {
 	private String principalId;
 	private String accrualCategory;
 	private Date effectiveDate;
-	private Integer hoursAccrued;
-	private Integer hoursTaken;
-	private Integer hoursAdjust;
+	private BigDecimal hoursAccrued = new BigDecimal("0");
+	private BigDecimal hoursTaken = new BigDecimal("0");
+	private BigDecimal hoursAdjust = new BigDecimal("0");
 
 	private AccrualCategory accrualCategoryObj;
 
@@ -56,27 +57,27 @@ public class TimeOffAccrual extends PersistableBusinessObjectBase {
 		this.effectiveDate = effectiveDate;
 	}
 
-	public Integer getHoursAccrued() {
+	public BigDecimal getHoursAccrued() {
 		return hoursAccrued;
 	}
 
-	public void setHoursAccrued(Integer hoursAccrued) {
+	public void setHoursAccrued(BigDecimal hoursAccrued) {
 		this.hoursAccrued = hoursAccrued;
 	}
 
-	public Integer getHoursTaken() {
+	public BigDecimal getHoursTaken() {
 		return hoursTaken;
 	}
 
-	public void setHoursTaken(Integer hoursTaken) {
+	public void setHoursTaken(BigDecimal hoursTaken) {
 		this.hoursTaken = hoursTaken;
 	}
 
-	public Integer getHoursAdjust() {
+	public BigDecimal getHoursAdjust() {
 		return hoursAdjust;
 	}
 
-	public void setHoursAdjust(Integer hoursAdjust) {
+	public void setHoursAdjust(BigDecimal hoursAdjust) {
 		this.hoursAdjust = hoursAdjust;
 	}
 

@@ -35,6 +35,25 @@ $(document).ready(function() {
                 }
                 // disable showing the time entry form if the date is not within the pay period
                 if(start.getTime() >= beginPeriodDateTimeObj.getTime() && end.getTime() <= endPeriodDateTimeObj.getTime()) {
+                    
+                    // if there is only one assignment, get the earn code without selecting the assignment
+                    if($('#assignment-value').html() != '') {
+                        var params = {};
+                        params['selectedAssignment'] = $('#assignment').val();
+                        
+                        $.ajax({
+                            url: "TimeDetail.do?methodToCall=getEarnCodes",
+                            data: params,
+                            cache: false,
+                            success: function(data) {
+                                $('#earnCode').html(data);
+                            },
+                            error: function() {
+                                $('#earnCode').html("Error: Can't get earn codes.");
+                            }
+                        });
+                    }
+                        
                     $('#dialog-form').dialog('open');
                 }
             },
@@ -54,10 +73,11 @@ $(document).ready(function() {
     var startTime = $('#beginTimeField');
     var endTime = $('#endTimeField');
     var assignment = $('#assignment');
+    var assignmentValue = $('#assignment-value').html(); 
     var earnCode = $('#earnCode')
 
-    var fieldsToValidate = $([]).add(startTime).add(endTime).add(assignment).add(earnCode);
-    fieldsToValidate.val('').removeClass('ui-state-error');
+    var fieldsToValidate = $([]).add(startTime).add(endTime).add(earnCode);
+    //fieldsToValidate.val('').removeClass('ui-state-error');
 
     $("#dialog-form").dialog({
         autoOpen: false,
@@ -183,11 +203,11 @@ $(document).ready(function() {
                         }
                     });
                     
-                    fieldsToValidate.val('').removeClass('ui-state-error');
+                    fieldsToValidate.clearValue(assignmentValue);
                 }
             },
             Cancel: function() {
-                fieldsToValidate.val('').removeClass('ui-state-error');
+                fieldsToValidate.clearValue(assignmentValue);
                 $(this).dialog('close');
             }
         }
@@ -215,6 +235,7 @@ $(document).ready(function() {
         $("select#earnCode option[value='" + $(this).val() +"']").attr("selected", "selected");
     });
 
+
     // filter earn codes
     $('#assignment').change(function(){
         // remove the error style
@@ -240,7 +261,7 @@ $(document).ready(function() {
         $('#loading-earnCodes').ajaxStop(function() {
             $(this).hide();
         }); 
-    });
+    }); 
 
     // use keyboard to open the form
     var isCtrl,isAlt = false;
@@ -261,6 +282,17 @@ $(document).ready(function() {
     });
 
 });
+
+$.fn.clearValue= function(assignmentValue) {
+    // clear values only when there are multiple assignments 
+    if(assignmentValue == '') {
+        $(this).add(assignment).val('').removeClass('ui-state-error');    
+    }
+    else {
+        $(this).val('').removeClass('ui-state-error');
+    }
+    
+}
 
 $.fn.createDeleteButton= function() {
     $("#delete-button").button({

@@ -408,6 +408,27 @@ select {
     clear:both;
 }
 
+#timeOffAccrual {
+    
+}
+
+#timeOffAccrual table {
+    border-collapse: collapse;
+    font-size: .9em;
+    margin: 10px auto 10px auto;
+    text-align: center;
+}
+
+#timeOffAccrual table td {
+    border: 1px solid #cccccc;
+}
+
+#timeOffAccrual table .header {
+    font-weight: bold;
+    color: #8D2C1B !important;
+    background: #ffffff url(ui-iu/images/headerback.gif) 20% 20% repeat-x;
+    padding-left:5px;
+}
 /* end of admin section */
 
 /* This is just a temp solution */

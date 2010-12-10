@@ -1,6 +1,7 @@
 package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.job.service.JobService;
+import org.kuali.hr.time.accrual.service.TimeOffAccrualService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.cache.CacheManagementService;
@@ -29,7 +30,6 @@ import org.kuali.hr.time.timehourdetail.service.TimeHourDetailService;
 import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.timesummary.service.TimeSummaryService;
 import org.kuali.hr.time.timezone.service.TimezoneService;
-import org.kuali.hr.time.user.pref.UserPreferences;
 import org.kuali.hr.time.user.pref.service.UserPreferenceService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
@@ -75,6 +75,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_HOLIDAY_CALENDAR_SERVICE = "holidayCalendarService";
 	public static final String TK_USER_PREF_SERVICE = "userPrefService";
 	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
+	public static final String TK_TIME_OFF_ACCRUAL_SERVICE = "timeOffAccrualService";
 	
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -221,6 +222,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (TimezoneService) CONTEXT.getBean(TK_TIME_ZONE_SERVICE);
 	}
 
+	public static TimeOffAccrualService getTimeOffAccrualService(){
+		return (TimeOffAccrualService) CONTEXT.getBean(TK_TIME_OFF_ACCRUAL_SERVICE);
+	}
+	
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;

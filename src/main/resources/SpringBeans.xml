@@ -369,6 +369,11 @@
     <bean id="userPrefDao" class="org.kuali.hr.time.user.pref.dao.UserPreferenceDaoImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>    
+    
+    <bean id="timeOffAccrualDao" class="org.kuali.hr.time.accrual.dao.TimeOffAccrualkDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
 	<!-- Time Services for Business Logic -->
 	
 	<bean id="deptLunchRuleService" class="org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleServiceImpl">
@@ -502,6 +507,11 @@
     </bean>
     
     <bean id="timezoneService" class="org.kuali.hr.time.timezone.service.TimezoneServiceImpl"/>
+    
+    <bean id="timeOffAccrualService" class="org.kuali.hr.time.accrual.service.TimeOffAccrualServiceImpl">
+        <property name="timeOffAccrualDao" ref="timeOffAccrualDao"/>
+    </bean>
+
     
     <!-- Scheduler configuration -->
 	<!-- Serializer service -->
