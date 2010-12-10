@@ -51,7 +51,7 @@
                     </ul>  
                     <b>Inquiries</b>
                     <ul>
-                    	<li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.timeblock.TimeBlock&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888&active=Y">Time Block Lookup</a></li>
+                    	<li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.timeblock.TimeBlock&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888&active=Y">Time Block Inquiry</a></li>
                     </ul>                
             </tr>
         </table>

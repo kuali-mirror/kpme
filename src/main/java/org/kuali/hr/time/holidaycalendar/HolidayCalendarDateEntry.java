@@ -1,5 +1,6 @@
 package org.kuali.hr.time.holidaycalendar;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
@@ -16,6 +17,7 @@ public class HolidayCalendarDateEntry extends PersistableBusinessObjectBase {
 	private Date holidayDate;
 	private String holidayDescr;
 	private Long holidayCalendarId;
+	private BigDecimal holidayHours;
 	
 	
 	@SuppressWarnings("unchecked")
@@ -62,6 +64,16 @@ public class HolidayCalendarDateEntry extends PersistableBusinessObjectBase {
 
 	public void setHolidayCalendarId(Long holidayCalendarId) {
 		this.holidayCalendarId = holidayCalendarId;
+	}
+
+
+	public BigDecimal getHolidayHours() {
+		return holidayHours;
+	}
+
+
+	public void setHolidayHours(BigDecimal holidayHours) {
+		this.holidayHours = holidayHours;
 	}
 
 }
