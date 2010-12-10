@@ -30,7 +30,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 			try {
 				wd = new WorkflowDocument(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
 				wd.routeDocument("route");
-				String kewStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(timesheetDocument.getDocumentHeader().getDocumentId());
+				String kewStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(Long.parseLong(timesheetDocument.getDocumentHeader().getDocumentId()));
 				if (!kewStatus.equals(timesheetDocument.getDocumentHeader().getDocumentStatus())) {
 					timesheetDocument.getDocumentHeader().setDocumentStatus(kewStatus);
 					TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(timesheetDocument.getDocumentHeader());
@@ -69,9 +69,9 @@ public class TimesheetServiceImpl implements TimesheetService {
 		workflowDocument.setTitle(title);
 
 		String status = workflowDocument.getRouteHeader().getDocRouteStatus();
-		TimesheetDocumentHeader documentHeader = new TimesheetDocumentHeader(workflowDocument.getRouteHeaderId(), principalId, payBeginDate, payEndDate, status);
+		TimesheetDocumentHeader documentHeader = new TimesheetDocumentHeader(workflowDocument.getRouteHeaderId().toString(), principalId, payBeginDate, payEndDate, status);
 
-		documentHeader.setDocumentId(workflowDocument.getRouteHeaderId());
+		documentHeader.setDocumentId(workflowDocument.getRouteHeaderId().toString());
 		documentHeader.setDocumentStatus("I");
 
 		TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(documentHeader);
@@ -85,11 +85,11 @@ public class TimesheetServiceImpl implements TimesheetService {
 		if(prevTdh == null){
 			return new ArrayList<TimeBlock>();
 		}
-		return TkServiceLocator.getTimeBlockService().getTimeBlocks(prevTdh.getDocumentId());
+		return TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(prevTdh.getDocumentId()));
 	}
 
 	@Override
-	public TimesheetDocument getTimesheetDocument(Long documentId) {
+	public TimesheetDocument getTimesheetDocument(String documentId) {
 		TimesheetDocument timesheetDocument = null;
 		TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
 	
@@ -105,7 +105,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 	private void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, Date payPeriodBegin, Date payPeriodEnd) {
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getTimelessDate(payPeriodBegin));
 		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(principalId, TKUtils.getTimelessDate(payPeriodBegin));
-		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(tdoc.getDocumentHeader().getDocumentId());
+		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdoc.getDocumentHeader().getDocumentId()));
 		
 		tdoc.setAssignments(assignments);
 		tdoc.setJobs(jobs);

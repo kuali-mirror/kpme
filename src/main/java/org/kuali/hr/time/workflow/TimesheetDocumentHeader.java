@@ -8,7 +8,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 public class TimesheetDocumentHeader extends PersistableBusinessObjectBase {
 
 	private static final long serialVersionUID = 1L;
-	private Long documentId;
+	private String documentId;
 	private String principalId;
 	private Date payBeginDate;
 	private Date payEndDate;
@@ -36,7 +36,7 @@ public class TimesheetDocumentHeader extends PersistableBusinessObjectBase {
 		
 	}
 	
-	public TimesheetDocumentHeader(Long documentId, String principalId, Date payBeginDate, Date payEndDate, String documentStatus) {
+	public TimesheetDocumentHeader(String documentId, String principalId, Date payBeginDate, Date payEndDate, String documentStatus) {
 		this.documentId = documentId;
 		this.principalId = principalId;
 		this.payBeginDate = payBeginDate;
@@ -44,11 +44,11 @@ public class TimesheetDocumentHeader extends PersistableBusinessObjectBase {
 		this.documentStatus = documentStatus;
 	}
 
-	public Long getDocumentId() {
+	public String getDocumentId() {
 		return documentId;
 	}
 
-	public void setDocumentId(Long documentId) {
+	public void setDocumentId(String documentId) {
 		this.documentId = documentId;
 	}
 

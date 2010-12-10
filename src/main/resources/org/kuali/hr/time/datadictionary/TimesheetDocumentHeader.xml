@@ -30,12 +30,14 @@
   <bean id="TimesheetDocumentHeader-documentId" parent="TimesheetDocumentHeader-documentId-parentBean"/>
   <bean id="TimesheetDocumentHeader-documentId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Document Id"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
+    <property name="maxLength" value="14"/>
+	<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+	</property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <bean parent="TextControlDefinition" p:size="14"/>
     </property>
     <property name="name" value="documentId"/>
     <property name="label" value="Document Id"/>

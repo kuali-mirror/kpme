@@ -14,7 +14,7 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
 	}
 
 	@Override
-	public TimesheetDocumentHeader getDocumentHeader(Long documentId) {
+	public TimesheetDocumentHeader getDocumentHeader(String documentId) {
 		return documentHeaderDao.getTimesheetDocumentHeader(documentId);
 	}
 

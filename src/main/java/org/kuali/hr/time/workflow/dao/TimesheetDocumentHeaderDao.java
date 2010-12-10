@@ -8,7 +8,7 @@ public interface TimesheetDocumentHeaderDao {
 
 	public void saveOrUpdate(TimesheetDocumentHeader documentHeader);
 	
-	public TimesheetDocumentHeader getTimesheetDocumentHeader(Long documentId);
+	public TimesheetDocumentHeader getTimesheetDocumentHeader(String documentId);
 	
 	public TimesheetDocumentHeader getTimesheetDocumentHeader(String principalId, Date PayBeginDate, Date payEndDate);
 	

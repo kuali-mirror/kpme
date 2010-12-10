@@ -44,7 +44,7 @@ public class TkWorkflowAttribute implements RoleAttribute {
 		ResolvedQualifiedRole rqr = new ResolvedQualifiedRole();
 		List<Id> principals = new ArrayList<Id>();
 		Long routeHeaderId = routeContext.getDocument().getRouteHeaderId();
-		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId);
+		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
 		TkRoleService roleService = TkServiceLocator.getTkRoleService();
 
 		if (timesheetDocument != null) {

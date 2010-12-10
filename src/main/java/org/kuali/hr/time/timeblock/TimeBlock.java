@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class TimeBlock extends PersistableBusinessObjectBase {
@@ -38,7 +41,10 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	private String beginTimeDisplay;
 	private String endTimeDisplay;
 	// the two variables below are used to determine if a time block needs to be visually pushed forward / backward  
+	@Transient
 	private Boolean pushBackward = false;
+	
+	private TimesheetDocumentHeader timesheetDocumentHeader;
 	
 	private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
 
@@ -269,6 +275,15 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 
 	public void setEndTimeDisplay(String endTimeDisplay) {
 		this.endTimeDisplay = endTimeDisplay;
+	}
+
+	public TimesheetDocumentHeader getTimesheetDocumentHeader() {
+		return timesheetDocumentHeader;
+	}
+
+	public void setTimesheetDocumentHeader(
+			TimesheetDocumentHeader timesheetDocumentHeader) {
+		this.timesheetDocumentHeader = timesheetDocumentHeader;
 	}
 	
 	

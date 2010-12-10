@@ -27,7 +27,7 @@ public interface TimesheetService {
 	 * @param documentId
 	 * @return
 	 */
-	public TimesheetDocument getTimesheetDocument(Long documentId);
+	public TimesheetDocument getTimesheetDocument(String documentId);
 	public boolean isSynchronousUser();
 	
 	public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, Long currDocumentId);

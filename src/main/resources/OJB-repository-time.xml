@@ -270,7 +270,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.hr.time.workflow.TimesheetDocumentHeader" table="tk_document_header_t">
-		<field-descriptor name="documentId" 	column="document_id"     jdbc-type="BIGINT"  primarykey="true" autoincrement="true"/>
+		<field-descriptor name="documentId" 	column="document_id"     jdbc-type="VARCHAR" length="14" primarykey="true" />
 		<field-descriptor name="principalId"    column="principal_id"    jdbc-type="VARCHAR" length="40" primarykey="false" />
 		<field-descriptor name="payEndDate"     column="pay_end_dt"	     jdbc-type="DATE"    primarykey="false" />
 		<field-descriptor name="documentStatus" column="document_status" jdbc-type="VARCHAR" length="1"  primarykey="false" />

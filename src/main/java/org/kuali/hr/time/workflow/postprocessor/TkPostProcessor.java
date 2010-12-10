@@ -13,7 +13,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 		ProcessDocReport pdr = super.doRouteStatusChange(statusChangeEvent);
 
 		Long documentId = statusChangeEvent.getRouteHeaderId();
-		TimesheetDocumentHeader document = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
+		TimesheetDocumentHeader document = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId.toString());
 		if (document != null) {
 			// Only update the status if it's different.
 			if (!document.getDocumentStatus().equals(statusChangeEvent.getNewRouteStatus())) {

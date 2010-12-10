@@ -48,7 +48,11 @@
                         <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.workflow.TimesheetDocumentHeader&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888&active=Y">Timesheet Document Header</a></li>
                         <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.workarea.WorkArea&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888&active=Y">Work Area Maintenance</a></li>
                         <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.workschedule.WorkSchedule&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888&active=Y">Work Schedule</a></li>                        
-                    </ul>                  
+                    </ul>  
+                    <b>Inquiries</b>
+                    <ul>
+                    	<li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.timeblock.TimeBlock&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888&active=Y">Time Block Lookup</a></li>
+                    </ul>                
             </tr>
         </table>
     </div>

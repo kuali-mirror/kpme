@@ -47,9 +47,9 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 		
 		// Grab the previous list of FLSA Weeks.
 		if (!firstWeek.isFirstWeekFull()) {		
-			 List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
+			 List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(principalId, Long.parseLong(timesheetDocument.getDocumentHeader().getDocumentId()));
 			 if (prevBlocks.size() > 0) {
-				TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
+				TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, Long.parseLong(timesheetDocument.getDocumentHeader().getDocumentId()));
 				if (prevTdh != null) {
 					PayCalendarEntries prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId, TKUtils.getTimelessDate(prevTdh.getPayBeginDate()));
 					TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);

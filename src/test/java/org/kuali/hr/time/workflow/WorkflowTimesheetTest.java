@@ -41,14 +41,14 @@ public class WorkflowTimesheetTest extends TkTestCase {
 		assertNotNull("No PayCalendarDates", pcd);
 		
 		TimesheetDocument tdoc = timesheetService.openTimesheetDocument(user.getPrincipalId(), pcd);
-		String kewSourceDocumentStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(tdoc.getDocumentHeader().getDocumentId());
+		String kewSourceDocumentStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(Long.parseLong(tdoc.getDocumentHeader().getDocumentId()));
 		String tkSourceDocumentStatus  = tdoc.getDocumentHeader().getDocumentStatus();
 		assertEquals("Status should be equal.", kewSourceDocumentStatus, tkSourceDocumentStatus);
 		assertEquals("Document is already routed.", "I", tkSourceDocumentStatus);
 		timesheetService.routeTimesheet(user.getPrincipalId(), tdoc);
 		LOG.debug("Routing document: " + tdoc.getDocumentHeader().getDocumentId());
 		
-		kewSourceDocumentStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(tdoc.getDocumentHeader().getDocumentId());
+		kewSourceDocumentStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(Long.parseLong(tdoc.getDocumentHeader().getDocumentId()));
 		tkSourceDocumentStatus  = tdoc.getDocumentHeader().getDocumentStatus();
 		
 		assertEquals("Status should be equal.", kewSourceDocumentStatus, tkSourceDocumentStatus);

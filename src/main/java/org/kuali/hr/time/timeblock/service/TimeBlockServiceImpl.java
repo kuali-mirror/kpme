@@ -138,7 +138,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	
 	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode, BigDecimal hours){
 		TimeBlock tb = new TimeBlock();
-    	tb.setDocumentId(timesheetDocument.getDocumentHeader().getDocumentId().toString());
+    	tb.setDocumentId(timesheetDocument.getDocumentHeader().getDocumentId());
     	tb.setJobNumber(assignment.getJobNumber());
     	tb.setWorkArea(assignment.getWorkArea());
     	tb.setTask(assignment.getTask());

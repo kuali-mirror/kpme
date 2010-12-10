@@ -37,7 +37,7 @@ public class TimeDetailAction extends TimesheetAction {
 		// TODO: may need to revisit this:
 		// when adding / removing timeblocks, it should update the timeblocks on the timesheet document, 
 		// so that we can directly fetch the timeblocks from the document
-		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentId());
+		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentId()));
 		tdaf.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument(), timeBlocks));
 		
 		// for visually impaired users 
