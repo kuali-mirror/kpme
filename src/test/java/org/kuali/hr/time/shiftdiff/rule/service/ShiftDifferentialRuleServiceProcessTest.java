@@ -30,6 +30,117 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 	public static final String USER_PRINCIPAL_ID = "admin";
 	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
 	
+	
+	/**
+	 * Test with boundary carryover and overlapping rules.
+	 * 
+	 * Rule 1:
+	 * 
+	 * Runs on Tu, Th on the interval: [22:00, 4:00)
+	 * Max Gap: 15 minutes
+	 * Min Hours: 3
+	 * 
+	 * Rule 2:
+	 * 
+	 * Runs on Tu, Th on the interval: [23:00, 2:00)
+	 * Max Gap: 2 hours
+	 * Min Hours: 3
+	 * 
+	 * Rule 3:
+	 * 
+	 * Runs on W, Th on the interval: [5:00, 12:00)
+	 * Max Gap: 15 minutes
+	 * Min Hours: 7 hours
+	 * 
+	 * Rule 4:
+	 * 
+	 * Runs on W on the interval: [5:00, 12:00)
+	 * Max Gap: 15 minutes
+	 * Min Hours: 5
+	 * 
+	 * 
+	 * |--------------+----+------------+------------|
+	 * | Tu : 8/31/10 | XX | W : 9/1/10 | Th: 9/2/10 |
+	 * |--------------+----+------------+------------|
+	 * | 9:45p - 11:45| XX | Mid - 5a   | 5p - 11p   |
+	 * |              | XX | 6a - Noon  |            |
+	 * |--------------+----+------------+------------|
+	 */
+	@SuppressWarnings("serial")
+	@Test
+	public void testProcessTimesheetBoundaryCarryoverOverlapCase() throws Exception {
+		// Create the Rule    Sun,   Mon,   Tue,  Wed,   Thu,  Fri,  Sat
+		boolean[] dayArray = {false, false, true, false, true, true, true};
+		// Matches HR Job ID #1 (job # 30)
+		Long jobNumber = 30L;
+		Long workArea = 0L;
+		this.createShiftDifferentialRule(
+				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
+				(new DateTime(2010, 8, 31, 22, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				(new DateTime(2010, 8, 31,  5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				new BigDecimal(3), // minHours
+				new BigDecimal("0.25"), // maxGap
+				dayArray);
+		this.createShiftDifferentialRule(
+				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
+				(new DateTime(2010, 8, 31, 23, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				(new DateTime(2010, 8, 31,  2, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				new BigDecimal(3), // minHours
+				new BigDecimal("2.0"), // maxGap
+				dayArray);
+		
+		dayArray = new boolean[] {false, false, false, true, true, false, false};
+		this.createShiftDifferentialRule(
+				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
+				(new DateTime(2010, 8, 31, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				(new DateTime(2010, 8, 31,  12, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				new BigDecimal("7.0"), // minHours
+				new BigDecimal(".25"), // maxGap
+				dayArray);
+		dayArray = new boolean[] {false, false, false, true, false, false, false};
+		this.createShiftDifferentialRule(
+				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
+				(new DateTime(2010, 8, 31, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				(new DateTime(2010, 8, 31,  12, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				new BigDecimal("0.25"), // minHours
+				new BigDecimal("5.0"), // maxGap
+				dayArray);
+		
+		// Timeblocks
+		
+		// August
+		PayCalendarEntries endOfAugust = TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(2L);
+		DateTime start = new DateTime(2010, 8, 31, 21, 45, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);		
+		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
+		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "REG", start, 1, new BigDecimal(2)));		
+		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust);
+
+		tdoc.setTimeBlocks(blocks);
+		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
+		TkTestUtils.verifyAggregateHourSumsFlatList("August Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(2));}},aggregate);
+		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), aggregate.getFlattenedTimeBlockList());
+
+		
+		// September
+		start = new DateTime(2010, 9, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
+		tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", payCalendarEntry);
+		blocks = new ArrayList<TimeBlock>();
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 1, new BigDecimal("5"), "REG", jobNumber, workArea));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(6), 1, new BigDecimal("6"), "REG", jobNumber, workArea));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusDays(1).plusHours(17), 1, new BigDecimal("6"), "REG", jobNumber, workArea));
+		aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+		TkTestUtils.verifyAggregateHourSumsFlatList("September Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(17));}},aggregate);
+		
+		// Verify carry over and applied PRM bucket
+		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
+		TkTestUtils.verifyAggregateHourSumsFlatList("September Post-Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal("11.75"));put("REG", new BigDecimal(17));}},aggregate);
+
+	}
+	
+	
 	/**
 	 * Test where previous time sheet contains hours that should be added to
 	 * the next pay periods first day shift.
