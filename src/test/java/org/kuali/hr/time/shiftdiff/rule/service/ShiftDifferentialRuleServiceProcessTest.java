@@ -77,7 +77,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		this.createShiftDifferentialRule(
 				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
 				(new DateTime(2010, 8, 31, 22, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
-				(new DateTime(2010, 8, 31,  5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				(new DateTime(2010, 8, 31,  4, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
 				new BigDecimal(3), // minHours
 				new BigDecimal("0.25"), // maxGap
 				dayArray);
