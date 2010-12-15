@@ -181,11 +181,11 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="2" />
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.clocklog.FlsaClocklogKeyValue" p:includeKeyInLabel="false"/>
 		</property>
 		<property name="name" value="clockAction" />
 		<property name="label" value="Clock Action" />
-	</bean>
+	</bean>	
 
 	<!-- ipAddress -->
 	<bean id="ClockLog-ipAddress" parent="ClockLog-ipAddress-parentBean" />

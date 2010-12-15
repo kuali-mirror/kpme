@@ -1,9 +1,6 @@
 package org.kuali.hr.time.assignment;
 
 
-import java.util.Calendar;
-import java.util.Random;
-
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
@@ -15,13 +12,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class AssignmentMaintTest extends org.kuali.hr.time.test.TkTestCase {
 	
-	//TODO - sai take out the random stuff and use the hard coded test data in script
+	//data defined in boot strap script
+	private static final String TEST_CODE="admin";
+	private static Long TEST_CODE_WORKAREA_INVALID=5555L;
+	private static Long assignmentId = 3L;	
 	
-	private static final String TEST_CODE="__TEST";
-	private static final Long TEST_ID=20L;
-	private static Long TEST_CODE_WORKAREA_INVALID;
-	private static Long assignmentId;	
-	private static final java.sql.Date TEST_DATE=new java.sql.Date(Calendar.getInstance().getTimeInMillis());
 	@Test
 	public void testAssignmentMaint() throws Exception {
 		HtmlPage assignmentLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ASSIGNMENT_MAINT_URL);
@@ -29,32 +24,6 @@ public class AssignmentMaintTest extends org.kuali.hr.time.test.TkTestCase {
 		assertTrue("Page contains test assignment", assignmentLookUp.asText().contains(TEST_CODE.toString()));		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(assignmentLookUp, "edit",assignmentId.toString());		
 		assertTrue("Maintenance Page contains test assignment",maintPage.asText().contains(TEST_CODE.toString()));		
-	}
-
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		Assignment assignment = new Assignment();		
-		assignment.setActive(true);
-		assignment.setEffectiveDate(TEST_DATE);
-		assignment.setTask(TEST_ID);		
-		assignment.setPrincipalId(TEST_CODE);
-		assignment.setJobNumber(TEST_ID);
-//		/assignment.setEarnCode(TEST_ID);
-		
-		Random randomObj = new Random();
-		for (;;) {
-			long workAreaIndex = randomObj.nextInt();
-			WorkArea workAreaObj = KNSServiceLocator.getBusinessObjectService()
-					.findBySinglePrimaryKey(WorkArea.class, workAreaIndex);
-			if (workAreaObj == null) {
-				TEST_CODE_WORKAREA_INVALID = new Long(workAreaIndex);
-				break;
-			}
-		}
-		assignment.setWorkArea(TEST_CODE_WORKAREA_INVALID);		
-		KNSServiceLocator.getBusinessObjectService().save(assignment);		
-		assignmentId=assignment.getTkAssignmentId();		
 	}
 
 	/**

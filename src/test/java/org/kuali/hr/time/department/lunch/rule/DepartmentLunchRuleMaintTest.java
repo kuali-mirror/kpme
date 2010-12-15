@@ -1,43 +1,20 @@
 package org.kuali.hr.time.department.lunch.rule;
-
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Random;
-
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
 import org.junit.Test;
-import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class DepartmentLunchRuleMaintTest extends TkTestCase {
-
-	//TODO - sai remove for(;;) and Random calls and use bootstrap data to test
 	
-	private static final String TEST_CODE = "0";	
-	private static final Long TEST_ID = 20L;
-	private static final String TEST_CODE_DEPARTMENT_VALID = "_test";	
-	private static final java.sql.Date TEST_DATE = new java.sql.Date(Calendar
-			.getInstance().getTimeInMillis());
-	private static final java.sql.Timestamp TEST_TIME_STAMP = new java.sql.Timestamp(Calendar
-			.getInstance().getTimeInMillis());
+	private static final String TEST_CODE = "admin";		
+	private static String TEST_CODE_DEPT_INVALID = "INVALID";
+	private static Long TEST_CODE_WORKAREA_INVALID = 9999L;
 	
-	private static String TEST_CODE_DEPT_INVALID = "0";
-	private static Long TEST_CODE_WORKAREA_INVALID = 0l;
-	
-	private static Long deptLunchRuleIdWithInvalidDept;
-	private static Long deptId;
-	private static Long deptLunchRuleIdWithInvalidWorkArea;
+	private static Long deptLunchRuleIdWithInvalidDept = 1L;	
+	private static Long deptLunchRuleIdWithInvalidWorkArea = 3L;
 
 	/**
 	 * Test to check whether it is showing error message for Department on maintenance screen
@@ -119,103 +96,4 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 		assertTrue("Maintenance Page contains test DepartmentLunchRule",
 				maintPage.asText().contains(TEST_CODE.toString()));
 	}
-
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		
-		 
-		DeptLunchRule deptLunchRuleWIthInvalidDept = new DeptLunchRule();
-
-		// setting deptId for which Department doesn't exist .
-		Random randomObj = new Random();
-		for (;;) {
-			long deptIdIndex = randomObj.nextInt();
-			Criteria crit = new Criteria();
-			crit.addEqualTo("dept", deptIdIndex);		
-			Query query = QueryFactory.newQuery(Department.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
-		 
-			if (count == 0) {
-				TEST_CODE_DEPT_INVALID = Long.toString(deptIdIndex);
-				break;
-			}
-		}
-		deptLunchRuleWIthInvalidDept.setActive(true);
-		deptLunchRuleWIthInvalidDept.setDept(TEST_CODE_DEPT_INVALID);
-		deptLunchRuleWIthInvalidDept.setEffectiveDate(TEST_DATE);
-		deptLunchRuleWIthInvalidDept.setJobNumber(TEST_ID);
-		deptLunchRuleWIthInvalidDept.setPrincipalId(TEST_CODE);
-		deptLunchRuleWIthInvalidDept.setUserPrincipalId(TEST_CODE);
-		deptLunchRuleWIthInvalidDept.setWorkArea(TEST_ID);
-		deptLunchRuleWIthInvalidDept.setTimestamp(TEST_TIME_STAMP);
-		deptLunchRuleWIthInvalidDept.setDeductionMins(new BigDecimal(30));
-		deptLunchRuleWIthInvalidDept.setShiftHours(new BigDecimal(6));
-		KNSServiceLocator.getBusinessObjectService().save(
-				deptLunchRuleWIthInvalidDept);
-		deptLunchRuleIdWithInvalidDept = deptLunchRuleWIthInvalidDept
-				.getTkDeptLunchRuleId();
-
-		Department department = new Department();
-		department.setChart(TEST_CODE_DEPARTMENT_VALID);
-		department.setDept(TEST_CODE_DEPARTMENT_VALID);
-		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
-		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
-		department.setEffectiveDate(TEST_DATE);
-		department.setDescription(TEST_CODE);
-		department.setTimestamp(TEST_TIME_STAMP);	
-		KNSServiceLocator.getBusinessObjectService().save(department);
-		deptId = department.getTkDeptId();
-		DeptLunchRule deptLunchRuleWIthInvalidWorkArea = new DeptLunchRule();
-
-		// setting workAreaID for which WorkArea doesn't exist .
-		for (;;) {
-			long workAreaIndex = randomObj.nextInt();
-			Criteria crit = new Criteria();
-			crit.addEqualTo("workArea", workAreaIndex);		
-			Query query = QueryFactory.newQuery(WorkArea.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
-			
-		 
-			if (count == 0) {
-				TEST_CODE_WORKAREA_INVALID = new Long(workAreaIndex);
-				break;
-			}
-		}
-		deptLunchRuleWIthInvalidWorkArea.setActive(true);
-		deptLunchRuleWIthInvalidWorkArea.setDept(TEST_CODE_DEPARTMENT_VALID);
-		deptLunchRuleWIthInvalidWorkArea.setEffectiveDate(TEST_DATE);
-		deptLunchRuleWIthInvalidWorkArea.setJobNumber(TEST_ID);
-		deptLunchRuleWIthInvalidWorkArea.setPrincipalId(TEST_CODE);
-		deptLunchRuleWIthInvalidWorkArea.setUserPrincipalId(TEST_CODE);
-		deptLunchRuleWIthInvalidWorkArea.setTimestamp(TEST_TIME_STAMP);
-		deptLunchRuleWIthInvalidWorkArea.setWorkArea(TEST_CODE_WORKAREA_INVALID);
-		deptLunchRuleWIthInvalidDept.setDeductionMins(new BigDecimal(30));
-		deptLunchRuleWIthInvalidDept.setShiftHours(new BigDecimal(6));
-		KNSServiceLocator.getBusinessObjectService().save(
-				deptLunchRuleWIthInvalidWorkArea);
-		deptLunchRuleIdWithInvalidWorkArea = deptLunchRuleWIthInvalidWorkArea
-				.getTkDeptLunchRuleId();
-
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		DeptLunchRule deptLunchRuleObj = KNSServiceLocator
-				.getBusinessObjectService().findBySinglePrimaryKey(
-						DeptLunchRule.class, deptLunchRuleIdWithInvalidDept);
-		KNSServiceLocator.getBusinessObjectService().delete(deptLunchRuleObj);
-		deptLunchRuleObj = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(DeptLunchRule.class,
-						deptLunchRuleIdWithInvalidWorkArea);
-		KNSServiceLocator.getBusinessObjectService().delete(deptLunchRuleObj);
-		
-		Department deptObj = KNSServiceLocator.getBusinessObjectService()
-		.findBySinglePrimaryKey(Department.class,
-				deptId);
-		KNSServiceLocator.getBusinessObjectService().delete(deptObj);
-		
-		super.tearDown();
-	}
-
 }

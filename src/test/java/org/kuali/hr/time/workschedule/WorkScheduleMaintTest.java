@@ -18,17 +18,13 @@ public class WorkScheduleMaintTest extends TkTestCase{
 
 	//TODO - sai remove the random calls here and use bootstrap data for setup
 	
-	private static final String TEST_CODE = "0";	
-	private static final Long TEST_ID = 20L;	
-	private static final String TEST_CODE_DEPARTMENT_VALID = "_test";	
-	private static final java.sql.Date TEST_DATE = new java.sql.Date(Calendar
-			.getInstance().getTimeInMillis());
+	private static final String TEST_CODE = "test-schedule";		
+		
+	private static String TEST_CODE_DEPT_INVALID = "INVALID";
+	private static Long TEST_CODE_WORKAREA_INVALID = -1L;
 	
-	private static String TEST_CODE_DEPT_INVALID = "0";
-	private static Long TEST_CODE_WORKAREA_INVALID = 0l;
-	
-	private static Long workScheduleWithInvalidDept;
-	private static Long workScheduleIdWithInvalidWorkArea;
+	private static Long workScheduleWithInvalidDept = 11L;
+	private static Long workScheduleIdWithInvalidWorkArea = 12L;
 
 	/**
 	 * Test to check whether it is showing error message for Department on maintenance screen
@@ -109,82 +105,4 @@ public class WorkScheduleMaintTest extends TkTestCase{
 		assertTrue("Maintenance Page contains test WorkSchedule ",
 				maintPage.asText().contains(TEST_CODE.toString()));
 	}
-
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		WorkSchedule workSchedulewithInvalidDept = new WorkSchedule();
-		// setting deptId for which Department doesn't exist .
-		Random randomObj = new Random();
-		for (;;) {
-			long deptIdIndex = randomObj.nextInt();
-			Department deptObj = KNSServiceLocator.getBusinessObjectService()
-					.findBySinglePrimaryKey(Department.class, deptIdIndex);
-			if (deptObj == null) {
-				TEST_CODE_DEPT_INVALID = Long.toString(deptIdIndex);
-				break;
-			}
-		}
-		
-		workSchedulewithInvalidDept.setEffectiveDate(TEST_DATE);		
-		//workSchedulewithInvalidDept.setPrincipalId(TEST_ID);
-		workSchedulewithInvalidDept.setWorkScheduleDesc(TEST_CODE);		
-		workSchedulewithInvalidDept.setActive(true);		 
-		workSchedulewithInvalidDept.setWorkArea(TEST_ID);
-		workSchedulewithInvalidDept.setDept(TEST_CODE_DEPT_INVALID) ;
-		KNSServiceLocator.getBusinessObjectService().save(
-				workSchedulewithInvalidDept);
-		workScheduleWithInvalidDept = workSchedulewithInvalidDept.getHrWorkScheduleId();
-
-		Department department = new Department();
-		department.setChart(TEST_CODE_DEPARTMENT_VALID);
-		department.setDept(TEST_CODE_DEPARTMENT_VALID);
-		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
-		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
-		KNSServiceLocator.getBusinessObjectService().save(department);
-		
-		
-		WorkSchedule workSchedulewithInvalidWorkArea = new WorkSchedule();
-
-		// setting workAreaID for which WorkArea doesn't exist .
-		for (;;) {
-			long workAreaIndex = randomObj.nextInt();
-			WorkArea workAreaObj = KNSServiceLocator.getBusinessObjectService()
-					.findBySinglePrimaryKey(WorkArea.class, workAreaIndex);
-			if (workAreaObj == null) {
-				TEST_CODE_WORKAREA_INVALID = new Long(workAreaIndex);
-				break;
-			}
-		}
-		workSchedulewithInvalidWorkArea.setEffectiveDate(TEST_DATE);		
-		//workSchedulewithInvalidWorkArea.setPrincipalId(TEST_ID);
-		workSchedulewithInvalidWorkArea.setWorkScheduleDesc(TEST_CODE);		
-		workSchedulewithInvalidWorkArea.setActive(true);		 
-		workSchedulewithInvalidWorkArea.setWorkArea(TEST_CODE_WORKAREA_INVALID);
-		workSchedulewithInvalidWorkArea.setDept(TEST_CODE_DEPARTMENT_VALID) ;
-		KNSServiceLocator.getBusinessObjectService().save(
-				workSchedulewithInvalidWorkArea);
-		workScheduleIdWithInvalidWorkArea = workSchedulewithInvalidWorkArea.getHrWorkScheduleId();
-
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		WorkSchedule workScheduleObj = KNSServiceLocator
-				.getBusinessObjectService().findBySinglePrimaryKey(
-						WorkSchedule.class, workScheduleWithInvalidDept);
-		KNSServiceLocator.getBusinessObjectService().delete(workScheduleObj);
-		workScheduleObj = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(WorkSchedule.class,
-						workScheduleIdWithInvalidWorkArea);
-		KNSServiceLocator.getBusinessObjectService().delete(workScheduleObj);
-		
-		Department deptObj = KNSServiceLocator.getBusinessObjectService()
-		.findBySinglePrimaryKey(Department.class,
-				TEST_CODE_DEPARTMENT_VALID);
-		KNSServiceLocator.getBusinessObjectService().delete(deptObj);
-		
-		super.tearDown();
-	}
-
 }

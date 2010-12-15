@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -25,17 +27,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class SystemLunchRuleTest extends TkTestCase {
 	
 	SystemLunchRule systemLunchRule;
+	Date date = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 	
 	@Test
 	public void testSystemLunchRuleFetch() throws Exception{
-		SystemLunchRule systemLunchRule = new SystemLunchRule();
-		systemLunchRule.setActive(true);
-		systemLunchRule.setShowLunchButton(true);
-		systemLunchRule.setEffectiveDate(new Date(System.currentTimeMillis()));
-		
-		KNSServiceLocator.getBusinessObjectService().save(systemLunchRule);
-		
-		this.systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(new Date(System.currentTimeMillis()));
+		this.systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(date);
 		assertTrue("System lunch rule is pulled back", this.systemLunchRule!=null);
 	}
 	
@@ -46,14 +42,7 @@ public class SystemLunchRuleTest extends TkTestCase {
 	@Test
 	public void testSystemLunchRule() throws Exception {
 		
-		SystemLunchRule systemLunchRule = new SystemLunchRule();
-		systemLunchRule.setActive(true);
-		systemLunchRule.setShowLunchButton(true);
-		systemLunchRule.setEffectiveDate(new Date(System.currentTimeMillis()));
-		
-		KNSServiceLocator.getBusinessObjectService().save(systemLunchRule);
-		
-		systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(new Date(System.currentTimeMillis()));
+		systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(date);
 		assertTrue("System lunch rule is pulled back", systemLunchRule!=null);
 		
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CLOCK_URL);

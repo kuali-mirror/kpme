@@ -9,8 +9,12 @@ import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
+import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * This class needs refactored - the name job test implies that it should unit test on the Job object, especially considering it's package location.
@@ -21,7 +25,9 @@ public class JobTest extends TkTestCase {
 
 	private static final String TEST_USER_ID = "eric";
 	private static final String CALENDAR_GROUP = "BW-CAL";
-
+	private static Long jobId = 1L;//id entered in the bootstrap SQL
+	private static Long jobNumber = 30L;//number entered in the bootstrap SQL
+	
 	@Test
 	public void testInsertPayCalendar() throws Exception {
 		PayCalendar payCalendar = new PayCalendar();
@@ -70,5 +76,14 @@ public class JobTest extends TkTestCase {
 
 		KNSServiceLocator.getBusinessObjectService().save(payType);
 		assertTrue(TkServiceLocator.getPayTypeSerivce().getPayType(payType.getPayType(), payType.getEffectiveDate()) != null);
+	}
+	
+	@Test
+	public void jobMaintenancePage() throws Exception{				
+		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.JOB_MAINT_URL);
+		earnCodeLookUp = HtmlUnitUtil.clickInputContainingText(earnCodeLookUp, "search");
+		assertTrue("Page contains admin entry", earnCodeLookUp.asText().contains("admin"));		
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit",jobId.toString());		
+		assertTrue("Maintenance Page contains the correct job number",maintPage.asText().contains(jobNumber.toString()));		
 	}
 }

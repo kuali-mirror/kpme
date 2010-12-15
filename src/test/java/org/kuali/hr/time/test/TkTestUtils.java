@@ -258,7 +258,7 @@ public class TkTestUtils {
 				}
 			}
 		}
-
+		HtmlUnitUtil.createTempFile(resultPage);
 		return resultPage;
 	}
 

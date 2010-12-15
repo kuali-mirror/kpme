@@ -11,26 +11,6 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class PayCalendarTest extends TkTestCase {
-
-
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		PayCalendar payCalendar = new PayCalendar();
-		payCalendar.setCalendarGroup("test");
-		payCalendar.setFlsaBeginDay("Sun");
-		payCalendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
-		payCalendar.setPayCalendarId(new Long(1000));
-		
-		KNSServiceLocator.getBusinessObjectService().save(payCalendar);
-		PayCalendarEntries payCalendarDates = new PayCalendarEntries();
-		payCalendarDates.setPayCalendarId(new Long(1000));
-		payCalendarDates.setPayCalendarEntriesId(new Long(1000));
-		payCalendarDates.setBeginPeriodDateTime(new Date(System.currentTimeMillis()));
-		payCalendarDates.setEndPeriodDateTime(new Date(System.currentTimeMillis()));
-		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);
-	}
-
 	
 	@Test
 	public void testPayCalendar() throws Exception{
@@ -39,9 +19,9 @@ public class PayCalendarTest extends TkTestCase {
     	HtmlUnitUtil.createTempFile(page);
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");
     	HtmlUnitUtil.createTempFile(page);
-    	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","1000");
+    	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","1");
     	HtmlUnitUtil.createTempFile(page);
-    	assertTrue("Test that maintenance screen rendered", page.asText().contains("test"));
+    	assertTrue("Test that maintenance screen rendered", page.asText().contains("BW-CAL"));
 	}
 	
 	

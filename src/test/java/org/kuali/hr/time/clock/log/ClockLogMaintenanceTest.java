@@ -23,30 +23,30 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class ClockLogMaintenanceTest extends TkTestCase{
 	//TODO - sai remove the random and use the hard coded data in the bootstrap(add if no clock logs are present)
 	
-	private static final String TEST_CODE_ONE="TST";
-	private static final String TEST_CODE_TWO="_";
-	private static final Long TEST_ID=20L;		
-	private static final java.sql.Timestamp TEST_TIMESTAMP=new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
-	private static Long TEST_CODE_INVALID_TASK_ID =0L;
-	private static Long TEST_CODE_INVALID_WORK_AREA_ID =0L;
-	private static Long clockLogId;	
+	//private static final String TEST_CODE_ONE="TST";
+	//private static final String TEST_CODE_TWO="_";
+	//private static final Long TEST_ID=20L;		
+	//private static final java.sql.Timestamp TEST_TIMESTAMP=new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
+	private static Long TEST_CODE_INVALID_TASK_ID =9999L;
+	private static Long TEST_CODE_INVALID_WORK_AREA_ID =9999L;
+	private static Long clockLogId = 1L;	
 	
 	@Test
 	public void testClockLogMaint() throws Exception {
 		HtmlPage clockLogLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CLOCK_LOG_MAINT_URL);
 		clockLogLookUp = HtmlUnitUtil.clickInputContainingText(clockLogLookUp, "search");
-		assertTrue("Page contains test ClockLog", clockLogLookUp.asText().contains(TEST_CODE_ONE));		
+		assertTrue("Page contains test ClockLog", clockLogLookUp.asText().contains("TEST"));		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(clockLogLookUp, "edit",clockLogId.toString());		
-		assertTrue("Maintenance Page contains test ClockLog",maintPage.asText().contains(TEST_CODE_ONE));		
+		assertTrue("Maintenance Page contains test ClockLog",maintPage.asText().contains("TEST"));		
 	}
 	
 	@Test
 	public void testClockLogMaintForErrorMessages() throws Exception {
 		HtmlPage clockLogLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CLOCK_LOG_MAINT_URL);
 		clockLogLookUp = HtmlUnitUtil.clickInputContainingText(clockLogLookUp, "search");
-		assertTrue("Page contains test ClockLog", clockLogLookUp.asText().contains(TEST_CODE_ONE));		
+		assertTrue("Page contains test ClockLog", clockLogLookUp.asText().contains("TEST"));		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(clockLogLookUp, "edit",clockLogId.toString());		
-		assertTrue("Maintenance Page contains test ClockLog",maintPage.asText().contains(TEST_CODE_ONE));
+		assertTrue("Maintenance Page contains test ClockLog",maintPage.asText().contains("TEST"));
 		
 		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(
 				maintPage, "* Document Description");
@@ -69,58 +69,5 @@ public class ClockLogMaintenanceTest extends TkTestCase{
 		
 		
 	}
-
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		ClockLog clocklog = new ClockLog();
-		clocklog.setClockAction(TEST_CODE_TWO);
-		clocklog.setClockTimestamp(TEST_TIMESTAMP);
-		clocklog.setClockTimestampTimezone(TEST_CODE_ONE);
-		clocklog.setIpAddress(TEST_CODE_ONE);
-		clocklog.setJobNumber(TEST_ID);
-		clocklog.setPrincipalId(TEST_CODE_ONE);		
-		clocklog.setTimestamp(TEST_TIMESTAMP);
-		clocklog.setUserPrincipalId(TEST_CODE_ONE);
-				
-		Random randomObj = new Random();
-		for (;;) {
-			long taskIndex = randomObj.nextInt();
-			Criteria crit = new Criteria();
-			crit.addEqualTo("task", taskIndex);		
-			Query query = QueryFactory.newQuery(Task.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
-			
-		 
-			if (count == 0) {
-				TEST_CODE_INVALID_TASK_ID = new Long(taskIndex);
-				break;
-			}
-		}
-		clocklog.setTask(TEST_CODE_INVALID_TASK_ID);
-		//search for the WorkArea which doesn't exist
-		for (;;) {
-			long workAreaIndex = randomObj.nextInt();
-			Criteria crit = new Criteria();
-			crit.addEqualTo("workArea", workAreaIndex);		
-			Query query = QueryFactory.newQuery(WorkArea.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
-			
-		 
-			if (count == 0) {
-				TEST_CODE_INVALID_WORK_AREA_ID = new Long(workAreaIndex);
-				break;
-			}
-		}
-		clocklog.setWorkArea(TEST_CODE_INVALID_WORK_AREA_ID);		
-		KNSServiceLocator.getBusinessObjectService().save(clocklog);		
-		clockLogId=clocklog.getTkClockLogId();	
-	}
-
-	@Override
-	public void tearDown() throws Exception {		
-		ClockLog clockLogObj= KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(ClockLog.class, clockLogId);			
-		KNSServiceLocator.getBusinessObjectService().delete(clockLogObj);				
-		super.tearDown();
-	}
+	
 }

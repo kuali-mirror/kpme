@@ -1,40 +1,20 @@
 package org.kuali.hr.time.overtime.daily.rule;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Random;
 
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
 import org.junit.Test;
-import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class DailyOvertimeRuleMaintenanceTest extends TkTestCase{
-	
-	//TODO - sai remove the random and for(;;) use bootstrap data to test
-	
-	private static final String TEST_CODE="_T";	
-	private static final BigDecimal TEST_NO=new BigDecimal(10);		
-	private static final java.sql.Date TEST_DATE=new java.sql.Date(Calendar.getInstance().getTimeInMillis());
-	private static final java.sql.Timestamp TEST_TIMESTAMP=new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
-	
-	private static String TEST_CODE_INVALID_DEPT_ID ="0";
-	private static Long TEST_CODE_INVALID_TASK_ID =0L;
-	private static Long TEST_CODE_INVALID_WORK_AREA_ID =0L;
-	
-	
-	private static Long dailyOvertimeRuleId;
+		
+	private static final String TEST_CODE="BL";		
+	private static String TEST_CODE_INVALID_DEPT_ID ="INVALID";
+	private static Long TEST_CODE_INVALID_TASK_ID =-1L;
+	private static Long TEST_CODE_INVALID_WORK_AREA_ID =-1L;	
+	private static Long dailyOvertimeRuleId = 5L;
 	
 	@Test
 	public void testDailyOvertimeRuleMaint() throws Exception {
@@ -75,82 +55,7 @@ public class DailyOvertimeRuleMaintenanceTest extends TkTestCase{
 				resultantPageAfterEdit.asText().contains(
 						"The specified Task '"
 								+ TEST_CODE_INVALID_TASK_ID
-								+ "' does not exist."));
-		
-		
-		
-		
-	}
-
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		DailyOvertimeRule dailyOvertimeRule = new DailyOvertimeRule();
-		dailyOvertimeRule.setActive(true);
-		dailyOvertimeRule.setEffectiveDate(TEST_DATE);
-		dailyOvertimeRule.setLocation(TEST_CODE);
-		dailyOvertimeRule.setMaxGap(new BigDecimal(0));
-		dailyOvertimeRule.setUserPrincipalId(TEST_CODE);
-		dailyOvertimeRule.setPaytype(TEST_CODE);
-		dailyOvertimeRule.setOvertimePref(TEST_CODE);
-		dailyOvertimeRule.setShiftHours(TEST_NO);		
-		dailyOvertimeRule.setTimeStamp(TEST_TIMESTAMP);
-		Random randomObj = new Random();
-		
-		//search for the dept which doesn't exist		
-		for (;;) {
-			long deptIdIndex = randomObj.nextInt();
-			Criteria crit = new Criteria();
-			crit.addEqualTo("dept", deptIdIndex);		
-			Query query = QueryFactory.newQuery(Department.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
-			
-		 
-			if (count == 0) {
-				TEST_CODE_INVALID_DEPT_ID = Long.toString(deptIdIndex);
-				break;
-			}
-		}
-		dailyOvertimeRule.setDept(TEST_CODE_INVALID_DEPT_ID);
-		//search for the Task which doesn't exist
-		for (;;) {
-			long taskIndex = randomObj.nextInt();
-			Criteria crit = new Criteria();
-			crit.addEqualTo("task", taskIndex);		
-			Query query = QueryFactory.newQuery(Task.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
-		 
-			if (count == 0) {
-				TEST_CODE_INVALID_TASK_ID = new Long(taskIndex);
-				break;
-			}
-		}
-		dailyOvertimeRule.setTask(TEST_CODE_INVALID_TASK_ID);
-		//search for the WorkArea which doesn't exist
-		for (;;) {
-			long workAreaIndex = randomObj.nextInt();
-			Criteria crit = new Criteria();
-			crit.addEqualTo("workArea", workAreaIndex);		
-			Query query = QueryFactory.newQuery(WorkArea.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
-		 
-			if (count == 0) {
-		
-				TEST_CODE_INVALID_WORK_AREA_ID = new Long(workAreaIndex);
-				break;
-			}
-		}
-		dailyOvertimeRule.setWorkArea(TEST_CODE_INVALID_WORK_AREA_ID);
-		
-		KNSServiceLocator.getBusinessObjectService().save(dailyOvertimeRule);		
-		dailyOvertimeRuleId=dailyOvertimeRule.getTkDailyOvertimeRuleId();		
-	}
-
-	@Override
-	public void tearDown() throws Exception {		
-		DailyOvertimeRule dailyOvertimeRuleObj= KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(DailyOvertimeRule.class, dailyOvertimeRuleId);			
-		KNSServiceLocator.getBusinessObjectService().delete(dailyOvertimeRuleObj);				
-		super.tearDown();
+								+ "' does not exist."));		
 	}
 }
 

@@ -23,11 +23,11 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	
 	//TODO -sai remove the Random things and confirm this still works
 	
-	private static String TEST_CODE_INVALID_DEPT_ID ="0";
-	private static Long TEST_CODE_INVALID_EARN_CODE_ID =0L;
-	private static Long TEST_CODE_INVALID_SAL_GROUP_ID =0L;
+	private static String TEST_CODE_INVALID_DEPT_ID ="INVALID";
+	private static String TEST_CODE_INVALID_EARN_CODE_ID ="INV";
+	private static String TEST_CODE_INVALID_SAL_GROUP_ID ="INVALID";
 	
-	private static Long departmentEarnCodeId;
+	private static Long departmentEarnCodeId = 3L;
 
 	//TODO Sai - confirm this test is appropriate
 
@@ -54,7 +54,7 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 				maintPage, "* Document Description");
 		inputForDescription.setValueAttribute("Test_Description");
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
-				.clickInputContainingText(maintPage, "submit");
+				.clickInputContainingText(maintPage, "submit");		
 		
 		assertTrue("Maintenance Page contains test deptErrormessage",
 				resultantPageAfterEdit.asText().contains(
@@ -66,22 +66,21 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 				resultantPageAfterEdit.asText().contains(
 						"The specified Salgroup '"
 								+ TEST_CODE_INVALID_SAL_GROUP_ID
-								+ "' does not exist."));
+								+ "' does not exist."));	
 		
 		assertTrue("Maintenance Page contains test Earncode",
 				resultantPageAfterEdit.asText().contains(
 						"The specified Earncode '"
 								+ TEST_CODE_INVALID_EARN_CODE_ID
 								+ "' does not exist."));
-		
-		
+				
 		
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		DepartmentEarnCode departmentEarnCode = new DepartmentEarnCode();
+		/*DepartmentEarnCode departmentEarnCode = new DepartmentEarnCode();
 		departmentEarnCode.setApprover(true);
 		Random randomObj = new Random();
 		//search for the dept which doesn't exist
@@ -138,15 +137,7 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		departmentEarnCode.setEmployee(false);
 		departmentEarnCode.setOrg_admin(false);
 		KNSServiceLocator.getBusinessObjectService().save(departmentEarnCode);
-		departmentEarnCodeId=departmentEarnCode.getTkDeptEarnCodeId();
+		departmentEarnCodeId=departmentEarnCode.getTkDeptEarnCodeId();*/
 		
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		//clean up
-		DepartmentEarnCode departmentEarnCodeObj= KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(DepartmentEarnCode.class, departmentEarnCodeId);
-		KNSServiceLocator.getBusinessObjectService().delete(departmentEarnCodeObj);
-		super.tearDown();
 	}
 }
