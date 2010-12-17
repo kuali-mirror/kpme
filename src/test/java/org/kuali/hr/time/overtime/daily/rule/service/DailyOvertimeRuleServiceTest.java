@@ -1,13 +1,8 @@
 package org.kuali.hr.time.overtime.daily.rule.service;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
@@ -18,6 +13,12 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class DailyOvertimeRuleServiceTest extends TkTestCase {
 	
@@ -119,6 +120,7 @@ public class DailyOvertimeRuleServiceTest extends TkTestCase {
 	
 	
 	@Test
+    @Ignore
 	public void testGetailyOvertimeRules() throws Exception {
 		DailyOvertimeRuleService doors = TkServiceLocator.getDailyOvertimeRuleService();
 		String dept = null;
