@@ -19,13 +19,17 @@ public class DailyOvertimeRule extends TkRule {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long tkDailyOvertimeRuleId;
+	
+	private String fromEarnGroup;
+	private String earnCode;
+	
 	private String location;
 	private String paytype;
 	private String dept;
 	private Long workArea;
 	private Long task;
 	private BigDecimal maxGap;
-	private BigDecimal shiftHours;
+	private BigDecimal minHours;
 	private String overtimePref;
 	private Date effectiveDate;
 	private String userPrincipalId;
@@ -37,12 +41,7 @@ public class DailyOvertimeRule extends TkRule {
 	private Department departmentObj;
 	private PayType payTypeObj;
 	
-//	@Override
-//	public boolean isValid(TkRuleContext tkRuleContext) {
-//		return false;
-//	}
-
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		return null;
@@ -70,14 +69,6 @@ public class DailyOvertimeRule extends TkRule {
 
 	public void setMaxGap(BigDecimal maxGap) {
 		this.maxGap = maxGap;
-	}
-
-	public BigDecimal getShiftHours() {
-		return shiftHours;
-	}
-
-	public void setShiftHours(BigDecimal shiftHours) {
-		this.shiftHours = shiftHours;
 	}
 
 	public String getOvertimePref() {
@@ -182,6 +173,30 @@ public class DailyOvertimeRule extends TkRule {
 
 	public void setPayTypeObj(PayType payTypeObj) {
 		this.payTypeObj = payTypeObj;
+	}
+
+	public String getFromEarnGroup() {
+		return fromEarnGroup;
+	}
+
+	public void setFromEarnGroup(String fromEarnGroup) {
+		this.fromEarnGroup = fromEarnGroup;
+	}
+
+	public String getEarnCode() {
+		return earnCode;
+	}
+
+	public void setEarnCode(String earnCode) {
+		this.earnCode = earnCode;
+	}
+
+	public BigDecimal getMinHours() {
+		return minHours;
+	}
+
+	public void setMinHours(BigDecimal minHours) {
+		this.minHours = minHours;
 	}
 
 }

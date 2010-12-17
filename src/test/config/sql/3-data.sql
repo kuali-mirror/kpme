@@ -90,7 +90,7 @@ INSERT INTO `TK_DEPT_EARN_CODE_T`
     (`TK_DEPT_EARN_CODE_ID` , `DEPT`       , `TK_SAL_GROUP` , `EARN_CODE` , `EMPLOYEE` , `APPROVER` , `ORG_ADMIN` , `EFFDT`      , `TIMESTAMP`           , `ACTIVE`) VALUES
     (1                    , 'TEST-DEPT'  , 'SD1'          , 'RGH'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
     (2                    , 'TEST-DEPT'  , 'SD1'          , 'RGN'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
-    (3                    , 'INVALID'  	 , 'INVALID'      , 'INV'       , 0          , 1          , 0           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')       		,        
+    (3                    , 'INVALID'  	 , 'INVALID'      , 'INV'       , 0          , 1          , 0           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')       		,
     (10                   , 'TEST-DEPT'  , 'A10'          , 'RGH'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
     (11                   , 'TEST-DEPT'  , 'A10'          , 'SCK'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
     (12                   , 'TEST-DEPT'  , 'A10'          , 'VAC'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
@@ -262,12 +262,12 @@ insert into hr_work_schedule_t values(3,'test-schedule','2010-01-01','*',
 insert into hr_work_schedule_t values(4,'test-schedule','2010-01-01','TEST-DEPT',
 											1234,'*','Y',uuid(),1,now());
 insert into hr_work_schedule_t values(5,'test-schedule','2010-01-01','*',
-											-1,'*','Y',uuid(),1,now());	
+											-1,'*','Y',uuid(),1,now());
 insert into hr_work_schedule_t values(11,'test-schedule','2010-01-01','INVALID',
 											1234,'*','Y',uuid(),1,now());
 insert into hr_work_schedule_t values(12,'test-schedule','2010-01-01','TEST-DEPT',
-											-1,'*','Y',uuid(),1,now());												
-																							
+											-1,'*','Y',uuid(),1,now());
+
 
 DELETE FROM `tk_time_collection_rl_s`;
 INSERT INTO `tk_time_collection_rl_s` VALUES('1000');
@@ -277,27 +277,27 @@ INSERT INTO `tk_time_collection_rl_t` (`TK_TIME_COLL_RULE_ID`,`DEPT`,`WORK_AREA`
   ('2' , '*'         , 1234 , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y')  ,
   ('3' , 'TEST-DEPT' , -1   , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y')  ,
   ('4' , '*'         , -1   , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y');
-  
+
 DELETE FROM `tk_clock_log_s`;
 INSERT INTO `tk_clock_log_s` VALUES('1000');
 DELETE FROM `tk_clock_log_t`;
 INSERT INTO `tk_clock_log_t` (`TK_CLOCK_LOG_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`WORK_AREA`,`TASK`,`TK_WORK_AREA_ID`,`TK_TASK_ID`,`CLOCK_TS`,`CLOCK_TS_TZ`,`CLOCK_ACTION`,`IP_ADDRESS`,`USER_PRINCIPAL_ID`,`TIMESTAMP`,`HR_JOB_ID`) VALUES
   ('1' , 'admin' , 30 , 9999 ,9999, 1 , 1 , '2010-01-01 08:08:08', "TEST" , "_","TEST" ,'admin' , '2010-01-01 08:08:08' , 1)  ;
-  
+
 DELETE FROM `tk_document_header_t`;
 INSERT INTO `tk_document_header_t` (`DOCUMENT_ID`,`PRINCIPAL_ID`,`DOCUMENT_STATUS`) VALUES
   ('1','admin',"I")  ;
-  
+
 DELETE FROM `tk_dept_lunch_rl_t`;
 INSERT INTO `tk_dept_lunch_rl_t` (`TK_DEPT_LUNCH_RL_ID`,`DEPT`,`WORK_AREA`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `REQUIRED_CLOCK_FL`, `MAX_MINS`, `USER_PRINCIPAL_ID`, `TIMESTAMP`, `ACTIVE`, `SHIFT_HOURS`, `DEDUCTION_MINS`) VALUES
   ('1','INVALID','1234','admin','20','2010-01-01','TST', '30', 'admin', '2010-01-01 08:08:08', 'Y', '2', '30') ,
   ('2','TEST-DEPT','1234','admin','20','2010-01-01','TST', '30', 'admin', '2010-01-01 08:08:08', 'Y', '2', '30') ,
   ('3','TEST-DEPT','9999','admin','20','2010-01-01','TST', '30', 'admin', '2010-01-01 08:08:08', 'Y', '2', '30') ;
-  
+
 DELETE FROM `tk_holiday_calendar_t`;
 INSERT INTO `tk_holiday_calendar_T` (`HOLIDAY_CALENDAR_ID`,`HOLIDAY_CALENDAR_GROUP`,`DESCR`) VALUES
   (1,'REG', "Regular");
-  
+
 DELETE FROM `la_accruals_t`;
 INSERT INTO `la_accruals_T` (`LA_ACCRUALS_ID`,`PRINCIPAL_ID`,`ACCRUAL_CATEGORY`) VALUES
   (1,'admin', "TEX");
@@ -311,11 +311,11 @@ INSERT INTO `tk_hour_detail_s` VALUES ('1000');
 insert into tk_principal_calendar_t values('admin','BWS-CAL','HOL','2010-01-01', now(),uuid(),1);
 insert into tk_principal_calendar_t values('eric','BW-CAL1','HOL','2010-01-01', now(),uuid(),1);
 
-insert into tk_daily_overtime_rl_t values(1,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',1234,0,2,3,'OVT','Y');
-insert into tk_daily_overtime_rl_t values(2,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',1234,-1,2,3,'OVT','Y');
-insert into tk_daily_overtime_rl_t values(3,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',-1,0,2,3,'OVT','Y');
-insert into tk_daily_overtime_rl_t values(4,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',-1,-1,2,3,'OVT','Y');
-insert into tk_daily_overtime_rl_t values(5,'BL','BW','2010-01-01','admin',now(),'INVALID',-1,-1,2,3,'OVT','Y');
+insert into tk_daily_overtime_rl_t values(1,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',1234,0,2,3,'OVT','Y','REG','OVT');
+insert into tk_daily_overtime_rl_t values(2,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',1234,-1,2,3,'OVT','Y','REG','OVT');
+insert into tk_daily_overtime_rl_t values(3,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',-1,0,2,3,'OVT','Y','REG','OVT');
+insert into tk_daily_overtime_rl_t values(4,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',-1,-1,2,3,'OVT','Y','REG','OVT');
+insert into tk_daily_overtime_rl_t values(5,'BL','BW','2010-01-01','admin',now(),'INVALID',-1,-1,2,3,'OVT','Y','REG','OVT');
 
 insert into tk_system_lunch_rl_t (`TK_SYSTEM_LUNCH_RL_ID`,`EFFDT`,`ACTIVE`,`USER_PRINCIPAL_ID`,`SHOW_LUNCH_BUTTON`) values
 (1, '2010-01-01', 'Y', 'admin', 'Y');

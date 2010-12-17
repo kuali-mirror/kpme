@@ -39,7 +39,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="workArea" />
 				<bean parent="MaintainableFieldDefinition" p:name="task" />
 				<bean parent="MaintainableFieldDefinition" p:name="maxGap" />
-				<bean parent="MaintainableFieldDefinition" p:name="shiftHours" />
+				<bean parent="MaintainableFieldDefinition" p:name="minHours" />
 				<bean parent="MaintainableFieldDefinition" p:name="overtimePref" />
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" />

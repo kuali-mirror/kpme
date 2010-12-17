@@ -103,18 +103,22 @@ public class TkTestUtils {
 	 * @return
 	 */
 	public static List<TimeBlock> createUniformTimeBlocks(DateTime start, int days, BigDecimal hours, String earnCode, Long jobNumber, Long workArea) {
+		return TkTestUtils.createUniformTimeBlocks(null, days, hours, earnCode, jobNumber, workArea, null);
+	}
+	
+	public static List<TimeBlock> createUniformTimeBlocks(DateTime start, int days, BigDecimal hours, String earnCode, Long jobNumber, Long workArea, Long task) {
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		
 		for (int i=0; i<days; i++) {
 			DateTime ci = start.plusDays(i);
 			DateTime co = ci.plusHours(hours.intValue());
 			TimeBlock block = TkTestUtils.createDummyTimeBlock(ci, co, hours, earnCode, jobNumber, workArea);
+			block.setTask(task);
 			blocks.add(block);
 		}
 		
 		return blocks;
 	}
-
 
 	public static TimeBlock createDummyTimeBlock(DateTime clockIn, DateTime clockOut, BigDecimal hours, String earnCode) {
 		return TkTestUtils.createDummyTimeBlock(clockIn, clockOut, hours, earnCode, -1L, -1L);

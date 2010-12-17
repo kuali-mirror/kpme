@@ -22,7 +22,7 @@
 				<ref bean="DailyOvertimeRule-workArea" />
 				<ref bean="DailyOvertimeRule-task" />
 				<ref bean="DailyOvertimeRule-maxGap" />
-				<ref bean="DailyOvertimeRule-shiftHours" />
+				<ref bean="DailyOvertimeRule-minHours" />
 				<ref bean="DailyOvertimeRule-overtimePref" />
 				<ref bean="DailyOvertimeRule-effectiveDate" />
 				<ref bean="DailyOvertimeRule-userPrincipalId" />
@@ -174,9 +174,9 @@
 		<property name="name" value="maxGap" />
 		<property name="label" value="Max. Gap" />
 	</bean>
-	<!-- shiftHours -->
-	<bean id="DailyOvertimeRule-shiftHours" parent="DailyOvertimeRule-shiftHours-parentBean" />
-	<bean id="DailyOvertimeRule-shiftHours-parentBean" abstract="true"
+	<!-- minHours -->
+	<bean id="DailyOvertimeRule-minHours" parent="DailyOvertimeRule-minHours-parentBean" />
+	<bean id="DailyOvertimeRule-minHours-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Shift Hours" />
 		<property name="maxLength" value="2" />
@@ -186,7 +186,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="2" />
 		</property>
-		<property name="name" value="shiftHours" />
+		<property name="name" value="minHours" />
 		<property name="label" value="Shift Hours" />
 	</bean>
 	<!-- overtimePref -->
@@ -286,7 +286,7 @@
 				<bean parent="FieldDefinition" p:attributeName="task" />
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="paytype" />
-				<bean parent="FieldDefinition" p:attributeName="shiftHours" />
+				<bean parent="FieldDefinition" p:attributeName="minHours" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timeStamp" />
 			</list>
