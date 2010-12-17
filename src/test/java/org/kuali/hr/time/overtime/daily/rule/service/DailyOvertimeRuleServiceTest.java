@@ -28,7 +28,8 @@ public class DailyOvertimeRuleServiceTest extends TkTestCase {
 	private void createDailyOvertimeRule(String fromEarnGroup, String earnCode, String location, String paytype, String dept, Long workArea, Long task, BigDecimal minHours, BigDecimal maxGap, String overtimePref) {
 		DailyOvertimeRuleService service = TkServiceLocator.getDailyOvertimeRuleService();	
 		DailyOvertimeRule rule = new DailyOvertimeRule();
-				
+
+		rule.setEffectiveDate(JAN_AS_OF_DATE);
 		rule.setFromEarnGroup(fromEarnGroup);
 		rule.setEarnCode(earnCode);
 		rule.setLocation(location);
@@ -39,15 +40,48 @@ public class DailyOvertimeRuleServiceTest extends TkTestCase {
 		rule.setMaxGap(maxGap);
 		rule.setMinHours(minHours);
 		rule.setOvertimePref(overtimePref);
+		rule.setActive(true);
 		
 		service.saveOrUpdate(rule);
 	}
+	
+	
+	@SuppressWarnings("serial")
+	@Test
+	public void testDailyOvertimeGapExceeded() throws Exception {
+		Long jobNumber = 30L;
+		Long workArea = 30L;
+		Long task = 30L;
+		createDailyOvertimeRule("REG", "OVT", "SD1", "BW", "TEST-DEPT", workArea, 
+				task, new BigDecimal(8), new BigDecimal("0.10"), null);
+		
+		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours first block, 5 the next.
+		// Should end up with 2 hours total OVT.
+		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 2, new BigDecimal("4"), "REG", jobNumber, workArea, task));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(4).plusMinutes(15), 2, new BigDecimal("5"), "REG", jobNumber, workArea, task));
+		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+		
+		// Verify pre-Rule Run
+		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(18));}},aggregate,2);
+		
+		// Run Rule
+		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(new Date(start.getMillis()));
+		tdoc.setTimeBlocks(blocks);
+		TkServiceLocator.getDailyOvertimeRuleService().processDailyOvertimeRules(tdoc, aggregate);
+		
+		// Verify post-Rule Run
+		TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(0));put("REG", new BigDecimal(18));}},aggregate,2);		
+	}
+	
 
 	@SuppressWarnings("serial")
 	@Test
 	public void testDailyOvertimeSimpleCase() throws Exception {
 		Long jobNumber = 30L;
-		Long workArea = 0L;
+		Long workArea = 30L;
 		Long task = 30L;
 		createDailyOvertimeRule("REG", "OVT", "SD1", "BW", "TEST-DEPT", workArea, 
 				task, new BigDecimal(8), new BigDecimal("0.25"), null);
@@ -71,7 +105,6 @@ public class DailyOvertimeRuleServiceTest extends TkTestCase {
 		
 		// Verify post-Rule Run
 		TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(2));put("REG", new BigDecimal(16));}},aggregate,2);
-
 	}
 	
 	@Test
@@ -130,4 +163,5 @@ public class DailyOvertimeRuleServiceTest extends TkTestCase {
 		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
 		assertNotNull("Null list of rules", rule);
 	}
+	
 }

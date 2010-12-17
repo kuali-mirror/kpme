@@ -183,7 +183,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 					}
 					for (TimeHourDetail thd : block.getTimeHourDetails())
 						if (fromEarnGroup.contains(thd.getEarnCode()))
-							hours.add(thd.getHours(), TkConstants.MATH_CONTEXT);						
+							hours = hours.add(thd.getHours(), TkConstants.MATH_CONTEXT);						
 				}
 				// when we run out of blocks, we may have more to apply.
 				apply(hours, applicationList, rule, fromEarnGroup);
@@ -206,7 +206,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 		if (blocks != null && blocks.size() > 0)
 			if (hours.compareTo(rule.getMinHours()) >= 0)
 				for (TimeBlock block : blocks)
-					hours = applyOvertimeToTimeBlock(block, rule.getEarnCode(), earnGroup, hours);
+					hours = applyOvertimeToTimeBlock(block, rule.getEarnCode(), earnGroup, hours.subtract(rule.getMinHours(), TkConstants.MATH_CONTEXT));
 	}
 	
 	
@@ -302,6 +302,6 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 		long difference = current.getBeginTimestamp().getTime() - previous.getEndTimestamp().getTime();
 		BigDecimal gapHours = TKUtils.convertMillisToHours(difference);
 		
-		return (gapHours.compareTo(maxGap) < 0);
+		return (gapHours.compareTo(maxGap) > 0);
 	}
 }
