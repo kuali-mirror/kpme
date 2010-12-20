@@ -234,8 +234,8 @@ function magicTime(input) {
             d.setFullYear(dateRangeField[2], dateRangeField[0]-1, dateRangeField[1]);
             d.setSeconds(0);
             d.setMilliseconds(0);
-            //el.innerHTML = d.getMonth() + " " + d.getDate() + " " + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
-            el.value = d.getTime();
+            el.value = d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes();
+            //el.value = d.getTime();
             el.className = 'normal';
         }
         catch (e) {

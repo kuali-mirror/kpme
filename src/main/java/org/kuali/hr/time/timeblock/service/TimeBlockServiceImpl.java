@@ -137,6 +137,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
 	
 	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode, BigDecimal hours){
+		String tz = TkServiceLocator.getTimezoneService().getUserTimeZone();
 		TimeBlock tb = new TimeBlock();
     	tb.setDocumentId(timesheetDocument.getDocumentHeader().getDocumentId());
     	tb.setJobNumber(assignment.getJobNumber());
@@ -155,9 +156,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     	tb.setEarnCode(earnCode);
     	tb.setBeginTimestamp(beginTime);
     	//TODO add timezeon things
-//    	tb.setBeginTimestampTimezone(clockLog.getClockTimestampTimezone());
+    	tb.setBeginTimestampTimezone(tz);
     	tb.setEndTimestamp(endTime);
-//    	tb.setEndTimestampTimezone(clockLog.getClockTimestampTimezone());
+    	tb.setEndTimestampTimezone(tz);
     	tb.setClockLogCreated(true);
     	tb.setHours(TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime()));
     	if(tb.getHours().compareTo(BigDecimal.ZERO) == 0){
@@ -185,43 +186,40 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		}
 		
 		List<Map<String,Object>> timeBlockList = new LinkedList<Map<String,Object>>();
-
+		String timezone = TkServiceLocator.getTimezoneService().getUserTimeZone();
+		timeBlocks = TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks, timezone);
+		
 		for(TimeBlock timeBlock : timeBlocks) {
 			Map<String,Object> timeBlockMap = new LinkedHashMap<String, Object>();
 		
 			String assignmentKey = TKUtils.formatAssignmentKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask());
 			String workAreaDesc = TkServiceLocator.getAssignmentService().getAssignment(tsd, assignmentKey).getWorkAreaObj().getDescription();
 			
-			Calendar beginTimeCal = Calendar.getInstance();
-			beginTimeCal.setTimeInMillis(timeBlock.getBeginTimestamp().getTime());
-			Calendar endTimeCal = Calendar.getInstance();
-			endTimeCal.setTimeInMillis(timeBlock.getEndTimestamp().getTime());
+			DateTime start = timeBlock.getBeginTimeDisplay();
+			DateTime end = timeBlock.getEndTimeDisplay();
 			
-			timeBlockMap.put("origStart", beginTimeCal.getTime().toString());
-			timeBlockMap.put("origEnd", endTimeCal.getTime().toString());
+			//timeBlockMap.put("origStart", beginTimeCal.getTime().toString());
+			//timeBlockMap.put("origEnd", endTimeCal.getTime().toString());
 			/**
-			 * This is the timeblock pushing forward/backward logic.
-			 * Since the calendar widget uses the standard 12a to 12a time period to determine the location of the timeblocks,
-			 * Putting this logic here in the java side is because the difficulty to hack the calendar grid building logic.
+			 * This is the timeblock backward pushing logic.
 			 * the purpose of this is to accommodate the virtual day mode where the start/end period time is not from 12a to 12a.
-			 * A timeblock will be pushed forward if the begin time is greater than the end period time;
-			 * it will be pushed back if the timeblock is still within than previous pay period 
+			 * A timeblock will be pushed back if the timeblock is still within the previous interval 
 			 */
-			// TODO: need to add / subtract 1 month if the timeblock is in the last / first day of the month
 			if(timeBlock.isPushBackward()) {
-				beginTimeCal.add(Calendar.DAY_OF_MONTH, -1);
-				endTimeCal.add(Calendar.DAY_OF_MONTH, -1);
+				start.minusDays(1);
+				end.minusDays(1);
 			}
 			
 			timeBlockMap.put("title", workAreaDesc + " : " + timeBlock.getEarnCode());
-			timeBlockMap.put("start", beginTimeCal.getTime().toString());
-			timeBlockMap.put("end", endTimeCal.getTime().toString());
+			timeBlockMap.put("start", start.toString());
+			timeBlockMap.put("end", end.toString());
 			timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
 			timeBlockMap.put("earnCode", timeBlock.getEarnCode());
 			//TODO: need to cache this or pre-load it when the app boots up
 			EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
 			timeBlockMap.put("earnCodeType", earnCode.getEarnCodeType());
 			timeBlockMap.put("hours", timeBlock.getHours());
+			timeBlockMap.put("timezone", timezone);
 			
 			List<Map<String,Object>> timeHourDetailList = new LinkedList<Map<String,Object>>();
 			for(TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {

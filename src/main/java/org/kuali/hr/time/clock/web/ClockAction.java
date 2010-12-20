@@ -18,7 +18,6 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKContext;
@@ -32,6 +31,7 @@ public class ClockAction extends TimesheetAction {
 
     	@Override
     	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    		
     		ActionForward forward = super.execute(mapping, form, request, response);
     	    ClockActionForm caf = (ClockActionForm) form;
     	    String principalId = TKContext.getUser().getPrincipalId();

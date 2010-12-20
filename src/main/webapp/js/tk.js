@@ -92,7 +92,9 @@ $(document).ready(function() {
 
 	// clock
 	var options = {
-		format : '%I:%M:%S %p'
+		format : '%I:%M:%S %p',
+		utc: true,
+        utc_offset: -(new Date().getTimezoneOffset()/60)
 	};
 	$(".jClock").jclock(options);
 

@@ -3,10 +3,12 @@
 
 <tk:tkHeader tabId="timeDetail">
 	<div style="clear:both;" class="">
-	<html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDate"/>
-	<html:hidden property="endPeriodDateTime" value="${Form.endPeriodDateTime}" styleId="endPeriodDate"/>
-	<html:hidden property="isVirtualWorkDay" value="${Form.isVirtualWorkDay}" styleId="isVirtualWorkDay"/>
-	
+        <html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDate"/>
+        <html:hidden property="endPeriodDateTime" value="${Form.endPeriodDateTime}" styleId="endPeriodDate"/>
+        <html:hidden property="isVirtualWorkDay" value="${Form.isVirtualWorkDay}" styleId="isVirtualWorkDay"/>
+        <html:hidden property="serverTimezone" value="${Form.serverTimezone}" styleId="serverTimezone"/>
+        <html:hidden property="userTimezone" value="${Form.userTimezone}" styleId="userTimezone"/>
+
 		<%--This is for visually impaired users --%>
 		<!--
 		<c:forEach var="timeBlock" items="${Form.timeBlockList}" varStatus="row">
@@ -22,9 +24,9 @@
 			<br/>
 		</c:forEach>
 		 -->
-		 
+
 		<div class="global-error"><!-- Error: This is a global error for the demo purpose  --></div>
-		<div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;"/>
+		<div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;">
 
 				<div id="dialog-form" title="Add time blocks:">
 					<p class="validateTips">All form fields are required.</p>
@@ -65,11 +67,11 @@
 									<td><span style="float:right;">In:</span></td>
 									<td>
 										<input name="beginTimeField" id="beginTimeField" type="text" size="10" onblur="magicTime(this)" onfocus="if (this.className != 'error') this.select()"/>
-										 <button tabindex="-1" style="width:20px; height:20px; vertical-align: text-top"
+										 <button style="width:20px; height:20px; vertical-align: text-top"
 										 title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530"
 										 id="beginTimeHelp" tabindex="999">help</button>
 										 <div id="beginTimeField-error" style="color:red; float:left;"></div>
-										 <input type="hidden" id="beginTimeField-messages"/>
+										 <input type="text" id="beginTimeField-messages"/>
 									</td>
 								</tr>
 								<tr id="clockOut">
@@ -79,7 +81,7 @@
 										<button style="width:20px; height:20px; vertical-align: text-top" id="endTimeHelp"
 										title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530" tabindex="999">help</button>
 										<div id="endTimeField-error" style="color:red; float:left;"></div>
-										<input type="hidden" id="endTimeField-messages"/>
+										<input type="text" id="endTimeField-messages"/>
 									</td>
 								</tr>
 								<tr id="hoursSection" style="display: none;">

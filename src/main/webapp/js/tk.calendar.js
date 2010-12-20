@@ -9,7 +9,7 @@ $(document).ready(function() {
     var endPeriodDate = $("#endPeriodDate").val() !== undefined ? $("#endPeriodDate").val() : d + "/" + m + "/" + y;
     var beginPeriodDateTimeObj = new Date($("#beginPeriodDate").val()); 
     var endPeriodDateTimeObj = new Date($("#endPeriodDate").val());
-
+    
     var calendar = $('#cal').fullCalendar({
             beginPeriodDate : beginPeriodDate,
             endPeriodDate : endPeriodDate,
@@ -77,7 +77,7 @@ $(document).ready(function() {
     var earnCode = $('#earnCode')
 
     var fieldsToValidate = $([]).add(startTime).add(endTime).add(earnCode);
-    //fieldsToValidate.val('').removeClass('ui-state-error');
+    fieldsToValidate.clearValue(assignmentValue);
 
     $("#dialog-form").dialog({
         autoOpen: false,

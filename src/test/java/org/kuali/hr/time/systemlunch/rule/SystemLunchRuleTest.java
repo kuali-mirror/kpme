@@ -45,7 +45,7 @@ public class SystemLunchRuleTest extends TkTestCase {
 		systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(date);
 		assertTrue("System lunch rule is pulled back", systemLunchRule!=null);
 		
-    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CLOCK_URL);
+    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CLOCK_URL, true);
     	assertNotNull(page);
     	
     	Map<String, Object> criteria = new LinkedHashMap<String, Object>();

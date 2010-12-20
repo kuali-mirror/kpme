@@ -15,11 +15,13 @@ import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 
@@ -221,4 +223,24 @@ public class TKUtils {
 				&& payCalendarStartTime.get(Calendar.AM_PM) != Calendar.AM);
 	}
 	
+	public static Timestamp convertDateStringToTimestamp(String date) {
+		// the date/time format is defined in tk.calendar.js. For now, it's like 11/17/2010 8:0
+		String[] input = date.split(" ");
+		String[] dateString = input[0].split("/");
+		String[] timeString = input[1].split(":");
+		
+		DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimeZone());
+		
+		// this is from the javadoc:
+		// DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
+		DateTime dateTime = new DateTime(
+				Integer.parseInt(dateString[2]), 
+				Integer.parseInt(dateString[0])+1, 
+				Integer.parseInt(dateString[1]), 
+				Integer.parseInt(timeString[0]), 
+				Integer.parseInt(timeString[1]), 
+				0, 0, dtz); 
+		
+		return new Timestamp(dateTime.getMillis());
+	}
 }

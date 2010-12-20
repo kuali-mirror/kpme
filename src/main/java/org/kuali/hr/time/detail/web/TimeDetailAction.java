@@ -22,6 +22,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 public class TimeDetailAction extends TimesheetAction {
@@ -52,7 +53,6 @@ public class TimeDetailAction extends TimesheetAction {
 	public ActionForward getEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
 		String earnCodeString = "";
-
 		if(StringUtils.isBlank(tdaf.getSelectedAssignment())) {
 			earnCodeString += "<option value=''>-- select an assignment --</option>";
 		}
@@ -121,32 +121,29 @@ public class TimeDetailAction extends TimesheetAction {
 		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), 
 									tdaf.getSelectedAssignment());
+		Timestamp startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartTime());
+		Timestamp endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndTime());
 		//create the list of timeblocks based on the range passed in
 		
 		List<TimeBlock> lstNewTimeBlocks = null;
 		if(StringUtils.equals(tdaf.getAcrossDays(), "y")){
 			lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment, 
-											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),new Timestamp(tdaf.getStartTime()), 
-												new Timestamp(tdaf.getEndTime()),tdaf.getHours());
+											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),startTime, 
+											endTime,tdaf.getHours());
 		} else {
 			lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 
-											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),new Timestamp(tdaf.getStartTime()), 
-											new Timestamp(tdaf.getEndTime()),tdaf.getHours());
+											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),startTime, 
+											endTime,tdaf.getHours());
 		}
 		
 		//concat delta of timeblocks (new and original)
 		lstNewTimeBlocks.addAll(tdaf.getTimesheetDocument().getTimeBlocks());
-		//TODO do any server side validation of adding checking for overlapping timeblocks etc
-		//return if any issues
-		//TODO add validation to not allow apply to everyday and a span that overlaps the 24 hr offset days
 		//TODO need to save timeblocks to the hist table 
 		
 		//reset time hour details
 		lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().resetTimeHourDetail(lstNewTimeBlocks);
 		//apply any rules for this action
 		lstNewTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, lstNewTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument());
-		
-		//call persist method that only saves added/deleted/changed timeblocks
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(tdaf.getTimesheetDocument().getTimeBlocks(), lstNewTimeBlocks);
 		//call history service
 		
@@ -169,8 +166,8 @@ public class TimeDetailAction extends TimesheetAction {
 	public ActionForward validateTimeBlocks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-		Long startTime = tdaf.getStartTime();
-		Long endTime = tdaf.getEndTime();
+		Long startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartTime()).getTime();
+		Long endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndTime()).getTime();
 		
 		// this is for the output of the error message
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss z");
@@ -198,7 +195,7 @@ public class TimeDetailAction extends TimesheetAction {
 		//------------------------
 		// check if time blocks overlap with each other
 		//------------------------
-		Interval addedTimeblockInterval = new Interval(tdaf.getStartTime(),tdaf.getEndTime());
+		Interval addedTimeblockInterval = new Interval(startTime,endTime);
 		
 		for(TimeBlock timeBlock : tdaf.getTimesheetDocument().getTimeBlocks()){
 			Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());

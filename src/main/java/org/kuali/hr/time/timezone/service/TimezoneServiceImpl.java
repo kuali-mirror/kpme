@@ -1,5 +1,6 @@
 package org.kuali.hr.time.timezone.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -45,17 +46,38 @@ public class TimezoneServiceImpl implements TimezoneService {
 	 * @return timeblock list modified with times offset for timezone
 	 */
 	public List<TimeBlock> translateForTimezone(List<TimeBlock> timeBlocks, String timezone){
-		//No need for translation if it matches the current timezone
-		if(StringUtils.equals(timezone, TkConstants.SYSTEM_TIME_ZONE)){
-			return timeBlocks;
-		}
 		for(TimeBlock tb : timeBlocks){
-			DateTime modifiedStartTime = new DateTime(tb.getBeginTimestamp(),DateTimeZone.forID(timezone));  
-			DateTime modifiedEndTime = new DateTime(tb.getEndTimestamp(), DateTimeZone.forID(timezone));
-			tb.setBeginTimeDisplay(modifiedStartTime.toString());
-			tb.setEndTimeDisplay(modifiedEndTime.toString());
+			/*
+			 *  the code below won't work since the timestamp is the same across time zone,
+			 *  so that's why we need to set the time with the time zone information to the fields for the display purpose 
+			 */
+			//tb.setBeginTimestamp(new Timestamp(modifiedStartTime.getMillis()));
+			//tb.setEndTimestamp(new Timestamp(modifiedEndTime.getMillis()));
+			
+			//No need for translation if it matches the current timezone
+			if(StringUtils.equals(timezone, TkConstants.SYSTEM_TIME_ZONE)){
+				tb.setBeginTimeDisplay(new DateTime(tb.getBeginTimestamp()));
+				tb.setEndTimeDisplay(new DateTime(tb.getEndTimestamp()));
+			}
+			else {
+				tb.setBeginTimeDisplay(new DateTime(tb.getBeginTimestamp(),DateTimeZone.forID(timezone)));
+				tb.setEndTimeDisplay(new DateTime(tb.getEndTimestamp(), DateTimeZone.forID(timezone)));
+			}
 		}
 		return timeBlocks;
 	}
+	
+	//public Timestamp translateForDateTime
+	
+	@Override
+	public boolean isSameTimezone() {
+		String userTimezone = TKContext.getUser().getUserPreference().getTimezone();
+		if(StringUtils.isNotBlank(userTimezone)) {
+			return StringUtils.equals(TkConstants.SYSTEM_TIME_ZONE, TKContext.getUser().getUserPreference().getTimezone());
+		}
+		return true;
+	}
+	
+	
 
 }

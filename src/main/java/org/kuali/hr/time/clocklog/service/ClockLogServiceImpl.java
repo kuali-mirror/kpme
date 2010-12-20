@@ -44,9 +44,8 @@ public class ClockLogServiceImpl implements ClockLogService {
 	    }
 	    clockLog.setTask(assignmentDesc.getTask());
 	    clockLog.setTkTaskId(tkTaskId);
-	    
-	    // TODO: This timezone is not correct, we will need to make a javascript call.
-	    clockLog.setClockTimestamp(clockTimestamp);//Calendar.getInstance(TkConstants.GMT_TIME_ZONE));
+	    clockLog.setClockTimestampTimezone(TkServiceLocator.getTimezoneService().getUserTimeZone());
+	    clockLog.setClockTimestamp(clockTimestamp);
 	    clockLog.setClockAction(clockAction);
 	    clockLog.setIpAddress(ip);
 	    clockLog.setHrJobId(assignment.getJob().getHrJobId());

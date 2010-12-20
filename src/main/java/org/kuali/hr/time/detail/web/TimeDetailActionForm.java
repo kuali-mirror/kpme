@@ -7,7 +7,9 @@ import java.util.List;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.timesummary.TimeSummary;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 
 public class TimeDetailActionForm extends TimesheetActionForm {
 
@@ -23,14 +25,16 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	private String outputString;
 	
 	private Long tkTimeBlockId;
-	private Long startTime;
-	private Long endTime;
+	private String startTime;
+	private String endTime;
 	private String acrossDays;
 	private TimeBlock timeBlock;
 	private String clockAction;
 	private BigDecimal hours;
 	private String startDate;
 	private String endDate;
+	private String serverTimezone;
+	private String userTimezone;
 	
 	private TimeSummary timeSummary;
 	
@@ -50,19 +54,19 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 		this.tkTimeBlockId = tkTimeBlockId;
 	}
 
-	public Long getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Long startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 
-	public Long getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(Long endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 
@@ -137,7 +141,7 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	public String getIsVirtualWorkDay() {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(getBeginPeriodDateTime());
-		return new Boolean(TKUtils.isVirtualWorkDay(cal)).toString();
+		return Boolean.toString(TKUtils.isVirtualWorkDay(cal));
 	}
 
 	public TimeSummary getTimeSummary() {
@@ -146,5 +150,13 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 
 	public void setTimeSummary(TimeSummary timeSummary) {
 		this.timeSummary = timeSummary;
+	}
+
+	public String getServerTimezone() {
+		return TkConstants.SYSTEM_TIME_ZONE;
+	}
+
+	public String getUserTimezone() {
+		return TKContext.getUser().getUserPreference().getTimezone();
 	}
 }

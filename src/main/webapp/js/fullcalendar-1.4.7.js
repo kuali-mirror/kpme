@@ -313,7 +313,11 @@ $.fn.fullCalendar = function(options) {
 				    
 					// update title text
 					//header.find('h2.fc-header-title').html(view.title + "(" + begin + " - " + end +")");
-					header.find('h2.fc-header-title').html(view.title);
+					var serverTimezone = "";
+					if($('#serverTimezone').val() != $('#userTimezone').val()) {
+					    serverTimezone = " (Server timezone: " + $('#serverTimezone').val() + ")"; 
+					}
+					header.find('h2.fc-header-title').html(view.title + serverTimezone);
 					// enable/disable 'today' button
 					var today = new Date();
 
@@ -1172,7 +1176,7 @@ function Grid(element, options, methods, viewName) {
 			}
 			thead = $(s + "</tr></thead>").appendTo(table);
             
-            //TODO: might need chagne the logic for the date range display. If the end pay period time is decided to set to like 11:59:59am, 
+            //TODO: might need chagne the logic for the date range display. If the end pay period time is set to 11:59:59am, 
             // the end period hour should dispaly 12p instead of 11p
 
 			s = "<tbody>";
@@ -1180,14 +1184,21 @@ function Grid(element, options, methods, viewName) {
 			for (i=0; i<rowCnt; i++) {
 				s += "<tr class='fc-week" + i + "'>";
 				for (j=0; j<colCnt; j++) {
+				    
+				    var beginPeriodTimestamp = new Date(options.beginPeriodDate).getTime();
+				    var endPeriodTimestamp = new Date(options.endPeriodDate).getTime();
+				    
+				    var isDayWithinPeriod = d.getTime() >= beginPeriodTimestamp && d.getTime() <= endPeriodTimestamp ? true : false;
+				    
 					s += "<td class='fc-" +
 						dayIDs[d.getDay()] + ' ' + // needs to be first
 						tm + '-state-default fc-day' + (i*colCnt+j) +
 						(j==dit ? ' fc-leftmost' : '') +
-						(rowCnt>1 && d.getMonth() != month ? ' fc-other-month' : '') +
 						(+d == +today ?
 						' fc-today '+tm+'-state-highlight' :
-						' fc-not-today') + "'>" +
+						' fc-not-today') + 
+                        // (rowCnt>1 && d.getMonth() != month ? ' fc-other-month' : '') +
+                        (rowCnt>1 && !isDayWithinPeriod ? ' fc-other-month' : '') + "'>" +
 						(showNumbers ? "<div class='fc-day-number'>" + d.getDate() + "</div>" : 
                         "<div class='fc-day-number'>" + formatDate(d,"MM/dd") + " " + beginDateString + 
                         " - " + formatDate(addDays(d,1),"MM/dd") + " " + endDateString +"</div>") +
@@ -1221,6 +1232,7 @@ function Grid(element, options, methods, viewName) {
 				for (i=prevRowCnt; i<rowCnt; i++) {
 					s += "<tr class='fc-week" + i + "'>";
 					for (j=0; j<colCnt; j++) {
+					    
 						s += "<td class='fc-" +
 							dayIDs[d.getDay()] + ' ' + // needs to be first
 							tm + '-state-default fc-new fc-day' + (i*colCnt+j) +
@@ -1228,7 +1240,9 @@ function Grid(element, options, methods, viewName) {
                             (showNumbers ? "<div class='fc-day-number'>" + d.getDate() + "</div>" : 
                             "<div class='fc-day-number'>" + formatDate(d,"MM/dd") + " " + beginDateString + 
                             " - " + formatDate(addDays(d,1),"MM/dd") + " " + endDateString +"</div>") +
-                            "<div class='fc-day-content'><div style='position:relative'>&nbsp;</div></div></td>";
+                            "<div class='fc-day-content'"+
+                            (rowCnt>1 && !isDayWithinPeriod ? ' fc-other-month' : '') + "'>" +
+                            "><div style='position:relative'>&nbsp;</div></div></td>";
                         if(showNumbers) {
         					addDays(d, 1);
                         }
@@ -1246,13 +1260,21 @@ function Grid(element, options, methods, viewName) {
 			d = cloneDate(view.visStart);
 			tbody.find('td').each(function() {
 				var td = $(this);
+				
+                var beginPeriodTimestamp = new Date(options.beginPeriodDate).getTime();
+                var endPeriodTimestamp = new Date(options.endPeriodDate).getTime();
+                    
+                var isDayWithinPeriod = d.getTime() >= beginPeriodTimestamp && d.getTime() <= endPeriodTimestamp ? true : false;
+				
 				if (rowCnt > 1) {
-					if (d.getMonth() == month) {
+					// if (d.getMonth() == month) {
+					if (isDayWithinPeriod) {
 						td.removeClass('fc-other-month');
 					}else{
 						td.addClass('fc-other-month');
 					}
 				}
+				
 				if (+d == +today) {
 					td.removeClass('fc-not-today')
 						.addClass('fc-today')
@@ -1590,6 +1612,7 @@ function Grid(element, options, methods, viewName) {
 	------------------------------------------------------*/
 
 	function renderDayOverlay(overlayStart, overlayEnd) { // overlayEnd is exclusive
+	    
 		var rowStart = cloneDate(view.visStart);
 		var rowEnd = addDays(cloneDate(rowStart), colCnt);
 		
@@ -1694,6 +1717,7 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
         fromTo = "<tr><td align='center' colspan='3'>" + event.hours + " hours</td></tr>";
 		}
 		else {
+		    
 			fromTo = "<tr><td align='center' colspan='3'>" + formatDate(event.start,view.option('timeFormat')) 
 			+" - " + formatDate(event.end,view.option('timeFormat')) + "</td></tr>";
 		}
@@ -2940,6 +2964,7 @@ function Agenda(element, options, methods, viewName) {
 	-----------------------------------------------------*/
 
 	function renderDayOverlay(startDate, endDate) {
+	    
 		var startCol, endCol;
 		if (rtl) {
 			startCol = dayDiff(endDate, view.visStart)*dis+dit+1;
@@ -3253,6 +3278,7 @@ var viewMethods = {
 	// semi-transparent overlay (while dragging or selecting)
 
 	renderOverlay: function(rect, parent) {
+	    
 		var e = this.unusedOverlays.shift();
 		if (!e) {
 			e = $("<div class='fc-cell-overlay' style='position:absolute;z-index:3'/>");

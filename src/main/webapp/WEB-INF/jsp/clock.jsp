@@ -38,7 +38,9 @@
 			</tr>
 			<tr>
 				<td class="sub-header"><bean:message key="clock.workStatus"/> : </td>
-				<td>${lastClockActionMessage}<fmt:formatDate type="both" value="${Form.lastClockTimestamp}" pattern="EEE, MMMM d yyyy HH:mm:ss, zzzz"/></td>
+				<td>${lastClockActionMessage}
+				<fmt:timeZone value="${Form.user.userPreference.timezone}"><fmt:formatDate type="both" value="${Form.lastClockTimestamp}" pattern="EEE, MMMM d yyyy HH:mm:ss, zzzz"/></fmt:timeZone>
+				</td>
 			</tr>
 			<%--
 			<tr>

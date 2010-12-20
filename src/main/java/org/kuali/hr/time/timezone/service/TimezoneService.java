@@ -7,4 +7,5 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 public interface TimezoneService {
 	public String getUserTimeZone();
 	public List<TimeBlock> translateForTimezone(List<TimeBlock> timeBlocks, String timezone);
+	public boolean isSameTimezone();
 }

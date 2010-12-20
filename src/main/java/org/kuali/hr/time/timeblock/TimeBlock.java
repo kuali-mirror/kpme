@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.joda.time.DateTime;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -38,8 +39,8 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	private Timestamp timestamp;
 	private String beginTimestampTimezone;
 	private String endTimestampTimezone;
-	private String beginTimeDisplay;
-	private String endTimeDisplay;
+	private DateTime beginTimeDisplay;
+	private DateTime endTimeDisplay;
 	// the two variables below are used to determine if a time block needs to be visually pushed forward / backward  
 	@Transient
 	private Boolean pushBackward = false;
@@ -261,19 +262,19 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 		this.pushBackward = pushBackward;
 	}
 
-	public String getBeginTimeDisplay() {
+	public DateTime getBeginTimeDisplay() {
 		return beginTimeDisplay;
 	}
 
-	public void setBeginTimeDisplay(String beginTimeDisplay) {
+	public void setBeginTimeDisplay(DateTime beginTimeDisplay) {
 		this.beginTimeDisplay = beginTimeDisplay;
 	}
 
-	public String getEndTimeDisplay() {
+	public DateTime getEndTimeDisplay() {
 		return endTimeDisplay;
 	}
 
-	public void setEndTimeDisplay(String endTimeDisplay) {
+	public void setEndTimeDisplay(DateTime endTimeDisplay) {
 		this.endTimeDisplay = endTimeDisplay;
 	}
 

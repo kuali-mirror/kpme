@@ -23,15 +23,30 @@ public class HtmlUnitUtil {
 
     private static final Logger LOG = Logger.getLogger(HtmlUnitUtil.class);
 
+    /**
+     * 
+     * @param url
+     * @return htmlpage without js enabled
+     * @throws Exception
+     */
     public static HtmlPage gotoPageAndLogin(String url) throws Exception {
-	LOG.debug("URL: " + url);
-	final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7);
-	// this is required and needs to set to true, otherwise the values set by the onClick event won't be triggered, e.g. methodToCall
-	webClient.setJavaScriptEnabled(false);
+    	return gotoPageAndLogin(url, false);
+    }
+    
+    /**
+     * 
+     * @param url
+     * @param enableJavascript
+     * @return htmlpage with js enabled
+     * @throws Exception
+     */
+    public static HtmlPage gotoPageAndLogin(String url, boolean enableJavascript) throws Exception {
+    	LOG.debug("URL: " + url);
+    	final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7);
+    	// this is required and needs to set to true, otherwise the values set by the onClick event won't be triggered, e.g. methodToCall
+    	webClient.setJavaScriptEnabled(enableJavascript);
 
-	HtmlPage loginPage = (HtmlPage) webClient.getPage(new URL(url));
-
-	return loginPage;
+    	return (HtmlPage) webClient.getPage(new URL(url));
     }
 
     public static boolean pageContainsText(HtmlPage page, String text) {
