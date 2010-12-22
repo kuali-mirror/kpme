@@ -2,9 +2,17 @@ package org.kuali.hr.time.roles;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
-public class TkRole {
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
+public class TkRole extends PersistableBusinessObjectBase {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long tkRolesId;
 	private String principalId;
 	private String roleName;
@@ -14,6 +22,8 @@ public class TkRole {
 	private Date effectiveDate;
 	private Timestamp timestamp;
 	private boolean active;
+	
+	private Person person;
 	
 	public Long getTkRolesId() {
 		return tkRolesId;
@@ -68,5 +78,17 @@ public class TkRole {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	public Person getPerson() {
+		return person;
+	}
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	protected LinkedHashMap toStringMapper() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

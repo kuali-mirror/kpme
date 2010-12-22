@@ -28,6 +28,7 @@ public class Job extends PersistableBusinessObjectBase {
 	private Date effectiveDate;
 	private String dept;
 	private String tkSalGroup;
+	private Boolean primaryIndicator;
 	private Timestamp timestamp;
 	private Boolean active;
 	private BigDecimal compRate = new BigDecimal(0);
@@ -189,6 +190,16 @@ public class Job extends PersistableBusinessObjectBase {
 
 	public void setPrincipal(Person principal) {
 		this.principal = principal;
+	}
+
+
+	public void setPrimaryIndicator(Boolean primaryIndicator) {
+		this.primaryIndicator = primaryIndicator;
+	}
+
+
+	public Boolean getPrimaryIndicator() {
+		return primaryIndicator;
 	}
 
 

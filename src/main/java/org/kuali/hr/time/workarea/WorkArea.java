@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.task.Task;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -25,10 +26,12 @@ public class WorkArea extends PersistableBusinessObjectBase {
     private String userPrincipalId;
     private Timestamp timestamp;
 
-    private transient List<TkRole> roles = new ArrayList<TkRole>();
+    private List<TkRole> roles = new ArrayList<TkRole>();
     private List<Task> tasks = new ArrayList<Task>();
     private List<WorkAreaOvertimePref> overTimePrefs = new ArrayList<WorkAreaOvertimePref>();
 
+    private Department department;
+    
 
     @SuppressWarnings("unchecked")
     @Override
@@ -162,5 +165,15 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
 	public void setOverTimePrefs(List<WorkAreaOvertimePref> overTimePrefs) {
 		this.overTimePrefs = overTimePrefs;
+	}
+
+
+	public Department getDepartment() {
+		return department;
+	}
+
+
+	public void setDepartment(Department department) {
+		this.department = department;
 	}
 }

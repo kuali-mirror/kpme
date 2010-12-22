@@ -2,31 +2,61 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="WorkAreaMaintenanceDocument" parent="WorkAreaMaintenanceDocument-parentBean"/>
-  <bean id="WorkAreaMaintenanceDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <bean id="WorkAreaMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  		p:businessObjectClass="org.kuali.hr.time.workarea.WorkArea"
+  		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
     <property name="documentTypeName" value="WorkAreaMaintenanceDocument"/>
-    <property name="documentClass" value="org.kuali.hr.time.workarea.WorkAreaMaintenanceDocument"/>
-	<property name="businessRulesClass" value="org.kuali.hr.time.workarea.web.WorkAreaMaintenanceDocumentRule"/>    
-    <property name="documentAuthorizerClass" value="org.kuali.hr.time.workarea.web.WorkAreaMaintenanceDocumentAuthorizer"/>
-    <property name="attributes">
+    <property name="maintainableSections">
       <list>
-        <ref bean="WorkAreaMaintenanceDocument-tkWorkAreaId"/>
-        <ref bean="WorkAreaMaintenanceDocument-dept"/>
-        <ref bean="WorkAreaMaintenanceDocument-active"/>
-        <ref bean="WorkAreaMaintenanceDocument-defaultOvertimePreference"/>
-        <ref bean="WorkAreaMaintenanceDocument-description"/>
-        <ref bean="WorkAreaMaintenanceDocument-adminDescr"/>
-        <ref bean="WorkAreaMaintenanceDocument-effectiveDate"/>
+        <ref bean="WorkAreaMaintenanceDocument-WorkAreaMaintenance"/>
+        <ref bean="WorkAreaMaintenanceDocument-TaskMaintenance" />
       </list>
     </property> 
   </bean>
  
-
-  <bean id="WorkAreaMaintenanceDocument-tkWorkAreaId" parent="WorkArea-tkWorkAreaId" abstract="false" p:name="workArea.tkWorkAreaId" p:required="true"/>
-  <bean id="WorkAreaMaintenanceDocument-dept" parent="WorkArea-dept" abstract="false" p:name="workArea.dept" p:required="true"/>
-  <bean id="WorkAreaMaintenanceDocument-active" parent="WorkArea-active" abstract="false" p:name="workArea.active" p:required="true"/>
-  <bean id="WorkAreaMaintenanceDocument-description" parent="WorkArea-description" abstract="false" p:name="workArea.description" p:required="true"/>
-  <bean id="WorkAreaMaintenanceDocument-defaultOvertimePreference" parent="WorkArea-defaultOvertimePreference" abstract="false" p:name="workArea.defaultOvertimePreference" p:required="true"/>
-  <bean id="WorkAreaMaintenanceDocument-adminDescr" parent="WorkArea-adminDescr" abstract="false" p:name="workArea.adminDescr" p:required="true"/>
-  <bean id="WorkAreaMaintenanceDocument-effectiveDate" parent="WorkArea-effectiveDate" abstract="false" p:name="workArea.effectiveDate" p:required="true"/>
+  <bean id="WorkAreaMaintenanceDocument-WorkAreaMaintenance" parent="WorkAreaMaintenanceDocument-WorkAreaMaintenance-parentBean"/>
   
+  <bean id="WorkAreaMaintenanceDocument-WorkAreaMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Work Area Maintenance"/>
+    <property name="maintainableItems">
+      <list>
+      	<bean parent="MaintainableFieldDefinition" p:name="workArea"  p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="description"  p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="dept"  p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="defaultOvertimePreference"  p:required="false"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="adminDescr"  p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="active"  p:required="true"/>
+      </list>
+     </property>
+    </bean> 
+    
+  <bean id="WorkAreaMaintenanceDocument-TaskMaintenance" parent="WorkAreaMaintenanceDocument-TaskMaintenance-parentBean"/>
+  
+  <bean id="WorkAreaMaintenanceDocument-TaskMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Tasks"/>
+    <property name="id" value="tasks" />
+    <property name="defaultOpen" value="true" />
+    <property name="maintainableItems">
+      <list>
+      	<bean parent="MaintainableCollectionDefinition">
+			<property name="name" value="tasks" />
+			<property name="businessObjectClass"
+				value="org.kuali.hr.time.task.Task" />
+			<property name="alwaysAllowCollectionDeletion" value="true" />
+			<property name="maintainableFields">
+				<list>
+					<bean parent="MaintainableFieldDefinition" p:name="tkTaskId" p:required="true" />
+					<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
+					<bean parent="MaintainableFieldDefinition" p:name="administrativeDescription" p:required="true" />
+					<bean parent="MaintainableFieldDefinition" p:name="tkWorkAreaId" p:required="true" />
+				</list>
+			</property>
+      	</bean>
+      </list>
+     </property>
+    </bean> 
+        
+    
+     
 </beans>

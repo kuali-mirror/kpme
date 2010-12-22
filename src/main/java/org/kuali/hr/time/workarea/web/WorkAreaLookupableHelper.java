@@ -19,57 +19,57 @@ public class WorkAreaLookupableHelper extends KualiLookupableHelperServiceImpl {
      * 
      */
     private static final long serialVersionUID = 1L;
-    private UrlPathHelper urlPathHelper = new UrlPathHelper();
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-	List<HtmlData> urls = new LinkedList<HtmlData>();
-
-	String url =  urlPathHelper.getOriginatingContextPath(TKContext.getHttpServletRequest());
-	
-	AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url + "/WorkAreaMaintenance.do?methodToCall=docHandler&command=initiate&workAreaId=" + ((WorkArea)businessObject).getTkWorkAreaId(), KNSConstants.DOC_HANDLER_METHOD, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
-	urls.add(anchorHtmlData);
-
-	return urls;
-    }
-
-	@Override
-	public boolean allowsMaintenanceNewOrCopyAction() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	protected String getActionUrlHref(BusinessObject businessObject,
-			String methodToCall, List pkNames) {
-		// TODO Auto-generated method stub
-		return super.getActionUrlHref(businessObject, methodToCall, pkNames);
-	}
-
-	@Override
-	protected AnchorHtmlData getUrlData(BusinessObject businessObject,
-			String methodToCall, List pkNames) {
-		// TODO Auto-generated method stub
-		return super.getUrlData(businessObject, methodToCall, pkNames);
-	}
-
-	@Override
-	protected AnchorHtmlData getUrlData(BusinessObject businessObject,
-			String methodToCall, String displayText, List pkNames) {
-		// TODO Auto-generated method stub
-		return super.getUrlData(businessObject, methodToCall, displayText, pkNames);
-	}
-
-	@Override
-	protected String getActionUrlTitleText(BusinessObject businessObject,
-			String displayText, List pkNames,
-			BusinessObjectRestrictions businessObjectRestrictions) {
-		// TODO Auto-generated method stub
-		return super.getActionUrlTitleText(businessObject, displayText, pkNames,
-				businessObjectRestrictions);
-	}
-    
-    
+//    private UrlPathHelper urlPathHelper = new UrlPathHelper();
+//    
+//    @SuppressWarnings("unchecked")
+//    @Override
+//    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+//	List<HtmlData> urls = new LinkedList<HtmlData>();
+//
+//	String url =  urlPathHelper.getOriginatingContextPath(TKContext.getHttpServletRequest());
+//	
+//	AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url + "/WorkAreaMaintenance.do?methodToCall=docHandler&command=initiate&workAreaId=" + ((WorkArea)businessObject).getTkWorkAreaId(), KNSConstants.DOC_HANDLER_METHOD, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
+//	urls.add(anchorHtmlData);
+//
+//	return urls;
+//    }
+//
+//	@Override
+//	public boolean allowsMaintenanceNewOrCopyAction() {
+//		// TODO Auto-generated method stub
+//		return true;
+//	}
+//
+//	@Override
+//	protected String getActionUrlHref(BusinessObject businessObject,
+//			String methodToCall, List pkNames) {
+//		// TODO Auto-generated method stub
+//		return super.getActionUrlHref(businessObject, methodToCall, pkNames);
+//	}
+//
+//	@Override
+//	protected AnchorHtmlData getUrlData(BusinessObject businessObject,
+//			String methodToCall, List pkNames) {
+//		// TODO Auto-generated method stub
+//		return super.getUrlData(businessObject, methodToCall, pkNames);
+//	}
+//
+//	@Override
+//	protected AnchorHtmlData getUrlData(BusinessObject businessObject,
+//			String methodToCall, String displayText, List pkNames) {
+//		// TODO Auto-generated method stub
+//		return super.getUrlData(businessObject, methodToCall, displayText, pkNames);
+//	}
+//
+//	@Override
+//	protected String getActionUrlTitleText(BusinessObject businessObject,
+//			String displayText, List pkNames,
+//			BusinessObjectRestrictions businessObjectRestrictions) {
+//		// TODO Auto-generated method stub
+//		return super.getActionUrlTitleText(businessObject, displayText, pkNames,
+//				businessObjectRestrictions);
+//	}
+//    
+//    
 
 }

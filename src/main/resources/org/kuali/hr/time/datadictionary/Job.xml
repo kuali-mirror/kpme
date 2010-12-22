@@ -29,6 +29,7 @@
 				<ref bean="Job-payGrade" />
 				<ref bean="Job-standardHours" />
 				<ref bean="Job-compRate" />
+				<ref bean="Job-primaryIndicator" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -235,6 +236,17 @@
 		<property name="label" value="Department Name" />
 		<property name="description" value="dept" />
 	</bean>
+	
+  	<bean id="Job-primaryIndicator" parent="Job-primaryIndicator-parentBean"/>
+  	<bean id="Job-primaryIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="shortLabel" value="Primary Indicator"/>
+    	<property name="control">
+      		<bean parent="CheckboxControlDefinition"/>
+    	</property>
+    	<property name="name" value="primaryIndicator"/>
+    	<property name="label" value="Primary Indicator"/>
+    	<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  	</bean>	
 
     <!--
 	<bean id="Job-payCalendarId" parent="Job-payCalendarId-parentBean" />
