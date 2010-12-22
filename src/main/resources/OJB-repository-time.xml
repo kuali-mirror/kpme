@@ -207,7 +207,7 @@
 		<!-- put field descriptors -->
 		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" />
 		<field-descriptor name="effectiveDate"      column="effdt" jdbc-type="DATE" nullable="false" primarykey="false"/>
-<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="description"        column="descr" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="dept"               column="dept" jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
 		<field-descriptor name="defaultOvertimePreference" column="default_overtime_preference" jdbc-type="VARCHAR"  length="3" nullable="false" primarykey="false" />
@@ -239,6 +239,17 @@
 			proxy="false">
 			<inverse-foreignkey field-ref="tkWorkAreaId"/>
 		</collection-descriptor>		
+        
+        <collection-descriptor
+            name="roles"
+            element-class-ref="org.kuali.hr.time.roles.TkRole"
+            collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+            auto-retrieve="true"
+            auto-update="object"
+            auto-delete="object"
+            proxy="false">
+            <inverse-foreignkey field-ref="tkRolesId"/>
+        </collection-descriptor>
 
 	</class-descriptor>
 	

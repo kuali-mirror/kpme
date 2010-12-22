@@ -44,6 +44,7 @@
     <property name="collections">
       <list>
         <bean parent="CollectionDefinition" p:name="tasks" p:label="Tasks" p:shortLabel="Tasks" p:summary="Tasks" p:description="Tasks"/>
+        <bean parent="CollectionDefinition" p:name="roles" p:label="Roles" p:shortLabel="Roles" p:summary="Roles" p:description="Roles"/>
       </list>
     </property>    
   </bean>

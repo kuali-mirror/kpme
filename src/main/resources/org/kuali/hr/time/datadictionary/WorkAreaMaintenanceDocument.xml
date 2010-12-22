@@ -10,6 +10,7 @@
       <list>
         <ref bean="WorkAreaMaintenanceDocument-WorkAreaMaintenance"/>
         <ref bean="WorkAreaMaintenanceDocument-TaskMaintenance" />
+        <ref bean="WorkAreaMaintenanceDocument-RoleMaintenance" />
       </list>
     </property> 
   </bean>
@@ -50,6 +51,32 @@
 					<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
 					<bean parent="MaintainableFieldDefinition" p:name="administrativeDescription" p:required="true" />
 					<bean parent="MaintainableFieldDefinition" p:name="tkWorkAreaId" p:required="true" />
+				</list>
+			</property>
+      	</bean>
+      </list>
+     </property>
+    </bean> 
+        
+  <bean id="WorkAreaMaintenanceDocument-RoleMaintenance" parent="WorkAreaMaintenanceDocument-RoleMaintenance-parentBean"/>
+  
+  <bean id="WorkAreaMaintenanceDocument-RoleMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Roles"/>
+    <property name="id" value="roles" />
+    <property name="defaultOpen" value="true" />
+    <property name="maintainableItems">
+      <list>
+      	<bean parent="MaintainableCollectionDefinition">
+			<property name="name" value="roles" />
+			<property name="businessObjectClass"
+				value="org.kuali.hr.time.roles.TkRole" />
+			<property name="alwaysAllowCollectionDeletion" value="true" />
+			<property name="maintainableFields">
+				<list>
+					<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
+					<bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.TkRoleFinder"/>
+					<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+					<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
 				</list>
 			</property>
       	</bean>
