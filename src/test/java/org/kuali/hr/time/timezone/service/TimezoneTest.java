@@ -19,13 +19,15 @@ public class TimezoneTest extends TkTestCase {
     	assertNotNull(page);
     	
     	Map<String, Object> criteria = new LinkedHashMap<String, Object>();
-    	criteria.put("selectedAssignment", new String[]{TkTestConstants.FormElementTypes.DROPDOWN, "2_1234_2"});
-    	
+    	criteria.put("selectedAssignment", new String[]{TkTestConstants.FormElementTypes.DROPDOWN, "30_30_30"});
     	// choose the first assignment from the drop down
     	page = TkTestUtils.fillOutForm(page, criteria);
     	assertNotNull(page);
-    	
     	// clock in
     	page = TkTestUtils.clickButton(page, "clockAction");
+    	// clock out 
+    	page = TkTestUtils.clickButton(page, "clockAction");
+
+    	assertTrue("Time zone information is incorrect", page.asText().contains("Central Standard Time"));
 	}
 }

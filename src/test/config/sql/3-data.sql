@@ -48,7 +48,8 @@ INSERT INTO `tk_work_area_t` (`TK_WORK_AREA_ID`, `WORK_AREA`, `EFFDT`,`ACTIVE`,`
     (102, '3456', '2010-01-05', 'Y', 'work area description3', 'TEST-DEPT3', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20'),
     (103, '4567', '2010-01-05', 'Y', 'work area description4', 'TEST-DEPT4', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20'),
     (104, '1000', '2010-01-05', 'Y', 'loras work area', 'LORA-DEPT', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20'),
-    (105, '1100', '2010-01-01', 'Y', 'shift-workarea', 'SHFT-DEPT', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20');
+    (105, '1100', '2010-01-01', 'Y', 'shift-workarea', 'SHFT-DEPT', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20'),
+    (106, '5555', '2010-01-05', 'Y', 'work area description5', 'TEST-DEPT5', 'OT1', 'work area admin description2', 'admin', '2010-07-27 10:25:13', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '20');
 
 #
 # Task
@@ -282,7 +283,7 @@ DELETE FROM `tk_clock_log_s`;
 INSERT INTO `tk_clock_log_s` VALUES('1000');
 DELETE FROM `tk_clock_log_t`;
 INSERT INTO `tk_clock_log_t` (`TK_CLOCK_LOG_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`WORK_AREA`,`TASK`,`TK_WORK_AREA_ID`,`TK_TASK_ID`,`CLOCK_TS`,`CLOCK_TS_TZ`,`CLOCK_ACTION`,`IP_ADDRESS`,`USER_PRINCIPAL_ID`,`TIMESTAMP`,`HR_JOB_ID`) VALUES
-  ('1' , 'admin' , 30 , 9999 ,9999, 1 , 1 , '2010-01-01 08:08:08', "TEST" , "_","TEST" ,'admin' , '2010-01-01 08:08:08' , 1)  ;
+  ('1' , 'admin' , 30 , 30 ,30, 1 , 1 , '2010-01-01 08:08:08', "TEST" , "_","TEST" ,'admin' , '2010-01-01 08:08:08' , 1)  ;
 
 DELETE FROM `tk_document_header_t`;
 INSERT INTO `tk_document_header_t` (`DOCUMENT_ID`,`PRINCIPAL_ID`,`DOCUMENT_STATUS`) VALUES
