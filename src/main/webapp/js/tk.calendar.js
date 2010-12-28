@@ -33,6 +33,16 @@ $(document).ready(function() {
                 if(start.getTime() != end.getTime()) {
                     $('#acrossDaysField').attr('checked','checked');
                 }
+                
+                console.log("start : " + start);
+                console.log("beginPeriodDateTimeObj : " + beginPeriodDateTimeObj);                
+                
+                // if the virtual day mode is true, set the start hour the same as the pay period time
+                if($('#isVirtualWorkDay').val() == 'true') {
+                    start.setHours(beginPeriodDateTimeObj.getHours());
+                    end.setHours(endPeriodDateTimeObj.getHours());
+                }
+                
                 // disable showing the time entry form if the date is not within the pay period
                 if(start.getTime() >= beginPeriodDateTimeObj.getTime() && end.getTime() <= endPeriodDateTimeObj.getTime()) {
                     
@@ -74,10 +84,10 @@ $(document).ready(function() {
     var endTime = $('#endTimeField');
     var assignment = $('#assignment');
     var assignmentValue = $('#assignment-value').html(); 
-    var earnCode = $('#earnCode')
+    var earnCode = $('#earnCode');
 
     var fieldsToValidate = $([]).add(startTime).add(endTime).add(earnCode);
-    fieldsToValidate.clearValue(assignmentValue);
+    fieldsToValidate.clearValue();
 
     $("#dialog-form").dialog({
         autoOpen: false,
@@ -203,11 +213,11 @@ $(document).ready(function() {
                         }
                     });
                     
-                    fieldsToValidate.clearValue(assignmentValue);
+                    fieldsToValidate.clearValue($('#assignment'));
                 }
             },
             Cancel: function() {
-                fieldsToValidate.clearValue(assignmentValue);
+                fieldsToValidate.clearValue();
                 $(this).dialog('close');
             }
         }
@@ -283,13 +293,23 @@ $(document).ready(function() {
 
 });
 
-$.fn.clearValue= function(assignmentValue) {
-    // clear values only when there are multiple assignments 
-    if(assignmentValue == '') {
-        $(this).add(assignment).val('').removeClass('ui-state-error');    
+$.fn.clearValue= function(elementToAdd) {
+    var assignmentValue = $('#assignment-value').html();
+    // clear assignment value when there is only one assignment 
+    if(assignmentValue != undefined && assignmentValue != '') {
+        assignmentValue.html('').removeClass('ui-state-error');    
     }
-    else {
-        $(this).val('').removeClass('ui-state-error');
+    
+    // clear the error message
+    $('.validateTips').html("").removeClass('ui-state-error');
+
+
+
+    // reset the assignment when there are multiple ones 
+    if(elementToAdd != undefined && elementToAdd.is("select")) {      
+      // $(this).val('').removeClass('ui-state-error');
+      // it doesn't seem necessary to change the value to the default empty string for now.
+      $(this).add(elementToAdd).removeClass('ui-state-error');
     }
     
 }

@@ -1188,6 +1188,11 @@ function Grid(element, options, methods, viewName) {
 				    var beginPeriodTimestamp = new Date(options.beginPeriodDate).getTime();
 				    var endPeriodTimestamp = new Date(options.endPeriodDate).getTime();
 				    
+				    // if the virtual day mode is true, set the start hour the same as the pay period time
+            if($('#isVirtualWorkDay').val() == 'true') {
+                d.setHours(new Date(options.beginPeriodDate).getHours());
+            }
+                
 				    var isDayWithinPeriod = d.getTime() >= beginPeriodTimestamp && d.getTime() <= endPeriodTimestamp ? true : false;
 				    
 					s += "<td class='fc-" +
