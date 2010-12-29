@@ -27,7 +27,7 @@ public class DailyOvertimeRule extends TkRule {
 	private String paytype;
 	private String dept;
 	private Long workArea;
-	private Long task;
+
 	private BigDecimal maxGap;
 	private BigDecimal minHours;
 	private String overtimePref;
@@ -155,16 +155,8 @@ public class DailyOvertimeRule extends TkRule {
 		this.workArea = workArea;
 	}
 
-	public void setTask(Long task) {
-		this.task = task;
-	}
-
 	public Long getWorkArea() {
 		return workArea;
-	}
-
-	public Long getTask() {
-		return task;
 	}
 
 	public PayType getPayTypeObj() {

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.overtime.daily.rule.dao.DailyOvertimeRuleDao;
@@ -36,48 +37,81 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	
 	@Override
 	/**
-	 * We have a binary permutation 2^n of our n independent variables, (in this case n=3; dept, work area, task). 
+	 * Search for the valid Daily Overtime Rule, wild cards are allowed on
+	 * location 
+	 * paytype
+	 * department
+	 * workArea
+	 * 
+	 * asOfDate is required.
 	 */
-	public DailyOvertimeRule getDailyOvertimeRule(String dept, Long workArea, Long task, Date asOfDate) {
+	public DailyOvertimeRule getDailyOvertimeRule(String location, String paytype, String dept, Long workArea, Date asOfDate) {
 		DailyOvertimeRule dailyOvertimeRule = null;
 		
-		// department, workarea, task
+		//		l, p, d, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(dept, workArea, task, asOfDate);
-		
-		// department, workarea, -1
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, paytype, dept, workArea, asOfDate);
+
+		//		l, p, d, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(dept, workArea, -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, paytype, dept, -1L, asOfDate);
 		
-		// department, -1, task
+		//		l, p, *, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(dept, -1L, task, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, paytype, "*", workArea, asOfDate);
 		
-		// department, -1, -1
+		//		l, p, *, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(dept, -1L, -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, paytype, "*", -1L, asOfDate);
 		
-		// *, workarea, task
+		//		l, *, d, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", workArea, task, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "*", dept, workArea, asOfDate);
 		
-		// *, workarea, -1
+		//		l, *, d, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", workArea, -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "*", dept, -1L, asOfDate);
 		
-		// This is not a valid case.
-		// *, -1, task
-		//if (dailyOvertimeRule == null)
-		//	dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRules("*", -1L, task, asOfDate);
-		
-		// *, -1, -1
+		//		l, *, *, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", -1L, -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "*", "*", workArea, asOfDate);
 		
-		// Do anything else we have to do to the list, which is probably nothing.
-		// ...
-		//
+		//		l, *, *, -1
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "*", "*", -1L, asOfDate);
 		
+		//		*, p, d, w
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", paytype, dept, workArea, asOfDate);
+		
+		//		*, p, d, -1
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", paytype, dept, -1L, asOfDate);
+		
+		//		*, p, *, w
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", paytype, "*", workArea, asOfDate);
+		
+		//		*, p, *, -1
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", paytype, "*", -1L, asOfDate);
+		
+		//		*, *, d, w
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", "*", dept, workArea, asOfDate);
+		
+		//		*, *, d, -1
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", "*", dept, -1L, asOfDate);
+		
+		//		*, *, *, w
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", "*", "*", workArea, asOfDate);
+		
+		//		*, *, *, -1
+		if (dailyOvertimeRule == null)
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", "*", "*", -1L, asOfDate);		
+							
 		return dailyOvertimeRule;
 	}
 
@@ -95,21 +129,25 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	 */
 	private String getIdentifyingKey(Assignment assignment) {
 		StringBuffer keybuf = new StringBuffer();
+		Job job = assignment.getJob();
 		
-		keybuf.append(assignment.getJobNumber()).append('_');
-		keybuf.append(assignment.getWorkArea()).append('_');
-		keybuf.append(assignment.getTask());
+		keybuf.append(job.getLocation()).append('_');
+		keybuf.append(job.getHrPayType()).append('_');
+		keybuf.append(job.getDept()).append('_');
+		keybuf.append(assignment.getWorkArea());
 		
 		return keybuf.toString();
 	}
 
 	/** Duplicated method:: 'Expression Problem' problem. :) */
-	private String getIdentifyingKey(TimeBlock block) {
+	private String getIdentifyingKey(TimeBlock block, Date asOfDate, String principalId) {
 		StringBuffer keybuf = new StringBuffer();
+		Job job = TkServiceLocator.getJobSerivce().getJob(principalId, block.getJobNumber(), asOfDate);
 		
-		keybuf.append(block.getJobNumber()).append('_');
-		keybuf.append(block.getWorkArea()).append('_');
-		keybuf.append(block.getTask());
+		keybuf.append(job.getLocation()).append('_');
+		keybuf.append(job.getHrPayType()).append('_');
+		keybuf.append(job.getDept()).append('_');
+		keybuf.append(block.getWorkArea());
 		
 		return keybuf.toString();
 	}
@@ -122,7 +160,8 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 		//iterate over all assignments and place the list of rules if any in map
 		// TODO : Verify the required rules here - What are we using to retrieve the rules
 		for(Assignment assignment : timesheetDocument.getAssignments()) {
-			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getTask(), timesheetDocument.getAsOfDate());
+			Job job = assignment.getJob();
+			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getLocation(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), timesheetDocument.getAsOfDate());
 	
 			if(dailyOvertimeRule !=null) {
 				String idKey = this.getIdentifyingKey(assignment);
@@ -149,7 +188,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 			// 1: ... bucketing by (idKey -> List<TimeBlock>)
 			Map<String,List<TimeBlock>> idKeyToDayTotals = new HashMap<String,List<TimeBlock>>();
 			for(TimeBlock timeBlock : dayTimeBlocks) {
-				String idKey = this.getIdentifyingKey(timeBlock);
+				String idKey = this.getIdentifyingKey(timeBlock, timesheetDocument.getAsOfDate(), timesheetDocument.getPrincipalId());
 				List<TimeBlock> blocks = idKeyToDayTotals.get(idKey);
 				if (blocks == null) {
 					blocks = new LinkedList<TimeBlock>();

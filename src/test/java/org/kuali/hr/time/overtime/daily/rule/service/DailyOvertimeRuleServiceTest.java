@@ -1,8 +1,12 @@
 package org.kuali.hr.time.overtime.daily.rule.service;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
@@ -13,12 +17,6 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class DailyOvertimeRuleServiceTest extends TkTestCase {
 	
@@ -37,7 +35,6 @@ public class DailyOvertimeRuleServiceTest extends TkTestCase {
 		rule.setPaytype(paytype);
 		rule.setDept(dept);
 		rule.setWorkArea(workArea);
-		rule.setTask(task);
 		rule.setMaxGap(maxGap);
 		rule.setMinHours(minHours);
 		rule.setOvertimePref(overtimePref);
@@ -114,56 +111,8 @@ public class DailyOvertimeRuleServiceTest extends TkTestCase {
 		Long task = 30L;
 		createDailyOvertimeRule("REG", "OVT", "SD1", "BW", "TEST-DEPT", workArea, 
 				task, new BigDecimal(8), new BigDecimal("0.25"), null);
-		DailyOvertimeRule rule = TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRule("TEST-DEPT", workArea, task, JAN_AS_OF_DATE);
+		DailyOvertimeRule rule = TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRule("SD1", "BW", "TEST-DEPT", workArea, JAN_AS_OF_DATE);
 		assertNotNull("Rule not created.", rule);		
-	}
-	
-	
-	@Test
-    @Ignore
-	public void testGetailyOvertimeRules() throws Exception {
-		DailyOvertimeRuleService doors = TkServiceLocator.getDailyOvertimeRuleService();
-		String dept = null;
-		Long ruleId = null;
-		Long workArea = null;
-		Long task = null;
-		Date asOfDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		DailyOvertimeRule rule = null;
-
-		// 1: dept, workarea task
-		dept = "TEST-DEPT";
-		ruleId = 1L;
-		workArea = 1234L;
-		task = 0L;		
-		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rule);
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
-
-		// 2: dept, workarea, -1 
-		dept = "TEST-DEPT";
-		ruleId = 2L;
-		workArea = 1234L;
-		task = -999L;		
-		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rule);
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
-
-		// 3: dept, -1, task
-		dept = "TEST-DEPT";
-		ruleId = 3L;
-		workArea = -999L;
-		task = 0L;		
-		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rule);
-		assertEquals("ID of rule is incorrect.", ruleId.longValue(), rule.getTkDailyOvertimeRuleId().longValue());
-
-		// 4: dept, -1, -1
-		dept = "TEST-DEPT";
-		ruleId = 4L;
-		workArea = -999L;
-		task = -999L;		
-		rule = doors.getDailyOvertimeRule(dept, workArea, task, asOfDate);
-		assertNotNull("Null list of rules", rule);
 	}
 	
 }

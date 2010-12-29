@@ -13,7 +13,7 @@ public interface DailyOvertimeRuleService {
 	
 	public void saveOrUpdate(List<DailyOvertimeRule> dailyOvertimeRules);
 	
-	public DailyOvertimeRule getDailyOvertimeRule(String dept, Long workArea, Long task, Date asOfDate);
+	public DailyOvertimeRule getDailyOvertimeRule(String location, String paytype, String dept, Long workArea, Date asOfDate);
 	
 	public void processDailyOvertimeRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate);
 }

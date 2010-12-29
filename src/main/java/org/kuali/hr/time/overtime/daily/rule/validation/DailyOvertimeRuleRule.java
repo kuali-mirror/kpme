@@ -54,24 +54,6 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
-	protected boolean validateTask(DailyOvertimeRule dailyOvertimeRule ) {
-		boolean valid = false;
-		LOG.debug("Validating task: " + dailyOvertimeRule.getTask());
-		Criteria crit = new Criteria();
-		crit.addEqualTo("task", dailyOvertimeRule.getTask());		
-		Query query = QueryFactory.newQuery(Task.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
-		
-		if (count >0 ) {
-			valid = true;
-			LOG.debug("found task");
-		} else {
-			this.putFieldError("task", "error.existence", "Task '"
-					+ dailyOvertimeRule.getTask()+ "'");
-		}
-		return valid;
-	}
-	
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
@@ -89,8 +71,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 			if (dailyOvertimeRule != null) {
 				valid = true;
 				valid &= this.validateDepartment(dailyOvertimeRule);
-				valid &= this.validateWorkArea(dailyOvertimeRule);
-				valid &= this.validateTask(dailyOvertimeRule);					
+				valid &= this.validateWorkArea(dailyOvertimeRule);			
 			}
 		}
 		

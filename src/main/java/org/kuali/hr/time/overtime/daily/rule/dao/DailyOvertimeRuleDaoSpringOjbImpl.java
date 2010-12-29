@@ -13,24 +13,28 @@ import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 public class DailyOvertimeRuleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements DailyOvertimeRuleDao {
 
 	@Override
-	public DailyOvertimeRule findDailyOvertimeRule(String dept, Long workArea, Long task, Date asOfDate) {
+	public DailyOvertimeRule findDailyOvertimeRule(String location, String paytype, String dept, Long workArea, Date asOfDate) {
 		DailyOvertimeRule dailyOvertimeRule;
 
 		Criteria root = new Criteria();
 		Criteria effdt = new Criteria();
 		Criteria timestamp = new Criteria();
 
+		effdt.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+		effdt.addEqualToField("paytype", Criteria.PARENT_QUERY_PREFIX + "paytype");
 		effdt.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
 		effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-		effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+		
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 		effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DailyOvertimeRule.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
+		timestamp.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+		timestamp.addEqualToField("paytype", Criteria.PARENT_QUERY_PREFIX + "paytype");
 		timestamp.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
 		timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-		timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+		
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 		timestamp.addEqualTo("active", true);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DailyOvertimeRule.class, timestamp);
@@ -38,7 +42,8 @@ public class DailyOvertimeRuleDaoSpringOjbImpl extends PersistenceBrokerDaoSuppo
 
 		root.addEqualTo("dept", dept);
 		root.addEqualTo("workArea", workArea);
-		root.addEqualTo("task", task);
+		root.addEqualTo("location", location);
+		root.addEqualTo("paytype", paytype);
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
 		root.addEqualTo("active", true);

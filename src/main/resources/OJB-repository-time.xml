@@ -611,7 +611,6 @@
 		<field-descriptor name="paytype" column="PAYTYPE" jdbc-type="VARCHAR" length="4" />
 		<field-descriptor name="dept" column="DEPT" jdbc-type="VARCHAR" length="21"  />
 		<field-descriptor name="workArea" column="WORK_AREA" jdbc-type="BIGINT"  primarykey="false" />
-		<field-descriptor name="task" column="TASK" jdbc-type="BIGINT" primarykey="false" />
 		<field-descriptor name="maxGap" column="MAX_GAP" jdbc-type="DECIMAL"  primarykey="false" />		
 		<field-descriptor name="minHours" column="MIN_HOURS" jdbc-type="DECIMAL"  primarykey="false" />
 		<field-descriptor name="earnCode" column="EARN_CODE" jdbc-type="VARCHAR" length="3"  />
