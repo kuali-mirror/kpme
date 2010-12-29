@@ -155,10 +155,15 @@
 			<label>WeeklyOvertimeRuleMaintenanceDocument</label>
 		</documentType>
 	<documentType>
-			<name>RoleMaintenanceDocumentType</name>
-			<parent>RiceDocument</parent>
-			<label>RoleMaintenanceDocument</label>
-		</documentType>				
+    <name>RoleMaintenanceDocumentType</name>
+		<parent>RiceDocument</parent>
+		<label>RoleMaintenanceDocument</label>
+	</documentType>	
+    <documentType>
+        <name>DepartmentRoleMaintenanceDocumentType</name>
+        <parent>RiceDocument</parent>
+        <label>DepartmentRoleMaintenanceDocument</label>
+    </documentType> 			
 	<documentType>
       <name>ACCT</name>
       <parent>RiceDocument</parent>

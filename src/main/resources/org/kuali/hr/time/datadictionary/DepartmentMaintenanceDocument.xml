@@ -13,10 +13,11 @@
   <bean id="DepartmentMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.time.department.Department"
   		p:businessRulesClass="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"
-  		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+  		p:maintainableClass="org.kuali.hr.time.department.DepartmentMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="DepartmentMaintenanceDocument-DepartmentMaintenance"/>
+        <ref bean="DepartmentMaintenanceDocument-RoleMaintenance" />
       </list>
     </property>
     <property name="documentTypeName" value="DepartmentMaintenanceDocumentType"/>
@@ -37,5 +38,31 @@
       </list>
     </property>
   </bean>
+
+  <bean id="DepartmentMaintenanceDocument-RoleMaintenance" parent="DepartmentMaintenanceDocument-RoleMaintenance-parentBean"/>
+  
+  <bean id="DepartmentMaintenanceDocument-RoleMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Roles"/>
+    <property name="id" value="roles" />
+    <property name="defaultOpen" value="true" />
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+            <property name="name" value="roles" />
+            <property name="businessObjectClass"
+                value="org.kuali.hr.time.roles.TkRole" />
+            <property name="alwaysAllowCollectionDeletion" value="true" />
+            <property name="maintainableFields">
+                <list>
+                    <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
+                    <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.TkOrgAdminRoleFinder"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
+                </list>
+            </property>
+        </bean>
+      </list>
+     </property>
+    </bean> 
 
 </beans>

@@ -2,6 +2,10 @@ package org.kuali.hr.time.assignment.validation;
 
 
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.task.Task;
@@ -16,8 +20,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateWorkArea(Assignment assignment ) {
 		boolean valid = false;
 		LOG.debug("Validating workarea: " + assignment.getWorkArea());
-		WorkArea workArea = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(WorkArea.class, assignment.getWorkArea());
+		WorkArea workArea = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(WorkArea.class, assignment.getWorkAreaObj().getTkWorkAreaId());
 		if (workArea != null) {
 			valid = true;
 			LOG.debug("found workarea.");
@@ -28,12 +31,15 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	} 
 	
+	@SuppressWarnings("rawtypes")
 	protected boolean validateTask(Assignment assignment ) {
 		boolean valid = false;
 		LOG.debug("Validating task: " + assignment.getTask());
-		Task task = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Task.class, assignment.getTask());
-		if (task != null) {
+		Map<String,Object> criteria = new HashMap<String,Object>();
+		criteria.put("task", assignment.getTask());
+		Collection c = KNSServiceLocator.getBusinessObjectService().findMatching(Task.class, criteria);
+				//.findBySinglePrimaryKey(Task.class, assignment.getTask());
+		if (c.size() > 0) {
 			valid = true;
 			LOG.debug("found task.");
 		} else {
@@ -45,9 +51,9 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	
 	protected boolean validateJob(Assignment assignment ) {
 		boolean valid = false;
-		LOG.debug("Validating job: " + assignment.getJobNumber());
+		LOG.debug("Validating job: " + assignment.getJob().getHrJobId());
 		Job job = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Job.class, assignment.getJobNumber());
+				.findBySinglePrimaryKey(Job.class, assignment.getJob().getHrJobId());
 		if (job != null) {
 			valid = true;
 			

@@ -165,6 +165,16 @@
 		<field-descriptor name="effectiveDate"  column="effdt"       jdbc-type="DATE" primarykey="false" />
 		<field-descriptor name="timestamp"      column="timestamp"   jdbc-type="TIMESTAMP" nullable="false" primarykey="false"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	   
+	    <collection-descriptor
+            name="roles"
+            element-class-ref="org.kuali.hr.time.roles.TkRole"
+            auto-retrieve="true"
+            auto-update="object"
+            auto-delete="object"
+            proxy="false">
+            <inverse-foreignkey field-ref="tkRolesId"/>
+        </collection-descriptor>
 	
     </class-descriptor>    
 
@@ -653,7 +663,6 @@
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />			
 	</class-descriptor>
-	
 	
 	<class-descriptor class="org.kuali.hr.time.timeblock.TimeHourDetail" table="tk_hour_detail_t">
 	    <field-descriptor name="tkTimeHourDetailId" 	column="tk_hour_detail_id"   jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_hour_detail_s" />

@@ -170,7 +170,6 @@ select {
 
 #tabs .sub-title {
 	float:right;
-	text-decoration:
 }
 
 /*
@@ -197,7 +196,7 @@ select {
 	border: 1px solid #ccc;
 	float:left;
 	width:100%;
-	.*margin: 20px 10px 0 1%;*/
+	/*margin: 20px 10px 0 1%;*/
 	font-size: .8em;
 	background-color: #FBF9EE;
 }

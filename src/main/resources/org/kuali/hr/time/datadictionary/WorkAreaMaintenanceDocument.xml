@@ -74,7 +74,7 @@
 			<property name="maintainableFields">
 				<list>
 					<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
-					<bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.TkRoleFinder"/>
+					<bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.TkApproverRoleFinder"/>
 					<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
 					<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
 				</list>

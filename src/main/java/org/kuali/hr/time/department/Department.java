@@ -3,7 +3,10 @@ package org.kuali.hr.time.department;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.kuali.hr.time.roles.TkRole;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -26,7 +29,7 @@ public class Department extends PersistableBusinessObjectBase {
     
     private Chart chartObj;
     private Organization orgObj;
-    
+    private List<TkRole> roles = new LinkedList<TkRole>();
 
     @SuppressWarnings("unchecked")
     @Override
@@ -113,6 +116,14 @@ public class Department extends PersistableBusinessObjectBase {
 
 	public void setOrgObj(Organization orgObj) {
 		this.orgObj = orgObj;
+	}
+
+	public List<TkRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<TkRole> roles) {
+		this.roles = roles;
 	}
 
 }
