@@ -67,6 +67,7 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 		TABLES_TO_CLEAR.add("HR_PAYTYPE_T");
 		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_ENTRY_T");
 		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_T");
+		TABLES_TO_CLEAR.add("TK_DOCUMENT_HEADER_T");
 	}
 	
 	private static final Map<String,String> TABLE_TO_ID_MAP = new HashMap<String,String>();
@@ -78,6 +79,7 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 		TABLE_TO_ID_MAP.put("TK_GRACE_PERIOD_RL_T", "TK_GRACE_PERIOD_RULE_ID");
 		TABLE_TO_ID_MAP.put("TK_CLOCK_LOCATION_RL_T", "TK_CLOCK_LOC_RULE_ID");
 		TABLE_TO_ID_MAP.put("TK_PY_CALENDAR_ENTRIES_T", "TK_PY_CALENDAR_ENTRY_ID");
+		TABLE_TO_ID_MAP.put("TK_DOCUMENT_HEADER_T", "DOCUMENT_ID");
 	}
 	
 	

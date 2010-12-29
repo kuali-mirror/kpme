@@ -248,17 +248,19 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 	 * Helper method that creates a weekly overtime rule.
 	 */
 	private WeeklyOvertimeRule setupWeeklyOvertimeRule(String fromEarnGroup, String toEarnCode, String maxHoursEarnGroup, int step, BigDecimal maxHours, Date effectiveDate){
-		WeeklyOvertimeRule weeklyOverTimeRule = new WeeklyOvertimeRule();
-		weeklyOverTimeRule.setActive(true);
-		weeklyOverTimeRule.setConvertFromEarnGroup(fromEarnGroup);
-		weeklyOverTimeRule.setConvertToEarnCode(toEarnCode);
-		weeklyOverTimeRule.setMaxHoursEarnGroup(maxHoursEarnGroup);
-		weeklyOverTimeRule.setStep(new BigDecimal(step));
-		weeklyOverTimeRule.setMaxHours(maxHours);
-		weeklyOverTimeRule.setEffectiveDate(effectiveDate);
+		WeeklyOvertimeRule weeklyOvertimeRule = new WeeklyOvertimeRule();
+		weeklyOvertimeRule.setActive(true);
+		weeklyOvertimeRule.setConvertFromEarnGroup(fromEarnGroup);
+		weeklyOvertimeRule.setConvertToEarnCode(toEarnCode);
+		weeklyOvertimeRule.setMaxHoursEarnGroup(maxHoursEarnGroup);
+		weeklyOvertimeRule.setStep(new BigDecimal(step));
+		weeklyOvertimeRule.setMaxHours(maxHours);
+		weeklyOvertimeRule.setEffectiveDate(effectiveDate);
 		
-		TkServiceLocator.getWeeklyOvertimeRuleService().saveOrUpdate(weeklyOverTimeRule);
-		return weeklyOverTimeRule;
+		weeklyOvertimeRule.setTkWeeklyOvertimeRuleGroupId(1L);
+		
+		TkServiceLocator.getWeeklyOvertimeRuleService().saveOrUpdate(weeklyOvertimeRule);
+		return weeklyOvertimeRule;
 	}
 		
 }

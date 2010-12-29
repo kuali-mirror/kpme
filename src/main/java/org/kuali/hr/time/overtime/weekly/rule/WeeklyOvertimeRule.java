@@ -26,7 +26,7 @@ public class WeeklyOvertimeRule extends TkRule {
 	private Timestamp timeStamp;
 	private boolean active;
 	
-	private Long tkWeeklyOvertimeRuleGroupId;
+	private Long tkWeeklyOvertimeRuleGroupId = 1L;
 	
 	private EarnGroup maxHoursEarnGroupObj;
 	private EarnGroup convertFromEarnGroupObj;
