@@ -1,0 +1,1 @@
+ALTER TABLE `hr_job_t` ADD COLUMN `primary_indicator` VARCHAR(1) DEFAULT 'N';
