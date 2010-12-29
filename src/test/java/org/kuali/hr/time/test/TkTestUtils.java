@@ -103,7 +103,7 @@ public class TkTestUtils {
 	 * @return
 	 */
 	public static List<TimeBlock> createUniformTimeBlocks(DateTime start, int days, BigDecimal hours, String earnCode, Long jobNumber, Long workArea) {
-		return TkTestUtils.createUniformTimeBlocks(null, days, hours, earnCode, jobNumber, workArea, null);
+		return TkTestUtils.createUniformTimeBlocks(start, days, hours, earnCode, jobNumber, workArea, null);
 	}
 	
 	public static List<TimeBlock> createUniformTimeBlocks(DateTime start, int days, BigDecimal hours, String earnCode, Long jobNumber, Long workArea, Long task) {
