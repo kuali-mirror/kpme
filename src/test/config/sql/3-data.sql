@@ -290,10 +290,10 @@ INSERT INTO `tk_document_header_t` (`DOCUMENT_ID`,`PRINCIPAL_ID`,`DOCUMENT_STATU
   ('1','admin',"I")  ;
 
 DELETE FROM `tk_dept_lunch_rl_t`;
-INSERT INTO `tk_dept_lunch_rl_t` (`TK_DEPT_LUNCH_RL_ID`,`DEPT`,`WORK_AREA`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `REQUIRED_CLOCK_FL`, `MAX_MINS`, `USER_PRINCIPAL_ID`, `TIMESTAMP`, `ACTIVE`, `SHIFT_HOURS`, `DEDUCTION_MINS`) VALUES
-  ('1','INVALID','1234','admin','20','2010-01-01','TST', '30', 'admin', '2010-01-01 08:08:08', 'Y', '2', '30') ,
-  ('2','TEST-DEPT','1234','admin','20','2010-01-01','TST', '30', 'admin', '2010-01-01 08:08:08', 'Y', '2', '30') ,
-  ('3','TEST-DEPT','9999','admin','20','2010-01-01','TST', '30', 'admin', '2010-01-01 08:08:08', 'Y', '2', '30') ;
+INSERT INTO `tk_dept_lunch_rl_t` (`TK_DEPT_LUNCH_RL_ID`,`DEPT`,`WORK_AREA`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `REQUIRED_CLOCK_FL`, `MAX_MINS`, `USER_PRINCIPAL_ID`, `TIMESTAMP`, `ACTIVE`, `SHIFT_HOURS`, `DEDUCTION_MINS`, `OBJ_ID`) VALUES
+  ('1','INVALID','1234','admin','20','2010-01-01','TST', '30', 'admin', '2010-01-01 08:08:08', 'Y', '2', '30','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97') ,
+  ('2','TEST-DEPT','1234','admin','20','2010-01-01','TST', '30', 'admin', '2010-01-01 08:08:08', 'Y', '2', '30','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97') ,
+  ('3','TEST-DEPT','9999','admin','20','2010-01-01','TST', '30', 'admin', '2010-01-01 08:08:08', 'Y', '2', '30','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97') ;
 
 DELETE FROM `tk_holiday_calendar_t`;
 INSERT INTO `tk_holiday_calendar_T` (`HOLIDAY_CALENDAR_ID`,`HOLIDAY_CALENDAR_GROUP`,`DESCR`) VALUES
@@ -311,12 +311,6 @@ INSERT INTO `tk_hour_detail_s` VALUES ('1000');
 
 insert into tk_principal_calendar_t values('admin','BWS-CAL','HOL','2010-01-01', now(),uuid(),1);
 insert into tk_principal_calendar_t values('eric','BW-CAL1','HOL','2010-01-01', now(),uuid(),1);
-
-#insert into tk_daily_overtime_rl_t values(1,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',1234,0,2,3,'OVT','Y','REG','OVT');
-#insert into tk_daily_overtime_rl_t values(2,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',1234,-1,2,3,'OVT','Y','REG','OVT');
-#insert into tk_daily_overtime_rl_t values(3,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',-1,0,2,3,'OVT','Y','REG','OVT');
-#insert into tk_daily_overtime_rl_t values(4,'BL','BW','2010-01-01','admin',now(),'TEST-DEPT',-1,-1,2,3,'OVT','Y','REG','OVT');
-#insert into tk_daily_overtime_rl_t values(5,'BL','BW','2010-01-01','admin',now(),'INVALID',-1,-1,2,3,'OVT','Y','REG','OVT');
 
 insert into tk_system_lunch_rl_t (`TK_SYSTEM_LUNCH_RL_ID`,`EFFDT`,`ACTIVE`,`USER_PRINCIPAL_ID`,`SHOW_LUNCH_BUTTON`) values
 (1, '2010-01-01', 'Y', 'admin', 'Y');
