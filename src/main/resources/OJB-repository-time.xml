@@ -173,7 +173,7 @@
             auto-update="object"
             auto-delete="object"
             proxy="false">
-            <inverse-foreignkey field-ref="tkRolesId"/>
+            <inverse-foreignkey field-ref="tkDeptId"/>
         </collection-descriptor>
 	
     </class-descriptor>    
@@ -258,7 +258,7 @@
             auto-update="object"
             auto-delete="object"
             proxy="false">
-            <inverse-foreignkey field-ref="tkRolesId"/>
+            <inverse-foreignkey field-ref="tkWorkAreaId"/>
         </collection-descriptor>
 
 	</class-descriptor>
@@ -661,7 +661,9 @@
 		<field-descriptor name="department"      column="dept" jdbc-type="VARCHAR" length="21"/>
 		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" />
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
-		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />			
+		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="tkDeptId"        column="tk_dept_id"    jdbc-type="BIGINT" nullable="true" primarykey="false"/>			
+		<field-descriptor name="tkWorkAreaId"    column="tk_work_area_id"    jdbc-type="BIGINT" nullable="true" primarykey="false"/>			
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.hr.time.timeblock.TimeHourDetail" table="tk_hour_detail_t">

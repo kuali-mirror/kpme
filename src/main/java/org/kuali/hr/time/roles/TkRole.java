@@ -22,6 +22,8 @@ public class TkRole extends PersistableBusinessObjectBase {
 	private Date effectiveDate;
 	private Timestamp timestamp;
 	private boolean active;
+	private Long tkDeptId;
+	private Long tkWorkAreaId;
 	
 	private Person person;
 	
@@ -90,5 +92,18 @@ public class TkRole extends PersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public Long getTkDeptId() {
+		return tkDeptId;
+	}
+	public void setTkDeptId(Long tkDeptId) {
+		this.tkDeptId = tkDeptId;
+	}
+	public Long getTkWorkAreaId() {
+		return tkWorkAreaId;
+	}
+	public void setTkWorkAreaId(Long tkWorkAreaId) {
+		this.tkWorkAreaId = tkWorkAreaId;
 	}
 }
