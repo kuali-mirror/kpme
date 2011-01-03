@@ -18,8 +18,9 @@ $(document).ready(function() {
             allDaySlot : false,
             multidaySelect : true,
             header: {
-                  left : "prev, today",
-                  center : 'title',
+                  // left : "today",
+                  left : "",
+                  center : 'prev, title, next',
                   right : ''
             },
             selectable: true,
@@ -33,9 +34,6 @@ $(document).ready(function() {
                 if(start.getTime() != end.getTime()) {
                     $('#acrossDaysField').attr('checked','checked');
                 }
-                
-                console.log("start : " + start);
-                console.log("beginPeriodDateTimeObj : " + beginPeriodDateTimeObj);                
                 
                 // if the virtual day mode is true, set the start hour the same as the pay period time
                 if($('#isVirtualWorkDay').val() == 'true') {
