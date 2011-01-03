@@ -1536,6 +1536,8 @@ ALTER TABLE `tk_daily_overtime_rl_t` ADD COLUMN `FROM_EARN_GROUP` VARCHAR(10) NU
 ALTER TABLE `tk_daily_overtime_rl_t` CHANGE COLUMN `MIN_HOURS` `MIN_HOURS` DECIMAL(2,0) NULL DEFAULT NULL  ;
 ALTER TABLE `hr_job_t` ADD COLUMN `primary_indicator` VARCHAR(1) DEFAULT 'N';
 ALTER TABLE `tk_daily_overtime_rl_t` DROP COLUMN `TASK` ;
+ALTER TABLE `tk_roles_t` ADD COLUMN `tk_dept_id` BIGINT(20) NULL  AFTER `active`;
+ALTER TABLE `tk_roles_t` ADD COLUMN `tk_work_area_id` BIGINT(20) NULL  AFTER `tk_dept_id`;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
