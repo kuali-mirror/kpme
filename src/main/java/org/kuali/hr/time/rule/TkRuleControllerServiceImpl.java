@@ -15,16 +15,14 @@ public class TkRuleControllerServiceImpl implements TkRuleControllerService {
 	public List<TimeBlock> applyRules(String action, List<TimeBlock> timeBlocks, PayCalendarEntries payEntry, TimesheetDocument timesheetDocument){
 		//foreach action run the rules that apply
 		List<TimeBlock> newTimeBlocks = timeBlocks;
-		if(StringUtils.equals(action, TkConstants.ACTIONS.CLOCK_IN)){
-			
-		} else if(StringUtils.equals(action, TkConstants.ACTIONS.ADD_TIME_BLOCK)){
+		if(StringUtils.equals(action, TkConstants.ACTIONS.ADD_TIME_BLOCK) || StringUtils.equals(action, TkConstants.ACTIONS.CLOCK_OUT)){
 			TkTimeBlockAggregate timeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, payEntry);
+			TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(timesheetDocument, timeBlockAggregate);
+			TkServiceLocator.getDailyOvertimeRuleService().processDailyOvertimeRules(timesheetDocument, timeBlockAggregate);
 			TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(timesheetDocument, timeBlockAggregate);
 			// dept lunch rule
 			newTimeBlocks = TkServiceLocator.getDepartmentLunchRuleService().applyDepartmentLunchRule(timeBlockAggregate.getFlattenedTimeBlockList());
 		}
-
-		
 		return newTimeBlocks;
 	}
 

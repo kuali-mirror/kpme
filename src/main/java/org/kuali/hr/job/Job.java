@@ -9,7 +9,11 @@ import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
+/**
+ * 
+ * @author lfox
+ *
+ */
 public class Job extends PersistableBusinessObjectBase {
 
 	/*

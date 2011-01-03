@@ -71,7 +71,6 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 			List<PayCalendarEntries> dates = payCalendar.getPayCalendarEntries();
 			for (PayCalendarEntries pcdate : dates) { 
 				DateTime beginDate = new DateTime(pcdate.getBeginPeriodDateTime());					
-				
 				DateTime endDate = new DateTime(pcdate.getEndPeriodDateTime());
 				
 				Interval range = new Interval(beginDate, endDate);
@@ -88,5 +87,6 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 		
 		return pcd;
 	}
+	
 
 }
