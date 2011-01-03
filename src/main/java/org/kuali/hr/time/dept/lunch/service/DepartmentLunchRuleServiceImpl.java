@@ -6,19 +6,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.dept.lunch.dao.DepartmentLunchRuleDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 
 public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleService {
 	public DepartmentLunchRuleDao deptLunchRuleDao;
 	private static final Logger LOG = Logger.getLogger(DepartmentLunchRuleServiceImpl.class);
 	
 	@Override
+	@CacheResult
 	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea,
 			String principalId, Long jobNumber, Date asOfDate) {
 		DeptLunchRule deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule(dept, workArea, principalId, jobNumber, asOfDate);

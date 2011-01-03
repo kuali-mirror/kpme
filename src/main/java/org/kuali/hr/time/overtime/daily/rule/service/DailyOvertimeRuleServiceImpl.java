@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.overtime.daily.rule.dao.DailyOvertimeRuleDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -36,6 +37,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	}
 	
 	@Override
+	@CacheResult
 	/**
 	 * Search for the valid Daily Overtime Rule, wild cards are allowed on
 	 * location 

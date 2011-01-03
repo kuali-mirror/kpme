@@ -14,6 +14,7 @@ public class SalGroup extends PersistableBusinessObjectBase {
 	private static final long serialVersionUID = 1L;
 	private Long tkSalGroupId;
 	private String tkSalGroup;
+	private String descr;
 	private Date effectiveDate;
 	private Timestamp timestamp;
 	private boolean active;
@@ -62,6 +63,14 @@ public class SalGroup extends PersistableBusinessObjectBase {
 
 	public void setTkSalGroup(String tkSalGroup) {
 		this.tkSalGroup = tkSalGroup;
+	}
+
+	public String getDescr() {
+		return descr;
+	}
+
+	public void setDescr(String descr) {
+		this.descr = descr;
 	}
 
 }

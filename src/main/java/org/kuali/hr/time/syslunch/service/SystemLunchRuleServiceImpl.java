@@ -2,6 +2,7 @@ package org.kuali.hr.time.syslunch.service;
 
 import java.sql.Date;
 
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.syslunch.dao.SystemLunchRuleDao;
 import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
@@ -10,6 +11,7 @@ public class SystemLunchRuleServiceImpl implements SystemLunchRuleService {
 	public SystemLunchRuleDao systemLunchRuleDao;
 	
 	@Override
+	@CacheResult
 	public SystemLunchRule getSystemLunchRule(Date asOfDate) {
 		return systemLunchRuleDao.getSystemLunchRule(asOfDate);
 	}

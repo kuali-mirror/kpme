@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.accrual.dao.TimeOffAccrualDao;
+import org.kuali.hr.time.cache.CacheResult;
 
 public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 
@@ -20,6 +21,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 	}
 	
 	@Override
+	@CacheResult
 	public List<TimeOffAccrual> getTimeOffAccruals(String principalId) {
 		return timeOffAccrualDao.getTimeOffAccruals(principalId);
 	}

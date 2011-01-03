@@ -11,6 +11,13 @@ public class UserPreferences extends PersistableBusinessObjectBase {
 	private static final long serialVersionUID = 1L;
 	private String principalId;
 	private String timezone;
+	
+	public UserPreferences(){}
+	
+	public UserPreferences(String principalId, String timeZone){
+		this.principalId = principalId;
+		this.timezone = timeZone;
+	}
 
 	public void setTimezone(String timezone) {
 		this.timezone = timezone;

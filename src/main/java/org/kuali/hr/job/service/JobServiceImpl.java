@@ -57,6 +57,10 @@ public class JobServiceImpl implements JobService {
 		return job;
 	}
 	
+	public Job getPrimaryJob(String principalId, Date payPeriodEndDate){
+		return jobDao.getPrimaryJob(principalId, payPeriodEndDate);
+	}
+	
 	
 
 }

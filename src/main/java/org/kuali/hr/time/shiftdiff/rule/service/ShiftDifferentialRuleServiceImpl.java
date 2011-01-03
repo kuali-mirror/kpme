@@ -16,6 +16,7 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -410,6 +411,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 	}
 
 	@Override
+	@CacheResult
 	public List<ShiftDifferentialRule> getShiftDifferentalRules(String location, String tkSalGroup, String payGrade, String calendarGroup, Date asOfDate) {
 		List<ShiftDifferentialRule> sdrs = null;
 	

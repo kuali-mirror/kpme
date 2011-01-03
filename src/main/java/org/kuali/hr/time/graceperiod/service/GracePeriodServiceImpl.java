@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.graceperiod.dao.GracePeriodDao;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 
@@ -17,6 +18,8 @@ public class GracePeriodServiceImpl implements GracePeriodService {
 	public void setGracePeriodDao(GracePeriodDao gracePeriodDao) {
 		this.gracePeriodDao = gracePeriodDao;
 	}
+	
+	@CacheResult
 	public GracePeriodRule getGracePeriodRule(Date asOfDate){
 		return gracePeriodDao.getGracePeriodRule(asOfDate);
 	}

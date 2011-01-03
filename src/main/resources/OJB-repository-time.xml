@@ -437,6 +437,7 @@
 		<field-descriptor name="holidayDate" column="holiday_date" jdbc-type="date" nullable="false" />
 		<field-descriptor name="holidayDescr" column="holiday_desc" jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="holidayCalendarId" column="holiday_calendar_id" jdbc-type="BIGINT" />
+		<field-descriptor name="holidayHours" column="holiday_hrs" jdbc-type="NUMERIC" />
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>

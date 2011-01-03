@@ -29,6 +29,38 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 			}
 		}
 	}
+	
+	public Job getPrimaryJob(String principalId, Date payPeriodEndDate){
+		Criteria root = new Criteria();
+		Criteria effdt = new Criteria();
+		Criteria timestamp = new Criteria();
+
+		// OJB's awesome sub query setup part 1
+		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		effdt.addLessOrEqualThan("effectiveDate", payPeriodEndDate);
+		effdt.addEqualTo("active", true);
+		effdt.addEqualTo("principalId", principalId);
+		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
+		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+		
+		// OJB's awesome sub query setup part 2
+		timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+		timestamp.addEqualTo("active", true);
+		timestamp.addEqualTo("principalId", principalId);
+		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestamp);
+		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+		
+		root.addEqualTo("principalId", principalId);
+		root.addEqualTo("effectiveDate", effdtSubQuery);
+		root.addEqualTo("timestamp", timestampSubQuery);
+		root.addEqualTo("active", true);
+		root.addEqualTo("primaryIndicator", true);
+		
+		Query query = QueryFactory.newQuery(Job.class, root);
+		
+		return (Job)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

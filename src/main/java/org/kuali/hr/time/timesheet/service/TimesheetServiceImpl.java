@@ -4,11 +4,13 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
@@ -58,6 +60,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		if (header == null) {
 			timesheetDocument = this.initiateWorkflowDocument(principalId, begin, end, TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
 			this.loadTimesheetDocumentData(timesheetDocument, principalId, begin, end);
+			this.loadHolidaysOnTimesheet(timesheetDocument, principalId, begin, end);
 		} else {
 			timesheetDocument = this.getTimesheetDocument(header.getDocumentId());
 		}
@@ -68,15 +71,20 @@ public class TimesheetServiceImpl implements TimesheetService {
 	
 	public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, Date beginDate, Date endDate){
 		PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, new java.sql.Date(beginDate.getTime()));
-		List<HolidayCalendarDateEntry> lstHolidays = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarDateEntriesForPayPeriod(principalCalendar.getHolidayCalendar().getHolidayCalendarId(), 
+		HolidayCalendar holidayCalendar = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarByGroup(principalCalendar.getHolidayCalendarGroup());
+		List<HolidayCalendarDateEntry> lstHolidays = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarDateEntriesForPayPeriod(holidayCalendar.getHolidayCalendarId(), 
 														beginDate, endDate);
 		for(HolidayCalendarDateEntry holiday : lstHolidays){
-			//TODO implement this function once the functional specifications are ironed out
-			Assignment holidayAssign = TkServiceLocator.getHolidayCalendarService().getAssignmentToApplyHolidays();
+			Assignment holidayAssign = TkServiceLocator.getHolidayCalendarService().getAssignmentToApplyHolidays(timesheetDocument, TKUtils.getTimelessDate(endDate));
 			BigDecimal holidayCalcHours = TkServiceLocator.getHolidayCalendarService().calculateHolidayHours(holidayAssign.getJob(), holiday.getHolidayHours());
 			TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, new Timestamp(holiday.getHolidayDate().getTime()), 
 							new Timestamp(holiday.getHolidayDate().getTime()), holidayAssign, TkConstants.HOLIDAY_EARN_CODE, holidayCalcHours);
 			timesheetDocument.getTimeBlocks().add(timeBlock);
+		}
+		
+		//If holidays are loaded will need to save them to the database
+		if(!lstHolidays.isEmpty()){
+			TkServiceLocator.getTimeBlockService().saveTimeBlocks(new LinkedList<TimeBlock>(), timesheetDocument.getTimeBlocks());
 		}
 	
 	}

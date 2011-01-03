@@ -9,6 +9,9 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry;
 import org.kuali.hr.time.holidaycalendar.dao.HolidayCalendarDao;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 
 public class HolidayCalendarServiceImpl implements HolidayCalendarService {
@@ -39,7 +42,13 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 
 
 	@Override
-	public Assignment getAssignmentToApplyHolidays() {
+	public Assignment getAssignmentToApplyHolidays(TimesheetDocument timesheetDocument, java.sql.Date payEndDate) {
+		Job primaryJob = TkServiceLocator.getJobSerivce().getPrimaryJob(TKContext.getPrincipalId(), payEndDate);
+		for(Assignment assign : timesheetDocument.getAssignments()){
+			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
+				return assign;
+			}
+		}
 		return null;
 	}
 

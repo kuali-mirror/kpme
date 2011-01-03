@@ -1,6 +1,6 @@
 package org.kuali.hr.time.timeblock.dao;
 
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -40,7 +40,7 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 		currentRecordCriteria.addEqualTo("documentId", documentId);
 		Query query = QueryFactory.newQuery(TimeBlock.class, currentRecordCriteria);
 		List<TimeBlock> timeBlocks = (List<TimeBlock>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-		return timeBlocks == null || timeBlocks.size() == 0 ? Collections.EMPTY_LIST : timeBlocks;
+		return timeBlocks == null || timeBlocks.size() == 0 ? new LinkedList<TimeBlock>() : timeBlocks;
 	}
 
 	public void deleteTimeBlock(TimeBlock timeBlock) {

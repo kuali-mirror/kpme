@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
@@ -216,6 +217,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	}
 	
 	@Override
+	@CacheResult
 	public List<WeeklyOvertimeRule> getWeeklyOvertimeRules(Date asOfDate) {
 		return weeklyOvertimeRuleDao.findWeeklyOvertimeRules(asOfDate);
 	}

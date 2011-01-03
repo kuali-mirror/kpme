@@ -26,4 +26,6 @@ public interface JobService {
 	
 	public Job getJob(String principalId, Long jobNumber, Date asOfDate);
 	
+	public Job getPrimaryJob(String principalId, Date payPeriodEndDate);
+	
 }

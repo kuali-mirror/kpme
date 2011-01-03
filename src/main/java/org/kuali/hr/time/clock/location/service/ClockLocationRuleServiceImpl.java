@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.clock.location.dao.ClockLocationDao;
 import org.kuali.hr.time.clocklog.ClockLog;
@@ -53,6 +54,7 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	}
 
 	@Override
+	@CacheResult
 	public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea,
 			String principalId, Long jobNumber, Date asOfDate) {
 		List<ClockLocationRule> clockLocationRule = clockLocationDao.getClockLocationRule(dept, workArea,principalId,jobNumber,asOfDate);
