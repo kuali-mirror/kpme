@@ -42,6 +42,8 @@
 				<bean parent="MaintainableFieldDefinition" p:name="overtimePref" />
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" />
+        <bean parent="MaintainableFieldDefinition" p:name="earnCode" />
+        <bean parent="MaintainableFieldDefinition" p:name="fromEarnGroup" />				
 			</list>
 		</property>
 	</bean>
