@@ -258,7 +258,7 @@ INSERT INTO `tk_py_calendar_entries_t` (`tk_py_calendar_entry_id`,`tk_py_calenda
   (41, 2, '2011-07-01 00:00:00', '2011-07-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
   (42, 2, '2011-07-15 00:00:00', '2011-08-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
-  
+
 DELETE FROM `tk_daily_overtime_rl_s`;
 INSERT INTO `tk_daily_overtime_rl_s` (`ID`) VALUES (1000);
 
