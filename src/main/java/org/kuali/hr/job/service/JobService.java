@@ -24,8 +24,20 @@ public interface JobService {
 	 */
 	public List<Job> getJobs(String principalId, Date asOfDate);
 	
+	/**
+	 * Provides a job by specific job number, principal ID and as of Date combination. 
+	 */
 	public Job getJob(String principalId, Long jobNumber, Date asOfDate);
 	
-	public Job getPrimaryJob(String principalId, Date payPeriodEndDate);
+	
+	/**
+	 * For a given principal ID, the job that is marked "primary" is returned 
+	 * here.
+	 * 
+	 * @param principalId The principal under investigation
+	 * @param asOfDate Run the request as of this date. 
+	 * @return
+	 */
+	public Job getPrimaryJob(String principalId, Date asOfDate);
 	
 }
