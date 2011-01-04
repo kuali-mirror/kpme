@@ -17,8 +17,8 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 	}
 
 	@Override
-	public WorkArea getWorkArea(Long workAreaId, Date asOfDate) {
-		return workAreaDao.getWorkArea(workAreaId, asOfDate);
+	public WorkArea getWorkArea(Long workArea, Date asOfDate) {
+		return workAreaDao.getWorkArea(workArea, asOfDate);
 	}
 
 	@Override

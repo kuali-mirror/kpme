@@ -78,7 +78,7 @@ table.fc-header {
 	}
 
 .fc-header-right td {
-	border:none;
+	border:1px solid black;
 	}
 
 .fc-header-title {

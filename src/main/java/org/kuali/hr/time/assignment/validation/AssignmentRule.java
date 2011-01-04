@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -20,7 +21,9 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateWorkArea(Assignment assignment ) {
 		boolean valid = false;
 		LOG.debug("Validating workarea: " + assignment.getWorkArea());
-		WorkArea workArea = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(WorkArea.class, assignment.getWorkAreaObj().getTkWorkAreaId());
+		
+		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), assignment.getEffectiveDate());
+		//WorkArea workArea = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(WorkArea.class, assignment.getWorkAreaObj().getTkWorkAreaId());
 		if (workArea != null) {
 			valid = true;
 			LOG.debug("found workarea.");
@@ -51,9 +54,9 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	
 	protected boolean validateJob(Assignment assignment ) {
 		boolean valid = false;
-		LOG.debug("Validating job: " + assignment.getJob().getHrJobId());
-		Job job = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Job.class, assignment.getJob().getHrJobId());
+		LOG.debug("Validating job: " + assignment.getJob());
+		Job job = TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate());
+		// Job job = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Job.class, assignment.getJob().getHrJobId());
 		if (job != null) {
 			valid = true;
 			

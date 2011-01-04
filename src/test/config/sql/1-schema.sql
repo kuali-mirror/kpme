@@ -1536,6 +1536,18 @@ ALTER TABLE `tk_daily_overtime_rl_t` DROP COLUMN `TASK` ;
 ALTER TABLE `tk_roles_t` ADD COLUMN `tk_dept_id` BIGINT(20) NULL  AFTER `active`;
 ALTER TABLE `tk_roles_t` ADD COLUMN `tk_work_area_id` BIGINT(20) NULL  AFTER `tk_dept_id`;
 
+CREATE TABLE `tk_missed_punch_t` (
+  `tk_missed_punch_id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
+  `principal_id` VARCHAR(40) NOT NULL ,
+  `clock_action` VARCHAR(20) NOT NULL ,
+  `action_date` DATETIME NOT NULL DEFAULT '0000-00-00',
+  `action_time` TIMESTAMP NOT NULL ,
+  `document_id` VARCHAR(14) NULL ,
+  `document_status` VARCHAR(1) NULL ,
+  `tk_clock_log_id` BIGINT(20) NULL ,
+  `timestamp` TIMESTAMP NULL ,
+  PRIMARY KEY (`tk_missed_punch_id`) );
+  
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

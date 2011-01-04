@@ -81,7 +81,7 @@
 						   <input type="submit" class="button" value="Return From Lunch" name="lunchOut" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LO';"/>
 						</c:when>
                     </c:choose>
-					<input type="submit" class="button" value="Skip Entry" name="skipEntry"/>
+					<input type="submit" class="button" value="Missed Punch" name="missedPunch"/>
 				</td>
 			</tr>
 		</table>

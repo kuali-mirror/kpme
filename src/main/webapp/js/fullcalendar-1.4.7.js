@@ -31,7 +31,7 @@ var defaults = {
 	defaultView: 'month',
 	aspectRatio: 1.35,
 	header: {
-		left: 'title',
+		left: '',
 		center: '',
 		right: ''
 	},
@@ -718,12 +718,12 @@ $.fn.fullCalendar = function(options) {
 			sections.right = '';
 			
 		if (sections) {
-            var ajaxIndicator = "<div id='loading' style='display:none; margin-left:10px;'><img src='images/ajax-loader.gif' alt='Loading' style='vertical-align:middle;'/></div>";
+            var ajaxIndicator = "<div id='loading' style='display:none; margin-left:10px; float:right;'><img src='images/ajax-loader.gif' alt='Loading' style='vertical-align:middle;'/></div>";
 			header = $("<table class='fc-header'/>")
 				.append($("<tr/>")
 					.append($("<td class='fc-header-left'/>").append(buildSection(sections.left)))
 					.append($("<td class='fc-header-center'/>").append(buildSection(sections.center)))
-					.append($("<td class='fc-header-right'/>").append(buildSection(sections.right))))
+					.append($("<td class='fc-header-right'/>").append(ajaxIndicator).append(buildSection(sections.right))))
 				.prependTo(element);
 		}
 		function buildSection(buttonStr) {
@@ -825,9 +825,9 @@ $.fn.fullCalendar = function(options) {
 				});
 
                 // ajax indicator
-                if(buttonStr.indexOf('prev') > 0 || buttonStr.indexOf('today') > 0 || buttonStr.indexOf('next') > 0) {
-                    tr.append(ajaxIndicator);
-                }
+                // if(buttonStr.indexOf('prev') > 0 || buttonStr.indexOf('today') > 0 || buttonStr.indexOf('next') > 0) {
+                //     tr.append("<td>" + ajaxIndicator + "</td>");
+                // }
 				return $("<table/>").append(tr);
 			}
 		}
