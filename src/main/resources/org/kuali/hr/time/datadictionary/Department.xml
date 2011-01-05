@@ -21,6 +21,8 @@
         <ref bean="Department-description" />
         <ref bean="Department-org" />
         <ref bean="Department-chart" />
+        <ref bean="Department-effectiveDate" />
+        <ref bean="Department-active" />
        </list>
     </property>
     <property name="objectLabel" value="department"/>
@@ -72,7 +74,7 @@
 
   <bean id="Department-description" parent="Department-description-parentBean" />
   <bean id="Department-description-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
 
     <property name="maxLength" value="50" />
     <property name="control" >
@@ -98,8 +100,9 @@
     <property name="description" value="Org" />
   
   </bean>
+  
+  
   <bean id="Department-chart" parent="Department-chart-parentBean" />
-
   <bean id="Department-chart-parentBean" abstract="true" parent="AttributeDefinition">
       <property name="forceUppercase" value="true" />
 	  <property name="maxLength" value="10" />
@@ -111,6 +114,35 @@
     <property name="label" value="Chart" />
     <property name="description" value="Chart" />
   </bean>
+  
+  
+  <bean id="Department-effectiveDate" parent="Department-effectiveDate-parentBean"/>
+  <bean id="Department-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Effective Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+    <bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
+    <property name="name" value="effectiveDate"/>
+    <property name="label" value="Effective Date"/>
+  </bean>
+  
+    <bean id="Department-active" parent="Department-active-parentBean"/>
+  <bean id="Department-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Active"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
+  
+  
 <!-- Business Object Inquiry Definition -->
 
 
