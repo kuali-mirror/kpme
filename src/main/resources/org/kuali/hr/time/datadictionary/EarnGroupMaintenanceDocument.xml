@@ -38,7 +38,7 @@
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="earnGroup"
-					p:required="true" />
+					p:required="true" p:unconditionallyReadOnly="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="descr"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
@@ -71,7 +71,7 @@
 					<property name="maintainableFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="earnCode"
-								p:required="true" />
+								p:required="true" p:unconditionallyReadOnly="true"/>
 						</list>
 					</property>
 				</bean>

@@ -24,7 +24,7 @@
         <ref bean="Task-userPrincipalId"/>
        </list>
     </property>
-    <property name="objectLabel" value="taskObj"/>
+    <property name="objectLabel" value="Task"/>
   </bean>
 
 <!-- Attribute Definitions -->
