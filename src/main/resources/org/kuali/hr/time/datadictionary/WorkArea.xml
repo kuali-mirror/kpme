@@ -98,7 +98,7 @@
  <bean id="WorkArea-description" parent="WorkArea-description-parentBean" />
 
   <bean id="WorkArea-description-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
 
     <property name="maxLength" value="50" />
     <property name="control" >
