@@ -33,7 +33,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="chart"
-								p:targetName="name" />
+								p:targetName="chartOfAccountsCode" />
 						</list>
 					</property>
 				</bean>
@@ -43,7 +43,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="org"
-								p:targetName="organizationName" />
+								p:targetName="organizationCode" />
 						</list>
 					</property>
 				</bean>

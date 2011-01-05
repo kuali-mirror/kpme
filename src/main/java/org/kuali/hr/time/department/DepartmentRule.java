@@ -1,6 +1,9 @@
 package org.kuali.hr.time.department;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -26,7 +29,9 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 	boolean validateOrg(String value) {
 		boolean valid = false;
 		
-		Organization org = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Organization.class, value);
+		Map<String,String> primaryKeys = new HashMap<String, String>();
+		primaryKeys.put("organizationCode", value);
+		Organization org = (Organization) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, primaryKeys); //findBySinglePrimaryKey(Organization.class, value);
 		valid = (org != null);
 		
 		if (!valid) {
