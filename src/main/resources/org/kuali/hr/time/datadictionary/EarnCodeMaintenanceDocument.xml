@@ -29,15 +29,15 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="earnCode" 		p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description"     p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"     p:required="true"/>                
         <bean parent="MaintainableFieldDefinition" p:name="recordTime" 		p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="recordHours" 		p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="recordAmount" 		p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"   		p:required="true" p:defaultValue="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accrualCategory" p:required="false"/>
-        <bean parent="MaintainableFieldDefinition" p:name="inflateMinHours" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="inflateFactor" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active"   		p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="description" 		p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" 		p:required="true"/>        
+        <bean parent="MaintainableFieldDefinition" p:name="inflateMinHours" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="inflateFactor" p:required="false"/>
       </list>
     </property>
   </bean>
