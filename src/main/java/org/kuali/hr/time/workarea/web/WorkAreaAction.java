@@ -23,35 +23,35 @@ public class WorkAreaAction extends KualiTransactionalDocumentActionBase {
 	private static final Logger LOG = Logger.getLogger(WorkAreaAction.class);
 	private WorkAreaMaintenanceDocumentRule rule = new WorkAreaMaintenanceDocumentRule();
 
-	@Override
-	public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward actionForw = super.docHandler(mapping, form, request, response);
-
-		WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
-		WorkAreaMaintenanceDocument workAreaMaintenanceDocument = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
-		WorkAreaService waService = TkServiceLocator.getWorkAreaService();
-		String workAreaId_s = request.getParameter("workAreaId");
-		if (request.getParameter("command").equals("initiate") && !Boolean.parseBoolean(request.getParameter("newWorkArea"))) {
-			try {
-				Long workAreaId = (workAreaId_s != null) ? Long.parseLong(workAreaId_s) : null;
-				WorkArea workArea = waService.getWorkArea(workAreaId, TKUtils.getCurrentDate());
-				// TODO : Implement this - Need Roles
-				
-				if (workArea != null) {
-					LOG.debug("Obtained work area: " + workArea.getTkWorkAreaId());
-					workAreaMaintenanceDocument.setWorkArea(workArea);
-				} else {
-					throw new RuntimeException("Work area was null.");
-				}
-			} catch (NumberFormatException nfe) {   
-				LOG.error("nfe", nfe);
-			}
-		} else{
-			workAreaForm.setNewWorkArea(true);
-		}
-
-		return actionForw;
-	}
+//	@Override
+//	public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		ActionForward actionForw = super.docHandler(mapping, form, request, response);
+//
+//		WorkAreaActionForm workAreaForm = (WorkAreaActionForm) form;
+//		WorkAreaMaintenanceDocument workAreaMaintenanceDocument = (WorkAreaMaintenanceDocument) workAreaForm.getDocument();
+//		WorkAreaService waService = TkServiceLocator.getWorkAreaService();
+//		String workAreaId_s = request.getParameter("workAreaId");
+//		if (request.getParameter("command").equals("initiate") && !Boolean.parseBoolean(request.getParameter("newWorkArea"))) {
+//			try {
+//				Long workAreaId = (workAreaId_s != null) ? Long.parseLong(workAreaId_s) : null;
+//				WorkArea workArea = waService.getWorkArea(workAreaId, TKUtils.getCurrentDate());
+//				// TODO : Implement this - Need Roles
+//				
+//				if (workArea != null) {
+//					LOG.debug("Obtained work area: " + workArea.getTkWorkAreaId());
+//					workAreaMaintenanceDocument.setWorkArea(workArea);
+//				} else {
+//					throw new RuntimeException("Work area was null.");
+//				}
+//			} catch (NumberFormatException nfe) {   
+//				LOG.error("nfe", nfe);
+//			}
+//		} else{
+//			workAreaForm.setNewWorkArea(true);
+//		}
+//
+//		return actionForw;
+//	}
 
 	@Override
 	public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
