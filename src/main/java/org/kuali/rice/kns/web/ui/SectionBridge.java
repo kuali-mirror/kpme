@@ -228,7 +228,10 @@ public class SectionBridge {
                 MaintainableSubSectionHeaderDefinition definition = (MaintainableSubSectionHeaderDefinition) item;
                 field = createMaintainableSubSectionHeader(definition);
             }
-
+            //AF - Customization Fix to make read only after add work 
+            if(item instanceof MaintainableFieldDefinition && ((MaintainableFieldDefinition)item).isReadOnlyAfterAdd()){
+            	field.setReadOnly(true);
+            }      
             if (!skipAdd) {
                 sectionFields.add(field);
             }
@@ -339,7 +342,6 @@ public class SectionBridge {
         if (StringUtils.isEmpty(collectionElementLabel)) {
             collectionElementLabel = getDataDictionaryService().getCollectionElementLabel(o.getClass().getName(), collectionDefinition.getName(), collectionDefinition.getBusinessObjectClass());
         }
-
         if (o != null) {
             if (PropertyUtils.isWriteable(o, collectionDefinition.getName()) && ObjectUtils.getPropertyValue(o, collectionDefinition.getName()) != null) {
                 Object obj = ObjectUtils.getPropertyValue(o, collectionName);
