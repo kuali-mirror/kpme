@@ -13,6 +13,9 @@ import java.util.TimeZone;
 import org.joda.time.DateTimeZone;
 
 public class TkConstants {
+	
+	public static final String WILDCARD_CHARACTER = "%";
+	public static final Long WILDCARD_LONG = -1L;
 
     public static final String CLOCK_IN = "CI";
     public static final String CLOCK_OUT = "CO";

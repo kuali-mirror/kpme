@@ -1536,6 +1536,7 @@ ALTER TABLE `tk_daily_overtime_rl_t` DROP COLUMN `TASK` ;
 ALTER TABLE `tk_roles_t` ADD COLUMN `tk_dept_id` BIGINT(20) NULL  AFTER `active`;
 ALTER TABLE `tk_roles_t` ADD COLUMN `tk_work_area_id` BIGINT(20) NULL  AFTER `tk_dept_id`;
 
+DROP TABLE IF EXISTS `tk_missed_punch_t`;
 CREATE TABLE `tk_missed_punch_t` (
   `tk_missed_punch_id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
   `principal_id` VARCHAR(40) NOT NULL ,
@@ -1547,10 +1548,10 @@ CREATE TABLE `tk_missed_punch_t` (
   `tk_clock_log_id` BIGINT(20) NULL ,
   `timestamp` TIMESTAMP NULL ,
   PRIMARY KEY (`tk_missed_punch_id`) );
-  
+
 ALTER TABLE `tk_dept_t` CHANGE COLUMN `DESCRIPTION` `DESCRIPTION` VARCHAR(75) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL  ;
-  
-  
+
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

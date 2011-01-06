@@ -421,31 +421,31 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		
 		// location, sal group, *
 		if (sdrs == null)
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules(location, tkSalGroup, "*", calendarGroup, asOfDate);
+			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules(location, tkSalGroup, "%", calendarGroup, asOfDate);
 		
 		// location, *, pay grade
 		if (sdrs == null)
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules(location, tkSalGroup, "*", calendarGroup, asOfDate);
+			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules(location, tkSalGroup, "%", calendarGroup, asOfDate);
 		
 		// location, *, *
 		if (sdrs == null)
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules(location, "*", "*", calendarGroup, asOfDate);
+			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules(location, "%", "%", calendarGroup, asOfDate);
 
 		// *, sal group, pay grade
 		if (sdrs == null)
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules("*", tkSalGroup, payGrade, calendarGroup, asOfDate);
+			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules("%", tkSalGroup, payGrade, calendarGroup, asOfDate);
 		
 		// *, sal group, *
 		if (sdrs == null) 
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules("*", tkSalGroup, "*", calendarGroup, asOfDate);
+			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules("%", tkSalGroup, "%", calendarGroup, asOfDate);
 		
 		// *, *, pay grade
 		if (sdrs == null) 
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules("*", "*", payGrade, calendarGroup, asOfDate);
+			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules("%", "%", payGrade, calendarGroup, asOfDate);
 				
 		// *, *, *
 		if (sdrs == null) 
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules("*", "*", "*", calendarGroup, asOfDate);
+			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules("%", "%", "%", calendarGroup, asOfDate);
 		
 		if (sdrs == null)
 			sdrs = Collections.emptyList();

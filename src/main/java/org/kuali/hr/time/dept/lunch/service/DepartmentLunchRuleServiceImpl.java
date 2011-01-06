@@ -30,12 +30,12 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 		if(deptLunchRule!=null){
 			return deptLunchRule;
 		}
-		deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule(dept, workArea, "*", -1L, asOfDate);
+		deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule(dept, workArea, "%", -1L, asOfDate);
 		
 		if(deptLunchRule!=null){
 			return deptLunchRule;
 		}
-		deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule(dept, -1L, "*", -1L, asOfDate);
+		deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule(dept, -1L, "%", -1L, asOfDate);
 		
 		if(deptLunchRule!=null){
 			return deptLunchRule;

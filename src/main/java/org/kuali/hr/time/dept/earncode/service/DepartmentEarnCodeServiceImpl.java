@@ -26,17 +26,17 @@ public class DepartmentEarnCodeServiceImpl implements DepartmentEarnCodeService 
 			return decs;
 		}
 		
-		decs = deptEarnCodeDao.getDepartmentEarnCodes("*", tkSalGroup, asOfDate);
+		decs = deptEarnCodeDao.getDepartmentEarnCodes("%", tkSalGroup, asOfDate);
 		if (!decs.isEmpty()) {
 			return decs;
 		}
 		
-		decs = deptEarnCodeDao.getDepartmentEarnCodes(department, "*", asOfDate);
+		decs = deptEarnCodeDao.getDepartmentEarnCodes(department, "%", asOfDate);
 		if (!decs.isEmpty()) {
 			return decs;
 		}
 
-		decs = deptEarnCodeDao.getDepartmentEarnCodes("*", "*", asOfDate);
+		decs = deptEarnCodeDao.getDepartmentEarnCodes("%", "%", asOfDate);
 		if (!decs.isEmpty()) {
 			return decs;
 		}

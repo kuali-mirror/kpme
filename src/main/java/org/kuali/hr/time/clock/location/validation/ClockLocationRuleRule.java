@@ -4,17 +4,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
-import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 
@@ -29,7 +23,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 
 	private static Logger LOG = Logger.getLogger(ClockLocationRuleRule.class);
 
-	protected boolean validateIpAddress(String ip) {
+	boolean validateIpAddress(String ip) {
 		boolean valid = false;
 
 		LOG.debug("Validating IP address: " + ip);
@@ -42,27 +36,22 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	protected boolean validateWorkArea(ClockLocationRule clr) {
-		return true;
+	boolean validateWorkArea(ClockLocationRule clr) {
+		if (!ValidationUtils.validateWorkArea(clr.getWorkArea(), clr.getEffectiveDate())) {
+			this.putFieldError("workArea", "error.existence", "workArea '" + clr.getWorkArea() + "'");
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	protected boolean validateDepartment(ClockLocationRule clr) {
-		boolean valid = false;
-		LOG.debug("Validating department: " + clr.getDept());
-		// TODO: We may need a full DAO that handles bo lookups at some point,
-		// but we can use the provided one:
-		Criteria crit = new Criteria();
-		crit.addEqualTo("dept", clr.getDept());		
-		Query query = QueryFactory.newQuery(Department.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
-		
-		if (count >0 ) {			valid = true;
-			LOG.debug("found department.");
+		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveDate())) {
+			this.putFieldError("dept", "error.existence", "department '" + clr.getDept() + "'");
+			return false;				
 		} else {
-			this.putFieldError("dept", "error.existence", "department '"
-					+ clr.getDept() + "'");
+			return true;
 		}
-		return valid;
 	}
 
 	protected boolean validateJobNumber(ClockLocationRule clr) {

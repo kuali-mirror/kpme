@@ -1,63 +1,32 @@
 package org.kuali.hr.time.dept.lunch.validation;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.log4j.Logger;
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.hr.time.clock.location.ClockLocationRule;
-import org.kuali.hr.time.clock.location.validation.ClockLocationRuleRule;
-import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
-import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 
-	protected boolean validateWorkArea(DeptLunchRule deptLunchRule ) {
-		boolean valid = false;
-		LOG.debug("Validating workarea: " + deptLunchRule.getWorkArea());
-		Criteria crit = new Criteria();
-		crit.addEqualTo("workArea", deptLunchRule.getWorkArea());		
-		Query query = QueryFactory.newQuery(WorkArea.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-		
-		if (count >0 ) {
-			valid = true;
-			LOG.debug("found workarea.");
+	boolean validateWorkArea(DeptLunchRule ruleObj) {
+		if (!ValidationUtils.validateWorkArea(ruleObj.getWorkArea(), ruleObj.getEffectiveDate())) {
+			this.putFieldError("workArea", "error.existence", "workarea '" + ruleObj.getWorkArea() + "'");
+			return false;
 		} else {
-			this.putFieldError("workArea", "error.existence", "workarea '"
-					+ deptLunchRule.getWorkArea()+ "'");
+			return true;
 		}
-		return valid;
 	}
 
-	protected boolean validateDepartment(DeptLunchRule deptLunchRule) {
-		boolean valid = false;
-		LOG.debug("Validating dept : " + deptLunchRule.getDept());
-		// TODO: We may need a full DAO that handles bo lookups at some point,
-		// but we can use the provided one:
-		Criteria crit = new Criteria();
-		crit.addEqualTo("dept", deptLunchRule.getDept());		
-		Query query = QueryFactory.newQuery(Department.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-		
-		if (count >0 ) {
-			valid = true;
-			LOG.debug("found department.");
+	boolean validateDepartment(DeptLunchRule ruleObj) {
+		if (!ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffectiveDate())) {
+			this.putFieldError("dept", "error.existence", "department '" + ruleObj.getDept() + "'");
+			return false;				
 		} else {
-			this.putFieldError("dept", "error.existence", "department '"
-					+ deptLunchRule.getDept() + "'");
+			return true;
 		}
-		return valid;
 	}
+
 	
 	/**
 	 * It looks like the method that calls this class doesn't actually care

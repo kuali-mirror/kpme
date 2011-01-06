@@ -312,7 +312,10 @@
     <bean id="clockLocationDao" class="org.kuali.hr.time.clock.location.dao.ClockLocationDaoOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
+    <bean id="departmentDao" class="org.kuali.hr.time.department.dao.DepartmentDaoSpringOjbImpl">
+      <property name="jcdAlias" value="tkDataSource"/>
+    </bean>    
 
     <bean id="deptEarnCodeDao" class="org.kuali.hr.time.dept.earncode.dao.DepartmentEarnCodeDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
@@ -372,6 +375,10 @@
     
     <bean id="timeOffAccrualDao" class="org.kuali.hr.time.accrual.dao.TimeOffAccrualkDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
+    <bean id="salGroupDao" class="org.kuali.hr.time.salgroup.dao.SalGroupDaoSpringOjbImpl">
+      <property name="jcdAlias" value="tkDataSource" />
     </bean>
     
 	<!-- Time Services for Business Logic -->
@@ -465,6 +472,10 @@
     <bean id="deptEarnCodeService" class="org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeServiceImpl">
     	<property name="deptEarnCodeDao" ref="deptEarnCodeDao"/>
     </bean>
+    
+    <bean id="departmentService" class="org.kuali.hr.time.department.service.DepartmentServiceImpl">
+      <property name="departmentDao" ref="departmentDao"/>
+    </bean>
 
     <bean id="earnCodeService" class="org.kuali.hr.time.earncode.service.EarnCodeServiceImpl">
     	<property name="earnCodeDao" ref="earnCodeDao"/>
@@ -472,6 +483,10 @@
     
     <bean id="earnGroupService" class="org.kuali.hr.time.earngroup.service.EarnGroupServiceImpl">
     	<property name="earnGroupDao" ref="earnGroupDao"/>
+    </bean>
+    
+    <bean id="salGroupService" class="org.kuali.hr.time.salgroup.service.SalGroupServiceImpl">
+      <property name="salGroupDao" ref="salGroupDao"/>
     </bean>
     
     <bean id="timeHourDetailService" class="org.kuali.hr.time.timehourdetail.service.TimeHourDetailServiceImpl">

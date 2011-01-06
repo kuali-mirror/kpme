@@ -7,6 +7,7 @@ import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.cache.CacheManagementService;
 import org.kuali.hr.time.clock.location.service.ClockLocationRuleService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
+import org.kuali.hr.time.department.service.DepartmentService;
 import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleService;
 import org.kuali.hr.time.earncode.service.EarnCodeService;
@@ -21,6 +22,7 @@ import org.kuali.hr.time.paytype.service.PayTypeService;
 import org.kuali.hr.time.principal.calendar.service.PrincipalCalendarService;
 import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.rule.TkRuleControllerService;
+import org.kuali.hr.time.salgroup.service.SalGroupService;
 import org.kuali.hr.time.shiftdiff.rule.service.ShiftDifferentialRuleService;
 import org.kuali.hr.time.syslunch.service.SystemLunchRuleService;
 import org.kuali.hr.time.timeblock.service.TimeBlockHistoryService;
@@ -56,6 +58,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_WORK_AREA_SERVICE = "workAreaService";
 	public static final String TK_TIMESHEET_SERVICE = "timesheetService";
 	public static final String TK_TIMESHEET_DOCUMENT_HEADER_SERVICE = "timesheetDocumentHeaderService";
+	public static final String TK_DEPARTMENT_SERVICE = "departmentService";
 	public static final String TK_DEPARTMENT_EARN_CODE = "deptEarnCodeService";
 	public static final String TK_EARN_CODE = "earnCodeService";
 	public static final String TK_TIME_COLLECTION_RULE_SERVICE = "timeCollectionRuleService";
@@ -76,6 +79,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_USER_PREF_SERVICE = "userPrefService";
 	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
 	public static final String TK_TIME_OFF_ACCRUAL_SERVICE = "timeOffAccrualService";
+	public static final String TK_SAL_GROUP_SERVICE = "salGroupService";
 	
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -84,6 +88,14 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static void stop() throws Exception {
 //		CONTEXT.stop();
+	}
+	
+	public static SalGroupService getSalGroupService() {
+		return (SalGroupService) CONTEXT.getBean(TK_SAL_GROUP_SERVICE);
+	}
+	
+	public static DepartmentService getDepartmentService() {
+		return (DepartmentService) CONTEXT.getBean(TK_DEPARTMENT_SERVICE);
 	}
 	
 	public static ShiftDifferentialRuleService getShiftDifferentialRuleService() {

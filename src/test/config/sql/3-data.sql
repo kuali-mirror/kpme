@@ -100,9 +100,9 @@ INSERT INTO `TK_DEPT_EARN_CODE_T`
     (15                   , 'TEST-DEPT2' , 'A10'          , 'HIP'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
     (16                   , 'TEST-DEPT2' , 'A10'          , 'OC1'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
     (17                   , 'TEST-DEPT2' , 'A10'          , 'OC2'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
-    (18                   , '*'          , 'A10'          , 'XYZ'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
-    (19                   , 'TEST-DEPT'  , '*'            , 'XYY'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
-    (20                   , '*'          , '*'            , 'XZZ'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
+    (18                   , '%'          , 'A10'          , 'XYZ'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
+    (19                   , 'TEST-DEPT'  , '%'            , 'XYY'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
+    (20                   , '%'          , '%'            , 'XZZ'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
     (21                   , 'LORA-DEPT'  , 'A10'          , 'RGH'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
     (22                   , 'LORA-DEPT'  , 'A10'          , 'SCK'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
     (23                   , 'LORA-DEPT'  , 'A10'          , 'VAC'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')       		;
@@ -273,16 +273,16 @@ insert into hr_work_schedule_t values(1,'test-schedule','2010-01-01','TEST-DEPT'
 											1234,'admin','Y',uuid(),1,now());
 insert into hr_work_schedule_t values(2,'test-schedule','2010-01-01','TEST-DEPT',
 											-1,'admin','Y',uuid(),1,now());
-insert into hr_work_schedule_t values(3,'test-schedule','2010-01-01','*',
+insert into hr_work_schedule_t values(3,'test-schedule','2010-01-01','%',
 											-1,'admin','Y',uuid(),1,now());
 insert into hr_work_schedule_t values(4,'test-schedule','2010-01-01','TEST-DEPT',
-											1234,'*','Y',uuid(),1,now());
-insert into hr_work_schedule_t values(5,'test-schedule','2010-01-01','*',
-											-1,'*','Y',uuid(),1,now());
+											1234,'%','Y',uuid(),1,now());
+insert into hr_work_schedule_t values(5,'test-schedule','2010-01-01','%',
+											-1,'%','Y',uuid(),1,now());
 insert into hr_work_schedule_t values(11,'test-schedule','2010-01-01','INVALID',
-											1234,'*','Y',uuid(),1,now());
+											1234,'%','Y',uuid(),1,now());
 insert into hr_work_schedule_t values(12,'test-schedule','2010-01-01','TEST-DEPT',
-											-1,'*','Y',uuid(),1,now());
+											-1,'%','Y',uuid(),1,now());
 
 
 DELETE FROM `tk_time_collection_rl_s`;
@@ -290,9 +290,9 @@ INSERT INTO `tk_time_collection_rl_s` VALUES('1000');
 DELETE FROM `tk_time_collection_rl_t`;
 INSERT INTO `tk_time_collection_rl_t` (`TK_TIME_COLL_RULE_ID`,`DEPT`,`WORK_AREA`,`EFFDT`,`CLOCK_USERS_FL`,`HRS_DISTRIBUTION_FL`,`USER_PRINCIPAL_ID`,`TIMESTAMP`,`ACTIVE`) VALUES
   ('1' , 'TEST-DEPT' , 1234 , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y')  ,
-  ('2' , '*'         , 1234 , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y')  ,
+  ('2' , '%'         , 1234 , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y')  ,
   ('3' , 'TEST-DEPT' , -1   , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y')  ,
-  ('4' , '*'         , -1   , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y');
+  ('4' , '%'         , -1   , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y');
 
 DELETE FROM `tk_clock_log_s`;
 INSERT INTO `tk_clock_log_s` VALUES('1000');

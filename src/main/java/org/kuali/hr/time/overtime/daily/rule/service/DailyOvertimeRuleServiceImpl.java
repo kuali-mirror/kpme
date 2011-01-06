@@ -60,59 +60,59 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 		
 		//		l, p, *, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, paytype, "*", workArea, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, paytype, "%", workArea, asOfDate);
 		
 		//		l, p, *, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, paytype, "*", -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, paytype, "%", -1L, asOfDate);
 		
 		//		l, *, d, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "*", dept, workArea, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "%", dept, workArea, asOfDate);
 		
 		//		l, *, d, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "*", dept, -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "%", dept, -1L, asOfDate);
 		
 		//		l, *, *, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "*", "*", workArea, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "%", "%", workArea, asOfDate);
 		
 		//		l, *, *, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "*", "*", -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "%", "%", -1L, asOfDate);
 		
 		//		*, p, d, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", paytype, dept, workArea, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("%", paytype, dept, workArea, asOfDate);
 		
 		//		*, p, d, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", paytype, dept, -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("%", paytype, dept, -1L, asOfDate);
 		
 		//		*, p, *, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", paytype, "*", workArea, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("%", paytype, "%", workArea, asOfDate);
 		
 		//		*, p, *, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", paytype, "*", -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("%", paytype, "%", -1L, asOfDate);
 		
 		//		*, *, d, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", "*", dept, workArea, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("%", "%", dept, workArea, asOfDate);
 		
 		//		*, *, d, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", "*", dept, -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("%", "%", dept, -1L, asOfDate);
 		
 		//		*, *, *, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", "*", "*", workArea, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("%", "%", "%", workArea, asOfDate);
 		
 		//		*, *, *, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("*", "*", "*", -1L, asOfDate);		
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule("%", "%", "%", -1L, asOfDate);		
 							
 		return dailyOvertimeRule;
 	}

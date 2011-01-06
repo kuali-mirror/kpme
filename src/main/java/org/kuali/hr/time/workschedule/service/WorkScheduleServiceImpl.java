@@ -24,27 +24,27 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
 		
 		// principal, *, workArea
 		if (list.isEmpty())
-			list = workScheduleDao.findWorkSchedules(principalId, "*", workArea, asOfDate);
+			list = workScheduleDao.findWorkSchedules(principalId, "%", workArea, asOfDate);
 		
 		// principal, *, -1
 		if (list.isEmpty())
-			list = workScheduleDao.findWorkSchedules(principalId, "*", -1L, asOfDate);
+			list = workScheduleDao.findWorkSchedules(principalId, "%", -1L, asOfDate);
 		
 		// *, dept, workArea
 		if (list.isEmpty())
-			list = workScheduleDao.findWorkSchedules("*", department, workArea, asOfDate);
+			list = workScheduleDao.findWorkSchedules("%", department, workArea, asOfDate);
 		
 		// *, dept, -1
 		if (list.isEmpty())
-			list = workScheduleDao.findWorkSchedules("*", department, -1L, asOfDate);
+			list = workScheduleDao.findWorkSchedules("%", department, -1L, asOfDate);
 		
 		// *, *, workArea
 		if (list.isEmpty())
-			list = workScheduleDao.findWorkSchedules("*", "*", workArea, asOfDate);
+			list = workScheduleDao.findWorkSchedules("%", "%", workArea, asOfDate);
 		
 		// *, *, -1
 		if (list.isEmpty())
-			list = workScheduleDao.findWorkSchedules("*", "*", -1L, asOfDate);
+			list = workScheduleDao.findWorkSchedules("%", "%", -1L, asOfDate);
 		
 		return list;
 	}

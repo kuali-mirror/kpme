@@ -1,76 +1,39 @@
 package org.kuali.hr.time.dept.earncode.validation;
 
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
-import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.salgroup.SalGroup;
-import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 
 public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
-//TODO fix this class
-	protected boolean validateSalGroup(DepartmentEarnCode departmentEarnCode ) {
-		boolean valid = false;
-		LOG.debug("Validating SalGroup: " + departmentEarnCode.getTkSalGroup());
-		Criteria crit = new Criteria();
-		crit.addEqualTo("tkSalGroup", departmentEarnCode.getTkSalGroup());		
-		Query query = QueryFactory.newQuery(SalGroup.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
-		
-		if (count >0 ) {
-			valid = true;
-			LOG.debug("found SalGroup.");
+
+	boolean validateSalGroup(DepartmentEarnCode departmentEarnCode ) {
+		if (!ValidationUtils.validateSalGroup(departmentEarnCode.getTkSalGroup(), departmentEarnCode.getEffectiveDate())) {
+			this.putFieldError("tkSalGroup", "error.existence", "Salgroup '" + departmentEarnCode.getTkSalGroup()+ "'");
+			return false;
 		} else {
-			this.putFieldError("tkSalGroup", "error.existence", "Salgroup '"
-					+ departmentEarnCode.getTkSalGroup()+ "'");
+			return true;
 		}
-		return valid;
 	}
 
-	protected boolean validateDept(DepartmentEarnCode departmentEarnCode) {
-		boolean valid = false;
-		LOG.debug("Validating dept: " + departmentEarnCode.getDept());
-		// TODO: We may need a full DAO that handles bo lookups at some point,
-//		// but we can use the provided one:
-		Criteria crit = new Criteria();
-		crit.addEqualTo("dept", departmentEarnCode.getDept());		
-		Query query = QueryFactory.newQuery(Department.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
-		
-		if (count >0 ) {
-			valid = true;
-			LOG.debug("found department.");
+	boolean validateDept(DepartmentEarnCode clr) {
+		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveDate())) {
+			this.putFieldError("dept", "error.existence", "department '" + clr.getDept() + "'");
+			return false;				
 		} else {
-			this.putFieldError("dept", "error.existence", "Department '"
-					+ departmentEarnCode.getDept() + "'");
+			return true;
 		}
-		return valid;
 	}
 	
-	protected boolean validateEarnCode(DepartmentEarnCode departmentEarnCode ) {
-		boolean valid = false;
-		LOG.debug("Validating earnCode: " + departmentEarnCode.getEarnCode());
-		Criteria crit = new Criteria();
-		crit.addEqualTo("earnCode", departmentEarnCode.getEarnCode());		
-		Query query = QueryFactory.newQuery(EarnCode.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
-		
-		if (count >0 ) {
-			valid = true;
-			LOG.debug("found earnCode.");
+	boolean validateEarnCode(DepartmentEarnCode departmentEarnCode ) {
+		if (!ValidationUtils.validateEarnCode(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveDate())) {
+			this.putFieldError("earnCode", "error.existence", "Earncode '" + departmentEarnCode.getEarnCode()+ "'");
+			return false;
 		} else {
-			this.putFieldError("earnCode", "error.existence", "Earncode '"
-					+ departmentEarnCode.getEarnCode()+ "'");
+			return true;
 		}
-		return valid;
 	}
 	
 	/**

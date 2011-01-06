@@ -1,16 +1,12 @@
 package org.kuali.hr.time.timecollection.rule.dao;
 
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Calendar;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSupport implements TimeCollectionRuleDaoService{
@@ -34,7 +30,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 			return timeCollectionRule;
 		}
 		//Try with dept wildcarded *
-		timeCollectionRule = getTimeCollectionRuleWildCarded("*", workArea, asOfDate);
+		timeCollectionRule = getTimeCollectionRuleWildCarded("%", workArea, asOfDate);
 		if(timeCollectionRule!=null){
 			return timeCollectionRule;
 		}
@@ -46,7 +42,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 		}
 		
 		//Try with everything wildcarded
-		timeCollectionRule = getTimeCollectionRuleWildCarded("*", -1L, asOfDate);
+		timeCollectionRule = getTimeCollectionRuleWildCarded("%", -1L, asOfDate);
 		if(timeCollectionRule!=null){
 			return timeCollectionRule;
 		}
