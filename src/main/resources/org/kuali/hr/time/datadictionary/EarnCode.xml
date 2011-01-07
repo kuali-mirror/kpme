@@ -242,7 +242,6 @@
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="tkEarnCodeId" p:forceInquiry="true" />
         <bean parent="FieldDefinition" p:attributeName="earnCode" />
         <bean parent="FieldDefinition" p:attributeName="description" />
         <bean parent="FieldDefinition" p:attributeName="active" />
