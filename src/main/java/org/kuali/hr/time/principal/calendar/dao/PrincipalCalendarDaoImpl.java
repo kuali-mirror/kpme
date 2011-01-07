@@ -22,13 +22,11 @@ public class PrincipalCalendarDaoImpl extends PersistenceBrokerDaoSupport implem
 		Criteria effdt = new Criteria();
 		Criteria timestamp = new Criteria();
 
-		// OJB's awesome sub query setup part 1
 		effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(PrincipalCalendar.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
-		// OJB's awesome sub query setup part 2
 		timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(PrincipalCalendar.class, timestamp);
@@ -38,6 +36,10 @@ public class PrincipalCalendarDaoImpl extends PersistenceBrokerDaoSupport implem
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
 
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+		
 		Query query = QueryFactory.newQuery(PrincipalCalendar.class, root);
 		Object obj = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 

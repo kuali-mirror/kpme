@@ -1,41 +1,23 @@
 package org.kuali.hr.time.shiftdiff.rule.validation;
 
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
+import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 
 public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 
-	protected boolean validateSalGroup(ShiftDifferentialRule shiftDifferentialRule ) {
-		boolean valid = false;
-		LOG.debug("Validating Salgroup: " + shiftDifferentialRule.getTkSalGroup());
-		Criteria crit = new Criteria();
-		crit.addEqualTo("tkSalGroup", shiftDifferentialRule.getTkSalGroup());
-		crit.addLessOrEqualThan("effectiveDate", shiftDifferentialRule.getEffectiveDate());
-		
-		Query query = QueryFactory.newQuery(SalGroup.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-		 
-		if (count != 0) {
-			valid = true;
-			LOG.debug("found salgroup.");			
+	boolean validateSalGroup(ShiftDifferentialRule shiftDifferentialRule ) {
+		if (!ValidationUtils.validateSalGroup(shiftDifferentialRule.getTkSalGroup(), shiftDifferentialRule.getEffectiveDate())) {
+			this.putFieldError("tkSalGroup", "error.existence", "Salgroup '" + shiftDifferentialRule.getTkSalGroup()+ "'");
+			return false;
 		} else {
-			this.putFieldError("salGroup", "error.existence", "salGroup '"
-					+ shiftDifferentialRule.getTkSalGroup()+ "'");			
-		}
-		return valid;
+			return true;
+		}		
 	}
-
-	 
 	
 	/**
 	 * It looks like the method that calls this class doesn't actually care
@@ -53,7 +35,6 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 			if (shiftDifferentialRule != null) {
 				valid = true;
 				valid &= this.validateSalGroup(shiftDifferentialRule);
-				 
 			}
 		}
 		

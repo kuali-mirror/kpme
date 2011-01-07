@@ -44,15 +44,15 @@ public class ShiftDifferentialRuleMaintenableImpl extends KualiMaintainableImpl 
 	public void saveBusinessObject() {
 		ShiftDifferentialRule shiftDifferentialRule = (ShiftDifferentialRule) this
 				.getBusinessObject();
-		ShiftDifferentialRule oldShiftDifferentialRule = (ShiftDifferentialRule) KNSServiceLocator
-				.getBusinessObjectService().findBySinglePrimaryKey(
-						ShiftDifferentialRule.class,
-						shiftDifferentialRule.getTkShiftDiffRuleId());
-		if (oldShiftDifferentialRule != null) {
-			oldShiftDifferentialRule.setActive(false);
-			KNSServiceLocator.getBusinessObjectService().save(
-					oldShiftDifferentialRule);
-		}
+//		ShiftDifferentialRule oldShiftDifferentialRule = (ShiftDifferentialRule) KNSServiceLocator
+//				.getBusinessObjectService().findBySinglePrimaryKey(
+//						ShiftDifferentialRule.class,
+//						shiftDifferentialRule.getTkShiftDiffRuleId());
+//		if (oldShiftDifferentialRule != null) {
+//			oldShiftDifferentialRule.setActive(false);
+//			KNSServiceLocator.getBusinessObjectService().save(
+//					oldShiftDifferentialRule);
+//		}
 		shiftDifferentialRule.setTkShiftDiffRuleId(null);
 		shiftDifferentialRule.setTimeStamp(null);
 		KNSServiceLocator.getBusinessObjectService()

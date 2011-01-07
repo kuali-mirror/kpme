@@ -23,7 +23,7 @@ public class DepartmentLunchRuleDaoImpl  extends PersistenceBrokerDaoSupport imp
 		effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-		effdt.addEqualTo("active", true);
+//		effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DeptLunchRule.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
@@ -32,7 +32,7 @@ public class DepartmentLunchRuleDaoImpl  extends PersistenceBrokerDaoSupport imp
 		timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 		timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		timestamp.addEqualTo("active", true);
+//		timestamp.addEqualTo("active", true);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DeptLunchRule.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 
@@ -42,8 +42,13 @@ public class DepartmentLunchRuleDaoImpl  extends PersistenceBrokerDaoSupport imp
 		root.addEqualTo("jobNumber", jobNumber);
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
-		root.addEqualTo("active", true);
+//		root.addEqualTo("active", true);
 
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+		
+		
 		Query query = QueryFactory.newQuery(DeptLunchRule.class, root);
 		return (DeptLunchRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 		

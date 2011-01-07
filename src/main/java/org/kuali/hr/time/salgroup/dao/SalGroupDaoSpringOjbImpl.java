@@ -24,20 +24,24 @@ public class SalGroupDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 
 		effdt.addEqualToField("tkSalGroup", Criteria.PARENT_QUERY_PREFIX + "tkSalGroup");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-		effdt.addEqualTo("active", true);
+//		effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SalGroup.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
 		timestamp.addEqualToField("tkSalGroup", Criteria.PARENT_QUERY_PREFIX + "tkSalGroup");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		timestamp.addEqualTo("active", true);
+//		timestamp.addEqualTo("active", true);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SalGroup.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 
 		root.addEqualTo("tkSalGroup", salGroup);
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
-		root.addEqualTo("active", true);
+//		root.addEqualTo("active", true);
+
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
 		
 		Query query = QueryFactory.newQuery(SalGroup.class, root);
 		SalGroup s = (SalGroup)this.getPersistenceBrokerTemplate().getObjectByQuery(query);

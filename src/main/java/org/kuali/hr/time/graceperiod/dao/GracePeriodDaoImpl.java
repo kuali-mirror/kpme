@@ -15,14 +15,17 @@ public class GracePeriodDaoImpl extends PersistenceBrokerDaoSupport implements G
 		Criteria effdt = new Criteria();
 
 		effdt.addLessOrEqualThan("effDt", asOfDate);
-		effdt.addEqualTo("active", true);
+//		effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(GracePeriodRule.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
-
 		root.addEqualTo("effDt", effdtSubQuery);
-		root.addEqualTo("active", true);
+//		root.addEqualTo("active", true);
 
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+		
 		Query query = QueryFactory.newQuery(GracePeriodRule.class, root);
 		return (GracePeriodRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}

@@ -1,6 +1,7 @@
 package org.kuali.hr.time.earncode.validation;
 
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
@@ -10,6 +11,16 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 	protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 		EarnCode earnCode = (EarnCode)this.getNewBo();
 		//if earn code is not designated how to record then throw error
+
+		if (earnCode.getTkEarnCodeId() == null) {
+			if (ValidationUtils.validateEarnCode(earnCode.getEarnCode(), null)) {
+				// If there IS an earn code, ie, it is valid, we need to report
+				// an error as earn codes must be unique.			
+				this.putFieldError("earnCode", "earncode.earncode.unique");
+				return false;
+			}
+		}
+		
 		if(earnCode.getRecordAmount() == false && 
 			earnCode.getRecordHours() == false && 
 			earnCode.getRecordTime() == false){

@@ -51,6 +51,15 @@ public class ValidationUtils {
 		return valid;
 	}
 	
+	public static boolean validateExactEarnCode(String earnCode, Date asOfDate) {
+		boolean valid = false;
+		
+		if (asOfDate != null)
+			valid = (TkServiceLocator.getEarnCodeService().getExactEarnCode(earnCode, asOfDate) != null);
+		
+		return valid;
+	}
+	
 	public static boolean validateEarnCode(String earnCode, Date asOfDate) {
 		boolean valid = false;
 		

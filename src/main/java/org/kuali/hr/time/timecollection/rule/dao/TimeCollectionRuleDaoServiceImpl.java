@@ -57,14 +57,14 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 
 		effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
 		effdt.addLessOrEqualThan("effDate", asOfDate);
-		effdt.addEqualTo("active", true);
+//		effdt.addEqualTo("active", true);
 		effdt.addEqualTo("dept", dept);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(TimeCollectionRule.class, effdt);
 		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 		
 		timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
 		timestamp.addEqualToField("effDate", Criteria.PARENT_QUERY_PREFIX + "effDate");
-		timestamp.addEqualTo("active", true);
+//		timestamp.addEqualTo("active", true);
 		timestamp.addEqualTo("dept", dept);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(TimeCollectionRule.class, timestamp);
 		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
@@ -73,7 +73,12 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 		root.addEqualTo("workArea", workArea);
 		root.addEqualTo("effDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
-		root.addEqualTo("active", true);
+//		root.addEqualTo("active", true);
+
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+
 		
 		Query query = QueryFactory.newQuery(TimeCollectionRule.class, root);
 		return (TimeCollectionRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);

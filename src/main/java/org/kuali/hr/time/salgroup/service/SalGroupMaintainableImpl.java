@@ -14,12 +14,12 @@ public class SalGroupMaintainableImpl extends KualiMaintainableImpl {
 	@Override
 	public void saveBusinessObject() {
 		SalGroup salGroup = (SalGroup)this.getBusinessObject();
-		SalGroup oldSalGroup = (SalGroup)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(
-				SalGroup.class, salGroup.getTkSalGroupId());
-		if(oldSalGroup!=null){
-			oldSalGroup.setActive(false);
-			KNSServiceLocator.getBusinessObjectService().save(oldSalGroup);
-		}
+//		SalGroup oldSalGroup = (SalGroup)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(
+//				SalGroup.class, salGroup.getTkSalGroupId());
+//		if(oldSalGroup!=null){
+//			oldSalGroup.setActive(false);
+//			KNSServiceLocator.getBusinessObjectService().save(oldSalGroup);
+//		}
 		salGroup.setTkSalGroupId(null);
 		salGroup.setTimestamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(salGroup);

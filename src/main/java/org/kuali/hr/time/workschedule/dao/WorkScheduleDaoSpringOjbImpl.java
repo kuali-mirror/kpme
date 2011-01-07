@@ -46,7 +46,7 @@ public class WorkScheduleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport im
 		effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
 		effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-		effdt.addEqualTo("active", true);
+//		effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(WorkSchedule.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
@@ -55,7 +55,7 @@ public class WorkScheduleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport im
 		timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
 		timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		timestamp.addEqualTo("active", true);
+//		timestamp.addEqualTo("active", true);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(WorkSchedule.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 
@@ -64,8 +64,12 @@ public class WorkScheduleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport im
 		root.addEqualTo("principalId", principalId);
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
-		root.addEqualTo("active", true);
+//		root.addEqualTo("active", true);
 
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+		
 		Query query = QueryFactory.newQuery(WorkSchedule.class, root);
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		

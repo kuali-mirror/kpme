@@ -11,4 +11,6 @@ public interface EarnCodeService {
 	public List<EarnCode> getEarnCodes(Assignment a);
 	
 	public EarnCode getEarnCode(String earnCode, Date asOfDate);
+	
+	public EarnCode getExactEarnCode(String earnCode, Date asOfDate);
 }

@@ -300,7 +300,7 @@
 
 	<class-descriptor class="org.kuali.hr.time.earncode.EarnCode" table="tk_earn_code_t">
 		<field-descriptor name="tkEarnCodeId" 	column="tk_earn_code_id" jdbc-type="BIGINT"  primarykey="true" autoincrement="true" sequence-name="tk_earn_code_s"/>
-		<field-descriptor name="earnCode"       column="earn_code"		 jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
+		<field-descriptor name="earnCode"       column="earn_code"		 jdbc-type="VARCHAR" length="10" nullable="false" primarykey="true" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="description"    column="descr"			 jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"  column="effdt"			 jdbc-type="DATE"    nullable="false" primarykey="false" />

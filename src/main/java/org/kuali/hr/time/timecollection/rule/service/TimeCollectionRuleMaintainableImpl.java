@@ -44,15 +44,15 @@ public class TimeCollectionRuleMaintainableImpl extends KualiMaintainableImpl {
 	public void saveBusinessObject() {
 		TimeCollectionRule timeCollectionRule = (TimeCollectionRule) this
 				.getBusinessObject();
-		TimeCollectionRule oldTimeCollectionRule = (TimeCollectionRule) KNSServiceLocator
-				.getBusinessObjectService().findBySinglePrimaryKey(
-						TimeCollectionRule.class,
-						timeCollectionRule.getTkTimeCollectionRuleId());
-		if (oldTimeCollectionRule != null) {
-			oldTimeCollectionRule.setActive(false);
-			KNSServiceLocator.getBusinessObjectService().save(
-					oldTimeCollectionRule);
-		}
+//		TimeCollectionRule oldTimeCollectionRule = (TimeCollectionRule) KNSServiceLocator
+//				.getBusinessObjectService().findBySinglePrimaryKey(
+//						TimeCollectionRule.class,
+//						timeCollectionRule.getTkTimeCollectionRuleId());
+//		if (oldTimeCollectionRule != null) {
+//			oldTimeCollectionRule.setActive(false);
+//			KNSServiceLocator.getBusinessObjectService().save(
+//					oldTimeCollectionRule);
+//		}
 		timeCollectionRule.setTkTimeCollectionRuleId(null);
 		timeCollectionRule.setTimeStamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(timeCollectionRule);

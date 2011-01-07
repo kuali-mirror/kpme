@@ -45,15 +45,15 @@ public class DailyOvertimeRuleMaintainableImpl extends
 	public void saveBusinessObject() {
 		DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) this
 				.getBusinessObject();
-		DailyOvertimeRule oldDailyOvertimeRule = (DailyOvertimeRule) KNSServiceLocator
-				.getBusinessObjectService().findBySinglePrimaryKey(
-						DailyOvertimeRule.class,
-						dailyOvertimeRule.getTkDailyOvertimeRuleId());
-		if (oldDailyOvertimeRule != null) {
-			oldDailyOvertimeRule.setActive(false);
-			KNSServiceLocator.getBusinessObjectService().save(
-					oldDailyOvertimeRule);
-		}
+//		DailyOvertimeRule oldDailyOvertimeRule = (DailyOvertimeRule) KNSServiceLocator
+//				.getBusinessObjectService().findBySinglePrimaryKey(
+//						DailyOvertimeRule.class,
+//						dailyOvertimeRule.getTkDailyOvertimeRuleId());
+//		if (oldDailyOvertimeRule != null) {
+//			oldDailyOvertimeRule.setActive(false);
+//			KNSServiceLocator.getBusinessObjectService().save(
+//					oldDailyOvertimeRule);
+//		}
 		dailyOvertimeRule.setTkDailyOvertimeRuleId(null);
 		dailyOvertimeRule.setTimeStamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(dailyOvertimeRule);

@@ -263,12 +263,14 @@ INSERT INTO `tk_py_calendar_entries_t` (`tk_py_calendar_entry_id`,`tk_py_calenda
 DELETE FROM `tk_daily_overtime_rl_s`;
 INSERT INTO `tk_daily_overtime_rl_s` (`ID`) VALUES (1000);
 
-DELETE FROM `HR_WORK_SCHEDULE_S`;
-INSERT INTO `HR_WORK_SCHEDULE_S` (`ID`) VALUES (1000);
-
 DELETE FROM `HR_WORK_SCHEDULE_ENTRY_S`;
 INSERT INTO `HR_WORK_SCHEDULE_ENTRY_S` (`ID`) VALUES (1000);
 
+DELETE FROM `HR_WORK_SCHEDULE_S`;
+INSERT INTO `HR_WORK_SCHEDULE_S` (`ID`) VALUES (1000);
+
+
+DELETE FROM `HR_WORK_SCHEDULE_T`;
 insert into hr_work_schedule_t values(1,'test-schedule','2010-01-01','TEST-DEPT',
 											1234,'admin','Y',uuid(),1,now());
 insert into hr_work_schedule_t values(2,'test-schedule','2010-01-01','TEST-DEPT',

@@ -13,14 +13,14 @@ public class DepartmentEarnCodeMaintainableImpl extends KualiMaintainableImpl {
 	@Override
 	public void saveBusinessObject() {
 		DepartmentEarnCode departmentEarnCode = (DepartmentEarnCode) this.getBusinessObject();
-		DepartmentEarnCode oldDepartmentEarnCode = (DepartmentEarnCode) KNSServiceLocator
-				.getBusinessObjectService().findBySinglePrimaryKey(
-						DepartmentEarnCode.class,
-						departmentEarnCode.getTkDeptEarnCodeId());
-		if (oldDepartmentEarnCode != null) {
-			oldDepartmentEarnCode.setActive(false);
-			KNSServiceLocator.getBusinessObjectService().save(oldDepartmentEarnCode);
-		}
+//		DepartmentEarnCode oldDepartmentEarnCode = (DepartmentEarnCode) KNSServiceLocator
+//				.getBusinessObjectService().findBySinglePrimaryKey(
+//						DepartmentEarnCode.class,
+//						departmentEarnCode.getTkDeptEarnCodeId());
+//		if (oldDepartmentEarnCode != null) {
+//			oldDepartmentEarnCode.setActive(false);
+//			KNSServiceLocator.getBusinessObjectService().save(oldDepartmentEarnCode);
+//		}
 		departmentEarnCode.setTkDeptEarnCodeId(null);
 		departmentEarnCode.setTimestamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(departmentEarnCode);

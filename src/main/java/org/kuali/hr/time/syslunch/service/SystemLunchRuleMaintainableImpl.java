@@ -13,12 +13,12 @@ public class SystemLunchRuleMaintainableImpl extends KualiMaintainableImpl {
 	@Override
 	public void saveBusinessObject() {
 		SystemLunchRule sysLunchRule = (SystemLunchRule)this.getBusinessObject();
-		SystemLunchRule oldSysLunchRule = (SystemLunchRule)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(
-				SystemLunchRule.class, sysLunchRule.getTkSystemLunchRuleId());
-		if(oldSysLunchRule!=null){
-			oldSysLunchRule.setActive(false);
-			KNSServiceLocator.getBusinessObjectService().save(oldSysLunchRule);
-		}
+//		SystemLunchRule oldSysLunchRule = (SystemLunchRule)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(
+//				SystemLunchRule.class, sysLunchRule.getTkSystemLunchRuleId());
+//		if(oldSysLunchRule!=null){
+//			oldSysLunchRule.setActive(false);
+//			KNSServiceLocator.getBusinessObjectService().save(oldSysLunchRule);
+//		}
 		sysLunchRule.setTkSystemLunchRuleId(null);
 		sysLunchRule.setTimeStamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(sysLunchRule);

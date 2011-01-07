@@ -51,4 +51,8 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		return ec;
 	}
 	
+	public EarnCode getExactEarnCode(String earnCode, Date asOfDate) {
+		return earnCodeDao.getExactEarnCode(earnCode, asOfDate);
+	}
+	
 }

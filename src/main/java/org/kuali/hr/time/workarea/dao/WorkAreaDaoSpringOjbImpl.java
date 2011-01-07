@@ -23,21 +23,25 @@ public class WorkAreaDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 		// OJB's awesome sub query setup part 1
 		effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-		effdt.addEqualTo("active", true);
+//		effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(WorkArea.class, effdt);
 		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 		
 		// OJB's awesome sub query setup part 2
 		timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		timestamp.addEqualTo("active", true);
+//		timestamp.addEqualTo("active", true);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(WorkArea.class, timestamp);
 		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
 		root.addEqualTo("workArea", workArea);
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
-		root.addEqualTo("active", true);
+//		root.addEqualTo("active", true);
+
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
 		
 		Query query = QueryFactory.newQuery(WorkArea.class, root);
 		return (WorkArea) this.getPersistenceBrokerTemplate().getObjectByQuery(query);

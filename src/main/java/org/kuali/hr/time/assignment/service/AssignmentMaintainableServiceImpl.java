@@ -15,16 +15,16 @@ public class AssignmentMaintainableServiceImpl extends KualiMaintainableImpl{
 	@Override
 	public void saveBusinessObject() {
 		Assignment assignment = (Assignment)this.getBusinessObject();
-		Assignment oldAssignment = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Assignment.class, 
-									assignment.getTkAssignmentId());
-		if(oldAssignment != null){
-			oldAssignment.setActive(false);
-			KNSServiceLocator.getBusinessObjectService().save(oldAssignment);
-			for(AssignmentAccount oldAssignAccount : oldAssignment.getAssignmentAccounts()){
-				oldAssignAccount.setActive(false);
-				KNSServiceLocator.getBusinessObjectService().save(oldAssignAccount);
-			}
-		}
+//		Assignment oldAssignment = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Assignment.class, 
+//									assignment.getTkAssignmentId());
+//		if(oldAssignment != null){
+//			oldAssignment.setActive(false);
+//			KNSServiceLocator.getBusinessObjectService().save(oldAssignment);
+//			for(AssignmentAccount oldAssignAccount : oldAssignment.getAssignmentAccounts()){
+//				oldAssignAccount.setActive(false);
+//				KNSServiceLocator.getBusinessObjectService().save(oldAssignAccount);
+//			}
+//		}
 		assignment.setTimestamp(null);
 		assignment.setTkAssignmentId(null);
 		KNSServiceLocator.getBusinessObjectService().save(assignment);

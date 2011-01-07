@@ -14,12 +14,12 @@ public class EarnGroupMaintainableImpl extends KualiMaintainableImpl{
 	@Override
 	public void saveBusinessObject() {
 		EarnGroup earnGroup = (EarnGroup)this.getBusinessObject();
-		EarnGroup oldEarnGroup = (EarnGroup)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(
-				EarnGroup.class, earnGroup.getTkEarnGroupId());
-		if(oldEarnGroup!=null){
-			oldEarnGroup.setActive(false);
-			KNSServiceLocator.getBusinessObjectService().save(oldEarnGroup);
-		}
+//		EarnGroup oldEarnGroup = (EarnGroup)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(
+//				EarnGroup.class, earnGroup.getTkEarnGroupId());
+//		if(oldEarnGroup!=null){
+//			oldEarnGroup.setActive(false);
+//			KNSServiceLocator.getBusinessObjectService().save(oldEarnGroup);
+//		}
 		earnGroup.setTkEarnGroupId(null);
 		earnGroup.setTimestamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(earnGroup);

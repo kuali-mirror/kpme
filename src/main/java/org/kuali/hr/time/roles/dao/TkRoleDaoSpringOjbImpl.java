@@ -59,7 +59,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 			effdt.addEqualToField("roleName", Criteria.PARENT_QUERY_PREFIX + "roleName");
 			effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 			effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-			effdt.addEqualTo("active", true);
+//			effdt.addEqualTo("active", true);
 
 			effdtSubQuery = QueryFactory.newReportQuery(TkRole.class, effdt);
 			effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
@@ -68,7 +68,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 			timestamp.addEqualToField("roleName", Criteria.PARENT_QUERY_PREFIX + "roleName");
 			timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 			timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-			timestamp.addEqualTo("active", true);
+//			timestamp.addEqualTo("active", true);
 			
 			//Create a subquery based on the just configured where clause
 			timestampSubQuery = QueryFactory.newReportQuery(TkRole.class, timestamp);
@@ -96,7 +96,11 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 		if (dateCheck) {
 			root.addEqualTo("effectiveDate", effdtSubQuery);
 			root.addEqualTo("timestamp", timestampSubQuery);
-			root.addEqualTo("active", true);
+//			root.addEqualTo("active", true);
+			
+			Criteria activeFilter = new Criteria(); // Inner Join For Activity
+			activeFilter.addEqualTo("active", true);
+			root.addAndCriteria(activeFilter);
 		}
 		
 		Query query = QueryFactory.newQuery(TkRole.class, root);

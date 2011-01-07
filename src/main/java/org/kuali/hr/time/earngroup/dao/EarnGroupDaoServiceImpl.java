@@ -20,23 +20,27 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 
 		effdt.addEqualToField("earnGroup", Criteria.PARENT_QUERY_PREFIX + "earnGroup");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-		effdt.addEqualTo("active", true);
+//		effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnGroup.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
 		timestamp.addEqualToField("earnGroup", Criteria.PARENT_QUERY_PREFIX + "earnGroup");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		timestamp.addEqualTo("active", true);
+//		timestamp.addEqualTo("active", true);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnGroup.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 
 		root.addEqualTo("earnGroup", earnGroup);
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
-		root.addEqualTo("active", true);
+//		root.addEqualTo("active", true);
 		//do not include the summary setup earn groups
 		root.addNotLike("descr", "Summary%");
 
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+				
 		Query query = QueryFactory.newQuery(EarnGroup.class, root);
 		EarnGroup earnGroupObj  = (EarnGroup)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 		return earnGroupObj;
@@ -51,13 +55,13 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 		
 		effdt.addEqualToField("earnGroup", Criteria.PARENT_QUERY_PREFIX + "earnGroup");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-		effdt.addEqualTo("active", true);
+//		effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnGroup.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
 		timestamp.addEqualToField("earnGroup", Criteria.PARENT_QUERY_PREFIX + "earnGroup");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		timestamp.addEqualTo("active", true);
+//		timestamp.addEqualTo("active", true);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnGroup.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 		
@@ -69,8 +73,12 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 		root.addEqualTo("tkEarnGroupId",earnCodeSubQuery);
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
-		root.addEqualTo("active", true);
+//		root.addEqualTo("active", true);
 		root.addEqualTo("showSummary", true);
+		
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
 
 		Query query = QueryFactory.newQuery(EarnGroup.class, root);
 		EarnGroup earnGroupObj  = (EarnGroup)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
@@ -86,13 +94,13 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 		
 		effdt.addEqualToField("earnGroup", Criteria.PARENT_QUERY_PREFIX + "earnGroup");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-		effdt.addEqualTo("active", true);
+//		effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnGroup.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
 		timestamp.addEqualToField("earnGroup", Criteria.PARENT_QUERY_PREFIX + "earnGroup");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		timestamp.addEqualTo("active", true);
+//		timestamp.addEqualTo("active", true);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnGroup.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 		
@@ -104,8 +112,12 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 		root.addEqualTo("tkEarnGroupId",earnCodeSubQuery);
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
-		root.addEqualTo("active", true);
+//		root.addEqualTo("active", true);
 
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+		
 		Query query = QueryFactory.newQuery(EarnGroup.class, root);
 		EarnGroup earnGroupObj  = (EarnGroup)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 		return earnGroupObj;

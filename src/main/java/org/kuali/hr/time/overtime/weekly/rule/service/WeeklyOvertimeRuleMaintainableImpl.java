@@ -46,14 +46,14 @@ public class WeeklyOvertimeRuleMaintainableImpl extends
 	public void saveBusinessObject() {
 		WeeklyOvertimeRule weeklyOvertimeRule = (WeeklyOvertimeRule) this
 				.getBusinessObject();
-		WeeklyOvertimeRule oldWeeklyOvertimeRule = (WeeklyOvertimeRule) KNSServiceLocator
-				.getBusinessObjectService().findBySinglePrimaryKey(
-						WeeklyOvertimeRule.class,
-						weeklyOvertimeRule.getTkWeeklyOvertimeRuleId());
-		if (oldWeeklyOvertimeRule != null) {
-			oldWeeklyOvertimeRule.setActive(false);
-			KNSServiceLocator.getBusinessObjectService().save(oldWeeklyOvertimeRule);
-		}
+//		WeeklyOvertimeRule oldWeeklyOvertimeRule = (WeeklyOvertimeRule) KNSServiceLocator
+//				.getBusinessObjectService().findBySinglePrimaryKey(
+//						WeeklyOvertimeRule.class,
+//						weeklyOvertimeRule.getTkWeeklyOvertimeRuleId());
+//		if (oldWeeklyOvertimeRule != null) {
+//			oldWeeklyOvertimeRule.setActive(false);
+//			KNSServiceLocator.getBusinessObjectService().save(oldWeeklyOvertimeRule);
+//		}
 		weeklyOvertimeRule.setTkWeeklyOvertimeRuleId(null);
 		weeklyOvertimeRule.setTimeStamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(weeklyOvertimeRule);

@@ -41,14 +41,14 @@ public class ClockLogMaintainableImpl extends org.kuali.rice.kns.maintenance.Kua
 	@Override
 	public void saveBusinessObject() {
 		ClockLog clockLog = (ClockLog) this.getBusinessObject();
-		ClockLog oldClockLog = (ClockLog) KNSServiceLocator
-				.getBusinessObjectService().findBySinglePrimaryKey(
-						ClockLog.class,
-						clockLog.getTkClockLogId());
-		if (oldClockLog != null) {
-			//oldClockLog.setActive(false);
-			//KNSServiceLocator.getBusinessObjectService().save(oldClockLog);
-		}
+//		ClockLog oldClockLog = (ClockLog) KNSServiceLocator
+//				.getBusinessObjectService().findBySinglePrimaryKey(
+//						ClockLog.class,
+//						clockLog.getTkClockLogId());
+//		if (oldClockLog != null) {
+//			//oldClockLog.setActive(false);
+//			//KNSServiceLocator.getBusinessObjectService().save(oldClockLog);
+//		}
 		clockLog.setTkClockLogId(null);
 		clockLog.setTimestamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(clockLog);

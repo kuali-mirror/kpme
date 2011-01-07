@@ -19,12 +19,12 @@ public class JobMaintainableImpl extends KualiMaintainableImpl {
 	@Override
 	public void saveBusinessObject() {
 		Job job = (Job)this.getBusinessObject();
-		Job oldJob = (Job)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(
-													Job.class, job.getHrJobId());
-		if(oldJob!=null){
-			oldJob.setActive(false);
-			KNSServiceLocator.getBusinessObjectService().save(oldJob);
-		}
+//		Job oldJob = (Job)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(
+//													Job.class, job.getHrJobId());
+//		if(oldJob!=null){
+//			oldJob.setActive(false);
+//			KNSServiceLocator.getBusinessObjectService().save(oldJob);
+//		}
 		job.setHrJobId(null);
 		job.setTimestamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(job);
