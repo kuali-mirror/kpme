@@ -158,7 +158,7 @@
 	</class-descriptor>
     <class-descriptor class="org.kuali.hr.time.department.Department" table="tk_dept_t">
 		<field-descriptor name="tkDeptId"     column="tk_dept_id"    jdbc-type="BIGINT" nullable="false" primarykey="true"  autoincrement="true" sequence-name="tk_dept_s"/>
-        <field-descriptor name="dept"         column="dept"          jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
+        <field-descriptor name="dept"         column="dept"          jdbc-type="VARCHAR" length="21" nullable="false" primarykey="true" />
         <field-descriptor name="description"    column="description" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
         <field-descriptor name="org"            column="org"         jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
         <field-descriptor name="chart"          column="chart"       jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
@@ -215,7 +215,7 @@
 	<class-descriptor class="org.kuali.hr.time.workarea.WorkArea" table="tk_work_area_t">
 		<field-descriptor name="tkWorkAreaId"         column="TK_WORK_AREA_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_dept_lunch_rl_s"/>
 		<!-- put field descriptors -->
-		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" />
+		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" primarykey="true"  />
 		<field-descriptor name="effectiveDate"      column="effdt" jdbc-type="DATE" nullable="false" primarykey="false"/>
         <field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="description"        column="descr" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
@@ -284,7 +284,6 @@
 		<field-descriptor name="location" 				column="location" 			jdbc-type="VARCHAR" nullable="false" length="30"  />
 		<field-descriptor name="standardHours" 			column="std_hours" 			jdbc-type="NUMERIC" nullable="false" length="27" />
 		<field-descriptor name="compRate" 			column="comp_rate" 				jdbc-type="NUMERIC" nullable="false" length="27" />
-		<field-descriptor name="fte" 					column="fte" 				jdbc-type="BIT" length="1" nullable="false" />
 		<field-descriptor name="hrPayType" 			    column="hr_paytype"     	jdbc-type="VARCHAR" length="5" nullable="false" primaryKey="false" />
 		<field-descriptor name="payGrade" 				column="pay_grade" 			jdbc-type="VARCHAR" nullable="false" length="27" />
 		<field-descriptor name="primaryIndicator"       column="primary_indicator"	jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />

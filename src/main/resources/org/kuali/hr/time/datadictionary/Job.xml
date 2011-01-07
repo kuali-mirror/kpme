@@ -24,7 +24,6 @@
 				<ref bean="Job-tkSalGroup" />
 				<ref bean="Job-timestamp" />
 				<ref bean="Job-location" />
-				<ref bean="Job-fte" />
 				<ref bean="Job-hrPayType" />
 				<ref bean="Job-payGrade" />
 				<ref bean="Job-standardHours" />
@@ -80,16 +79,6 @@
 		<property name="label" value="Job Id" />
 	</bean>
 
-	<!-- fte = full time employee, bool value -->
-	<bean id="Job-fte" parent="Job-fte-parentBean" />
-	<bean id="Job-fte-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="fte" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="fte" />
-		<property name="label" value="Full Time Employee" />
-	</bean>
 
 	<!-- The validation type and length on this may be wrong -->
 	<bean id="Job-hrPayType" parent="Job-hrPayType-parentBean" />

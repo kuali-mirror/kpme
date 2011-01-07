@@ -23,7 +23,6 @@ public class Job extends PersistableBusinessObjectBase {
 	
 	private String location;
 	private String hrPayType;
-	private Boolean fte;
 	private String payGrade;
 	private BigDecimal standardHours;
 	private Long hrJobId;
@@ -51,16 +50,7 @@ public class Job extends PersistableBusinessObjectBase {
 
 		return toStringMap;
 	}
-
-
-	public Boolean getFte() {
-		return fte;
-	}
-
-	public void setFte(Boolean fte) {
-		this.fte = fte;
-	}
-
+	
 	public String getPayGrade() {
 		return payGrade;
 	}

@@ -26,4 +26,6 @@ public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 		KNSServiceLocator.getBusinessObjectService().save(workArea);
 		
 	}
+	
+	
 }

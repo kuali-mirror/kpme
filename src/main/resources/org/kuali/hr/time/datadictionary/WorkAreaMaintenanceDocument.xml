@@ -27,7 +27,7 @@
     <property name="title" value="Work Area Maintenance"/>
     <property name="maintainableItems">
       <list>
-      	<bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true" p:readOnlyAfterAdd="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true" />
       	<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="description"  p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="dept"  p:required="true"/>

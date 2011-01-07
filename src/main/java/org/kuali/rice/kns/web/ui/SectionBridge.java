@@ -227,11 +227,7 @@ public class SectionBridge {
             else if (item instanceof MaintainableSubSectionHeaderDefinition) {
                 MaintainableSubSectionHeaderDefinition definition = (MaintainableSubSectionHeaderDefinition) item;
                 field = createMaintainableSubSectionHeader(definition);
-            }
-            //AF - Customization Fix to make read only after add work on edit 
-            if(item instanceof MaintainableFieldDefinition && StringUtils.equals(maintenanceAction, "Edit") && ((MaintainableFieldDefinition)item).isReadOnlyAfterAdd()){
-            	field.setReadOnly(true);
-            }      
+            } 
             if (!skipAdd) {
                 sectionFields.add(field);
             }

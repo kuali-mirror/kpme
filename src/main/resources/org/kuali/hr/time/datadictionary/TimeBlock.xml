@@ -3,7 +3,6 @@
     xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
   <bean id="TimeBlock" parent="TimeBlock-parentBean" />
   <bean id="TimeBlock-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.hr.time.timeblock.TimeBlock" />
