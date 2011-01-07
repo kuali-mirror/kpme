@@ -71,7 +71,7 @@
 					<property name="maintainableFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="earnCode"
-								p:required="true" p:unconditionallyReadOnly="true"/>
+								p:required="true" p:readOnlyAfterAdd="true" />
 						</list>
 					</property>
 				</bean>

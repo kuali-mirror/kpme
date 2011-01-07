@@ -131,13 +131,13 @@
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="tkEarnGroupId" />
 				<bean parent="FieldDefinition" p:attributeName="earnGroup" />
+                <bean parent="FieldDefinition" p:attributeName="descr" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="tkEarnGroupId" />
 				<bean parent="FieldDefinition" p:attributeName="earnGroup" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />

@@ -1,8 +1,9 @@
 package org.kuali.hr.time.earngroup;
 
-import java.util.LinkedHashMap;
-
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
+import java.util.LinkedHashMap;
 
 public class EarnGroupDefinition extends PersistableBusinessObjectBase {
 
@@ -16,6 +17,8 @@ public class EarnGroupDefinition extends PersistableBusinessObjectBase {
 	private String earnCode;
 
 	private Long tkEarnGroupId;
+
+    private EarnCode earnCodeObj;
 
 	public String getEarnCode() {
 		return earnCode;
@@ -44,6 +47,14 @@ public class EarnGroupDefinition extends PersistableBusinessObjectBase {
 
 	public void setTkEarnGroupId(Long tkEarnGroupId) {
 		this.tkEarnGroupId = tkEarnGroupId;
+	}
+
+	public EarnCode getEarnCodeObj() {
+		return earnCodeObj;
+	}
+
+	public void setEarnCodeObj(EarnCode earnCodeObj) {
+		this.earnCodeObj = earnCodeObj;
 	}
 
 }
