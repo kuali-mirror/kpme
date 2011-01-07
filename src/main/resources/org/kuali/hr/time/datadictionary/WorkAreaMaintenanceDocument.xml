@@ -53,10 +53,9 @@
 			<property name="alwaysAllowCollectionDeletion" value="true" />
 			<property name="maintainableFields">
 				<list>
-					<bean parent="MaintainableFieldDefinition" p:name="tkTaskId" p:required="true" />
+					<bean parent="MaintainableFieldDefinition" p:name="task" p:required="true" />
 					<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
 					<bean parent="MaintainableFieldDefinition" p:name="administrativeDescription" p:required="true" />
-					<bean parent="MaintainableFieldDefinition" p:name="tkWorkAreaId" p:required="true" />
 				</list>
 			</property>
       	</bean>
