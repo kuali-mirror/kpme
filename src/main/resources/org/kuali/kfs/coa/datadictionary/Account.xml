@@ -72,7 +72,7 @@
     <property name="shortLabel" value="Account Number"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern" p:exactLength="10"/>
+      <bean parent="AlphaNumericValidationPattern" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
