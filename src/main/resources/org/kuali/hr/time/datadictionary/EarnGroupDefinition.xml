@@ -9,13 +9,14 @@
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.hr.time.earngroup.EarnGroupDefinition" />
 		<property name="titleAttribute" value="id" />
-		<property name="objectLabel" value="Assignment Account" />
+		<property name="objectLabel" value="Earn Code Group Definition" />
 		<property name="lookupDefinition">
 			<ref bean="EarnGroupDefinition-lookupDefinition" />
 		</property>
 		<property name="attributes">
 			<list>
 				<ref bean="EarnGroupDefinition-earnCode"/>
+				<ref bean="EarnGroupDefinition-earnCodeDesc"/>
 			</list>
 		</property>
             <property name="relationships">
@@ -49,6 +50,21 @@
     <property name="label" value="Earn Code"/>
   </bean>
 
+  <bean id="EarnGroupDefinition-earnCodeDesc" parent="EarnGroupDefinition-earnCodeDesc-parentBean"/>
+  <bean id="EarnGroupDefinition-earnCodeDesc-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="30"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="25"/>
+    </property>
+    <property name="name" value="earnCodeDesc"/>
+    <property name="label" value="Description"/>
+  </bean>
 
 	<!--  Inquiry Definitions  -->
 	<bean id="EarnGroupDefinition-lookupDefinition" parent="EarnGroupDefinition-lookupDefinition-parentBean" />
@@ -57,12 +73,13 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
-
+                <bean parent="FieldDefinition" p:attributeName="earnCodeDesc"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="earnCode"/>
+				<bean parent="FieldDefinition" p:attributeName="earnCodeDesc"/>
 			</list>
 		</property>
 		<property name="title" value="EarnGroupDefinition Lookup" />
