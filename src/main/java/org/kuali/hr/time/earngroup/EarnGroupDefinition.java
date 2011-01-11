@@ -69,6 +69,6 @@ public class EarnGroupDefinition extends PersistableBusinessObjectBase {
 		if(earnCode != null && StringUtils.isNotBlank(earnCode.getDescription())) {
 			return earnCode.getDescription();
 		}
-		return "N/A";
+		return "";
 	}
 }
