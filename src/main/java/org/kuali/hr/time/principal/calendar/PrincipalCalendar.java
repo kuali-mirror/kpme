@@ -1,13 +1,13 @@
 package org.kuali.hr.time.principal.calendar;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 public class PrincipalCalendar extends PersistableBusinessObjectBase {
 
@@ -20,6 +20,7 @@ public class PrincipalCalendar extends PersistableBusinessObjectBase {
 	private String holidayCalendarGroup;
 	private Date effectiveDate;
 	private Timestamp timestamp;
+	private Boolean active;
 	
 	private PayCalendar payCalendar;
 	private HolidayCalendar holidayCalendar;
@@ -93,6 +94,14 @@ public class PrincipalCalendar extends PersistableBusinessObjectBase {
 
 	public void setPerson(Person person) {
 		this.person = person;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 }

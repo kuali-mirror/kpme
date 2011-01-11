@@ -1,15 +1,15 @@
 package org.kuali.hr.time.workarea;
 
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.task.Task;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.roles.TkRole;
-import org.kuali.hr.time.task.Task;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class WorkArea extends PersistableBusinessObjectBase {
 
@@ -21,6 +21,7 @@ public class WorkArea extends PersistableBusinessObjectBase {
     private boolean active = false;
     private String description;
     private String dept;
+    private Long task;
     private String defaultOvertimePreference;
     private String adminDescr;
     private String userPrincipalId;
@@ -31,6 +32,7 @@ public class WorkArea extends PersistableBusinessObjectBase {
     private List<WorkAreaOvertimePref> overTimePrefs = new ArrayList<WorkAreaOvertimePref>();
 
     private Department department;
+    private Task taskObj;
     
 
     @SuppressWarnings("unchecked")
@@ -175,5 +177,25 @@ public class WorkArea extends PersistableBusinessObjectBase {
 
 	public void setDepartment(Department department) {
 		this.department = department;
+	}
+
+
+	public Task getTaskObj() {
+		return taskObj;
+	}
+
+
+	public void setTaskObj(Task taskObj) {
+		this.taskObj = taskObj;
+	}
+
+
+	public Long getTask() {
+		return task;
+	}
+
+
+	public void setTask(Long task) {
+		this.task = task;
 	}
 }

@@ -1,0 +1,1 @@
+ALTER TABLE tk_principal_calendar_t ADD COLUMN `active` VARCHAR(1) NULL DEFAULT 'Y'  AFTER `VER_NBR` ;

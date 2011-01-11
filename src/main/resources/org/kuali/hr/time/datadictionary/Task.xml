@@ -17,6 +17,7 @@
     <property name="attributes" >
       <list>
       	<ref bean="Task-tkTaskId" />
+      	<ref bean="Task-task" />
       	<ref bean="Task-tkWorkAreaId" />
       	<ref bean="Task-workArea"/>
         <ref bean="Task-description" />
@@ -42,6 +43,19 @@
     <property name="label" value="Task Id"/>
   </bean>
 
+ <bean id="Task-task" parent="Task-task-parentBean"/>
+  <bean id="Task-task-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Task"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+ 		<bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
+    </property>
+    <property name="name" value="task"/>
+    <property name="label" value="Task"/>
+  </bean>
 
   <bean id="Task-tkWorkAreaId" parent="Task-tkWorkAreaId-parentBean"/>
   <bean id="Task-tkWorkAreaId-parentBean" abstract="true" parent="AttributeDefinition">
