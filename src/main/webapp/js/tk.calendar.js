@@ -293,11 +293,11 @@ $(document).ready(function() {
 
 $.fn.clearValue= function(elementToAdd) {
     var assignmentValue = $('#assignment-value').html();
-    // clear assignment value when there is only one assignment 
+    // clear assignment value when there is only one assignment
     if(assignmentValue != undefined && assignmentValue != '') {
-        assignmentValue.html('').removeClass('ui-state-error');    
+        $('#assignment-value').html('').removeClass('ui-state-error');
     }
-    
+
     // clear the error message
     $('.validateTips').html("").removeClass('ui-state-error');
 
