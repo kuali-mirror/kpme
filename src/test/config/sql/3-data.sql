@@ -326,8 +326,8 @@ INSERT INTO `tk_time_block_s` VALUES ('1000');
 DELETE FROM `tk_hour_detail_s`;
 INSERT INTO `tk_hour_detail_s` VALUES ('1000');
 
-insert into tk_principal_calendar_t values('admin','BWS-CAL','HOL','2010-01-01', now(),uuid(),1);
-insert into tk_principal_calendar_t values('eric','BW-CAL1','HOL','2010-01-01', now(),uuid(),1);
+insert into tk_principal_calendar_t values('admin','BWS-CAL','HOL','2010-01-01', now(),uuid(),1, 'Y');
+insert into tk_principal_calendar_t values('eric','BW-CAL1','HOL','2010-01-01', now(),uuid(),1, 'Y');
 
 insert into tk_system_lunch_rl_t (`TK_SYSTEM_LUNCH_RL_ID`,`EFFDT`,`ACTIVE`,`USER_PRINCIPAL_ID`,`SHOW_LUNCH_BUTTON`) values
 (1, '2010-01-01', 'Y', 'admin', 'Y');
