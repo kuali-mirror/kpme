@@ -19,6 +19,7 @@
 				<ref bean="DepartmentEarnCode-dept" />
 				<ref bean="DepartmentEarnCode-tkSalGroup" />
 				<ref bean="DepartmentEarnCode-earnCode" />
+				<ref bean="DepartmentEarnCode-location" />
 				<ref bean="DepartmentEarnCode-effectiveDate" />
 				<ref bean="DepartmentEarnCode-employee" />
 				<ref bean="DepartmentEarnCode-approver" />
@@ -55,6 +56,16 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode"
 								p:targetName="earnCode" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="jobObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
+								p:targetName="location" />
 						</list>
 					</property>
 				</bean>
@@ -117,7 +128,24 @@
 		<property name="name" value="earnCode" />
 		<property name="label" value="Earn Code" />
 	</bean>
-	
+
+    <bean id="DepartmentEarnCode-location" parent="DepartmentEarnCode-location-parentBean" />
+	<bean id="DepartmentEarnCode-location-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Location" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="location" />
+		<property name="label" value="Location" />
+	</bean>
+
   <bean id="DepartmentEarnCode-effectiveDate" parent="DepartmentEarnCode-effectiveDate-parentBean"/>
   <bean id="DepartmentEarnCode-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Effective Date"/>
@@ -190,6 +218,7 @@
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
+				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -198,6 +227,7 @@
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
+				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="employee" />
 				<bean parent="FieldDefinition" p:attributeName="approver" />
 				<bean parent="FieldDefinition" p:attributeName="org_admin" />
