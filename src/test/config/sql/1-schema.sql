@@ -188,7 +188,7 @@ CREATE TABLE `hr_job_t` (
   `dept` varchar(21) COLLATE utf8_bin NOT NULL,
   `TK_SAL_GROUP` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `PAY_GRADE` varchar(3) COLLATE utf8_bin DEFAULT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
   `location` varchar(45) COLLATE utf8_bin DEFAULT NULL,
@@ -227,7 +227,7 @@ CREATE TABLE `hr_paytype_t` (
   `CALENDAR_GROUP` varchar(30) COLLATE utf8_bin NOT NULL,
   `REG_ERN_CODE` varchar(3) COLLATE utf8_bin NOT NULL,
   `EFFDT` date NOT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `HOLIDAY_CALENDAR_GROUP` varchar(30) COLLATE utf8_bin NOT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
@@ -298,7 +298,7 @@ CREATE TABLE `hr_work_schedule_t` (
   `ACTIVE` bit(1) DEFAULT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
-  `TIMESTAMP` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`HR_WORK_SCHEDULE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -331,7 +331,7 @@ CREATE TABLE `la_accrual_categories_t` (
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
   `ACTIVE` bit(1) DEFAULT NULL,
-  `TIMESTAMP` timestamp NULL DEFAULT NULL,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`LA_ACCRUAL_CATEGORY_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -438,7 +438,7 @@ CREATE TABLE `tk_assignment_t` (
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
   `active` bit(1) DEFAULT NULL,
-  `timestamp` timestamp NULL DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`TK_ASSIGNMENT_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -485,7 +485,7 @@ CREATE TABLE `tk_clock_location_rl_t` (
   `active` bit(1) DEFAULT NULL,
   `IP_ADDRESS` varchar(15) COLLATE utf8_bin DEFAULT NULL,
   `USER_PRINCIPAL_ID` varchar(10) COLLATE utf8_bin DEFAULT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
   `dept` varchar(21) COLLATE utf8_bin DEFAULT NULL
@@ -526,7 +526,7 @@ CREATE TABLE `tk_clock_log_t` (
   `IP_ADDRESS` varchar(15) COLLATE utf8_bin DEFAULT NULL,
   `HR_JOB_ID` bigint(20) DEFAULT NULL,
   `USER_PRINCIPAL_ID` varchar(40) COLLATE utf8_bin DEFAULT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
   PRIMARY KEY (`TK_CLOCK_LOG_ID`)
@@ -546,7 +546,7 @@ CREATE TABLE `tk_daily_overtime_rl_t` (
   `PAYTYPE` varchar(5) COLLATE utf8_bin DEFAULT NULL,
   `EFFDT` date DEFAULT NULL,
   `USER_PRINCIPAL_ID` varchar(10) COLLATE utf8_bin DEFAULT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `DEPT` varchar(21) COLLATE utf8_bin DEFAULT NULL,
   `WORK_AREA` bigint(10) DEFAULT NULL,
   `TASK` bigint(10) DEFAULT NULL,
@@ -590,7 +590,7 @@ CREATE TABLE `tk_dept_earn_code_t` (
   `VER_NBR` bigint(20) DEFAULT '1',
   `active` bit(1) DEFAULT NULL,
   `effdt` date DEFAULT NULL,
-  `timestamp` timestamp NULL DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`tk_dept_earn_code_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -625,7 +625,7 @@ CREATE TABLE `tk_dept_lunch_rl_t` (
   `REQUIRED_CLOCK_FL` varchar(3) COLLATE utf8_bin DEFAULT NULL,
   `MAX_MINS` decimal(2,0) DEFAULT NULL,
   `user_principal_id` varchar(10) COLLATE utf8_bin DEFAULT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
   `active` bit(1) DEFAULT NULL,
@@ -660,7 +660,7 @@ CREATE TABLE `tk_dept_t` (
   `ORG` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `CHART` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `effdt` date DEFAULT NULL,
-  `timestamp` timestamp NULL DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `active` bit(1) DEFAULT NULL,
   PRIMARY KEY (`tk_dept_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -697,7 +697,7 @@ CREATE TABLE `tk_earn_code_t` (
   `active` bit(1) DEFAULT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) DEFAULT '1',
-  `timestamp` timestamp NULL DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`tk_earn_code_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -760,7 +760,7 @@ CREATE TABLE `tk_earn_group_t` (
   `active` bit(1) DEFAULT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) DEFAULT '1',
-  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`tk_earn_group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -791,7 +791,7 @@ CREATE TABLE `tk_grace_period_rl_t` (
   `GRACE_MINS` decimal(2,0) DEFAULT NULL,
   `HOUR_FACTOR` decimal(2,2) DEFAULT NULL,
   `user_principal_id` varchar(10) COLLATE utf8_bin DEFAULT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
   `active` bit(1) DEFAULT NULL
@@ -954,7 +954,7 @@ CREATE TABLE `tk_sal_group_t` (
   `TK_SAL_GROUP_ID` bigint(20) NOT NULL,
   `TK_SAL_GROUP` varchar(10) COLLATE utf8_bin NOT NULL,
   `EFFDT` date NOT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ACTIVE` varchar(1) DEFAULT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
@@ -1002,7 +1002,7 @@ CREATE TABLE `tk_shift_differential_rl_t` (
   `CALENDAR_GROUP` varchar(30) COLLATE utf8_bin NOT NULL,
   `MAX_GAP` decimal(2,0) DEFAULT NULL,
   `USER_PRINCIPAL_ID` varchar(10) COLLATE utf8_bin DEFAULT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ACTIVE` bit(1) DEFAULT NULL,
   PRIMARY KEY (`TK_SHIFT_DIFF_RL_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -1033,7 +1033,7 @@ CREATE TABLE `tk_system_lunch_rl_t` (
   `EFFDT` date NOT NULL,
   `MIN_MINS` decimal(3,0) DEFAULT NULL,
   `BLOCK_HOURS` decimal(3,0) DEFAULT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ACTIVE` bit(1) DEFAULT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
@@ -1113,7 +1113,7 @@ CREATE TABLE `tk_time_block_hist_t` (
   `CLOCK_LOG_CREATED` bit(1) DEFAULT b'0',
   `HOURS` decimal(5,2) DEFAULT NULL,
   `USER_PRINCIPAL_ID` varchar(40) COLLATE utf8_bin DEFAULT NULL,
-  `TIMESTAMP` timestamp NULL DEFAULT '0000-00-00 00:00:00',
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ACTION_HISTORY` varchar(15) COLLATE utf8_bin DEFAULT NULL,
   `MODIFIED_BY_PRINCIPAL_ID` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   `TIMESTAMP_MODIFIED` timestamp NULL DEFAULT '0000-00-00 00:00:00',
@@ -1170,7 +1170,7 @@ CREATE TABLE `tk_time_block_t` (
   `HOURS` decimal(5,2) DEFAULT NULL,
   `amount` decimal(6,2) DEFAULT '0.00',
   `USER_PRINCIPAL_ID` varchar(40) COLLATE utf8_bin DEFAULT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
   PRIMARY KEY (`TK_TIME_BLOCK_ID`)
@@ -1199,7 +1199,7 @@ CREATE TABLE `tk_time_collection_rl_t` (
   `CLOCK_USERS_FL` varchar(1) COLLATE utf8_bin DEFAULT NULL,
   `HRS_DISTRIBUTION_FL` varchar(1) COLLATE utf8_bin DEFAULT NULL,
   `USER_PRINCIPAL_ID` varchar(10) COLLATE utf8_bin DEFAULT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) DEFAULT '1',
   `ACTIVE` bit(1) DEFAULT NULL,
@@ -1223,7 +1223,7 @@ CREATE TABLE `tk_weekly_overtime_rl_t` (
   `STEP` decimal(2,0) DEFAULT NULL,
   `MAX_HRS` decimal(3,0) DEFAULT NULL,
   `USER_PRINCIPAL_ID` varchar(10) COLLATE utf8_bin DEFAULT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) DEFAULT '1',
   `ACTIVE` bit(1) DEFAULT NULL,
@@ -1289,7 +1289,7 @@ CREATE TABLE `tk_work_area_t` (
   `DEFAULT_OVERTIME_PREFERENCE` varchar(3) COLLATE utf8_bin DEFAULT NULL,
   `ADMIN_DESCR` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `USER_PRINCIPAL_ID` varchar(40) COLLATE utf8_bin DEFAULT NULL,
-  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) DEFAULT '1',
   PRIMARY KEY (`TK_WORK_AREA_ID`)
@@ -1448,7 +1448,7 @@ CREATE TABLE `tk_principal_calendar_t` (
   `calendar_group` varchar(45) COLLATE utf8_bin NOT NULL DEFAULT '',
   `holiday_calendar_group` varchar(45) COLLATE utf8_bin NOT NULL DEFAULT '',
   `EFFDT` date NOT NULL DEFAULT '0000-00-00',
-  `TIMESTAMP` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `OBJ_ID` varchar(36) COLLATE utf8_bin NOT NULL,
   `VER_NBR` decimal(8,0) NOT NULL DEFAULT '1',
   PRIMARY KEY (`principal_id`)
@@ -1542,18 +1542,19 @@ CREATE TABLE `tk_missed_punch_t` (
   `principal_id` VARCHAR(40) NOT NULL ,
   `clock_action` VARCHAR(20) NOT NULL ,
   `action_date` DATETIME NOT NULL DEFAULT '0000-00-00',
-  `action_time` TIMESTAMP NOT NULL ,
+  `action_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `document_id` VARCHAR(14) NULL ,
   `document_status` VARCHAR(1) NULL ,
   `tk_clock_log_id` BIGINT(20) NULL ,
-  `timestamp` TIMESTAMP NULL ,
+  `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   PRIMARY KEY (`tk_missed_punch_id`) );
 
 ALTER TABLE `tk_dept_t` CHANGE COLUMN `DESCRIPTION` `DESCRIPTION` VARCHAR(75) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL  ;
 
 ALTER TABLE tk_principal_calendar_t ADD COLUMN `active` VARCHAR(1) NULL DEFAULT 'Y'  AFTER `VER_NBR` ;
 
-ALTER TABLE tk_earn_code_t ADD COLUMN `location` VARCHAR(10) NULL AFTER `VER_NBR` ;
+ALTER TABLE tk_dept_earn_code_t ADD COLUMN `location` VARCHAR(10) NULL AFTER `VER_NBR`;
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
