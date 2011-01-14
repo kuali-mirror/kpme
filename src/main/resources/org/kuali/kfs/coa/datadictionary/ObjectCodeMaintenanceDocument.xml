@@ -81,7 +81,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectCodeName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectCodeShortName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>
