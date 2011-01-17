@@ -19,7 +19,9 @@ public class EarnCode extends PersistableBusinessObjectBase {
 	private Long tkEarnCodeId;
 	private String earnCode;
 	private String description;
+	//used for clock in and out
 	private Boolean recordHours;
+	//used for recording time
 	private Boolean recordTime;
 	private Boolean recordAmount;
 	private String accrualCategory;
