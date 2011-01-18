@@ -231,6 +231,7 @@
 				<bean parent="FieldDefinition" p:attributeName="employee" />
 				<bean parent="FieldDefinition" p:attributeName="approver" />
 				<bean parent="FieldDefinition" p:attributeName="org_admin" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<property name="title" value="Department Earn Code Lookup" />
