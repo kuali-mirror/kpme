@@ -20,7 +20,7 @@ public class Assignment extends PersistableBusinessObjectBase {
      *
      */
 	private static final long serialVersionUID = -3408305833805778653L;
-
+	//database id
 	private Long tkAssignmentId;
 	private String principalId;
 	private Long jobNumber;
