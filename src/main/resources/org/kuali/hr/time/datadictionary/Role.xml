@@ -58,8 +58,8 @@
 	</bean>
 
 	<bean id="Role-roleName" parent="Role-roleName-parentBean" />
-	<bean id="Role-roleName-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="Role-roleName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
 		<property name="shortLabel" value="Role Name" />
 		<property name="maxLength" value="30" />
 		<property name="validationPattern">
@@ -68,7 +68,7 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+		  <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.roles.TkRoleValuesFinder" p:includeKeyInLabel="false"/>
 		</property>
 		<property name="name" value="roleName" />
 		<property name="label" value="Role Name" />
