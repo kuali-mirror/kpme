@@ -1,7 +1,7 @@
 package org.kuali.hr.time.roles;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kim.bo.Person;

@@ -60,22 +60,38 @@ public class TkConstants {
     /**
      * The following ROLE_* constants need to match what is in the workflow database.  They will be
      * used internally to obtain a reference to the underlying IDs in the workflow system.
+     * 
+     * Used in *ValuesFinder classes for maintenance page dropdowns.
      */
     public static final String ROLE_NAMESAPCE    = "KUALI";
+    public static final String ROLE_TK_GLOBAL_VO = "TK_GLOBAL_VO";
+    public static final String ROLE_TK_DEPT_VO   = "TK_DEPT_VO";
+    public static final String ROLE_TK_REVIEWER  = "TK_REVIEWER";
     public static final String ROLE_TK_APPROVER  = "TK_APPROVER";
     public static final String ROLE_TK_EMPLOYEE  = "TK_EMPLOYEE";
     public static final String ROLE_TK_ORG_ADMIN = "TK_ORG_ADMIN";
     public static final String ROLE_TK_SYS_ADMIN = "TK_SYS_ADMIN";
     public static final String ROLE_WORK_AREA_QUALIFIER_ID = "workArea";
     public static final List<String> ROLE_ASSIGNMENT_FOR_WORK_AREA = new ArrayList<String>(2);
-    public static final Map<String,String> ROLE_NAME_TO_DESCRIPTION_MAP = new HashMap<String,String>();
+    public static final List<String> ROLE_ASSIGNMENT_FOR_USER_ROLES = new ArrayList<String>(6);
+    public static final Map<String,String> ALL_ROLES_MAP = new HashMap<String,String>();
     static {
     	ROLE_ASSIGNMENT_FOR_WORK_AREA.add(TkConstants.ROLE_TK_APPROVER);
     	
-    	ROLE_NAME_TO_DESCRIPTION_MAP.put(TkConstants.ROLE_TK_APPROVER, "Approver");
-    	ROLE_NAME_TO_DESCRIPTION_MAP.put(TkConstants.ROLE_TK_EMPLOYEE, "Employee");
-    	ROLE_NAME_TO_DESCRIPTION_MAP.put(TkConstants.ROLE_TK_ORG_ADMIN, "Org Administrator");
-    	ROLE_NAME_TO_DESCRIPTION_MAP.put(TkConstants.ROLE_TK_SYS_ADMIN, "System Administrator");
+    	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_GLOBAL_VO);
+    	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_DEPT_VO);
+    	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_REVIEWER);
+    	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_APPROVER);
+    	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_ORG_ADMIN);
+    	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_SYS_ADMIN);
+
+    	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_REVIEWER,  "Reviewer");
+    	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_GLOBAL_VO, "Global View Only");
+    	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_DEPT_VO,   "Department View Only");
+    	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_APPROVER,  "Approver");
+    	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_EMPLOYEE,  "Employee");
+    	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_ORG_ADMIN, "Org Admin");
+    	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_SYS_ADMIN, "System Admin");
     }
     
     public static final class ACTIONS {

@@ -24,7 +24,7 @@
 	    <form-bean name="LookupForm" type="org.kuali.rice.kns.web.struts.form.LookupForm" />
 		<form-bean name="MultipleValueLookupForm" type="org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm" />
 	    <form-bean name="InquiryForm" type="org.kuali.rice.kns.web.struts.form.InquiryForm" />
-	    <form-bean name="KualiMaintenanceForm" type="org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm" />
+	    <form-bean name="KualiMaintenanceForm" type="org.kuali.hr.time.web.TimeMaintenanceForm" />
 	    <form-bean name="KualiHelpForm" type="org.kuali.rice.kns.web.struts.form.KualiHelpForm" />
         <form-bean name="MultipleValueLookupForm" type="org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm" />
         <form-bean name="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" />

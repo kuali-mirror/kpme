@@ -9,10 +9,10 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
 public class WorkAreaRoleValuesFinder extends KeyValuesBase {
 
-	static final List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>(2);
+	static final List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>(TkConstants.ROLE_ASSIGNMENT_FOR_WORK_AREA.size());
 	static {
 		for (String roleKey : TkConstants.ROLE_ASSIGNMENT_FOR_WORK_AREA) {
-			labels.add(new KeyLabelPair(roleKey, TkConstants.ROLE_NAME_TO_DESCRIPTION_MAP.get(roleKey)));
+			labels.add(new KeyLabelPair(roleKey, TkConstants.ALL_ROLES_MAP.get(roleKey)));
 		}
 	}
 

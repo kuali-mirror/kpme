@@ -9,14 +9,15 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
 public class TkRoleValuesFinder extends KeyValuesBase {
 
+	static final List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>(TkConstants.ROLE_ASSIGNMENT_FOR_USER_ROLES.size());
+	static {
+		for (String roleKey : TkConstants.ROLE_ASSIGNMENT_FOR_USER_ROLES) {
+			labels.add(new KeyLabelPair(roleKey, TkConstants.ALL_ROLES_MAP.get(roleKey)));
+		}
+	}
+
+	@Override
 	public List<KeyLabelPair> getKeyValues() {
-		List<KeyLabelPair> chartKeyLabels = new ArrayList<KeyLabelPair>();
-		chartKeyLabels.add(new KeyLabelPair("", ""));
-		
-		chartKeyLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_APPROVER, "Approver"));
-		chartKeyLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_SYS_ADMIN, "System Admin"));
-		chartKeyLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_ORG_ADMIN, "Org Admin"));
-		
-		return chartKeyLabels;
+		return labels;
 	}
 }
