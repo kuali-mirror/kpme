@@ -36,6 +36,7 @@
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="userName" p:required="false"/>
 				<bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="department" p:required="false" />

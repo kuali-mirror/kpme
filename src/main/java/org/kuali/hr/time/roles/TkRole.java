@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class TkRole extends PersistableBusinessObjectBase {
@@ -24,7 +25,7 @@ public class TkRole extends PersistableBusinessObjectBase {
 	private boolean active;
 	private Long tkDeptId;
 	private Long tkWorkAreaId;
-	
+    
 	private Person person;
 	
 	public Long getTkRolesId() {
@@ -38,6 +39,7 @@ public class TkRole extends PersistableBusinessObjectBase {
 	}
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
+        setPerson(KIMServiceLocator.getPersonService().getPerson(this.principalId));
 	}
 	public String getRoleName() {
 		return roleName;
@@ -106,4 +108,15 @@ public class TkRole extends PersistableBusinessObjectBase {
 	public void setTkWorkAreaId(Long tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
+
+    /**
+     * This method supports maintenance and lookup pages.
+     */
+    public String getUserName() {
+        if (person == null) {
+            person = KIMServiceLocator.getPersonService().getPerson(this.principalId);
+        }
+        
+        return (person != null) ? person.getName() : "";
+    }
 }
