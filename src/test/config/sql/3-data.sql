@@ -113,11 +113,11 @@ DELETE FROM `tk_earn_code_s`;
 INSERT INTO `tk_earn_code_s` VALUES('1000');
 DELETE FROM `tk_earn_code_T`;
 INSERT INTO `TK_EARN_CODE_T` (`TK_EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `RECORD_TIME`,`RECORD_HOURS`,`RECORD_AMOUNT`,`EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
-  (1  , 'SDR' , 'SHIFT DIFF'        , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
+    (1  , 'SDR' , 'SHIFT DIFF'        , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
 	(9  , 'RGN' , 'REGULAR'           , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
 	(10 , 'RGH' , 'REGULAR HOURLY'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
 	(11 , 'SCK' , 'SICK'              , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
-	(12 , 'VAC' , 'VACATION'          , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
+	(12 , 'VAC' , 'VACATION'          , '0','1','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
 	(13 , 'WEP' , 'EMERGENCY'         , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
 	(14 , 'HAZ' , 'HAZARD DAY'        , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' ,'Y') ,
 	(15 , 'HIP' , 'HOLIDAY INCENTIVE' , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
@@ -300,7 +300,7 @@ DELETE FROM `tk_clock_log_s`;
 INSERT INTO `tk_clock_log_s` VALUES('1000');
 DELETE FROM `tk_clock_log_t`;
 INSERT INTO `tk_clock_log_t` (`TK_CLOCK_LOG_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`WORK_AREA`,`TASK`,`TK_WORK_AREA_ID`,`TK_TASK_ID`,`CLOCK_TS`,`CLOCK_TS_TZ`,`CLOCK_ACTION`,`IP_ADDRESS`,`USER_PRINCIPAL_ID`,`TIMESTAMP`,`HR_JOB_ID`,`OBJ_ID`) VALUES
-  ('1' , 'admin' , 30 , 30 ,30, 1 , 1 , '2010-01-01 08:08:08', "TEST" , "_","TEST" ,'admin' , '2010-01-01 08:08:08' , 1, '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97')  ;
+  ('1' , 'admin' , 30 , 30 ,30, 1 , 1 , '2010-01-01 08:08:08', "TEST" , "CO","TEST" ,'admin' , '2010-01-01 08:08:08' , 1, '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97')  ;
 
 DELETE FROM `tk_document_header_t`;
 INSERT INTO `tk_document_header_t` (`DOCUMENT_ID`,`PRINCIPAL_ID`,`DOCUMENT_STATUS`) VALUES
