@@ -1,17 +1,19 @@
 package org.kuali.hr.time.department;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DepartmentRule extends MaintenanceDocumentRuleBase {
 
@@ -54,7 +56,7 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 
         if (roles != null && roles.size() > 0) {
             for (TkRole role : roles) {
-                valid |= role.isActive();
+                valid |= role.isActive() && StringUtils.equals(role.getRoleName(), TkConstants.ROLE_TK_ORG_ADMIN);
             }
         }
 

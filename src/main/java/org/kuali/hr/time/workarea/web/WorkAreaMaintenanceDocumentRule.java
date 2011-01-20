@@ -1,173 +1,73 @@
 package org.kuali.hr.time.workarea.web;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.task.Task;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.hr.time.workarea.WorkAreaMaintenanceDocument;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
-public class WorkAreaMaintenanceDocumentRule extends TransactionalDocumentRuleBase {
+import java.sql.Date;
+import java.util.List;
+
+public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
 
 	private static Logger LOG = Logger.getLogger(WorkAreaMaintenanceDocumentRule.class);
 
-	private static final String WORK_AREA_FIELD_NAME_ADMIN_DESCR = "adminDescr";
-	private static final String WORK_AREA_FIELD_NAME_DESCR = "description";
-	private static final String TASK_FIELD_NAME_DESCR = "description";
-	private static final String TASK_FIELD_NAME_ADMIN_DESCR = "administrativeDescription";
-	
-	private DataDictionaryService ddservice;
-	
-	public WorkAreaMaintenanceDocumentRule() {
-		ddservice = KNSServiceLocator.getDataDictionaryService();	
-	}
-	
-	protected boolean validateDepartmentId(String deptId) {
-		boolean v = true;
-		
-		// Need to build department service // do department lookup for .
-		
-		return v;
-	}
+    boolean validateDepartment(String dept, Date asOfDate) {
+        boolean valid = ValidationUtils.validateDepartment(dept, asOfDate);
+        if (!valid) {
+            this.putFieldError("dept", "dept.notfound");
+        }
+        return valid;
+    }
 
-	protected boolean validateOvertimePreference(String ovtPref) {
-		boolean v = true;
+    boolean validateRoles(List<TkRole> roles) {
+        boolean valid = false;
 
-		// TODO: What is considered valid here?
-		if (StringUtils.isBlank(ovtPref)) {
-			v = false;
-			addError("document.workArea.overtimePreference", "error.required", "overtime preference");
-		}
+        if (roles != null && roles.size() > 0) {
+            for (TkRole role : roles) {
+                valid |= role.isActive() && StringUtils.equals(role.getRoleName(), TkConstants.ROLE_TK_APPROVER);
+            }
+        }
 
-		// KeyLabelPair does not implement equals, so we need to search over
-		// each key
-		if (v) {
-			boolean found = false;
-			for (KeyLabelPair klp : WorkAreaOvertimePreferenceValuesFinder.labels) {
-				found |= klp.getKey().equals(ovtPref);
-			}
-			if (!found) {
-				v = false;
-				addError("document.workArea.overtimePreference", "error.existence", "overtime preference");
-			}
-		}
+        if (!valid) {
+            this.putGlobalError("role.required");
+        }
 
-		return v;
-	}
-	
-	@SuppressWarnings("unchecked")
-	private boolean genericDescriptionValidation(String desc, Class clazz, String errorKeyPrefix, String fieldName) {
-		boolean v = true;
+        return valid;
+    }
 
-		Integer maxLength = ddservice.getAttributeMaxLength(clazz, fieldName);
-		String  label = ddservice.getAttributeErrorLabel(clazz, fieldName);
-		
-		if (v && StringUtils.isBlank(desc)) {
-			v = false;
-			addError(errorKeyPrefix+fieldName, "error.required", label);
-		}
-		
-		if (v && desc.length() > maxLength) {
-			v = false;
-			addError(errorKeyPrefix+fieldName, "error.maxLength", label, maxLength.toString());
-		}
+    // TODO: Implement this method.
+    boolean validateTasks(List<Task> tasks) {
+        boolean valid = true;
+        return valid;
+    }
 
-		return v;		
-	}
+    // TODO: Implement this method.
+    boolean validateOvertimePreference() {
+        boolean valid = true;
+        return valid;        
+    }
 
-	protected boolean validateAdminDescription(String desc) {
-		return genericDescriptionValidation(desc, WorkArea.class, "document.workArea.", WORK_AREA_FIELD_NAME_ADMIN_DESCR);
-	}
-
-	protected boolean validateDescription(String desc) {
-		return genericDescriptionValidation(desc, WorkArea.class, "document.workArea.", WORK_AREA_FIELD_NAME_DESCR);
-	}
-
-	protected boolean validateTasks(List<Task> list) {
-		boolean v = true;
-
-		for (int i = 0; i < list.size(); i++) {
-			Task task = list.get(i);
-			v &= validateTaskGeneric("document.workArea.tasks[" + i + "]", task);
-		}
-
-		return v;
-	}
-
-	public boolean validate(WorkAreaMaintenanceDocument wamd) {
-		boolean valid = false;
-
-		WorkArea wa = (wamd != null) ? wamd.getWorkArea() : null;
-		if (wa != null) {
-			valid = true;
-			valid &= this.validateDepartmentId(wa.getDept());
-			//TODO add back if you need this
-			//valid &= this.validateOvertimePreference(wa.getOvertimePreference());
-			valid &= this.validateAdminDescription(wa.getAdminDescr());
-			valid &= this.validateDescription(wa.getDescription());
-			valid &= this.validateTasks(wa.getTasks());
-		}
-
-		return valid;
-	}
-
-	public boolean validateTaskAddition(Task task, List<Task> list) {
-		return validateTaskGeneric("newTask", task);
-	}
-
-	public boolean validateTaskGeneric(String errorPrefix, Task task) {
-		boolean v = true;
-
-		if (task == null) {
-			v = false;
-			addError(errorPrefix, "error.required", "task");
-		}
-
-		if (v && StringUtils.isBlank(task.getDescription())) {
-			v = false;
-			addError(errorPrefix + ".description", "error.required", "description");
-		}
-		
-		if (v) {
-			v = genericDescriptionValidation(task.getDescription(), Task.class, errorPrefix+".", TASK_FIELD_NAME_DESCR);
-		}
-		
-		if (v && StringUtils.isBlank(task.getAdministrativeDescription())) {
-			v = false;
-			addError(errorPrefix + ".adminDescription", "error.required", "admin description");
-		}
-		
-		if (v) {
-			v = genericDescriptionValidation(task.getAdministrativeDescription(), Task.class, errorPrefix+".", TASK_FIELD_NAME_ADMIN_DESCR);
-		}
-
-		return v;
-	}
-	
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-		LOG.debug("Validation called from rice");
-		WorkAreaMaintenanceDocument wamd;
-		boolean v = true;
+	protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+        boolean valid = false;
 
-		if (!(document instanceof WorkAreaMaintenanceDocument))
-			v = false;
+        PersistableBusinessObject pbo = this.getNewBo();
+        if (pbo instanceof WorkArea) {
+            WorkArea wa = (WorkArea) pbo;
+            valid = validateDepartment(wa.getDept(), wa.getEffectiveDate());
+            valid &= validateRoles(wa.getRoles());
+            valid &= validateTasks(wa.getTasks());
+            valid &= validateOvertimePreference();
+        }
 
-		wamd = (WorkAreaMaintenanceDocument) document;
-		v = this.validate(wamd);
-
-		return v;
+        return valid;
 	}
 
-	private void addError(String formId, String errorCode, String... params) {
-		GlobalVariables.getMessageMap().putError(formId, errorCode, params);
-	}
 }

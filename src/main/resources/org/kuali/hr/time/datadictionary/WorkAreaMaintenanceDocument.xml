@@ -4,6 +4,7 @@
   <bean id="WorkAreaMaintenanceDocument" parent="WorkAreaMaintenanceDocument-parentBean"/>
     <bean id="WorkAreaMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.time.workarea.WorkArea"
+        p:businessRulesClass="org.kuali.hr.time.workarea.web.WorkAreaMaintenanceDocumentRule"
   		p:maintainableClass="org.kuali.hr.time.workarea.WorkAreaMaintainableImpl">
     <property name="documentTypeName" value="WorkAreaMaintenanceDocument"/>
     

@@ -243,7 +243,6 @@
   <bean id="WorkArea-lookupDefinition" parent="WorkArea-lookupDefinition-parentBean" />
 
   <bean id="WorkArea-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-  	<property name="lookupableID" value="workAreaLookupable"/>
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

@@ -163,7 +163,6 @@
 
   <bean id="Task-lookupDefinition" parent="Task-lookupDefinition-parentBean" />
   <bean id="Task-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-  	<property name="lookupableID" value="workAreaLookupable"/>
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

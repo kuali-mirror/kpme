@@ -513,13 +513,6 @@
     <bean id="tkRuleControllerService" class="org.kuali.hr.time.rule.TkRuleControllerServiceImpl"/>
 
 	<bean id="workAreaQualifierRoleTypeService" class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
-
-    <bean id="workAreaLookupableHelperService" class="org.kuali.hr.time.workarea.web.WorkAreaLookupableHelper"/>
-    <bean id="workAreaLookupable" class="org.kuali.hr.time.workarea.web.WorkAreaLookupableImpl">
-    	<property name="lookupableHelperService">
-    		<ref bean="workAreaLookupableHelperService"/>
-    	</property>
-    </bean>
     
     <bean id="timezoneService" class="org.kuali.hr.time.timezone.service.TimezoneServiceImpl"/>
     
@@ -527,7 +520,6 @@
         <property name="timeOffAccrualDao" ref="timeOffAccrualDao"/>
     </bean>
 
-    
     <!-- Scheduler configuration -->
 	<!-- Serializer service -->
 	<bean id="timeBlockSerializerService" class="org.kuali.hr.time.scheduler.TimeBlockSerializerService"/>
