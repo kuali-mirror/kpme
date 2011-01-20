@@ -1710,8 +1710,8 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 			}
 			left = seg.isStart ? dayContentLeft(seg.start.getDay()) : minLeft;
 			// right = seg.isEnd ? dayContentRight(seg.end.getDay()-1) : maxRight;
-      // this is hack to always set the day cell within one day
-			right = seg.isEnd ? dayContentRight(seg.start.getDay()) : maxRight;
+            // this is hack to always set the day cell within one day
+			right = seg.isEnd ? dayContentRight(seg.start.getDay()) : maxLeft;
 
 		}
 		
@@ -1739,14 +1739,11 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
             timeHourDetail += "</tr>";
         });
 
-		
-
-		
-		html +=
+        html +=
 			"<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;left:"+left+"px;margin-bottom:3px;' id='" + event.id + "'>" +
 			//"<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<div style='float:right; margin: 2px 7px 0 0; z-index: 1;' id='delete-event'><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "' id='delete-link' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em; z-index: 1;'>X</a></div></td></tr>" +
 			"<table style='font-size:0.7em;'><tr><td colspan='3' style='text-align:center;'>" + event.title + "</td>" +   
-			"<td><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "'id='delete-link' style='margin-left:-3px;'><span class='ui-icon ui-icon-close' style='float:right;'></span></a></td>" +
+			"<td><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "'style='margin-left:-3px;'><span id='delete-link' class='ui-icon ui-icon-close' style='float:right;'></span></a></td>" +
 			"</tr>" +
 			fromTo + timeHourDetail + 
 			"</table>" +
@@ -3342,21 +3339,21 @@ var viewMethods = {
 
 	eventElementHandlers: function(event, eventElement) {
 		var view = this;
-//        eventElement
-//			.click(function(ev) {
-//				if (!eventElement.hasClass('ui-draggable-dragging') &&
-//					!eventElement.hasClass('ui-resizable-resizing')) {
-//						return view.trigger('eventClick', this, event, ev);
-//					}
-//			})
-//			.hover(
-//				function(ev) {
-//					view.trigger('eventMouseover', this, event, ev);
-//				},
-//				function(ev) {
-//					view.trigger('eventMouseout', this, event, ev);
-//				}
-//			);
+       eventElement
+			.click(function(ev) {
+				if (!eventElement.hasClass('ui-draggable-dragging') &&
+					!eventElement.hasClass('ui-resizable-resizing')) {
+						return view.trigger('eventClick', this, event, ev);
+					}
+			})
+			.hover(
+				function(ev) {
+					view.trigger('eventMouseover', this, event, ev);
+				},
+				function(ev) {
+					view.trigger('eventMouseout', this, event, ev);
+				}
+			);
 //        eventElement.find('a').click(function() {
 //
 //            var params = {};
