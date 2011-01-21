@@ -23,6 +23,9 @@
         <ref bean="Task-description" />
         <ref bean="Task-administrativeDescription" />
         <ref bean="Task-userPrincipalId"/>
+        <ref bean="Task-active"/>
+        <ref bean="Task-effectiveDate"/>
+        <ref bean="Task-timestamp"/>
        </list>
     </property>
     <property name="objectLabel" value="Task"/>
@@ -70,8 +73,8 @@
     <property name="name" value="tkWorkAreaId"/>
     <property name="label" value="Work Area Id"/>
   </bean>
- 
- 
+
+
  <bean id="Task-workArea" parent="Task-workArea-parentBean"/>
   <bean id="Task-workArea-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Work Area"/>
@@ -85,10 +88,10 @@
     <property name="name" value="workArea"/>
     <property name="label" value="Work Area"/>
   </bean>
- 
- 
-  
-  
+
+
+
+
  <bean id="Task-description" parent="Task-description-parentBean" />
 
   <bean id="Task-description-parentBean" abstract="true" parent="AttributeDefinition">
@@ -102,8 +105,8 @@
     <property name="name" value="description" />
     <property name="label" value="Description" />
     <property name="description" value="Description" />
-  </bean>  
-  
+  </bean>
+
 
   <bean id="Task-administrativeDescription" parent="Task-administrativeDescription-parentBean" />
   <bean id="Task-administrativeDescription-parentBean" abstract="true" parent="AttributeDefinition">
@@ -116,8 +119,8 @@
     <property name="label" value="Admin Description" />
     <property name="description" value="administrativeDescription" />
   </bean>
-   
-    
+
+
   <bean id="Task-userPrincipalId" parent="Task-userPrincipalId-parentBean"/>
   <bean id="Task-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="User Principal Id"/>
@@ -132,8 +135,43 @@
     </property>
     <property name="name" value="userPrincipalId"/>
     <property name="label" value="User Principal Id"/>
-  </bean>  
-  
+  </bean>
+
+
+  <bean id="Task-timestamp" parent="Task-timestamp-parentBean"/>
+  <bean id="Task-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Timestamp"/>
+    <property name="maxLength" value="15"/>
+
+    <property name="control">
+      <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
+    </property>
+
+    <property name="name" value="timestamp"/>
+    <property name="label" value="Time Stamp"/>
+  </bean>
+
+  <bean id="Task-active" parent="Task-active-parentBean"/>
+  <bean id="Task-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+    <property name="label" value="Active?"/>
+  </bean>
+
+  <bean id="Task-effectiveDate" parent="Task-effectiveDate-parentBean"/>
+  <bean id="Task-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Effective Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+        <bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
+    <property name="name" value="effectiveDate"/>
+    <property name="label" value="Effective Date"/>
+  </bean>
+
 <!-- Business Object Inquiry Definition -->
 
 

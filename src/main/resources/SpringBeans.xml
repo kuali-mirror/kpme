@@ -24,7 +24,7 @@
     </bean>
 
 	<bean name="springContext" class="org.kuali.hr.sys.context.SpringContext"></bean>
-	
+
     <bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
         <property name="defaultTimeout" value="3600"/>
     </bean>
@@ -259,6 +259,9 @@
     </bean>
 
 	<!-- DAOs for wrapping database criteria queries -->
+    <bean id="taskDao" class="org.kuali.hr.time.task.dao.TaskDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 
     <bean id="clockLogDao" class="org.kuali.hr.time.clocklog.dao.ClockLogDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
@@ -271,7 +274,7 @@
     <bean id="workAreaDao" class="org.kuali.hr.time.workarea.dao.WorkAreaDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="tkRoleDao" class="org.kuali.hr.time.roles.dao.TkRoleDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
@@ -303,19 +306,19 @@
     <bean id="timesheetDocumentHeaderDao" class="org.kuali.hr.time.workflow.dao.TimesheetDocumentHeaderDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="dailyOvertimeRuleDao" class="org.kuali.hr.time.overtime.daily.rule.dao.DailyOvertimeRuleDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    
+
     <bean id="clockLocationDao" class="org.kuali.hr.time.clock.location.dao.ClockLocationDaoOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
     <bean id="departmentDao" class="org.kuali.hr.time.department.dao.DepartmentDaoSpringOjbImpl">
       <property name="jcdAlias" value="tkDataSource"/>
-    </bean>    
+    </bean>
 
     <bean id="deptEarnCodeDao" class="org.kuali.hr.time.dept.earncode.dao.DepartmentEarnCodeDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
@@ -324,73 +327,73 @@
     <bean id="earnCodeDao" class="org.kuali.hr.time.earncode.dao.EarnCodeDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="timeCollectionRuleDao" class="org.kuali.hr.time.timecollection.rule.dao.TimeCollectionRuleDaoServiceImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="earnGroupDao" class="org.kuali.hr.time.earngroup.dao.EarnGroupDaoServiceImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="timeHourDetailDao" class="org.kuali.hr.time.timehourdetail.dao.TimeHourDetailDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="workScheduleDao" class="org.kuali.hr.time.workschedule.dao.WorkScheduleDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="weeklyOvertimeRuleDao" class="org.kuali.hr.time.overtime.weekly.rule.dao.WeeklyOvertimeRuleDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="shiftDifferentialRuleDao" class="org.kuali.hr.time.shiftdiff.rule.dao.ShiftDifferentialRuleDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="gracePeriodDao" class="org.kuali.hr.time.graceperiod.dao.GracePeriodDaoImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="systemLunchRuleDao" class="org.kuali.hr.time.syslunch.dao.SystemLunchRuleDaoImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="deptLunchRuleDao" class="org.kuali.hr.time.dept.lunch.dao.DepartmentLunchRuleDaoImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="principalCalendarDao" class="org.kuali.hr.time.principal.calendar.dao.PrincipalCalendarDaoImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>    
-    
+    </bean>
+
     <bean id="holidayCalendarDao" class="org.kuali.hr.time.holidaycalendar.dao.HolidayCalendarDaoImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="userPrefDao" class="org.kuali.hr.time.user.pref.dao.UserPreferenceDaoImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
-    </bean>    
-    
+    </bean>
+
     <bean id="timeOffAccrualDao" class="org.kuali.hr.time.accrual.dao.TimeOffAccrualkDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="salGroupDao" class="org.kuali.hr.time.salgroup.dao.SalGroupDaoSpringOjbImpl">
       <property name="jcdAlias" value="tkDataSource" />
     </bean>
-    
+
 	<!-- Time Services for Business Logic -->
-	
+
 	<bean id="deptLunchRuleService" class="org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleServiceImpl">
 		<property name="deptLunchRuleDao" ref="deptLunchRuleDao"/>
 	</bean>
-	
+
 	<bean id="systemLunchRuleService" class="org.kuali.hr.time.syslunch.service.SystemLunchRuleServiceImpl">
 		<property name="systemLunchRuleDao" ref="systemLunchRuleDao"/>
 	</bean>
-	
+
     <bean id="gracePeriodService" class="org.kuali.hr.time.graceperiod.service.GracePeriodServiceImpl">
     	<property name="gracePeriodDao" ref="gracePeriodDao"/>
     </bean>
@@ -399,28 +402,26 @@
     	<property name="clockLogDao" ref="clockLogDao"/>
     </bean>
 
-    
     <bean id="clockLocationService" class="org.kuali.hr.time.clock.location.service.ClockLocationRuleServiceImpl">
     	<property name="clockLocationDao" ref="clockLocationDao"/>
     </bean>
-    
-    
+
     <bean id="workScheduleService" class="org.kuali.hr.time.workschedule.service.WorkScheduleServiceImpl">
     	<property name="workScheduleDao" ref="workScheduleDao"/>
     </bean>
-    
+
     <bean id="weeklyOvertimeRuleService" class="org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleServiceImpl">
     	<property name="weeklyOvertimeRuleDao" ref="weeklyOvertimeRuleDao"/>
     </bean>
-    
+
     <bean id="shiftDifferentialRuleService" class="org.kuali.hr.time.shiftdiff.rule.service.ShiftDifferentialRuleServiceImpl">
     	<property name="shiftDifferentialRuleDao" ref="shiftDifferentialRuleDao"/>
     </bean>
-    
+
     <bean id="dailyOvertimeRuleService" class="org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleServiceImpl">
     	<property name="dailyOvertimeRuleDao" ref="dailyOvertimeRuleDao"/>
     </bean>
-    
+
     <bean id="timeCollectionRuleService" class="org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleServiceImpl">
     	<property name="timeCollectRuleDao" ref="timeCollectionRuleDao"/>
     </bean>
@@ -441,11 +442,15 @@
     	<property name="jobDao" ref="jobDao"/>
     </bean>
 
+    <bean id="taskService" class="org.kuali.hr.time.task.service.TaskServiceImpl">
+    	<property name="taskDao" ref="taskDao"/>
+    </bean>
+
     <bean id="payTypeService" class="org.kuali.hr.time.paytype.service.PayTypeServiceImpl">
     	<property name="payCalendarService" ref="payCalendarService"/>
     	<property name="payTypeDao" ref="payTypeDao"/>
     </bean>
-    
+
     <bean id="tkRoleService" class="org.kuali.hr.time.roles.service.TkRoleServiceImpl">
     	<property name="tkRoleDao" ref="tkRoleDao"/>
     </bean>
@@ -472,7 +477,7 @@
     <bean id="deptEarnCodeService" class="org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeServiceImpl">
     	<property name="deptEarnCodeDao" ref="deptEarnCodeDao"/>
     </bean>
-    
+
     <bean id="departmentService" class="org.kuali.hr.time.department.service.DepartmentServiceImpl">
       <property name="departmentDao" ref="departmentDao"/>
     </bean>
@@ -480,31 +485,31 @@
     <bean id="earnCodeService" class="org.kuali.hr.time.earncode.service.EarnCodeServiceImpl">
     	<property name="earnCodeDao" ref="earnCodeDao"/>
     </bean>
-    
+
     <bean id="earnGroupService" class="org.kuali.hr.time.earngroup.service.EarnGroupServiceImpl">
     	<property name="earnGroupDao" ref="earnGroupDao"/>
     </bean>
-    
+
     <bean id="salGroupService" class="org.kuali.hr.time.salgroup.service.SalGroupServiceImpl">
       <property name="salGroupDao" ref="salGroupDao"/>
     </bean>
-    
+
     <bean id="timeHourDetailService" class="org.kuali.hr.time.timehourdetail.service.TimeHourDetailServiceImpl">
     	<property name="timeHourDetailDao" ref="timeHourDetailDao"/>
     </bean>
-    
+
     <bean id="principalCalendarService" class="org.kuali.hr.time.principal.calendar.service.PrincipalCalendarServiceImpl">
     	<property name="principalCalendarDao" ref="principalCalendarDao"/>
     </bean>
-    
+
     <bean id="holidayCalendarService" class="org.kuali.hr.time.holidaycalendar.service.HolidayCalendarServiceImpl">
     	<property name="holidayCalendarDao" ref="holidayCalendarDao"/>
     </bean>
-    
+
     <bean id="userPrefService" class="org.kuali.hr.time.user.pref.service.UserPreferenceServiceImpl">
     	<property name="userPrefDao" ref="userPrefDao"/>
-    </bean>    
-    
+    </bean>
+
     <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>
 
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
@@ -513,9 +518,9 @@
     <bean id="tkRuleControllerService" class="org.kuali.hr.time.rule.TkRuleControllerServiceImpl"/>
 
 	<bean id="workAreaQualifierRoleTypeService" class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
-    
+
     <bean id="timezoneService" class="org.kuali.hr.time.timezone.service.TimezoneServiceImpl"/>
-    
+
     <bean id="timeOffAccrualService" class="org.kuali.hr.time.accrual.service.TimeOffAccrualServiceImpl">
         <property name="timeOffAccrualDao" ref="timeOffAccrualDao"/>
     </bean>
@@ -536,7 +541,7 @@
         <property name="jobDetail" ref="serializerJob" />
        <!-- cronTrigger to be executed at future date it is explicitly set temporarily just to avoid execution for now -->
         <property name="cronExpression" value="0 53 17 8 9 ? 2020" />
-    </bean>    
+    </bean>
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
@@ -544,6 +549,6 @@
             </list>
         </property>
     </bean>
-     
-     
+
+
 </beans>

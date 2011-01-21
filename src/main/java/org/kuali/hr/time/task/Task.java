@@ -1,8 +1,10 @@
 package org.kuali.hr.time.task;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 public class Task extends PersistableBusinessObjectBase {
 
@@ -18,6 +20,9 @@ public class Task extends PersistableBusinessObjectBase {
     private String description;
     private String userPrincipalId;
     private String administrativeDescription;
+    private Date effectiveDate;
+    private boolean active = true;
+    private Timestamp timestamp;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -93,5 +98,28 @@ public class Task extends PersistableBusinessObjectBase {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
 
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
 
 }

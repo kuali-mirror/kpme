@@ -56,13 +56,13 @@ INSERT INTO `tk_work_area_t` (`TK_WORK_AREA_ID`, `WORK_AREA`, `EFFDT`,`ACTIVE`,`
 DELETE FROM `tk_task_s`;
 INSERT INTO `tk_task_s` (`ID`) VALUES ('1000');
 DELETE FROM `tk_task_t`;
-INSERT INTO `tk_task_t`(`tk_task_id`,`task`,`work_area`,`tk_work_area_id`,`descr`,`admin_descr`,`obj_id`, `ver_nbr`,`USER_PRINCIPAL_ID`)  VALUES
-    (1,  30, 30,     1  ,'SDR1 task'    , 'admin description 1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
-    (100, 1, '1234', 100,'description 1', 'admin description 1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
-    (101, 2, '1234', 100,'description 2', 'admin description 2', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
-    (102, 3, '1234', 100,'description 3', 'admin description 3', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
-    (103, 4, '1000', 104,'task 4', 'admin description 4', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
-    (104, 5, '1100', 105,'task 5', 'admin description 4', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin');
+INSERT INTO `tk_task_t`(`tk_task_id`,`task`,`work_area`,`tk_work_area_id`,`descr`,`admin_descr`,`obj_id`, `ver_nbr`,`USER_PRINCIPAL_ID`, `effdt`, `active`, `timestamp`)  VALUES
+    (1,  30, 30,     1  ,'SDR1 task'    , 'admin description 1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin', '2010-01-01', 'Y', now()),
+    (100, 1, '1234', 100,'description 1', 'admin description 1', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin', '2010-01-01', 'Y', now()),
+    (101, 2, '1234', 100,'description 2', 'admin description 2', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin', '2010-01-01', 'Y', now()),
+    (102, 3, '1234', 100,'description 3', 'admin description 3', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin', '2010-01-01', 'Y', now()),
+    (103, 4, '1000', 104,'task 4', 'admin description 4', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin', '2010-01-01', 'Y', now()),
+    (104, 5, '1100', 105,'task 5', 'admin description 4', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin', '2010-01-01', 'Y', now());
 
 #
 # Assignments
