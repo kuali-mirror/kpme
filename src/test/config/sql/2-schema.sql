@@ -389,6 +389,8 @@ CREATE TABLE `krns_nte_typ_t` (
 
 LOCK TABLES `krns_nte_typ_t` WRITE;
 /*!40000 ALTER TABLE `krns_nte_typ_t` DISABLE KEYS */;
+INSERT into `krns_nte_typ_t` values ('BO', '53680C68F5A9AD9BE0404F8189D80A6C', '1', 'DOCUMENT BUSINESS OBJECT', 'Y');
+INSERT into `krns_nte_typ_t` values ('DH', '53680C68F5AAAD9BE0404F8189D80A6C', '1', 'DOCUMENT HEADER', 'Y');
 /*!40000 ALTER TABLE `krns_nte_typ_t` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1013,12 +1015,12 @@ CREATE TABLE `qrtz_triggers` (
 --
 -- Dumping data for table `qrtz_triggers`
 --
-
 LOCK TABLES `qrtz_triggers` WRITE;
 /*!40000 ALTER TABLE `qrtz_triggers` DISABLE KEYS */;
 INSERT INTO `qrtz_triggers` VALUES ('PeriodicMessageProcessingTrigger','KCB-Delivery','MessageProcessingJobDetail','KCB-Delivery','0','\n                Trigger that periodically runs the KCB message processing job\n            ','1221578432323','1221578402323','5','WAITING','BLOB','1221577052323','0',NULL,'0',NULL);
 /*!40000 ALTER TABLE `qrtz_triggers` ENABLE KEYS */;
 UNLOCK TABLES;
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
