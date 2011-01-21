@@ -130,18 +130,16 @@
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="hrPayTypeId" />
 				<bean parent="FieldDefinition" p:attributeName="payType" />
+                <bean parent="FieldDefinition" p:attributeName="descr" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="hrPayTypeId" />
 				<bean parent="FieldDefinition" p:attributeName="payType" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="regEarnCode" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 			</list>
 		</property>
 		<property name="title" value="Pay Type Lookup" />
