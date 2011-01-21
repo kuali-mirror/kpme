@@ -19,6 +19,7 @@
 				<ref bean="PayType-descr" />
 				<ref bean="PayType-regEarnCode" />
 				<ref bean="PayType-effectiveDate" />
+                <ref bean="PayType-active"/>
 				<ref bean="PayType-timestamp" />
 			</list>
 		</property>
@@ -122,6 +123,13 @@
 		<property name="label" value="Timestamp" />
 	</bean>
 
+
+    <bean id="PayType-active" parent="PayType-active-parentBean"/>
+      <bean id="PayType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+    <property name="label" value="Active?"/>
+  </bean>
+
 	<!--  Inquiry Definitions  -->
 
 
@@ -131,6 +139,7 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="payType" />
+                <bean parent="FieldDefinition" p:attributeName="regEarnCode" />
                 <bean parent="FieldDefinition" p:attributeName="descr" />
 			</list>
 		</property>
