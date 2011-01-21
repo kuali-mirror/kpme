@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="WorkAreaMaintenanceDocument" parent="WorkAreaMaintenanceDocument-parentBean"/>
-    <bean id="WorkAreaMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+    <bean id="WorkAreaMaintenanceDocument-parentBean" abstract="true" parent="WorkAreaMaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.time.workarea.WorkArea"
         p:businessRulesClass="org.kuali.hr.time.workarea.web.WorkAreaMaintenanceDocumentRule"
   		p:maintainableClass="org.kuali.hr.time.workarea.WorkAreaMaintainableImpl">
@@ -28,7 +28,7 @@
     <property name="title" value="Work Area Maintenance"/>
     <property name="maintainableItems">
       <list>
-      	<bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true" />
+     	<bean parent="MaintainableFieldDefinition" p:name="workArea" p:unconditionallyReadOnly="true" />   	
       	<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="description"  p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="dept"  p:required="true"/>

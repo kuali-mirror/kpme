@@ -720,4 +720,23 @@
         <field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
     </class-descriptor>
 			
+	<!-- override MaintenanceDocumentBase primarily for Work Area maintenance -->
+	<class-descriptor class="org.kuali.hr.time.workarea.web.WorkAreaMaintenanceDocument" table="tk_wa_maint_doc_t">
+	    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" />
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+	    <field-descriptor name="xmlDocumentContents" column="DOC_CNTNT" jdbc-type="CLOB"
+	         conversion="org.kuali.rice.kns.util.OjbKualiEncryptDecryptFieldConversion" />
+	         
+		<reference-descriptor name="attachment" 
+			class-ref="org.kuali.rice.kns.bo.DocumentAttachment" 
+			auto-retrieve="true"
+			auto-update="object"
+			auto-delete="object" 
+			proxy="true">
+			<foreignkey field-ref="documentNumber" />
+		</reference-descriptor>
+	</class-descriptor>
+			
+			
 </descriptor-repository>
