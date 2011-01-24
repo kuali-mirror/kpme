@@ -275,6 +275,10 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
+    <bean id="accrualCategoryDao" class="org.kuali.hr.time.accrual.dao.AccrualCategoryDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
     <bean id="tkRoleDao" class="org.kuali.hr.time.roles.dao.TkRoleDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
@@ -469,6 +473,10 @@
 
     <bean id="workAreaService" class="org.kuali.hr.time.workarea.service.WorkAreaServiceImpl">
     	<property name="workAreaDao" ref="workAreaDao"/>
+    </bean>
+
+    <bean id="accrualCategoryService" class="org.kuali.hr.time.accrual.service.AccrualCategoryServiceImpl">
+    	<property name="accrualCategoryDao" ref="accrualCategoryDao"/>
     </bean>
 
     <bean id="timesheetService" class="org.kuali.hr.time.timesheet.service.TimesheetServiceImpl">

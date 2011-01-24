@@ -38,6 +38,12 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 			this.putFieldError("recordTime", "earncode.record.unique");
 			return false;
 		}
+		
+		//check if the effective date of the accrual category is prior to effective date of the earn code 
+		if (!ValidationUtils.validateAccrualCategory(earnCode.getAccrualCategory(), earnCode.getEffectiveDate())) {
+			this.putFieldError("accrualCategory", "earncode.accrualCategory.invalid", earnCode.getAccrualCategory());
+			return false;
+		}
 		return true;
 	}
 

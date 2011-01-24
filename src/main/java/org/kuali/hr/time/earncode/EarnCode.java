@@ -3,11 +3,15 @@ package org.kuali.hr.time.earncode;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class EarnCode extends PersistableBusinessObjectBase {
 
@@ -121,7 +125,18 @@ public class EarnCode extends PersistableBusinessObjectBase {
 	}
 
 	public AccrualCategory getAccrualCategoryObj() {
+		if(accrualCategoryObj == null && !this.getAccrualCategory().isEmpty()) {
+			this.assingAccrualCategoryObj();
+		}
 		return accrualCategoryObj;
+	}
+	public void assingAccrualCategoryObj() {
+		Map<String,Object> parameters = new HashMap<String,Object>();
+		parameters.put("accrualCategory", getAccrualCategory());
+		Collection c = KNSServiceLocator.getBusinessObjectService().findMatching(AccrualCategory.class, parameters);
+		if(!c.isEmpty()) {
+			this.setAccrualCategoryObj((AccrualCategory)c.toArray()[0]);
+		}
 	}
 
 	public void setAccrualCategoryObj(AccrualCategory accrualCategoryObj) {
