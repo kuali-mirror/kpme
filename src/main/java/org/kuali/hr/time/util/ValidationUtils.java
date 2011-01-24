@@ -5,6 +5,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.codehaus.plexus.util.StringUtils;
+import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.salgroup.SalGroup;
@@ -123,6 +124,28 @@ public class ValidationUtils {
 			valid = (count > 0);
 		}
 
+		return valid;
+	}
+	/**
+	 * Checks for row presence of a Accrual Category, and optionally whether or not 
+	 * it is active as of the specified date.
+	 */
+	public static boolean validateAccrualCategory(String accrualCategory, Date asOfDate) {
+		boolean valid = false;
+		
+		if (StringUtils.equals(accrualCategory, TkConstants.WILDCARD_CHARACTER)) {
+			valid = true;
+		} else if (asOfDate != null) {
+			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
+			valid = (ac != null);
+		} else {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("accrualCategory", accrualCategory);		
+			Query query = QueryFactory.newQuery(AccrualCategory.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+			valid = (count > 0);
+		}
+		
 		return valid;
 	}
 

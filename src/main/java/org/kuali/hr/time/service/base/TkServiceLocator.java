@@ -1,6 +1,7 @@
 package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.job.service.JobService;
+import org.kuali.hr.time.accrual.service.AccrualCategoryService;
 import org.kuali.hr.time.accrual.service.TimeOffAccrualService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
@@ -81,6 +82,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
 	public static final String TK_TIME_OFF_ACCRUAL_SERVICE = "timeOffAccrualService";
 	public static final String TK_SAL_GROUP_SERVICE = "salGroupService";
+	public static final String TK_ACCRUAL_CATEGORY_SERVICE = "accrualCategoryService";
     public static final String TK_TASK_SERVICE = "taskService";
 
 	public static void start() throws Exception {
@@ -244,6 +246,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (TimeOffAccrualService) CONTEXT.getBean(TK_TIME_OFF_ACCRUAL_SERVICE);
 	}
 
+	public static AccrualCategoryService getAccrualCategoryService() {
+	    return (AccrualCategoryService)CONTEXT.getBean(TK_ACCRUAL_CATEGORY_SERVICE);
+	}
+	
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;
