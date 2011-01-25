@@ -15,7 +15,6 @@
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="TimeOffAccrual-laAccrualId" />
 				<ref bean="TimeOffAccrual-principalId" />
 				<ref bean="TimeOffAccrual-accrualCategory" />
 				<ref bean="TimeOffAccrual-effectiveDate" />
@@ -46,22 +45,7 @@
         </list>
     </property>  
 	</bean>
-
-	<bean id="TimeOffAccrual-laAccrualId" parent="TimeOffAccrual-laAccrualId-parentBean" />
-	<bean id="TimeOffAccrual-laAccrualId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Id" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="laAccrualId" />
-		<property name="label" value="Time Off Accrual Id" />
-	</bean>
-
+ 
 	<bean id="TimeOffAccrual-principalId" parent="TimeOffAccrual-principalId-parentBean" />
 	<bean id="TimeOffAccrual-principalId-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -118,7 +102,10 @@
 		<property name="shortLabel" value="Hours Accrued" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="RegexValidationPattern">
+ 		   		<property name="pattern" value="(\+|-)?([0-9]+(\.[0-9]+)?)"></property>
+ 		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
+ 			</bean>
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
@@ -133,7 +120,10 @@
 		<property name="shortLabel" value="Hours Taken" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="RegexValidationPattern">
+ 		   		<property name="pattern" value="(\+|-)?([0-9]+(\.[0-9]+)?)"></property>
+ 		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
+ 			</bean>
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
@@ -148,7 +138,10 @@
 		<property name="shortLabel" value="Hours Adjust" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="RegexValidationPattern">
+ 		   		<property name="pattern" value="(\+|-)?([0-9]+(\.[0-9]+)?)"></property>
+ 		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
+ 			</bean>
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
@@ -165,14 +158,12 @@
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="laAccrualId" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="laAccrualId" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
