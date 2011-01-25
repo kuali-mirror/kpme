@@ -12,6 +12,8 @@ import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 
 import java.sql.Date;
 
@@ -33,6 +35,14 @@ public class ValidationUtils {
 	public static boolean validateDepartment(String department) {
 		return validateDepartment(department, null);
 	}
+
+	/** 
+	 * Most basic validation: Only checks for presence in the database.
+	 */
+	public static boolean validateAccrualCategory(String accrualCategory) {
+		return validateAccrualCategory(accrualCategory, null);
+	}
+
 
 	public static boolean validateSalGroup(String salGroup, Date asOfDate) {
 		boolean valid = false;
@@ -86,11 +96,9 @@ public class ValidationUtils {
 	public static boolean validateDepartment(String department, Date asOfDate) {
 		boolean valid = false;
 
-		if (StringUtils.equals(department, TkConstants.WILDCARD_CHARACTER)) {
-			valid = true;
-		} else if (asOfDate != null) {
+		if (asOfDate != null) {
 			Department d = TkServiceLocator.getDepartmentService().getDepartment(department, asOfDate);
-			valid = (d != null);
+		    valid = (d != null);
 		} else {
 			Criteria crit = new Criteria();
 			crit.addEqualTo("dept", department);
@@ -146,6 +154,19 @@ public class ValidationUtils {
 			valid = (count > 0);
 		}
 		
+		return valid;
+	}
+	
+	/**
+	 * Checks for row presence of a principal Id, and optionally whether or not 
+	 * it is active as of the specified date.
+	 */
+	public static boolean validatePrincipalId(String principalId) {
+		boolean valid = false;
+		if (principalId != null) {
+			Person p = KIMServiceLocator.getPersonService().getPersonByPrincipalName(principalId);
+		    valid = (p != null);
+		}
 		return valid;
 	}
 
