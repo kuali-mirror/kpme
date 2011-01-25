@@ -18,6 +18,7 @@
 			<list>
 				<ref bean="Job-hrJobId" />
 				<ref bean="Job-principalId" />
+				<ref bean="Job-principalName" />
 				<ref bean="Job-jobNumber" />
 				<ref bean="Job-effectiveDate" />
 				<ref bean="Job-dept" />
@@ -29,6 +30,7 @@
 				<ref bean="Job-standardHours" />
 				<ref bean="Job-compRate" />
 				<ref bean="Job-primaryIndicator" />
+				<ref bean="Job-active" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -180,6 +182,20 @@
 		<property name="name" value="principalId" />
 		<property name="label" value="Principal Id" />
 	</bean>
+	
+	<bean id="Job-principalName" parent="Job-principalName-parentBean" />
+	<bean id="Job-principalName-parentBean" abstract="true" parent="AttributeDefinition">
+  		<property name="shortLabel" value="Principal Name" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+		<property name="name" value="principalName" />
+		<property name="label" value="Principal Name" />
+    </bean>
 
 	<bean id="Job-jobNumber" parent="Job-jobNumber-parentBean" />
 	<bean id="Job-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -288,6 +304,13 @@
 		<property name="label" value="Time Stamp" />
 	</bean>
 
+	<bean id="Job-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+	    <property name="name" value="active"/>
+	    <property name="label" value="Active"/>
+	</bean>
+
+  	<bean id="Job-active" parent="Job-active-parentBean"/>
+
 
 	<!-- Business Object Inquiry Definition -->
 
@@ -328,6 +351,8 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
+				<bean parent="FieldDefinition" p:attributeName="dept" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<!-- More information should be added here if needed -->
@@ -336,8 +361,12 @@
 				<bean parent="FieldDefinition" p:attributeName="hrJobId"
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="principalName" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 				<bean parent="FieldDefinition" p:attributeName="location" />
+				<bean parent="FieldDefinition" p:attributeName="dept" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				
 			</list>
 		</property>
 		<property name="title" value="Job Lookup" />

@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * 
@@ -27,6 +28,7 @@ public class Job extends PersistableBusinessObjectBase {
 	private BigDecimal standardHours;
 	private Long hrJobId;
 	private String principalId;
+	private String principalName;
 	private Long jobNumber;
 	private Date effectiveDate;
 	private String dept;
@@ -73,6 +75,18 @@ public class Job extends PersistableBusinessObjectBase {
 
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
+	}
+	
+	public String getPrincipalName() {
+		if(principalName == null && !this.getPrincipalId().isEmpty()) {
+			Person aPerson = KIMServiceLocator.getPersonService().getPerson(getPrincipalId());
+			setPrincipalName(aPerson.getPrincipalName());
+		}
+		return principalName;
+	}
+
+	public void setPrincipalName(String principalName) {
+		this.principalName = principalName;
 	}
 
 	public Long getJobNumber() {
