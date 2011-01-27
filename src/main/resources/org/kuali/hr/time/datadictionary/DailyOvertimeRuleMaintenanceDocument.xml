@@ -36,14 +36,13 @@
 				<bean parent="MaintainableFieldDefinition" p:name="location"/>
 				<bean parent="MaintainableFieldDefinition" p:name="paytype"/>
 				<bean parent="MaintainableFieldDefinition" p:name="dept"/>
-				<bean parent="MaintainableFieldDefinition" p:name="workArea" />
+				<bean parent="MaintainableFieldDefinition" p:name="workArea"/>
 				<bean parent="MaintainableFieldDefinition" p:name="maxGap" />
 				<bean parent="MaintainableFieldDefinition" p:name="minHours" />
-				<bean parent="MaintainableFieldDefinition" p:name="overtimePref" />
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
-				<bean parent="MaintainableFieldDefinition" p:name="active" />
-        <bean parent="MaintainableFieldDefinition" p:name="earnCode" />
-        <bean parent="MaintainableFieldDefinition" p:name="fromEarnGroup" />				
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+        		<bean parent="MaintainableFieldDefinition" p:name="earnCode"/>
+        		<bean parent="MaintainableFieldDefinition" p:name="fromEarnGroup"/>				
 			</list>
 		</property>
 	</bean>

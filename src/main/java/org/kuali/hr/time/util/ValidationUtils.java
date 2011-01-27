@@ -8,6 +8,7 @@ import org.codehaus.plexus.util.StringUtils;
 import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
@@ -186,6 +187,29 @@ public class ValidationUtils {
             Criteria crit = new Criteria();
             crit.addEqualTo("task", task);
             Query query = QueryFactory.newQuery(Task.class, crit);
+            int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+            valid = (count > 0);
+        }
+
+        return valid;
+    }
+    
+    /**
+     * No wildcarding is accounted for in this method.
+     * @param earnGroup EarnGroup
+     * @param asOfDate Can be null, if we just want to look for the general case.
+     * @return True if the EarnGroup is present / valid.
+     */
+    public static boolean validateEarnGroup(String earnGroup, Date asOfDate) {
+        boolean valid = false;
+
+        if (earnGroup != null && asOfDate != null) {
+            EarnGroup eg = TkServiceLocator.getEarnGroupService().getEarnGroup(earnGroup, asOfDate);
+            valid = (eg != null);
+        } else if (earnGroup != null) {
+            Criteria crit = new Criteria();
+            crit.addEqualTo("earnGroup", earnGroup);
+            Query query = QueryFactory.newQuery(EarnGroup.class, crit);
             int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
             valid = (count > 0);
         }

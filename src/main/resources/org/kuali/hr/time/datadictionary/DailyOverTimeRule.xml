@@ -40,6 +40,7 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
 								p:targetName="workArea" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
 						</list>
 					</property>
 				</bean>
@@ -109,6 +110,7 @@
 	<bean id="DailyOvertimeRule-paytype" parent="DailyOvertimeRule-paytype-parentBean" />
 	<bean id="DailyOvertimeRule-paytype-parentBean" abstract="true"
 		parent="AttributeDefinition">
+		<property name="forceUppercase" value="true" />
 		<property name="shortLabel" value="PayType" />
 		<property name="maxLength" value="4" />
 		<property name="validationPattern">
@@ -126,6 +128,7 @@
 	<bean id="DailyOvertimeRule-dept" parent="DailyOvertimeRule-dept-parentBean" />
 	<bean id="DailyOvertimeRule-dept-parentBean" abstract="true"
 		parent="AttributeDefinition">
+		<property name="forceUppercase" value="true" />
 		<property name="shortLabel" value="Dept" />
 		<property name="maxLength" value="21" />
 		<property name="validationPattern">
@@ -158,16 +161,19 @@
 	<bean id="DailyOvertimeRule-maxGap" parent="DailyOvertimeRule-maxGap-parentBean" />
 	<bean id="DailyOvertimeRule-maxGap-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Max. Gap" />
-		<property name="maxLength" value="3" />
+		<property name="shortLabel" value="Max. Gap Minutes" />
+		<property name="maxLength" value="6" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="RegexValidationPattern">
+ 		   		<property name="pattern" value="([0-9]+(\.[0-9]+)?)"></property>
+ 		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
+ 			</bean>
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="3" />
 		</property>
 		<property name="name" value="maxGap" />
-		<property name="label" value="Max. Gap" />
+		<property name="label" value="Max. Gap Minutes" />
 	</bean>
 	<!-- minHours -->
 	<bean id="DailyOvertimeRule-minHours" parent="DailyOvertimeRule-minHours-parentBean" />
@@ -206,7 +212,7 @@
 	<bean id="DailyOvertimeRule-effectiveDate-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="3" />
+		<property name="maxLength" value="10" />
 		<property name="validationPattern">
 			<bean parent="DateValidationPattern" />
 		</property>
@@ -317,8 +323,8 @@
 				<bean parent="FieldDefinition" p:attributeName="minHours" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timeStamp" />
-        <bean parent="FieldDefinition" p:attributeName="fromEarnGroup" />
-        <bean parent="FieldDefinition" p:attributeName="earnCode" />        				
+        		<bean parent="FieldDefinition" p:attributeName="fromEarnGroup" />
+        		<bean parent="FieldDefinition" p:attributeName="earnCode" />        				
 			</list>
 		</property>
 		<property name="title" value="DailyOvertimeRule Lookup" />
