@@ -84,13 +84,11 @@
     <property name="validationPattern">
  		<bean parent="RegexValidationPattern">
  		   <property name="pattern" value="\%|((\+|-)?([0-9]+))"></property>
- 		   <property name="validationErrorMessageKey" value="error.long"></property>
+ 		   <property name="validationErrorMessageKey" value="error.validation.long.or.wildcard"></property>
  		</bean>
     </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
     <property name="name" value="workArea"/>
+     <property name="formatterClass" value="org.kuali.hr.time.workarea.WorkAreaFormatter"/>
     <property name="label" value="Work Area"/>
   </bean>
   
@@ -222,6 +220,7 @@
 	
   <bean id="ClockLocationRule-lookupDefinition" parent="ClockLocationRule-lookupDefinition-parentBean"/>
   <bean id="ClockLocationRule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="lookupableID" value="tkLookupable" />
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="dept"/>

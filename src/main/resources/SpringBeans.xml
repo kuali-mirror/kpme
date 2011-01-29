@@ -532,8 +532,12 @@
     <bean id="timeOffAccrualService" class="org.kuali.hr.time.accrual.service.TimeOffAccrualServiceImpl">
         <property name="timeOffAccrualDao" ref="timeOffAccrualDao"/>
     </bean>
-
-    <!-- Scheduler configuration -->
+	<bean id="tkLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.TkLookupableHelper"/>
+        </property>
+    </bean>
+        <!-- Scheduler configuration -->
 	<!-- Serializer service -->
 	<bean id="timeBlockSerializerService" class="org.kuali.hr.time.scheduler.TimeBlockSerializerService"/>
 	<!-- Serializer Job Bean-->
