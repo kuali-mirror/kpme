@@ -1,13 +1,13 @@
-package org.kuali.hr.time.workarea;
+package org.kuali.hr.job;
 
 import org.kuali.rice.kns.web.format.Formatter;
 
-public class WorkAreaFormatter extends Formatter {
-
+public class JobNumberFormatter extends Formatter {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 
 	@Override
 	public Object format(Object value) {
@@ -20,5 +20,4 @@ public class WorkAreaFormatter extends Formatter {
 		}
 		return super.format(value);
 	}
-
 }
