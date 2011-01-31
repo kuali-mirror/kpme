@@ -54,7 +54,7 @@ DELETE FROM `tk_assignment_s`;
 INSERT INTO `tk_assignment_s` (`ID`) VALUES ('1000');
 DELETE FROM `tk_assignment_t`;
 INSERT INTO `tk_assignment_t` (`TK_ASSIGNMENT_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`WORK_AREA`,`TASK`,`OBJ_ID`,`TIMESTAMP`,`VER_NBR`,`active`) VALUES
-    (10 , 'fran' , 0 , '2010-08-01' , '8539' , NULL , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 'Y')  ,
+    (10 , 'fran' , 0 , '2010-08-01' , '8529' , NULL , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 'Y')  ,
     (11 , 'frank' , 1 , '2010-08-01' , '8540' , 1 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 'Y')  ,
     (12 , 'frank'  ,2 , '2010-08-01' , '8541' , 'C3' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 'Y')  ,
     (13 , 'eric'  , 0 , '2010-08-01' , '8541' , 'C3' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 'Y');
