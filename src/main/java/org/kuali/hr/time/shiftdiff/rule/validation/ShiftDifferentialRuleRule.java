@@ -19,6 +19,15 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 		}		
 	}
 	
+	boolean validateEarnCode(ShiftDifferentialRule shiftDifferentialRule) {
+		if (!ValidationUtils.validateEarnCode(shiftDifferentialRule.getEarnCode(), shiftDifferentialRule.getEffectiveDate())) {
+			this.putFieldError("earnCode", "error.existence", "earnCode '" + shiftDifferentialRule.getEarnCode() + "'");
+			return false;				
+		} else {
+			return true;
+		}
+	}
+	
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
@@ -35,6 +44,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 			if (shiftDifferentialRule != null) {
 				valid = true;
 				valid &= this.validateSalGroup(shiftDifferentialRule);
+				valid &= this.validateEarnCode(shiftDifferentialRule);
 			}
 		}
 		

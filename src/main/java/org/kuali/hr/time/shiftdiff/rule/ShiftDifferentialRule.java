@@ -2,6 +2,7 @@ package org.kuali.hr.time.shiftdiff.rule;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
@@ -21,8 +22,8 @@ public class ShiftDifferentialRule extends TkRule {
 	private String payGrade;
 	private Date effectiveDate;
 	private String earnCode;
-	private Timestamp beginTime;
-	private Timestamp endTime;
+	private Time beginTime;
+	private Time endTime;
 	private BigDecimal minHours;
 	private boolean sunday;
 	private boolean monday;
@@ -143,19 +144,19 @@ public class ShiftDifferentialRule extends TkRule {
 		this.calendarGroup = calendarGroup;
 	}
 
-	public Timestamp getBeginTime() {
+	public Time getBeginTime() {
 		return beginTime;
 	}
 
-	public void setBeginTime(Timestamp beginTime) {
+	public void setBeginTime(Time beginTime) {
 		this.beginTime = beginTime;
 	}
 
-	public Timestamp getEndTime() {
+	public Time getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(Timestamp endTime) {
+	public void setEndTime(Time endTime) {
 		this.endTime = endTime;
 	}
 

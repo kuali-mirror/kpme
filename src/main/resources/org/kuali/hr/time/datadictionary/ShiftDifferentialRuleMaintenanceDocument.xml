@@ -36,10 +36,10 @@
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="location" />
-				<bean parent="MaintainableFieldDefinition" p:name="tkSalGroup" />
+				<bean parent="MaintainableFieldDefinition" p:name="tkSalGroup"  p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="payGrade" />
-				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
-				<bean parent="MaintainableFieldDefinition" p:name="earnCode" />
+				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="earnCode"  p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="beginTime" />
 				<bean parent="MaintainableFieldDefinition" p:name="endTime" />
 				<bean parent="MaintainableFieldDefinition" p:name="minHours" />
@@ -52,7 +52,8 @@
 				<bean parent="MaintainableFieldDefinition" p:name="saturday" />
 				<bean parent="MaintainableFieldDefinition" p:name="maxGap" />
 				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
-				<bean parent="MaintainableFieldDefinition" p:name="active" />			
+				<bean parent="MaintainableFieldDefinition" p:name="active" />
+				<bean parent="MaintainableFieldDefinition" p:name="calendarGroup"  p:required="true"/>			
 			</list>
 		</property>
 	</bean>
