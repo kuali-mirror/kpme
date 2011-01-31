@@ -45,9 +45,9 @@ INSERT INTO `tk_work_area_t` (`TK_WORK_AREA_ID`, `WORK_AREA`, `EFFDT`,`ACTIVE`,`
 DELETE FROM `tk_task_s`;
 INSERT INTO `tk_task_s` (`ID`) VALUES ('1000');
 DELETE FROM `tk_task_t`;
-INSERT INTO `tk_task_t`(`tk_task_id`,`task`,`work_area`,`tk_work_area_id`,`descr`,`admin_descr`,`obj_id`, `ver_nbr`,`USER_PRINCIPAL_ID`)  VALUES
-    (100, '1', '8540', 101,'test tube scrubber', 'admin test tube scrubber', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin'),
-    (101, 'C3', '8540', 101,'potion tester', 'lead potion tester', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin');
+INSERT INTO `tk_task_t`(`tk_task_id`,`task`,`work_area`,`tk_work_area_id`,`descr`,`admin_descr`,`obj_id`, `ver_nbr`,`USER_PRINCIPAL_ID`,`active`,`effdt`,`timestamp`)  VALUES
+    (100, '1', '8540', 101,'test tube scrubber', 'admin test tube scrubber', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin','Y','2010-01-01',now()),
+    (101, 'C3', '8540', 101,'potion tester', 'lead potion tester', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'admin','Y','2010-01-01',now());
 
 # Assignments
 DELETE FROM `tk_assignment_s`;
@@ -79,9 +79,9 @@ INSERT INTO `tk_time_collection_rl_s` VALUES('1000');
 DELETE FROM `tk_time_collection_rl_t`;
 INSERT INTO `tk_time_collection_rl_t` (`TK_TIME_COLL_RULE_ID`,`DEPT`,`WORK_AREA`,`EFFDT`,`CLOCK_USERS_FL`,`HRS_DISTRIBUTION_FL`,`USER_PRINCIPAL_ID`,
 `TIMESTAMP`,`ACTIVE`) VALUES
-	('1' , 'UA-FMOP' , 8529 , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 1)  ,
-	('2' , 'BL-CHEM' , '8540' , '2010-01-01' , 0 , 1 , 'admin' , '2010-01-01 08:08:08' , 1)  ,
-	('3' , 'BL-CHEM' , '8541'   , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 1);
+	('1' , 'UA-FMOP' , '8529'  , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y')  ,
+	('2' , 'BL-CHEM' , '8540'  , '2010-01-01' , 0 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y')  ,
+	('3' , 'BL-CHEM' , '8541'  , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 'Y');
 	
 DELETE FROM `tk_earn_group_s`;
 INSERT INTO `tk_earn_group_s` VALUES ('1000');
@@ -90,9 +90,9 @@ INSERT INTO `tk_earn_group_t` (`tk_earn_group_id`,`earn_group`,`descr`,`effdt`,`
 	(100,'R01','Summary for Regular Pay Hrs', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13','Y' ),
 	(101,'R05','Summary for Prem/Shift Hrs', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13','Y' ),
 	(102,'R02','Summary for Overtime Comp', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13','Y' ),
-	(103,'O01','Overtime Eligible', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' ),
-	(104,'O02','Hourly Ovt Eligible', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0EA7','20','2010-07-27 10:25:13' ),
-	(105,'O03','Biweekly Ovt Eligible', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0EF7','20','2010-07-27 10:25:13' );
+	(103,'O01','Overtime Eligible', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13','N' ),
+	(104,'O02','Hourly Ovt Eligible', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0EA7','20','2010-07-27 10:25:13','N' ),
+	(105,'O03','Biweekly Ovt Eligible', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0EF7','20','2010-07-27 10:25:13','N' );
 
 DELETE FROM `tk_earn_group_def_s`;
 INSERT INTO `tk_earn_group_def_s` VALUES ('1000');
@@ -112,11 +112,67 @@ INSERT INTO `tk_earn_group_def_t` (`tk_earn_group_def_id`, `tk_earn_group_id`,`e
 	(112,105,'RGN','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1);
 	
 insert into la_accrual_categories_t values('1','SCK','Sick','2010-01-01',uuid(),1,'Y',now());	
-insert into la_accrual_categories_t values('1','VAC','Vacation','2010-01-01',uuid(),1,'Y',now());
+insert into la_accrual_categories_t values('2','VAC','Vacation','2010-01-01',uuid(),1,'Y',now());
 
 insert into la_accruals_t values('1','fran','SCK','2010-01-01',100,0,0,uuid(),1);
 insert into la_accruals_t values('2','fran','VAC','2010-01-01',10,0,0,uuid(),1);
 insert into la_accruals_t values('3','frank','SCK','2010-01-01',5,0,0,uuid(),1);
 insert into la_accruals_t values('4','frank','VAC','2010-01-01',90,0,0,uuid(),1);    
+
+# Pay Calendar
+DELETE FROM `tk_py_calendar_s`;
+INSERT INTO `tk_py_calendar_s`	(`ID`)	VALUES	(1000);
+DELETE FROM `tk_py_calendar_t`;
+INSERT INTO `tk_py_calendar_t`	(`tk_py_calendar_id`,	`calendar_group`,`flsa_begin_day`, `flsa_begin_time`)	VALUES
+	(2,  'BWS-CAL', 'Sun', '0:00:00');
+
+#
+# Pay Calendar Dates
+DELETE FROM `tk_py_calendar_entries_s`;
+INSERT INTO `tk_py_calendar_entries_s`	(`ID`)	VALUES	(1000);
+DELETE FROM `tk_py_calendar_entries_t`;
+INSERT INTO `tk_py_calendar_entries_t` (`tk_py_calendar_entry_id`,`tk_py_calendar_id`,`begin_period_date`,`end_period_date`,`initiate_date`,`initiate_time`,`end_pay_period_date`,`end_pay_period_time`,`employee_approval_date`,`employee_approval_time`,`supervisor_approval_date`,`supervisor_approval_time`) VALUES
+	(1,  2, '2010-08-01 00:00:00', '2010-08-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(2,  2, '2010-08-15 00:00:00', '2010-09-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(3,  2, '2010-09-01 00:00:00', '2010-09-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(4,  2, '2010-09-15 00:00:00', '2010-10-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(5,  2, '2010-10-01 00:00:00', '2010-10-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(8,  2, '2010-10-15 00:00:00', '2010-11-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(9,  2, '2010-11-01 00:00:00', '2010-11-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(10, 2, '2010-11-15 00:00:00', '2010-12-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(11, 2, '2010-01-01 00:00:00', '2010-01-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(12, 2, '2010-01-15 00:00:00', '2010-02-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (13, 2, '2010-02-01 00:00:00', '2010-02-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (14, 2, '2010-02-15 00:00:00', '2010-03-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (15, 2, '2010-03-01 00:00:00', '2010-03-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (16, 2, '2010-03-15 00:00:00', '2010-04-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (17, 2, '2010-04-01 00:00:00', '2010-04-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (18, 2, '2010-04-15 00:00:00', '2010-05-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (19, 2, '2010-05-01 00:00:00', '2010-05-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (20, 2, '2010-05-15 00:00:00', '2010-06-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (21, 2, '2010-06-01 00:00:00', '2010-06-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (22, 2, '2010-06-15 00:00:00', '2010-07-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (23, 2, '2010-07-01 00:00:00', '2010-07-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (24, 2, '2010-07-15 00:00:00', '2010-08-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (25, 2, '2010-12-01 00:00:00', '2010-12-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (26, 2, '2010-12-15 00:00:00', '2011-01-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (29, 2, '2011-01-01 00:00:00', '2011-01-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (30, 2, '2011-01-15 00:00:00', '2011-02-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (31, 2, '2011-02-01 00:00:00', '2011-02-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (32, 2, '2011-02-15 00:00:00', '2011-03-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (33, 2, '2011-03-01 00:00:00', '2011-03-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (34, 2, '2011-03-15 00:00:00', '2011-04-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (35, 2, '2011-04-01 00:00:00', '2011-04-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (36, 2, '2011-04-15 00:00:00', '2011-05-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (37, 2, '2011-05-01 00:00:00', '2011-05-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (38, 2, '2011-05-15 00:00:00', '2011-06-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (39, 2, '2011-06-01 00:00:00', '2011-06-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (40, 2, '2011-06-15 00:00:00', '2011-07-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (41, 2, '2011-07-01 00:00:00', '2011-07-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+  (42, 2, '2011-07-15 00:00:00', '2011-08-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+  
+insert into tk_principal_calendar_t values('frank','BWS-CAL',NULL,'2010-01-01', now(),uuid(),1, 'Y');
+insert into tk_principal_calendar_t values('fran','BWS-CAL',NULL,'2010-01-01', now(),uuid(),1, 'Y');
+insert into tk_principal_calendar_t values('eric','BWS-CAL',NULL,'2010-01-01', now(),uuid(),1, 'Y');
 
     

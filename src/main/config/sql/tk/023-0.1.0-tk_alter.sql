@@ -1,0 +1,1 @@
+ALTER TABLE tk_principal_calendar_t change `holiday_calendar_group` `holiday_calendar_group` varchar(45) COLLATE utf8_bin NULL;
