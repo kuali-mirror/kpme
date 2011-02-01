@@ -2,7 +2,7 @@ package org.kuali.hr.time.shiftdiff.rule.service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -320,8 +320,8 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		ShiftDifferentialRuleService service = TkServiceLocator.getShiftDifferentialRuleService();	
 		ShiftDifferentialRule sdr = new ShiftDifferentialRule();
 		
-		//sdr.setBeginTime(new Timestamp(startTime.getMillis()));
-		//sdr.setEndTime(new Timestamp(endTime.getMillis()));
+		sdr.setBeginTime(new Time(startTime.getMillis()));
+		sdr.setEndTime(new Time(endTime.getMillis()));
 		sdr.setMinHours(minHours);
 		sdr.setMaxGap(maxGap);
 		sdr.setActive(true);
