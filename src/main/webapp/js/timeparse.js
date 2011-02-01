@@ -231,7 +231,7 @@ function magicTime(input) {
             // Human readable time
             el = document.getElementById(messagespan);
             dateRangeField = dateRangeField.split("/");
-            d.setFullYear(dateRangeField[2], dateRangeField[0]-1, dateRangeField[1]);
+            d.setFullYear(dateRangeField[2], dateRangeField[0], dateRangeField[1]);
             d.setSeconds(0);
             d.setMilliseconds(0);
             el.value = d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes();

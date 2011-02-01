@@ -15,10 +15,12 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timeblock.dao.TimeBlockDao;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -155,7 +157,6 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     	tb.setTkTaskId(tkTaskId);
     	tb.setEarnCode(earnCode);
     	tb.setBeginTimestamp(beginTime);
-    	//TODO add timezeon things
     	tb.setBeginTimestampTimezone(tz);
     	tb.setEndTimestamp(endTime);
     	tb.setEndTimestampTimezone(tz);
@@ -168,12 +169,13 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     	tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
     	
     	tb.setTimeHourDetails(this.createTimeHourDetails(tb.getEarnCode(), tb.getHours(), tb.getTkTimeBlockId()));
+    	tb.setTimeBlockHistories(this.createTimeBlockHistories(tb, "TEST"));
     	
     	return tb;
 	}
 
-	public TimeBlock getTimeBlock(String timeBlockId) {
-		return timeBlockDao.getTimeBlock(timeBlockId);
+	public TimeBlock getTimeBlock(Long tkTimeBlockId) {
+		return timeBlockDao.getTimeBlock(tkTimeBlockId);
 	}
 	
 	public List<Map<String,Object>> getTimeBlocksForOurput(TimesheetDocument tsd) { 
@@ -220,6 +222,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			timeBlockMap.put("earnCodeType", earnCode.getEarnCodeType());
 			timeBlockMap.put("hours", timeBlock.getHours());
 			timeBlockMap.put("timezone", timezone);
+			timeBlockMap.put("assignment", new AssignmentDescriptionKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask()).toAssignmentKeyString());
+			timeBlockMap.put("tkTimeBlockId", timeBlock.getTkTimeBlockId()!=null ? timeBlock.getTkTimeBlockId() : "");
 			
 			List<Map<String,Object>> timeHourDetailList = new LinkedList<Map<String,Object>>();
 			for(TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {
@@ -263,6 +267,17 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		timeHourDetails.add(timeHourDetail);
 
 		return timeHourDetails;
+	}
+	
+	private List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory) {
+		List<TimeBlockHistory> tbhs = new ArrayList<TimeBlockHistory>();
+		
+		TimeBlockHistory tbh = new TimeBlockHistory(tb); 
+		tbh.setActionHistory(actionHistory);
+		
+		tbhs.add(tbh);
+		
+		return tbhs;
 	}
 	
 	public List<TimeBlock> getTimeBlocks(Long documentId){

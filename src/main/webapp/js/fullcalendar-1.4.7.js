@@ -159,6 +159,7 @@ $.fn.fullCalendar = function(options) {
 	// pluck the 'events' and 'eventSources' options
 	var eventSources = options.eventSources || [];
 	delete options.eventSources;
+	
 	if (options.events) {
 		eventSources.push(options.events);
 		delete options.events;
@@ -195,8 +196,6 @@ $.fn.fullCalendar = function(options) {
 			view,      // the current view
 			viewInstances = {},
 			absoluteViewElement;
-
-
 
 		if (options.isRTL) {
 			element.addClass('fc-rtl');
@@ -384,9 +383,6 @@ $.fn.fullCalendar = function(options) {
 				this.sizeDirty = true;
 			});
 		}
-
-
-
 
 		/* Event Sources and Fetching
 		-----------------------------------------------------------------------------*/
@@ -584,6 +580,7 @@ $.fn.fullCalendar = function(options) {
 			//
 
 			updateEvent: function(event) { // update an existing event
+			    
 				var i, len = events.length, e,
 					startDelta = event.start - event._start,
 					endDelta = event.end ?
@@ -813,21 +810,8 @@ $.fn.fullCalendar = function(options) {
 					if (prevButton) {
 						prevButton.addClass(tm + '-corner-right');
 					}
-//                    if(buttonStr == "payPeriod") {
-//		                var payPeriod = $("<div class='pay-period'>" +
-//		                        "Pay period: <select>" +
-//		                        "<option>5/2 - 5/16</option>" +
-//		                        "<option>5/6 - 5/20</option>" +
-//		                        "</select>" +
-//		                        "</div>");
-//		               tr.append(payPeriod);
-//                    }
 				});
 
-                // ajax indicator
-                // if(buttonStr.indexOf('prev') > 0 || buttonStr.indexOf('today') > 0 || buttonStr.indexOf('next') > 0) {
-                //     tr.append("<td>" + ajaxIndicator + "</td>");
-                // }
 				return $("<table/>").append(tr);
 			}
 		}
@@ -958,7 +942,7 @@ function normalizeEvent(event, options) {
 	}
 	event._start = cloneDate(event.start = parseDate(event.start));
 	event.end = parseDate(event.end);
-	if (event.end && event.end <= event.start) {
+	if (event.end && event.end < event.start) {
 		event.end = null;
 	}
 	event._end = event.end ? cloneDate(event.end) : null;
@@ -1720,12 +1704,12 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 		
     if(event.earnCodeType == 'HOUR') {
         fromTo = "<tr><td align='center' colspan='3'>" + event.hours + " hours</td></tr>";
-		}
-		else {
-		    
-			fromTo = "<tr><td align='center' colspan='3'>" + formatDate(event.start,view.option('timeFormat')) 
-			+" - " + formatDate(event.end,view.option('timeFormat')) + "</td></tr>";
-		}
+	}
+	else {
+	    
+		fromTo = "<tr><td align='center' colspan='3'>" + formatDate(event.start,view.option('timeFormat')) 
+		+" - " + formatDate(event.end,view.option('timeFormat')) + "</td></tr>";
+	}
 		
 		timeHourDetail = "";
 		// convert the string to a json obj by using the jquery-json plugin
@@ -1743,7 +1727,7 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 			"<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;left:"+left+"px;margin-bottom:3px;' id='" + event.id + "'>" +
 			//"<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<div style='float:right; margin: 2px 7px 0 0; z-index: 1;' id='delete-event'><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "' id='delete-link' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em; z-index: 1;'>X</a></div></td></tr>" +
 			"<table style='font-size:0.7em;'><tr><td colspan='3' style='text-align:center;'>" + event.title + "</td>" +   
-			"<td><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "'style='margin-left:-3px;'><span id='delete-link' class='ui-icon ui-icon-close' style='float:right;'></span></a></td>" +
+			"<td><a href='#'style='margin-left:-3px;'><span id='delete-link' class='ui-icon ui-icon-close' style='margin: 3px; float:right; z-index:9999;'></span></a></td>" +
 			"</tr>" +
 			fromTo + timeHourDetail + 
 			"</table>" +
@@ -3332,13 +3316,14 @@ var viewMethods = {
 			});
 		}
 	},
-
-
-
 	// attaches eventClick, eventMouseover, eventMouseout
 
 	eventElementHandlers: function(event, eventElement) {
 		var view = this;
+        $("#delete-link").click(function(){
+            window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id;
+            return false;
+        });
        eventElement
 			.click(function(ev) {
 				if (!eventElement.hasClass('ui-draggable-dragging') &&
@@ -3354,21 +3339,6 @@ var viewMethods = {
 					view.trigger('eventMouseout', this, event, ev);
 				}
 			);
-//        eventElement.find('a').click(function() {
-//
-//            var params = {};
-//            params['methodToCall'] = 'deleteTimeBlock';
-//            params['timeBlockId'] = event.id;
-//
-//			$.ajax({
-//			    url: "TimeDetail.do",
-//			    data: params,
-//			    cache: false,
-//                success: function() {
-//	                $('#cal').fullCalendar('refetchEvents');
-//                }
-//            });
-//        });
 	},
 
 

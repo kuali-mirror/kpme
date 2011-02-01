@@ -1,5 +1,15 @@
 package org.kuali.hr.time.detail.web;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -15,14 +25,6 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -118,12 +120,31 @@ public class TimeDetailAction extends TimesheetAction {
 
 	public ActionForward addTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+		Timestamp startTime = new Timestamp(System.currentTimeMillis());
+		Timestamp endTime = new Timestamp(System.currentTimeMillis());
+		
+		// This is for updating a timeblock
+		// If tkTimeBlockId is not null and the new timeblock is valid, delete the existing timeblock and a new one will be created after submitting the form.
+		if(tdaf.getTkTimeBlockId() != null) {
+			TimeBlock tb = TkServiceLocator.getTimeBlockService().getTimeBlock(tdaf.getTkTimeBlockId());
+			if(tb != null) {
+				TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
+			}
+		}
+		
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), 
 									tdaf.getSelectedAssignment());
-		Timestamp startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartTime());
-		Timestamp endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndTime());
-		//create the list of timeblocks based on the range passed in
 		
+		if(tdaf.getHours() != null || tdaf.getAmount() != null) {
+			startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate() + " 0:0");
+			endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate() + " 0:0");
+		}
+		else {
+			startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartTime());
+			endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndTime());
+		}
+		
+		//create the list of timeblocks based on the range passed in
 		List<TimeBlock> lstNewTimeBlocks = null;
 		if(StringUtils.equals(tdaf.getAcrossDays(), "y")){
 			lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment, 
@@ -165,6 +186,26 @@ public class TimeDetailAction extends TimesheetAction {
 	public ActionForward validateTimeBlocks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+		JSONArray errorMsgList = new JSONArray();
+		
+		//------------------------
+		// validate the hour field
+		//------------------------
+		if(tdaf.getHours() != null) {
+			if((tdaf.getHours().compareTo(new BigDecimal("0")) == 0 || tdaf.getHours().compareTo(new BigDecimal("8")) > 0)) {
+				errorMsgList.add("The entered hours is not valid.");
+			}
+			
+			tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+			return mapping.findForward("ws");
+		}
+ 
+		//------------------------
+		// some of the simple validations are in the js side in order to reduce the server calls 
+		// 1. check if the begin / end time is empty - tk.calenadr.js
+		// 2. check the time format - timeparse.js
+		// 3. only allows decimals to be entered in the hour field
+		//------------------------
 		Long startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartTime()).getTime();
 		Long endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndTime()).getTime();
 		
@@ -172,40 +213,33 @@ public class TimeDetailAction extends TimesheetAction {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss z");
 		String beginDateTime = sdf.format(new java.util.Date(startTime));
 		String endDateTime = sdf.format(new java.util.Date(endTime));
-		
-		JSONArray errorMsgList = new JSONArray();
 
-		//------------------------
-		// some of the simple validations are in the js side in order to reduce the server calls 
-		// 1. check if the begin / end time is empty - tk.calenadr.js
-		// 2. check the time format - timeparse.js
-		//------------------------
-
-		
 		//------------------------
 		// check if the begin / end time are valid
 		//------------------------
-		if(tdaf.getHours() != null && startTime.compareTo(endTime) > 0 || endTime.compareTo(startTime) < 0) {
-			errorMsgList.add("The begin time or end time is not valid.");
+		if(tdaf.getHours() == null && startTime.compareTo(endTime) > 0 || endTime.compareTo(startTime) < 0) {
+			errorMsgList.add("The begin time / end time is not valid.");
 			tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
 			return mapping.findForward("ws");
 		}
 		
 		//------------------------
-		// check if time blocks overlap with each other
+		// check if time blocks overlap with each other. Note that the tkTimeBlockId is used to determine is it's an update action or not
 		//------------------------
-		Interval addedTimeblockInterval = new Interval(startTime,endTime);
-		
-		for(TimeBlock timeBlock : tdaf.getTimesheetDocument().getTimeBlocks()){
-			Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
+		if(tdaf.getTkTimeBlockId() == null) {
+			Interval addedTimeblockInterval = new Interval(startTime,endTime);
 			
-			if(timeBlockInterval.overlaps(addedTimeblockInterval)){
-				errorMsgList.add("The added time block " + beginDateTime + "-" + endDateTime + " overlaps with an existing time block.");
-				break;
+			for(TimeBlock timeBlock : tdaf.getTimesheetDocument().getTimeBlocks()){
+				Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
+				
+				if(timeBlockInterval.overlaps(addedTimeblockInterval)){
+					errorMsgList.add("The time block you are trying to add overlaps with an existing time block.");
+					break;
+				}
 			}
 		}
-		
 		tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+		
 		return mapping.findForward("ws");
 	}
 }

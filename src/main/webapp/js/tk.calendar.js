@@ -23,6 +23,25 @@ $(document).ready(function() {
                   center : 'prev, title, next',
                   right : ''
             },
+            eventClick: function(calEvent, jsEvent) {
+                
+                var dateFormat = "MM/dd/yyyy";
+                var timeFormat = "hh:mm TT";
+                var start = $.fullCalendar.parseDate( calEvent.start );
+                var end = $.fullCalendar.parseDate( calEvent.end );
+                $('#dialog-form').dialog('open');
+                $('#date-range-begin').val($.fullCalendar.formatDate(start, dateFormat));
+                $('#date-range-end').val($.fullCalendar.formatDate(end, dateFormat));
+                $("select#assignment option[value='" + calEvent.assignment +"']").attr("selected", "selected");
+                $('#earnCode').loadEarnCode($('#assignment').val(), calEvent.earnCode + "_" + calEvent.earnCodeType);
+                $('#beginTimeField').val($.fullCalendar.formatDate(start, timeFormat));
+                $('#endTimeField').val($.fullCalendar.formatDate(end, timeFormat));
+                $('#tkTimeBlockId').val(calEvent.tkTimeBlockId);
+                $('#hoursField').val(calEvent.hours);
+                $('#beginTimeField-messages').val(start.getMonth() + "/" + start.getDate() + "/" + start.getFullYear() + " " + start.getHours() + ":" + start.getMinutes());
+                $('#endTimeField-messages').val(end.getMonth() + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes());
+              
+            },
             selectable: true,
             selectHelper: true,
             select: function(start, end, allDay) {
@@ -46,23 +65,12 @@ $(document).ready(function() {
                     
                     // if there is only one assignment, get the earn code without selecting the assignment
                     if($('#assignment-value').html() != '') {
-                        var params = {};
-                        params['selectedAssignment'] = $('#assignment').val();
-                        
-                        $.ajax({
-                            url: "TimeDetail.do?methodToCall=getEarnCodes",
-                            data: params,
-                            cache: false,
-                            success: function(data) {
-                                $('#earnCode').html(data);
-                            },
-                            error: function() {
-                                $('#earnCode').html("Error: Can't get earn codes.");
-                            }
-                        });
+                        $('#earnCode').loadEarnCode($('#assignment').val());
                     }
-                        
+                    
+                    $("#tkTimeBlockId").val("");    
                     $('#dialog-form').dialog('open');
+                    
                 }
             },
             editable: false,
@@ -86,20 +94,11 @@ $(document).ready(function() {
 
     var fieldsToValidate = $([]).add(startTime).add(endTime).add(earnCode);
     fieldsToValidate.clearValue();
-
-    $("#dialog-form").dialog({
-        autoOpen: false,
-        height: 'auto',
-        width: 'auto',
-        modal: true,
-        beforeClose: function(event,ui) {
-            // remove all the error messages
-            $('.validateTips').html("").removeClass('ui-state-error');
-            // restore the earn code value to the default  
-            $('#earnCode').html("<option value=''>-- select an assignment --</option>");
-        },
-        buttons: {
-            Add: function() {
+    //------------------------
+    // buttons on the form
+    //------------------------
+    var buttons = {};
+    buttons["Add"] = function() {
                 
                 //-----------------------------------
                 // time entry form validation
@@ -181,7 +180,9 @@ $(document).ready(function() {
                     params['selectedEarnCode'] = $("#earnCode").val().split("_")[0];
                     params['selectedAssignment'] = $("#assignment").val(); 
                     params['acrossDays'] = $('#acrossDaysField').is(':checked') ? 'y' : 'n';
+                    params['tkTimeBlockId'] = $("#tkTimeBlockId").val();
                     
+                    // validate timeblocks
                     $.ajax({
                         url: "TimeDetail.do?methodToCall=validateTimeBlocks",
                         data: params,
@@ -202,45 +203,55 @@ $(document).ready(function() {
                                 });
                                 
                                 updateTips(errorMsgs);
-                                
                                 return false;
                             }
                         },
                         error: function() {
                             updateTips("Error: Can't save data.");
+                            return false;
                         }
                     });
-                    
+                        
                     fieldsToValidate.clearValue($('#assignment'));
                 }
-            },
-            Cancel: function() {
-                fieldsToValidate.clearValue();
-                $(this).dialog('close');
-            }
-        }
+            };
+            
+    buttons["Cancel"] = function() {
+        fieldsToValidate.clearValue();
+        $(this).dialog('close');
+    }; 
+    
+    //end of the buttons
+    //------------------------
+    
+    $("#dialog-form").dialog({
+        autoOpen: false,
+        height: 'auto',
+        width: 'auto',
+        modal: true,
+        beforeClose: function(event,ui) {
+            // remove all the error messages
+            $('.validateTips').html("").removeClass('ui-state-error');
+            // restore the earn code value to the default  
+            $('#earnCode').html("<option value=''>-- select an assignment --</option>");
+        },
+        buttons: buttons
     });
     
-    // earn code
+    // when the date field(s) is changed, it should update the time field as well
+    $("#date-range-begin, #date-range-end").change(function(){
+        magicTime($("#beginTimeField"));
+        magicTime($("#endTimeField"));
+    });
+    
+    // when the time fields(s) is changed, reset the hour/amount field
+    $("#beginTimeField, #endTimeField").change(function(){
+        $("#hoursField").val("");
+    });
+   
+    // when selecting an earn code, hide / show the time/hour/amount field as well
     $("select#earnCode").change(function(){
-
-        $('#hoursField').attr('readonly',false).css('background',"white").val("");
-
-        var fieldType = $(this).val().split("_")[1];
-
-        if(fieldType == 'HOUR') {
-            $('#beginTimeField,#endTimeField').val("");
-            $('#clockIn, #clockOut').hide();
-            $('#hoursSection').show();
-        }
-        // TODO: need to handle the amount field
-        else {
-            $('#hours').val("");
-            $('#clockIn, #clockOut').show();
-            $('#hoursSection').hide();
-        }
-
-        $("select#earnCode option[value='" + $(this).val() +"']").attr("selected", "selected");
+        $(this).loadFields($(this).val());
     });
 
 
@@ -248,27 +259,7 @@ $(document).ready(function() {
     $('#assignment').change(function(){
         // remove the error style
         $('#assignment').removeClass('ui-state-error');
-        var params = {};
-        params['selectedAssignment'] = $(this).val();
-        
-        $.ajax({
-            url: "TimeDetail.do?methodToCall=getEarnCodes",
-            data: params,
-            cache: false,
-            success: function(data) {
-                $('#earnCode').html(data);
-            },
-            error: function() {
-                $('#earnCode').html("Error: Can't get earn codes.");
-            }
-        });
-        
-        $('#loading-earnCodes').ajaxStart(function() {
-            $(this).show();
-        });
-        $('#loading-earnCodes').ajaxStop(function() {
-            $(this).hide();
-        }); 
+        $("#earnCode").loadEarnCode($(this).val());
     }); 
 
     // use keyboard to open the form
@@ -291,6 +282,75 @@ $(document).ready(function() {
 
 });
 
+//-------------------
+// custom functions
+//-------------------
+
+$.fn.loadEarnCode = function(assignment, selectedEarnCode) {
+    var params = {};
+    params['selectedAssignment'] = assignment;
+    
+    $.ajax({
+        url: "TimeDetail.do?methodToCall=getEarnCodes",
+        data: params,
+        cache: true,
+        success: function(data) {
+            $('#earnCode').html(data);
+            if(selectedEarnCode != undefined && selectedEarnCode != '') {
+                $("select#earnCode option[value='" + selectedEarnCode +"']").attr("selected", "selected");
+            }
+            
+            $('#earnCode').loadFields($('#earnCode').val());
+        },
+        error: function() {
+            $('#earnCode').html("Error: Can't get earn codes.");
+        }
+    });  
+    
+    $('#loading-earnCodes').ajaxStart(function() {
+        $(this).show();
+    });
+    $('#loading-earnCodes').ajaxStop(function() {
+        $(this).hide();
+    });   
+}
+
+$.fn.loadFields = function(earnCode) {
+    
+        var fieldType = earnCode.split("_")[1];
+
+        if(fieldType == 'HOUR') {
+            $('#beginTimeField,#endTimeField').val("");
+            $('#clockIn, #clockOut').hide();
+            $('#hoursSection').show();
+            $('#hoursField').validateNumeric();
+        }
+        // TODO: need to handle the amount field
+        else {
+            $('#hours').val("");
+            $('#clockIn, #clockOut').show();
+            $('#hoursSection').hide();
+        }
+}
+
+$.fn.deleteTimeBlock = function(tkTimeBlockId) {
+    var params = {};
+    params['methodToCall'] = "deleteTimeBlock";
+    params['tkTimeBlockId'] = tkTimeBlockId;
+    
+    $.ajax({
+        url: "TimeDetail.do",
+        data: params,
+        cache: true,
+        success: function(data) {
+            return true;
+        },
+        error: function() {
+            return false;
+        }
+    });  
+}
+
 $.fn.clearValue= function(elementToAdd) {
     var assignmentValue = $('#assignment-value').html();
     // clear assignment value when there is only one assignment
@@ -301,8 +361,6 @@ $.fn.clearValue= function(elementToAdd) {
     // clear the error message
     $('.validateTips').html("").removeClass('ui-state-error');
 
-
-
     // reset the assignment when there are multiple ones 
     if(elementToAdd != undefined && elementToAdd.is("select")) {      
       // $(this).val('').removeClass('ui-state-error');
@@ -310,6 +368,18 @@ $.fn.clearValue= function(elementToAdd) {
       $(this).add(elementToAdd).removeClass('ui-state-error');
     }
     
+}
+
+$.fn.validateNumeric = function() {
+    
+    $(this).keyup(function(){
+        var val = $(this).val();
+        // replace anything with "" unless it's 0-9 or .
+        val = val.replace(/[^0-9\.]*/g,"");
+        // deal with the case when there is only .
+        val = val.replace(/^\.$/g,"");
+        $(this).val(val);
+    });
 }
 
 $.fn.createDeleteButton= function() {

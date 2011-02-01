@@ -31,6 +31,7 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	private TimeBlock timeBlock;
 	private String clockAction;
 	private BigDecimal hours;
+	private BigDecimal amount;
 	private String startDate;
 	private String endDate;
 	private String serverTimezone;
@@ -158,5 +159,13 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 
 	public String getUserTimezone() {
 		return TKContext.getUser().getUserPreference().getTimezone();
+	}
+
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
 }

@@ -27,9 +27,9 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 		}
 	}
 
-	public TimeBlock getTimeBlock(String timeBlockId) {
+	public TimeBlock getTimeBlock(Long tkTimeBlockId) {
 		Criteria currentRecordCriteria = new Criteria();
-		currentRecordCriteria.addEqualTo("tkTimeBlockId", timeBlockId);
+		currentRecordCriteria.addEqualTo("tkTimeBlockId", tkTimeBlockId);
 
 		return (TimeBlock)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(TimeBlock.class, currentRecordCriteria));
 	}

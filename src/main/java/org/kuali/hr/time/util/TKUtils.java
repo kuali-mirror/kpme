@@ -223,19 +223,20 @@ public class TKUtils {
 				&& payCalendarStartTime.get(Calendar.AM_PM) != Calendar.AM);
 	}
 	
-	public static Timestamp convertDateStringToTimestamp(String date) {
-		// the date/time format is defined in tk.calendar.js. For now, it's like 11/17/2010 8:0
-		String[] input = date.split(" ");
+	public static Timestamp convertDateStringToTimestamp(String dateTimeString) {
+		// the date/time format is defined in tk.calendar.js. For now, the format is 11/17/2010 8:0
+		String[] input = dateTimeString.split(" ");
 		String[] dateString = input[0].split("/");
 		String[] timeString = input[1].split(":");
 		
 		DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimeZone());
 		
 		// this is from the javadoc:
-		// DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
+		// DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, 
+		// int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
 		DateTime dateTime = new DateTime(
 				Integer.parseInt(dateString[2]), 
-				Integer.parseInt(dateString[0])+1, 
+				Integer.parseInt(dateString[0]), 
 				Integer.parseInt(dateString[1]), 
 				Integer.parseInt(timeString[0]), 
 				Integer.parseInt(timeString[1]), 

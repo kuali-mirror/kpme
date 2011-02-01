@@ -12,7 +12,7 @@ public interface TimeBlockDao {
 
 	public void deleteTimeBlock(TimeBlock timeBlock);
 
-	public TimeBlock getTimeBlock(String timeBlockId);
+	public TimeBlock getTimeBlock(Long timeBlockId);
 	
 	public List<TimeBlock> getTimeBlocks(Long documentId);
 

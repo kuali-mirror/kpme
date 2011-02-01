@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -19,6 +20,7 @@ public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 		
 		WorkArea workArea = (WorkArea) this.getBusinessObject();
 		List<TkRole> roles = workArea.getRoles();
+		List<Task> tasks = workArea.getTasks();
 		
 		for(TkRole role : roles) {
 			role.setWorkArea(workArea.getWorkArea());

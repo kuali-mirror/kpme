@@ -27,6 +27,7 @@ public class Assignment extends PersistableBusinessObjectBase {
 	private Job job;
 	private Date effectiveDate;
 	private Long workArea;
+	private Long tkWorkAreaId;
 	private Long task;
 	private boolean active;
 	private Timestamp timestamp;
@@ -186,6 +187,14 @@ public class Assignment extends PersistableBusinessObjectBase {
 
 	public void setPrincipal(Person principal) {
 		this.principal = principal;
+	}
+
+	public Long getTkWorkAreaId() {
+		return tkWorkAreaId;
+	}
+
+	public void setTkWorkAreaId(Long tkWorkAreaId) {
+		this.tkWorkAreaId = tkWorkAreaId;
 	}
 	
 }

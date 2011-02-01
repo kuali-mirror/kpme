@@ -25,6 +25,7 @@ public class TimesheetDocument  {
 	private PayCalendarEntries payCalendarEntry = new PayCalendarEntries();
 	private TimeSummary timeSummary = new TimeSummary();
 	private Map<Long, Job> jobNumberToJobMap = new HashMap<Long,Job>();
+	private String timesheetDocumentType;
 	
 	public TimesheetDocument(TimesheetDocumentHeader documentHeader) {
 		this.documentHeader = documentHeader;
@@ -94,5 +95,13 @@ public class TimesheetDocument  {
 	
 	public java.sql.Date getAsOfDate(){
 		return new java.sql.Date(getPayCalendarEntry().getBeginPeriodDateTime().getTime());
+	}
+
+	public String getTimesheetDocumentType() {
+		return timesheetDocumentType;
+	}
+
+	public void setTimesheetDocumentType(String timesheetDocumentType) {
+		this.timesheetDocumentType = timesheetDocumentType;
 	}
 }

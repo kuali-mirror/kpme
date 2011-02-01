@@ -48,6 +48,7 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	private TimesheetDocumentHeader timesheetDocumentHeader;
 	
 	private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
+	private List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -285,6 +286,14 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	public void setTimesheetDocumentHeader(
 			TimesheetDocumentHeader timesheetDocumentHeader) {
 		this.timesheetDocumentHeader = timesheetDocumentHeader;
+	}
+
+	public List<TimeBlockHistory> getTimeBlockHistories() {
+		return timeBlockHistories;
+	}
+
+	public void setTimeBlockHistories(List<TimeBlockHistory> timeBlockHistories) {
+		this.timeBlockHistories = timeBlockHistories;
 	}
 	
 	

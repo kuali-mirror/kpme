@@ -33,6 +33,7 @@
 
 					<html:form action="/TimeDetail.do" styleId="time-detail">
 						<html:hidden property="methodToCall" value="" styleId="methodToCall"/>
+						<html:hidden property="tkTimeBlockId" value="" styleId="tkTimeBlockId"/>
 						<html:hidden property="startDate" styleId="startDate"/>
 						<html:hidden property="endDate" styleId="endDate"/>
 						<html:hidden property="startTime" styleId="startTime"/>
