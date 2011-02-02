@@ -33,15 +33,19 @@
 		<property name="title" value="Assignment Maintenance" />
 		<property name="maintainableItems">
 			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
+					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="principalId"
 					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="principalName" 
+					p:noLookup="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="jobNumber"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="workArea"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="task"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="active"
 					p:required="true" />
 			</list>
 		</property>
@@ -66,16 +70,16 @@
 					<property name="alwaysAllowCollectionDeletion" value="true" />
 					<property name="maintainableFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="finCoaCd" />
+							<bean parent="MaintainableFieldDefinition" p:name="finCoaCd" p:required="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="accountNbr" />
 							<bean parent="MaintainableFieldDefinition" p:name="earnCode"/>
 							<bean parent="MaintainableFieldDefinition" p:name="subAcctNbr" />
-							<bean parent="MaintainableFieldDefinition" p:name="finObjectCd" />
-							<bean parent="MaintainableFieldDefinition" p:name="finSubObjCd" />
+							<bean parent="MaintainableFieldDefinition" p:name="finObjectCd" p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="finSubObjCd" p:required="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="projectCd" />
 							<bean parent="MaintainableFieldDefinition" p:name="orgRefId" />
 							<bean parent="MaintainableFieldDefinition" p:name="percent" />							
-							<bean parent="MaintainableFieldDefinition" p:name="active" />
+							<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
 						</list>
 					</property>
 				</bean>
