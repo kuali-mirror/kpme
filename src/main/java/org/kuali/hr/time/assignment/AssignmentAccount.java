@@ -3,6 +3,11 @@ package org.kuali.hr.time.assignment;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ProjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class AssignmentAccount extends PersistableBusinessObjectBase {
@@ -25,6 +30,11 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 	private Long tkAssignmentId;
 	private Assignment assignmentObj;
 	
+	private Account accountObj;
+	private SubAccount subAccountObj;
+	private ObjectCode objectCodeObj;
+	private SubObjectCode subObjectCodeObj;
+	private ProjectCode projectCodeObj;
 	
 	public Assignment getAssignmentObj() {
 		return assignmentObj;
@@ -193,6 +203,66 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 
 	public void setEarnCode(String earnCode) {
 		this.earnCode = earnCode;
+	}
+
+
+
+	public Account getAccountObj() {
+		return accountObj;
+	}
+
+
+
+	public void setAccountObj(Account accountObj) {
+		this.accountObj = accountObj;
+	}
+
+
+
+	public SubAccount getSubAccountObj() {
+		return subAccountObj;
+	}
+
+
+
+	public void setSubAccountObj(SubAccount subAccountObj) {
+		this.subAccountObj = subAccountObj;
+	}
+
+
+
+	public ObjectCode getObjectCodeObj() {
+		return objectCodeObj;
+	}
+
+
+
+	public void setObjectCodeObj(ObjectCode objectCodeObj) {
+		this.objectCodeObj = objectCodeObj;
+	}
+
+
+
+	public SubObjectCode getSubObjectCodeObj() {
+		return subObjectCodeObj;
+	}
+
+
+
+	public void setSubObjectCodeObj(SubObjectCode subObjectCodeObj) {
+		this.subObjectCodeObj = subObjectCodeObj;
+	}
+
+
+
+	public ProjectCode getProjectCodeObj() {
+		return projectCodeObj;
+	}
+
+
+
+	public void setProjectCodeObj(ProjectCode projectCodeObj) {
+		this.projectCodeObj = projectCodeObj;
 	}
 	
 }
