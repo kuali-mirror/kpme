@@ -9,6 +9,7 @@ import java.util.List;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
+import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
@@ -23,6 +24,7 @@ public class Assignment extends PersistableBusinessObjectBase {
 	//database id
 	private Long tkAssignmentId;
 	private String principalId;
+	private String principalName;
 	private Long jobNumber;
 	private Job job;
 	private Date effectiveDate;
@@ -36,6 +38,8 @@ public class Assignment extends PersistableBusinessObjectBase {
 	private WorkArea workAreaObj;
 	
 	private Person principal;
+	
+	private Task taskObj;
 
 	private List<AssignmentAccount> assignmentAccounts = new LinkedList<AssignmentAccount>();
 
@@ -71,6 +75,14 @@ public class Assignment extends PersistableBusinessObjectBase {
 
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
+	}
+
+	public String getPrincipalName() {
+		return principalName;
+	}
+
+	public void setPrincipalName(String principalName) {
+		this.principalName = principalName;
 	}
 
 	public Job getJob() {
@@ -189,6 +201,14 @@ public class Assignment extends PersistableBusinessObjectBase {
 		this.principal = principal;
 	}
 
+	public Task getTaskObj() {
+		return taskObj;
+	}
+
+	public void setTaskObj(Task taskObj) {
+		this.taskObj = taskObj;
+	}
+
 	public Long getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}
@@ -196,5 +216,6 @@ public class Assignment extends PersistableBusinessObjectBase {
 	public void setTkWorkAreaId(Long tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
+
 	
 }
