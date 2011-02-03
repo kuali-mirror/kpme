@@ -1,10 +1,11 @@
 package org.kuali.hr.time.paytype;
 
+import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
-
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class PayType extends PersistableBusinessObjectBase {
 
@@ -20,8 +21,18 @@ public class PayType extends PersistableBusinessObjectBase {
 	private Timestamp timestamp;
 	private Boolean active;
 
+    /** Used for lookup */
+    private EarnCode regEarnCodeObj;
 
-	@SuppressWarnings("unchecked")
+    public EarnCode getRegEarnCodeObj() {
+        return regEarnCodeObj;
+    }
+
+    public void setRegEarnCodeObj(EarnCode regEarnCodeObj) {
+        this.regEarnCodeObj = regEarnCodeObj;
+    }
+
+    @SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		return null;
