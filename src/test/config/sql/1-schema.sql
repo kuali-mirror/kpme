@@ -1571,6 +1571,11 @@ ALTER TABLE `tk_task_t`
   ADD COLUMN `active` VARCHAR(1) NOT NULL DEFAULT 'Y'  AFTER `effdt` ,
   ADD COLUMN `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP  AFTER `active` ;
 
+DROP TABLE IF EXISTS `tk_roles_group_t`;
+CREATE  TABLE `tk_roles_group_t` (
+  `principal_id` VARCHAR(20) NOT NULL ,
+  PRIMARY KEY (`principal_id`) )
+ENGINE = InnoDB;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

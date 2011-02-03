@@ -175,6 +175,9 @@ INSERT INTO `tk_earn_group_def_t` (`tk_earn_group_def_id`, `tk_earn_group_id`,`e
 	(102,100,'RGH','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
 	(109,101,'OVT','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1);
 
+DELETE FROM `tk_roles_group_t`;
+INSERT INTO `tk_roles_group_t` values ('admin');
+
 DELETE FROM `tk_roles_s`;
 INSERT INTO `tk_roles_s` VALUES ('1000');
 DELETE FROM `tk_roles_t`;
