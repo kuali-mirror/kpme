@@ -1,17 +1,19 @@
 package org.kuali.hr.time.roles;
 
-import java.sql.Timestamp;
-import java.sql.Date;
-import java.util.LinkedHashMap;
-
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
 public class TkRole extends PersistableBusinessObjectBase {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long tkRolesId;
@@ -25,10 +27,28 @@ public class TkRole extends PersistableBusinessObjectBase {
 	private boolean active;
 	private Long tkDeptId;
 	private Long tkWorkAreaId;
-    
+
 	private Person person;
-	
-	public Long getTkRolesId() {
+    private Department departmentObj;
+    private WorkArea workAreaObj;
+
+    public Department getDepartmentObj() {
+        return departmentObj;
+    }
+
+    public void setDepartmentObj(Department departmentObj) {
+        this.departmentObj = departmentObj;
+    }
+
+    public WorkArea getWorkAreaObj() {
+        return workAreaObj;
+    }
+
+    public void setWorkAreaObj(WorkArea workAreaObj) {
+        this.workAreaObj = workAreaObj;
+    }
+
+    public Long getTkRolesId() {
 		return tkRolesId;
 	}
 	public void setTkRolesId(Long tkRolesId) {
@@ -95,7 +115,7 @@ public class TkRole extends PersistableBusinessObjectBase {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	public Long getTkDeptId() {
 		return tkDeptId;
 	}
@@ -116,7 +136,7 @@ public class TkRole extends PersistableBusinessObjectBase {
         if (person == null) {
             person = KIMServiceLocator.getPersonService().getPerson(this.principalId);
         }
-        
+
         return (person != null) ? person.getName() : "";
     }
 }

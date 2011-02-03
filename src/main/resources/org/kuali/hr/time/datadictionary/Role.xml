@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans         
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean name="Role" parent="Role-parentBean" />
@@ -15,7 +15,7 @@
 			<ref bean="Role-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>			
+			<list>
 				<ref bean="Role-principalId" />
                 <ref bean="Role-userName"/>
 				<ref bean="Role-roleName" />
@@ -24,7 +24,6 @@
 				<ref bean="Role-effectiveDate" />
 				<ref bean="Role-userPrincipalId" />
 				<ref bean="Role-active" />
-				
 			</list>
 		</property>
 		<property name="relationships">
@@ -37,8 +36,24 @@
                 </list>
               </property>
             </bean>
-          </list>
-    </property>  		
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="workAreaObj" />
+              <property name="primitiveAttributes">
+                  <list>
+                      <bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea" p:targetName="workArea" />
+                  </list>
+              </property>
+            </bean>
+            <bean parent="RelationshipDefinition">
+            <property name="objectAttributeName" value="departmentObj" />
+            <property name="primitiveAttributes">
+                <list>
+                    <bean parent="PrimitiveAttributeDefinition" p:sourceName="department" p:targetName="dept" />
+                </list>
+            </property>
+            </bean>
+        </list>
+    </property>
 	</bean>
 
 	<bean id="Role-principalId" parent="Role-principalId-parentBean" />
@@ -107,7 +122,7 @@
 		<property name="name" value="workArea" />
 		<property name="label" value="Work Area" />
 	</bean>
-	
+
 	<bean id="Role-department" parent="Role-department-parentBean" />
 	<bean id="Role-department-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -123,7 +138,7 @@
 		</property>
 		<property name="name" value="department" />
 		<property name="label" value="Department" />
-	</bean>	
+	</bean>
 
 	<bean id="Role-active" parent="Role-active-parentBean" />
 	<bean id="Role-active-parentBean" abstract="true"
@@ -136,7 +151,7 @@
 		<property name="label" value="Active" />
 		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
 	</bean>
-	
+
 	<bean id="Role-userPrincipalId" parent="Role-userPrincipalId-parentBean" />
 	<bean id="Role-userPrincipalId-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -166,13 +181,13 @@
 	<bean id="Role-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="lookupFields">
-			<list>				
+			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<property name="resultFields">
-			<list>				
+			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
                 <bean parent="FieldDefinition" p:attributeName="userName"/>
 				<bean parent="FieldDefinition" p:attributeName="roleName" />

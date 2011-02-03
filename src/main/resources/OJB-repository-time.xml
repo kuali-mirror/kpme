@@ -88,7 +88,7 @@
 			>
 			<inverse-foreignkey field-ref="tkTimeBlockId"/>
 		</collection-descriptor>
-		
+
 		<collection-descriptor
 			name="timeBlockHistories"
 			element-class-ref="org.kuali.hr.time.timeblock.TimeBlockHistory"
@@ -245,6 +245,7 @@
 			auto-update="object"
 			auto-delete="object"
 			proxy="false">
+
 			<inverse-foreignkey field-ref="tkWorkAreaId"/>
 		</collection-descriptor>
 
@@ -669,13 +670,25 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 
+    <class-descriptor class="org.kuali.hr.time.roles.TkRoleGroup" table="tk_roles_group_t">
+        <field-descriptor name="principalId" column="principal_id" jdbc-type="varchar"  primarykey="true" />
+        <collection-descriptor
+            name="roles"
+            element-class-ref="org.kuali.hr.time.roles.TkRole"
+            auto-retrieve="true"
+            auto-update="object"
+            auto-delete="object">
+            <inverse-foreignkey field-ref="principalId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
 	<class-descriptor class="org.kuali.hr.time.roles.TkRole" table="tk_roles_t">
 		<field-descriptor name="tkRolesId"       column="tk_roles_id"       jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_roles_s"/>
 		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
 		<field-descriptor name="userPrincipalId" column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />
-		<field-descriptor name="roleName"        column="role_name" jdbc-type="VARCHAR" length="20"/>
-		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" />
-		<field-descriptor name="department"      column="dept" jdbc-type="VARCHAR" length="21"/>
+		<field-descriptor name="roleName"        column="role_name" jdbc-type="VARCHAR" length="20" primarykey="false"/>
+		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" primarykey="false" />
+		<field-descriptor name="department"      column="dept" jdbc-type="VARCHAR" length="21" primarykey="false"/>
 		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" />
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
