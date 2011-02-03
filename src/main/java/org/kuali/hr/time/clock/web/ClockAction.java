@@ -1,14 +1,5 @@
 package org.kuali.hr.time.clock.web;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -23,6 +14,14 @@ import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
 
 public class ClockAction extends TimesheetAction {
 
@@ -98,7 +97,7 @@ public class ClockAction extends TimesheetAction {
     			
     			//create the list of timeblocks based on the range passed in
     			List<TimeBlock> lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 
-    					earnCode, caf.getTimesheetDocument(),beginTimestamp, endTimestamp,BigDecimal.ZERO);
+    					earnCode, caf.getTimesheetDocument(),beginTimestamp, endTimestamp,BigDecimal.ZERO, true);
     			//concat delta of timeblocks (new and original)
     			lstNewTimeBlocks.addAll(caf.getTimesheetDocument().getTimeBlocks());
     			//TODO do any server side validation of adding checking for overlapping timeblocks etc

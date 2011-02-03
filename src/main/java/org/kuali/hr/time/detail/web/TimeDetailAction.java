@@ -1,15 +1,5 @@
 package org.kuali.hr.time.detail.web;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -22,9 +12,19 @@ import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -105,6 +105,10 @@ public class TimeDetailAction extends TimesheetAction {
 		lstNewTimeBlocks.remove(deletedTimeBlock);
 		//Delete timeblock
 		TkServiceLocator.getTimeBlockService().deleteTimeBlock(deletedTimeBlock);
+        // Add a row to the history table
+        TimeBlockHistory tbh = new TimeBlockHistory(deletedTimeBlock);
+        tbh.setActionHistory(TkConstants.ACTIONS.DELETE_TIME_BLOCK);
+        TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
 		//Reset time hour details on timeblocks for rule processing
 		lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().resetTimeHourDetail(lstNewTimeBlocks);
 		//apply any rules for this action
@@ -112,8 +116,6 @@ public class TimeDetailAction extends TimesheetAction {
 		
 		//call persist method that only saves added/deleted/changed timeblocks
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(tdaf.getTimesheetDocument().getTimeBlocks(), lstNewTimeBlocks);
-		
-		//TODO call timesheet history service
 		
 		return mapping.findForward("basic");
 	}
@@ -127,8 +129,13 @@ public class TimeDetailAction extends TimesheetAction {
 		// If tkTimeBlockId is not null and the new timeblock is valid, delete the existing timeblock and a new one will be created after submitting the form.
 		if(tdaf.getTkTimeBlockId() != null) {
 			TimeBlock tb = TkServiceLocator.getTimeBlockService().getTimeBlock(tdaf.getTkTimeBlockId());
+            TimeBlockHistory tbh = new TimeBlockHistory(tb);
 			if(tb != null) {
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
+
+                // mark the original timeblock as updated in the history table
+                tbh.setActionHistory(TkConstants.ACTIONS.UPDATE_TIME_BLOCK);
+                TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
 			}
 		}
 		
@@ -149,11 +156,11 @@ public class TimeDetailAction extends TimesheetAction {
 		if(StringUtils.equals(tdaf.getAcrossDays(), "y")){
 			lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment, 
 											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),startTime, 
-											endTime,tdaf.getHours());
+											endTime,tdaf.getHours(), false);
 		} else {
 			lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 
 											tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(),startTime, 
-											endTime,tdaf.getHours());
+											endTime,tdaf.getHours(), false);
 		}
 		
 		//concat delta of timeblocks (new and original)

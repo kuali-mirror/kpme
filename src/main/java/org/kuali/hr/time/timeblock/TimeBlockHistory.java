@@ -55,10 +55,4 @@ public class TimeBlockHistory extends TimeBlock {
 	public void setModifiedByPrincipalId(String modifiedByPrincipalId) {
 		this.modifiedByPrincipalId = modifiedByPrincipalId;
 	}
-	public Timestamp getTimestampModified() {
-		return timestampModified;
-	}
-	public void setTimestampModified(Timestamp timestampModified) {
-		this.timestampModified = timestampModified;
-	}
 }

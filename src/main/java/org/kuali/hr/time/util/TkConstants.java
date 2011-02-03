@@ -1,16 +1,12 @@
 package org.kuali.hr.time.util;
 
+import org.joda.time.DateTimeZone;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
-import org.joda.time.DateTimeZone;
+import java.util.*;
 
 public class TkConstants {
 	
@@ -98,6 +94,8 @@ public class TkConstants {
     	public static final String CLOCK_IN = "clockIn";
     	public static final String CLOCK_OUT = "clockOut";
     	public static final String ADD_TIME_BLOCK = "addTimeBlock";
+        public static final String UPDATE_TIME_BLOCK = "updateTimeBlock";
+        public static final String DELETE_TIME_BLOCK = "deleteTimeBlock";
     }
     
     public static final List<String> ClOCK_ACTIONS = new ArrayList<String>();
@@ -110,5 +108,5 @@ public class TkConstants {
 
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";
     public static final String HOLIDAY_EARN_CODE = "HOL";
-    
+
 }

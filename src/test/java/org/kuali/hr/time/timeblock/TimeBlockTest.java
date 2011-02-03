@@ -1,10 +1,5 @@
 package org.kuali.hr.time.timeblock;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
@@ -14,6 +9,11 @@ import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimeBlockTest extends TkTestCase {
 	
@@ -217,5 +217,4 @@ public class TimeBlockTest extends TkTestCase {
 		}
 		return lstTimeBlocks;
 	}
-
 }

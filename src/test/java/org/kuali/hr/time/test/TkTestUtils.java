@@ -1,18 +1,7 @@
 package org.kuali.hr.time.test;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.gargoylesoftware.htmlunit.html.*;
+import edu.emory.mathcs.backport.java.util.Arrays;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -30,16 +19,10 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.kew.exception.WorkflowException;
 
-import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSelect;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
-import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.*;
 
 public class TkTestUtils {
 	
@@ -57,7 +40,7 @@ public class TkTestUtils {
 			return timesheet;			
 		} catch (WorkflowException e) {
 			throw new RuntimeException("Problem fetching document");
-		}		
+		}
 	}
 	
 	public static TimesheetDocument populateTimesheetDocument(Date calDate) {
@@ -352,7 +335,7 @@ public class TkTestUtils {
 			Timestamp tsin = new Timestamp(ci.getMillis());
 			Timestamp tsout = new Timestamp(co.getMillis());
 			
-			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours));
+			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours, false));
 		}
 		
 		return blocks;

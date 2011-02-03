@@ -1,12 +1,13 @@
 package org.kuali.hr.time.timeblock.dao;
 
-import java.util.List;
-
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
+
+import java.util.List;
 
 public interface TimeBlockHistoryDao {
 
 	public void saveOrUpdate(TimeBlockHistory timeBlockHistory);
 	public void saveOrUpdate(List<TimeBlockHistory> timeBlockHistoryList);
 
+    TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(Long tkTimeBlockId);
 }
