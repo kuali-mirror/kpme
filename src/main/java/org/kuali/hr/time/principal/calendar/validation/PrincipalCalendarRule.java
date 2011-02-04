@@ -19,11 +19,6 @@ public class PrincipalCalendarRule extends MaintenanceDocumentRuleBase {
 			this.putFieldError("calendarGroup", "principal.cal.pay.invalid",principalCal.getCalendarGroup());
 			return false;
 		}
-		HolidayCalendar holidayCal = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarByGroup(principalCal.getHolidayCalendarGroup());
-		if(holidayCal == null){
-			this.putFieldError("holidayCalendarGroup", "principal.cal.holiday.invalid", principalCal.getHolidayCalendarGroup());
-			return false;
-		}
 		
 		return true;
 	}
