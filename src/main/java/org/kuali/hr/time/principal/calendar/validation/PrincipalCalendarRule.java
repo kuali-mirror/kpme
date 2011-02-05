@@ -1,5 +1,6 @@
 package org.kuali.hr.time.principal.calendar.validation;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
@@ -18,6 +19,15 @@ public class PrincipalCalendarRule extends MaintenanceDocumentRuleBase {
 		if(payCal == null){
 			this.putFieldError("calendarGroup", "principal.cal.pay.invalid",principalCal.getCalendarGroup());
 			return false;
+		}
+		
+		//holiday calendar is not required
+		if(StringUtils.isNotEmpty(principalCal.getHolidayCalendarGroup())){
+			HolidayCalendar holidayCal = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarByGroup(principalCal.getHolidayCalendarGroup());
+			if(holidayCal == null){
+				this.putFieldError("holidayCalendarGroup", "principal.cal.holiday.invalid", principalCal.getHolidayCalendarGroup());
+				return false;
+			}
 		}
 		
 		return true;
