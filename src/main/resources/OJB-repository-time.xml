@@ -762,6 +762,16 @@
 			<foreignkey field-ref="documentNumber" />
 		</reference-descriptor>
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.hr.location.Location" table="hr_location_t">
+		<field-descriptor name="hrLocationId"     column="hr_location_id" jdbc-type="BIGINT" length="20" nullable="false" primarykey="true" />
+		<field-descriptor name="location"   column="location" jdbc-type="VARCHAR" length="20"/>
+		<field-descriptor name="description" column="description" jdbc-type="VARCHAR" length="40"/>
+		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" />
+		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="active"          column="active"      jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="userPrincipalId" column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />
+	</class-descriptor>	
 
 
 </descriptor-repository>

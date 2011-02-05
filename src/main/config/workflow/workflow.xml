@@ -176,6 +176,16 @@
         <parent>RiceDocument</parent>
         <label>MissedPunchMaintenanceDocument</label>
     </documentType>
+    <documentType>
+    	<name>LocationMaintenanceDocumentType</name>
+    	<parent>RiceDocument</parent>
+    	<label>LocationMaintenanceDocument</label>
+    </documentType> 
+    <documentType>
+    	<name>PayGradeMaintenanceDocumentType</name>
+    	<parent>RiceDocument</parent>
+    	<label>PayGradeMaintenanceDocument</label>
+    </documentType>	    
 	<documentType>
       <name>ACCT</name>
       <parent>RiceDocument</parent>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="Location" parent="Location-parentBean" />
+
+	<bean id="Location-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.location.Location" />
+		<property name="titleAttribute" value="id" />
+		<property name="objectLabel" value="Location" />
+		<property name="lookupDefinition">
+			<ref bean="Location-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="Location-hrLocationId" />
+				<ref bean="Location-location" />
+				<ref bean="Location-description" />
+				<ref bean="Location-effectiveDate" />
+				<ref bean="Location-active" />
+				<ref bean="Location-userPrincipalId" />
+				<ref bean="Location-timestamp" />
+			</list>
+		</property>	 
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="Location-hrLocationId" parent="Location-hrLocationId-parentBean" />
+	<bean id="Location-hrLocationId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Location Id" />
+		<property name="maxLength" value="7" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="7" />
+		</property>
+		<property name="name" value="hrLocationId" />
+		<property name="label" value="Location Id" />
+	</bean>
+
+	<bean id="Location-location" parent="Location-location-parentBean" />
+	<bean id="Location-location-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Location" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+		<property name="name" value="location" />
+		<property name="label" value="Location" />
+	</bean>
+
+	<bean id="Location-description" parent="Location-description-parentBean" />
+	<bean id="Location-description-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+		<property name="name" value="description" />
+		<property name="label" value="Description" />
+	</bean>
+
+	<bean id="Location-effectiveDate" parent="Location-effectiveDate-parentBean" />
+	<bean id="Location-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+
+	<bean id="Location-active" parent="Location-active-parentBean" />
+	<bean id="Location-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+	</bean>
+
+
+	<bean id="Location-userPrincipalId" parent="Location-userPrincipalId-parentBean" />
+	<bean id="Location-userPrincipalId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="User Principal Id" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="userPrincipalId" />
+		<property name="label" value="User Principal Id" />
+	</bean>
+
+
+	<bean id="Location-timestamp" parent="Location-timestamp-parentBean" />
+	<bean id="Location-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+	<!--  Inquiry Definitions  -->
+
+
+	<bean id="Location-lookupDefinition" parent="Location-lookupDefinition-parentBean" />
+	<bean id="Location-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="location" />
+				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="location" />
+				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="title" value="Location Lookup" />
+	</bean>
+
+</beans>
+

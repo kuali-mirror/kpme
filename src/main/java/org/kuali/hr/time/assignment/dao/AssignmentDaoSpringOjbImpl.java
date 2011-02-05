@@ -59,7 +59,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		Criteria timestamp = new Criteria();
 
 		// OJB's awesome sub query setup part 1
-		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		//effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 		//effdt.addEqualTo("active", true);
 		effdt.addEqualTo("principalId", principalId);
@@ -67,7 +67,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 		
 		// OJB's awesome sub query setup part 2
-		timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		//timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 		//timestamp.addEqualTo("active", true);
 		timestamp.addEqualTo("principalId", principalId);
