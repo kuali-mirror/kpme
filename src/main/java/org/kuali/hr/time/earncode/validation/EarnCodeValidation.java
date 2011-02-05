@@ -1,5 +1,6 @@
 package org.kuali.hr.time.earncode.validation;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -39,10 +40,15 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 			return false;
 		}
 		
+		
+		
 		//check if the effective date of the accrual category is prior to effective date of the earn code 
-		if (!ValidationUtils.validateAccrualCategory(earnCode.getAccrualCategory(), earnCode.getEffectiveDate())) {
-			this.putFieldError("accrualCategory", "earncode.accrualCategory.invalid", earnCode.getAccrualCategory());
-			return false;
+		//accrual category is an optional field
+		if(StringUtils.isNotEmpty(earnCode.getAccrualCategory())){
+			if (!ValidationUtils.validateAccrualCategory(earnCode.getAccrualCategory(), earnCode.getEffectiveDate())) {
+				this.putFieldError("accrualCategory", "earncode.accrualCategory.invalid", earnCode.getAccrualCategory());
+				return false;
+			}
 		}
 		return true;
 	}

@@ -18,6 +18,11 @@
         <ref bean="EarnCodeMaintenanceDocument-EarnCodeMaintenance"/>
       </list>
     </property>
+    <property name="lockingKeys">
+			<list>
+				<value>tkEarnCodeId</value>
+			</list>
+		</property>
     <property name="documentTypeName" value="EarnCodeMaintenanceDocumentType"/>
   </bean>
 

@@ -147,13 +147,7 @@ public class ValidationUtils {
 		} else if (asOfDate != null) {
 			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
 			valid = (ac != null);
-		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("accrualCategory", accrualCategory);		
-			Query query = QueryFactory.newQuery(AccrualCategory.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
-			valid = (count > 0);
-		}
+		} 
 		
 		return valid;
 	}
