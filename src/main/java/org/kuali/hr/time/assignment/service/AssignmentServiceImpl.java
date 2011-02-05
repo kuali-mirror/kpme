@@ -66,7 +66,10 @@ public class AssignmentServiceImpl implements AssignmentService {
 		
 		Map<String,String> assignmentDescriptions = new LinkedHashMap<String,String>();
 		for(Assignment assignment : assignments) {
-			assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
+			//only add to the assignment list if they are synchronous assignments
+			if(assignment.isSynchronous()){
+				assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
+			}
 		}
 		
 		return assignmentDescriptions;
