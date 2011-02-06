@@ -33,6 +33,7 @@ public class ClockAction extends TimesheetAction {
     		
     		ActionForward forward = super.execute(mapping, form, request, response);
     	    ClockActionForm caf = (ClockActionForm) form;
+    	    caf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(caf.getTimesheetDocument(), true));
     	    String principalId = TKContext.getUser().getPrincipalId();
     	    
     	    ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);

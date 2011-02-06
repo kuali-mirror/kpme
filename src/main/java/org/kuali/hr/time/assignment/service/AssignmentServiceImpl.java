@@ -55,7 +55,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 	}
 	
 	@Override
-	public Map<String,String> getAssignmentDescriptions(TimesheetDocument td) {
+	public Map<String,String> getAssignmentDescriptions(TimesheetDocument td, boolean clockOnlyAssignments) {
 		if(td == null) {
 			throw new RuntimeException("timesheet document is null.");
 		}
@@ -67,7 +67,8 @@ public class AssignmentServiceImpl implements AssignmentService {
 		Map<String,String> assignmentDescriptions = new LinkedHashMap<String,String>();
 		for(Assignment assignment : assignments) {
 			//only add to the assignment list if they are synchronous assignments
-			if(assignment.isSynchronous()){
+			//or clock only assignments is false
+			if(!clockOnlyAssignments || assignment.isSynchronous()){
 				assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
 			}
 		}

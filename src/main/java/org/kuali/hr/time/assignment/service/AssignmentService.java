@@ -13,6 +13,6 @@ public interface AssignmentService {
     public List<Assignment> getAssignments(String principalId, Date asOfDate);
     public Assignment getAssignment(TimesheetDocument timesheetDocument, String assignmentKey);
     public AssignmentDescriptionKey getAssignmentDescriptionKey(String assignmentDesc);
-	public Map<String,String> getAssignmentDescriptions(TimesheetDocument td);
+    public Map<String,String> getAssignmentDescriptions(TimesheetDocument td, boolean clockOnlyAssignments);
 	public Map<String,String> getAssignmentDescriptions(Assignment assignment);
 }

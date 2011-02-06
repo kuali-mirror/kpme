@@ -36,12 +36,6 @@ public class TimesheetAction extends TkAction {
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(user.getPrincipalId(), payCalendarDates);
 		taForm.setTimesheetDocument(tdoc);
 		
-		taForm.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(tdoc));
-		
-		
-		// refetching the document because the time blocks might be changed, e.g. deleting time blocks 
-		//tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(user.getPrincipalId(), payCalendarDates);
-		//taForm.setTimesheetDocument(tdoc);
 		ActionForward forward = super.execute(mapping, form, request, response);
 		return forward;
 	

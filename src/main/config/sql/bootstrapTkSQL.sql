@@ -72,7 +72,7 @@ INSERT INTO `TK_EARN_CODE_T` (`TK_EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `RECORD_T
 	('6' , 'CPE' , 'COMP TIME'         , 'y','n','n', '2010-01-01' , '2010-01-01 08:08:08' , 'Y','1.0') ,
 	('7' , 'OVT' , 'OVERTIME' 			, 'y','n','n', '2010-01-01' , '2010-01-01 08:08:08' , 'Y','1.5') ,
 	('8' , 'PRM' , 'PREMIUM'           , 'y','n','n', '2010-01-01' , '2010-01-01 08:08:08' , 'Y','1.0');
-	
+	insert into tk_earn_code_t values(9,'RBP','Regular Biweekly','2010-01-01','y','n','n','Y',null, 1,now(), null,0,1);
 # time collection rule
 DELETE FROM `tk_time_collection_rl_s`;
 INSERT INTO `tk_time_collection_rl_s` VALUES('1000');
