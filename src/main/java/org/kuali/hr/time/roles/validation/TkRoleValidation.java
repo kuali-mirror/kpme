@@ -13,8 +13,13 @@ import java.sql.Date;
 
 public class TkRoleValidation extends MaintenanceDocumentRuleBase{
 
-    boolean validateTkRole(TkRole role) {
+    private static final String ADD_LINE_LOCATION = "add.roles.";
+
+    boolean validateTkRole(TkRole role, String fieldPrefix) {
         boolean valid = true;
+
+        if (fieldPrefix == null)
+            fieldPrefix = "";
 
         Date asOfDate = role.getEffectiveDate();
         String rname = role.getRoleName();
@@ -22,32 +27,40 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
             // Only Work Area required
             boolean vwa = ValidationUtils.validateWorkArea(role.getWorkArea(), asOfDate);
             if (!vwa) {
-                this.putFieldError("workArea", "workarea.notfound");
+                this.putFieldError(fieldPrefix + "workArea", "workarea.notfound");
             }
             if (role.getDepartment() != null)
-                this.putFieldError("department", "field.unused");
+                this.putFieldError(fieldPrefix + "department", "field.unused");
             valid &= vwa;
         } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_ORG_ADMIN)) {
             // Only Department required
             boolean vwa = ValidationUtils.validateDepartment(role.getDepartment(), asOfDate);
             if (!vwa) {
-                this.putFieldError("department", "dept.notfound");
+                this.putFieldError(fieldPrefix + "department", "dept.notfound");
             }
             if (role.getWorkArea() != null)
-                this.putFieldError("workArea", "field.unused");
+                this.putFieldError(fieldPrefix + "workArea", "field.unused");
             valid &= vwa;
         } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_SYS_ADMIN)) {
             // no department or work area required, error if provided?
-            if (role.getDepartment() != null)
-                this.putFieldError("department", "field.unused");
-            if (role.getWorkArea() != null)
-                this.putFieldError("workArea", "field.unused");
+            if (role.getDepartment() != null) {
+                this.putFieldError(fieldPrefix + "department", "field.unused");
+                valid = false;
+            }
+            if (role.getWorkArea() != null) {
+                this.putFieldError(fieldPrefix + "workArea", "field.unused");
+                valid = false;
+            }
         } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_GLOBAL_VO)) {
             // nothing required
-            if (role.getDepartment() != null)
-                this.putFieldError("department", "field.unused");
-            if (role.getWorkArea() != null)
-                this.putFieldError("workArea", "field.unused");
+            if (role.getDepartment() != null) {
+                this.putFieldError(fieldPrefix + "department", "field.unused");
+                valid = false;
+            }
+            if (role.getWorkArea() != null) {
+                this.putFieldError(fieldPrefix + "workArea", "field.unused");
+                valid = false;
+            }
         } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_DEPT_VO)) {
             // either department OR work area required
             boolean vwa = ValidationUtils.validateWorkArea(role.getWorkArea(), asOfDate);
@@ -55,24 +68,24 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
             if ((vwa || vdp)) {
                 // may want to check for presence of fault
                 if (!vwa && role.getWorkArea() != null) {
-                    this.putFieldError("workArea", "workarea.notfound");
+                    this.putFieldError(fieldPrefix + "workArea", "workarea.notfound");
                 }
                 if (!vdp && role.getDepartment() != null) {
-                    this.putFieldError("department", "dept.notfound");
+                    this.putFieldError(fieldPrefix + "department", "dept.notfound");
                 }
             } else {
-                this.putFieldError("workArea",   "workarea.dept.and.or");
-                this.putFieldError("department", "workarea.dept.and.or");
+                this.putFieldError(fieldPrefix + "workArea",   "workarea.dept.and.or");
+                this.putFieldError(fieldPrefix + "department", "workarea.dept.and.or");
             }
             valid = vwa || vdp;
         } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_REVIEWER)) {
             // work area required
             boolean vwa = ValidationUtils.validateWorkArea(role.getWorkArea(), asOfDate);
             if (!vwa) {
-                this.putFieldError("workArea", "workarea.notfound");
+                this.putFieldError(fieldPrefix + "workArea", "workarea.notfound");
             }
             if (role.getDepartment() != null)
-                this.putFieldError("department", "field.unused");
+                this.putFieldError(fieldPrefix + "department", "field.unused");
             valid &= vwa;
         } else {
             // ? - Unexpected condition, do nothing.
@@ -81,10 +94,22 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
         return valid;
     }
 
+    /**
+     * Currently, the prefix will not work when the attributes of the collection
+     * items are set to readOnlyAfterAdd. This seems to be a built in function
+     * of rice. Errors will still appear but no marker will be placed next to
+     * the field.
+     */
     boolean validateTkRoleGroup(TkRoleGroup roleGroup) {
         boolean valid = true;
 
-        // TODO : Fill this in.
+        int pos = 0;
+        for (TkRole role: roleGroup.getRoles()) {
+            StringBuffer prefix = new StringBuffer("roles[");
+            prefix.append(pos).append("].");
+            validateTkRole(role, prefix.toString());
+            pos++;
+        }
 
         return valid;
     }
@@ -96,7 +121,7 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
 		PersistableBusinessObject pbo = this.getNewBo();
 		if (pbo instanceof TkRole) {
 			TkRole role = (TkRole)pbo;
-            valid = validateTkRole(role);
+            valid = validateTkRole(role, null);
 		} else if (pbo instanceof TkRoleGroup) {
             TkRoleGroup roleGroup = (TkRoleGroup)pbo;
             valid = validateTkRoleGroup(roleGroup);
@@ -105,4 +130,18 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
 		return valid;
 	}
 
+    @Override
+    /**
+     * Validation for the 'add' role in the collection manipulator.
+     */
+    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
+        boolean valid = true;
+
+        if (line instanceof TkRole) {
+            TkRole role = (TkRole)line;
+            valid = validateTkRole(role, ADD_LINE_LOCATION);
+        }
+
+        return valid;
+    }
 }
