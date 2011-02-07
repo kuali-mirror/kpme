@@ -10,6 +10,8 @@ import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncode.dao.EarnCodeDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 
 public class EarnCodeServiceImpl implements EarnCodeService {
 
@@ -33,7 +35,8 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		if (regularEc == null) 
 			throw new RuntimeException("No regular earn code defined.");
 		earnCodes.add(regularEc);
-		List<DepartmentEarnCode> decs = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getTkSalGroup(), job.getEffectiveDate());
+		//TODO - Kenneth change from current date to document begin date for ALL effective date fetches 
+		List<DepartmentEarnCode> decs = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getTkSalGroup(), TKUtils.getCurrentDate());
 		for (DepartmentEarnCode dec : decs) {
 			// Iterating over these one by one, running a query because each earn code has effective dating/time stamp/active
 			EarnCode ec = getEarnCode(dec.getEarnCode(), dec.getEffectiveDate());
