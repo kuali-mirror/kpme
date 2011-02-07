@@ -4,7 +4,7 @@ DELETE FROM `tk_dept_t`;
 INSERT INTO `tk_dept_t` (`tk_dept_id`,`dept`,`DESCRIPTION`,`ORG`,`CHART`,`EFFDT`,`TIMESTAMP`,`ACTIVE`) VALUES
     (100 , 'UA-FMOP'  , 'Financial Management Services'  , 'UA' , 'FMOP' , '2010-01-01' , '2010-01-01 10:25:13' , 'Y'),
     (101 , 'BL-CHEM'  , 'Chemistry'  , 'BL' , 'CHEM' , '2010-01-01' , '2010-01-01 10:25:13' , 'Y');
-    
+
 # HR Pay Types
 DELETE FROM `hr_paytype_s`;
 INSERT INTO `hr_paytype_s` (`ID`)	VALUES	('1000');
@@ -13,16 +13,16 @@ INSERT INTO `hr_paytype_t` (`HR_PAYTYPE_ID`,`PAYTYPE`,`DESCR`,`REG_ERN_CODE`,`EF
 	(1, 'BW1', 'Biweekly Support Staff', 'RGN', '2010-01-01', '2010-01-01 16:01:07', '47326FEA-46E7-7D89-0B13-85DFA45EA8C1', '1','Y'),
 	(2, 'BWP', 'Biweekly Professional', 'RBP', '2010-01-01', '2010-01-01 16:01:07', '47326FEA-46E7-7D89-0B13-85DFA45EA8C1', '1','Y'),
 	(3, 'HRR', 'Hourly Staff', 'RGH', '2010-01-01', '2010-01-01 16:01:07', '47326FEA-46E7-7D89-0B13-85DFA45EA8C1', '1','Y');
-    
+
 # Sal Group
 DELETE FROM `tk_sal_group_s`;
 INSERT INTO `tk_sal_group_S` (`ID`) VALUES ('1000');
 DELETE FROM `tk_sal_group_t`;
 INSERT INTO `tk_sal_group_t` (`TK_SAL_GROUP_ID`, `TK_SAL_GROUP`, `EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
-    (1,  'SS', '2010-01-01', '2010-01-01 01:01:01' , 'Y'),	
+    (1,  'SS', '2010-01-01', '2010-01-01 01:01:01' , 'Y'),
     (2, 'PAE', '2010-01-01', '2010-01-01 08:08:08' , 'Y'),
     (3, 'HR', '2010-01-01', '2010-01-01 08:08:08' , 'Y');
-    
+
 DELETE FROM `hr_job_s`;
 INSERT INTO `hr_job_s` (`ID`)	VALUES	(1000);
 DELETE FROM `hr_job_t`;
@@ -31,7 +31,7 @@ INSERT INTO `hr_job_t` (`HR_JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`active`
 	(2, 'frank', 1, '2010-01-01', 'Y', 'BL-CHEM', 'PAE', '1IT', '2010-01-1 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', 'BL', '40.00', 'BWP', 'Y'),
 	(3, 'frank', 2, '2010-01-01', 'Y', 'BL-CHEM', 'HR', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', 'BL', '0.01', 'HRR', 'N'),
 	(4, 'eric', 0, '2010-01-01', 'Y', 'BL-CHEM', 'HR', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', 'BL', '0.01', 'HRR', 'Y');
-	
+
 # Work Areas
 DELETE FROM `tk_work_area_s`;
 INSERT INTO `tk_work_area_s` (`ID`) VALUES ('1000');
@@ -58,7 +58,7 @@ INSERT INTO `tk_assignment_t` (`TK_ASSIGNMENT_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`E
     (11 , 'frank' , 1 , '2010-08-01' , '8540' , 1 , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 'Y')  ,
     (12 , 'frank'  ,2 , '2010-08-01' , '8541' , 'C3' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 'Y')  ,
     (13 , 'eric'  , 0 , '2010-08-01' , '8541' , 'C3' , '8421CD29-E1F4-4B9A-AE33-F3F4752505CE' , '2010-07-27 10:25:13' , '1' , 'Y');
-    
+
 # earn code
 DELETE FROM `tk_earn_code_s`;
 INSERT INTO `tk_earn_code_s` VALUES('1000');
@@ -82,7 +82,7 @@ INSERT INTO `tk_time_collection_rl_t` (`TK_TIME_COLL_RULE_ID`,`DEPT`,`WORK_AREA`
 	('1' , 'UA-FMOP' , 8529 , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 1)  ,
 	('2' , 'BL-CHEM' , '8540' , '2010-01-01' , 0 , 1 , 'admin' , '2010-01-01 08:08:08' , 1)  ,
 	('3' , 'BL-CHEM' , '8541'   , '2010-01-01' , 1 , 1 , 'admin' , '2010-01-01 08:08:08' , 1);
-	
+
 DELETE FROM `tk_earn_group_s`;
 INSERT INTO `tk_earn_group_s` VALUES ('1000');
 DELETE FROM `tk_earn_group_t`;
@@ -90,9 +90,9 @@ INSERT INTO `tk_earn_group_t` (`tk_earn_group_id`,`earn_group`,`descr`,`effdt`,`
 	(100,'R01','Summary for Regular Pay Hrs', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13','Y' ),
 	(101,'R05','Summary for Prem/Shift Hrs', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13','Y' ),
 	(102,'R02','Summary for Overtime Comp', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13','Y' ),
-	(103,'O01','Overtime Eligible', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' ),
-	(104,'O02','Hourly Ovt Eligible', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0EA7','20','2010-07-27 10:25:13' ),
-	(105,'O03','Biweekly Ovt Eligible', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0EF7','20','2010-07-27 10:25:13' );
+	(103,'O01','Overtime Eligible', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13','Y' ),
+	(104,'O02','Hourly Ovt Eligible', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0EA7','20','2010-07-27 10:25:13','Y' ),
+	(105,'O03','Biweekly Ovt Eligible', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0EF7','20','2010-07-27 10:25:13','Y' );
 
 DELETE FROM `tk_earn_group_def_s`;
 INSERT INTO `tk_earn_group_def_s` VALUES ('1000');
@@ -110,14 +110,21 @@ INSERT INTO `tk_earn_group_def_t` (`tk_earn_group_def_id`, `tk_earn_group_id`,`e
 	(110,103,'RGN','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
 	(111,104,'RGN','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
 	(112,105,'RGN','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1);
-	
-insert into la_accrual_categories_t values('1','SCK','Sick','2010-01-01',uuid(),1,'Y',now());	
-insert into la_accrual_categories_t values('1','VAC','Vacation','2010-01-01',uuid(),1,'Y',now());
 
+DELETE FROM `la_accrual_categories_t`;
+DELETE FROM `la_accrual_categories_s`;
+INSERT INTO `la_accrual_categories_s` VALUES('1000');
+insert into la_accrual_categories_t values('1','SCK','Sick','2010-01-01',uuid(),1,'Y',now());
+insert into la_accrual_categories_t values('2','VAC','Vacation','2010-01-01',uuid(),1,'Y',now());
+
+DELETE FROM `la_accruals_t`;
+DELETE FROM `la_accruals_s`;
+INSERT INTO `la_accruals_s` values ('1000');
 insert into la_accruals_t values('1','fran','SCK','2010-01-01',100,0,0,uuid(),1);
 insert into la_accruals_t values('2','fran','VAC','2010-01-01',10,0,0,uuid(),1);
 insert into la_accruals_t values('3','frank','SCK','2010-01-01',5,0,0,uuid(),1);
-insert into la_accruals_t values('4','frank','VAC','2010-01-01',90,0,0,uuid(),1);    
+insert into la_accruals_t values('4','frank','VAC','2010-01-01',90,0,0,uuid(),1);
 
+DELETE FROM `tk_weekly_ovt_group_t`;
 insert into tk_weekly_ovt_group_t values(1);
-    
+
