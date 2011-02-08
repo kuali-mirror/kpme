@@ -773,6 +773,7 @@
 		<field-descriptor name="userPrincipalId" column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />
 	</class-descriptor>	
 
+
 	<class-descriptor class="org.kuali.hr.paygrade.PayGrade" table="hr_pay_grade_t">
 		<field-descriptor name="hrPayGradeId"     column="hr_pay_grade_id" jdbc-type="BIGINT" length="20" nullable="false" primarykey="true" sequence-name="hr_pay_grade_s"/>
 		<field-descriptor name="payGrade"   column="pay_grade" jdbc-type="VARCHAR" length="20"/>
