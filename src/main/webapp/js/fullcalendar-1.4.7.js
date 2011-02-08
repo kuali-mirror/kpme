@@ -1727,22 +1727,15 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
 			"<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;left:"+left+"px;margin-bottom:3px;' id='" + event.id + "'>" +
 			//"<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<div style='float:right; margin: 2px 7px 0 0; z-index: 1;' id='delete-event'><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "' id='delete-link' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em; z-index: 1;'>X</a></div></td></tr>" +
 			"<table style='font-size:0.7em;'>" +
-			//"<tr><td colspan='3' style=''>" +
-			//"<div class='timeblock-icon'>" +
-            //"<span id='timeblock-delete' class='ui-icon ui-icon-close' style='float:right; margin: 1px 1px 0 1px;'></span>" +
-            //"<span id='timeblock-edit' class='ui-icon ui-icon-pencil' style='float:right; margin: 1px 1px 0 1px;'></span>" +
-            //"</div>" +
-            //"</tr></td>" +
-			"<tr><td colspan='3' style='text-align:center;'><a href='#' id='timeblock-edit'>" + event.title + "</a></td><td>&nbsp</td>" +
+			"<tr><td colspan='3' style='text-align:center;'><span id='timeblock-edit'>" + event.title + "</span></td><td>&nbsp</td>" +
 			"<td>" +
-            "<a href=TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + " id='timeblock-delete'><span class='ui-icon ui-icon-close' style='float:right; margin: 0 1px 0 0;'></span></a></td></tr>" +
-			fromTo + timeHourDetail + 
+            "<a href=TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "  id='timeblock-delete'><span class='ui-icon ui-icon-close' style='float:right;'></span></a></td></tr>" +
+			fromTo + timeHourDetail +
 			"</table>" +
 			"</div>";
 
 		seg.left = left;
 		seg.outerWidth = right - left;
-
 	}
 	segmentContainer[0].innerHTML = html; // faster than html()
 	eventElements = segmentContainer.children();
@@ -3327,22 +3320,22 @@ var viewMethods = {
 
 	eventElementHandlers: function(event, eventElement) {
 	    
-    	// var view = this;
-		//         eventElement
-		// .click(function(ev) {
-		// 	if (!eventElement.hasClass('ui-draggable-dragging') &&
-		// 		!eventElement.hasClass('ui-resizable-resizing')) {
-		// 			return view.trigger('eventClick', this, event, ev);
-		// 		}
-		// });
-		// .hover(
-		// 	function(ev) {
-		// 		view.trigger('eventMouseover', this, event, ev);
-		// 	},
-		// 	function(ev) {
-		// 		view.trigger('eventMouseout', this, event, ev);
-		// 	}
-		//);
+//    	var view = this;
+//		eventElement
+//		.click(function(ev) {
+//			if (!eventElement.hasClass('ui-draggable-dragging') &&
+//				!eventElement.hasClass('ui-resizable-resizing')) {
+//					return view.trigger('eventClick', this, event, ev);
+//				}
+//        });
+//		.hover(
+//			function(ev) {
+//				view.trigger('eventMouseover', this, event, ev);
+//			},
+//			function(ev) {
+//				view.trigger('eventMouseout', this, event, ev);
+//			}
+//		);
 	},
 
 

@@ -24,28 +24,7 @@ $(document).ready(function() {
                   right : ''
             },
            eventClick: function(calEvent, jsEvent) {
-//                $("#timeblock-delete").click(function(){
-//                    window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id;
-//                    return false;
-//                });
-
-//                $("#timeblock-edit").click(function() {
-//                   var dateFormat = "MM/dd/yyyy";
-//                   var timeFormat = "hh:mm TT";
-//                   var start = $.fullCalendar.parseDate( event.start );
-//                   var end = $.fullCalendar.parseDate( event.end );
-//                   $('#dialog-form').dialog('open');
-//                   $('#date-range-begin').val($.fullCalendar.formatDate(start, dateFormat));
-//                   $('#date-range-end').val($.fullCalendar.formatDate(end, dateFormat));
-//                   $("select#assignment option[value='" + event.assignment +"']").attr("selected", "selected");
-//                   $('#earnCode').loadEarnCode($('#assignment').val(), event.earnCode + "_" + event.earnCodeType);
-//                   $('#beginTimeField').val($.fullCalendar.formatDate(start, timeFormat));
-//                   $('#endTimeField').val($.fullCalendar.formatDate(end, timeFormat));
-//                   $('#tkTimeBlockId').val(event.tkTimeBlockId);
-//                   $('#hoursField').val(event.hours);
-//                   $('#beginTimeField-messages').val(start.getMonth() + "/" + start.getDate() + "/" + start.getFullYear() + " " + start.getHours() + ":" + start.getMinutes());
-//                   $('#endTimeField-messages').val(end.getMonth() + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes());
-//                });
+                //$(this).editTimeBlock(calEvent);
            },
             selectable: true,
             selectHelper: true,
@@ -242,7 +221,7 @@ $(document).ready(function() {
         },
         buttons: buttons
     });
-    
+
     // when the date field(s) is changed, it should update the time field as well
     $("#date-range-begin, #date-range-end").change(function(){
         magicTime($("#beginTimeField"));
@@ -393,5 +372,25 @@ $.fn.createDeleteButton= function() {
             primary : 'ui-icon-close'
         },
         text : false
+    });
+}
+
+$.fn.editTimeBlock = function(event) {
+    $("#timeblock-edit").click(function() {
+       var dateFormat = "MM/dd/yyyy";
+       var timeFormat = "hh:mm TT";
+       var start = $.fullCalendar.parseDate( event.start );
+       var end = $.fullCalendar.parseDate( event.end );
+       $('#dialog-form').dialog('open');
+       $('#date-range-begin').val($.fullCalendar.formatDate(start, dateFormat));
+       $('#date-range-end').val($.fullCalendar.formatDate(end, dateFormat));
+       $("select#assignment option[value='" + event.assignment +"']").attr("selected", "selected");
+       $('#earnCode').loadEarnCode($('#assignment').val(), event.earnCode + "_" + event.earnCodeType);
+       $('#beginTimeField').val($.fullCalendar.formatDate(start, timeFormat));
+       $('#endTimeField').val($.fullCalendar.formatDate(end, timeFormat));
+       $('#tkTimeBlockId').val(event.tkTimeBlockId);
+       $('#hoursField').val(event.hours);
+       $('#beginTimeField-messages').val(start.getMonth() + "/" + start.getDate() + "/" + start.getFullYear() + " " + start.getHours() + ":" + start.getMinutes());
+       $('#endTimeField-messages').val(end.getMonth() + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes());
     });
 }
