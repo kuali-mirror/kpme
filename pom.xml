@@ -416,16 +416,16 @@
 	</build>
 
 	<distributionManagement>
-		<repository>
-			<id>ais-mvn.usc.edu-releases</id>
-			<name>ais-mvn.usc.edu-releases</name>
-			<url>http://ais-mvn.usc.edu:8080/artifactory/t2</url>
-		</repository>
-		<snapshotRepository>
-			<id>ais-mvn.usc.edu-releases</id>
-			<name>ais-mvn.usc.edu-releases</name>
-			<url>http://ais-mvn.usc.edu:8080/artifactory/t2</url>
-		</snapshotRepository>
+		<!--<repository>-->
+			<!--<id>ais-mvn.usc.edu-releases</id>-->
+			<!--<name>ais-mvn.usc.edu-releases</name>-->
+			<!--<url>http://ais-mvn.usc.edu:8080/artifactory/t2</url>-->
+		<!--</repository>-->
+		<!--<snapshotRepository>-->
+			<!--<id>ais-mvn.usc.edu-releases</id>-->
+			<!--<name>ais-mvn.usc.edu-releases</name>-->
+			<!--<url>http://ais-mvn.usc.edu:8080/artifactory/t2</url>-->
+		<!--</snapshotRepository>-->
 	</distributionManagement>
 
 	<repositories>
@@ -434,11 +434,11 @@
 			<name>Kuali Repository</name>
 			<url>https://test.kuali.org/maven</url>
 		</repository>
-		<repository>
-			<id>ais-mvn.usc.edu-releases</id>
-			<name>ais-mvn.usc.edu-releases</name>
-			<url>http://ais-mvn.usc.edu:8080/artifactory</url>
-		</repository>
+		<!--<repository>-->
+			<!--<id>ais-mvn.usc.edu-releases</id>-->
+			<!--<name>ais-mvn.usc.edu-releases</name>-->
+			<!--<url>http://ais-mvn.usc.edu:8080/artifactory</url>-->
+		<!--</repository>-->
 		<repository>
 			<id>nexus</id>
 			<name>Nexus Repository</name>
@@ -446,10 +446,10 @@
 		</repository>
 	</repositories>
 
-	<scm>
-		<connection>scm:svn:https://ais-svn.usc.edu/svn/T2/trunk</connection>
-		<developerConnection>scm:svn:https://ais-svn.usc.edu/svn/T2/trunk</developerConnection>
-		<url>https://ais-svn.usc.edu/svn/T2/trunk</url>
-	</scm>
+	<!--<scm>-->
+		<!--<connection>scm:svn:https://ais-svn.usc.edu/svn/T2/trunk</connection>-->
+		<!--<developerConnection>scm:svn:https://ais-svn.usc.edu/svn/T2/trunk</developerConnection>-->
+		<!--<url>https://ais-svn.usc.edu/svn/T2/trunk</url>-->
+	<!--</scm>-->
 
 </project>
