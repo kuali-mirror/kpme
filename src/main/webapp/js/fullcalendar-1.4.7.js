@@ -1724,12 +1724,13 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
         });
 
         html +=
-			"<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;left:"+left+"px;margin-bottom:3px;' id='" + event.id + "'>" +
+			"<div class='" + className + event.className.join(' ') + " timeblock' style='position:absolute;z-index:8;left:"+left+"px;margin-bottom:3px;' id='" + event.id + "'>" +
 			//"<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<div style='float:right; margin: 2px 7px 0 0; z-index: 1;' id='delete-event'><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "' id='delete-link' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em; z-index: 1;'>X</a></div></td></tr>" +
 			"<table style='font-size:0.7em;'>" +
-			"<tr><td colspan='3' style='text-align:center;'><span id='timeblock-edit'>" + event.title + "</span></td><td>&nbsp</td>" +
-			"<td>" +
-            "<a href=TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "  id='timeblock-delete'><span class='ui-icon ui-icon-close' style='float:right;'></span></a></td></tr>" +
+			"<tr><td colspan='3' style='text-align:center;'><a href='#' id='timeblock-edit'>" + event.title + "</a></td>" +
+            "<td>&nbsp</td>" +
+			"<td><a href=TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "  id='timeblock-delete'>X</a></td>" +
+            "</tr>" +
 			fromTo + timeHourDetail +
 			"</table>" +
 			"</div>";
