@@ -715,7 +715,7 @@ $.fn.fullCalendar = function(options) {
 			sections.right = '';
 			
 		if (sections) {
-            var ajaxIndicator = "<div id='loading' style='display:none; margin-left:10px; float:right;'><img src='images/ajax-loader.gif' alt='Loading' style='vertical-align:middle;'/></div>";
+      var ajaxIndicator = "<div id='loading' style='display:none; margin-left:10px; float:right;'><img src='images/ajax-loader.gif' alt='Loading' style='vertical-align:middle;'/></div>";
 			header = $("<table class='fc-header'/>")
 				.append($("<tr/>")
 					.append($("<td class='fc-header-left'/>").append(buildSection(sections.left)))
@@ -1726,13 +1726,20 @@ function _renderDaySegs(segs, rowCnt, view, minLeft, maxLeft, getRow, dayContent
         html +=
 			"<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;left:"+left+"px;margin-bottom:3px;' id='" + event.id + "'>" +
 			//"<table style='font-size:0.7em;'><tr><td colspan='2' align='center'>" + event.title + "<div style='float:right; margin: 2px 7px 0 0; z-index: 1;' id='delete-event'><a href='TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "' id='delete-link' style='background: white; color: black; padding: 0 2px 0 2px; font-weight:bold; font-size:.9em; z-index: 1;'>X</a></div></td></tr>" +
-			"<table style='font-size:0.7em;'><tr><td colspan='3' style='text-align:center;'>" + event.title + "</td>" +   
-			"<td><a href='#'style='margin-left:-3px;'><span id='delete-link' class='ui-icon ui-icon-close' style='margin: 3px; float:right; z-index:9999;'></span></a></td>" +
-			"</tr>" +
+			"<table style='font-size:0.7em;'>" +
+			//"<tr><td colspan='3' style=''>" +
+			//"<div class='timeblock-icon'>" +
+            //"<span id='timeblock-delete' class='ui-icon ui-icon-close' style='float:right; margin: 1px 1px 0 1px;'></span>" +
+            //"<span id='timeblock-edit' class='ui-icon ui-icon-pencil' style='float:right; margin: 1px 1px 0 1px;'></span>" +
+            //"</div>" +
+            //"</tr></td>" +
+			"<tr><td colspan='3' style='text-align:center;'><a href='#' id='timeblock-edit'>" + event.title + "</a></td><td>&nbsp</td>" +
+			"<td>" +
+            "<a href=TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + " id='timeblock-delete'><span class='ui-icon ui-icon-close' style='float:right; margin: 0 1px 0 0;'></span></a></td></tr>" +
 			fromTo + timeHourDetail + 
 			"</table>" +
 			"</div>";
-			
+
 		seg.left = left;
 		seg.outerWidth = right - left;
 
@@ -3319,26 +3326,23 @@ var viewMethods = {
 	// attaches eventClick, eventMouseover, eventMouseout
 
 	eventElementHandlers: function(event, eventElement) {
-		var view = this;
-        $("#delete-link").click(function(){
-            window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id;
-            return false;
-        });
-       eventElement
-			.click(function(ev) {
-				if (!eventElement.hasClass('ui-draggable-dragging') &&
-					!eventElement.hasClass('ui-resizable-resizing')) {
-						return view.trigger('eventClick', this, event, ev);
-					}
-			})
-			.hover(
-				function(ev) {
-					view.trigger('eventMouseover', this, event, ev);
-				},
-				function(ev) {
-					view.trigger('eventMouseout', this, event, ev);
-				}
-			);
+	    
+    	// var view = this;
+		//         eventElement
+		// .click(function(ev) {
+		// 	if (!eventElement.hasClass('ui-draggable-dragging') &&
+		// 		!eventElement.hasClass('ui-resizable-resizing')) {
+		// 			return view.trigger('eventClick', this, event, ev);
+		// 		}
+		// });
+		// .hover(
+		// 	function(ev) {
+		// 		view.trigger('eventMouseover', this, event, ev);
+		// 	},
+		// 	function(ev) {
+		// 		view.trigger('eventMouseout', this, event, ev);
+		// 	}
+		//);
 	},
 
 

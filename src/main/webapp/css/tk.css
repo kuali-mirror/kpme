@@ -451,3 +451,26 @@ select {
 .left-errmsg div div{
     display: inline !important;
 }
+
+.timeblock-icon {
+    float:right;
+    cursor:pointer;
+    margin-right: 1px;    
+}
+
+.timeblock-icon #timeblock-delete:hover{
+    background-color: gray;
+}
+
+#timeblock-delete {
+    margin-left: -5px;
+    cursor:pointer;
+}
+
+#timeblock-edit {
+    /*background-color: black !important;*/
+    margin: 0;
+    font-size: 1em;
+    text-decoration: underline;
+    cursor: pointer;
+}

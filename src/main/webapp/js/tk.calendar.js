@@ -23,25 +23,30 @@ $(document).ready(function() {
                   center : 'prev, title, next',
                   right : ''
             },
-            eventClick: function(calEvent, jsEvent) {
-                
-                var dateFormat = "MM/dd/yyyy";
-                var timeFormat = "hh:mm TT";
-                var start = $.fullCalendar.parseDate( calEvent.start );
-                var end = $.fullCalendar.parseDate( calEvent.end );
-                $('#dialog-form').dialog('open');
-                $('#date-range-begin').val($.fullCalendar.formatDate(start, dateFormat));
-                $('#date-range-end').val($.fullCalendar.formatDate(end, dateFormat));
-                $("select#assignment option[value='" + calEvent.assignment +"']").attr("selected", "selected");
-                $('#earnCode').loadEarnCode($('#assignment').val(), calEvent.earnCode + "_" + calEvent.earnCodeType);
-                $('#beginTimeField').val($.fullCalendar.formatDate(start, timeFormat));
-                $('#endTimeField').val($.fullCalendar.formatDate(end, timeFormat));
-                $('#tkTimeBlockId').val(calEvent.tkTimeBlockId);
-                $('#hoursField').val(calEvent.hours);
-                $('#beginTimeField-messages').val(start.getMonth() + "/" + start.getDate() + "/" + start.getFullYear() + " " + start.getHours() + ":" + start.getMinutes());
-                $('#endTimeField-messages').val(end.getMonth() + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes());
-              
-            },
+           eventClick: function(calEvent, jsEvent) {
+//                $("#timeblock-delete").click(function(){
+//                    window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id;
+//                    return false;
+//                });
+
+//                $("#timeblock-edit").click(function() {
+//                   var dateFormat = "MM/dd/yyyy";
+//                   var timeFormat = "hh:mm TT";
+//                   var start = $.fullCalendar.parseDate( event.start );
+//                   var end = $.fullCalendar.parseDate( event.end );
+//                   $('#dialog-form').dialog('open');
+//                   $('#date-range-begin').val($.fullCalendar.formatDate(start, dateFormat));
+//                   $('#date-range-end').val($.fullCalendar.formatDate(end, dateFormat));
+//                   $("select#assignment option[value='" + event.assignment +"']").attr("selected", "selected");
+//                   $('#earnCode').loadEarnCode($('#assignment').val(), event.earnCode + "_" + event.earnCodeType);
+//                   $('#beginTimeField').val($.fullCalendar.formatDate(start, timeFormat));
+//                   $('#endTimeField').val($.fullCalendar.formatDate(end, timeFormat));
+//                   $('#tkTimeBlockId').val(event.tkTimeBlockId);
+//                   $('#hoursField').val(event.hours);
+//                   $('#beginTimeField-messages').val(start.getMonth() + "/" + start.getDate() + "/" + start.getFullYear() + " " + start.getHours() + ":" + start.getMinutes());
+//                   $('#endTimeField-messages').val(end.getMonth() + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes());
+//                });
+           },
             selectable: true,
             selectHelper: true,
             select: function(start, end, allDay) {
