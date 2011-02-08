@@ -7,7 +7,7 @@ import org.kuali.hr.time.timehourdetail.dao.TimeHourDetailDao;
 public class TimeHourDetailServiceImpl implements TimeHourDetailService {
 
 	TimeHourDetailDao timeHourDetailDao;
-	
+
 	@Override
 	public TimeHourDetail getTimeHourDetail(String timeHourDetailId) {
 		return timeHourDetailDao.getTimeHourDetail(timeHourDetailId);
@@ -17,12 +17,12 @@ public class TimeHourDetailServiceImpl implements TimeHourDetailService {
 	public TimeHourDetail saveTimeHourDetail(TimeBlock tb) {
 
 		TimeHourDetail td = new TimeHourDetail();
-		
+
 		td.setTkTimeBlockId(tb.getTkTimeBlockId());
 		td.setEarnCode(tb.getEarnCode());
 		td.setHours(tb.getHours());
 		tb.setAmount(tb.getAmount());
-		
+
 		timeHourDetailDao.saveOrUpdate(td);
 
 		return td;
@@ -32,4 +32,7 @@ public class TimeHourDetailServiceImpl implements TimeHourDetailService {
 		this.timeHourDetailDao = timeHourDetailDao;
 	}
 
+    public void removeTimeHourDetails(Long timeBlockId) {
+        this.timeHourDetailDao.remove(timeBlockId);
+    }
 }

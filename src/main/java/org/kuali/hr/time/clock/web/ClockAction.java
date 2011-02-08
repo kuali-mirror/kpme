@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,12 +31,12 @@ public class ClockAction extends TimesheetAction {
 
     	@Override
     	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    		
+
     		ActionForward forward = super.execute(mapping, form, request, response);
     	    ClockActionForm caf = (ClockActionForm) form;
     	    caf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(caf.getTimesheetDocument(), true));
     	    String principalId = TKContext.getUser().getPrincipalId();
-    	    
+
     	    ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
     	    if (lastClockLog != null) {
     	    	Timestamp lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId()).getClockTimestamp();
@@ -47,7 +48,7 @@ public class ClockAction extends TimesheetAction {
     	    	caf.setCurrentClockAction(TkConstants.CLOCK_IN);
     	    }
 	   	    else {
-	   	    	
+
 	   	    	if(StringUtils.equals(lastClockLog.getClockAction(),TkConstants.LUNCH_IN) && TkServiceLocator.getSystemLunchRuleService().isShowLunchButton()) {
 	   	    		caf.setCurrentClockAction(TkConstants.LUNCH_OUT);
 	   	    	}
@@ -62,9 +63,9 @@ public class ClockAction extends TimesheetAction {
     	    	Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), selectedAssignment);
     	    	Map<String,String> assignmentDesc = TkServiceLocator.getAssignmentService().getAssignmentDescriptions(assignment);
     	    	caf.setAssignmentDescriptions(assignmentDesc);
-    	    	
+
 	   	    }
-    	    return forward; 
+    	    return forward;
     	}
 
     	public ActionForward clockAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -75,42 +76,47 @@ public class ClockAction extends TimesheetAction {
     	    if(StringUtils.isBlank(caf.getSelectedAssignment())) {
     	    	throw new RuntimeException("no assignment selected");
     	    }
-    	    
+
     	    // process rules
     	    Timestamp clockTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(new Timestamp(System.currentTimeMillis()), new java.sql.Date(caf.getPayCalendarDates().getBeginPeriodDateTime().getTime()));
     	    ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockTimestamp, caf.getSelectedAssignment(),caf.getTimesheetDocument(),caf.getCurrentClockAction(), request.getRemoteAddr());
     	    TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, TKUtils.getCurrentDate());
-    	    
+
     	    TkServiceLocator.getClockLogService().saveClockLog(clockLog);
     	    caf.setClockLog(clockLog);
-    	    
+
     	    if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT)) {
-    	    	
+
 	    	    Timestamp lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId(), TkConstants.CLOCK_IN).getClockTimestamp();
     			long beginTime = lastClockTimestamp.getTime();
     			Timestamp beginTimestamp = new Timestamp(beginTime);
     			Timestamp endTimestamp = caf.getClockLog().getClockTimestamp();
-    			
-    			Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), 
+
+    			Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(),
 						caf.getSelectedAssignment());
-    			
+
     			String earnCode = TKContext.getUser().isSynchronousAspect() ? assignment.getJob().getPayTypeObj().getRegEarnCode() : caf.getSelectedEarnCode();
-    			
-    			//create the list of timeblocks based on the range passed in
-    			List<TimeBlock> lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, 
-    					earnCode, caf.getTimesheetDocument(),beginTimestamp, endTimestamp,BigDecimal.ZERO, true);
-    			//concat delta of timeblocks (new and original)
-    			lstNewTimeBlocks.addAll(caf.getTimesheetDocument().getTimeBlocks());
+
+    			// New Time Blocks, pointer reference
+                List<TimeBlock> newTimeBlocks = caf.getTimesheetDocument().getTimeBlocks();
+    			newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,earnCode, caf.getTimesheetDocument(),beginTimestamp, endTimestamp,BigDecimal.ZERO, true));
+
+                List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(caf.getTimesheetDocument().getTimeBlocks().size());
+                for (TimeBlock tb : caf.getTimesheetDocument().getTimeBlocks()) {
+                    referenceTimeBlocks.add(tb.copy());
+                }
+
+
     			//TODO do any server side validation of adding checking for overlapping timeblocks etc
     			//return if any issues
 
     			//reset time hour details
-    			lstNewTimeBlocks = TkServiceLocator.getTimeBlockService().resetTimeHourDetail(lstNewTimeBlocks);
+    			TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTimeBlocks);
     			//apply any rules for this action
-    			lstNewTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.CLOCK_OUT, lstNewTimeBlocks, caf.getPayCalendarDates(), caf.getTimesheetDocument());
+    			TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.CLOCK_OUT, newTimeBlocks, caf.getPayCalendarDates(), caf.getTimesheetDocument());
 
     			//call persist method that only saves added/deleted/changed timeblocks
-    			TkServiceLocator.getTimeBlockService().saveTimeBlocks(caf.getTimesheetDocument().getTimeBlocks(), lstNewTimeBlocks);
+    			TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
     	    	//TkServiceLocator.getTimeHourDetailService().saveTimeHourDetail(tb);
     	    	//TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(caf);
     	    }

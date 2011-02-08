@@ -1,18 +1,17 @@
 package org.kuali.hr.time.timeblock;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
+import javax.persistence.Transient;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class TimeBlock extends PersistableBusinessObjectBase {
 
@@ -41,14 +40,17 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	private String endTimestampTimezone;
 	private DateTime beginTimeDisplay;
 	private DateTime endTimeDisplay;
-	// the two variables below are used to determine if a time block needs to be visually pushed forward / backward  
+	// the two variables below are used to determine if a time block needs to be visually pushed forward / backward
 	@Transient
 	private Boolean pushBackward = false;
-	
+
 	private TimesheetDocumentHeader timesheetDocumentHeader;
-	
+
 	private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
 	private List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
+
+    public TimeBlock() {
+    }
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -233,7 +235,7 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	public void setTimeHourDetails(List<TimeHourDetail> timeHourDetails) {
 		this.timeHourDetails = timeHourDetails;
 	}
-	
+
 	public String getAssignString(){
 		return this.jobNumber + "_" + this.workArea + "_" + this.task;
 	}
@@ -295,6 +297,57 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	public void setTimeBlockHistories(List<TimeBlockHistory> timeBlockHistories) {
 		this.timeBlockHistories = timeBlockHistories;
 	}
-	
-	
+
+    /**
+     * Word on the street is that Object.clone() is a POS. We only need some
+     * basics for comparison, so we'll implement a simple copy constructor
+     * instead.
+     *
+     * TODO: Check whether or not it matters if the History is copied, this
+     * operation needs to be as inexpensive as possible.
+     *
+     * @param b The TimeBlock to copy values from when creating this instance.
+     */
+    protected TimeBlock(TimeBlock b) {
+        // TODO : Implement "copy" constructor.
+        this.tkTimeBlockId = b.tkTimeBlockId;
+        this.documentId = b.documentId;
+        this.jobNumber = b.jobNumber;
+        this.workArea = b.workArea;
+        this.task = b.task;
+        this.hrJobId = b.hrJobId;
+        this.tkWorkAreaId = b.tkWorkAreaId;
+        this.tkTaskId = b.tkTaskId;
+        this.earnCode = b.earnCode;
+        this.beginTimestamp = new Timestamp(b.beginTimestamp.getTime());
+        this.endTimestamp = new Timestamp(b.endTimestamp.getTime());
+        this.clockLogCreated = b.clockLogCreated;
+        this.hours = b.hours;
+        this.amount = b.amount;
+        this.userPrincipalId = b.userPrincipalId;
+        this.timestamp = new Timestamp(b.timestamp.getTime());
+        this.beginTimeDisplay = b.beginTimeDisplay;
+        this.endTimeDisplay = b.endTimeDisplay;
+        this.pushBackward = b.pushBackward;
+
+        // We just set the reference for this object, since splitting the
+        // TimeBlock would be abnormal behavior.
+        this.timesheetDocumentHeader = b.timesheetDocumentHeader;
+
+        //private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
+        for (TimeHourDetail thd : b.timeHourDetails) {
+            this.timeHourDetails.add(thd.copy());
+        }
+
+        // TODO: For now, not copying TimeBlockHistory - The Object extends this one, which seems odd.
+        //private List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
+    }
+
+    /**
+     * @return A new copy of this TimeBlock.
+     */
+    public TimeBlock copy() {
+        return new TimeBlock(this);
+    }
+
 }

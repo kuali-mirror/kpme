@@ -1,12 +1,12 @@
 package org.kuali.hr.time.timehourdetail.dao;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.util.List;
 
 public class TimeHourDetailDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements TimeHourDetailDao {
 
@@ -25,7 +25,7 @@ public class TimeHourDetailDaoSpringOjbImpl extends PersistenceBrokerDaoSupport 
 			}
 		}
 	}
-	
+
 	@Override
 	public TimeHourDetail getTimeHourDetail(String timeHourDetailId) {
 		Criteria currentRecordCriteria = new Criteria();
@@ -34,5 +34,12 @@ public class TimeHourDetailDaoSpringOjbImpl extends PersistenceBrokerDaoSupport 
 		return (TimeHourDetail)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(TimeHourDetail.class, currentRecordCriteria));
 	}
 
-	
+    public void remove(Long timeBlockId) {
+        Criteria removalCriteria = new Criteria();
+        removalCriteria.addEqualTo("tkTimeBlockId", timeBlockId);
+
+        this.getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(TimeHourDetail.class, removalCriteria));
+    }
+
+
 }

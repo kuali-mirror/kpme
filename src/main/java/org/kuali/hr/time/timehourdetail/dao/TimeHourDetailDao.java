@@ -1,8 +1,8 @@
 package org.kuali.hr.time.timehourdetail.dao;
 
-import java.util.List;
-
 import org.kuali.hr.time.timeblock.TimeHourDetail;
+
+import java.util.List;
 
 
 public interface TimeHourDetailDao{
@@ -13,4 +13,5 @@ public interface TimeHourDetailDao{
 
 	public void saveOrUpdate(TimeHourDetail timeHourDetail);
 
+    public void remove(Long timeBlockId);
 }

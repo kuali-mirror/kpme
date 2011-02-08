@@ -1,22 +1,26 @@
 package org.kuali.hr.time.timeblock;
 
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
 public class TimeHourDetail extends PersistableBusinessObjectBase{
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long tkTimeHourDetailId;
 	private Long tkTimeBlockId;
 	private String earnCode;
-	private BigDecimal hours = new BigDecimal("0.00");
-	private BigDecimal amount = new BigDecimal("0.00");
-	
+	private BigDecimal hours = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+	private BigDecimal amount = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+
+    public TimeHourDetail() {
+    }
+
 	@SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper() {
 		return null;
@@ -60,4 +64,18 @@ public class TimeHourDetail extends PersistableBusinessObjectBase{
 	public Long getTkTimeHourDetailId() {
 		return tkTimeHourDetailId;
 	}
+
+    protected TimeHourDetail(TimeHourDetail t) {
+        // All of the following are Immutable, be aware if new fields
+        // are added.
+        this.tkTimeHourDetailId = t.tkTimeHourDetailId;
+        this.tkTimeBlockId = t.tkTimeBlockId;
+        this.earnCode = t.earnCode;
+        this.hours = t.hours;
+        this.amount = t.amount;
+    }
+
+    public TimeHourDetail copy() {
+        return new TimeHourDetail(this);
+    }
 }
