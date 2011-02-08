@@ -19,10 +19,10 @@
       </list>
     </property>
     <property name="lockingKeys">
-		<list>
-			<value>hrPayGradeId</value>
-		</list>
-	</property>
+        <list>
+            <value>hrPayGradeId</value>
+        </list>
+    </property>
     <property name="documentTypeName" value="PayGradeMaintenanceDocumentType"/>
   </bean>
 
