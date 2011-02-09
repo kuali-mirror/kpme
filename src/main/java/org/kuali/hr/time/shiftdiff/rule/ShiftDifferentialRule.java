@@ -2,6 +2,7 @@ package org.kuali.hr.time.shiftdiff.rule;
 
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
+import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.salgroup.SalGroup;
 
@@ -43,6 +44,7 @@ public class ShiftDifferentialRule extends TkRule {
 	private EarnCode earnCodeObj;
 	private SalGroup salGroupObj;
     private EarnGroup fromEarnGroupObj;
+    private PayCalendar payCalendar;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -248,5 +250,13 @@ public class ShiftDifferentialRule extends TkRule {
 
     public void setFromEarnGroupObj(EarnGroup fromEarnGroupObj) {
         this.fromEarnGroupObj = fromEarnGroupObj;
+    }
+
+    public PayCalendar getPayCalendar() {
+        return payCalendar;
+    }
+
+    public void setPayCalendar(PayCalendar payCalendar) {
+        this.payCalendar = payCalendar;
     }
 }

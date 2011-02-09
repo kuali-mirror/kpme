@@ -580,8 +580,8 @@
 		<field-descriptor name="payGrade" column="PAY_GRADE" jdbc-type="VARCHAR" length="3"  />
 		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" nullable="true"/>
 		<field-descriptor name="earnCode" column="EARN_CODE" jdbc-type="VARCHAR" length="3"  />
-		<field-descriptor name="beginTime" column="BEGIN_TS" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="endTime"   column="END_TS"   jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="beginTime" column="BEGIN_TS" jdbc-type="TIME"/>
+		<field-descriptor name="endTime"   column="END_TS"   jdbc-type="TIME"/>
 		<field-descriptor name="minHours" column="MIN_HRS" jdbc-type="DECIMAL"  primarykey="false"  />
 		<field-descriptor name="sunday"    column="sun" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="monday"    column="mon" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
@@ -591,7 +591,7 @@
 		<field-descriptor name="friday"    column="fri" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="saturday"  column="sat" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="calendarGroup" column="calendar_group" jdbc-type="VARCHAR" length="30"/>
-    <field-descriptor name="fromEarnGroup" column="from_earn_group" jdbc-type="VARCHAR" length="10"/>
+        <field-descriptor name="fromEarnGroup" column="from_earn_group" jdbc-type="VARCHAR" length="10"/>
 		<field-descriptor name="maxGap" column="MAX_GAP" jdbc-type="DECIMAL"  primarykey="false"  />
 		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
 		<field-descriptor name="timeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
