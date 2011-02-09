@@ -99,12 +99,12 @@ public class ClockAction extends TimesheetAction {
 
     			// New Time Blocks, pointer reference
                 List<TimeBlock> newTimeBlocks = caf.getTimesheetDocument().getTimeBlocks();
-
-
                 List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(caf.getTimesheetDocument().getTimeBlocks().size());
                 for (TimeBlock tb : caf.getTimesheetDocument().getTimeBlocks()) {
                     referenceTimeBlocks.add(tb.copy());
                 }
+
+                // Add TimeBlocks after we store our reference object!
                 newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,earnCode, caf.getTimesheetDocument(),beginTimestamp, endTimestamp,BigDecimal.ZERO, true));
 
     			//TODO do any server side validation of adding checking for overlapping timeblocks etc
