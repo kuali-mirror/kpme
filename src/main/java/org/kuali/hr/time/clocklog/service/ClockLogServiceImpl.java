@@ -1,7 +1,5 @@
 package org.kuali.hr.time.clocklog.service;
 
-import java.sql.Timestamp;
-
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.clocklog.ClockLog;
@@ -10,6 +8,8 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+
+import java.sql.Timestamp;
 
 public class ClockLogServiceImpl implements ClockLogService {
 
@@ -21,11 +21,11 @@ public class ClockLogServiceImpl implements ClockLogService {
 	public void saveClockLog(ClockLog clockLog) {
 		clockLogDao.saveOrUpdate(clockLog);
 	}
-	
+
 	@Override
 	public ClockLog buildClockLog(Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction, String ip) {
 		String principalId = TKContext.getUser().getPrincipalId();
-		
+
 	    ClockLog clockLog = new ClockLog();
 	    clockLog.setPrincipalId(principalId);
 	    AssignmentDescriptionKey assignmentDesc = TkServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssign);
@@ -34,7 +34,7 @@ public class ClockLogServiceImpl implements ClockLogService {
 	    clockLog.setJobNumber(assignment.getJobNumber());
 	    clockLog.setWorkArea(assignment.getWorkArea());
 	    clockLog.setTkWorkAreaId(assignment.getWorkAreaObj().getTkWorkAreaId());
-	    
+
 	    Long tkTaskId = null;
 	    for(Task task : assignment.getWorkAreaObj().getTasks()) {
 	    	if(task.getTask().compareTo(assignmentDesc.getTask()) == 0 ) {
@@ -47,11 +47,12 @@ public class ClockLogServiceImpl implements ClockLogService {
 	    clockLog.setClockTimestampTimezone(TkServiceLocator.getTimezoneService().getUserTimeZone());
 	    clockLog.setClockTimestamp(clockTimestamp);
 	    clockLog.setClockAction(clockAction);
-	    clockLog.setIpAddress(ip);
+        // Seems to be a problem here.
+	    //clockLog.setIpAddress(ip);
 	    clockLog.setHrJobId(assignment.getJob().getHrJobId());
 	    clockLog.setUserPrincipalId(principalId);
 	    clockLog.setTimestamp(new Timestamp(System.currentTimeMillis()));
-	    
+
 	    return clockLog;
 	}
 
@@ -66,5 +67,5 @@ public class ClockLogServiceImpl implements ClockLogService {
 	public ClockLog getLastClockLog(String principalId, String clockAction) {
 		return clockLogDao.getLastClockLog(principalId, clockAction);
 	}
-	
+
 }
