@@ -1,7 +1,9 @@
 package org.kuali.hr.time.assignment.validation;
 
+import java.io.FileOutputStream;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,10 +14,19 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.ValidationUtils;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class AssignmentRule extends MaintenanceDocumentRuleBase {
 
@@ -127,13 +138,68 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			valid = true;
 			LOG.debug("found earnCode.");
 		} else {
-			this.putFieldError("assignmentAccounts.earnCode", "error.existence", "earn code '"
+			this.putGlobalError("error.existence", "earn code '"
 					+ assignmentAccount.getEarnCode() + "'");
 		}
 		return valid;
 	}
 
+	protected boolean validateAccount(AssignmentAccount assignmentAccount) {
+		boolean valid = false;
+		LOG.debug("Validating Account: " + assignmentAccount.getAccountNbr());
+		Collection account = KNSServiceLocator.getBusinessObjectDao().findAll(Account.class);
+		Iterator<Account> itr = account.iterator();
+		while (itr.hasNext()) {
+			Account accountObj = itr.next();
+			if (accountObj.getAccountNumber().equals(assignmentAccount.getAccountNbr())) {
+				valid = true;
+				LOG.debug("found account number.");
+			}
+		}
+		 if(!valid) {
+			this.putGlobalError("error.existence", "Account Number '"
+					+ assignmentAccount.getAccountNbr() + "'");
+		}
+		return valid;
+	}
 
+	protected boolean validateObjectCode(AssignmentAccount assignmentAccount) {
+		boolean valid = false;
+		LOG.debug("Validating ObjectCode: " + assignmentAccount.getFinObjectCd());
+		Collection objectCode = KNSServiceLocator.getBusinessObjectDao().findAll(ObjectCode.class);
+		Iterator<ObjectCode> itr = objectCode.iterator();
+		while (itr.hasNext()) {
+			ObjectCode objectCodeObj = itr.next();
+			if (objectCodeObj.getObjectId().equals(assignmentAccount.getFinObjectCd())) {
+				valid = true;
+				LOG.debug("found object code.");
+			}
+		}
+		 if(!valid) {
+			this.putGlobalError("error.existence", "Object Code '"
+					+ assignmentAccount.getFinObjectCd() + "'");
+		}
+		return valid;
+	}
+
+	protected boolean validateSubObjectCode(AssignmentAccount assignmentAccount) {
+		boolean valid = false;
+		LOG.debug("Validating SubObjectCode: " + assignmentAccount.getFinSubObjCd());
+		Collection subObjectCode = KNSServiceLocator.getBusinessObjectDao().findAll(SubObjectCode.class);
+		Iterator<SubObjectCode> itr = subObjectCode.iterator();
+		while (itr.hasNext()) {
+			SubObjectCode subObjectCodeObj = itr.next();
+			if (subObjectCodeObj.getObjectId().equals(assignmentAccount.getFinSubObjCd())) {
+				valid = true;
+				LOG.debug("found sub object code.");
+			}
+		}
+		 if(!valid) {
+			this.putGlobalError("error.existence", "SubObject Code '"
+					+ assignmentAccount.getFinSubObjCd() + "'");
+		}
+		return valid;
+	}
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
@@ -184,6 +250,9 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			if (assignmentAccount != null) {
 				valid = true;
 				valid &= this.validateEarnCode(assignmentAccount);
+				valid &= this.validateAccount(assignmentAccount);
+				valid &= this.validateObjectCode(assignmentAccount);
+				valid &= this.validateSubObjectCode(assignmentAccount);
 			}
 		}
 		return valid;
