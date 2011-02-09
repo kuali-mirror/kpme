@@ -468,17 +468,16 @@ select {
 }
 
 #timeblock-delete {
-    font-size:1.2em !important;
+    font-size:1.1em !important;
     font-weight: bold;
     color:black;
     margin: 2px 2px 0 0;
+    z-index: 15;
+    cursor: pointer;
 }
 
 #timeblock-edit {
-    /*background-color: black !important;*/
-    /*margin: 0;*/
-    /*font-size: 1em;*/
-    /*text-decoration: underline;*/
-    /*cursor: pointer;*/
+    text-decoration: underline;
+    cursor: pointer;
 }
 
