@@ -11,8 +11,8 @@
 
 	<bean id="ShiftDefferentialRuleMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule"
-		p:businessRulesClass="org.kuali.hr.time.shiftdiff.rule.validation.ShiftDifferentialRuleRule"		
-  		p:maintainableClass="org.kuali.hr.time.shiftdiff.rule.service.ShiftDifferentialRuleMaintenableImpl">  		
+		p:businessRulesClass="org.kuali.hr.time.shiftdiff.rule.validation.ShiftDifferentialRuleRule"
+  		p:maintainableClass="org.kuali.hr.time.shiftdiff.rule.service.ShiftDifferentialRuleMaintenableImpl">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="ShiftDefferentialRuleMaintenanceDocument-ShiftDefferentialRuleMaintenance" />
@@ -40,6 +40,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="payGrade" />
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="earnCode"  p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="fromEarnGroup" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="beginTime" />
 				<bean parent="MaintainableFieldDefinition" p:name="endTime" />
 				<bean parent="MaintainableFieldDefinition" p:name="minHours" />
@@ -53,7 +54,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="maxGap" />
 				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" />
-				<bean parent="MaintainableFieldDefinition" p:name="calendarGroup"  p:required="true"/>			
+				<bean parent="MaintainableFieldDefinition" p:name="calendarGroup"  p:required="true"/>
 			</list>
 		</property>
 	</bean>
