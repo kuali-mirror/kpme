@@ -79,7 +79,15 @@ public class ClockAction extends TimesheetAction {
 
     	    // process rules
     	    Timestamp clockTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(new Timestamp(System.currentTimeMillis()), new java.sql.Date(caf.getPayCalendarDates().getBeginPeriodDateTime().getTime()));
-    	    ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockTimestamp, caf.getSelectedAssignment(),caf.getTimesheetDocument(),caf.getCurrentClockAction(), request.getRemoteAddr());
+            //
+            // Check for IPv6 addresses - Not sure what to do with them at this point.
+            // TODO: IPv6 - I see these on my local machine.
+            String ip = request.getRemoteAddr();
+            if (ip.indexOf(':') > -1) {
+                LOG.warn("ignoring IPv6 address for clock-in: " + ip);
+                ip = "";
+            }
+    	    ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockTimestamp, caf.getSelectedAssignment(),caf.getTimesheetDocument(),caf.getCurrentClockAction(), ip);
     	    TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, TKUtils.getCurrentDate());
 
     	    TkServiceLocator.getClockLogService().saveClockLog(clockLog);
