@@ -48,7 +48,8 @@ public class ClockLogServiceImpl implements ClockLogService {
 	    clockLog.setClockTimestamp(clockTimestamp);
 	    clockLog.setClockAction(clockAction);
         // Seems to be a problem here.
-	    //clockLog.setIpAddress(ip);
+        // TODO: Investigate - was seeing strange behavior here when preparing for demo.
+	    clockLog.setIpAddress(ip);
 	    clockLog.setHrJobId(assignment.getJob().getHrJobId());
 	    clockLog.setUserPrincipalId(principalId);
 	    clockLog.setTimestamp(new Timestamp(System.currentTimeMillis()));
