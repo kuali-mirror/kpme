@@ -11,7 +11,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class WeeklyOvertimeRuleMaintenanceTest extends TkTestCase {
 	
-	private static final String TEST_CODE="TST";
+	protected static final String TEST_CODE="TST";
 	private static final BigDecimal TEST_NO=new BigDecimal(10);
 	private static Long weeklyOvertimeRuleId;	
 	private static final java.sql.Date TEST_DATE=new java.sql.Date(Calendar.getInstance().getTimeInMillis());

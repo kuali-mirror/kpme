@@ -109,7 +109,7 @@
 			<bean parent="TextControlDefinition" p:size="3" />
 		</property>
 		<property name="name" value="convertToEarnCode" />
-		<property name="label" value="Convert from EarnCode" />
+		<property name="label" value="Convert to EarnCode" />
 	</bean>
 
 	<bean id="WeeklyOvertimeRule-effectiveDate" parent="WeeklyOvertimeRule-effectiveDate-parentBean" />
