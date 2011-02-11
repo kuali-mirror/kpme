@@ -19,6 +19,7 @@
       <list>
         <ref bean="EarnCode-tkEarnCodeId" />
         <ref bean="EarnCode-earnCode" />
+        <ref bean="EarnCode-ovtEarnCode" />
         <ref bean="EarnCode-recordTime" />
         <ref bean="EarnCode-recordHours" />
         <ref bean="EarnCode-recordAmount" />
@@ -30,7 +31,7 @@
         <ref bean="EarnCode-inflateFactor"/>
        </list>
     </property>
-    
+
  	<property name="relationships">
   		<list>
   			<bean parent="RelationshipDefinition">
@@ -43,7 +44,7 @@
 				</property>
 			</bean>
         </list>
-    </property>      
+    </property>
     <property name="objectLabel" value="earnCode"/>
   </bean>
 
@@ -61,10 +62,10 @@
     <property name="name" value="tkEarnCodeId"/>
     <property name="label" value="Earn Code Id"/>
   </bean>
-  
 
-  
-  
+
+
+
   <bean id="EarnCode-earnCode" parent="EarnCode-earnCode-parentBean" />
   <bean id="EarnCode-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="maxLength" value="10" />
@@ -74,8 +75,18 @@
 
     <property name="name" value="earnCode" />
     <property name="label" value="Earn Code" />
-  </bean> 
-  
+  </bean>
+
+  <bean id="EarnCode-ovtEarnCode" parent="EarnCode-ovtEarnCode-parentBean"/>
+  <bean id="EarnCode-ovtEarnCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Overtime Earn Code"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="ovtEarnCode"/>
+    <property name="label" value="Overtime Earn Code"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
 
   <bean id="EarnCode-active" parent="EarnCode-active-parentBean"/>
   <bean id="EarnCode-active-parentBean" abstract="true" parent="AttributeDefinition">
@@ -87,7 +98,7 @@
     <property name="label" value="Active"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
-  
+
   <bean id="EarnCode-recordTime" parent="EarnCode-recordTime-parentBean"/>
   <bean id="EarnCode-recordTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Record Time"/>
@@ -98,7 +109,7 @@
     <property name="label" value="Record Time"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
-  
+
   <bean id="EarnCode-recordHours" parent="EarnCode-recordHours-parentBean"/>
   <bean id="EarnCode-recordHours-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Record Hours"/>
@@ -109,7 +120,7 @@
     <property name="label" value="Record Hours"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
-  
+
   <bean id="EarnCode-recordAmount" parent="EarnCode-recordAmount-parentBean"/>
   <bean id="EarnCode-recordAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Record Amount"/>
@@ -119,8 +130,8 @@
     <property name="name" value="recordAmount"/>
     <property name="label" value="Record Amount"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
-  </bean>    
-  
+  </bean>
+
   <bean id="EarnCode-accrualCategory" parent="EarnCode-accrualCategory-parentBean"/>
   <bean id="EarnCode-accrualCategory-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Accrual Category"/>
@@ -136,7 +147,7 @@
     <property name="name" value="accrualCategory"/>
     <property name="label" value="Accrual Category"/>
   </bean>
-  
+
   <bean id="EarnCode-inflateMinHours" parent="EarnCode-inflateMinHours-parentBean" />
 	<bean id="EarnCode-inflateMinHours-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -151,7 +162,7 @@
 		<property name="name" value="inflateMinHours" />
 		<property name="label" value="Inflate Min Hours" />
 	</bean>
-	
+
   <bean id="EarnCode-inflateFactor" parent="EarnCode-inflateFactor-parentBean" />
 	<bean id="EarnCode-inflateFactor-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -165,7 +176,7 @@
 		</property>
 		<property name="name" value="inflateFactor" />
 		<property name="label" value="Inflate Factor" />
-	</bean>	
+	</bean>
 
  <bean id="EarnCode-description" parent="EarnCode-description-parentBean"/>
   <bean id="EarnCode-description-parentBean" abstract="true" parent="AttributeDefinition">
@@ -182,7 +193,7 @@
     <property name="name" value="description"/>
     <property name="label" value="Description"/>
   </bean>
-  
+
    <bean id="EarnCode-effectiveDate" parent="EarnCode-effectiveDate-parentBean"/>
   <bean id="EarnCode-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Effective Date"/>
@@ -197,9 +208,9 @@
     <property name="name" value="effectiveDate"/>
     <property name="label" value="Effective Date"/>
   </bean>
-  
-  
- 
+
+
+
 <!-- Business Object Inquiry Definition -->
 
 
@@ -237,6 +248,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="earnCode" />
         <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
         <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
@@ -244,6 +256,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="earnCode" />
         <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
         <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>

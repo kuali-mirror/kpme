@@ -1,5 +1,10 @@
 package org.kuali.hr.time.earncode;
 
+import org.kuali.hr.time.accrual.AccrualCategory;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -8,15 +13,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.hr.time.accrual.AccrualCategory;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-
 public class EarnCode extends PersistableBusinessObjectBase {
 
 	/**
-     * 
+     *
      */
 	private static final long serialVersionUID = 1L;
 
@@ -28,14 +28,15 @@ public class EarnCode extends PersistableBusinessObjectBase {
 	//used for recording time
 	private Boolean recordTime;
 	private Boolean recordAmount;
+    private Boolean ovtEarnCode;
 	private String accrualCategory;
 	private BigDecimal inflateMinHours;
 	private BigDecimal inflateFactor;
-	
+
 	private Timestamp timestamp;
 	private Date effectiveDate;
 	private boolean active;
-	
+
 	private AccrualCategory accrualCategoryObj;
 
 	@SuppressWarnings("unchecked")
@@ -159,9 +160,17 @@ public class EarnCode extends PersistableBusinessObjectBase {
 		this.inflateFactor = inflateFactor;
 	}
 
-	/**
-	 * This is used by the timeblock json object. 
-	 * The purpose of this function is to create a string based on the record_* fields which can be used to render hour / begin(end) time input box   
+    public Boolean getOvtEarnCode() {
+        return ovtEarnCode;
+    }
+
+    public void setOvtEarnCode(Boolean ovtEarnCode) {
+        this.ovtEarnCode = ovtEarnCode;
+    }
+
+    /**
+	 * This is used by the timeblock json object.
+	 * The purpose of this function is to create a string based on the record_* fields which can be used to render hour / begin(end) time input box
 	 * @return String fieldType
 	 */
 	public String getEarnCodeType() {

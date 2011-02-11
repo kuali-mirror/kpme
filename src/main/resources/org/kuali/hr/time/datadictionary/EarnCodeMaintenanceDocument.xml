@@ -9,7 +9,7 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="EarnCodeMaintenanceDocument" parent="EarnCodeMaintenanceDocument-parentBean"/>
-  <bean id="EarnCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  <bean id="EarnCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.time.earncode.EarnCode"
   		p:businessRulesClass="org.kuali.hr.time.earncode.validation.EarnCodeValidation"
   		p:maintainableClass="org.kuali.hr.time.earncode.service.EarnCodeMaintainableServiceImpl">
@@ -35,7 +35,8 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="earnCode" 		p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description"     p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"     p:required="true"/>                
+        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"     p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode"   	p:required="true" p:defaultValue="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="recordTime" 		p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="recordHours" 		p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="recordAmount" 		p:required="true"/>

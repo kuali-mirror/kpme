@@ -1634,6 +1634,9 @@ CREATE TABLE `hr_pay_grade_t` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+ALTER TABLE `tk_earn_code_t` ADD COLUMN `ovt_earn_code` CHAR(1) NOT NULL DEFAULT 'N'  AFTER `effdt` ;
+
+
 
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
