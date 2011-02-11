@@ -35,6 +35,7 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
 								p:targetName="workArea" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
 						</list>
 					</property>
 				</bean>
@@ -48,17 +49,15 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="job" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
-								p:targetName="principalId" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber"
-								p:targetName="jobNumber" />
-						</list>
-					</property>
-				</bean>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="job"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber" p:targetName="jobNumber"/>
+                </list>
+              </property>
+            </bean>   
 			</list>
 		</property>
 	 
@@ -69,6 +68,7 @@
 	<bean id="DeptLunchRule-dept" parent="DeptLunchRule-dept-parentBean" />
 	<bean id="DeptLunchRule-dept-parentBean" abstract="true"
 		parent="AttributeDefinition">
+		<property name="forceUppercase" value="true" />
 		<property name="shortLabel" value="Department" />
 		<property name="maxLength" value="21" />
 		<property name="validationPattern">
@@ -90,13 +90,17 @@
 		<property name="shortLabel" value="Work Area" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="RegexValidationPattern">
+ 		   		<property name="pattern" value="\%|((\+|-)?([0-9]+))"></property>
+ 		   		<property name="validationErrorMessageKey" value="error.validation.long.or.wildcard"></property>
+ 			</bean>
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="workArea" />
 		<property name="label" value="Work Area" />
+		<property name="formatterClass" value="org.kuali.hr.time.workarea.WorkAreaFormatter"/>
 	</bean>
 
 	<!-- 
@@ -121,18 +125,21 @@
 	</bean>
 
 	<bean id="DeptLunchRule-jobNumber" parent="DeptLunchRule-jobNumber-parentBean" />
-	<bean id="DeptLunchRule-jobNumber-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="DeptLunchRule-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Job Number" />
-		<property name="maxLength" value="20" />
+		<property name="maxLength" value="3" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="RegexValidationPattern">
+ 		   		<property name="pattern" value="\%|((\+|-)?([0-9]+))"></property>
+ 		   		<property name="validationErrorMessageKey" value="error.validation.long.or.wildcard"></property>
+ 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
+			<bean parent="TextControlDefinition" p:size="3" />
 		</property>
 		<property name="name" value="jobNumber" />
 		<property name="label" value="Job Number" />
+		<property name="formatterClass" value="org.kuali.hr.job.JobNumberFormatter"/>
 	</bean>
 
 	<bean id="DeptLunchRule-deductionMins" parent="DeptLunchRule-deductionMins-parentBean" />
@@ -154,12 +161,15 @@
 	<bean id="DeptLunchRule-shiftHours-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Shift Hours" />
-		<property name="maxLength" value="4" />
+		<property name="maxLength" value="3" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="RegexValidationPattern">
+ 		   		<property name="pattern" value="([0-9](\.[0-9])?)()"></property>
+ 		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
+ 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="4" />
+			<bean parent="TextControlDefinition" p:size="3" />
 		</property>
 		<property name="name" value="shiftHours" />
 		<property name="label" value="Shift Hours" />
@@ -241,6 +251,7 @@
 	<bean id="DeptLunchRule-lookupDefinition" parent="DeptLunchRule-lookupDefinition-parentBean" />
 	<bean id="DeptLunchRule-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
+		<property name="lookupableID" value="tkLookupable" />
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="dept" />

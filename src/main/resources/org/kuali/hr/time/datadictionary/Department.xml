@@ -181,6 +181,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="dept" />
         <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >

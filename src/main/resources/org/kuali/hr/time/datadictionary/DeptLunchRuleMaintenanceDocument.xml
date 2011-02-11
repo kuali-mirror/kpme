@@ -31,12 +31,12 @@
       <list>
       	<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="jobNumber" p:required="true" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="jobNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="deductionMins" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="shiftHours" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" p:required="true"/>        
       </list>
     </property>

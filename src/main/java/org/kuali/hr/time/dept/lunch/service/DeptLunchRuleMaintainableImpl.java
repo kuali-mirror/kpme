@@ -2,6 +2,7 @@ package org.kuali.hr.time.dept.lunch.service;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -50,17 +51,31 @@ public class DeptLunchRuleMaintainableImpl extends
 	@Override
 	public void saveBusinessObject() {
 		DeptLunchRule deptLunchRule = (DeptLunchRule) this.getBusinessObject();
-//		DeptLunchRule oldDeptLunchRule = (DeptLunchRule) KNSServiceLocator
-//				.getBusinessObjectService().findBySinglePrimaryKey(
-//						DeptLunchRule.class,
-//						deptLunchRule.getTkDeptLunchRuleId());
-//		if (oldDeptLunchRule != null) {
-//			oldDeptLunchRule.setActive(false);			
-//			KNSServiceLocator.getBusinessObjectService().save(oldDeptLunchRule);
-//		}
+		// DeptLunchRule oldDeptLunchRule = (DeptLunchRule) KNSServiceLocator
+		// .getBusinessObjectService().findBySinglePrimaryKey(
+		// DeptLunchRule.class,
+		// deptLunchRule.getTkDeptLunchRuleId());
+		// if (oldDeptLunchRule != null) {
+		// oldDeptLunchRule.setActive(false);
+		// KNSServiceLocator.getBusinessObjectService().save(oldDeptLunchRule);
+		// }
 		deptLunchRule.setTkDeptLunchRuleId(null);
 		deptLunchRule.setTimestamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(deptLunchRule);
 	}
 
+	@Override
+	public Map populateBusinessObject(Map<String, String> fieldValues,
+			MaintenanceDocument maintenanceDocument, String methodToCall) {
+		if (fieldValues.containsKey("workArea")
+				&& StringUtils.equals(fieldValues.get("workArea"), "%")) {
+			fieldValues.put("workArea", "-1");
+		}
+		if (fieldValues.containsKey("jobNumber")
+				&& StringUtils.equals(fieldValues.get("jobNumber"), "%")) {
+			fieldValues.put("jobNumber", "-1");
+		}
+		return super.populateBusinessObject(fieldValues, maintenanceDocument,
+				methodToCall);
+	}
 }
