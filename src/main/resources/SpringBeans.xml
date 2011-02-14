@@ -387,7 +387,14 @@
     <bean id="salGroupDao" class="org.kuali.hr.time.salgroup.dao.SalGroupDaoSpringOjbImpl">
       <property name="jcdAlias" value="tkDataSource" />
     </bean>
-
+    
+	<bean id="locationDao" class="org.kuali.hr.location.dao.LocationDaoSpringObjImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+        
+	<bean id="payGradeDao" class="org.kuali.hr.paygrade.dao.PayGradeDaoSpringObjImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 	<!-- Time Services for Business Logic -->
 
 	<bean id="deptLunchRuleService" class="org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleServiceImpl">
@@ -518,6 +525,14 @@
     	<property name="userPrefDao" ref="userPrefDao"/>
     </bean>
 
+	<bean id="locationService" class="org.kuali.hr.location.service.LocationServiceImpl">
+    	<property name="locationDao" ref="locationDao"/>
+    </bean>
+    
+    <bean id="payGradeService" class="org.kuali.hr.paygrade.service.PayGradeServiceImpl">
+    	<property name="payGradeDao" ref="payGradeDao"/>
+    </bean>
+    
     <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>
 
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
@@ -551,7 +566,8 @@
     <!-- Serializer Job Trigger-->
     <bean id="serializerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="serializerJob" />
-       <!-- cronTrigger to be executed at future date it is explicitly set temporarily just to avoid execution for now -->
+       <!-- cronTrigger to be executed at future date it is explicitly set temporarily just to avoid execution for now
+-->
         <property name="cronExpression" value="0 53 17 8 9 ? 2020" />
     </bean>
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

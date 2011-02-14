@@ -20,7 +20,7 @@ CREATE TABLE `hr_location_t` (
   `description` varchar(40) COLLATE utf8_bin NOT NULL,
   `effdt` date NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `active` bit(1) DEFAULT NULL,
+  `active` varchar(1) COLLATE utf8_bin DEFAULT NULL,
   `user_principal_id` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`hr_location_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -48,7 +48,7 @@ CREATE TABLE `hr_pay_grade_t` (
   `description` varchar(40) COLLATE utf8_bin NOT NULL,
   `effdt` date NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `active` bit(1) DEFAULT NULL,
+  `active` varchar(1) COLLATE utf8_bin DEFAULT NULL,
   `user_principal_id` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`hr_pay_grade_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
