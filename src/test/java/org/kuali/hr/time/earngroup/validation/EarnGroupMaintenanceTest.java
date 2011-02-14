@@ -58,36 +58,46 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		text.setValueAttribute("test");
 		text  = (HtmlTextInput) page.getHtmlElementById("document.newMaintainableObject.descr");
 		text.setValueAttribute("Test Earn Group");
+		// set an old effective date so that the earn code that's added later is not effective by that date 
 		text  = (HtmlTextInput) page.getHtmlElementById("document.newMaintainableObject.effectiveDate");
-		text.setValueAttribute("12/01/2010");
+		text.setValueAttribute("12/01/2008");
 		
 		HtmlCheckBoxInput checkbox = (HtmlCheckBoxInput) page.getHtmlElementById("document.newMaintainableObject.showSummary");
 		checkbox.setChecked(true);
 		checkbox = (HtmlCheckBoxInput) page.getHtmlElementById("document.newMaintainableObject.active");
 		checkbox.setChecked(true);
-		
+				
 		// add an Earn code that is being used by another active earn group, submit, should generate error message
 		text  = (HtmlTextInput) page.getHtmlElementById("document.newMaintainableObject.add.earnGroups.earnCode");
 		text.setValueAttribute(EARN_CODE);
 		HtmlElement element = page.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
 		HtmlPage page1 = element.click();
 		assertFalse("Page contains Error", page1.asText().contains("error"));
-		element = page.getElementByName("methodToCall.route");
+		
+		//error for earn code not being effective by the effectiveDate of the earn group
+		element = page1.getElementByName("methodToCall.route");
+        HtmlPage page2 = element.click();
+        assertTrue("Maintenance Page contains error messages",page2.asText().contains("The specified Earncode '" + EARN_CODE + "' does not exist."));
+        
+        // set the effective date to one that works for the earn code
+        text  = (HtmlTextInput) page2.getHtmlElementById("document.newMaintainableObject.effectiveDate");
+		text.setValueAttribute("12/01/2010");
+		element = page2.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
-		assertTrue("Maintenance Page contains error messages",finalPage.asText().contains(EARN_CODE + " is used by another earn group - 'test'."));
+		assertTrue("Maintenance Page contains error messages", finalPage.asText().contains(EARN_CODE + " is used by another earn group - 'test'."));
 		
 		//delete this earn code
 		element = finalPage.getElementByName("methodToCall.deleteLine.earnGroups.(!!.line0.(:::;3;:::).anchor2");
-		HtmlPage page2 = element.click();
-		assertFalse("Page contains Error", page2.asText().contains("error"));
+		HtmlPage page3 = element.click();
+		assertFalse("Page contains Error", page3.asText().contains("error"));
 		
 		//add an earn code that is not being used, submit, should get success message
-		text  = (HtmlTextInput) page.getHtmlElementById("document.newMaintainableObject.add.earnGroups.earnCode");
+		text  = (HtmlTextInput) page3.getHtmlElementById("document.newMaintainableObject.add.earnGroups.earnCode");
 		text.setValueAttribute("SDR");
-		element = page.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
+		element = page3.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
 		page1 = element.click();
 		assertFalse("Page contains Error", page1.asText().contains("error"));
-		element = page.getElementByName("methodToCall.route");
+		element = page1.getElementByName("methodToCall.route");
         finalPage = element.click();
         assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
 		assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Status: 	 FINAL"));
