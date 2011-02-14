@@ -39,7 +39,7 @@ public class ValidationUtils {
 		return validateDepartment(department, null);
 	}
 
-	/** 
+	/**
 	 * Most basic validation: Only checks for presence in the database.
 	 */
 	public static boolean validateAccrualCategory(String accrualCategory) {
@@ -91,7 +91,7 @@ public class ValidationUtils {
 
 		return valid;
 	}
-	
+
 	public static boolean validateLocation(String location, Date asOfDate) {
 		boolean valid = false;
 
@@ -108,14 +108,14 @@ public class ValidationUtils {
 
 		return valid;
 	}
-	
+
 	public static boolean validatePayGrade(String payGrade, Date asOfDate) {
 		boolean valid = false;
 
 		if (asOfDate != null) {
 			PayGrade pg = TkServiceLocator.getPayGradeService().getPayGrade(payGrade, asOfDate);
 			valid = (pg != null);
-		} else {	
+		} else {
 			Criteria crit = new Criteria();
 			crit.addEqualTo("payGrade", payGrade);
 			Query query = QueryFactory.newQuery(PayGrade.class, crit);
@@ -125,6 +125,24 @@ public class ValidationUtils {
 
 		return valid;
 	}
+
+    /**
+     *
+     * @param earnCode
+     * @param otEarnCode If true, earn code is valid ONLY if it is an overtime earn code.
+     * @param asOfDate
+     * @return
+     */
+    public static boolean validateEarnCode(String earnCode, boolean otEarnCode, Date asOfDate) {
+        boolean valid = false;
+
+        if (asOfDate != null) {
+            EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+            valid = (ec != null) && (otEarnCode ? ec.getOvtEarnCode().booleanValue() : true);
+        }
+
+        return valid;
+    }
 
 	/**
 	 * Checks for row presence of a department, and optionally whether or not
@@ -172,24 +190,24 @@ public class ValidationUtils {
 		return valid;
 	}
 	/**
-	 * Checks for row presence of a Accrual Category, and optionally whether or not 
+	 * Checks for row presence of a Accrual Category, and optionally whether or not
 	 * it is active as of the specified date.
 	 */
 	public static boolean validateAccrualCategory(String accrualCategory, Date asOfDate) {
 		boolean valid = false;
-		
+
 		if (StringUtils.equals(accrualCategory, TkConstants.WILDCARD_CHARACTER)) {
 			valid = true;
 		} else if (asOfDate != null) {
 			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
 			valid = (ac != null);
-		} 
-		
+		}
+
 		return valid;
 	}
-	
+
 	/**
-	 * Checks for row presence of a principal Id, and optionally whether or not 
+	 * Checks for row presence of a principal Id, and optionally whether or not
 	 * it is active as of the specified date.
 	 */
 	public static boolean validatePrincipalId(String principalId) {
@@ -223,7 +241,7 @@ public class ValidationUtils {
 
         return valid;
     }
-    
+
     /**
      * No wildcarding is accounted for in this method.
      * @param earnGroup EarnGroup

@@ -36,23 +36,23 @@
   		<property name="title" value="Weekly Overtime Rules"/>
   		<property name="defaultOpen" value="true"/>
 		<property name="maintainableItems">
-			<list>	
+			<list>
   		  	<bean parent="MaintainableCollectionDefinition">
          	 <property name="name" value="lstWeeklyOvertimeRules"/>
          	 <property name="businessObjectClass" value="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule"/>
-          	<property name="alwaysAllowCollectionDeletion" value="true"/>          
+          	<property name="alwaysAllowCollectionDeletion" value="true"/>
           	<property name="maintainableFields">
-            	<list> 
-              		<bean parent="MaintainableFieldDefinition" p:name="maxHoursEarnGroup" />
-					<bean parent="MaintainableFieldDefinition" p:name="convertFromEarnGroup" />
-					<bean parent="MaintainableFieldDefinition" p:name="convertToEarnCode" />
-					<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
-					<bean parent="MaintainableFieldDefinition" p:name="step" />
-					<bean parent="MaintainableFieldDefinition" p:name="maxHours" />
-					<bean parent="MaintainableFieldDefinition" p:name="active" />
+            	<list>
+              		<bean parent="MaintainableFieldDefinition" p:required="true" p:name="maxHoursEarnGroup" />
+					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="convertFromEarnGroup" />
+					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="convertToEarnCode" />
+					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="effectiveDate" />
+					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="step" />
+					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="maxHours" />
+					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="active" p:defaultValue="true"/>
             	</list>
-          </property>        
-        </bean>  
+          </property>
+        </bean>
   		</list>
 		</property>
 	</bean>

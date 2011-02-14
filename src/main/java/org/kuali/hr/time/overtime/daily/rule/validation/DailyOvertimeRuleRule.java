@@ -27,7 +27,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 			crit.addEqualTo("dept", ruleObj.getDept());
 			crit.addEqualTo("workArea", ruleObj.getWorkArea());
 			Query query = QueryFactory.newQuery(WorkArea.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
 			valid = (count > 0);
 			if(!valid){
 				this.putFieldError("workArea", "dept.workarea.invalid.sync", ruleObj.getWorkArea()+ "");
@@ -39,7 +39,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 	boolean validateDepartment(DailyOvertimeRule ruleObj) {
 		if (!ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffectiveDate())) {
 			this.putFieldError("dept", "error.existence", "department '" + ruleObj.getDept() + "'");
-			return false;				
+			return false;
 		} else {
 			return true;
 		}
@@ -48,21 +48,25 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 	boolean validateEarnCode(DailyOvertimeRule dailyOvertimeRule) {
 		if (!ValidationUtils.validateEarnCode(dailyOvertimeRule.getEarnCode(), dailyOvertimeRule.getEffectiveDate())) {
 			this.putFieldError("earnCode", "error.existence", "earnCode '" + dailyOvertimeRule.getEarnCode() + "'");
-			return false;				
+			return false;
 		} else {
+            if (!ValidationUtils.validateEarnCode(dailyOvertimeRule.getEarnCode(), true, dailyOvertimeRule.getEffectiveDate())) {
+                this.putFieldError("earnCode", "earncode.ovt.required", dailyOvertimeRule.getEarnCode());
+                return false;
+            }
 			return true;
 		}
 	}
-	
+
 	boolean validateEarnGroup(DailyOvertimeRule dailyOvertimeRule) {
 		if (!ValidationUtils.validateEarnGroup(dailyOvertimeRule.getFromEarnGroup(), dailyOvertimeRule.getEffectiveDate())) {
 			this.putFieldError("fromEarnGroup", "error.existence", "fromEarnGroup '" + dailyOvertimeRule.getFromEarnGroup() + "'");
-			return false;				
+			return false;
 		} else {
 			return true;
 		}
 	}
-	
+
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
@@ -85,7 +89,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateEarnGroup(dailyOvertimeRule);
 			}
 		}
-		
+
 		return valid;
 	}
 
