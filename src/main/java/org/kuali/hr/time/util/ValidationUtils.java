@@ -5,6 +5,8 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.codehaus.plexus.util.StringUtils;
+import org.kuali.hr.location.Location;
+import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -83,6 +85,40 @@ public class ValidationUtils {
 			Criteria crit = new Criteria();
 			crit.addEqualTo("earnCode", earnCode);
 			Query query = QueryFactory.newQuery(EarnCode.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			valid = (count > 0);
+		}
+
+		return valid;
+	}
+	
+	public static boolean validateLocation(String location, Date asOfDate) {
+		boolean valid = false;
+
+		if (asOfDate != null) {
+			Location l = TkServiceLocator.getLocationService().getLocation(location, asOfDate);
+			valid = (l != null);
+		} else {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("location", location);
+			Query query = QueryFactory.newQuery(Location.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			valid = (count > 0);
+		}
+
+		return valid;
+	}
+	
+	public static boolean validatePayGrade(String payGrade, Date asOfDate) {
+		boolean valid = false;
+
+		if (asOfDate != null) {
+			PayGrade pg = TkServiceLocator.getPayGradeService().getPayGrade(payGrade, asOfDate);
+			valid = (pg != null);
+		} else {	
+			Criteria crit = new Criteria();
+			crit.addEqualTo("payGrade", payGrade);
+			Query query = QueryFactory.newQuery(PayGrade.class, crit);
 			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
 			valid = (count > 0);
 		}

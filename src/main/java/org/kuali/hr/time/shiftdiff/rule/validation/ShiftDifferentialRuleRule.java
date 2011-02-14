@@ -7,27 +7,59 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-
 public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 
-	boolean validateSalGroup(ShiftDifferentialRule shiftDifferentialRule ) {
-		if (!ValidationUtils.validateSalGroup(shiftDifferentialRule.getTkSalGroup(), shiftDifferentialRule.getEffectiveDate())) {
-			this.putFieldError("tkSalGroup", "error.existence", "Salgroup '" + shiftDifferentialRule.getTkSalGroup()+ "'");
+	boolean validateSalGroup(ShiftDifferentialRule shiftDifferentialRule) {
+		if (shiftDifferentialRule.getTkSalGroup() != null
+				&& !ValidationUtils.validateSalGroup(shiftDifferentialRule
+						.getTkSalGroup(), shiftDifferentialRule
+						.getEffectiveDate())) {
+			this.putFieldError("tkSalGroup", "error.existence", "Salgroup '"
+					+ shiftDifferentialRule.getTkSalGroup() + "'");
 			return false;
 		} else {
 			return true;
-		}		
+		}
 	}
-	
+
 	boolean validateEarnCode(ShiftDifferentialRule shiftDifferentialRule) {
-		if (!ValidationUtils.validateEarnCode(shiftDifferentialRule.getEarnCode(), shiftDifferentialRule.getEffectiveDate())) {
-			this.putFieldError("earnCode", "error.existence", "earnCode '" + shiftDifferentialRule.getEarnCode() + "'");
-			return false;				
+		if (shiftDifferentialRule.getEarnCode() != null
+				&& !ValidationUtils.validateEarnCode(shiftDifferentialRule
+						.getEarnCode(), shiftDifferentialRule
+						.getEffectiveDate())) {
+			this.putFieldError("earnCode", "error.existence", "earnCode '"
+					+ shiftDifferentialRule.getEarnCode() + "'");
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	boolean validateLocation(ShiftDifferentialRule shiftDifferentialRule) {
+		if (shiftDifferentialRule.getLocation() != null
+				&& !ValidationUtils.validateLocation(shiftDifferentialRule
+						.getLocation(), shiftDifferentialRule
+						.getEffectiveDate())) {
+			this.putFieldError("location", "error.existence", "location '"
+					+ shiftDifferentialRule.getLocation() + "'");
+			return false;
 		} else {
 			return true;
 		}
 	}
 	
+	boolean validatePayGrade(ShiftDifferentialRule shiftDifferentialRule) {
+		if (shiftDifferentialRule.getPayGrade() != null
+				&& !ValidationUtils.validatePayGrade(shiftDifferentialRule
+						.getPayGrade(), shiftDifferentialRule
+						.getEffectiveDate())) {
+			this.putFieldError("payGrade", "error.existence", "pay grade '"
+					+ shiftDifferentialRule.getPayGrade() + "'");
+			return false;
+		} else {
+			return true;
+		}
+	}
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
@@ -40,14 +72,17 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 		PersistableBusinessObject pbo = this.getNewBo();
 		if (pbo instanceof ShiftDifferentialRule) {
 			ShiftDifferentialRule shiftDifferentialRule = (ShiftDifferentialRule) pbo;
-			shiftDifferentialRule.setUserPrincipalId(GlobalVariables.getUserSession().getLoggedInUserPrincipalName());
+			shiftDifferentialRule.setUserPrincipalId(GlobalVariables
+					.getUserSession().getLoggedInUserPrincipalName());
 			if (shiftDifferentialRule != null) {
 				valid = true;
+				valid &= this.validateLocation(shiftDifferentialRule);
 				valid &= this.validateSalGroup(shiftDifferentialRule);
+				valid &= this.validatePayGrade(shiftDifferentialRule);
 				valid &= this.validateEarnCode(shiftDifferentialRule);
 			}
 		}
-		
+
 		return valid;
 	}
 

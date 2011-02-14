@@ -36,51 +36,75 @@
 				<ref bean="ShiftDifferentialRule-timeStamp" />
 				<ref bean="ShiftDifferentialRule-active" />
 				<ref bean="ShiftDifferentialRule-calendarGroup" />
-                <ref bean="ShiftDifferentialRule-fromEarnGroup" />
+				<ref bean="ShiftDifferentialRule-fromEarnGroup" />
 			</list>
 		</property>
-    	<property name="relationships">
-  		<list>
-  			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="salGroupObj" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkSalGroup" p:targetName="tkSalGroup" />
-				</list>
-				</property>
-			</bean>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="salGroupObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkSalGroup"
+								p:targetName="tkSalGroup" />
+						</list>
+					</property>
+				</bean>
 
 
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="earnCodeObj"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode" p:targetName="earnCode"/>
-                </list>
-              </property>
-            </bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="earnCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode"
+								p:targetName="earnCode" />
+						</list>
+					</property>
+				</bean>
 
-            <bean parent="RelationshipDefinition">
-                <property name="objectAttributeName" value="fromEarnGroupObj"/>
-                <property name="primitiveAttributes">
-                  <list>
-                    <bean parent="PrimitiveAttributeDefinition" p:sourceName="fromEarnGroup" p:targetName="earnGroup"/>
-                  </list>
-                </property>
-            </bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="fromEarnGroupObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="fromEarnGroup"
+								p:targetName="earnGroup" />
+						</list>
+					</property>
+				</bean>
 
-            <bean parent="RelationshipDefinition">
-            <property name="objectAttributeName" value="payCalendar"/>
-            <property name="primitiveAttributes">
-              <list>
-                <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarGroup" p:targetName="calendarGroup"/>
-              </list>
-            </property>
-            </bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="payCalendar" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarGroup"
+								p:targetName="calendarGroup" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="locationObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
+								p:targetName="location" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="payGradeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="payGrade"
+								p:targetName="payGrade" />
+						</list>
+					</property>
+				</bean>
 
 
-        </list>
-    	</property>
+			</list>
+		</property>
 	</bean>
 
 	<!-- Attributes  -->
@@ -177,8 +201,8 @@
 
 	<!-- earnCode -->
 	<bean id="ShiftDifferentialRule-fromEarnGroup" parent="ShiftDifferentialRule-fromEarnGroup-parentBean" />
-	<bean id="ShiftDifferentialRule-fromEarnGroup-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="ShiftDifferentialRule-fromEarnGroup-parentBean"
+		abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="From Earn Group" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
@@ -380,13 +404,14 @@
 		</property>
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
-		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
 	</bean>
 
 	<!-- calendarGroup -->
 	<bean id="ShiftDifferentialRule-calendarGroup" parent="ShiftDifferentialRule-calendarGroup-parentBean" />
-	<bean id="ShiftDifferentialRule-calendarGroup-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="ShiftDifferentialRule-calendarGroup-parentBean"
+		abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Calendar Group" />
 		<property name="maxLength" value="30" />
 		<property name="validationPattern">
@@ -421,7 +446,7 @@
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
 				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-                <bean parent="FieldDefinition" p:attributeName="fromEarnGroup" />
+				<bean parent="FieldDefinition" p:attributeName="fromEarnGroup" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
 				<bean parent="FieldDefinition" p:attributeName="beginTime" />
 				<bean parent="FieldDefinition" p:attributeName="endTime" />
