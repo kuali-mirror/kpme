@@ -21,15 +21,15 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 
 	// private static final String WILDCARD_CHARACTER = "\\*|%";
 	private static final String WILDCARD_CHARACTER = "%";
-	private static final String REGEX_IP_ADDRESS_STRING = "^(?:" +
-    			WILDCARD_CHARACTER +
-    			"|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:" +
-    			WILDCARD_CHARACTER +
-    			"|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:" +
-    			WILDCARD_CHARACTER +
-    			"|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:" +
-    			WILDCARD_CHARACTER +
-    "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))))$";
+	private static final String REGEX_IP_ADDRESS_STRING = "^(?:"
+			+ WILDCARD_CHARACTER
+			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:"
+			+ WILDCARD_CHARACTER
+			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:"
+			+ WILDCARD_CHARACTER
+			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:"
+			+ WILDCARD_CHARACTER
+			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))))$";
 	private static final Pattern REGEX_IP_ADDRESS_PATTERN = Pattern
 			.compile(REGEX_IP_ADDRESS_STRING);
 
@@ -51,28 +51,33 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateWorkArea(ClockLocationRule clr) {
 		boolean valid = true;
-		if (!ValidationUtils.validateWorkArea(clr.getWorkArea(), clr
-				.getEffectiveDate())) {
+		if (clr.getWorkArea() != null
+				&& !ValidationUtils.validateWorkArea(clr.getWorkArea(), clr
+						.getEffectiveDate())) {
 			this.putFieldError("workArea", "error.existence", "workArea '"
 					+ clr.getWorkArea() + "'");
 			valid = false;
-		} else if(!clr.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
+		} else if (clr.getWorkArea() != null
+				&& !clr.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
 			Criteria crit = new Criteria();
 			crit.addEqualTo("dept", clr.getDept());
 			crit.addEqualTo("workArea", clr.getWorkArea());
 			Query query = QueryFactory.newQuery(WorkArea.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker()
+					.getCount(query);
 			valid = (count > 0);
-			if(!valid){
-				this.putFieldError("workArea", "dept.workarea.invalid.sync", clr.getWorkArea()+ "");
+			if (!valid) {
+				this.putFieldError("workArea", "dept.workarea.invalid.sync",
+						clr.getWorkArea() + "");
 			}
 		}
 		return valid;
 	}
 
 	protected boolean validateDepartment(ClockLocationRule clr) {
-		if (!ValidationUtils.validateDepartment(clr.getDept(), clr
-				.getEffectiveDate())) {
+		if (clr.getDept() != null
+				&& !ValidationUtils.validateDepartment(clr.getDept(), clr
+						.getEffectiveDate())) {
 			this.putFieldError("dept", "error.existence", "department '"
 					+ clr.getDept() + "'");
 			return false;
@@ -83,17 +88,19 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateJobNumber(ClockLocationRule clr) {
 		boolean valid = false;
-		if(clr.getJobNumber() == null){
+		if (clr.getJobNumber() == null) {
 			valid = false;
-		}else if (!clr.getJobNumber().equals(TkConstants.WILDCARD_LONG)) {
+		} else if (!clr.getJobNumber().equals(TkConstants.WILDCARD_LONG)) {
 			Criteria crit = new Criteria();
 			crit.addEqualTo("principalId", clr.getPrincipalId());
 			crit.addEqualTo("jobNumber", clr.getJobNumber());
 			Query query = QueryFactory.newQuery(Job.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker()
+					.getCount(query);
 			valid = (count > 0);
-			if(!valid){
-				this.putFieldError("jobNumber", "principalid.job.invalid.sync", clr.getJobNumber()+"");
+			if (!valid) {
+				this.putFieldError("jobNumber", "principalid.job.invalid.sync",
+						clr.getJobNumber() + "");
 			}
 		}
 		return valid;
