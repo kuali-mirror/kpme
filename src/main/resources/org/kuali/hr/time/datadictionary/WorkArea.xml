@@ -22,8 +22,9 @@
         <ref bean="WorkArea-active" />
         <ref bean="WorkArea-description" />
         <ref bean="WorkArea-dept" />
-        <ref bean="WorkArea-defaultOvertimePreference" />
         <ref bean="WorkArea-adminDescr" />
+        <ref bean="WorkArea-overtimeEditRole" />
+        <ref bean="WorkArea-defaultOvertimeEarnCode" />
         <ref bean="WorkArea-userPrincipalId" />
         <ref bean="WorkArea-timestamp" />
        </list>
@@ -47,6 +48,15 @@
                 </list>
               </property>
             </bean>
+            <bean parent="RelationshipDefinition">
+                <property name="objectAttributeName" value="defaultOvertimeEarnCodeObj" />
+                <property name="primitiveAttributes">
+                    <list>
+                        <bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultOvertimeEarnCode" p:targetName="earnCode"/>
+                        <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
+                    </list>
+                </property>
+            </bean>
     	</list>
     </property>
     <property name="collections">
@@ -54,7 +64,7 @@
         <bean parent="CollectionDefinition" p:name="tasks" p:label="Tasks" p:shortLabel="Tasks" p:summary="Tasks" p:description="Tasks"/>
         <bean parent="CollectionDefinition" p:name="roles" p:label="Roles" p:shortLabel="Roles" p:summary="Roles" p:description="Roles"/>
       </list>
-    </property>    
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -73,7 +83,7 @@
     <property name="name" value="tkWorkAreaId"/>
     <property name="label" value="TkWorkAreaId"/>
   </bean>
-  
+
   <bean id="WorkArea-workArea" parent="WorkArea-workArea-parentBean"/>
 
   <bean id="WorkArea-workArea-parentBean" abstract="true" parent="AttributeDefinition">
@@ -88,7 +98,7 @@
     <property name="name" value="workArea"/>
     <property name="label" value="WorkArea"/>
   </bean>
-  
+
   <bean id="WorkArea-effectiveDate" parent="WorkArea-effectiveDate-parentBean"/>
 
   <bean id="WorkArea-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
@@ -104,12 +114,12 @@
     <property name="name" value="effectiveDate"/>
     <property name="label" value="Effective Date"/>
   </bean>
-  
+
   <bean id="WorkArea-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
     <property name="label" value="Active?"/>
   </bean>
-  
+
  <bean id="WorkArea-description" parent="WorkArea-description-parentBean" />
 
   <bean id="WorkArea-description-parentBean" abstract="true" parent="AttributeDefinition">
@@ -123,10 +133,41 @@
     <property name="name" value="description" />
     <property name="label" value="Description" />
     <property name="description" value="Description" />
-  </bean>  
-  
-  <bean id="WorkArea-dept" parent="WorkArea-dept-parentBean" />
+  </bean>
 
+	<bean id="WorkArea-overtimeEditRole" parent="WorkArea-overtimeEditRole-parentBean" />
+	<bean id="WorkArea-overtimeEditRole-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+		<property name="shortLabel" value="Overtime Edit Role" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+		  <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.roles.TkRoleWorkAreaOtEditValuesFinder" p:includeKeyInLabel="false"/>
+		</property>
+		<property name="name" value="overtimeEditRole" />
+		<property name="label" value="Overtime Edit Role" />
+	</bean>
+
+    <bean id="WorkArea-defaultOvertimeEarnCode" parent="WorkArea-defaultOvertimeEarnCode-parentBean" />
+    <bean id="WorkArea-defaultOvertimeEarnCode-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="forceUppercase" value="false" />
+
+      <property name="maxLength" value="3" />
+      <property name="control" >
+        <bean parent="TextControlDefinition" p:size="3" />
+      </property>
+
+      <property name="name" value="defaultOvertimeEarnCode" />
+      <property name="label" value="Default Overtime Earn Code" />
+      <property name="description" value="Default Overtime Earn Code" />
+    </bean>
+
+
+  <bean id="WorkArea-dept" parent="WorkArea-dept-parentBean" />
   <bean id="WorkArea-dept-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="forceUppercase" value="true" />
 
@@ -139,7 +180,7 @@
     <property name="label" value="Department" />
     <property name="description" value="dept" />
   </bean>
-  
+
   <bean id="WorkArea-task" parent="WorkArea-task-parentBean"/>
   <bean id="WorkArea-task-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Task"/>
@@ -152,19 +193,6 @@
     </property>
     <property name="name" value="task"/>
     <property name="label" value="Task"/>
-  </bean>
-  
-  <bean id="WorkArea-defaultOvertimePreference" parent="WorkArea-defaultOvertimePreference-parentBean" />
-
-  <bean id="WorkArea-defaultOvertimePreference-parentBean" abstract="true" parent="AttributeDefinition">
-      <property name="forceUppercase" value="true" />
-	  <property name="maxLength" value="10" />
-		<property name="control">
-		  <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.workarea.web.WorkAreaOvertimePreferenceValuesFinder"/>
-		</property>			  
-    <property name="name" value="defaultOvertimePreference" />
-    <property name="label" value="Overtime Preference" />
-    <property name="description" value="defaultOvertimePreference" />
   </bean>
 
 <bean id="WorkArea-adminDescr" parent="WorkArea-adminDescr-parentBean" />
@@ -179,7 +207,7 @@
     <property name="label" value="Admin Description" />
     <property name="description" value="adminDescr" />
   </bean>
-  
+
   <bean id="WorkArea-userPrincipalId" parent="WorkArea-userPrincipalId-parentBean"/>
 
   <bean id="WorkArea-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -195,7 +223,7 @@
     </property>
     <property name="name" value="userPrincipalId"/>
     <property name="label" value="User Principal Id"/>
-  </bean>  
+  </bean>
 
  <bean id="WorkArea-timestamp" parent="WorkArea-timestamp-parentBean"/>
 
@@ -206,13 +234,13 @@
     <property name="control">
       <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
     </property>
-     
+
     <property name="name" value="timestamp"/>
     <property name="label" value="Time Stamp"/>
-  </bean>  
-  
+  </bean>
+
   <bean id="WorkArea-active" parent="WorkArea-active-parentBean"/>
-  
+
 <!-- Business Object Inquiry Definition -->
 
 
@@ -260,6 +288,7 @@
       	<bean parent="FieldDefinition" p:attributeName="workArea"/>
         <bean parent="FieldDefinition" p:attributeName="dept" p:forceInquiry="true" />
         <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="defaultOvertimeEarnCode" />
       </list>
     </property>
     <property name="title" value="WorkArea Lookup" />

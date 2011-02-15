@@ -229,10 +229,10 @@
         <field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="description"        column="descr" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="dept"               column="dept" jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
-		<field-descriptor name="defaultOvertimePreference" column="default_overtime_preference" jdbc-type="VARCHAR"  length="3" nullable="false" primarykey="false" />
+		<field-descriptor name="defaultOvertimeEarnCode" column="default_overtime_earncode" jdbc-type="VARCHAR"  length="3" nullable="false" primarykey="false" />
 		<field-descriptor name="adminDescr"         column="admin_descr"	jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="userPrincipalId"    column="user_principal_id"	jdbc-type="VARCHAR" length="10" nullable="false" />
-
+        <field-descriptor name="overtimeEditRole"   column="overtime_edit_role" jdbc-type="VARCHAR" length="20" primarykey="false"/>
 		<field-descriptor name="timestamp"          column="timestamp" jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
@@ -249,17 +249,6 @@
 			<inverse-foreignkey field-ref="tkWorkAreaId"/>
 		</collection-descriptor>
 
-		<collection-descriptor
-			name="overTimePrefs"
-			element-class-ref="org.kuali.hr.time.workarea.WorkAreaOvertimePref"
-			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-			auto-retrieve="true"
-			auto-update="object"
-			auto-delete="object"
-			proxy="false">
-			<inverse-foreignkey field-ref="tkWorkAreaId"/>
-		</collection-descriptor>
-
         <collection-descriptor
             name="roles"
             element-class-ref="org.kuali.hr.time.roles.TkRole"
@@ -272,14 +261,6 @@
         </collection-descriptor>
 
 	</class-descriptor>
-
-	<class-descriptor class="org.kuali.hr.time.workarea.WorkAreaOvertimePref" table="tk_work_area_ovt_pref_t">
-		<field-descriptor name="tkWorkAreaOvtPrefId" 	column="tk_work_area_ovt_pref_id" 	jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_work_area_ovt_pref_s"/>
-		<field-descriptor name="tkWorkAreaId"       	column="TK_WORK_AREA_ID"	jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="payType" 	    		column="paytype"     	jdbc-type="VARCHAR" length="5" nullable="false" primaryKey="false" />
-	    <field-descriptor name="overtimePreference" 	column="overtime_preference"  jdbc-type="VARCHAR" length="3" nullable="false" primaryKey="false" />
-	</class-descriptor>
-
 
 	<class-descriptor class="org.kuali.hr.job.Job" table="hr_job_t">
 		<field-descriptor name="hrJobId" 				column="hr_job_id" 			jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="hr_job_s"/>
@@ -643,8 +624,7 @@
 		<field-descriptor name="maxGap" column="MAX_GAP" jdbc-type="DECIMAL"  primarykey="false" />
 		<field-descriptor name="minHours" column="MIN_HOURS" jdbc-type="DECIMAL"  primarykey="false" />
 		<field-descriptor name="earnCode" column="EARN_CODE" jdbc-type="VARCHAR" length="3"  />
-    <field-descriptor name="fromEarnGroup" column="from_earn_group" jdbc-type="VARCHAR" length="10"/>
-		<field-descriptor name="overtimePref" column="OVERTIME_PREFERENCE" jdbc-type="VARCHAR" length="3" />
+        <field-descriptor name="fromEarnGroup" column="from_earn_group" jdbc-type="VARCHAR" length="10"/>
 		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" />
 		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
 		<field-descriptor name="timeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>

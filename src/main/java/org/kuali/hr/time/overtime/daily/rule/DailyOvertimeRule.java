@@ -1,10 +1,5 @@
 package org.kuali.hr.time.overtime.daily.rule;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
@@ -13,18 +8,23 @@ import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
 
 public class DailyOvertimeRule extends TkRule {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long tkDailyOvertimeRuleId;
-	
+
 	private String fromEarnGroup;
 	private String earnCode;
-	
+
 	private String location;
 	private String paytype;
 	private String dept;
@@ -32,21 +32,20 @@ public class DailyOvertimeRule extends TkRule {
 
 	private BigDecimal maxGap;
 	private BigDecimal minHours;
-	private String overtimePref;
 	private Date effectiveDate;
 	private String userPrincipalId;
 	private Timestamp timeStamp;
-	private boolean active;	
-	
+	private boolean active;
+
 	private Task taskObj;
 	private WorkArea workAreaObj;
 	private Department departmentObj;
 	private PayType payTypeObj;
-	
+
 	private EarnGroup fromEarnGroupObj;
 	private EarnCode earnCodeObj;
 
-	
+
 	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected LinkedHashMap toStringMapper() {
@@ -75,14 +74,6 @@ public class DailyOvertimeRule extends TkRule {
 
 	public void setMaxGap(BigDecimal maxGap) {
 		this.maxGap = maxGap;
-	}
-
-	public String getOvertimePref() {
-		return overtimePref;
-	}
-
-	public void setOvertimePref(String overtimePref) {
-		this.overtimePref = overtimePref;
 	}
 
 	public Date getEffectiveDate() {

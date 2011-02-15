@@ -1,6 +1,7 @@
 package org.kuali.hr.time.workarea;
 
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.task.Task;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -22,18 +23,18 @@ public class WorkArea extends PersistableBusinessObjectBase {
     private String description;
     private String dept;
     private Long task;
-    private String defaultOvertimePreference;
     private String adminDescr;
     private String userPrincipalId;
+    private String defaultOvertimeEarnCode;
     private Timestamp timestamp;
+    private String overtimeEditRole;
 
     private List<TkRole> roles = new ArrayList<TkRole>();
     private List<Task> tasks = new ArrayList<Task>();
-    private List<WorkAreaOvertimePref> overTimePrefs = new ArrayList<WorkAreaOvertimePref>();
 
     private Department department;
     private Task taskObj;
-    
+    private EarnCode defaultOvertimeEarnCodeObj;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -139,36 +140,13 @@ public class WorkArea extends PersistableBusinessObjectBase {
 		this.dept = dept;
 	}
 
-
-	public String getDefaultOvertimePreference() {
-		return defaultOvertimePreference;
-	}
-
-
-	public void setDefaultOvertimePreference(String defaultOvertimePreference) {
-		this.defaultOvertimePreference = defaultOvertimePreference;
-	}
-
-
 	public List<TkRole> getRoles() {
 		return roles;
 	}
 
-
 	public void setRoles(List<TkRole> roles) {
 		this.roles = roles;
 	}
-
-
-	public List<WorkAreaOvertimePref> getOverTimePrefs() {
-		return overTimePrefs;
-	}
-
-
-	public void setOverTimePrefs(List<WorkAreaOvertimePref> overTimePrefs) {
-		this.overTimePrefs = overTimePrefs;
-	}
-
 
 	public Department getDepartment() {
 		return department;
@@ -198,4 +176,28 @@ public class WorkArea extends PersistableBusinessObjectBase {
 	public void setTask(Long task) {
 		this.task = task;
 	}
+
+    public String getDefaultOvertimeEarnCode() {
+        return defaultOvertimeEarnCode;
+    }
+
+    public void setDefaultOvertimeEarnCode(String defaultOvertimeEarnCode) {
+        this.defaultOvertimeEarnCode = defaultOvertimeEarnCode;
+    }
+
+    public EarnCode getDefaultOvertimeEarnCodeObj() {
+        return defaultOvertimeEarnCodeObj;
+    }
+
+    public void setDefaultOvertimeEarnCodeObj(EarnCode defaultOvertimeEarnCodeObj) {
+        this.defaultOvertimeEarnCodeObj = defaultOvertimeEarnCodeObj;
+    }
+
+    public String getOvertimeEditRole() {
+        return overtimeEditRole;
+    }
+
+    public void setOvertimeEditRole(String overtimeEditRole) {
+        this.overtimeEditRole = overtimeEditRole;
+    }
 }

@@ -31,8 +31,9 @@
      	<bean parent="MaintainableFieldDefinition" p:name="workArea" p:unconditionallyReadOnly="true" />
       	<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="description"  p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="overtimeEditRole" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="defaultOvertimeEarnCode" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="dept"  p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="defaultOvertimePreference"  p:required="false"/>
       	<bean parent="MaintainableFieldDefinition" p:name="adminDescr"  p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="active"  p:defaultValue="true" p:required="true"/>
       </list>
