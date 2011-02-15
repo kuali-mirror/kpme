@@ -14,17 +14,17 @@
 			<ref bean="AccrualCategory-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>				
+			<list>
 				<ref bean="AccrualCategory-accrualCategory" />
 				<ref bean="AccrualCategory-descr" />
 				<ref bean="AccrualCategory-effectiveDate" />
 				<ref bean="AccrualCategory-active" />
 			</list>
 		</property>
-     		
+
 	</bean>
 
- 
+
 
 	<bean id="AccrualCategory-accrualCategory" parent="AccrualCategory-accrualCategory-parentBean" />
 	<bean id="AccrualCategory-accrualCategory-parentBean" abstract="true"
@@ -50,7 +50,7 @@
 		<property name="maxLength" value="30" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
+				<property name="allowWhitespace" value="true" />
 			</bean>
 		</property>
 		<property name="control">
@@ -95,15 +95,15 @@
 	<bean id="AccrualCategory-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="lookupFields">
-			<list>				
+			<list>
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="active"/>
-				
+
 			</list>
 		</property>
 		<property name="resultFields">
-			<list>				
+			<list>
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
