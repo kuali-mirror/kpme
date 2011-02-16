@@ -372,6 +372,7 @@
 		<field-descriptor name="calendarGroup"        column="calendar_group" jdbc-type="VARCHAR" length="30" nullable="true" primarykey="false" />
 		<field-descriptor name="flsaBeginDay"  column="flsa_begin_day" jdbc-type="VARCHAR" length="9"/>
 		<field-descriptor name="flsaBeginTime" column="flsa_begin_time" jdbc-type="TIME"/>
+		<field-descriptor name="active" column="active" jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 
 		<collection-descriptor
 			name="payCalendarEntries"

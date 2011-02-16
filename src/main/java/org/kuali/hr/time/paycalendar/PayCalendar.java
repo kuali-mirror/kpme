@@ -22,6 +22,7 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 	private String flsaBeginDay;
 	private Time flsaBeginTime;
 	private int flsaBeginDayConstant = -1;
+    private boolean active = true;
 	
 	private List<PayCalendarEntries> payCalendarEntries = new ArrayList<PayCalendarEntries>();
 
@@ -108,6 +109,14 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 		this.flsaBeginTime = flsaBeginTime;
 	}
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+	
 	/**
 	 * org.joda.time.DateTimeConstants.MONDAY 
 	 * ...

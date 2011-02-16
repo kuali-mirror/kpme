@@ -15,6 +15,7 @@
         <ref bean="PayCalendar-calendarGroup"/>
 		<ref bean="PayCalendar-flsaBeginDay"/>
 		<ref bean="PayCalendar-flsaBeginTime"/>
+		<ref bean="PayCalendar-active"/>
       </list>
     </property>
     <property name="collections">
@@ -65,6 +66,12 @@
     <property name="name" value="flsaBeginTime"/>
     <property name="label" value="Flsa Begin Time"/>
   </bean>
+  
+  <bean id="PayCalendar-active" parent="PayCalendar-active-parentBean"/>
+  <bean id="PayCalendar-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+    <property name="label" value="Active?"/>
+  </bean>
 
   <!-- -->
   <!-- Lookup Definition: -->
@@ -78,6 +85,7 @@
         <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
         <bean parent="FieldDefinition" p:attributeName="flsaBeginDay"/>
         <bean parent="FieldDefinition" p:attributeName="flsaBeginTime"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
        </list>
     </property>
     <property name="resultFields">
@@ -85,6 +93,7 @@
         <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
         <bean parent="FieldDefinition" p:attributeName="flsaBeginDay"/>
         <bean parent="FieldDefinition" p:attributeName="flsaBeginTime"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
     <property name="title" value="Pay Calendar Lookup"/>
