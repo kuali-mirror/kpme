@@ -8,9 +8,9 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
-	
+
 	boolean validateWorkArea(TimeCollectionRule ruleObj) {
-		if (!ValidationUtils.validateWorkArea(ruleObj.getWorkArea(), ruleObj.getEffDate())) {
+		if (!ValidationUtils.validateWorkArea(ruleObj.getWorkArea(), ruleObj.getDept(), ruleObj.getEffDate())) {
 			this.putFieldError("workArea", "error.existence", "workarea '" + ruleObj.getWorkArea() + "'");
 			return false;
 		} else {
@@ -21,12 +21,12 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 	boolean validateDepartment(TimeCollectionRule ruleObj) {
 		if (!ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffDate())) {
 			this.putFieldError("dept", "error.existence", "department '" + ruleObj.getDept() + "'");
-			return false;				
+			return false;
 		} else {
 			return true;
 		}
 	}
-	
+
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
@@ -37,19 +37,19 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 		LOG.debug("entering custom validation for TimeCollectionRule");
 		PersistableBusinessObject pbo = this.getNewBo();
-		
-		
-		
+
+
+
 		if (pbo instanceof TimeCollectionRule) {
 			TimeCollectionRule timeCollectionRule = (TimeCollectionRule) pbo;
 			timeCollectionRule.setUserPrincipalId(GlobalVariables.getUserSession().getLoggedInUserPrincipalName());
 			if (timeCollectionRule != null) {
 				valid = true;
 				valid &= this.validateDepartment(timeCollectionRule);
-				valid &= this.validateWorkArea(timeCollectionRule);			
+				valid &= this.validateWorkArea(timeCollectionRule);
 			}
 		}
-		
+
 		return valid;
 	}
 

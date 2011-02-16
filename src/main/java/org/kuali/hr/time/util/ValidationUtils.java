@@ -169,7 +169,11 @@ public class ValidationUtils {
 	 * Checks for row presence of a work area, and optionally whether or not
 	 * it is active as of the specified date.
 	 */
-	public static boolean validateWorkArea(Long workArea, Date asOfDate) {
+    public static boolean validateWorkArea(Long workArea, Date asOfDate) {
+        return ValidationUtils.validateWorkArea(workArea, null, asOfDate);
+    }
+
+	public static boolean validateWorkArea(Long workArea, String dept, Date asOfDate) {
 		boolean valid = false;
 
 		if (workArea == null) {
@@ -178,13 +182,13 @@ public class ValidationUtils {
 			valid = true;
 		} else if (asOfDate != null) {
 			WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, asOfDate);
-			valid = (wa != null);
+            if (wa != null && dept != null) {
+                valid = StringUtils.equalsIgnoreCase(dept, wa.getDept());
+            } else {
+			    valid = (wa != null);
+            }
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("workArea", workArea);
-			Query query = QueryFactory.newQuery(WorkArea.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-			valid = (count > 0);
+            // Not valid if no date is passed.
 		}
 
 		return valid;

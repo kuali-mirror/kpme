@@ -10,7 +10,7 @@
 
   <bean id="TimeCollectionRuleMaintenanceDocument" parent="TimeCollectionRuleMaintenanceDocument-parentBean"/>
 
-  <bean id="TimeCollectionRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  <bean id="TimeCollectionRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.time.collection.rule.TimeCollectionRule"
   		p:businessRulesClass="org.kuali.hr.time.collection.rule.validation.TimeCollectionRuleRule"
   		p:maintainableClass="org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleMaintainableImpl">
@@ -34,13 +34,13 @@
   <bean id="TimeCollectionRuleMaintenanceDocument-TimeCollectionRuleMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="title" value="TimeCollection Rule Maintenance"/>
     <property name="maintainableItems">
-      <list>      
-      	<bean parent="MaintainableFieldDefinition" p:name="dept" />
-      	<bean parent="MaintainableFieldDefinition" p:name="workArea"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="effDate" />
+      <list>
+      	<bean parent="MaintainableFieldDefinition" p:readOnlyAfterAdd="true" p:lookupReadOnly="true" p:required="true" p:name="dept" />
+      	<bean parent="MaintainableFieldDefinition" p:readOnlyAfterAdd="true" p:lookupReadOnly="true" p:required="true" p:name="workArea"/>
+      	<bean parent="MaintainableFieldDefinition" p:required="true" p:name="effDate" />
       	<bean parent="MaintainableFieldDefinition" p:name="clockUserFl" />
       	<bean parent="MaintainableFieldDefinition" p:name="hrsDistributionF"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />      	      	
+      	<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
       </list>
     </property>
   </bean>

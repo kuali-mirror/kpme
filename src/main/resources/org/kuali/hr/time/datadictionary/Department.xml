@@ -26,10 +26,10 @@
        </list>
     </property>
     <property name="objectLabel" value="department"/>
-    
+
     <property name="relationships">
 			<list>
-			
+
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="chartObj" />
 					<property name="primitiveAttributes">
@@ -55,7 +55,7 @@
       <list>
         <bean parent="CollectionDefinition" p:name="roles" p:label="Roles" p:shortLabel="Roles" p:summary="Roles" p:description="Roles"/>
       </list>
-    </property>    
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -63,6 +63,7 @@
   <bean id="Department-dept" parent="Department-dept-parentBean"/>
 
   <bean id="Department-dept-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true" />
     <property name="shortLabel" value="Department"/>
     <property name="maxLength" value="21"/>
     <property name="control">
@@ -98,10 +99,10 @@
     <property name="name" value="org" />
     <property name="label" value="Org" />
     <property name="description" value="Org" />
-  
+
   </bean>
-  
-  
+
+
   <bean id="Department-chart" parent="Department-chart-parentBean" />
   <bean id="Department-chart-parentBean" abstract="true" parent="AttributeDefinition">
       <property name="forceUppercase" value="true" />
@@ -114,8 +115,8 @@
     <property name="label" value="Chart" />
     <property name="description" value="Chart" />
   </bean>
-  
-  
+
+
   <bean id="Department-effectiveDate" parent="Department-effectiveDate-parentBean"/>
   <bean id="Department-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Effective Date"/>
@@ -130,7 +131,7 @@
     <property name="name" value="effectiveDate"/>
     <property name="label" value="Effective Date"/>
   </bean>
-  
+
     <bean id="Department-active" parent="Department-active-parentBean"/>
   <bean id="Department-active-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Active"/>
@@ -141,8 +142,8 @@
     <property name="label" value="Active"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
-  
-  
+
+
 <!-- Business Object Inquiry Definition -->
 
 

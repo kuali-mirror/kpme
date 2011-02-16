@@ -277,16 +277,16 @@
     </property>
     <property name="lookupFields" >
       <list>
+        <bean parent="FieldDefinition" p:attributeName="dept" />
       	<bean parent="FieldDefinition" p:attributeName="workArea" />
         <bean parent="FieldDefinition" p:attributeName="description" />
-        <bean parent="FieldDefinition" p:attributeName="dept" />
         <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
-      	<bean parent="FieldDefinition" p:attributeName="workArea"/>
         <bean parent="FieldDefinition" p:attributeName="dept" p:forceInquiry="true" />
+      	<bean parent="FieldDefinition" p:attributeName="workArea"/>
         <bean parent="FieldDefinition" p:attributeName="description" />
         <bean parent="FieldDefinition" p:attributeName="defaultOvertimeEarnCode" />
       </list>
