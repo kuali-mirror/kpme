@@ -308,7 +308,7 @@
 
 	<class-descriptor class="org.kuali.hr.time.earngroup.EarnGroup" table="tk_earn_group_t">
 		<field-descriptor name="tkEarnGroupId" 	column="tk_earn_group_id" 	jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_earn_group_s"/>
-		<field-descriptor name="earnGroup"      column="earn_group"		jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
+		<field-descriptor name="earnGroup"      column="earn_group"		jdbc-type="VARCHAR" length="10" nullable="false" primarykey="true" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="descr"		    column="descr"			jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"  column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" />
@@ -463,8 +463,7 @@
 		<field-descriptor name="descr" column="descr" jdbc-type="VARCHAR" length="30"/>
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="active" column="active" jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-		
+
 		<collection-descriptor
 			name="dateEntries"
 			element-class-ref="org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry"
