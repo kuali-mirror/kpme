@@ -35,8 +35,8 @@
     <property name="title" value="TimeCollection Rule Maintenance"/>
     <property name="maintainableItems">
       <list>
-      	<bean parent="MaintainableFieldDefinition" p:readOnlyAfterAdd="true" p:lookupReadOnly="true" p:required="true" p:name="dept" />
-      	<bean parent="MaintainableFieldDefinition" p:readOnlyAfterAdd="true" p:lookupReadOnly="true" p:required="true" p:name="workArea"/>
+      	<bean parent="MaintainableFieldDefinition" p:readOnlyAfterAdd="true"  p:required="true" p:name="dept" />
+      	<bean parent="MaintainableFieldDefinition" p:readOnlyAfterAdd="true"  p:required="true" p:name="workArea"/>
       	<bean parent="MaintainableFieldDefinition" p:required="true" p:name="effDate" />
       	<bean parent="MaintainableFieldDefinition" p:name="clockUserFl" />
       	<bean parent="MaintainableFieldDefinition" p:name="hrsDistributionF"/>

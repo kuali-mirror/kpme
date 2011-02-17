@@ -72,10 +72,14 @@
 				<td colspan="2" align="center">
                     <%--<c:if test="${Form.currentClockAction eq 'CI' or Form.currentClockAction eq 'CO'}">  --%>
                         <input id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';"/>
-                    <%--</c:if>  --%>				
+                    <%--</c:if>  --%>
                     <c:choose>
 						<c:when test="${Form.currentClockAction eq 'CO'}">
-						   <input type="submit" class="button" value="Take Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/>
+                           <c:choose>
+                               <c:when test="${Form.showLunchButton}">
+						        <input type="submit" class="button" value="Take Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/>
+                               </c:when>
+                           </c:choose>
 						</c:when>
 						<c:when test="${Form.currentClockAction eq 'LO'}">
 						   <input type="submit" class="button" value="Return From Lunch" name="lunchOut" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LO';"/>

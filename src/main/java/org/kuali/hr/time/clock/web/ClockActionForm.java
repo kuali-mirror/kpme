@@ -1,10 +1,10 @@
 package org.kuali.hr.time.clock.web;
 
-import java.sql.Timestamp;
-
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
+
+import java.sql.Timestamp;
 
 public class ClockActionForm extends TimesheetActionForm {
 
@@ -22,6 +22,7 @@ public class ClockActionForm extends TimesheetActionForm {
     private String lastClockHours;
     private ClockLog clockLog;
     private TimeBlock timeBlock;
+    private boolean showLunchButton;
 
     public String getPrincipalId() {
         return principalId;
@@ -87,5 +88,11 @@ public class ClockActionForm extends TimesheetActionForm {
 		this.lastClockAction = lastClockAction;
 	}
 
+    public boolean isShowLunchButton() {
+        return showLunchButton;
+    }
 
+    public void setShowLunchButton(boolean showLunchButton) {
+        this.showLunchButton = showLunchButton;
+    }
 }

@@ -34,6 +34,7 @@ public class ClockAction extends TimesheetAction {
 
     		ActionForward forward = super.execute(mapping, form, request, response);
     	    ClockActionForm caf = (ClockActionForm) form;
+            caf.setShowLunchButton(TkServiceLocator.getSystemLunchRuleService().isShowLunchButton());
     	    caf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(caf.getTimesheetDocument(), true));
     	    String principalId = TKContext.getUser().getPrincipalId();
 
@@ -49,7 +50,7 @@ public class ClockAction extends TimesheetAction {
     	    }
 	   	    else {
 
-	   	    	if(StringUtils.equals(lastClockLog.getClockAction(),TkConstants.LUNCH_IN) && TkServiceLocator.getSystemLunchRuleService().isShowLunchButton()) {
+	   	    	if(StringUtils.equals(lastClockLog.getClockAction(),TkConstants.LUNCH_IN) && caf.isShowLunchButton()) {
 	   	    		caf.setCurrentClockAction(TkConstants.LUNCH_OUT);
 	   	    	}
 //	   	    	else if(StringUtils.equals(lastClockLog.getClockAction(),TkConstants.LUNCH_OUT)) {
