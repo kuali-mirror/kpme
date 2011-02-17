@@ -184,7 +184,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	}
 
 	protected boolean validateSubObjectCode(AssignmentAccount assignmentAccount) {
-		boolean valid = false;
+	//	boolean valid = false;
 //		LOG.debug("Validating SubObjectCode: " + assignmentAccount.getFinSubObjCd());
 //		Collection subObjectCode = KNSServiceLocator.getBusinessObjectDao().findAll(SubObjectCode.class);
 //		Iterator<SubObjectCode> itr = subObjectCode.iterator();
