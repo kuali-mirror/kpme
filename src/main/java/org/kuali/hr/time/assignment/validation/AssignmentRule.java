@@ -185,21 +185,22 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateSubObjectCode(AssignmentAccount assignmentAccount) {
 		boolean valid = false;
-		LOG.debug("Validating SubObjectCode: " + assignmentAccount.getFinSubObjCd());
-		Collection subObjectCode = KNSServiceLocator.getBusinessObjectDao().findAll(SubObjectCode.class);
-		Iterator<SubObjectCode> itr = subObjectCode.iterator();
-		while (itr.hasNext()) {
-			SubObjectCode subObjectCodeObj = itr.next();
-			if (subObjectCodeObj.getObjectId().equals(assignmentAccount.getFinSubObjCd())) {
-				valid = true;
-				LOG.debug("found sub object code.");
-			}
-		}
-		 if(!valid) {
-			this.putGlobalError("error.existence", "SubObject Code '"
-					+ assignmentAccount.getFinSubObjCd() + "'");
-		}
-		return valid;
+//		LOG.debug("Validating SubObjectCode: " + assignmentAccount.getFinSubObjCd());
+//		Collection subObjectCode = KNSServiceLocator.getBusinessObjectDao().findAll(SubObjectCode.class);
+//		Iterator<SubObjectCode> itr = subObjectCode.iterator();
+//		while (itr.hasNext()) {
+//			SubObjectCode subObjectCodeObj = itr.next();
+//			if (subObjectCodeObj.getObjectId().equals(assignmentAccount.getFinSubObjCd())) {
+//				valid = true;
+//				LOG.debug("found sub object code.");
+//			}
+//		}
+//		 if(!valid) {
+//			this.putGlobalError("error.existence", "SubObject Code '"
+//					+ assignmentAccount.getFinSubObjCd() + "'");
+//		}
+//		return valid;
+		return true;
 	}
 	/**
 	 * It looks like the method that calls this class doesn't actually care
