@@ -463,6 +463,8 @@
 		<field-descriptor name="descr" column="descr" jdbc-type="VARCHAR" length="30"/>
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="active" column="active" jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		
 		<collection-descriptor
 			name="dateEntries"
 			element-class-ref="org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry"

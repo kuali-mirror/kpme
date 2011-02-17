@@ -1,1 +1,2 @@
 ALTER TABLE tk_py_calendar_t ADD COLUMN `active` VARCHAR(1) NOT NULL DEFAULT 'Y' AFTER `flsa_begin_time` ;
+ALTER TABLE tk_holiday_calendar_t ADD COLUMN `active` VARCHAR(1) NOT NULL DEFAULT 'Y' AFTER `ver_nbr` ;

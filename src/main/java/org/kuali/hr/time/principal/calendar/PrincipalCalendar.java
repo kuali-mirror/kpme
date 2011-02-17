@@ -16,6 +16,7 @@ public class PrincipalCalendar extends PersistableBusinessObjectBase {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String principalId;
+	private String principalName;
 	private String calendarGroup;
 	private String holidayCalendarGroup;
 	private Date effectiveDate;
@@ -38,6 +39,14 @@ public class PrincipalCalendar extends PersistableBusinessObjectBase {
 
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
+	}
+
+	public String getPrincipalName() {
+		return principalName;
+	}
+
+	public void setPrincipalName(String principalName) {
+		this.principalName = principalName;
 	}
 
 	public String getCalendarGroup() {

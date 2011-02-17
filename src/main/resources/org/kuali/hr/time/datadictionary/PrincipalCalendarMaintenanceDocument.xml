@@ -36,9 +36,11 @@
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="principalName" p:noLookup="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="calendarGroup" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="holidayCalendarGroup" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
 			</list>
 		</property>
 	</bean>

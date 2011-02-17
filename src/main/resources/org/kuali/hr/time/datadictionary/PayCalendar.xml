@@ -79,13 +79,13 @@
 
   <bean id="PayCalendar-lookupDefinition" parent="PayCalendar-lookupDefinition-parentBean"/>
   <bean id="PayCalendar-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <!--  property name="lookupableID" value="payCalendarLookupable"/ -->
+    <property name="lookupableID" value="payCalendarLookupable" />
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
         <bean parent="FieldDefinition" p:attributeName="flsaBeginDay"/>
         <bean parent="FieldDefinition" p:attributeName="flsaBeginTime"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
        </list>
     </property>
     <property name="resultFields">

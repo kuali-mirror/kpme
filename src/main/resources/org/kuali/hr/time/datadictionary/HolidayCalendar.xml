@@ -15,6 +15,7 @@
         <ref bean="HolidayCalendar-holidayCalendarId"/>
         <ref bean="HolidayCalendar-holidayCalendarGroup"/>
         <ref bean="HolidayCalendar-descr"/>
+        <ref bean="HolidayCalendar-active"/>
        </list>
     </property>
     <property name="collections">
@@ -68,8 +69,12 @@
     <property name="name" value="descr"/>
     <property name="label" value="Description"/>
   </bean>
-
-  
+    
+  <bean id="HolidayCalendar-active" parent="HolidayCalendar-active-parentBean"/>
+  <bean id="HolidayCalendar-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+    <property name="label" value="Active?"/>
+  </bean>
   <!-- -->
   <!-- Lookup Definition: -->
   <!-- -->
@@ -78,8 +83,9 @@
   <bean id="HolidayCalendar-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="holidayCalendarId"/>
         <bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup"/>
+        <bean parent="FieldDefinition" p:attributeName="descr"/>
+        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
       </list>
     </property>
     <property name="resultFields">
@@ -87,6 +93,7 @@
         <bean parent="FieldDefinition" p:attributeName="holidayCalendarId"/>
         <bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup"/>
         <bean parent="FieldDefinition" p:attributeName="descr"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
     <property name="title" value="Holiday Calendar Lookup"/>

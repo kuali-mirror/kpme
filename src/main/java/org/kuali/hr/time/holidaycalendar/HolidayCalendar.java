@@ -16,6 +16,7 @@ public class HolidayCalendar extends PersistableBusinessObjectBase {
 	private Long holidayCalendarId;
 	private String holidayCalendarGroup;
 	private String descr;
+	private boolean active = true;
 	
 	private List<HolidayCalendarDateEntry> dateEntries = new ArrayList<HolidayCalendarDateEntry>();
 	
@@ -64,6 +65,16 @@ public class HolidayCalendar extends PersistableBusinessObjectBase {
 
 	public void setDateEntries(List<HolidayCalendarDateEntry> dateEntries) {
 		this.dateEntries = dateEntries;
+	}
+
+
+	public boolean isActive() {
+		return active;
+	}
+
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }

@@ -552,6 +552,11 @@
             <bean class="org.kuali.hr.time.TkLookupableHelper"/>
         </property>
     </bean>
+    <bean id="payCalendarLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.paycalendar.service.PayCalendarLookupableHelper"/>
+        </property>
+    </bean>
         <!-- Scheduler configuration -->
 	<!-- Serializer service -->
 	<bean id="timeBlockSerializerService" class="org.kuali.hr.time.scheduler.TimeBlockSerializerService"/>

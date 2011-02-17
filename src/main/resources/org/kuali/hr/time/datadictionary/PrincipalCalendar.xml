@@ -17,9 +17,11 @@
 		<property name="attributes">
 			<list>				
 				<ref bean="PrincipalCalendar-principalId" />
+				<ref bean="PrincipalCalendar-principalName" />
 				<ref bean="PrincipalCalendar-calendarGroup" />
 				<ref bean="PrincipalCalendar-holidayCalendarGroup" />
 				<ref bean="PrincipalCalendar-effectiveDate" />
+				<ref bean="PrincipalCalendar-active"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -28,6 +30,7 @@
               <property name="objectAttributeName" value="person"/>
               <property name="primitiveAttributes">
                 <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalName" p:targetName="principalName"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
                 </list>
               </property>
@@ -68,7 +71,18 @@
 		<property name="name" value="principalId" />
 		<property name="label" value="Principal Id" />
 	</bean>
-
+	
+ 	<bean id="PrincipalCalendar-principalName" parent="PrincipalCalendar-principalName-parentBean"/>
+ 	<bean id="PrincipalCalendar-principalName-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="shortLabel" value="Principal Name"/>
+    	<property name="maxLength" value="15"/>
+    	<property name="control">
+      		<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+    	</property>
+    	<property name="name" value="principalName"/>
+    	<property name="label" value="Principal Name"/>
+  	</bean>
+  
 	<bean id="PrincipalCalendar-calendarGroup" parent="PrincipalCalendar-calendarGroup-parentBean" />
 	<bean id="PrincipalCalendar-calendarGroup-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -119,7 +133,17 @@
 		<property name="label" value="Holiday Calendar Group" />
 		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
 	</bean>
-
+	
+ 	<bean id="PrincipalCalendar-active" parent="PrincipalCalendar-active-parentBean"/>
+  	<bean id="PrincipalCalendar-active-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="shortLabel" value="Active"/>
+    	<property name="control">
+      		<bean parent="CheckboxControlDefinition"/>
+    	</property>
+    	<property name="name" value="active"/>
+    	<property name="label" value="Active"/>
+    	<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  	</bean>
 	<!--  Inquiry Definitions  -->
 
 
