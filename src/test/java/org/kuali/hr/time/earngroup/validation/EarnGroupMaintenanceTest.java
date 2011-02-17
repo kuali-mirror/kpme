@@ -9,6 +9,7 @@ import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
+import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
@@ -46,6 +47,22 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().delete(earnGroupObj);				
 		super.tearDown();
 	}
+	
+	@Test
+	public void testEditExistingEarnGroup() throws Exception {
+		HtmlPage earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_GROUP_MAINT_URL);
+		earnGroupLookUp = HtmlUnitUtil.clickInputContainingText(earnGroupLookUp, "search");
+		assertTrue("Page contains test Earn Group", earnGroupLookUp.asText().contains("test"));		
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnGroupLookUp, "edit", tkEarnGroupId.toString());		
+		assertTrue("Maintenance Page contains test ClockLog",maintPage.asText().contains("test"));
+		HtmlTextInput text  = (HtmlTextInput) maintPage.getHtmlElementById("document.documentHeader.documentDescription");
+		text.setValueAttribute("test1");
+		HtmlElement element = maintPage.getElementByName("methodToCall.route");
+        HtmlPage finalPage = element.click();
+        assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
+	
+	}
+	
 	
 	@Test
 	//tests EarnGroupValidation

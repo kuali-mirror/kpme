@@ -29,7 +29,7 @@ public class EarnGroupValidation  extends MaintenanceDocumentRuleBase{
 						
 			} 
 			if(earnGroup.getShowSummary()) {
-				validateEarnCode(earnGroupDef.getEarnCode(), index);
+				validateEarnCode(earnGroupDef.getEarnCode(), index, earnGroup);
 			}
 			if (!ValidationUtils.validateEarnCode(earnGroupDef.getEarnCode(), earnGroup.getEffectiveDate())) {
 				this.putFieldError("earnGroups["+index+"].earnCode", "error.existence", "Earncode '" + earnGroupDef.getEarnCode()+ "'");
@@ -40,7 +40,7 @@ public class EarnGroupValidation  extends MaintenanceDocumentRuleBase{
 		return true;
 	}
 	
-    protected void validateEarnCode(String earnCode, int index) {
+    protected void validateEarnCode(String earnCode, int index, EarnGroup editedEarnGroup) {
     	BusinessObjectService businessObjectService = KNSServiceLocator.getBusinessObjectService();
     	Map<String,Object> criteria = new HashMap<String,Object>();
 		criteria.put("showSummary", "Y");
@@ -49,21 +49,22 @@ public class EarnGroupValidation  extends MaintenanceDocumentRuleBase{
 		Iterator<EarnGroup> itr = aCol.iterator();
 		while (itr.hasNext()) {
 			EarnGroup earnGroup = itr.next();
-			criteria = new HashMap<String,Object>();
-			criteria.put("tkEarnGroupId", earnGroup.getTkEarnGroupId());
-			
-			Collection earnGroupDefs = businessObjectService.findMatching(EarnGroupDefinition.class, criteria);
-			Iterator<EarnGroupDefinition> iterator = earnGroupDefs.iterator();
-			while (iterator.hasNext()) {
-				EarnGroupDefinition def = iterator.next();
-				if(StringUtils.equals(earnCode, def.getEarnCode())) {
-					String[] parameters = new String[2];
-					parameters[0] = earnCode;
-					parameters[1] = earnGroup.getDescr();
-					this.putFieldError("earnGroups["+index+"].earnCode", "earngroup.earncode.already.used", parameters);
+			if(!earnGroup.getTkEarnGroupId().equals(editedEarnGroup.getTkEarnGroupId())) {
+				criteria = new HashMap<String,Object>();
+				criteria.put("tkEarnGroupId", earnGroup.getTkEarnGroupId());
+				
+				Collection earnGroupDefs = businessObjectService.findMatching(EarnGroupDefinition.class, criteria);
+				Iterator<EarnGroupDefinition> iterator = earnGroupDefs.iterator();
+				while (iterator.hasNext()) {
+					EarnGroupDefinition def = iterator.next();
+					if(StringUtils.equals(earnCode, def.getEarnCode())) {
+						String[] parameters = new String[2];
+						parameters[0] = earnCode;
+						parameters[1] = earnGroup.getDescr();
+						this.putFieldError("earnGroups["+index+"].earnCode", "earngroup.earncode.already.used", parameters);
+					}
 				}
 			}
-			
 		}
     }
     
