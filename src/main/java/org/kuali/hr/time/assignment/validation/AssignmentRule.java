@@ -164,22 +164,23 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	}
 
 	protected boolean validateObjectCode(AssignmentAccount assignmentAccount) {
-		boolean valid = false;
-		LOG.debug("Validating ObjectCode: " + assignmentAccount.getFinObjectCd());
-		Collection objectCode = KNSServiceLocator.getBusinessObjectDao().findAll(ObjectCode.class);
-		Iterator<ObjectCode> itr = objectCode.iterator();
-		while (itr.hasNext()) {
-			ObjectCode objectCodeObj = itr.next();
-			if (objectCodeObj.getObjectId().equals(assignmentAccount.getFinObjectCd())) {
-				valid = true;
-				LOG.debug("found object code.");
-			}
-		}
-		 if(!valid) {
-			this.putGlobalError("error.existence", "Object Code '"
-					+ assignmentAccount.getFinObjectCd() + "'");
-		}
-		return valid;
+//		boolean valid = false;
+//		LOG.debug("Validating ObjectCode: " + assignmentAccount.getFinObjectCd());
+//		Collection objectCode = KNSServiceLocator.getBusinessObjectDao().findAll(ObjectCode.class);
+//		Iterator<ObjectCode> itr = objectCode.iterator();
+//		while (itr.hasNext()) {
+//			ObjectCode objectCodeObj = itr.next();
+//			if (objectCodeObj.getObjectId().equals(assignmentAccount.getFinObjectCd())) {
+//				valid = true;
+//				LOG.debug("found object code.");
+//			}
+//		}
+//		 if(!valid) {
+//			this.putGlobalError("error.existence", "Object Code '"
+//					+ assignmentAccount.getFinObjectCd() + "'");
+//		}
+//		return valid;
+		return true;
 	}
 
 	protected boolean validateSubObjectCode(AssignmentAccount assignmentAccount) {
