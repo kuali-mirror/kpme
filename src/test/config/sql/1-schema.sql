@@ -1652,7 +1652,6 @@ ALTER TABLE `tk_daily_overtime_rl_t` DROP COLUMN `OVERTIME_PREFERENCE` ;
 
 ALTER TABLE `tk_sal_group_t` ADD COLUMN `descr` VARCHAR(30) NULL;
 
-ALTER TABLE tk_py_calendar_t ADD COLUMN `active` VARCHAR(1) NOT NULL DEFAULT 'Y' AFTER `flsa_begin_time` ;
 ALTER TABLE tk_holiday_calendar_t ADD COLUMN `active` VARCHAR(1) NOT NULL DEFAULT 'Y' AFTER `ver_nbr` ;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
