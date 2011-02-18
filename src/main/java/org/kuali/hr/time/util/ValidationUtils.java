@@ -11,6 +11,7 @@ import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
+import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
@@ -109,6 +110,24 @@ public class ValidationUtils {
 		return valid;
 	}
 
+	public static boolean validatePayType(String payType, Date asOfDate) {
+		boolean valid = false;
+
+		if (asOfDate != null) {
+			PayType pt = TkServiceLocator.getPayTypeSerivce().getPayType(payType, asOfDate);
+			valid = (pt != null);
+		} else {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("payType", payType);
+			Query query = QueryFactory.newQuery(PayType.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			valid = (count > 0);
+		}
+
+		return valid;
+	}
+
+	
 	public static boolean validatePayGrade(String payGrade, Date asOfDate) {
 		boolean valid = false;
 

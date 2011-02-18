@@ -100,15 +100,15 @@
 	<bean id="TimeOffAccrual-hoursAccrued-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Hours Accrued" />
-		<property name="maxLength" value="7" />
+		<property name="maxLength" value="8" />
 		<property name="validationPattern">
 			<bean parent="RegexValidationPattern">
- 		   		<property name="pattern" value="((\+|-)?([0-9]{1,4}+(\.[0-9]{1,2}+)?)()"></property>
+ 		   		<property name="pattern" value="((\+|-)?([0-9]{1,4}(\.[0-9]{1,2})?))()"></property>
  		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
  			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
+			<bean parent="TextControlDefinition" p:size="8" />
 		</property>
 		<property name="name" value="hoursAccrued" />
 		<property name="label" value="Hours Accrued" />
@@ -118,15 +118,15 @@
 	<bean id="TimeOffAccrual-hoursTaken-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Hours Taken" />
-		<property name="maxLength" value="7" />
+		<property name="maxLength" value="8" />
 		<property name="validationPattern">
 			<bean parent="RegexValidationPattern">
- 		   		<property name="pattern" value="(\+|-)?([0-9]{1,4}+(\.[0-9]{1,2}+)?)()"></property>
+ 		   		<property name="pattern" value="(\+|-)?([0-9]{1,4}(\.[0-9]{1,2})?)()"></property>
  		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
  			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
+			<bean parent="TextControlDefinition" p:size="8" />
 		</property>
 		<property name="name" value="hoursTaken" />
 		<property name="label" value="Hours Taken" />
@@ -136,15 +136,15 @@
 	<bean id="TimeOffAccrual-hoursAdjust-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Hours Adjust" />
-		<property name="maxLength" value="7" />
+		<property name="maxLength" value="8" />
 		<property name="validationPattern">
 			<bean parent="RegexValidationPattern">
- 		   		<property name="pattern" value="(\+|-)?([0-9]{1,4}+(\.[0-9]{1,2}+)?)()"></property>
+ 		   		<property name="pattern" value="(\+|-)?([0-9]{1,4}(\.[0-9]{1,2})?)()"></property>
  		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
  			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
+			<bean parent="TextControlDefinition" p:size="8" />
 		</property>
 		<property name="name" value="hoursAdjust" />
 		<property name="label" value="Hours Adjust" />

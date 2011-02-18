@@ -1,5 +1,6 @@
 package org.kuali.hr.time.overtime.daily.rule;
 
+import org.kuali.hr.location.Location;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
@@ -44,6 +45,7 @@ public class DailyOvertimeRule extends TkRule {
 
 	private EarnGroup fromEarnGroupObj;
 	private EarnCode earnCodeObj;
+	private Location locationObj;
 
 
 	@SuppressWarnings({ "rawtypes" })
@@ -202,6 +204,14 @@ public class DailyOvertimeRule extends TkRule {
 
 	public void setEarnCodeObj(EarnCode earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
+	}
+
+	public Location getLocationObj() {
+		return locationObj;
+	}
+
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
 	}
 
 }
