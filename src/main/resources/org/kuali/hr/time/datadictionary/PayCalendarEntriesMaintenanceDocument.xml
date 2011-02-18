@@ -12,6 +12,7 @@
 
   <bean id="PayCalendarEntriesMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.time.paycalendar.PayCalendarEntries"
+  		p:businessRulesClass="org.kuali.hr.time.paycalendar.validation.PayCalendarEntriesRule"
    		p:maintainableClass="org.kuali.hr.time.paycalendar.PayCalendarEntryMaintainableImpl">
     <property name="maintainableSections">
       <list>
@@ -33,6 +34,7 @@
     <property name="title" value="Pay Calendar Dates Maintenance"/>
     <property name="maintainableItems">
       <list>
+     	<bean parent="MaintainableFieldDefinition" p:name="calendarGroup" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="beginPeriodDate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="beginPeriodTime" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="endPeriodDate"    p:required="true"/>

@@ -27,6 +27,7 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
     
     private Long payCalendarEntriesId;
     private Long payCalendarId;
+    private String calendarGroup;
 
     private java.util.Date beginPeriodDateTime;
 
@@ -54,6 +55,8 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
 
 	private Date batchSupervisorApprovalDate;
 	private Time batchSupervisorApprovalTime;
+	
+	private PayCalendar payCalendarObj;
 
 
     public Long getPayCalendarId() {
@@ -64,7 +67,13 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
 	this.payCalendarId = payCalendarId;
     }
 
-  
+    public String getCalendarGroup() {
+    	return calendarGroup;
+    }
+
+    public void setCalendarGroup(String calendarGroup) {
+    	this.calendarGroup = calendarGroup;
+    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -200,5 +209,13 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
 
 	public void setBatchSupervisorApprovalTime(Time batchSupervisorApprovalTime) {
 		this.batchSupervisorApprovalTime = batchSupervisorApprovalTime;
+	}
+	
+	public PayCalendar getPayCalendarObj() {
+		return payCalendarObj;
+	}
+
+	public void setPayCalendarObj(PayCalendar payCalendarObj) {
+		this.payCalendarObj = payCalendarObj;
 	}
 }

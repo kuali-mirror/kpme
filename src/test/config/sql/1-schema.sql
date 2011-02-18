@@ -1511,6 +1511,9 @@ alter table tk_py_calendar_dates_s rename tk_py_calendar_entries_s;
 ALTER TABLE tk_py_calendar_entries_t CHANGE COLUMN `tk_py_calendar_dates_id` `tk_py_calendar_entry_id` BIGINT(20) NOT NULL
 , DROP PRIMARY KEY , ADD PRIMARY KEY (`tk_py_calendar_entry_id`) ;
 
+ALTER TABLE tk_py_calendar_entries_t ADD COLUMN `calendar_group` VARCHAR(45) COLLATE utf8_bin NOT NULL AFTER `tk_py_calendar_id` ;
+ALTER TABLE tk_py_calendar_entries_t change `tk_py_calendar_id` `tk_py_calendar_id` bigint(20) NULL;
+
 DROP TABLE IF EXISTS `tk_user_pref_t`;
 create table tk_user_pref_t (
   `PRINCIPAL_ID` varchar(40) NOT NULL,

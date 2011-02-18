@@ -11,6 +11,7 @@ import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
+import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -287,4 +288,17 @@ public class ValidationUtils {
 
         return valid;
     }
+    
+	/**
+	 * Checks for row presence of a pay calendar
+	 */
+	public static boolean validatePayCalendar(String calendarGroup) {
+		boolean valid = false;
+		Criteria crit = new Criteria();
+        crit.addEqualTo("calendarGroup", calendarGroup);
+        Query query = QueryFactory.newQuery(PayCalendar.class, crit);
+        int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+        valid = (count > 0);
+        return valid;
+	}
 }
