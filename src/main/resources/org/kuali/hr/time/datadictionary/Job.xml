@@ -349,9 +349,9 @@
 		</property>
 		<property name="lookupFields">
 			<list>
+				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 			    <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
-				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
@@ -359,11 +359,9 @@
 		<!-- More information should be added here if needed -->
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="hrJobId"
-					p:forceInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="principalName" />
-				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
