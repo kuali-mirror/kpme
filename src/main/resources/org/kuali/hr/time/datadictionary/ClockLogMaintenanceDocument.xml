@@ -30,7 +30,7 @@
 	<bean id="ClockLogMaintenanceDocument-ClockLogMaintenance" parent="ClockLogMaintenanceDocument-ClockLogMaintenance-parentBean" />
 	<bean id="ClockLogMaintenanceDocument-ClockLogMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="Daily Overtime Rule Maintenance" />
+		<property name="title" value="Clock Log Maintenance" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="principalId"/>
