@@ -52,7 +52,7 @@
     
   <bean id="PayCalendarEntries-beginPeriodDateTime" parent="PayCalendarEntries-beginPeriodDateTime-parentBean"/>
   <bean id="PayCalendarEntries-beginPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Begin Period Date Time"/>
+    <property name="shortLabel" value="Begin Pay Period Date Time"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
  		<bean parent="DateValidationPattern"/>
@@ -62,7 +62,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
     <property name="name" value="beginPeriodDateTime"/>
-    <property name="label" value="Begin Period Date Time"/>
+    <property name="label" value="Begin Pay Period Date Time"/>
   </bean>
   
     
@@ -98,7 +98,7 @@
 
   <bean id="PayCalendarEntries-endPeriodDateTime" parent="PayCalendarEntries-endPeriodDateTime-parentBean"/>
   <bean id="PayCalendarEntries-endPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="End Period Date Time"/>
+    <property name="shortLabel" value="End Pay Period Date Time"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
  		<bean parent="DateValidationPattern"/>
@@ -108,7 +108,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
     <property name="name" value="endPeriodDateTime"/>
-    <property name="label" value="End Period Date Time"/>
+    <property name="label" value="End Pay Period Date Time"/>
   </bean>
   
   <bean id="PayCalendarEntries-endPeriodDate" parent="PayCalendarEntries-endPeriodDate-parentBean"/>
