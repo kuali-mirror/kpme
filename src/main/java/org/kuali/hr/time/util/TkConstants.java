@@ -15,10 +15,11 @@ public class TkConstants {
 
     public static final String CLOCK_IN = "CI";
     public static final String CLOCK_OUT = "CO";
-    public static final String LUNCH_IN = "LI";
-    public static final String LUNCH_OUT = "LO";
+    public static final String LUNCH_IN = "LI"; // Coming back from Lunch
+    public static final String LUNCH_OUT = "LO"; // Leaving for Lunch
     public static final String BREAK_IN = "BI";
     public static final String BREAK_OUT = "BO";
+
     // action history
     public static final String DELETE = "DELETE";
     public static final String ADD = "ADD";
@@ -39,6 +40,7 @@ public class TkConstants {
     public static final int BIG_DECIMAL_SCALE = 2;
     public static final RoundingMode BIG_DECIMAL_SCALE_ROUNDING = RoundingMode.HALF_EVEN;
     public static final BigDecimal BIG_DECIMAL_SCALED_ZERO = BigDecimal.ZERO.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
+    public static final BigDecimal BIG_DECIMAL_NEGATIVE_ONE = new BigDecimal("-1");
 
     public static final MathContext MATH_CONTEXT = new MathContext(5, BIG_DECIMAL_SCALE_ROUNDING);
     public static final BigDecimal BIG_DECIMAL_1000 = BigDecimal.TEN.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
@@ -82,8 +84,8 @@ public class TkConstants {
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_ORG_ADMIN);
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_SYS_ADMIN);
 
-        ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_APPROVER);
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_EMPLOYEE);
+        ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_APPROVER);
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_ORG_ADMIN);
 
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_REVIEWER,  "Reviewer");
@@ -107,11 +109,12 @@ public class TkConstants {
     static{
     	ClOCK_ACTIONS.add("CI");
     	ClOCK_ACTIONS.add("CO");
-    	ClOCK_ACTIONS.add("LI");
-    	ClOCK_ACTIONS.add("LO");
+    	ClOCK_ACTIONS.add("LI"); // Coming back for Lunch
+    	ClOCK_ACTIONS.add("LO"); // Leaving for Lunch
     }
 
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";
     public static final String HOLIDAY_EARN_CODE = "HOL";
-
+    // Special System earn code to represent lunch deductions.
+    public static final String LUNCH_EARN_CODE = "LUN";
 }

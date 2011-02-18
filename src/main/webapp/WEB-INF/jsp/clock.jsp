@@ -8,11 +8,11 @@
 	</c:when>
 	<c:when test="${Form.currentClockAction eq 'LI'}">
 	    <c:set var="clockActionDescription" value="Clock Out"/>
-	    <c:set var="lastClockActionMessage" value="Return from lunch since : "/>
+	    <c:set var="lastClockActionMessage" value="At lunch since : "/>
 	</c:when>
 	<c:when test="${Form.currentClockAction eq 'LO'}">
 	<c:set var="clockActionDescription" value="Clock Out"/>
-		<c:set var="lastClockActionMessage" value="Take lunch since : "/>
+		<c:set var="lastClockActionMessage" value="Returned from lunch since : "/>
 	</c:when>
 	<c:otherwise>
 		<c:set var="clockActionDescription" value="Clock Out"/>
@@ -77,12 +77,12 @@
 						<c:when test="${Form.currentClockAction eq 'CO'}">
                            <c:choose>
                                <c:when test="${Form.showLunchButton}">
-						        <input type="submit" class="button" value="Take Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/>
+						        <input type="submit" class="button" value="Take Lunch" name="lunchOut" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LO';"/>
                                </c:when>
                            </c:choose>
 						</c:when>
-						<c:when test="${Form.currentClockAction eq 'LO'}">
-						   <input type="submit" class="button" value="Return From Lunch" name="lunchOut" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LO';"/>
+						<c:when test="${Form.currentClockAction eq 'LI'}">
+						   <input type="submit" class="button" value="Return From Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/>
 						</c:when>
                     </c:choose>
 					<input type="submit" class="button" value="Missed Punch" name="missedPunch"/>

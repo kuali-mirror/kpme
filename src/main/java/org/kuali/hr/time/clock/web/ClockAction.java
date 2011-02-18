@@ -50,8 +50,8 @@ public class ClockAction extends TimesheetAction {
     	    }
 	   	    else {
 
-	   	    	if(StringUtils.equals(lastClockLog.getClockAction(),TkConstants.LUNCH_IN) && caf.isShowLunchButton()) {
-	   	    		caf.setCurrentClockAction(TkConstants.LUNCH_OUT);
+	   	    	if(StringUtils.equals(lastClockLog.getClockAction(),TkConstants.LUNCH_OUT) && TkServiceLocator.getSystemLunchRuleService().isShowLunchButton()) {
+	   	    		caf.setCurrentClockAction(TkConstants.LUNCH_IN);
 	   	    	}
 //	   	    	else if(StringUtils.equals(lastClockLog.getClockAction(),TkConstants.LUNCH_OUT)) {
 //	   	    		caf.setCurrentClockAction(TkConstants.LUNCH_IN);
