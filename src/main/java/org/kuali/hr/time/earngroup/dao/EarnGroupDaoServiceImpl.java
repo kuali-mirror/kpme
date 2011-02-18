@@ -35,7 +35,6 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 		root.addEqualTo("timestamp", timestampSubQuery);
 //		root.addEqualTo("active", true);
 		//do not include the summary setup earn groups
-		root.addNotLike("descr", "Summary%");
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
