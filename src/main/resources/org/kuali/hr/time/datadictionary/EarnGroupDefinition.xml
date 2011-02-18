@@ -37,6 +37,7 @@
   <bean id="EarnGroupDefinition-earnCode" parent="EarnGroupDefinition-earnCode-parentBean"/>
   <bean id="EarnGroupDefinition-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Earn Code"/>
+    <property name="forceUppercase" value="true" />
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern">

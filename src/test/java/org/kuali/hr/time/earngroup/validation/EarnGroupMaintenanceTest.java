@@ -89,19 +89,20 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		text.setValueAttribute(EARN_CODE);
 		HtmlElement element = page.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
 		HtmlPage page1 = element.click();
-		assertFalse("Page contains Error", page1.asText().contains("error"));
-		
 		//error for earn code not being effective by the effectiveDate of the earn group
-		element = page1.getElementByName("methodToCall.route");
-        HtmlPage page2 = element.click();
-        assertTrue("Maintenance Page contains error messages",page2.asText().contains("The specified Earncode '" + EARN_CODE + "' does not exist."));
-        
+		assertTrue("Maintenance Page contains error messages",page1.asText().contains("The specified Earncode '" + EARN_CODE + "' does not exist."));
+      
         // set the effective date to one that works for the earn code
-        text  = (HtmlTextInput) page2.getHtmlElementById("document.newMaintainableObject.effectiveDate");
+        text  = (HtmlTextInput) page1.getHtmlElementById("document.newMaintainableObject.effectiveDate");
 		text.setValueAttribute("12/01/2010");
+		element = page1.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
+		HtmlPage page2 = element.click();
+		assertFalse("Page contains Error", page2.asText().contains("error"));
+		
 		element = page2.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
-		assertTrue("Maintenance Page contains error messages", finalPage.asText().contains(EARN_CODE + " is used by another earn group - 'test'."));
+		// error for earn code that is being used by another earn group
+        assertTrue("Maintenance Page contains error messages", finalPage.asText().contains(EARN_CODE + " is used by another earn group - 'test'."));
 		
 		//delete this earn code
 		element = finalPage.getElementByName("methodToCall.deleteLine.earnGroups.(!!.line0.(:::;3;:::).anchor2");
