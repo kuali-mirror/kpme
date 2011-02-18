@@ -60,7 +60,7 @@ public class WeeklyOvertimeRuleValidation extends MaintenanceDocumentRuleBase {
                 this.putFieldError(errorFieldPrefix + "convertToEarnCode", "error.existence", "convertToEarnCode '" + rule.getConvertToEarnCode() + "'");
                 valid = false;
             } else if (!ValidationUtils.validateEarnCode(rule.getConvertToEarnCode(), true, rule.getEffectiveDate())) {
-                this.putFieldError(errorFieldPrefix + "convertToEarnGroup", "earncode.ovt.required", rule.getConvertToEarnCode());
+                this.putFieldError(errorFieldPrefix + "convertToEarnCode", "earncode.ovt.required", rule.getConvertToEarnCode());
                 valid = false;
             }
         }
