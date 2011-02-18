@@ -41,6 +41,7 @@
       	<bean parent="MaintainableFieldDefinition" p:name="clockUserFl" />
       	<bean parent="MaintainableFieldDefinition" p:name="hrsDistributionF"/>
       	<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>
       </list>
     </property>
   </bean>

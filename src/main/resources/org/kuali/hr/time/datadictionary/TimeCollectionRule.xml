@@ -22,6 +22,7 @@
 				<ref bean="TimeCollectionRule-hrsDistributionF" />
 				<ref bean="TimeCollectionRule-userPrincipalId" />
 				<ref bean="TimeCollectionRule-timeStamp" />
+                <ref bean="TimeCollectionRule-active" />
 			</list>
 		</property>
 
@@ -52,6 +53,18 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
+
+    <bean id="TimeCollectionRule-active" parent="TimeCollectionRule-active-parentBean"/>
+    <bean id="TimeCollectionRule-active-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="shortLabel" value="Active"/>
+      <property name="control">
+        <bean parent="CheckboxControlDefinition"/>
+      </property>
+      <property name="name" value="active"/>
+      <property name="label" value="Active"/>
+      <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    </bean>
+
 
 	<bean id="TimeCollectionRule-dept" parent="TimeCollectionRule-dept-parentBean" />
 	<bean id="TimeCollectionRule-dept-parentBean" abstract="true" parent="AttributeDefinition">
@@ -84,6 +97,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
+        <property name="formatterClass" value="org.kuali.hr.time.workarea.WorkAreaFormatter"/>
 		<property name="name" value="workArea" />
 		<property name="label" value="Work Area" />
 	</bean>
@@ -168,6 +182,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
+                <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -176,6 +191,7 @@
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="effDate" />
 				<bean parent="FieldDefinition" p:attributeName="clockUserFl" />
+                <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
 		<property name="title" value="TimeCollectionRule Lookup" />
