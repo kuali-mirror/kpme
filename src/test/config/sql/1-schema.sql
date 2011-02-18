@@ -1501,6 +1501,7 @@ ALTER TABLE tk_weekly_overtime_rl_t CHANGE COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) N
 ALTER TABLE tk_document_header_t ADD COLUMN `OBJ_ID` VARCHAR(36) NULL DEFAULT NULL, ADD COLUMN `VER_NBR` BIGINT(20) NULL DEFAULT 1;
 ALTER TABLE tk_py_calendar_t DROP COLUMN `begin_date` ,
 DROP COLUMN `begin_time` , DROP COLUMN `chart` , DROP COLUMN `end_date` , DROP COLUMN `end_time` ;
+ALTER TABLE tk_py_calendar_t ADD COLUMN `active` VARCHAR(1) NOT NULL DEFAULT 'Y' AFTER `flsa_begin_time` ;
 
 DROP TABLE IF EXISTS `tk_py_calendar_entries_t`;
 DROP TABLE IF EXISTS `tk_py_calendar_entries_s`;
