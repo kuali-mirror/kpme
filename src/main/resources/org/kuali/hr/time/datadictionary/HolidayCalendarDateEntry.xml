@@ -18,6 +18,7 @@
 				<ref bean="HolidayCalendarDateEntry-holidayCalendarDateId" />
 				<ref bean="HolidayCalendarDateEntry-holidayDate" />
 				<ref bean="HolidayCalendarDateEntry-holidayDescr" />
+				<ref bean="HolidayCalendarDateEntry-holidayHours" />
 			</list>
 		</property>
 	</bean>
@@ -43,8 +44,8 @@
 		<property name="shortLabel" value="Desc" />
 		<property name="maxLength" value="30" />
 		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
+			<bean parent="AlphaNumericValidationPattern">
+				<property name="allowWhitespace" value="true" />
 			</bean>
 		</property>
 		<property name="control">
@@ -69,6 +70,21 @@
 		<property name="name" value="holidayDate" />
 		<property name="label" value="Holiday Date" />
 	</bean>
+	
+	<bean id="HolidayCalendarDateEntry-holidayHours" parent="HolidayCalendarDateEntry-holidayHours-parentBean" />
+	<bean id="HolidayCalendarDateEntry-holidayHours-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Holiday Hours" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+		<property name="name" value="holidayHours" />
+		<property name="label" value="Holiday Hours" />
+	</bean>	
 
 	<!--  Inquiry Definitions  -->
 
