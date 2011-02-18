@@ -48,10 +48,14 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         return valid;
     }
 
-    // TODO: Implement this method.
-    boolean validateOvertimePreference() {
-        boolean valid = true;
-        return valid;        
+    boolean validateDefaultOTEarnCode(String earnCode, Date asOfDate) {
+        boolean valid = ValidationUtils.validateEarnCode(earnCode, true, asOfDate);
+
+        if (!valid) {
+            this.putFieldError("defaultOvertimeEarnCode", "earncode.ovt.notfound", earnCode);
+        }
+
+        return valid;
     }
 
 	@Override
@@ -64,7 +68,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
             valid = validateDepartment(wa.getDept(), wa.getEffectiveDate());
             valid &= validateRoles(wa.getRoles());
             valid &= validateTasks(wa.getTasks());
-            valid &= validateOvertimePreference();
+            valid &= validateDefaultOTEarnCode(wa.getDefaultOvertimeEarnCode(), wa.getEffectiveDate());
         }
 
         return valid;
