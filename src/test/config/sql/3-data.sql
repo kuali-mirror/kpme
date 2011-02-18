@@ -114,6 +114,7 @@ INSERT INTO `tk_earn_code_s` VALUES('1000');
 DELETE FROM `tk_earn_code_T`;
 INSERT INTO `TK_EARN_CODE_T` (`TK_EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `RECORD_TIME`,`RECORD_HOURS`,`RECORD_AMOUNT`,`EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
     (1  , 'SDR' , 'SHIFT DIFF'        , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
+    (2  , 'LUN' , 'LUNCH'             , '0','1','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
 	(9  , 'RGN' , 'REGULAR'           , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
 	(10 , 'RGH' , 'REGULAR HOURLY'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
 	(11 , 'SCK' , 'SICK'              , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
