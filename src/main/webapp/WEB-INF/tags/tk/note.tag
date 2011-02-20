@@ -5,9 +5,11 @@
 <div id="note">
 	<h2><a href="#">Note</a></h2>
 	<div style="text-align: center;">
-		<div><strong>Existing Note:</strong> Data entry dept. short staffed on Aprial 2, 12, and 14. Tammy helped with data entry.</div><br/>
-		<textarea rows="5" cols="70" style="margin-left: auto; margin-right: auto;"></textarea><br/>
-		<input type="button" class="button" value="Submit" name="submitNote"/>
-		<input type="reset" class="button" value="Clear" name="clearNote"/>
-	</div>
+	<table width="100%" cellpadding="0" cellspacing="0" class="null">
+	<tr>
+		<td width="100%">
+    		<iframe src="${Form.workflowUrl}Note.do?docId=${Form.timesheetDocument.documentId}&attachmentTarget=_blank" height="200" width="100%" scrolling="auto"> </iframe>
+   	    </td>
+	</tr>
+	</table>
 </div>
