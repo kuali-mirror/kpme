@@ -136,6 +136,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
 	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode, BigDecimal hours, Boolean clockLogCreated){
 		String tz = TkServiceLocator.getTimezoneService().getUserTimeZone();
+		EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, timesheetDocument.getAsOfDate());
+		
 		TimeBlock tb = new TimeBlock();
     	tb.setDocumentId(timesheetDocument.getDocumentHeader().getDocumentId());
     	tb.setJobNumber(assignment.getJobNumber());
@@ -156,10 +158,29 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     	tb.setBeginTimestampTimezone(tz);
     	tb.setEndTimestamp(endTime);
     	tb.setEndTimestampTimezone(tz);
-    	tb.setHours(TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime()));
-        if(tb.getHours().compareTo(BigDecimal.ZERO) == 0){
-            tb.setHours(hours);
-        }
+    	hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
+    	//If earn code has an inflate min hours check if it is greater than zero 
+    	//and compare if the hours specified is less than min hours awarded for this
+    	//earn code
+    	if(earnCodeObj.getInflateMinHours() != null){
+    		if((earnCodeObj.getInflateMinHours().compareTo(BigDecimal.ZERO) != 0) &&
+    				earnCodeObj.getInflateMinHours().compareTo(hours) > 0){
+    			hours = earnCodeObj.getInflateMinHours();
+    		} 
+    	} 
+    	//If earn code has an inflate factor multiple hours specified by the factor 
+    	if(earnCodeObj.getInflateFactor() != null){
+    		if((earnCodeObj.getInflateFactor().compareTo(new BigDecimal(1.0))!=0) ){
+    			hours = earnCodeObj.getInflateFactor().multiply(hours, TkConstants.MATH_CONTEXT);
+    		}
+    	}
+    	
+    	tb.setHours(hours);
+
+    	//TODO - What does this do?
+//        if(tb.getHours().compareTo(BigDecimal.ZERO) == 0){
+//            tb.setHours(hours);
+//        }
         tb.setClockLogCreated(clockLogCreated);
         tb.setUserPrincipalId(TKContext.getUser().getPrincipalId());
         tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
