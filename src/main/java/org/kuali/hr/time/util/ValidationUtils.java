@@ -301,4 +301,21 @@ public class ValidationUtils {
         valid = (count > 0);
         return valid;
 	}
+	
+    /**
+    * Checks for existence of newer versions of a earn code
+    */
+   public static boolean newerEarnCodeExists(String earnCode,Date asOfDate) {
+	   boolean valid = false;
+	   Criteria crit = new Criteria();
+       crit.addEqualTo("earnCode", earnCode);
+       crit.addEqualTo("active", "Y");
+       crit.addGreaterThan("effectiveDate", asOfDate);
+       Query query = QueryFactory.newQuery(EarnCode.class, crit);
+       int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+       valid = (count > 0);
+       return valid;
+   }
+	
+	
 }

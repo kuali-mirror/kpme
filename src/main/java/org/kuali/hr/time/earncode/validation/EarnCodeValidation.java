@@ -39,9 +39,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 			this.putFieldError("recordTime", "earncode.record.unique");
 			return false;
 		}
-		
-		
-		
+
 		//check if the effective date of the accrual category is prior to effective date of the earn code 
 		//accrual category is an optional field
 		if(StringUtils.isNotEmpty(earnCode.getAccrualCategory())){
@@ -49,6 +47,12 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 				this.putFieldError("accrualCategory", "earncode.accrualCategory.invalid", earnCode.getAccrualCategory());
 				return false;
 			}
+		}
+		
+		// check if there's a newer version of the Earn Code
+		if(ValidationUtils.newerEarnCodeExists(earnCode.getEarnCode(), earnCode.getEffectiveDate())) {
+			this.putFieldError("effectiveDate", "earncode.effectiveDate.newer.exists");
+			return false;
 		}
 		return true;
 	}
