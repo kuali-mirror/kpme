@@ -44,8 +44,9 @@ $(document).ready(function() {
                 $('#endTimeField').val($.fullCalendar.formatDate(end, timeFormat));
                 $('#tkTimeBlockId').val(calEvent.tkTimeBlockId);
                 $('#hoursField').val(calEvent.hours);
-                $('#beginTimeField-messages').val(start.getMonth() + "/" + start.getDate() + "/" + start.getFullYear() + " " + start.getHours() + ":" + start.getMinutes());
-                $('#endTimeField-messages').val(end.getMonth() + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes());
+                // the month value in the javascript date object is the actual month minus 1.
+                $('#beginTimeField-messages').val(start.getMonth()+1 + "/" + start.getDate() + "/" + start.getFullYear() + " " + start.getHours() + ":" + start.getMinutes());
+                $('#endTimeField-messages').val(end.getMonth()+1 + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes());
             }
         },
         selectable: true,
