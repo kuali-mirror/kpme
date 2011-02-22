@@ -153,6 +153,7 @@
 				<bean parent="FieldDefinition" p:attributeName="payType" />
                 <bean parent="FieldDefinition" p:attributeName="regEarnCode" />
                 <bean parent="FieldDefinition" p:attributeName="descr" />
+                <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 			</list>
 		</property>
 		<property name="resultFields">
