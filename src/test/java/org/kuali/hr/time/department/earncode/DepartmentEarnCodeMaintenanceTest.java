@@ -1,23 +1,19 @@
 package org.kuali.hr.time.department.earncode;
 
-import java.util.Random;
+import java.sql.Date;
 
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.DateTime;
 import org.junit.Test;
-
-import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
-import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	
@@ -26,8 +22,14 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	private static String TEST_CODE_INVALID_DEPT_ID ="INVALID";
 	private static String TEST_CODE_INVALID_EARN_CODE_ID ="INV";
 	private static String TEST_CODE_INVALID_SAL_GROUP_ID ="INVALID";
+	private static final java.sql.Date TEST_DATE = new Date((new DateTime(2009, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+	private static final String EARN_CODE = "RGN";
+	private static final String DEPT = "TEST-DEPT";
+	private static final String SAL_GROUP = "SD1";
 	
 	private static Long departmentEarnCodeId = 3L;
+
+	private static Long tkDeptEarnCodeId;
 
 	//TODO Sai - confirm this test is appropriate
 
@@ -58,7 +60,7 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		
 		assertTrue("Maintenance Page contains test deptErrormessage",
 				resultantPageAfterEdit.asText().contains(
-						"The specified Department '"
+						"The specified department '"
 								+ TEST_CODE_INVALID_DEPT_ID
 								+ "' does not exist."));
 		
@@ -76,10 +78,51 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 				
 		
 	}
+	
+	@Test
+	public void testEditingDepartmentEarnCodeMaint() throws Exception {
+		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
+		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
+		assertTrue("Page contains TEST-DEPT", deptEarnCodeLookup.asText().contains(DEPT));
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", tkDeptEarnCodeId.toString());
+		
+		HtmlTextInput text  = (HtmlTextInput) maintPage.getHtmlElementById("document.documentHeader.documentDescription");
+		text.setValueAttribute("test");
+		assertTrue("Maintenance Page contains TEST-DEPT",maintPage.asText().contains(DEPT));
+		HtmlPage finalPage = maintPage.getElementByName("methodToCall.route").click();
+        
+		assertTrue("Maintenance Page contains Error message",finalPage.asText().contains("There is a newer version of this Department Earn Code."));
+		
+	}
+	
+	public void createNewDeptEarnCode() {
+		DepartmentEarnCode deptEarnCode = new DepartmentEarnCode();
+		deptEarnCode.setActive(true);
+		deptEarnCode.setEarnCode(EARN_CODE);
+		deptEarnCode.setEffectiveDate(TEST_DATE);
+		deptEarnCode.setDept(DEPT);
+		deptEarnCode.setTkSalGroup(SAL_GROUP);
+		deptEarnCode.setEmployee(false);
+		deptEarnCode.setEffectiveDate(TEST_DATE);
+		deptEarnCode.setLocation("test");
+		
+		KNSServiceLocator.getBusinessObjectService().save(deptEarnCode);	
+		tkDeptEarnCodeId = deptEarnCode.getTkDeptEarnCodeId();	
+	}
+	
+	@Override
+	public void tearDown() throws Exception {
+		DepartmentEarnCode deptEarnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(DepartmentEarnCode.class, tkDeptEarnCodeId);			
+		KNSServiceLocator.getBusinessObjectService().delete(deptEarnCodeObj);				
+		super.tearDown();
+	}
+	
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		this.createNewDeptEarnCode();
+		
 		/*DepartmentEarnCode departmentEarnCode = new DepartmentEarnCode();
 		departmentEarnCode.setApprover(true);
 		Random randomObj = new Random();
@@ -138,6 +181,5 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		departmentEarnCode.setOrg_admin(false);
 		KNSServiceLocator.getBusinessObjectService().save(departmentEarnCode);
 		departmentEarnCodeId=departmentEarnCode.getTkDeptEarnCodeId();*/
-		
 	}
 }

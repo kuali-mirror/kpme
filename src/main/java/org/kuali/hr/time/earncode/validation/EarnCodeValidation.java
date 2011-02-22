@@ -50,7 +50,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		}
 		
 		// check if there's a newer version of the Earn Code
-		if(ValidationUtils.newerEarnCodeExists(earnCode.getEarnCode(), earnCode.getEffectiveDate())) {
+		if(ValidationUtils.newerVersionExists(EarnCode.class, "earnCode", earnCode.getEarnCode(), earnCode.getEffectiveDate())) {
 			this.putFieldError("effectiveDate", "earncode.effectiveDate.newer.exists");
 			return false;
 		}

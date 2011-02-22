@@ -1,5 +1,7 @@
 package org.kuali.hr.time.util;
 
+import java.sql.Date;
+
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -19,8 +21,6 @@ import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-
-import java.sql.Date;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -301,17 +301,18 @@ public class ValidationUtils {
         valid = (count > 0);
         return valid;
 	}
-	
-    /**
-    * Checks for existence of newer versions of a earn code
+   
+   /**
+    * Checks for existence of newer versions of a class object based on fieldValue
+    * class must have active and effectiveDate fields
     */
-   public static boolean newerEarnCodeExists(String earnCode,Date asOfDate) {
+   public static boolean newerVersionExists(Class<? extends Object> clazz, String fieldName, String fieldValue, Date asOfDate) {
 	   boolean valid = false;
 	   Criteria crit = new Criteria();
-       crit.addEqualTo("earnCode", earnCode);
+       crit.addEqualTo(fieldName, fieldValue);
        crit.addEqualTo("active", "Y");
        crit.addGreaterThan("effectiveDate", asOfDate);
-       Query query = QueryFactory.newQuery(EarnCode.class, crit);
+       Query query = QueryFactory.newQuery(clazz, crit);
        int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
        valid = (count > 0);
        return valid;
