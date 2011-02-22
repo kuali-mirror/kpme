@@ -21,6 +21,7 @@ public class SystemLunchRuleMaintainableImpl extends KualiMaintainableImpl {
 //		}
 		sysLunchRule.setTkSystemLunchRuleId(null);
 		sysLunchRule.setTimeStamp(null);
+		sysLunchRule.setActive(true);
 		KNSServiceLocator.getBusinessObjectService().save(sysLunchRule);
 	}
 }
