@@ -125,6 +125,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
                 <bean parent="FieldDefinition" p:attributeName="descr"/>
+                <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
