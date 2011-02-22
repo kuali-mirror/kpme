@@ -80,7 +80,7 @@ public class Job extends PersistableBusinessObjectBase {
 	public String getPrincipalName() {
 		if(principalName == null && !this.getPrincipalId().isEmpty()) {
 			Person aPerson = KIMServiceLocator.getPersonService().getPerson(getPrincipalId());
-			setPrincipalName(aPerson.getPrincipalName());
+			setPrincipalName(aPerson.getName());
 		}
 		return principalName;
 	}
