@@ -220,7 +220,7 @@
 			<bean parent="DateValidationPattern" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="3" p:datePicker="true" />
+			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
 		</property>
 		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
 		<property name="name" value="effectiveDate" />
@@ -364,6 +364,7 @@
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="location" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				
 			</list>
