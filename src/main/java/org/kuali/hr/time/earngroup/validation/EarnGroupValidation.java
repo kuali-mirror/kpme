@@ -10,6 +10,7 @@ import java.util.Set;
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
+import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -29,6 +30,9 @@ public class EarnGroupValidation  extends MaintenanceDocumentRuleBase{
 			} 
 			if(earnGroup.getShowSummary()) {
 				validateEarnCode(earnGroupDef.getEarnCode().toUpperCase(), index, earnGroup);
+			}
+			if (!ValidationUtils.validateEarnCode(earnGroupDef.getEarnCode(), earnGroup.getEffectiveDate())) {
+				this.putFieldError("earnGroups["+index+"].earnCode", "error.existence", "Earncode '" + earnGroupDef.getEarnCode()+ "'");
 			}
 			earnCodes.add(earnGroupDef.getEarnCode());
 			index++;
