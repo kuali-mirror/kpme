@@ -13,7 +13,6 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	
@@ -85,14 +84,8 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
 		assertTrue("Page contains TEST-DEPT", deptEarnCodeLookup.asText().contains(DEPT));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", tkDeptEarnCodeId.toString());
-		
-		HtmlTextInput text  = (HtmlTextInput) maintPage.getHtmlElementById("document.documentHeader.documentDescription");
-		text.setValueAttribute("test");
-		assertTrue("Maintenance Page contains TEST-DEPT",maintPage.asText().contains(DEPT));
-		HtmlPage finalPage = maintPage.getElementByName("methodToCall.route").click();
-        
-		assertTrue("Maintenance Page contains Error message",finalPage.asText().contains("There is a newer version of this Department Earn Code."));
-		
+		assertTrue("Maintenance Page contains Warnings",maintPage.asText().contains("Warnings for this Section:"));
+		assertTrue("Maintenance Page contains Warning message",maintPage.asText().contains("There is a newer version of this Department Earn Code."));
 	}
 	
 	public void createNewDeptEarnCode() {

@@ -5,7 +5,6 @@ import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.KNSConstants;
 
 
 public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
@@ -37,15 +36,6 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 	
-	boolean validateNewerVersion(DepartmentEarnCode departmentEarnCode ) {
-		if(ValidationUtils.newerVersionExists(DepartmentEarnCode.class, "earnCode", departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveDate())) {
-			this.putFieldError("effectiveDate", "deptEarncode.effectiveDate.newer.exists");
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
@@ -66,9 +56,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateDept(departmentEarnCode);
 				valid &= this.validateEarnCode(departmentEarnCode);	
 			}
-			if(document.getNewMaintainableObject().getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)) {
-				valid &= this.validateNewerVersion(departmentEarnCode);
-			}
+
 		}
 		
 		return valid;
