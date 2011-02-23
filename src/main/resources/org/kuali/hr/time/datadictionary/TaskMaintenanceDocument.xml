@@ -34,12 +34,12 @@
 		<property name="title" value="Work Area Maintenance" />
 		<property name="maintainableItems">
 			<list>
+			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="tkTaskId" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="administrativeDescription" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="tkWorkAreaId" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="active"  p:defaultValue="true" p:required="true"/>
 			</list>
 		</property>

@@ -34,10 +34,10 @@
 		<property name="title" value="Weekly Overtime Rule Maintenance" />
 		<property name="maintainableItems">
 			<list>
+			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="maxHoursEarnGroup" />
 				<bean parent="MaintainableFieldDefinition" p:name="convertFromEarnGroup" />
 				<bean parent="MaintainableFieldDefinition" p:name="convertToEarnCode" />
-				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="step" />
 				<bean parent="MaintainableFieldDefinition" p:name="maxHours" />
 				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />				

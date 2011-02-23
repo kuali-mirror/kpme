@@ -32,9 +32,9 @@
 		<property name="title" value="WorkSchedule Maintenance" />
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="workScheduleDesc"
+			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
+				<bean parent="MaintainableFieldDefinition" p:name="workScheduleDesc"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="dept" />
 				<bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true" />

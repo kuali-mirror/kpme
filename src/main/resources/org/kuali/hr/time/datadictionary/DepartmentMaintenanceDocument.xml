@@ -31,11 +31,11 @@
     <property name="title" value="Department Maintenance"/>
     <property name="maintainableItems">
       <list>
+        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="chart" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="org" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
       </list>
     </property>
@@ -56,10 +56,10 @@
             <property name="alwaysAllowCollectionDeletion" value="true" />
             <property name="maintainableFields">
                 <list>
+                    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
                     <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
                     <bean parent="MaintainableFieldDefinition" p:name="userName" />
                     <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.TkOrgAdminRoleFinder"/>
-                    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
                     <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
                 </list>
             </property>

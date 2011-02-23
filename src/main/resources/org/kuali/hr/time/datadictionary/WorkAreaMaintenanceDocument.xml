@@ -28,8 +28,8 @@
     <property name="title" value="Work Area Maintenance"/>
     <property name="maintainableItems">
       <list>
+        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
      	<bean parent="MaintainableFieldDefinition" p:name="workArea" p:unconditionallyReadOnly="true" />
-      	<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="description"  p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="overtimeEditRole" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="defaultOvertimeEarnCode" p:required="true"/>
@@ -55,12 +55,12 @@
 			<property name="alwaysAllowCollectionDeletion" value="true" />
 			<property name="maintainableFields">
 				<list>
+				    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
 					<bean parent="MaintainableFieldDefinition" p:name="task" p:required="true" />
 					<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
                     <bean parent="MaintainableFieldDefinition" p:name="administrativeDescription" p:required="true" />
                     <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>
-                    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
-				</list>
+                </list>
 			</property>
       	</bean>
       </list>
@@ -82,10 +82,10 @@
 			<property name="alwaysAllowCollectionDeletion" value="true" />
 			<property name="maintainableFields">
 				<list>
+				    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
 					<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
                     <bean parent="MaintainableFieldDefinition" p:name="userName" />
 					<bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.TkApproverRoleFinder"/>
-					<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
 					<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
 				</list>
 			</property>

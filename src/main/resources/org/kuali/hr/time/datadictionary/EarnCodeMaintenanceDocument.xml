@@ -33,9 +33,9 @@
     <property name="title" value="Earn Code Maintenance"/>
     <property name="maintainableItems">
       <list>
+        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"     p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="earnCode" 		p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description"     p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"     p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode"   	p:required="false" p:defaultValue="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="recordTime" 		p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="recordHours" 		p:required="false"/>

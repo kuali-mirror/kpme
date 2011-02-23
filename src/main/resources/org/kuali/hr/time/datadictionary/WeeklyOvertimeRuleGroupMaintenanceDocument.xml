@@ -43,10 +43,10 @@
           	<property name="alwaysAllowCollectionDeletion" value="true"/>
           	<property name="maintainableFields">
             	<list>
+            		<bean parent="MaintainableFieldDefinition" p:required="true" p:name="effectiveDate" />
               		<bean parent="MaintainableFieldDefinition" p:required="true" p:name="maxHoursEarnGroup" />
 					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="convertFromEarnGroup" />
 					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="convertToEarnCode" />
-					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="effectiveDate" />
 					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="step" />
 					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="maxHours" />
 					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="active" p:defaultValue="true"/>

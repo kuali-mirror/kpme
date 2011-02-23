@@ -35,11 +35,11 @@
 		<property name="title" value="Pay Type Maintenance" />
 		<property name="maintainableItems">
 			<list>
+			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="payType" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="descr" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="regEarnCode" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
 			</list>
 		</property>
 	</bean>

@@ -68,12 +68,12 @@
     <property name="title" value="Account Maintenance"/>
     <property name="maintainableItems">
       <list>
+        <bean parent="MaintainableFieldDefinition" p:name="accountEffectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountCreateDate"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accountEffectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountExpirationDate"/>
         <bean parent="MaintainableFieldDefinition" p:name="closed"/>
       </list>

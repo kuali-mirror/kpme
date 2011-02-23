@@ -58,10 +58,10 @@
                         <list>
                             <!--<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />-->
                             <!--<bean parent="MaintainableFieldDefinition" p:name="userName" p:required="false"/>-->
+                            <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:readOnlyAfterAdd="true"/>
                             <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="false" p:readOnlyAfterAdd="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="department" p:required="false" p:readOnlyAfterAdd="true"/>
-                            <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
                         </list>
                   </property>
