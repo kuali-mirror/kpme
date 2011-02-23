@@ -72,7 +72,8 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 	}
 	
 	boolean validatePrincipalId(DeptLunchRule ruleObj) {
-		if (!ValidationUtils.validatePrincipalId(ruleObj.getPrincipalId())) {
+		if (!ruleObj.getPrincipalId().equals(TkConstants.WILDCARD_CHARACTER)
+				&&!ValidationUtils.validatePrincipalId(ruleObj.getPrincipalId())) {
 			this.putFieldError("principalId", "error.existence", "Principal Id '" + ruleObj.getPrincipalId() + "'");
 			return false;				
 		} else {
@@ -100,6 +101,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateDepartment(deptLunchRule);
 				valid &= this.validateWorkArea(deptLunchRule);
 				valid &= this.validatePrincipalId(deptLunchRule);
+				valid &= this.validateJobNumber(deptLunchRule);
 			}
 		}
 		
