@@ -12,6 +12,7 @@ import java.util.List;
 
 public class TkRuleControllerServiceImpl implements TkRuleControllerService {
 
+    // TODO : Filter actions to reduce computation for rule runs: Clock IN for example does not need to execute rule running.
 	public void applyRules(String action, List<TimeBlock> timeBlocks, PayCalendarEntries payEntry, TimesheetDocument timesheetDocument){
 		//foreach action run the rules that apply
 

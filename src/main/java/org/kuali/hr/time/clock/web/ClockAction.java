@@ -116,9 +116,6 @@ public class ClockAction extends TimesheetAction {
                 // Add TimeBlocks after we store our reference object!
                 newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,earnCode, caf.getTimesheetDocument(),beginTimestamp, endTimestamp,BigDecimal.ZERO, true));
 
-    			//TODO do any server side validation of adding checking for overlapping timeblocks etc
-    			//return if any issues
-
     			//reset time hour details
     			TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTimeBlocks);
     			//apply any rules for this action

@@ -42,26 +42,6 @@
 				<fmt:timeZone value="${Form.user.userPreference.timezone}"><fmt:formatDate type="both" value="${Form.lastClockTimestamp}" pattern="EEE, MMMM d yyyy HH:mm:ss, zzzz"/></fmt:timeZone>
 				</td>
 			</tr>
-			<%--
-			<tr>
-				<td class="sub-header"><bean:message key="clock.elapsedTime"/> : </td>
-
-				<td>
-					<c:choose>
-						<c:when test="${Form.currentClockAction eq 'CO'}">
-							<span class="elapsedTime"></span>
-						</c:when>
-						<c:otherwise>
-							00:00:00
-						</c:otherwise>
-					</c:choose>
-				</td>
-			</tr>
-			<tr>
-				<td class="sub-header"><bean:message key="clock.lastClockedHours"/> : </td>
-				<td>3.2</td>
-			</tr>
-			 --%>
 			<tr>
 				<td class="sub-header"><bean:message key="clock.clockAssignment"/> : </td>
 				<td>
