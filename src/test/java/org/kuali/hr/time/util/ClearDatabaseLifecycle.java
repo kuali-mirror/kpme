@@ -1,18 +1,6 @@
 package org.kuali.hr.time.util;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.sql.DataSource;
-
 import junit.framework.Assert;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.enhydra.jdbc.pool.StandardXAPoolDataSource;
@@ -26,6 +14,16 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ClearDatabaseLifecycle extends BaseLifecycle {
 
@@ -61,15 +59,14 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 		TABLES_TO_CLEAR.add("TK_TIME_BLOCK_T");
 		TABLES_TO_CLEAR.add("TK_TIME_COLLECTION_RL_T");
 		TABLES_TO_CLEAR.add("TK_WEEKLY_OVERTIME_RL_T");
-		TABLES_TO_CLEAR.add("TK_WORK_AREA_OVT_PREF_T");
-		TABLES_TO_CLEAR.add("TK_WORK_AREA_T");	
-		TABLES_TO_CLEAR.add("HR_JOB_T");	
+		TABLES_TO_CLEAR.add("TK_WORK_AREA_T");
+		TABLES_TO_CLEAR.add("HR_JOB_T");
 		TABLES_TO_CLEAR.add("HR_PAYTYPE_T");
 		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_ENTRY_T");
 		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_T");
 		TABLES_TO_CLEAR.add("TK_DOCUMENT_HEADER_T");
 	}
-	
+
 	private static final Map<String,String> TABLE_TO_ID_MAP = new HashMap<String,String>();
 	static{
 		TABLE_TO_ID_MAP.put("TK_TIME_COLLECTION_RL_T", "TK_TIME_COLL_RULE_ID");
@@ -81,10 +78,10 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 		TABLE_TO_ID_MAP.put("TK_PY_CALENDAR_ENTRIES_T", "TK_PY_CALENDAR_ENTRY_ID");
 		TABLE_TO_ID_MAP.put("TK_DOCUMENT_HEADER_T", "DOCUMENT_ID");
 	}
-	
-	
+
+
 	public static final String TEST_TABLE_NAME = "KR_UNITTEST_T";
-	
+
 	public static final Integer START_CLEAR_ID = 1000;
 
 	public void start() throws Exception {
@@ -115,7 +112,7 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 	protected void clearTables(final PlatformTransactionManager transactionManager, final DataSource dataSource, final String schemaName) {
 		LOG.info("Clearing tables for schema " + schemaName);
 		Assert.assertNotNull("DataSource could not be located.", dataSource);
-		
+
 		if (schemaName == null || schemaName.equals("")) {
 			Assert.fail("Empty schema name given");
 		}
@@ -134,7 +131,7 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
                     			} else {
                     				deleteStatement = "DELETE FROM " + tableName +" WHERE "+ idName + " >= "+START_CLEAR_ID;
                     			}
-                            	
+
                             	LOG.error("Clearing contents using statement ->" + deleteStatement + "<-");
                             	statement.addBatch(deleteStatement);
                             }
