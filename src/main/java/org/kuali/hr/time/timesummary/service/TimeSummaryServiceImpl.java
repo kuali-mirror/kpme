@@ -26,7 +26,8 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
 public class TimeSummaryServiceImpl implements TimeSummaryService{
-
+	private static final String OTHER_EARN_GROUP = "Other";
+	
 	@Override
 	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument) {
 		TimeSummary timeSummary = new TimeSummary();
@@ -126,11 +127,12 @@ public class TimeSummaryServiceImpl implements TimeSummaryService{
 					EarnGroup earnGroup = TkServiceLocator.getEarnGroupService().getEarnGroupForEarnCode(thd.getEarnCode(), TKUtils.getTimelessDate(asOfDate));
 					if(earnGroup == null){
 						earnGroup = new EarnGroup();
-						earnGroup.setEarnGroup("Other");
+						earnGroup.setEarnGroup(OTHER_EARN_GROUP);
+						earnGroup.setDescr(OTHER_EARN_GROUP);
 					}
-					buildAssignmentSetForEarnGroup(earnGroupToAssignmentSets, tb.getAssignString(), earnGroup.getEarnGroup());
-					
-					String earnGroupAssignDescr = earnGroup.getEarnGroup()+"_"+tb.getAssignString();
+					buildAssignmentSetForEarnGroup(earnGroupToAssignmentSets, tb.getAssignString(), earnGroup.getDescr());
+
+					String earnGroupAssignDescr = earnGroup.getDescr()+"_"+tb.getAssignString();
 					earnGroupAssignToHoursMap = dayToEarnGroupAssignToHoursMap.get(dayCount); 
 					earnGroupAssignToHoursMap = buildTimeHourDetail(earnGroupAssignToHoursMap, thd.getHours(), earnGroupAssignDescr);
 					dayToEarnGroupAssignToHoursMap.put(dayCount, earnGroupAssignToHoursMap);
