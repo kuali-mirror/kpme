@@ -1,104 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 
-  <bean id="HolidayCalendar" parent="HolidayCalendar-parentBean"/>
-  <bean id="HolidayCalendar-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.hr.time.holidaycalendar.HolidayCalendar"/>
-    <property name="titleAttribute" value="holidayCalendarId"/>
-    <property name="objectLabel" value="holidayCalendar"/>
-    <property name="lookupDefinition">
-      <ref bean="HolidayCalendar-lookupDefinition"/>
-    </property>
-    <property name="attributes">
-      <list>
-        <ref bean="HolidayCalendar-holidayCalendarId"/>
-        <ref bean="HolidayCalendar-holidayCalendarGroup"/>
-        <ref bean="HolidayCalendar-descr"/>
-        <ref bean="HolidayCalendar-active"/>
-       </list>
-    </property>
-    <property name="collections">
-      <list>
-        <bean parent="CollectionDefinition" 
-        	p:name="dateEntries" p:label="Holdiday Calendar Dates" p:shortLabel="Holiday Calendar Dates" p:summary="Holiday Calendar Dates" p:description="Holiday Calendar Dates"/>
-      </list>
-    </property>        
-  </bean>
+	<bean id="HolidayCalendar" parent="HolidayCalendar-parentBean" />
+	<bean id="HolidayCalendar-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.hr.time.holidaycalendar.HolidayCalendar" />
+		<property name="titleAttribute" value="holidayCalendarId" />
+		<property name="objectLabel" value="holidayCalendar" />
+		<property name="lookupDefinition">
+			<ref bean="HolidayCalendar-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="HolidayCalendar-holidayCalendarId" />
+				<ref bean="HolidayCalendar-holidayCalendarGroup" />
+				<ref bean="HolidayCalendar-descr" />
+				<ref bean="HolidayCalendar-location" />
+				<ref bean="HolidayCalendar-active" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="locationObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
+								p:targetName="location" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="dateEntries"
+					p:label="Holdiday Calendar Dates" p:shortLabel="Holiday Calendar Dates"
+					p:summary="Holiday Calendar Dates" p:description="Holiday Calendar Dates" />
+			</list>
+		</property>
+	</bean>
 
-  <!-- Attribute Definitions -->
-  
-  <bean id="HolidayCalendar-holidayCalendarId" parent="HolidayCalendar-holidayCalendarId-parentBean"/>
-  <bean id="HolidayCalendar-holidayCalendarId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Id"/>
-    <property name="maxLength" value="20"/>
-    <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="20"/>
-    </property>
-    <property name="name" value="holidayCalendarId"/>
-    <property name="label" value="Holiday Calendar Id"/>
-  </bean>
+	<!-- Attribute Definitions -->
 
-  <bean id="HolidayCalendar-holidayCalendarGroup" parent="HolidayCalendar-holidayCalendarGroup-parentBean"/>
-  <bean id="HolidayCalendar-holidayCalendarGroup-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Calendar Group"/>
-    <property name="maxLength" value="3"/>
-    <property name="validationPattern">
- 		<bean parent="AlphaNumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
-    </property>
-    <property name="name" value="holidayCalendarGroup"/>
-    <property name="label" value="Holiday Calendar Group"/>
-  </bean>
-  
-  <bean id="HolidayCalendar-descr" parent="HolidayCalendar-descr-parentBean"/>
-  <bean id="HolidayCalendar-descr-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Description"/>
-    <property name="maxLength" value="30"/>
-    <property name="validationPattern">
- 		<bean parent="AlphaNumericValidationPattern">
- 			<property name="allowWhitespace" value="true" />
- 		</bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="30"/>
-    </property>
-    <property name="name" value="descr"/>
-    <property name="label" value="Description"/>
-  </bean>
-    
-  <bean id="HolidayCalendar-active" parent="HolidayCalendar-active-parentBean"/>
-  <bean id="HolidayCalendar-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active"/>
-    <property name="label" value="Active?"/>
-  </bean>
-  <!-- -->
-  <!-- Lookup Definition: -->
-  <!-- -->
+	<bean id="HolidayCalendar-holidayCalendarId" parent="HolidayCalendar-holidayCalendarId-parentBean" />
+	<bean id="HolidayCalendar-holidayCalendarId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Id" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+		<property name="name" value="holidayCalendarId" />
+		<property name="label" value="Holiday Calendar Id" />
+	</bean>
 
-  <bean id="HolidayCalendar-lookupDefinition" parent="HolidayCalendar-lookupDefinition-parentBean"/>
-  <bean id="HolidayCalendar-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup"/>
-        <bean parent="FieldDefinition" p:attributeName="descr"/>
-        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="holidayCalendarId"/>
-        <bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup"/>
-        <bean parent="FieldDefinition" p:attributeName="descr"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-      </list>
-    </property>
-    <property name="title" value="Holiday Calendar Lookup"/>
-  </bean>
-   
+	<bean id="HolidayCalendar-holidayCalendarGroup" parent="HolidayCalendar-holidayCalendarGroup-parentBean" />
+	<bean id="HolidayCalendar-holidayCalendarGroup-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Calendar Group" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+		<property name="name" value="holidayCalendarGroup" />
+		<property name="label" value="Holiday Calendar Group" />
+	</bean>
+
+	<bean id="HolidayCalendar-descr" parent="HolidayCalendar-descr-parentBean" />
+	<bean id="HolidayCalendar-descr-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+		<property name="name" value="descr" />
+		<property name="label" value="Description" />
+	</bean>
+
+	<!-- location -->
+	<bean id="HolidayCalendar-location" parent="HolidayCalendar-location-parentBean" />
+	<bean id="HolidayCalendar-location-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Location" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+		<property name="name" value="location" />
+		<property name="label" value="Location" />
+	</bean>
+
+	<bean id="HolidayCalendar-active" parent="HolidayCalendar-active-parentBean" />
+	<bean id="HolidayCalendar-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+		<property name="label" value="Active?" />
+	</bean>
+	<!-- -->
+	<!-- Lookup Definition: -->
+	<!-- -->
+
+	<bean id="HolidayCalendar-lookupDefinition" parent="HolidayCalendar-lookupDefinition-parentBean" />
+	<bean id="HolidayCalendar-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup" />
+				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="active"
+					p:defaultValue="Y" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="holidayCalendarId" />
+				<bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup" />
+				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="title" value="Holiday Calendar Lookup" />
+	</bean>
+
 </beans>

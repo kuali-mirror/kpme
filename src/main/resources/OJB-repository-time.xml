@@ -462,6 +462,7 @@
 		<field-descriptor name="holidayCalendarId" column="holiday_calendar_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_holiday_calendar_s"/>
 		<field-descriptor name="holidayCalendarGroup" column="holiday_calendar_group" jdbc-type="VARCHAR" length="3" nullable="false"/>
 		<field-descriptor name="descr" column="descr" jdbc-type="VARCHAR" length="30"/>
+		<field-descriptor name="location" column="location" jdbc-type="VARCHAR" nullable="false" length="30"  />
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 
