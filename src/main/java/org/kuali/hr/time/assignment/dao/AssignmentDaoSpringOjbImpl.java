@@ -1,18 +1,17 @@
 package org.kuali.hr.time.assignment.dao;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements AssignmentDao {
 
@@ -59,15 +58,15 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		Criteria timestamp = new Criteria();
 
 		// OJB's awesome sub query setup part 1
-		//effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 		//effdt.addEqualTo("active", true);
 		effdt.addEqualTo("principalId", principalId);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
 		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-		
+
 		// OJB's awesome sub query setup part 2
-		//timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 		//timestamp.addEqualTo("active", true);
 		timestamp.addEqualTo("principalId", principalId);
@@ -82,14 +81,14 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
-		
+
 		Query query = QueryFactory.newQuery(Assignment.class, root);
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-		
+
 		if (c != null) {
 			assignments.addAll(c);
 		}
-	
+
 		return assignments;
 	}
 
