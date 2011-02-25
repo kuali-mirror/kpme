@@ -1,5 +1,8 @@
 package org.kuali.hr.time.earngroup.service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
 import org.kuali.hr.time.util.ValidationUtils;
@@ -35,18 +38,23 @@ public class EarnGroupMaintainableImpl extends KualiMaintainableImpl{
         	EarnGroupDefinition definition = (EarnGroupDefinition)newCollectionLines.get(collectionName );
             if ( definition != null ) {
             	EarnGroup earnGroup = (EarnGroup)this.getBusinessObject();
-    			if (!ValidationUtils.validateEarnCode(definition.getEarnCode().toUpperCase(), earnGroup.getEffectiveDate())) {
+            	Set<String> earnCodes = new HashSet<String>();
+            	for(EarnGroupDefinition earnGroupDef : earnGroup.getEarnGroups()){
+            		earnCodes.add(earnGroupDef.getEarnCode());
+            	}
+            	if(earnCodes.contains(definition.getEarnCode())){
+            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnGroups", 
+            				"earngroup.duplicate.earncode",definition.getEarnCode());
+            		return;
+    			} 
+            	if (!ValidationUtils.validateEarnCode(definition.getEarnCode().toUpperCase(), earnGroup.getEffectiveDate())) {
     				GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnGroups", 
     							"error.existence", "Earncode '" + definition.getEarnCode()+ "'");
-    			} else {
-    				super.addNewLineToCollection(collectionName);
-    			}
-
+    				return;
+    			} 
             }
-        } else {
-            super.addNewLineToCollection(collectionName);
         }
+       super.addNewLineToCollection(collectionName);
     }
-
-	 
+		 
 }

@@ -31,6 +31,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		earnGroups.add(definition);
 		
 		EarnGroup earnGroup = new EarnGroup();
+		earnGroup.setEarnGroup("testGroup");
 		earnGroup.setDescr("test");
 		earnGroup.setEffectiveDate(TEST_DATE);
 		earnGroup.setShowSummary(true);
@@ -73,19 +74,21 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 
 		HtmlTextInput text  = (HtmlTextInput) page.getHtmlElementById("document.documentHeader.documentDescription");
 		text.setValueAttribute("test");
-		text  = (HtmlTextInput) page.getHtmlElementById("document.newMaintainableObject.descr");
+		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "descr");
 		text.setValueAttribute("Test Earn Group");
+		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "earnGroup");
+		text.setValueAttribute("Test");
 		// set an old effective date so that the earn code that's added later is not effective by that date 
-		text  = (HtmlTextInput) page.getHtmlElementById("document.newMaintainableObject.effectiveDate");
+		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "effectiveDate");
 		text.setValueAttribute("12/01/2008");
 		
-		HtmlCheckBoxInput checkbox = (HtmlCheckBoxInput) page.getHtmlElementById("document.newMaintainableObject.showSummary");
+		HtmlCheckBoxInput checkbox = (HtmlCheckBoxInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "showSummary");
 		checkbox.setChecked(true);
-		checkbox = (HtmlCheckBoxInput) page.getHtmlElementById("document.newMaintainableObject.active");
+		checkbox = (HtmlCheckBoxInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "active");
 		checkbox.setChecked(true);
 				
 		// add an Earn code that is being used by another active earn group, submit, should generate error message
-		text  = (HtmlTextInput) page.getHtmlElementById("document.newMaintainableObject.add.earnGroups.earnCode");
+		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnGroups.earnCode");
 		text.setValueAttribute(EARN_CODE);
 		HtmlElement element = page.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
 		HtmlPage page1 = element.click();
@@ -93,13 +96,21 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		assertTrue("Maintenance Page contains error messages",page1.asText().contains("The specified Earncode '" + EARN_CODE + "' does not exist."));
       
         // set the effective date to one that works for the earn code
-        text  = (HtmlTextInput) page1.getHtmlElementById("document.newMaintainableObject.effectiveDate");
+        text  = (HtmlTextInput) page1.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "effectiveDate");
 		text.setValueAttribute("12/01/2010");
 		element = page1.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
 		HtmlPage page2 = element.click();
 		assertFalse("Page contains Error", page2.asText().contains("error"));
 		
-		element = page2.getElementByName("methodToCall.route");
+		// add the same earn code again to get the duplicate error
+		text  = (HtmlTextInput) page2.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnGroups.earnCode");
+		text.setValueAttribute(EARN_CODE);
+		element = page2.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
+		page1 = element.click();
+		assertTrue("Maintenance Page contains error messages",page1.asText().contains(EARN_CODE + " is already a part of this earngroup."));
+		
+		
+		element = page1.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
 		// error for earn code that is being used by another earn group
         assertTrue("Maintenance Page contains error messages", finalPage.asText().contains(EARN_CODE + " is used by another earn group - 'test'."));
@@ -110,7 +121,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		assertFalse("Page contains Error", page3.asText().contains("error"));
 		
 		//add an earn code that is not being used, submit, should get success message
-		text  = (HtmlTextInput) page3.getHtmlElementById("document.newMaintainableObject.add.earnGroups.earnCode");
+		text  = (HtmlTextInput) page3.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnGroups.earnCode");
 		text.setValueAttribute("SDR");
 		element = page3.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
 		page1 = element.click();
