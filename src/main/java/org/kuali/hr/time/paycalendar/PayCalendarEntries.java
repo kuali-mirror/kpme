@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 
 import javax.persistence.Transient;
 
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -60,7 +61,11 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
 
 
     public Long getPayCalendarId() {
-	return payCalendarId;
+        payCalendarObj = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(this.getCalendarGroup());
+        if (payCalendarObj != null) {
+        	this.setPayCalendarId(payCalendarObj.getPayCalendarId());
+        }
+        return payCalendarId;
     }
 
     public void setPayCalendarId(Long payCalendarId) {
