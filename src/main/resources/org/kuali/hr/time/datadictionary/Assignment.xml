@@ -12,7 +12,7 @@
     <property name="attributes">
       <list>
         <ref bean="Assignment-principalId"/>
-        <ref bean="Assignment-principalName"/>
+        <ref bean="Assignment-name"/>
         <ref bean="Assignment-jobNumber"/>
         <ref bean="Assignment-effectiveDate"/>
         <ref bean="Assignment-workArea"/>
@@ -26,7 +26,7 @@
               <property name="objectAttributeName" value="principal"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalName" p:targetName="principalName"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="name" p:targetName="name"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
                 </list>
               </property>
@@ -36,6 +36,7 @@
               <property name="objectAttributeName" value="workAreaObj"/>
               <property name="primitiveAttributes">
                 <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea" p:targetName="workArea"/>
                 </list>
               </property>
@@ -86,16 +87,16 @@
     <property name="label" value="Principal Id"/>
   </bean>
   
-  <bean id="Assignment-principalName" parent="Assignment-principalName-parentBean"/>
-  <bean id="Assignment-principalName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Principal Name"/>
+  <bean id="Assignment-name" parent="Assignment-name-parentBean"/>
+  <bean id="Assignment-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="15"/>
      
     <property name="control">
       <bean parent="LookupReadonlyControlDefinition" p:size="15" />
     </property>
-    <property name="name" value="principalName"/>
-    <property name="label" value="Principal Name"/>
+    <property name="name" value="name"/>
+    <property name="label" value="Name"/>
   </bean>
   
 
@@ -180,7 +181,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId" p:noLookup="true"/>
         <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
         <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
         <bean parent="FieldDefinition" p:attributeName="workArea"/>

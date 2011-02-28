@@ -58,7 +58,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		LOG.debug("Validating job: " + assignment.getJob());
 		Job job = TkServiceLocator.getJobSerivce().getJob(
 				assignment.getPrincipalId(), assignment.getJobNumber(),
-				assignment.getEffectiveDate());
+				assignment.getEffectiveDate(), false);
 		// Job job =
 		// KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Job.class,
 		// assignment.getJob().getHrJobId());
@@ -147,16 +147,12 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateAccount(AssignmentAccount assignmentAccount) {
 		boolean valid = false;
 		LOG.debug("Validating Account: " + assignmentAccount.getAccountNbr());
-		Collection account = KNSServiceLocator.getBusinessObjectDao().findAll(Account.class);
-		Iterator<Account> itr = account.iterator();
-		while (itr.hasNext()) {
-			Account accountObj = itr.next();
-			if (accountObj.getAccountNumber().equals(assignmentAccount.getAccountNbr())) {
-				valid = true;
-				LOG.debug("found account number.");
-			}
-		}
-		 if(!valid) {
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("accountNumber", assignmentAccount.getAccountNbr());
+		Collection account = KNSServiceLocator.getBusinessObjectDao()
+				.findMatching(Account.class, fields);
+		valid = account.size() > 0;
+		if (!valid) {
 			this.putGlobalError("error.existence", "Account Number '"
 					+ assignmentAccount.getAccountNbr() + "'");
 		}
@@ -164,44 +160,42 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	}
 
 	protected boolean validateObjectCode(AssignmentAccount assignmentAccount) {
-//		boolean valid = false;
-//		LOG.debug("Validating ObjectCode: " + assignmentAccount.getFinObjectCd());
-//		Collection objectCode = KNSServiceLocator.getBusinessObjectDao().findAll(ObjectCode.class);
-//		Iterator<ObjectCode> itr = objectCode.iterator();
-//		while (itr.hasNext()) {
-//			ObjectCode objectCodeObj = itr.next();
-//			if (objectCodeObj.getObjectId().equals(assignmentAccount.getFinObjectCd())) {
-//				valid = true;
-//				LOG.debug("found object code.");
-//			}
-//		}
-//		 if(!valid) {
-//			this.putGlobalError("error.existence", "Object Code '"
-//					+ assignmentAccount.getFinObjectCd() + "'");
-//		}
-//		return valid;
-		return true;
+		boolean valid = false;
+		LOG.debug("Validating ObjectCode: "
+				+ assignmentAccount.getFinObjectCd());
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("financialObjectCode", assignmentAccount.getFinObjectCd());
+		Collection objectCode = KNSServiceLocator.getBusinessObjectDao()
+				.findMatching(ObjectCode.class, fields);
+		valid = objectCode.size() > 0;
+		if (!valid) {
+			this.putGlobalError("error.existence", "Object Code '"
+					+ assignmentAccount.getFinObjectCd() + "'");
+		}
+		return valid;
 	}
 
 	protected boolean validateSubObjectCode(AssignmentAccount assignmentAccount) {
-	//	boolean valid = false;
-//		LOG.debug("Validating SubObjectCode: " + assignmentAccount.getFinSubObjCd());
-//		Collection subObjectCode = KNSServiceLocator.getBusinessObjectDao().findAll(SubObjectCode.class);
-//		Iterator<SubObjectCode> itr = subObjectCode.iterator();
-//		while (itr.hasNext()) {
-//			SubObjectCode subObjectCodeObj = itr.next();
-//			if (subObjectCodeObj.getObjectId().equals(assignmentAccount.getFinSubObjCd())) {
-//				valid = true;
-//				LOG.debug("found sub object code.");
-//			}
-//		}
-//		 if(!valid) {
-//			this.putGlobalError("error.existence", "SubObject Code '"
-//					+ assignmentAccount.getFinSubObjCd() + "'");
-//		}
-//		return valid;
-		return true;
+		boolean valid = false;
+		LOG.debug("Validating SubObjectCode: "
+				+ assignmentAccount.getFinSubObjCd());
+		if (assignmentAccount.getFinSubObjCd() != null) {
+			Map<String, String> fields = new HashMap<String, String>();
+			fields.put("financialSubObjectCode", assignmentAccount
+					.getFinSubObjCd());
+			Collection subObjectCode = KNSServiceLocator.getBusinessObjectDao()
+					.findMatching(SubObjectCode.class, fields);
+			valid = subObjectCode.size() > 0;
+			if (!valid) {
+				this.putGlobalError("error.existence", "SubObject Code '"
+						+ assignmentAccount.getFinSubObjCd() + "'");
+			}
+		} else {
+			valid = true;
+		}
+		return valid;
 	}
+
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.

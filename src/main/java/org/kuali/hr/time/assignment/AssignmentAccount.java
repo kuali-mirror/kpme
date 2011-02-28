@@ -3,6 +3,7 @@ package org.kuali.hr.time.assignment;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
@@ -35,6 +36,7 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 	private ObjectCode objectCodeObj;
 	private SubObjectCode subObjectCodeObj;
 	private ProjectCode projectCodeObj;
+	private EarnCode earnCodeObj;
 	
 	public Assignment getAssignmentObj() {
 		return assignmentObj;
@@ -263,6 +265,18 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 
 	public void setProjectCodeObj(ProjectCode projectCodeObj) {
 		this.projectCodeObj = projectCodeObj;
+	}
+
+
+
+	public EarnCode getEarnCodeObj() {
+		return earnCodeObj;
+	}
+
+
+
+	public void setEarnCodeObj(EarnCode earnCodeObj) {
+		this.earnCodeObj = earnCodeObj;
 	}
 	
 }

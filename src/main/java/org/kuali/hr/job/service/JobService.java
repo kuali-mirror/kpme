@@ -29,6 +29,10 @@ public interface JobService {
 	 */
 	public Job getJob(String principalId, Long jobNumber, Date asOfDate);
 	
+	/**
+	 * Provides a job by specific job number, principal ID and as of Date combination, and check details will throw error if required. 
+	 */
+	public Job getJob(String principalId, Long jobNumber, Date asOfDate, boolean chkDetails);
 	
 	/**
 	 * For a given principal ID, the job that is marked "primary" is returned 

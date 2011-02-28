@@ -24,7 +24,7 @@ public class Assignment extends PersistableBusinessObjectBase {
 	//database id
 	private Long tkAssignmentId;
 	private String principalId;
-	private String principalName;
+	private String name;
 	private Long jobNumber;
 	private Job job;
 	private Date effectiveDate;
@@ -77,12 +77,12 @@ public class Assignment extends PersistableBusinessObjectBase {
 		this.principalId = principalId;
 	}
 
-	public String getPrincipalName() {
-		return principalName;
+	public String getName() {
+		return name;
 	}
 
-	public void setPrincipalName(String principalName) {
-		this.principalName = principalName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Job getJob() {

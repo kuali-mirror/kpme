@@ -32,7 +32,8 @@ public class JobServiceImpl implements JobService {
 		List<Job> jobs = jobDao.getJobs(principalId, asOfDate);
 
 		for (Job job : jobs) {
-			PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), asOfDate);
+			PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(
+					job.getHrPayType(), asOfDate);
 			job.setPayTypeObj(payType);
 		}
 
@@ -41,26 +42,33 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public Job getJob(String principalId, Long jobNumber, Date asOfDate) {
-		Job job = jobDao.getJob(principalId, jobNumber, asOfDate);
-		if(job == null) {
-			throw new RuntimeException("No job for principal : " + principalId + " Job Number: " + jobNumber);
-		}
-		String hrPayType = job.getHrPayType();
-		if(StringUtils.isBlank(hrPayType)) {
-			throw new RuntimeException("No pay type for this job!");
-		}
-		PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(hrPayType, asOfDate);
-		if (payType == null)
-			throw new RuntimeException("No paytypes defined for this job!");
-		job.setPayTypeObj(payType);
-		
-		return job;
+		return getJob(principalId, jobNumber, asOfDate, true);
 	}
-	
-	public Job getPrimaryJob(String principalId, Date payPeriodEndDate){
+
+	public Job getPrimaryJob(String principalId, Date payPeriodEndDate) {
 		return jobDao.getPrimaryJob(principalId, payPeriodEndDate);
 	}
-	
-	
+
+	@Override
+	public Job getJob(String principalId, Long jobNumber, Date asOfDate,
+			boolean chkDetails) {
+		Job job = jobDao.getJob(principalId, jobNumber, asOfDate);
+		if (job == null && chkDetails) {
+			throw new RuntimeException("No job for principal : " + principalId
+					+ " Job Number: " + jobNumber);
+		}
+		if (chkDetails) {
+			String hrPayType = job.getHrPayType();
+			if (StringUtils.isBlank(hrPayType)) {
+				throw new RuntimeException("No pay type for this job!");
+			}
+			PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(
+					hrPayType, asOfDate);
+			if (payType == null)
+				throw new RuntimeException("No paytypes defined for this job!");
+			job.setPayTypeObj(payType);
+		}
+		return job;
+	}
 
 }
