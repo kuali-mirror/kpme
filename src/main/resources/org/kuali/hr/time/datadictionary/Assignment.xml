@@ -181,7 +181,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="principalId" p:noLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
         <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
         <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
         <bean parent="FieldDefinition" p:attributeName="workArea"/>

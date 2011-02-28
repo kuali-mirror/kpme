@@ -343,6 +343,7 @@
 
 	<bean id="Job-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
+		<property name="lookupableID" value="tkLookupable" />
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
 			</bean>

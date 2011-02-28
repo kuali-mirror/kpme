@@ -275,6 +275,7 @@
       <bean parent="SortDefinition">
       </bean>
     </property>
+    <property name="lookupableID" value="tkLookupable" />
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition" p:attributeName="dept" />
