@@ -181,6 +181,9 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 					// TODO: Previous Day :: We have prior block container of nonzero size, and the previous day is active.
 					Interval previousDayShiftInterval = new Interval(shiftStart.minusDays(1), shiftEnd.minusDays(1));
+
+                    // Blank initialization pointer for picking which interval to pass to applyPremium()
+                    Interval evalInterval = null;
 					if (ruleTimeBlocksPrev != null && ruleTimeBlocksPrev.size() > 0 && dayIsRuleActive(currentDay.minusDays(1), rule)) {
 						// Simple heuristic to see if we even need to worry about
 						// the Shift rule for this set of data.
@@ -272,8 +275,11 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 							throw new RuntimeException("Interval of greater than 24 hours created in the rules processing.");
 
 						Interval overlap = previousDayShiftInterval.overlap(blockInterval);
-						if (overlap == null)
+                        evalInterval = previousDayShiftInterval; // Set the interval we will use when evaluating the time blocks for hour application
+						if (overlap == null) {
 							overlap = shiftInterval.overlap(blockInterval);
+                            evalInterval = shiftInterval;
+                        }
 
 						if (overlap != null) {
 							// There IS overlap.
@@ -284,7 +290,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 										//
 										// Apply Premium
 										//
-										this.applyPremium(shiftInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
+										this.applyPremium(evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
 									}
 									accumulatedBlocks.clear();
                                     accumulatedBlockIntervals.clear();
@@ -313,7 +319,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 									//
 									// Apply Premium
 									//
-									this.applyPremium(shiftInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
+									this.applyPremium(evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
 								}
 								accumulatedBlocks.clear();
                                 accumulatedBlockIntervals.clear();
@@ -332,7 +338,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 						//
 						// Apply Premium
 						//
-						this.applyPremium(shiftInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
+						this.applyPremium(evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
 					}
 				}
 			}
@@ -381,7 +387,11 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 			if (hours.compareTo(BigDecimal.ZERO) > 0) {
                 Interval blockInterval = blockIntervals.get(i);
-                long overlap = shift.overlap(blockInterval).toDurationMillis();
+                Interval overlapInterval = shift.overlap(blockInterval);
+                if (overlapInterval == null)
+                    continue;
+
+                long overlap = overlapInterval.toDurationMillis();
                 BigDecimal hoursMax = TKUtils.convertMillisToHours(overlap); // Maximum number of possible hours applicable for this time block and shift rule
                 BigDecimal hoursToApply = hours.min(hoursMax);
 

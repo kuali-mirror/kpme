@@ -38,7 +38,7 @@ public class ShiftDifferentialRule extends TkRule {
 	private boolean saturday;
 	private String fromEarnGroup;
 	private String calendarGroup;
-	private BigDecimal maxGap;
+	private BigDecimal maxGap; // Gap is in HOURS
 	private String userPrincipalId;
 	private Timestamp timeStamp;
 	private boolean active;
@@ -104,10 +104,17 @@ public class ShiftDifferentialRule extends TkRule {
 		this.minHours = minHours;
 	}
 
+    /**
+     * @return The maximum gap, in hours.
+     */
 	public BigDecimal getMaxGap() {
 		return maxGap;
 	}
 
+    /**
+     *
+     * @param maxGap The number of hours that can be between one time block and another for the rule to consider it part of the same shift.
+     */
 	public void setMaxGap(BigDecimal maxGap) {
 		this.maxGap = maxGap;
 	}
@@ -279,5 +286,5 @@ public class ShiftDifferentialRule extends TkRule {
 	public void setPayGradeObj(PayGrade payGradeObj) {
 		this.payGradeObj = payGradeObj;
 	}
-    
+
 }
