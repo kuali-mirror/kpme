@@ -251,6 +251,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 					TimeBlock previous = null; // Previous Time Block
 					List<TimeBlock> accumulatedBlocks = new ArrayList<TimeBlock>(); // TimeBlocks we MAY or MAY NOT apply Shift Premium to.
+                    List<Interval> accumulatedBlockIntervals = new ArrayList<Interval>(); // To save recompute time when checking timeblocks for application we store them as we create them.
 					// Iterate over sorted list, checking time boundaries vs Shift Intervals.
 					long accumulatedMillis = TKUtils.convertHoursToMillis(hoursBeforeVirtualDay);
 
@@ -283,9 +284,10 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 										//
 										// Apply Premium
 										//
-										this.applyPremium(accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
+										this.applyPremium(shiftInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
 									}
 									accumulatedBlocks.clear();
+                                    accumulatedBlockIntervals.clear();
 									accumulatedMillis = 0L; // reset accumulated hours..
 									hoursToApply = BigDecimal.ZERO;
 									hoursToApplyPrevious = BigDecimal.ZERO;
@@ -301,6 +303,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 								hoursToApply = hoursToApply.add(TKUtils.convertMillisToHours(millis));
 							}
 							accumulatedBlocks.add(current);
+                            accumulatedBlockIntervals.add(blockInterval);
 							previous = current; // current can still apply to next.
 						} else {
 							// No Overlap / Outside of Rule
@@ -310,9 +313,10 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 									//
 									// Apply Premium
 									//
-									this.applyPremium(accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
+									this.applyPremium(shiftInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
 								}
 								accumulatedBlocks.clear();
+                                accumulatedBlockIntervals.clear();
 								accumulatedMillis = 0L; // reset accumulated hours..
 								hoursToApply = BigDecimal.ZERO;
 								hoursToApplyPrevious = BigDecimal.ZERO;
@@ -328,7 +332,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 						//
 						// Apply Premium
 						//
-						this.applyPremium(accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
+						this.applyPremium(shiftInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
 					}
 				}
 			}
@@ -358,14 +362,31 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		});
 	}
 
-	void applyPremium(List<TimeBlock> blocks, BigDecimal initialHours, BigDecimal hours, String earnCode) {
+    /**
+     *
+     * @param shift The shift interval - need to examine the time block to determine how many hours are eligible per block.
+     * @param blockIntervals Intervals for each block present in the blocks list. Passed here to avoid re computation.
+     * @param blocks The blocks we are applying hours to.
+     * @param initialHours hours accumulated from a previous boundary that need to be applied here (NOT SUBJECT TO INTERVAL)
+     * @param hours hours to apply
+     * @param earnCode what earn code to create time hour detail entry for.
+     */
+	void applyPremium(Interval shift, List<Interval> blockIntervals, List<TimeBlock> blocks, BigDecimal initialHours, BigDecimal hours, String earnCode) {
 		for (int i=0; i<blocks.size(); i++) {
 			TimeBlock b = blocks.get(i);
+
+            // Only apply initial hours to the first timeblock.
 			if (i == 0 && (initialHours.compareTo(BigDecimal.ZERO) > 0))
 				addPremiumTimeHourDetail(b, initialHours, earnCode);
+
 			if (hours.compareTo(BigDecimal.ZERO) > 0) {
-				addPremiumTimeHourDetail(b, hours.min(b.getHours()), earnCode);
-				hours = hours.subtract(b.getHours(), TkConstants.MATH_CONTEXT);
+                Interval blockInterval = blockIntervals.get(i);
+                long overlap = shift.overlap(blockInterval).toDurationMillis();
+                BigDecimal hoursMax = TKUtils.convertMillisToHours(overlap); // Maximum number of possible hours applicable for this time block and shift rule
+                BigDecimal hoursToApply = hours.min(hoursMax);
+
+                addPremiumTimeHourDetail(b, hoursToApply, earnCode);
+				hours = hours.subtract(hoursToApply, TkConstants.MATH_CONTEXT);
 			}
 		}
 	}
