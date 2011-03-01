@@ -117,4 +117,8 @@ public class TkConstants {
     public static final String HOLIDAY_EARN_CODE = "HOL";
     // Special System earn code to represent lunch deductions.
     public static final String LUNCH_EARN_CODE = "LUN";
+    
+    // calendar navigation
+    public static final String NEXT_TIMESHEET = "next";
+    public static final String PREV_TIMESHEET = "prev";
 }

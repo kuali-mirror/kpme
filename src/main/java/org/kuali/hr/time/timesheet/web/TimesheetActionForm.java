@@ -1,10 +1,12 @@
 package org.kuali.hr.time.timesheet.web;
 
-import java.util.Map;
-
+import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkForm;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 public class TimesheetActionForm extends TkForm {
 
@@ -12,7 +14,9 @@ public class TimesheetActionForm extends TkForm {
 	 *
 	 */
 	private static final long serialVersionUID = 6938733178369007689L;
-	TimesheetDocument timesheetDocument;
+	private TimesheetDocument timesheetDocument;
+	private String documentId;
+	
 	
 	/**Job Number -> Formatted department earn codes  */
 	private Map<Long,String> earnCodeDescriptions;
@@ -21,6 +25,17 @@ public class TimesheetActionForm extends TkForm {
 	private PayCalendarEntries payCalendarDates;
 	private String selectedAssignment;
 	private String selectedEarnCode;
+	
+	private String calNav;
+	
+	private java.util.Date beginPeriodDateTime;
+	private java.util.Date endPeriodDateTime;
+
+	@Override
+	public void reset(ActionMapping mapping, HttpServletRequest request) {
+		super.reset(mapping, request);
+		this.documentId = "";
+	}
 	
 	public TimesheetDocument getTimesheetDocument() {
 		return timesheetDocument;
@@ -68,5 +83,29 @@ public class TimesheetActionForm extends TkForm {
 
 	public void setPayCalendarDates(PayCalendarEntries payCalendarDates) {
 		this.payCalendarDates = payCalendarDates;
+	}
+	
+	public String getCalNav() {
+		return calNav;
+	}
+
+	public void setCalNav(String calNav) {
+		this.calNav = calNav;
+	}
+	
+	public java.util.Date getBeginPeriodDateTime() {
+		return getPayCalendarDates().getBeginPeriodDateTime();
+	}
+
+	public java.util.Date getEndPeriodDateTime() {
+		return getPayCalendarDates().getEndPeriodDateTime();
+	}
+
+	public String getDocumentId() {
+		return documentId;
+	}
+
+	public void setDocumentId(String documentId) {
+		this.documentId = documentId;
 	}
 }

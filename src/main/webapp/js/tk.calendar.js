@@ -7,6 +7,10 @@ $(document).ready(function() {
     var y = date.getFullYear();
     var beginPeriodDate = $("#beginPeriodDate").val() !== undefined ? $("#beginPeriodDate").val() : d + "/" + m + "/" + y;
     var endPeriodDate = $("#endPeriodDate").val() !== undefined ? $("#endPeriodDate").val() : d + "/" + m + "/" + y;
+
+    var docId = $("#documentId").val();
+    var eventUrl = "TimeDetail.do?methodToCall=getTimeBlocks&documentId=" + docId;
+
     var beginPeriodDateTimeObj = new Date($("#beginPeriodDate").val());
     var endPeriodDateTimeObj = new Date($("#endPeriodDate").val());
 
@@ -33,20 +37,21 @@ $(document).ready(function() {
             if(targetId == 'timeblock-edit' || targetId == '') {
                 var dateFormat = "MM/dd/yyyy";
                 var timeFormat = "hh:mm TT";
-                var start = $.fullCalendar.parseDate(calEvent.start);
-                var end = $.fullCalendar.parseDate(calEvent.end);
+
                 $('#dialog-form').dialog('open');
-                $('#date-range-begin').val($.fullCalendar.formatDate(start, dateFormat));
-                $('#date-range-end').val($.fullCalendar.formatDate(end, dateFormat));
+                $('#date-range-begin').val($.fullCalendar.formatDate(calEvent.start, dateFormat));
+                $('#date-range-end').val($.fullCalendar.formatDate(calEvent.end, dateFormat));
                 $("select#assignment option[value='" + calEvent.assignment + "']").attr("selected", "selected");
                 $('#earnCode').loadEarnCode($('#assignment').val(), calEvent.earnCode + "_" + calEvent.earnCodeType);
-                $('#beginTimeField').val($.fullCalendar.formatDate(start, timeFormat));
-                $('#endTimeField').val($.fullCalendar.formatDate(end, timeFormat));
+                $('#beginTimeField').val($.fullCalendar.formatDate(calEvent.start, timeFormat));
+                $('#endTimeField').val($.fullCalendar.formatDate(calEvent.end, timeFormat));
                 $('#tkTimeBlockId').val(calEvent.tkTimeBlockId);
                 $('#hoursField').val(calEvent.hours);
                 // the month value in the javascript date object is the actual month minus 1.
-                $('#beginTimeField-messages').val(start.getMonth()+1 + "/" + start.getDate() + "/" + start.getFullYear() + " " + start.getHours() + ":" + start.getMinutes());
-                $('#endTimeField-messages').val(end.getMonth()+1 + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes());
+                $('#beginTimeField-messages').val(calEvent.start.getMonth()+1 + "/" + calEvent.start.getDate() + "/" +
+                        calEvent.start.getFullYear() + " " + calEvent.start.getHours() + ":" + calEvent.start.getMinutes());
+                $('#endTimeField-messages').val(calEvent.end.getMonth()+1 + "/" + calEvent.end.getDate() + "/" +
+                        calEvent.end.getFullYear() + " " + calEvent.end.getHours() + ":" + calEvent.end.getMinutes());
             }
         },
         selectable: true,
@@ -81,7 +86,7 @@ $(document).ready(function() {
             }
         },
         editable: false,
-        events : "TimeDetail.do?methodToCall=getTimeblocks",
+        events : eventUrl,
         loading: function(bool) {
             if (bool) {
                 $('#loading').show();

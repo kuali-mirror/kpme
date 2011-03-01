@@ -1,12 +1,12 @@
 package org.kuali.hr.time.timesheet.service;
 
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
+
+import java.util.Date;
+import java.util.List;
 
 public interface TimesheetService {
 
@@ -31,6 +31,6 @@ public interface TimesheetService {
 	public TimesheetDocument getTimesheetDocument(String documentId);
 	public boolean isSynchronousUser();
 	
-	public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, Long currDocumentId);
+	public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, Date payBeginDate);
 	public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, Date beginDate, Date endDate);
 }

@@ -7,12 +7,11 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
 
 public interface TimeBlockService {
 
 	public TimeBlock getTimeBlock(Long timeBlockId);
-	public List<Map<String,Object>> getTimeBlocksForOurput(TimesheetDocument tsd);
+	public String getTimeBlocksForOutput(TimesheetDocument tsd);
 	public void deleteTimeBlock(TimeBlock timeBlock);
 	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
 											Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, Boolean isClockLogCreated);

@@ -59,6 +59,8 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 		toStringMap.put("tkTimeBlockId", tkTimeBlockId);
 		toStringMap.put("earnCode", earnCode);
 		toStringMap.put("hours", hours);
+        toStringMap.put("beginTimestamp", beginTimestamp);
+        toStringMap.put("endTimestamp", endTimestamp);
 		for (TimeHourDetail thd : timeHourDetails) {
 			toStringMap.put("thd:earnCode:"+thd.getEarnCode(), thd.getHours());
 			toStringMap.put("thd:earnCode:"+thd.getEarnCode(), thd.getHours());

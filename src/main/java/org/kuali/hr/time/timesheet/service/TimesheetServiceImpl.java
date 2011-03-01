@@ -110,8 +110,8 @@ public class TimesheetServiceImpl implements TimesheetService {
 		return timesheetDocument;
 	}
 	
-	public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, Long currDocumentId){
-		TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, currDocumentId);
+	public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, Date payBeginDate){
+		TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, payBeginDate);
 		if(prevTdh == null){
 			return new ArrayList<TimeBlock>();
 		}

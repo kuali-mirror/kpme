@@ -1,8 +1,8 @@
 package org.kuali.hr.time.workflow.service;
 
-import java.util.Date;
-
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+
+import java.util.Date;
 
 public interface TimesheetDocumentHeaderService {
 
@@ -10,5 +10,6 @@ public interface TimesheetDocumentHeaderService {
 	public TimesheetDocumentHeader getDocumentHeader(String documentId);
 	
 	public TimesheetDocumentHeader getDocumentHeader(String principalId, Date payBeginDate, Date payEndDate);
-	public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, Long currDocumentId);
+    public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, Date payBeginDate);
+    TimesheetDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId, String documentId);
 }

@@ -306,8 +306,8 @@
                         var begin = parseDate(view.options.beginPeriodDate);
                         var end = parseDate(view.options.endPeriodDate);
 
-                        begin = (begin.getMonth() + 1) + "/" + begin.getDate() + "/" + begin.getFullYear() + " " + begin.getHours() + ":" + begin.getMinutes() + ":" + begin.getSeconds();
-                        end = (end.getMonth() + 1) + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds();
+                        //begin = (begin.getMonth() + 1) + "/" + begin.getDate() + "/" + begin.getFullYear() + " " + begin.getHours() + ":" + begin.getMinutes() + ":" + begin.getSeconds();
+                        //end = (end.getMonth() + 1) + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds();
 
                         // update title text
                         //header.find('h2.fc-header-title').html(view.title + "(" + begin + " - " + end +")");
@@ -315,7 +315,7 @@
                         if ($('#serverTimezone').val() != $('#userTimezone').val()) {
                             serverTimezone = " (Server timezone: " + $('#serverTimezone').val() + ")";
                         }
-                        header.find('h2.fc-header-title').html(view.title + serverTimezone);
+                        header.find('h2.fc-header-title').html(options.monthNames[begin.getMonth()] + " " + begin.getFullYear() + " " + serverTimezone);
                         // enable/disable 'today' button
                         var today = new Date();
 
@@ -528,11 +528,13 @@
                 //
 
                 prev: function() {
-                    render(-1);
+                    window.location = "TimeDetail.do?calNav=prev&documentId=" + $("#documentId").val();
+                    //render(-1);
                 },
 
                 next: function() {
-                    render(1);
+                    window.location = "TimeDetail.do?calNav=next&documentId=" + $("#documentId").val();
+                    //renderedetai(1);
                 },
 
                 prevYear: function() {
@@ -780,17 +782,17 @@
                                             button.removeClass(tm + '-state-down');
                                         })
                                                 .hover(
-                                                      function() {
-                                                          button
-                                                                  .not('.' + tm + '-state-active')
-                                                                  .not('.' + tm + '-state-disabled')
-                                                                  .addClass(tm + '-state-hover');
-                                                      },
-                                                      function() {
-                                                          button
-                                                                  .removeClass(tm + '-state-hover')
-                                                                  .removeClass(tm + '-state-down');
-                                                      }
+                                                function() {
+                                                    button
+                                                            .not('.' + tm + '-state-active')
+                                                            .not('.' + tm + '-state-disabled')
+                                                            .addClass(tm + '-state-hover');
+                                                },
+                                                function() {
+                                                    button
+                                                            .removeClass(tm + '-state-hover')
+                                                            .removeClass(tm + '-state-down');
+                                                }
                                                 )
                                                 .appendTo($("<td/>").appendTo(tr));
                                         if (prevButton) {
@@ -979,8 +981,8 @@
                 start.setDate(beginPeriodDate.getDate());
                 this.end = addMonths(cloneDate(start), 1);
                 // visStart/visEnd
-                var visStart = this.visStart = cloneDate(start),
-                        visEnd = this.visEnd = cloneDate(this.end),
+                var visStart = this.visStart = cloneDate(beginPeriodDate),
+                        visEnd = this.visEnd = cloneDate(endPeriodDate),
                         nwe = options.weekends ? 0 : 1;
                 if (nwe) {
                     skipWeekend(visStart);
@@ -1402,9 +1404,9 @@
                     view,
                     0,
                     viewWidth,
-                          function(i) {
-                              return tbody.find('tr:eq(' + i + ')')
-                          },
+                    function(i) {
+                        return tbody.find('tr:eq(' + i + ')')
+                    },
                     dayContentPositions.left,
                     dayContentPositions.right,
                     segmentContainer,
@@ -1535,8 +1537,8 @@
         var selected = false;
         var selectionMousedown = selection_dayMousedown(
                 view, hoverListener, cellDate, function() {
-            return true
-        }, renderDayOverlay, clearOverlay, reportSelection, unselect
+                    return true
+                }, renderDayOverlay, clearOverlay, reportSelection, unselect
                 );
 
         view.select = function(startDate, endDate, allDay) {
@@ -1716,15 +1718,15 @@
 
             html +=
                     "<div class='" + className + event.className.join(' ') + " timeblock' style='position:absolute;z-index:8;left:" + left + "px;margin-bottom:3px;' id='" + event.id + "'>" +
-                    "<table style='font-size:0.7em;'>" +
-                    "<tr><td colspan='3' style='text-align:center;'><span id='timeblock-edit'>" + event.title + "</span></td>" +
-                    "<td>&nbsp</td>" +
-                    //"<td><a href=TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "  id='timeblock-delete'>X</a></td>" +
-                    "<td><div id='timeblock-delete'>X</div></td>" +
-                    "</tr>" +
-                    fromTo + timeHourDetail +
-                    "</table>" +
-                    "</div>";
+                            "<table style='font-size:0.7em;'>" +
+                            "<tr><td colspan='3' style='text-align:center;'><span id='timeblock-edit'>" + event.title + "</span></td>" +
+                            "<td>&nbsp</td>" +
+                        //"<td><a href=TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "  id='timeblock-delete'>X</a></td>" +
+                            "<td><div id='timeblock-delete'>X</div></td>" +
+                            "</tr>" +
+                            fromTo + timeHourDetail +
+                            "</table>" +
+                            "</div>";
 
             seg.left = left;
             seg.outerWidth = right - left;
@@ -2288,15 +2290,15 @@
                         view,
                         axisWidth,
                         viewWidth,
-                              function() {
-                                  return head.find('tr.fc-all-day');
-                              },
-                              function(dayOfWeek) {
-                                  return axisWidth + colContentPositions.left(dayOfWeekCol(dayOfWeek));
-                              },
-                              function(dayOfWeek) {
-                                  return axisWidth + colContentPositions.right(dayOfWeekCol(dayOfWeek));
-                              },
+                        function() {
+                            return head.find('tr.fc-all-day');
+                        },
+                        function(dayOfWeek) {
+                            return axisWidth + colContentPositions.left(dayOfWeekCol(dayOfWeek));
+                        },
+                        function(dayOfWeek) {
+                            return axisWidth + colContentPositions.right(dayOfWeekCol(dayOfWeek));
+                        },
                         daySegmentContainer,
                         daySegBind,
                         modifiedEventId
@@ -3292,20 +3294,20 @@
 
             var view = this;
             eventElement
-            .click(function(ev) {
+                    .click(function(ev) {
                 if (!eventElement.hasClass('ui-draggable-dragging') &&
                         !eventElement.hasClass('ui-resizable-resizing')) {
                     return view.trigger('eventClick', this, event, ev);
                 }
             })
-            .hover(
-                  function(ev) {
-                      view.trigger('eventMouseover', this, event, ev);
-                  },
-                  function(ev) {
-                      view.trigger('eventMouseout', this, event, ev);
-                  }
-            );
+                    .hover(
+                    function(ev) {
+                        view.trigger('eventMouseover', this, event, ev);
+                    },
+                    function(ev) {
+                        view.trigger('eventMouseout', this, event, ev);
+                    }
+                    );
         },
 
 

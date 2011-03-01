@@ -1,29 +1,16 @@
 package org.kuali.hr.time.util;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
-import org.joda.time.Duration;
-import org.joda.time.Interval;
+import org.joda.time.*;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
+
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.*;
 
 public class TKUtils {
 
@@ -149,7 +136,7 @@ public class TKUtils {
 	public static String getAssignmentString(Assignment assignment) {
 		return assignment.getWorkAreaObj().getDescription() + " : $" + assignment.getJob().getCompRate() + " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
 	}
-	
+
 	public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
 		DateTime beginDateTime = new DateTime(payCalendarEntry.getBeginPeriodDateTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
 		DateTime endDateTime = new DateTime(payCalendarEntry.getEndPeriodDateTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
@@ -165,14 +152,14 @@ public class TKUtils {
 		}
 
 		return dayIntervals;
-	}
+    }
 
 	/**
 	 * Includes partial weeks if the time range provided does not divide evenly
 	 * into 7 day spans.
 	 * 
 	 * @param beginDate
-	 *            Starting Date/Time
+	 *               Starting Date/Time
 	 * @param endDate
 	 *            Ending Date/Time
 	 * @return A List of Intervals of 7 day spans. The last Interval in the list
@@ -222,7 +209,12 @@ public class TKUtils {
 		return (payCalendarStartTime.get(Calendar.HOUR_OF_DAY) != 0 || payCalendarStartTime.get(Calendar.MINUTE) != 0 
 				&& payCalendarStartTime.get(Calendar.AM_PM) != Calendar.AM);
 	}
-	
+
+    /**
+     *
+     * @param dateTimeString (the format is 11/17/2010 8:0)
+     * @return Timestamp
+     */
 	public static Timestamp convertDateStringToTimestamp(String dateTimeString) {
 		// the date/time format is defined in tk.calendar.js. For now, the format is 11/17/2010 8:0
 		String[] input = dateTimeString.split(" ");
@@ -231,9 +223,10 @@ public class TKUtils {
 		
 		DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimeZone());
 		
-		// this is from the javadoc:
-		// DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, 
-		// int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
+		// this is from the jodattime javadoc:
+		// DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
+        // Noted that the month value is the actual month which is different than the java date object where the month value is the current month minus 1.
+        // I tried to use the actual month in the code as much as I can to reduce the convertions.
 		DateTime dateTime = new DateTime(
 				Integer.parseInt(dateString[2]), 
 				Integer.parseInt(dateString[0]), 

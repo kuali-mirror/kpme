@@ -1,15 +1,15 @@
 package org.kuali.hr.time.detail.web;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.List;
-
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.List;
 
 public class TimeDetailActionForm extends TimesheetActionForm {
 
@@ -18,9 +18,6 @@ public class TimeDetailActionForm extends TimesheetActionForm {
      */
     private static final long serialVersionUID = 5277197287612035236L;
 
-	private java.util.Date beginPeriodDateTime;
-	private java.util.Date endPeriodDateTime;
-	
 	// this is for the ajax call
 	private String outputString;
 	
@@ -121,22 +118,6 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
-	}
-
-	public java.util.Date getBeginPeriodDateTime() {
-		return beginPeriodDateTime;
-	}
-
-	public void setBeginPeriodDateTime(java.util.Date beginPeriodDateTime) {
-		this.beginPeriodDateTime = beginPeriodDateTime;
-	}
-
-	public java.util.Date getEndPeriodDateTime() {
-		return endPeriodDateTime;
-	}
-
-	public void setEndPeriodDateTime(java.util.Date endPeriodDateTime) {
-		this.endPeriodDateTime = endPeriodDateTime;
 	}
 
 	public String getIsVirtualWorkDay() {

@@ -1,3 +1,4 @@
+
 #
 # HR Job
 DELETE FROM `hr_job_s`;
@@ -307,8 +308,9 @@ INSERT INTO `tk_clock_log_t` (`TK_CLOCK_LOG_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`WOR
   ('1' , 'admin' , 30 , 30 ,30, 1 , 1 , '2010-01-01 08:08:08', "TEST" , "CO","TEST" ,'admin' , '2010-01-01 08:08:08' , 1, '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97')  ;
 
 DELETE FROM `tk_document_header_t`;
-INSERT INTO `tk_document_header_t` (`DOCUMENT_ID`,`PRINCIPAL_ID`,`DOCUMENT_STATUS`) VALUES
-  ('1','admin',"I")  ;
+INSERT INTO `tk_document_header_t` (`DOCUMENT_ID`,`PRINCIPAL_ID`,`DOCUMENT_STATUS`,`PAY_BEGIN_DT`,`PAY_END_DT`) VALUES
+  ('1','admin','I','2011-01-01 00:00:00','2011-01-15 00:00:00'),
+  ('2','admin','I','2011-01-15 00:00:00','2011-02-01 00:00:00');
 
 DELETE FROM `tk_dept_lunch_rl_t`;
 INSERT INTO `tk_dept_lunch_rl_t` (`TK_DEPT_LUNCH_RL_ID`,`DEPT`,`WORK_AREA`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `REQUIRED_CLOCK_FL`, `MAX_MINS`, `USER_PRINCIPAL_ID`, `TIMESTAMP`, `ACTIVE`, `SHIFT_HOURS`, `DEDUCTION_MINS`, `OBJ_ID`) VALUES
