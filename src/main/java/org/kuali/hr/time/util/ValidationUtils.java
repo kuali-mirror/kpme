@@ -237,7 +237,7 @@ public class ValidationUtils {
 	public static boolean validatePrincipalId(String principalId) {
 		boolean valid = false;
 		if (principalId != null) {
-			Person p = KIMServiceLocator.getPersonService().getPersonByPrincipalName(principalId);
+			Person p = KIMServiceLocator.getPersonService().getPerson(principalId);
 		    valid = (p != null);
 		}
 		return valid;

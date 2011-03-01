@@ -1,7 +1,20 @@
 package org.kuali.hr.job.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.hr.job.Job;
+import org.kuali.hr.time.paycalendar.PayCalendar;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -13,7 +26,43 @@ public class JobLookupableHelper extends KualiLookupableHelperServiceImpl {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
+	@Override
+	public List<? extends BusinessObject> getSearchResults(
+			Map<String, String> fieldValues) {
+		String firstName = null;
+		String lastName = null;
+		if (fieldValues.containsKey("firstName")) {
+			firstName = fieldValues.get("firstName");
+			fieldValues.remove("firstName");
+		}
+		if (fieldValues.containsKey("lastName")) {
+			lastName = fieldValues.get("lastName");
+			fieldValues.remove("lastName");
+		}
+		List<? extends BusinessObject> objectList = super
+				.getSearchResults(fieldValues);
+		if (!objectList.isEmpty()) {
+			Map<String, String> fields = new HashMap<String, String>();
+			fields.put("firstName", firstName);
+			fields.put("lastName", lastName);
+			List<Person> listPerson = KIMServiceLocator.getPersonService().findPeople(fields);
+			List<String> listPrincipalId = new ArrayList<String>();
+			for (Person person : listPerson) {
+				listPrincipalId.add(person.getPrincipalId());
+			}
+			Iterator itr = objectList.iterator();
+			while (itr.hasNext()) {
+				Job job = (Job) itr.next();
+				if (job.getPrincipalId() != null
+						&& !listPrincipalId.contains(job.getPrincipalId())) {
+					itr.remove();
+				}
+			}
+		}
+		return objectList;
+	}
+
 	@Override
 	public HtmlData getReturnUrl(BusinessObject businessObject,
 			LookupForm lookupForm, List returnKeys,

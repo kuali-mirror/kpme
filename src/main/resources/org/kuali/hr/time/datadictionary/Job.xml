@@ -19,6 +19,8 @@
 				<ref bean="Job-hrJobId" />
 				<ref bean="Job-principalId" />
 				<ref bean="Job-principalName" />
+				<ref bean="Job-firstName" />
+				<ref bean="Job-lastName" />
 				<ref bean="Job-jobNumber" />
 				<ref bean="Job-effectiveDate" />
 				<ref bean="Job-dept" />
@@ -181,6 +183,40 @@
 		</property>
 		<property name="name" value="principalId" />
 		<property name="label" value="Principal Id" />
+	</bean>
+	
+	<bean id="Job-firstName" parent="Job-firstName-parentBean" />
+	<bean id="Job-firstName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="First Name" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="firstName" />
+		<property name="label" value="First Name" />
+	</bean>
+	
+	<bean id="Job-lastName" parent="Job-lastName-parentBean" />
+	<bean id="Job-lastName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Last Name" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="lastName" />
+		<property name="label" value="Last Name" />
 	</bean>
 	
 	<bean id="Job-principalName" parent="Job-principalName-parentBean" />
@@ -351,8 +387,11 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="firstName" />
+				<bean parent="FieldDefinition" p:attributeName="lastName" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 				<bean parent="FieldDefinition" p:attributeName="dept" />
+				<bean parent="FieldDefinition" p:attributeName="hrPayType" />
 			    <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
@@ -366,6 +405,7 @@
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="primaryIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				
 			</list>
