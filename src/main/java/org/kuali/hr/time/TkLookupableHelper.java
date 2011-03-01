@@ -3,11 +3,8 @@ package org.kuali.hr.time;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 public class TkLookupableHelper extends KualiLookupableHelperServiceImpl {
 
@@ -27,18 +24,7 @@ public class TkLookupableHelper extends KualiLookupableHelperServiceImpl {
 				&& StringUtils.equals(fieldValues.get("jobNumber"), "%")) {
 			fieldValues.put("jobNumber", "");
 		}
-
 		return super.getSearchResults(fieldValues);
-	}
-
-	@Override
-	public HtmlData getReturnUrl(BusinessObject businessObject,
-			LookupForm lookupForm, List returnKeys,
-			BusinessObjectRestrictions businessObjectRestrictions) {
-		lookupForm.getFieldConversions().remove("effectiveDate");
-		returnKeys.remove("effectiveDate");
-		return super.getReturnUrl(businessObject, lookupForm, returnKeys,
-				businessObjectRestrictions);
 	}
 
 	@Override
