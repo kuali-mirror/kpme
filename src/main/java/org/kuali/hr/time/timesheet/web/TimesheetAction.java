@@ -33,9 +33,22 @@ public class TimesheetAction extends TkAction {
 		TimesheetDocument td  = null;
 		TimesheetDocumentHeader tsdh;
 
-
+        /**
+         * The following logic is for handling the calendar navigations.
+         * 1. When the the next / prev button is clicked, it will reload (not submitting the form) the page with the param:
+         *    calNav=prev/next&documentId=the-current-document-id.
+         *    You can search by "calNav=prev" in the fullcalendar*.js and "eventUrl" in the tk.calendar.js to see how they actually work
+         *
+         * 2. The code right below will grab the next / prev timesheet document headers based on the current document id and
+         *    then fetch the needed timesheeet document, and set
+         *    - timesheet document: this contains everything we need to load the timesheet
+         *    - documentId : this is mainly for the ajax call to grab the timeBlocks
+         *    - payCalendarDates : this is used by the calendar widget to render the calendar based on the pay period dates
+         *
+         * 3. The second time the execute method is called by the ajax call - getTimeBlocks(), it will grab the documentId on the form
+         *    and fetch the timeBlocks
+         */
 		if(StringUtils.equals(taForm.getCalNav(), TkConstants.PREV_TIMESHEET) || StringUtils.equals(taForm.getCalNav(), TkConstants.NEXT_TIMESHEET)) {
-
 			tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(taForm.getCalNav(), TKContext.getPrincipalId(), taForm.getDocumentId());
 			payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),  TKUtils.getTimelessDate(tsdh.getPayBeginDate()));
 			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getPrincipalId(), payCalendarEntries);
@@ -48,12 +61,10 @@ public class TimesheetAction extends TkAction {
 			else {
 				Date currentDate = TKUtils.getTimelessDate(null);
 				payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(user.getPrincipalId(),  currentDate);
-                //td = TkServiceLocator.getTimesheetService().openTimesheetDocument(user.getPrincipalId(), payCalendarEntries);
 			}
 			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(user.getPrincipalId(), payCalendarEntries);
 		}
 		
-		//td.setPayCalendarEntry(payCalendarEntries);
 		taForm.setTimesheetDocument(td);
 		taForm.setDocumentId(td.getDocumentId());
 		taForm.setPayCalendarDates(payCalendarEntries);
