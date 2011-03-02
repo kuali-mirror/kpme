@@ -1660,6 +1660,8 @@ ALTER TABLE tk_holiday_calendar_t ADD COLUMN `active` VARCHAR(1) NOT NULL DEFAUL
 ALTER TABLE tk_holiday_calendar_dates_t MODIFY COLUMN `HOLIDAY_HRS` DECIMAL(4,2) NOT NULL;
 ALTER TABLE tk_holiday_calendar_t ADD COLUMN `location` VARCHAR(30) AFTER `descr` ;
 
+ALTER TABLE tk_shift_differential_rl_t add column `from_earn_group` varchar(10) NULL DEFAULT NULL;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

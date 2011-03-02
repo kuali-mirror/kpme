@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+  <!-- Schema -->
+      <!-- Base schema, no data, not bootable -->
+      <include file="org/kuali/kpme/liquibase/tna/db.changelog-1.0.xml"/>
+
+  <!-- Data section -->
+
+  <!-- Context: unit_test_data -->
+      <!-- Adds unit test table -->
+      <include file="org/kuali/kpme/liquibase/tna/db.changelog-unit_test_data-1.0.xml"/>
+      <!-- Unit test default data -->
+      <include file="org/kuali/kpme/liquibase/tna/db.changelog-unit_test_data-1.1.xml"/>
+
+  <!-- Context: -->
+  <!-- Add other data scripts with context here -->
+
+</databaseChangeLog>
