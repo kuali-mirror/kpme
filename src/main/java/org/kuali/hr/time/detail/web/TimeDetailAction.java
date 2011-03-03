@@ -213,7 +213,7 @@ public class TimeDetailAction extends TimesheetAction {
         // validate the hour field
         //------------------------
         if (tdaf.getHours() != null) {
-            if ((tdaf.getHours().compareTo(new BigDecimal("0")) == 0 || tdaf.getHours().compareTo(new BigDecimal("8")) > 0)) {
+            if (tdaf.getHours().compareTo(new BigDecimal("0")) == 0) {
                 errorMsgList.add("The entered hours is not valid.");
             }
 
