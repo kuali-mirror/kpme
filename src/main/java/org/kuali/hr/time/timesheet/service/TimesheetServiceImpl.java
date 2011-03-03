@@ -56,15 +56,17 @@ public class TimesheetServiceImpl implements TimesheetService {
 		Date end = payCalendarDates.getEndPeriodDateTime(); 
 
 		TimesheetDocumentHeader header = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, begin, end);
-
+		
 		if (header == null) {
 			timesheetDocument = this.initiateWorkflowDocument(principalId, begin, end, TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
+			timesheetDocument.setPayCalendarEntry(payCalendarDates);
 			this.loadTimesheetDocumentData(timesheetDocument, principalId, begin, end);
 			this.loadHolidaysOnTimesheet(timesheetDocument, principalId, begin, end);
 		} else {
 			timesheetDocument = this.getTimesheetDocument(header.getDocumentId());
+			timesheetDocument.setPayCalendarEntry(payCalendarDates);
 		}
-		timesheetDocument.setPayCalendarEntry(payCalendarDates);
+		
 		timesheetDocument.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(timesheetDocument));
 		return timesheetDocument;
 	}
