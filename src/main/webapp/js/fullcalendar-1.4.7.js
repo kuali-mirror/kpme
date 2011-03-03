@@ -997,7 +997,7 @@
                     dayCnt = Math.ceil((endPeriodDate - beginPeriodDate) / (DAY_MS));
                     rowCnt = Math.ceil((endPeriodDate - beginPeriodDate) / (DAY_MS * 7));
                     // deal with the case where the end date is the first day of the week
-                    if (dayCnt % 7 == 0) {
+                    if (dayCnt % 7 >= 0) {
                         rowCnt++;
                     }
                 }
