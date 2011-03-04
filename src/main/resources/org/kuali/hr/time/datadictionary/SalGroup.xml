@@ -12,6 +12,9 @@
 		<property name="lookupDefinition">
 			<ref bean="SalGroup-lookupDefinition" />
 		</property>
+		<property name="inquiryDefinition" >
+      		<ref bean="SalGroup-inquiryDefinition" />
+   		</property>
 		<property name="attributes">
 			<list>
 				<ref bean="SalGroup-tkSalGroupId" />
@@ -116,8 +119,30 @@
   </bean>
 
 	<!--  Inquiry Definitions  -->
+	<bean id="SalGroup-inquiryDefinition" parent="SalGroup-inquiryDefinition-parentBean" />
 
+  	<bean id="SalGroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	    <property name="inquirySections" >
+	      <list>
+	        <bean parent="InquirySectionDefinition">
+	          <property name="numberOfColumns" value="1" />
+	          <property name="inquiryFields" >
+	            <list>
+	              <bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
+	              <bean parent="FieldDefinition" p:attributeName="descr" />
+	              <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+	            </list>
+	          </property>
+	          <property name="title" value="Sal Group" />
+	        </bean>
+	      </list>
+	    </property>
+	    <property name="title" value="Sal Group Inquiry" />
+  	</bean>
+	
+	
 
+	<!--  Lookup Definitions  -->
 	<bean id="SalGroup-lookupDefinition" parent="SalGroup-lookupDefinition-parentBean" />
 	<bean id="SalGroup-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
