@@ -62,7 +62,6 @@
 	      </div>
 	    </div>
 		<jsp:doBody />
-	<tk:note/>
 	</div>
 	<tk:tkFooter/>
 	</body>

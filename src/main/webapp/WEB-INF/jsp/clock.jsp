@@ -85,3 +85,5 @@ var current_timezone = current_date.getTimezoneOffset();
 
 //-->
 </script>
+
+<tk:note/>
