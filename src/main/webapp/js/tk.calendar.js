@@ -5,18 +5,18 @@ $(document).ready(function() {
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
-    var beginPeriodDate = $("#beginPeriodDate").val() !== undefined ? $("#beginPeriodDate").val() : d + "/" + m + "/" + y;
-    var endPeriodDate = $("#endPeriodDate").val() !== undefined ? $("#endPeriodDate").val() : d + "/" + m + "/" + y;
+    var beginPeriodDateTimeObj = $("#beginPeriodDate").val() !== undefined ? new Date($("#beginPeriodDate").val()) : d + "/" + m + "/" + y;
+    var endPeriodDateTimeObj = $("#endPeriodDate").val() !== undefined ? new Date($("#endPeriodDate").val()) : d + "/" + m + "/" + y;
+
+    // end period time has to be set to the previous day, sicne the boundary ends at 00:00:00
+    endPeriodDateTimeObj.setDate(endPeriodDateTimeObj.getDate()-1);
 
     var docId = $("#documentId").val();
     var eventUrl = "TimeDetail.do?methodToCall=getTimeBlocks&documentId=" + docId;
 
-    var beginPeriodDateTimeObj = new Date($("#beginPeriodDate").val());
-    var endPeriodDateTimeObj = new Date($("#endPeriodDate").val());
-
     var calendar = $('#cal').fullCalendar({
-        beginPeriodDate : beginPeriodDate,
-        endPeriodDate : endPeriodDate,
+        beginPeriodDate : beginPeriodDateTimeObj,
+        endPeriodDate : endPeriodDateTimeObj,
         theme : true,
         aspectRatio : 5, // the value here is just to match the height with the add time block panel
         allDaySlot : false,
