@@ -133,6 +133,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="earnGroup" />
                 <bean parent="FieldDefinition" p:attributeName="descr" />
+                <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
                 <bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
