@@ -8,8 +8,10 @@ $(document).ready(function() {
     var beginPeriodDateTimeObj = $("#beginPeriodDate").val() !== undefined ? new Date($("#beginPeriodDate").val()) : d + "/" + m + "/" + y;
     var endPeriodDateTimeObj = $("#endPeriodDate").val() !== undefined ? new Date($("#endPeriodDate").val()) : d + "/" + m + "/" + y;
 
-    // end period time has to be set to the previous day, sicne the boundary ends at 00:00:00
-    endPeriodDateTimeObj.setDate(endPeriodDateTimeObj.getDate()-1);
+    // end period time has to be set to the previous day if it's not in the virtual work day mode, sicne the boundary ends at 00:00:00
+    if($('#isVirtualWorkDay').val() == 'false') {
+        endPeriodDateTimeObj.setDate(endPeriodDateTimeObj.getDate()-1);
+    }
 
     var docId = $("#documentId").val();
     var eventUrl = "TimeDetail.do?methodToCall=getTimeBlocks&documentId=" + docId;

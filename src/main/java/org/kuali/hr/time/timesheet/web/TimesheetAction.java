@@ -46,17 +46,17 @@ public class TimesheetAction extends TkAction {
          *    - payCalendarDates : this is used by the calendar widget to render the calendar based on the pay period dates
          *
          * 3. The second time the execute method is called by the ajax call - getTimeBlocks(), it will grab the documentId on the form
-         *    and fetch the timeBlocks
+         *    and fetch the timeBlocks.
          */
 		if(StringUtils.equals(taForm.getCalNav(), TkConstants.PREV_TIMESHEET) || StringUtils.equals(taForm.getCalNav(), TkConstants.NEXT_TIMESHEET)) {
 			tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(taForm.getCalNav(), TKContext.getPrincipalId(), taForm.getDocumentId());
-			payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),  TKUtils.getTimelessDate(tsdh.getPayBeginDate()));
+			payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),  TKUtils.getTimelessDate(tsdh.getPayEndDate()));
 			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getPrincipalId(), payCalendarEntries);
 		}
 		else {
 			if(StringUtils.isNotBlank(taForm.getDocumentId())) {
 				tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(taForm.getDocumentId());
-				payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),  TKUtils.getTimelessDate(tsdh.getPayBeginDate()));
+				payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),  TKUtils.getTimelessDate(tsdh.getPayEndDate()));
 			}
 			else {
 				Date currentDate = TKUtils.getTimelessDate(null);
