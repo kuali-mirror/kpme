@@ -29,6 +29,7 @@
 	<html:hidden property="methodToCall" value=""/>
 	<html:hidden property="currentClockAction" styleId="clockAction"/>
 	<html:hidden property="lastClockedInTime" value="${Form.lastClockTimestamp}" styleId="lastClockedInTime"/>
+	<html:hidden property="currentServerTime" value="${Form.currentServerTime}" styleId="currentServerTime"/>
 	<div id="clock">
 		<table>
 			<tr class="header"><td colspan="2"><bean:message key="clock.title"/></td></tr>

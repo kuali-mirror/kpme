@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,9 +32,9 @@ public class ClockAction extends TimesheetAction {
 
     	@Override
     	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
     		ActionForward forward = super.execute(mapping, form, request, response);
     	    ClockActionForm caf = (ClockActionForm) form;
+    	    caf.setCurrentServerTime(new Date().getTime());
             caf.setShowLunchButton(TkServiceLocator.getSystemLunchRuleService().isShowLunchButton());
     	    caf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(caf.getTimesheetDocument(), true));
     	    String principalId = TKContext.getUser().getPrincipalId();

@@ -21,7 +21,7 @@
  
       // Record keeping for seeded clock
       $this.increment = 0;
-      $this.lastCalled = new Date().getTime();
+      $this.lastCalled = new Date(parseFloat($("#currentServerTime").val())).getTime();
  
       var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
  
@@ -115,12 +115,12 @@
   $.fn.jclock.getTime = function(el) {
     if(typeof(el.seedTime) == 'undefined') {
       // Seed time not being used, use current time
-      var now = new Date();
+      var now = new Date(parseFloat($("#currentServerTime").val()));
     } else {
       // Otherwise, use seed time with increment
-      el.increment += new Date().getTime() - el.lastCalled;
+      el.increment += new Date(parseFloat($("#currentServerTime").val())).getTime() - el.lastCalled;
       var now = new Date(el.seedTime + el.increment);
-      el.lastCalled = new Date().getTime();
+      el.lastCalled = new Date(parseFloat($("#currentServerTime").val())).getTime();
     }
  
     if(el.utc == true) {

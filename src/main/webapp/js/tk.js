@@ -91,10 +91,11 @@ $(document).ready(function() {
 			});
 
 	// clock
+    var currentServerTime = parseFloat($("#currentServerTime").val());
 	var options = {
 		format : '%I:%M:%S %p',
 		utc: true,
-        utc_offset: -(new Date().getTimezoneOffset()/60)
+        utc_offset: -(new Date(currentServerTime).getTimezoneOffset()/60)
 	};
 	$(".jClock").jclock(options);
 
@@ -106,7 +107,7 @@ $(document).ready(function() {
 //    }
     var lastClockedInTime = $("#lastClockedInTime").val();
     var clockAction = $("#clockAction").val();
-    var startTime = clockAction == 'CO' ?  new Date(lastClockedInTime) : new Date() ;
+    var startTime = clockAction == 'CO' ?  new Date(lastClockedInTime) : new Date(currentServerTime) ;
 
 	$('.elapsedTime').countdown({
 				since : startTime,
