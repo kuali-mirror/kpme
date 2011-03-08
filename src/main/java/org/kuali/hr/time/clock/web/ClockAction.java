@@ -34,7 +34,7 @@ public class ClockAction extends TimesheetAction {
     	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     		ActionForward forward = super.execute(mapping, form, request, response);
     	    ClockActionForm caf = (ClockActionForm) form;
-    	    caf.setCurrentServerTime(new Date().getTime());
+    	    caf.setCurrentServerTime(String.valueOf(new Date().getTime()));
             caf.setShowLunchButton(TkServiceLocator.getSystemLunchRuleService().isShowLunchButton());
     	    caf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(caf.getTimesheetDocument(), true));
     	    String principalId = TKContext.getUser().getPrincipalId();

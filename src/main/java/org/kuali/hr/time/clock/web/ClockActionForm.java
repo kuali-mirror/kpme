@@ -13,7 +13,7 @@ public class ClockActionForm extends TimesheetActionForm {
      */
     private static final long serialVersionUID = -3843074202863670372L;
 
-    private long currentServerTime;
+    private String currentServerTime;
     private String principalId;
     private String currentClockAction;
     private String lastClockAction;
@@ -26,11 +26,11 @@ public class ClockActionForm extends TimesheetActionForm {
     private boolean showLunchButton;
 
     
-    public long getCurrentServerTime() {
+    public String getCurrentServerTime() {
 		return currentServerTime;
 	}
 
-	public void setCurrentServerTime(long currentServerTime) {
+	public void setCurrentServerTime(String currentServerTime) {
 		this.currentServerTime = currentServerTime;
 	}
 

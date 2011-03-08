@@ -7,7 +7,8 @@
 * http://www.opensource.org/licenses/mit-license.php
 */
 (function($) {
- 
+
+	var currentTime;
   $.fn.jclock = function(options) {
     var version = '2.3.0';
  
@@ -22,7 +23,7 @@
       // Record keeping for seeded clock
       $this.increment = 0;
       $this.lastCalled = new Date(parseFloat($("#currentServerTime").val())).getTime();
- 
+	  currentTime = parseFloat($("#currentServerTime").val());
       var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
  
       $this.format = o.format;
@@ -113,14 +114,15 @@
   }
  
   $.fn.jclock.getTime = function(el) {
+    currentTime += el.timeout;
     if(typeof(el.seedTime) == 'undefined') {
       // Seed time not being used, use current time
-      var now = new Date(parseFloat($("#currentServerTime").val()));
+	  var now = new Date(parseFloat(currentTime));
     } else {
       // Otherwise, use seed time with increment
-      el.increment += new Date(parseFloat($("#currentServerTime").val())).getTime() - el.lastCalled;
+      el.increment += new Date(parseFloat(currentTime)).getTime() - el.lastCalled;
       var now = new Date(el.seedTime + el.increment);
-      el.lastCalled = new Date(parseFloat($("#currentServerTime").val())).getTime();
+      el.lastCalled = new Date(parseFloat(currentTime)).getTime();
     }
  
     if(el.utc == true) {
