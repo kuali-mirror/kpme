@@ -10,7 +10,6 @@ public class SystemLunchRuleServiceImpl implements SystemLunchRuleService {
 	public SystemLunchRuleDao systemLunchRuleDao;
 
 	@Override
-	//@CacheResult
 	public SystemLunchRule getSystemLunchRule(Date asOfDate) {
 		return systemLunchRuleDao.getSystemLunchRule(asOfDate);
 	}

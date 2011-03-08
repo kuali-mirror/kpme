@@ -123,7 +123,7 @@ public class ClockActionForm extends TimesheetActionForm {
         if (showLunchButton) {
             if (this.assignmentLunchMap != null) {
                 Boolean val = this.assignmentLunchMap.get(this.getSelectedAssignment());
-                return (showLunchButton && val != null && val);
+                return (showLunchButton && val != null && !val);
             } else {
                 return showLunchButton;
             }
