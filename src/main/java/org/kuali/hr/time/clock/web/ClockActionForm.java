@@ -5,6 +5,7 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
 import java.sql.Timestamp;
+import java.util.Map;
 
 public class ClockActionForm extends TimesheetActionForm {
 
@@ -25,7 +26,19 @@ public class ClockActionForm extends TimesheetActionForm {
     private TimeBlock timeBlock;
     private boolean showLunchButton;
 
-    
+    /** This map is used to determine whether or not lunch buttons will render
+     * for the selected assignment. The key of this map should be the same key
+     * as what is selected in the assignment drop down selection. */
+    private Map<String,Boolean> assignmentLunchMap;
+
+    public Map<String, Boolean> getAssignmentLunchMap() {
+        return assignmentLunchMap;
+    }
+
+    public void setAssignmentLunchMap(Map<String,Boolean> assignmentLunchMap) {
+        this.assignmentLunchMap = assignmentLunchMap;
+    }
+
     public String getCurrentServerTime() {
 		return currentServerTime;
 	}
@@ -98,10 +111,30 @@ public class ClockActionForm extends TimesheetActionForm {
 		this.lastClockAction = lastClockAction;
 	}
 
+    /**
+     * Accounts for presence of Department Lunch Rule and System Lunch Rule.
+     *
+     * This method is dependent on assignmentLunchMap being populated with
+     * proper keys/values.
+     *
+     * @return true if lunch buttons should be displayed, false otherwise.
+     */
     public boolean isShowLunchButton() {
-        return showLunchButton;
+        if (showLunchButton) {
+            if (this.assignmentLunchMap != null) {
+                Boolean val = this.assignmentLunchMap.get(this.getSelectedAssignment());
+                return (showLunchButton && val != null && val);
+            } else {
+                return showLunchButton;
+            }
+        } else {
+            return false;
+        }
     }
 
+    /**
+     * @param showLunchButton true if system lunch rule is set.
+     */
     public void setShowLunchButton(boolean showLunchButton) {
         this.showLunchButton = showLunchButton;
     }

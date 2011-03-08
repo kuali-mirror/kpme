@@ -20,10 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ClockAction extends TimesheetAction {
 
@@ -37,6 +34,18 @@ public class ClockAction extends TimesheetAction {
     	    caf.setCurrentServerTime(String.valueOf(new Date().getTime()));
             caf.setShowLunchButton(TkServiceLocator.getSystemLunchRuleService().isShowLunchButton());
     	    caf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(caf.getTimesheetDocument(), true));
+            if (caf.isShowLunchButton()) {
+                // We don't need to worry about the assignments and lunch rules
+                // if the global lunch rule is turned off.
+
+                // Check for presence of department lunch rule.
+                Map<String,Boolean> assignmentDeptLunchRuleMap = new HashMap<String,Boolean>();
+                for (Assignment a : caf.getTimesheetDocument().getAssignments()) {
+                    String key = AssignmentDescriptionKey.getAssignmentKeyString(a);
+                    assignmentDeptLunchRuleMap.put(key, a.getDeptLunchRule() != null);
+                }
+                caf.setAssignmentLunchMap(assignmentDeptLunchRuleMap);
+            }
     	    String principalId = TKContext.getUser().getPrincipalId();
 
     	    ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
@@ -62,6 +71,7 @@ public class ClockAction extends TimesheetAction {
 	   	    	}
     	    	// if the current clock action is clock out, displays only the clocked-in assignment
     	    	String selectedAssignment = new AssignmentDescriptionKey(lastClockLog.getJobNumber(), lastClockLog.getWorkArea(), lastClockLog.getTask()).toAssignmentKeyString();
+                caf.setSelectedAssignment(selectedAssignment);
     	    	Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), selectedAssignment);
     	    	Map<String,String> assignmentDesc = TkServiceLocator.getAssignmentService().getAssignmentDescriptions(assignment);
     	    	caf.setAssignmentDescriptions(assignmentDesc);
