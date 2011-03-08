@@ -1,46 +1,5 @@
-<%@ page import="org.kuali.hr.time.clock.web.ClockActionForm" %>
-<%@ page import="java.util.Map" %>
 <%@include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 <c:set var="Form" value="${ClockActionForm}" scope="request"/>
-
-
-<script language="JavaScript" type="text/javascript">
-var showLunch = new Object();
-<%
-    Object o = request.getAttribute("ClockActionForm");
-    if (o instanceof ClockActionForm) {
-        ClockActionForm caf = (ClockActionForm)o;
-        Map<String,Boolean> lunchmap = caf.getAssignmentLunchMap();
-        if (lunchmap != null && lunchmap.size() > 0) {
-            for(String key : lunchmap.keySet()) {
-                Boolean value = lunchmap.get(key);
-                out.write("showLunch['" + key + "'] = " + value.toString() + ";\n");
-            }
-        }
-    }
-%>
-
-function hideLunchButton() {
-    var element = document.getElementById("lunchToggle");
-    element.style.display = "none";
-}
-
-function showLunchButton() {
-    var element = document.getElementById("lunchToggle");
-    element.style.display = "inline";
-}
-
-function toggle() {
-	var element = document.getElementById("lunchToggle");
-
-	if(element.style.display == "inline") {
-    	element.style.display = "none";
-  	}
-	else {
-		element.style.display = "inline";
-	}
-}
-</script>
 
 <c:choose>
 	<c:when test="${Form.currentClockAction eq 'CI'}">
@@ -92,27 +51,19 @@ function toggle() {
 			</tr>
 			<tr class="footer">
 				<td colspan="2" align="center">
-                    <%--<c:if test="${Form.currentClockAction eq 'CI' or Form.currentClockAction eq 'CO'}">  --%>
-
-                        <input id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';"/>
-
-                    <%--</c:if>  --%>
-
-
+                    <input id="clock-button" type="submit" class="button" value="${clockActionDescription}" name="clockAction" onclick="this.form.methodToCall.value='clockAction';"/>
                     <c:choose>
 						<c:when test="${Form.currentClockAction eq 'CO'}">
                            <c:choose>
                                <c:when test="${Form.showLunchButton}">
-						        <div id="lunchToggle" style="display: inline;"><input type="submit" class="button" value="Take Lunch" name="lunchOut" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LO';"/></div>
+						        <input type="submit" class="button" value="Take Lunch" name="lunchOut" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LO';"/>
                                </c:when>
                            </c:choose>
 						</c:when>
 						<c:when test="${Form.currentClockAction eq 'LI'}">
-						   <div id="lunchToggle" style="display: inline;"><input type="submit" class="button" value="Return From Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/></div>
+						   <input type="submit" class="button" value="Return From Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/>
 						</c:when>
                     </c:choose>
-                    </div>
-
 					<input type="submit" class="button" value="Missed Punch" name="missedPunch"/>
 				</td>
 			</tr>
@@ -121,17 +72,4 @@ function toggle() {
 
 	</html:form>
 </tk:tkHeader>
-
-<script language="JavaScript" type="text/javascript">
-<!--
-
-var current_date = new Date();
-var current_timezone = current_date.getTimezoneOffset();
-
-//document.write("Your time zone is " + current_timezone + " minutes from GMT<br/>");
-//document.write("Your time zone is " + current_timezone/60 + " hours from GMT");
-
-//-->
-</script>
-
 <tk:note/>
