@@ -159,7 +159,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         tb.setEndTimestamp(endTime);
         tb.setEndTimestampTimezone(tz);
         // only calculate the hours from the time fields if the passed in hours is zero
-        if(hours.compareTo(BigDecimal.ZERO) == 0) {
+        if(hours == null || hours.compareTo(BigDecimal.ZERO) == 0) {
         	hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
         }
         //If earn code has an inflate min hours check if it is greater than zero
