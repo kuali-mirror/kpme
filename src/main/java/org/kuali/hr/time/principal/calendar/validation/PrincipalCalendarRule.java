@@ -5,32 +5,66 @@ import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.ValidationUtils;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 public class PrincipalCalendarRule extends MaintenanceDocumentRuleBase {
 
+	private boolean validatePrincipalId(PrincipalCalendar principalCal) {
+		if (principalCal.getPrincipalId() != null
+				&& !ValidationUtils.validatePrincipalId(principalCal
+						.getPrincipalId())) {
+			this.putFieldError("principalId", "error.existence",
+					"principalId '" + principalCal.getPrincipalId() + "'");
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	@Override
 	protected boolean processCustomSaveDocumentBusinessRules(
 			MaintenanceDocument document) {
-		
-		PrincipalCalendar principalCal = (PrincipalCalendar)this.getNewBo();
-		PayCalendar payCal = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(principalCal.getCalendarGroup());
-		if(payCal == null){
-			this.putFieldError("calendarGroup", "principal.cal.pay.invalid",principalCal.getCalendarGroup());
-			return false;
-		}
-		
-		//holiday calendar is not required
-		if(StringUtils.isNotEmpty(principalCal.getHolidayCalendarGroup())){
-			HolidayCalendar holidayCal = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarByGroup(principalCal.getHolidayCalendarGroup());
-			if(holidayCal == null){
-				this.putFieldError("holidayCalendarGroup", "principal.cal.holiday.invalid", principalCal.getHolidayCalendarGroup());
-				return false;
+		boolean valid = false;
+
+		LOG.debug("entering custom validation for Job");
+		PersistableBusinessObject pbo = this.getNewBo();
+		if (pbo instanceof PrincipalCalendar) {
+			PrincipalCalendar principalCal = (PrincipalCalendar) pbo;
+			if (principalCal != null) {
+				valid = true;
+				valid &= this.validatePrincipalId(principalCal);
+
+				if (StringUtils.isNotEmpty(principalCal.getCalendarGroup())) {
+					PayCalendar payCal = TkServiceLocator
+							.getPayCalendarSerivce().getPayCalendarByGroup(
+									principalCal.getCalendarGroup());
+					if (payCal == null) {
+						this.putFieldError("calendarGroup",
+								"principal.cal.pay.invalid", principalCal
+										.getCalendarGroup());
+						valid = false;
+					}
+				}
+
+				if (StringUtils.isNotEmpty(principalCal
+						.getHolidayCalendarGroup())) {
+					HolidayCalendar holidayCal = TkServiceLocator
+							.getHolidayCalendarService()
+							.getHolidayCalendarByGroup(
+									principalCal.getHolidayCalendarGroup());
+					if (holidayCal == null) {
+						this.putFieldError("holidayCalendarGroup",
+								"principal.cal.holiday.invalid", principalCal
+										.getHolidayCalendarGroup());
+						valid = false;
+					}
+				}
 			}
 		}
-		
-		return true;
+		return valid;
 	}
 
 }
