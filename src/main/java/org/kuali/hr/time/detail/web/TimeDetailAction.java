@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
@@ -244,6 +245,20 @@ public class TimeDetailAction extends TimesheetAction {
             return mapping.findForward("ws");
         }
 
+        //------------------------	
+        // check if the overnight shift is across days
+        //------------------------
+        if(StringUtils.equals(tdaf.getAcrossDays(), "y")) {
+            //Interval timeInterval = new Interval(startTime, endTime);
+            DateTime start = new DateTime(startTime);
+            DateTime end = new DateTime(endTime);
+            if(start.getHourOfDay() >= end.getHourOfDay()) {
+                errorMsgList.add("The \"apply to each day\" box should not be checked.");
+                tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                return mapping.findForward("ws");
+            }
+
+        }
         //------------------------
         // check if time blocks overlap with each other. Note that the tkTimeBlockId is used to determine is it's an update action or not
         //------------------------

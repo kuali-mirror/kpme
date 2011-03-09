@@ -158,7 +158,10 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         tb.setBeginTimestampTimezone(tz);
         tb.setEndTimestamp(endTime);
         tb.setEndTimestampTimezone(tz);
-        hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
+        // only calculate the hours from the time fields if the passed in hours is zero
+        if(hours.compareTo(BigDecimal.ZERO) == 0) {
+        	hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
+        }
         //If earn code has an inflate min hours check if it is greater than zero
         //and compare if the hours specified is less than min hours awarded for this
         //earn code
@@ -176,11 +179,6 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
 
         tb.setHours(hours);
-
-        //TODO - What does this do?
-//        if(tb.getHours().compareTo(BigDecimal.ZERO) == 0){
-//            tb.setHours(hours);
-//        }
         tb.setClockLogCreated(clockLogCreated);
         tb.setUserPrincipalId(TKContext.getUser().getPrincipalId());
         tb.setTimestamp(new Timestamp(System.currentTimeMillis()));

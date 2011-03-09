@@ -1,6 +1,7 @@
 package org.kuali.hr.time.timesheet.web;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -50,13 +51,14 @@ public class TimesheetAction extends TkAction {
          */
 		if(StringUtils.equals(taForm.getCalNav(), TkConstants.PREV_TIMESHEET) || StringUtils.equals(taForm.getCalNav(), TkConstants.NEXT_TIMESHEET)) {
 			tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(taForm.getCalNav(), TKContext.getPrincipalId(), taForm.getDocumentId());
-			payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),  TKUtils.getTimelessDate(tsdh.getPayEndDate()));
+            // use the getPayEndDate()-1 as the date to get the current payCalendarDates, since the the payBeginDate is equal to the payEndDate of the previous pay period
+			payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),  TKUtils.getTimelessDate(DateUtils.addDays(tsdh.getPayEndDate(), -1)));
 			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getPrincipalId(), payCalendarEntries);
 		}
 		else {
 			if(StringUtils.isNotBlank(taForm.getDocumentId())) {
 				tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(taForm.getDocumentId());
-				payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),  TKUtils.getTimelessDate(tsdh.getPayEndDate()));
+				payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),  TKUtils.getTimelessDate(DateUtils.addDays(tsdh.getPayEndDate(), -1)));
 			}
 			else {
 				Date currentDate = TKUtils.getTimelessDate(null);

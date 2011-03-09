@@ -261,6 +261,7 @@ $(document).ready(function() {
     // when the time fields(s) is changed, reset the hour/amount field
     $("#beginTimeField, #endTimeField").change(function() {
         $("#hoursField").val("");
+        magicTime($(this));
     });
 
     // when selecting an earn code, hide / show the time/hour/amount field as well

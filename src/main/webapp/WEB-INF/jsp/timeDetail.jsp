@@ -49,9 +49,8 @@
                         <table>
                             <tr>
                                 <td>Date range:</td>
-                                <td><input type="text" id="date-range-begin" size="10"/> - <input type="text"
-                                                                                                  id="date-range-end"
-                                                                                                  size="10"/></td>
+                                <td><input type="text" id="date-range-begin" size="10" /> -
+                                    <input type="text" id="date-range-end" size="10" /></td>
                             </tr>
                             <tr>
                                 <td>Assignment:</td>
@@ -71,28 +70,24 @@
                             <tr id="clockIn">
                                 <td><span style="float:right;">In:</span></td>
                                 <td>
-                                    <input name="beginTimeField" id="beginTimeField" type="text" size="10"
-                                           onblur="magicTime(this)"
-                                           onfocus="if (this.className != 'error') this.select()"/>
+                                    <input name="beginTimeField" id="beginTimeField" type="text" size="10"/>
                                     <button style="width:20px; height:20px; vertical-align: text-top"
                                             title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530"
                                             id="beginTimeHelp" tabindex="999">help
                                     </button>
-                                    <div id="beginTimeField-error" style="color:red; float:left;"></div>
+                                    <div id="beginTimeField-error" style="color:red;"></div>
                                     <input type="hidden" id="beginTimeField-messages"/>
                                 </td>
                             </tr>
                             <tr id="clockOut">
                                 <td><span style="float:right;">Out:</span></td>
                                 <td>
-                                    <input name="endTimeField" id="endTimeField" type="text" size="10"
-                                           onblur="magicTime(this)"
-                                           onfocus="if (this.className != 'error') this.select()"/>
+                                    <input name="endTimeField" id="endTimeField" type="text" size="10"/>
                                     <button style="width:20px; height:20px; vertical-align: text-top" id="endTimeHelp"
                                             title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530"
                                             tabindex="999">help
                                     </button>
-                                    <div id="endTimeField-error" style="color:red; float:left;"></div>
+                                    <div id="endTimeField-error" style="color:red;"></div>
                                     <input type="hidden" id="endTimeField-messages"/>
                                 </td>
                             </tr>

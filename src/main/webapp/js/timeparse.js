@@ -214,29 +214,32 @@ function parseTimeString(s) {
 }
 
 function magicTime(input) {
-    var messagespan = input.id + '-messages';
+
+    var messagespan = input.attr('id') + '-messages';
+
     // get the date field
-    var dateRangeField = input.id == 'beginTimeField' ? $('#date-range-begin').val() : $('#date-range-end').val();
-     
+    var dateRangeField = input.attr('id') == 'beginTimeField' ? $('#date-range-begin').val() : $('#date-range-end').val();
+
     // clear the error message
-    $("#" + input.id + '-error').html("");
+    $("#" + input.attr('id') + '-error').html("");
     try {
-        var d = parseTimeString(input.value);
+        var d = parseTimeString(input.val());
 
         // this came with the original source code which generates the military time format
         // input.value = getReadable(d);
-        input.value = formatDate(d);
+        input.val(formatDate(d));
         input.className = '';
         try {
             // Human readable time
-            el = document.getElementById(messagespan);
+            el = $("#" + messagespan);
             dateRangeField = dateRangeField.split("/");
+
             d.setFullYear(dateRangeField[2], dateRangeField[0], dateRangeField[1]);
             d.setSeconds(0);
             d.setMilliseconds(0);
-            el.value = d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes();
+            el.val(d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes());
             //el.value = d.getTime();
-            el.className = 'normal';
+            el.addClass("normal");
         }
         catch (e) {
             // the message div is not in the document
@@ -244,19 +247,19 @@ function magicTime(input) {
         }
     }
     catch (e) {
-        input.className = 'error';
         try {
-            el = document.getElementById(input.id + '-error');
+            el = $("#" + input.attr('id') + '-error')
+
+            el.addClass("error");
             var message = e.message;
             // Fix for IE6 bug
             if (message.indexOf('is null or not an object') > -1) {
                 message = 'Invalid format';
             }
-            el.firstChild.nodeValue = message;
-            el.className = 'error';
+            el.html(message);
         } catch (e){
             if ($("#" + input.id).val() != '') {
-              el.innerHTML = "Invalid format";
+              el.html("Invalid format");
             }
         }
     }

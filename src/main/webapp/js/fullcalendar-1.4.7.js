@@ -1010,9 +1010,9 @@
 
                 this.renderGrid(
                         rowCnt, options.weekends ? 7 : 5,
-                        this.option('columnFormat')
-                    //options.isShowNumber
-                        //$('#isVirtualWorkDay').val() != 'true'
+                        this.option('columnFormat'),
+                        //options.isShowNumber
+                        $('#isVirtualWorkDay').val() != 'true'
                         );
             }
         }, viewName);
