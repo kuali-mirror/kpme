@@ -4,6 +4,8 @@ import com.gargoylesoftware.htmlunit.html.*;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.Duration;
 import org.junit.Assert;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
@@ -340,5 +342,37 @@ public class TkTestUtils {
 		
 		return blocks;
 	}
+	
+	public static Map<Timestamp, BigDecimal> getDateToHoursMap(TimeBlock timeBlock, TimeHourDetail timeHourDetail) {
+		Map<Timestamp, BigDecimal> dateToHoursMap = new HashMap<Timestamp, BigDecimal>();
+		DateTime beginTime = new DateTime(timeBlock.getBeginTimestamp());
+		DateTime endTime = new DateTime(timeBlock.getEndTimestamp());
+
+		Days d = Days.daysBetween(beginTime, endTime);
+		int numberOfDays = d.getDays();
+		if (numberOfDays < 1) {
+			dateToHoursMap.put(timeBlock.getBeginTimestamp(), timeHourDetail.getHours());
+			return dateToHoursMap;
+		}
+		DateTime currentTime = beginTime;
+		for (int i = 0; i < numberOfDays; i++) {
+			DateTime nextDayAtMidnight = new DateTime(currentTime.plusDays(1).getMillis());
+			nextDayAtMidnight = nextDayAtMidnight.hourOfDay().setCopy(12);
+			nextDayAtMidnight = nextDayAtMidnight.minuteOfDay().setCopy(0);
+			nextDayAtMidnight = nextDayAtMidnight.secondOfDay().setCopy(0);
+			nextDayAtMidnight = nextDayAtMidnight.millisOfSecond().setCopy(0);
+			Duration dur = new Duration(currentTime, nextDayAtMidnight);
+			long duration = dur.getStandardSeconds();
+			BigDecimal hrs = new BigDecimal(duration / 3600, TkConstants.MATH_CONTEXT);
+			dateToHoursMap.put(new Timestamp(currentTime.getMillis()), hrs);
+			currentTime = nextDayAtMidnight;
+		}
+		Duration dur = new Duration(currentTime, endTime);
+		long duration = dur.getStandardSeconds();
+		BigDecimal hrs = new BigDecimal(duration / 3600, TkConstants.MATH_CONTEXT);
+		dateToHoursMap.put(new Timestamp(currentTime.getMillis()), hrs);
+
+		return dateToHoursMap;
+	}	
 	
 }

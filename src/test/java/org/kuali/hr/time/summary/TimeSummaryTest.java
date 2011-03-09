@@ -7,9 +7,9 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.kuali.hr.time.test.TkTestCase;
+import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
-import org.kuali.hr.time.util.TKUtils;
 
 public class TimeSummaryTest extends TkTestCase {
 
@@ -24,7 +24,7 @@ public class TimeSummaryTest extends TkTestCase {
 		
 		TimeHourDetail timeHourDetail = new TimeHourDetail();
 		
-		Map<Timestamp, BigDecimal> timeToHrs = TKUtils.getDateToHoursMap(timeBlock, timeHourDetail);
+		Map<Timestamp, BigDecimal> timeToHrs = TkTestUtils.getDateToHoursMap(timeBlock, timeHourDetail);
 		assertTrue(timeToHrs!=null);
 	}
 	
