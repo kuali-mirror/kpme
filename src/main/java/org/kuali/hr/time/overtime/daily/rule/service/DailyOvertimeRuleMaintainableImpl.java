@@ -1,6 +1,8 @@
 package org.kuali.hr.time.overtime.daily.rule.service;
 
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -58,5 +60,16 @@ public class DailyOvertimeRuleMaintainableImpl extends
 		dailyOvertimeRule.setTimeStamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(dailyOvertimeRule);
 	}
+	
+	@Override
+	public Map populateBusinessObject(Map<String, String> fieldValues,
+			MaintenanceDocument maintenanceDocument, String methodToCall) {
+		if(fieldValues.containsKey("workArea") && StringUtils.equals(fieldValues.get("workArea"),"%")){
+			fieldValues.put("workArea", "-1");
+		}
+		return super.populateBusinessObject(fieldValues, maintenanceDocument,
+				methodToCall);
+	}
+    
 
 }

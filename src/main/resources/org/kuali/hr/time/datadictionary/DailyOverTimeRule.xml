@@ -158,28 +158,32 @@
 		<property name="shortLabel" value="Work Area" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="workArea" />
-		<property name="label" value="Work Area" />
+ 			<bean parent="RegexValidationPattern">
+ 		   		<property name="pattern" value="\%|((\+|-)?([0-9]+))"></property>
+ 		   		<property name="validationErrorMessageKey" value="error.validation.long.or.wildcard"></property>
+ 			</bean>
+    	</property>
+    	<property name="control">
+      		<bean parent="TextControlDefinition" p:size="10"/>
+    	</property>    
+    	<property name="name" value="workArea"/>
+     	<property name="formatterClass" value="org.kuali.hr.time.workarea.WorkAreaFormatter"/>
+    	<property name="label" value="Work Area"/>
 	</bean>
 	<!-- maxGap  -->
 	<bean id="DailyOvertimeRule-maxGap" parent="DailyOvertimeRule-maxGap-parentBean" />
 	<bean id="DailyOvertimeRule-maxGap-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Max. Gap Minutes" />
-		<property name="maxLength" value="5" />
+		<property name="maxLength" value="10" />
 		<property name="validationPattern">
 			<bean parent="RegexValidationPattern">
- 		   		<property name="pattern" value="((\+|-)?([0-9](\.[0-9]{1,2})?))()"></property>
+ 		   		<property name="pattern" value="((\+|-)?([0-9]{1,6}(\.[0-9]{1,2})?))()"></property>
  		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
  			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
+			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="maxGap" />
 		<property name="label" value="Max. Gap Minutes" />
@@ -298,6 +302,7 @@
 	<bean id="DailyOvertimeRule-lookupDefinition" parent="DailyOvertimeRule-lookupDefinition-parentBean" />
 	<bean id="DailyOvertimeRule-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
+		<property name="lookupableID" value="tkLookupable" />
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="dept" />
