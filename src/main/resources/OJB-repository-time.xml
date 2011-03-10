@@ -264,8 +264,8 @@
 
 	<class-descriptor class="org.kuali.hr.job.Job" table="hr_job_t">
 		<field-descriptor name="hrJobId" 				column="hr_job_id" 			jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="hr_job_s"/>
-		<field-descriptor name="principalId"            column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
-		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
+		<field-descriptor name="principalId"            column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="true" />
+		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="true" />
 		<field-descriptor name="effectiveDate" 			column="effdt" 				jdbc-type="DATE"    nullable="false" primarykey="false" />
 		<field-descriptor name="dept" 					column="dept" 				jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
 		<field-descriptor name="tkSalGroup" 			column="tk_sal_group" 	    jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />

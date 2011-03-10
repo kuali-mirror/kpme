@@ -5,8 +5,11 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.location.Location;
+import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.paytype.PayType;
+import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -30,6 +33,7 @@ public class Job extends PersistableBusinessObjectBase {
 	private String principalId;
 	private String firstName;
 	private String lastName;
+	private String name;
 	private String principalName;
 	private Long jobNumber;
 	private Date effectiveDate;
@@ -43,6 +47,9 @@ public class Job extends PersistableBusinessObjectBase {
 	private Person principal;
 	private Department deptObj;
 	private PayType payTypeObj;
+	private Location locationObj;
+    private PayGrade payGradeObj;
+    private SalGroup salGroupObj;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -93,6 +100,14 @@ public class Job extends PersistableBusinessObjectBase {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPrincipalName() {
@@ -228,5 +243,28 @@ public class Job extends PersistableBusinessObjectBase {
 		return primaryIndicator;
 	}
 
+	public Location getLocationObj() {
+		return locationObj;
+	}
+
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
+	}
+
+	public PayGrade getPayGradeObj() {
+		return payGradeObj;
+	}
+
+	public void setPayGradeObj(PayGrade payGradeObj) {
+		this.payGradeObj = payGradeObj;
+	}
+
+	public SalGroup getSalGroupObj() {
+		return salGroupObj;
+	}
+
+	public void setSalGroupObj(SalGroup salGroupObj) {
+		this.salGroupObj = salGroupObj;
+	}
 
 }
