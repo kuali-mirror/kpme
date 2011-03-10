@@ -1,6 +1,8 @@
 package org.kuali.hr.time.shiftdiff.rule.validation;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -11,6 +13,8 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateSalGroup(ShiftDifferentialRule shiftDifferentialRule) {
 		if (shiftDifferentialRule.getTkSalGroup() != null
+				&& !StringUtils.equals(shiftDifferentialRule.getTkSalGroup(),
+						TkConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validateSalGroup(shiftDifferentialRule
 						.getTkSalGroup(), shiftDifferentialRule
 						.getEffectiveDate())) {
@@ -37,6 +41,8 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateLocation(ShiftDifferentialRule shiftDifferentialRule) {
 		if (shiftDifferentialRule.getLocation() != null
+				&& !StringUtils.equals(shiftDifferentialRule.getLocation(),
+						TkConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validateLocation(shiftDifferentialRule
 						.getLocation(), shiftDifferentialRule
 						.getEffectiveDate())) {
@@ -47,9 +53,11 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 			return true;
 		}
 	}
-	
+
 	boolean validatePayGrade(ShiftDifferentialRule shiftDifferentialRule) {
 		if (shiftDifferentialRule.getPayGrade() != null
+				&& !StringUtils.equals(shiftDifferentialRule.getPayGrade(),
+						TkConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validatePayGrade(shiftDifferentialRule
 						.getPayGrade(), shiftDifferentialRule
 						.getEffectiveDate())) {
@@ -60,6 +68,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 			return true;
 		}
 	}
+
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
