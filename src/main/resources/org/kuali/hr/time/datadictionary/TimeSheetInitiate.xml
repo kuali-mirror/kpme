@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+  <bean id="TimeSheetInitiate" parent="TimeSheetInitiate-parentBean"/>
+  <bean id="TimeSheetInitiate-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.hr.time.timesheet.TimeSheetInitiate"/>
+    <property name="titleAttribute" value="tkTimeSheetInitId"/>
+    <property name="objectLabel" value="TimeSheetInitiate"/>
+    <property name="lookupDefinition">
+      	<ref bean="TimeSheetInitiate-lookupDefinition"/>
+    </property>
+    <property name="inquiryDefinition">
+		<ref bean="TimeSheetInitiate-inquiryDefinition" />
+	</property>
+    <property name="attributes">
+      <list>
+      	<ref bean="TimeSheetInitiate-tkTimeSheetInitId"/>
+        <ref bean="TimeSheetInitiate-principalId"/>
+        <ref bean="TimeSheetInitiate-payCalendarEntriesId"/>
+      </list>
+    </property>
+    <property name="relationships">
+  		<list>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="principal"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
+                </list>
+              </property>
+            </bean>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="payCalendarEntriesObj"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="payCalendarEntriesId" p:targetName="payCalendarEntriesId"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarGroup" p:targetName="calendarGroup"/>
+                </list>
+              </property>
+            </bean>
+         </list>
+    </property>
+    
+  </bean>
+  
+   <!-- Attribute Definitions -->
+
+	<bean id="TimeSheetInitiate-tkTimeSheetInitId" parent="TimeSheetInitiate-tkTimeSheetInitId-parentBean" />
+	<bean id="TimeSheetInitiate-tkTimeSheetInitId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="TimeSheetInitiate Id" />
+		<property name="maxLength" value="7" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="7" />
+		</property>
+		<property name="name" value="tkTimeSheetInitId" />
+		<property name="label" value="Time Sheet Initiate Id" />
+	</bean>
+
+	<bean id="TimeSheetInitiate-principalId" parent="TimeSheetInitiate-principalId-parentBean" />
+	<bean id="TimeSheetInitiate-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Principal Id" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="principalId" />
+		<property name="label" value="Principal Id" />
+	</bean>
+	
+	<bean id="TimeSheetInitiate-payCalendarEntriesId" parent="TimeSheetInitiate-payCalendarEntriesId-parentBean" />
+	<bean id="TimeSheetInitiate-payCalendarEntriesId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="PayCalEntries Id" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+		<property name="name" value="payCalendarEntriesId" />
+		<property name="label" value="Pay Calendar Entries Id" />
+	</bean>
+   
+  <!-- Lookup Definition: -->
+
+  <bean id="TimeSheetInitiate-lookupDefinition" parent="TimeSheetInitiate-lookupDefinition-parentBean"/>
+  <bean id="TimeSheetInitiate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="lookupFields">
+      <list>
+     	<bean parent="FieldDefinition" p:attributeName="tkTimeSheetInitId"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="payCalendarEntriesId"/>
+       </list>
+    </property>
+    <property name="resultFields">
+      <list>
+     	<bean parent="FieldDefinition" p:attributeName="tkTimeSheetInitId"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="payCalendarEntriesId"/>
+      </list>
+    </property>
+    <property name="title" value="Time Sheet Initiate Lookup"/>
+  </bean>
+  
+  <!-- Inquiry Definition -->
+  
+	<bean id="TimeSheetInitiate-inquiryDefinition" parent="TimeSheetInitiate-inquiryDefinition-parentBean" />
+	<bean id="TimeSheetInitiate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="tkTimeSheetInitId"/>
+					        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+					        <bean parent="FieldDefinition" p:attributeName="payCalendarEntriesId"/>
+						</list>
+					</property>
+					<property name="title" value="Time Sheet Initiate" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="Time Sheet Initiate Inquiry" />
+	</bean>
+  
+
+</beans>
+

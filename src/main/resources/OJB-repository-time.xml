@@ -288,6 +288,13 @@
 		<field-descriptor name="documentStatus" column="document_status" jdbc-type="VARCHAR" length="1"  primarykey="false" />
 		<field-descriptor name="payBeginDate"   column="pay_begin_dt"	 jdbc-type="DATE"    primarykey="false" />
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.hr.time.timesheet.TimeSheetInitiate" table="tk_time_sheet_init_t">
+		<field-descriptor name="tkTimeSheetInitId" 	column="tk_time_sheet_init_id" jdbc-type="BIGINT" 	primarykey="true" autoincrement="true" sequence-name="tk_time_sheet_init_s"/>
+		<field-descriptor name="payCalendarEntriesId"    column="py_calendar_entries_id"    jdbc-type="VARCHAR" length="40" primarykey="false" />
+		<field-descriptor name="principalId"    column="principal_id"    jdbc-type="VARCHAR" length="40" primarykey="false" />
+	</class-descriptor>
+	
 
 	<class-descriptor class="org.kuali.hr.time.earncode.EarnCode" table="tk_earn_code_t">
 		<field-descriptor name="tkEarnCodeId" 	column="tk_earn_code_id" jdbc-type="BIGINT"  primarykey="true" autoincrement="true" sequence-name="tk_earn_code_s"/>

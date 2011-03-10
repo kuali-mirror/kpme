@@ -10,6 +10,9 @@
     <property name="lookupDefinition">
       <ref bean="PayCalendarEntries-lookupDefinition"/>
     </property>
+     <property name="inquiryDefinition">
+		<ref bean="PayCalendarEntries-inquiryDefinition" />
+	</property>
     <property name="attributes">
       <list>
         <ref bean="PayCalendarEntries-payCalendarId"/>
@@ -314,5 +317,29 @@
     </property>
     <property name="title" value="Pay Calendar Entry Lookup"/>
   </bean>
+  
+   <!-- Inquiry Definition -->
+  
+	<bean id="PayCalendarEntries-inquiryDefinition" parent="PayCalendarEntries-inquiryDefinition-parentBean" />
+	<bean id="PayCalendarEntries-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
+					        <bean parent="FieldDefinition" p:attributeName="beginPeriodDateTime"/>
+					        <bean parent="FieldDefinition" p:attributeName="endPeriodDateTime"/>
+						</list>
+					</property>
+					<property name="title" value="Pay Calendar Entry" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="Pay Calendar Entry Inquiry" />
+	</bean>
+  
+  
    
 </beans>

@@ -17,7 +17,9 @@ public class PrincipalCalendarServiceImpl implements PrincipalCalendarService {
 	@CacheResult
 	public PrincipalCalendar getPrincipalCalendar(String principalId, Date asOfDate){
 		PrincipalCalendar pc =  this.principalCalendarDao.getPrincipalCalendar(principalId, asOfDate);
-		pc.setPayCalendar(TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(pc.getCalendarGroup()));
+		if(pc != null) {
+			pc.setPayCalendar(TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(pc.getCalendarGroup()));
+		}
 		return pc;
 	}
 

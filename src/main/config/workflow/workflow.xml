@@ -134,6 +134,13 @@
 			<parent>RiceDocument</parent>
 			<label>PrincipalCalendarMaintenanceDocument</label>
 	</documentType>
+
+	<documentType>
+		<name>TimeSheetInitiateDocumentType</name>
+		<parent>RiceDocument</parent>
+		<label>TimeSheetInitiateMaintenanceDocument</label>
+	</documentType>
+
 	<documentType>
 			<name>TimesheetDocumentHeaderDocumentType</name>
 			<parent>RiceDocument</parent>
@@ -144,6 +151,7 @@
 			<parent>RiceDocument</parent>
 			<label>TimesheetDocumentHeaderMaintenanceDocument</label>
 		</documentType>
+
 	<documentType>
 			<name>SystemLunchRuleDocumentType</name>
 			<parent>RiceDocument</parent>

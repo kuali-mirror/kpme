@@ -307,6 +307,10 @@
     <bean id="payCalendarDatesDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDatesDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+     <bean id="payCalendarEntriesDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarEntriesDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 
     <bean id="timesheetDocumentHeaderDao" class="org.kuali.hr.time.workflow.dao.TimesheetDocumentHeaderDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
@@ -473,6 +477,10 @@
 
     <bean id="payCalendarDatesService" class="org.kuali.hr.time.paycalendar.service.PayCalendarDatesServiceImpl">
     	<property name="payCalendarDatesDao" ref="payCalendarDatesDao"/>
+    </bean>
+    
+    <bean id="payCalendarEntriesService" class="org.kuali.hr.time.paycalendar.service.PayCalendarEntriesServiceImpl">
+    	<property name="payCalendarEntriesDao" ref="payCalendarEntriesDao"/>
     </bean>
 
     <bean id="timesheetDocumentHeaderService" class="org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderServiceImpl">
