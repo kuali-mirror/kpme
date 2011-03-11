@@ -26,7 +26,6 @@
               <property name="objectAttributeName" value="principal"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="name" p:targetName="name"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
                 </list>
               </property>
