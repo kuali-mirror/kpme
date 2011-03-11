@@ -248,6 +248,7 @@
             <list>
 				<value>org.kuali.hr.time.domain</value>
 				<value>org.kuali.kfs.coa.domain</value>
+				<value>org.kuali.kfs.coa.businessobject</value>
 				<value>org.kuali.hr.time</value>
 				<value>org.kuali.hr.kfs</value>
 				<value>org.kuali.hr</value>
