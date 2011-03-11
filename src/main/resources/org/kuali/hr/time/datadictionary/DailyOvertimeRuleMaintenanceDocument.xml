@@ -33,16 +33,16 @@
 		<property name="title" value="Daily Overtime Rule Maintenance" />
 		<property name="maintainableItems">
 			<list>
-			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
-				<bean parent="MaintainableFieldDefinition" p:name="location"/>
-				<bean parent="MaintainableFieldDefinition" p:name="paytype"/>
-				<bean parent="MaintainableFieldDefinition" p:name="dept"/>
-				<bean parent="MaintainableFieldDefinition" p:name="workArea"/>
-				<bean parent="MaintainableFieldDefinition" p:name="maxGap" />
-				<bean parent="MaintainableFieldDefinition" p:name="minHours" />
-				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
-        		<bean parent="MaintainableFieldDefinition" p:name="earnCode"/>
-        		<bean parent="MaintainableFieldDefinition" p:name="fromEarnGroup"/>				
+			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="paytype" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="maxGap" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="minHours" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true"/>
+        		<bean parent="MaintainableFieldDefinition" p:name="earnCode" p:required="true"/>
+        		<bean parent="MaintainableFieldDefinition" p:name="fromEarnGroup" p:required="true"/>				
 			</list>
 		</property>
 	</bean>
