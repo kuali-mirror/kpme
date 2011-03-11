@@ -36,6 +36,15 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 	
+	boolean validateDuplication(DepartmentEarnCode departmentEarnCode) {
+		if(ValidationUtils.duplicateDeptEarnCodeExists(departmentEarnCode)) {
+			this.putFieldError("effectiveDate", "deptEarncode.duplicate.exists");
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
@@ -55,6 +64,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateSalGroup(departmentEarnCode);
 				valid &= this.validateDept(departmentEarnCode);
 				valid &= this.validateEarnCode(departmentEarnCode);	
+				valid &= this.validateDuplication(departmentEarnCode);
 			}
 
 		}

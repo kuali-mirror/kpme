@@ -40,5 +40,11 @@ public class DepartmentEarnCodeMaintainableImpl extends KualiMaintainableImpl {
 					KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
 					"deptEarncode.effectiveDate.newer.exists");
 		}
+		
+		if(ValidationUtils.duplicateDeptEarnCodeExists(departmentEarnCode)) {
+			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(
+					KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "dept", 
+					"deptEarncode.duplicate.exists");
+		}
     }
 }

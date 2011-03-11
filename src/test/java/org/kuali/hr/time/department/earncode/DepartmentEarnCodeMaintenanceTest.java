@@ -29,6 +29,7 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	private static Long departmentEarnCodeId = 3L;
 
 	private static Long tkDeptEarnCodeId;
+	private static Long dupTkDeptEarnCodeId;
 
 	//TODO Sai - confirm this test is appropriate
 
@@ -86,6 +87,14 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", tkDeptEarnCodeId.toString());
 		assertTrue("Maintenance Page contains Warnings",maintPage.asText().contains("Warnings for this Section:"));
 		assertTrue("Maintenance Page contains Warning message",maintPage.asText().contains("There is a newer version of this Department Earn Code."));
+		
+		this.createDuplicateDeptEarnCode();
+		deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
+		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
+		maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", dupTkDeptEarnCodeId.toString());
+		assertTrue("Maintenance Page contains Warnings",maintPage.asText().contains("Warnings for this Section:"));
+		assertTrue("Maintenance Page contains Warning message",maintPage.asText().contains("There is a newer version of this Department Earn Code."));
+		assertTrue("Maintenance Page contains Warning message",maintPage.asText().contains("There is an exact duplicate version of this Department Earn Code."));
 	}
 	
 	public void createNewDeptEarnCode() {
@@ -103,10 +112,27 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		tkDeptEarnCodeId = deptEarnCode.getTkDeptEarnCodeId();	
 	}
 	
+	public void createDuplicateDeptEarnCode() {
+		DepartmentEarnCode deptEarnCode = new DepartmentEarnCode();
+		deptEarnCode.setActive(true);
+		deptEarnCode.setEarnCode(EARN_CODE);
+		deptEarnCode.setEffectiveDate(TEST_DATE);
+		deptEarnCode.setDept(DEPT);
+		deptEarnCode.setTkSalGroup(SAL_GROUP);
+		deptEarnCode.setEmployee(false);
+		deptEarnCode.setEffectiveDate(TEST_DATE);
+		deptEarnCode.setLocation("test");
+		
+		KNSServiceLocator.getBusinessObjectService().save(deptEarnCode);	
+		dupTkDeptEarnCodeId = deptEarnCode.getTkDeptEarnCodeId();	
+	}
+	
 	@Override
 	public void tearDown() throws Exception {
 		DepartmentEarnCode deptEarnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(DepartmentEarnCode.class, tkDeptEarnCodeId);			
-		KNSServiceLocator.getBusinessObjectService().delete(deptEarnCodeObj);				
+		KNSServiceLocator.getBusinessObjectService().delete(deptEarnCodeObj);
+		deptEarnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(DepartmentEarnCode.class, dupTkDeptEarnCodeId);			
+		KNSServiceLocator.getBusinessObjectService().delete(deptEarnCodeObj);
 		super.tearDown();
 	}
 	

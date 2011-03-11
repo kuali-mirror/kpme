@@ -11,6 +11,7 @@ import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.paycalendar.PayCalendar;
@@ -316,6 +317,34 @@ public class ValidationUtils {
        int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
        valid = (count > 0);
        return valid;
+   }
+   
+   public static boolean duplicateDeptEarnCodeExists(DepartmentEarnCode deptEarnCode) {
+	   boolean valid = false;
+	   Criteria crit = new Criteria();
+       crit.addEqualTo("dept", deptEarnCode.getDept());
+       crit.addEqualTo("tkSalGroup", deptEarnCode.getTkSalGroup());
+       crit.addEqualTo("earnCode", deptEarnCode.getEarnCode());
+       crit.addEqualTo("employee", deptEarnCode.isEmployee() ? "1" : "0");
+       crit.addEqualTo("approver", deptEarnCode.isApprover()? "1" : "0");
+       crit.addEqualTo("org_admin", deptEarnCode.isOrg_admin()? "1" : "0");
+       crit.addEqualTo("location", deptEarnCode.getLocation());
+       crit.addEqualTo("active", deptEarnCode.getActive() ? "Y" : "N");
+       crit.addEqualTo("effectiveDate", deptEarnCode.getEffectiveDate());
+       Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+       int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+       if(count == 1) {
+    	   valid = true;
+    	   crit.addEqualTo("tk_dept_earn_code_id", deptEarnCode.getTkDeptEarnCodeId());
+    	   count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+    	   if(count == 1) {
+    		   valid = false;
+    	   }
+       } else if(count > 1) {
+    	   valid = true;
+       }
+       
+	   return valid;
    }
 	
 	
