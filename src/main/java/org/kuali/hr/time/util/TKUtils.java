@@ -77,12 +77,20 @@ public class TKUtils {
 	}
 
 	public static String formatAssignmentKey(Long jobNumber, Long workArea, Long task) {
-		return jobNumber + TkConstants.ASSIGNMENT_KEY_DELIMITER + workArea + TkConstants.ASSIGNMENT_KEY_DELIMITER + task;
+		Long taskLong = task;
+		if(taskLong == null) {
+			taskLong = new Long("0");
+		}
+		return jobNumber + TkConstants.ASSIGNMENT_KEY_DELIMITER + workArea + TkConstants.ASSIGNMENT_KEY_DELIMITER + taskLong;
 	}
 	
 	public static Map<String,String> formatAssignmentDescription(Assignment assignment) {
 		Map<String,String> assignmentDescriptions = new LinkedHashMap<String,String>();
-		String assignmentDescKey  = formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask());
+		Long task = assignment.getTask();
+		if(task == null) {
+			task = new Long("0");
+		}
+		String assignmentDescKey  = formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), task);
 		String assignmentDescValue = getAssignmentString(assignment);  
 		assignmentDescriptions.put(assignmentDescKey, assignmentDescValue);
 		
