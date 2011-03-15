@@ -8,6 +8,10 @@
   <!-- Schema -->
       <!-- Base schema, no data, not bootable -->
       <include file="org/kuali/kpme/liquibase/tna/db.changelog-1.0.xml"/>
+      <!-- 15 Mar 2011 -->
+      <include file="org/kuali/kpme/liquibase/tna/db.changelog-1.1.xml"/>
+      <include file="org/kuali/kpme/liquibase/tna/db.changelog-1.2.xml"/>
+
 
   <!-- Data section -->
 
