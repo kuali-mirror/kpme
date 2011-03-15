@@ -1,22 +1,16 @@
 package org.kuali.hr.time.workschedule;
 
-import java.util.Calendar;
-import java.util.Random;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-// djunk touched 7 oct 2010 - why are principal IDs set as longs?
+@Ignore
 public class WorkScheduleMaintTest extends TkTestCase{
-
-	//TODO - sai remove the random calls here and use bootstrap data for setup
 	
 	private static final String TEST_CODE = "test-schedule";		
 		
@@ -33,6 +27,7 @@ public class WorkScheduleMaintTest extends TkTestCase{
 	 * @throws Exception
 	 */
 	@Test
+	@Ignore
 	public void testworkScheduleMaintForDeptErrorMessage()
 			throws Exception {
 		HtmlPage workScheduleLookUp = HtmlUnitUtil

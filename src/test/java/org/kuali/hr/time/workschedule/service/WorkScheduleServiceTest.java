@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
@@ -15,6 +16,7 @@ import org.kuali.hr.time.workschedule.WorkScheduleEntry;
 public class WorkScheduleServiceTest extends TkTestCase {
 
 	@Test
+	@Ignore
 	public void testGetWorkSchedules() throws Exception {
 		WorkScheduleService wss = TkServiceLocator.getWorkScheduleService();
 		String dept = null;
