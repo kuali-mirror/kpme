@@ -161,8 +161,18 @@ public class TKUtils {
 		return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT);
 	}
 	
+	public static BigDecimal convertMillisToDays(long millis){
+		BigDecimal hrs = convertMillisToHours(millis);
+		return hrs.divide(TkConstants.BIG_DECIMAL_HRS_IN_DAY, TkConstants.MATH_CONTEXT);
+	}
+	
 	public static BigDecimal convertMinutesToHours(BigDecimal minutes) {
 		return minutes.divide(TkConstants.BIG_DECIMAL_60, TkConstants.MATH_CONTEXT);
+	}
+	
+	public static int convertMillisToWholeDays(long millis){
+		BigDecimal days = convertMillisToDays(millis);
+		return Integer.parseInt(days.setScale(0, BigDecimal.ROUND_UP).toString());
 	}
 	
 	/*

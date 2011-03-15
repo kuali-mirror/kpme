@@ -36,9 +36,6 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="workScheduleDesc"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="dept" />
-				<bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="principalId" />
 			</list>
 		</property>
 	</bean>
@@ -60,18 +57,6 @@
 					<property name="businessObjectClass"
 						value="org.kuali.hr.time.workschedule.WorkScheduleEntry" />
 					<property name="alwaysAllowCollectionDeletion" value="true" />
-					<property name="maintainableFields">
-						<list>
-							 
-							<bean parent="MaintainableFieldDefinition" p:name="calendarGroup"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="dayOfPeriod"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="regHours"
-								p:required="true" />
-
-						</list>
-					</property>
 				</bean>
 			</list>
 		</property>

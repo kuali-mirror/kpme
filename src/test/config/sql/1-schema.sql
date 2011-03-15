@@ -1662,6 +1662,16 @@ ALTER TABLE tk_holiday_calendar_t ADD COLUMN `location` VARCHAR(30) AFTER `descr
 
 ALTER TABLE tk_shift_differential_rl_t add column `from_earn_group` varchar(10) NULL DEFAULT NULL;
 
+alter table hr_work_schedule_t drop column DEPT, drop column work_area, drop column principal_id;
+
+alter table hr_work_schedule_entry_t drop column calendar_group, drop column day_of_period, drop column reg_hours;
+
+alter table hr_work_schedule_entry_t add column index_of_day decimal(8,0) NOT NULL DEFAULT '0';
+
+alter table hr_work_schedule_entry_t add column begin_time timestamp NOT NULL;
+
+alter table hr_work_schedule_entry_t add column end_time timestamp NOT NULL;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

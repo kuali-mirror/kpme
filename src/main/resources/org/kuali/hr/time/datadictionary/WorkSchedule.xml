@@ -16,35 +16,9 @@
 			<list>
 				<ref bean="WorkSchedule-WorkScheduleDesc" />
 				<ref bean="WorkSchedule-effectiveDate" />
-				<ref bean="WorkSchedule-dept" />
-				<ref bean="WorkSchedule-workArea" />
-				<ref bean="WorkSchedule-principalId" />
 				<ref bean="WorkSchedule-active" />
 			</list>
 		</property>
-		
-		 <property name="relationships">
-  		<list>
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="workAreaObj"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea" p:targetName="workArea"/>
-                </list>
-              </property>
-            </bean>
-            
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="department"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
-                </list>
-              </property>
-            </bean>             
-
-        </list>
-    </property>
     
 		<property name="collections">
 			<list>
@@ -88,51 +62,6 @@
 		<property name="label" value="Effective Date" />
 	</bean>
 
-	<bean id="WorkSchedule-dept" parent="WorkSchedule-dept-parentBean" />
-	<bean id="WorkSchedule-dept-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Department Id" />
-		<property name="maxLength" value="21" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="21" />
-		</property>
-		<property name="name" value="dept" />
-		<property name="label" value="Department Id" />
-	</bean>
-
-	<bean id="WorkSchedule-workArea" parent="WorkSchedule-workArea-parentBean" />
-	<bean id="WorkSchedule-workArea-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Work Area" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="workArea" />
-		<property name="label" value="Work Area" />
-	</bean>
-
-	<bean id="WorkSchedule-principalId" parent="WorkSchedule-principalId-parentBean" />
-	<bean id="WorkSchedule-principalId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Principal Id" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="principalId" />
-		<property name="label" value="Principal Id" />
-	</bean>
-
 	<bean id="WorkSchedule-active" parent="WorkSchedule-active-parentBean" />
 	<bean id="WorkSchedule-active-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -150,18 +79,13 @@
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="principalId" />
-				<bean parent="FieldDefinition" p:attributeName="workArea" />
-				<bean parent="FieldDefinition" p:attributeName="dept" />
+				<bean parent="FieldDefinition" p:attributeName="workScheduleDesc" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="workScheduleDesc" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-				<bean parent="FieldDefinition" p:attributeName="workArea" />
-				<bean parent="FieldDefinition" p:attributeName="dept" />
 			</list>
 		</property>
 		<property name="title" value="WorkSchedule Lookup" />

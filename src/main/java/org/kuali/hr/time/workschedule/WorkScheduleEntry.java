@@ -1,8 +1,8 @@
 package org.kuali.hr.time.workschedule;
 
+import java.sql.Time;
 import java.util.LinkedHashMap;
 
-import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class WorkScheduleEntry extends PersistableBusinessObjectBase {
@@ -13,65 +13,50 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 	private static final long serialVersionUID = 1L;
 	private Long hrWorkScheduleEntryId;
 	private Long hrWorkScheduleId;
-	private String calendarGroup;
-
-
-
-	private Long dayOfPeriod;
-	private Long  regHours;
-	private WorkSchedule workScheduleObj;
-	private PayCalendar payCalendarObj;
+	private Long indexOfDay;
+	private Time beginTime;
+	private Time endTime;
 	
-	public PayCalendar getPayCalendarObj() {
-		return payCalendarObj;
+	public Long getIndexOfDay() {
+		return indexOfDay;
 	}
 
 
-	public void setPayCalendarObj(PayCalendar payCalendarObj) {
-		this.payCalendarObj = payCalendarObj;
-	}
-	
-	public WorkSchedule getWorkScheduleObj() {
-		return workScheduleObj;
+	public void setIndexOfDay(Long indexOfDay) {
+		this.indexOfDay = indexOfDay;
 	}
 
 
-	public void setWorkScheduleObj(WorkSchedule workScheduleObj) {
-		this.workScheduleObj = workScheduleObj;
+	public Time getBeginTime() {
+		return beginTime;
 	}
 
 
-	public Long getDayOfPeriod() {
-		return dayOfPeriod;
+	public void setBeginTime(Time beginTime) {
+		this.beginTime = beginTime;
 	}
 
 
-	public void setDayOfPeriod(Long dayOfPeriod) {
-		this.dayOfPeriod = dayOfPeriod;
+	public Time getEndTime() {
+		return endTime;
 	}
 
 
-	public Long getRegHours() {
-		return regHours;
+	public void setEndTime(Time endTime) {
+		this.endTime = endTime;
 	}
 
 
-	public void setRegHours(Long regHours) {
-		this.regHours = regHours;
-	}
+
 
 	 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
 		
 		toStringMap.put("workScheduleEntryId", hrWorkScheduleEntryId);
 		toStringMap.put("workScheduleId", hrWorkScheduleId);
-		toStringMap.put("calendarGroup", calendarGroup);
-		toStringMap.put("dayOfPeriod", dayOfPeriod);
-		toStringMap.put("regHours", regHours);		
-		 
 		return toStringMap;
 		
 	}
@@ -94,14 +79,5 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 
 	public void setHrWorkScheduleId(Long hrWorkScheduleId) {
 		this.hrWorkScheduleId = hrWorkScheduleId;
-	}
-
-	public String getCalendarGroup() {
-		return calendarGroup;
-	}
-
-
-	public void setCalendarGroup(String calendarGroup) {
-		this.calendarGroup = calendarGroup;
 	}
 }
