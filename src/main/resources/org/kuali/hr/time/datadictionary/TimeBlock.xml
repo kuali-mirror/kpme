@@ -12,7 +12,7 @@
     <property name="lookupDefinition" >
       <ref bean="TimeBlock-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="tkTimeBlockId" />
+    <property name="titleAttribute" value="documentId" />
     <property name="attributes" >
       <list>
       	<ref bean="TimeBlock-tkTimeBlockId" />
@@ -27,6 +27,9 @@
         <ref bean="TimeBlock-amount" />
         <ref bean="TimeBlock-timeStamp" />
         <ref bean="TimeBlock-userPrincipalId"/>
+        <ref bean="TimeBlock-timesheetDocumentHeader.documentStatus" />
+        <ref bean="TimeBlock-timesheetDocumentHeader.payBeginDate" />
+        <ref bean="TimeBlock-timesheetDocumentHeader.payEndDate" />
        </list>
     </property>
  	<property name="relationships">
@@ -35,8 +38,10 @@
 				<property name="objectAttributeName" value="timesheetDocumentHeader" />
 				<property name="primitiveAttributes">
 				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentId"
-								p:targetName="documentId" />
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentId" p:targetName="documentId" />
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.documentStatus" p:targetName="documentStatus" />
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.payBeginDate" p:targetName="payBeginDate" />
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.payEndDate" p:targetName="payEndDate" />
 				</list>
 				</property>
 			</bean>
@@ -132,7 +137,7 @@
    <bean id="TimeBlock-beginTimeStamp" parent="TimeBlock-beginTimeStamp-parentBean" />
    <bean id="TimeBlock-beginTimeStamp-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Begin Timestamp" />
+		<property name="shortLabel" value="Begin Time" />
 		<property name="maxLength" value="15" />
 		<property name="control">
 			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
@@ -140,13 +145,13 @@
 		<property name="formatterClass"
 			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
 		<property name="name" value="beginTimestamp" />
-		<property name="label" value=" Begin Timestamp" />
+		<property name="label" value=" Begin Time" />
 	</bean>      
 	
    <bean id="TimeBlock-endTimeStamp" parent="TimeBlock-endTimeStamp-parentBean" />
    <bean id="TimeBlock-endTimeStamp-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="End Timestamp" />
+		<property name="shortLabel" value="End Time" />
 		<property name="maxLength" value="15" />
 		<property name="control">
 			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
@@ -154,7 +159,7 @@
 		<property name="formatterClass"
 			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
 		<property name="name" value="endTimestamp" />
-		<property name="label" value="End Timestamp" />
+		<property name="label" value="End Time" />
 	</bean> 	  
 
 	<bean id="TimeBlock-timeStamp" parent="TimeBlock-timeStamp-parentBean" />
@@ -227,6 +232,27 @@
     <property name="description" value="amount" />
   </bean> 
   
+   <bean id="TimeBlock-timesheetDocumentHeader.documentStatus" parent="TimeBlock-timesheetDocumentHeader.documentStatus-parentBean" />
+	<bean id="TimeBlock-timesheetDocumentHeader.documentStatus-parentBean" abstract="true" parent="TimesheetDocumentHeader-documentStatus">
+		<property name="name" value="timesheetDocumentHeader.documentStatus" />
+		<property name="label" value="Header document Status"/>
+		<property name="required" value="false"/>
+	</bean> 
+	
+	<bean id="TimeBlock-timesheetDocumentHeader.payBeginDate" parent="TimeBlock-timesheetDocumentHeader.payBeginDate-parentBean" />
+	<bean id="TimeBlock-timesheetDocumentHeader.payBeginDate-parentBean" abstract="true" parent="TimesheetDocumentHeader-payBeginDate">
+		<property name="name" value="timesheetDocumentHeader.payBeginDate" />
+		<property name="label" value="Header Pay Begin Date"/>
+		<property name="required" value="false"/>
+	</bean> 
+	
+		<bean id="TimeBlock-timesheetDocumentHeader.payEndDate" parent="TimeBlock-timesheetDocumentHeader.payEndDate-parentBean" />
+	<bean id="TimeBlock-timesheetDocumentHeader.payEndDate-parentBean" abstract="true" parent="TimesheetDocumentHeader-payEndDate">
+		<property name="name" value="timesheetDocumentHeader.payEndDate" />
+		<property name="label" value="Header Pay End Date"/>
+		<property name="required" value="false"/>
+	</bean> 
+  
 <!-- Business Object Inquiry Definition -->
 
 
@@ -291,15 +317,21 @@
       <bean parent="SortDefinition">
       </bean>
     </property>
+     <property name="lookupableID" value="timeBlockLookupable"/>
     <property name="lookupFields" >
       <list>
       	<bean parent="FieldDefinition" p:attributeName="documentId" />
+      	<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+      	<bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.documentStatus" />
+      	<bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.payBeginDate" />
+      	<bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.payEndDate" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="tkTimeBlockId" />
       	<bean parent="FieldDefinition" p:attributeName="documentId" />
+      	<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+      	<bean parent="FieldDefinition" p:attributeName="earnCode" />
       	<bean parent="FieldDefinition" p:attributeName="beginTimestamp"/>
         <bean parent="FieldDefinition" p:attributeName="endTimestamp" />
       </list>
