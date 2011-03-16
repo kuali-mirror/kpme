@@ -17,6 +17,7 @@ public class AccrualCategory extends PersistableBusinessObjectBase {
 	private String descr;
 	private Date effectiveDate;
 	private Timestamp timestamp;
+	private boolean history;
 	private boolean active;
 	
 	
@@ -51,8 +52,13 @@ public class AccrualCategory extends PersistableBusinessObjectBase {
 	}
 
 
+	public boolean isHistory() {
+		return history;
+	}
 
-
+	public void setHistory(boolean history) {
+		this.history = history;
+	}
 
 	public boolean isActive() {
 		return active;

@@ -41,6 +41,7 @@ public class Job extends PersistableBusinessObjectBase {
 	private String tkSalGroup;
 	private Boolean primaryIndicator;
 	private Timestamp timestamp;
+	private Boolean history;
 	private Boolean active;
 	private BigDecimal compRate = new BigDecimal(0);
 	
@@ -144,6 +145,14 @@ public class Job extends PersistableBusinessObjectBase {
 
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public Boolean getHistory() {
+		return history;
+	}
+
+	public void setHistory(Boolean history) {
+		this.history = history;
 	}
 
 	public Boolean getActive() {

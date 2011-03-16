@@ -23,6 +23,7 @@
 				<ref bean="SalGroup-effectiveDate" />
 				<ref bean="SalGroup-timestamp" />
 				<ref bean="SalGroup-active" />
+				<ref bean="SalGroup-history" />
 			</list>
 		</property>
 	</bean>
@@ -91,7 +92,18 @@
 		<property name="name" value="timestamp" />
 		<property name="label" value="Timestamp" />
 	</bean>
-
+<!-- history -->
+	<bean id="SalGroup-history" parent="SalGroup-history-parentBean" />
+	<bean id="SalGroup-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
 	<bean id="SalGroup-active" parent="SalGroup-active-parentBean" />
 	<bean id="SalGroup-active-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -146,12 +158,14 @@
 	<bean id="SalGroup-lookupDefinition" parent="SalGroup-lookupDefinition-parentBean" />
 	<bean id="SalGroup-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
+		<property name="lookupableID" value="salaryGroupLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
                 <bean parent="FieldDefinition" p:attributeName="descr"/>
                 <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active"/>
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -159,6 +173,7 @@
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
                 <bean parent="FieldDefinition" p:attributeName="descr"/>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 			</list>
 		</property>
 		<property name="title" value="Sal Group Lookup" />

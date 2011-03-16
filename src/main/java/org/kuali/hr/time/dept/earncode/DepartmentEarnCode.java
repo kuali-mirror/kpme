@@ -25,6 +25,7 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	private boolean org_admin;
 	private Date effectiveDate;
 	private Timestamp timestamp;
+	private Boolean history;
 	private Boolean active;
     private String location;
 	
@@ -130,6 +131,12 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	}
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+	public Boolean getHistory() {
+		return history;
+	}
+	public void setHistory(Boolean history) {
+		this.history = history;
 	}
 	public Boolean getActive() {
 		return active;

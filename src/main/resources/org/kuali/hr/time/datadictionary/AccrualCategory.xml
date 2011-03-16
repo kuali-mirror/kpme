@@ -18,6 +18,8 @@
 				<ref bean="AccrualCategory-accrualCategory" />
 				<ref bean="AccrualCategory-descr" />
 				<ref bean="AccrualCategory-effectiveDate" />
+				<ref bean="AccrualCategory-timestamp" />
+				<ref bean="AccrualCategory-history" />
 				<ref bean="AccrualCategory-active" />
 			</list>
 		</property>
@@ -75,6 +77,32 @@
 		<property name="name" value="effectiveDate" />
 		<property name="label" value="Effective Date" />
 	</bean>
+	<!-- timeStamp -->
+	<bean id="AccrualCategory-timestamp" parent="AccrualCategory-timestamp-parentBean" />
+	<bean id="AccrualCategory-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+<!-- history -->
+	<bean id="AccrualCategory-history" parent="AccrualCategory-history-parentBean" />
+	<bean id="AccrualCategory-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
 
 	<bean id="AccrualCategory-active" parent="AccrualCategory-active-parentBean" />
 	<bean id="AccrualCategory-active-parentBean" abstract="true"
@@ -94,12 +122,14 @@
 	<bean id="AccrualCategory-lookupDefinition" parent="AccrualCategory-lookupDefinition-parentBean" />
 	<bean id="AccrualCategory-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
+		<property name="lookupableID" value="tkLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active"/>
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 
 			</list>
 		</property>
@@ -108,6 +138,7 @@
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

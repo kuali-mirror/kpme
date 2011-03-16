@@ -18,7 +18,9 @@
 				<ref bean="EarnGroup-earnGroup" />
 				<ref bean="EarnGroup-descr" />
 				<ref bean="EarnGroup-effectiveDate" />
+				<ref bean="EarnGroup-timestamp" />
 				<ref bean="EarnGroup-showSummary" />
+				<ref bean="EarnGroup-history" />
 				<ref bean="EarnGroup-active" />
 			</list>
 		</property>
@@ -110,7 +112,32 @@
 		<property name="name" value="effectiveDate" />
 		<property name="label" value="Effective Date" />
 	</bean>
-
+	<!-- timeStamp -->
+	<bean id="EarnGroup-timestamp" parent="EarnGroup-timestamp-parentBean" />
+	<bean id="EarnGroup-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+<!-- history -->
+	<bean id="EarnGroup-history" parent="EarnGroup-history-parentBean" />
+	<bean id="EarnGroup-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
 	<bean id="EarnGroup-active" parent="EarnGroup-active-parentBean" />
 	<bean id="EarnGroup-active-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -129,12 +156,14 @@
 	<bean id="EarnGroup-lookupDefinition" parent="EarnGroup-lookupDefinition-parentBean" />
 	<bean id="EarnGroup-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
+		<property name="lookupableID" value="earnGroupLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="earnGroup" />
                 <bean parent="FieldDefinition" p:attributeName="descr" />
                 <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
                 <bean parent="FieldDefinition" p:attributeName="active" />
+                <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -142,6 +171,7 @@
 				<bean parent="FieldDefinition" p:attributeName="earnGroup" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

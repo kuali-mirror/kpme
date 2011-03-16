@@ -578,6 +578,46 @@
             <bean class="org.kuali.hr.job.service.JobLookupableHelper"/>
         </property>
     </bean>
+    <bean id="systemLunchRuleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.syslunch.service.SystemLunchRuleLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="accrualCategoryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.accrual.service.AccrualCategoryLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="departmentEarnCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="earnCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.earncode.service.EarnCodeLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="earnGroupLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.earngroup.service.EarnGroupLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="payTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.paytype.service.PayTypeLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="salaryGroupLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.salgroup.service.SalaryGroupLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="dailyOvertimeRuleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleLookupableHelper"/>
+        </property>
+    </bean>
     <bean id="workAreaLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.time.workarea.service.WorkAreaLookupableHelper"/>

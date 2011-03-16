@@ -15,6 +15,7 @@ public class SystemLunchRule extends TkRule {
 	private Long tkSystemLunchRuleId;
 	private Date effectiveDate;
 	private Boolean showLunchButton = false;
+	private boolean history;
 	private boolean active;
 	private String userPrincipalId;
 	private Timestamp timeStamp;
@@ -52,6 +53,16 @@ public class SystemLunchRule extends TkRule {
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
+
+	public boolean isHistory() {
+		return history;
+	}
+
+
+	public void setHistory(boolean history) {
+		this.history = history;
+	}
+
 
 	public boolean isActive() {
 		return active;

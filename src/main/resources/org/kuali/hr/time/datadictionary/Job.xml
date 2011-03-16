@@ -33,6 +33,7 @@
 				<ref bean="Job-standardHours" />
 				<ref bean="Job-compRate" />
 				<ref bean="Job-primaryIndicator" />
+				<ref bean="Job-history" />
 				<ref bean="Job-active" />
 			</list>
 		</property>
@@ -382,7 +383,20 @@
 		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>
-
+	
+<!-- history -->
+	<bean id="Job-history" parent="Job-history-parentBean" />
+	<bean id="Job-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
+	
 	<bean id="Job-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
 	    <property name="name" value="active"/>
 	    <property name="label" value="Active"/>
@@ -437,6 +451,7 @@
 				<bean parent="FieldDefinition" p:attributeName="hrPayType" />
 			    <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 			</list>
 		</property>
 		<!-- More information should be added here if needed -->
@@ -448,6 +463,7 @@
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="primaryIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				

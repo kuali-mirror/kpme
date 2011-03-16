@@ -19,6 +19,7 @@
 				<ref bean="SystemLunchRule-effectiveDate" />
 				<ref bean="SystemLunchRule-showLunchButton" />
 				<ref bean="SystemLunchRule-timeStamp" />
+				<ref bean="SystemLunchRule-history" />
 				<ref bean="SystemLunchRule-active" />
 				<ref bean="SystemLunchRule-userPrincipalId" />
 			</list>
@@ -70,6 +71,18 @@
 		<property name="name" value="timeStamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>
+<!-- history -->
+	<bean id="SystemLunchRule-history" parent="SystemLunchRule-history-parentBean" />
+	<bean id="SystemLunchRule-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
 
 	<bean id="SystemLunchRule-active" parent="SystemLunchRule-active-parentBean" />
 	<bean id="SystemLunchRule-active-parentBean" abstract="true"
@@ -105,10 +118,12 @@
 	<bean id="SystemLunchRule-lookupDefinition" parent="SystemLunchRule-lookupDefinition-parentBean" />
 	<bean id="SystemLunchRule-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
+		<property name="lookupableID" value="systemLunchRuleLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 			</list>
 		</property>
 		<property name="resultFields">

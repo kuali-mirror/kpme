@@ -21,9 +21,11 @@
 				<ref bean="DepartmentEarnCode-earnCode" />
 				<ref bean="DepartmentEarnCode-location" />
 				<ref bean="DepartmentEarnCode-effectiveDate" />
+				<ref bean="DepartmentEarnCode-timestamp" />
 				<ref bean="DepartmentEarnCode-employee" />
 				<ref bean="DepartmentEarnCode-approver" />
 				<ref bean="DepartmentEarnCode-org_admin" />
+				<ref bean="DepartmentEarnCode-history" />
 				<ref bean="DepartmentEarnCode-active" />
 			</list>
 		</property>
@@ -196,6 +198,32 @@
 		<property name="name" value="org_admin" />
 		<property name="label" value="Org. Admin" />
 	</bean>
+	<!-- timeStamp -->
+	<bean id="DepartmentEarnCode-timestamp" parent="DepartmentEarnCode-timestamp-parentBean" />
+	<bean id="DepartmentEarnCode-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+	<!-- history -->
+	<bean id="DepartmentEarnCode-history" parent="DepartmentEarnCode-history-parentBean" />
+	<bean id="DepartmentEarnCode-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
 	
 	<bean id="DepartmentEarnCode-active" parent="DepartmentEarnCode-active-parentBean"/>
     <bean id="DepartmentEarnCode-active-parentBean" abstract="true" parent="AttributeDefinition">
@@ -213,6 +241,7 @@
 	<bean id="DepartmentEarnCode-lookupDefinition" parent="DepartmentEarnCode-lookupDefinition-parentBean" />
 	<bean id="DepartmentEarnCode-lookupDefinition-parentBean"
 		abstract="true" parent="LookupDefinition">
+		<property name="lookupableID" value="departmentEarnCodeLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="dept" />
@@ -221,6 +250,7 @@
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -233,6 +263,7 @@
 				<bean parent="FieldDefinition" p:attributeName="approver" />
 				<bean parent="FieldDefinition" p:attributeName="org_admin" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

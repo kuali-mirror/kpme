@@ -26,6 +26,7 @@
 				<ref bean="DailyOvertimeRule-userPrincipalId" />
 				<ref bean="DailyOvertimeRule-timeStamp" />
 				<ref bean="DailyOvertimeRule-active" />
+				<ref bean="DailyOvertimeRule-history" />
 				<ref bean="DailyOvertimeRule-fromEarnGroup" />
 				<ref bean="DailyOvertimeRule-earnCode" />
 			</list>
@@ -262,6 +263,18 @@
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 	</bean>
+	<!-- history -->
+	<bean id="DailyOvertimeRule-history" parent="DailyOvertimeRule-history-parentBean" />
+	<bean id="DailyOvertimeRule-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
 
   <bean id="DailyOvertimeRule-fromEarnGroup" parent="DailyOvertimeRule-fromEarnGroup-parentBean" />
   <bean id="DailyOvertimeRule-fromEarnGroup-parentBean"
@@ -302,7 +315,7 @@
 	<bean id="DailyOvertimeRule-lookupDefinition" parent="DailyOvertimeRule-lookupDefinition-parentBean" />
 	<bean id="DailyOvertimeRule-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="lookupableID" value="tkLookupable" />
+		<property name="lookupableID" value="dailyOvertimeRuleLookupable" />
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="dept" />
@@ -310,6 +323,7 @@
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
 				<bean parent="FieldDefinition" p:attributeName="active"/>
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 			</list>
 		</property>
 		<property name="resultFields">

@@ -37,6 +37,7 @@ public class DailyOvertimeRule extends TkRule {
 	private String userPrincipalId;
 	private Timestamp timeStamp;
 	private boolean active;
+	private boolean history;
 
 	private Task taskObj;
 	private WorkArea workAreaObj;
@@ -212,6 +213,14 @@ public class DailyOvertimeRule extends TkRule {
 
 	public void setLocationObj(Location locationObj) {
 		this.locationObj = locationObj;
+	}
+
+	public boolean isHistory() {
+		return history;
+	}
+
+	public void setHistory(boolean history) {
+		this.history = history;
 	}
 
 }

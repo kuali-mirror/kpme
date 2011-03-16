@@ -23,6 +23,8 @@ public class EarnGroup extends PersistableBusinessObjectBase {
 
 	private Date effectiveDate;
 
+	private Boolean history;
+	
 	private Boolean active;
 	
 	private Timestamp timestamp;
@@ -45,6 +47,14 @@ public class EarnGroup extends PersistableBusinessObjectBase {
 
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
+	}
+
+	public Boolean getHistory() {
+		return history;
+	}
+
+	public void setHistory(Boolean history) {
+		this.history = history;
 	}
 
 	public Boolean getActive() {

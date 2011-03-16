@@ -24,9 +24,11 @@
         <ref bean="EarnCode-recordHours" />
         <ref bean="EarnCode-recordAmount" />
         <ref bean="EarnCode-accrualCategory" />
+        <ref bean="EarnCode-history" />
         <ref bean="EarnCode-active" />
         <ref bean="EarnCode-description" />
         <ref bean="EarnCode-effectiveDate" />
+        <ref bean="EarnCode-timestamp" />
         <ref bean="EarnCode-inflateMinHours"/>
         <ref bean="EarnCode-inflateFactor"/>
        </list>
@@ -88,7 +90,18 @@
     <property name="label" value="Overtime Earn Code"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
-
+<!-- history -->
+	<bean id="EarnCode-history" parent="EarnCode-history-parentBean" />
+	<bean id="EarnCode-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
   <bean id="EarnCode-active" parent="EarnCode-active-parentBean"/>
   <bean id="EarnCode-active-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Active"/>
@@ -210,7 +223,20 @@
     <property name="label" value="Effective Date"/>
   </bean>
 
-
+<!-- timeStamp -->
+	<bean id="EarnCode-timestamp" parent="EarnCode-timestamp-parentBean" />
+	<bean id="EarnCode-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -245,6 +271,7 @@
       <bean parent="SortDefinition">
       </bean>
     </property>
+    <property name="lookupableID" value="earnCodeLookupable"></property>
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition" p:attributeName="earnCode" />
@@ -252,6 +279,7 @@
         <bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
         <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
         <bean parent="FieldDefinition" p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
       </list>
     </property>
     <property name="resultFields" >
@@ -260,6 +288,7 @@
         <bean parent="FieldDefinition" p:attributeName="description" />
         <bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
         <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+        <bean parent="FieldDefinition" p:attributeName="timestamp" />
         <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>

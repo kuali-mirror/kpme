@@ -19,6 +19,7 @@ public class PayType extends PersistableBusinessObjectBase {
 	private String regEarnCode;
 	private Date effectiveDate;
 	private Timestamp timestamp;
+	private Boolean history;
 	private Boolean active;
 
     /** Used for lookup */
@@ -121,6 +122,14 @@ public class PayType extends PersistableBusinessObjectBase {
 		this.hrPayTypeId = hrPayTypeId;
 	}
 
+
+	public Boolean getHistory() {
+		return history;
+	}
+
+	public void setHistory(Boolean history) {
+		this.history = history;
+	}
 
 	public Boolean getActive() {
 		return active;

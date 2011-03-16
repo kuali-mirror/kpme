@@ -17,6 +17,7 @@ public class SalGroup extends PersistableBusinessObjectBase {
 	private String descr;
 	private Date effectiveDate;
 	private Timestamp timestamp;
+	private boolean history;
 	private boolean active;
 
 	@SuppressWarnings("unchecked")
@@ -31,6 +32,14 @@ public class SalGroup extends PersistableBusinessObjectBase {
 
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
+	}
+
+	public boolean isHistory() {
+		return history;
+	}
+
+	public void setHistory(boolean history) {
+		this.history = history;
 	}
 
 	public boolean isActive() {
