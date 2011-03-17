@@ -122,7 +122,7 @@
 	<bean id="AccrualCategory-lookupDefinition" parent="AccrualCategory-lookupDefinition-parentBean" />
 	<bean id="AccrualCategory-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="lookupableID" value="tkLookupable"></property>
+		<property name="lookupableID" value="accrualCategoryLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
