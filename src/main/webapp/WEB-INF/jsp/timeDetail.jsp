@@ -47,6 +47,9 @@
 
                     <div class="ui-widget" id="timesheet-panel">
                         <table>
+                        	<tr>
+                        		<div style="color:red;"><c:out value="${Form.warningMessage}" /></div>
+                        	</tr>
                             <tr>
                                 <td>Date range:</td>
                                 <td><input type="text" id="date-range-begin" size="10" /> -

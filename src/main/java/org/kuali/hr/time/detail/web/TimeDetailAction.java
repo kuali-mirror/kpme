@@ -1,5 +1,16 @@
 package org.kuali.hr.time.detail.web;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -18,14 +29,6 @@ import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 public class TimeDetailAction extends TimesheetAction {
 
     @Override
@@ -42,6 +45,8 @@ public class TimeDetailAction extends TimesheetAction {
 		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentId()));
 		tdaf.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument(), timeBlocks));
 
+		this.validateHourLimit(tdaf);
+		
 		// for visually impaired users
 		// TimesheetDocument td = tdaf.getTimesheetDocument();
 		// List<TimeBlock> timeBlocks = td.getTimeBlocks();
@@ -49,6 +54,53 @@ public class TimeDetailAction extends TimesheetAction {
 		
 		return forward;
 	}
+    
+    @SuppressWarnings("unchecked")
+    public void validateHourLimit(TimeDetailActionForm tdaf) throws Exception {
+    	tdaf.setWarningMessage("");
+    	JSONArray warningMsgList = new JSONArray();
+    	String pId = "";
+    	if(tdaf.getTimesheetDocument() != null) {
+    		pId = tdaf.getTimesheetDocument().getPrincipalId();
+    	}
+    	List<Map<String, Object>> calcList = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualsCalc(pId);
+    	
+    	List<TimeBlock> tbList = tdaf.getTimesheetDocument().getTimeBlocks();
+    	if(tbList.isEmpty()) {
+    		return;
+    	}
+    	for(Map<String, Object> aMap : calcList) {
+    		String accrualCategory = (String) aMap.get("accrualCategory");
+    		BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList);
+    		if( totalForAccrCate.compareTo((BigDecimal)aMap.get("hoursAccrued")) == 1) {
+    			warningMsgList.add("Warning: Total hours entered for Accrual Category " + accrualCategory + " has exceeded balance.");
+    		}
+    	}
+     	
+    	if(!warningMsgList.isEmpty()) {
+    		tdaf.setWarningMessage(JSONValue.toJSONString(warningMsgList));
+    	}
+    	return;
+    }
+   
+    public BigDecimal totalForAccrCate(String accrualCategory, List<TimeBlock> tbList) {
+    	BigDecimal total = BigDecimal.ZERO;
+    	for(TimeBlock tb: tbList) {
+    		String earnCode = tb.getEarnCode();
+    		Date asOfDate = new java.sql.Date(tb.getBeginTimestamp().getTime());
+             EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+             String accrCate = "";
+             if(ec != null) {
+             	accrCate =  ec.getAccrualCategory();
+             	if(accrCate != null) {
+             		if(accrCate.equals(accrualCategory)) {
+             			total = total.add(tb.getHours());
+             		}
+             	}
+             }
+    	}
+    	return total;
+    }
 
     // this is an ajax call
     public ActionForward getEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -189,6 +241,7 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
         //call history service
 
+        this.validateHourLimit(tdaf);
         return mapping.findForward("basic");
     }
 
@@ -274,6 +327,8 @@ public class TimeDetailAction extends TimesheetAction {
                 }
             }
         }
+        this.validateHourLimit(tdaf);
+        
         tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
 
         return mapping.findForward("ws");
