@@ -13,7 +13,6 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
-import org.kuali.hr.time.workschedule.WorkSchedule;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -153,7 +152,6 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 	public void processDailyOvertimeRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate timeBlockAggregate){
 		Map<String, DailyOvertimeRule> idKeyToDailyOvertimeRules = new HashMap<String, DailyOvertimeRule>();
-		Map<String, List<WorkSchedule>> idKeyToWorkSchedules = new HashMap<String, List<WorkSchedule>>();
 
 		//iterate over all assignments and place the list of rules if any in map
 		// TODO : Verify the required rules here - What are we using to retrieve the rules
@@ -164,11 +162,6 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 			if(dailyOvertimeRule !=null) {
 				String idKey = this.getIdentifyingKey(assignment);
 				idKeyToDailyOvertimeRules.put(idKey, dailyOvertimeRule);
-				List<WorkSchedule> workSchedules = TkServiceLocator.getWorkScheduleService().getWorkSchedules(timesheetDocument.getPrincipalId(), assignment.getJob().getDept(), assignment.getWorkArea(), timesheetDocument.getAsOfDate());
-
-				if(workSchedules!=null && !workSchedules.isEmpty()){
-					idKeyToWorkSchedules.put(idKey, workSchedules);
-				}
 			}
 		}
 

@@ -1,28 +1,46 @@
 package org.kuali.hr.time.workschedule;
 
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
 public class WorkSchedule extends PersistableBusinessObjectBase {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long hrWorkScheduleId;
-	
+    private Long hrWorkSchedule;
+
 	private String workScheduleDesc;
 	private Date effectiveDate;
 	private Timestamp timestamp;
 	private boolean active;
 	private String userPrincipalId;
-	
-	public String getUserPrincipalId() {
+    private String earnGroup;
+
+    public Long getHrWorkSchedule() {
+        return hrWorkSchedule;
+    }
+
+    public void setHrWorkSchedule(Long hrWorkSchedule) {
+        this.hrWorkSchedule = hrWorkSchedule;
+    }
+
+    public String getEarnGroup() {
+        return earnGroup;
+    }
+
+    public void setEarnGroup(String earnGroup) {
+        this.earnGroup = earnGroup;
+    }
+
+    public String getUserPrincipalId() {
 		return userPrincipalId;
 	}
 
@@ -33,8 +51,8 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 
 
 	private List<WorkScheduleEntry> workScheduleEntries = new  LinkedList<WorkScheduleEntry>();
-	 
-	
+
+
 
 	public List<WorkScheduleEntry> getWorkScheduleEntries() {
 		return workScheduleEntries;
@@ -71,19 +89,19 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
 
-	
+
+
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-		
+
 		toStringMap.put("workScheduleId", hrWorkScheduleId);
 		toStringMap.put("workScheduleDesc", workScheduleDesc);
 		toStringMap.put("effectiveDate", effectiveDate);
-		toStringMap.put("active", active); 	
-		 
+		toStringMap.put("active", active);
+
 		return toStringMap;
 	}
 

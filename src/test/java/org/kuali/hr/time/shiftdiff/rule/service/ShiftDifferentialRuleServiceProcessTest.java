@@ -12,6 +12,9 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.workschedule.WorkSchedule;
+import org.kuali.hr.time.workschedule.WorkScheduleAssignment;
+import org.kuali.hr.time.workschedule.WorkScheduleEntry;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -374,4 +377,94 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		assertTrue("Start times not equal.", orig_start.equals(stored_start));
 		assertTrue("End times not equal.", orig_end.equals(stored_end));
 	}
+
+
+    /**
+     * Tests WorkSchedules impact on Shift Differential Rule: Simple Case
+     *
+     * Create a timeblock on two days, one day has normal REG shift eligible
+     * hours, one day has HOL time.
+     *
+     */
+    public void something() {
+
+
+
+		// Create the Rule
+		boolean[] dayArray = {true, true, true, true, true, true, true};
+		// Matches HR Job ID #1 (job # 30)
+		Long jobNumber = 30L;
+		Long workArea = 0L;
+		this.createShiftDifferentialRule(
+				"BWS-CAL",
+				"REG",
+				"PRM",
+				"SD1",
+				"SD1",
+				"SD1",
+				(new DateTime(2010, 3, 29, 16, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				(new DateTime(2010, 3, 30, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				new BigDecimal(4), // minHours
+				new BigDecimal("0.25"), // maxGap
+				dayArray);
+
+		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
+		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 2, new BigDecimal("4"), "REG", jobNumber, workArea));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(4).plusMinutes(15), 2, new BigDecimal("2"), "REG", jobNumber, workArea));
+		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+
+		// Verify pre-Rule Run
+		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(12));}},aggregate,2);
+
+		// Run Rule
+		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(new Date(start.getMillis()));
+		tdoc.setTimeBlocks(blocks);
+		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
+
+		// Verify post-Rule Run
+		TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(8));put("REG", new BigDecimal(12));}},aggregate,2);
+
+    }
+
+    public void createWorkSchedule(Long workSch) {
+        // Create a Work Schedule Assignment
+        //
+        WorkScheduleAssignment workScheduleAssignment = new WorkScheduleAssignment();
+        workScheduleAssignment.setHrWorkSchedule(workSch);
+        workScheduleAssignment.setDept("");
+        workScheduleAssignment.setWorkArea(1L);
+        workScheduleAssignment.setPrincipalId("");
+        workScheduleAssignment.setEffectiveDate(JAN_AS_OF_DATE);
+        workScheduleAssignment.setActive(true);
+        workScheduleAssignment.setUserPrincipalId("admin");
+
+        // Create a Work Schedule
+        //
+        WorkSchedule workSchedule = new WorkSchedule();
+        workSchedule.setHrWorkSchedule(workSch); // we can set this to whatever, it's not a row ID.
+        workSchedule.setActive(true);
+        workSchedule.setEarnGroup("EARNGROUP");
+        workSchedule.setWorkScheduleDesc("desc");
+        workSchedule.setEffectiveDate(JAN_AS_OF_DATE);
+        workSchedule.setUserPrincipalId("admin");
+
+        // Create the actual schedule entries.
+        //
+        List<WorkScheduleEntry> workScheduleEntries = new ArrayList<WorkScheduleEntry>();
+
+        WorkScheduleEntry workScheduleEntry = new WorkScheduleEntry();
+        workScheduleEntry.setBeginTime(new Time((new DateTime(2010, 3, 1, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis()));
+        workScheduleEntry.setEndTime(new Time((new DateTime(2010, 3, 1, 17, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis()));
+        workScheduleEntry.setIndexOfDay(0L);
+        workScheduleEntries.add(workScheduleEntry);
+        workSchedule.setWorkScheduleEntries(workScheduleEntries);
+
+        // Save Work Schedule, Work Schedule Assignment
+        TkServiceLocator.getWorkScheduleService().saveOrUpdate(workSchedule);
+        TkServiceLocator.getWorkScheduleAssignmentService().saveOrUpdate(workScheduleAssignment);
+    }
+
 }

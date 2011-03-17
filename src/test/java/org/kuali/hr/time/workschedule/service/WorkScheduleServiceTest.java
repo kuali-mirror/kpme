@@ -1,8 +1,5 @@
 package org.kuali.hr.time.workschedule.service;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Ignore;
@@ -12,6 +9,9 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workschedule.WorkSchedule;
 import org.kuali.hr.time.workschedule.WorkScheduleEntry;
+
+import java.sql.Date;
+import java.util.List;
 
 public class WorkScheduleServiceTest extends TkTestCase {
 
@@ -25,37 +25,37 @@ public class WorkScheduleServiceTest extends TkTestCase {
 		Long workArea = null;
 		Date asOfDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		List<WorkSchedule> schedules = null;
-		
+
 		// principal, department, workarea
 		workScheduleId = 1L;
 		dept = "TEST-DEPT";
 		principalId = "admin";
 		workArea = 1234L;
-		schedules = wss.getWorkSchedules(principalId, dept, workArea, asOfDate);
+		//schedules = wss.getWorkSchedules(principalId, dept, workArea, asOfDate);
 		assertNotNull("Null return list", schedules);
 		assertEquals("Wrong number of elements returned.", 1, schedules.size());
-		assertEquals("Wrong ID returned", workScheduleId, (schedules.get(0)).getHrWorkScheduleId());		
+		assertEquals("Wrong ID returned", workScheduleId, (schedules.get(0)).getHrWorkScheduleId());
 		// principal, department, -1
 		workScheduleId = 2L;
 		dept = "TEST-DEPT";
 		principalId = "admin";
 		workArea = -999L;
-		schedules = wss.getWorkSchedules(principalId, dept, workArea, asOfDate);
+		//schedules = wss.getWorkSchedules(principalId, dept, workArea, asOfDate);
 		assertNotNull("Null return list", schedules);
 		assertEquals("Wrong number of elements returned.", 1, schedules.size());
 		assertEquals("Wrong ID returned", workScheduleId, (schedules.get(0)).getHrWorkScheduleId());
-		
+
 		// principal, *, workarea
 		workScheduleId = 3L;
 		dept = "NOTFOUND";
 		principalId = "admin";
 		workArea = 1234L;
-		schedules = wss.getWorkSchedules(principalId, dept, workArea, asOfDate);
+		//schedules = wss.getWorkSchedules(principalId, dept, workArea, asOfDate);
 		assertNotNull("Null return list", schedules);
 		assertEquals("Wrong number of elements returned.", 1, schedules.size());
 		assertEquals("Wrong ID returned", workScheduleId, (schedules.get(0)).getHrWorkScheduleId());
 	}
-	
+
 	@Test
 	public void testWorkScheduleFlattening() throws Exception{
 		WorkSchedule workSchedule = new WorkSchedule();
@@ -67,10 +67,10 @@ public class WorkScheduleServiceTest extends TkTestCase {
 		}
 		Date beginPeriodDate = new Date((new DateTime(2010, 1, 3, 1, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		Date endPeriodDate = new Date((new DateTime(2010, 1, 15, 1, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		
+
 		List<WorkScheduleEntry> lstWorkSchedEntries = TkServiceLocator.getWorkScheduleService().getWorkSchedEntries(
 															workSchedule, beginPeriodDate, endPeriodDate);
-		
+
 		assertTrue("verify work sched entries is correct", lstWorkSchedEntries!= null);
 	}
 }

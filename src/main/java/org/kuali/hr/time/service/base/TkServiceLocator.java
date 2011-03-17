@@ -40,6 +40,7 @@ import org.kuali.hr.time.timezone.service.TimezoneService;
 import org.kuali.hr.time.user.pref.service.UserPreferenceService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
+import org.kuali.hr.time.workschedule.service.WorkScheduleAssignmentService;
 import org.kuali.hr.time.workschedule.service.WorkScheduleService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -76,6 +77,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_WEEKLY_OVERTIME_RULE_SERVICE = "weeklyOvertimeRuleService";
 	public static final String TK_SHIFT_DIFFERENTIAL_RULE_SERVICE = "shiftDifferentialRuleService";
 	public static final String TK_WORK_SCHEDULE_SERVICE = "workScheduleService";
+    public static final String TK_WORK_SCHEDULE_ASSIGNMENT_SERVICE = "workScheduleAssignmentService";
 	public static final String TK_CLOCK_LOCATION_RULE_SERVICE = "clockLocationService";
 	public static final String TK_GRACE_PERIOD_SERVICE = "gracePeriodService";
 	public static final String TK_SYSTEM_LUNCH_RULE_SERVICE = "systemLunchRuleService";
@@ -119,6 +121,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static WorkScheduleService getWorkScheduleService() {
 		return (WorkScheduleService) CONTEXT.getBean(TK_WORK_SCHEDULE_SERVICE);
 	}
+
+    public static WorkScheduleAssignmentService getWorkScheduleAssignmentService() {
+        return (WorkScheduleAssignmentService) CONTEXT.getBean(TK_WORK_SCHEDULE_ASSIGNMENT_SERVICE);
+    }
 
 	public static WeeklyOvertimeRuleService getWeeklyOvertimeRuleService() {
 		return (WeeklyOvertimeRuleService) CONTEXT.getBean(TK_WEEKLY_OVERTIME_RULE_SERVICE);
@@ -179,7 +185,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static PayCalendarDatesService getPayCalendarDatesSerivce() {
 		return (PayCalendarDatesService)CONTEXT.getBean(TK_PAY_CALENDAR_DATES_SERVICE);
 	}
-	
+
 	public static PayCalendarEntriesService getPayCalendarEntriesSerivce() {
 		return (PayCalendarEntriesService)CONTEXT.getBean(TK_PAY_CALENDAR_ENTRIES_SERVICE);
 	}
@@ -259,15 +265,15 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static AccrualCategoryService getAccrualCategoryService() {
 	    return (AccrualCategoryService)CONTEXT.getBean(TK_ACCRUAL_CATEGORY_SERVICE);
 	}
-	
+
 	public static LocationService getLocationService() {
 	    return (LocationService)CONTEXT.getBean(TK_LOCATION_SERVICE);
 	}
-	
+
 	public static PayGradeService getPayGradeService() {
 	    return (PayGradeService)CONTEXT.getBean(TK_PAY_GRADE_SERVICE);
 	}
-	
+
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;

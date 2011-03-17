@@ -1,22 +1,22 @@
 package org.kuali.hr.time.workschedule;
 
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 import java.sql.Time;
 import java.util.LinkedHashMap;
-
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long hrWorkScheduleEntryId;
-	private Long hrWorkScheduleId;
+	private Long hrWorkSchedule;
 	private Long indexOfDay;
 	private Time beginTime;
 	private Time endTime;
-	
+
 	public Long getIndexOfDay() {
 		return indexOfDay;
 	}
@@ -49,16 +49,16 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 
 
 
-	 
+
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-		
+
 		toStringMap.put("workScheduleEntryId", hrWorkScheduleEntryId);
-		toStringMap.put("workScheduleId", hrWorkScheduleId);
+		toStringMap.put("workSchedule", hrWorkSchedule);
 		return toStringMap;
-		
+
 	}
 
 
@@ -72,12 +72,12 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 	}
 
 
-	public Long getHrWorkScheduleId() {
-		return hrWorkScheduleId;
+	public Long getHrWorkSchedule() {
+		return hrWorkSchedule;
 	}
 
 
-	public void setHrWorkScheduleId(Long hrWorkScheduleId) {
-		this.hrWorkScheduleId = hrWorkScheduleId;
+	public void setHrWorkSchedule(Long hrWorkSchedule) {
+		this.hrWorkSchedule = hrWorkSchedule;
 	}
 }

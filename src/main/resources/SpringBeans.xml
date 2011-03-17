@@ -280,7 +280,7 @@
     <bean id="accrualCategoryDao" class="org.kuali.hr.time.accrual.dao.AccrualCategoryDaoSpringOjbImpl">
 		<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="tkRoleDao" class="org.kuali.hr.time.roles.dao.TkRoleDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
@@ -308,7 +308,7 @@
     <bean id="payCalendarDatesDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDatesDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
      <bean id="payCalendarEntriesDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarEntriesDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
@@ -354,6 +354,10 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
+    <bean id="workScheduleAssignmentDao" class="org.kuali.hr.time.workschedule.dao.WorkScheduleAssignmentDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
     <bean id="weeklyOvertimeRuleDao" class="org.kuali.hr.time.overtime.weekly.rule.dao.WeeklyOvertimeRuleDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
@@ -393,11 +397,11 @@
     <bean id="salGroupDao" class="org.kuali.hr.time.salgroup.dao.SalGroupDaoSpringOjbImpl">
       <property name="jcdAlias" value="tkDataSource" />
     </bean>
-    
+
 	<bean id="locationDao" class="org.kuali.hr.location.dao.LocationDaoSpringObjImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-        
+
 	<bean id="payGradeDao" class="org.kuali.hr.paygrade.dao.PayGradeDaoSpringObjImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
@@ -425,6 +429,10 @@
 
     <bean id="workScheduleService" class="org.kuali.hr.time.workschedule.service.WorkScheduleServiceImpl">
     	<property name="workScheduleDao" ref="workScheduleDao"/>
+    </bean>
+
+    <bean id="workScheduleAssignmentService" class="org.kuali.hr.time.workschedule.service.WorkScheduleAssignmentServiceImpl">
+           <property name="workScheduleAssignmentDao" ref="workScheduleAssignmentDao"/>
     </bean>
 
     <bean id="weeklyOvertimeRuleService" class="org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleServiceImpl">
@@ -485,7 +493,7 @@
     <bean id="payCalendarDatesService" class="org.kuali.hr.time.paycalendar.service.PayCalendarDatesServiceImpl">
     	<property name="payCalendarDatesDao" ref="payCalendarDatesDao"/>
     </bean>
-    
+
     <bean id="payCalendarEntriesService" class="org.kuali.hr.time.paycalendar.service.PayCalendarEntriesServiceImpl">
     	<property name="payCalendarEntriesDao" ref="payCalendarEntriesDao"/>
     </bean>
@@ -544,11 +552,11 @@
 	<bean id="locationService" class="org.kuali.hr.location.service.LocationServiceImpl">
     	<property name="locationDao" ref="locationDao"/>
     </bean>
-    
+
     <bean id="payGradeService" class="org.kuali.hr.paygrade.service.PayGradeServiceImpl">
     	<property name="payGradeDao" ref="payGradeDao"/>
     </bean>
-    
+
     <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>
 
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">

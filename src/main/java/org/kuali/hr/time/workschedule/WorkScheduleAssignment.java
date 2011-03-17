@@ -1,20 +1,20 @@
 package org.kuali.hr.time.workschedule;
 
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
-
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 
 
 public class WorkScheduleAssignment extends PersistableBusinessObjectBase {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long hrWorkScheduleAssignmentId;
-	private Long hrWorkScheduleId;
+	private Long hrWorkSchedule;
 	private String dept;
 	private Long workArea;
 	private String principalId;
@@ -22,7 +22,7 @@ public class WorkScheduleAssignment extends PersistableBusinessObjectBase {
 	private Boolean active;
 	private Timestamp timestamp;
 	private String userPrincipalId;
-	
+
 	public Long getHrWorkScheduleAssignmentId() {
 		return hrWorkScheduleAssignmentId;
 	}
@@ -33,13 +33,13 @@ public class WorkScheduleAssignment extends PersistableBusinessObjectBase {
 	}
 
 
-	public Long getHrWorkScheduleId() {
-		return hrWorkScheduleId;
+	public Long getHrWorkSchedule() {
+		return hrWorkSchedule;
 	}
 
 
-	public void setHrWorkScheduleId(Long hrWorkScheduleId) {
-		this.hrWorkScheduleId = hrWorkScheduleId;
+	public void setHrWorkSchedule(Long hrWorkSchedule) {
+		this.hrWorkSchedule = hrWorkSchedule;
 	}
 
 
@@ -100,8 +100,8 @@ public class WorkScheduleAssignment extends PersistableBusinessObjectBase {
 	public void setUserPrincipalId(String userPrincipalId) {
 		this.userPrincipalId = userPrincipalId;
 	}
-	
-	
+
+
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected LinkedHashMap toStringMapper() {

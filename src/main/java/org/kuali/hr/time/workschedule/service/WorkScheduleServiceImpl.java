@@ -1,13 +1,6 @@
 package org.kuali.hr.time.workschedule.service;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
@@ -15,57 +8,27 @@ import org.kuali.hr.time.workschedule.WorkSchedule;
 import org.kuali.hr.time.workschedule.WorkScheduleEntry;
 import org.kuali.hr.time.workschedule.dao.WorkScheduleDao;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 public class WorkScheduleServiceImpl implements WorkScheduleService {
-	
+
 	private WorkScheduleDao workScheduleDao = null;
 
-	@Override
-	public List<WorkSchedule> getWorkSchedules(String principalId, String department, Long workArea, Date asOfDate) {
-		List<WorkSchedule> list = null;
-		// wild-cards, 2^3 again ...
-		
-		// principal, dept, workArea
-		list = workScheduleDao.findWorkSchedules(principalId, department, workArea, asOfDate);
-		
-		// principal, dept, -1
-		if (list.isEmpty())
-			list = workScheduleDao.findWorkSchedules(principalId, department, -1L, asOfDate);
-		
-		// principal, *, workArea
-		if (list.isEmpty())
-			list = workScheduleDao.findWorkSchedules(principalId, "%", workArea, asOfDate);
-		
-		// principal, *, -1
-		if (list.isEmpty())
-			list = workScheduleDao.findWorkSchedules(principalId, "%", -1L, asOfDate);
-		
-		// *, dept, workArea
-		if (list.isEmpty())
-			list = workScheduleDao.findWorkSchedules("%", department, workArea, asOfDate);
-		
-		// *, dept, -1
-		if (list.isEmpty())
-			list = workScheduleDao.findWorkSchedules("%", department, -1L, asOfDate);
-		
-		// *, *, workArea
-		if (list.isEmpty())
-			list = workScheduleDao.findWorkSchedules("%", "%", workArea, asOfDate);
-		
-		// *, *, -1
-		if (list.isEmpty())
-			list = workScheduleDao.findWorkSchedules("%", "%", -1L, asOfDate);
-		
-		return list;
-	}
+    @Override
+    public WorkSchedule getWorkSchedule(Long workSchedule, Date asOfDate) {
+        return workScheduleDao.getWorkSchedule(workSchedule, asOfDate);
+    }
 
-	public List<WorkScheduleEntry> getWorkSchedEntries(WorkSchedule workSchedule, java.util.Date beginDateTime, java.util.Date endDateTime){
+    public List<WorkScheduleEntry> getWorkSchedEntries(WorkSchedule workSchedule, java.util.Date beginDateTime, java.util.Date endDateTime){
 		List<WorkScheduleEntry> lstWorkScheduleEntries = new ArrayList<WorkScheduleEntry>();
 		//increment to the appropriate range based on the beginDate and endDate
-		//cycle through and return an appropriate list of workschedule entries based on 
+		//cycle through and return an appropriate list of workschedule entries based on
 		//the beginDateTime, endDatetime based in
 		DateTime workScheduleEffectiveDate = new DateTime(workSchedule.getEffectiveDate());
 		DateTime endWorkScheduleEffectiveDate = workScheduleEffectiveDate.plusDays(TkConstants.LENGTH_OF_WORK_SCHEDULE);
-		
+
 		Interval payPeriodInterval = new Interval(beginDateTime.getTime(), endDateTime.getTime());
 		//create interval for work schedule effdt + TkConstants.LENGTH_OF_WORK_SCHEDULE days
 		Interval workScheduleInterval = new Interval(workScheduleEffectiveDate,endWorkScheduleEffectiveDate);
@@ -73,7 +36,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
 		if(payPeriodInterval.isBefore(workScheduleInterval)){
 			return lstWorkScheduleEntries;
 		}
-		
+
 		//determine the starting index of work schedule entries for the pay period
 		int indexOfWorkSchedule = 0;
 		Interval workSchedGap = payPeriodInterval.gap(workScheduleInterval);
@@ -82,13 +45,13 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
 			if(days < TkConstants.LENGTH_OF_WORK_SCHEDULE){
 				indexOfWorkSchedule = days;
 			}
-			//determine offset 
+			//determine offset
 			indexOfWorkSchedule = days % TkConstants.LENGTH_OF_WORK_SCHEDULE;
 		} else{
 			Interval workSchedOverlap = payPeriodInterval.overlap(workScheduleInterval);
 			if(workSchedOverlap != null){
 				int days = TKUtils.convertMillisToWholeDays(workSchedOverlap.toDurationMillis());
-				
+
 				indexOfWorkSchedule = TkConstants.LENGTH_OF_WORK_SCHEDULE - days;
 			}
 		}
@@ -104,8 +67,8 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
 		}
 		return lstWorkScheduleEntries;
 	}
-	
-	
+
+
 	@Override
 	public void saveOrUpdate(WorkSchedule workSchedule) {
 		workScheduleDao.saveOrUpdate(workSchedule);
