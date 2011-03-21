@@ -656,26 +656,6 @@
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
 
-	<!-- Clock Log -->
-	<class-descriptor class="org.kuali.hr.time.clocklog.ClockLog" table="tk_clock_log_t">
-		<field-descriptor name="tkClockLogId" column="TK_CLOCK_LOG_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_clock_log_s"  />
-		<field-descriptor name="principalId" column="PRINCIPAL_ID" jdbc-type="VARCHAR" length="40"/>
-		<field-descriptor name="jobNumber" column="JOB_NUMBER" jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="workArea" column="WORK_AREA" jdbc-type="BIGINT"  primarykey="false" />
-		<field-descriptor name="task" column="TASK" jdbc-type="BIGINT" primarykey="false" />
-		<field-descriptor name="tkWorkAreaId" column="TK_WORK_AREA_ID" jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="tkTaskId" column="TK_TASK_ID" jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="clockTimestamp" column="CLOCK_TS" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="clockTimestampTimezone" column="CLOCK_TS_TZ" jdbc-type="VARCHAR" length="50"/>
-		<field-descriptor name="clockAction" column="CLOCK_ACTION" jdbc-type="VARCHAR" length="2"/>
-		<field-descriptor name="ipAddress" column="IP_ADDRESS" jdbc-type="VARCHAR" length="15" />
-		<field-descriptor name="hrJobId" column="HR_JOB_ID" jdbc-type="BIGINT" nullable="false" primarykey="false" />
-		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="40" />
-		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-
     <class-descriptor class="org.kuali.hr.time.roles.TkRoleGroup" table="tk_roles_group_t">
         <field-descriptor name="principalId" column="principal_id" jdbc-type="varchar"  primarykey="true" />
         <collection-descriptor
