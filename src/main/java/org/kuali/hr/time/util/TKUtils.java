@@ -1,13 +1,13 @@
 package org.kuali.hr.time.util;
 
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Days;
+import org.joda.time.Interval;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.timeblock.TimeHourDetail;
 
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
@@ -186,14 +186,14 @@ public class TKUtils {
 
     /**
      *
-     * @param dateTimeString (the format is 11/17/2010 8:0)
+     * @param dateStr (the format is 01/01/2011)
+     * @param timeStr (the format is 8:0)
      * @return Timestamp
      */
-	public static Timestamp convertDateStringToTimestamp(String dateTimeString) {
+	public static Timestamp convertDateStringToTimestamp(String dateStr, String timeStr) {
 		// the date/time format is defined in tk.calendar.js. For now, the format is 11/17/2010 8:0
-		String[] input = dateTimeString.split(" ");
-		String[] dateString = input[0].split("/");
-		String[] timeString = input[1].split(":");
+		String[] date = dateStr.split("/");
+		String[] time = timeStr.split(":");
 		
 		DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimeZone());
 		
@@ -202,11 +202,11 @@ public class TKUtils {
         // Noted that the month value is the actual month which is different than the java date object where the month value is the current month minus 1.
         // I tried to use the actual month in the code as much as I can to reduce the convertions.
 		DateTime dateTime = new DateTime(
-				Integer.parseInt(dateString[2]), 
-				Integer.parseInt(dateString[0]), 
-				Integer.parseInt(dateString[1]), 
-				Integer.parseInt(timeString[0]), 
-				Integer.parseInt(timeString[1]), 
+				Integer.parseInt(date[2]),
+				Integer.parseInt(date[0]),
+				Integer.parseInt(date[1]),
+				Integer.parseInt(time[0]),
+				Integer.parseInt(time[1]),
 				0, 0, dtz); 
 		
 		return new Timestamp(dateTime.getMillis());

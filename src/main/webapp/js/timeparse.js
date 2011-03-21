@@ -14,11 +14,11 @@
  */
 function getReadable(d) {
     return padAZero(d.getHours())
-           + ':'
-           + padAZero(d.getMinutes())
+            + ':'
+            + padAZero(d.getMinutes())
 //           + ':'
 //           + padAZero(d.getSeconds())
-           ;
+            ;
 }
 /**
  * Helper function to pad a leading zero to an integer
@@ -50,16 +50,16 @@ function formatDate(d) {
     var h = d.getHours();
 
     if (h < 12) {
-		a_p = "AM";
-	} else {
-		a_p = "PM";
-	}
-	if (h == 0) {
-		h = 12;
-	}
-	if (h > 12) {
-		h = h - 12;
-	}
+        a_p = "AM";
+    } else {
+        a_p = "PM";
+    }
+    if (h == 0) {
+        h = 12;
+    }
+    if (h > 12) {
+        h = h - 12;
+    }
 
     var m = d.getMinutes();
 
@@ -85,13 +85,28 @@ var timeParsePatterns = [
             return new Date();
         }
     },
+    // 12a
+    {
+        re: /12(?:a| a)/i,
+        example: new Array('12:00a'),
+        handler: function(bits) {
+            var d = new Date();
+            d.setHours(0);
+            d.setMinutes(0);
+//            d.setSeconds(0);
+            return d;
+        }
+
+    },
     // p.m.
     {   re: /(\d{1,2}):(\d{1,2}):(\d{1,2})(?:p| p)/i,
-        example: new Array('9:55:00 pm','12:55:00 p.m.','9:55:00 p','11:5:10pm','9:5:1p'),
+        example: new Array('9:55:00 pm', '12:55:00 p.m.', '9:55:00 p', '11:5:10pm', '9:5:1p'),
         handler: function(bits) {
             var d = new Date();
             var h = parseInt(bits[1], 10);
-            if (h < 12) {h += 12;}
+            if (h < 12) {
+                h += 12;
+            }
             d.setHours(h);
             d.setMinutes(parseInt(bits[2], 10));
 //            d.setSeconds(parseInt(bits[3], 10));
@@ -100,11 +115,13 @@ var timeParsePatterns = [
     },
     // p.m., no seconds
     {   re: /(\d{1,2}):(\d{1,2})(?:p| p)/i,
-        example: new Array('9:55 pm','12:55 p.m.','9:55 p','11:5pm','9:5p'),
+        example: new Array('9:55 pm', '12:55 p.m.', '9:55 p', '11:5pm', '9:5p'),
         handler: function(bits) {
             var d = new Date();
             var h = parseInt(bits[1], 10);
-            if (h < 12) {h += 12;}
+            if (h < 12) {
+                h += 12;
+            }
             d.setHours(h);
             d.setMinutes(parseInt(bits[2], 10));
 //            d.setSeconds(0);
@@ -113,11 +130,13 @@ var timeParsePatterns = [
     },
     // p.m., hour only
     {   re: /(\d{1,2})(?:p| p)/i,
-        example: new Array('9 pm','12 p.m.','9 p','11pm','9p'),
+        example: new Array('9 pm', '12 p.m.', '9 p', '11pm', '9p'),
         handler: function(bits) {
             var d = new Date();
             var h = parseInt(bits[1], 10);
-            if (h < 12) {h += 12;}
+            if (h < 12) {
+                h += 12;
+            }
             d.setHours(h);
             d.setMinutes(0);
 //            d.setSeconds(0);
@@ -126,7 +145,7 @@ var timeParsePatterns = [
     },
     // hh:mm:ss
     {   re: /(\d{1,2}):(\d{1,2}):(\d{1,2})/,
-        example: new Array('9:55:00','19:55:00','19:5:10','9:5:1','9:55:00 a.m.','11:55:00a'),
+        example: new Array('9:55:00', '19:55:00', '19:5:10', '9:5:1', '9:55:00 a.m.', '11:55:00a'),
         handler: function(bits) {
             var d = new Date();
             d.setHours(parseInt(bits[1], 10));
@@ -137,7 +156,7 @@ var timeParsePatterns = [
     },
     // hh:mm
     {   re: /(\d{1,2}):(\d{1,2})/,
-        example: new Array('9:55','19:55','19:5','9:55 a.m.','11:55a'),
+        example: new Array('9:55', '19:55', '19:5', '9:55 a.m.', '11:55a'),
         handler: function(bits) {
             var d = new Date();
             d.setHours(parseInt(bits[1], 10));
@@ -148,14 +167,18 @@ var timeParsePatterns = [
     },
     // hhmmss
     {   re: /(\d{1,6})/,
-        example: new Array('9','9a','9am','19','1950','195510','0955'),
+        example: new Array('9', '9a', '9am', '19', '1950', '195510', '0955'),
         handler: function(bits) {
             var d = new Date();
-            var h = bits[1].substring(0,2);
-            var m = parseInt(bits[1].substring(2,4), 10);
-            var s = parseInt(bits[1].substring(4,6), 10);
-            if (isNaN(m)) {m = 0;}
-            if (isNaN(s)) {s = 0;}
+            var h = bits[1].substring(0, 2);
+            var m = parseInt(bits[1].substring(2, 4), 10);
+            var s = parseInt(bits[1].substring(4, 6), 10);
+            if (isNaN(m)) {
+                m = 0;
+            }
+            if (isNaN(s)) {
+                s = 0;
+            }
             d.setHours(parseInt(h, 10));
             d.setMinutes(parseInt(m, 10));
 //            d.setSeconds(parseInt(s, 10));
@@ -189,7 +212,8 @@ function getExamples(run_tests) {
                 list_item.appendChild(list_item_value)
                 xml.appendChild(list_item);
             }
-        } catch(e){}
+        } catch(e) {
+        }
     }
     return xml;
 }
@@ -210,7 +234,7 @@ function parseTimeString(s) {
             return handler(bits);
         }
     }
-    throw new Error("Invalid time string");
+    throw new Error("Invalid time format");
 }
 
 function magicTime(input) {
@@ -237,7 +261,7 @@ function magicTime(input) {
             d.setFullYear(dateRangeField[2], dateRangeField[0], dateRangeField[1]);
             d.setSeconds(0);
             d.setMilliseconds(0);
-            el.val(d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes());
+            el.val(/*d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear() + " " + */d.getHours() + ":" + d.getMinutes());
             //el.value = d.getTime();
             el.addClass("normal");
         }
@@ -257,10 +281,12 @@ function magicTime(input) {
                 message = 'Invalid format';
             }
             el.html(message);
-        } catch (e){
+        } catch (e) {
             if ($("#" + input.id).val() != '') {
-              el.html("Invalid format");
+                el.html("Invalid format");
             }
         }
+
+        return false;
     }
 }

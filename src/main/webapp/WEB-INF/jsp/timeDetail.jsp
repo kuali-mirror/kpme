@@ -31,7 +31,7 @@
         <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;">
 
             <div id="dialog-form" title="Add time blocks:">
-                <p class="validateTips">All form fields are required.</p>
+                <p id="validation" class="validation">All form fields are required.</p>
 
                 <html:form action="/TimeDetail.do" styleId="time-detail">
                     <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
@@ -66,7 +66,6 @@
                                 <td>
                                     <!-- <tk:earnCode earnCodes="${Form.earnCodeDescriptions}"/> -->
                                     <select id='earnCode' name="selectedEarnCode">
-                                        <option value=''>-- select an assignment --</option>
                                     </select>
                                 </td>
                             </tr>
@@ -102,7 +101,7 @@
                             </tr>
                             <tr>
                                 <td></td>
-                                <td><input type="checkbox" id="acrossDaysField"/> Apply time to each day</td>
+                                <td><input type="checkbox" id="acrossDaysField" value="n"/> Apply time to each day</td>
                             </tr>
                         </table>
                     </div>

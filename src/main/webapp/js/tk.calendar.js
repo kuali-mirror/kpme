@@ -5,42 +5,54 @@ $(document).ready(function() {
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
-    var beginPeriodDateTimeObj = $("#beginPeriodDate").val() !== undefined ? new Date($("#beginPeriodDate").val()) : d + "/" + m + "/" + y;
-    var endPeriodDateTimeObj = $("#endPeriodDate").val() !== undefined ? new Date($("#endPeriodDate").val()) : d + "/" + m + "/" + y;
+    // grab the pay period begin/end date from the form. if they are emtpy (which shouldn't), return the current date
+    var beginPeriodDateTimeObj = $('#beginPeriodDate').val() !== undefined ? new Date($('#beginPeriodDate').val()) : d + '/' + m + '/' + y;
+    var endPeriodDateTimeObj = $('#endPeriodDate').val() !== undefined ? new Date($('#endPeriodDate').val()) : d + '/' + m + '/' + y;
+    // this is used to store the original values of the clicked event
+    var oriTimeDetail = {};
 
     // end period time has to be set to the previous day if it's not in the virtual work day mode, sicne the boundary ends at 00:00:00
-    if($('#isVirtualWorkDay').val() == 'false') {
-        endPeriodDateTimeObj.setDate(endPeriodDateTimeObj.getDate()-1);
+    if ($('#isVirtualWorkDay').val() == 'false') {
+        endPeriodDateTimeObj.setDate(endPeriodDateTimeObj.getDate() - 1);
     }
 
-    var docId = $("#documentId").val();
+    var docId = $('#documentId').val();
     var eventUrl = "TimeDetail.do?methodToCall=getTimeBlocks&documentId=" + docId;
 
     var calendar = $('#cal').fullCalendar({
+        // begin / end period date is how we control the calendar dates display
         beginPeriodDate : beginPeriodDateTimeObj,
         endPeriodDate : endPeriodDateTimeObj,
+        // the calendar will use the jQuery theme
         theme : true,
-        aspectRatio : 5, // the value here is just to match the height with the add time block panel
+        // this is to control the width/height ratio for each day cell on the calendar
+        aspectRatio : 5,
         allDaySlot : false,
         multidaySelect : true,
+        // prev / next is the buttons for the calendar navigation
         header: {
-            // left : "today",
             left : "",
             center : 'prev, title, next',
             right : ''
         },
+        // this is the logic for the edit form. when an existing event is clicked, the edit form will be brought up and data will be loaded to the fields
         eventClick: function(calEvent, jsEvent) {
 
             var targetId = jsEvent.target.id;
 
-            if(targetId == 'timeblock-delete') {
+            // delete an existing event if the delete button is clicked
+            if (targetId == 'timeblock-delete') {
                 window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + calEvent.id;
             }
-            if(targetId == 'timeblock-edit' || targetId == '') {
+
+            // otherwise, just open the time entry form in the edit mode
+            if (targetId == 'timeblock-edit' || targetId == '') {
                 var dateFormat = "MM/dd/yyyy";
                 var timeFormat = "hh:mm TT";
 
+                // open the time entry form
                 $('#dialog-form').dialog('open');
+                // load data to the fields
                 $('#date-range-begin').val($.fullCalendar.formatDate(calEvent.start, dateFormat));
                 $('#date-range-end').val($.fullCalendar.formatDate(calEvent.end, dateFormat));
                 $("select#assignment option[value='" + calEvent.assignment + "']").attr("selected", "selected");
@@ -50,18 +62,30 @@ $(document).ready(function() {
                 $('#tkTimeBlockId').val(calEvent.tkTimeBlockId);
                 $('#hoursField').val(calEvent.hours);
                 // the month value in the javascript date object is the actual month minus 1.
-                $('#beginTimeField-messages').val(calEvent.start.getMonth()+1 + "/" + calEvent.start.getDate() + "/" +
-                        calEvent.start.getFullYear() + " " + calEvent.start.getHours() + ":" + calEvent.start.getMinutes());
-                $('#endTimeField-messages').val(calEvent.end.getMonth()+1 + "/" + calEvent.end.getDate() + "/" +
-                        calEvent.end.getFullYear() + " " + calEvent.end.getHours() + ":" + calEvent.end.getMinutes());
+                $('#beginTimeField-messages').val(calEvent.start.getHours() + ':' + calEvent.start.getMinutes());
+                $('#endTimeField-messages').val(calEvent.end.getHours() + ':' + calEvent.end.getMinutes());
+
+                // push exsiting timeblock values to a hash for the later comparision against the modified values
+                oriTimeDetail = {
+                    'startDate' : $('#date-range-begin').val(),
+                    'endDate' : $('#date-range-end').val(),
+                    'selectedAssignment' : calEvent.assignment,
+                    'selectedEarnCode' : calEvent.earnCode,
+                    'startTime' : $('#beginTimeField-messages').val(),
+                    'endTime' : $('#endTimeField-messages').val(),
+                    'hours' : $('#hoursField').val(),
+                    'acrossDays' : $('#acrossDaysField').val()
+                };
             }
         },
         selectable: true,
         selectHelper: true,
+        // this is triggered when a day is clicked for entering the time details
         select: function(start, end, allDay) {
 
             // clear any existing values
-            $('#beginTimeField, #endTimeField, #hoursField, #acrossDaysField').val("");
+            oriTimeDetail = {};
+            $('#beginTimeField, #endTimeField, #hoursField, #acrossDaysField').val('');
             $('#acrossDaysField').attr('checked', '');
             // check acrossDaysField if multiple days are selected
             if (start.getTime() != end.getTime()) {
@@ -82,12 +106,13 @@ $(document).ready(function() {
                     $('#earnCode').loadEarnCode($('#assignment').val());
                 }
 
-                $("#tkTimeBlockId").val("");
+                $('#tkTimeBlockId').val('');
                 $('#dialog-form').dialog('open');
 
             }
         },
         editable: false,
+        // this is the url for fetching timeblocks through the ajax call
         events : eventUrl,
         loading: function(bool) {
             if (bool) {
@@ -99,30 +124,26 @@ $(document).ready(function() {
         }
     });
 
-    var tips = $(".validateTips");
+    var validation = $('#validation');
     var startTime = $('#beginTimeField');
     var endTime = $('#endTimeField');
     var assignment = $('#assignment');
     var assignmentValue = $('#assignment-value').html();
     var earnCode = $('#earnCode');
 
-    var fieldsToValidate = $([]).add(startTime).add(endTime).add(earnCode);
-    fieldsToValidate.clearValue();
     //------------------------
     // buttons on the form
     //------------------------
     var buttons = {};
-    buttons["Add"] = function() {
+    buttons['Add'] = function() {
 
         //-----------------------------------
         // time entry form validation
         //-----------------------------------
         var bValid = true;
-        tips.val("");
 
         function updateTips(t) {
-            tips
-                    .text(t)
+            validation.text(t)
                     .addClass('ui-state-error')
                     .css({'color':'red','font-weight':'bold'});
             // setTimeout(function() {
@@ -131,74 +152,113 @@ $(document).ready(function() {
         }
 
         function checkLength(o, n, min, max) {
+
             if (o.val().length > max || o.val().length < min) {
                 o.addClass('ui-state-error');
-                updateTips(n + " field can't be empty");
+                updateTips(n + " field cannot be empty");
                 return false;
-            } else {
-                return true;
             }
+            return true;
         }
 
-        function checkTimeEntryFields(o, n) {
+        function checkMinLength(o, n, min) {
+            if (o.val().length < min) {
+                o.addClass('ui-state-error');
+                updateTips(n + " field's value is incorrect");
+                return false;
+            }
+            return true;
+        }
+
+        function checkEmptyField(o, n) {
             var val = o.val();
-            o.addClass('ui-state-error');
             if (val == '') {
-                updateTips(n + " field can't be empty");
+                o.addClass('ui-state-error');
+                updateTips(n + " field cannot be empty");
                 return false;
             }
             return true;
         }
 
         function checkRegexp(o, regexp, n) {
-            if (!( regexp.test(o.val()) )) {
+            if (( o.val().match(regexp) )) {
                 o.addClass('ui-state-error');
                 updateTips(n);
                 return false;
-            } else {
-                return true;
             }
+            return true;
         }
 
-        if ($('#hoursField').val() === '') {
-            bValid = bValid && checkLength(startTime, "In", 8, 8);
-            bValid = bValid && checkLength(endTime, "Out", 8, 8);
+        function checkSpecificValue(o, value, n) {
+            if (o.val() != value) {
+                o.addClass('ui-state-error');
+                updateTips(n);
+                return false;
+            }
+            return true;
         }
 
-        bValid = bValid && checkTimeEntryFields(assignment, "Assignment");
-        bValid = bValid && checkTimeEntryFields(earnCode, "Earn Code");
+        /**
+         * Entry field validation
+         */
+        // if the hour field is empty, there has to be values in the time fields and vice versa
+        if ($('#hoursField').val() === '' && $('#earnCode').getEarnCodeType() === 'TIME') {
+            // the format has to be like "12:00 AM"
+            bValid &= checkLength(startTime, "Time entry", 8, 8);
+            bValid &= checkLength(endTime, "Time entry", 8, 8);
+        }
+        else if ($('#earnCode').getEarnCodeType() !== 'TIME' && ($('#beginTimeField').val() === '' || $('#endTimeField').val() === '' )) {
+            var hours = $('#hoursField');
+            bValid &= checkEmptyField(hours, "Hour") && checkMinLength(hours, "Hour", 1) && checkRegexp(hours, '/0/', 'Hours cannot be zero');
+        }
 
-        // end of time entry form validation
-        //-----------------------------------
+        bValid &= checkEmptyField(assignment, "Assignment");
+        bValid &= checkEmptyField(earnCode, "Earn Code");
+        // ------------------- end of time entry form validation -------------------
 
-        if ($('#hoursField').val() !== '' || bValid) {
+        if (bValid) {
+
             var params = {};
 
             // these are for the submitted form
-            $("#methodToCall").val("addTimeBlock");
-            $("#startDate").val($("#date-range-begin").val());
-            $("#endDate").val($("#date-range-end").val());
-            $("#startTime").val($('#beginTimeField-messages').val());
-            $("#endTime").val($('#endTimeField-messages').val());
-            $("#hours").val($('#hoursField').val());
-            $("#selectedEarnCode").val($("#earnCode").val().split("_")[0]);
-            $("#selectedAssignment").val($("#assignment").val());
-            $("#acrossDays").val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
+            $('#methodToCall').val('addTimeBlock');
+            $('#startDate').val($('#date-range-begin').val());
+            $('#endDate').val($('#date-range-end').val());
+            $('#startTime').val($('#beginTimeField-messages').val());
+            $('#endTime').val($('#endTimeField-messages').val());
+            $('#hours').val($('#hoursField').val());
+            $('#selectedEarnCode').val($('#earnCode').getEarnCode());
+            $('#selectedAssignment').val($('#assignment').val());
+            $('#acrossDays').val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
 
             // these are for the validation
-            params['startDate'] = $("#date-range-begin").val();
-            params['endDate'] = $("#date-range-end").val();
+            params['startDate'] = $('#date-range-begin').val();
+            params['endDate'] = $('#date-range-end').val();
             params['startTime'] = $('#beginTimeField-messages').val();
             params['endTime'] = $('#endTimeField-messages').val();
             params['hours'] = $('#hoursField').val();
-            params['selectedEarnCode'] = $("#earnCode").val().split("_")[0];
-            params['selectedAssignment'] = $("#assignment").val();
+            params['selectedEarnCode'] = $('#earnCode').getEarnCode();
+            params['selectedAssignment'] = $('#assignment').val();
             params['acrossDays'] = $('#acrossDaysField').is(':checked') ? 'y' : 'n';
-            params['tkTimeBlockId'] = $("#tkTimeBlockId").val();
+            params['tkTimeBlockId'] = $('#tkTimeBlockId').val();
+
+            // compare the original values with the modified ones. if there is no change, close the form instead of submitting it
+            var isNotChanged = true;
+            for (var key in oriTimeDetail) {
+                if (params[key] != oriTimeDetail[key]) {
+                    isNotChanged = false;
+                    break;
+                }
+            }
+
+            if (!$.isEmptyObject(oriTimeDetail) && isNotChanged) {
+                $(this).dialog('close');
+                return false;
+            }
 
             // validate timeblocks
             $.ajax({
-                url: "TimeDetail.do?methodToCall=validateTimeBlocks",
+                url: "TimeDetail.do?methodToCall=validateTimeEntry",
                 data: params,
                 cache: false,
                 success: function(data) {
@@ -206,12 +266,12 @@ $(document).ready(function() {
                     var json = jQuery.parseJSON(data);
                     // if there is no error message, submit the form to add the time block
                     if (json.length == 0) {
-                        $("#time-detail").submit();
+                        $('#time-detail').submit();
                     }
                     else {
-                        // grab error messages
+                        // if there is any error, grab error messages (json) and display them
                         var json = jQuery.parseJSON(data);
-                        var errorMsgs = "";
+                        var errorMsgs = '';
                         $.each(json, function (index) {
                             errorMsgs += "Error : " + json[index] + "\n";
                         });
@@ -225,76 +285,88 @@ $(document).ready(function() {
                     return false;
                 }
             });
-
-            fieldsToValidate.clearValue($('#assignment'));
         }
     };
 
-    buttons["Cancel"] = function() {
-        fieldsToValidate.clearValue();
+    buttons['Cancel'] = function() {
         $(this).dialog('close');
+        $(this).resetState();
     };
+    // ------------------- end of the buttons -------------------
 
-    //end of the buttons
-    //------------------------
-
-    $("#dialog-form").dialog({
+    $('#dialog-form').dialog({
         autoOpen: false,
         height: 'auto',
         width: 'auto',
         modal: true,
         beforeClose: function(event, ui) {
-            // remove all the error messages
-            $('.validateTips').html("").removeClass('ui-state-error');
-            // restore the earn code value to the default  
-            $('#earnCode').html("<option value=''>-- select an assignment --</option>");
+            // restore the earn code value to the default
+            $('#earnCode').html("<option value=''>-- select an assignment first --</option>");
         },
         buttons: buttons
     });
 
-    // when the date field(s) is changed, it should update the time field as well
-    $("#date-range-begin, #date-range-end").change(function() {
-        magicTime($("#beginTimeField"));
-        magicTime($("#endTimeField"));
+    /**
+     * The section below is to handle the time/hour input
+     * 1. When the form is submitted, it should only contain either begin/end time (for regular earn codes) or hours (for vac, sck, etc.)
+     *    - When the a regular earn code is selected, the hour/amount field will be hidden and vice versa
+     *    - When the value is changed in the time field, the value in the hour/amount field should be deleted and vice versa
+     */
+
+    // when the value of time fields(s) is changed, reset the hour/amount field and vice versa
+    $('#beginTimeField, #endTimeField, #hoursField').change(function() {
+        if ($(this).get(0).id == 'beginTimeField' || $(this).get(0).id == 'endTimeField') {
+            $('#hoursField').val('');
+            // do the input conversion
+            magicTime($(this));
+        }
+        else {
+            $('#beginTimeField, #endTimeField').val('');
+        }
+        $(this).resetState();
     });
+    // ------------------- end of the time/hour input validation section -------------------
 
-    // when the time fields(s) is changed, reset the hour/amount field
-    $("#beginTimeField, #endTimeField").change(function() {
-        $("#hoursField").val("");
-        magicTime($(this));
-    });
-
-    // when selecting an earn code, hide / show the time/hour/amount field as well
-    $("select#earnCode").change(function() {
-        $(this).loadFields($(this).val());
-    });
-
-
-    // filter earn codes
+    // load the earn code based on the selected assignment
     $('#assignment').change(function() {
-        // remove the error style
+        // if there is error triggered previously, reset the
         $('#assignment').removeClass('ui-state-error');
-        $("#earnCode").loadEarnCode($(this).val());
+        $('#earnCode').loadEarnCode($(this).val());
+        $(this).resetState();
     });
+
+    // hide/show the related fields based on the earn code type
+    $('select#earnCode').change(function() {
+        $(this).loadFields();
+        // clear the existing values
+        $('#beginTimeField, #endTimeField, #hoursField').val('');
+        $(this).resetState();
+    });
+
+    /**
+     * Misc. section
+     */
 
     // use keyboard to open the form
     var isCtrl,isAlt = false;
 
     // ctrl+alt+a will open the form
     $(this).keydown(
-                   function(e) {
+            function(e) {
 
-                       if (e.ctrlKey) isCtrl = true;
-                       if (e.altKey) isAlt = true;
+                if (e.ctrlKey) isCtrl = true;
+                if (e.altKey) isAlt = true;
 
-                       if (e.keyCode == 65 && isCtrl && isAlt) {
-                           $("#dialog-form").dialog('open');
-                       }
+                if (e.keyCode == 65 && isCtrl && isAlt) {
+                    $('#dialog-form').dialog('open');
+                }
 
-                   }).keyup(function(e) {
+            }).keyup(function(e) {
         isCtrl = false;
         isAlt = false;
     });
+
+    // ------------------- end of the misc. section -------------------
 
 });
 
@@ -316,7 +388,7 @@ $.fn.loadEarnCode = function(assignment, selectedEarnCode) {
                 $("select#earnCode option[value='" + selectedEarnCode + "']").attr("selected", "selected");
             }
 
-            $('#earnCode').loadFields($('#earnCode').val());
+            $('#earnCode').loadFields();
         },
         error: function() {
             $('#earnCode').html("Error: Can't get earn codes.");
@@ -331,19 +403,20 @@ $.fn.loadEarnCode = function(assignment, selectedEarnCode) {
     });
 }
 
-$.fn.loadFields = function(earnCode) {
+$.fn.loadFields = function() {
 
-    var fieldType = earnCode.split("_")[1];
+    // get the earn code type
+    var fieldType = $(this).val().split("_")[1];
 
+    // if the field type equals hour, hide the begin/end time field and set the time to 12a
     if (fieldType == 'HOUR') {
-        $('#beginTimeField,#endTimeField').val("");
         $('#clockIn, #clockOut').hide();
+        $('#beginTimeField-messages,#endTimeField-messages').val("0:0");
         $('#hoursSection').show();
         $('#hoursField').validateNumeric();
     }
     // TODO: need to handle the amount field
     else {
-        $('#hours').val("");
         $('#clockIn, #clockOut').show();
         $('#hoursSection').hide();
     }
@@ -351,7 +424,7 @@ $.fn.loadFields = function(earnCode) {
 
 $.fn.deleteTimeBlock = function(tkTimeBlockId) {
     var params = {};
-    params['methodToCall'] = "deleteTimeBlock";
+    params['methodToCall'] = 'deleteTimeBlock';
     params['tkTimeBlockId'] = tkTimeBlockId;
 
     $.ajax({
@@ -367,23 +440,19 @@ $.fn.deleteTimeBlock = function(tkTimeBlockId) {
     });
 }
 
-$.fn.clearValue = function(elementToAdd) {
-    var assignmentValue = $('#assignment-value').html();
-    // clear assignment value when there is only one assignment
-    if (assignmentValue != undefined && assignmentValue != '') {
-        //$('#assignment-value').html('').removeClass('ui-state-error');
-    }
+$.fn.resetState = function() {
 
-    // clear the error message
-    $('.validateTips').html("").removeClass('ui-state-error');
+    // clear the red background for fields with wrong inputs
+    // .end() is a jQuery built-in function which does:
+    // "End the most recent filtering operation in the current chain and return the set of matched elements to its previous state."
+    $('#timesheet-panel').find('input').end().find('select').each(function() {
+        $(this).removeClass('ui-state-error');
+    });
 
-    // reset the assignment when there are multiple ones 
-    if (elementToAdd != undefined && elementToAdd.is("select")) {
-        // $(this).val('').removeClass('ui-state-error');
-        // it doesn't seem necessary to change the value to the default empty string for now.
-        $(this).add(elementToAdd).removeClass('ui-state-error');
-    }
-
+    // clear the error messages
+    $('.error').html('');
+    // remove the error message and error state
+    $('#validation').html('').removeClass('ui-state-error');
 }
 
 $.fn.validateNumeric = function() {
@@ -391,18 +460,17 @@ $.fn.validateNumeric = function() {
     $(this).keyup(function() {
         var val = $(this).val();
         // replace anything with "" unless it's 0-9 or .
-        val = val.replace(/[^0-9\.]*/g, "");
+        val = val.replace(/[^0-9\.]*/g, '');
         // deal with the case when there is only .
-        val = val.replace(/^\.$/g, "");
+        val = val.replace(/^\.$/g, '');
         $(this).val(val);
     });
 }
 
-$.fn.createDeleteButton = function() {
-    $("#delete-button").button({
-        icons : {
-            primary : 'ui-icon-close'
-        },
-        text : false
-    });
+$.fn.getEarnCode = function() {
+    return $(this).val().split("_")[0];
+}
+
+$.fn.getEarnCodeType = function() {
+    return $(this).val().split("_")[1];
 }

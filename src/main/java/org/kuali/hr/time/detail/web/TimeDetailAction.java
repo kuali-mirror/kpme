@@ -1,16 +1,5 @@
 package org.kuali.hr.time.detail.web;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -28,6 +17,16 @@ import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -107,7 +106,7 @@ public class TimeDetailAction extends TimesheetAction {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         String earnCodeString = "";
         if (StringUtils.isBlank(tdaf.getSelectedAssignment())) {
-            earnCodeString += "<option value=''>-- select an assignment --</option>";
+            earnCodeString += "<option value=''>-- select an assignment first --</option>";
         } else {
             List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
             AssignmentDescriptionKey key = new AssignmentDescriptionKey(tdaf.getSelectedAssignment());
@@ -185,8 +184,6 @@ public class TimeDetailAction extends TimesheetAction {
      */
     public ActionForward addTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        Timestamp startTime;
-        Timestamp endTime;
 
         // This is for updating a timeblock
         // If tkTimeBlockId is not null and the new timeblock is valid, delete the existing timeblock and a new one will be created after submitting the form.
@@ -208,13 +205,10 @@ public class TimeDetailAction extends TimesheetAction {
         Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(),
                 tdaf.getSelectedAssignment());
 
-        if (tdaf.getHours() != null || tdaf.getAmount() != null) {
-            startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate() + " 0:0");
-            endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate() + " 0:0");
-        } else {
-            startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartTime());
-            endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndTime());
-        }
+        //if(tdaf.getStartTime() != null && tdaf.getEndTime() != null) {
+            Timestamp startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime());
+            Timestamp endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime());
+        //}
 
         // We need a  cloned reference set so we know whether or not to
         // persist any potential changes without making hundreds of DB calls.
@@ -246,9 +240,8 @@ public class TimeDetailAction extends TimesheetAction {
     }
 
     /**
-     * This is method called via ajax which is triggered after a user submits the time entry form.
-     * If there is any error, it will add the error messages into a json object and the javascript will grab the error messages
-     * and render them directly on the form before it is submitted.
+     * This is an ajax call triggered after a user submits the time entry form.
+     * If there is any error, it will return error messages as a json object.
      *
      * @param mapping
      * @param form
@@ -258,7 +251,7 @@ public class TimeDetailAction extends TimesheetAction {
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    public ActionForward validateTimeBlocks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward validateTimeEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         JSONArray errorMsgList = new JSONArray();
@@ -269,10 +262,9 @@ public class TimeDetailAction extends TimesheetAction {
         if (tdaf.getHours() != null) {
             if (tdaf.getHours().compareTo(new BigDecimal("0")) == 0) {
                 errorMsgList.add("The entered hours is not valid.");
+                tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                return mapping.findForward("ws");
             }
-
-            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-            return mapping.findForward("ws");
         }
 
         //------------------------
@@ -281,19 +273,17 @@ public class TimeDetailAction extends TimesheetAction {
         // 2. check the time format - timeparse.js
         // 3. only allows decimals to be entered in the hour field
         //------------------------
-        Long startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartTime()).getTime();
-        Long endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndTime()).getTime();
+        Long startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime()).getTime();
+        Long endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime()).getTime();
 
         // this is for the output of the error message
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss z");
-        String beginDateTime = sdf.format(new java.util.Date(startTime));
-        String endDateTime = sdf.format(new java.util.Date(endTime));
 
         //------------------------
         // check if the begin / end time are valid
         //------------------------
-        if (tdaf.getHours() == null && startTime.compareTo(endTime) > 0 || endTime.compareTo(startTime) < 0) {
-            errorMsgList.add("The begin time / end time is not valid.");
+        if ((startTime.compareTo(endTime) > 0 || endTime.compareTo(startTime) < 0)) {
+            errorMsgList.add("The time or date is not valid.");
             tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
             return mapping.findForward("ws");
         }
