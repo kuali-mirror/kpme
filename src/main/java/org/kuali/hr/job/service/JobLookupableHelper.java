@@ -17,6 +17,7 @@ import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 public class JobLookupableHelper extends KualiLookupableHelperServiceImpl {
@@ -24,6 +25,27 @@ public class JobLookupableHelper extends KualiLookupableHelperServiceImpl {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	@Override
+	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
+			List pkNames) {
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(
+				businessObject, pkNames);
+		Job job = (Job) businessObject;
+		final String className = this.getBusinessObjectClass().getName();
+		final Long hrJobId = job.getHrJobId();
+		HtmlData htmlData = new HtmlData() {
+
+			@Override
+			public String constructCompleteHtmlTag() {
+				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
+						+ className + "&methodToCall=start&hrJobId=" + hrJobId
+						+ "&principalId=&jobNumber=\">view</a>";
+			}
+		};
+		customActionUrls.add(htmlData);
+		return customActionUrls;
+	}
 
 	@Override
 	public List<? extends BusinessObject> getSearchResults(
@@ -49,7 +71,8 @@ public class JobLookupableHelper extends KualiLookupableHelperServiceImpl {
 			Map<String, String> fields = new HashMap<String, String>();
 			fields.put("firstName", firstName);
 			fields.put("lastName", lastName);
-			List<Person> listPerson = KIMServiceLocator.getPersonService().findPeople(fields);
+			List<Person> listPerson = KIMServiceLocator.getPersonService()
+					.findPeople(fields);
 			List<String> listPrincipalId = new ArrayList<String>();
 			for (Person person : listPerson) {
 				listPrincipalId.add(person.getPrincipalId());
@@ -70,7 +93,7 @@ public class JobLookupableHelper extends KualiLookupableHelperServiceImpl {
 				@Override
 				public int compare(BusinessObject bo1, BusinessObject bo2) {
 					int result = 0;
-					if(bo1 instanceof AccrualCategory){
+					if (bo1 instanceof AccrualCategory) {
 						AccrualCategory acc1 = (AccrualCategory) bo1;
 						AccrualCategory acc2 = (AccrualCategory) bo2;
 						if (acc1.getTimestamp().before(acc2.getTimestamp())) {
