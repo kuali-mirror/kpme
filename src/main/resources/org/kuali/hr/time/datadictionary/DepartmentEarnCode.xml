@@ -63,7 +63,7 @@
 				</bean>
 
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="jobObj" />
+					<property name="objectAttributeName" value="locationObj" />
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"

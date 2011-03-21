@@ -5,7 +5,11 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
+/**
+ * Represents a Location object
+ * 
+ *
+ */
 public class Location extends PersistableBusinessObjectBase {
 
 	/**

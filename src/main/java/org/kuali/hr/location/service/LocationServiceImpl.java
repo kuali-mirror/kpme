@@ -5,12 +5,15 @@ import java.sql.Date;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.location.dao.LocationDao;
 
+/**
+ * Represents an implementation of {@link LocationService}
+ * 
+ */
 public class LocationServiceImpl implements LocationService {
 
 	private LocationDao locationDao;
 	@Override
 	public Location getLocation(String location, Date asOfDate) {
-		// TODO Auto-generated method stub
 		return locationDao.getLocation(location, asOfDate);
 	}
  

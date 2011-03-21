@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.job.Job;
+import org.kuali.hr.location.Location;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.salgroup.SalGroup;
@@ -26,13 +27,15 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	private Date effectiveDate;
 	private Timestamp timestamp;
 	private Boolean history;
+	private String location;
 	private Boolean active;
-    private String location;
 	
 	private SalGroup  salGroupObj;
 	private Department departmentObj;
 	private EarnCode earnCodeObj;
     private Job jobObj;
+    private Location locationObj;
+
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -144,17 +147,24 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-    public String getLocation() {
-        return location;
-    }
-    public void setLocation(String location) {
-        this.location = location;
-    }
-	public Job getJobObj() {
+		public Job getJobObj() {
 		return jobObj;
 	}
 	public void setJobObj(Job jobObj) {
 		this.jobObj = jobObj;
+	}
+	
+	public Location getLocationObj() {
+		return locationObj;
+	}
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 
