@@ -102,14 +102,23 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		DateTime periodStartDateTime = new DateTime(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
 		Map<Long,List<ShiftDifferentialRule>> jobNumberToShifts = getJobNumberToShiftRuleMap(timesheetDocument);
 
+
+        // If there are no shift differential rules, we have an early exit.
 		if (jobNumberToShifts.isEmpty()) {
 			return;
 		}
 
-		// Get the last day of the previous pay period, null if nothing / irrelevant.
-		Map<Long, List<TimeBlock>> jobNumberToTimeBlocksPreviousDay = getPreviousPayPeriodLastDayJobToTimeBlockMap(timesheetDocument, jobNumberToShifts);
+		// Get the last day of the previous pay period. We need this to determine
+		// if there are hours from the previous pay period that will effect the
+		// shift rule on the first day of the currently-being-processed pay period.
+		//
+        // Will be set to null if not applicable.
+		Map<Long, List<TimeBlock>> jobNumberToTimeBlocksPreviousDay =
+                getPreviousPayPeriodLastDayJobToTimeBlockMap(timesheetDocument, jobNumberToShifts);
 
-		// Day By Day
+		// We are going to look at the time blocks grouped by Days.
+        //
+        // This is a very large outer loop.
 		for (int pos = 0; pos < blockDays.size(); pos++) {
 			List<TimeBlock> blocks = blockDays.get(pos); // Timeblocks for this day.
 			if (blocks.isEmpty())
@@ -119,11 +128,15 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 			Interval virtualDay = new Interval(currentDay, currentDay.plusHours(24));
 
 			// Builds our JobNumber to TimeBlock for Current Day List.
+            //
+            // Shift Differential Rules are also grouped by Job number, this
+            // provides a quick way to do the lookup / reference.
+            // We don't need every time block, only the ones that will be
+            // applicable to the shift rules.
 			Map<Long, List<TimeBlock>> jobNumberToTimeBlocks = new HashMap<Long,List<TimeBlock>>();
 			for (TimeBlock block : blocks) {
 				Long jobNumber = block.getJobNumber();
 				if (jobNumberToShifts.containsKey(jobNumber)) {
-					// we have a useful timeblock.
 					List<TimeBlock> jblist = jobNumberToTimeBlocks.get(jobNumber);
 					if (jblist == null) {
 						jblist = new ArrayList<TimeBlock>();
@@ -133,9 +146,14 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 				}
 			}
 
-			// Iteration over Keyset of Job->Shift map
-			// We're doing the work of Job->SDR and applying each SDR/Job combination
-			// to a list of time blocks for the dayPos that we're currently on.
+
+            // Large Outer Loop to look at applying the Shift Rules based on
+            // the current JobNumber.
+            //
+			// This loop will handle previous day boundary time as well as the
+            // current day.
+            //
+            // There is room for refactoring here!
 			for (Long jobNumber: jobNumberToShifts.keySet()) {
 				List<ShiftDifferentialRule> shiftDifferentialRules = jobNumberToShifts.get(jobNumber);
 				// Obtain and sort our previous and current time blocks.
@@ -258,13 +276,21 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 					// Iterate over sorted list, checking time boundaries vs Shift Intervals.
 					long accumulatedMillis = TKUtils.convertHoursToMillis(hoursBeforeVirtualDay);
 
+
 					/*
 					 * We will touch each time block and accumulate time blocks that are applicable to
 					 * the current rule we are on.
 					 */
 					for (TimeBlock current : ruleTimeBlocksCurr) {
-						if (!timeBlockHasEarnCode(fromEarnGroup, current))
-							continue;
+						if (!timeBlockHasEarnCode(fromEarnGroup, current)) {
+                            // TODO: We also have to check whether or not there
+                            // is a work schedule for this time block. We have to
+                            // take care in creating the intervals, etc, since the
+                            // time block is recording applicable hours and not
+                            // an actual actual time range.
+
+                            continue;
+                        }
 
 						Interval blockInterval = new Interval(new DateTime(current.getBeginTimestamp()), new DateTime(current.getEndTimestamp()));
 

@@ -2,6 +2,7 @@ package org.kuali.hr.time.shiftdiff.rule.service;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -379,17 +380,19 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 	}
 
 
+    @Ignore
+    @Test
     /**
      * Tests WorkSchedules impact on Shift Differential Rule: Simple Case
      *
      * Create a timeblock on two days, one day has normal REG shift eligible
      * hours, one day has HOL time.
      *
+     * Modified version of the simple case, SDR from 12:00 to 17:00, every day,
+     * must have at least 4 hours with a maximum 15 minute gap.
+     *
      */
-    public void something() {
-
-
-
+    public void simpleCaseWithWorkSchedule() throws Exception {
 		// Create the Rule
 		boolean[] dayArray = {true, true, true, true, true, true, true};
 		// Matches HR Job ID #1 (job # 30)
@@ -402,22 +405,24 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 				"SD1",
 				"SD1",
 				"SD1",
-				(new DateTime(2010, 3, 29, 16, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
-				(new DateTime(2010, 3, 30, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				(new DateTime(2010, 3, 29, 12, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
+				(new DateTime(2010, 3, 29, 17, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
 				new BigDecimal(4), // minHours
 				new BigDecimal("0.25"), // maxGap
 				dayArray);
 
 		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
-		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+		DateTime start = new DateTime(2010, 3, 29, 12, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        DateTime holtime = new DateTime(2010, 3, 30, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
-		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 2, new BigDecimal("4"), "REG", jobNumber, workArea));
-		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(4).plusMinutes(15), 2, new BigDecimal("2"), "REG", jobNumber, workArea));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start,   1, new BigDecimal("4"), "REG", jobNumber, workArea));
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(holtime, 1, new BigDecimal("4"), "HOL", jobNumber, workArea));
+
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
 		// Verify pre-Rule Run
-		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(12));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(4));put("HOL", new BigDecimal(4));}},aggregate,2);
 
 		// Run Rule
 		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(new Date(start.getMillis()));
@@ -425,18 +430,26 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
 		// Verify post-Rule Run
-		TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(8));put("REG", new BigDecimal(12));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(8));put("REG", new BigDecimal(4));}},aggregate,2);
 
     }
 
+    /**
+     * Creates a new Work Schedule and Assignment work schedule setup for the
+     * 'admin' user.
+     *
+     *  8a - 5p work schedule
+     *
+     * @param workSch
+     */
     public void createWorkSchedule(Long workSch) {
         // Create a Work Schedule Assignment
         //
         WorkScheduleAssignment workScheduleAssignment = new WorkScheduleAssignment();
         workScheduleAssignment.setHrWorkSchedule(workSch);
-        workScheduleAssignment.setDept("");
-        workScheduleAssignment.setWorkArea(1L);
-        workScheduleAssignment.setPrincipalId("");
+        workScheduleAssignment.setDept("%");
+        workScheduleAssignment.setWorkArea(-1L);
+        workScheduleAssignment.setPrincipalId("admin");
         workScheduleAssignment.setEffectiveDate(JAN_AS_OF_DATE);
         workScheduleAssignment.setActive(true);
         workScheduleAssignment.setUserPrincipalId("admin");
@@ -446,7 +459,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
         WorkSchedule workSchedule = new WorkSchedule();
         workSchedule.setHrWorkSchedule(workSch); // we can set this to whatever, it's not a row ID.
         workSchedule.setActive(true);
-        workSchedule.setEarnGroup("EARNGROUP");
+        workSchedule.setEarnGroup("WS1"); // Test data should have an earn group for WS1
         workSchedule.setWorkScheduleDesc("desc");
         workSchedule.setEffectiveDate(JAN_AS_OF_DATE);
         workSchedule.setUserPrincipalId("admin");

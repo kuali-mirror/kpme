@@ -27,36 +27,36 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public class TkTestUtils {
-	
+
 	private static final Logger LOG = Logger.getLogger(TkTestUtils.class);
-	
+
 	public static TimesheetDocument populateBlankTimesheetDocument(Date calDate) {
 		try {
-			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(), 
-							TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(), 
+			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(),
+							TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),
 							  calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
 			}
-			
-			return timesheet;			
+
+			return timesheet;
 		} catch (WorkflowException e) {
 			throw new RuntimeException("Problem fetching document");
 		}
 	}
-	
+
 	public static TimesheetDocument populateTimesheetDocument(Date calDate) {
 		try {
-			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(), 
-							TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(), 
+			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(),
+							TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),
 							  calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
 			}
-			
+
 			//refetch clean document
-			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(), 
-					TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(), 
+			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(),
+					TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),
 					   calDate));
 			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			for(int i = 0;i<5;i++){
@@ -65,20 +65,20 @@ public class TkTestUtils {
 				timesheet.setTimeBlocks(timeBlocks);
 			}
 			return timesheet;
-			
+
 		} catch (WorkflowException e) {
 			throw new RuntimeException("Problem fetching document");
 		}
 	}
-	
+
 	//TODO populate this
 	public static void createEarnGroup(String earnGroup, List<String> earnCodes, Date asOfDate){
-		
+
 	}
-	
+
 	/**
 	 * Helper method to create regular time blocks for use in testing.
-	 * 
+	 *
 	 * @param start
 	 * @param days
 	 * @param hours
@@ -90,10 +90,10 @@ public class TkTestUtils {
 	public static List<TimeBlock> createUniformTimeBlocks(DateTime start, int days, BigDecimal hours, String earnCode, Long jobNumber, Long workArea) {
 		return TkTestUtils.createUniformTimeBlocks(start, days, hours, earnCode, jobNumber, workArea, null);
 	}
-	
+
 	public static List<TimeBlock> createUniformTimeBlocks(DateTime start, int days, BigDecimal hours, String earnCode, Long jobNumber, Long workArea, Long task) {
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
-		
+
 		for (int i=0; i<days; i++) {
 			DateTime ci = start.plusDays(i);
 			DateTime co = ci.plusHours(hours.intValue());
@@ -101,14 +101,14 @@ public class TkTestUtils {
 			block.setTask(task);
 			blocks.add(block);
 		}
-		
+
 		return blocks;
 	}
 
 	public static TimeBlock createDummyTimeBlock(DateTime clockIn, DateTime clockOut, BigDecimal hours, String earnCode) {
 		return TkTestUtils.createDummyTimeBlock(clockIn, clockOut, hours, earnCode, -1L, -1L);
 	}
-	
+
 	public static TimeBlock createDummyTimeBlock(DateTime clockIn, DateTime clockOut, BigDecimal hours, String earnCode, Long jobNumber, Long workArea) {
 		TimeBlock block = new TimeBlock();
 		Timestamp ci = new Timestamp(clockIn.getMillis());
@@ -119,18 +119,18 @@ public class TkTestUtils {
 		block.setEarnCode(earnCode);
 		block.setJobNumber(jobNumber);
 		block.setWorkArea(workArea);
-		
+
 		TimeHourDetail thd = new TimeHourDetail();
 		thd.setHours(hours);
 		thd.setEarnCode(earnCode);
 		List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
 		timeHourDetails.add(thd);
 		block.setTimeHourDetails(timeHourDetails);
-		
+
 		return block;
 	}
 
-	
+
 	public static TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, int dayInPeriod, int numHours){
 		TimeBlock timeBlock = new TimeBlock();
 		Calendar cal = GregorianCalendar.getInstance();
@@ -140,7 +140,7 @@ public class TkTestUtils {
 		}
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
-		
+
 		timeBlock.setBeginTimestamp(new Timestamp(cal.getTimeInMillis()));
 		timeBlock.setBeginTimestampTimezone("EST");
 		timeBlock.setEarnCode("RGN");
@@ -149,15 +149,15 @@ public class TkTestUtils {
 		timeBlock.setHours((new BigDecimal(numHours)).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING));
 		cal.add(Calendar.HOUR, numHours);
 		timeBlock.setEndTimestamp(new Timestamp(cal.getTimeInMillis()));
-		
+
 		return timeBlock;
 	}
-	
+
 	public static List<Job> getJobs(Date calDate){
 		return TkServiceLocator.getJobSerivce().getJobs(TKContext.getPrincipalId(), calDate);
 	}
 	/**
-	 * 
+	 *
 	 * @param page: current html page
 	 * @param criteria: The key is the field name and the value is a string array which contains the field value and the field type which can be chosen from TkTestConstants
 	 * @return HtmlPage resultPage
@@ -252,7 +252,7 @@ public class TkTestUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param page: current html page
 	 * @param name: the button name
 	 * @return
@@ -263,86 +263,86 @@ public class TkTestUtils {
 		HtmlSubmitInput input = form.getInputByName(name);
 		return (HtmlPage) input.click();
 	}
-	
+
 	@SuppressWarnings("serial")
 	public static void verifyAggregateHourSumsFlatList(String msg, final Map<String,BigDecimal> ecToHoursMap, TkTimeBlockAggregate aggregate) {
-		// Initializes sum map to zeros, since we only care about the entires 
+		// Initializes sum map to zeros, since we only care about the entires
 		// that were passed in.
 		Map<String,BigDecimal> ecToSumMap = new HashMap<String,BigDecimal>() {{ for (String ec : ecToHoursMap.keySet()) { put(ec, BigDecimal.ZERO); }}};
-	
+
 		for (TimeBlock bl : aggregate.getFlattenedTimeBlockList())
 			for (TimeHourDetail thd : bl.getTimeHourDetails())
-				if (ecToSumMap.containsKey(thd.getEarnCode())) 
+				if (ecToSumMap.containsKey(thd.getEarnCode()))
 					ecToSumMap.put(thd.getEarnCode(), ecToSumMap.get(thd.getEarnCode()).add(thd.getHours()));
-		
+
 		// Assert that our values are correct.
 		for (String key : ecToHoursMap.keySet())
 			Assert.assertEquals(
-					msg + " >> ("+key+") Wrong number of hours expected: " + ecToHoursMap.get(key) + " found: " + ecToSumMap.get(key) + " :: ", 
-					0, 
-					ecToHoursMap.get(key).compareTo(ecToSumMap.get(key)));		
+					msg + " >> ("+key+") Wrong number of hours expected: " + ecToHoursMap.get(key) + " found: " + ecToSumMap.get(key) + " :: ",
+					0,
+					ecToHoursMap.get(key).compareTo(ecToSumMap.get(key)));
 	}
-	
+
 	/**
-	 * Helper method to verify that the aggregate contains the correct sums as 
+	 * Helper method to verify that the aggregate contains the correct sums as
 	 * indicated in the ecToHoursMapping, on a SINGLE given flsaWeek.
-	 * 
+	 *
 	 * Warning! Contains Assertions, use only with Test Cases.
-	 * 
+	 *
 	 * @param ecToHoursMap ex: { 'REG' => 40, 'OVT' => 10 }
 	 * @param aggregate An aggregate object containing the time blocks
 	 * @param flsaWeek 0 indexed start week (pulling from aggregate)
 	 */
 	@SuppressWarnings("serial")
 	public static void verifyAggregateHourSums(String msg, final Map<String,BigDecimal> ecToHoursMap, TkTimeBlockAggregate aggregate, int flsaWeek) {
-		// Initializes sum map to zeros, since we only care about the entires 
+		// Initializes sum map to zeros, since we only care about the entires
 		// that were passed in.
 		Map<String,BigDecimal> ecToSumMap = new HashMap<String,BigDecimal>() {{ for (String ec : ecToHoursMap.keySet()) { put(ec, BigDecimal.ZERO); }}};
-	
-		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks();	
+
+		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks();
 		Assert.assertTrue(msg + " >> Not enough FLSA weeks to verify aggregate hours, max: " + (flsaWeeks.size() - 1), flsaWeeks.size() > flsaWeek);
-		
+
 		// Build our Sum Map.
 		FlsaWeek week = flsaWeeks.get(flsaWeek);
 		List<FlsaDay> flsaDays = week.getFlsaDays();
-		for (FlsaDay day : flsaDays) 
-			for (TimeBlock bl : day.getAppliedTimeBlocks()) 
+		for (FlsaDay day : flsaDays)
+			for (TimeBlock bl : day.getAppliedTimeBlocks())
 				for (TimeHourDetail thd : bl.getTimeHourDetails())
-					if (ecToSumMap.containsKey(thd.getEarnCode())) 
+					if (ecToSumMap.containsKey(thd.getEarnCode()))
 						ecToSumMap.put(thd.getEarnCode(), ecToSumMap.get(thd.getEarnCode()).add(thd.getHours()));
-		
+
 		// Assert that our values are correct.
 		for (String key : ecToHoursMap.keySet())
 			Assert.assertEquals(
-					msg + " >> ("+key+") Wrong number of hours expected: " + ecToHoursMap.get(key) + " found: " + ecToSumMap.get(key) + " :: ", 
-					0, 
+					msg + " >> ("+key+") Wrong number of hours expected: " + ecToHoursMap.get(key) + " found: " + ecToSumMap.get(key) + " :: ",
+					0,
 					ecToHoursMap.get(key).compareTo(ecToSumMap.get(key)));
 	}
 	public static void verifyAggregateHourSums(final Map<String,BigDecimal> ecToHoursMap, TkTimeBlockAggregate aggregate, int flsaWeek) {
 		TkTestUtils.verifyAggregateHourSums("", ecToHoursMap, aggregate, flsaWeek);
 	}
-	
-	
+
+
 	/**
 	 * Helper method to generate time blocks suitable for db persistence in
-	 * unit tests. 
+	 * unit tests.
 	 */
 	public static List<TimeBlock> createUniformActualTimeBlocks(TimesheetDocument timesheetDocument, Assignment assignment, String earnCode, DateTime start, int days, BigDecimal hours) {
 		TimeBlockService service = TkServiceLocator.getTimeBlockService();
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
-		
+
 		for (int i=0; i<days; i++) {
 			DateTime ci = start.plusDays(i);
 			DateTime co = ci.plusHours(hours.intValue());
 			Timestamp tsin = new Timestamp(ci.getMillis());
 			Timestamp tsout = new Timestamp(co.getMillis());
-			
+
 			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours, false));
 		}
-		
+
 		return blocks;
 	}
-	
+
 	public static Map<Timestamp, BigDecimal> getDateToHoursMap(TimeBlock timeBlock, TimeHourDetail timeHourDetail) {
 		Map<Timestamp, BigDecimal> dateToHoursMap = new HashMap<Timestamp, BigDecimal>();
 		DateTime beginTime = new DateTime(timeBlock.getBeginTimestamp());
@@ -373,6 +373,6 @@ public class TkTestUtils {
 		dateToHoursMap.put(new Timestamp(currentTime.getMillis()), hrs);
 
 		return dateToHoursMap;
-	}	
-	
+	}
+
 }
