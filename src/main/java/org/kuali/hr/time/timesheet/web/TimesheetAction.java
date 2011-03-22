@@ -35,8 +35,8 @@ public class TimesheetAction extends TkAction {
 		TimesheetDocumentHeader tsdh;
 
         /**
-         * The following logic is for handling the calendar navigations.
-         * 1. When the the next / prev button is clicked, it will reload (not submitting the form) the page with the param:
+         * The following logic is for handling the calendar navigation.
+         * 1. When the next / prev button is clicked, it will reload (not submitting the form) the page with the param:
          *    calNav=prev/next&documentId=the-current-document-id.
          *    You can search by "calNav=prev" in the fullcalendar*.js and "eventUrl" in the tk.calendar.js to see how they actually work
          *
