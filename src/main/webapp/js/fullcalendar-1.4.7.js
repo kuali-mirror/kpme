@@ -1691,10 +1691,10 @@
                 right = seg.isEnd ? dayContentRight(seg.start.getDay()) : maxLeft;
 
             }
-
+            /**
+             * this is where we construct the UI of the timeblocks
+             */
             var fromTo = "";
-
-
             if (event.earnCodeType == 'HOUR') {
                 fromTo = "<tr><td align='center' colspan='3'>" + event.hours + " hours</td></tr>";
             }
@@ -1711,15 +1711,19 @@
             $.each(jsonString, function (index) {
                 timeHourDetail += "<tr>";
                 timeHourDetail += "<td align='center'>Earn Code: " + jsonString[index].earnCode + "</td>";
-                timeHourDetail += "<td align='center'>Hours: " + jsonString[index].hours + "</td>";
-                timeHourDetail += "<td align='center'>Amount: " + jsonString[index].amount + "</td>";
+                if(event.earnCodeType == 'HOUR') {
+                    timeHourDetail += "<td align='center'>Hours: " + jsonString[index].hours + "</td>";
+                }
+                if(event.earnCodeType == 'AMOUNT') {
+                    timeHourDetail += "<td align='center'>Amount: " + jsonString[index].amount + "</td>";
+                }
                 timeHourDetail += "</tr>";
             });
 
             html +=
                     "<div class='" + className + event.className.join(' ') + " timeblock' style='position:absolute;z-index:8;left:" + left + "px;margin-bottom:3px;' id='" + event.id + "'>" +
                             "<table style='font-size:0.7em;'>" +
-                            "<tr><td colspan='3' style='text-align:center;'><span id='timeblock-edit'>" + event.title + "</span></td>" +
+                            "<tr><td colspan='2' style='text-align:center;'><span id='timeblock-edit'>" + event.title + "</span></td>" +
                             "<td>&nbsp</td>" +
                         //"<td><a href=TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "  id='timeblock-delete'>X</a></td>" +
                             "<td><div id='timeblock-delete'>X</div></td>" +
