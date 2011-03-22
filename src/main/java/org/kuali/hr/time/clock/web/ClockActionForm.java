@@ -1,11 +1,15 @@
 package org.kuali.hr.time.clock.web;
 
-import org.kuali.hr.time.clocklog.ClockLog;
-import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
-
 import java.sql.Timestamp;
 import java.util.Map;
+
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.clocklog.ClockLog;
+import org.kuali.hr.time.collection.rule.TimeCollectionRule;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
 public class ClockActionForm extends TimesheetActionForm {
 
@@ -15,7 +19,6 @@ public class ClockActionForm extends TimesheetActionForm {
     private static final long serialVersionUID = -3843074202863670372L;
 
     private String currentServerTime;
-    private String principalId;
     private String currentClockAction;
     private String lastClockAction;
     // do we still need nextClockAction?
@@ -25,12 +28,22 @@ public class ClockActionForm extends TimesheetActionForm {
     private ClockLog clockLog;
     private TimeBlock timeBlock;
     private boolean showLunchButton;
+    private boolean showDistributeButton;
+	private String outputString;
 
     /** This map is used to determine whether or not lunch buttons will render
      * for the selected assignment. The key of this map should be the same key
      * as what is selected in the assignment drop down selection. */
     private Map<String,Boolean> assignmentLunchMap;
 
+    public String getOutputString() {
+		return outputString;
+	}
+
+	public void setOutputString(String outputString) {
+		this.outputString = outputString;
+	}
+    
     public Map<String, Boolean> getAssignmentLunchMap() {
         return assignmentLunchMap;
     }
@@ -46,14 +59,6 @@ public class ClockActionForm extends TimesheetActionForm {
 	public void setCurrentServerTime(String currentServerTime) {
 		this.currentServerTime = currentServerTime;
 	}
-
-	public String getPrincipalId() {
-        return principalId;
-    }
-
-    public void setPrincipalId(String principalId) {
-        this.principalId = principalId;
-    }
 
     public String getCurrentClockAction() {
         return currentClockAction;
@@ -138,4 +143,40 @@ public class ClockActionForm extends TimesheetActionForm {
     public void setShowLunchButton(boolean showLunchButton) {
         this.showLunchButton = showLunchButton;
     }
+    
+    /**
+     *
+     * This method is dependent on hrsDistributionF flag of TimeCollectionRule
+     *
+     * @return true if Distribute TimeBlock button should be displayed, false otherwise.
+     */
+    public boolean isShowDistributeButton() {
+    	String assignmentKey = this.getSelectedAssignment();
+    	if(assignmentKey != null) {
+	    	TimesheetDocument timesheetDocument = this.getTimesheetDocument();
+	    	if(timesheetDocument != null) {
+		    	Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument, assignmentKey);
+		    	if(assignment != null) {
+			    	TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveDate());
+			    	if(rule != null) {
+			    		setShowDistrubuteButton(rule.isHrsDistributionF());
+			    	}
+		    	}
+	    	}
+	    	
+    	}
+    	return showDistributeButton;
+    }
+
+    public void setShowDistrubuteButton(boolean showDistrubuteButton) {
+        this.showDistributeButton = showDistrubuteButton;
+    }
+    
+	public void setSelectedAssignment(String selectedAssignment) {
+		super.setSelectedAssignment(selectedAssignment);
+		this.isShowDistributeButton();
+	}
+    
+    
+    
 }

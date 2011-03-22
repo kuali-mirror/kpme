@@ -1,5 +1,17 @@
 package org.kuali.hr.time.clock.web;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -14,13 +26,6 @@ import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class ClockAction extends TimesheetAction {
 
@@ -47,7 +52,11 @@ public class ClockAction extends TimesheetAction {
                 caf.setAssignmentLunchMap(assignmentDeptLunchRuleMap);
             }
     	    String principalId = TKContext.getUser().getPrincipalId();
-
+    	    if(principalId != null) {
+    	    	caf.setPrincipalId(principalId);
+    	    }
+    	    caf.isShowDistributeButton();
+    	    
     	    ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
     	    if (lastClockLog != null) {
     	    	Timestamp lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId()).getClockTimestamp();
@@ -139,4 +148,17 @@ public class ClockAction extends TimesheetAction {
     	    }
     	    return mapping.findForward("basic");
     	}
+    	
+    	
+    	// this is an ajax call
+        public ActionForward setIsDistributeFlag(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        	 ClockActionForm caf = (ClockActionForm) form;
+        	 if(caf.isShowDistributeButton()) {
+        		 caf.setOutputString("true");
+        	 } else {
+        		 caf.setOutputString("false");
+        	 }
+        	 return  mapping.findForward("ws");
+     
+        }
 }

@@ -65,6 +65,16 @@
 						</c:when>
                     </c:choose>
 					<input type="submit" class="button" value="Missed Punch" name="missedPunch"/>
+					<c:choose>
+				   		<c:when test="${Form.showDistributeButton}">
+							<input id="distribute-button" type="submit" class="button" value="Distribute Time Blocks" 
+									name="distributeTime" onclick="this.form.methodToCall.value='clockAction';" />
+						</c:when>
+						<c:otherwise>
+							<input style="display: none;" id="distribute-button" type="submit" class="button" value="Distribute Time Blocks" 
+									name="distributeTime" onclick="this.form.methodToCall.value='clockAction';" />
+						</c:otherwise>
+					</c:choose>
 				</td>
 			</tr>
 		</table>

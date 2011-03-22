@@ -331,8 +331,30 @@ $(document).ready(function() {
     $('#assignment').change(function() {
         // if there is error triggered previously, reset the
         $('#assignment').removeClass('ui-state-error');
-        $('#earnCode').loadEarnCode($(this).val());
-        $(this).resetState();
+        if($("#earnCode").length) {
+	        $('#earnCode').loadEarnCode($(this).val());
+	        $(this).resetState();
+        } else {
+        	 var params = {};
+             params['selectedAssignment'] = $(this).val();
+             $.ajax({
+                 url: "Clock.do?methodToCall=setIsDistributeFlag",
+                 data: params,
+                 cache: true,
+                 success: function(data) {
+	             	 var pos=data.indexOf('true');
+	             	 if(pos>=0){            	
+	                  	$("#distribute-button").show();
+	          		} else {
+	          			$("#distribute-button").hide();
+	          		}
+                     return true;
+                 },
+                 error: function() {
+                     return false;
+                 }
+             });
+        }
     });
 
     // hide/show the related fields based on the earn code type
