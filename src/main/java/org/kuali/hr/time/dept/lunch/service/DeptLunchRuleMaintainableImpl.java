@@ -23,12 +23,6 @@ public class DeptLunchRuleMaintainableImpl extends
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void processAfterNew(MaintenanceDocument document,
-			Map<String, String[]> parameters) {
-		super.processAfterNew(document, parameters);
-	}
-
-	@Override
 	public void processAfterPost(MaintenanceDocument document,
 			Map<String, String[]> parameters) {
 		DeptLunchRule deptLunchRule = (DeptLunchRule) document
@@ -51,14 +45,6 @@ public class DeptLunchRuleMaintainableImpl extends
 	@Override
 	public void saveBusinessObject() {
 		DeptLunchRule deptLunchRule = (DeptLunchRule) this.getBusinessObject();
-		// DeptLunchRule oldDeptLunchRule = (DeptLunchRule) KNSServiceLocator
-		// .getBusinessObjectService().findBySinglePrimaryKey(
-		// DeptLunchRule.class,
-		// deptLunchRule.getTkDeptLunchRuleId());
-		// if (oldDeptLunchRule != null) {
-		// oldDeptLunchRule.setActive(false);
-		// KNSServiceLocator.getBusinessObjectService().save(oldDeptLunchRule);
-		// }
 		deptLunchRule.setTkDeptLunchRuleId(null);
 		deptLunchRule.setTimestamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(deptLunchRule);

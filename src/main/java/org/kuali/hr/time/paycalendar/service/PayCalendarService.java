@@ -1,20 +1,23 @@
 package org.kuali.hr.time.paycalendar.service;
 
 import java.sql.Date;
-import java.util.List;
 
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
-import org.kuali.hr.time.paytype.PayType;
 
 public interface PayCalendarService {
-
-	public void saveOrUpdate(PayType payCalendar);
-
-	public void saveOrUpdate(List<PayType> payCalendarList);
-
+	/**
+	 * Fetch a pay calendar with the given id
+	 * @param payCalendarId
+	 * @return
+	 */
 	public PayCalendar getPayCalendar(Long payCalendarId);
 
+	/**
+	 * Fetch a pay calendar by group
+	 * @param calendarGroup
+	 * @return
+	 */
 	public PayCalendar getPayCalendarByGroup(String calendarGroup);
 	
 	/**

@@ -12,7 +12,11 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.job.Job;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-
+/**
+ * Represents an implementation of {@link JobDao}.
+ * 
+ *
+ */
 public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements JobDao {
 
 	@SuppressWarnings("unused")

@@ -1,6 +1,5 @@
 package org.kuali.hr.time.timezone.service;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -66,9 +65,7 @@ public class TimezoneServiceImpl implements TimezoneService {
 		}
 		return timeBlocks;
 	}
-	
-	//public Timestamp translateForDateTime
-	
+
 	@Override
 	public boolean isSameTimezone() {
 		String userTimezone = TKContext.getUser().getUserPreference().getTimezone();

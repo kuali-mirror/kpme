@@ -15,7 +15,7 @@ public interface WorkScheduleService {
     public WorkSchedule getWorkSchedule(Long workScheduleId, Date asOfDate);
 
     /**
-     * TODO - ALLEN - COMMENT THIS so we know what this does.
+     * Takes a work schedule and flattens it out based on effdt and offset passed in from beginDateTime, endDateTime
      *
      */
 	public List<WorkScheduleEntry> getWorkSchedEntries(WorkSchedule workSchedule, java.util.Date beginDateTime, java.util.Date endDateTime);

@@ -3,7 +3,6 @@ package org.kuali.hr.time.assignment.service;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
@@ -14,7 +13,11 @@ import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-
+/**
+ * Override the Maintenance page behavior for Assignment object
+ * 
+ *
+ */
 public class AssignmentMaintainableServiceImpl extends KualiMaintainableImpl{
 
 	/**
@@ -22,19 +25,12 @@ public class AssignmentMaintainableServiceImpl extends KualiMaintainableImpl{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Preserves immutability of Assignments
+	 */
 	@Override
 	public void saveBusinessObject() {
 		Assignment assignment = (Assignment)this.getBusinessObject();
-//		Assignment oldAssignment = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Assignment.class, 
-//									assignment.getTkAssignmentId());
-//		if(oldAssignment != null){
-//			oldAssignment.setActive(false);
-//			KNSServiceLocator.getBusinessObjectService().save(oldAssignment);
-//			for(AssignmentAccount oldAssignAccount : oldAssignment.getAssignmentAccounts()){
-//				oldAssignAccount.setActive(false);
-//				KNSServiceLocator.getBusinessObjectService().save(oldAssignAccount);
-//			}
-//		}
 		assignment.setTimestamp(null);
 		assignment.setTkAssignmentId(null);
 		KNSServiceLocator.getBusinessObjectService().save(assignment);

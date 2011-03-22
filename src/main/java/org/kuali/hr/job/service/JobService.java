@@ -7,7 +7,16 @@ import org.kuali.hr.job.Job;
 
 public interface JobService {
 
+	/**
+	 * Updates or saves a job
+	 * @param job
+	 */
 	public void saveOrUpdate(Job job);
+	
+	/**
+	 * Updates or saves a list of jobs
+	 * @param jobList
+	 */
 	public void saveOrUpdate(List<Job> jobList);
 	
 	/**

@@ -10,7 +10,6 @@ import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncode.dao.EarnCodeDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 
 public class EarnCodeServiceImpl implements EarnCodeService {
@@ -52,10 +51,6 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		ec = earnCodeDao.getEarnCode(earnCode, asOfDate);
 		
 		return ec;
-	}
-	
-	public EarnCode getExactEarnCode(String earnCode, Date asOfDate) {
-		return earnCodeDao.getExactEarnCode(earnCode, asOfDate);
 	}
 	
 }

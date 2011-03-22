@@ -58,7 +58,7 @@ public class JobTest extends TkTestCase {
 		payCalendarDates.setEndPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
 
 		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);
-		assertTrue(TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(payCalendarDates.getPayCalendarEntriesId()) != null);
+		assertTrue(TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(payCalendarDates.getPayCalendarEntriesId()) != null);
 
 	}
 

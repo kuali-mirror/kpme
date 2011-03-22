@@ -11,7 +11,7 @@
 	<bean id="RoleGroupMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry"
             p:businessObjectClass="org.kuali.hr.time.roles.TkRoleGroup"
-            p:maintainableClass="org.kuali.hr.time.roles.service.RoleGroupMaintainableImpl"
+            p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"
 		    p:businessRulesClass="org.kuali.hr.time.roles.validation.TkRoleValidation">
 		<property name="maintainableSections">
 			<list>

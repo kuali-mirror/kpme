@@ -15,12 +15,6 @@ public class GracePeriodRuleMaintainableServiceImpl extends
 	@Override
 	public void saveBusinessObject() {
 		GracePeriodRule gracePeriodRule = (GracePeriodRule)this.getBusinessObject();
-//		GracePeriodRule oldGracePeriodRule = (GracePeriodRule)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(
-//				GracePeriodRule.class, gracePeriodRule.getTkGracePeriodRuleId());
-//		if(oldGracePeriodRule!=null){
-//			oldGracePeriodRule.setActive(false);
-//			KNSServiceLocator.getBusinessObjectService().save(oldGracePeriodRule);
-//		}
 		gracePeriodRule.setTkGracePeriodRuleId(null);
 		gracePeriodRule.setTimestamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(gracePeriodRule);

@@ -21,7 +21,9 @@ public class JobMaintainableImpl extends KualiMaintainableImpl {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * Used to preserve state of Job over time
+	 */
 	@Override
 	public void saveBusinessObject() {
 		Job job = (Job)this.getBusinessObject();
@@ -29,7 +31,9 @@ public class JobMaintainableImpl extends KualiMaintainableImpl {
 		job.setTimestamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(job);
 	}
-
+	/**
+	 * Override to populate user information in Maintenance page
+	 */
 	@Override
 	public Map populateBusinessObject(Map<String, String> fieldValues,
 			MaintenanceDocument maintenanceDocument, String methodToCall) {

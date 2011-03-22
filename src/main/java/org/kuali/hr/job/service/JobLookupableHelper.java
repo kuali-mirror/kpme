@@ -19,7 +19,11 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
-
+/**
+ * Used to override default lookup behavior for the Job maintenance object
+ * 
+ *
+ */
 public class JobLookupableHelper extends KualiLookupableHelperServiceImpl {
 	/**
 	 * 

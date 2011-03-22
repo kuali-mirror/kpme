@@ -11,6 +11,7 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 public class PrincipalCalendarMaintainableImpl extends KualiMaintainableImpl {
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Map populateBusinessObject(Map<String, String> fieldValues,
 			MaintenanceDocument maintenanceDocument, String methodToCall) {

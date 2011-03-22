@@ -114,7 +114,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		// Timeblocks
 
 		// August
-		PayCalendarEntries endOfAugust = TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(2L);
+		PayCalendarEntries endOfAugust = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(2L);
 		DateTime start = new DateTime(2010, 8, 31, 21, 45, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
@@ -184,7 +184,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 				dayArray);
 
 		// August
-		PayCalendarEntries endOfAugust = TkServiceLocator.getPayCalendarDatesSerivce().getPayCalendarDates(2L);
+		PayCalendarEntries endOfAugust = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(2L);
 		DateTime start = new DateTime(2010, 8, 31, 22, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);

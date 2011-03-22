@@ -15,15 +15,6 @@ public class PayTypeMaintainableImpl extends KualiMaintainableImpl {
 	public void saveBusinessObject() {
 		PayType payType = (PayType) this
 				.getBusinessObject();
-//		PayType oldPayType = (PayType) KNSServiceLocator
-//				.getBusinessObjectService().findBySinglePrimaryKey(
-//						PayType.class,
-//						payType.getHrPayTypeId());
-//		if (oldPayType != null) {
-//			oldPayType.setActive(false);
-//			KNSServiceLocator.getBusinessObjectService().save(
-//					oldPayType);
-//		}
 		payType.setHrPayTypeId(null);
 		payType.setTimestamp(null);
 		KNSServiceLocator.getBusinessObjectService()

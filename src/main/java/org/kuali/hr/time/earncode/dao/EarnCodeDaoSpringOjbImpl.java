@@ -76,37 +76,4 @@ public class EarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 
 		return ec;
 	}
-
-	@Override
-	public EarnCode getExactEarnCode(String earnCode, Date asOfDate) {
-		EarnCode ec = null;
-
-		Criteria root = new Criteria();
-		Criteria timestamp = new Criteria();
-		
-		// OJB's awesome sub query setup part 2
-		timestamp.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-//		timestamp.addEqualTo("active", true);
-		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnCode.class, timestamp);
-		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
-
-		root.addEqualTo("earnCode", earnCode);
-		root.addEqualTo("effectiveDate", asOfDate);
-		root.addEqualTo("timestamp", timestampSubQuery);
-//		root.addEqualTo("active", true);
-
-		Criteria activeFilter = new Criteria(); // Inner Join For Activity
-		activeFilter.addEqualTo("active", true);
-		root.addAndCriteria(activeFilter);
-		
-		Query query = QueryFactory.newQuery(EarnCode.class, root);
-		Object obj = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-
-		if (obj != null) {
-			ec = (EarnCode) obj;
-		}
-
-		return ec;
-	}
 }

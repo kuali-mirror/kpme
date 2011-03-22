@@ -9,38 +9,40 @@ import org.kuali.rice.kns.web.format.Formatter;
 
 public class SqlDateFormatter extends Formatter {
 
-    /**
+	/**
      * 
      */
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    static {
-	registerFormatter(Date.class, SqlDateFormatter.class);
-    }
+	static {
+		registerFormatter(Date.class, SqlDateFormatter.class);
+	}
 
-    /**
+	/**
      */
-    @Override
-    protected Object convertToObject(String source) {
-	Object o = null;
+	@Override
+	protected Object convertToObject(String source) {
+		Object o = null;
 
-	try {
-	    Date date = KNSServiceLocator.getDateTimeService().convertToSqlDate(source);
-	    o = date;
-	} catch (Exception e) {
-	    throw new FormatException("parsing", RiceKeyConstants.ERROR_DATE, source, e);
+		try {
+			Date date = KNSServiceLocator.getDateTimeService()
+					.convertToSqlDate(source);
+			o = date;
+		} catch (Exception e) {
+			throw new FormatException("parsing", RiceKeyConstants.ERROR_DATE,
+					source, e);
+		}
+
+		return o;
 	}
 
-	return o;
-    }
+	@Override
+	public Object format(Object source) {
+		if (source != null && source instanceof Date) {
+			Date date = (Date) source;
+			return KNSServiceLocator.getDateTimeService().toDateString(date);
+		}
 
-    @Override
-    public Object format(Object source) {
-	if (source != null && source instanceof Date) {
-	    Date date = (Date) source;
-	    return KNSServiceLocator.getDateTimeService().toDateString(date);
+		return null;
 	}
-
-	return null;
-    }
 }

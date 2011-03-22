@@ -17,7 +17,11 @@ public interface TimesheetService {
 	 * @return
 	 */
 	public TimesheetDocument openTimesheetDocument(String principalId, PayCalendarEntries payCalendarDates) throws WorkflowException;
-	
+	/**
+	 * Route the given timesheet
+	 * @param principalId
+	 * @param timesheetDocument
+	 */
 	public void routeTimesheet(String principalId, TimesheetDocument timesheetDocument);
 	
 	/**
@@ -29,8 +33,24 @@ public interface TimesheetService {
 	 * @return
 	 */
 	public TimesheetDocument getTimesheetDocument(String documentId);
+	/**
+	 * Is user a Clock in/out person or do they manually enter TimeBlocks
+	 * @return
+	 */
 	public boolean isSynchronousUser();
-	
+	/**
+	 * Fetch TimeBlocks for previous pay periods 
+	 * @param principalId
+	 * @param payBeginDate
+	 * @return
+	 */
 	public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, Date payBeginDate);
+	/**
+	 * Load holidays on given timesheet
+	 * @param timesheetDocument
+	 * @param principalId
+	 * @param beginDate
+	 * @param endDate
+	 */
 	public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, Date beginDate, Date endDate);
 }

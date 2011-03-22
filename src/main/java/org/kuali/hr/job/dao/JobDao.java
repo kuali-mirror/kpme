@@ -7,8 +7,15 @@ import org.kuali.hr.job.Job;
 
 public interface JobDao {
 
+	/**
+	 * Saves or Updates a Job
+	 * @param job
+	 */
 	public void saveOrUpdate(Job job);
-
+	/**
+	 * Saves or updates a job list 
+	 * @param jobList
+	 */
 	public void saveOrUpdate(List<Job> jobList);
 	
 	/**
@@ -21,9 +28,21 @@ public interface JobDao {
 	 * @return
 	 */
 	public List<Job> getJobs(String principalId, Date payPeriodEndDate);
-	
+	/**
+	 * 
+	 * @param principalId
+	 * @param jobNumber
+	 * @param asOfDate
+	 * @return a Job per the critieria passed in
+	 */
 	public Job getJob(String principalId, Long jobNumber, Date asOfDate);
 	
+	/**
+	 * Get Primary Job as indicated by primary indicator on Job table
+	 * @param principalId
+	 * @param payPeriodEndDate
+	 * @return
+	 */
 	public Job getPrimaryJob(String principalId, Date payPeriodEndDate);
 
 }

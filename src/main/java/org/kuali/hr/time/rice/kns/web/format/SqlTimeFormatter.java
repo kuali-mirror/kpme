@@ -9,41 +9,40 @@ import org.kuali.rice.kns.web.format.Formatter;
 
 public class SqlTimeFormatter extends Formatter {
 
-    /**
+	/**
     * 
     */
-    private static final long serialVersionUID = 1L;
-    private static final SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
+	private static final long serialVersionUID = 1L;
+	private static final SimpleDateFormat sdFormat = new SimpleDateFormat(
+			"hh:mm aa");
 
-    static {
-	registerFormatter(Time.class, SqlTimeFormatter.class);
-    }
+	static {
+		registerFormatter(Time.class, SqlTimeFormatter.class);
+	}
 
-    /**
+	/**
     */
-    @Override
-    protected Object convertToObject(String source) {
-	Object o = null;
+	@Override
+	protected Object convertToObject(String source) {
+		Object o = null;
 
-	try {
-	    o = new Time(sdFormat.parse(source).getTime());
-	} catch (Exception e) {
-	    throw new FormatException("parsing", RiceKeyConstants.ERROR_DATE, source, e);
+		try {
+			o = new Time(sdFormat.parse(source).getTime());
+		} catch (Exception e) {
+			throw new FormatException("parsing", RiceKeyConstants.ERROR_DATE,
+					source, e);
+		}
+
+		return o;
 	}
 
-	return o;
-    }
+	@Override
+	public Object format(Object source) {
+		if (source != null && source instanceof Time) {
+			Time time = (Time) source;
+			return sdFormat.format(time);
+		}
 
-    @Override
-    public Object format(Object source) {
-	if (source != null && source instanceof Time) {
-	    Time time = (Time) source;
-	    return sdFormat.format(time);
+		return null;
 	}
-
-	return null;
-    }
-
-    public static void main(String args[]) {
-    }
 }

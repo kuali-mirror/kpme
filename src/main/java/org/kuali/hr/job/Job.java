@@ -15,7 +15,7 @@ import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * 
- * @author lfox
+ * Job representation
  *
  */
 public class Job extends PersistableBusinessObjectBase {

@@ -7,6 +7,19 @@ import java.sql.Date;
 import java.util.List;
 
 public interface DepartmentLunchRuleService {
+	/**
+	 * Fetch department lunch rule based on criteria passed in
+	 * @param dept
+	 * @param workArea
+	 * @param principalId
+	 * @param jobNumber
+	 * @param asOfDate
+	 * @return
+	 */
 	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea, String principalId, Long jobNumber, Date asOfDate);
+	/**
+	 * Apply department lunch rule to the list of timeblocks
+	 * @param timeblocks
+	 */
 	public void applyDepartmentLunchRule(List<TimeBlock> timeblocks);
 }

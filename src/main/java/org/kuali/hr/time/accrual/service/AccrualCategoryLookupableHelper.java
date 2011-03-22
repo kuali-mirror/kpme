@@ -10,7 +10,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-
+/**
+ * Used to override lookup functionality for the accrual category lookup
+ * 
+ *
+ */
 public class AccrualCategoryLookupableHelper extends
 		KualiLookupableHelperServiceImpl {
 	/**

@@ -18,12 +18,6 @@ public class DailyOvertimeRuleMaintainableImpl extends
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void processAfterNew(MaintenanceDocument document,
-			Map<String, String[]> parameters) {
-		super.processAfterNew(document, parameters);
-	}
-
-	@Override
 	public void processAfterPost(MaintenanceDocument document,
 			Map<String, String[]> parameters) {
 		DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) document
@@ -47,15 +41,6 @@ public class DailyOvertimeRuleMaintainableImpl extends
 	public void saveBusinessObject() {
 		DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) this
 				.getBusinessObject();
-//		DailyOvertimeRule oldDailyOvertimeRule = (DailyOvertimeRule) KNSServiceLocator
-//				.getBusinessObjectService().findBySinglePrimaryKey(
-//						DailyOvertimeRule.class,
-//						dailyOvertimeRule.getTkDailyOvertimeRuleId());
-//		if (oldDailyOvertimeRule != null) {
-//			oldDailyOvertimeRule.setActive(false);
-//			KNSServiceLocator.getBusinessObjectService().save(
-//					oldDailyOvertimeRule);
-//		}
 		dailyOvertimeRule.setTkDailyOvertimeRuleId(null);
 		dailyOvertimeRule.setTimeStamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(dailyOvertimeRule);

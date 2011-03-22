@@ -10,7 +10,6 @@ public class PayGradeServiceImpl implements PayGradeService{
 	private PayGradeDao payGradeDao;
 	@Override
 	public PayGrade getPayGrade(String payGrade, Date asOfDate) {
-		// TODO Auto-generated method stub
 		return payGradeDao.getPayGrade(payGrade, asOfDate);
 	}
  

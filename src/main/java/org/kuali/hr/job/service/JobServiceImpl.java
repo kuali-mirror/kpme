@@ -8,7 +8,11 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-
+/**
+ * Represents an implementation of {@link JobService}.
+ * 
+ *
+ */
 public class JobServiceImpl implements JobService {
 
 	private JobDao jobDao;
@@ -48,7 +52,7 @@ public class JobServiceImpl implements JobService {
 	public Job getPrimaryJob(String principalId, Date payPeriodEndDate) {
 		return jobDao.getPrimaryJob(principalId, payPeriodEndDate);
 	}
-
+	
 	@Override
 	public Job getJob(String principalId, Long jobNumber, Date asOfDate,
 			boolean chkDetails) {

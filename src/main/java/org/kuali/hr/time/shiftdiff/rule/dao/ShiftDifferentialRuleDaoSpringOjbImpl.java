@@ -35,7 +35,6 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PersistenceBrokerDaoS
 		effdt.addEqualToField("payGrade", Criteria.PARENT_QUERY_PREFIX + "payGrade");
 		effdt.addEqualToField("calendarGroup", Criteria.PARENT_QUERY_PREFIX + "calendarGroup");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-//		effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
@@ -44,7 +43,6 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PersistenceBrokerDaoS
 		timestamp.addEqualToField("payGrade", Criteria.PARENT_QUERY_PREFIX + "payGrade");
 		timestamp.addEqualToField("calendarGroup", Criteria.PARENT_QUERY_PREFIX + "calendarGroup");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-//		timestamp.addEqualTo("active", true);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 
@@ -54,7 +52,6 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PersistenceBrokerDaoS
 		root.addEqualTo("calendarGroup", calendarGroup);
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
-//		root.addEqualTo("active", true);
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);

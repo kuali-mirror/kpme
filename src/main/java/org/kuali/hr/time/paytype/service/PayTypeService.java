@@ -6,8 +6,15 @@ import java.util.List;
 import org.kuali.hr.time.paytype.PayType;
 
 public interface PayTypeService {
-
+	/**
+	 * Save or Update a Paytype
+	 * @param payType
+	 */
 	public void saveOrUpdate(PayType payType);
+	/**
+	 * Save or Update a List of PayType objects
+	 * @param payTypeList
+	 */
 	public void saveOrUpdate(List<PayType> payTypeList);
 	
 	/**

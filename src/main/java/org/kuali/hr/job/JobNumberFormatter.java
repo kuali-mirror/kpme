@@ -8,7 +8,6 @@ public class JobNumberFormatter extends Formatter {
 	 */
 	private static final long serialVersionUID = 1L;
 
-
 	@Override
 	public Object format(Object value) {
 		if(value != null){
