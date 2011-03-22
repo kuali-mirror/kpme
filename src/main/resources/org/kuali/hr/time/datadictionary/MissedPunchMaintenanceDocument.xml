@@ -10,7 +10,7 @@
 
   <bean id="MissedPunchMaintenanceDocument" parent="MissedPunchMaintenanceDocument-parentBean"/>
 
-  <bean id="MissedPunchMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  <bean id="MissedPunchMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
         p:businessObjectClass="org.kuali.hr.time.missedpunch.MissedPunch"
         p:maintainableClass="org.kuali.hr.time.missedpunch.MissedPunchMaintainableImpl">
     <property name="maintainableSections">
@@ -30,6 +30,7 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.TkPrincipalFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assignment" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="clockAction" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="actionDate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="actionTime" p:required="true"/>

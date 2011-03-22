@@ -1,13 +1,13 @@
 package org.kuali.hr.time.util;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 public class TKContext {
 
+    private static final String TDOC_KEY = "_TDOC_ID_KEY"; // Timesheet Document ID Key
 	private static final String USER_KEY = "_USER_KEY";
 
 	private static final ThreadLocal<Map<String, Object>> STORAGE_MAP = new ThreadLocal<Map<String, Object>>() {
@@ -17,8 +17,24 @@ public class TKContext {
 		}
 	};
 
+    /**
+     * @return The current timesheet document id, as set by the detail/clock
+     * pages.
+     */
+    public static String getCurrentTimesheetDocumentId() {
+        return (String)TKContext.getStorageMap().get(TDOC_KEY);
+    }
+
+    /**
+     * Set the current timesheet document id.
+     * @param timesheetDocumentId The ID we are setting this value to.
+     */
+    public static void setCurrentTimesheetDocumentId(String timesheetDocumentId) {
+        TKContext.getStorageMap().put(TDOC_KEY, timesheetDocumentId);
+    }
+
 	/**
-	 * TKUser has the internal concept of Backdoor User vs.Actual User. 
+	 * TKUser has the internal concept of Backdoor User vs.Actual User.
 	 * @return
 	 */
 	public static TKUser getUser() {
@@ -34,7 +50,7 @@ public class TKContext {
 
 		}
 	}
-	
+
 	public static String getPrincipalId(){
 		if(getUser()!= null){
 			return getUser().getPrincipalId();

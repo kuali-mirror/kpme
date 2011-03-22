@@ -1,19 +1,18 @@
 package org.kuali.hr.time.timeblock;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
+import javax.persistence.Transient;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class TimeBlock extends PersistableBusinessObjectBase {
 
@@ -42,6 +41,10 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	private String endTimestampTimezone;
 	private DateTime beginTimeDisplay;
 	private DateTime endTimeDisplay;
+
+    private Long clockLogBeginId;
+    private Long clockLogEndId;
+
 	// the two variables below are used to determine if a time block needs to be visually pushed forward / backward
 	@Transient
 	private Boolean pushBackward = false;
@@ -305,6 +308,22 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 		this.timeBlockHistories = timeBlockHistories;
 	}
 
+    public Long getClockLogBeginId() {
+        return clockLogBeginId;
+    }
+
+    public void setClockLogBeginId(Long clockLogBeginId) {
+        this.clockLogBeginId = clockLogBeginId;
+    }
+
+    public Long getClockLogEndId() {
+        return clockLogEndId;
+    }
+
+    public void setClockLogEndId(Long clockLogEndId) {
+        this.clockLogEndId = clockLogEndId;
+    }
+
     /**
      * Word on the street is that Object.clone() is a POS. We only need some
      * basics for comparison, so we'll implement a simple copy constructor
@@ -336,6 +355,8 @@ public class TimeBlock extends PersistableBusinessObjectBase {
         this.beginTimeDisplay = b.beginTimeDisplay;
         this.endTimeDisplay = b.endTimeDisplay;
         this.pushBackward = b.pushBackward;
+        this.clockLogBeginId = b.clockLogBeginId;
+        this.clockLogEndId = b.clockLogEndId;
 
         // We just set the reference for this object, since splitting the
         // TimeBlock would be abnormal behavior.

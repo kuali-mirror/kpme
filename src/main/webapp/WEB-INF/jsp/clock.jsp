@@ -64,7 +64,7 @@
 						   <input type="submit" class="button" value="Return From Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/>
 						</c:when>
                     </c:choose>
-					<input type="submit" class="button" value="Missed Punch" name="missedPunch"/>
+					<input type="button" class="button" id="missed-punch-iframe-button" value="Missed Punch" name="missedPunch"/>
 					<c:choose>
 				   		<c:when test="${Form.showDistributeButton}">
 							<input id="distribute-button" type="submit" class="button" value="Distribute Time Blocks" 
@@ -82,4 +82,10 @@
 
 	</html:form>
 </tk:tkHeader>
+
+<div id="missed-punch-dialog" title="Missed Punch" style="display:none;">
+   <iframe width="800" height="500" src="kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.missedpunch.MissedPunch&methodToCall=start">
+   </iframe>
+</div>
+
 <tk:note/>

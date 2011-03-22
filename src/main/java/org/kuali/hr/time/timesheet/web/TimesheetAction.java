@@ -25,7 +25,7 @@ public class TimesheetAction extends TkAction {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(TimesheetAction.class);
 
-	
+
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimesheetActionForm taForm = (TimesheetActionForm)form;
@@ -66,14 +66,17 @@ public class TimesheetAction extends TkAction {
 			}
 			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(user.getPrincipalId(), payCalendarEntries);
 		}
-		
+
+        // Set the TKContext for the current timesheet document id.
+        if (td != null) {
+            TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
+        }
+
 		taForm.setTimesheetDocument(td);
 		taForm.setDocumentId(td.getDocumentId());
 		taForm.setPayCalendarDates(payCalendarEntries);
-		
-		ActionForward forward = super.execute(mapping, form, request, response);
-		return forward;
-	
+
+		return super.execute(mapping, form, request, response);
 	}
 
 }

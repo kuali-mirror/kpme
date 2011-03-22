@@ -78,6 +78,8 @@
 		<field-descriptor name="workArea"				column="work_area"	 		jdbc-type="BIGINT"  nullable="false" primarykey="false" />
 		<field-descriptor name="task" 					column="task"	 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />
 		<field-descriptor name="hrJobId"                column="hr_job_id" 		    jdbc-type="BIGINT" nullable="false" primarykey="false" />
+        <field-descriptor name="clockLogBeginId" 	    column="clock_log_begin_id" jdbc-type="BIGINT"/>
+        <field-descriptor name="clockLogEndId" 	        column="clock_log_end_id" 	jdbc-type="BIGINT"/>
 
 		<collection-descriptor
 			name="timeHourDetails"

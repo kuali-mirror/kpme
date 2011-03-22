@@ -166,6 +166,21 @@ $(document).ready(function() {
         if (this.className != 'error') this.select();
     });
 
+
+    // Button for iFrame show/hide to show the missed punch items
+    $('#missed-punch-iframe-button').click(function() {
+       $('#missed-punch-dialog').dialog({
+           autoOpen: true,
+           height: 'auto',
+           width: 'auto',
+           modal: true,
+           buttons: {
+               //"test" : function() {
+               //}
+           }
+       });
+    });
+
 });
 
 $.fn.parseTime = function() {

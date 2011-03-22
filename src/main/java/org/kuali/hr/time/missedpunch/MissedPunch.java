@@ -1,16 +1,16 @@
 package org.kuali.hr.time.missedpunch;
 
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
 public class MissedPunch extends PersistableBusinessObjectBase {
 
 	private static final long serialVersionUID = -7392156233886202883L;
-	
+
 	private Long tkMissedPunchId;
 	private String principalId;
 	private String clockAction;
@@ -20,7 +20,10 @@ public class MissedPunch extends PersistableBusinessObjectBase {
 	private String documentStatus;
 	private Long tkClockLogId;
 	private Timestamp timestamp;
-	
+
+    /** Selection key matching what is used on the clock action GUI */
+    private String assignment;
+
 	private Person person;
 
 	@Override
@@ -29,7 +32,15 @@ public class MissedPunch extends PersistableBusinessObjectBase {
 		return null;
 	}
 
-	public Long getTkMissedPunchId() {
+    public String getAssignment() {
+        return assignment;
+    }
+
+    public void setAssignment(String assignment) {
+        this.assignment = assignment;
+    }
+
+    public Long getTkMissedPunchId() {
 		return tkMissedPunchId;
 	}
 
