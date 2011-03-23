@@ -33,7 +33,6 @@ public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
 
     @Test
     public void testCreateNew() throws Exception {
-    
     	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.workarea.WorkArea&methodToCall=start#topOfForm";
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
     	assertNotNull(page);
@@ -45,17 +44,19 @@ public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
     	assertNotNull("Could not locate submit button", input);
     	
         setFieldValue(page, "document.documentHeader.documentDescription", "Work Area - test");
-        setFieldValue(page, "document.newMaintainableObject.effectiveDate", "12/01/2011");
+        setFieldValue(page, "document.newMaintainableObject.effectiveDate", "4/01/2011");
         setFieldValue(page, "document.newMaintainableObject.active", "on");
         setFieldValue(page, "document.newMaintainableObject.description", "test");
         setFieldValue(page, "document.newMaintainableObject.dept", "NODEP");
         setFieldValue(page, "document.newMaintainableObject.adminDescr", "TEST");
+        setFieldValue(page, "document.newMaintainableObject.overtimeEditRole", "TK_APPROVER");
+        setFieldValue(page, "document.newMaintainableObject.defaultOvertimeEarnCode", "OVT");
         
         HtmlElement element = page.getElementByName("methodToCall.route");
         HtmlPage nextPage = element.click();
         assertTrue("page text:\n" + nextPage.asText() + "\n does not contain:\n" + ERROR_MESSAGE, nextPage.asText().contains(ERROR_MESSAGE));
         
-        setFieldValue(page, "document.newMaintainableObject.add.roles.principalId", "TEST");
+        setFieldValue(page, "document.newMaintainableObject.add.roles.principalId", "admin");
         setFieldValue(page, "document.newMaintainableObject.add.roles.active", "on");
 
         element = page.getElementByName("methodToCall.addLine.roles.(!!org.kuali.hr.time.roles.TkRole!!).(:::;3;:::).anchor3");
@@ -70,6 +71,7 @@ public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
         
         element = nextPage.getElementByName("methodToCall.route");
         HtmlPage lastPage = element.click();
+        HtmlUnitUtil.createTempFile(lastPage);
         assertFalse("page text:\n" + lastPage.asText() + "\n contains:\n" + ERROR_MESSAGE, lastPage.asText().contains(ERROR_MESSAGE));
         assertTrue("page text:\n" + lastPage.asText() + "\n does not contains:\n" + SUCCESS_MESSAGE, lastPage.asText().contains(SUCCESS_MESSAGE));
         

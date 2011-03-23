@@ -83,14 +83,14 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		PayCalendarEntries endOfMarch = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(16L);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfMarch);
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
-		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "REG", start, 3, BigDecimal.TEN);
+		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 3, BigDecimal.TEN);
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), timeBlocks);
 		tdoc.setTimeBlocks(timeBlocks);
 		
 		// Verify previous calendar times
 		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
-		TkTestUtils.verifyAggregateHourSums("Prior month", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(30));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("Prior month", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("RGN", new BigDecimal(30));}},aggregate,2);
 				
 		
 		// April time blocks & document
@@ -98,7 +98,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		timeBlocks = TkTestUtils.createUniformTimeBlocks(start, 2, BigDecimal.TEN, "REG", DEFAULT_JOB_NUMBER, DEFAULT_WORK_AREA);
 		payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
 		aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
-		TkTestUtils.verifyAggregateHourSums("Pre-Rules verification", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(20));}},aggregate,0);
+		TkTestUtils.verifyAggregateHourSums("Pre-Rules verification", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("RGN", new BigDecimal(20));}},aggregate,0);
 		TimesheetDocument timesheetDocument = TkTestUtils.populateBlankTimesheetDocument(new Date(start.getMillis()));
 		timesheetDocument.setTimeBlocks(timeBlocks);
 		

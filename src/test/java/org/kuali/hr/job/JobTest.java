@@ -44,8 +44,8 @@ public class JobTest extends TkTestCase {
 	@Test
 	public void testInsertPayCalendarDates() throws Exception {
 		PayCalendarEntries payCalendarDates = new PayCalendarEntries();
-		payCalendarDates.setPayCalendarEntriesId(1L);
-		payCalendarDates.setPayCalendarId(1L);
+		payCalendarDates.setPayCalendarEntriesId(1001L);
+		payCalendarDates.setPayCalendarId(1001L);
 
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.MONTH, 7);
@@ -53,7 +53,7 @@ public class JobTest extends TkTestCase {
 		cal.set(Calendar.YEAR, 2010);
 
 		payCalendarDates.setBeginPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
-
+		payCalendarDates.setCalendarGroup(CALENDAR_GROUP);
 		cal.set(Calendar.DATE, 14);
 		payCalendarDates.setEndPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
 

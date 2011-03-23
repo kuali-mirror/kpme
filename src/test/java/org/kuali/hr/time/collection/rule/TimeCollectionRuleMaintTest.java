@@ -46,19 +46,19 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 				.gotoPageAndLogin(TkTestConstants.Urls.TIME_COLLECTION_RULE_MAINT_URL);
 		timeCollectionRuleLookup = HtmlUnitUtil.clickInputContainingText(
 				timeCollectionRuleLookup, "search");
+		HtmlUnitUtil.createTempFile(timeCollectionRuleLookup);
 		assertTrue("Page contains test timeCollectionRule",
 				timeCollectionRuleLookup.asText().contains(TEST_CODE));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(
 				timeCollectionRuleLookup, "edit",
 				timeCollectionRuleIdWithInvalidDept.toString());
-		HtmlInput inputForDept = HtmlUnitUtil.getInputContainingText(maintPage,
-				TEST_CODE_INVALID_DEPT_ID);
-		inputForDept.setValueAttribute(TEST_CODE_INVALID_DEPT_ID);
+		HtmlUnitUtil.createTempFile(maintPage);
 		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(
 				maintPage, "* Document Description");
 		inputForDescription.setValueAttribute("Description");
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");
+		HtmlUnitUtil.createTempFile(resultantPageAfterEdit);
 		assertTrue("Maintenance Page contains test timeCollectionRule",
 				resultantPageAfterEdit.asText().contains(
 						"The specified department '"

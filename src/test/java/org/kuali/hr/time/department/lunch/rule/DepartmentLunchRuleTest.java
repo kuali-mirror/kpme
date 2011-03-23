@@ -1,11 +1,13 @@
 package org.kuali.hr.time.department.lunch.rule;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
@@ -27,7 +29,8 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		deptLunchRule.setPrincipalId("admin");
 		deptLunchRule.setDeductionMins(new BigDecimal(30));
 		deptLunchRule.setShiftHours(new BigDecimal(6));
-
+		deptLunchRule.setTkDeptLunchRuleId(1001L);
+		
 		KNSServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
 		deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule("TEST",
@@ -54,6 +57,7 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		deptLunchRule.setPrincipalId("admin");
 		deptLunchRule.setDeductionMins(new BigDecimal(30));
 		deptLunchRule.setShiftHours(new BigDecimal(6));
+		deptLunchRule.setTkDeptLunchRuleId(1001L);
 
 		KNSServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
@@ -62,11 +66,19 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		assertTrue("dept lunch rule fetched ", deptLunchRule!=null);
 
 		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(TKUtils.getCurrentDate());
+		
+		for(TimeBlock tb : doc.getTimeBlocks()){
+			tb.setClockLogCreated(true);
+		}
 		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, doc.getTimeBlocks(), doc.getPayCalendarEntry(), doc);
 		for(TimeBlock tb : doc.getTimeBlocks()) {
 			if(tb.getHours().compareTo(deptLunchRule.getShiftHours()) == 1) {
-				// this assumes the hours for the dummy timeblocks are always 10
-				assertEquals(new BigDecimal(9.50).setScale(2), tb.getHours());
+				for(TimeHourDetail thd : tb.getTimeHourDetails()){
+					// 	this assumes the hours for the dummy timeblocks are always 10
+					if(!StringUtils.equals(thd.getEarnCode(), TkConstants.LUNCH_EARN_CODE)){
+						assertEquals(new BigDecimal(9.50).setScale(2), tb.getHours());
+					}
+				}
 			}
 		}
 

@@ -19,6 +19,9 @@ public class DocumentHeaderTest extends TkTestCase {
 	private static Long documentId = 1L;//id entered in the bootstrap SQL
 
     // this test will pass once the data is correct
+	//INSERT INTO `tk_document_header_t` (`DOCUMENT_ID`,`PRINCIPAL_ID`,`DOCUMENT_STATUS`,`PAY_BEGIN_DT`,`PAY_END_DT`) VALUES
+	  //('1001','admin','I','2011-01-01 00:00:00','2011-01-15 00:00:00'),
+	  //('1002','admin','I','2011-01-15 00:00:00','2011-02-01 00:00:00');
 	@Test
 	public void testDocumentHeaderPrevFetch() throws Exception{
         DateTime dateTime = new DateTime(2011,1,15,0,0,0,0);

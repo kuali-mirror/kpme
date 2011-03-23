@@ -13,9 +13,6 @@ import org.kuali.hr.time.test.TkTestConstants;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class EarnGroupServiceTest extends TkTestCase{
-	
-	private static Long earnGroupId = 1L;//id entered in the bootstrap SQL
-	
 	@Test
 	public void testEarnGroupFetch() throws Exception{
 		EarnGroup earnGroup = TkServiceLocator.getEarnGroupService().getEarnGroup("REG", new Date(System.currentTimeMillis()));
@@ -27,8 +24,10 @@ public class EarnGroupServiceTest extends TkTestCase{
 	public void testEarnGroupMaintenancePage() throws Exception{				
 		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_GROUP_MAINT_URL);
 		earnCodeLookUp = HtmlUnitUtil.clickInputContainingText(earnCodeLookUp, "search");
-		assertTrue("Page contains SD1 entry", earnCodeLookUp.asText().contains("SD1"));		
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit",earnGroupId.toString());		
-		assertTrue("Maintenance Page contains SD1 entry",maintPage.asText().contains("SD1"));		
+		HtmlUnitUtil.createTempFile(earnCodeLookUp);
+		assertTrue("Page contains REG entry", earnCodeLookUp.asText().contains("REG"));		
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit");		
+		HtmlUnitUtil.createTempFile(maintPage);
+		assertTrue("Maintenance Page contains REG entry",maintPage.asText().contains("REG"));		
 	}	
 }

@@ -16,8 +16,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	
-	//TODO -sai remove the Random things and confirm this still works
-	
 	private static String TEST_CODE_INVALID_DEPT_ID ="INVALID";
 	private static String TEST_CODE_INVALID_EARN_CODE_ID ="INV";
 	private static String TEST_CODE_INVALID_SAL_GROUP_ID ="INVALID";
@@ -26,54 +24,50 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	private static final String DEPT = "TEST-DEPT";
 	private static final String SAL_GROUP = "SD1";
 	
-	private static Long departmentEarnCodeId = 3L;
+	private static Long departmentEarnCodeId = 1002L;
 
 	private static Long tkDeptEarnCodeId;
 	private static Long dupTkDeptEarnCodeId;
-
-	//TODO Sai - confirm this test is appropriate
 
 	@Test
 	public void testDepartmentEarnCodeMaint() throws Exception {
 		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
-		assertTrue("Page contains test DepartmentEarnCode", deptEarnCodeLookup.asText().contains(TEST_CODE_INVALID_DEPT_ID.toString()));
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit",departmentEarnCodeId.toString());
-		
-		
-		assertTrue("Maintenance Page contains test DepartmentEarnCode",maintPage.asText().contains(TEST_CODE_INVALID_DEPT_ID.toString()));
+		HtmlUnitUtil.createTempFile(deptEarnCodeLookup);
+		assertTrue("Page contains test DepartmentEarnCode", deptEarnCodeLookup.asText().contains(DEPT.toString()));
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit");	
+		assertTrue("Maintenance Page contains test DepartmentEarnCode",maintPage.asText().contains(DEPT));
 	}
-	
 	
 	@Test
 	public void testDepartmentEarnCodeMaintForErrorMessages() throws Exception {
 		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
-		assertTrue("Page contains test DepartmentEarnCode", deptEarnCodeLookup.asText().contains(TEST_CODE_INVALID_DEPT_ID.toString()));
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit",departmentEarnCodeId.toString());
+		assertTrue("Page contains test DepartmentEarnCode", deptEarnCodeLookup.asText().contains(DEPT.toString()));
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit");
 		
 		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(
 				maintPage, "* Document Description");
 		inputForDescription.setValueAttribute("Test_Description");
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");		
-		
+		HtmlUnitUtil.createTempFile(resultantPageAfterEdit);
 		assertTrue("Maintenance Page contains test deptErrormessage",
 				resultantPageAfterEdit.asText().contains(
 						"The specified department '"
-								+ TEST_CODE_INVALID_DEPT_ID
+								+ DEPT
 								+ "' does not exist."));
 		
 		assertTrue("Maintenance Page contains test SalGroupErrormessage",
 				resultantPageAfterEdit.asText().contains(
 						"The specified Salgroup '"
-								+ TEST_CODE_INVALID_SAL_GROUP_ID
+								+ SAL_GROUP
 								+ "' does not exist."));	
 		
 		assertTrue("Maintenance Page contains test Earncode",
 				resultantPageAfterEdit.asText().contains(
 						"The specified Earncode '"
-								+ TEST_CODE_INVALID_EARN_CODE_ID
+								+ EARN_CODE
 								+ "' does not exist."));
 				
 		

@@ -97,7 +97,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
       
         // set the effective date to one that works for the earn code
         text  = (HtmlTextInput) page1.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "effectiveDate");
-		text.setValueAttribute("12/01/2010");
+		text.setValueAttribute("5/01/2011");
 		element = page1.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
 		HtmlPage page2 = element.click();
 		assertFalse("Page contains Error", page2.asText().contains("error"));
@@ -128,6 +128,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		assertFalse("Page contains Error", page1.asText().contains("error"));
 		element = page1.getElementByName("methodToCall.route");
         finalPage = element.click();
+        HtmlUnitUtil.createTempFile(finalPage);
         assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
 		assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Status: 	 FINAL"));
 	}

@@ -75,9 +75,10 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 		inputForDescription.setValueAttribute("Description");
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");		
+		HtmlUnitUtil.createTempFile(resultantPageAfterEdit);
 		assertTrue("Maintenance Page contains contains error message for workarea",
 				resultantPageAfterEdit.asText().contains(
-						"The specified workarea '" + TEST_CODE_WORKAREA_INVALID
+						"The specified workArea '" + TEST_CODE_WORKAREA_INVALID
 								+ "' does not exist."));
 	}
 
