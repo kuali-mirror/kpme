@@ -1,6 +1,7 @@
 package org.kuali.hr.time.clock.web;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.hr.time.assignment.Assignment;
@@ -29,21 +30,12 @@ public class ClockActionForm extends TimesheetActionForm {
     private TimeBlock timeBlock;
     private boolean showLunchButton;
     private boolean showDistributeButton;
-	private String outputString;
 
     /** This map is used to determine whether or not lunch buttons will render
      * for the selected assignment. The key of this map should be the same key
      * as what is selected in the assignment drop down selection. */
     private Map<String,Boolean> assignmentLunchMap;
 
-    public String getOutputString() {
-		return outputString;
-	}
-
-	public void setOutputString(String outputString) {
-		this.outputString = outputString;
-	}
-    
     public Map<String, Boolean> getAssignmentLunchMap() {
         return assignmentLunchMap;
     }
@@ -151,19 +143,19 @@ public class ClockActionForm extends TimesheetActionForm {
      * @return true if Distribute TimeBlock button should be displayed, false otherwise.
      */
     public boolean isShowDistributeButton() {
-    	String assignmentKey = this.getSelectedAssignment();
-    	if(assignmentKey != null) {
-	    	TimesheetDocument timesheetDocument = this.getTimesheetDocument();
-	    	if(timesheetDocument != null) {
-		    	Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument, assignmentKey);
-		    	if(assignment != null) {
-			    	TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveDate());
-			    	if(rule != null) {
-			    		setShowDistrubuteButton(rule.isHrsDistributionF());
-			    	}
+    	TimesheetDocument timesheetDocument = this.getTimesheetDocument();
+    	if(timesheetDocument != null) {
+    		List<Assignment> assignments = timesheetDocument.getAssignments();
+    		for(Assignment assignment: assignments) {
+    			TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveDate());
+		    	if(rule != null) {
+		    		if(rule.isHrsDistributionF()) {
+		    			setShowDistrubuteButton(rule.isHrsDistributionF());
+		    			return showDistributeButton;
+		    		}
 		    	}
-	    	}
-	    	
+    		}
+    		
     	}
     	return showDistributeButton;
     }

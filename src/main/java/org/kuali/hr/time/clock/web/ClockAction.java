@@ -143,17 +143,4 @@ public class ClockAction extends TimesheetAction {
     	    }
     	    return mapping.findForward("basic");
     	}
-    	
-    	
-    	// this is an ajax call
-        public ActionForward setIsDistributeFlag(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        	 ClockActionForm caf = (ClockActionForm) form;
-        	 if(caf.isShowDistributeButton()) {
-        		 caf.setOutputString("true");
-        	 } else {
-        		 caf.setOutputString("false");
-        	 }
-        	 return  mapping.findForward("ws");
-     
-        }
 }
