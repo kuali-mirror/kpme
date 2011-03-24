@@ -11,6 +11,7 @@
       <!-- 15 Mar 2011 -->
       <include file="org/kuali/kpme/liquibase/tna/db.changelog-1.1.xml"/>
       <include file="org/kuali/kpme/liquibase/tna/db.changelog-1.2.xml"/>
+      <include file="org/kuali/kpme/liquibase/tna/db.changelog-1.4.xml"/>
 
 
   <!-- Data section -->
