@@ -93,7 +93,10 @@ public class TimeBlockServiceImpl implements TimeBlockService {
             }
             if (dayInt.contains(beginTimestamp.getTime())) {
                 firstDay = dayInt;
-                if (dayInt.contains(endTimestamp.getTime())) {
+                // KPME-361
+                // added a condition to handle the time block which ends at 12a, e.g. a 10p-12a timeblock
+                // this is the same fix as TkTimeBlockAggregate
+                if (dayInt.contains(endTimestamp.getTime()) || endTimestamp.getTime() == dayInt.getEnd().getMillis()) {
                     //create one timeblock if contained in one day interval
                     TimeBlock tb = createTimeBlock(timesheetDocument, beginTimestamp, endTimestamp, assignment, earnCode, hours, isClockLogCreated);
                     tb.setBeginTimestamp(beginTimestamp);
