@@ -47,8 +47,6 @@ public class ClockLogServiceImpl implements ClockLogService {
 	    clockLog.setClockTimestampTimezone(TkServiceLocator.getTimezoneService().getUserTimeZone());
 	    clockLog.setClockTimestamp(clockTimestamp);
 	    clockLog.setClockAction(clockAction);
-        // Seems to be a problem here.
-        // TODO: Investigate - was seeing strange behavior here when preparing for demo.
 	    clockLog.setIpAddress(ip);
 	    clockLog.setHrJobId(assignment.getJob().getHrJobId());
 	    clockLog.setUserPrincipalId(principalId);

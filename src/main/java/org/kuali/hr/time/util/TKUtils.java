@@ -1,5 +1,6 @@
 package org.kuali.hr.time.util;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
@@ -8,12 +9,14 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
 
 public class TKUtils {
 
+    private static final Logger LOG = Logger.getLogger(TKUtils.class);
 
 	public static java.sql.Date getCurrentDate() {
 		return getTimelessDate(null);
@@ -22,7 +25,7 @@ public class TKUtils {
 	/**
 	 * Returns a enforced timeless version of the provided date, if the date is
 	 * null the current date is returned.
-	 * 
+	 *
 	 * @param date
 	 * @return A java.sql.Date version of the provided date, if provided date is
 	 *         null, the current date is returned.
@@ -83,7 +86,7 @@ public class TKUtils {
 		}
 		return jobNumber + TkConstants.ASSIGNMENT_KEY_DELIMITER + workArea + TkConstants.ASSIGNMENT_KEY_DELIMITER + taskLong;
 	}
-	
+
 	public static Map<String,String> formatAssignmentDescription(Assignment assignment) {
 		Map<String,String> assignmentDescriptions = new LinkedHashMap<String,String>();
 		Long task = assignment.getTask();
@@ -91,12 +94,12 @@ public class TKUtils {
 			task = new Long("0");
 		}
 		String assignmentDescKey  = formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), task);
-		String assignmentDescValue = getAssignmentString(assignment);  
+		String assignmentDescValue = getAssignmentString(assignment);
 		assignmentDescriptions.put(assignmentDescKey, assignmentDescValue);
-		
+
 		return assignmentDescriptions;
 	}
-	
+
 	public static String getAssignmentString(Assignment assignment) {
 		return assignment.getWorkAreaObj().getDescription() + " : $" + assignment.getJob().getCompRate() + " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
 	}
@@ -121,7 +124,7 @@ public class TKUtils {
 	/**
 	 * Includes partial weeks if the time range provided does not divide evenly
 	 * into 7 day spans.
-	 * 
+	 *
 	 * @param beginDate
 	 *               Starting Date/Time
 	 * @param endDate
@@ -152,35 +155,35 @@ public class TKUtils {
 
 		return intervals;
 	}
-	
+
 	public static long convertHoursToMillis(BigDecimal hours) {
 		return hours.multiply(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT).longValue();
 	}
-	
+
 	public static BigDecimal convertMillisToHours(long millis) {
 		return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT);
 	}
-	
+
 	public static BigDecimal convertMillisToDays(long millis){
 		BigDecimal hrs = convertMillisToHours(millis);
 		return hrs.divide(TkConstants.BIG_DECIMAL_HRS_IN_DAY, TkConstants.MATH_CONTEXT);
 	}
-	
+
 	public static BigDecimal convertMinutesToHours(BigDecimal minutes) {
 		return minutes.divide(TkConstants.BIG_DECIMAL_60, TkConstants.MATH_CONTEXT);
 	}
-	
+
 	public static int convertMillisToWholeDays(long millis){
 		BigDecimal days = convertMillisToDays(millis);
 		return Integer.parseInt(days.setScale(0, BigDecimal.ROUND_UP).toString());
 	}
-	
+
 	/*
 	 * Compares and confirms if the start of the day is at midnight or on a virtual day boundary
 	 * returns true if at midnight false otherwise(assuming 24 hr days)
 	 */
 	public static boolean isVirtualWorkDay(Calendar payCalendarStartTime){
-		return (payCalendarStartTime.get(Calendar.HOUR_OF_DAY) != 0 || payCalendarStartTime.get(Calendar.MINUTE) != 0 
+		return (payCalendarStartTime.get(Calendar.HOUR_OF_DAY) != 0 || payCalendarStartTime.get(Calendar.MINUTE) != 0
 				&& payCalendarStartTime.get(Calendar.AM_PM) != Calendar.AM);
 	}
 
@@ -194,9 +197,9 @@ public class TKUtils {
 		// the date/time format is defined in tk.calendar.js. For now, the format is 11/17/2010 8:0
 		String[] date = dateStr.split("/");
 		String[] time = timeStr.split(":");
-		
+
 		DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimeZone());
-		
+
 		// this is from the jodattime javadoc:
 		// DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
         // Noted that the month value is the actual month which is different than the java date object where the month value is the current month minus 1.
@@ -207,8 +210,20 @@ public class TKUtils {
 				Integer.parseInt(date[1]),
 				Integer.parseInt(time[0]),
 				Integer.parseInt(time[1]),
-				0, 0, dtz); 
-		
+				0, 0, dtz);
+
 		return new Timestamp(dateTime.getMillis());
 	}
+
+    public static String getIPAddressFromRequest(HttpServletRequest request) {
+        // Check for IPv6 addresses - Not sure what to do with them at this point.
+        // TODO: IPv6 - I see these on my local machine.
+        String ip = request.getRemoteAddr();
+        if (ip.indexOf(':') > -1) {
+            LOG.warn("ignoring IPv6 address for clock-in: " + ip);
+            ip = "";
+        }
+
+        return ip;
+    }
 }

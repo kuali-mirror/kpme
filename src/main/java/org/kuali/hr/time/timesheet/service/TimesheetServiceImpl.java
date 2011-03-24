@@ -52,11 +52,11 @@ public class TimesheetServiceImpl implements TimesheetService {
 	public TimesheetDocument openTimesheetDocument(String principalId, PayCalendarEntries payCalendarDates) throws WorkflowException {
 		TimesheetDocument timesheetDocument = null;
 
-		Date begin = payCalendarDates.getBeginPeriodDateTime();		
-		Date end = payCalendarDates.getEndPeriodDateTime(); 
+		Date begin = payCalendarDates.getBeginPeriodDateTime();
+		Date end = payCalendarDates.getEndPeriodDateTime();
 
 		TimesheetDocumentHeader header = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, begin, end);
-		
+
 		if (header == null) {
 			timesheetDocument = this.initiateWorkflowDocument(principalId, begin, end, TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
 			timesheetDocument.setPayCalendarEntry(payCalendarDates);
@@ -66,37 +66,37 @@ public class TimesheetServiceImpl implements TimesheetService {
 			timesheetDocument = this.getTimesheetDocument(header.getDocumentId());
 			timesheetDocument.setPayCalendarEntry(payCalendarDates);
 		}
-		
+
 		timesheetDocument.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(timesheetDocument));
 		return timesheetDocument;
 	}
-	
+
 	public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, Date beginDate, Date endDate){
 		PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, new java.sql.Date(beginDate.getTime()));
 		if(principalCalendar != null) {
 			HolidayCalendar holidayCalendar = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarByGroup(principalCalendar.getHolidayCalendarGroup());
 			if (holidayCalendar != null) {
-				List<HolidayCalendarDateEntry> lstHolidays = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarDateEntriesForPayPeriod(holidayCalendar.getHolidayCalendarId(), 
+				List<HolidayCalendarDateEntry> lstHolidays = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarDateEntriesForPayPeriod(holidayCalendar.getHolidayCalendarId(),
 																beginDate, endDate);
 				for(HolidayCalendarDateEntry holiday : lstHolidays){
 					Assignment holidayAssign = TkServiceLocator.getHolidayCalendarService().getAssignmentToApplyHolidays(timesheetDocument, TKUtils.getTimelessDate(endDate));
 					BigDecimal holidayCalcHours = TkServiceLocator.getHolidayCalendarService().calculateHolidayHours(holidayAssign.getJob(), holiday.getHolidayHours());
-					TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, new Timestamp(holiday.getHolidayDate().getTime()), 
+					TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, new Timestamp(holiday.getHolidayDate().getTime()),
 									new Timestamp(holiday.getHolidayDate().getTime()), holidayAssign, TkConstants.HOLIDAY_EARN_CODE, holidayCalcHours, false);
 					timesheetDocument.getTimeBlocks().add(timeBlock);
 				}
-				
+
 				//If holidays are loaded will need to save them to the database
 				if(!lstHolidays.isEmpty()){
 					TkServiceLocator.getTimeBlockService().saveTimeBlocks(new LinkedList<TimeBlock>(), timesheetDocument.getTimeBlocks());
 				}
 			}
 		}
-	
+
 	}
 
 	private TimesheetDocument initiateWorkflowDocument(String principalId, Date payBeginDate, Date payEndDate, String documentType, String title) throws WorkflowException {
-		TimesheetDocument timesheetDocument = null;		
+		TimesheetDocument timesheetDocument = null;
 		WorkflowDocument workflowDocument = null;
 
 		workflowDocument = new WorkflowDocument(principalId, documentType);
@@ -113,7 +113,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
 		return timesheetDocument;
 	}
-	
+
 	public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, Date payBeginDate){
 		TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, payBeginDate);
 		if(prevTdh == null){
@@ -126,26 +126,28 @@ public class TimesheetServiceImpl implements TimesheetService {
 	public TimesheetDocument getTimesheetDocument(String documentId) {
 		TimesheetDocument timesheetDocument = null;
 		TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-	
+
 		if (tdh != null) {
 			timesheetDocument = new TimesheetDocument(tdh);
 			loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), tdh.getPayBeginDate(), tdh.getPayEndDate());
+            PayCalendarEntries pce = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(tdh.getPrincipalId(), TKUtils.getTimelessDate(tdh.getPayBeginDate()));
+            timesheetDocument.setPayCalendarEntry(pce);
 		} else {
 			throw new RuntimeException("Could not find TimesheetDocumentHeader for DocumentID: " + documentId);
 		}
 		return timesheetDocument;
 	}
-	
+
 	private void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, Date payPeriodBegin, Date payPeriodEnd) {
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getTimelessDate(payPeriodBegin));
 		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(principalId, TKUtils.getTimelessDate(payPeriodBegin));
 		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdoc.getDocumentHeader().getDocumentId()));
-		
+
 		tdoc.setAssignments(assignments);
 		tdoc.setJobs(jobs);
 		tdoc.setTimeBlocks(timeBlocks);
 	}
-	
+
 	public boolean isSynchronousUser(){
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getUser().getPrincipalId(), TKUtils.getCurrentDate());
 		boolean isSynchronousUser = true;

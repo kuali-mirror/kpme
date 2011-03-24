@@ -12,7 +12,7 @@ public class TkConstants {
 
 	public static final String WILDCARD_CHARACTER = "%";
 	public static final Long WILDCARD_LONG = -1L;
-	
+
 	//in days
 	public static final Integer LENGTH_OF_WORK_SCHEDULE = 10;
 
@@ -20,8 +20,6 @@ public class TkConstants {
     public static final String CLOCK_OUT = "CO";
     public static final String LUNCH_IN = "LI"; // Coming back from Lunch
     public static final String LUNCH_OUT = "LO"; // Leaving for Lunch
-    public static final String BREAK_IN = "BI";
-    public static final String BREAK_OUT = "BO";
 
     // action history
     public static final String DELETE = "DELETE";
@@ -117,12 +115,47 @@ public class TkConstants {
     	ClOCK_ACTIONS.add("LO"); // Leaving for Lunch
     }
 
+    /**
+     * Simplistic state transition map, created statically for speed.
+     */
+    public static final Map<String,Set<String>> CLOCK_ACTION_TRANSITION_MAP = new HashMap<String,Set<String>>(4);
+    static {
+        Set<String> ci = new HashSet<String>();
+        ci.add(LUNCH_OUT);
+        ci.add(CLOCK_OUT);
+
+        Set<String> co = new HashSet<String>();
+        co.add(CLOCK_IN);
+
+        Set<String> li = new HashSet<String>();
+        li.add(CLOCK_OUT);
+
+        Set<String> lo = new HashSet<String>();
+        lo.add(LUNCH_IN);
+
+        CLOCK_ACTION_TRANSITION_MAP.put(CLOCK_IN, ci);
+        CLOCK_ACTION_TRANSITION_MAP.put(CLOCK_OUT, co);
+        CLOCK_ACTION_TRANSITION_MAP.put(LUNCH_IN, li);
+        CLOCK_ACTION_TRANSITION_MAP.put(LUNCH_OUT, lo);
+    }
+
+    public static final Map<String, String> CLOCK_ACTION_STRINGS = new HashMap<String,String>(4);
+    static {
+        CLOCK_ACTION_STRINGS.put(CLOCK_IN, "Clock In");
+        CLOCK_ACTION_STRINGS.put(CLOCK_OUT, "Clock Out");
+        CLOCK_ACTION_STRINGS.put(LUNCH_IN, "Lunch In"); // Coming back for Lunch
+        CLOCK_ACTION_STRINGS.put(LUNCH_OUT, "Lunch Out"); // Going to Lunch
+    }
+
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";
     public static final String HOLIDAY_EARN_CODE = "HOL";
     // Special System earn code to represent lunch deductions.
     public static final String LUNCH_EARN_CODE = "LUN";
-    
+
     // calendar navigation
     public static final String NEXT_TIMESHEET = "next";
     public static final String PREV_TIMESHEET = "prev";
+
+    // Timesheet document ID request parameter name
+    public static final String TIMESHEET_DOCUMENT_ID_REQUEST_NAME = "tdocid";
 }

@@ -66,7 +66,7 @@
                     </c:choose>
 					<input type="button" class="button" id="missed-punch-iframe-button" value="Missed Punch" name="missedPunch"/>
 					<c:if test="${Form.showDistributeButton}">
-						<input id="distribute-button" type="submit" class="button" value="Distribute Time Blocks" 
+						<input id="distribute-button" type="submit" class="button" value="Distribute Time Blocks"
 							name="distributeTime" onclick="this.form.methodToCall.value='clockAction'"/>
 					</c:if>
 				</td>
@@ -78,7 +78,7 @@
 </tk:tkHeader>
 
 <div id="missed-punch-dialog" title="Missed Punch" style="display:none;">
-   <iframe width="800" height="500" src="kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.missedpunch.MissedPunch&methodToCall=start">
+   <iframe width="800" height="500" src="kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.missedpunch.MissedPunch&methodToCall=start&tdocid=${Form.timesheetDocument.documentId}">
    </iframe>
 </div>
 

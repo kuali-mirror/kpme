@@ -21,6 +21,7 @@
                 <ref bean="MissedPunch-actionDate" />
                 <ref bean="MissedPunch-actionTime" />
                 <ref bean="MissedPunch-documentId" />
+                <ref bean="MissedPunch-timesheetDocumentId" />
                 <ref bean="MissedPunch-documentStatus" />
             </list>
         </property>
@@ -136,6 +137,22 @@
         <property name="label" value="Document Id"/>
     </bean>
 
+    <bean id="MissedPunch-timesheetDocumentId" parent="MissedPunch-timesheetDocumentId-parentBean"/>
+    <bean id="MissedPunch-timesheetDocumentId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Timesheet Doc Id"/>
+        <property name="maxLength" value="14"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+            <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="14"/>
+        </property>
+        <property name="name" value="timesheetDocumentId"/>
+        <property name="label" value="Timesheet Document Id"/>
+    </bean>
+
     <bean id="MissedPunch-documentStatus" parent="MissedPunch-documentStatus-parentBean" />
     <bean id="MissedPunch-documentStatus-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="maxLength" value="10" />
@@ -161,6 +178,7 @@
                 <bean parent="FieldDefinition" p:attributeName="clockAction" />
                 <bean parent="FieldDefinition" p:attributeName="actionDate" />
                 <bean parent="FieldDefinition" p:attributeName="actionTime" />
+                <bean parent="FieldDefinition" p:attributeName="timesheetDocumentId" />
                 <bean parent="FieldDefinition" p:attributeName="documentId" />
                 <bean parent="FieldDefinition" p:attributeName="documentStatus" />
             </list>

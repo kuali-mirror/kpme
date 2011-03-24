@@ -1,14 +1,14 @@
 package org.kuali.hr.time.clocklog;
 
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 public class ClockLog extends PersistableBusinessObjectBase {
 
@@ -35,7 +35,7 @@ public class ClockLog extends PersistableBusinessObjectBase {
     private Job job;
     private WorkArea workAreaObj;
     private Task taskObj;
-    
+
     private Person principal;
 
     @SuppressWarnings("unchecked")
@@ -59,10 +59,10 @@ public class ClockLog extends PersistableBusinessObjectBase {
     	toStringMapper.put("tkClockLogId", job);
     	toStringMapper.put("tkClockLogId", workAreaObj);
     	toStringMapper.put("tkClockLogId", taskObj);
-    	
+
     	return toStringMapper;
     }
-    
+
 	public Job getJob() {
 		return job;
 	}
@@ -140,7 +140,7 @@ public class ClockLog extends PersistableBusinessObjectBase {
      * @return
      */
     public String getNextValidClockAction() {
-	String ret = "";
+	String ret;
 
 	if (this.getClockAction().equals(TkConstants.CLOCK_IN)) {
 	    ret = TkConstants.CLOCK_OUT;
@@ -150,10 +150,6 @@ public class ClockLog extends PersistableBusinessObjectBase {
 	    ret = TkConstants.LUNCH_OUT;
 	} else if (this.getClockAction().equals(TkConstants.LUNCH_OUT)) {
 	    ret = TkConstants.LUNCH_IN;
-	} else if (this.getClockAction().equals(TkConstants.BREAK_IN)) {
-	    ret = TkConstants.BREAK_OUT;
-	} else if (this.getClockAction().equals(TkConstants.BREAK_OUT)) {
-	    ret = TkConstants.BREAK_IN;
 	} else {
 	    ret = TkConstants.CLOCK_IN;
 	}

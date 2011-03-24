@@ -16,6 +16,7 @@ public class MissedPunch extends PersistableBusinessObjectBase {
 	private String clockAction;
 	private java.util.Date actionDate;
 	private Time actionTime;
+    private String timesheetDocumentId;
 	private String documentId;
 	private String documentStatus;
 	private Long tkClockLogId;
@@ -120,4 +121,11 @@ public class MissedPunch extends PersistableBusinessObjectBase {
 		this.actionDate = actionDate;
 	}
 
+    public String getTimesheetDocumentId() {
+        return timesheetDocumentId;
+    }
+
+    public void setTimesheetDocumentId(String timesheetDocumentId) {
+        this.timesheetDocumentId = timesheetDocumentId;
+    }
 }
