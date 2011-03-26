@@ -110,6 +110,8 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 				valid = true;
 				valid &= this.validateTask(task, wa.getTasks());
 			}
+		}else if((pbo instanceof TkRole && pboWorkArea instanceof WorkArea)){
+			valid = true;
 		}
 		return valid;
 	}
