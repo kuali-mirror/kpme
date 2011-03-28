@@ -1,6 +1,10 @@
 <%@include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 <c:set var="Form" value="${ClockActionForm}" scope="request"/>
 
+<script type="text/javascript">
+var tdocid = ${Form.timesheetDocument.documentId} ;
+</script>
+
 <c:choose>
 	<c:when test="${Form.currentClockAction eq 'CI'}">
 		<c:set var="clockActionDescription" value="Clock In"/>
@@ -78,8 +82,7 @@
 </tk:tkHeader>
 
 <div id="missed-punch-dialog" title="Missed Punch" style="display:none;">
-   <iframe width="800" height="500" src="kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.missedpunch.MissedPunch&methodToCall=start&tdocid=${Form.timesheetDocument.documentId}">
-   </iframe>
+
 </div>
 
 <tk:note/>

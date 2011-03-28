@@ -166,9 +166,14 @@ $(document).ready(function() {
         if (this.className != 'error') this.select();
     });
 
-
     // Button for iFrame show/hide to show the missed punch items
+    // The iFrame is added to the missed-punch-dialog as a child element.
+    // tdocid is a variable that is set from the form value in 'clock.jsp'
     $('#missed-punch-iframe-button').click(function() {
+
+       $('#missed-punch-dialog').empty();
+       $('#missed-punch-dialog').append('<iframe width="800" height="500" src="kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.missedpunch.MissedPunch&methodToCall=start&tdocid=' + tdocid + '"></iframe>');
+
        $('#missed-punch-dialog').dialog({
            autoOpen: true,
            height: 'auto',

@@ -32,9 +32,10 @@ public class AssignmentValuesFinder extends KeyValuesBase {
         // We need the current timesheet document id. depending on where this
         // was set up, we may need to look in two different places. Primarily
         // we look directly at the context's function.
+
         String tdocId = TKContext.getCurrentTimesheetDocumentId();
         if (tdocId == null)
-            TKContext.getHttpServletRequest().getParameter(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);
+            tdocId = TKContext.getHttpServletRequest().getParameter(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);
 
         if (tdocId != null) {
             TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdocId);
