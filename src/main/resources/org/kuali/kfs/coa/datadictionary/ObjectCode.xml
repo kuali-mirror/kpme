@@ -146,7 +146,7 @@
 
   <bean id="ObjectCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Object Code Lookup"/>
-
+	<property name="lookupableID" value="objectCodeLookupable"></property>
     <property name="defaultSort">
       <bean parent="SortDefinition">
         <property name="attributeNames">

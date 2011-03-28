@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class DepartmentEarnCodeLookupableHelper extends
@@ -17,7 +18,28 @@ public class DepartmentEarnCodeLookupableHelper extends
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	@Override
+	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
+			List pkNames) {
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(
+				businessObject, pkNames);
+		DepartmentEarnCode departmentEarnCode = (DepartmentEarnCode) businessObject;
+		final String className = this.getBusinessObjectClass().getName();
+		final Long tkDeptEarnCodeId = departmentEarnCode.getTkDeptEarnCodeId();
+		HtmlData htmlData = new HtmlData() {
 
+			@Override
+			public String constructCompleteHtmlTag() {
+				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
+						+ className + "&methodToCall=start&tkDeptEarnCodeId=" + tkDeptEarnCodeId
+						+ "\">view</a>";
+			}
+		};
+		customActionUrls.add(htmlData);
+		return customActionUrls;
+	}
+	
 	@Override
 	public List<? extends BusinessObject> getSearchResults(
 			Map<String, String> fieldValues) {

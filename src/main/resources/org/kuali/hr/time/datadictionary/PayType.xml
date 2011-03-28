@@ -9,6 +9,9 @@
 		<property name="businessObjectClass" value="org.kuali.hr.time.paytype.PayType" />
 		<property name="titleAttribute" value="payTypeId" />
 		<property name="objectLabel" value="Pay Type" />
+		<property name="inquiryDefinition">
+			<ref bean="PayType-inquiryDefinition" />
+		</property>
 		<property name="lookupDefinition">
 			<ref bean="PayType-lookupDefinition" />
 		</property>
@@ -156,7 +159,32 @@
   </bean>
 
 	<!--  Inquiry Definitions  -->
+  
+  	<bean id="PayType-inquiryDefinition" parent="PayType-inquiryDefinition-parentBean" />
 
+	<bean id="PayType-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="payType" />
+							<bean parent="FieldDefinition" p:attributeName="descr" />
+							<bean parent="FieldDefinition" p:attributeName="regEarnCode" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="PayType" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="PayType Inquiry" />
+	</bean>
+
+	<!-- Look up Definitions  -->
 
 	<bean id="PayType-lookupDefinition" parent="PayType-lookupDefinition-parentBean" />
 	<bean id="PayType-lookupDefinition-parentBean" abstract="true"

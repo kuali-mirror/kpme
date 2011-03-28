@@ -10,6 +10,9 @@
 		<property name="businessObjectClass" value="org.kuali.hr.time.accrual.TimeOffAccrual" />
 		<property name="titleAttribute" value="laAccrualId" />
 		<property name="objectLabel" value="Time off Accrual" />
+		<property name="inquiryDefinition">
+			<ref bean="TimeOffAccrual-inquiryDefinition" />
+		</property>
 		<property name="lookupDefinition">
 			<ref bean="TimeOffAccrual-lookupDefinition" />
 		</property>
@@ -151,11 +154,38 @@
 	</bean>
 
 	<!--  Inquiry Definitions  -->
+  
+  	<bean id="TimeOffAccrual-inquiryDefinition" parent="TimeOffAccrual-inquiryDefinition-parentBean" />
 
+	<bean id="TimeOffAccrual-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="principalId" />
+							<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+							<bean parent="FieldDefinition" p:attributeName="hoursAccrued" />
+							<bean parent="FieldDefinition" p:attributeName="hoursTaken" />
+							<bean parent="FieldDefinition" p:attributeName="hoursAdjust" />
+						</list>
+					</property>
+					<property name="title" value="TimeOffAccrual" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="TimeOffAccrual Inquiry" />
+	</bean>
+
+	<!-- Look up Definitions  -->
 
 	<bean id="TimeOffAccrual-lookupDefinition" parent="TimeOffAccrual-lookupDefinition-parentBean" />
 	<bean id="TimeOffAccrual-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
+		<property name="lookupableID" value="timeOffAccrualLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />

@@ -11,6 +11,9 @@
 			value="org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule" />
 		<property name="titleAttribute" value="tkDailyOvertimeRuleId" />
 		<property name="objectLabel" value="DailyOvertimeRule" />
+		<property name="inquiryDefinition">
+			<ref bean="DailyOvertimeRule-inquiryDefinition" />
+		</property>
 		<property name="lookupDefinition">
 			<ref bean="DailyOvertimeRule-lookupDefinition" />
 		</property>
@@ -310,8 +313,38 @@
     <property name="label" value="Convert to Earncode" />
   </bean>
 
+ 	<!--  Inquiry Definitions  -->
+  
+  	<bean id="DailyOvertimeRule-inquiryDefinition" parent="DailyOvertimeRule-inquiryDefinition-parentBean" />
 
-	<!--  Inquiry Definitions  -->
+	<bean id="DailyOvertimeRule-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="location" />
+							<bean parent="FieldDefinition" p:attributeName="paytype" />
+							<bean parent="FieldDefinition" p:attributeName="dept" />
+							<bean parent="FieldDefinition" p:attributeName="workArea" />
+							<bean parent="FieldDefinition" p:attributeName="maxGap" />
+							<bean parent="FieldDefinition" p:attributeName="minHours" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+							<bean parent="FieldDefinition" p:attributeName="earnCode" />
+							<bean parent="FieldDefinition" p:attributeName="fromEarnGroup" />
+						</list>
+					</property>
+					<property name="title" value="DailyOvertimeRule" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="DailyOvertimeRule Inquiry" />
+	</bean>
+	
+	<!--  Look up Definitions  -->
 	<bean id="DailyOvertimeRule-lookupDefinition" parent="DailyOvertimeRule-lookupDefinition-parentBean" />
 	<bean id="DailyOvertimeRule-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">

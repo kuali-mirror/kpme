@@ -11,6 +11,9 @@
 			value="org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule" />
 		<property name="titleAttribute" value="tkShiftDiffRuleId" />
 		<property name="objectLabel" value="Shift Differential Rule" />
+		<property name="inquiryDefinition">
+			<ref bean="ShiftDifferentialRule-inquiryDefinition" />
+		</property>
 		<property name="lookupDefinition">
 			<ref bean="ShiftDifferentialRule-lookupDefinition" />
 		</property>
@@ -425,13 +428,53 @@
 		<property name="name" value="calendarGroup" />
 		<property name="label" value="Calendar Group" />
 	</bean>
-
+	
 	<!--  Inquiry Definitions  -->
+  
+  	<bean id="ShiftDifferentialRule-inquiryDefinition" parent="ShiftDifferentialRule-inquiryDefinition-parentBean" />
 
+	<bean id="ShiftDifferentialRule-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="location" />
+							<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
+							<bean parent="FieldDefinition" p:attributeName="payGrade" />
+							<bean parent="FieldDefinition" p:attributeName="earnCode" />
+							<bean parent="FieldDefinition" p:attributeName="fromEarnGroup" />
+							<bean parent="FieldDefinition" p:attributeName="beginTime" />
+							<bean parent="FieldDefinition" p:attributeName="endTime" />
+							<bean parent="FieldDefinition" p:attributeName="sunday" />
+							<bean parent="FieldDefinition" p:attributeName="monday" />
+							<bean parent="FieldDefinition" p:attributeName="tuesday" />
+							<bean parent="FieldDefinition" p:attributeName="wednesday" />
+							<bean parent="FieldDefinition" p:attributeName="thursday" />
+							<bean parent="FieldDefinition" p:attributeName="friday" />
+							<bean parent="FieldDefinition" p:attributeName="saturday" />
+							<bean parent="FieldDefinition" p:attributeName="maxGap" />
+							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+							<bean parent="FieldDefinition" p:attributeName="calendarGroup" />
+						</list>
+					</property>
+					<property name="title" value="ShiftDifferentialRule" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="ShiftDifferentialRule Inquiry" />
+	</bean>
+
+	<!--  Look up Definitions  -->
 
 	<bean id="ShiftDifferentialRule-lookupDefinition" parent="ShiftDifferentialRule-lookupDefinition-parentBean" />
 	<bean id="ShiftDifferentialRule-lookupDefinition-parentBean"
 		abstract="true" parent="LookupDefinition">
+		<property name="lookupableID" value="shiftDifferentialRuleLookupable" />
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="location" />

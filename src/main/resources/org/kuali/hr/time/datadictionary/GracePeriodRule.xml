@@ -103,6 +103,7 @@
   <bean id="GracePeriodRule-lookupDefinition" parent="GracePeriodRule-lookupDefinition-parentBean"/>
 
   <bean id="GracePeriodRule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="lookupableID" value="gracePeriodRuleLookupable" />
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="hourFactor"/>

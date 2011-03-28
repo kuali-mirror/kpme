@@ -10,6 +10,9 @@
 		<property name="businessObjectClass" value="org.kuali.hr.time.collection.rule.TimeCollectionRule" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="TimeCollectionRule" />
+		<property name="inquiryDefinition">
+			<ref bean="TimeCollectionRule-inquiryDefinition" />
+		</property>
 		<property name="lookupDefinition">
 			<ref bean="TimeCollectionRule-lookupDefinition" />
 		</property>
@@ -172,12 +175,40 @@
 		<property name="name" value="timeStamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>
-
+	
 	<!--  Inquiry Definitions  -->
+  
+  	<bean id="TimeCollectionRule-inquiryDefinition" parent="TimeCollectionRule-inquiryDefinition-parentBean" />
+
+	<bean id="TimeCollectionRule-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effDate" />
+							<bean parent="FieldDefinition" p:attributeName="dept" />
+							<bean parent="FieldDefinition" p:attributeName="workArea" />
+							<bean parent="FieldDefinition" p:attributeName="clockUserFl" />
+							<bean parent="FieldDefinition" p:attributeName="hrsDistributionF" />
+							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="TimeCollectionRule" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="TimeCollectionRule Inquiry" />
+	</bean>
+
+	<!--  Look up Definitions  -->
 
 	<bean id="TimeCollectionRule-lookupDefinition" parent="TimeCollectionRule-lookupDefinition-parentBean" />
 	<bean id="TimeCollectionRule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="lookupableID" value="tkLookupable" />
+        <property name="lookupableID" value="timeCollectionRuleLookupable" />
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="dept" />

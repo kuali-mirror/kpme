@@ -9,6 +9,9 @@
 		<property name="businessObjectClass" value="org.kuali.hr.time.earngroup.EarnGroup" />
 		<property name="titleAttribute" value="tkEarnGroupId" />
 		<property name="objectLabel" value="earnGroup" />
+		<property name="inquiryDefinition">
+			<ref bean="EarnGroup-inquiryDefinition" />
+		</property>
 		<property name="lookupDefinition">
 			<ref bean="EarnGroup-lookupDefinition" />
 		</property>
@@ -149,9 +152,34 @@
 		<property name="label" value="Active" />
 	</bean>
 	
-	<!-- -->
-	<!-- Lookup Definition: -->
-	<!-- -->
+	<!--  Inquiry Definitions  -->
+  
+  	<bean id="EarnGroup-inquiryDefinition" parent="EarnGroup-inquiryDefinition-parentBean" />
+
+	<bean id="EarnGroup-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="earnGroup" />
+							<bean parent="FieldDefinition" p:attributeName="descr" />
+							<bean parent="FieldDefinition" p:attributeName="showSummary" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="EarnGroup" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="EarnGroup Inquiry" />
+	</bean>
+
+	<!-- Look up Definitions  -->
+	
 
 	<bean id="EarnGroup-lookupDefinition" parent="EarnGroup-lookupDefinition-parentBean" />
 	<bean id="EarnGroup-lookupDefinition-parentBean" abstract="true"

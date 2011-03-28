@@ -1,0 +1,37 @@
+package org.kuali.hr.paygrade.service;
+
+import java.util.List;
+
+import org.kuali.hr.paygrade.PayGrade;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+
+public class PayGradeLookupableHelper extends KualiLookupableHelperServiceImpl {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	@Override
+	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
+			List pkNames) {
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(
+				businessObject, pkNames);
+		PayGrade payGrade = (PayGrade) businessObject;
+		final String className = this.getBusinessObjectClass().getName();
+		final Long hrPayGradeId = payGrade.getHrPayGradeId();
+		HtmlData htmlData = new HtmlData() {
+
+			@Override
+			public String constructCompleteHtmlTag() {
+				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
+						+ className + "&methodToCall=start&hrPayGradeId=" + hrPayGradeId
+						+ "\">view</a>";
+			}
+		};
+		customActionUrls.add(htmlData);
+		return customActionUrls;
+	}
+	
+}

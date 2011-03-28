@@ -11,6 +11,9 @@
 			value="org.kuali.hr.time.dept.earncode.DepartmentEarnCode" />
 		<property name="titleAttribute" value="tkDeptEarnCodeId" />
 		<property name="objectLabel" value="Department Earn Code" />
+		<property name="inquiryDefinition">
+			<ref bean="DepartmentEarnCode-inquiryDefinition" />
+		</property>
 		<property name="lookupDefinition">
 			<ref bean="DepartmentEarnCode-lookupDefinition" />
 		</property>
@@ -235,8 +238,38 @@
     <property name="label" value="Active"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
-	<!--  Inquiry Definitions  -->
 
+ 	<!--  Inquiry Definitions  -->
+  
+  	<bean id="DepartmentEarnCode-inquiryDefinition" parent="DepartmentEarnCode-inquiryDefinition-parentBean" />
+
+	<bean id="DepartmentEarnCode-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="dept" />
+							<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
+							<bean parent="FieldDefinition" p:attributeName="earnCode" />
+							<bean parent="FieldDefinition" p:attributeName="location" />
+							<bean parent="FieldDefinition" p:attributeName="employee" />
+							<bean parent="FieldDefinition" p:attributeName="approver" />
+							<bean parent="FieldDefinition" p:attributeName="org_admin" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="DepartmentEarnCode" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="DepartmentEarnCode Inquiry" />
+	</bean>
+
+	<!-- Look up Definitions  -->
 
 	<bean id="DepartmentEarnCode-lookupDefinition" parent="DepartmentEarnCode-lookupDefinition-parentBean" />
 	<bean id="DepartmentEarnCode-lookupDefinition-parentBean"

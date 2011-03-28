@@ -118,7 +118,7 @@
   <bean id="ProjectCode-lookupDefinition" parent="ProjectCode-lookupDefinition-parentBean"/>
   <bean id="ProjectCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Project Code Lookup"/>
-    
+    <property name="lookupableID" value="projectCodeLookupable"></property>
     <property name="defaultSort">
       <bean parent="SortDefinition">
         <property name="attributeNames">

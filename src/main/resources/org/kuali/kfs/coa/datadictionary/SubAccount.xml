@@ -127,7 +127,7 @@
 
   <bean id="SubAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Sub-Account Lookup"/>
-    
+    <property name="lookupableID" value="subAccountLookupable"></property>
 
     <property name="defaultSort">
       <bean parent="SortDefinition">

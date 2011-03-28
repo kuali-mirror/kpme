@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 /**
  * Used to override lookup functionality for the accrual category lookup
@@ -22,6 +23,27 @@ public class AccrualCategoryLookupableHelper extends
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
+			List pkNames) {
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(
+				businessObject, pkNames);
+		AccrualCategory accrualCategory = (AccrualCategory) businessObject;
+		final String className = this.getBusinessObjectClass().getName();
+		final Long laAccrualCategoryId = accrualCategory.getLaAccrualCategoryId();
+		HtmlData htmlData = new HtmlData() {
+
+			@Override
+			public String constructCompleteHtmlTag() {
+				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
+						+ className + "&methodToCall=start&laAccrualCategoryId=" + laAccrualCategoryId
+						+ "\">view</a>";
+			}
+		};
+		customActionUrls.add(htmlData);
+		return customActionUrls;
+	}
+	
 	@Override
 	public List<? extends BusinessObject> getSearchResults(
 			Map<String, String> fieldValues) {

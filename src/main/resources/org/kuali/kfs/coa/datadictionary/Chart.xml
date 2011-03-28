@@ -115,6 +115,7 @@
 
   <bean id="Chart-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Chart Lookup"/>
+    <property name="lookupableID" value="chartLookupable"></property>
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>

@@ -167,6 +167,7 @@
     <bean id="MissedPunch-lookupDefinition" parent="MissedPunch-lookupDefinition-parentBean" />
     <bean id="MissedPunch-lookupDefinition-parentBean" abstract="true"
         parent="LookupDefinition">
+        <property name="lookupableID" value="missedPunchLookupable"></property>
         <property name="lookupFields">
             <list>
                 <bean parent="FieldDefinition" p:attributeName="principalId" />

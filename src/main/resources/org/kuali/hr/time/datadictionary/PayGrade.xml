@@ -8,6 +8,9 @@
 		<property name="businessObjectClass" value="org.kuali.hr.paygrade.PayGrade" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="PayGrade" />
+		<property name="inquiryDefinition">
+			<ref bean="PayGrade-inquiryDefinition" />
+		</property>
 		<property name="lookupDefinition">
 			<ref bean="PayGrade-lookupDefinition" />
 		</property>
@@ -136,12 +139,37 @@
 		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>
-	<!--  Inquiry Definitions  -->
+		<!--  Inquiry Definitions  -->
+  
+  	<bean id="PayGrade-inquiryDefinition" parent="PayGrade-inquiryDefinition-parentBean" />
 
+	<bean id="PayGrade-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="payGrade" />
+							<bean parent="FieldDefinition" p:attributeName="description" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="PayGrade" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="PayGrade Inquiry" />
+	</bean>
+
+	<!-- Look up Definitions  -->
 
 	<bean id="PayGrade-lookupDefinition" parent="PayGrade-lookupDefinition-parentBean" />
 	<bean id="PayGrade-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
+		<property name="lookupableID" value="payGradeLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />

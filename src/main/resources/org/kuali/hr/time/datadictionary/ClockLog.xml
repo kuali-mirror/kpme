@@ -9,6 +9,9 @@
 		<property name="businessObjectClass" value="org.kuali.hr.time.clocklog.ClockLog" />
 		<property name="titleAttribute" value="tkClockLogId" />
 		<property name="objectLabel" value="Clock Log" />
+		<property name="inquiryDefinition">
+			<ref bean="ClockLog-inquiryDefinition" />
+		</property>
 		<property name="lookupDefinition">
 			<ref bean="ClockLog-lookupDefinition" />
 		</property>
@@ -237,10 +240,43 @@
 		<property name="name" value="timestamp" />
 		<property name="label" value="Timestamp" />
 	</bean>
+	
 	<!--  Inquiry Definitions  -->
+  
+  	<bean id="ClockLog-inquiryDefinition" parent="ClockLog-inquiryDefinition-parentBean" />
+
+	<bean id="ClockLog-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="principalId" />
+							<bean parent="FieldDefinition" p:attributeName="workArea" />
+							<bean parent="FieldDefinition" p:attributeName="task" />
+							<bean parent="FieldDefinition" p:attributeName="clockTimestamp" />
+							<bean parent="FieldDefinition" p:attributeName="clockTimestampTimezone" />
+							<bean parent="FieldDefinition" p:attributeName="clockAction" />
+							<bean parent="FieldDefinition" p:attributeName="ipAddress" />
+							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+							<bean parent="FieldDefinition" p:attributeName="timestamp" />
+						</list>
+					</property>
+					<property name="title" value="ClockLog" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="ClockLog Inquiry" />
+	</bean>
+
+	<!-- Look up Definitions  -->
+	
 	<bean id="ClockLog-lookupDefinition" parent="ClockLog-lookupDefinition-parentBean" />
 	<bean id="ClockLog-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
+		<property name="lookupableID" value="clockLogLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />

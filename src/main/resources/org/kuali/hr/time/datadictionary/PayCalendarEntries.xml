@@ -301,6 +301,7 @@
 
   <bean id="PayCalendarEntries-lookupDefinition" parent="PayCalendarEntries-lookupDefinition-parentBean"/>
   <bean id="PayCalendarEntries-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="lookupableID" value="payCalendarEntriesLookupable"></property>
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>

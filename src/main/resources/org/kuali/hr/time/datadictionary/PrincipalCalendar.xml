@@ -11,6 +11,9 @@
 		<property name="businessObjectClass" value="org.kuali.hr.time.principal.calendar.PrincipalCalendar" />
 		<property name="titleAttribute" value="principalId" />
 		<property name="objectLabel" value="principalId" />
+		<property name="inquiryDefinition">
+			<ref bean="PrincipalCalendar-inquiryDefinition" />
+		</property>
 		<property name="lookupDefinition">
 			<ref bean="PrincipalCalendar-lookupDefinition" />
 		</property>
@@ -144,11 +147,38 @@
     	<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   	</bean>
 	<!--  Inquiry Definitions  -->
+  
+  	<bean id="PrincipalCalendar-inquiryDefinition" parent="PrincipalCalendar-inquiryDefinition-parentBean" />
 
+	<bean id="PrincipalCalendar-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="principalId" />
+							<bean parent="FieldDefinition" p:attributeName="name" />
+							<bean parent="FieldDefinition" p:attributeName="calendarGroup" />
+							<bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="PrincipalCalendar" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="PrincipalCalendar Inquiry" />
+	</bean>
+
+	<!-- Look up Definitions  -->
 
 	<bean id="PrincipalCalendar-lookupDefinition" parent="PrincipalCalendar-lookupDefinition-parentBean" />
 	<bean id="PrincipalCalendar-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
+		<property name="lookupableID" value="principalCalendarLookupable"></property>
 		<property name="lookupFields">
 			<list>				
 				<bean parent="FieldDefinition" p:attributeName="principalId" />

@@ -170,6 +170,7 @@
 
   <bean id="Account-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Account Lookup"/>
+    <property name="lookupableID" value="accountLookupable"></property>
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>

@@ -154,7 +154,7 @@
 
   <bean id="SubObjectCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Sub-Object Code Lookup"/>
-    
+    <property name="lookupableID" value="subObjectCodeLookupable"></property>
     <property name="defaultSort">
       <bean parent="SortDefinition">
         <property name="attributeNames">

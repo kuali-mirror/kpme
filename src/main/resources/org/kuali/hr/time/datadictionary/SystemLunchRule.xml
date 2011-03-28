@@ -11,6 +11,9 @@
 			value="org.kuali.hr.time.syslunch.rule.SystemLunchRule" />
 		<property name="titleAttribute" value="tkSystemLunchRuleId" />
 		<property name="objectLabel" value="System Lunch Rule" />
+		<property name="inquiryDefinition">
+			<ref bean="SystemLunchRule-inquiryDefinition" />
+		</property>
 		<property name="lookupDefinition">
 			<ref bean="SystemLunchRule-lookupDefinition" />
 		</property>
@@ -114,6 +117,30 @@
 	</bean>
 
 	<!--  Inquiry Definitions  -->
+  
+  	<bean id="SystemLunchRule-inquiryDefinition" parent="SystemLunchRule-inquiryDefinition-parentBean" />
+
+	<bean id="SystemLunchRule-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="showLunchButton" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="SystemLunchRule" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="SystemLunchRule Inquiry" />
+	</bean>
+
+	<!--  Look up Definitions  -->
 
 	<bean id="SystemLunchRule-lookupDefinition" parent="SystemLunchRule-lookupDefinition-parentBean" />
 	<bean id="SystemLunchRule-lookupDefinition-parentBean" abstract="true"

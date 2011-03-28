@@ -10,6 +10,9 @@
 		<property name="businessObjectClass" value="org.kuali.hr.time.roles.TkRoleGroup" />
 		<property name="titleAttribute" value="principalId" />
 		<property name="objectLabel" value="Roles Group" />
+		<property name="inquiryDefinition">
+			<ref bean="RoleGroup-inquiryDefinition" />
+		</property>
 		<property name="lookupDefinition">
 			<ref bean="RoleGroup-lookupDefinition" />
 		</property>
@@ -65,12 +68,35 @@
         <property name="name" value="userName" />
         <property name="label" value="Name" />
     </bean>
-
-
+	
 	<!--  Inquiry Definitions  -->
+  
+  	<bean id="RoleGroup-inquiryDefinition" parent="RoleGroup-inquiryDefinition-parentBean" />
+
+	<bean id="RoleGroup-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="principalId" />
+							<bean parent="FieldDefinition" p:attributeName="userName" />
+						</list>
+					</property>
+					<property name="title" value="RoleGroup" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="RoleGroup Inquiry" />
+	</bean>
+
+	<!--  Look up Definitions  -->
 
 	<bean id="RoleGroup-lookupDefinition" parent="RoleGroup-lookupDefinition-parentBean" />
 	<bean id="RoleGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="lookupableID" value="tkRoleLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />

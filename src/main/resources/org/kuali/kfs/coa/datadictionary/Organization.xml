@@ -126,7 +126,7 @@
 
   <bean id="Organization-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Organization Lookup"/>
-    
+    <property name="lookupableID" value="organizationLookupable"></property>
     <property name="defaultSort">
       <bean parent="SortDefinition">
         <property name="attributeNames">

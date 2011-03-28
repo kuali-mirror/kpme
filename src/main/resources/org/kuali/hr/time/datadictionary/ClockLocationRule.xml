@@ -6,6 +6,9 @@
     <property name="businessObjectClass" value="org.kuali.hr.time.clock.location.ClockLocationRule"/>
     <property name="titleAttribute" value="id"/>
     <property name="objectLabel" value="ClockLocationRule"/>
+    <property name="inquiryDefinition">
+		<ref bean="ClockLocationRule-inquiryDefinition" />
+	</property>
     <property name="lookupDefinition">
       <ref bean="ClockLocationRule-lookupDefinition"/>
     </property>
@@ -218,13 +221,39 @@
     <property name="label" value="User Principal Id"/>
   </bean>
   
-  
   <!--  Inquiry Definitions  -->
+  
+	<bean id="ClockLocationRule-inquiryDefinition" parent="ClockLocationRule-inquiryDefinition-parentBean" />
+
+	<bean id="ClockLocationRule-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="dept" />
+							<bean parent="FieldDefinition" p:attributeName="workArea" />
+							<bean parent="FieldDefinition" p:attributeName="principalId" />
+							<bean parent="FieldDefinition" p:attributeName="jobNumber" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+							<bean parent="FieldDefinition" p:attributeName="ipAddress" />
+						</list>
+					</property>
+					<property name="title" value="ClockLocationRule" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="ClockLocationRule Inquiry" />
+	</bean>
+  <!--  Look up Definitions  -->
 
 	
   <bean id="ClockLocationRule-lookupDefinition" parent="ClockLocationRule-lookupDefinition-parentBean"/>
   <bean id="ClockLocationRule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="lookupableID" value="tkLookupable" />
+    <property name="lookupableID" value="clockLocationRuleLookupable" />
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="dept"/>
