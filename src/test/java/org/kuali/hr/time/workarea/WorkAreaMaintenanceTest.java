@@ -21,7 +21,7 @@ public class WorkAreaMaintenanceTest extends TkTestCase {
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");
     	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit");
     	HtmlUnitUtil.createTempFile(page);
-    	assertTrue("Test that maintenance screen rendered", page.asText().contains("1111"));
+    	assertTrue("Test that maintenance screen rendered", page.asText().contains("30"));
 	}
 
 	@Override
