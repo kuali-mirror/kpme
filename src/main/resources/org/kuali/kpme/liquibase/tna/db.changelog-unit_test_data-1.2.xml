@@ -35,4 +35,11 @@
             <column name="VER_NBR" valueNumeric="1"/>
         </insert>
     </changeSet>
+
+    <changeSet context="unit_test_data"  author="djunk" id="3">
+        <insert tableName="tk_shift_differential_rl_s">
+            <column name="ID" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>
