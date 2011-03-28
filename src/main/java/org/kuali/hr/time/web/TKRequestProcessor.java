@@ -56,7 +56,7 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 	public void setUserOnContext(HttpServletRequest request) {
 		if (request != null) {
 			UserSession userSession = UserLoginFilter.getUserSession(request);
-			TKUser tkUser = new TKUser();
+			
 			Person person = null;
 			Person backdoorPerson = null;
 			if(userSession!=null){
@@ -79,10 +79,9 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 					}
 				}
 			}
-			
+			TKUser tkUser = TkServiceLocator.getUserService().buildTkUser(person.getPrincipalId(), TKUtils.getCurrentDate());
 			tkUser.setBackdoorPerson(backdoorPerson);
 			tkUser.setActualPerson(person);
-			tkUser.setUserPreference(TkServiceLocator.getUserPreferenceService().getUserPreferences(tkUser.getPrincipalId()));
 			loadRoles(tkUser);
 			TKContext.setUser(tkUser);
 		} else {
@@ -90,6 +89,7 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 			throw new RuntimeException("Null HttpServletRequest while setting user.");
 		}		
 	}
+	
 	
 	/**
 	 * Helper method to load roles.  
@@ -111,7 +111,7 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 		Date payPeriodBeginDate = TKUtils.getCurrentDate(); // TODO : Fix this!
 		
 		if (user.getBackdoorPerson() != null) {
-			List<TkRole> roles = roleService.getRoles(user.getBackdoorPerson().getPrincipalId(), asOfDate);
+			List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(user.getBackdoorPerson().getPrincipalId(), asOfDate);
 			List<Assignment> assignments = assignmentService.getAssignments(user.getBackdoorPerson().getPrincipalId(), payPeriodBeginDate);
 			user.setBackdoorPersonRoles(new TkUserRoles(roles,assignments));
 		}
@@ -125,4 +125,6 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 		// 
 		user.setActualPersonRoles(new TkUserRoles(roles, assignments));
 	}
+	
+
 }

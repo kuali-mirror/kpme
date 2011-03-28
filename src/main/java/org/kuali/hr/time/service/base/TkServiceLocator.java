@@ -37,6 +37,7 @@ import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.timesummary.service.TimeSummaryService;
 import org.kuali.hr.time.timezone.service.TimezoneService;
 import org.kuali.hr.time.user.pref.service.UserPreferenceService;
+import org.kuali.hr.time.user.service.UserService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
 import org.kuali.hr.time.workschedule.service.WorkScheduleAssignmentService;
@@ -90,6 +91,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_TASK_SERVICE = "taskService";
     public static final String TK_LOCATION_SERVICE = "locationService";
     public static final String TK_PAY_GRADE_SERVICE = "payGradeService";
+    public static final String TK_USER_SERVICE = "userService";
 
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -265,6 +267,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static PayGradeService getPayGradeService() {
 	    return (PayGradeService)CONTEXT.getBean(TK_PAY_GRADE_SERVICE);
+	}
+	
+	public static UserService getUserService(){
+		return (UserService)CONTEXT.getBean(TK_USER_SERVICE);
 	}
 
 	@Override

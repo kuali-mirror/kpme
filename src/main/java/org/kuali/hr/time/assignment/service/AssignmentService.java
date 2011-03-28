@@ -42,4 +42,11 @@ public interface AssignmentService {
      * @return
      */
 	public Map<String,String> getAssignmentDescriptions(Assignment assignment);
+	/**
+	 * Get all active assignments for a work area
+	 * @param workArea
+	 * @param asOfDate
+	 * @return
+	 */
+	public List<Assignment> getActiveAssignmentsForWorkArea(String workArea, Date asOfDate);
 }

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
@@ -103,6 +102,10 @@ public class AssignmentServiceImpl implements AssignmentService {
 		
 		LOG.warn("no matched assignment found");
 		return new Assignment();
+	}
+	
+	public List<Assignment> getActiveAssignmentsForWorkArea(String workArea, Date asOfDate){
+		return assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
 	}
 
 }
