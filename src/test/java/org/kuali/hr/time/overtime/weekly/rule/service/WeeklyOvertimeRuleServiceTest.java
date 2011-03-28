@@ -201,7 +201,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 	 */
 	public void testProcessThreeStepOvtRule() throws Exception {
 		this.setupWeeklyOvertimeRule("REG", "OVT", "REG", 3, new BigDecimal(40), DEFAULT_EFFDT);
-		this.setupWeeklyOvertimeRule("SD2", "REG", "SD2", 2, new BigDecimal(1), DEFAULT_EFFDT);
+		this.setupWeeklyOvertimeRule("SD2", "RGN", "SD2", 2, new BigDecimal(1), DEFAULT_EFFDT);
 		this.setupWeeklyOvertimeRule("SD3", "ABC", "SD3", 1, new BigDecimal(1), DEFAULT_EFFDT);
 
 		
@@ -226,7 +226,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
 		// Create and Process Previous month to have totals set up correctly
 		TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(tdoc, aggregate);
-		TkTestUtils.verifyAggregateHourSums("Prior month", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(2));put("REG", new BigDecimal(40));put("ABC", new BigDecimal(1));put("XYZ", new BigDecimal(1));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("Prior month", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(2));put("RGN", new BigDecimal(40));put("ABC", new BigDecimal(1));put("XYZ", new BigDecimal(1));}},aggregate,2);
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), aggregate.getFlattenedTimeBlockList());
 		
 		// April time blocks & document

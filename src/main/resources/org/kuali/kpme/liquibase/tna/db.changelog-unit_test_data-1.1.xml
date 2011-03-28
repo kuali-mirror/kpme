@@ -2508,7 +2508,24 @@
             <column name="ACCRUAL_CATEGORY"/>
             <column name="inflate_min_hours" valueNumeric="0.00"/>
             <column name="inflate_factor" valueNumeric="1.00"/>
-        </insert>        
+        </insert> 
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="23"/>
+            <column name="earn_code" value="ABC"/>
+            <column name="descr" value="ABC"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>               
     </changeSet>
     <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-41">
         <insert tableName="tk_roles_group_t">
