@@ -306,8 +306,6 @@
                         var begin = parseDate(view.options.beginPeriodDate);
                         var end = parseDate(view.options.endPeriodDate);
 
-                        //begin = (begin.getMonth() + 1) + "/" + begin.getDate() + "/" + begin.getFullYear() + " " + begin.getHours() + ":" + begin.getMinutes() + ":" + begin.getSeconds();
-                        //end = (end.getMonth() + 1) + "/" + end.getDate() + "/" + end.getFullYear() + " " + end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds();
 
                         // update title text
                         //header.find('h2.fc-header-title').html(view.title + "(" + begin + " - " + end +")");
@@ -525,7 +523,7 @@
 
                 //
                 // Navigation
-                //
+                // when prev / next button is clicked, it will do a form submit instead of the default navigation
 
                 prev: function() {
                     window.location = "TimeDetail.do?calNav=prev&documentId=" + $("#documentId").val();
@@ -534,7 +532,7 @@
 
                 next: function() {
                     window.location = "TimeDetail.do?calNav=next&documentId=" + $("#documentId").val();
-                    //renderedetai(1);
+                    //render(1);
                 },
 
                 prevYear: function() {
@@ -975,6 +973,11 @@
                 // var today = new Date();
                 // start.setDate(1);
                 // start.setDate(today.getDate())
+
+                /**
+                 * This is a customization to render the calendar based on the pay period dates
+                 */
+
                 var beginPeriodDate = parseDate(options.beginPeriodDate);
                 var endPeriodDate = parseDate(options.endPeriodDate);
 
@@ -1307,6 +1310,7 @@
 
 
         function setHeight(height) {
+
             viewHeight = height;
             var leftTDs = tbody.find('tr td:first-child'),
                     tbodyHeight = viewHeight - thead.height(),
@@ -1377,7 +1381,6 @@
 
             for (i = 0; i < rowCnt; i++) {
                 row = stackSegs(view.sliceSegs(events, visEventsEnds, d1, d2));
-
                 for (j = 0; j < row.length; j++) {
                     level = row[j];
                     for (k = 0; k < level.length; k++) {
@@ -3424,7 +3427,7 @@
                 collide = false;
                 if (levels[j]) {
                     for (k = 0; k < levels[j].length; k++) {
-                        if (segsCollide(levels[j][k], seg)) {
+                        if (levels[j][k].event.end.getHours() != '0' && segsCollide(levels[j][k], seg)) {
                             collide = true;
                             break;
                         }
