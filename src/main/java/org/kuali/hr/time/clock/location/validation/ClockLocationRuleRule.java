@@ -21,13 +21,13 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 
 	// private static final String WILDCARD_CHARACTER = "\\*|%";
 	private static final String WILDCARD_CHARACTER = "%";
-	private static final String REGEX_IP_ADDRESS_STRING = "^(?:"
+	private static final String REGEX_IP_ADDRESS_STRING = "^(?:("
 			+ WILDCARD_CHARACTER
-			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:"
+			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.(?:("
 			+ WILDCARD_CHARACTER
-			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:"
+			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.(?:("
 			+ WILDCARD_CHARACTER
-			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:"
+			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.(?:"
 			+ WILDCARD_CHARACTER
 			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))))$";
 	private static final Pattern REGEX_IP_ADDRESS_PATTERN = Pattern

@@ -374,5 +374,10 @@ public class TkTestUtils {
 
 		return dateToHoursMap;
 	}
+	
+	public static Date createDate(int month, int day, int year, int hours, int minutes, int seconds){
+		DateTime dt = new DateTime(year, month, day, hours, minutes, seconds, 0);
+		return new Date(dt.getMillis());
+	}
 
 }

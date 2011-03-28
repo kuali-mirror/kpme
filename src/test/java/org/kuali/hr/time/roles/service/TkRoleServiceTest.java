@@ -40,19 +40,20 @@ public class TkRoleServiceTest  extends TkTestCase {
 		assertNotNull(roles);
 		assertEquals("Incorrect number of roles.", 2, roles.size());
 		for (TkRole role : roles) {
-			assertTrue("Incorrect values.", role.getTkRolesId().longValue() == 10L || role.getTkRolesId().longValue() == 5L);
+			assertTrue("Incorrect values.", role.getTkRolesId().longValue() == 21L || role.getTkRolesId().longValue() == 5L);
 		}
 		
 		// Finds any roles
 		roles=trs.getWorkAreaRoles(workArea, asOfDate);
 		assertNotNull(roles);
-		assertEquals("Incorrect number of roles.", 4, roles.size());
+		assertEquals("Incorrect number of roles.", 5, roles.size());
 		for (TkRole role : roles) {
 			assertTrue("Incorrect values.", 
-					role.getTkRolesId().longValue() == 10L || 
+					role.getTkRolesId().longValue() == 23L || 
 					role.getTkRolesId().longValue() == 5L  ||
 					role.getTkRolesId().longValue() == 15L ||
-					role.getTkRolesId().longValue() == 20L );
+					role.getTkRolesId().longValue() == 20L || 
+					role.getTkRolesId().longValue() == 21L);
 		}		
 	}
 	
@@ -79,18 +80,18 @@ public class TkRoleServiceTest  extends TkTestCase {
 		assertEquals("Incorrect number of roles.", 2, roles.size());
 		for (TkRole role: roles) {
 			assertTrue("Incorrect values.", 
-					role.getTkRolesId().longValue() == 10L || 
-					role.getTkRolesId().longValue() == 20L);			
+					role.getTkRolesId().longValue() == 20L || 
+					role.getTkRolesId().longValue() == 21L);			
 		}
 		
 		// Specific Role Name, Specific User
-		asOfDate = new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		asOfDate = new Date((new DateTime(2010, 8, 21, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		roles = trs.getRoles(principalId, TkConstants.ROLE_TK_APPROVER, asOfDate);
 		assertNotNull(roles);
 		assertEquals("Incorrect number of roles.", 1, roles.size());
 		for (TkRole role: roles) {
 			assertTrue("Incorrect values.", 
-					role.getTkRolesId().longValue() == 10L);			
+					role.getTkRolesId().longValue() == 21L);			
 		}
 		
 	}

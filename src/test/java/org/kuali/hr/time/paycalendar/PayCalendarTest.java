@@ -1,12 +1,8 @@
 package org.kuali.hr.time.paycalendar;
 
-import java.sql.Date;
-import java.sql.Time;
-
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -21,7 +17,7 @@ public class PayCalendarTest extends TkTestCase {
     	HtmlUnitUtil.createTempFile(page);
     	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","1");
     	HtmlUnitUtil.createTempFile(page);
-    	assertTrue("Test that maintenance screen rendered", page.asText().contains("BW-CAL"));
+    	assertTrue("Test that maintenance screen rendered", page.asText().contains("BWN-CAL"));
 	}
 	
 	

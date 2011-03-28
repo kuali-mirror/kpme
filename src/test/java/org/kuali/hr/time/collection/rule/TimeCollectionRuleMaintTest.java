@@ -11,9 +11,12 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.junit.Test;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.time.test.TkTestUtils;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
@@ -32,7 +35,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 	
 	
 	private static String TEST_CODE_INVALID_DEPT_ID = "0";
-	private static Long TEST_CODE_INVALID_WORKAREA = 0l;
+	private static Long TEST_CODE_INVALID_WORKAREA = 2L;
 
 	/**
 	 * Test to check whether it is showing error message on maintenance screen
@@ -78,9 +81,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(
 				timeCollectionRuleLookup, "edit",
 				timeCollectionRuleIdWithInvalidWorkArea.toString());
-		HtmlInput inputForWorkArea = HtmlUnitUtil.getInputContainingText(maintPage,
-				Long.toString(TEST_CODE_INVALID_WORKAREA));
-		inputForWorkArea.setValueAttribute(Long.toString(TEST_CODE_INVALID_WORKAREA));
+		HtmlUnitUtil.createTempFile(maintPage);
 		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(
 				maintPage, "* Document Description");
 		inputForDescription.setValueAttribute("Description");
@@ -192,15 +193,15 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().delete(
 				timeCollectionRuleObj);
 
+		timeCollectionRuleObj = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(TEST_CODE_DEPARTMENT_VALID, 
+									TEST_CODE_INVALID_WORKAREA, TKUtils.getCurrentDate());
 		timeCollectionRuleObj = KNSServiceLocator.getBusinessObjectService()
 				.findBySinglePrimaryKey(TimeCollectionRule.class,
 						timeCollectionRuleIdWithInvalidWorkArea);
 		KNSServiceLocator.getBusinessObjectService().delete(
 				timeCollectionRuleObj);
 
-		Department deptObj = KNSServiceLocator.getBusinessObjectService()
-				.findBySinglePrimaryKey(Department.class,
-						deptId);
+		Department deptObj = TkServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, TKUtils.getCurrentDate());
 		KNSServiceLocator.getBusinessObjectService().delete(deptObj);		
 		super.tearDown();
 	}

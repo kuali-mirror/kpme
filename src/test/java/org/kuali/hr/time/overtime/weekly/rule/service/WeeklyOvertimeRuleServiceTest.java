@@ -17,6 +17,7 @@ import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 /**
  * 
@@ -98,7 +99,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		timeBlocks = TkTestUtils.createUniformTimeBlocks(start, 2, BigDecimal.TEN, "REG", DEFAULT_JOB_NUMBER, DEFAULT_WORK_AREA);
 		payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
 		aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
-		TkTestUtils.verifyAggregateHourSums("Pre-Rules verification", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("RGN", new BigDecimal(20));}},aggregate,0);
+		TkTestUtils.verifyAggregateHourSums("Pre-Rules verification", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(20));}},aggregate,0);
 		TimesheetDocument timesheetDocument = TkTestUtils.populateBlankTimesheetDocument(new Date(start.getMillis()));
 		timesheetDocument.setTimeBlocks(timeBlocks);
 		
@@ -131,7 +132,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		PayCalendarEntries endOfJune = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(22L);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
-		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "REG", start, 4, new BigDecimal(11));
+		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 4, new BigDecimal(11));
 		
 		tdoc.setTimeBlocks(timeBlocks);
 		
@@ -145,15 +146,15 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
 		// Create and Process Previous month to have totals set up correctly
 		TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(tdoc, aggregate);
-		TkTestUtils.verifyAggregateHourSums("Prior month", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(4));put("REG", new BigDecimal(40));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("Prior month", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(4));put("RGN", new BigDecimal(40));}},aggregate,2);
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), aggregate.getFlattenedTimeBlockList());
 		
 		// April time blocks & document
 		start = new DateTime(2010, 7, 1, 5, 0, 0, 0, DateTimeZone.forID("EST"));
-		timeBlocks = TkTestUtils.createUniformTimeBlocks(start, 2, new BigDecimal(11), "REG", DEFAULT_JOB_NUMBER, DEFAULT_WORK_AREA);
+		timeBlocks = TkTestUtils.createUniformTimeBlocks(start, 2, new BigDecimal(11), "RGN", DEFAULT_JOB_NUMBER, DEFAULT_WORK_AREA);
 		payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates("admin", new Date(start.getMillis()));
 		aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
-		TkTestUtils.verifyAggregateHourSums("Pre-Rules verification", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("REG", new BigDecimal(22));}},aggregate,0);
+		TkTestUtils.verifyAggregateHourSums("Pre-Rules verification", new HashMap<String,BigDecimal>() {{put("OVT", BigDecimal.ZERO);put("RGN", new BigDecimal(22));}},aggregate,0);
 		TimesheetDocument timesheetDocument = TkTestUtils.populateBlankTimesheetDocument(new Date(start.getMillis()));
 		timesheetDocument.setTimeBlocks(timeBlocks);		
 
@@ -161,7 +162,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(timesheetDocument, aggregate);		
 		
 		// Verify
-		TkTestUtils.verifyAggregateHourSums("Overtime processed", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(22));put("REG", BigDecimal.ZERO);}},aggregate,0);
+		TkTestUtils.verifyAggregateHourSums("Overtime processed", new HashMap<String,BigDecimal>() {{put("OVT", new BigDecimal(22));put("RGN", BigDecimal.ZERO);}},aggregate,0);
 	}
 	
 	@SuppressWarnings("serial")
@@ -261,6 +262,12 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		
 		TkServiceLocator.getWeeklyOvertimeRuleService().saveOrUpdate(weeklyOvertimeRule);
 		return weeklyOvertimeRule;
+	}
+
+	@Override
+	public void tearDown() throws Exception {
+		KNSServiceLocator.getBusinessObjectService().deleteMatching(WeeklyOvertimeRule.class, new HashMap());
+		super.tearDown();
 	}
 		
 }

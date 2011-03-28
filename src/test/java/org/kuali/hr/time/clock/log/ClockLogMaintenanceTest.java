@@ -1,32 +1,14 @@
 package org.kuali.hr.time.clock.log;
 
-import java.util.Calendar;
-import java.util.Random;
-
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
 import org.junit.Test;
-import org.kuali.hr.time.clocklog.ClockLog;
-import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class ClockLogMaintenanceTest extends TkTestCase{
-	//TODO - sai remove the random and use the hard coded data in the bootstrap(add if no clock logs are present)
-	
-	//private static final String TEST_CODE_ONE="TST";
-	//private static final String TEST_CODE_TWO="_";
-	//private static final Long TEST_ID=20L;		
-	//private static final java.sql.Timestamp TEST_TIMESTAMP=new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
 	private static Long TEST_CODE_INVALID_TASK_ID =9999L;
 	private static Long TEST_CODE_INVALID_WORK_AREA_ID =9999L;
 	private static Long clockLogId = 1L;	
@@ -60,6 +42,8 @@ public class ClockLogMaintenanceTest extends TkTestCase{
 						"The specified Workarea '"
 								+ TEST_CODE_INVALID_WORK_AREA_ID
 								+ "' does not exist."));
+		
+		HtmlUnitUtil.createTempFile(resultantPageAfterEdit);
 		
 		assertTrue("Maintenance Page contains test Task ",
 				resultantPageAfterEdit.asText().contains(

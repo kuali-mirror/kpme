@@ -57,6 +57,7 @@ public class SystemLunchRuleTest extends TkTestCase {
     	
     	// clock in
     	page = TkTestUtils.clickButton(page, "clockAction");
+    	HtmlUnitUtil.createTempFile(page);
     	assertTrue("The lunch in button didn't appear", page.asXml().contains("lunchIn"));
     	
     	// the lunch in button should display after clocking in

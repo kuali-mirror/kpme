@@ -8,6 +8,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -24,6 +25,13 @@ public class DocumentHeaderTest extends TkTestCase {
 	  //('1002','admin','I','2011-01-15 00:00:00','2011-02-01 00:00:00');
 	@Test
 	public void testDocumentHeaderPrevFetch() throws Exception{
+		TimesheetDocumentHeader timeHeader = new TimesheetDocumentHeader();
+		timeHeader.setDocumentId("1");
+		timeHeader.setPrincipalId("admin");
+		timeHeader.setDocumentStatus("F");
+		timeHeader.setPayBeginDate(TkTestUtils.createDate(1, 1, 2011, 0, 0, 0));
+		timeHeader.setPayEndDate(TkTestUtils.createDate(1, 15, 2011, 0, 0, 0));
+		KNSServiceLocator.getBusinessObjectService().save(timeHeader);
         DateTime dateTime = new DateTime(2011,1,15,0,0,0,0);
 		TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader("admin", new java.util.Date(dateTime.getMillis()));
 		assertTrue(tdh!=null && StringUtils.equals(tdh.getDocumentId(),"1"));

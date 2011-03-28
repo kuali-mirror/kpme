@@ -75,9 +75,6 @@ public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
         assertFalse("page text:\n" + lastPage.asText() + "\n contains:\n" + ERROR_MESSAGE, lastPage.asText().contains(ERROR_MESSAGE));
         assertTrue("page text:\n" + lastPage.asText() + "\n does not contains:\n" + SUCCESS_MESSAGE, lastPage.asText().contains(SUCCESS_MESSAGE));
         
-        String message = "WorkArea: 	 " + this.maxWorkAreaId().toString();
-        assertTrue("page text:\n" + lastPage.asText() + "\n does not contains:\n" + message, lastPage.asText().contains(message));
-        
     }
     
 	public Long maxWorkAreaId() {
