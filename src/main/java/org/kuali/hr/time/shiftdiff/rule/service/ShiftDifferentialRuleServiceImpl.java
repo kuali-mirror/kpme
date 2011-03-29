@@ -275,7 +275,11 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                     List<Interval> accumulatedBlockIntervals = new ArrayList<Interval>(); // To save recompute time when checking timeblocks for application we store them as we create them.
 					// Iterate over sorted list, checking time boundaries vs Shift Intervals.
 					long accumulatedMillis = TKUtils.convertHoursToMillis(hoursBeforeVirtualDay);
+                    boolean previousDayOnly = false; // IF the rule is not active today, but was on the previous day, we need to still look at time blocks.
 
+                    if (!dayIsRuleActive(currentDay, rule)) {
+                        previousDayOnly = dayIsRuleActive(currentDay.minusDays(1), rule);
+                    }
 
 					/*
 					 * We will touch each time block and accumulate time blocks that are applicable to
@@ -283,12 +287,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 					 */
 					for (TimeBlock current : ruleTimeBlocksCurr) {
 						if (!timeBlockHasEarnCode(fromEarnGroup, current)) {
-                            // TODO: We also have to check whether or not there
-                            // is a work schedule for this time block. We have to
-                            // take care in creating the intervals, etc, since the
-                            // time block is recording applicable hours and not
-                            // an actual actual time range.
-
+                            // TODO: WorkSchedule considerations somewhere in here?
                             continue;
                         }
 
@@ -300,27 +299,38 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 						if (previousDayShiftInterval.overlaps(shiftInterval))
 							throw new RuntimeException("Interval of greater than 24 hours created in the rules processing.");
 
+                        // This block of code handles cases where you have time
+                        // that spills to multiple days and a shift rule that
+                        // has a valid window on multiple consecutive days. Time
+                        // must be applied with the correct shift interval.
 						Interval overlap = previousDayShiftInterval.overlap(blockInterval);
-                        evalInterval = previousDayShiftInterval; // Set the interval we will use when evaluating the time blocks for hour application
+                        evalInterval = previousDayShiftInterval;
 						if (overlap == null) {
+                            if (hoursToApplyPrevious.compareTo(BigDecimal.ZERO) > 0) {
+                                // we have hours from previous day, and the shift
+                                // window is going to move to current day.
+                                // Need to apply this now, and move window forward
+                                // for current time block.
+                                BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
+                                this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule);
+                                accumulatedMillis = 0L; // reset accumulated hours..
+                                hoursToApply = BigDecimal.ZERO;
+                                hoursToApplyPrevious = BigDecimal.ZERO;
+                            }
+
 							overlap = shiftInterval.overlap(blockInterval);
                             evalInterval = shiftInterval;
                         }
 
+                        // Time bucketing and application as normal:
+                        //
 						if (overlap != null) {
 							// There IS overlap.
 							if (previous != null) {
 								if (exceedsMaxGap(previous, current, rule.getMaxGap())) {
 									BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
-									if (accumHours.compareTo(rule.getMinHours()) >= 0) {
-										//
-										// Apply Premium
-										//
-										this.applyPremium(evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
-									}
-									accumulatedBlocks.clear();
-                                    accumulatedBlockIntervals.clear();
-									accumulatedMillis = 0L; // reset accumulated hours..
+                                    this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule);
+                                    accumulatedMillis = 0L; // reset accumulated hours..
 									hoursToApply = BigDecimal.ZERO;
 									hoursToApplyPrevious = BigDecimal.ZERO;
 								} else {
@@ -341,14 +351,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 							// No Overlap / Outside of Rule
 							if (previous != null) {
 								BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
-								if (accumHours.compareTo(rule.getMinHours()) >= 0) {
-									//
-									// Apply Premium
-									//
-									this.applyPremium(evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
-								}
-								accumulatedBlocks.clear();
-                                accumulatedBlockIntervals.clear();
+                                this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule);
 								accumulatedMillis = 0L; // reset accumulated hours..
 								hoursToApply = BigDecimal.ZERO;
 								hoursToApplyPrevious = BigDecimal.ZERO;
@@ -360,19 +363,23 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 					// All time blocks are iterated over, check for remainders.
 					// Check containers for time, and apply if needed.
 					BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
-					if (accumHours.compareTo(rule.getMinHours()) >= 0) {
-						//
-						// Apply Premium
-						//
-						this.applyPremium(evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
-					}
-				}
+                    this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule);
+                }
 			}
 			// 	Keep track of previous as we move day by day.
 			jobNumberToTimeBlocksPreviousDay = jobNumberToTimeBlocks;
 		}
 
 	}
+
+
+    private void applyAccumulatedWrapper(BigDecimal accumHours, Interval evalInterval, List<Interval>accumulatedBlockIntervals, List<TimeBlock>accumulatedBlocks, BigDecimal hoursToApplyPrevious, BigDecimal hoursToApply, ShiftDifferentialRule rule) {
+        if (accumHours.compareTo(rule.getMinHours()) >= 0) {
+            this.applyPremium(evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
+        }
+        accumulatedBlocks.clear();
+        accumulatedBlockIntervals.clear();
+    }
 
 	private void sortTimeBlocksInverse(List<TimeBlock> blocks) {
 		Collections.sort(blocks, new Comparator<TimeBlock>() { // Sort the Time Blocks

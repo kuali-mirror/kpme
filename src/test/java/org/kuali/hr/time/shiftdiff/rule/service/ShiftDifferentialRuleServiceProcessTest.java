@@ -41,7 +41,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 	 *
 	 * Rule 1:
 	 *
-	 * Runs on Tu, Th on the interval: [22:00, 4:00)
+	 * Runs on Tu, Wed, Th on the interval: [22:00, 4:00)
 	 * Max Gap: 15 minutes
 	 * Min Hours: 3
 	 *
@@ -70,12 +70,29 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 	 * | 9:45p - 11:45| XX | Mid - 5a   | 5p - 11p   |
 	 * |              | XX | 6a - Noon  |            |
 	 * |--------------+----+------------+------------|
+     *
+     *
+     * Aug 31: 2h  : 21:45 - 23:45 (Tue) **
+     *                           [1: 5h 45m]  // [2: 2h 45m] - Not qualifying, min hours must be 3.
+     * Sep  1: 5h  : 00:00 - 05:00 (Wed) **
+     * Sep  1: 6h  : 06:00 - 12:00 (Wed) [4: 6h]
+     *
+     * Sep  1: 2h  : 22:00 - 24:00 (Wed)
+     * Sep  2: 1h  : 00:00 - 01:00 (Thu) [1: 3h]
+     *
+     * Sep  2: 6h  : 17:00 - 22:00 (Thu)
+     *
+     * 1: [22:00,  4:00) (Tue/Wed/Thu) minimum: 3h gap: 15m
+     * 2: [23:00,  2:00) (Tue/Thu)     minimum: 3h gap: 2h
+     * 3: [05:00, 12:00) (Wed/Thu)     minimum: 7h gap: 15m
+     * 4: [05:00, 12:00) (Wed)         minimum: 5h gap: 15m
+     *
 	 */
 	@SuppressWarnings("serial")
 	@Test
 	public void testProcessTimesheetBoundaryCarryoverOverlapCase() throws Exception {
 		// Create the Rule    Sun,   Mon,   Tue,  Wed,   Thu,  Fri,  Sat
-		boolean[] dayArray = {false, false, true, false, true, true, true};
+		boolean[] dayArray = {false, false, true, true, true, true, true};
 		// Matches HR Job ID #1 (job # 30)
 		Long jobNumber = 30L;
 		Long workArea = 0L;
@@ -86,6 +103,8 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 				new BigDecimal(3), // minHours
 				new BigDecimal("0.25"), // maxGap
 				dayArray);
+
+        dayArray = new boolean [] {false, false, true, false, true, true, true};
 		this.createShiftDifferentialRule(
 				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
 				(new DateTime(2010, 8, 31, 23, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
@@ -107,8 +126,8 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
 				(new DateTime(2010, 8, 31, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
 				(new DateTime(2010, 8, 31,  12, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)),
-				new BigDecimal("0.25"), // minHours
-				new BigDecimal("5.0"), // maxGap
+				new BigDecimal("5"), // minHours
+				new BigDecimal("0.25"), // maxGap
 				dayArray);
 
 		// Timeblocks
@@ -135,13 +154,15 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		blocks = new ArrayList<TimeBlock>();
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 1, new BigDecimal("5"), "RGN", jobNumber, workArea));
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(6), 1, new BigDecimal("6"), "RGN", jobNumber, workArea));
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(22), 1, new BigDecimal("2"), "RGN", jobNumber, workArea));
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusDays(1), 1, new BigDecimal("1"), "RGN", jobNumber, workArea));
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusDays(1).plusHours(17), 1, new BigDecimal("6"), "RGN", jobNumber, workArea));
 		aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
-		TkTestUtils.verifyAggregateHourSumsFlatList("September Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(17));}},aggregate);
+		TkTestUtils.verifyAggregateHourSumsFlatList("September Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(20));}},aggregate);
 
 		// Verify carry over and applied PRM bucket
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
-		TkTestUtils.verifyAggregateHourSumsFlatList("September Post-Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal("11.75"));put("RGN", new BigDecimal(17));}},aggregate);
+		TkTestUtils.verifyAggregateHourSumsFlatList("September Post-Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal("14.75"));put("RGN", new BigDecimal(20));}},aggregate);
 
 	}
 
