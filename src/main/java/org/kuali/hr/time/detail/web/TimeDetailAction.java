@@ -37,7 +37,7 @@ public class TimeDetailAction extends TimesheetAction {
 		tdaf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(tdaf.getTimesheetDocument(),false));
 //		tdaf.setBeginPeriodDateTime(td.getPayCalendarEntry().getBeginPeriodDateTime());
 //		tdaf.setEndPeriodDateTime(td.getPayCalendarEntry().getEndPeriodDateTime());
-		
+
 		// TODO: may need to revisit this:
 		// when adding / removing timeblocks, it should update the timeblocks on the timesheet document,e
 		// so that we can directly fetch the timeblocks from the document
@@ -45,15 +45,15 @@ public class TimeDetailAction extends TimesheetAction {
 		tdaf.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument(), timeBlocks));
 
 		this.validateHourLimit(tdaf);
-		
+
 		// for visually impaired users
 		// TimesheetDocument td = tdaf.getTimesheetDocument();
 		// List<TimeBlock> timeBlocks = td.getTimeBlocks();
 		// tdaf.setTimeBlocks(timeBlocks);
-		
+
 		return forward;
 	}
-    
+
     @SuppressWarnings("unchecked")
     public void validateHourLimit(TimeDetailActionForm tdaf) throws Exception {
     	tdaf.setWarningMessages(new ArrayList<String>());
@@ -64,7 +64,7 @@ public class TimeDetailAction extends TimesheetAction {
     		pId = tdaf.getTimesheetDocument().getPrincipalId();
     	}
     	List<Map<String, Object>> calcList = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualsCalc(pId);
-    	
+
     	List<TimeBlock> tbList = tdaf.getTimesheetDocument().getTimeBlocks();
     	if(tbList.isEmpty()) {
     		return;
@@ -76,13 +76,13 @@ public class TimeDetailAction extends TimesheetAction {
     			warningMsgList.add("Warning: Total hours entered for Accrual Category " + accrualCategory + " has exceeded balance.");
     		}
     	}
-     	
+
     	if(!warningMsgList.isEmpty()) {
     		tdaf.setWarningMessages(warningMsgList);
     	}
     	return;
     }
-   
+
     public BigDecimal totalForAccrCate(String accrualCategory, List<TimeBlock> tbList) {
     	BigDecimal total = BigDecimal.ZERO;
     	for(TimeBlock tb: tbList) {
@@ -234,7 +234,7 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTimeBlocks);
         // anyone who records time asynch (not clock user) should not be affected by the lunch rule
         // only timeblocks created by the clock should have this rule applied
-        if(!tdaf.getUser().isSynchronousAspect()) {
+        if(!tdaf.getUser().getCurrentRoles().isSynchronous()) {
             TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument());
         }
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
@@ -293,7 +293,7 @@ public class TimeDetailAction extends TimesheetAction {
             return mapping.findForward("ws");
         }
 
-        //------------------------	
+        //------------------------
         // check if the overnight shift is across days
         //------------------------
         if(StringUtils.equals(tdaf.getAcrossDays(), "y")) {
@@ -323,7 +323,7 @@ public class TimeDetailAction extends TimesheetAction {
             }
         }
         this.validateHourLimit(tdaf);
-        
+
         tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
 
         return mapping.findForward("ws");

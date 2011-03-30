@@ -32,7 +32,7 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
             if (role.getDepartment() != null)
                 this.putFieldError(fieldPrefix + "department", "field.unused");
             valid &= vwa;
-        } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_ORG_ADMIN)) {
+        } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_CHART_ADMIN)) {
             // Only Department required
             boolean vwa = ValidationUtils.validateDepartment(role.getDepartment(), asOfDate);
             if (!vwa) {

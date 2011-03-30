@@ -1,16 +1,16 @@
 package org.kuali.hr.time.department.service;
 
-import java.util.List;
-
 import org.kuali.hr.time.department.Department;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
+import java.util.List;
+
 public class DepartmentLookupableHelper extends
 		KualiLookupableHelperServiceImpl {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -36,4 +36,6 @@ public class DepartmentLookupableHelper extends
 		customActionUrls.add(htmlData);
 		return customActionUrls;
 	}
+
+
 }

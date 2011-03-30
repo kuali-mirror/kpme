@@ -113,7 +113,7 @@ public class ClockAction extends TimesheetAction {
     			Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(),
 						caf.getSelectedAssignment());
 
-    			String earnCode = TKContext.getUser().isSynchronousAspect() ? assignment.getJob().getPayTypeObj().getRegEarnCode() : caf.getSelectedEarnCode();
+    			String earnCode = TKContext.getUser().getCurrentRoles().isSynchronous() ? assignment.getJob().getPayTypeObj().getRegEarnCode() : caf.getSelectedEarnCode();
 
     			// New Time Blocks, pointer reference
                 List<TimeBlock> newTimeBlocks = caf.getTimesheetDocument().getTimeBlocks();

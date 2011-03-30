@@ -1,8 +1,8 @@
 package org.kuali.hr.time.workarea.service;
 
-import java.sql.Date;
-
 import org.kuali.hr.time.workarea.WorkArea;
+
+import java.sql.Date;
 
 public interface WorkAreaService {
 	/**
@@ -17,4 +17,14 @@ public interface WorkAreaService {
      * @param workArea
      */
     public void saveOrUpdate(WorkArea workArea);
+
+    /**
+     * A helper method to populate the roles for the given WorkArea. This
+     * method will be called automatically when calls to getWorkArea() are
+     * made. Functionality is exposed here to allow the Kuali Lookup / Maint
+     * pages to completely populate WorkArea objects.
+     *
+     * @param workArea The WorkArea for which we need roles populated.
+     */
+    public void populateWorkAreaRoles(WorkArea workArea);
 }

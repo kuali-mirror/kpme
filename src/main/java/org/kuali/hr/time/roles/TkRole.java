@@ -22,6 +22,7 @@ public class TkRole extends PersistableBusinessObjectBase {
 	private String userPrincipalId;
 	private Long workArea;
 	private String department;
+    private String chart;
 	private Date effectiveDate;
 	private Timestamp timestamp;
 	private boolean active;
@@ -128,6 +129,14 @@ public class TkRole extends PersistableBusinessObjectBase {
 	public void setTkWorkAreaId(Long tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
+
+    public String getChart() {
+        return chart;
+    }
+
+    public void setChart(String chart) {
+        this.chart = chart;
+    }
 
     /**
      * This method supports maintenance and lookup pages.

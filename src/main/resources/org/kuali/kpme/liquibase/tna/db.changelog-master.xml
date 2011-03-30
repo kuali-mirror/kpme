@@ -12,6 +12,7 @@
       <include file="org/kuali/kpme/liquibase/tna/db.changelog-1.1.xml"/>
       <include file="org/kuali/kpme/liquibase/tna/db.changelog-1.2.xml"/>
       <include file="org/kuali/kpme/liquibase/tna/db.changelog-1.4.xml"/>
+      <include file="org/kuali/kpme/liquibase/tna/db.changelog-1.5.xml"/>
 
 
   <!-- Data section -->
@@ -23,6 +24,8 @@
       <include file="org/kuali/kpme/liquibase/tna/db.changelog-unit_test_data-1.1.xml"/>
       <!-- 17 Mar 2011 : Test data for Work Schedule Earn Group -->
       <include file="org/kuali/kpme/liquibase/tna/db.changelog-unit_test_data-1.2.xml"/>
+      <!-- 30 Mar 2011 : Updated role names -->
+      <include file="org/kuali/kpme/liquibase/tna/db.changelog-unit_test_data-1.3.xml"/>
 
   <!-- Context: -->
   <!-- Add other data scripts with context here -->

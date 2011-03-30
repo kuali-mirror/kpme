@@ -1,26 +1,26 @@
 package org.kuali.hr.time.util;
 
-import org.kuali.hr.time.roles.TkUserRoles;
+import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.user.pref.UserPreferences;
 import org.kuali.rice.kim.bo.Person;
 
 /**
- * This class houses the concept of a user in the Timekeeping system.  It 
+ * This class houses the concept of a user in the Timekeeping system.  It
  * is essentially a lightweight wrapper around multiple KIM Person objects.
- * 
+ *
  * One for the actual ACTUAL person
  * One for the user the ACTUAL person is backdooring as.
  * One for the user the ACTUAL person is targeting.
- * 
+ *
  */
 public class TKUser {
 	private Person actualPerson = null;
 	private Person backdoorPerson = null;
 	private Person targetPerson = null;
-	
-	private TkUserRoles actualPersonRoles = null;
-	private TkUserRoles backdoorPersonRoles = null;
-	
+
+	private UserRoles actualPersonRoles = null;
+	private UserRoles backdoorPersonRoles = null;
+
 	private UserPreferences userPreference;
 
 	public Person getActualPerson() {
@@ -37,11 +37,11 @@ public class TKUser {
 
 	public void setBackdoorPerson(Person backdoorPerson) {
 		this.backdoorPerson = backdoorPerson;
-	} 
+	}
 
 	/**
 	 * @return The principal ID of the User.  Precedence order:
-	 * 
+	 *
 	 *  Target User > Back Door User > Actual User
 	 */
 	public String getPrincipalId() {
@@ -50,18 +50,18 @@ public class TKUser {
 
 	/**
 	 * @return The principal name of the User.
-	 * 
+	 *
 	 * Target User > Back Door User > Actual User
 	 */
 	public String getPrincipalName() {
 		return getCurrentPerson().getPrincipalName();
 	}
-	
+
 	public void clearBackdoorUser() {
 		this.backdoorPerson = null;
 		this.backdoorPersonRoles = null;
 	}
-	
+
 	public void clearTargetUser() {
 		this.targetPerson = null;
 	}
@@ -74,63 +74,38 @@ public class TKUser {
 		this.targetPerson = targetPerson;
 	}
 
-	public TkUserRoles getActualPersonRoles() {
+	public UserRoles getActualPersonRoles() {
 		return actualPersonRoles;
 	}
 
-	public void setActualPersonRoles(TkUserRoles actualPersonRoles) {
+	public void setActualPersonRoles(UserRoles actualPersonRoles) {
 		this.actualPersonRoles = actualPersonRoles;
 	}
 
-	public TkUserRoles getBackdoorPersonRoles() {
+	public UserRoles getBackdoorPersonRoles() {
 		return backdoorPersonRoles;
 	}
 
-	public void setBackdoorPersonRoles(TkUserRoles backdoorPersonRoles) {
+	public void setBackdoorPersonRoles(UserRoles backdoorPersonRoles) {
 		this.backdoorPersonRoles = backdoorPersonRoles;
 	}
 
-	public boolean isSystemAdmin() {
-		return getCurrentUserRoles().isSystemAdmin();
-	}
-	
-	public boolean isSynchronousAspect() {
-		return getCurrentUserRoles().hasSynchronousAspect();
-	}
-	
-	/**
-	 * TODO: This should probably consider the TARGET employee.
-	 * @param assignment
-	 * @return
-	 */
-	public boolean isTkEmployee() {
-		return getCurrentUserRoles().isTkEmployee();
-	}
-	
-	public boolean isTkApprover() {
-		return getCurrentUserRoles().isApprover();
-	}
-	
-	public boolean isOrgAdmin() {
-		return getCurrentUserRoles().isOrgAdmin();
-	}
-	
-	private TkUserRoles getCurrentUserRoles() {
+	public UserRoles getCurrentRoles() {
 		if (getBackdoorPersonRoles() != null) {
 			return getBackdoorPersonRoles();
 		} else {
-			return getActualPersonRoles();	
+			return getActualPersonRoles();
 		}
 	}
-	
-	private Person getCurrentPerson() {
+
+	public Person getCurrentPerson() {
 		if (targetPerson != null)
 			return targetPerson;
-		
+
 		if (backdoorPerson != null)
 			return backdoorPerson;
-		
-		return actualPerson;		
+
+		return actualPerson;
 	}
 
 	public UserPreferences getUserPreference() {

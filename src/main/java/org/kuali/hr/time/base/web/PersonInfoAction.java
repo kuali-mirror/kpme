@@ -1,13 +1,5 @@
 package org.kuali.hr.time.base.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -20,8 +12,15 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class PersonInfoAction extends TkAction {
-	
+
 
 
     public ActionForward showInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -41,20 +40,20 @@ public class PersonInfoAction extends TkAction {
 		Map<Long,List<TkRole>> workAreaToApprover = new HashMap<Long,List<TkRole>>();
 		Map<String,List<TkRole>> deptToOrgAdmin = new HashMap<String,List<TkRole>>();
 		Map<String,Person> principalIdToPerson = new HashMap<String,Person>();
-		
+
 		for(Assignment assign : lstAssign){
-			List<TkRole> lstApproverRoles = TkServiceLocator.getTkRoleService().getWorkAreaRoles(assign.getWorkArea(), TkConstants.ROLE_TK_APPROVER, 
+			List<TkRole> lstApproverRoles = TkServiceLocator.getTkRoleService().getWorkAreaRoles(assign.getWorkArea(), TkConstants.ROLE_TK_APPROVER,
 												TKUtils.getCurrentDate());
 			workAreaToApprover.put(assign.getWorkArea(), lstApproverRoles);
 			for(TkRole role : lstApproverRoles){
 				Person approver = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
 				principalIdToPerson.put(approver.getPrincipalId(), approver);
 			}
-			
-			List<TkRole> lstOrgAdminRoles = TkServiceLocator.getTkRoleService().getDepartmentRoles(assign.getWorkAreaObj().getDept(), 
-													TkConstants.ROLE_TK_ORG_ADMIN, TKUtils.getCurrentDate());
+
+			List<TkRole> lstOrgAdminRoles = TkServiceLocator.getTkRoleService().getDepartmentRoles(assign.getWorkAreaObj().getDept(),
+													TkConstants.ROLE_TK_CHART_ADMIN, TKUtils.getCurrentDate());
 			deptToOrgAdmin.put(assign.getWorkAreaObj().getDept(), lstOrgAdminRoles);
-			
+
 			for(TkRole role : lstOrgAdminRoles){
 				Person orgAdmin = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
 				principalIdToPerson.put(orgAdmin.getPrincipalId(), orgAdmin);

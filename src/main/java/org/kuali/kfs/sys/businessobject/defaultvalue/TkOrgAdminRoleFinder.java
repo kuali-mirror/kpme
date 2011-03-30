@@ -7,7 +7,7 @@ public class TkOrgAdminRoleFinder implements ValueFinder {
 
 	@Override
 	public String getValue() {
-		return TkConstants.ROLE_TK_ORG_ADMIN;
+		return TkConstants.ROLE_TK_CHART_ADMIN;
 	}
 
 }

@@ -1,13 +1,5 @@
 package org.kuali.hr.time.web;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.service.AssignmentService;
@@ -27,6 +19,13 @@ import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.Date;
+import java.util.List;
+
 public class TKRequestProcessor extends KualiRequestProcessor {
 	private static final Logger LOG = Logger.getLogger(TKRequestProcessor.class);
 
@@ -35,35 +34,35 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 		TKContext.setHttpServletRequest(request);
 		super.process(request, response);
 	}
-	
+
 	@Override
 	/**
 	 * This method calls into our backdoor and TKUser setup.
 	 */
 	protected boolean processPreprocess(HttpServletRequest request, HttpServletResponse response) {
 		boolean status = super.processPreprocess(request, response);
-		
+
 		setUserOnContext(request);
-		
+
 		return status;
 	}
-	
+
 	/**
 	 * This method exists because the UnitTests need to set the request as well.
-	 * 
+	 *
 	 * @param request
 	 */
 	public void setUserOnContext(HttpServletRequest request) {
 		if (request != null) {
 			UserSession userSession = UserLoginFilter.getUserSession(request);
-			
+
 			Person person = null;
 			Person backdoorPerson = null;
 			if(userSession!=null){
 				backdoorPerson = userSession.getBackdoorPerson();
 				person = userSession.getActualPerson();
 			}
-			
+
 			// Check for test mode; if not test mode check for backDoor validity.
 			if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("test.mode"))) {
 				request.setAttribute("principalName", TkLoginFilter.TEST_ID);
@@ -87,44 +86,41 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 		} else {
 			// Bail with Exception
 			throw new RuntimeException("Null HttpServletRequest while setting user.");
-		}		
+		}
 	}
-	
-	
+
 	/**
-	 * Helper method to load roles.  
-	 * 
+	 * Helper method to load roles.
+	 *
 	 * TODO : Do we want to load both backdoor and Regular roles?  In most
 	 * situations if there is a backdoor user, we are looking at the backdoor
 	 * roles.
-	 * 
+	 *
 	 * We are looking looking for the roles with the most recent effective
 	 * date.
-	 * 
+	 *
 	 * @param user
 	 */
 	private void loadRoles(TKUser user) {
 		TkRoleService roleService = TkServiceLocator.getTkRoleService();
 		AssignmentService assignmentService = TkServiceLocator.getAssignmentService();
-		
+
 		Date asOfDate = TKUtils.getCurrentDate();
 		Date payPeriodBeginDate = TKUtils.getCurrentDate(); // TODO : Fix this!
-		
+
 		if (user.getBackdoorPerson() != null) {
 			List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(user.getBackdoorPerson().getPrincipalId(), asOfDate);
 			List<Assignment> assignments = assignmentService.getAssignments(user.getBackdoorPerson().getPrincipalId(), payPeriodBeginDate);
 			user.setBackdoorPersonRoles(new TkUserRoles(roles,assignments));
 		}
-		
+
 		List<TkRole> roles = roleService.getRoles(user.getActualPerson().getPrincipalId(), asOfDate);
 		// TODO - we need to handle the Assignment / Employee role.
-		// 
+		//
 		// This seems expensive/excessive, unless it's cached.
 		List<Assignment> assignments = assignmentService.getAssignments(user.getActualPerson().getPrincipalId(), payPeriodBeginDate);
-		
-		// 
+
+		//
 		user.setActualPersonRoles(new TkUserRoles(roles, assignments));
 	}
-	
-
 }

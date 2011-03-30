@@ -1881,7 +1881,7 @@
             <column name="PAY_BEGIN_DT" valueDate="2011-01-15"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
-        </insert>                
+        </insert>
     </changeSet>
     <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-34">
         <insert tableName="la_accruals_t">
@@ -1912,8 +1912,6 @@
             <column name="effdt" valueDate="2010-08-01"/>
             <column name="timestamp" valueDate="2010-08-01T15:10:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="2"/>
@@ -1925,8 +1923,6 @@
             <column name="effdt" valueDate="2010-08-10"/>
             <column name="timestamp" valueDate="2010-08-10T15:10:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="3"/>
@@ -1938,8 +1934,6 @@
             <column name="effdt" valueDate="2010-08-20"/>
             <column name="timestamp" valueDate="2010-08-20T15:10:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="4"/>
@@ -1951,8 +1945,6 @@
             <column name="effdt" valueDate="2010-08-20"/>
             <column name="timestamp" valueDate="2010-08-20T15:11:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="5"/>
@@ -1964,8 +1956,6 @@
             <column name="effdt" valueDate="2010-08-20"/>
             <column name="timestamp" valueDate="2010-08-20T15:12:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="6"/>
@@ -1977,8 +1967,6 @@
             <column name="effdt" valueDate="2010-08-01"/>
             <column name="timestamp" valueDate="2010-08-01T16:10:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="7"/>
@@ -1990,8 +1978,6 @@
             <column name="effdt" valueDate="2010-08-10"/>
             <column name="timestamp" valueDate="2010-08-10T16:10:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="8"/>
@@ -2003,8 +1989,6 @@
             <column name="effdt" valueDate="2010-08-20"/>
             <column name="timestamp" valueDate="2010-08-20T16:10:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="9"/>
@@ -2016,8 +2000,6 @@
             <column name="effdt" valueDate="2010-08-20"/>
             <column name="timestamp" valueDate="2010-08-20T16:11:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="10"/>
@@ -2029,8 +2011,6 @@
             <column name="effdt" valueDate="2010-08-20"/>
             <column name="timestamp" valueDate="2010-08-20T16:12:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="11"/>
@@ -2042,8 +2022,6 @@
             <column name="effdt" valueDate="2010-08-01"/>
             <column name="timestamp" valueDate="2010-08-01T15:10:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="12"/>
@@ -2055,8 +2033,6 @@
             <column name="effdt" valueDate="2010-08-10"/>
             <column name="timestamp" valueDate="2010-08-10T15:10:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="13"/>
@@ -2068,8 +2044,6 @@
             <column name="effdt" valueDate="2010-08-20"/>
             <column name="timestamp" valueDate="2010-08-20T15:10:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="14"/>
@@ -2081,8 +2055,6 @@
             <column name="effdt" valueDate="2010-08-20"/>
             <column name="timestamp" valueDate="2010-08-20T15:11:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="15"/>
@@ -2094,8 +2066,6 @@
             <column name="effdt" valueDate="2010-08-20"/>
             <column name="timestamp" valueDate="2010-08-20T15:12:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="16"/>
@@ -2107,8 +2077,6 @@
             <column name="effdt" valueDate="2010-08-01"/>
             <column name="timestamp" valueDate="2010-08-01T16:10:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="17"/>
@@ -2120,8 +2088,6 @@
             <column name="effdt" valueDate="2010-08-10"/>
             <column name="timestamp" valueDate="2010-08-10T16:10:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="18"/>
@@ -2133,8 +2099,6 @@
             <column name="effdt" valueDate="2010-08-20"/>
             <column name="timestamp" valueDate="2010-08-20T16:10:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="19"/>
@@ -2146,8 +2110,6 @@
             <column name="effdt" valueDate="2010-08-20"/>
             <column name="timestamp" valueDate="2010-08-20T16:11:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="20"/>
@@ -2159,8 +2121,6 @@
             <column name="effdt" valueDate="2010-08-20"/>
             <column name="timestamp" valueDate="2010-08-20T16:12:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="21"/>
@@ -2172,8 +2132,6 @@
             <column name="effdt" valueDate="2010-08-20"/>
             <column name="timestamp" valueDate="2010-08-20T16:13:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="22"/>
@@ -2185,8 +2143,6 @@
             <column name="effdt" valueDate="2010-01-05"/>
             <column name="timestamp" valueDate="2010-01-05T15:12:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
         <insert tableName="tk_roles_t">
             <column name="tk_roles_id" valueNumeric="23"/>
@@ -2198,8 +2154,6 @@
             <column name="effdt" valueDate="2010-01-01"/>
             <column name="timestamp" valueDate="2010-01-05T15:12:57.0"/>
             <column name="active" value="Y"/>
-            <column name="tk_dept_id"/>
-            <column name="tk_work_area_id"/>
         </insert>
     </changeSet>
     <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-37">
@@ -2508,7 +2462,7 @@
             <column name="ACCRUAL_CATEGORY"/>
             <column name="inflate_min_hours" valueNumeric="0.00"/>
             <column name="inflate_factor" valueNumeric="1.00"/>
-        </insert> 
+        </insert>
         <insert tableName="tk_earn_code_t">
             <column name="tk_earn_code_id" valueNumeric="23"/>
             <column name="earn_code" value="ABC"/>
@@ -2525,7 +2479,7 @@
             <column name="ACCRUAL_CATEGORY"/>
             <column name="inflate_min_hours" valueNumeric="0.00"/>
             <column name="inflate_factor" valueNumeric="1.00"/>
-        </insert>               
+        </insert>
     </changeSet>
     <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-41">
         <insert tableName="tk_roles_group_t">
