@@ -3,8 +3,7 @@ package org.kuali.hr.time.roles;
 import java.util.Set;
 
 /**
- * Class to set the contract between Users and Roles. TKUser is the target
- * implementing class.
+ * Class to set the contract between Users and Roles.
  */
 public interface UserRoles {
 
@@ -43,16 +42,56 @@ public interface UserRoles {
      */
     public boolean isSynchronous();
 
+    /**
+     * Provides a set of WorkArea names that this user is an approver for.
+     * @return a Set<Long> of workarea names.
+     */
     public Set<Long> getApproverWorkAreas();
 
+    /**
+     * Provides a Set of WorkArea names that this user is a reviewer for.
+     * @return a Set<Long> of workarea names.
+     */
     public Set<Long> getReviewerWorkAreas();
 
-    public Set<String> getChartAdminDepartments();
-    public Set<String> getChartAdminCharts();
+    /**
+     * Provides a Set of WorkArea names that this user is a processor for.
+     * @return a Set<Long> of workarea names.
+     */
+    public Set<Long> getProcessorWorkAreas();
 
+    /**
+     * Provides a Set of Assignment ids that this user is active under.
+     * @return a Set<Long> of assignment object ids.
+     */
     public Set<Long> getActiveAssignmentIds();
 
-    public Set<Long> getProcessorWorkAreas();
+    /**
+     * Provides a Set<String> of Department names that this user is a processor
+     * for.
+     * @return a Set<String> of Department names.
+     */
     public Set<String> getProcessorDepartments();
+
+    /**
+     * Provides a Set<String> of Department names that this user is a
+     * departmental view only for.
+     * @return a Set<String> of Department names.
+     */
     public Set<String> getDepartmentViewOnlyDepartments();
+
+    /**
+     * Provides a Set<String> of Department names that this user is a chart
+     * administrator for.
+     * @return a Set<String> of Department names.
+     */
+    public Set<String> getChartAdminDepartments();
+
+    /**
+     * Provides a Set<String> of chart names that this user is a chart
+     * administrator for.
+     * @return a Set<String> of Chart names.
+     */
+    public Set<String> getChartAdminCharts();
+
 }
