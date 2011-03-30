@@ -56,8 +56,9 @@ public class TimeDetailAction extends TimesheetAction {
     
     @SuppressWarnings("unchecked")
     public void validateHourLimit(TimeDetailActionForm tdaf) throws Exception {
-    	tdaf.setWarningMessage("");
-    	JSONArray warningMsgList = new JSONArray();
+    	tdaf.setWarningMessages(new ArrayList<String>());
+    	List<String> warningMsgList = new ArrayList<String>();
+    	
     	String pId = "";
     	if(tdaf.getTimesheetDocument() != null) {
     		pId = tdaf.getTimesheetDocument().getPrincipalId();
@@ -77,7 +78,7 @@ public class TimeDetailAction extends TimesheetAction {
     	}
      	
     	if(!warningMsgList.isEmpty()) {
-    		tdaf.setWarningMessage(JSONValue.toJSONString(warningMsgList));
+    		tdaf.setWarningMessages(warningMsgList);
     	}
     	return;
     }

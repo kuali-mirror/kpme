@@ -32,7 +32,12 @@
 
             <div id="dialog-form" title="Add time blocks:">
                 <p id="validation" class="validation">All form fields are required.</p>
-
+               
+                <p id="warning" class="warning">
+	                <c:forEach var="warnMesg" items="${Form.warningMessages}" >
+	                	${warnMesg}<br/>
+	                </c:forEach>
+				</p>
                 <html:form action="/TimeDetail.do" styleId="time-detail">
                     <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
                     <html:hidden property="tkTimeBlockId" value="" styleId="tkTimeBlockId"/>
@@ -47,9 +52,6 @@
 
                     <div class="ui-widget" id="timesheet-panel">
                         <table>
-                        	<tr>
-                        		<div style="color:red;"><c:out value="${Form.warningMessage}" /></div>
-                        	</tr>
                             <tr>
                                 <td>Date range:</td>
                                 <td><input type="text" id="date-range-begin" size="10" /> -

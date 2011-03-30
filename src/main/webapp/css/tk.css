@@ -343,6 +343,10 @@ select {
 	padding: 0.3em;
 }
 
+.warning {
+	padding: 0.3em;
+	color: red;
+}
 
 .global-error {
 	font-size: .9em;
