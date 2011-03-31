@@ -11,6 +11,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -226,4 +227,9 @@ public class TKUtils {
 
         return ip;
     }
+    
+	public static Date createDate(int month, int day, int year, int hours, int minutes, int seconds){
+		DateTime dt = new DateTime(year, month, day, hours, minutes, seconds, 0);
+		return new Date(dt.getMillis());
+	}
 }

@@ -1,6 +1,6 @@
 package org.kuali.hr.job.service;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.hr.job.Job;

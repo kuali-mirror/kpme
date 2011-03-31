@@ -1,6 +1,6 @@
 package org.kuali.hr.time.paycalendar.service;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;

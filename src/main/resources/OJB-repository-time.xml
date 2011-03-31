@@ -263,9 +263,9 @@
 	<class-descriptor class="org.kuali.hr.time.workflow.TimesheetDocumentHeader" table="tk_document_header_t">
 		<field-descriptor name="documentId" 	column="document_id"     jdbc-type="VARCHAR" length="14" primarykey="true" />
 		<field-descriptor name="principalId"    column="principal_id"    jdbc-type="VARCHAR" length="40" primarykey="false" />
-		<field-descriptor name="payEndDate"     column="pay_end_dt"	     jdbc-type="DATE"    primarykey="false" />
+		<field-descriptor name="payEndDate"     column="pay_end_dt"	     jdbc-type="TIMESTAMP"    primarykey="false" />
 		<field-descriptor name="documentStatus" column="document_status" jdbc-type="VARCHAR" length="1"  primarykey="false" />
-		<field-descriptor name="payBeginDate"   column="pay_begin_dt"	 jdbc-type="DATE"    primarykey="false" />
+		<field-descriptor name="payBeginDate"   column="pay_begin_dt"	 jdbc-type="TIMESTAMP"    primarykey="false" />
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.timesheet.TimeSheetInitiate" table="tk_time_sheet_init_t">

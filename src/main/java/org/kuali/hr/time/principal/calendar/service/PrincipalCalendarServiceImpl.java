@@ -1,6 +1,6 @@
 package org.kuali.hr.time.principal.calendar.service;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;

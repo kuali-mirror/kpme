@@ -5,6 +5,7 @@ import org.kuali.hr.location.service.LocationService;
 import org.kuali.hr.paygrade.service.PayGradeService;
 import org.kuali.hr.time.accrual.service.AccrualCategoryService;
 import org.kuali.hr.time.accrual.service.TimeOffAccrualService;
+import org.kuali.hr.time.approval.service.TimeApproveService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.cache.CacheManagementService;
@@ -92,6 +93,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_LOCATION_SERVICE = "locationService";
     public static final String TK_PAY_GRADE_SERVICE = "payGradeService";
     public static final String TK_USER_SERVICE = "userService";
+    public static final String TK_APPROVE_SERVICE = "timeApproveService";
 
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -271,6 +273,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	
 	public static UserService getUserService(){
 		return (UserService)CONTEXT.getBean(TK_USER_SERVICE);
+	}
+	
+	public static TimeApproveService getTimeApproveService(){
+		return (TimeApproveService)CONTEXT.getBean(TK_APPROVE_SERVICE);
 	}
 
 	@Override

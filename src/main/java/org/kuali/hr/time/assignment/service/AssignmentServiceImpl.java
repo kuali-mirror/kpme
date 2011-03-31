@@ -105,7 +105,12 @@ public class AssignmentServiceImpl implements AssignmentService {
 	}
 	
 	public List<Assignment> getActiveAssignmentsForWorkArea(String workArea, Date asOfDate){
-		return assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
+		List<Assignment> assignments = assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
+		for(Assignment assignment :assignments){
+			assignment.setJob(TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate()));
+			assignment.setTimeCollectionRule(TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), asOfDate));
+		}
+		return assignments;
 	}
 
 }

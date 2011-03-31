@@ -1,6 +1,6 @@
 package org.kuali.hr.job.dao;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
