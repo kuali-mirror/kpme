@@ -70,7 +70,7 @@ public class TkConstants {
     public static final String ROLE_TK_APPROVER  = "TK_APPROVER";
     public static final String ROLE_TK_EMPLOYEE  = "TK_EMPLOYEE";
     public static final String ROLE_TK_PROCESSOR = "TK_PROCESSOR";
-    public static final String ROLE_TK_CHART_ADMIN = "TK_CHART_ADMIN";
+    public static final String ROLE_TK_ORG_ADMIN = "TK_ORG_ADMIN";
     public static final String ROLE_TK_SYS_ADMIN = "TK_SYS_ADMIN";
     public static final String ROLE_WORK_AREA_QUALIFIER_ID = "workArea";
     public static final List<String> ROLE_ASSIGNMENT_FOR_WORK_AREA = new ArrayList<String>(2);
@@ -84,19 +84,19 @@ public class TkConstants {
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_DEPT_VO);
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_REVIEWER);
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_APPROVER);
-    	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_CHART_ADMIN);
+    	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_ORG_ADMIN);
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_SYS_ADMIN);
 
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_EMPLOYEE);
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_APPROVER);
-        ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_CHART_ADMIN);
+        ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_ORG_ADMIN);
 
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_REVIEWER,  "Reviewer"); // attach at 'work area' level, like approvers without departmental rules
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_GLOBAL_VO, "Global View Only"); // can see everything in the system, but not modify
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_DEPT_VO,   "Department View Only"); // can only see objects belonging to a department
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_APPROVER,  "Approver"); // attach at 'work area', view only departmental rules
-    	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_EMPLOYEE,  "Employee"); // only people with active assignments have this role.
-    	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_CHART_ADMIN, "Chart Admin"); // chart admin rename
+    	//ALL_ROLES_MAP.put(TkConstants.ROLE_TK_EMPLOYEE,  "Employee"); // only people with active assignments have this role.
+    	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_ORG_ADMIN, "Org Admin"); // chart admin rename
         ALL_ROLES_MAP.put(TkConstants.ROLE_TK_PROCESSOR, "Processor"); // attaches at department or work area level
         ALL_ROLES_MAP.put(TkConstants.ROLE_TK_SYS_ADMIN, "System Admin");
     }

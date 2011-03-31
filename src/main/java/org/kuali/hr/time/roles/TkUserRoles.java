@@ -15,8 +15,8 @@ public class TkUserRoles implements UserRoles {
     private TkRole globalViewOnly;
 	private TkRole systemAdmin;
 
-	private Map<String, TkRole> chartAdminRolesDept = new HashMap<String,TkRole>();
-    private Map<String, TkRole> chartAdminRolesChart = new HashMap<String,TkRole>();
+	private Map<String, TkRole> orgAdminRolesDept = new HashMap<String,TkRole>();
+    private Map<String, TkRole> orgAdminRolesChart = new HashMap<String,TkRole>();
 	private Map<Long, TkRole> approverRoles = new HashMap<Long,TkRole>();
     private Map<Long, TkRole> reviewerRoles = new HashMap<Long,TkRole>();
     private Map<Long, TkRole> processorRolesWorkArea = new HashMap<Long,TkRole>();
@@ -58,13 +58,13 @@ public class TkUserRoles implements UserRoles {
     }
 
     @Override
-    public Set<String> getChartAdminDepartments() {
-        return chartAdminRolesDept.keySet();
+    public Set<String> getOrgAdminDepartments() {
+        return orgAdminRolesDept.keySet();
     }
 
     @Override
-    public Set<String> getChartAdminCharts() {
-        return chartAdminRolesChart.keySet();
+    public Set<String> getOrgAdminCharts() {
+        return orgAdminRolesChart.keySet();
     }
 
     @Override
@@ -108,8 +108,12 @@ public class TkUserRoles implements UserRoles {
 		for (TkRole role : roles) {
 			if (role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER)) {
 				approverRoles.put(role.getWorkArea(), role);
-			} else if (role.getRoleName().equals(TkConstants.ROLE_TK_CHART_ADMIN)) {
-				chartAdminRolesDept.put(role.getDepartment(), role);
+			} else if (role.getRoleName().equals(TkConstants.ROLE_TK_ORG_ADMIN)) {
+                if (StringUtils.isEmpty(role.getChart())) {
+                    orgAdminRolesDept.put(role.getDepartment(), role);
+                } else {
+                    orgAdminRolesChart.put(role.getChart(), role);
+                }
 			} else if (role.getRoleName().equals(TkConstants.ROLE_TK_SYS_ADMIN)) {
 				systemAdmin = role;
             } else if (role.getRoleName().equals(TkConstants.ROLE_TK_DEPT_VO)) {

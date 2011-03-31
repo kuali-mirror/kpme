@@ -15,6 +15,62 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
 
     private static final String ADD_LINE_LOCATION = "add.roles.";
 
+    private boolean isWorkAreaAndDeptXor(TkRole role, String fieldPrefix) {
+        boolean valid = true;
+        boolean depte = !StringUtils.isEmpty(role.getDepartment());
+
+        // Check for presence of strings first.
+        if (!(depte ^ (role.getWorkArea() != null))) {
+            this.putFieldError(fieldPrefix + "department", "dept.workarea.xor");
+            this.putFieldError(fieldPrefix + "workArea", "dept.workarea.xor");
+            valid = false;
+        }
+
+        if (valid) {
+            boolean vdpt  = ValidationUtils.validateDepartment(role.getDepartment(), role.getEffectiveDate());
+            boolean vwa   = ValidationUtils.validateWorkArea(role.getWorkArea(), role.getEffectiveDate());
+
+            if (vdpt ^ vwa) {
+                // Do nothing, this is the correct case.
+            } else {
+                // should only have ONE defined.
+                this.putFieldError(fieldPrefix + "department", "dept.workarea.xor");
+                this.putFieldError(fieldPrefix + "workArea", "dept.workarea.xor");
+                valid = false;
+            }
+        }
+
+        return valid;
+    }
+
+    private boolean isDeptAndChartXor(TkRole role, String fieldPrefix) {
+        boolean valid = true;
+        boolean depte = !StringUtils.isEmpty(role.getDepartment());
+        boolean chrte = !StringUtils.isEmpty(role.getChart());
+
+        if (!(depte ^ chrte)) {
+            valid = false;
+            this.putFieldError(fieldPrefix + "department", "dept.chart.xor");
+            this.putFieldError(fieldPrefix + "workArea", "dept.chart.xor");
+        }
+
+        if (valid) {
+            boolean vdpt = ValidationUtils.validateDepartment(role.getDepartment(), role.getEffectiveDate());
+            boolean vc   = ValidationUtils.validateChart(role.getChart());
+
+            if (vdpt ^ vc) {
+                // Do nothing, this is the correct case.
+            } else {
+                // should only have ONE defined.
+                this.putFieldError(fieldPrefix + "department", "dept.chart.xor");
+                this.putFieldError(fieldPrefix + "chart", "dept.chart.xor");
+                valid = false;
+            }
+        }
+
+        return valid;
+    }
+
     boolean validateTkRole(TkRole role, String fieldPrefix) {
         boolean valid = true;
 
@@ -32,15 +88,10 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
             if (role.getDepartment() != null)
                 this.putFieldError(fieldPrefix + "department", "field.unused");
             valid &= vwa;
-        } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_CHART_ADMIN)) {
-            // Only Department required
-            boolean vwa = ValidationUtils.validateDepartment(role.getDepartment(), asOfDate);
-            if (!vwa) {
-                this.putFieldError(fieldPrefix + "department", "dept.notfound");
-            }
-            if (role.getWorkArea() != null)
-                this.putFieldError(fieldPrefix + "workArea", "field.unused");
-            valid &= vwa;
+        } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_ORG_ADMIN)) {
+            valid &= isDeptAndChartXor(role, fieldPrefix);
+        } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_PROCESSOR)) {
+            valid &= isWorkAreaAndDeptXor(role, fieldPrefix);
         } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_SYS_ADMIN)) {
             // no department or work area required, error if provided?
             if (role.getDepartment() != null) {

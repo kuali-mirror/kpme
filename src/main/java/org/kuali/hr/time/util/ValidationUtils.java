@@ -1,7 +1,5 @@
 package org.kuali.hr.time.util;
 
-import java.sql.Date;
-
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -20,8 +18,12 @@ import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+
+import java.sql.Date;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -120,7 +122,7 @@ public class ValidationUtils {
 		return valid;
 	}
 
-	
+
 	public static boolean validatePayGrade(String payGrade, Date asOfDate) {
 		boolean valid = false;
 
@@ -163,7 +165,9 @@ public class ValidationUtils {
 	public static boolean validateDepartment(String department, Date asOfDate) {
 		boolean valid = false;
 
-		if (asOfDate != null) {
+        if (StringUtils.isEmpty(department)) {
+          // do nothing, let false be returned.
+        } else if (asOfDate != null) {
 			Department d = TkServiceLocator.getDepartmentService().getDepartment(department, asOfDate);
 		    valid = (d != null);
 		} else {
@@ -176,6 +180,17 @@ public class ValidationUtils {
 
 		return valid;
 	}
+
+    public static boolean validateChart(String chart) {
+        boolean valid = false;
+
+        if (!StringUtils.isEmpty(chart)) {
+            Object o = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
+            valid = (o instanceof Chart);
+        }
+
+        return valid;
+    }
 
 	/**
 	 * Checks for row presence of a work area, and optionally whether or not
@@ -280,7 +295,7 @@ public class ValidationUtils {
 
         return valid;
     }
-    
+
 	/**
 	 * Checks for row presence of a pay calendar
 	 */
@@ -293,7 +308,7 @@ public class ValidationUtils {
         valid = (count > 0);
         return valid;
 	}
-   
+
    /**
     * Checks for existence of newer versions of a class object based on fieldValue
     * class must have active and effectiveDate fields
@@ -309,7 +324,7 @@ public class ValidationUtils {
        valid = (count > 0);
        return valid;
    }
-   
+
    public static boolean duplicateDeptEarnCodeExists(DepartmentEarnCode deptEarnCode) {
 	   boolean valid = false;
 	   Criteria crit = new Criteria();
@@ -334,9 +349,9 @@ public class ValidationUtils {
        } else if(count > 1) {
     	   valid = true;
        }
-       
+
 	   return valid;
    }
-	
-	
+
+
 }

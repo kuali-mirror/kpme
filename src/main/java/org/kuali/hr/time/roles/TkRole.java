@@ -2,6 +2,7 @@ package org.kuali.hr.time.roles;
 
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -29,9 +30,22 @@ public class TkRole extends PersistableBusinessObjectBase {
 	private Long tkDeptId;
 	private Long tkWorkAreaId;
 
+    /**
+     * These objects are used by Lookups to provide links on the maintenance
+     * page. They are not necessarily going to be populated.
+     */
 	private Person person;
     private Department departmentObj;
     private WorkArea workAreaObj;
+    private Chart chartObj;
+
+    public Chart getChartObj() {
+        return chartObj;
+    }
+
+    public void setChartObj(Chart chartObj) {
+        this.chartObj = chartObj;
+    }
 
     public Department getDepartmentObj() {
         return departmentObj;

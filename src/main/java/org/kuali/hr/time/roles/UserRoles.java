@@ -85,13 +85,13 @@ public interface UserRoles {
      * administrator for.
      * @return a Set<String> of Department names.
      */
-    public Set<String> getChartAdminDepartments();
+    public Set<String> getOrgAdminDepartments();
 
     /**
      * Provides a Set<String> of chart names that this user is a chart
      * administrator for.
      * @return a Set<String> of Chart names.
      */
-    public Set<String> getChartAdminCharts();
+    public Set<String> getOrgAdminCharts();
 
 }

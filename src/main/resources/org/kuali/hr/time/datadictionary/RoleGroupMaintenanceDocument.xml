@@ -62,6 +62,7 @@
                             <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:readOnlyAfterAdd="true"/>
                             <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="false" p:readOnlyAfterAdd="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="department" p:required="false" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="chart" p:required="false" p:readOnlyAfterAdd="true"/>
                             <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
                         </list>
                   </property>

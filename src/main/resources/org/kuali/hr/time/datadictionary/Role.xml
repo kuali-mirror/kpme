@@ -21,6 +21,7 @@
 				<ref bean="Role-roleName" />
 				<ref bean="Role-workArea" />
 				<ref bean="Role-department" />
+                <ref bean="Role-chart" />
 				<ref bean="Role-effectiveDate" />
 				<ref bean="Role-userPrincipalId" />
 				<ref bean="Role-active" />
@@ -52,6 +53,14 @@
                 </list>
             </property>
             </bean>
+              <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="chartObj" />
+              <property name="primitiveAttributes">
+                  <list>
+                      <bean parent="PrimitiveAttributeDefinition" p:sourceName="chart" p:targetName="chartOfAccountsCode" />
+                  </list>
+              </property>
+              </bean>
         </list>
     </property>
 	</bean>
@@ -140,6 +149,23 @@
 		<property name="label" value="Department" />
 	</bean>
 
+    <bean id="Role-chart" parent="Role-chart-parentBean" />
+    <bean id="Role-chart-parentBean" abstract="true"
+        parent="AttributeDefinition">
+        <property name="shortLabel" value="Chart" />
+        <property name="maxLength" value="30" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" />
+        </property>
+        <property name="name" value="chart" />
+        <property name="label" value="Chart" />
+    </bean>
+
 	<bean id="Role-active" parent="Role-active-parentBean" />
 	<bean id="Role-active-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -194,6 +220,7 @@
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="department" />
+                <bean parent="FieldDefinition" p:attributeName="chart"/>
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

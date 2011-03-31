@@ -51,7 +51,7 @@ public class PersonInfoAction extends TkAction {
 			}
 
 			List<TkRole> lstOrgAdminRoles = TkServiceLocator.getTkRoleService().getDepartmentRoles(assign.getWorkAreaObj().getDept(),
-													TkConstants.ROLE_TK_CHART_ADMIN, TKUtils.getCurrentDate());
+													TkConstants.ROLE_TK_ORG_ADMIN, TKUtils.getCurrentDate());
 			deptToOrgAdmin.put(assign.getWorkAreaObj().getDept(), lstOrgAdminRoles);
 
 			for(TkRole role : lstOrgAdminRoles){
