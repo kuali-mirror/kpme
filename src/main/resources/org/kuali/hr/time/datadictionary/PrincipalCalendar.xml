@@ -77,7 +77,6 @@
  	<bean id="PrincipalCalendar-name" parent="PrincipalCalendar-name-parentBean"/>
  	<bean id="PrincipalCalendar-name-parentBean" abstract="true" parent="AttributeDefinition">
     	<property name="shortLabel" value="Name"/>
-    	<property name="maxLength" value="15"/>
     	<property name="control">
       		<bean parent="LookupReadonlyControlDefinition" p:size="15" />
     	</property>
