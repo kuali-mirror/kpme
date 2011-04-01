@@ -106,7 +106,9 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 			if (job != null) {
 				valid = true;
 				valid &= this.validatePrincipalId(job);
-				valid &= this.validateJobNumber(job);
+				if(!document.isOldBusinessObjectInDocument()){
+					valid &= this.validateJobNumber(job);
+				}
 				valid &= this.validateDepartment(job);
 				valid &= this.validateSalGroup(job);
 				valid &= this.validateLocation(job);
