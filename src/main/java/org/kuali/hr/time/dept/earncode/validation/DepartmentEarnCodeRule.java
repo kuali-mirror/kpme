@@ -45,6 +45,17 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 	
+	boolean validateLocation(DepartmentEarnCode departmentEarnCode) {
+		if (departmentEarnCode.getLocation() != null
+				&& !ValidationUtils.validateLocation(departmentEarnCode.getLocation(), null)) {
+			this.putFieldError("location", "error.existence", "location '"
+					+ departmentEarnCode.getLocation() + "'");
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
@@ -65,6 +76,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateDept(departmentEarnCode);
 				valid &= this.validateEarnCode(departmentEarnCode);	
 				valid &= this.validateDuplication(departmentEarnCode);
+				valid &= this.validateLocation(departmentEarnCode);
 			}
 
 		}
