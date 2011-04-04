@@ -46,9 +46,9 @@ public class PayTypeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impleme
 		currentRecordCriteria.addEqualTo("effectiveDate", effdtSubQuery);
 		currentRecordCriteria.addEqualTo("timestamp", timestampSubQuery);
 		
-		Criteria activeFilter = new Criteria(); // Inner Join For Activity
-		activeFilter.addEqualTo("active", true);
-		currentRecordCriteria.addAndCriteria(activeFilter);
+//		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+//		activeFilter.addEqualTo("active", true);
+//		currentRecordCriteria.addAndCriteria(activeFilter);
 
 		Query query = QueryFactory.newQuery(PayType.class, currentRecordCriteria);
 		return (PayType)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
