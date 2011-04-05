@@ -699,7 +699,7 @@
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.hr.time.missedpunch.MissedPunch" table="tk_missed_punch_t">
-        <field-descriptor name="tkMissedPunchId"     column="tk_missed_punch_id"      jdbc-type="BIGINT" length="20" nullable="false" primarykey="true" />
+        <field-descriptor name="tkMissedPunchId"     column="tk_missed_punch_id"      jdbc-type="BIGINT" length="20" nullable="false" primarykey="true" autoincrement="true" sequence-name="hr_location_s" />
         <field-descriptor name="principalId"     column="principal_id"      jdbc-type="VARCHAR" length="40" nullable="false"/>
         <field-descriptor name="clockAction"     column="clock_action"      jdbc-type="VARCHAR" length="20" nullable="false"/>
         <field-descriptor name="actionDate"   column="action_date" jdbc-type="TIMESTAMP" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
