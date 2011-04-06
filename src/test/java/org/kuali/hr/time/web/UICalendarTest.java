@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 
+@Ignore
 public class UICalendarTest extends SeleneseTestCase {
     @Before
     public void setUp() throws Exception {
