@@ -30,6 +30,7 @@ public class WorkArea extends PersistableBusinessObjectBase {
     private String overtimeEditRole;
 
     private List<TkRole> roles = new ArrayList<TkRole>();
+    private List<TkRole> inactiveRoles = new ArrayList<TkRole>();
     private List<Task> tasks = new ArrayList<Task>();
 
     private Department department;
@@ -139,6 +140,17 @@ public class WorkArea extends PersistableBusinessObjectBase {
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
+
+	
+	public List<TkRole> getInactiveRoles() {
+		return inactiveRoles;
+	}
+
+	
+	public void setInactiveRoles(List<TkRole> inactiveRoles) {
+		this.inactiveRoles = inactiveRoles;
+	}
+
 
 	public List<TkRole> getRoles() {
 		return roles;
