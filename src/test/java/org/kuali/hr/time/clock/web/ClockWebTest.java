@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -23,6 +24,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@Ignore
 public class ClockWebTest extends TkTestCase {
 	
 	private String documentId;
@@ -94,7 +96,7 @@ public class ClockWebTest extends TkTestCase {
 		
 	}
 	
-	@Test
+	@Ignore
 	public void testDistributeTB() throws Exception {
 		String baseUrl = TkTestConstants.Urls.CLOCK_URL;
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
