@@ -186,6 +186,148 @@ $(document).ready(function() {
        });
     });
 
+   $('#saveTimeBlock').click(function() {
+	   function updateTips(t) {
+		   $('#validation').text(t)
+		   			.addClass('ui-state-error')
+		   			.css({'color':'red','font-weight':'bold'});
+	   }
+	   var validFlag = true;
+	   var validation = $('#validation');
+		  
+	   function updateValidationMessage(t) {
+	      validation.text(t)
+                 .addClass('ui-state-error')
+                 .css({'color':'red','font-weight':'bold'});
+	   }
+		 
+	   function checkLength(o, n, min, max) {
+	         if (o.val().length > max || o.val().length < min) {
+	             o.addClass('ui-state-error');
+	             updateValidationMessage(n + " field is not valid");
+	             return false;
+	         }
+	         return true;
+	   }
+	 var tbl = document.getElementById('tblNewTimeBlocks');
+	 var rowLength = tbl.rows.length;
+	 var assignValueCol='';
+	 var beginDateCol='';
+	 var endDateCol='';
+	 var beginTimeCol='';
+	 var endTimeCol='';
+	 var hrsCol='';
+	 var valueSeperator = '****';
+	 var timeBlockId = $("#tbId").val();
+	 var originalHrs = $("#originHrs").val();
+
+    	
+    	 var errorMsgs = '';
+    	 var totalHrs = 0;
+    	 if(rowLength <= 1) {
+    		 updateTips("Please use Add button to add entries or click Cancel to close the window.");
+    	    	return false; 
+    	 }
+    	 for(var i=1; i< rowLength; i++) {
+        	var assignValue = $("#assignmentRow"+i).val();
+    		var beginDate = $("#bdRow"+i).val();
+    		var endDate = $("#edRow"+i).val();
+    		var beginTime = $("#btRow"+i).val();
+    		var endTime = $("#etRow"+i).val();
+    		var hrs = $("#hrRow"+i).val();
+    		
+    		assignValueCol += assignValue + valueSeperator;
+    		beginDateCol += beginDate + valueSeperator;
+    		endDateCol += endDate + valueSeperator;
+    		hrsCol += hrs + valueSeperator;
+    		
+    		validFlag &= checkLength($("#bdRow"+i), "Date/Time", 10, 10 );
+    		validFlag &= checkLength($("#edRow"+i), "Date/Time", 10, 10 );
+    		validFlag &= checkLength($("#btRow"+i), "Date/Time", 8, 8);
+    		validFlag &= checkLength($("#etRow"+i), "Date/Time", 8, 8);
+    		
+    		if(validFlag) {
+	    		var dateString = beginDate + ' ' + beginTime;
+	    		var beginTimeTemp =$.fullCalendar.parseDate(dateString);
+	    		var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes();
+	    		beginTimeCol += bTimeFormated + valueSeperator;
+	    		
+	    		dateString = endDate + ' ' + endTime;
+	    		var endTimeTemp =$.fullCalendar.parseDate(dateString);
+	    		var eTimeFormated = endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes();
+	    		endTimeCol += eTimeFormated + valueSeperator;
+	    		
+	    		var hrsDifferent = endTimeTemp - beginTimeTemp;
+	    		if(hrsDifferent <= 0) {
+	    			updateTips("Hours for item " + i + "not valid");
+	    			var hrs = hrsDifferent/3600000;
+	    			$("#hrRow"+i).val(hrs);
+	    			return false;
+	    		}
+	    		var hrs = Math.round(hrsDifferent*100/3600000)/100;
+	    		$("#hrRow"+i).val(hrs);
+	    		totalHrs += hrs;
+    		}// end of if
+    		else {
+    			return false;
+    		}
+    	 
+    	 }// end of for loop
+    if(totalHrs != originalHrs ) {
+    	updateTips("Total Hours entered not equel to the hours of the original time block");
+    	return false;
+    }
+    	
+    	 // for form submit
+    $("#newAssignDesCol").val(assignValueCol);
+    $("#newBDCol").val(beginDateCol);
+    $("#newEDCol").val(endDateCol);
+    $("#newBTCol").val(beginTimeCol);
+    $("#newETCol").val(endTimeCol);
+    $("#newHrsCol").val(hrsCol);
+    $("#tbId").val(timeBlockId);
+    
+    var params = {};
+	 params['newAssignDesCol'] = assignValueCol;
+     params['newBDCol'] = beginDateCol;
+     params['newEDCol'] = endDateCol;
+     params['newBTCol'] = beginTimeCol;
+     params['newETCol'] = endTimeCol;
+     params['newHrsCol'] = hrsCol;
+     params['tbId'] = timeBlockId;
+     
+	 $.ajax({
+         url: "Clock.do?methodToCall=validateNewTimeBlock",
+         data: params,
+         cache: false,
+         success: function(data) {
+             var json = jQuery.parseJSON(data);
+             // if there is no error message, submit the form and save the new time blocks 
+             if (json.length == 0) {
+            	 $('#methodToCall').val('saveNewTimeBlocks');
+            	 $('#editTimeBlockForm').submit();
+            	 window.close();
+            	 return false;
+             } else {
+                 // if there is any error, grab error messages (json) and put them in the error message
+                 var json = jQuery.parseJSON(data);
+                 $.each(json, function (index) {
+                     errorMsgs += "Error : " + json[index] + "\n";
+                 });
+                 updateTips(errorMsgs);
+                 return false;
+             }
+         },
+         error: function() {
+             return false;
+         }
+	 });
+
+    });
+   
+   
+    
+    
 });
 
 $.fn.parseTime = function() {
@@ -208,3 +350,197 @@ $.fn.parseTime = function() {
     }
     return parsedTime;
 }
+function extractUrlBase(){
+	  url=window.location.href;
+	  pathname=window.location.pathname;
+	  idx1=url.indexOf(pathname);
+	  idx2=url.indexOf("/",idx1+1);
+	  extractUrl=url.substr(0,idx2);
+	  return extractUrl; 
+	}
+
+function addTimeBlockRow(form, tempArr) {
+
+	var tbl = document.getElementById('tblNewTimeBlocks');
+	var lastRow = tbl.rows.length;
+	  // if there's no header row in the table, then iteration = lastRow + 1
+	var iteration = lastRow;
+
+	var row = tbl.insertRow(lastRow);
+	
+	//Assignment Dropdown list
+	var cellCount = row.insertCell(0);
+	var textNode = document.createTextNode(iteration);
+	cellCount.appendChild(textNode);
+
+	var cellAssignment = row.insertCell(1);
+	var sel = document.createElement('select');
+	var idString = 'assignmentRow'+iteration;
+	sel.name=idString;
+	sel.id=idString;
+
+//	var initString = form.assignmentList.value;
+//	var subString1 = initString.substring(1, initString.length-1);
+//	var assignList= subString1.split(',');
+	
+//	for(var i=0; i< assignList.length; i++) {
+//		var tempString = ltrim(assignList[i]);
+//		tempString = rtrim(tempString);
+//		sel.options[i] = new Option(tempString, tempString);
+//		if(tempString == originalAssign) {
+//			sel.options[i].selected=true;
+//		}
+//	}
+	
+	var originalAssign = form.originalAssignment.value;
+	var initString = form.assignKeyList.value;
+	var string1 = initString.substring(1, initString.length-1);
+	var keyValueList = string1.split(',');
+	for(var i=0; i< keyValueList.length; i++) {
+		var aSet = keyValueList[i].split('=');
+		var trimedKey = ltrim(aSet[0]);
+		trimedKey = rtrim(trimedKey);
+		var trimedVal  =ltrim(aSet[1]);
+		trimedVal = rtrim(trimedVal);
+		sel.options[i] = new Option(trimedKey,  trimedVal);
+		if(trimedKey == originalAssign) {
+			sel.options[i].selected=true;
+		}
+	}
+
+	cellAssignment.appendChild(sel);
+	
+	// begin date/time
+	var cellBeginDate = row.insertCell(2);
+	var el = document.createElement('input');
+	idString = 'bdRow'+iteration;
+	el.type="text";
+	el.name=idString;
+	el.id=idString;
+	el.size=10;
+	var beginDate =$.fullCalendar.parseDate(form.beginTimestamp.value);
+	var formatedDate = $.fullCalendar.formatDate(beginDate, "MM/dd/yyyy");
+	el.value=formatedDate;
+	cellBeginDate.appendChild(el);
+
+	var dataPickerId = '#' + idString;
+	
+	var cellBeginTime = row.insertCell(3);
+	var el = document.createElement('input');
+	idString = 'btRow'+iteration;
+	el.name=idString;
+	el.id=idString;
+	el.size=10;
+	var beginTime = $.fullCalendar.formatDate(beginDate, "hh:mm TT");
+	el.value=beginTime;
+	cellBeginTime.appendChild(el);
+	var timeChangeId = '#' + idString;
+	var timeFormatMessage = "Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530";
+// help button for time format
+	el = document.createElement('input');
+	el.type='button';
+	el.style.width="20px";
+	el.style.height="23px";
+	el.class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary ui-button-icon-only ui-state-hover";
+//	el.class ="ui-button-icon-primary ui-icon ui-icon-help";
+	el.title= timeFormatMessage;
+	el.id="beginTimeHelp" + iteration;
+	el.value="?";
+	cellBeginTime.appendChild(el);
+	el.removeAttribute("tabindex");
+	var timeHelpId = '#' + el.id; 	// for tooltip
+	
+	//end date/time
+	var cellEndDate = row.insertCell(4);
+	var el = document.createElement('input');
+	idString = 'edRow'+iteration;
+	el.name=idString;
+	el.id=idString;
+	el.size=10;
+	var endDate = $.fullCalendar.parseDate(form.endTimestamp.value);
+	var formatedDate = $.fullCalendar.formatDate(endDate, "MM/dd/yyyy");
+	el.value=formatedDate;
+	cellEndDate.appendChild(el);
+	dataPickerId += ', #' + idString;
+	
+	var cellEndTime = row.insertCell(5);
+	var el = document.createElement('input');
+	idString = 'etRow'+iteration;
+	el.name=idString;
+	el.id=idString;
+	el.size=10;
+	var endTime = $.fullCalendar.formatDate(endDate, "hh:mm TT");
+	el.value=endTime;
+	cellEndTime.appendChild(el);
+	timeChangeId += ', #' + idString;
+	
+	el = document.createElement('input');
+	el.type='button';
+	el.style.width="20px";
+	el.style.height="23px";	
+	el.title= timeFormatMessage;
+	el.id="endTimeHelp" + iteration;
+	el.removeAttribute("tabindex");
+//	el.tabindex="999";
+	el.value="?";
+	cellEndTime.appendChild(el);
+	timeHelpId += ', #' + el.id; 	// for tooltip
+	
+	var cellHours = row.insertCell(6);
+	var el = document.createElement('input');
+	idString = 'hrRow'+iteration;
+	el.name=idString;
+	el.id=idString;
+	el.size=5;
+	el.value=form.hours.value;
+	el.readOnly=true;
+	cellHours.appendChild(el);
+	var hrId = '#' + idString;
+
+    // datepicker
+    $(dataPickerId).datepicker({
+        changeMonth : true,
+        changeYear : true,
+        showOn : 'button',
+        showAnim : 'fadeIn',
+        buttonImage : 'kr/static/images/cal.gif',
+        buttonImageOnly : true,
+        buttonText : 'Select a date',
+        showButtonPanel : true,
+        constrainInput : true,
+        minDate : new Date($('#beginDate').val()),
+        maxDate : new Date($('#endDate').val())
+    });
+    
+    //time format helper
+    $(timeHelpId).tooltip({
+        // place tooltip on the right edge
+        position : "center right",
+        // a little tweaking of the position
+        offset : [-2, 10],
+        // use the built-in fadeIn/fadeOut effect
+        effect : "fade",
+        // custom opacity setting
+        opacity : 0.7,
+        fadeInSpeed : 100
+    });
+    
+    $(dataPickerId).change(function() {
+    	$(this).removeClass('ui-state-error');
+    });
+    
+    $(timeChangeId).change(function() {
+    	$(this).removeClass('ui-state-error');
+        magicTime($(this));              
+    });
+
+}
+function ltrim(str){
+    return str.replace(/^\s+/, '');
+}
+function rtrim(str) {
+    return str.replace(/\s+$/, '');
+}
+
+
+

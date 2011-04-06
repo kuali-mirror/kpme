@@ -135,6 +135,15 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
 
     }
+    
+    
+    public void saveTimeBlocks(List<TimeBlock> tbList) {
+		 for (TimeBlock tb : tbList) {
+	         TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(tb.getTkTimeBlockId());
+	         timeBlockDao.saveOrUpdate(tb);
+	     }
+    }
+    
 
 
     public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean clockLogCreated) {

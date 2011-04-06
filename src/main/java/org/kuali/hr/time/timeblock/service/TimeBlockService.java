@@ -47,6 +47,12 @@ public interface TimeBlockService {
 	 * @param newTimeBlocks
 	 */
 	public void saveTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks);
+	
+	/**
+	 * Save a list of new TimeBlocks
+	 * @param tbList
+	 */
+	public void saveTimeBlocks(List<TimeBlock> tbList);
 	/**
 	 * Reset the TimeHourDetail object associated with the TimeBlock object on a List of TimeBlocks
 	 * @param origTimeBlocks

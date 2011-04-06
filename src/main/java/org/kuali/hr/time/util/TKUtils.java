@@ -112,6 +112,12 @@ public class TKUtils {
 	}
 
 	public static String getAssignmentString(Assignment assignment) {
+		if(assignment.getWorkAreaObj() == null 
+				|| assignment.getJob() == null 
+				|| assignment.getJobNumber() == null 
+				|| assignment.getJob() == null ) {
+			return ""; 	// getAssignment() of AssignmentService can return an empty assignment
+		}
 		return assignment.getWorkAreaObj().getDescription() + " : $" + assignment.getJob().getCompRate() + " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
 	}
 

@@ -26,4 +26,6 @@ public interface AssignmentDao {
 	public void deleteAllAssignments();
 	
 	public List<Assignment> getActiveAssignmentsInWorkArea(String workArea, Date asOfDate);
+	
+	public Assignment getAssignment(String tkAssignmentId);
 }

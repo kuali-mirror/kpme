@@ -1,6 +1,9 @@
 package org.kuali.hr.time.clock.web;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +33,35 @@ public class ClockActionForm extends TimesheetActionForm {
     private TimeBlock timeBlock;
     private boolean showLunchButton;
     private boolean showDistributeButton;
+    private Map<String, TimeBlock> timeBlocksToDistribute;
+    private List<String> assignDescriptionsList;
 
+    private List<String> assignmentKeyList;
+    
+    private String editTimeBlockId;
+    private TimeBlock currentTimeBlock;
+    private String currentAssignmentDescription;
+    private String currentAssignmentKey;
+    private String tbId;
+    
+    private String newAssignDesCol;
+    private String newBDCol;
+    private String newBTCol;
+    private String newEDCol;
+    private String newETCol;
+    private String newHrsCol;
+    
+    
+ // this is for the ajax call
+	private String outputString;
+	
+	public String getOutputString() {
+		return outputString;
+	}
+
+	public void setOutputString(String outputString) {
+		this.outputString = outputString;
+	}
     /** This map is used to determine whether or not lunch buttons will render
      * for the selected assignment. The key of this map should be the same key
      * as what is selected in the assignment drop down selection. */
@@ -107,8 +138,33 @@ public class ClockActionForm extends TimesheetActionForm {
 	public void setLastClockAction(String lastClockAction) {
 		this.lastClockAction = lastClockAction;
 	}
+	
+	public TimeBlock getCurrentTimeBlock() {
+		if(currentTimeBlock == null && this.getEditTimeBlockId() != null) {
+			this.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(Long.valueOf(this.getEditTimeBlockId())));
+		}
+		return currentTimeBlock;
+	}
 
-    /**
+	public void setCurrentTimeBlock(TimeBlock currentTimeBlock) {
+		this.currentTimeBlock = currentTimeBlock;
+	}
+
+    public String getCurrentAssignmentDescription() {
+    	if(currentAssignmentDescription == null && this.getCurrentTimeBlock() != null) {
+    		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(this.getTimesheetDocument(), this.getCurrentTimeBlock().getAssignmentKey());
+    		if(assignment != null) {
+    			this.setCurrentAssignmentDescription(assignment.getAssignmentDescription());
+    		}
+    	}
+		return currentAssignmentDescription;
+	}
+
+	public void setCurrentAssignmentDescription(String currentAssignmentDescription) {
+		this.currentAssignmentDescription = currentAssignmentDescription;
+	}
+
+	/**
      * Accounts for presence of Department Lunch Rule and System Lunch Rule.
      *
      * This method is dependent on assignmentLunchMap being populated with
@@ -168,7 +224,157 @@ public class ClockActionForm extends TimesheetActionForm {
 		super.setSelectedAssignment(selectedAssignment);
 		this.isShowDistributeButton();
 	}
-    
-    
+	
+	public Map<String, TimeBlock> getTimeBlocksToDistribute() {
+		if(timeBlocksToDistribute == null ) {
+			this.findTimeBlocksToDistribute();
+		}
+		return timeBlocksToDistribute;
+	}
+
+	public void setTimeBlockToDistribute( Map<String, TimeBlock>  timeBlocksToDistribute) {
+		this.timeBlocksToDistribute = timeBlocksToDistribute;
+	}
+	
+	public List<String> getAssignDescriptionsList() {
+		if(assignDescriptionsList == null && this.getTimeBlocksToDistribute() != null) {
+			List<String> list1= new ArrayList<String>();
+			 for(String aString : getTimeBlocksToDistribute().keySet()) {
+				 list1.add(aString);
+			 }
+			 this.setAssignDescriptionsList(list1);
+//			this.setAssignDescriptionsList(new ArrayList<String>(this.getTimeBlocksToDistribute().keySet()));
+		}
+		return assignDescriptionsList;
+	}
+
+	public void setAssignDescriptionsList(List<String> assignDescriptionsList) {
+		this.assignDescriptionsList = assignDescriptionsList;
+	}
+
+	public String getEditTimeBlockId() {
+		return editTimeBlockId;
+	}
+
+	public void setEditTimeBlockId(String editTimeBlockId) {
+		this.editTimeBlockId = editTimeBlockId;
+	}
+
+	public void findTimeBlocksToDistribute() {
+		 String pId = this.getPrincipalId();
+		 if(pId != null) {
+			 TimesheetDocument td = this.getTimesheetDocument();
+			 if(td != null) {
+				 List<TimeBlock> tbList = new ArrayList<TimeBlock>();
+				 if(td != null) {
+					 tbList = td.getTimeBlocks();
+				 }
+				 List<Assignment> assignmentList = TkServiceLocator.getAssignmentService().getAssignments(pId, null);
+				 List<Assignment> aList = new ArrayList<Assignment>();
+				 Map<String, TimeBlock> aMap = new HashMap<String, TimeBlock>();
+				 Map<String, String> map2 = new HashMap<String, String>();
+				 List<String> list2 = new ArrayList<String>();
+				 Map<String, String> secondMap = new HashMap<String, String>();
+				 for(Assignment assignment : assignmentList) {
+					TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveDate());
+					if(rule.isHrsDistributionF()) {
+						aList.add(assignment);
+						for(TimeBlock tb: tbList){
+							if(assignment.getWorkArea().equals(tb.getWorkArea())) {
+								aMap.put(assignment.getAssignmentDescription(), tb);
+								map2.put(assignment.getAssignmentDescription(),assignment.getTkAssignmentId().toString() );
+								list2.add(assignment.getAssignmentDescription()+ "=" + assignment.getTkAssignmentId().toString());
+								secondMap.put(assignment.getAssignmentDescription(), assignment.getTkAssignmentId().toString());
+							}
+						}
+					}
+				 }
+				 this.setTimeBlockToDistribute(aMap);
+				 List<String> list1= new ArrayList<String>();
+				 for(String aString : aMap.keySet()) {
+					 list1.add(aString);
+				 }
+				 //remove duplicate
+				 HashSet h = new HashSet(list2);
+				 list2.clear();
+				 list2.addAll(h);
+				 this.setAssignmentKeyList(list2);
+				 this.setAssignDescriptionsList(list1);
+			 }
+		 }
+		
+	}
+
+	public String getCurrentAssignmentKey() {
+		return currentAssignmentKey;
+	}
+
+	public void setCurrentAssignmentKey(String currentAssignmentKey) {
+		this.currentAssignmentKey = currentAssignmentKey;
+	}
+
+	public String getTbId() {
+		return tbId;
+	}
+
+	public void setTbId(String tbId) {
+		this.tbId = tbId;
+	}
+	public String getNewAssignDesCol() {
+		return newAssignDesCol;
+	}
+
+	public void setNewAssignDesCol(String newAssignDesCol) {
+		this.newAssignDesCol = newAssignDesCol;
+	}
+
+	public String getNewBDCol() {
+		return newBDCol;
+	}
+
+	public void setNewBDCol(String newBDCol) {
+		this.newBDCol = newBDCol;
+	}
+
+	public String getNewBTCol() {
+		return newBTCol;
+	}
+
+	public void setNewBTCol(String newBTCol) {
+		this.newBTCol = newBTCol;
+	}
+
+	public String getNewEDCol() {
+		return newEDCol;
+	}
+
+	public void setNewEDCol(String newEDCol) {
+		this.newEDCol = newEDCol;
+	}
+
+	public String getNewETCol() {
+		return newETCol;
+	}
+
+	public void setNewETCol(String newETCol) {
+		this.newETCol = newETCol;
+	}
+
+	public String getNewHrsCol() {
+		return newHrsCol;
+	}
+
+	public void setNewHrsCol(String newHrsCol) {
+		this.newHrsCol = newHrsCol;
+	}
+
+	public List<String> getAssignmentKeyList() {
+		return assignmentKeyList;
+	}
+
+	public void setAssignmentKeyList(List<String> assignmentKeyList) {
+		this.assignmentKeyList = assignmentKeyList;
+	}
+
     
 }

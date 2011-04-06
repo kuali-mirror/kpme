@@ -2,6 +2,7 @@ package org.kuali.hr.time.timeblock;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -9,6 +10,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 import javax.persistence.Transient;
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -32,6 +34,17 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	private String earnCode;
 	private Timestamp beginTimestamp;
 	private Timestamp endTimestamp;
+	
+    @Transient
+    private java.sql.Date beginDate;
+    @Transient
+    private java.sql.Date endDate;
+    @Transient
+    private Time beginTime;
+    @Transient
+    private Time endTime;
+	
+	
 	private Boolean clockLogCreated;
 	private BigDecimal hours = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 	private BigDecimal amount = TkConstants.BIG_DECIMAL_SCALED_ZERO;
@@ -44,6 +57,10 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 
     private Long clockLogBeginId;
     private Long clockLogEndId;
+    
+    private String assignmentKey;
+
+
 
 	// the two variables below are used to determine if a time block needs to be visually pushed forward / backward
 	@Transient
@@ -108,10 +125,56 @@ public class TimeBlock extends PersistableBusinessObjectBase {
 	public Timestamp getEndTimestamp() {
 		return endTimestamp;
 	}
-
+	
 	public void setEndTimestamp(Timestamp endTimestamp) {
 		this.endTimestamp = endTimestamp;
 	}
+
+	public java.sql.Date getBeginDate() {
+		if(beginDate == null && this.getBeginTimestamp() != null) {
+			 setBeginDate(new java.sql.Date(this.getBeginTimestamp().getTime()));
+		}
+		return beginDate;
+	}
+
+	public void setBeginDate(java.sql.Date beginDate) {
+		this.beginDate = beginDate;
+	}
+
+	public java.sql.Date getEndDate() {
+		if(endDate == null && this.getEndTimestamp() != null) {
+			 setEndDate(new java.sql.Date(this.getEndTimestamp().getTime()));
+		}
+		return endDate;
+	}
+
+	public void setEndDate(java.sql.Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public Time getBeginTime() {
+		if(beginTime == null && this.getBeginTimestamp() != null) {
+			 setBeginTime(new java.sql.Time(this.getBeginTimestamp().getTime()));
+		}
+		return beginTime;
+	}
+
+	public void setBeginTime(Time beginTime) {
+		this.beginTime = beginTime;
+	}
+
+	public Time getEndTime() {
+		if(endTime == null && this.getEndTimestamp() != null) {
+			 setEndTime(new java.sql.Time(this.getEndTimestamp().getTime()));
+		}
+		return endTime;
+	}
+
+	public void setEndTime(Time endTime) {
+		this.endTime = endTime;
+	}
+
+
 
 	public Boolean getClockLogCreated() {
 		return clockLogCreated;
@@ -323,6 +386,20 @@ public class TimeBlock extends PersistableBusinessObjectBase {
     public void setClockLogEndId(Long clockLogEndId) {
         this.clockLogEndId = clockLogEndId;
     }
+    
+	public String getAssignmentKey() {
+		if(assignmentKey == null) {
+			AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber().toString(), this.getWorkArea().toString(), this.getTask().toString());
+			this.setAssignmentKey(adk.toAssignmentKeyString());
+		}
+		return assignmentKey;
+	}
+
+	public void setAssignmentKey(String assignmentDescription) {
+		this.assignmentKey = assignmentDescription;
+	}
+    
+    
 
     /**
      * Word on the street is that Object.clone() is a POS. We only need some

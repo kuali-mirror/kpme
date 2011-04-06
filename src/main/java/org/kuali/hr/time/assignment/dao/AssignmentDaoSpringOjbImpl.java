@@ -131,6 +131,13 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 
 		return assignments;
 	}
+	
+	public Assignment getAssignment(String tkAssignmentId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("tkAssignmentId", tkAssignmentId);
+		Query query = QueryFactory.newQuery(Assignment.class, crit);
+		return (Assignment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
 
 
 }

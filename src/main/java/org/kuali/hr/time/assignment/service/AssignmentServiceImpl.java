@@ -104,6 +104,10 @@ public class AssignmentServiceImpl implements AssignmentService {
 		return new Assignment();
 	}
 	
+	public Assignment getAssignment(String tkAssignmentId) {
+		return getAssignmentDao().getAssignment(tkAssignmentId);
+	}
+	
 	public List<Assignment> getActiveAssignmentsForWorkArea(String workArea, Date asOfDate){
 		List<Assignment> assignments = assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
 		for(Assignment assignment :assignments){

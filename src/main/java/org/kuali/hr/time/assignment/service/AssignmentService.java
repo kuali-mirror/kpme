@@ -24,6 +24,12 @@ public interface AssignmentService {
      */
     public Assignment getAssignment(TimesheetDocument timesheetDocument, String assignmentKey);
     /**
+     * Reverse lookup of an assignment based on the assignment id
+     * @param tkAssignmentId
+     * @return
+     */
+    public Assignment getAssignment(String tkAssignmentId);
+    /**
      * Get Assignment Description key based off of description
      * @param assignmentDesc
      * @return
