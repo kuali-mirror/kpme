@@ -123,7 +123,7 @@ public class ClockAction extends TimesheetAction {
                 }
 
                 // Add TimeBlocks after we store our reference object!
-                newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,earnCode, caf.getTimesheetDocument(),beginTimestamp, endTimestamp,BigDecimal.ZERO, true));
+                newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,earnCode, caf.getTimesheetDocument(),beginTimestamp, endTimestamp,BigDecimal.ZERO, BigDecimal.ZERO, true));
 
     			//reset time hour details
     			TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTimeBlocks);

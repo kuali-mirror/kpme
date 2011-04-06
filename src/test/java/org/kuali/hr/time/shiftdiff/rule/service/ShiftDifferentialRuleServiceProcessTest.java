@@ -138,7 +138,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
-		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 1, new BigDecimal(2)));
+		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust);
 
 		tdoc.setTimeBlocks(blocks);
@@ -210,7 +210,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
-		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 1, new BigDecimal(2)));
+		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust);
 
 

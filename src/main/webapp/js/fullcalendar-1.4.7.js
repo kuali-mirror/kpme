@@ -1698,11 +1698,7 @@
              * this is where we construct the UI of the timeblocks
              */
             var fromTo = "";
-            if (event.earnCodeType == 'HOUR') {
-                fromTo = "<tr><td align='center' colspan='3'>" + event.hours + " hours</td></tr>";
-            }
-            else {
-
+            if (event.earnCodeType == 'TIME') {
                 fromTo = "<tr><td align='center' colspan='3'>" + formatDate(event.start, view.option('timeFormat'))
                         + " - " + formatDate(event.end, view.option('timeFormat')) + "</td></tr>";
             }
@@ -1714,11 +1710,11 @@
             $.each(jsonString, function (index) {
                 timeHourDetail += "<tr>";
                 timeHourDetail += "<td align='center'>Earn Code: " + jsonString[index].earnCode + "</td>";
-                if(event.earnCodeType == 'HOUR') {
+                if(event.earnCodeType == 'TIME' || event.earnCodeType == 'HOUR') {
                     timeHourDetail += "<td align='center'>Hours: " + jsonString[index].hours + "</td>";
                 }
                 if(event.earnCodeType == 'AMOUNT') {
-                    timeHourDetail += "<td align='center'>Amount: " + jsonString[index].amount + "</td>";
+                    timeHourDetail += "<td align='center'>Amount: $" + jsonString[index].amount + "</td>";
                 }
                 timeHourDetail += "</tr>";
             });

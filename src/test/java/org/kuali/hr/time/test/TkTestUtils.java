@@ -327,7 +327,7 @@ public class TkTestUtils {
 	 * Helper method to generate time blocks suitable for db persistence in
 	 * unit tests.
 	 */
-	public static List<TimeBlock> createUniformActualTimeBlocks(TimesheetDocument timesheetDocument, Assignment assignment, String earnCode, DateTime start, int days, BigDecimal hours) {
+	public static List<TimeBlock> createUniformActualTimeBlocks(TimesheetDocument timesheetDocument, Assignment assignment, String earnCode, DateTime start, int days, BigDecimal hours, BigDecimal amount) {
 		TimeBlockService service = TkServiceLocator.getTimeBlockService();
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 
@@ -337,7 +337,7 @@ public class TkTestUtils {
 			Timestamp tsin = new Timestamp(ci.getMillis());
 			Timestamp tsout = new Timestamp(co.getMillis());
 
-			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours, false));
+			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours, amount, false));
 		}
 
 		return blocks;

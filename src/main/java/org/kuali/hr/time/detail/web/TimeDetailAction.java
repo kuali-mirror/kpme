@@ -31,75 +31,75 @@ import java.util.Map;
 public class TimeDetailAction extends TimesheetAction {
 
     @Override
- 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward forward = super.execute(mapping, form, request, response);
-		TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-		tdaf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(tdaf.getTimesheetDocument(),false));
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.execute(mapping, form, request, response);
+        TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+        tdaf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(tdaf.getTimesheetDocument(), false));
 //		tdaf.setBeginPeriodDateTime(td.getPayCalendarEntry().getBeginPeriodDateTime());
 //		tdaf.setEndPeriodDateTime(td.getPayCalendarEntry().getEndPeriodDateTime());
 
-		// TODO: may need to revisit this:
-		// when adding / removing timeblocks, it should update the timeblocks on the timesheet document,e
-		// so that we can directly fetch the timeblocks from the document
-		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentId()));
-		tdaf.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument(), timeBlocks));
+        // TODO: may need to revisit this:
+        // when adding / removing timeblocks, it should update the timeblocks on the timesheet document,e
+        // so that we can directly fetch the timeblocks from the document
+        List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentId()));
+        tdaf.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument(), timeBlocks));
 
-		this.validateHourLimit(tdaf);
+        this.validateHourLimit(tdaf);
 
-		// for visually impaired users
-		// TimesheetDocument td = tdaf.getTimesheetDocument();
-		// List<TimeBlock> timeBlocks = td.getTimeBlocks();
-		// tdaf.setTimeBlocks(timeBlocks);
+        // for visually impaired users
+        // TimesheetDocument td = tdaf.getTimesheetDocument();
+        // List<TimeBlock> timeBlocks = td.getTimeBlocks();
+        // tdaf.setTimeBlocks(timeBlocks);
 
-		return forward;
-	}
+        return forward;
+    }
 
     @SuppressWarnings("unchecked")
     public void validateHourLimit(TimeDetailActionForm tdaf) throws Exception {
-    	tdaf.setWarningMessages(new ArrayList<String>());
-    	List<String> warningMsgList = new ArrayList<String>();
-    	
-    	String pId = "";
-    	if(tdaf.getTimesheetDocument() != null) {
-    		pId = tdaf.getTimesheetDocument().getPrincipalId();
-    	}
-    	List<Map<String, Object>> calcList = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualsCalc(pId);
+        tdaf.setWarningMessages(new ArrayList<String>());
+        List<String> warningMsgList = new ArrayList<String>();
 
-    	List<TimeBlock> tbList = tdaf.getTimesheetDocument().getTimeBlocks();
-    	if(tbList.isEmpty()) {
-    		return;
-    	}
-    	for(Map<String, Object> aMap : calcList) {
-    		String accrualCategory = (String) aMap.get("accrualCategory");
-    		BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList);
-    		if( totalForAccrCate.compareTo((BigDecimal)aMap.get("hoursAccrued")) == 1) {
-    			warningMsgList.add("Warning: Total hours entered for Accrual Category " + accrualCategory + " has exceeded balance.");
-    		}
-    	}
+        String pId = "";
+        if (tdaf.getTimesheetDocument() != null) {
+            pId = tdaf.getTimesheetDocument().getPrincipalId();
+        }
+        List<Map<String, Object>> calcList = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualsCalc(pId);
 
-    	if(!warningMsgList.isEmpty()) {
-    		tdaf.setWarningMessages(warningMsgList);
-    	}
-    	return;
+        List<TimeBlock> tbList = tdaf.getTimesheetDocument().getTimeBlocks();
+        if (tbList.isEmpty()) {
+            return;
+        }
+        for (Map<String, Object> aMap : calcList) {
+            String accrualCategory = (String) aMap.get("accrualCategory");
+            BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList);
+            if (totalForAccrCate.compareTo((BigDecimal) aMap.get("hoursAccrued")) == 1) {
+                warningMsgList.add("Warning: Total hours entered for Accrual Category " + accrualCategory + " has exceeded balance.");
+            }
+        }
+
+        if (!warningMsgList.isEmpty()) {
+            tdaf.setWarningMessages(warningMsgList);
+        }
+        return;
     }
 
     public BigDecimal totalForAccrCate(String accrualCategory, List<TimeBlock> tbList) {
-    	BigDecimal total = BigDecimal.ZERO;
-    	for(TimeBlock tb: tbList) {
-    		String earnCode = tb.getEarnCode();
-    		Date asOfDate = new java.sql.Date(tb.getBeginTimestamp().getTime());
-             EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
-             String accrCate = "";
-             if(ec != null) {
-             	accrCate =  ec.getAccrualCategory();
-             	if(accrCate != null) {
-             		if(accrCate.equals(accrualCategory)) {
-             			total = total.add(tb.getHours());
-             		}
-             	}
-             }
-    	}
-    	return total;
+        BigDecimal total = BigDecimal.ZERO;
+        for (TimeBlock tb : tbList) {
+            String earnCode = tb.getEarnCode();
+            Date asOfDate = new java.sql.Date(tb.getBeginTimestamp().getTime());
+            EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+            String accrCate = "";
+            if (ec != null) {
+                accrCate = ec.getAccrualCategory();
+                if (accrCate != null) {
+                    if (accrCate.equals(accrualCategory)) {
+                        total = total.add(tb.getHours());
+                    }
+                }
+            }
+        }
+        return total;
     }
 
     // this is an ajax call
@@ -206,10 +206,8 @@ public class TimeDetailAction extends TimesheetAction {
         Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(),
                 tdaf.getSelectedAssignment());
 
-        //if(tdaf.getStartTime() != null && tdaf.getEndTime() != null) {
-            Timestamp startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime());
-            Timestamp endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime());
-        //}
+        Timestamp startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime());
+        Timestamp endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime());
 
         // We need a  cloned reference set so we know whether or not to
         // persist any potential changes without making hundreds of DB calls.
@@ -224,17 +222,17 @@ public class TimeDetailAction extends TimesheetAction {
         if (StringUtils.equals(tdaf.getAcrossDays(), "y")) {
             newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
-                    endTime, tdaf.getHours(), false));
+                    endTime, tdaf.getHours(), tdaf.getAmount(), false));
         } else {
             newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
-                    endTime, tdaf.getHours(), false));
+                    endTime, tdaf.getHours(), tdaf.getAmount(), false));
         }
 
         TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTimeBlocks);
         // anyone who records time asynch (not clock user) should not be affected by the lunch rule
         // only timeblocks created by the clock should have this rule applied
-        if(!tdaf.getUser().getCurrentRoles().isSynchronous()) {
+        if (!tdaf.getUser().getCurrentRoles().isSynchronous()) {
             TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument());
         }
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
@@ -264,13 +262,13 @@ public class TimeDetailAction extends TimesheetAction {
         //------------------------
         // validate the hour field
         //------------------------
-        if (tdaf.getHours() != null) {
-            if (tdaf.getHours().compareTo(new BigDecimal("0")) == 0) {
-                errorMsgList.add("The entered hours is not valid.");
-                tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-                return mapping.findForward("ws");
-            }
-        }
+//        if (tdaf.getHours() != null && tdaf.getHours().compareTo(BigDecimal.ZERO) > 0) {
+//            if (tdaf.getHours().compareTo(new BigDecimal("0")) == 0) {
+//                errorMsgList.add("The entered hours is not valid.");
+//                tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+//                return mapping.findForward("ws");
+//            }
+//        }
 
         //------------------------
         // some of the simple validations are in the js side in order to reduce the server calls
@@ -296,11 +294,11 @@ public class TimeDetailAction extends TimesheetAction {
         //------------------------
         // check if the overnight shift is across days
         //------------------------
-        if(StringUtils.equals(tdaf.getAcrossDays(), "y")) {
+        if (StringUtils.equals(tdaf.getAcrossDays(), "y") && tdaf.getHours() == null && tdaf.getAmount() == null) {
             //Interval timeInterval = new Interval(startTime, endTime);
             DateTime start = new DateTime(startTime);
             DateTime end = new DateTime(endTime);
-            if(start.getHourOfDay() >= end.getHourOfDay()) {
+            if (start.getHourOfDay() >= end.getHourOfDay()) {
                 errorMsgList.add("The \"apply to each day\" box should not be checked.");
                 tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
                 return mapping.findForward("ws");

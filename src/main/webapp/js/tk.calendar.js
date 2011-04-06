@@ -60,12 +60,13 @@ $(document).ready(function() {
                 $('#beginTimeField').val($.fullCalendar.formatDate(calEvent.start, timeFormat));
                 $('#endTimeField').val($.fullCalendar.formatDate(calEvent.end, timeFormat));
                 $('#tkTimeBlockId').val(calEvent.tkTimeBlockId);
-                $('#hoursField').val(calEvent.hours);
+                $('#hoursField').val(calEvent.hours == '0' ? '' : calEvent.hours);
+                $('#amountField').val(calEvent.amount == '0' ? '' : calEvent.amount);
                 // the month value in the javascript date object is the actual month minus 1.
                 $('#beginTimeField-messages').val(calEvent.start.getHours() + ':' + calEvent.start.getMinutes());
                 $('#endTimeField-messages').val(calEvent.end.getHours() + ':' + calEvent.end.getMinutes());
 
-                // push exsiting timeblock values to a hash for the later comparision against the modified values
+                // push existing timeblock values to a hash for the later comparison against the modified values
                 oriTimeDetail = {
                     'startDate' : $('#date-range-begin').val(),
                     'endDate' : $('#date-range-end').val(),
@@ -202,14 +203,18 @@ $(document).ready(function() {
          * Entry field validation
          */
         // if the hour field is empty, there has to be values in the time fields and vice versa
-        if ($('#hoursField').val() === '' && $('#earnCode').getEarnCodeType() === 'TIME') {
+        if ($('#earnCode').getEarnCodeType() === 'TIME') {
             // the format has to be like "12:00 AM"
             bValid &= checkLength(startTime, "Time entry", 8, 8);
             bValid &= checkLength(endTime, "Time entry", 8, 8);
         }
-        else if ($('#earnCode').getEarnCodeType() !== 'TIME' && ($('#beginTimeField').val() === '' || $('#endTimeField').val() === '' )) {
+        else if ($('#earnCode').getEarnCodeType() === 'HOUR') {
             var hours = $('#hoursField');
             bValid &= checkEmptyField(hours, "Hour") && checkMinLength(hours, "Hour", 1) && checkRegexp(hours, '/0/', 'Hours cannot be zero');
+        }
+        else {
+            var amount = $('#amountField');
+            bValid &= checkEmptyField(amount, "Amount") && checkMinLength(amount, "Amount", 1) && checkRegexp(amount, '/0/', 'Amount cannot be zero');
         }
 
         bValid &= checkEmptyField(assignment, "Assignment");
@@ -227,6 +232,7 @@ $(document).ready(function() {
             $('#startTime').val($('#beginTimeField-messages').val());
             $('#endTime').val($('#endTimeField-messages').val());
             $('#hours').val($('#hoursField').val());
+            $('#amount').val($('#amountField').val());
             $('#selectedEarnCode').val($('#earnCode').getEarnCode());
             $('#selectedAssignment').val($('#assignment').val());
             $('#acrossDays').val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
@@ -237,6 +243,7 @@ $(document).ready(function() {
             params['startTime'] = $('#beginTimeField-messages').val();
             params['endTime'] = $('#endTimeField-messages').val();
             params['hours'] = $('#hoursField').val();
+            params['amount'] = $('#amountField').val();
             params['selectedEarnCode'] = $('#earnCode').getEarnCode();
             params['selectedAssignment'] = $('#assignment').val();
             params['acrossDays'] = $('#acrossDaysField').is(':checked') ? 'y' : 'n';
@@ -314,9 +321,10 @@ $(document).ready(function() {
      */
 
     // when the value of time fields(s) is changed, reset the hour/amount field and vice versa
-    $('#beginTimeField, #endTimeField, #hoursField').change(function() {
+    $('#beginTimeField, #endTimeField, #hoursField, #amountField').change(function() {
         if ($(this).get(0).id == 'beginTimeField' || $(this).get(0).id == 'endTimeField') {
             $('#hoursField').val('');
+            $('#amountField').val('');
             // do the input conversion
             magicTime($(this));
         }
@@ -339,8 +347,18 @@ $(document).ready(function() {
     $('select#earnCode').change(function() {
         $(this).loadFields();
         // clear the existing values
-        $('#beginTimeField, #endTimeField, #hoursField').val('');
+        $('#beginTimeField, #endTimeField, #hoursField, #amountField').val('');
         $(this).resetState();
+    });
+
+    // check the acrossDay box if the start/end dates are different
+    $('#date-range-begin, #date-range-end').change(function() {
+        var startDate = $('#date-range-begin').val();
+        var endDate = $('#date-range-end').val();
+
+        if(startDate != endDate) {
+            $('#acrossDaysField').attr('checked', 'checked');
+        }
     });
 
     /**
@@ -410,15 +428,23 @@ $.fn.loadFields = function() {
 
     // if the field type equals hour, hide the begin/end time field and set the time to 12a
     if (fieldType == 'HOUR') {
-        $('#clockIn, #clockOut').hide();
+        $('#clockIn, #clockOut, #amountSection').hide();
         $('#beginTimeField-messages,#endTimeField-messages').val("0:0");
+        $('#amountSection').val('');
         $('#hoursSection').show();
         $('#hoursField').validateNumeric();
     }
-    // TODO: need to handle the amount field
+    else if (fieldType == 'AMOUNT') {
+        $('#clockIn, #clockOut, #hoursSection').hide();
+        $('#beginTimeField-messages,#endTimeField-messages').val("0:0");
+        $('#hoursSection').val('');
+        $('#amountSection').show();
+        $('#amountField').validateNumeric();
+    }
     else {
         $('#clockIn, #clockOut').show();
         $('#hoursSection').hide();
+        $('#amountSection').hide();
     }
 }
 
@@ -440,6 +466,7 @@ $.fn.deleteTimeBlock = function(tkTimeBlockId) {
     });
 }
 
+// reset the field state to the default
 $.fn.resetState = function() {
 
     // clear the red background for fields with wrong inputs
@@ -453,6 +480,15 @@ $.fn.resetState = function() {
     $('.error').html('');
     // remove the error message and error state
     $('#validation').html('').removeClass('ui-state-error');
+}
+
+// clear the value of the specific field. If the field is not provided, all the input values in the $('#timesheet-panel') will be reset.
+$.fn.resetValue = function(field) {
+    if (field != undefined) {
+        field.val('');
+    } else {
+        $('#timesheet-panel').find('input').val('');
+    }
 }
 
 $.fn.validateNumeric = function() {

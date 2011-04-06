@@ -23,6 +23,16 @@ public class TKUtils {
 		return getTimelessDate(null);
 	}
 
+    /**
+     *
+     * @param dateString the format has to be mm/dd/yyyy
+     * @return dayOfMonth
+     */
+    public static String getDayOfMonthFromDateString(String dateString) {
+        String[] date = dateString.split("/");
+        return date[1];
+    }
+
 	/**
 	 * Returns a enforced timeless version of the provided date, if the date is
 	 * null the current date is returned.

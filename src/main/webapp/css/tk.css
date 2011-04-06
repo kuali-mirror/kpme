@@ -108,6 +108,7 @@ select {
 	border-collapse: collapse;
 	color: black;
 	font-size: .8em;
+    font-weight: normal;
 }
 
 .person-info table td{

@@ -80,7 +80,7 @@ public class MissedPunchMaintainableImpl extends KualiMaintainableImpl {
         // Add TimeBlocks after we store our reference object!
         List<TimeBlock> blocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(
                 assignment,earnCode, tdoc, beginTimestamp,
-                endTimestamp, BigDecimal.ZERO, true);
+                endTimestamp, BigDecimal.ZERO, BigDecimal.ZERO, true);
 
         // Add the clock log IDs to the time blocks that were just created.
         for (TimeBlock block : blocks) {

@@ -34,11 +34,12 @@ public interface TimeBlockService {
 	 * @param beginTimestamp
 	 * @param endTimestamp
 	 * @param hours
+     * @param amount
 	 * @param isClockLogCreated
 	 * @return
 	 */
 	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
-											Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, Boolean isClockLogCreated);
+											Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, BigDecimal amount, Boolean isClockLogCreated);
 	/**
 	 * Save a list of new TimeBlocks
 	 * does a comparison for the old versus the new and only saves changed/new/deleted TimeBlocks
@@ -65,11 +66,12 @@ public interface TimeBlockService {
 	 * @param beginTimestamp
 	 * @param endTimestamp
 	 * @param hours
+     * @param amount
 	 * @param isClockLogCreated
 	 * @return
 	 */
 	public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
-												Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, Boolean isClockLogCreated);
+												Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, BigDecimal amount, Boolean isClockLogCreated);
 	/**
 	 * Create a TimeBlock for the given criteria
 	 * @param timesheetDocument
@@ -78,9 +80,10 @@ public interface TimeBlockService {
 	 * @param assignment
 	 * @param earnCode
 	 * @param hours
+     * @param amount
 	 * @param isClockLogCreated
 	 * @return
 	 */
 	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime,
-										Assignment assignment, String earnCode, BigDecimal hours, Boolean isClockLogCreated);
+										Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean isClockLogCreated);
 }

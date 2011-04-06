@@ -24,7 +24,7 @@ public class TimeBlockHistoryTest extends TkTestCase {
     @Test
     public void testTimeBlockHistory() throws Exception {
         TimesheetDocument td = TkTestUtils.populateBlankTimesheetDocument(DEFAULT_EFFDT);
-        List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getAssignments().get(0), "RGH", td, beginTimestamp, endTimestamp, new BigDecimal("8"), true);
+        List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getAssignments().get(0), "RGH", td, beginTimestamp, endTimestamp, new BigDecimal("8"), BigDecimal.ZERO, true);
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(td.getTimeBlocks(), tbs);
 
         List<TimeBlockHistory> tbhs = new ArrayList<TimeBlockHistory>();

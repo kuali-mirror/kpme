@@ -1,11 +1,5 @@
 package org.kuali.hr.time.overtime.weekly.rule.service;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
@@ -18,6 +12,12 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 
@@ -84,7 +84,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		PayCalendarEntries endOfMarch = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(16L);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfMarch);
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
-		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 3, BigDecimal.TEN);
+		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 3, BigDecimal.TEN, BigDecimal.ZERO);
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), timeBlocks);
 		tdoc.setTimeBlocks(timeBlocks);
 		
@@ -132,7 +132,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		PayCalendarEntries endOfJune = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(22L);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
-		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 4, new BigDecimal(11));
+		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 4, new BigDecimal(11), BigDecimal.ZERO);
 		
 		tdoc.setTimeBlocks(timeBlocks);
 		
@@ -213,10 +213,10 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
 		
 		
-		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "ABC", start, 1, new BigDecimal(11)));
-		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "XYZ", start.plusDays(1), 1, new BigDecimal(11)));
-		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "ABC", start.plusDays(2), 1, new BigDecimal(11)));
-		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "XYZ", start.plusDays(3), 1, new BigDecimal(11)));		
+		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "ABC", start, 1, new BigDecimal(11), BigDecimal.ZERO));
+		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "XYZ", start.plusDays(1), 1, new BigDecimal(11), BigDecimal.ZERO));
+		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "ABC", start.plusDays(2), 1, new BigDecimal(11), BigDecimal.ZERO));
+		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "XYZ", start.plusDays(3), 1, new BigDecimal(11), BigDecimal.ZERO));		
 		tdoc.setTimeBlocks(timeBlocks);
 		
 
