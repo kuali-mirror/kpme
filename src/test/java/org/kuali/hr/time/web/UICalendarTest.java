@@ -4,7 +4,7 @@ import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.SeleneseTestCase;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.Ignore;
 
 public class UICalendarTest extends SeleneseTestCase {
     @Before
@@ -17,7 +17,7 @@ public class UICalendarTest extends SeleneseTestCase {
         }
     }
 
-    @Test
+    @Ignore
     public void testAddTimeBlock() throws Exception {
         selenium.open("/tk-dev/TimeDetail.do");
         selenium.type("__login_user", "fran");
