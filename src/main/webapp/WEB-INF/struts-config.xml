@@ -20,6 +20,9 @@
 	<action-mappings>
 		<action path="/Clock" name="ClockActionForm" scope="request" input="/WEB-INF/jsp/clock.jsp" type="org.kuali.hr.time.clock.web.ClockAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/clock.jsp" />
+            <forward name="tb" path="/WEB-INF/jsp/timeDistribute.jsp" />
+            <forward name="et" path="/WEB-INF/jsp/editTimeBlock.jsp" />
+            <forward name="ws" path="/WEB-INF/jsp/clockWebService.jsp" />
         </action>
 
         <action path="/TimeDetail" name="TimeDetailActionForm" scope="request" input="/WEB-INF/jsp/timeDetail.jsp" type="org.kuali.hr.time.detail.web.TimeDetailAction" parameter="methodToCall" validate="false">
