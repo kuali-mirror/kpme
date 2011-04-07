@@ -246,6 +246,9 @@ select {
 }
 
 #clock{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
 #clock table {
@@ -277,8 +280,8 @@ select {
 #clock .footer {
 }
 
-#clock tr, td {
-	border: 1px solid gray;
+#clock table td {
+	border-bottom: 1px solid gray;
 	padding: 8px;
 }
 
