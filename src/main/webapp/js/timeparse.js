@@ -93,7 +93,18 @@ var timeParsePatterns = [
             var d = new Date();
             d.setHours(0);
             d.setMinutes(0);
-//            d.setSeconds(0);
+            return d;
+        }
+
+    },
+    // 12:00am
+    {
+        re: /12:\d{1,2}(?:[a|am]| [a|am])/i,
+        example: new Array('12:00a'),
+        handler: function(bits) {
+            var d = new Date();
+            d.setHours(0);
+            d.setMinutes(0);
             return d;
         }
 
@@ -231,6 +242,8 @@ function parseTimeString(s) {
         var handler = timeParsePatterns[i].handler;
         var bits = re.exec(s);
         if (bits) {
+            // this is to debug which regex it actually used
+            //console.log(i);
             return handler(bits);
         }
     }
