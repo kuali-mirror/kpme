@@ -75,6 +75,7 @@ $(document).ready(function() {
                     'startTime' : $('#beginTimeField-messages').val(),
                     'endTime' : $('#endTimeField-messages').val(),
                     'hours' : $('#hoursField').val(),
+                    'amount' : $('#amountField').val(),
                     'acrossDays' : $('#acrossDaysField').val()
                 };
             }
@@ -343,11 +344,20 @@ $(document).ready(function() {
         $(this).resetState();
     });
 
+    var currentEarnCodeType = null;
+
+    $('select#earnCode').click(function() {
+        currentEarnCodeType = $(this).getEarnCodeType();
+    });
+
     // hide/show the related fields based on the earn code type
     $('select#earnCode').change(function() {
         $(this).loadFields();
-        // clear the existing values
-        $('#beginTimeField, #endTimeField, #hoursField, #amountField').val('');
+        // KPME-204
+        // clear the existing values only when the earn code type is different
+        if($(this).getEarnCodeType() != currentEarnCodeType) {
+            $('#beginTimeField, #endTimeField, #hoursField, #amountField').val('');
+        }
         $(this).resetState();
     });
 
@@ -356,7 +366,7 @@ $(document).ready(function() {
         var startDate = $('#date-range-begin').val();
         var endDate = $('#date-range-end').val();
 
-        if(startDate != endDate) {
+        if (startDate != endDate) {
             $('#acrossDaysField').attr('checked', 'checked');
         }
     });
