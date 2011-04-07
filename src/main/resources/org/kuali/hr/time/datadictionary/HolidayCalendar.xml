@@ -162,7 +162,6 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="holidayCalendarId" />
 				<bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
