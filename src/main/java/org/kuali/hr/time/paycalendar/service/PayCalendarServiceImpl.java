@@ -10,6 +10,7 @@ import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.paycalendar.dao.PayCalendarDao;
+import org.kuali.hr.time.paycalendar.dao.PayCalendarEntriesDao;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -37,7 +38,7 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 	@CacheResult
 	public PayCalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate) {
 		PayCalendarEntries pcd = null;
-		DateTime currentTime = new DateTime(currentDate); 
+		java.sql.Date currentTime = new java.sql.Date(currentDate.getTime()); 
 		
 		List<Job> currentJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, currentDate);
 		if(currentJobs.size() < 1){
@@ -58,21 +59,10 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 			PayCalendar payCalendar = principalCalendar.getPayCalendar();
 			if (payCalendar == null)
 				throw new RuntimeException("Null pay calendar on principal calendar in getPayEndDate");
-			List<PayCalendarEntries> dates = payCalendar.getPayCalendarEntries();
-			for (PayCalendarEntries pcdate : dates) { 
-				DateTime beginDate = new DateTime(pcdate.getBeginPeriodDateTime());					
-				DateTime endDate = new DateTime(pcdate.getEndPeriodDateTime());
-				
-				Interval range = new Interval(beginDate, endDate);
-				// For a given principal_id + job_number combination, it is given that there 
-				// will be no overlapping PayCalendarDates, this way we know that if our 
-				// date fits within the range any given pay calendar date, we have the 
-				// correct PayCalendarDate.
-				if (range.contains(currentTime)) {
-					pcd = pcdate;
-					break;
-				}				
-			}
+			
+			pcd = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(payCalendar.getPayCalendarId(), currentTime);
+		 
+			
 		}
 		
 		return pcd;
