@@ -33,7 +33,6 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	}
 
 	@Override
-	@CacheResult
 	/**
 	 * Search for the valid Daily Overtime Rule, wild cards are allowed on
 	 * location
