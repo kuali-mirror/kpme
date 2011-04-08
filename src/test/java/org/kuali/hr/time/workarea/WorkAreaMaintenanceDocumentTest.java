@@ -71,13 +71,13 @@ public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
         
         element = nextPage.getElementByName("methodToCall.route");
         HtmlPage lastPage = element.click();
-        HtmlUnitUtil.createTempFile(lastPage);
         assertFalse("page text:\n" + lastPage.asText() + "\n contains:\n" + ERROR_MESSAGE, lastPage.asText().contains(ERROR_MESSAGE));
         assertTrue("page text:\n" + lastPage.asText() + "\n does not contains:\n" + SUCCESS_MESSAGE, lastPage.asText().contains(SUCCESS_MESSAGE));
-        
+        String message = "WorkArea: 	 " + this.maxWorkArea().toString();
+        assertTrue("page text:\n" + lastPage.asText() + "\n does not contains:\n" + message, lastPage.asText().contains(message));
     }
     
-	public Long maxWorkAreaId() {
+	public Long maxWorkArea() {
 		Collection aCol = KNSServiceLocator.getBusinessObjectService().findAll(WorkArea.class);
 		Long maxId = new Long(-1);
 		Iterator<WorkArea> itr = aCol.iterator();

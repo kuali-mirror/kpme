@@ -215,7 +215,7 @@
 	<class-descriptor class="org.kuali.hr.time.workarea.WorkArea" table="tk_work_area_t">
 		<field-descriptor name="tkWorkAreaId"         column="TK_WORK_AREA_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_work_area_s"/>
 		<!-- put field descriptors -->
-		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" primarykey="false"  />
+		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" autoincrement="true" sequence-name="tk_work_area_key_s" primarykey="false" />
 		<field-descriptor name="effectiveDate"      column="effdt" jdbc-type="DATE" nullable="false" primarykey="false"/>
         <field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="description"        column="descr" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />

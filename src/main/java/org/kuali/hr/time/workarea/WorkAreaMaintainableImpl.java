@@ -43,20 +43,6 @@ public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 		workArea.setRoles(roles);
 		KNSServiceLocator.getBusinessObjectService().save(workArea);
 		TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
-		this.resetWorkArea(workArea);
-	}
-
-	public void resetWorkArea(WorkArea workArea) {
-		if (workArea.getWorkArea() == null) {
-			Map<String, Object> criteria = new HashMap<String, Object>();
-			criteria.put("tkWorkAreaId", workArea.getTkWorkAreaId());
-			Collection aCol = KNSServiceLocator.getBusinessObjectService()
-					.findMatching(WorkArea.class, criteria);
-			if (!aCol.isEmpty()) {
-				WorkArea aWorkArea = (WorkArea) aCol.toArray()[0];
-				workArea.setWorkArea(aWorkArea.getWorkArea());
-			}
-		}
 	}
 
 	@Override
