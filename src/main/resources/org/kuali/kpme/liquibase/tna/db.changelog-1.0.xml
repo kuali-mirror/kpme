@@ -1958,10 +1958,10 @@
     <changeSet author="djunk (generated)" id="1298997987507-124">
         <createTable tableName="tk_work_area_t">
             <column name="TK_WORK_AREA_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false"/>
             </column>
             <column autoIncrement="true" name="work_area" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="DEPT" type="VARCHAR(21)"/>
             <column name="EFFDT" type="DATE">
