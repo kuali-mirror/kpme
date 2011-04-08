@@ -6,12 +6,24 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 
 import java.sql.Date;
+import java.util.List;
 
 public class DepartmentServiceImpl implements DepartmentService {
 
 	private DepartmentDao departmentDao;
 
-	@Override
+    @Override
+    public List<Department> getDepartments(String chart, Date asOfDate) {
+        List<Department> ds = departmentDao.getDepartments(chart, asOfDate);
+
+        for (Department d : ds) {
+            populateDepartmentRoles(d);
+        }
+
+        return ds;
+    }
+
+    @Override
 	public Department getDepartment(String department, Date asOfDate) {
         Department d = departmentDao.getDepartment(department, asOfDate);
         populateDepartmentRoles(d);

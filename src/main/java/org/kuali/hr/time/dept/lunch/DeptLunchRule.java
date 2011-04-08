@@ -1,16 +1,17 @@
 package org.kuali.hr.time.dept.lunch;
 
+import org.kuali.hr.job.Job;
+import org.kuali.hr.time.authorization.DepartmentalRule;
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.hr.job.Job;
-import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
-public class DeptLunchRule extends PersistableBusinessObjectBase {
+public class DeptLunchRule extends PersistableBusinessObjectBase implements DepartmentalRule {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +29,7 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
     private Timestamp timestamp;
 
     WorkArea workAreaObj;
-    Department departmentObj;   
+    Department departmentObj;
     private Job job;
 
 	public Job getJob() {
@@ -115,7 +116,7 @@ public class DeptLunchRule extends PersistableBusinessObjectBase {
 
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
-    }  
+    }
 
 
     public Long getJobNumber() {

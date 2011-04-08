@@ -1,17 +1,18 @@
 package org.kuali.hr.time.collection.rule;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
+import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class TimeCollectionRule extends PersistableBusinessObjectBase {
-	
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
+public class TimeCollectionRule extends PersistableBusinessObjectBase implements DepartmentalRule {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long tkTimeCollectionRuleId;
 	private String dept;
 	private Long workArea;
@@ -21,9 +22,9 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 	private String userPrincipalId;
 	private Timestamp timeStamp;
 	private boolean active;
-	
-	
-	private Department departmentObj;	
+
+
+	private Department departmentObj;
 	private WorkArea workAreaObj;
 
 	public Department getDepartmentObj() {
@@ -66,7 +67,7 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 		this.effDate = effDate;
 	}
 
-	 
+
 	public boolean isClockUserFl() {
 		return clockUserFl;
 	}
@@ -98,7 +99,7 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 	public void setTimeStamp(Timestamp timeStamp) {
 		this.timeStamp = timeStamp;
 	}
-	
+
 
 	@Override
 	protected LinkedHashMap<String,Object> toStringMapper() {
@@ -113,7 +114,7 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase {
 		toStringMap.put("clockUserFl", clockUserFl);
 		toStringMap.put("hrsDistributionF", hrsDistributionF);
 		toStringMap.put("userPrincipalId", userPrincipalId);
-		toStringMap.put("timeStamp", timeStamp);		
+		toStringMap.put("timeStamp", timeStamp);
 
 		return toStringMap;
 	}

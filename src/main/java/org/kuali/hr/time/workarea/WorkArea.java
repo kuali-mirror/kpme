@@ -1,5 +1,6 @@
 package org.kuali.hr.time.workarea;
 
+import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.roles.TkRole;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class WorkArea extends PersistableBusinessObjectBase {
+public class WorkArea extends PersistableBusinessObjectBase implements DepartmentalRule {
 
     private static final long serialVersionUID = 1L;
 
@@ -141,12 +142,12 @@ public class WorkArea extends PersistableBusinessObjectBase {
 		this.dept = dept;
 	}
 
-	
+
 	public List<TkRole> getInactiveRoles() {
 		return inactiveRoles;
 	}
 
-	
+
 	public void setInactiveRoles(List<TkRole> inactiveRoles) {
 		this.inactiveRoles = inactiveRoles;
 	}

@@ -7,6 +7,7 @@ import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workarea.dao.WorkAreaDao;
 
 import java.sql.Date;
+import java.util.List;
 
 public class WorkAreaServiceImpl implements WorkAreaService {
 
@@ -18,7 +19,20 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 	public WorkAreaServiceImpl() {
 	}
 
-	@Override
+    @Override
+    public List<WorkArea> getWorkAreas(String department, Date asOfDate) {
+        List<WorkArea> wa = workAreaDao.getWorkArea(department, asOfDate);
+
+        // Load Roles
+        // TODO: We may not need to do this, as this method is currently only grabbing WorkArea objects to build role structures for users.
+        for (WorkArea w : wa) {
+            populateWorkAreaRoles(w);
+        }
+
+        return wa;
+    }
+
+    @Override
 	public WorkArea getWorkArea(Long workArea, Date asOfDate) {
         WorkArea w = workAreaDao.getWorkArea(workArea, asOfDate);
         populateWorkAreaRoles(w);

@@ -3,6 +3,7 @@ package org.kuali.hr.time.workarea.service;
 import org.kuali.hr.time.workarea.WorkArea;
 
 import java.sql.Date;
+import java.util.List;
 
 public interface WorkAreaService {
 	/**
@@ -12,6 +13,17 @@ public interface WorkAreaService {
 	 * @return
 	 */
     public WorkArea getWorkArea(Long workArea, Date asOfDate);
+
+    /**
+     * Fetch a List of WorkArea objects for a given department as of the
+     * indicated date.
+     *
+     * @param department The department we want to use.
+     * @param asOfDate An effective date.
+     * @return A List<WorkArea> that matches the provided params.
+     */
+    public List<WorkArea> getWorkAreas(String department, Date asOfDate);
+
     /**
      * Save or Update given work area
      * @param workArea

@@ -1,15 +1,16 @@
 package org.kuali.hr.time.clock.location;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.workarea.WorkArea;
 
-public class ClockLocationRule extends TkRule {
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
+public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	private static final long serialVersionUID = 1L;
 
@@ -126,7 +127,7 @@ public class ClockLocationRule extends TkRule {
 	public void setJob(Job job) {
 	    this.job = job;
 	}
-	
+
 	public Long getTkClockLocationRuleId() {
 		return tkClockLocationRuleId;
 	}

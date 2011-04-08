@@ -10,9 +10,10 @@
 
   <bean id="DeptLunchRuleMaintenanceDocument" parent="DeptLunchRuleMaintenanceDocument-parentBean"/>
 
-  <bean id="DeptLunchRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  <bean id="DeptLunchRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.time.dept.lunch.DeptLunchRule"
  		p:businessRulesClass="org.kuali.hr.time.dept.lunch.validation.DeptLunchRuleRule"
+        p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer"
   		p:maintainableClass="org.kuali.hr.time.dept.lunch.service.DeptLunchRuleMaintainableImpl">
     <property name="maintainableSections">
       <list>
@@ -37,7 +38,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="deductionMins" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="shiftHours" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" p:required="true"/>        
+        <bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" p:required="true"/>
       </list>
     </property>
   </bean>

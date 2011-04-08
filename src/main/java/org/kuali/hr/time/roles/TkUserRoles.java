@@ -2,7 +2,11 @@ package org.kuali.hr.time.roles;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workarea.WorkArea;
 
 import java.util.*;
 
@@ -113,6 +117,11 @@ public class TkUserRoles implements UserRoles {
                     orgAdminRolesDept.put(role.getDepartment(), role);
                 } else {
                     orgAdminRolesChart.put(role.getChart(), role);
+                    // TODO : Not sure what date makes most sense here as the effdt...
+                    List<Department> ds = TkServiceLocator.getDepartmentService().getDepartments(role.getChart(), TKUtils.getCurrentDate());
+                    for (Department d : ds) {
+                        orgAdminRolesDept.put(d.getDept(), role);
+                    }
                 }
 			} else if (role.getRoleName().equals(TkConstants.ROLE_TK_SYS_ADMIN)) {
 				systemAdmin = role;
@@ -127,6 +136,13 @@ public class TkUserRoles implements UserRoles {
                     processorRolesWorkArea.put(role.getWorkArea(), role);
                 } else if (!StringUtils.isEmpty(role.getDepartment())) {
                     processorRolesDept.put(role.getDepartment(), role);
+                    // Pull work areas that belong to department for transitive
+                    // role relationship
+                    // TODO : Not sure what date makes most sense here as the effdt...
+                    List<WorkArea> was = TkServiceLocator.getWorkAreaService().getWorkAreas(role.getDepartment(), TKUtils.getCurrentDate());
+                    for (WorkArea w : was) {
+                        processorRolesWorkArea.put(w.getWorkArea(), role);
+                    }
                 }
 			} else {
 				throw new RuntimeException("Invalid Role."); // TODO: Maybe we want to just ignore this exception.

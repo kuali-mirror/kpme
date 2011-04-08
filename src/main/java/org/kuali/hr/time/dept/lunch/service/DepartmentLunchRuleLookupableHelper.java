@@ -1,20 +1,30 @@
 package org.kuali.hr.time.dept.lunch.service;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
+import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+
+import java.util.List;
+import java.util.Map;
 
 public class DepartmentLunchRuleLookupableHelper extends
-		KualiLookupableHelperServiceImpl {
+        TkAuthorizedLookupableHelperBase {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
+
+    @Override
+    /**
+     * Implemented method to reduce the set of Business Objects that are shown
+     * to the user based on their current roles.
+     */
+    public boolean shouldShowBusinessObject(BusinessObject bo) {
+        return DepartmentalRuleAuthorizer.hasAccessToRead(bo);
+    }
 
 	@Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
@@ -38,7 +48,7 @@ public class DepartmentLunchRuleLookupableHelper extends
 		customActionUrls.add(htmlData);
 		return customActionUrls;
 	}
-	
+
 	@Override
 	public List<? extends BusinessObject> getSearchResults(
 			Map<String, String> fieldValues) {

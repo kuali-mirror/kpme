@@ -3,6 +3,7 @@ package org.kuali.hr.time.department.service;
 import org.kuali.hr.time.department.Department;
 
 import java.sql.Date;
+import java.util.List;
 
 public interface DepartmentService {
 	/**
@@ -12,6 +13,16 @@ public interface DepartmentService {
 	 * @return
 	 */
 	public Department getDepartment(String department, Date asOfDate);
+
+    /**
+     * Fetches a list of Department objects as of the specified date all of which
+     * belong to the indicated chart.
+     *
+     * @param chart The search criteria
+     * @param asOfDate Effective date
+     * @return A List<Department> object.
+     */
+    public List<Department> getDepartments(String chart, Date asOfDate);
 
     /**
      * A helper method to populate the roles for the given department. This
