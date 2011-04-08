@@ -60,9 +60,10 @@ public class SystemLunchRuleLookupableHelper extends
 					if (bo1 instanceof SystemLunchRule) {
 						SystemLunchRule slr1 = (SystemLunchRule) bo1;
 						SystemLunchRule slr2 = (SystemLunchRule) bo2;
-						if (slr1.getTimeStamp().before(slr2.getTimeStamp())) {
-							result = 1;
-						}
+						result = slr2.getEffectiveDate().compareTo(slr1.getEffectiveDate());
+	                    if (result == 0) {
+	                        result = slr2.getTimeStamp().compareTo(slr1.getTimeStamp());
+	                    }
 					} 
 					return result;
 				}

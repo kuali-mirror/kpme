@@ -96,12 +96,13 @@ public class JobLookupableHelper extends KualiLookupableHelperServiceImpl {
 				@Override
 				public int compare(BusinessObject bo1, BusinessObject bo2) {
 					int result = 0;
-					if (bo1 instanceof AccrualCategory) {
-						AccrualCategory acc1 = (AccrualCategory) bo1;
-						AccrualCategory acc2 = (AccrualCategory) bo2;
-						if (acc1.getTimestamp().before(acc2.getTimestamp())) {
-							result = 1;
-						}
+					if (bo1 instanceof Job) {
+						Job job1 = (Job) bo1;
+						Job job2 = (Job) bo2;
+						result = job2.getEffectiveDate().compareTo(job1.getEffectiveDate());
+	                    if (result == 0) {
+	                        result = job2.getTimestamp().compareTo(job1.getTimestamp());
+	                    }
 					}
 					return result;
 				}

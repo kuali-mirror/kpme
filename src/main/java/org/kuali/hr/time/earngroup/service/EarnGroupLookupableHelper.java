@@ -59,9 +59,10 @@ public class EarnGroupLookupableHelper extends KualiLookupableHelperServiceImpl 
 					if(bo1 instanceof EarnGroup){
 						EarnGroup eg1 = (EarnGroup) bo1;
 						EarnGroup eg2 = (EarnGroup) bo2;
-						if (eg1.getTimestamp().before(eg2.getTimestamp())) {
-							result = 1;
-						}
+						result = eg2.getEffectiveDate().compareTo(eg1.getEffectiveDate());
+	                    if (result == 0) {
+	                        result = eg2.getTimestamp().compareTo(eg1.getTimestamp());
+	                    }
 					}
 					return result;
 				}

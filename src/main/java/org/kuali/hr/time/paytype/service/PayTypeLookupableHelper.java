@@ -59,9 +59,10 @@ public class PayTypeLookupableHelper extends KualiLookupableHelperServiceImpl {
 					if(bo1 instanceof PayType){
 						PayType pt1 = (PayType) bo1;
 						PayType pt2 = (PayType) bo2;
-						if (pt1.getTimestamp().before(pt2.getTimestamp())) {
-							result = 1;
-						}
+						result = pt2.getEffectiveDate().compareTo(pt1.getEffectiveDate());
+	                    if (result == 0) {
+	                        result = pt2.getTimestamp().compareTo(pt1.getTimestamp());
+	                    }
 					}
 					return result;
 				}

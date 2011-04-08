@@ -64,9 +64,10 @@ public class AccrualCategoryLookupableHelper extends
 					if(bo1 instanceof AccrualCategory){
 						AccrualCategory acc1 = (AccrualCategory) bo1;
 						AccrualCategory acc2 = (AccrualCategory) bo2;
-						if (acc1.getTimestamp().before(acc2.getTimestamp())) {
-							result = 1;
-						}
+						result = acc2.getEffectiveDate().compareTo(acc1.getEffectiveDate());
+	                    if (result == 0) {
+	                        result = acc2.getTimestamp().compareTo(acc1.getTimestamp());
+	                    }
 					}
 					return result;
 				}

@@ -61,9 +61,10 @@ public class DepartmentEarnCodeLookupableHelper extends
 					if(bo1 instanceof DepartmentEarnCode){
 						DepartmentEarnCode dec1 = (DepartmentEarnCode) bo1;
 						DepartmentEarnCode dec2 = (DepartmentEarnCode) bo2;
-						if (dec1.getTimestamp().before(dec2.getTimestamp())) {
-							result = 1;
-						}
+						result = dec2.getEffectiveDate().compareTo(dec1.getEffectiveDate());
+	                    if (result == 0) {
+	                        result = dec2.getTimestamp().compareTo(dec1.getTimestamp());
+	                    }
 					}
 					return result;
 				}

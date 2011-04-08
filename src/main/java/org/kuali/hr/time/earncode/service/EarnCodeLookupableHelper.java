@@ -59,9 +59,10 @@ public class EarnCodeLookupableHelper extends KualiLookupableHelperServiceImpl {
 					if(bo1 instanceof EarnCode){
 						EarnCode ec1 = (EarnCode) bo1;
 						EarnCode ec2 = (EarnCode) bo2;
-						if (ec1.getTimestamp().before(ec2.getTimestamp())) {
-							result = 1;
-						}
+						result = ec2.getEffectiveDate().compareTo(ec1.getEffectiveDate());
+	                    if (result == 0) {
+	                        result = ec2.getTimestamp().compareTo(ec1.getTimestamp());
+	                    }
 					}
 					return result;
 				}

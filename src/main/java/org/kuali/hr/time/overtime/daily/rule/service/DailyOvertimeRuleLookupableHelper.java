@@ -68,9 +68,10 @@ public class DailyOvertimeRuleLookupableHelper extends
 					if (bo1 instanceof DailyOvertimeRule) {
 						DailyOvertimeRule dor1 = (DailyOvertimeRule) bo1;
 						DailyOvertimeRule dor2 = (DailyOvertimeRule) bo2;
-						if (dor1.getTimeStamp().before(dor2.getTimeStamp())) {
-							result = 1;
-						}
+						result = dor2.getEffectiveDate().compareTo(dor1.getEffectiveDate());
+	                    if (result == 0) {
+	                        result = dor2.getTimeStamp().compareTo(dor1.getTimeStamp());
+	                    }
 					}
 					return result;
 				}

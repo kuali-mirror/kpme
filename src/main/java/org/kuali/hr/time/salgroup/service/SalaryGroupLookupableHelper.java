@@ -60,9 +60,10 @@ public class SalaryGroupLookupableHelper extends
 					if(bo1 instanceof SalGroup){
 						SalGroup sg1 = (SalGroup) bo1;
 						SalGroup sg2 = (SalGroup) bo2;
-						if (sg1.getTimestamp().before(sg2.getTimestamp())) {
-							result = 1;
-						}
+						result = sg2.getEffectiveDate().compareTo(sg1.getEffectiveDate());
+	                    if (result == 0) {
+	                        result = sg2.getTimestamp().compareTo(sg1.getTimestamp());
+	                    }
 					}
 					return result;
 				}
