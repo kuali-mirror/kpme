@@ -32,7 +32,7 @@ public class PayCalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		beginDateSubQuery.setAttributes(new String[] { "max(beginPeriodDateTime)" });
 
 		endDate.addEqualToField("payCalendarId", Criteria.PARENT_QUERY_PREFIX + "payCalendarId");
-		endDate.addGreaterOrEqualThan("endPeriodDateTime", currentDate);
+		endDate.addGreaterThan("endPeriodDateTime", currentDate);
 		ReportQueryByCriteria endDateSubQuery = QueryFactory.newReportQuery(PayCalendarEntries.class, endDate);
 		endDateSubQuery.setAttributes(new String[] { "min(endPeriodDateTime)" });
 		
