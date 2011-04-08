@@ -10,6 +10,14 @@
 </changeSet>
 
 <changeSet author="yingzhou" id="2">
+	<sql>
+		INSERT INTO `tk_work_area_key_s` (`ID`) (
+		select max(`work_area`) from `tk_work_area_t`
+		);
+	</sql>
+</changeSet>
+
+<changeSet author="yingzhou" id="3">
 	<modifyDataType tableName="tk_work_area_t" columnName="work_area" newDataType="BIGINT"/>
 	<dropPrimaryKey tableName="tk_work_area_t"/>
 	<addPrimaryKey tableName="tk_work_area_t" columnNames="tk_work_area_id" constraintName="pk_tk_work_area_id"/>
