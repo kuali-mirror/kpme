@@ -24,7 +24,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-@Ignore
+
 public class ClockWebTest extends TkTestCase {
 	
 	private String documentId;
@@ -96,7 +96,7 @@ public class ClockWebTest extends TkTestCase {
 		
 	}
 	
-	@Ignore
+	@Test
 	public void testDistributeTB() throws Exception {
 		String baseUrl = TkTestConstants.Urls.CLOCK_URL;
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
