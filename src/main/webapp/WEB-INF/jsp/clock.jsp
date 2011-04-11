@@ -72,8 +72,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
 					<input type="button" class="button" id="missed-punch-iframe-button" value="Missed Punch" name="missedPunch"/>
 					<c:if test="${Form.showDistributeButton}">
 						<input id="distribute-button" type="button" class="button" value="Distribute Time Blocks" 
-							name="distributeTime" onclick="javascrpt: window.open(extractUrlBase()+'/Clock.do?methodToCall=distributeTimeBlocks')"/>	 
-							 
+							name="distributeTime" onclick="javascrpt: window.open(extractUrlBase()+'/Clock.do?methodToCall=distributeTimeBlocks', 'distributePopup')"/>
 					</c:if>
 				</td>
 			</tr>
