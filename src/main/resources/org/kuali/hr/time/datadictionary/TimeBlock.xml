@@ -235,21 +235,21 @@
    <bean id="TimeBlock-timesheetDocumentHeader.documentStatus" parent="TimeBlock-timesheetDocumentHeader.documentStatus-parentBean" />
 	<bean id="TimeBlock-timesheetDocumentHeader.documentStatus-parentBean" abstract="true" parent="TimesheetDocumentHeader-documentStatus">
 		<property name="name" value="timesheetDocumentHeader.documentStatus" />
-		<property name="label" value="Header document Status"/>
+		<property name="label" value="Document Status"/>
 		<property name="required" value="false"/>
 	</bean> 
 	
 	<bean id="TimeBlock-timesheetDocumentHeader.payBeginDate" parent="TimeBlock-timesheetDocumentHeader.payBeginDate-parentBean" />
 	<bean id="TimeBlock-timesheetDocumentHeader.payBeginDate-parentBean" abstract="true" parent="TimesheetDocumentHeader-payBeginDate">
 		<property name="name" value="timesheetDocumentHeader.payBeginDate" />
-		<property name="label" value="Header Pay Begin Date"/>
+		<property name="label" value="Pay Begin Date"/>
 		<property name="required" value="false"/>
 	</bean> 
 	
 		<bean id="TimeBlock-timesheetDocumentHeader.payEndDate" parent="TimeBlock-timesheetDocumentHeader.payEndDate-parentBean" />
 	<bean id="TimeBlock-timesheetDocumentHeader.payEndDate-parentBean" abstract="true" parent="TimesheetDocumentHeader-payEndDate">
 		<property name="name" value="timesheetDocumentHeader.payEndDate" />
-		<property name="label" value="Header Pay End Date"/>
+		<property name="label" value="Pay End Date"/>
 		<property name="required" value="false"/>
 	</bean> 
   
