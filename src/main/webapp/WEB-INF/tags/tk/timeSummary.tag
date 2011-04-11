@@ -10,9 +10,9 @@
 		<table>
 			<thead>
 				<tr class="ui-state-default">
-				<td/>
+				<th/>
 					<c:forEach items="${timeSummary.summaryHeader}" var="entry">
-						<td>${entry}</td>
+						<th scope="col">>${entry}</th>
 					</c:forEach>
 				</tr>
 			</thead>

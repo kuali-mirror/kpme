@@ -31,9 +31,9 @@
         <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;">
 
             <div id="dialog-form" title="Add time blocks:">
-                <p id="validation" class="validation">All form fields are required.</p>
+                <p id="validation" class="validation" title="Validation">All form fields are required.</p>
 
-                <p id="warning" class="warning">
+                <p id="warning" class="warning" title="Warnings">
                     <c:forEach var="warnMesg" items="${Form.warningMessages}">
                         ${warnMesg}<br/>
                     </c:forEach>
@@ -54,26 +54,25 @@
                     <div class="ui-widget" id="timesheet-panel">
                         <table>
                             <tr>
-                                <td>Date range:</td>
-                                <td><input type="text" id="date-range-begin" size="10"/> -
-                                    <input type="text" id="date-range-end" size="10"/></td>
+                                <td><label for="date-range-begin">Date range:</label></td>
+                                <td><input title="Date Begin" type="text" id="date-range-begin" size="10"/> -
+                                    <input title="Date End" type="text" id="date-range-end" size="10"/></td>
                             </tr>
                             <tr>
-                                <td>Assignment:</td>
+                                <td><label for="assignment" >Assignment:</label></td>
                                 <td>
                                     <tk:assignment assignments="${Form.assignmentDescriptions}"/>
                                 </td>
                             </tr>
                             <tr>
-                                <td>Earn code:</td>
+                                <td><label for="earnCode" >Earn code:</label></td>
                                 <td>
-                                    <!-- <tk:earnCode earnCodes="${Form.earnCodeDescriptions}"/> -->
                                     <select id='earnCode' name="selectedEarnCode">
                                     </select>
                                 </td>
                             </tr>
                             <tr id="clockIn">
-                                <td><span style="float:right;">In:</span></td>
+                                <td><span style="float:right;"><label for="beginTimeField">In:</label></span></td>
                                 <td>
                                     <input name="beginTimeField" id="beginTimeField" type="text" size="10"/>
                                     <button style="width:20px; height:20px; vertical-align: text-top"
@@ -81,11 +80,11 @@
                                             id="beginTimeHelp" tabindex="999">help
                                     </button>
                                     <div id="beginTimeField-error" style="color:red;"></div>
-                                    <input type="hidden" id="beginTimeField-messages"/>
+                                    <input type="hidden" id="beginTimeField-messages" title="Errors on BeginTime Field"/>
                                 </td>
                             </tr>
                             <tr id="clockOut">
-                                <td><span style="float:right;">Out:</span></td>
+                                <td><span style="float:right;"><label for="endTimeField">Out:</label></span></td>
                                 <td>
                                     <input name="endTimeField" id="endTimeField" type="text" size="10"/>
                                     <button style="width:20px; height:20px; vertical-align: text-top" id="endTimeHelp"
@@ -93,24 +92,24 @@
                                             tabindex="999">help
                                     </button>
                                     <div id="endTimeField-error" style="color:red;"></div>
-                                    <input type="hidden" id="endTimeField-messages"/>
+                                    <input type="hidden" id="endTimeField-messages" title="Errors on EndTime Field"/>
                                 </td>
                             </tr>
                             <tr id="hoursSection" style="display: none;">
-                                <td>Hours:</td>
+                                <td><label for=hoursField">Hours:</label></td>
                                 <td>
                                     <input id="hoursField" name="hours"/>
                                 </td>
                             </tr>
                             <tr id="amountSection" style="display: none;">
-                                <td>Amount:</td>
+                                <td><label for="amountField" >Amount:</label></td>
                                 <td>
                                     $ <input id="amountField" name="amount"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td><input type="checkbox" id="acrossDaysField" value="n"/> Apply time to each day</td>
+                                <td><input type="checkbox" id="acrossDaysField" value="n" title="Check time if you want to cross days"/><label for="acrossDaysField">Apply time to each day</label></td>
                             </tr>
                         </table>
                     </div>

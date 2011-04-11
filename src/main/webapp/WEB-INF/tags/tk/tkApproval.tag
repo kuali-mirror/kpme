@@ -35,7 +35,6 @@
 			<tr>
 				<td colspan="22" align="center" style="border:none;">
 					<input type="button" class="button" value="Approve" name="Approve">
-					<input type="button" class="button" value="Disapprove" name="Disapprove">
 				</td>
 			</tr>
 		</table>
