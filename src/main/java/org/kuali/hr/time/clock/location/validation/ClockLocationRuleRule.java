@@ -1,14 +1,15 @@
 package org.kuali.hr.time.clock.location.validation;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.authorization.AuthorizationValidationUtils;
+import org.kuali.hr.time.authorization.DepartmentalRule;
+import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
@@ -16,6 +17,9 @@ import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 
@@ -75,15 +79,19 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 	}
 
 	protected boolean validateDepartment(ClockLocationRule clr) {
-		if (clr.getDept() != null
-				&& !ValidationUtils.validateDepartment(clr.getDept(), clr
-						.getEffectiveDate())) {
-			this.putFieldError("dept", "error.existence", "department '"
-					+ clr.getDept() + "'");
-			return false;
-		} else {
-			return true;
-		}
+        boolean ret = false;
+
+        if (!StringUtils.isEmpty(clr.getDept())) {
+    		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveDate())) {
+			    this.putFieldError("dept", "error.existence", "department '" + clr.getDept() + "'");
+            } else if (!DepartmentalRuleAuthorizer.hasAccessToWrite(clr)) {
+                this.putFieldError("dept", "error.department.permissions", clr.getDept());
+            } else {
+                ret = true;
+            }
+        }
+
+        return ret;
 	}
 
 	protected boolean validateJobNumber(ClockLocationRule clr) {
@@ -116,27 +124,57 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
+    /**
+     * This method will validate whether the wildcard combination and wild
+     * carded areas for this DepartmentalRule are valid or not. Errors are added
+     * to the field errors to report back to the user interface as well.
+     *
+     * @param clr The Departmental rule we are investigating.
+     *
+     * @return true if wild card setup is correct, false otherwise.
+     */
+    boolean validateWildcards(DepartmentalRule clr) {
+        boolean valid = true;
+
+        if (!ValidationUtils.validateWorkAreaDeptWildcarding(clr)) {
+            // add error when work area defined, department is wild carded.
+            this.putFieldError("dept", "error.wc.wadef", "department '" + clr.getDept() + "'");
+            valid = false;
+        }
+
+        if (StringUtils.equals(clr.getDept(), TkConstants.WILDCARD_CHARACTER) &&
+                !AuthorizationValidationUtils.canWildcardDepartment(clr)) {
+            this.putFieldError("dept", "error.wc.dept.perm", "department '" + clr.getDept() + "'");
+            valid = false;
+        }
+
+        if (clr.getWorkArea().equals(TkConstants.WILDCARD_LONG) &&
+                !AuthorizationValidationUtils.canWildcardWorkArea(clr)) {
+            this.putFieldError("dept", "error.wc.wa.perm", "department '" + clr.getDept() + "'");
+            valid = false;
+        }
+
+        return valid;
+    }
+
+
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
 	 */
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(
-			MaintenanceDocument document) {
+	protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 
-		LOG.debug("entering custom validation for ClockLocationRule");
 		PersistableBusinessObject pbo = this.getNewBo();
 		if (pbo instanceof ClockLocationRule) {
 			ClockLocationRule clr = (ClockLocationRule) pbo;
-			if (clr != null) {
-				valid = true;
-				valid &= this.validateDepartment(clr);
-				valid &= this.validateWorkArea(clr);
-				valid &= this.validatePrincipalId(clr);
-				valid &= this.validateJobNumber(clr);
-				valid &= this.validateIpAddress(clr.getIpAddress());
-			}
+            valid = this.validateDepartment(clr);
+            valid &= this.validateWorkArea(clr);
+            valid &= this.validateWildcards(clr);
+            valid &= this.validatePrincipalId(clr);
+            valid &= this.validateJobNumber(clr);
+            valid &= this.validateIpAddress(clr.getIpAddress());
 		}
 
 		return valid;

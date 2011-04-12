@@ -1,6 +1,7 @@
 package org.kuali.hr.time.dept.lunch.service;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
@@ -23,7 +24,7 @@ public class DepartmentLunchRuleLookupableHelper extends
      * to the user based on their current roles.
      */
     public boolean shouldShowBusinessObject(BusinessObject bo) {
-        return DepartmentalRuleAuthorizer.hasAccessToRead(bo);
+        return (bo instanceof DepartmentalRule) && DepartmentalRuleAuthorizer.hasAccessToRead((DepartmentalRule)bo);
     }
 
 	@Override

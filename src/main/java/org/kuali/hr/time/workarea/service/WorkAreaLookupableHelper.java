@@ -1,5 +1,6 @@
 package org.kuali.hr.time.workarea.service;
 
+import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -23,7 +24,7 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
      * to the user based on their current roles.
      */
     public boolean shouldShowBusinessObject(BusinessObject bo) {
-        return DepartmentalRuleAuthorizer.hasAccessToRead(bo);
+        return (bo instanceof DepartmentalRule) && DepartmentalRuleAuthorizer.hasAccessToRead((DepartmentalRule)bo);
     }
 
 	@Override

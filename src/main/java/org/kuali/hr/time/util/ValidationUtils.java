@@ -1,13 +1,14 @@
 package org.kuali.hr.time.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.codehaus.plexus.util.StringUtils;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.accrual.AccrualCategory;
+import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -29,6 +30,24 @@ import java.sql.Date;
  * A few methods to assist with various validation tasks.
  */
 public class ValidationUtils {
+
+    /**
+     * For DepartmentalRule objects, if a work area is defined, you can not
+     * leave the department field with a wildcard. Permission for wildcarding
+     * will be checked with other methods.
+     *
+     * @param dr The DepartmentalRule to examine.
+     * @return true if valid, false otherwise.
+     */
+    public static boolean validateWorkAreaDeptWildcarding(DepartmentalRule dr) {
+        boolean ret = true;
+
+        if (StringUtils.equals(dr.getDept(), TkConstants.WILDCARD_CHARACTER)) {
+            ret = dr.getWorkArea().equals(TkConstants.WILDCARD_LONG);
+        }
+
+        return ret;
+    }
 
 	/**
 	 * Most basic validation: Only checks for presence in the database.

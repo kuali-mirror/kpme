@@ -41,22 +41,21 @@ public class DepartmentalRuleAuthorizer extends TkMaintenanceDocumentAuthorizerB
 
     @Override
     public boolean rolesIndicateWriteAccess(BusinessObject bo) {
-        return DepartmentalRuleAuthorizer.hasAccessToWrite(bo);
+        return bo instanceof DepartmentalRule && DepartmentalRuleAuthorizer.hasAccessToWrite((DepartmentalRule)bo);
     }
 
     @Override
     public boolean rolesIndicateReadAccess(BusinessObject bo) {
-        return DepartmentalRuleAuthorizer.hasAccessToRead(bo);
+        return bo instanceof DepartmentalRule && DepartmentalRuleAuthorizer.hasAccessToRead((DepartmentalRule)bo);
     }
 
-    public static boolean hasAccessToWrite(BusinessObject bo) {
+    public static boolean hasAccessToWrite(DepartmentalRule dr) {
         boolean ret = false;
         UserRoles roles = TKContext.getUser().getCurrentRoles();
         if (roles.isSystemAdmin())
             return true;
 
-        if (bo instanceof DepartmentalRule && roles.getOrgAdminDepartments().size() > 0) {
-            DepartmentalRule dr = (DepartmentalRule)bo;
+        if (dr != null && roles.getOrgAdminDepartments().size() > 0) {
             String dept = dr.getDept();
             if (StringUtils.equals(dept, TkConstants.WILDCARD_CHARACTER)) {
                 // Must be system administrator
@@ -74,19 +73,17 @@ public class DepartmentalRuleAuthorizer extends TkMaintenanceDocumentAuthorizerB
      * Static helper method to provide a single point of access for both Kuali
      * Rice maintenance page hooks as well as Lookupable filtering.
      *
-     * @param bo The business object under investigation.
+     * @param dr The business object under investigation.
      *
      * @return true if readable by current context user, false otherwise.
      */
-    public static boolean hasAccessToRead(BusinessObject bo) {
+    public static boolean hasAccessToRead(DepartmentalRule dr) {
         boolean ret = false;
         UserRoles roles = TKContext.getUser().getCurrentRoles();
         if (roles.isSystemAdmin() || roles.isGlobalViewOnly())
             return true;
 
-        if (bo instanceof DepartmentalRule) {
-            DepartmentalRule dr = (DepartmentalRule) bo;
-
+        if (dr != null) {
             //    dept     | workArea   | meaning
             //    ---------|------------|
             // 1: %        ,  -1        , any dept/work area valid roles
