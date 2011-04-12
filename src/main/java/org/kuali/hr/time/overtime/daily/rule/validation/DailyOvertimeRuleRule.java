@@ -22,15 +22,17 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 			this.putFieldError("workArea", "error.existence", "workArea '"
 					+ ruleObj.getWorkArea() + "'");
 			valid = false;
-		} else if(!ruleObj.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
+		} else if (!ruleObj.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
 			Criteria crit = new Criteria();
 			crit.addEqualTo("dept", ruleObj.getDept());
 			crit.addEqualTo("workArea", ruleObj.getWorkArea());
 			Query query = QueryFactory.newQuery(WorkArea.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker()
+					.getCount(query);
 			valid = (count > 0);
-			if(!valid){
-				this.putFieldError("workArea", "dept.workarea.invalid.sync", ruleObj.getWorkArea()+ "");
+			if (!valid) {
+				this.putFieldError("workArea", "dept.workarea.invalid.sync",
+						ruleObj.getWorkArea() + "");
 			}
 		}
 		return valid;
@@ -38,8 +40,11 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateDepartment(DailyOvertimeRule ruleObj) {
 		if (ruleObj.getDept() != null
-				&& !ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffectiveDate())) {
-			this.putFieldError("dept", "error.existence", "department '" + ruleObj.getDept() + "'");
+				&& !ruleObj.getDept().equals(TkConstants.WILDCARD_CHARACTER)
+				&& !ValidationUtils.validateDepartment(ruleObj.getDept(),
+						ruleObj.getEffectiveDate())) {
+			this.putFieldError("dept", "error.existence", "department '"
+					+ ruleObj.getDept() + "'");
 			return false;
 		} else {
 			return true;
@@ -48,34 +53,42 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateEarnCode(DailyOvertimeRule dailyOvertimeRule) {
 		if (dailyOvertimeRule.getEarnCode() != null
-				&& !ValidationUtils.validateEarnCode(dailyOvertimeRule.getEarnCode(), dailyOvertimeRule.getEffectiveDate())) {
-			this.putFieldError("earnCode", "error.existence", "earnCode '" + dailyOvertimeRule.getEarnCode() + "'");
+				&& !ValidationUtils.validateEarnCode(dailyOvertimeRule
+						.getEarnCode(), dailyOvertimeRule.getEffectiveDate())) {
+			this.putFieldError("earnCode", "error.existence", "earnCode '"
+					+ dailyOvertimeRule.getEarnCode() + "'");
 			return false;
 		} else {
-            if (dailyOvertimeRule.getEarnCode() != null
-    				&& !ValidationUtils.validateEarnCode(dailyOvertimeRule.getEarnCode(), true, dailyOvertimeRule.getEffectiveDate())) {
-                this.putFieldError("earnCode", "earncode.ovt.required", dailyOvertimeRule.getEarnCode());
-                return false;
-            }
+			if (dailyOvertimeRule.getEarnCode() != null
+					&& !ValidationUtils.validateEarnCode(dailyOvertimeRule
+							.getEarnCode(), true, dailyOvertimeRule
+							.getEffectiveDate())) {
+				this.putFieldError("earnCode", "earncode.ovt.required",
+						dailyOvertimeRule.getEarnCode());
+				return false;
+			}
 			return true;
 		}
 	}
 
 	boolean validateEarnGroup(DailyOvertimeRule dailyOvertimeRule) {
 		if (dailyOvertimeRule.getFromEarnGroup() != null
-				&& !ValidationUtils.validateEarnGroup(dailyOvertimeRule.getFromEarnGroup(), dailyOvertimeRule.getEffectiveDate())) {
-			this.putFieldError("fromEarnGroup", "error.existence", "from EarnGroup '" + dailyOvertimeRule.getFromEarnGroup() + "'");
+				&& !ValidationUtils.validateEarnGroup(dailyOvertimeRule
+						.getFromEarnGroup(), dailyOvertimeRule
+						.getEffectiveDate())) {
+			this.putFieldError("fromEarnGroup", "error.existence",
+					"from EarnGroup '" + dailyOvertimeRule.getFromEarnGroup()
+							+ "'");
 			return false;
 		} else {
 			return true;
 		}
 	}
-	
+
 	boolean validateLocation(DailyOvertimeRule dailyOvertimeRule) {
 		if (dailyOvertimeRule.getLocation() != null
 				&& !ValidationUtils.validateLocation(dailyOvertimeRule
-						.getLocation(), dailyOvertimeRule
-						.getEffectiveDate())) {
+						.getLocation(), dailyOvertimeRule.getEffectiveDate())) {
 			this.putFieldError("location", "error.existence", "location '"
 					+ dailyOvertimeRule.getLocation() + "'");
 			return false;
@@ -86,9 +99,10 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 
 	boolean validatePayType(DailyOvertimeRule dailyOvertimeRule) {
 		if (dailyOvertimeRule.getPaytype() != null
+				&& !dailyOvertimeRule.getPaytype().equals(
+						TkConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validatePayType(dailyOvertimeRule
-						.getPaytype(), dailyOvertimeRule
-						.getEffectiveDate())) {
+						.getPaytype(), dailyOvertimeRule.getEffectiveDate())) {
 			this.putFieldError("paytype", "error.existence", "paytype '"
 					+ dailyOvertimeRule.getPaytype() + "'");
 			return false;
@@ -110,7 +124,8 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 		PersistableBusinessObject pbo = this.getNewBo();
 		if (pbo instanceof DailyOvertimeRule) {
 			DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) pbo;
-			dailyOvertimeRule.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+			dailyOvertimeRule.setUserPrincipalId(GlobalVariables
+					.getUserSession().getPrincipalId());
 			if (dailyOvertimeRule != null) {
 				valid = true;
 				valid &= this.validateLocation(dailyOvertimeRule);

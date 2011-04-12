@@ -47,6 +47,10 @@ public class DailyOvertimeRuleLookupableHelper extends
 				&& StringUtils.equals(fieldValues.get("workArea"), "%")) {
 			fieldValues.put("workArea", "");
 		}
+		if (fieldValues.containsKey("dept")
+				&& StringUtils.equals(fieldValues.get("dept"), "%")) {
+			fieldValues.put("dept", "");
+		}
 		if (fieldValues.containsKey("jobNumber")
 				&& StringUtils.equals(fieldValues.get("jobNumber"), "%")) {
 			fieldValues.put("jobNumber", "");
