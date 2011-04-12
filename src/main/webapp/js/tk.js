@@ -441,7 +441,7 @@ function addTimeBlockRow(form, tempArr) {
 	el.type='button';
 	el.style.width="20px";
 	el.style.height="23px";
-	el.class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary ui-button-icon-only ui-state-hover";
+//	el.class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary ui-button-icon-only ui-state-hover";
 //	el.class ="ui-button-icon-primary ui-icon ui-icon-help";
 	el.title= timeFormatMessage;
 	el.id="beginTimeHelp" + iteration;
