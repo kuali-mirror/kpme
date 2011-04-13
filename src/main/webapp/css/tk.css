@@ -460,6 +460,9 @@ select {
     display: inline !important;
 }
 
+.timeblock {
+    line-height: 1.1em;
+}
 .timeblock-icon {
     float:right;
     cursor:pointer;
@@ -475,18 +478,41 @@ select {
     font-size: 1em !important;
 }
 
+/*
 #timeblock-delete {
     font-size:1.1em !important;
     font-weight: bold;
-    color:black;
-    margin: 2px 0 0 0;
+    color:red;
+    margin: 0;
+    padding: 0;
     z-index: 15;
     cursor: pointer;
 }
+*/
 
-#timeblock-edit {
-    text-decoration: underline;
+#timeblock-delete{
+    width: 12px;
+    height: 12px;
+    margin: 0 5px 0 0;
+    z-index: 15;
     cursor: pointer;
+    float:right;
+}
+
+
+.timeblock #timeblock-edit {
+    text-decoration: underline;
+    font-size: .7em;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 2px auto 0 auto;
+    text-align: center;
+}
+
+.timeblock .timeblock-detail {
+    font-size: .7em;
+    margin: 0 auto 0 auto;
+    text-align: center;
 }
 
 .lunch {

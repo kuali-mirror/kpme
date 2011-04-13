@@ -1702,8 +1702,7 @@
             var fromTo = "";
 
             if (event.earnCodeType == 'TIME') {
-                fromTo = "<tr><td align='center' colspan='3'>" + formatDate(event.start, view.option('timeFormat'))
-                        + " - " + formatDate(event.end, view.option('timeFormat')) + "</td></tr>";
+                fromTo = "<div class='timeblock-detail'>" + formatDate(event.start, view.option('timeFormat')) + " - " + formatDate(event.end, view.option('timeFormat')) + "</div>";
             }
 
             timeHourDetail = "";
@@ -1713,16 +1712,16 @@
             $.each(jsonString, function (index) {
                 if(jsonString[index].earnCode != 'LUN') {
                     timeHourDetail += "<tr>";
-                    timeHourDetail += "<td align='center'>Earn Code: " + jsonString[index].earnCode + "</td>";
+                    timeHourDetail += "<td align='center' style='width:50%;'>Earn Code: " + jsonString[index].earnCode + "</td>";
                     if((event.earnCodeType == 'TIME' || event.earnCodeType == 'HOUR')) {
                         var lunchDeduction = "";
                         if(event.lunchDeduction == true && jsonString[index].earnCode == 'RGN') {
                             lunchDeduction = "<span class='lunch'>Lunch</span>";
                         }
-                        timeHourDetail += "<td align='center'>Hours: " + jsonString[index].hours + lunchDeduction + "</td>";
+                        timeHourDetail += "<td align='center' style='width:50%;'>Hours: " + jsonString[index].hours + lunchDeduction + "</td>";
                     }
                     if(event.earnCodeType == 'AMOUNT') {
-                        timeHourDetail += "<td align='center'>Amount: $" + jsonString[index].amount + "</td>";
+                        timeHourDetail += "<td align='center' style='width:50%;'>Amount: $" + jsonString[index].amount + "</td>";
                     }
                     timeHourDetail += "</tr>";
                 }
@@ -1730,13 +1729,10 @@
 
             html +=
                     "<div class='" + className + event.className.join(' ') + " timeblock' style='position:absolute;z-index:8;left:" + left + "px;margin-bottom:3px;' id='" + event.id + "'>" +
+                            "<div id='timeblock-edit'>" + event.title + " " + event.tkTimeBlockId + "<img id='timeblock-delete' src='images/delete-button.png'/></div>" +
+                            fromTo +
                             "<table style='font-size:0.7em;'>" +
-                            "<tr><td colspan='2' style='text-align:center;'><span id='timeblock-edit'>" + event.title + " " + event.tkTimeBlockId + "</span></td>" +
-                            "<td>&nbsp</td>" +
-                        //"<td><a href=TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "  id='timeblock-delete'>X</a></td>" +
-                            "<td><div id='timeblock-delete'>X</div></td>" +
-                            "</tr>" +
-                            fromTo + timeHourDetail +
+                             timeHourDetail +
                             "</table>" +
                             "</div>";
 
