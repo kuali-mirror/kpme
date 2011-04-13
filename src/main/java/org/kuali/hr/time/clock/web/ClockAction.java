@@ -284,6 +284,9 @@ public class ClockAction extends TimesheetAction {
 		if(newIntervals.size() > 1 ) {
 			for(Interval intv1 : newIntervals) {
 				for(Interval intv2 : newIntervals) {
+					if(intv1.equals(intv2)) {
+						continue;
+					}
 					if (intv1.overlaps(intv2)) {
 						errorMsgList.add("There is time overlap between the entries.");
 				        caf.setOutputString(JSONValue.toJSONString(errorMsgList));

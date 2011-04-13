@@ -15,6 +15,8 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 public class ClockActionForm extends TimesheetActionForm {
 
     /**
@@ -33,10 +35,12 @@ public class ClockActionForm extends TimesheetActionForm {
     private TimeBlock timeBlock;
     private boolean showLunchButton;
     private boolean showDistributeButton;
-    private Map<String, TimeBlock> timeBlocksToDistribute;
+    private Map<String, List<TimeBlock>> timeBlocksMap;
     private List<String> assignDescriptionsList;
 
     private List<String> assignmentKeyList;
+    
+    private Map<String, String> assignmentKeyDesList;
     
     private String editTimeBlockId;
     private TimeBlock currentTimeBlock;
@@ -202,11 +206,15 @@ public class ClockActionForm extends TimesheetActionForm {
     	TimesheetDocument timesheetDocument = this.getTimesheetDocument();
     	if(timesheetDocument != null) {
     		List<Assignment> assignments = timesheetDocument.getAssignments();
+    		if(assignments.size() <= 1) {
+    			setShowDistrubuteButton(false);
+    			return showDistributeButton;	
+    		}
     		for(Assignment assignment: assignments) {
     			TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveDate());
 		    	if(rule != null) {
 		    		if(rule.isHrsDistributionF()) {
-		    			setShowDistrubuteButton(rule.isHrsDistributionF());
+		    			setShowDistrubuteButton(true);
 		    			return showDistributeButton;
 		    		}
 		    	}
@@ -224,26 +232,14 @@ public class ClockActionForm extends TimesheetActionForm {
 		super.setSelectedAssignment(selectedAssignment);
 		this.isShowDistributeButton();
 	}
-	
-	public Map<String, TimeBlock> getTimeBlocksToDistribute() {
-		if(timeBlocksToDistribute == null ) {
-			this.findTimeBlocksToDistribute();
-		}
-		return timeBlocksToDistribute;
-	}
 
-	public void setTimeBlockToDistribute( Map<String, TimeBlock>  timeBlocksToDistribute) {
-		this.timeBlocksToDistribute = timeBlocksToDistribute;
-	}
-	
 	public List<String> getAssignDescriptionsList() {
-		if(assignDescriptionsList == null && this.getTimeBlocksToDistribute() != null) {
+		if(assignDescriptionsList == null && this.getTimeBlocksMap() != null) {
 			List<String> list1= new ArrayList<String>();
-			 for(String aString : getTimeBlocksToDistribute().keySet()) {
+			 for(String aString : getTimeBlocksMap().keySet()) {
 				 list1.add(aString);
 			 }
 			 this.setAssignDescriptionsList(list1);
-//			this.setAssignDescriptionsList(new ArrayList<String>(this.getTimeBlocksToDistribute().keySet()));
 		}
 		return assignDescriptionsList;
 	}
@@ -271,7 +267,7 @@ public class ClockActionForm extends TimesheetActionForm {
 				 }
 				 List<Assignment> assignmentList = TkServiceLocator.getAssignmentService().getAssignments(pId, null);
 				 List<Assignment> aList = new ArrayList<Assignment>();
-				 Map<String, TimeBlock> aMap = new HashMap<String, TimeBlock>();
+				 Map<String, List<TimeBlock>> tbMap = new HashMap<String, List<TimeBlock>>();
 				 Map<String, String> map2 = new HashMap<String, String>();
 				 List<String> list2 = new ArrayList<String>();
 				 Map<String, String> secondMap = new HashMap<String, String>();
@@ -281,17 +277,25 @@ public class ClockActionForm extends TimesheetActionForm {
 						aList.add(assignment);
 						for(TimeBlock tb: tbList){
 							if(assignment.getWorkArea().equals(tb.getWorkArea())) {
-								aMap.put(assignment.getAssignmentDescription(), tb);
+								List<TimeBlock> tempList = tbMap.get(assignment.getAssignmentDescription());
+								if(tempList == null) {
+									tempList = new ArrayList<TimeBlock>();
+								}
+								tempList.add(tb);
+								Collections.sort(tempList);
+								tbMap.put(assignment.getAssignmentDescription(), tempList);
 								map2.put(assignment.getAssignmentDescription(),assignment.getTkAssignmentId().toString() );
 								list2.add(assignment.getAssignmentDescription()+ "=" + assignment.getTkAssignmentId().toString());
-								secondMap.put(assignment.getAssignmentDescription(), assignment.getTkAssignmentId().toString());
+								secondMap.put(assignment.getTkAssignmentId().toString(), assignment.getAssignmentDescription());
 							}
 						}
 					}
 				 }
-				 this.setTimeBlockToDistribute(aMap);
+				 this.setAssignmentKeyDesList(secondMap);
+				 this.setTimeBlocksMap(tbMap);
+				 
 				 List<String> list1= new ArrayList<String>();
-				 for(String aString : aMap.keySet()) {
+				 for(String aString : tbMap.keySet()) {
 					 list1.add(aString);
 				 }
 				 //remove duplicate
@@ -374,6 +378,25 @@ public class ClockActionForm extends TimesheetActionForm {
 
 	public void setAssignmentKeyList(List<String> assignmentKeyList) {
 		this.assignmentKeyList = assignmentKeyList;
+	}
+
+	public Map<String, String> getAssignmentKeyDesList() {
+		return assignmentKeyDesList;
+	}
+
+	public void setAssignmentKeyDesList(Map<String, String> assignmentKeyDesList) {
+		this.assignmentKeyDesList = assignmentKeyDesList;
+	}
+
+	public Map<String, List<TimeBlock>> getTimeBlocksMap() {
+		if(timeBlocksMap == null ) {
+			this.findTimeBlocksToDistribute();
+		}
+		return timeBlocksMap;
+	}
+
+	public void setTimeBlocksMap(Map<String, List<TimeBlock>> timeBlocksMap) {
+		this.timeBlocksMap = timeBlocksMap;
 	}
 
     

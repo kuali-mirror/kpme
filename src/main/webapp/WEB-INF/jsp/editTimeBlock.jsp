@@ -32,7 +32,6 @@
 							<td>Begin Date/Time</td>
 							<td>End Date/Time</td>
 							<td>Hours</td>
-							<td>Action</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -41,10 +40,6 @@
 								<td><c:out value="${Form.currentTimeBlock.beginTimestamp}" /></td>
 								<td><c:out value="${Form.currentTimeBlock.endTimestamp}" /></td>
 								<td><c:out value="${Form.currentTimeBlock.hours}" /></td>
-								<td>
-									<input class="button" value="Add" type="button" name="addTimeBlock" id="addTimeBlock"
-										onclick="javascript: addTimeBlockRow(this.form);" />
-								</td>
 							</tr>
 					</tbody>
 				</table>
@@ -63,10 +58,66 @@
 							<td>End Date</td>
 							<td>End Time</td>
 							<td>Hours</td>
+							<td>Action</td>
 						</tr>
-					</thead>
-					<tbody>
+						</thead>
+						<tbody>
+						<tr>
+							<td>1</td>
+							<td>
+								<select name="assignmentRow1" id="assignmentRow1">
+									<c:forEach var="assignment" items="${Form.assignmentKeyDesList}">
+										<c:choose>
+											<c:when test='${assignment.value == Form.currentAssignmentDescription}'>
+												<option value="${assignment.key}" selected="yes">${assignment.value}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${assignment.key}">${assignment.value}</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</select>
+							</td>
+							<td>
+								<input type="text" name="bdRow1" id="bdRow1" size="10" value="${Form.currentTimeBlock.beginDateString}">
+							</td>
+								
+							<td>
+								<input name="btRow1" id="btRow1" size="10" value="${Form.currentTimeBlock.beginTimeString}">
+								<input type="button" style="width: 20px; height: 23px;" id="beginTimeHelp1" value="?" 
+									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
+							</td>
+							<td>
+								<input type="text" name="edRow1" id="edRow1" size="10" value="${Form.currentTimeBlock.endDateString}">
+							</td>
+							<td>
+								<input name="etRow1" id="etRow1" size="10" value="${Form.currentTimeBlock.endTimeString}">
+								<input type="button" style="width: 20px; height: 23px;" id="endTimeHelp1" value="?"
+									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
+							</td>
+							<td>
+								<input name="hrRow1" id="hrRow1" size="5" readonly="" value="${Form.currentTimeBlock.hours}">
+							</td>
+							<td>
+								<input class="button" value="Add" type="button" name="addTimeBlock" id="addTimeBlock"
+									onclick="javascript: addTimeBlockRow(this.form);" />
+							</td>
+							</tr>
 					</tbody>
+					<tfoot>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>Total Hours:</td>
+							<td>
+								<input name="hrsTotal" id="hrsTotal" size="5" readonly="" value="${Form.currentTimeBlock.hours}">
+								</td>
+							<td></td>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 		</div>

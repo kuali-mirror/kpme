@@ -13,6 +13,7 @@ import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TimeBlockTest extends TkTestCase {
@@ -146,6 +147,27 @@ public class TimeBlockTest extends TkTestCase {
 		assertTrue("Total number of days is correct",tkTimeBlockAggregate.getDayTimeBlockList().size()==15);
 	}
 	
+	@Test
+	public void testTimeBlockSorting() throws Exception {
+		List<TimeBlock> tbList = new ArrayList<TimeBlock>();
+		TimeBlock tb1 = new TimeBlock();
+		// time block with 2010 time
+		tb1.setBeginTimestamp(new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		tb1.setEndTimestamp(new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		tbList.add(tb1);
+		//time block with 2009 time
+		TimeBlock tb2 = new TimeBlock();
+		tb2.setBeginTimestamp(new Timestamp((new DateTime(2009, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		tb2.setEndTimestamp(new Timestamp((new DateTime(2009, 1, 2, 14, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		tbList.add(tb2);
+		
+		assertTrue(tbList.get(0) == tb1);
+		assertTrue(tbList.get(1) == tb2);
+		// after sort
+		Collections.sort(tbList);
+		assertTrue(tbList.get(0) == tb2);
+		assertTrue(tbList.get(1) == tb1);
+	}
 	private List<TimeBlock> setupTimeBlocks(DateTime startTime, DateTime endTime, PayCalendarEntries payCalendarEntry){
 		List<Interval> dayInterval = TKUtils.getDaySpanForPayCalendarEntry(payCalendarEntry);
 		Timestamp beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());

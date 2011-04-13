@@ -12,11 +12,13 @@ import javax.persistence.Transient;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class TimeBlock extends PersistableBusinessObjectBase {
+public class TimeBlock extends PersistableBusinessObjectBase implements Comparable{
 
 	/**
      *
@@ -43,7 +45,11 @@ public class TimeBlock extends PersistableBusinessObjectBase {
     private Time beginTime;
     @Transient
     private Time endTime;
-	
+    
+    private String beginDateString;
+    private String endDateString;
+    private String beginTimeString;
+    private String endTimeString;
 	
 	private Boolean clockLogCreated;
 	private BigDecimal hours = TkConstants.BIG_DECIMAL_SCALED_ZERO;
@@ -453,6 +459,67 @@ public class TimeBlock extends PersistableBusinessObjectBase {
      */
     public TimeBlock copy() {
         return new TimeBlock(this);
+    }
+
+	public String getBeginDateString() {
+		if(this.getBeginDate() != null) {
+			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			this.setBeginDateString(df.format(this.getBeginDate()));
+		}
+		return beginDateString;
+	}
+
+	public void setBeginDateString(String beginDateString) {
+		this.beginDateString = beginDateString;
+	}
+
+	public String getEndDateString() {
+		if(this.getEndDate() != null) {
+			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			this.setEndDateString(df.format(this.getEndDate()));
+		}
+		return endDateString;
+	}
+
+	public void setEndDateString(String endDateString) {
+		this.endDateString = endDateString;
+	}
+
+	public String getBeginTimeString() {
+		if(this.getBeginTime() != null) {
+			SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
+			this.setBeginTimeString(sdFormat.format(this.getBeginTime()));
+		}
+		
+		return beginTimeString;
+	}
+
+	public void setBeginTimeString(String beginTimeString) {
+		this.beginTimeString = beginTimeString;
+	}
+
+	public String getEndTimeString() {
+		if(this.getEndTime() != null) {
+			SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
+			this.setEndTimeString(sdFormat.format(this.getEndTime()));
+		}
+		return endTimeString;
+	}
+
+	public void setEndTimeString(String endTimeString) {
+		this.endTimeString = endTimeString;
+	}
+
+	/**
+     * This is for distribute time block page to sort it by begin date/time
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(Object o) {
+        return compareTo((TimeBlock) o);
+    }
+    
+    public int compareTo(TimeBlock tb) {
+        return this.getBeginTimestamp().compareTo(tb.getBeginTimestamp());
     }
 
 }

@@ -46,7 +46,7 @@ $(document).ready(function() {
     });
 
     // datepicker
-    $('#date-range-begin, #date-range-end').datepicker({
+    $('#date-range-begin, #date-range-end, #bdRow1, #edRow1').datepicker({
         changeMonth : true,
         changeYear : true,
         showOn : 'button',
@@ -118,7 +118,7 @@ $(document).ready(function() {
 
     // tooltip
     // http://flowplayer.org/tools/tooltip/index.html
-    $("#beginTimeHelp, #endTimeHelp").tooltip({
+    $("#beginTimeHelp, #endTimeHelp, #beginTimeHelp1, #endTimeHelp1").tooltip({
 
         // place tooltip on the right edge
         position : "center right",
@@ -186,12 +186,24 @@ $(document).ready(function() {
        });
     });
 
+    $("#bdRow1, #edRow1").change(function() {
+    	$(this).removeClass('ui-state-error');
+    	recalculateHrs(1);
+    });
+    
+    $("#btRow1, #etRow1").change(function() {
+    	$(this).removeClass('ui-state-error');
+        magicTime($(this));  
+        recalculateHrs(1);
+    });
+    
+    
    $('#saveTimeBlock').click(function() {
-	   function updateTips(t) {
-		   $('#validation').text(t)
-		   			.addClass('ui-state-error')
-		   			.css({'color':'red','font-weight':'bold'});
-	   }
+//	   function updateTips(t) {
+//		   $('#validation').text(t)
+//		   			.addClass('ui-state-error')
+//		   			.css({'color':'red','font-weight':'bold'});
+//	   }
 	   var validFlag = true;
 	   var validation = $('#validation');
 		  
@@ -201,14 +213,14 @@ $(document).ready(function() {
                  .css({'color':'red','font-weight':'bold'});
 	   }
 		 
-	   function checkLength(o, n, min, max) {
-	         if (o.val().length > max || o.val().length < min) {
-	             o.addClass('ui-state-error');
-	             updateValidationMessage(n + " field is not valid");
-	             return false;
-	         }
-	         return true;
-	   }
+//	   function checkLength(o, n, min, max) {
+//	         if (o.val().length > max || o.val().length < min) {
+//	             o.addClass('ui-state-error');
+//	             updateValidationMessage(n + " field is not valid");
+//	             return false;
+//	         }
+//	         return true;
+//	   }
 	 var tbl = document.getElementById('tblNewTimeBlocks');
 	 var rowLength = tbl.rows.length;
 	 var assignValueCol='';
@@ -224,11 +236,11 @@ $(document).ready(function() {
     	
     	 var errorMsgs = '';
     	 var totalHrs = 0;
-    	 if(rowLength <= 1) {
+    	 if(rowLength <= 2) {
     		 updateTips("Please use Add button to add entries or click Cancel to close the window.");
     	    	return false; 
     	 }
-    	 for(var i=1; i< rowLength; i++) {
+    	 for(var i=1; i< rowLength-1; i++) {
         	var assignValue = $("#assignmentRow"+i).val();
     		var beginDate = $("#bdRow"+i).val();
     		var endDate = $("#edRow"+i).val();
@@ -359,14 +371,29 @@ function extractUrlBase(){
 	  return extractUrl; 
 	}
 
+function checkLength(o, n, min, max) {
+    if (o.val().length > max || o.val().length < min) {
+        o.addClass('ui-state-error');
+        updateValidationMessage(n + " field is not valid");
+        return false;
+    }
+    return true;
+}
+
+function updateTips(t) {
+	   $('#validation').text(t)
+	   			.addClass('ui-state-error')
+	   			.css({'color':'red','font-weight':'bold'});
+}
+
 function addTimeBlockRow(form, tempArr) {
 
 	var tbl = document.getElementById('tblNewTimeBlocks');
 	var lastRow = tbl.rows.length;
 	  // if there's no header row in the table, then iteration = lastRow + 1
-	var iteration = lastRow;
+	var iteration = lastRow-1;
 
-	var row = tbl.insertRow(lastRow);
+	var row = tbl.insertRow(iteration);
 	
 	//Assignment Dropdown list
 	var cellCount = row.insertCell(0);
@@ -423,7 +450,7 @@ function addTimeBlockRow(form, tempArr) {
 	el.value=formatedDate;
 	cellBeginDate.appendChild(el);
 
-	var dataPickerId = '#' + idString;
+	var datePickerId = '#' + idString;
 	
 	var cellBeginTime = row.insertCell(3);
 	var el = document.createElement('input');
@@ -461,7 +488,7 @@ function addTimeBlockRow(form, tempArr) {
 	var formatedDate = $.fullCalendar.formatDate(endDate, "MM/dd/yyyy");
 	el.value=formatedDate;
 	cellEndDate.appendChild(el);
-	dataPickerId += ', #' + idString;
+	datePickerId += ', #' + idString;
 	
 	var cellEndTime = row.insertCell(5);
 	var el = document.createElement('input');
@@ -497,8 +524,11 @@ function addTimeBlockRow(form, tempArr) {
 	cellHours.appendChild(el);
 	var hrId = '#' + idString;
 
-    // datepicker
-    $(dataPickerId).datepicker({
+	row.insertCell(7);
+	recalculateTotal();
+	
+	// datepicker
+    $(datePickerId).datepicker({
         changeMonth : true,
         changeYear : true,
         showOn : 'button',
@@ -525,16 +555,68 @@ function addTimeBlockRow(form, tempArr) {
         fadeInSpeed : 100
     });
     
-    $(dataPickerId).change(function() {
+    $(datePickerId).change(function() {
     	$(this).removeClass('ui-state-error');
+    	recalculateHrs(iteration);
     });
     
     $(timeChangeId).change(function() {
     	$(this).removeClass('ui-state-error');
-        magicTime($(this));              
+        magicTime($(this));  
+        recalculateHrs(iteration);
     });
 
 }
+
+function recalculateHrs(itr) {
+	var beginDate = $("#bdRow"+itr).val();
+	var endDate = $("#edRow"+itr).val();
+	var beginTime = $("#btRow"+itr).val();
+	var endTime = $("#etRow"+itr).val();
+	var validFlag = true;
+	
+	validFlag &= checkLength($("#bdRow"+itr), "Date/Time", 10, 10 );
+	validFlag &= checkLength($("#edRow"+itr), "Date/Time", 10, 10 );
+	validFlag &= checkLength($("#btRow"+itr), "Date/Time", 8, 8);
+	validFlag &= checkLength($("#etRow"+itr), "Date/Time", 8, 8);
+	
+	if(validFlag) {
+   		var dateString = beginDate + ' ' + beginTime;
+   		var beginTimeTemp =$.fullCalendar.parseDate(dateString);
+   		var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes();
+   		
+   		dateString = endDate + ' ' + endTime;
+   		var endTimeTemp =$.fullCalendar.parseDate(dateString);
+   		var eTimeFormated = endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes();
+   		
+   		var hrsDifferent = endTimeTemp - beginTimeTemp;
+   		if(hrsDifferent <= 0) {
+   			updateTips("Hours for item " + itr + "not valid");
+   			var hrs = hrsDifferent/3600000;
+   			$("#hrRow"+itr).val(hrs);
+   			return false;
+   		}
+   		var hrs = Math.round(hrsDifferent*100/3600000)/100;
+   		$("#hrRow"+itr).val(hrs);
+   		
+	   recalculateTotal();
+	}
+	else {
+		return false;
+	}
+}
+
+function recalculateTotal() {
+	var tbl = document.getElementById('tblNewTimeBlocks');
+	var rowLength = tbl.rows.length;
+	var totalHrs = 0;
+	for(var i=1; i< rowLength-1; i++) {
+		var hrs = $("#hrRow"+i).val();
+		totalHrs += parseFloat(hrs);
+	}
+	$("#hrsTotal").val(totalHrs);
+}
+
 function ltrim(str){
     return str.replace(/^\s+/, '');
 }
