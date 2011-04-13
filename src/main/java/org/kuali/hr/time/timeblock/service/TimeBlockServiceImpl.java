@@ -1,8 +1,10 @@
 package org.kuali.hr.time.timeblock.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.joda.time.MutableDateTime;
 import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -226,9 +228,10 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
             //String assignmentKey = TKUtils.formatAssignmentKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask());
             String workAreaDesc = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), new java.sql.Date(timeBlock.getEndTimestamp().getTime())).getDescription();
-
-            DateTime start = timeBlock.getBeginTimeDisplay();
-            DateTime end = timeBlock.getEndTimeDisplay();
+            
+            // DateTime object in jodatime is immutable. If manipulation of a datetime obj is necessary, use MutableDateTime instead.
+            MutableDateTime start = timeBlock.getBeginTimeDisplay().toMutableDateTime();
+            MutableDateTime end = timeBlock.getEndTimeDisplay().toMutableDateTime();
 
             /**
              * This is the timeblock backward pushing logic.
@@ -236,18 +239,26 @@ public class TimeBlockServiceImpl implements TimeBlockService {
              * A timeblock will be pushed back if the timeblock is still within the previous interval
              */
             if (timeBlock.isPushBackward()) {
-                start.minusDays(1);
-                end.minusDays(1);
+                start.addDays(-1);
+                end.addDays(-1);
             }
 
             timeBlockMap.put("title", workAreaDesc);
-            timeBlockMap.put("start", start.toString());
-            timeBlockMap.put("end", end.toString());
-            timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
             timeBlockMap.put("earnCode", timeBlock.getEarnCode());
             //TODO: need to cache this or pre-load it when the app boots up
-            EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
-            timeBlockMap.put("earnCodeType", earnCode == null ? TkConstants.EARN_CODE_TIME : earnCode.getEarnCodeType());
+            // EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
+            timeBlockMap.put("earnCodeType", timeBlock.getEarnCodeType());
+            
+            if(StringUtils.equals(timeBlock.getEarnCodeType(), "TIME") && end.getHourOfDay() == 0 && end.getMinuteOfHour() == 0) {
+            	end.addDays(-1);
+                end.setHourOfDay(23);
+                end.setMinuteOfHour(59);
+                end.setSecondOfMinute(59);
+            }
+
+            timeBlockMap.put("start", start.toDateTime().toString());
+            timeBlockMap.put("end", end.toDateTime().toString());
+            timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
             timeBlockMap.put("hours", timeBlock.getHours());
             timeBlockMap.put("amount", timeBlock.getAmount());
             timeBlockMap.put("timezone", timezone);
@@ -260,6 +271,11 @@ public class TimeBlockServiceImpl implements TimeBlockService {
                 timeHourDetailMap.put("earnCode", timeHourDetail.getEarnCode());
                 timeHourDetailMap.put("hours", timeHourDetail.getHours());
                 timeHourDetailMap.put("amount", timeHourDetail.getAmount());
+
+                // if there is a lunch hour deduction, add a flag to the timeBlockMap
+                if(StringUtils.equals(timeHourDetail.getEarnCode(), "LUN")) {
+                    timeBlockMap.put("lunchDeduction", true);
+                }
 
                 timeHourDetailList.add(timeHourDetailMap);
             }
@@ -308,7 +324,13 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     }
 
     public List<TimeBlock> getTimeBlocks(Long documentId) {
-        return timeBlockDao.getTimeBlocks(documentId);
-    }
 
+    	List<TimeBlock> timeBlocks = timeBlockDao.getTimeBlocks(documentId);
+        for(TimeBlock tb : timeBlocks) {
+            String earnCodeType = TkServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), new java.sql.Date(tb.getBeginTimestamp().getTime()));
+            tb.setEarnCodeType(earnCodeType);
+        }
+    	
+        return timeBlocks;
+    }
 }

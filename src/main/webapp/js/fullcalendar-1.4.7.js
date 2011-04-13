@@ -1380,6 +1380,8 @@
                     segs = [];
 
             for (i = 0; i < rowCnt; i++) {
+                //console.log("compileSegs");
+                //console.log(view.sliceSegs(events, visEventsEnds, d1, d2));
                 row = stackSegs(view.sliceSegs(events, visEventsEnds, d1, d2));
                 for (j = 0; j < row.length; j++) {
                     level = row[j];
@@ -1698,6 +1700,7 @@
              * this is where we construct the UI of the timeblocks
              */
             var fromTo = "";
+
             if (event.earnCodeType == 'TIME') {
                 fromTo = "<tr><td align='center' colspan='3'>" + formatDate(event.start, view.option('timeFormat'))
                         + " - " + formatDate(event.end, view.option('timeFormat')) + "</td></tr>";
@@ -1708,21 +1711,27 @@
             var jsonString = jQuery.parseJSON(event.timeHourDetails);
 
             $.each(jsonString, function (index) {
-                timeHourDetail += "<tr>";
-                timeHourDetail += "<td align='center'>Earn Code: " + jsonString[index].earnCode + "</td>";
-                if(event.earnCodeType == 'TIME' || event.earnCodeType == 'HOUR') {
-                    timeHourDetail += "<td align='center'>Hours: " + jsonString[index].hours + "</td>";
+                if(jsonString[index].earnCode != 'LUN') {
+                    timeHourDetail += "<tr>";
+                    timeHourDetail += "<td align='center'>Earn Code: " + jsonString[index].earnCode + "</td>";
+                    if((event.earnCodeType == 'TIME' || event.earnCodeType == 'HOUR')) {
+                        var lunchDeduction = "";
+                        if(event.lunchDeduction == true && jsonString[index].earnCode == 'RGN') {
+                            lunchDeduction = "<span class='lunch'>Lunch</span>";
+                        }
+                        timeHourDetail += "<td align='center'>Hours: " + jsonString[index].hours + lunchDeduction + "</td>";
+                    }
+                    if(event.earnCodeType == 'AMOUNT') {
+                        timeHourDetail += "<td align='center'>Amount: $" + jsonString[index].amount + "</td>";
+                    }
+                    timeHourDetail += "</tr>";
                 }
-                if(event.earnCodeType == 'AMOUNT') {
-                    timeHourDetail += "<td align='center'>Amount: $" + jsonString[index].amount + "</td>";
-                }
-                timeHourDetail += "</tr>";
             });
 
             html +=
                     "<div class='" + className + event.className.join(' ') + " timeblock' style='position:absolute;z-index:8;left:" + left + "px;margin-bottom:3px;' id='" + event.id + "'>" +
                             "<table style='font-size:0.7em;'>" +
-                            "<tr><td colspan='2' style='text-align:center;'><span id='timeblock-edit'>" + event.title + "</span></td>" +
+                            "<tr><td colspan='2' style='text-align:center;'><span id='timeblock-edit'>" + event.title + " " + event.tkTimeBlockId + "</span></td>" +
                             "<td>&nbsp</td>" +
                         //"<td><a href=TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + event.id + "  id='timeblock-delete'>X</a></td>" +
                             "<td><div id='timeblock-delete'>X</div></td>" +
@@ -2240,7 +2249,6 @@
         }
 
         function compileDaySegs(events) {
-
             var levels = stackSegs(view.sliceSegs(events, $.map(events, exclEndDay), view.visStart, view.visEnd)),
                     i, levelCnt = levels.length, level,
                     j, seg,
@@ -3416,14 +3424,18 @@
         var levels = [],
                 i, len = segs.length, seg,
                 j, collide, k;
+
+        // seg represents the time blocks in a week, so seg.length means the total number of time blocks in a given week
         for (i = 0; i < len; i++) {
             seg = segs[i];
             j = 0; // the level index where seg should belong
             while (true) {
                 collide = false;
+                //console.log(seg);
+                //console.log(levels[j]);
                 if (levels[j]) {
                     for (k = 0; k < levels[j].length; k++) {
-                        if (levels[j][k].event.end.getHours() != '0' && segsCollide(levels[j][k], seg)) {
+                        if (segsCollide(levels[j][k], seg)) {
                             collide = true;
                             break;
                         }
@@ -3435,12 +3447,16 @@
                     break;
                 }
             }
+
             if (levels[j]) {
                 levels[j].push(seg);
             } else {
                 levels[j] = [seg];
             }
+
+            //console.log(seg.event.tkTimeBlockId);
         }
+
         return levels;
     }
 
@@ -3449,7 +3465,21 @@
     }
 
     function segsCollide(seg1, seg2) {
-        return seg1.end > seg2.start && seg1.start < seg2.end;
+
+        //console.log("compared : " + seg1.event.tkTimeBlockId + " <-> " + seg2.event.tkTimeBlockId);
+        /*
+        if(seg1.event.tkTimeBlockId == '5616') {
+            console.log(seg1.event.tkTimeBlockId);
+            console.log(seg2.event.tkTimeBlockId);
+
+            console.log(seg1.end);
+            console.log(seg2.start);
+            console.log(seg1.start);
+            console.log(seg1.end);
+        }
+        */
+        var collide = (seg1.end > seg2.start && seg1.start < seg2.end);
+        return collide;
     }
 
 

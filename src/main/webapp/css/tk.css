@@ -489,3 +489,9 @@ select {
     cursor: pointer;
 }
 
+.lunch {
+    color: black;
+    background-color: yellow;
+    padding: 0 1px 0 1px;
+    margin-left: 5px;
+}

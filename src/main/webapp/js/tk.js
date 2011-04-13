@@ -45,6 +45,7 @@ $(document).ready(function() {
         }
     });
 
+
     // datepicker
     $('#date-range-begin, #date-range-end, #bdRow1, #edRow1').datepicker({
         changeMonth : true,
@@ -62,6 +63,10 @@ $(document).ready(function() {
         minDate : new Date($('#beginPeriodDate').val()),
         maxDate : new Date($('#endPeriodDate').val())
     });
+
+    // hide the date picker by default
+    // https://jira.kuali.org/browse/KPME-395
+    $('#ui-datepicker-div').css('display','none');
 
     // select All
     $('#selectAll').click(function() {

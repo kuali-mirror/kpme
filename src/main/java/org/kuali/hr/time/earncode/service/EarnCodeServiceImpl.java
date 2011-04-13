@@ -1,16 +1,17 @@
 package org.kuali.hr.time.earncode.service;
 
-import java.sql.Date;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncode.dao.EarnCodeDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
+
+import java.sql.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class EarnCodeServiceImpl implements EarnCodeService {
 
@@ -52,5 +53,12 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		
 		return ec;
 	}
+
+    @Override
+    @CacheResult
+    public String getEarnCodeType(String earnCode, Date asOfDate) {
+        EarnCode earnCodeObj = getEarnCode(earnCode, asOfDate);
+        return earnCodeObj.getEarnCodeType();
+    }
 	
 }

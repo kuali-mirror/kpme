@@ -1,10 +1,10 @@
 package org.kuali.hr.time.earncode.service;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
+
+import java.sql.Date;
+import java.util.List;
 
 public interface EarnCodeService {
 	/**
@@ -20,5 +20,12 @@ public interface EarnCodeService {
 	 * @return
 	 */
 	public EarnCode getEarnCode(String earnCode, Date asOfDate);
-	
+
+    /**
+     * Fetch the earn code type of a particular date
+     * @param earnCode
+     * @param asOfDate
+     * @return
+     */
+    String getEarnCodeType(String earnCode, Date asOfDate);
 }

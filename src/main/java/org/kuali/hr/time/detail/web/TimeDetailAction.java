@@ -306,18 +306,21 @@ public class TimeDetailAction extends TimesheetAction {
 
         }
         //------------------------
-        // check if time blocks overlap with each other. Note that the tkTimeBlockId is used to determine is it's an update action or not
+        // check if time blocks overlap with each other. Note that the tkTimeBlockId is used to
+        // determine is it's updating an existing time block or adding a new one
         //------------------------
         if (tdaf.getTkTimeBlockId() == null) {
             Interval addedTimeblockInterval = new Interval(startTime, endTime);
 
             for (TimeBlock timeBlock : tdaf.getTimesheetDocument().getTimeBlocks()) {
-                Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
-
-                if (timeBlockInterval.overlaps(addedTimeblockInterval)) {
-                    errorMsgList.add("The time block you are trying to add overlaps with an existing time block.");
-                    break;
-                }
+            	if(StringUtils.equals(timeBlock.getEarnCodeType(), "TIME")) {
+	                Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
+	
+	                if (timeBlockInterval.overlaps(addedTimeblockInterval)) {
+	                	errorMsgList.add("The time block you are trying to add overlaps with an existing time block.");
+	                    break;
+	                }
+            	}
             }
         }
         this.validateHourLimit(tdaf);

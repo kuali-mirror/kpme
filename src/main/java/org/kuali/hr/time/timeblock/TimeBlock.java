@@ -34,6 +34,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 	private Long tkWorkAreaId;
 	private Long tkTaskId;
 	private String earnCode;
+	private String earnCodeType;
 	private Timestamp beginTimestamp;
 	private Timestamp endTimestamp;
 	
@@ -461,7 +462,15 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         return new TimeBlock(this);
     }
 
-	public String getBeginDateString() {
+	public String getEarnCodeType() {
+		return earnCodeType;
+	}
+
+	public void setEarnCodeType(String earnCodeType) {
+		this.earnCodeType = earnCodeType;
+	}
+    
+public String getBeginDateString() {
 		if(this.getBeginDate() != null) {
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 			this.setBeginDateString(df.format(this.getBeginDate()));

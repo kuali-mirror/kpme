@@ -439,14 +439,14 @@ $.fn.loadFields = function() {
     // if the field type equals hour, hide the begin/end time field and set the time to 12a
     if (fieldType == 'HOUR') {
         $('#clockIn, #clockOut, #amountSection').hide();
-        $('#beginTimeField-messages,#endTimeField-messages').val("0:0");
+        $('#beginTimeField-messages,#endTimeField-messages').val("23:59");
         $('#amountSection').val('');
         $('#hoursSection').show();
         $('#hoursField').validateNumeric();
     }
     else if (fieldType == 'AMOUNT') {
         $('#clockIn, #clockOut, #hoursSection').hide();
-        $('#beginTimeField-messages,#endTimeField-messages').val("0:0");
+        $('#beginTimeField-messages,#endTimeField-messages').val("23:59");
         $('#hoursSection').val('');
         $('#amountSection').show();
         $('#amountField').validateNumeric();
