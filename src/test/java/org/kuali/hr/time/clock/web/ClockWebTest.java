@@ -74,13 +74,13 @@ public class ClockWebTest extends TkTestCase {
 		timeBlock.setJobNumber(2L);
 		timeBlock.setWorkArea(1234L);
 		timeBlock.setTask(1L);
-		timeBlock.setEarnCode("REG");
+		timeBlock.setEarnCode("RGN");
 		Timestamp beginTimestamp = new Timestamp(System.currentTimeMillis());
 		timeBlock.setBeginTimestamp(beginTimestamp);
 		Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
 		timeBlock.setEndTimestamp(endTimestamp);
 		TimeHourDetail timeHourDetail = new TimeHourDetail();
-		timeHourDetail.setEarnCode("REG");
+		timeHourDetail.setEarnCode("RGN");
 		timeHourDetail.setHours(new BigDecimal(2.0));
 		timeBlock.getTimeHourDetails().add(timeHourDetail);
 		timeBlock.setHours(new BigDecimal(2.0));
