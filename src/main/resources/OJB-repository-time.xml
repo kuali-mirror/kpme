@@ -39,7 +39,7 @@
 		<field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="true" />
 		<field-descriptor name="effectiveDate" 			column="effdt" 				jdbc-type="DATE"    nullable="false" primarykey="false" />
 		<field-descriptor name="workArea"				column="work_area"	 		jdbc-type="BIGINT"  nullable="false" primarykey="false" />
-		<field-descriptor name="task" 					column="task"	 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />
+		<field-descriptor name="task" 					column="task"	 			jdbc-type="BIGINT"  nullable="true" primarykey="false" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />

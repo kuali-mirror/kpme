@@ -73,6 +73,8 @@ public final class TkTestConstants {
 		
 		public static final String PAY_CALENDAR_ENTRIES_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.paycalendar.PayCalendarEntries&methodToCall=start";
 		
+		public static final String ASSIGNMENT_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.assignment.Assignment&methodToCall=start";
+		
 		public static final String CLOCK_URL = BASE_URL + "/Clock.do";
 		
 		public static final String TIME_DETAIL_URL = BASE_URL + "/TimeDetail.do";

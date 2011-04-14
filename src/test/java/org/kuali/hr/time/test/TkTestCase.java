@@ -2,6 +2,7 @@ package org.kuali.hr.time.test;
 
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.kuali.hr.time.ApplicationInitializeListener;
 import org.kuali.hr.time.util.ClearDatabaseLifecycle;
@@ -16,6 +17,15 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
 import org.springframework.mock.web.MockHttpServletRequest;
+
+import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
+import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSelect;
+import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
+import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 @SuppressWarnings("deprecation")
 @Ignore
@@ -91,5 +101,41 @@ public class TkTestCase extends KNSTestCase{
 		return "";
 	}
 	
-	
+   protected final void setFieldValue(HtmlPage page, String fieldId, String fieldValue) {
+        HtmlElement element = page.getHtmlElementById(fieldId);
+        assertTrue("element " + fieldId + " is null, page: " + page.asText(), element != null);
+
+        if (element instanceof HtmlTextInput) {
+            HtmlTextInput textField = (HtmlTextInput) element;
+            textField.setValueAttribute(fieldValue);
+        } else if (element instanceof HtmlTextArea) {
+            HtmlTextArea textAreaField = (HtmlTextArea) element;
+            textAreaField.setText(fieldValue);
+        } else if (element instanceof HtmlHiddenInput) {
+            HtmlHiddenInput hiddenField = (HtmlHiddenInput) element;
+            hiddenField.setValueAttribute(fieldValue);
+        } else if (element instanceof HtmlSelect) {
+            HtmlSelect selectField = (HtmlSelect) element;
+            try {
+                selectField.setSelectedAttribute(fieldValue, true);
+            } catch (IllegalArgumentException e) {
+                Assert.fail("select element [" + element.asText() + "] " + e.getMessage());
+            }
+        } else if (element instanceof HtmlCheckBoxInput) {
+            HtmlCheckBoxInput checkboxField = (HtmlCheckBoxInput) element;
+            if (fieldValue.equals("on")) {
+                checkboxField.setChecked(true);
+            } else if (fieldValue.equals("off")) {
+                checkboxField.setChecked(false);
+            } else {
+                assertTrue("Invalid checkbox value", false);
+            }
+        } else if (element instanceof HtmlFileInput) {
+            HtmlFileInput fileInputField = (HtmlFileInput) element;
+            fileInputField.setValueAttribute(fieldValue);
+        } else {
+            fail("Unknown control field: " + fieldId);
+        }
+    }
+
 }

@@ -35,18 +35,6 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	protected boolean validateTask(Assignment assignment) {
-		boolean valid = ValidationUtils.validateTask(assignment.getTask(),
-				assignment.getEffectiveDate());
-
-		if (!valid) {
-			this.putFieldError("task", "error.existence", "task '"
-					+ assignment.getTask() + "'");
-		}
-
-		return valid;
-	}
-
 	protected boolean validateJob(Assignment assignment) {
 		boolean valid = false;
 		LOG.debug("Validating job: " + assignment.getJob());
@@ -206,7 +194,6 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				valid = true;
 				valid &= this.validateWorkArea(assignment);
 				valid &= this.validateJob(assignment);
-				valid &= this.validateTask(assignment);
 				valid &= this.validateActiveAccountTotalPercentage(assignment);
 				valid &= this.validatePercentagePerEarnCode(assignment);
 			}
