@@ -55,10 +55,21 @@ public class ClockActionForm extends TimesheetActionForm {
     private String newETCol;
     private String newHrsCol;
     
+  //this field will hold all the app specific error messages  
+	private String errorMessage;
+    
     
  // this is for the ajax call
 	private String outputString;
 	
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
 	public String getOutputString() {
 		return outputString;
 	}

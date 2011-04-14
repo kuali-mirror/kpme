@@ -100,7 +100,8 @@ public class ClockAction extends TimesheetAction {
     	    // TODO: Validate that clock action is valid for this user
     	    // TODO: this needs to be integrated with the error tag
     	    if(StringUtils.isBlank(caf.getSelectedAssignment())) {
-    	    	throw new RuntimeException("no assignment selected");
+    	    	caf.setErrorMessage("No assignment selected.");
+    			return mapping.findForward("basic");
     	    }
 
     	    // process rules

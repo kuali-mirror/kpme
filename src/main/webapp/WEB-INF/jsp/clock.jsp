@@ -34,7 +34,12 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
 	<html:hidden property="currentClockAction" styleId="clockAction"/>
 	<html:hidden property="lastClockedInTime" value="${Form.lastClockTimestamp}" styleId="lastClockedInTime"/>
 	<html:hidden property="currentServerTime" value="${Form.currentServerTime}" styleId="currentServerTime"/>
-
+		
+	<div id="errorMessage" style="color:red;font-size:14px">
+		<c:if test="${Form.errorMessage ne null}">
+			<b>Error</b> : ${Form.errorMessage}
+		</c:if>
+	</div>
 	<div id="clock">
 		<table>
 			<tr class="header"><td colspan="2"><bean:message key="clock.title"/></td></tr>
