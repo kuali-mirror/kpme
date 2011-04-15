@@ -61,6 +61,14 @@ public class DepartmentLunchRuleLookupableHelper extends
 				&& StringUtils.equals(fieldValues.get("jobNumber"), "%")) {
 			fieldValues.put("jobNumber", "");
 		}
+		if (fieldValues.containsKey("principalId")
+				&& StringUtils.equals(fieldValues.get("principalId"), "%")) {
+			fieldValues.put("principalId", "");
+		}
+		if (fieldValues.containsKey("dept")
+				&& StringUtils.equals(fieldValues.get("dept"), "%")) {
+			fieldValues.put("dept", "");
+		}
 		return super.getSearchResults(fieldValues);
 	}
 

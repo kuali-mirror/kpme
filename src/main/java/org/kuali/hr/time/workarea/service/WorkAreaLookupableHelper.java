@@ -79,4 +79,12 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 	}
 
 
+	@Override
+	protected void validateSearchParameterWildcardAndOperators(
+			String attributeName, String attributeValue) {
+		if (!StringUtils.equals(attributeValue, "%")) {
+			super.validateSearchParameterWildcardAndOperators(attributeName,
+					attributeValue);
+		}
+	}
 }
