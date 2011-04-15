@@ -18,39 +18,37 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 
-	// private static final String WILDCARD_CHARACTER = "\\*|%";
 	private static final String WILDCARD_CHARACTER = "%";
-	private static final String REGEX_IP_ADDRESS_STRING = "^(?:("
-			+ WILDCARD_CHARACTER
-			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.(?:("
-			+ WILDCARD_CHARACTER
-			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.(?:("
-			+ WILDCARD_CHARACTER
-			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.(?:"
-			+ WILDCARD_CHARACTER
-			+ "|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))))$";
-	private static final Pattern REGEX_IP_ADDRESS_PATTERN = Pattern
-			.compile(REGEX_IP_ADDRESS_STRING);
+	private static final String IP_SEPERATOR = ".";
+	private static final String WILDCARD_PATTERN = "(%|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))";
 
 	private static Logger LOG = Logger.getLogger(ClockLocationRuleRule.class);
 
 	boolean validateIpAddress(String ip) {
-		boolean valid = false;
-
 		LOG.debug("Validating IP address: " + ip);
-		if (ip != null && !ip.equals("")) {
-			Matcher matcher = REGEX_IP_ADDRESS_PATTERN.matcher(ip);
-			valid = matcher.matches();
-			if (!valid) {
-				this.putFieldError("ipAddress", "ipaddress.invalid.format", ip);
+		if(ip == null) {
+			return this.flagError(ip);
+		}
+		if(ip.isEmpty() || ip.length() > 15 || ip.endsWith(IP_SEPERATOR) || ip.startsWith(IP_SEPERATOR)) {
+			return this.flagError(ip);
+		} 
+		String[] lst =  StringUtils.split(ip, IP_SEPERATOR);
+		if(lst.length > 4 || (lst.length <4 && ip.indexOf(WILDCARD_CHARACTER)< 0)) {
+			return this.flagError(ip);
+		}
+		for(String str : lst) {
+			if(!str.matches(WILDCARD_PATTERN)) {
+				return this.flagError(ip);
 			}
 		}
-		return valid;
+		return true;
+	}
+	
+	boolean flagError(String ip) {
+		this.putFieldError("ipAddress", "ipaddress.invalid.format", ip);
+		return false;
 	}
 
 	boolean validateWorkArea(ClockLocationRule clr) {

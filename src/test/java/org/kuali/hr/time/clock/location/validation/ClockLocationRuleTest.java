@@ -212,6 +212,56 @@ public class ClockLocationRuleTest extends TkTestCase {
 
     }
     
+    @Test
+    public void testClockLocationIPAddress() {
+    	Timestamp ts_now = new Timestamp(System.currentTimeMillis());
+    	Date date_now = new Date(System.currentTimeMillis());
+    	ClockLocationRule clr = new ClockLocationRule();
+    	clr.setDept("TEST");
+    	clr.setWorkArea(1234L);
+    	clr.setPrincipalId("12345");
+    	clr.setJobNumber(0L);
+    	clr.setActive(true);
+    	clr.setTimestamp(ts_now);
+    	clr.setEffectiveDate(date_now);
+    	clr.setIpAddress("%");   // should match every IP
+
+    	boService.save(clr);
+    	//Test for exact match
+    	ClockLog clockLog = new ClockLog();
+    	clockLog.setJob(new Job());
+    	clockLog.setIpAddress(IP_ADDRESS_ONE);
+    	clockLog.setWorkArea(1234L);
+    	clockLog.setPrincipalId("12345");
+    	clockLog.setJobNumber(0L);
+    	clockLog.getJob().setDept("TEST");
+    	
+    	this.processRuleWithIPNoWarning(clr, clockLog, "%");
+    	this.processRuleWithIPNoWarning(clr, clockLog, "127.%");
+    	this.processRuleWithIPNoWarning(clr, clockLog, "127.0.%");
+    	this.processRuleWithIPNoWarning(clr, clockLog, "127.0.0.%");
+    	this.processRuleWithIPNoWarning(clr, clockLog, IP_ADDRESS_ONE);
+    	this.processRuleWithIPNoWarning(clr, clockLog, "%.%.%.%");
+    	
+    	
+    	this.processRuleWithIPWithWarning(clr, clockLog, "128.%");
+    	boService.delete(clr);
+    }
+    
+    public void processRuleWithIPNoWarning(ClockLocationRule clr, ClockLog clockLog, String ipAddress) {
+    	clr.setIpAddress(ipAddress);
+    	boService.save(clr);
+    	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, new Date(System.currentTimeMillis()));
+    	assertTrue("clock location rule no warning message",GlobalVariables.getMessageMap().hasNoWarnings());
+    }
+    
+    public void processRuleWithIPWithWarning(ClockLocationRule clr, ClockLog clockLog, String ipAddress) {
+    	clr.setIpAddress(ipAddress);
+    	boService.save(clr);
+    	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, new Date(System.currentTimeMillis()));
+    	assertFalse("clock location rule with warning message",GlobalVariables.getMessageMap().hasNoWarnings());
+    	assertTrue("clock location rule with 1 warning message",(GlobalVariables.getMessageMap().getWarningCount()== 1));
+    }
 
     @SuppressWarnings("unchecked")
     public void clearBusinessObjects(Class clazz) {

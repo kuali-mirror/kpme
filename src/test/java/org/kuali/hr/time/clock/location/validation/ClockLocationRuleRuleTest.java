@@ -21,7 +21,10 @@ public class ClockLocationRuleRuleTest extends Assert {
 		"%.%.%.4",
 		"1.%.%.%",
 		"255.255.255.255",
-		"%.%.%.%"
+		"%.%.%.%",
+		"1.2.%",
+		"%",
+		"127.%"
 	};
 	
 	invalidIpAddresses = new String[] {
@@ -29,12 +32,13 @@ public class ClockLocationRuleRuleTest extends Assert {
 		"1.2.3.256",
 		"256.2.3.1",
 		"1.2.3",
-		"1.2.%",
 		"random text",
 		" 1.2.3.4 ",
 		"1.2.3.4.5",
 		"%1.2.3.4%",      // TODO: We may want this to be valid.
-		"999.999.999.999"
+		"999.999.999.999",
+		"",
+		".123.2.4"
 	};
     }
     
