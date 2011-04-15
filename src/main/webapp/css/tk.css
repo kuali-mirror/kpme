@@ -493,10 +493,11 @@ select {
 #timeblock-delete{
     width: 12px;
     height: 12px;
-    margin: 0 5px 0 0;
+    margin: 3px 5px 0 0;
     z-index: 15;
     cursor: pointer;
     float:right;
+
 }
 
 
@@ -505,8 +506,12 @@ select {
     font-size: .7em;
     font-weight: bold;
     cursor: pointer;
-    margin: 2px auto 0 auto;
+    margin: 0 auto 0 auto;
     text-align: center;
+}
+
+#timeblock-edit img {
+
 }
 
 .timeblock .timeblock-detail {

@@ -1715,7 +1715,7 @@
                     timeHourDetail += "<td align='center' style='width:50%;'>Earn Code: " + jsonString[index].earnCode + "</td>";
                     if((event.earnCodeType == 'TIME' || event.earnCodeType == 'HOUR')) {
                         var lunchDeduction = "";
-                        if(event.lunchDeduction == true && jsonString[index].earnCode == 'RGN') {
+                        if(event.lunchDeduction === true && jsonString[index].earnCode === 'RGN') {
                             lunchDeduction = "<span class='lunch'>Lunch</span>";
                         }
                         timeHourDetail += "<td align='center' style='width:50%;'>Hours: " + jsonString[index].hours + lunchDeduction + "</td>";
@@ -1729,7 +1729,7 @@
 
             html +=
                     "<div class='" + className + event.className.join(' ') + " timeblock' style='position:absolute;z-index:8;left:" + left + "px;margin-bottom:3px;' id='" + event.id + "'>" +
-                            "<div id='timeblock-edit'>" + event.title + " " + event.tkTimeBlockId + "<img id='timeblock-delete' src='images/delete-button.png'/></div>" +
+                            "<div id='timeblock-edit'>" + event.title + "<img id='timeblock-delete' src='images/delete-button.png'/></div>" +
                             fromTo +
                             "<table style='font-size:0.7em;'>" +
                              timeHourDetail +
@@ -1798,6 +1798,7 @@
                 seg.outerHeight = eventElement[0].offsetHeight + (
                         val === undefined ? (vmarginCache[key] = vmargins(eventElement[0])) : val
                         );
+
             }
         }
 
@@ -1814,6 +1815,7 @@
                 }
                 levelHeight = Math.max(levelHeight, seg.outerHeight || 0);
                 seg.top = top;
+
                 i++;
             }
             rowDivs[rowI] = getRow(rowI).find('td:first div.fc-day-content > div')// optimal selector?
@@ -1969,7 +1971,7 @@
             tm = options.theme ? 'ui' : 'fc';
             nwe = options.weekends ? 0 : 1;
             firstDay = options.firstDay;
-            if (rtl = options.isRTL) {
+            if (rtl === options.isRTL) {
                 dis = -1;
                 dit = colCnt - 1;
             } else {

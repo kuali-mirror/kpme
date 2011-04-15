@@ -230,11 +230,8 @@ public class TimeDetailAction extends TimesheetAction {
         }
 
         TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTimeBlocks);
-        // anyone who records time asynch (not clock user) should not be affected by the lunch rule
-        // only timeblocks created by the clock should have this rule applied
-        if (!tdaf.getUser().getCurrentRoles().isSynchronous()) {
-            TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument());
-        }
+
+        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument());
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
         //call history service
 

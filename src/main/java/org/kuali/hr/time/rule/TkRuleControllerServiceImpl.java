@@ -5,6 +5,7 @@ import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
@@ -19,7 +20,11 @@ public class TkRuleControllerServiceImpl implements TkRuleControllerService {
 			TkTimeBlockAggregate timeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, payEntry);
             //
             // Need to run LunchRule first - It will reduce hours in some instances
-			TkServiceLocator.getDepartmentLunchRuleService().applyDepartmentLunchRule(timeBlockAggregate.getFlattenedTimeBlockList());
+
+            // anyone who records time through the time entry form (async users) should not be affected by the lunch rule
+            if (TKContext.getUser().getCurrentRoles().isSynchronous()) {
+			    TkServiceLocator.getDepartmentLunchRuleService().applyDepartmentLunchRule(timeBlockAggregate.getFlattenedTimeBlockList());
+            }
 			TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(timesheetDocument, timeBlockAggregate);
 			TkServiceLocator.getDailyOvertimeRuleService().processDailyOvertimeRules(timesheetDocument, timeBlockAggregate);
 			TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(timesheetDocument, timeBlockAggregate);
