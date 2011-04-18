@@ -116,9 +116,14 @@ public class ClockAction extends TimesheetAction {
 
     	    if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
     	    	
-    	    	String prevClockAction = StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT) ? TkConstants.CLOCK_IN : TkConstants.LUNCH_IN;
+    	    	Timestamp lastClockTimestamp = null;
+    	    	if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
+    	    		lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId(), TkConstants.CLOCK_IN).getClockTimestamp(); 
+    	    	}
+    	    	else if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT)) {
+    	    		lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId()).getClockTimestamp();
+    	    	}
     	    	
-	    	    Timestamp lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId(), prevClockAction).getClockTimestamp();
     			long beginTime = lastClockTimestamp.getTime();
     			Timestamp beginTimestamp = new Timestamp(beginTime);
     			Timestamp endTimestamp = caf.getClockLog().getClockTimestamp();
