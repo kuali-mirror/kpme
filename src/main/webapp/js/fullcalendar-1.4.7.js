@@ -1729,7 +1729,7 @@
 
             html +=
                     "<div class='" + className + event.className.join(' ') + " timeblock' style='position:absolute;z-index:8;left:" + left + "px;margin-bottom:3px;' id='" + event.id + "'>" +
-                            "<div id='timeblock-edit'>" + event.title + "<img id='timeblock-delete' src='images/delete-button.png'/></div>" +
+                            "<div id='timeblock-edit'>" + event.title + event.id+ "<img id='timeblock-delete' src='images/delete-button.png'/></div>" +
                             fromTo +
                             "<table style='font-size:0.7em;'>" +
                              timeHourDetail +
@@ -1803,7 +1803,8 @@
         }
 
         // set row heights, calculate event tops (in relation to row top)
-
+        var startDateAndId = {};
+        var eventsById = {};
         for (i = 0,rowI = 0; rowI < rowCnt; rowI++) {
             top = levelI = levelHeight = 0;
 
@@ -1816,13 +1817,30 @@
                 levelHeight = Math.max(levelHeight, seg.outerHeight || 0);
                 seg.top = top;
 
+				
+				/***
+				* This is a helper data structure to be able to get event ids by a given day
+				* This will create a data structure like:
+				* [1] => ["5649"], [4] => ["1234","5678","1357"]
+				* The key of the data structure is the date.
+				***/ 
+                if(startDateAndId["" + seg.event.start.getDate()] != undefined) {
+                    startDateAndId["" + seg.event.start.getDate()].push(seg.event.id);
+                }
+                else {
+                    startDateAndId["" + seg.event.start.getDate()] = [seg.event.id];
+                }
+				// this is a helper data structure to get the event by the id.
+                eventsById[seg.event.id.toString()] = seg;
+
                 i++;
             }
+
             rowDivs[rowI] = getRow(rowI).find('td:first div.fc-day-content > div')// optimal selector?
                     .height(top + levelHeight);
 
         }
-
+		
         // calculate row tops
         for (rowI = 0; rowI < rowCnt; rowI++) {
             rowDivTops[rowI] = rowDivs[rowI][0].offsetTop;
@@ -1831,11 +1849,59 @@
         // set event tops
         for (i = 0; i < segCnt; i++) {
             seg = segs[i];
-            if (eventElement = seg.element) {
-                eventElement[0].style.top = rowDivTops[seg.row] + seg.top + 'px';
-                event = seg.event;
-                view.trigger('eventAfterRender', event, event, eventElement);
-            }
+            eventElement = seg.element;
+            eventElement[0].style.top = rowDivTops[seg.row] + seg.top + 'px';
+			
+			// if the seg top isn't equal to 0, that means the seg/event is not the first event of the day that the height might be affected by the previous row
+			if(seg.top != 0) {
+            	eventElement[0].style.top = getPrevEventTop(seg.event.start.getDate(), seg.event.id) + 'px';
+			}
+            event = seg.event;
+
+            view.trigger('eventAfterRender', event, event, eventElement);
+        }
+
+		/***
+		* The purpose of this method is to hack the default calendar widget behavior when positioning the time blocks
+		* The default behavior is to render the time blocks by rows, which means the calendar will first render the time blocks that start the earliest in each day.
+		* For example, if there are 3 time blocks:
+		* - 4/1 : 8a - 10a
+		* - 4/1 : 11a - 1p
+		* - 4/2 : 8a - 10a
+		* The 4/1 11a-1p time block will be rendered after the 4/2 8a-10a one. The concept is called "level" in the widget. 
+		* So in this example, 4/1 11a-1p is level one, while others are level 0.
+		* This works fine for the original version of the widget since each event only takes one line.
+		* However, since we added the time hour details to the event, each event could grow to multiple lines which furtuer created an issue where  
+		* time blocks which levels are greater than 0 will display extra spaces as shown in https://jira.kuali.org/browse/KPME-296
+        *
+		* The way to fix this is to check the height/top of the previous event of the same day and set height accordingly instead of using the max height for the previous row(level).
+		* There are two properties height-related: top and outerHeight. 
+		* Top is the height from the top of the calendar to the event, and outerHeight is the height for the event itself.
+		* Adding two heights together will be the correct height to use for a given event.
+		* 
+		***/		
+        function getPrevEventTop(date, eventId) {
+
+			// get the array positon of the passed in event
+			var level = startDateAndId[date].indexOf(eventId);
+			
+			// level grater than 0 means the time block is not the first one in a given day
+			if(level > 0) {
+				// level minus 1 means to get the previous event of the same day
+				var prevEventTop = eventsById[startDateAndId[date][level-1]].element[0].style.top;
+				// took out "px"
+				// Note that in javascript, substr and substring are different:
+				// substr(start, length)
+				// substring(start, end)
+				prevEventTop = prevEventTop.substr(0,prevEventTop.length-2);
+				// get the event outerHeight
+				var prevEventOuterHeight = eventsById[startDateAndId[date][level-1]].outerHeight;
+				
+				// calculate and return the event height
+				return parseInt(prevEventTop) + parseInt(prevEventOuterHeight);
+			}
+			
+            return;
         }
     }
 
