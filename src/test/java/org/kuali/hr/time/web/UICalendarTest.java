@@ -4,13 +4,11 @@ import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.SeleneseTestCase;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 
-@Ignore
 public class UICalendarTest extends SeleneseTestCase {
     @Before
     public void setUp() throws Exception {
-        selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://localhost:8080/");
+        selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://localhost:8090/");
         try {
             selenium.start();
         } catch (Exception e) {
@@ -18,7 +16,6 @@ public class UICalendarTest extends SeleneseTestCase {
         }
     }
 
-    @Ignore
     public void testAddTimeBlock() throws Exception {
         selenium.open("/tk-dev/TimeDetail.do");
         selenium.type("__login_user", "fran");
