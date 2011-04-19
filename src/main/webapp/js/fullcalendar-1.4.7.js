@@ -314,6 +314,18 @@
                             serverTimezone = " (Server timezone: " + $('#serverTimezone').val() + ")";
                         }
                         header.find('h2.fc-header-title').html(options.monthNames[begin.getMonth()] + " " + begin.getFullYear() + " " + serverTimezone);
+                        // displays warning messages from the form
+                        var warningJsonString = "";
+                        if($('#warningJson').val() != "") {
+                        	warningJsonString = $('#warningJson').val()
+                        }
+                        var jsonParsed = jQuery.parseJSON(warningJsonString);
+                        var msgs = '';
+                        $.each(jsonParsed, function (index) {
+                            msgs += jsonParsed[index] + "<br/>";
+                        });
+                        header.find('p.warning').html(msgs);
+                        
                         // enable/disable 'today' button
                         var today = new Date();
 
@@ -731,7 +743,7 @@
                         var prevButton;
                         $.each(this.split(','), function(j, buttonName) {
                             if (buttonName == 'title') {
-                                tr.append("<td><h2 class='fc-header-title'>&nbsp;</h2></td>");
+                                tr.append("<td><h2 class='fc-header-title'>&nbsp;</h2><p class='warning'>&nbsp;</p></td>");
                                 if (prevButton) {
                                     prevButton.addClass(tm + '-corner-right');
                                 }

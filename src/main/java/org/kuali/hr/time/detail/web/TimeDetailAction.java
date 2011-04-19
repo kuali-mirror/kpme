@@ -20,13 +20,10 @@ import org.kuali.hr.time.util.TkConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -53,53 +50,14 @@ public class TimeDetailAction extends TimesheetAction {
 
         return forward;
     }
-
-    @SuppressWarnings("unchecked")
+ 
     public void validateHourLimit(TimeDetailActionForm tdaf) throws Exception {
-        tdaf.setWarningMessages(new ArrayList<String>());
-        List<String> warningMsgList = new ArrayList<String>();
-
-        String pId = "";
-        if (tdaf.getTimesheetDocument() != null) {
-            pId = tdaf.getTimesheetDocument().getPrincipalId();
+    	tdaf.setWarningJason("");
+        JSONArray warnMsgJson = new JSONArray();
+        warnMsgJson = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(tdaf.getTimesheetDocument());
+        if (!warnMsgJson.isEmpty()) {
+        	tdaf.setWarningJason(JSONValue.toJSONString(warnMsgJson));
         }
-        List<Map<String, Object>> calcList = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualsCalc(pId);
-
-        List<TimeBlock> tbList = tdaf.getTimesheetDocument().getTimeBlocks();
-        if (tbList.isEmpty()) {
-            return;
-        }
-        for (Map<String, Object> aMap : calcList) {
-            String accrualCategory = (String) aMap.get("accrualCategory");
-            BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList);
-            if (totalForAccrCate.compareTo((BigDecimal) aMap.get("hoursAccrued")) == 1) {
-                warningMsgList.add("Warning: Total hours entered for Accrual Category " + accrualCategory + " has exceeded balance.");
-            }
-        }
-
-        if (!warningMsgList.isEmpty()) {
-            tdaf.setWarningMessages(warningMsgList);
-        }
-        return;
-    }
-
-    public BigDecimal totalForAccrCate(String accrualCategory, List<TimeBlock> tbList) {
-        BigDecimal total = BigDecimal.ZERO;
-        for (TimeBlock tb : tbList) {
-            String earnCode = tb.getEarnCode();
-            Date asOfDate = new java.sql.Date(tb.getBeginTimestamp().getTime());
-            EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
-            String accrCate = "";
-            if (ec != null) {
-                accrCate = ec.getAccrualCategory();
-                if (accrCate != null) {
-                    if (accrCate.equals(accrualCategory)) {
-                        total = total.add(tb.getHours());
-                    }
-                }
-            }
-        }
-        return total;
     }
 
     // this is an ajax call

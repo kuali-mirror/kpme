@@ -20,7 +20,8 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 
 	// this is for the ajax call
 	private String outputString;
-	private List<String> warningMessages;
+	
+	private String warningJason;
 	
 	private Long tkTimeBlockId;
 	private String startTime;
@@ -43,14 +44,6 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 
 	public void setOutputString(String outputString) {
 		this.outputString = outputString;
-	}
-	
-	public List<String> getWarningMessages() {
-		return warningMessages;
-	}
-
-	public void setWarningMessages(List<String> warningMessages) {
-		this.warningMessages = warningMessages;
 	}
 
 	public Long getTkTimeBlockId() {
@@ -157,5 +150,13 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
+	}
+
+	public String getWarningJason() {
+		return warningJason;
+	}
+
+	public void setWarningJason(String warningJason) {
+		this.warningJason = warningJason;
 	}
 }

@@ -10,6 +10,7 @@
         <html:hidden property="userTimezone" value="${Form.userTimezone}" styleId="userTimezone"/>
         <html:hidden property="calNav" value="${Form.calNav}" styleId="calNav"/>
         <html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
+        <html:hidden property="warningJson" value="${Form.warningJason}" styleId="warningJson"/>
 
             <%--This is for visually impaired users --%>
         <!--
@@ -32,12 +33,6 @@
 
             <div id="dialog-form" title="Add time blocks:">
                 <p id="validation" class="validation" title="Validation">All form fields are required.</p>
-
-                <p id="warning" class="warning" title="Warnings">
-                    <c:forEach var="warnMesg" items="${Form.warningMessages}">
-                        ${warnMesg}<br/>
-                    </c:forEach>
-                </p>
                 <html:form action="/TimeDetail.do" styleId="time-detail">
                     <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
                     <html:hidden property="tkTimeBlockId" value="" styleId="tkTimeBlockId"/>

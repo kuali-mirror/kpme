@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet context="unit_test_data"  author="yingzhou" id="1">
+		<insert tableName="la_accruals_t">
+            <column name="LA_ACCRUALS_ID" valueNumeric="2"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="ACCRUAL_CATEGORY" value="RGN"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="HOURS_ACCRUED" valueNumeric="40.00"/>
+            <column name="HOURS_TAKEN" valueNumeric="10.00"/>
+            <column name="HOURS_ADJUST" valueNumeric="0.00"/>
+            <column name="OBJ_ID" value="3b67491c-6aa5-11e0-b182-4356e57dbf45"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data" author="yingzhou" id="2">
+		<sql>
+			 UPDATE tk_earn_code_t SET accrual_category='RGN' WHERE earn_code = 'RGN';
+		</sql>
+	</changeSet>
+</databaseChangeLog>
