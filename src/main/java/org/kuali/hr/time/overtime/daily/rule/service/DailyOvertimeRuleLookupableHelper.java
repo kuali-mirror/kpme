@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -18,25 +19,31 @@ public class DailyOvertimeRuleLookupableHelper extends
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) businessObject;
-		final String className = this.getBusinessObjectClass().getName();
-		final Long tkDailyOvertimeRuleId = dailyOvertimeRule.getTkDailyOvertimeRuleId();
-		HtmlData htmlData = new HtmlData() {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+			DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) businessObject;
+			final String className = this.getBusinessObjectClass().getName();
+			final Long tkDailyOvertimeRuleId = dailyOvertimeRule
+					.getTkDailyOvertimeRuleId();
+			HtmlData htmlData = new HtmlData() {
 
-			@Override
-			public String constructCompleteHtmlTag() {
-				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-						+ className + "&methodToCall=start&tkDailyOvertimeRuleId=" + tkDailyOvertimeRuleId
-						+ "\">view</a>";
-			}
-		};
-		customActionUrls.add(htmlData);
+				@Override
+				public String constructCompleteHtmlTag() {
+					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
+							+ className
+							+ "&methodToCall=start&tkDailyOvertimeRuleId="
+							+ tkDailyOvertimeRuleId + "\">view</a>";
+				}
+			};
+			customActionUrls.add(htmlData);
+		} else if (customActionUrls.size() != 0) {
+			customActionUrls.remove(0);
+		}
 		return customActionUrls;
 	}
 
@@ -72,10 +79,12 @@ public class DailyOvertimeRuleLookupableHelper extends
 					if (bo1 instanceof DailyOvertimeRule) {
 						DailyOvertimeRule dor1 = (DailyOvertimeRule) bo1;
 						DailyOvertimeRule dor2 = (DailyOvertimeRule) bo2;
-						result = dor2.getEffectiveDate().compareTo(dor1.getEffectiveDate());
-	                    if (result == 0) {
-	                        result = dor2.getTimeStamp().compareTo(dor1.getTimeStamp());
-	                    }
+						result = dor2.getEffectiveDate().compareTo(
+								dor1.getEffectiveDate());
+						if (result == 0) {
+							result = dor2.getTimeStamp().compareTo(
+									dor1.getTimeStamp());
+						}
 					}
 					return result;
 				}
@@ -86,7 +95,7 @@ public class DailyOvertimeRuleLookupableHelper extends
 		}
 		return objectList;
 	}
-	
+
 	@Override
 	protected void validateSearchParameterWildcardAndOperators(
 			String attributeName, String attributeValue) {

@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.accrual.AccrualCategory;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
@@ -18,10 +19,11 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+
 /**
  * Used to override default lookup behavior for the Job maintenance object
  * 
- *
+ * 
  */
 public class JobLookupableHelper extends KualiLookupableHelperServiceImpl {
 	/**
@@ -34,19 +36,24 @@ public class JobLookupableHelper extends KualiLookupableHelperServiceImpl {
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		Job job = (Job) businessObject;
-		final String className = this.getBusinessObjectClass().getName();
-		final Long hrJobId = job.getHrJobId();
-		HtmlData htmlData = new HtmlData() {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+			Job job = (Job) businessObject;
+			final String className = this.getBusinessObjectClass().getName();
+			final Long hrJobId = job.getHrJobId();
+			HtmlData htmlData = new HtmlData() {
 
-			@Override
-			public String constructCompleteHtmlTag() {
-				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-						+ className + "&methodToCall=start&hrJobId=" + hrJobId
-						+ "&principalId=&jobNumber=\">view</a>";
-			}
-		};
-		customActionUrls.add(htmlData);
+				@Override
+				public String constructCompleteHtmlTag() {
+					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
+							+ className
+							+ "&methodToCall=start&hrJobId="
+							+ hrJobId + "&principalId=&jobNumber=\">view</a>";
+				}
+			};
+			customActionUrls.add(htmlData);
+		} else if (customActionUrls.size() != 0) {
+			customActionUrls.remove(0);
+		}
 		return customActionUrls;
 	}
 
@@ -99,10 +106,12 @@ public class JobLookupableHelper extends KualiLookupableHelperServiceImpl {
 					if (bo1 instanceof Job) {
 						Job job1 = (Job) bo1;
 						Job job2 = (Job) bo2;
-						result = job2.getEffectiveDate().compareTo(job1.getEffectiveDate());
-	                    if (result == 0) {
-	                        result = job2.getTimestamp().compareTo(job1.getTimestamp());
-	                    }
+						result = job2.getEffectiveDate().compareTo(
+								job1.getEffectiveDate());
+						if (result == 0) {
+							result = job2.getTimestamp().compareTo(
+									job1.getTimestamp());
+						}
 					}
 					return result;
 				}

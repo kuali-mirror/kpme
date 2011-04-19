@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -24,22 +25,28 @@ public class SystemLunchRuleLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		SystemLunchRule systemLunchRule = (SystemLunchRule) businessObject;
-		final String className = this.getBusinessObjectClass().getName();
-		final Long tkSystemLunchRuleId = systemLunchRule.getTkSystemLunchRuleId();
-		HtmlData htmlData = new HtmlData() {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+			SystemLunchRule systemLunchRule = (SystemLunchRule) businessObject;
+			final String className = this.getBusinessObjectClass().getName();
+			final Long tkSystemLunchRuleId = systemLunchRule
+					.getTkSystemLunchRuleId();
+			HtmlData htmlData = new HtmlData() {
 
-			@Override
-			public String constructCompleteHtmlTag() {
-				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-						+ className + "&methodToCall=start&tkSystemLunchRuleId=" + tkSystemLunchRuleId
-						+"\">view</a>";
-			}
-		};
-		customActionUrls.add(htmlData);
+				@Override
+				public String constructCompleteHtmlTag() {
+					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
+							+ className
+							+ "&methodToCall=start&tkSystemLunchRuleId="
+							+ tkSystemLunchRuleId + "\">view</a>";
+				}
+			};
+			customActionUrls.add(htmlData);
+		} else if (customActionUrls.size() != 0) {
+			customActionUrls.remove(0);
+		}
 		return customActionUrls;
 	}
-	
+
 	@Override
 	public List<? extends BusinessObject> getSearchResults(
 			Map<String, String> fieldValues) {
@@ -60,11 +67,13 @@ public class SystemLunchRuleLookupableHelper extends
 					if (bo1 instanceof SystemLunchRule) {
 						SystemLunchRule slr1 = (SystemLunchRule) bo1;
 						SystemLunchRule slr2 = (SystemLunchRule) bo2;
-						result = slr2.getEffectiveDate().compareTo(slr1.getEffectiveDate());
-	                    if (result == 0) {
-	                        result = slr2.getTimeStamp().compareTo(slr1.getTimeStamp());
-	                    }
-					} 
+						result = slr2.getEffectiveDate().compareTo(
+								slr1.getEffectiveDate());
+						if (result == 0) {
+							result = slr2.getTimeStamp().compareTo(
+									slr1.getTimeStamp());
+						}
+					}
 					return result;
 				}
 			});

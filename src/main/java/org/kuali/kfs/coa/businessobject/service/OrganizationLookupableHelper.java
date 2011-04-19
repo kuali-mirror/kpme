@@ -2,6 +2,7 @@ package org.kuali.kfs.coa.businessobject.service;
 
 import java.util.List;
 
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -19,20 +20,28 @@ public class OrganizationLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		Organization organization = (Organization) businessObject;
-		final String className = this.getBusinessObjectClass().getName();
-		final String organizationCode = organization.getOrganizationCode();
-		final String chartOfAccountsCode = organization.getChartOfAccountsCode();
-		HtmlData htmlData = new HtmlData() {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+			Organization organization = (Organization) businessObject;
+			final String className = this.getBusinessObjectClass().getName();
+			final String organizationCode = organization.getOrganizationCode();
+			final String chartOfAccountsCode = organization
+					.getChartOfAccountsCode();
+			HtmlData htmlData = new HtmlData() {
 
-			@Override
-			public String constructCompleteHtmlTag() {
-				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-						+ className + "&methodToCall=start&organizationCode=" + organizationCode
-						+ "&chartOfAccountsCode="+chartOfAccountsCode+"\">view</a>";
-			}
-		};
-		customActionUrls.add(htmlData);
+				@Override
+				public String constructCompleteHtmlTag() {
+					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
+							+ className
+							+ "&methodToCall=start&organizationCode="
+							+ organizationCode
+							+ "&chartOfAccountsCode="
+							+ chartOfAccountsCode + "\">view</a>";
+				}
+			};
+			customActionUrls.add(htmlData);
+		} else if (customActionUrls.size() != 0) {
+			customActionUrls.remove(0);
+		}
 		return customActionUrls;
 	}
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -23,22 +24,27 @@ public class EarnCodeLookupableHelper extends KualiLookupableHelperServiceImpl {
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		EarnCode earnCodeObj = (EarnCode) businessObject;
-		final String className = this.getBusinessObjectClass().getName();
-		final String earnCode = earnCodeObj.getEarnCode();
-		HtmlData htmlData = new HtmlData() {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+			EarnCode earnCodeObj = (EarnCode) businessObject;
+			final String className = this.getBusinessObjectClass().getName();
+			final String earnCode = earnCodeObj.getEarnCode();
+			HtmlData htmlData = new HtmlData() {
 
-			@Override
-			public String constructCompleteHtmlTag() {
-				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-						+ className + "&methodToCall=start&earnCode=" + earnCode
-						+ "&tkEarnCodeId=\">view</a>";
-			}
-		};
-		customActionUrls.add(htmlData);
+				@Override
+				public String constructCompleteHtmlTag() {
+					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
+							+ className
+							+ "&methodToCall=start&earnCode="
+							+ earnCode + "&tkEarnCodeId=\">view</a>";
+				}
+			};
+			customActionUrls.add(htmlData);
+		} else if (customActionUrls.size() != 0) {
+			customActionUrls.remove(0);
+		}
 		return customActionUrls;
 	}
-	
+
 	@Override
 	public List<? extends BusinessObject> getSearchResults(
 			Map<String, String> fieldValues) {
@@ -56,13 +62,15 @@ public class EarnCodeLookupableHelper extends KualiLookupableHelperServiceImpl {
 				@Override
 				public int compare(BusinessObject bo1, BusinessObject bo2) {
 					int result = 0;
-					if(bo1 instanceof EarnCode){
+					if (bo1 instanceof EarnCode) {
 						EarnCode ec1 = (EarnCode) bo1;
 						EarnCode ec2 = (EarnCode) bo2;
-						result = ec2.getEffectiveDate().compareTo(ec1.getEffectiveDate());
-	                    if (result == 0) {
-	                        result = ec2.getTimestamp().compareTo(ec1.getTimestamp());
-	                    }
+						result = ec2.getEffectiveDate().compareTo(
+								ec1.getEffectiveDate());
+						if (result == 0) {
+							result = ec2.getTimestamp().compareTo(
+									ec1.getTimestamp());
+						}
 					}
 					return result;
 				}

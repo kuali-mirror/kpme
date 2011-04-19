@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.earngroup.EarnGroup;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -23,22 +24,27 @@ public class EarnGroupLookupableHelper extends KualiLookupableHelperServiceImpl 
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		EarnGroup earnGroupObj = (EarnGroup) businessObject;
-		final String className = this.getBusinessObjectClass().getName();
-		final String earnGroup = earnGroupObj.getEarnGroup();
-		HtmlData htmlData = new HtmlData() {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+			EarnGroup earnGroupObj = (EarnGroup) businessObject;
+			final String className = this.getBusinessObjectClass().getName();
+			final String earnGroup = earnGroupObj.getEarnGroup();
+			HtmlData htmlData = new HtmlData() {
 
-			@Override
-			public String constructCompleteHtmlTag() {
-				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-						+ className + "&methodToCall=start&earnGroup=" + earnGroup
-						+ "&tkEarnGroupId=\">view</a>";
-			}
-		};
-		customActionUrls.add(htmlData);
+				@Override
+				public String constructCompleteHtmlTag() {
+					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
+							+ className
+							+ "&methodToCall=start&earnGroup="
+							+ earnGroup + "&tkEarnGroupId=\">view</a>";
+				}
+			};
+			customActionUrls.add(htmlData);
+		} else if (customActionUrls.size() != 0) {
+			customActionUrls.remove(0);
+		}
 		return customActionUrls;
 	}
-	
+
 	@Override
 	public List<? extends BusinessObject> getSearchResults(
 			Map<String, String> fieldValues) {
@@ -56,13 +62,15 @@ public class EarnGroupLookupableHelper extends KualiLookupableHelperServiceImpl 
 				@Override
 				public int compare(BusinessObject bo1, BusinessObject bo2) {
 					int result = 0;
-					if(bo1 instanceof EarnGroup){
+					if (bo1 instanceof EarnGroup) {
 						EarnGroup eg1 = (EarnGroup) bo1;
 						EarnGroup eg2 = (EarnGroup) bo2;
-						result = eg2.getEffectiveDate().compareTo(eg1.getEffectiveDate());
-	                    if (result == 0) {
-	                        result = eg2.getTimestamp().compareTo(eg1.getTimestamp());
-	                    }
+						result = eg2.getEffectiveDate().compareTo(
+								eg1.getEffectiveDate());
+						if (result == 0) {
+							result = eg2.getTimestamp().compareTo(
+									eg1.getTimestamp());
+						}
 					}
 					return result;
 				}

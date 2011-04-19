@@ -2,6 +2,7 @@ package org.kuali.kfs.coa.businessobject.service;
 
 import java.util.List;
 
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -19,21 +20,31 @@ public class SubAccountLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		SubAccount subAccount = (SubAccount) businessObject;
-		final String className = this.getBusinessObjectClass().getName();
-		final String accountNumber = subAccount.getAccountNumber();
-		final String subAccountNumber = subAccount.getSubAccountNumber();
-		final String chartOfAccountsCode = subAccount.getChartOfAccountsCode();
-		HtmlData htmlData = new HtmlData() {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+			SubAccount subAccount = (SubAccount) businessObject;
+			final String className = this.getBusinessObjectClass().getName();
+			final String accountNumber = subAccount.getAccountNumber();
+			final String subAccountNumber = subAccount.getSubAccountNumber();
+			final String chartOfAccountsCode = subAccount
+					.getChartOfAccountsCode();
+			HtmlData htmlData = new HtmlData() {
 
-			@Override
-			public String constructCompleteHtmlTag() {
-				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-						+ className + "&methodToCall=start&subAccountNumber=" + subAccountNumber
-						+ "&chartOfAccountsCode="+chartOfAccountsCode+"&accountNumber="+accountNumber+"\">view</a>";
-			}
-		};
-		customActionUrls.add(htmlData);
+				@Override
+				public String constructCompleteHtmlTag() {
+					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
+							+ className
+							+ "&methodToCall=start&subAccountNumber="
+							+ subAccountNumber
+							+ "&chartOfAccountsCode="
+							+ chartOfAccountsCode
+							+ "&accountNumber="
+							+ accountNumber + "\">view</a>";
+				}
+			};
+			customActionUrls.add(htmlData);
+		} else if (customActionUrls.size() != 0) {
+			customActionUrls.remove(0);
+		}
 		return customActionUrls;
 	}
 }

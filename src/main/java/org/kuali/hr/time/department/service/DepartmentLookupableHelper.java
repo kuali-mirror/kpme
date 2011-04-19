@@ -1,6 +1,7 @@
 package org.kuali.hr.time.department.service;
 
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -20,22 +21,25 @@ public class DepartmentLookupableHelper extends
 		Department department = (Department) businessObject;
 		final String dept = department.getDept();
 		final String className = this.getBusinessObjectClass().getName();
-		List<HtmlData> customActionUrls = super
-				.getCustomActionUrls(businessObject, pkNames);
-		HtmlData htmlData = new HtmlData() {
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(
+				businessObject, pkNames);
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+			HtmlData htmlData = new HtmlData() {
 
-			@Override
-			public String constructCompleteHtmlTag() {
-				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-						+ className
-						+ "&methodToCall=start&dept="
-						+ dept
-						+ "&tkDeptId=\">view</a>";
-			}
-		};
-		customActionUrls.add(htmlData);
+				@Override
+				public String constructCompleteHtmlTag() {
+					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
+							+ className
+							+ "&methodToCall=start&dept="
+							+ dept
+							+ "&tkDeptId=\">view</a>";
+				}
+			};
+			customActionUrls.add(htmlData);
+		} else if (customActionUrls.size() != 0) {
+			customActionUrls.remove(0);
+		}
 		return customActionUrls;
 	}
-
 
 }

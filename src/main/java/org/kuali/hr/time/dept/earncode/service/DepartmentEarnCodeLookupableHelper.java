@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -18,32 +19,38 @@ public class DepartmentEarnCodeLookupableHelper extends
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		DepartmentEarnCode departmentEarnCode = (DepartmentEarnCode) businessObject;
-		final String className = this.getBusinessObjectClass().getName();
-		final Long tkDeptEarnCodeId = departmentEarnCode.getTkDeptEarnCodeId();
-		HtmlData htmlData = new HtmlData() {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+			DepartmentEarnCode departmentEarnCode = (DepartmentEarnCode) businessObject;
+			final String className = this.getBusinessObjectClass().getName();
+			final Long tkDeptEarnCodeId = departmentEarnCode
+					.getTkDeptEarnCodeId();
+			HtmlData htmlData = new HtmlData() {
 
-			@Override
-			public String constructCompleteHtmlTag() {
-				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-						+ className + "&methodToCall=start&tkDeptEarnCodeId=" + tkDeptEarnCodeId
-						+ "\">view</a>";
-			}
-		};
-		customActionUrls.add(htmlData);
+				@Override
+				public String constructCompleteHtmlTag() {
+					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
+							+ className
+							+ "&methodToCall=start&tkDeptEarnCodeId="
+							+ tkDeptEarnCodeId + "\">view</a>";
+				}
+			};
+			customActionUrls.add(htmlData);
+		} else if (customActionUrls.size() != 0) {
+			customActionUrls.remove(0);
+		}
 		return customActionUrls;
 	}
-	
+
 	@Override
 	public List<? extends BusinessObject> getSearchResults(
 			Map<String, String> fieldValues) {
-		
+
 		String showHistory = null;
 		if (fieldValues.containsKey("history")) {
 			showHistory = fieldValues.get("history");
@@ -58,13 +65,15 @@ public class DepartmentEarnCodeLookupableHelper extends
 				@Override
 				public int compare(BusinessObject bo1, BusinessObject bo2) {
 					int result = 0;
-					if(bo1 instanceof DepartmentEarnCode){
+					if (bo1 instanceof DepartmentEarnCode) {
 						DepartmentEarnCode dec1 = (DepartmentEarnCode) bo1;
 						DepartmentEarnCode dec2 = (DepartmentEarnCode) bo2;
-						result = dec2.getEffectiveDate().compareTo(dec1.getEffectiveDate());
-	                    if (result == 0) {
-	                        result = dec2.getTimestamp().compareTo(dec1.getTimestamp());
-	                    }
+						result = dec2.getEffectiveDate().compareTo(
+								dec1.getEffectiveDate());
+						if (result == 0) {
+							result = dec2.getTimestamp().compareTo(
+									dec1.getTimestamp());
+						}
 					}
 					return result;
 				}
