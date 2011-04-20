@@ -64,7 +64,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="flsaBeginTime"/>
-    <property name="label" value="Flsa Begin Time"/>
+    <property name="label" value="Flsa Begin Time (00:00 AM)"/>
   </bean>
   
   <bean id="PayCalendar-active" parent="PayCalendar-active-parentBean"/>
