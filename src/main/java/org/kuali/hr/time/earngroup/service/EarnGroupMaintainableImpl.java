@@ -1,16 +1,13 @@
 package org.kuali.hr.time.earngroup.service;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
 import org.kuali.hr.time.util.ValidationUtils;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -29,30 +26,31 @@ public class EarnGroupMaintainableImpl extends KualiMaintainableImpl{
 		earnGroup.setTkEarnGroupId(null);
 		earnGroup.setTimestamp(null);
 		
-		Criteria root = new Criteria();
-		Criteria effdt = new Criteria();
-		Criteria timestamp = new Criteria();
-
-		effdt.addGreaterThan("effectiveDate", earnGroup.getEffectiveDate());
-		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnGroup.class, effdt);
-		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
-
-		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnGroup.class, timestamp);
-		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
-
-		root.addEqualTo("effectiveDate", effdtSubQuery);
-		root.addEqualTo("timestamp", timestampSubQuery);
-
-		Criteria activeFilter = new Criteria(); // Inner Join For Activity
-		activeFilter.addEqualTo("active", true);
-		root.addAndCriteria(activeFilter);
+//		Criteria root = new Criteria();
+//		Criteria effdt = new Criteria();
+//		Criteria timestamp = new Criteria();
+//
+//		effdt.addGreaterThan("effectiveDate", earnGroup.getEffectiveDate());
+//		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnGroup.class, effdt);
+//		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
+//
+//		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+//		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnGroup.class, timestamp);
+//		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
+//
+//		root.addEqualTo("effectiveDate", effdtSubQuery);
+//		root.addEqualTo("timestamp", timestampSubQuery);
+//
+//		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+//		activeFilter.addEqualTo("active", true);
+//		root.addAndCriteria(activeFilter);
+//		
+//		Query query = QueryFactory.newQuery(EarnGroup.class, root);
+//		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+//		if(count > 0){
+//			throw new RuntimeException("Date after your given effective date exists.");
+//		}
 		
-		Query query = QueryFactory.newQuery(EarnGroup.class, root);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-		if(count > 0){
-			throw new RuntimeException("Date after your given effective date exists.");
-		}
 		KNSServiceLocator.getBusinessObjectService().save(earnGroup);
 	}
 	
@@ -80,5 +78,14 @@ public class EarnGroupMaintainableImpl extends KualiMaintainableImpl{
         }
        super.addNewLineToCollection(collectionName);
     }
-		 
+	
+	@Override
+    public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
+		EarnGroup earnGroup = (EarnGroup)this.getBusinessObject();
+		if(ValidationUtils.newerVersionExists(EarnGroup.class, "earnGroup", earnGroup.getEarnGroup(), earnGroup.getEffectiveDate())) {
+			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
+					"earngroup.effectiveDate.newr.exists");
+		}
+	} 
+	
 }
