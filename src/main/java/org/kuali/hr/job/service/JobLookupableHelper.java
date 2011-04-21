@@ -1,8 +1,6 @@
 package org.kuali.hr.job.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -10,7 +8,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -98,26 +95,38 @@ public class JobLookupableHelper extends KualiLookupableHelperServiceImpl {
 		}
 		if (!objectList.isEmpty() && showHistory != null
 				&& StringUtils.equals(showHistory, "N")) {
-			Collections.sort(objectList, new Comparator<BusinessObject>() {
-
-				@Override
-				public int compare(BusinessObject bo1, BusinessObject bo2) {
-					int result = 0;
-					if (bo1 instanceof Job) {
-						Job job1 = (Job) bo1;
-						Job job2 = (Job) bo2;
-						result = job2.getEffectiveDate().compareTo(
-								job1.getEffectiveDate());
-						if (result == 0) {
-							result = job2.getTimestamp().compareTo(
-									job1.getTimestamp());
+			Map<String, BusinessObject> objectsWithoutHistory = new HashMap<String, BusinessObject>();
+			// Creating map for objects without history
+			for (BusinessObject bo : objectList) {
+				Job jobNew = (Job) bo;
+				if (objectsWithoutHistory.containsKey(jobNew.getPrincipalId()
+						+ jobNew.getDept())) {
+					// Comparing here for duplicates
+					Job jobOld = (Job) objectsWithoutHistory.get(jobNew
+							.getPrincipalId()
+							+ jobNew.getDept());
+					int comparison = jobNew.getEffectiveDate().compareTo(
+							jobOld.getEffectiveDate());
+					// Comparison for highest effective date object to put
+					switch (comparison) {
+					case 0:
+						if (jobNew.getTimestamp().after(jobOld.getTimestamp())) {
+							// Sorting here by timestamp value
+							objectsWithoutHistory.put(jobNew.getPrincipalId()
+									+ jobNew.getDept(), jobNew);
 						}
+						break;
+					case 1:
+						objectsWithoutHistory.put(jobNew.getPrincipalId()
+								+ jobNew.getDept(), jobNew);
 					}
-					return result;
+				} else {
+					objectsWithoutHistory.put(jobNew.getPrincipalId()
+							+ jobNew.getDept(), jobNew);
 				}
-			});
+			}
 			List<BusinessObject> objectListWithoutHistory = new ArrayList<BusinessObject>();
-			objectListWithoutHistory.add(objectList.get(0));
+			objectListWithoutHistory.addAll(objectsWithoutHistory.values());
 			return objectListWithoutHistory;
 		}
 		return objectList;

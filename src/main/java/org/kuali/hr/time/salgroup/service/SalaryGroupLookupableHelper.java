@@ -1,8 +1,7 @@
 package org.kuali.hr.time.salgroup.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,26 +57,38 @@ public class SalaryGroupLookupableHelper extends
 				.getSearchResults(fieldValues);
 		if (!objectList.isEmpty() && showHistory != null
 				&& StringUtils.equals(showHistory, "N")) {
-			Collections.sort(objectList, new Comparator<BusinessObject>() {
-
-				@Override
-				public int compare(BusinessObject bo1, BusinessObject bo2) {
-					int result = 0;
-					if (bo1 instanceof SalGroup) {
-						SalGroup sg1 = (SalGroup) bo1;
-						SalGroup sg2 = (SalGroup) bo2;
-						result = sg2.getEffectiveDate().compareTo(
-								sg1.getEffectiveDate());
-						if (result == 0) {
-							result = sg2.getTimestamp().compareTo(
-									sg1.getTimestamp());
+			Map<String, BusinessObject> objectsWithoutHistory = new HashMap<String, BusinessObject>();
+			// Creating map for objects without history
+			for (BusinessObject bo : objectList) {
+				SalGroup salGroupNew = (SalGroup) bo;
+				if (objectsWithoutHistory.containsKey(salGroupNew
+						.getTkSalGroup())) {
+					// Comparing here for duplicates
+					SalGroup salGroupOld = (SalGroup) objectsWithoutHistory
+							.get(salGroupNew.getTkSalGroup());
+					int comparison = salGroupNew.getEffectiveDate().compareTo(
+							salGroupOld.getEffectiveDate());
+					// Comparison for highest effective date object to put
+					switch (comparison) {
+					case 0:
+						if (salGroupNew.getTimestamp().after(
+								salGroupOld.getTimestamp())) {
+							// Sorting here by timestamp value
+							objectsWithoutHistory.put(salGroupNew
+									.getTkSalGroup(), salGroupNew);
 						}
+						break;
+					case 1:
+						objectsWithoutHistory.put(salGroupNew.getTkSalGroup(),
+								salGroupNew);
 					}
-					return result;
+				} else {
+					objectsWithoutHistory.put(salGroupNew.getTkSalGroup(),
+							salGroupNew);
 				}
-			});
+			}
 			List<BusinessObject> objectListWithoutHistory = new ArrayList<BusinessObject>();
-			objectListWithoutHistory.add(objectList.get(0));
+			objectListWithoutHistory.addAll(objectsWithoutHistory.values());
 			return objectListWithoutHistory;
 		}
 		return objectList;

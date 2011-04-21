@@ -1,8 +1,7 @@
 package org.kuali.hr.time.accrual.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,26 +63,38 @@ public class AccrualCategoryLookupableHelper extends
 				.getSearchResults(fieldValues);
 		if (!objectList.isEmpty() && showHistory != null
 				&& StringUtils.equals(showHistory, "N")) {
-			Collections.sort(objectList, new Comparator<BusinessObject>() {
-
-				@Override
-				public int compare(BusinessObject bo1, BusinessObject bo2) {
-					int result = 0;
-					if (bo1 instanceof AccrualCategory) {
-						AccrualCategory acc1 = (AccrualCategory) bo1;
-						AccrualCategory acc2 = (AccrualCategory) bo2;
-						result = acc2.getEffectiveDate().compareTo(
-								acc1.getEffectiveDate());
-						if (result == 0) {
-							result = acc2.getTimestamp().compareTo(
-									acc1.getTimestamp());
+			Map<String, BusinessObject> objectsWithoutHistory = new HashMap<String, BusinessObject>();
+			// Creating map for objects without history
+			for (BusinessObject bo : objectList) {
+				AccrualCategory accrualCategoryNew = (AccrualCategory) bo;
+				if (objectsWithoutHistory.containsKey(accrualCategoryNew
+						.getAccrualCategory())) {
+					// Comparing here for duplicates
+					AccrualCategory accrualCategoryOld = (AccrualCategory) objectsWithoutHistory
+							.get(accrualCategoryNew.getAccrualCategory());
+					int comparison = accrualCategoryNew.getEffectiveDate()
+							.compareTo(accrualCategoryOld.getEffectiveDate());
+					// Comparison for highest effective date object to put 
+					switch (comparison) {
+					case 0:
+						if (accrualCategoryNew.getTimestamp().after(
+								accrualCategoryOld.getTimestamp())) {
+							// Sorting here by timestamp value
+							objectsWithoutHistory.put(accrualCategoryNew
+									.getAccrualCategory(), accrualCategoryNew);
 						}
+						break;
+					case 1:
+						objectsWithoutHistory.put(accrualCategoryNew
+								.getAccrualCategory(), accrualCategoryNew);
 					}
-					return result;
+				} else {
+					objectsWithoutHistory.put(accrualCategoryNew
+							.getAccrualCategory(), accrualCategoryNew);
 				}
-			});
+			}
 			List<BusinessObject> objectListWithoutHistory = new ArrayList<BusinessObject>();
-			objectListWithoutHistory.add(objectList.get(0));
+			objectListWithoutHistory.addAll(objectsWithoutHistory.values());
 			return objectListWithoutHistory;
 		}
 		return objectList;

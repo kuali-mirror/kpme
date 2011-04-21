@@ -1,8 +1,7 @@
 package org.kuali.hr.time.overtime.daily.rule.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,26 +70,50 @@ public class DailyOvertimeRuleLookupableHelper extends
 				.getSearchResults(fieldValues);
 		if (!objectList.isEmpty() && showHistory != null
 				&& StringUtils.equals(showHistory, "N")) {
-			Collections.sort(objectList, new Comparator<BusinessObject>() {
-
-				@Override
-				public int compare(BusinessObject bo1, BusinessObject bo2) {
-					int result = 0;
-					if (bo1 instanceof DailyOvertimeRule) {
-						DailyOvertimeRule dor1 = (DailyOvertimeRule) bo1;
-						DailyOvertimeRule dor2 = (DailyOvertimeRule) bo2;
-						result = dor2.getEffectiveDate().compareTo(
-								dor1.getEffectiveDate());
-						if (result == 0) {
-							result = dor2.getTimeStamp().compareTo(
-									dor1.getTimeStamp());
+			Map<String, BusinessObject> objectsWithoutHistory = new HashMap<String, BusinessObject>();
+			// Creating map for objects without history
+			for (BusinessObject bo : objectList) {
+				DailyOvertimeRule dailyOvertimeRuleNew = (DailyOvertimeRule) bo;
+				if (objectsWithoutHistory.containsKey(dailyOvertimeRuleNew
+						.getDept()
+						+ dailyOvertimeRuleNew.getWorkArea()
+						+ dailyOvertimeRuleNew.getLocation())) {
+					// Comparing here for duplicates
+					DailyOvertimeRule dailyOvertimeRuleOld = (DailyOvertimeRule) objectsWithoutHistory
+							.get(dailyOvertimeRuleNew.getDept()
+									+ dailyOvertimeRuleNew.getWorkArea()
+									+ dailyOvertimeRuleNew.getLocation());
+					int comparison = dailyOvertimeRuleNew.getEffectiveDate()
+							.compareTo(dailyOvertimeRuleOld.getEffectiveDate());
+					// Comparison for highest effective date object to put
+					switch (comparison) {
+					case 0:
+						if (dailyOvertimeRuleNew.getTimeStamp().after(
+								dailyOvertimeRuleOld.getTimeStamp())) {
+							// Sorting here by timestamp value
+							objectsWithoutHistory.put(dailyOvertimeRuleNew
+									.getDept()
+									+ dailyOvertimeRuleNew.getWorkArea()
+									+ dailyOvertimeRuleNew.getLocation(),
+									dailyOvertimeRuleNew);
 						}
+						break;
+					case 1:
+						objectsWithoutHistory.put(dailyOvertimeRuleNew
+								.getDept()
+								+ dailyOvertimeRuleNew.getWorkArea()
+								+ dailyOvertimeRuleNew.getLocation(),
+								dailyOvertimeRuleNew);
 					}
-					return result;
+				} else {
+					objectsWithoutHistory.put(dailyOvertimeRuleNew.getDept()
+							+ dailyOvertimeRuleNew.getWorkArea()
+							+ dailyOvertimeRuleNew.getLocation(),
+							dailyOvertimeRuleNew);
 				}
-			});
+			}
 			List<BusinessObject> objectListWithoutHistory = new ArrayList<BusinessObject>();
-			objectListWithoutHistory.add(objectList.get(0));
+			objectListWithoutHistory.addAll(objectsWithoutHistory.values());
 			return objectListWithoutHistory;
 		}
 		return objectList;

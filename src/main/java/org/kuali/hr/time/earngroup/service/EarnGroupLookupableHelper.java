@@ -3,10 +3,12 @@ package org.kuali.hr.time.earngroup.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -57,26 +59,38 @@ public class EarnGroupLookupableHelper extends KualiLookupableHelperServiceImpl 
 				.getSearchResults(fieldValues);
 		if (!objectList.isEmpty() && showHistory != null
 				&& StringUtils.equals(showHistory, "N")) {
-			Collections.sort(objectList, new Comparator<BusinessObject>() {
-
-				@Override
-				public int compare(BusinessObject bo1, BusinessObject bo2) {
-					int result = 0;
-					if (bo1 instanceof EarnGroup) {
-						EarnGroup eg1 = (EarnGroup) bo1;
-						EarnGroup eg2 = (EarnGroup) bo2;
-						result = eg2.getEffectiveDate().compareTo(
-								eg1.getEffectiveDate());
-						if (result == 0) {
-							result = eg2.getTimestamp().compareTo(
-									eg1.getTimestamp());
+			Map<String, BusinessObject> objectsWithoutHistory = new HashMap<String, BusinessObject>();
+			// Creating map for objects without history
+			for (BusinessObject bo : objectList) {
+				EarnGroup earnGroupNew = (EarnGroup) bo;
+				if (objectsWithoutHistory.containsKey(earnGroupNew
+						.getEarnGroup())) {
+					// Comparing here for duplicates
+					EarnGroup earnGroupOld = (EarnGroup) objectsWithoutHistory
+							.get(earnGroupNew.getEarnGroup());
+					int comparison = earnGroupNew.getEffectiveDate()
+							.compareTo(earnGroupOld.getEffectiveDate());
+					// Comparison for highest effective date object to put
+					switch (comparison) {
+					case 0:
+						if (earnGroupNew.getTimestamp().after(
+								earnGroupOld.getTimestamp())) {
+							// Sorting here by timestamp value
+							objectsWithoutHistory.put(earnGroupNew
+									.getEarnGroup(), earnGroupNew);
 						}
+						break;
+					case 1:
+						objectsWithoutHistory.put(earnGroupNew.getEarnGroup(),
+								earnGroupNew);
 					}
-					return result;
+				} else {
+					objectsWithoutHistory.put(earnGroupNew.getEarnGroup(),
+							earnGroupNew);
 				}
-			});
+			}
 			List<BusinessObject> objectListWithoutHistory = new ArrayList<BusinessObject>();
-			objectListWithoutHistory.add(objectList.get(0));
+			objectListWithoutHistory.addAll(objectsWithoutHistory.values());
 			return objectListWithoutHistory;
 		}
 		return objectList;
