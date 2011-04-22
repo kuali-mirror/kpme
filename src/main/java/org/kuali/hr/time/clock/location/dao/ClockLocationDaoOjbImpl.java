@@ -56,4 +56,28 @@ public class ClockLocationDaoOjbImpl extends PersistenceBrokerDaoSupport impleme
 		return clockLocationRules;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ClockLocationRule> getNewerVersionClockLocationRule(
+			String dept, Long workArea, String principalId, Long jobNumber,
+			Date asOfDate) {
+		Criteria root = new Criteria();
+		root.addEqualTo("dept", dept);
+		root.addEqualTo("workArea", workArea);
+		root.addEqualTo("principalId", principalId);
+		root.addEqualTo("jobNumber", jobNumber);
+		root.addGreaterThan("effectiveDate", asOfDate);
+		
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+		
+		Query query = QueryFactory.newQuery(ClockLocationRule.class, root);
+		List<ClockLocationRule> clockLocationRules = (List<ClockLocationRule>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		if(clockLocationRules==null){
+			clockLocationRules = new ArrayList<ClockLocationRule>();
+		}
+		return clockLocationRules;
+	}
+
 }

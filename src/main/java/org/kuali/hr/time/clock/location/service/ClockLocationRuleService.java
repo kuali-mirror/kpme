@@ -24,4 +24,7 @@ public interface ClockLocationRuleService {
 	 * @param asOfDate
 	 */
 	public void processClockLocationRule(ClockLog clockLog, Date asOfDate);
+	
+	public List<ClockLocationRule> getNewerVersionClockLocationRule(String dept, Long workArea, String principalId, 
+			Long jobNumber, Date asOfDate);
 }

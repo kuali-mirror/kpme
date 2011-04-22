@@ -109,4 +109,12 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 		return clockLocationRule;
 	}
 
+	@Override
+	public List<ClockLocationRule> getNewerVersionClockLocationRule(
+			String dept, Long workArea, String principalId, Long jobNumber,
+			Date asOfDate) {
+		 
+		return clockLocationDao.getNewerVersionClockLocationRule(dept, workArea, principalId, jobNumber, asOfDate);
+	}
+
 }
