@@ -1,6 +1,7 @@
 package org.kuali.hr.time.batch;
 
-import uk.ltd.getahead.dwr.util.Logger;
+import org.apache.log4j.Logger;
+
 
 public class InitiateBatchJob extends BatchJob{
 	private Logger LOG = Logger.getLogger(InitiateBatchJob.class);
