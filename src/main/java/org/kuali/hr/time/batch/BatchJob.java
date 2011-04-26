@@ -30,7 +30,7 @@ public abstract class BatchJob {
 		return "";
 	}
 
-	protected abstract void populateBatchJobEntry();
+	protected abstract void populateBatchJobEntry(Object o);
 
 	public Long getTkBatchJobId() {
 		return tkBatchJobId;

@@ -28,4 +28,6 @@ public interface AssignmentDao {
 	public List<Assignment> getActiveAssignmentsInWorkArea(String workArea, Date asOfDate);
 	
 	public Assignment getAssignment(String tkAssignmentId);
+	
+	public List<Assignment> getActiveAssignments(Date asOfDate);
 }

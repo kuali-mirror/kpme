@@ -55,4 +55,6 @@ public interface AssignmentService {
 	 * @return
 	 */
 	public List<Assignment> getActiveAssignmentsForWorkArea(String workArea, Date asOfDate);
+	
+	public List<Assignment> getActiveAssignments(Date asOfDate);
 }

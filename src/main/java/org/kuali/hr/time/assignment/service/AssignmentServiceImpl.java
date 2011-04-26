@@ -117,4 +117,9 @@ public class AssignmentServiceImpl implements AssignmentService {
 		return assignments;
 	}
 
+	@Override
+	public List<Assignment> getActiveAssignments(Date asOfDate) {
+		return assignmentDao.getActiveAssignments(asOfDate);
+	}
+
 }
