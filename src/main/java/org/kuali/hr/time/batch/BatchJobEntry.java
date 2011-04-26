@@ -9,6 +9,8 @@ public class BatchJobEntry {
 	private String batchJobException;
 	private String ipAddress;
 	private String batchJobName;
+	private Long payCalendarEntryId;
+	
 	public Long getTkBatchJobEntryId() {
 		return tkBatchJobEntryId;
 	}
@@ -56,5 +58,11 @@ public class BatchJobEntry {
 	}
 	public void setBatchJobName(String batchJobName) {
 		this.batchJobName = batchJobName;
+	}
+	public void setPayCalendarId(Long payCalendarEntryId) {
+		this.payCalendarEntryId = payCalendarEntryId;
+	}
+	public Long getPayCalendarId() {
+		return payCalendarEntryId;
 	}
 }
