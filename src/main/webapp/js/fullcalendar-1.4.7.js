@@ -1710,6 +1710,8 @@
                 right = seg.isEnd ? dayContentRight(seg.start.getDay()) : maxLeft;
 
             }
+            className += event.assignmentCss + ' ';   // add assignment background
+            
             /**
              * this is where we construct the UI of the timeblocks
              */

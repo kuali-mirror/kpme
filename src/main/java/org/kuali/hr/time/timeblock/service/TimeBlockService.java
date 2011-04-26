@@ -1,6 +1,7 @@
 package org.kuali.hr.time.timeblock.service;
 
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.detail.web.TimeDetailActionForm;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
@@ -20,7 +21,7 @@ public interface TimeBlockService {
 	 * @param tsd
 	 * @return
 	 */
-	public String getTimeBlocksForOutput(TimesheetDocument tsd);
+	public String getTimeBlocksForOutput(TimeDetailActionForm from);
 	/**
 	 * Delete a given TimeBlock
 	 * @param timeBlock

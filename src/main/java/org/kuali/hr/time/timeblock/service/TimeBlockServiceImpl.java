@@ -8,6 +8,7 @@ import org.joda.time.MutableDateTime;
 import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.time.detail.web.TimeDetailActionForm;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
@@ -208,12 +209,26 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         return timeBlockDao.getTimeBlock(tkTimeBlockId);
     }
 
-    public String getTimeBlocksForOutput(TimesheetDocument tsd) {
+    public String getTimeBlocksForOutput(TimeDetailActionForm form) {
+    	TimesheetDocument tsd = form.getTimesheetDocument();
         List<TimeBlock> timeBlocks = new TkTimeBlockAggregate(tsd.getTimeBlocks(), tsd.getPayCalendarEntry()).getFlattenedTimeBlockList();
-        return JSONValue.toJSONString(getTimeBlocksJson(timeBlocks));
+      	form.setAssignStyleClassMap(buildAssignmentStyleClassMap(tsd));
+        return JSONValue.toJSONString(getTimeBlocksJson(timeBlocks, form.getAssignStyleClassMap()));
     }
+    
+    private Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd) {
+		Map<String, String> aMap = new HashMap<String, String>();
+		
+		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(tsd.getPrincipalId(), tsd.getAsOfDate());
+		for(int i = 0; i< assignments.size(); i++) {
+			AssignmentDescriptionKey aKey = new AssignmentDescriptionKey(assignments.get(i).getJobNumber(), 
+						assignments.get(i).getWorkArea(), assignments.get(i).getTask());			
+			aMap.put(aKey.toAssignmentKeyString(), "assignment"+ Integer.toString(i));
+		}
+		return aMap;
+	}
 
-    private List<Map<String, Object>> getTimeBlocksJson(List<TimeBlock> timeBlocks) {
+    private List<Map<String, Object>> getTimeBlocksJson(List<TimeBlock> timeBlocks, Map<String, String> aMap) {
 
         if (timeBlocks == null || timeBlocks.size() == 0) {
             return new ArrayList<Map<String, Object>>();
@@ -228,6 +243,12 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
             //String assignmentKey = TKUtils.formatAssignmentKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask());
             String workAreaDesc = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), new java.sql.Date(timeBlock.getEndTimestamp().getTime())).getDescription();
+ 
+            String cssClass = "";
+            if(aMap.containsKey(timeBlock.getAssignmentKey())) {
+            	cssClass = aMap.get(timeBlock.getAssignmentKey());
+            } 
+            timeBlockMap.put("assignmentCss", cssClass);
             
             // DateTime object in jodatime is immutable. If manipulation of a datetime obj is necessary, use MutableDateTime instead.
             MutableDateTime start = timeBlock.getBeginTimeDisplay().toMutableDateTime();

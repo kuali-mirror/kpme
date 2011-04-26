@@ -600,3 +600,53 @@ table.fc-header {
 	padding: 3px;
 	font-size: .9em;
 }
+
+/*	assignment background colors
+------------------------------------------------------------------------*/
+
+.assignment0 {
+	border-color: #006400; 
+	background-color: #006400;
+}
+.assignment1 {
+	border-color: #384C7A;     
+	background-color: #384C7A;
+}
+.assignment2 {
+	border-color: #8B2323;     
+	background-color: #8B2323;
+}
+.assignment3 {
+	border-color: #731D87;     
+	background-color: #731D87;
+}
+.assignment4 {
+	border-color: #085D60;    
+	background-color: #085D60;
+}
+.assignment5 {
+	border-color: #EE7621;     
+	background-color: #EE7621;
+}
+.assignment6 {
+	border-color: #0F157A;     
+	background-color: #0F157A;
+}
+.assignment7 {
+	border-color: #8470FF;    
+	background-color: #8470FF;
+}
+.assignment8 {
+	border-color: #8B5A2B;     
+	background-color: #8B5A2B;
+}
+.assignment9 {
+	border-color: #51193D;     
+	background-color: #51193D;
+}
+.assignment10 {
+	border-color: #8E8E38;    
+	background-color: #8E8E38;
+}
+
+

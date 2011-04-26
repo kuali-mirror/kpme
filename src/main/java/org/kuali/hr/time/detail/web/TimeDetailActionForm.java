@@ -9,7 +9,9 @@ import org.kuali.hr.time.util.TkConstants;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TimeDetailActionForm extends TimesheetActionForm {
 
@@ -37,6 +39,8 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	private String userTimezone;
 	
 	private TimeSummary timeSummary;
+	
+	private Map<String, String> assignStyleClassMap = new HashMap<String, String>();
 	
 	public String getOutputString() {
 		return outputString;
@@ -158,5 +162,13 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 
 	public void setWarningJason(String warningJason) {
 		this.warningJason = warningJason;
+	}
+
+	public Map<String, String> getAssignStyleClassMap() {
+		return assignStyleClassMap;
+	}
+
+	public void setAssignStyleClassMap(Map<String, String> assignStyleClassMap) {
+		this.assignStyleClassMap = assignStyleClassMap;
 	}
 }

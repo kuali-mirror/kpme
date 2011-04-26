@@ -88,7 +88,7 @@ public class TimeDetailAction extends TimesheetAction {
 
     public ActionForward getTimeBlocks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailActionForm timeDetailForm = (TimeDetailActionForm) form;
-        String timeBlockJson = TkServiceLocator.getTimeBlockService().getTimeBlocksForOutput(timeDetailForm.getTimesheetDocument());
+        String timeBlockJson = TkServiceLocator.getTimeBlockService().getTimeBlocksForOutput(timeDetailForm);
         timeDetailForm.setOutputString(timeBlockJson);
 
         return mapping.findForward("ws");
