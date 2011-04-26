@@ -15,7 +15,7 @@ public abstract class BatchJob {
 		if(lastPlace >=ip.length()){
 			lastPlace = 0;
 		}
-		return "";
+		return ip;
 	}
 	
 	protected abstract void populateBatchJobEntry();
