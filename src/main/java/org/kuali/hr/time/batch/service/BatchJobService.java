@@ -1,5 +1,7 @@
 package org.kuali.hr.time.batch.service;
 
+import org.kuali.hr.time.batch.BatchJob;
+
 /**
  * Created by IntelliJ IDEA.
  * User: kenneth
@@ -8,4 +10,10 @@ package org.kuali.hr.time.batch.service;
  * To change this template use File | Settings | File Templates.
  */
 public interface BatchJobService {
+	/**
+	 * Fetch a BatchJob by a given ID
+	 * @param batchJobId
+	 * @return
+	 */
+	public BatchJob getBatchJob(Long batchJobId);
 }
