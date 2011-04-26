@@ -148,6 +148,15 @@ public class TkConstants {
         CLOCK_ACTION_STRINGS.put(LUNCH_IN, "Lunch In"); // Coming back for Lunch
         CLOCK_ACTION_STRINGS.put(LUNCH_OUT, "Lunch Out"); // Going to Lunch
     }
+    
+
+    public static final class BATCH_JOB_ENTRY_STATUS
+    {
+        public static final String SCHEDULED = "S";
+        public static final String RUNNING = "R";
+        public static final String FINISHED = "F";
+    	
+    }
 
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";
     public static final String HOLIDAY_EARN_CODE = "HOL";
