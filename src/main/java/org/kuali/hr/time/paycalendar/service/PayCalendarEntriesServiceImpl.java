@@ -7,15 +7,15 @@ import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.paycalendar.dao.PayCalendarEntriesDao;
 
 public class PayCalendarEntriesServiceImpl implements PayCalendarEntriesService {
-	
+
 	private PayCalendarEntriesDao payCalendarEntriesDao;
-	
+
 	public void setPayCalendarEntriesDao(PayCalendarEntriesDao payCalendarEntriesDao) {
 		this.payCalendarEntriesDao = payCalendarEntriesDao;
 	}
-	
+
 	public PayCalendarEntries getPayCalendarEntries(Long payCalendarEntriesId) {
-		
+
 		return payCalendarEntriesDao.getPayCalendarEntries(payCalendarEntriesId);
 	}
 
@@ -24,9 +24,9 @@ public class PayCalendarEntriesServiceImpl implements PayCalendarEntriesService 
 			Long payCalendarId, Date currentDate) {
 		return payCalendarEntriesDao.getCurrentPayCalendarEntriesByPayCalendarId(payCalendarId, currentDate);
 	}
-	
-	public List<PayCalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(Date asOfDate){
-		return payCalendarEntriesDao.getCurrentPayCalendarEntryNeedsScheduled(asOfDate);
+
+	public List<PayCalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate){
+		return payCalendarEntriesDao.getCurrentPayCalendarEntryNeedsScheduled(thresholdDays, asOfDate);
 	}
-	
+
 }

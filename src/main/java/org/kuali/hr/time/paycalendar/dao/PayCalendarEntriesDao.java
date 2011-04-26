@@ -6,10 +6,10 @@ import java.util.List;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 
 public interface PayCalendarEntriesDao {
-	
+
 	public PayCalendarEntries getPayCalendarEntries(Long payCalendarEntriesId);
-	
+
 	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(Long payCalendarId, Date currentDate);
 
-	public List<PayCalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(Date asOfDate);
+	public List<PayCalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
 }
