@@ -11,11 +11,14 @@ public abstract class BatchJob {
 	public String getNextIpAddressInCluster(){
 		String clusterIps = ConfigContext.getCurrentContextConfig().getProperty("cluster.ips");
 		String[] ips = StringUtils.split(clusterIps,",");
-		String ip = ips[lastPlace++];
-		if(lastPlace >=ip.length()){
-			lastPlace = 0;
+		if(ips != null){
+			String ip = ips[lastPlace++];
+			if(lastPlace >=ip.length()){
+				lastPlace = 0;
+			}
+			return ip;
 		}
-		return ip;
+		return "";
 	}
 	
 	protected abstract void populateBatchJobEntry();
