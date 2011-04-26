@@ -751,7 +751,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.batch.BatchJob" table="tk_batch_job_t">
-		<field-descriptor name="batchId"     column="tk_batch_job_id" jdbc-type="BIGINT" length="20" nullable="false" autoincrement="true" primarykey="true" sequence-name="tk_batch_job_s"/>
+		<field-descriptor name="tkBatchJobId"     column="tk_batch_job_id" jdbc-type="BIGINT" length="20" nullable="false" autoincrement="true" primarykey="true" sequence-name="tk_batch_job_s"/>
 		<field-descriptor name="batchJobName"   column="batch_job_name" jdbc-type="VARCHAR" length="40"/>
 		<field-descriptor name="batchJobStatus" column="batch_job_status" jdbc-type="VARCHAR" length="1"/>
 		<field-descriptor name="payCalendarEntryId"   column="tk_pay_calendar_entry_id" jdbc-type="BIGINT" />
