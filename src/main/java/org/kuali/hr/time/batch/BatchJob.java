@@ -7,7 +7,7 @@ import org.kuali.rice.core.config.ConfigContext;
 
 public abstract class BatchJob {
 	int lastPlace = 0;
-	
+
 	private Long tkBatchJobId;
 	private String batchJobName;
 	private String batchJobStatus;
@@ -29,7 +29,7 @@ public abstract class BatchJob {
 		}
 		return "";
 	}
-	
+
 	protected abstract void populateBatchJobEntry();
 
 	public Long getTkBatchJobId() {

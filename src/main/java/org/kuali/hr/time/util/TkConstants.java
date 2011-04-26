@@ -148,14 +148,21 @@ public class TkConstants {
         CLOCK_ACTION_STRINGS.put(LUNCH_IN, "Lunch In"); // Coming back for Lunch
         CLOCK_ACTION_STRINGS.put(LUNCH_OUT, "Lunch Out"); // Going to Lunch
     }
-    
+
 
     public static final class BATCH_JOB_ENTRY_STATUS
     {
         public static final String SCHEDULED = "S";
         public static final String RUNNING = "R";
         public static final String FINISHED = "F";
-    	
+
+    }
+
+    public static final class BATCH_JOB_NAMES {
+        public static final String INITIATE = "Initiate";
+        public static final String APPROVE = "Approve";
+        public static final String PAY_PERIOD_END = "Pay Period End";
+        public static final String SUPERVISOR_APPROVAL = "Supervisor Approval";
     }
 
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";
