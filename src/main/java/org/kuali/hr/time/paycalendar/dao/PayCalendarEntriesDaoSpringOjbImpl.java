@@ -1,12 +1,13 @@
 package org.kuali.hr.time.paycalendar.dao;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
@@ -44,6 +45,14 @@ public class PayCalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		
 		PayCalendarEntries pce = (PayCalendarEntries)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 		return pce;
+	}
+	
+	public List<PayCalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(Date asOfDate){
+		List<PayCalendarEntries> lstPayCalendarEntries = new ArrayList<PayCalendarEntries>();
+		
+		//TODO write query to check each pay period time and return a list in the threshold
+		
+		return lstPayCalendarEntries;
 	}
 
 }

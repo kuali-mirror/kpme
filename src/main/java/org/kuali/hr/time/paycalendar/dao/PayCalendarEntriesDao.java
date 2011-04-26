@@ -1,6 +1,7 @@
 package org.kuali.hr.time.paycalendar.dao;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.List;
 
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 
@@ -10,4 +11,5 @@ public interface PayCalendarEntriesDao {
 	
 	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(Long payCalendarId, Date currentDate);
 
+	public List<PayCalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(Date asOfDate);
 }
