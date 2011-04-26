@@ -1,4 +1,7 @@
 <config>
+    <!-- cluster.ips : A comma separated list of TK servers that will be utilized
+         during batch job running. Machines are assigned round-robin. -->
+    <param name="cluster.ips">localhost</param>
     <param name="environment" override="false">dev</param><!-- set environment param here -->
     <param name="module.name">tk</param>
 	<param name="app.code">${module.name}</param>
@@ -7,7 +10,7 @@
 	<param name="config.dir">${user.home}/kuali/main/${environment}/settings/${module.name}</param>
 	<param name="kns.test.port">8090</param>
 	<param name="temp.dir">/temp</param>
-		
+
 	<param name="encryption.key">7IC64w6ksLU</param>
     <!-- <param name="security.dir">${user.home}/kuali/main/${environment}/security/${module.name}</param>-->
 	<!-- time params -->
@@ -46,7 +49,7 @@
 	<param name="tk.datasource.pool.maxWait">30000</param>
 	<param name="tk.datasource.pool.minSize">10</param>
 	<param name="tk.datasource.pool.maxSize">150</param>
-	  
+
 	<!-- end time database params -->
 
    	<!-- workflow database params -->
@@ -57,7 +60,7 @@
 	<param name="kr.datasource.pool.maxWait">30000</param>
 	<param name="kr.datasource.pool.minSize">10</param>
 	<param name="kr.datasource.pool.maxSize">100</param>
-	
+
 	<!-- end workflow database params -->
 
    	<!-- rice related params -->
@@ -66,7 +69,7 @@
 	<!-- end rice database params -->
 
 	<!-- workflow params -->
-	<!-- 
+	<!--
 	<param name="data.xml.root.location">/opt/ears/${environment}/en/xml</param>
 	<param name="data.xml.pending.location">${data.xml.root.location}/pending</param>
 	<param name="data.xml.loaded.location">${data.xml.root.location}/loaded</param>
@@ -118,7 +121,7 @@
     <param name="log.performance.time.ignore">100</param>
     <param name="log.performance.services">true</param>
 	<!-- end performance logging params -->
-	
+
 	<!--  crazy stuff -->
 	<param name="filter.login.class">org.kuali.hr.time.web.TkLoginFilter</param>
 	<param name="filtermapping.login.1">/*</param>
