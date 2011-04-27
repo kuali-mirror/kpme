@@ -758,5 +758,17 @@
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="timeElapsed"          column="time_elapsed"      jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.hr.time.batch.BatchJobEntry" table="tk_batch_job_entry_t">
+		<field-descriptor name="tkBatchJobEntryId"     column="tk_batch_job_entry_id" jdbc-type="BIGINT" length="20" nullable="false" autoincrement="true" primarykey="true" sequence-name="tk_batch_job_entry_s"/>
+		<field-descriptor name="tkBatchJobId"   column="tk_batch_job_id" jdbc-type="BIGINT" />
+		<field-descriptor name="tkPyCalendarEntryId"   column="tk_py_calendar_entry_id" jdbc-type="BIGINT" />
+		<field-descriptor name="documentId"   column="document_id" jdbc-type="BIGINT" />
+		<field-descriptor name="principal_id"   column="principal_id" jdbc-type="BIGINT" />
+		<field-descriptor name="batchJobEntryStatus" column="batch_job_entry_status" jdbc-type="VARCHAR" length="1"/>
+		<field-descriptor name="batchJobException" column="batch_job_exception" jdbc-type="VARCHAR" length="100"/>
+		<field-descriptor name="ipAddress" column="ip_address" jdbc-type="VARCHAR" length="20"/>
+		<field-descriptor name="batchJobName" column="batch_job_name" jdbc-type="VARCHAR" length="40"/>
+	</class-descriptor>
 
 </descriptor-repository>

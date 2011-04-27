@@ -406,6 +406,10 @@
 		<property name="jcdAlias" value="tkDataSource"/>
     </bean>
     
+    <bean id="batchJobEntryDao" class="org.kuali.hr.time.batch.dao.BatchJobEntryDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
 	<!-- Time Services for Business Logic -->
 
 	<bean id="deptLunchRuleService" class="org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleServiceImpl">
@@ -553,10 +557,14 @@
     	<property name="payGradeDao" ref="payGradeDao"/>
     </bean>
 
-   <bean id="batchJobService" class="org.kuali.hr.time.batch.service.BatchJobServiceImpl">
+    <bean id="batchJobService" class="org.kuali.hr.time.batch.service.BatchJobServiceImpl">
     	<property name="batchJobDao" ref="batchJobDao"/>
     </bean>
 
+	<bean id="batchJobEntryService" class="org.kuali.hr.time.batch.service.BatchJobEntryServiceImpl">
+    	<property name="batchJobEntryDao" ref="batchJobEntryDao"/>
+    </bean>
+    
     <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>
 
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
