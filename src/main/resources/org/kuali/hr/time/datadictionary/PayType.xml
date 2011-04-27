@@ -197,6 +197,7 @@
                 <bean parent="FieldDefinition" p:attributeName="descr" />
                 <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
                 <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+                <bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<property name="resultFields">
