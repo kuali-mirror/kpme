@@ -95,7 +95,7 @@ public class TkConstants {
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_GLOBAL_VO, "Global View Only"); // can see everything in the system, but not modify
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_DEPT_VO,   "Department View Only"); // can only see objects belonging to a department
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_APPROVER,  "Approver"); // attach at 'work area', view only departmental rules
-    	//ALL_ROLES_MAP.put(TkConstants.ROLE_TK_EMPLOYEE,  "Employee"); // only people with active assignments have this role.
+    	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_EMPLOYEE,  "Employee"); // only people with active assignments have this role.
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_ORG_ADMIN, "Org Admin"); // chart admin rename
         ALL_ROLES_MAP.put(TkConstants.ROLE_TK_PROCESSOR, "Processor"); // attaches at department or work area level
         ALL_ROLES_MAP.put(TkConstants.ROLE_TK_SYS_ADMIN, "System Admin");
