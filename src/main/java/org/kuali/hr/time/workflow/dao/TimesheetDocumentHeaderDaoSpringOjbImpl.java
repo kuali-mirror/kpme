@@ -1,12 +1,15 @@
 package org.kuali.hr.time.workflow.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-
-import java.util.Date;
 
 public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements TimesheetDocumentHeaderDao {
 
@@ -61,5 +64,19 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PersistenceBrokerDa
         query.setEndAtIndex(1);
 
         return (TimesheetDocumentHeader) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+    }
+    
+    public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate) {
+        Criteria crit = new Criteria();
+        List<TimesheetDocumentHeader> lstDocumentHeaders = new ArrayList<TimesheetDocumentHeader>();
+        
+        crit.addEqualTo("payBeginDate", payBeginDate);
+        QueryByCriteria query = new QueryByCriteria(TimesheetDocumentHeader.class, crit);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if(c!= null){
+        	lstDocumentHeaders.addAll(c);
+        }
+        return lstDocumentHeaders;
+        
     }
 }

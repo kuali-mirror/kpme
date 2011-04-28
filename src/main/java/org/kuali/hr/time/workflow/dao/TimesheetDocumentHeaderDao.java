@@ -3,6 +3,7 @@ package org.kuali.hr.time.workflow.dao;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 import java.util.Date;
+import java.util.List;
 
 public interface TimesheetDocumentHeaderDao {
 
@@ -15,4 +16,6 @@ public interface TimesheetDocumentHeaderDao {
 	public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, Date payBegindate);
 
     public TimesheetDocumentHeader getNextDocumentHeader(String principalId, Date payEndDate);
+    
+    public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate);
 }

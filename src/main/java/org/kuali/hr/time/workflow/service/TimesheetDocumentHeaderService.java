@@ -3,6 +3,7 @@ package org.kuali.hr.time.workflow.service;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 import java.util.Date;
+import java.util.List;
 
 public interface TimesheetDocumentHeaderService {
 	/**
@@ -39,4 +40,6 @@ public interface TimesheetDocumentHeaderService {
      * @return
      */
     TimesheetDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId, String documentId);
+    
+    public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate);
 }
