@@ -756,7 +756,7 @@
 		<field-descriptor name="batchJobStatus" column="batch_job_status" jdbc-type="VARCHAR" length="1"/>
 		<field-descriptor name="payCalendarEntryId"   column="tk_pay_calendar_entry_id" jdbc-type="BIGINT" />
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
-		<field-descriptor name="timeElapsed"          column="time_elapsed"      jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="timeElapsed"          column="time_elapsed"      jdbc-type="BIGINT" />
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.hr.time.batch.BatchJobEntry" table="tk_batch_job_entry_t">
