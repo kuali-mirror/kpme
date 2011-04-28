@@ -1,11 +1,10 @@
 package org.kuali.hr.time.batch;
 
 import java.sql.Timestamp;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.config.ConfigContext;
 
-public abstract class BatchJob {
+public class BatchJob {
 	int lastPlace = 0;
 
 	private Long tkBatchJobId;
@@ -15,7 +14,9 @@ public abstract class BatchJob {
 	private Long timeElapsed;
 	private Timestamp timestamp;
 	
-	public abstract void runJob();
+	public void runJob(){
+		
+	}
 
 	public String getNextIpAddressInCluster(){
 		String clusterIps = ConfigContext.getCurrentContextConfig().getProperty("cluster.ips");
@@ -30,7 +31,9 @@ public abstract class BatchJob {
 		return "";
 	}
 
-	protected abstract void populateBatchJobEntry(Object o);
+	protected void populateBatchJobEntry(Object o){
+		
+	}
 
 	public Long getTkBatchJobId() {
 		return tkBatchJobId;
@@ -79,4 +82,6 @@ public abstract class BatchJob {
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
+	
+	
 }
