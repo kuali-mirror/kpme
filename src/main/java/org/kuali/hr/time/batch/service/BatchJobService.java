@@ -21,4 +21,6 @@ public interface BatchJobService {
     public List<BatchJob> getBatchJobs(Long payCalendarEntryId);
 
     public List<BatchJob> getBatchJobs(Long payCalendarEntryId, String batchJobStatus);
+    
+    public void saveBatchJob(BatchJob batchJob);
 }

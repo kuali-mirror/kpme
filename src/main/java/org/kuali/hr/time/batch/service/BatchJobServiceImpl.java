@@ -25,4 +25,9 @@ public class BatchJobServiceImpl implements BatchJobService {
     public List<BatchJob> getBatchJobs(Long payCalendarEntryId, String batchJobStatus) {
         return batchJobDao.getPayCalendarEntries(payCalendarEntryId, batchJobStatus);
     }
+    
+    @Override
+    public void saveBatchJob(BatchJob batchJob) {
+    	this.batchJobDao.saveOrUpdate(batchJob);
+    }
 }

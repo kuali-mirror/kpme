@@ -8,6 +8,7 @@ import org.kuali.hr.time.accrual.service.TimeOffAccrualService;
 import org.kuali.hr.time.approval.service.TimeApproveService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
+import org.kuali.hr.time.batch.service.BatchJobEntryService;
 import org.kuali.hr.time.batch.service.BatchJobService;
 import org.kuali.hr.time.cache.CacheManagementService;
 import org.kuali.hr.time.clock.location.service.ClockLocationRuleService;
@@ -96,6 +97,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_USER_SERVICE = "userService";
     public static final String TK_APPROVE_SERVICE = "timeApproveService";
     public static final String TK_BATCH_JOB_SERVICE = "batchJobService";
+    public static final String TK_BATCH_JOB_ENTRY_SERVICE = "batchJobEntryService";
 
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -283,6 +285,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static BatchJobService getBatchJobService(){
 		return (BatchJobService)CONTEXT.getBean(TK_BATCH_JOB_SERVICE);
+	}
+	
+	public static BatchJobEntryService getBatchJobEntryService(){
+		return (BatchJobEntryService)CONTEXT.getBean(TK_BATCH_JOB_ENTRY_SERVICE);
 	}
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
