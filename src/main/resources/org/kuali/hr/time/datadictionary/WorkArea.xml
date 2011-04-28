@@ -185,8 +185,8 @@
   <bean id="WorkArea-task-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Task"/>
     <property name="maxLength" value="7"/>
-    <property name="Earn Code Group DefinitionPattern">
-        <bean parent="NumericEarn Code Group DefinitionPattern"/>
+    <property name="validationPattern">
+        <bean parent="AlphaNumericValidationPattern"/>
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
