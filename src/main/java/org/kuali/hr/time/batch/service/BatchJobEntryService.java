@@ -1,5 +1,7 @@
 package org.kuali.hr.time.batch.service;
 
+import java.util.List;
+
 import org.kuali.hr.time.batch.BatchJobEntry;
 
 public interface BatchJobEntryService {
@@ -10,4 +12,7 @@ public interface BatchJobEntryService {
 	 */
 	public BatchJobEntry getBatchJobEntry(Long batchJobEntryId);
 
+	public void saveBatchJobEntry(BatchJobEntry batchJobEntry);
+	
+	public List<BatchJobEntry> getBatchJobEntries(Long batchJobId);
 }
