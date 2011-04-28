@@ -276,7 +276,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="earnCode" />
         <bean parent="FieldDefinition" p:attributeName="description" />
-        <bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
+        <bean parent="FieldDefinition" p:attributeName="ovtEarnCode" p:defaultValue="Y"/>
         <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
         <bean parent="FieldDefinition" p:attributeName="active" />
         <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
