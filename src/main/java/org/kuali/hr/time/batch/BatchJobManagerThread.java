@@ -5,45 +5,66 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 public class BatchJobManagerThread extends Thread {
+    private static final Logger LOG = Logger.getLogger(BatchJobManagerThread.class);
+
 	//This represents a number of days on both sides of today
 	public static int numOfDaysToPoll = 30;
+    public static int secondsToSleep = 120;
+    public static int startupSleep = 120;
 
 	@Override
 	public void run() {
-		Date asOfDate = TKUtils.getCurrentDate();
-		List<PayCalendarEntries> payCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntryNeedsScheduled(numOfDaysToPoll, asOfDate);
 
-        List<BatchJob> jobsToRun = new ArrayList<BatchJob>();
-        for(PayCalendarEntries payCalendarEntry: payCalendarEntries){
-			//Compare against each batch job column and make the associated job entry if needed
-			//Write a query that checks table for the batch job and the pay calendar entry id
-            List<BatchJob> batchJobs = TkServiceLocator.getBatchJobService().getBatchJobs(payCalendarEntry.getPayCalendarEntriesId());
+        try {
+            Thread.sleep(1000 * startupSleep);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
 
-            if ((payCalendarEntry.getBatchInitiateDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.INITIATE)) ) {
-                // TODO: Create Initiate Job
+        while (true) {
+            Date asOfDate = TKUtils.getCurrentDate();
+            List<PayCalendarEntries> payCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntryNeedsScheduled(numOfDaysToPoll, asOfDate);
+
+            LOG.info("Scanning for batch jobs to run: ("+asOfDate.toString()+")");
+
+            List<BatchJob> jobsToRun = new ArrayList<BatchJob>();
+            for(PayCalendarEntries payCalendarEntry: payCalendarEntries){
+
+                List<BatchJob> batchJobs = TkServiceLocator.getBatchJobService().getBatchJobs(payCalendarEntry.getPayCalendarEntriesId());
+
+                if ((payCalendarEntry.getBatchInitiateDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.INITIATE)) ) {
+                    // TODO: Create Initiate Job
+                }
+
+                if ((payCalendarEntry.getBatchEmployeeApprovalDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.APPROVE)) ) {
+                    // TODO: Approval Job
+                }
+
+                if ((payCalendarEntry.getBatchEndPayPeriodDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END)) ) {
+                    // TODO: Create Pay Period End Job
+                }
+
+                if ((payCalendarEntry.getBatchSupervisorApprovalDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL)) ) {
+                    // TODO: Create supervisor approval Job
+                }
             }
 
-            if ((payCalendarEntry.getBatchEmployeeApprovalDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.APPROVE)) ) {
-                // TODO: Approval Job
+            for (BatchJob job : jobsToRun) {
+                job.runJob();
             }
 
-            if ((payCalendarEntry.getBatchEndPayPeriodDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END)) ) {
-                // TODO: Create Pay Period End Job
+            try {
+                Thread.sleep(1000 * secondsToSleep);
+            } catch (Exception e) {
+                LOG.error(e);
             }
-
-            if ((payCalendarEntry.getBatchSupervisorApprovalDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL)) ) {
-                // TODO: Create supervisor approval Job
-            }
-		}
-
-        for (BatchJob job : jobsToRun) {
-            job.runJob();
         }
 	}
 
