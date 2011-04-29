@@ -14,103 +14,119 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import java.sql.Date;
 import java.util.List;
 
-public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
+public class WorkAreaMaintenanceDocumentRule extends
+		MaintenanceDocumentRuleBase {
 
-	private static Logger LOG = Logger.getLogger(WorkAreaMaintenanceDocumentRule.class);
+	private static Logger LOG = Logger
+			.getLogger(WorkAreaMaintenanceDocumentRule.class);
 
-    boolean validateDepartment(String dept, Date asOfDate) {
-        boolean valid = ValidationUtils.validateDepartment(dept, asOfDate);
-        if (!valid) {
-            this.putFieldError("dept", "dept.notfound");
-        }
-        return valid;
-    }
+	boolean validateDepartment(String dept, Date asOfDate) {
+		boolean valid = ValidationUtils.validateDepartment(dept, asOfDate);
+		if (!valid) {
+			this.putFieldError("dept", "dept.notfound");
+		}
+		return valid;
+	}
 
-    boolean validateRoles(List<TkRole> roles) {
-        boolean valid = false;
+	boolean validateRoles(List<TkRole> roles) {
+		boolean valid = false;
 
-        if (roles != null && roles.size() > 0) {
-            for (TkRole role : roles) {
-                valid |= role.isActive() && StringUtils.equals(role.getRoleName(), TkConstants.ROLE_TK_APPROVER);
-            }
-        }
+		if (roles != null && roles.size() > 0) {
+			for (TkRole role : roles) {
+				valid |= role.isActive()
+						&& StringUtils.equals(role.getRoleName(),
+								TkConstants.ROLE_TK_APPROVER);
+			}
+		}
 
-        if (!valid) {
-            this.putGlobalError("role.required");
-        }
+		if (!valid) {
+			this.putGlobalError("role.required");
+		}
 
-        return valid;
-    }
+		return valid;
+	}
 
-    boolean validateTask(List<TkRole> roles) {
-        boolean valid = false;
+	boolean validateTask(List<TkRole> roles) {
+		boolean valid = false;
 
-        if (roles != null && roles.size() > 0) {
-            for (TkRole role : roles) {
-                valid |= role.isActive() && StringUtils.equals(role.getRoleName(), TkConstants.ROLE_TK_APPROVER);
-            }
-        }
+		if (roles != null && roles.size() > 0) {
+			for (TkRole role : roles) {
+				valid |= role.isActive()
+						&& StringUtils.equals(role.getRoleName(),
+								TkConstants.ROLE_TK_APPROVER);
+			}
+		}
 
-        if (!valid) {
-            this.putGlobalError("role.required");
-        }
+		if (!valid) {
+			this.putGlobalError("role.required");
+		}
 
-        return valid;
-    }
+		return valid;
+	}
 
-    boolean validateTask(Task task, List<Task> tasks) {
-        boolean valid = true;
-        for(Task t:tasks){
-        	if(t.getTask().equals(task.getTask())){
-        		this.putGlobalError("error.duplicate.entry", "task '"
-    					+ task.getTask() + "'");
-        		valid = false;
-        	}
-        }
-        return valid;
-    }
+	boolean validateTask(Task task, List<Task> tasks) {
+		boolean valid = true;
+		for (Task t : tasks) {
+			if (t.getTask().equals(task.getTask())) {
+				this.putGlobalError("error.duplicate.entry", "task '"
+						+ task.getTask() + "'");
+				valid = false;
+			}
+		}
+		return valid;
+	}
 
-    boolean validateDefaultOTEarnCode(String earnCode, Date asOfDate) {
-        boolean valid = ValidationUtils.validateEarnCode(earnCode, true, asOfDate);
+	boolean validateDefaultOTEarnCode(String earnCode, Date asOfDate) {
+		boolean valid = ValidationUtils.validateEarnCode(earnCode, true,
+				asOfDate);
 
-        if (!valid) {
-            this.putFieldError("defaultOvertimeEarnCode", "earncode.ovt.notfound", earnCode);
-        }
+		if (!valid) {
+			this.putFieldError("defaultOvertimeEarnCode",
+					"earncode.ovt.notfound", earnCode);
+		}
 
-        return valid;
-    }
+		return valid;
+	}
 
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        boolean valid = false;
+	protected boolean processCustomSaveDocumentBusinessRules(
+			MaintenanceDocument document) {
+		boolean valid = false;
 
-        PersistableBusinessObject pbo = this.getNewBo();
-        if (pbo instanceof WorkArea) {
-            WorkArea wa = (WorkArea) pbo;
-            valid = validateDepartment(wa.getDept(), wa.getEffectiveDate());
-            valid &= validateRoles(wa.getRoles());
-            valid &= validateDefaultOTEarnCode(wa.getDefaultOvertimeEarnCode(), wa.getEffectiveDate());
-        }
+		PersistableBusinessObject pbo = this.getNewBo();
+		if (pbo instanceof WorkArea) {
+			WorkArea wa = (WorkArea) pbo;
+			valid = validateDepartment(wa.getDept(), wa.getEffectiveDate());
+			valid &= validateRoles(wa.getRoles());
+			valid &= validateDefaultOTEarnCode(wa.getDefaultOvertimeEarnCode(),
+					wa.getEffectiveDate());
+		}
 
-        return valid;
+		return valid;
 	}
-	
+
 	@Override
 	public boolean processCustomAddCollectionLineBusinessRules(
 			MaintenanceDocument document, String collectionName,
 			PersistableBusinessObject line) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Task");
-		PersistableBusinessObject pboWorkArea = document.getDocumentBusinessObject();
+		PersistableBusinessObject pboWorkArea = document
+				.getDocumentBusinessObject();
 		PersistableBusinessObject pbo = line;
 		if (pbo instanceof Task && pboWorkArea instanceof WorkArea) {
 			WorkArea wa = (WorkArea) pboWorkArea;
 			Task task = (Task) pbo;
-			if (task != null && wa.getTasks()!=null) {
+			if (task != null && wa.getTasks() != null) {
 				valid = true;
 				valid &= this.validateTask(task, wa.getTasks());
 			}
-		}else if((pbo instanceof TkRole && pboWorkArea instanceof WorkArea)){
+		} else if ((pbo instanceof TkRole && pboWorkArea instanceof WorkArea)) {
+			TkRole tkRole = (TkRole) pbo;
+			WorkArea wa = (WorkArea) pboWorkArea;
+			if (wa.getEffectiveDate() != null) {
+				tkRole.setEffectiveDate(wa.getEffectiveDate());
+			}
 			valid = true;
 		}
 		return valid;

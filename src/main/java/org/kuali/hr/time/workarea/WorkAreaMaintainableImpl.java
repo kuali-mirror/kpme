@@ -11,8 +11,6 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.Section;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,11 +33,16 @@ public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 
 		List<Task> tasks = workArea.getTasks();
 
+		for (Task task : tasks) {
+			task.setEffectiveDate(workArea.getEffectiveDate());
+		}
 		for (TkRole role : roles) {
 			role.setWorkArea(workArea.getWorkArea());
 			role.setUserPrincipalId(TKContext.getPrincipalId());
+			role.setEffectiveDate(workArea.getEffectiveDate());
 		}
-
+		
+		workArea.setTasks(tasks);
 		workArea.setRoles(roles);
 		KNSServiceLocator.getBusinessObjectService().save(workArea);
 		TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
