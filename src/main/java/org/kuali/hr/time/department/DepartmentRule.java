@@ -92,6 +92,22 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 	}
 
 	@Override
+	public boolean processCustomAddCollectionLineBusinessRules(
+			MaintenanceDocument document, String collectionName,
+			PersistableBusinessObject line) {
+		PersistableBusinessObject pbo = document.getDocumentBusinessObject();
+		if (line instanceof TkRole && pbo instanceof Department) {
+			TkRole role = (TkRole) line;
+			Department department = (Department) pbo;
+			if (department.getEffectiveDate() != null) {
+				role.setEffectiveDate(department.getEffectiveDate());
+			}
+		}
+		return super.processCustomAddCollectionLineBusinessRules(document,
+				collectionName, line);
+	}
+
+	@Override
 	protected boolean processCustomApproveDocumentBusinessRules(
 			MaintenanceDocument document) {
 		return super.processCustomApproveDocumentBusinessRules(document);

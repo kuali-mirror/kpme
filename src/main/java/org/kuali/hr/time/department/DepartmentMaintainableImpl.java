@@ -23,6 +23,7 @@ public class DepartmentMaintainableImpl extends KualiMaintainableImpl {
 		for(TkRole role : roles) {
 			role.setDepartment(dept.getDept());
 			role.setUserPrincipalId(TKContext.getPrincipalId());
+			role.setEffectiveDate(dept.getEffectiveDate());
 		}
 
 		dept.setRoles(roles);
