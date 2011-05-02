@@ -34,7 +34,7 @@
     <property name="formatterClass"
 			value=" org.kuali.rice.kns.web.format.BigDecimalFormatter" />
     <property name="name" value="hourFactor"/>
-    <property name="label" value="Hour Factor"/>
+    <property name="label" value="Hour Factor (0.00)"/>
   </bean>
 
 
