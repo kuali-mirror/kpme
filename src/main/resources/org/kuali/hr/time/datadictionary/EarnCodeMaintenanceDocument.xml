@@ -42,8 +42,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="recordAmount" 		p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="active"   		p:required="true" p:defaultValue="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accrualCategory" p:required="false"/>
-        <bean parent="MaintainableFieldDefinition" p:name="inflateMinHours" p:required="false"/>
-        <bean parent="MaintainableFieldDefinition" p:name="inflateFactor" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="inflateMinHours" p:required="true" p:defaultValue="0"/>
+        <bean parent="MaintainableFieldDefinition" p:name="inflateFactor" p:required="true" p:defaultValue="1.0"/>
       </list>
     </property>
   </bean>
