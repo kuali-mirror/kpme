@@ -133,6 +133,121 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 
         return roles;
     }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<TkRole> findInActiveRoles(String principalId, Date asOfDate, String roleName, Long workArea, String department, String chart) {
+    	List<TkRole> roles = new ArrayList<TkRole>();
+    	
+    	Criteria root = new Criteria();
+    	Criteria effdt = new Criteria();
+    	Criteria timestamp = new Criteria();
+    	ReportQueryByCriteria effdtSubQuery;
+    	ReportQueryByCriteria timestampSubQuery;
+    	
+    	effdt.addEqualToField("roleName", Criteria.PARENT_QUERY_PREFIX + "roleName");
+    	effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+    	effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+    	
+    	// EFFECTIVE DATE --
+    	
+    	// Adding criteria to nest an AND that has multiple ORs to select
+    	// the correct ID / date combination.
+    	Criteria orWrapperEd = new Criteria();
+    	Criteria nstWaEd = new Criteria();
+    	Criteria nstDptEd = new Criteria();
+    	Criteria nstChrEd = new Criteria();
+    	
+    	// Inner AND to allow for all null chart/dept/work area
+    	Criteria nullAndWrapper = new Criteria();
+    	nullAndWrapper.addIsNull("workArea");
+    	nullAndWrapper.addIsNull("department");
+    	nullAndWrapper.addIsNull("chart");
+    	
+    	nstWaEd.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea"); // OR
+    	nstDptEd.addEqualToField("department", Criteria.PARENT_QUERY_PREFIX + "department"); // OR
+    	nstChrEd.addEqualToField("chart", Criteria.PARENT_QUERY_PREFIX + "chart"); // OR
+    	orWrapperEd.addOrCriteria(nstWaEd);
+    	orWrapperEd.addOrCriteria(nstDptEd);
+    	orWrapperEd.addOrCriteria(nstChrEd);
+    	
+    	// Inner AND to allow for all null chart/dept/work area
+    	orWrapperEd.addOrCriteria(nullAndWrapper);
+    	
+    	// Add the inner OR criteria to effective date
+    	effdt.addAndCriteria(orWrapperEd);
+    	
+    	effdtSubQuery = QueryFactory.newReportQuery(TkRole.class, effdt);
+    	effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+    	
+    	
+    	// TIMESTAMP --
+    	
+    	//Configure the actual "criteria" in the where clause
+    	timestamp.addEqualToField("roleName", Criteria.PARENT_QUERY_PREFIX + "roleName");
+    	timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+    	timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+    	
+    	// Adding criteria to nest an AND that has multiple ORs to select
+    	// the correct ID / date combination.
+    	orWrapperEd = new Criteria();
+    	nstWaEd = new Criteria();
+    	nstDptEd = new Criteria();
+    	nstChrEd = new Criteria();
+    	
+    	// Inner AND to allow for all null chart/dept/work area
+    	nullAndWrapper = new Criteria();
+    	nullAndWrapper.addIsNull("workArea");
+    	nullAndWrapper.addIsNull("department");
+    	nullAndWrapper.addIsNull("chart");
+    	
+    	nstWaEd.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea"); // OR
+    	nstDptEd.addEqualToField("department", Criteria.PARENT_QUERY_PREFIX + "department"); // OR
+    	nstChrEd.addEqualToField("chart", Criteria.PARENT_QUERY_PREFIX + "chart"); // OR
+    	orWrapperEd.addOrCriteria(nstWaEd);
+    	orWrapperEd.addOrCriteria(nstDptEd);
+    	orWrapperEd.addOrCriteria(nstChrEd);
+    	
+    	// Inner AND to allow for all null chart/dept/work area
+    	orWrapperEd.addOrCriteria(nullAndWrapper);
+    	
+    	// Add the inner OR criteria to effective date
+    	timestamp.addAndCriteria(orWrapperEd);
+    	
+    	timestampSubQuery = QueryFactory.newReportQuery(TkRole.class, timestamp);
+    	timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+    	
+    	
+    	// Filter by Max(EffDt) / Max(Timestamp)
+    	root.addEqualTo("effectiveDate", effdtSubQuery);
+    	root.addEqualTo("timestamp", timestampSubQuery);
+    	
+    	// Optional ROOT criteria added :
+    	if (workArea != null)
+    		root.addEqualTo("workArea", workArea);
+    	if (department != null)
+    		root.addEqualTo("department", department);
+    	if (chart != null)
+    		root.addEqualTo("chart", chart);
+    	if (roleName != null)
+    		root.addEqualTo("roleName", roleName);
+    	if (principalId != null)
+    		root.addEqualTo("principalId", principalId);
+    	
+    	 // Filter for ACTIVE = 'N'
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", false);
+        root.addAndCriteria(activeFilter);
+    	
+    	Query query = QueryFactory.newQuery(TkRole.class, root);
+    	Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    	
+    	if (c != null) {
+    		roles.addAll(c);
+    	}
+    	
+    	return roles;
+    }
 
 	public List<TkRole> findRoles2(Long workArea, String department, String roleName, Date asOfDate, String principalId) {
 		List<TkRole> roles = new ArrayList<TkRole>();

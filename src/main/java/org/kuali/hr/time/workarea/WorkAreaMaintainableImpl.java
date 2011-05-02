@@ -59,20 +59,6 @@ public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 		TkServiceLocator.getWorkAreaService().populateWorkAreaRoles(waOld);
 		TkServiceLocator.getWorkAreaService().populateWorkAreaRoles(waNew);
 
-		WorkArea workArea = (WorkArea) document.getDocumentBusinessObject();
-		List<TkRole> roles = new ArrayList<TkRole>();
-		List<TkRole> inactiveRoles = new ArrayList<TkRole>();
-		for (TkRole role : workArea.getRoles()) {
-			if (role.isActive()) {
-				roles.add(role);
-			} else {
-				inactiveRoles.add(role);
-			}
-		}
-		workArea.setRoles(roles);
-		workArea.setInactiveRoles(inactiveRoles);
-		document.getOldMaintainableObject().setBusinessObject(workArea);
-		
 		super.processAfterEdit(document, parameters);
 	}
 

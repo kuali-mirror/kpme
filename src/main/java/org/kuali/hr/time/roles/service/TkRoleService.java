@@ -30,6 +30,14 @@ public interface TkRoleService {
 	 */
 	public List<TkRole> getWorkAreaRoles(Long workArea, String roleName, Date asOfDate);
 	/**
+	 * Fetch all Inactive Roles for a given work area and role name as of a particular date
+	 * @param workArea
+	 * @param roleName
+	 * @param asOfDate
+	 * @return
+	 */
+	public List<TkRole> getInActiveWorkAreaRoles(Long workArea, String roleName, Date asOfDate);
+	/**
 	 * Fetch all Roles for a given Work Area as of a particular date
 	 * @param workArea
 	 * @param asOfDate
