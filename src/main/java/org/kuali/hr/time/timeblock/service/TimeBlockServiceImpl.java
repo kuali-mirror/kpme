@@ -218,13 +218,20 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     
     private Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd) {
 		Map<String, String> aMap = new HashMap<String, String>();
-		
+		List<String> assignmentKeys = new ArrayList<String> ();
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(tsd.getPrincipalId(), tsd.getAsOfDate());
-		for(int i = 0; i< assignments.size(); i++) {
-			AssignmentDescriptionKey aKey = new AssignmentDescriptionKey(assignments.get(i).getJobNumber(), 
-						assignments.get(i).getWorkArea(), assignments.get(i).getTask());			
-			aMap.put(aKey.toAssignmentKeyString(), "assignment"+ Integer.toString(i));
+		
+		for(Assignment assignment: assignments) {
+			AssignmentDescriptionKey aKey = new AssignmentDescriptionKey(assignment.getJobNumber(), 
+					assignment.getWorkArea(), assignment.getTask());	
+			assignmentKeys.add(aKey.toAssignmentKeyString());
 		}
+		Collections.sort(assignmentKeys);
+		
+		for(int i = 0; i< assignmentKeys.size(); i++) {
+			aMap.put(assignmentKeys.get(i), "assignment"+ Integer.toString(i));
+		}
+		
 		return aMap;
 	}
 
