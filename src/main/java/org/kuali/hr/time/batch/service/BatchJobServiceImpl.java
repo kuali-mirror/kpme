@@ -30,4 +30,5 @@ public class BatchJobServiceImpl implements BatchJobService {
     public void saveBatchJob(BatchJob batchJob) {
     	this.batchJobDao.saveOrUpdate(batchJob);
     }
+
 }

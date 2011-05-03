@@ -42,6 +42,7 @@ public class TimeDetailAction extends TimesheetAction {
         tdaf.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument(), timeBlocks));
 
         this.validateHourLimit(tdaf);
+        
 
         // for visually impaired users
         // TimesheetDocument td = tdaf.getTimesheetDocument();

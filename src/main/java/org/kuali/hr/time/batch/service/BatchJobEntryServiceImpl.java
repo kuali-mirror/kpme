@@ -1,9 +1,10 @@
 package org.kuali.hr.time.batch.service;
 
-import java.util.List;
-
 import org.kuali.hr.time.batch.BatchJobEntry;
 import org.kuali.hr.time.batch.dao.BatchJobEntryDao;
+
+import java.util.List;
+import java.util.Map;
 
 public class BatchJobEntryServiceImpl implements BatchJobEntryService {
     private BatchJobEntryDao batchJobEntryDao;
@@ -30,5 +31,10 @@ public class BatchJobEntryServiceImpl implements BatchJobEntryService {
     @Override
     public List<BatchJobEntry> getBatchJobEntries(String ip, String status) {
        return batchJobEntryDao.getBatchJobEntries(ip, status);
+    }
+    
+    @Override
+    public List<BatchJobEntry> getBatchJobEntries(Map<String, Object> criteria) {
+        return batchJobEntryDao.getBatchJobEntries(criteria);
     }
 }

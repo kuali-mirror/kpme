@@ -1,14 +1,16 @@
 package org.kuali.hr.time.batch.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.batch.BatchJobEntry;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class BatchJobEntryDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements BatchJobEntryDao {
 
@@ -43,6 +45,29 @@ public class BatchJobEntryDaoSpringOjbImpl extends PersistenceBrokerDaoSupport i
         Criteria root = new Criteria();
         root.addEqualTo("ipAddress", ip);
         root.addEqualTo("batchJobEntryStatus", status);
+        Query query = QueryFactory.newQuery(BatchJobEntry.class, root);
+
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        List<BatchJobEntry> entries = new ArrayList<BatchJobEntry>();
+        entries.addAll(c);
+
+        return entries;
+    }
+    
+    @Override
+    public List<BatchJobEntry> getBatchJobEntries(Map<String, Object> criteria) {
+        Criteria root = new Criteria();
+        for (Map.Entry<String, Object> crit : criteria.entrySet()) {
+            if(crit.getValue() != null){
+                if(StringUtils.equals("ipAddress", crit.getKey()) || StringUtils.equals("batchJobName", crit.getKey())) {
+                    root.addLike(crit.getKey(), "%" + crit.getValue() + "%");
+                }
+                else {
+                    root.addEqualTo(crit.getKey(), crit.getValue());
+                }
+            }
+        }
+
         Query query = QueryFactory.newQuery(BatchJobEntry.class, root);
 
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);

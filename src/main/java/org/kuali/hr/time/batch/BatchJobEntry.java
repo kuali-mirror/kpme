@@ -62,7 +62,7 @@ public class BatchJobEntry {
 	public void setPayCalendarId(Long payCalendarEntryId) {
 		this.payCalendarEntryId = payCalendarEntryId;
 	}
-	public Long getPayCalendarId() {
+	public Long getPayCalendarEntryId() {
 		return payCalendarEntryId;
 	}
 }
