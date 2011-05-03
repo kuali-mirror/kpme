@@ -12,7 +12,7 @@ public class InitiateBatchJobRunnable extends BatchJobEntryRunnable {
     }
 
 	@Override
-	public void run() {
+	public void doWork() {
 		BatchJobEntry initiateBatchJobEntry = TkServiceLocator.getBatchJobEntryService().getBatchJobEntry(getTkBatchJobEntryId());
 		String principalId = initiateBatchJobEntry.getPrincipalId();
 		Long payCalendarId = initiateBatchJobEntry.getPayCalendarEntryId();

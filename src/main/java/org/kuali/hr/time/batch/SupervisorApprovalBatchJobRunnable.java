@@ -11,7 +11,7 @@ public class SupervisorApprovalBatchJobRunnable extends BatchJobEntryRunnable  {
     }
 
     @Override
-    public void run() {
+    public void doWork() {
 
     }
 }

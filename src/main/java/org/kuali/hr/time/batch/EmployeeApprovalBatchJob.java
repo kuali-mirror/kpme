@@ -20,16 +20,13 @@ public class EmployeeApprovalBatchJob extends BatchJob {
     }
 
 	@Override
-	public void runJob() {
-		LOG.info("Running employee approval batch job");
+	public void doWork() {
 		Date payBeginDate = payCalendarEntry.getBatchEmployeeApprovalDate();
 		//TODO populate pay begin date here
 		List<TimesheetDocumentHeader> documentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(payBeginDate);
 		for(TimesheetDocumentHeader timesheetDocumentHeader : documentHeaders){
 			populateBatchJobEntry(timesheetDocumentHeader);
 		}
-
-		LOG.info("Finished employee approval batch job");
 	}
 
 	@Override

@@ -32,11 +32,8 @@ public class BatchJobEntryPoller extends Thread  {
     		    //Find any jobs for this ip address that have a status of S
                 List<BatchJobEntry> entries = TkServiceLocator.getBatchJobEntryService().getBatchJobEntries(ipAddress, TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
 
-	        	//Add jobs ot the manager, Update Status
+	        	//Add jobs to the manager
                 for (BatchJobEntry entry : entries) {
-                    entry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.RUNNING);
-                    TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
-                    // Add to thread pool of manager.
                     manager.pool.submit(getRunnable(entry));
                 }
                 Thread.sleep(1000 * secondsToSleep);

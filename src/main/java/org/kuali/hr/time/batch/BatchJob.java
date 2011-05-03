@@ -2,10 +2,13 @@ package org.kuali.hr.time.batch;
 
 import java.sql.Timestamp;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.config.ConfigContext;
 
 public class BatchJob {
+    private Logger LOG = Logger.getLogger(BatchJob.class);
 	int lastPlace = 0;
 
 	private Long tkBatchJobId;
@@ -14,15 +17,45 @@ public class BatchJob {
 	private Long payCalendarEntryId;
 	private Long timeElapsed;
 	private Timestamp timestamp;
+    long startTime;
+    long endTime;
 
     public BatchJob() {
         this.setBatchJobStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
         this.setTimestamp(new Timestamp(System.currentTimeMillis()));
     }
 
-	public void runJob() {
+    /**
+     * Setup logic goes here.
+     */
+    void doBeforeRun() {
+        LOG.info("Starting batch job: " + this.getBatchJobName() + " for pay calendar entry: " + this.payCalendarEntryId);
+        startTime = System.currentTimeMillis();
+        this.setBatchJobStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.RUNNING);
+        TkServiceLocator.getBatchJobService().saveBatchJob(this);
+    }
+
+    void runJob() {
+        doBeforeRun();
+        doWork();
+        doAfterRun();
+    }
+
+	void doWork() {
         throw new UnsupportedOperationException("You must override this method in a subclass.");
 	}
+
+    /**
+     * Cleanup logic goes here.
+     */
+    void doAfterRun() {
+        endTime = System.currentTimeMillis();
+        long runtime = endTime - startTime;
+        timeElapsed = (runtime > 0) ? runtime / 1000 : 0; // set to 0, and avoid div by 0.
+        this.setBatchJobStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.FINISHED);
+        TkServiceLocator.getBatchJobService().saveBatchJob(this);
+        LOG.info("Batch job '" + this.getBatchJobName() + "' ("+this.getPayCalendarEntryId()+") complete after " + timeElapsed + " seconds.");
+    }
 
 	public String getNextIpAddressInCluster(){
 		String clusterIps = ConfigContext.getCurrentContextConfig().getProperty("cluster.ips");

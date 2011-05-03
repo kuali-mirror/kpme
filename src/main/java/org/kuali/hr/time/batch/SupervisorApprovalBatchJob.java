@@ -16,10 +16,7 @@ public class SupervisorApprovalBatchJob extends BatchJob {
     }
 
     @Override
-    public void runJob() {
-        LOG.info("Starting initiate batch job");
-
-        LOG.info("Finished initiate batch job");
+    public void doWork() {
     }
 
 

@@ -23,16 +23,12 @@ public class InitiateBatchJob extends BatchJob {
     }
 
 	@Override
-	public void runJob() {
-		LOG.info("Starting initiate batch job");
-
+	public void doWork() {
 		Date asOfDate = TKUtils.getCurrentDate();
 		List<Assignment> lstAssignments = TkServiceLocator.getAssignmentService().getActiveAssignments(asOfDate);
 		for(Assignment assign : lstAssignments){
 			populateBatchJobEntry(assign);
 		}
-
-		LOG.info("Finished initiate batch job");
 	}
 
 
