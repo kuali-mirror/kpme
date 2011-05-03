@@ -8,18 +8,21 @@ import org.openqa.selenium.internal.seleniumemulation.GetBodyText;
 
 public class InitiateBatchJobRunnable extends BatchJobEntryRunnable {
 
+    public InitiateBatchJobRunnable(BatchJobEntry entry) {
+        super(entry);
+    }
+
 	@Override
 	public void run() {
-		BatchJobEntry initiateBatchJobEntry = TkServiceLocator.getBatchJobEntryService().getBatchJobEntry(getTkBatchJobEntryId());
-		String principalId = initiateBatchJobEntry.getPrincipalId();
-		Long payCalendarId = initiateBatchJobEntry.getPayCalendarId();
+		String principalId = batchJobEntry.getPrincipalId();
+		Long payCalendarId = batchJobEntry.getPayCalendarId();
 		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(payCalendarId);
 		try {
 			TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, payCalendarEntry);
 		} catch (WorkflowException e) {
 			Log.info("Workflow error found"+ e);
 		}
-		
+
 	}
 
 }

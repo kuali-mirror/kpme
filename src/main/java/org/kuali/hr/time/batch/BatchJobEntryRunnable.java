@@ -1,32 +1,30 @@
 package org.kuali.hr.time.batch;
 
 public abstract class BatchJobEntryRunnable implements Runnable{
-	private Long tkBatchJobEntryId;
-	private Long tkBatchJobId;
-	
-	
+	Long tkBatchJobEntryId;
+	Long tkBatchJobId;
+    BatchJobEntry batchJobEntry;
+
+    public BatchJobEntryRunnable(BatchJobEntry entry) {
+        this.batchJobEntry = entry;
+        this.tkBatchJobEntryId = entry.getTkBatchJobEntryId();
+        this.tkBatchJobId = entry.getTkBatchJobId();
+    }
+
 	@Override
 	public void run() {
+        throw new UnsupportedOperationException("You must implement this method in a subclass.");
 	}
-
 
 	public Long getTkBatchJobEntryId() {
 		return tkBatchJobEntryId;
 	}
 
-
-	public void setTkBatchJobEntryId(Long tkBatchJobEntryId) {
-		this.tkBatchJobEntryId = tkBatchJobEntryId;
-	}
-
-
-	public void setTkBatchJobId(Long tkBatchJobId) {
-		this.tkBatchJobId = tkBatchJobId;
-	}
-
-
 	public Long getTkBatchJobId() {
 		return tkBatchJobId;
 	}
 
+    public BatchJobEntry getBatchJobEntry() {
+        return batchJobEntry;
+    }
 }

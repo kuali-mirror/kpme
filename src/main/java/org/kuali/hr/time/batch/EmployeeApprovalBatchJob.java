@@ -5,24 +5,30 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 
 public class EmployeeApprovalBatchJob extends BatchJob {
 	private Logger LOG = Logger.getLogger(EmployeeApprovalBatchJob.class);
-	
-	
+    private PayCalendarEntries payCalendarEntry;
+
+    public EmployeeApprovalBatchJob(PayCalendarEntries payCalendarEntry) {
+        this.payCalendarEntry = payCalendarEntry;
+    }
+
 	@Override
 	public void runJob() {
 		LOG.info("Running employee approval batch job");
-		Date payBeginDate = null;
+		Date payBeginDate = payCalendarEntry.getBatchEmployeeApprovalDate();
 		//TODO populate pay begin date here
-		List<TimesheetDocumentHeader> lstDocumentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(payBeginDate);
-		for(TimesheetDocumentHeader timesheetDocumentHeader : lstDocumentHeaders){
+		List<TimesheetDocumentHeader> documentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(payBeginDate);
+		for(TimesheetDocumentHeader timesheetDocumentHeader : documentHeaders){
 			populateBatchJobEntry(timesheetDocumentHeader);
 		}
-		
+
 		LOG.info("Finished employee approval batch job");
 	}
 
@@ -31,7 +37,9 @@ public class EmployeeApprovalBatchJob extends BatchJob {
 		TimesheetDocumentHeader timesheetDocumentHeader = (TimesheetDocumentHeader)o;
 		String ip = this.getNextIpAddressInCluster();
 		if(StringUtils.isNotBlank(ip)){
-			//TODO insert a batch job entry here
+            //insert a batch job entry here
+            BatchJobEntry entry = this.createBatchJobEntry(TkConstants.BATCH_JOB_NAMES.APPROVE, ip, timesheetDocumentHeader.getPrincipalId(), timesheetDocumentHeader.getDocumentId());
+            TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
 		} else {
 			LOG.info("No ip found in cluster to assign batch jobs");
 		}

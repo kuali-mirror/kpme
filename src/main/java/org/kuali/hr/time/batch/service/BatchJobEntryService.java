@@ -13,6 +13,8 @@ public interface BatchJobEntryService {
 	public BatchJobEntry getBatchJobEntry(Long batchJobEntryId);
 
 	public void saveBatchJobEntry(BatchJobEntry batchJobEntry);
-	
+
 	public List<BatchJobEntry> getBatchJobEntries(Long batchJobId);
+
+    public List<BatchJobEntry> getBatchJobEntries(String ip, String status);
 }

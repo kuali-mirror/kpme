@@ -14,10 +14,16 @@ import org.kuali.hr.time.util.TkConstants;
 public class BatchJobManagerThread extends Thread {
     private static final Logger LOG = Logger.getLogger(BatchJobManagerThread.class);
 
-	//This represents a number of days on both sides of today
-	public static int numOfDaysToPoll = 30;
-    public static int secondsToSleep = 120;
     public static int startupSleep = 120;
+
+	//This represents a number of days on both sides of today
+	int numOfDaysToPoll = 30;
+    int secondsToSleep = 120;
+
+    public BatchJobManagerThread(int secondsToSleep, int numberOfDaysToPoll) {
+        this.numOfDaysToPoll = numberOfDaysToPoll;
+        this.secondsToSleep = secondsToSleep;
+    }
 
 	@Override
 	public void run() {
@@ -40,11 +46,15 @@ public class BatchJobManagerThread extends Thread {
                 List<BatchJob> batchJobs = TkServiceLocator.getBatchJobService().getBatchJobs(payCalendarEntry.getPayCalendarEntriesId());
 
                 if ((payCalendarEntry.getBatchInitiateDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.INITIATE)) ) {
-                    // TODO: Create Initiate Job
+                    BatchJob job = new InitiateBatchJob(payCalendarEntry.getPayCalendarId());
+                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
+                    batchJobs.add(job);
                 }
 
                 if ((payCalendarEntry.getBatchEmployeeApprovalDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.APPROVE)) ) {
-                    // TODO: Approval Job
+                    BatchJob job = new EmployeeApprovalBatchJob(payCalendarEntry);
+                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
+                    batchJobs.add(job);
                 }
 
                 if ((payCalendarEntry.getBatchEndPayPeriodDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END)) ) {

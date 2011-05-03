@@ -5,13 +5,14 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 public class EmployeeApprovalBatchJobRunnable extends BatchJobEntryRunnable {
 
+    public EmployeeApprovalBatchJobRunnable(BatchJobEntry entry) {
+        super(entry);
+    }
+
 	@Override
 	public void run() {
-		//TODO Fetch the BatchJobEntry 
-		BatchJobEntry employeeApprovalBatchJobEntry = null;
-		
-		String principalId = employeeApprovalBatchJobEntry.getPrincipalId();
-		String documentId = employeeApprovalBatchJobEntry.getDocumentId();
+		String principalId = batchJobEntry.getPrincipalId();
+		String documentId = batchJobEntry.getDocumentId();
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 		TkServiceLocator.getTimesheetService().routeTimesheet(principalId, timesheetDocument);
 	}

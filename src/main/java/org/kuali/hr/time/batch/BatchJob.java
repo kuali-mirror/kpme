@@ -2,6 +2,7 @@ package org.kuali.hr.time.batch;
 
 import java.sql.Timestamp;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.config.ConfigContext;
 
 public class BatchJob {
@@ -13,9 +14,14 @@ public class BatchJob {
 	private Long payCalendarEntryId;
 	private Long timeElapsed;
 	private Timestamp timestamp;
-	
-	public void runJob(){
-		
+
+    public BatchJob() {
+        this.setBatchJobStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
+        this.setTimestamp(new Timestamp(System.currentTimeMillis()));
+    }
+
+	public void runJob() {
+        throw new UnsupportedOperationException("You must override this method in a subclass.");
 	}
 
 	public String getNextIpAddressInCluster(){
@@ -32,7 +38,7 @@ public class BatchJob {
 	}
 
 	protected void populateBatchJobEntry(Object o){
-		
+        throw new UnsupportedOperationException("You must override this method in a subclass.");
 	}
 
 	public Long getTkBatchJobId() {
@@ -82,6 +88,19 @@ public class BatchJob {
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
-	
-	
+
+    BatchJobEntry createBatchJobEntry(String batchJobName, String ip, String principal, String documentId) {
+        BatchJobEntry entry = new BatchJobEntry();
+
+        entry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
+        entry.setBatchJobName(batchJobName);
+        entry.setIpAddress(ip);
+        entry.setPayCalendarId(this.getPayCalendarEntryId());
+        entry.setPrincipalId(principal);
+        entry.setTkBatchJobId(this.getTkBatchJobId());
+        entry.setDocumentId(documentId);
+
+        return entry;
+    }
+
 }
