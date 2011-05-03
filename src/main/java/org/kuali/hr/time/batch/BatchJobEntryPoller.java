@@ -53,11 +53,11 @@ public class BatchJobEntryPoller extends Thread  {
             LOG.debug("Creating EmployeeApprovalBatchJobRunnable.");
             bjer = new EmployeeApprovalBatchJobRunnable(entry);
         } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END)) {
-            // TODO : Create this Runnable
-            LOG.warn("Runnable does not yet exist.");
+            LOG.debug("Creating PayPeriodEndBatchJobRunnable.");
+            bjer = new PayPeriodEndBatchJobRunnable(entry);
         } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL)) {
-            // TODO : Create this Runnable.
-            LOG.warn("Runnable does not yet exist.");
+            LOG.debug("Creating SupervisorApprovalBatchJobRunnabble.");
+            bjer = new SupervisorApprovalBatchJobRunnable(entry);
         } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.INITIATE)) {
             LOG.debug("Creating InitiateBatchJobRunnable.");
             bjer = new InitiateBatchJobRunnable(entry);

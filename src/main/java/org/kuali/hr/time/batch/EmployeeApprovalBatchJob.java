@@ -38,7 +38,7 @@ public class EmployeeApprovalBatchJob extends BatchJob {
 		String ip = this.getNextIpAddressInCluster();
 		if(StringUtils.isNotBlank(ip)){
             //insert a batch job entry here
-            BatchJobEntry entry = this.createBatchJobEntry(TkConstants.BATCH_JOB_NAMES.APPROVE, ip, timesheetDocumentHeader.getPrincipalId(), timesheetDocumentHeader.getDocumentId());
+            BatchJobEntry entry = this.createBatchJobEntry(this.getBatchJobName(), ip, timesheetDocumentHeader.getPrincipalId(), timesheetDocumentHeader.getDocumentId());
             TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
 		} else {
 			LOG.info("No ip found in cluster to assign batch jobs");

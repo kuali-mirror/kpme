@@ -42,7 +42,7 @@ public class InitiateBatchJob extends BatchJob {
 		String ip = this.getNextIpAddressInCluster();
 		if(StringUtils.isNotBlank(ip)){
 			//insert a batch job entry here
-            BatchJobEntry entry = this.createBatchJobEntry(TkConstants.BATCH_JOB_NAMES.INITIATE, ip, assign.getPrincipalId(), null);
+            BatchJobEntry entry = this.createBatchJobEntry(this.getBatchJobName(), ip, assign.getPrincipalId(), null);
             TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
 		} else {
 			LOG.info("No ip found in cluster to assign batch jobs");

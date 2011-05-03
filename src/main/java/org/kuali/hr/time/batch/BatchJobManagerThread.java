@@ -46,7 +46,7 @@ public class BatchJobManagerThread extends Thread {
                 List<BatchJob> batchJobs = TkServiceLocator.getBatchJobService().getBatchJobs(payCalendarEntry.getPayCalendarEntriesId());
 
                 if ((payCalendarEntry.getBatchInitiateDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.INITIATE)) ) {
-                    BatchJob job = new InitiateBatchJob(payCalendarEntry.getPayCalendarId());
+                    BatchJob job = new InitiateBatchJob(payCalendarEntry.getPayCalendarEntriesId());
                     TkServiceLocator.getBatchJobService().saveBatchJob(job);
                     batchJobs.add(job);
                 }
@@ -58,11 +58,15 @@ public class BatchJobManagerThread extends Thread {
                 }
 
                 if ((payCalendarEntry.getBatchEndPayPeriodDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END)) ) {
-                    // TODO: Create Pay Period End Job
+                    BatchJob job = new PayPeriodEndBatchJob(payCalendarEntry.getPayCalendarEntriesId());
+                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
+                    batchJobs.add(job);
                 }
 
                 if ((payCalendarEntry.getBatchSupervisorApprovalDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL)) ) {
-                    // TODO: Create supervisor approval Job
+                    BatchJob job = new SupervisorApprovalBatchJob(payCalendarEntry.getPayCalendarEntriesId());
+                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
+                    batchJobs.add(job);
                 }
             }
 
