@@ -11,6 +11,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.net.UnknownHostException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
@@ -112,9 +113,9 @@ public class TKUtils {
 	}
 
 	public static String getAssignmentString(Assignment assignment) {
-		if(assignment.getWorkAreaObj() == null 
-				|| assignment.getJob() == null 
-				|| assignment.getJobNumber() == null 
+		if(assignment.getWorkAreaObj() == null
+				|| assignment.getJob() == null
+				|| assignment.getJobNumber() == null
 				|| assignment.getJob() == null ) {
 			return ""; 	// getAssignment() of AssignmentService can return an empty assignment
 		}
@@ -243,9 +244,17 @@ public class TKUtils {
 
         return ip;
     }
-    
+
 	public static Date createDate(int month, int day, int year, int hours, int minutes, int seconds){
 		DateTime dt = new DateTime(year, month, day, hours, minutes, seconds, 0);
 		return new Date(dt.getMillis());
 	}
+
+    public static String getIPNumber() {
+        try {
+            return java.net.InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            return "unknown";
+        }
+    }
 }
