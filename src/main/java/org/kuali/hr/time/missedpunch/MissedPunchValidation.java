@@ -10,6 +10,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class MissedPunchValidation extends MaintenanceDocumentRuleBase {
@@ -24,9 +25,11 @@ public class MissedPunchValidation extends MaintenanceDocumentRuleBase {
      */
     boolean validateClockAction(MissedPunch mp, ClockLog lastClock) {
         boolean valid = true;
-        Set<String> validActions = TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction());
+        Set<String> validActions = (lastClock != null) ? TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction()) : new HashSet<String>();
 
-        if (!validActions.contains(mp.getClockAction())) {
+        if (validActions.isEmpty()) {
+
+        } else if (!validActions.contains(mp.getClockAction())) {
             this.putFieldError("clockAction", "clock.mp.invalid.action");
             valid = false;
         }

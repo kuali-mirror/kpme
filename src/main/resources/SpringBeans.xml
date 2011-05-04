@@ -401,16 +401,22 @@
 	<bean id="payGradeDao" class="org.kuali.hr.paygrade.dao.PayGradeDaoSpringObjImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
     <bean id="batchJobDao" class="org.kuali.hr.time.batch.dao.BatchJobDaoSpringOjbImpl">
 		<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
+    <bean id="missedPunchDao" class="org.kuali.hr.time.missedpunch.dao.MissedPunchDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
     <bean id="batchJobEntryDao" class="org.kuali.hr.time.batch.dao.BatchJobEntryDaoSpringOjbImpl">
 		<property name="jcdAlias" value="tkDataSource"/>
     </bean>
-    
+
 	<!-- Time Services for Business Logic -->
+    <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
+        <property name="missedPunchDao" ref="missedPunchDao"/>
+    </bean>
 
 	<bean id="deptLunchRuleService" class="org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleServiceImpl">
 		<property name="deptLunchRuleDao" ref="deptLunchRuleDao"/>
@@ -493,7 +499,7 @@
     <bean id="payCalendarService" class="org.kuali.hr.time.paycalendar.service.PayCalendarServiceImpl">
     	<property name="payCalendarDao" ref="payCalendarDao"/>
     </bean>
-    
+
     <bean id="payCalendarEntriesService" class="org.kuali.hr.time.paycalendar.service.PayCalendarEntriesServiceImpl">
     	<property name="payCalendarEntriesDao" ref="payCalendarEntriesDao"/>
     </bean>
@@ -564,7 +570,7 @@
 	<bean id="batchJobEntryService" class="org.kuali.hr.time.batch.service.BatchJobEntryServiceImpl">
     	<property name="batchJobEntryDao" ref="batchJobEntryDao"/>
     </bean>
-    
+
     <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>
 
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
@@ -575,9 +581,9 @@
 	<bean id="workAreaQualifierRoleTypeService" class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
 
     <bean id="timezoneService" class="org.kuali.hr.time.timezone.service.TimezoneServiceImpl"/>
-    
+
     <bean id="userService" class="org.kuali.hr.time.user.service.UserServiceImpl"/>
-    
+
     <bean id="timeApproveService" class="org.kuali.hr.time.approval.service.TimeApproveServiceImpl"/>
 
     <bean id="timeOffAccrualService" class="org.kuali.hr.time.accrual.service.TimeOffAccrualServiceImpl">
@@ -789,5 +795,7 @@
         </property>
     </bean>
 
+    <!-- Starts thread pool and node managers for Batch Job Processing -->
+    <bean name="TkBatchManager" class="org.kuali.hr.time.batch.TkBatchManager"></bean>
 
 </beans>

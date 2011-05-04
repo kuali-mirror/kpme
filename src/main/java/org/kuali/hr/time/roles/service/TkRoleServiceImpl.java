@@ -5,6 +5,7 @@ import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.dao.TkRoleDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TkConstants;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -80,5 +81,17 @@ public class TkRoleServiceImpl implements TkRoleService {
 		}
 		return lstEmployees;
 	}
+
+    @Override
+    public List<String> getResponsibleParties(Assignment a, String roleName, Date asOfDate) {
+        List<String> users = new ArrayList<String>();
+
+        List<TkRole> roles = this.getWorkAreaRoles(a.getWorkArea(), roleName, asOfDate);
+        for (TkRole role: roles) {
+            users.add(role.getPrincipalId());
+        }
+
+        return users;
+    }
 
 }

@@ -20,6 +20,11 @@
       </list>
     </property>
     <property name="documentTypeName" value="MissedPunchMaintenanceDocumentType"/>
+    <property name="lockingKeys">
+        <list>
+            <value>timesheetDocumentId</value>
+        </list>
+    </property>
   </bean>
 
   <!-- Maintenance Section Definitions -->

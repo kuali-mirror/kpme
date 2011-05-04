@@ -3,6 +3,7 @@ package org.kuali.hr.time.roles.service;
 import java.sql.Date;
 import java.util.List;
 
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
 
 public interface TkRoleService {
@@ -69,4 +70,15 @@ public interface TkRoleService {
 	 * @param roles
 	 */
 	public void saveOrUpdate(List<TkRole> roles);
+
+    /**
+     * Gets the list of principal IDs responsible for the provided assignment /
+     * role name combination.
+     *
+     * @param assignment the assignment to query
+     * @param roleName The role we are interested in.
+     * @param asOfDate
+     * @return
+     */
+    public List<String> getResponsibleParties(Assignment assignment, String roleName, Date asOfDate);
 }

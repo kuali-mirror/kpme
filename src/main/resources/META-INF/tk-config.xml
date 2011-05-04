@@ -1,7 +1,11 @@
 <config>
     <!-- cluster.ips : A comma separated list of TK servers that will be utilized
          during batch job running. Machines are assigned round-robin. -->
-    <param name="cluster.ips">localhost</param>
+    <param name="cluster.ips">override-in-local-settings</param>
+
+    <!-- Only one machine should be listed as the master ip -->
+    <param name="tk.batch.master.ip">override-in-local-settings</param>
+
     <param name="environment" override="false">dev</param><!-- set environment param here -->
     <param name="module.name">tk</param>
 	<param name="app.code">${module.name}</param>

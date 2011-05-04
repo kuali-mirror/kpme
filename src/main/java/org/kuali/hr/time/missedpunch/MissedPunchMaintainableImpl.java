@@ -11,6 +11,7 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 
 import java.math.BigDecimal;
@@ -22,19 +23,19 @@ public class MissedPunchMaintainableImpl extends KualiMaintainableImpl {
 
 	private static final long serialVersionUID = -1505817190754176279L;
 
-	@Override
-	public void saveBusinessObject() {
-		MissedPunch missedPunch = (MissedPunch)super.getBusinessObject();
-		java.util.Date actionDate = missedPunch.getActionDate();
-		java.sql.Time actionTime = missedPunch.getActionTime();
+    @Override
+    public void doRouteStatusChange(DocumentHeader documentHeader) {
+        MissedPunch missedPunch = (MissedPunch)super.getBusinessObject();
+        java.util.Date actionDate = missedPunch.getActionDate();
+        java.sql.Time actionTime = missedPunch.getActionTime();
 
-		LocalTime actionTimeLocal = new LocalTime(actionTime.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-		DateTime actionDateTime = new DateTime(actionDate.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-		actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
-		missedPunch.setActionDate(new java.util.Date(actionDateTime.getMillis()));
+        LocalTime actionTimeLocal = new LocalTime(actionTime.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+        DateTime actionDateTime = new DateTime(actionDate.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+        actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
+        missedPunch.setActionDate(new java.util.Date(actionDateTime.getMillis()));
 
-		missedPunch.setDocumentId(this.documentNumber);
-		missedPunch.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        missedPunch.setDocumentId(this.documentNumber);
+        missedPunch.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         // Need to build a clock log entry.
@@ -60,8 +61,11 @@ public class MissedPunchMaintainableImpl extends KualiMaintainableImpl {
 
             this.buildTimeBlockRunRules(lastClockLog, clockLog, tdoc, assignment, earnCode, lastClockLog.getClockTimestamp(), clockLog.getClockTimestamp());
         }
+    }
 
-		super.saveBusinessObject();
+    @Override
+	public void saveBusinessObject() {
+        super.saveBusinessObject();
 	}
 
     /**

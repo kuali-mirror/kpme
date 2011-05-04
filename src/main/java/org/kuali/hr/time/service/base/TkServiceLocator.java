@@ -20,6 +20,8 @@ import org.kuali.hr.time.earncode.service.EarnCodeService;
 import org.kuali.hr.time.earngroup.service.EarnGroupService;
 import org.kuali.hr.time.graceperiod.service.GracePeriodService;
 import org.kuali.hr.time.holidaycalendar.service.HolidayCalendarService;
+import org.kuali.hr.time.missedpunch.MissedPunch;
+import org.kuali.hr.time.missedpunch.service.MissedPunchService;
 import org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleService;
 import org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarEntriesService;
@@ -97,6 +99,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_USER_SERVICE = "userService";
     public static final String TK_APPROVE_SERVICE = "timeApproveService";
     public static final String TK_BATCH_JOB_SERVICE = "batchJobService";
+    public static final String TK_MISSED_PUNCH_SERVICE = "missedPunchService";
     public static final String TK_BATCH_JOB_ENTRY_SERVICE = "batchJobEntryService";
 
 	public static void start() throws Exception {
@@ -107,6 +110,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static void stop() throws Exception {
 //		CONTEXT.stop();
 	}
+
+    public static MissedPunchService getMissedPunchService() {
+        return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
+    }
 
     public static TaskService getTaskService() {
         return (TaskService) CONTEXT.getBean(TK_TASK_SERVICE);
@@ -274,11 +281,11 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static PayGradeService getPayGradeService() {
 	    return (PayGradeService)CONTEXT.getBean(TK_PAY_GRADE_SERVICE);
 	}
-	
+
 	public static UserService getUserService(){
 		return (UserService)CONTEXT.getBean(TK_USER_SERVICE);
 	}
-	
+
 	public static TimeApproveService getTimeApproveService(){
 		return (TimeApproveService)CONTEXT.getBean(TK_APPROVE_SERVICE);
 	}
@@ -286,7 +293,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static BatchJobService getBatchJobService(){
 		return (BatchJobService)CONTEXT.getBean(TK_BATCH_JOB_SERVICE);
 	}
-	
+
 	public static BatchJobEntryService getBatchJobEntryService(){
 		return (BatchJobEntryService)CONTEXT.getBean(TK_BATCH_JOB_ENTRY_SERVICE);
 	}
