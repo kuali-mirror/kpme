@@ -7,6 +7,9 @@
     <property name="titleAttribute" value="id"/>
     <property name="objectLabel" value="GracePeriodRule"/>
  
+ 	<property name="inquiryDefinition">
+		<ref bean="GracePeriodRule-inquiryDefinition" />
+	</property>
     <property name="lookupDefinition">
       <ref bean="GracePeriodRule-lookupDefinition"/>
     </property>
@@ -98,7 +101,30 @@
   
   
   
-  <!--  Inquiry Definitions  -->
+	<!--  Inquiry Definitions  -->
+
+	<bean id="GracePeriodRule-inquiryDefinition" parent="GracePeriodRule-inquiryDefinition-parentBean" />
+
+	<bean id="GracePeriodRule-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="hourFactor" />
+							<bean parent="FieldDefinition" p:attributeName="effDt" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="GracePeriodRule" />
+				</bean>
+			</list>
+		</property>
+		<property name="title" value="GracePeriodRule Inquiry" />
+	</bean>
+
 	
   <bean id="GracePeriodRule-lookupDefinition" parent="GracePeriodRule-lookupDefinition-parentBean"/>
 
