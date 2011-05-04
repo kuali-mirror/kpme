@@ -67,31 +67,24 @@
             <fieldset>
                 <legend>Result</legend>
                 <div id="batch-result">
-                    <table>
-                        <tr>
-                            <th>Job Entry Id</th>
-                            <th>Job Name</th>
-                            <th>Job Entry Status</th>
-                            <th>Pay Calendar Id</th>
-                            <th>IP Address</th>
-                            <th>Document Id</th>
-                            <th>Principal Id</th>
-                        </tr>
-                        <c:forEach var="entry" items="${Form.batchJobEntries}">
-                            <tr>
-                                <td>${entry.tkBatchJobEntryId}</td>
-                                <td>${entry.batchJobName}</td>
-                                <td>${entry.tkBatchJobEntryId}</td>
-                                <td>${entry.payCalendarEntryId}</td>
-                                <td><tk:ipAddress batchJobEntryId="${entry.tkBatchJobEntryId}"
-                                                  selectedIpAdd="${entry.ipAddress}"/></td>
-                                <td>${entry.documentId}</td>
-                                <td>${entry.principalId}</td>
-                            </tr>
-                        </c:forEach>
-                    </table>
+                    <display:table name="${Form.batchJobEntries}" excludedParams="*" pagesize="10"
+                                   requestURI="BatchJob.do"
+                                   requestURIcontext="false" id="r">
+                        <display:column property="tkBatchJobEntryId" title="Job Entry Id"/>
+                        <display:column property="batchJobName" title="Job Name"/>
+                        <display:column property="tkBatchJobEntryId" title="Job Entry Status"/>
+                        <display:column property="payCalendarEntryId" title="Pay Calendar Id"/>
+                        <display:column title="IP Address">
+                            <tk:ipAddress batchJobEntryId="${r.tkBatchJobEntryId}"
+                                          selectedIpAdd="${r.ipAddress}"/>
+                        </display:column>
+                        <display:column property="documentId" title="Document Id"/>
+                        <display:column property="principalId" title="Principal Id"/>
+                    </display:table>
                 </div>
             </fieldset>
         </html:form>
     </div>
+
+
 </tk:tkHeader>
