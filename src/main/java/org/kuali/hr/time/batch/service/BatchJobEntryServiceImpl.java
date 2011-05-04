@@ -37,4 +37,11 @@ public class BatchJobEntryServiceImpl implements BatchJobEntryService {
     public List<BatchJobEntry> getBatchJobEntries(Map<String, Object> criteria) {
         return batchJobEntryDao.getBatchJobEntries(criteria);
     }
+
+    @Override
+    public void updateIpAddress(String batchJobEntryId, String ipAddress) {
+        BatchJobEntry batchJobEntry = getBatchJobEntry(Long.valueOf(batchJobEntryId));
+        batchJobEntry.setIpAddress(ipAddress);
+        this.batchJobEntryDao.saveOrUpdate(batchJobEntry);
+    }
 }

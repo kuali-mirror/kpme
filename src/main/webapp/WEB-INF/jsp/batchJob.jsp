@@ -78,20 +78,20 @@
                             <th>Principal Id</th>
                         </tr>
                         <c:forEach var="entry" items="${Form.batchJobEntries}">
-                        <tr>
-                            <td>${entry.tkBatchJobEntryId}</td>
-                            <td>${entry.batchJobName}</td>
-                            <td>${entry.tkBatchJobEntryId}</td>
-                            <td>${entry.payCalendarEntryId}</td>
-                            <td>${entry.ipAddress}</td>
-                            <td>${entry.documentId}</td>
-                            <td>${entry.principalId}</td>
-                        </tr>
+                            <tr>
+                                <td>${entry.tkBatchJobEntryId}</td>
+                                <td>${entry.batchJobName}</td>
+                                <td>${entry.tkBatchJobEntryId}</td>
+                                <td>${entry.payCalendarEntryId}</td>
+                                <td><tk:ipAddress batchJobEntryId="${entry.tkBatchJobEntryId}"
+                                                  selectedIpAdd="${entry.ipAddress}"/></td>
+                                <td>${entry.documentId}</td>
+                                <td>${entry.principalId}</td>
+                            </tr>
                         </c:forEach>
                     </table>
                 </div>
             </fieldset>
         </html:form>
     </div>
-
 </tk:tkHeader>

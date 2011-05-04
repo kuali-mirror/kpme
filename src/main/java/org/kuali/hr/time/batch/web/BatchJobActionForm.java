@@ -24,8 +24,8 @@ public class BatchJobActionForm extends TkForm {
     private String ipAddress;
     private String batchJobName;
     private String batchJobEntryStatus;
-
-
+    private String tkBatchJobEntryId;
+    private String ipToChange;
 
     public Map<String, String> getBatchJobNames() {
         batchJobNames.put(TkConstants.BATCH_JOB_NAMES.INITIATE, "initiate");
@@ -41,9 +41,9 @@ public class BatchJobActionForm extends TkForm {
     }
 
     public Map<String, String> getBatchJobStatuses() {
-    	batchJobStatuses.put(TkConstants.BATCH_JOB_ENTRY_STATUS.RUNNING, "running");
-    	batchJobStatuses.put(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED, "scheduled");
-    	batchJobStatuses.put(TkConstants.BATCH_JOB_ENTRY_STATUS.FINISHED, "finished");
+        batchJobStatuses.put(TkConstants.BATCH_JOB_ENTRY_STATUS.RUNNING, "running");
+        batchJobStatuses.put(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED, "scheduled");
+        batchJobStatuses.put(TkConstants.BATCH_JOB_ENTRY_STATUS.FINISHED, "finished");
 
         return batchJobStatuses;
     }
@@ -52,68 +52,83 @@ public class BatchJobActionForm extends TkForm {
         this.batchJobStatuses = batchJobStatuses;
     }
 
-	public String getBatchJobId() {
-		return batchJobId;
-	}
+    public String getBatchJobId() {
+        return batchJobId;
+    }
 
-	public void setBatchJobId(String batchJobId) {
-		this.batchJobId = batchJobId;
-	}
+    public void setBatchJobId(String batchJobId) {
+        this.batchJobId = batchJobId;
+    }
 
-	public String getDocumentId() {
-		return documentId;
-	}
+    public String getDocumentId() {
+        return documentId;
+    }
 
-	public void setDocumentId(String documentId) {
-		this.documentId = documentId;
-	}
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
 
-	public String getPrincipalId() {
-		return principalId;
-	}
+    public String getPrincipalId() {
+        return principalId;
+    }
 
-	public void setPrincipalId(String principalId) {
-		this.principalId = principalId;
-	}
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
+    }
 
-	public String getPayCalendarEntryId() {
-		return payCalendarEntryId;
-	}
+    public String getPayCalendarEntryId() {
+        return payCalendarEntryId;
+    }
 
-	public void setPayCalendarEntryId(String payCalendarEntryId) {
-		this.payCalendarEntryId = payCalendarEntryId;
-	}
+    public void setPayCalendarEntryId(String payCalendarEntryId) {
+        this.payCalendarEntryId = payCalendarEntryId;
+    }
 
-	public String getIpAddress() {
-		return ipAddress;
-	}
+    public String getIpAddress() {
+        return ipAddress;
+    }
 
-	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
-	}
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
 
-	public String getBatchJobName() {
-		return batchJobName;
-	}
+    public String getBatchJobName() {
+        return batchJobName;
+    }
 
-	public void setBatchJobName(String batchJobName) {
-		this.batchJobName = batchJobName;
-	}
+    public void setBatchJobName(String batchJobName) {
+        this.batchJobName = batchJobName;
+    }
 
-	public String getBatchJobEntryStatus() {
-		return batchJobEntryStatus;
-	}
+    public String getBatchJobEntryStatus() {
+        return batchJobEntryStatus;
+    }
 
-	public void setBatchJobEntryStatus(String batchJobEntryStatus) {
-		this.batchJobEntryStatus = batchJobEntryStatus;
-	}
+    public void setBatchJobEntryStatus(String batchJobEntryStatus) {
+        this.batchJobEntryStatus = batchJobEntryStatus;
+    }
 
-	public List<BatchJobEntry> getBatchJobEntries() {
-		return batchJobEntries;
-	}
+    public List<BatchJobEntry> getBatchJobEntries() {
+        return batchJobEntries;
+    }
 
-	public void setBatchJobEntries(List<BatchJobEntry> batchJobEntries) {
-		this.batchJobEntries = batchJobEntries;
-	}
+    public void setBatchJobEntries(List<BatchJobEntry> batchJobEntries) {
+        this.batchJobEntries = batchJobEntries;
+    }
 
+    public String getTkBatchJobEntryId() {
+        return tkBatchJobEntryId;
+    }
+
+    public void setTkBatchJobEntryId(String tkBatchJobEntryId) {
+        this.tkBatchJobEntryId = tkBatchJobEntryId;
+    }
+
+    public String getIpToChange() {
+        return ipToChange;
+    }
+
+    public void setIpToChange(String ipToChange) {
+        this.ipToChange = ipToChange;
+    }
 }

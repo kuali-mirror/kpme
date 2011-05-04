@@ -552,6 +552,10 @@ select {
     border: 1px solid black;
 }
 
+#batch-result tr th {
+    text-align: center;
+}
+
 #batch-result tr, #batch-result td, #batch-result th {
     padding: 3px;
     border: 1px solid black;

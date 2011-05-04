@@ -11,12 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BatchJobAction extends TkAction{
+public class BatchJobAction extends TkAction {
 
     public ActionForward getBatchJobEntryStatus(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         BatchJobActionForm bjaf = (BatchJobActionForm) form;
-        Map<String,Object> searchCrit = new HashMap<String,Object>();
+        Map<String, Object> searchCrit = new HashMap<String, Object>();
         searchCrit.put("tkBatchJobId", bjaf.getBatchJobId());
         searchCrit.put("batchJobName", bjaf.getBatchJobName());
         searchCrit.put("batchJobEntryStatus", bjaf.getBatchJobEntryStatus());
@@ -30,4 +29,10 @@ public class BatchJobAction extends TkAction{
         return mapping.findForward("basic");
     }
 
+    public ActionForward changeIpAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BatchJobActionForm bjaf = (BatchJobActionForm) form;
+        TkServiceLocator.getBatchJobEntryService().updateIpAddress(bjaf.getTkBatchJobEntryId(), bjaf.getIpToChange());
+
+        return mapping.findForward("basic");
+    }
 }
