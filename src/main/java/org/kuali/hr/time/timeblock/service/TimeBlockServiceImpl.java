@@ -276,13 +276,6 @@ public class TimeBlockServiceImpl implements TimeBlockService {
             //TODO: need to cache this or pre-load it when the app boots up
             // EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
             timeBlockMap.put("earnCodeType", timeBlock.getEarnCodeType());
-            
-            if(StringUtils.equals(timeBlock.getEarnCodeType(), "TIME") && end.getHourOfDay() == 0 && end.getMinuteOfHour() == 0) {
-            	end.addDays(-1);
-                end.setHourOfDay(23);
-                end.setMinuteOfHour(59);
-                end.setSecondOfMinute(59);
-            }
 
             timeBlockMap.put("start", start.toDateTime().toString());
             timeBlockMap.put("end", end.toDateTime().toString());
