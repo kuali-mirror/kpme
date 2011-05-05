@@ -20,7 +20,6 @@ import org.kuali.hr.time.earncode.service.EarnCodeService;
 import org.kuali.hr.time.earngroup.service.EarnGroupService;
 import org.kuali.hr.time.graceperiod.service.GracePeriodService;
 import org.kuali.hr.time.holidaycalendar.service.HolidayCalendarService;
-import org.kuali.hr.time.missedpunch.MissedPunch;
 import org.kuali.hr.time.missedpunch.service.MissedPunchService;
 import org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleService;
 import org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleService;
@@ -50,6 +49,8 @@ import org.kuali.hr.time.workschedule.service.WorkScheduleService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
 public class TkServiceLocator implements ApplicationContextAware {
@@ -296,6 +297,14 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static BatchJobEntryService getBatchJobEntryService(){
 		return (BatchJobEntryService)CONTEXT.getBean(TK_BATCH_JOB_ENTRY_SERVICE);
+	}
+	
+	public static PlatformTransactionManager getPlatformTransactionManager() {
+		return (PlatformTransactionManager)CONTEXT.getBean("transactionManager");
+	}
+	
+	public static TransactionTemplate getTransactionTemplate() {
+		return new TransactionTemplate(getPlatformTransactionManager());
 	}
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
