@@ -14,15 +14,15 @@ import org.kuali.hr.time.util.TkConstants;
 public class BatchJobManagerThread extends Thread {
     private static final Logger LOG = Logger.getLogger(BatchJobManagerThread.class);
 
-    public static int startupSleep = 120;
-
+    int startupSleep = 120;
 	//This represents a number of days on both sides of today
 	int numOfDaysToPoll = 30;
     int secondsToSleep = 120;
 
-    public BatchJobManagerThread(int secondsToSleep, int numberOfDaysToPoll) {
+    public BatchJobManagerThread(int secondsToSleep, int numberOfDaysToPoll, int startupSleep) {
         this.numOfDaysToPoll = numberOfDaysToPoll;
         this.secondsToSleep = secondsToSleep;
+        this.startupSleep = startupSleep;
     }
 
 	@Override

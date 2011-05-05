@@ -16,16 +16,25 @@ public class BatchJobEntryPoller extends Thread  {
 
     TkBatchManager manager;
     int secondsToSleep;
+    int startupSleep;
     String ipAddress;
 
-    public BatchJobEntryPoller(TkBatchManager manager, int sleepSeconds) {
+    public BatchJobEntryPoller(TkBatchManager manager, int sleepSeconds, int startupSleep) {
         this.manager = manager;
         this.secondsToSleep = sleepSeconds;
+        this.startupSleep = startupSleep;
         this.ipAddress = TKUtils.getIPNumber();
     }
 
 	@Override
 	public void run() {
+
+        try {
+            Thread.sleep(1000 * startupSleep);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
+
         while(true) {
             LOG.debug("Looking for BatchJobEntries to run on '" + this.ipAddress + "'");
             try {

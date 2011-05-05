@@ -2,9 +2,18 @@
     <!-- cluster.ips : A comma separated list of TK servers that will be utilized
          during batch job running. Machines are assigned round-robin. -->
     <param name="cluster.ips">override-in-local-settings</param>
-
     <!-- Only one machine should be listed as the master ip -->
     <param name="tk.batch.master.ip">override-in-local-settings</param>
+    <!-- Worker max threads size -->
+    <param name="tk.batch.threadpool.size">5</param>
+    <!-- Worker poll thread sleep time (seconds) -->
+    <param name="tk.batch.poller.seconds.sleep">30</param>
+    <!-- Master job poll thread sleep time (seconds) -->
+    <param name="tk.batch.job.poller.seconds.sleep">30</param>
+    <!-- +/- days to look at when invesigating calendar entries -->
+    <param name="tk.batch.job.days.polling.window">30</param>
+    <!-- Startup sleep, wait this long before starting ANY threads on any nodes -->
+    <param name="tk.batch.thread.startup.sleep">30</param>
 
     <param name="environment" override="false">dev</param><!-- set environment param here -->
     <param name="module.name">tk</param>
