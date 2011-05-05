@@ -9,7 +9,7 @@ import org.junit.Test;
 public class UICalendarTest extends SeleneseTestCase {
     @Before
     public void setUp() throws Exception {
-        selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://localhost:9080/");
+        selenium = new DefaultSelenium("localhost", 4444, "*firefox /usr/lib/firefox-4.0/firefox-bin", "http://localhost:9080/");
         try {
             selenium.start();
         } catch (Exception e) {
@@ -38,4 +38,5 @@ public class UICalendarTest extends SeleneseTestCase {
         selenium.stop();
     }
 }
+
 
