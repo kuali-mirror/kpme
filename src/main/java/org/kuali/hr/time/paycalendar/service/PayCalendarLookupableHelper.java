@@ -35,7 +35,7 @@ public class PayCalendarLookupableHelper extends
 			@Override
 			public String constructCompleteHtmlTag() {
 				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-						+ className + "&methodToCall=start&hrJobId=" + payCalendarId
+						+ className + "&methodToCall=start&payCalendarId=" + payCalendarId
 						+ "&calendarGroup=\">view</a>";
 			}
 		};
