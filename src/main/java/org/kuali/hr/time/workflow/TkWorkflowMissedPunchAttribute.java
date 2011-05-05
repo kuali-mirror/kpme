@@ -75,6 +75,8 @@ public class TkWorkflowMissedPunchAttribute implements RoleAttribute {
         String assign_string = null;
         String tsDocIdString = null;
 
+        // TODO : Perhaps use KNS Xml Serializer Service?
+        // KNSServiceLocator.getXmlObjectSerializerService().fromXml()
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);

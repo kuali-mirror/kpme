@@ -155,7 +155,7 @@ public class TkConstants {
         public static final String SCHEDULED = "S";
         public static final String RUNNING = "R";
         public static final String FINISHED = "F";
-
+        public static final String EXCEPTION = "E";
     }
 
     public static final class BATCH_JOB_NAMES {

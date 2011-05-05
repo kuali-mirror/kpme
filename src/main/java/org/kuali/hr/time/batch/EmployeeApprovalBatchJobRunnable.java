@@ -10,7 +10,7 @@ public class EmployeeApprovalBatchJobRunnable extends BatchJobEntryRunnable {
     }
 
 	@Override
-	public void doWork() {
+	public void doWork() throws Exception {
 		String principalId = batchJobEntry.getPrincipalId();
 		String documentId = batchJobEntry.getDocumentId();
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);

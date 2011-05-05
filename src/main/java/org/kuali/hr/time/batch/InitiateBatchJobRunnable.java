@@ -12,7 +12,7 @@ public class InitiateBatchJobRunnable extends BatchJobEntryRunnable {
     }
 
 	@Override
-	public void doWork() {
+	public void doWork() throws Exception {
 		BatchJobEntry initiateBatchJobEntry = TkServiceLocator.getBatchJobEntryService().getBatchJobEntry(getTkBatchJobEntryId());
 		String principalId = initiateBatchJobEntry.getPrincipalId();
 		Long payCalendarId = initiateBatchJobEntry.getPayCalendarEntryId();
@@ -21,8 +21,9 @@ public class InitiateBatchJobRunnable extends BatchJobEntryRunnable {
 			TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, payCalendarEntry);
 		} catch (WorkflowException e) {
 			Log.info("Workflow error found"+ e);
+            throw e;
 		}
-		
+
 	}
 
 }

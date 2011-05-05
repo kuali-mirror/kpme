@@ -13,12 +13,27 @@ public interface BatchJobEntryService {
 	 */
 	public BatchJobEntry getBatchJobEntry(Long batchJobEntryId);
 
+    /**
+     * Saves or updates the provided BatchJobEntry.
+     * @param batchJobEntry The object we want to save.
+     */
 	public void saveBatchJobEntry(BatchJobEntry batchJobEntry);
-	
+
+    /**
+     * For the indicated batchJobId, grab a List of BatchJobEntry objects.
+     * @param batchJobId The ID to query against.
+     * @return A List of BatchJobEntry objects.
+     */
 	public List<BatchJobEntry> getBatchJobEntries(Long batchJobId);
 
+    /**
+     * For the given parameters, return a List of BatchJobEntry objects.
+     * @param ip The IP address we are interested in.
+     * @param status The status.
+     * @return A List of BatchJobEntry objects.
+     */
     public List<BatchJobEntry> getBatchJobEntries(String ip, String status);
-    
+
       /**
      * Fetch a list of BatchJob objects by the given criteria.
      * @param criteria

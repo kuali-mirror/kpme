@@ -1,8 +1,11 @@
 package org.kuali.hr.time.batch;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public abstract class BatchJobEntryRunnable implements Runnable{
 
@@ -34,14 +37,28 @@ public abstract class BatchJobEntryRunnable implements Runnable{
 	@Override
 	public final void run() {
         doBeforeRun();
-        doWork();
+
+        try {
+            // TODO: Set up transaction
+            doWork();
+            // TODO: Complete transaction
+        } catch (Throwable t) {
+            // TODO: Rollback transaction
+            LOG.warn("BatchJobEntry: " + batchJobEntry.getTkBatchJobEntryId() + " in Exception status.");
+            batchJobEntry.setBatchJobException(t.getStackTrace().toString());
+        }
+
         doAfterRun();
 	}
 
     /**
-     * Implement this method in your subclass. Place business logic here.
+     * Implement this method in your subclass. Place business logic here to handle
+     * whatever needs to be done for this unit of work.
+     *
+     * @throws Exception when problem encountered during work processing, exception
+     * stored in BatchJobEntry, and transaction rolled back.
      */
-    public abstract void doWork();
+    public abstract void doWork() throws Exception;
 
     /**
      * Method that is called after the user function doWork() is called. Any
@@ -52,7 +69,12 @@ public abstract class BatchJobEntryRunnable implements Runnable{
         long runtime = endTime - startTime;
         runtime = (runtime > 0) ? runtime : 1; // hack around 0 length job... just in case.
         LOG.debug("Job finished in " + runtime / 1000 + " seconds.");
-        batchJobEntry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.FINISHED);
+
+        if (StringUtils.isEmpty(batchJobEntry.getBatchJobException())) {
+            batchJobEntry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.FINISHED);
+        } else {
+            batchJobEntry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.EXCEPTION);
+        }
         TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(batchJobEntry);
     }
 
