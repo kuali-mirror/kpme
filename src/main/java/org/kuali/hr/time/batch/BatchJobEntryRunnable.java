@@ -3,9 +3,10 @@ package org.kuali.hr.time.batch;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.core.config.ConfigContext;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 
 public abstract class BatchJobEntryRunnable implements Runnable{
 
@@ -36,19 +37,19 @@ public abstract class BatchJobEntryRunnable implements Runnable{
 
 	@Override
 	public final void run() {
-        doBeforeRun();
-
-        try {
-            // TODO: Set up transaction
-            doWork();
-            // TODO: Complete transaction
-        } catch (Throwable t) {
-            // TODO: Rollback transaction
-            LOG.warn("BatchJobEntry: " + batchJobEntry.getTkBatchJobEntryId() + " in Exception status.");
-            batchJobEntry.setBatchJobException(t.getStackTrace().toString());
-        }
-
-        doAfterRun();
+        	TkServiceLocator.getTransactionTemplate().execute(new TransactionCallbackWithoutResult() {
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					try {
+						doBeforeRun();
+						doWork();
+						doAfterRun();
+					}  catch (Throwable t) {
+			            LOG.warn("BatchJobEntry: " + batchJobEntry.getTkBatchJobEntryId() + " in Exception status.");
+			            batchJobEntry.setBatchJobException(t.getStackTrace().toString());
+			        }
+				};
+        	});
 	}
 
     /**
