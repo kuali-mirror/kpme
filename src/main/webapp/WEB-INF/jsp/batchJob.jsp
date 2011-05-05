@@ -20,7 +20,9 @@
                     </tr>
                     <tr>
                         <th><label>Pay calendar period : </label></th>
-                        <td><input type="text" name="payCalendarPeriod"/></td>
+                        <td>
+                            <input type="text" name="calendarGroup" id="calendarGroup"/>
+                        </td>
                         <td><input type="submit" value="Run"/></td>
                     </tr>
                 </table>

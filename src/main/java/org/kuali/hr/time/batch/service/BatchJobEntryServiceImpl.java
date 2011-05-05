@@ -2,8 +2,6 @@ package org.kuali.hr.time.batch.service;
 
 import org.kuali.hr.time.batch.BatchJobEntry;
 import org.kuali.hr.time.batch.dao.BatchJobEntryDao;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.rice.kew.engine.node.LogNode;
 
 import java.util.List;
 import java.util.Map;
@@ -38,12 +36,5 @@ public class BatchJobEntryServiceImpl implements BatchJobEntryService {
     @Override
     public List<BatchJobEntry> getBatchJobEntries(Map<String, Object> criteria) {
         return batchJobEntryDao.getBatchJobEntries(criteria);
-    }
-
-    @Override
-    public void updateIpAddress(String batchJobEntryId, String ipAddress) {
-        BatchJobEntry batchJobEntry = getBatchJobEntry(Long.valueOf(batchJobEntryId));
-        batchJobEntry.setIpAddress(ipAddress);
-        this.batchJobEntryDao.saveOrUpdate(batchJobEntry);
     }
 }

@@ -40,6 +40,4 @@ public interface BatchJobEntryService {
      * @return List of BatchJob objects.
      */
     List<BatchJobEntry> getBatchJobEntries(Map<String, Object> criteria);
-
-    void updateIpAddress(String batchJobEntryId, String ipAddress);
 }
