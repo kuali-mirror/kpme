@@ -42,7 +42,8 @@
               <property name="objectAttributeName" value="payCalendarObj"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarGroup" p:targetName="calendarGroup"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="payCalendarId" p:targetName="payCalendarId"/>                 
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarGroup" p:targetName="calendarGroup"/>                 
                 </list>
               </property>
             </bean>
@@ -305,6 +306,7 @@
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
+        <bean parent="FieldDefinition" p:attributeName="payCalendarId" p:noInquiry="true" p:noLookup="true" p:hidden="true"/>
         <bean parent="FieldDefinition" p:attributeName="beginPeriodDateTime"/>
         <bean parent="FieldDefinition" p:attributeName="endPeriodDateTime"/>
       </list>

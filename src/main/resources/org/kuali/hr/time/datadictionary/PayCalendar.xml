@@ -10,6 +10,9 @@
     <property name="lookupDefinition">
       <ref bean="PayCalendar-lookupDefinition"/>
     </property>
+    <property name="inquiryDefinition">
+		<ref bean="PayCalendar-inquiryDefinition" />
+	</property>
     <property name="attributes">
       <list>
         <ref bean="PayCalendar-calendarGroup"/>
@@ -98,5 +101,27 @@
     </property>
     <property name="title" value="Pay Calendar Lookup"/>
   </bean>
+  
+  <!-- -->
+  <!-- Inquiry Definition: -->
+  <!-- -->
+  <bean id="PayCalendar-inquiryDefinition" parent="PayCalendar-inquiryDefinition-parentBean" />
+  <bean id="PayCalendar-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Pay Calendar Inquiry"/>
+	<property name="inquirySections">
+		<list>
+			<bean parent="InquirySectionDefinition" p:title="Pay Calendar Details">
+				<property name="inquiryFields">
+					<list>
+						<bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
+				        <bean parent="FieldDefinition" p:attributeName="flsaBeginDay"/>
+				        <bean parent="FieldDefinition" p:attributeName="flsaBeginTime"/>
+				        <bean parent="FieldDefinition" p:attributeName="active"/>
+					</list>
+				</property>
+			</bean>
+		</list>
+	</property>
+</bean>
    
 </beans>
