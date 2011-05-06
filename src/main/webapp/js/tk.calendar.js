@@ -225,13 +225,20 @@ $(document).ready(function() {
         if (bValid) {
 
             var params = {};
-
+            // if the end time is 12:00 am, move the end date to the next day
+            var endTimeValue = $('#endTimeField-messages').val().toUpperCase();
+        	var endDateValue = $('#date-range-end').val();
+	        if(endTimeValue == "0:0") {
+	            var dateRangeField = endDateValue.split("/");
+	            var dateString = parseInt(dateRangeField[1]) + 1;
+	            endDateValue = dateRangeField[0]+"/"+dateString+"/"+dateRangeField[2];
+	        }
             // these are for the submitted form
             $('#methodToCall').val('addTimeBlock');
             $('#startDate').val($('#date-range-begin').val());
-            $('#endDate').val($('#date-range-end').val());
+            $('#endDate').val(endDateValue);
             $('#startTime').val($('#beginTimeField-messages').val());
-            $('#endTime').val($('#endTimeField-messages').val());
+            $('#endTime').val(endTimeValue);
             $('#hours').val($('#hoursField').val());
             $('#amount').val($('#amountField').val());
             $('#selectedEarnCode').val($('#earnCode').getEarnCode());
@@ -240,9 +247,9 @@ $(document).ready(function() {
 
             // these are for the validation
             params['startDate'] = $('#date-range-begin').val();
-            params['endDate'] = $('#date-range-end').val();
+            params['endDate'] = endDateValue;
             params['startTime'] = $('#beginTimeField-messages').val();
-            params['endTime'] = $('#endTimeField-messages').val();
+            params['endTime'] = endTimeValue;
             params['hours'] = $('#hoursField').val();
             params['amount'] = $('#amountField').val();
             params['selectedEarnCode'] = $('#earnCode').getEarnCode();
