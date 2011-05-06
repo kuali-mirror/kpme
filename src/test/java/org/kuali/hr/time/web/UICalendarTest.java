@@ -22,7 +22,7 @@ public class UICalendarTest extends SeleneseTestCase {
         selenium.open("/tk-dev/TimeDetail.do");
         //selenium.type("__login_user", "fran");
         //selenium.click("//input[@name='login']");
-        selenium.waitForPageToLoad("30000");
+        //selenium.waitForPageToLoad("30000");
         selenium.mouseDownAt("css=td.fc-day10", "10,10");
         selenium.mouseUpAt("css=td.fc-day10", "10,10");
         selenium.type("beginTimeField", "08:15 AM");
