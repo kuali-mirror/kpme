@@ -9,7 +9,7 @@ import org.junit.Test;
 public class UICalendarTest extends SeleneseTestCase {
     @Before
     public void setUp() throws Exception {
-        selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://localhost:7080/");
+        selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://ci.kpme.kuali.org:7080/");
         try {
             selenium.start();
         } catch (Exception e) {
@@ -23,12 +23,13 @@ public class UICalendarTest extends SeleneseTestCase {
         selenium.type("__login_user", "admin");
         selenium.click("//input[@name='login']");
         selenium.waitForPageToLoad("30000");
+        selenium.select("assignment","value=30_30_30");
         selenium.mouseDownAt("css=td.fc-day10", "10,10");
         selenium.mouseUpAt("css=td.fc-day10", "10,10");
         selenium.type("beginTimeField", "08:15 AM");
         selenium.type("endTimeField", "05:15 PM");
         selenium.click("//button[@type='button']");
-        selenium.waitForPageToLoad("30000");
+//        selenium.clickAt("//button[@type='button']", "10,10");
         verifyTrue(selenium.isTextPresent("08:15 AM"));
         verifyTrue(selenium.isTextPresent("05:15 PM"));
     }
