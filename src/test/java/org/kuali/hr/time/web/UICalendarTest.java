@@ -9,7 +9,7 @@ import org.junit.Test;
 public class UICalendarTest extends SeleneseTestCase {
     @Before
     public void setUp() throws Exception {
-        selenium = new DefaultSelenium("localhost", 4444, "*firefox /usr/lib/firefox-4.0/firefox-bin", "http://localhost:8090/");
+        selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://localhost:7080/");
         try {
             selenium.start();
         } catch (Exception e) {
@@ -19,10 +19,10 @@ public class UICalendarTest extends SeleneseTestCase {
 
     @Test
     public void testAddTimeBlock() throws Exception {
-        selenium.open("/tk-dev/TimeDetail.do");
-        //selenium.type("__login_user", "fran");
-        //selenium.click("//input[@name='login']");
-        //selenium.waitForPageToLoad("30000");
+        selenium.open("/tk-stg/TimeDetail.do");
+        selenium.type("__login_user", "admin");
+        selenium.click("//input[@name='login']");
+        selenium.waitForPageToLoad("30000");
         selenium.mouseDownAt("css=td.fc-day10", "10,10");
         selenium.mouseUpAt("css=td.fc-day10", "10,10");
         selenium.type("beginTimeField", "08:15 AM");
