@@ -1,0 +1,2 @@
+"PERM_ID","OBJ_ID","VER_NBR","PERM_TMPL_ID","NMSPC_CD","NM","DESC_TXT","ACTV_IND"
+"1","1","1","7","KFS-AR","Claim Electronic Payment","Allows access to the Electronic Fund Transfer interface for the claiming of electronic funds using the Cash Control Document (CTRL).","Y"
