@@ -28,7 +28,7 @@ public class TimeApprovalAction extends TkAction {
 		TKUser tkUser = TKContext.getUser();
 		taf.setName(tkUser.getCurrentPerson().getName());
 		taf.setPayBeginDate(TKUtils.createDate(10, 1, 2011, 0, 0, 0));
-		taf.setPayEndDate(TKUtils.createDate(10, 15, 2011, 23, 59, 59));
+		taf.setPayEndDate(TKUtils.createDate(10, 15, 2011, 0, 0, 0));
 
 		taf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taf.getPayBeginDate(), taf.getPayEndDate()));
 		taf.setApprovalTimeSummaryRows(TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taf.getPayBeginDate(), taf.getPayEndDate()));
