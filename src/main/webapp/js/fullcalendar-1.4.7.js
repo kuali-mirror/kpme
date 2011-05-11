@@ -1745,7 +1745,7 @@
 
             html +=
                     "<div class='" + className + event.className.join(' ') + " timeblock' style='position:absolute;z-index:8;left:" + left + "px;margin-bottom:3px;' id='" + event.id + "'>" +
-                            "<div id='timeblock-edit'>" + event.title + "<img class='timeblock-delete' src='images/delete-button.png'/></div>" +
+                            "<div id='timeblock-edit'><img class='timeblock-delete' src='images/delete-button.png'/>" + event.title + "</div>" +
                             fromTo +
                             "<table style='font-size:0.7em;'>" +
                              timeHourDetail +

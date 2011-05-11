@@ -482,18 +482,6 @@ select {
     font-size: 1em !important;
 }
 
-/*
-#timeblock-delete {
-    font-size:1.1em !important;
-    font-weight: bold;
-    color:red;
-    margin: 0;
-    padding: 0;
-    z-index: 15;
-    cursor: pointer;
-}
-*/
-
 .timeblock-delete{
     width: 12px;
     height: 12px;
@@ -501,7 +489,7 @@ select {
     z-index: 15;
     cursor: pointer;
     float:right;
-
+    clear: none;
 }
 
 
@@ -510,12 +498,8 @@ select {
     font-size: .7em;
     font-weight: bold;
     cursor: pointer;
-    margin: 0 auto 0 auto;
+    /*margin: 0 auto 0 auto;*/
     text-align: center;
-}
-
-#timeblock-edit img {
-
 }
 
 .timeblock .timeblock-detail {
