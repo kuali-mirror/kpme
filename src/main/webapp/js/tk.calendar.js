@@ -39,14 +39,15 @@ $(document).ready(function() {
         eventClick: function(calEvent, jsEvent) {
 
             var targetId = jsEvent.target.id;
+            var targetClassName = jsEvent.target.className;
 
             // delete an existing event if the delete button is clicked
-            if (targetId == 'timeblock-delete') {
+            if (targetClassName == 'timeblock-delete') {
                 window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + calEvent.id;
             }
 
             // otherwise, just open the time entry form in the edit mode
-            if (targetId == 'timeblock-edit' || targetId == '') {
+            if (targetId == 'timeblock-edit' /* || targetId == ''*/) {
                 var dateFormat = "MM/dd/yyyy";
                 var timeFormat = "hh:mm TT";
 
@@ -115,7 +116,27 @@ $(document).ready(function() {
         },
         editable: false,
         // this is the url for fetching timeblocks through the ajax call
-        events : eventUrl,
+        //events : eventUrl,
+        events: jQuery.parseJSON($('#timeBlockString').val()),
+        /*
+        events : [
+            {
+                "assignmentCss":"assignment0",
+                "title":"custservice",
+                "earnCode":"RGN",
+                "earnCodeType":"TIME",
+                "start":"2011-05-11T08:15:00.000-04:00",
+                "end":"2011-05-11T17:15:00.000-04:00",
+                "id":"5792",
+                "hours":9.00,
+                "amount":null,
+                "timezone":"America\/Indianapolis",
+                "assignment":"0_8529_0",
+                "tkTimeBlockId":5792,
+                "timeHourDetails":"[{\"earnCode\":\"RGN\",\"hours\":9.00,\"amount\":null}]"
+            }
+        ],
+        */
         loading: function(bool) {
             if (bool) {
                 $('#loading').show();
@@ -227,12 +248,12 @@ $(document).ready(function() {
             var params = {};
             // if the end time is 12:00 am, move the end date to the next day
             var endTimeValue = $('#endTimeField-messages').val().toUpperCase();
-        	var endDateValue = $('#date-range-end').val();
-	        if(endTimeValue == "0:0") {
-	            var dateRangeField = endDateValue.split("/");
-	            var dateString = parseInt(dateRangeField[1]) + 1;
-	            endDateValue = dateRangeField[0]+"/"+dateString+"/"+dateRangeField[2];
-	        }
+            var endDateValue = $('#date-range-end').val();
+            if (endTimeValue == "0:0") {
+                var dateRangeField = endDateValue.split("/");
+                var dateString = parseInt(dateRangeField[1]) + 1;
+                endDateValue = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
+            }
             // these are for the submitted form
             $('#methodToCall').val('addTimeBlock');
             $('#startDate').val($('#date-range-begin').val());
@@ -362,7 +383,7 @@ $(document).ready(function() {
         $(this).loadFields();
         // KPME-204
         // clear the existing values only when the earn code type is different
-        if($(this).getEarnCodeType() != currentEarnCodeType) {
+        if ($(this).getEarnCodeType() != currentEarnCodeType) {
             $('#beginTimeField, #endTimeField, #hoursField, #amountField').val('');
         }
         $(this).resetState();

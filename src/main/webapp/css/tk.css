@@ -48,7 +48,7 @@
 }
 
 #dialog-form {
-	font-size: .8em !important;	
+	font-size: .8em !important;
 }
 
 .ui-dialog-buttonpane {
@@ -543,4 +543,8 @@ select {
 #batch-result tr, #batch-result td, #batch-result th {
     padding: 3px;
     border: 1px solid black;
+}
+
+#timeBlockString {
+    display: none;
 }

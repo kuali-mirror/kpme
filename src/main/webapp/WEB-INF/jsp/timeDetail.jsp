@@ -28,6 +28,9 @@
         </c:forEach>
          -->
 
+        <%-- this is used by the javascript to fetch the time block json --%>
+        <html:textarea property="timeBlockString" styleId="timeBlockString" value="${Form.timeBlockString}"/>
+
         <div class="global-error"><!-- Error: This is a global error for the demo purpose  --></div>
         <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;">
 
@@ -91,7 +94,7 @@
                                 </td>
                             </tr>
                             <tr id="hoursSection" style="display: none;">
-                                <td><label for=hoursField">Hours:</label></td>
+                                <td><label for="hoursField">Hours:</label></td>
                                 <td>
                                     <input id="hoursField" name="hours"/>
                                 </td>

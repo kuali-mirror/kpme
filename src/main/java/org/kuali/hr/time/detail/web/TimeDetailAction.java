@@ -42,7 +42,9 @@ public class TimeDetailAction extends TimesheetAction {
         tdaf.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument(), timeBlocks));
 
         this.validateHourLimit(tdaf);
-        
+
+        // get time blocks
+        tdaf.setTimeBlockString(TkServiceLocator.getTimeBlockService().getTimeBlocksForOutput(tdaf));
 
         // for visually impaired users
         // TimesheetDocument td = tdaf.getTimesheetDocument();
@@ -87,6 +89,9 @@ public class TimeDetailAction extends TimesheetAction {
         return mapping.findForward("ws");
     }
 
+    // The purpose of this method is to get the time blocks through the ajax call, but this is currently not used.
+    // In order to minimize the trips to the server, the function to get the time blocks has been moved to the execute() method,
+    // so the time block will be fetched the first time the page loads.
     public ActionForward getTimeBlocks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailActionForm timeDetailForm = (TimeDetailActionForm) form;
         String timeBlockJson = TkServiceLocator.getTimeBlockService().getTimeBlocksForOutput(timeDetailForm);

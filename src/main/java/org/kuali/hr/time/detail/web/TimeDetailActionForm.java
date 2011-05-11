@@ -20,11 +20,8 @@ public class TimeDetailActionForm extends TimesheetActionForm {
      */
     private static final long serialVersionUID = 5277197287612035236L;
 
-	// this is for the ajax call
 	private String outputString;
-	
 	private String warningJason;
-	
 	private Long tkTimeBlockId;
 	private String startTime;
 	private String endTime;
@@ -37,11 +34,10 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	private String endDate;
 	private String serverTimezone;
 	private String userTimezone;
-	
 	private TimeSummary timeSummary;
-	
 	private Map<String, String> assignStyleClassMap = new HashMap<String, String>();
-	
+    private String timeBlockString;
+
 	public String getOutputString() {
 		return outputString;
 	}
@@ -93,7 +89,7 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	public void setTimeBlock(TimeBlock timeBlock) {
 		this.timeBlock = timeBlock;
 	}
-	
+
 	public String getClockAction() {
 		return clockAction;
 	}
@@ -171,4 +167,12 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	public void setAssignStyleClassMap(Map<String, String> assignStyleClassMap) {
 		this.assignStyleClassMap = assignStyleClassMap;
 	}
+
+    public String getTimeBlockString() {
+        return timeBlockString;
+    }
+
+    public void setTimeBlockString(String timeBlockString) {
+        this.timeBlockString = timeBlockString;
+    }
 }
