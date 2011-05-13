@@ -2,6 +2,7 @@ package org.kuali.hr.time.earncode.validation;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class EarnCodeMaintenaceTest extends TkTestCase {
@@ -45,9 +47,18 @@ public class EarnCodeMaintenaceTest extends TkTestCase {
 		super.tearDown();
 	}
 	
+	 
 	@Test
 	public void testEditExistingEarnCode() throws Exception {
-		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_CODE_MAINT_URL);
+		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_CODE_MAINT_URL);		
+		List<HtmlElement> lstElements = earnCodeLookUp.getElementsByIdAndOrName("history");
+		for(HtmlElement e : lstElements) {
+			HtmlRadioButtonInput radioButton = (HtmlRadioButtonInput) e;
+			if(e.getAttribute("title").equals("Show History - Yes")) {
+				radioButton.setChecked(true);	// set show history to yes
+				break;
+			}
+		}
 		earnCodeLookUp = HtmlUnitUtil.clickInputContainingText(earnCodeLookUp, "search");
 		assertTrue("Page contains test Earn Code", earnCodeLookUp.asText().contains("RGN Test"));		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit", tkEarnCodeId.toString());		

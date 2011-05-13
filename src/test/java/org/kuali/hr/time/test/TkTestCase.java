@@ -23,6 +23,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
@@ -133,6 +134,13 @@ public class TkTestCase extends KNSTestCase{
         } else if (element instanceof HtmlFileInput) {
             HtmlFileInput fileInputField = (HtmlFileInput) element;
             fileInputField.setValueAttribute(fieldValue);
+        } else if (element instanceof HtmlRadioButtonInput) {
+        	HtmlRadioButtonInput radioButton = (HtmlRadioButtonInput) element;
+        	if (fieldValue.equals("on")) {
+        		radioButton.setChecked(true);
+        	} else if (fieldValue.equals("off")) {
+        		radioButton.setChecked(false);
+        	}
         } else {
             fail("Unknown control field: " + fieldId);
         }
