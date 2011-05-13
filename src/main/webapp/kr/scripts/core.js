@@ -325,3 +325,16 @@ function getStyleObject(objectId) {
 	return false;
    }
 }
+
+function setDateValues(object) {
+	if(document.getElementById && document.getElementById("document.newMaintainableObject.add.roles.effectiveDate")) {
+		document.getElementById("document.newMaintainableObject.add.roles.effectiveDate").value = object.value;
+		for(var i=0; i>=0; i++){
+			if(document.getElementById && document.getElementById("document.newMaintainableObject.roles["+i+"].effectiveDate")){
+				document.getElementById("document.newMaintainableObject.roles["+i+"].effectiveDate").value = object.value;
+			}else{
+				break;
+			}
+		}	
+	}
+}

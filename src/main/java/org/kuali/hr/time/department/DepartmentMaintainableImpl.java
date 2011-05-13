@@ -3,6 +3,7 @@ package org.kuali.hr.time.department;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -23,7 +24,6 @@ public class DepartmentMaintainableImpl extends KualiMaintainableImpl {
 		for(TkRole role : roles) {
 			role.setDepartment(dept.getDept());
 			role.setUserPrincipalId(TKContext.getPrincipalId());
-			role.setEffectiveDate(dept.getEffectiveDate());
 		}
 
 		dept.setRoles(roles);
@@ -33,6 +33,17 @@ public class DepartmentMaintainableImpl extends KualiMaintainableImpl {
 	}
 
     @Override
+	protected void setNewCollectionLineDefaultValues(String arg0,
+			PersistableBusinessObject arg1) {
+    	if(arg1 instanceof TkRole){
+    		TkRole role = (TkRole)arg1;
+    		Department dept = (Department) this.getBusinessObject();
+    		role.setEffectiveDate(dept.getEffectiveDate());
+    	}
+		super.setNewCollectionLineDefaultValues(arg0, arg1);
+	}
+
+	@Override
     public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
         Department dOld = (Department)document.getOldMaintainableObject().getBusinessObject();
         Department dNew = (Department)document.getNewMaintainableObject().getBusinessObject();
