@@ -122,11 +122,6 @@ public class WorkAreaMaintenanceDocumentRule extends
 				valid &= this.validateTask(task, wa.getTasks());
 			}
 		} else if ((pbo instanceof TkRole && pboWorkArea instanceof WorkArea)) {
-			TkRole tkRole = (TkRole) pbo;
-			WorkArea wa = (WorkArea) pboWorkArea;
-			if (wa.getEffectiveDate() != null) {
-				tkRole.setEffectiveDate(wa.getEffectiveDate());
-			}
 			valid = true;
 		}
 		return valid;

@@ -337,4 +337,14 @@ function setDateValues(object) {
 			}
 		}	
 	}
+	if(document.getElementById && document.getElementById("document.newMaintainableObject.add.tasks.effectiveDate")) {
+		document.getElementById("document.newMaintainableObject.add.tasks.effectiveDate").value = object.value;
+		for(var i=0; i>=0; i++){
+			if(document.getElementById && document.getElementById("document.newMaintainableObject.tasks["+i+"].effectiveDate")){
+				document.getElementById("document.newMaintainableObject.tasks["+i+"].effectiveDate").value = object.value;
+			}else{
+				break;
+			}
+		}	
+	}
 }
