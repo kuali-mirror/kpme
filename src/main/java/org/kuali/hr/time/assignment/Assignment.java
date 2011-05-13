@@ -166,6 +166,9 @@ public class Assignment extends PersistableBusinessObjectBase {
 	}
 
 	public Long getTask() {
+		if(task == null) {
+			return new Long(0);	// default task to 0 if task not provided
+		}
 		return task;
 	}
 

@@ -1,6 +1,7 @@
 package org.kuali.hr.time.holidaycalendar.validation;
 
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -9,9 +10,9 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 public class HolidayCalendarRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateLocation(HolidayCalendar holidayCalendar) {
-		if (holidayCalendar.getLocation() != null
-				&& !ValidationUtils.validateLocation(holidayCalendar
-						.getLocation(), null)) {
+		String location = holidayCalendar.getLocation();
+		if (location != null && !location.equals(TkConstants.WILDCARD_CHARACTER)
+				&& !ValidationUtils.validateLocation(holidayCalendar.getLocation(), null)) {
 			this.putFieldError("location", "error.existence", "location '"
 					+ holidayCalendar.getLocation() + "'");
 			return false;
