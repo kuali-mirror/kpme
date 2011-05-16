@@ -100,11 +100,11 @@ public class JobLookupableHelper extends KualiLookupableHelperServiceImpl {
 			for (BusinessObject bo : objectList) {
 				Job jobNew = (Job) bo;
 				if (objectsWithoutHistory.containsKey(jobNew.getPrincipalId()
-						+ jobNew.getDept())) {
+						+ jobNew.getJobNumber())) {
 					// Comparing here for duplicates
 					Job jobOld = (Job) objectsWithoutHistory.get(jobNew
 							.getPrincipalId()
-							+ jobNew.getDept());
+							+ jobNew.getJobNumber());
 					int comparison = jobNew.getEffectiveDate().compareTo(
 							jobOld.getEffectiveDate());
 					// Comparison for highest effective date object to put
@@ -113,16 +113,16 @@ public class JobLookupableHelper extends KualiLookupableHelperServiceImpl {
 						if (jobNew.getTimestamp().after(jobOld.getTimestamp())) {
 							// Sorting here by timestamp value
 							objectsWithoutHistory.put(jobNew.getPrincipalId()
-									+ jobNew.getDept(), jobNew);
+									+ jobNew.getJobNumber(), jobNew);
 						}
 						break;
 					case 1:
 						objectsWithoutHistory.put(jobNew.getPrincipalId()
-								+ jobNew.getDept(), jobNew);
+								+ jobNew.getJobNumber(), jobNew);
 					}
 				} else {
 					objectsWithoutHistory.put(jobNew.getPrincipalId()
-							+ jobNew.getDept(), jobNew);
+							+ jobNew.getJobNumber(), jobNew);
 				}
 			}
 			List<BusinessObject> objectListWithoutHistory = new ArrayList<BusinessObject>();
