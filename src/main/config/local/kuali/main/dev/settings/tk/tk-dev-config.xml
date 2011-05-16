@@ -1,0 +1,35 @@
+<!-- TIME dev environment configuration -->
+
+<config>
+	<param name="rice.ksb.batch.mode">true</param>
+
+	<!-- dev overrides -->
+	<param name="override.finalapprover">true</param>
+	<param name="local.workflow">true</param>
+	<param name="no.save.document.on.create">false</param>
+	<param name="dev.mode">false</param>
+	<param name="message.persistence">true</param>
+	<param name="message.delivery">synchronous</param>
+	<!-- end dev overrides -->
+
+    <!-- Batch -->
+    <!-- cluster.ips : A comma separated list of TK servers that will be utilized
+         during batch job running. Machines are assigned round-robin. -->
+    <param name="cluster.ips">CHANGE_THIS</param>
+    <!-- Only one machine should be listed as the master ip -->
+    <param name="tk.batch.master.ip">CHANGE_THIS</param>
+
+	<param name="http.url">http://localhost:8080</param>
+	<param name="application.url">${http.url}/${app.context.name}</param>
+    <param name="workflow.url">http://CHANGE_THIS/kr-dev/kew/</param>
+	<param name="serviceServletUrl">http://${http.url}/tk-${environment}/remoting/</param>
+
+	<!-- database params -->
+    <param name="tk.datasource.url">jdbc:mysql://CHANGE_THIS:3306/CHANGE_THIS</param>
+    <param name="tk.datasource.username">tk</param>
+	<param name="tk.datasource.password">CHANGE_THIS</param>
+
+    <param name="kr.datasource.url">jdbc:mysql://CHANGE_THIS/krtt</param>
+	<param name="kr.datasource.username">krtt</param>
+	<param name="kr.datasource.password">CHANGE_THIS</param>
+</config>
