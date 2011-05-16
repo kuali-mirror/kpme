@@ -19,7 +19,7 @@ public class UICalendarTest extends SeleneseTestCase {
 
     @Test
     public void testAddTimeBlock() throws Exception {
-        selenium.open("/tk-stg/TimeDetail.do");
+        selenium.open("/tk-dev/TimeDetail.do");
         selenium.type("__login_user", "admin");
         selenium.click("//input[@name='login']");
         selenium.waitForPageToLoad("30000");
