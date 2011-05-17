@@ -83,7 +83,7 @@
     
   <bean id="PayCalendarEntries-beginPeriodDateTime" parent="PayCalendarEntries-beginPeriodDateTime-parentBean"/>
   <bean id="PayCalendarEntries-beginPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Begin Pay Period Date Time"/>
+    <property name="shortLabel" value="Begin Pay Period Date Time"/>  <!-- need to use different labels for lookup and search results fields.Had to make short label longer than label, useShortLabel not working for lookup fields -->
     <property name="maxLength" value="30"/>
      <property name="validationPattern">
  		<bean parent="TimestampValidationPattern"/>
@@ -93,7 +93,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>
     <property name="name" value="beginPeriodDateTime"/>
-    <property name="label" value="Begin Pay Period Date Time"/>
+    <property name="label" value="Begin Pay Period Date"/>
   </bean>
   
     
@@ -129,7 +129,7 @@
 
   <bean id="PayCalendarEntries-endPeriodDateTime" parent="PayCalendarEntries-endPeriodDateTime-parentBean"/>
   <bean id="PayCalendarEntries-endPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="End Pay Period Date Time"/>
+    <property name="shortLabel" value="End Pay Period Date Time"/> <!-- need to use different labels for lookup and search results fields.Had to make shortLabel longer than label, useShortLabel not working for lookup fields -->
     <property name="maxLength" value="30"/>
     <property name="validationPattern">
  		<bean parent="TimestampValidationPattern"/>
@@ -139,7 +139,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>
     <property name="name" value="endPeriodDateTime"/>
-    <property name="label" value="End Pay Period Date Time"/>
+    <property name="label" value="End Pay Period Date"/>
   </bean>
   
   <bean id="PayCalendarEntries-endPeriodDate" parent="PayCalendarEntries-endPeriodDate-parentBean"/>
@@ -314,8 +314,8 @@
     <property name="resultFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
-        <bean parent="FieldDefinition" p:attributeName="beginPeriodDateTime"/>
-        <bean parent="FieldDefinition" p:attributeName="endPeriodDateTime"/>
+        <bean parent="FieldDefinition" p:attributeName="beginPeriodDateTime" p:useShortLabel="true"/>
+        <bean parent="FieldDefinition" p:attributeName="endPeriodDateTime"  p:useShortLabel="true"/>
       </list>
     </property>
     <property name="title" value="Pay Calendar Entry Lookup"/>
