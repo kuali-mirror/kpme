@@ -3,23 +3,16 @@ package org.kuali.hr.time.workarea;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSelect;
-import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
 	
@@ -56,6 +49,7 @@ public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
         HtmlPage nextPage = element.click();
         assertTrue("page text:\n" + nextPage.asText() + "\n does not contain:\n" + ERROR_MESSAGE, nextPage.asText().contains(ERROR_MESSAGE));
         
+        setFieldValue(page, "document.newMaintainableObject.add.roles.effectiveDate", "04/01/2011");
         setFieldValue(page, "document.newMaintainableObject.add.roles.principalId", "admin");
         setFieldValue(page, "document.newMaintainableObject.add.roles.active", "on");
 
