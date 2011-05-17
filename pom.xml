@@ -14,11 +14,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.kuali</groupId>
-    <artifactId>trojan-time</artifactId>
+    <groupId>org.kuali.kpme</groupId>
+    <artifactId>time-and-attendance</artifactId>
     <packaging>war</packaging>
-    <name>trojan-time</name>
-    <description>Kuali's Trojan Time</description>
+    <name>time-and-attendance</name>
+    <description>KPME Time and Attendance</description>
     <version>0.1.0-SNAPSHOT</version>
 
     <properties>
@@ -274,12 +274,14 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-server</artifactId>
             <version>2.0b3</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>selenium-maven-plugin</artifactId>
             <version>1.0.1</version>
             <type>maven-plugin</type>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -397,7 +399,7 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.0</version>
                 <configuration>
-                    <tagBase>https://ais-svn.usc.edu/svn/T2/tags</tagBase>
+                    <tagBase>https://svn.kuali.org/repos/kpme/tags</tagBase>
                 </configuration>
             </plugin>
            <plugin>
@@ -408,18 +410,6 @@
                     <propertyFileWillOverride>true</propertyFileWillOverride>
                     <propertyFile>target/classes/liquibase.properties</propertyFile>
                 </configuration>
-
-                <!-- If we want to run this every time we process resources, uncomment below -->
-                <!--
-                <executions>
-                  <execution>
-                    <phase>process-resources</phase>
-                    <goals>
-                      <goal>update</goal>
-                    </goals>
-                  </execution>
-                </executions>
-                -->
             </plugin>
 
         </plugins>
@@ -440,4 +430,10 @@
             <url>http://nexus.openqa.org/content/repositories/releases</url>
         </repository>
     </repositories>
+
+    <scm>
+		<connection>scm:svn:https://svn.kuali.org/repos/kpme/</connection>
+		<developerConnection>scm:svn:https://svn.kuali.org/repos/kpme/</developerConnection>
+		<url>https://svn.kuali.org/repos/kpme/</url>
+	</scm>
 </project>
