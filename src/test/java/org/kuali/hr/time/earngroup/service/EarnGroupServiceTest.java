@@ -25,8 +25,11 @@ public class EarnGroupServiceTest extends TkTestCase{
 		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_GROUP_MAINT_URL);
 		earnCodeLookUp = HtmlUnitUtil.clickInputContainingText(earnCodeLookUp, "search");
 		HtmlUnitUtil.createTempFile(earnCodeLookUp);
-		assertTrue("Page contains REG entry", earnCodeLookUp.asText().contains("REG"));		
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit");		
+		assertTrue("Page contains REG entry", earnCodeLookUp.asText().contains("REG"));	
+		
+		EarnGroup earnGroup = TkServiceLocator.getEarnGroupService().getEarnGroup("REG", new Date(System.currentTimeMillis()));
+		String earnGroupId = earnGroup.getTkEarnGroupId().toString();
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit", earnGroupId);		
 		HtmlUnitUtil.createTempFile(maintPage);
 		assertTrue("Maintenance Page contains REG entry",maintPage.asText().contains("REG"));		
 	}	
