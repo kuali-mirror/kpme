@@ -10,6 +10,8 @@ public class UICalendarTest extends SeleneseTestCase {
     @Before
     public void setUp() throws Exception {
         selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://ci.kpme.kuali.org:9080/");
+        // set speed to 1 sec between each action. this is mainly for the ajax call to get the earn code.
+        selenium.setSpeed("1000");
         try {
             selenium.start();
         } catch (Exception e) {
@@ -22,10 +24,9 @@ public class UICalendarTest extends SeleneseTestCase {
         selenium.open("/tk-dev/TimeDetail.do");
         selenium.type("__login_user", "admin");
         selenium.click("//input[@name='login']");
-        selenium.waitForPageToLoad("30000");
-        selenium.select("assignment","value=30_30_30");
         selenium.mouseDownAt("css=td.fc-day10", "10,10");
         selenium.mouseUpAt("css=td.fc-day10", "10,10");
+        selenium.select("assignment","value=30_30_30");
         selenium.type("beginTimeField", "08:15 AM");
         selenium.type("endTimeField", "05:15 PM");
         selenium.click("//button[@type='button']");
