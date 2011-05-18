@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
@@ -60,7 +59,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		LOG.debug("Validating ActiveAccountTotalPercentage: ");
 		List<AssignmentAccount> assignmentAccounts = assignment
 				.getAssignmentAccounts();
-		if (assignmentAccounts != null) {
+		if (assignmentAccounts != null && assignment.isActive()) {
 			int percent = 0;
 			for (AssignmentAccount account : assignmentAccounts) {
 				if (account.isActive() && account.getPercent() != null) {
@@ -83,10 +82,10 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		LOG.debug("Validating PercentagePerEarnCode: ");
 		List<AssignmentAccount> assignmentAccounts = assignment
 				.getAssignmentAccounts();
-		if (assignmentAccounts != null) {
+		if (assignmentAccounts != null && assignment.isActive()) {
 			Map<String, Integer> earnCodePercent = new HashMap<String, Integer>();
 			for (AssignmentAccount account : assignmentAccounts) {
-				if (account.getPercent() != null) {
+				if (account.getPercent() != null && account.isActive()) {
 					int percent = 0;
 					if (earnCodePercent.containsKey(account.getAccountNbr())) {
 						percent = earnCodePercent.get(account.getAccountNbr());
