@@ -1,178 +1,218 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Assignment" parent="Assignment-parentBean"/>
+	<bean id="Assignment" parent="Assignment-parentBean" />
 
-  <bean id="Assignment-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.hr.time.assignment.Assignment"/>
-    <property name="titleAttribute" value="id"/>
-    <property name="objectLabel" value="Assignment"/>
-    <property name="inquiryDefinition">
+	<bean id="Assignment-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.time.assignment.Assignment" />
+		<property name="titleAttribute" value="id" />
+		<property name="objectLabel" value="Assignment" />
+		<property name="inquiryDefinition">
 			<ref bean="Assignment-inquiryDefinition" />
-	</property>
-    <property name="lookupDefinition">
-      <ref bean="Assignment-lookupDefinition"/>
-    </property>
-    <property name="attributes">
-      <list>
-        <ref bean="Assignment-principalId"/>
-        <ref bean="Assignment-name"/>
-        <ref bean="Assignment-jobNumber"/>
-        <ref bean="Assignment-effectiveDate"/>
-        <ref bean="Assignment-workArea"/>
-        <ref bean="Assignment-task"/>
-        <ref bean="Assignment-active"/>
-      </list>
-    </property> 
-	<property name="relationships">
-  		<list>
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="principal"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
-                </list>
-              </property>
-            </bean>
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="Assignment-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="Assignment-principalId" />
+				<ref bean="Assignment-name" />
+				<ref bean="Assignment-jobNumber" />
+				<ref bean="Assignment-effectiveDate" />
+				<ref bean="Assignment-dept" />
+				<ref bean="Assignment-workArea" />
+				<ref bean="Assignment-task" />
+				<ref bean="Assignment-active" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="principal" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
+								p:targetName="principalId" />
+						</list>
+					</property>
+				</bean>
 
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="workAreaObj"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea" p:targetName="workArea"/>
-                </list>
-              </property>
-            </bean>
-            
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="job"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber" p:targetName="jobNumber"/>
-                </list>
-              </property>
-            </bean>
-            
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="taskObj"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="task" p:targetName="task"/>
-                </list>
-              </property>
-            </bean>
-        </list>
-    </property>    
-    <property name="collections">
-      <list>
-        <bean parent="CollectionDefinition" p:name="assignmentAccounts" p:label="Assignment Accounts" p:shortLabel="Assignment Accounts" p:summary="Assignment Accounts" p:description="Assignment Accounts"/>
-      </list>
-    </property>   
-  </bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="workAreaObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
+								p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
+								p:targetName="workArea" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
+								p:targetName="dept" />
+						</list>
+					</property>
+				</bean>
 
-  <!-- Attribute Definitions -->
-  <bean id="Assignment-principalId" parent="Assignment-principalId-parentBean"/>
-  <bean id="Assignment-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Principal Id"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern">
-      	<property name="allowWhitespace" value="false"/>
-      </bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="name" value="principalId"/>
-    <property name="label" value="Principal Id"/>
-  </bean>
-  
-  <bean id="Assignment-name" parent="Assignment-name-parentBean"/>
-  <bean id="Assignment-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="15"/>
-     
-    <property name="control">
-      <bean parent="LookupReadonlyControlDefinition" p:size="15" />
-    </property>
-    <property name="name" value="name"/>
-    <property name="label" value="Name"/>
-  </bean>
-  
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="job" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
+								p:targetName="principalId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
+								p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber"
+								p:targetName="jobNumber" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
+								p:targetName="dept" />
+						</list>
+					</property>
+				</bean>
 
-   <bean id="Assignment-jobNumber" parent="Assignment-jobNumber-parentBean"/>
-  <bean id="Assignment-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
-   <property name="shortLabel" value="Job Number"/>
-    <property name="maxLength" value="3"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
-    </property>
-    <property name="name" value="jobNumber"/>
-    <property name="label" value="Job Number"/>
-  </bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="taskObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="task"
+								p:targetName="task" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="assignmentAccounts"
+					p:label="Assignment Accounts" p:shortLabel="Assignment Accounts"
+					p:summary="Assignment Accounts" p:description="Assignment Accounts" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="Assignment-effectiveDate" parent="Assignment-effectiveDate-parentBean"/>
-  <bean id="Assignment-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Effective Date"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
-    <property name="name" value="effectiveDate"/>
-    <property name="label" value="Effective Date"/>
-  </bean>
+	<!-- Attribute Definitions -->
+	<bean id="Assignment-principalId" parent="Assignment-principalId-parentBean" />
+	<bean id="Assignment-principalId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Principal Id" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="principalId" />
+		<property name="label" value="Principal Id" />
+	</bean>
 
-  <bean id="Assignment-workArea" parent="Assignment-workArea-parentBean"/>
-  <bean id="Assignment-workArea-parentBean" abstract="true" parent="AttributeDefinition">
-     <property name="shortLabel" value="Work Area"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="name" value="workArea"/>
-    <property name="label" value="Work Area"/>
-  </bean>
+	<bean id="Assignment-name" parent="Assignment-name-parentBean" />
+	<bean id="Assignment-name-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="15" />
 
-  <bean id="Assignment-task" parent="Assignment-task-parentBean"/>
-  <bean id="Assignment-task-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Task"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="name" value="task"/>
-    <property name="label" value="Task"/>
-  </bean>
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="name" />
+		<property name="label" value="Name" />
+	</bean>
 
-  <bean id="Assignment-active" parent="Assignment-active-parentBean"/>
-  <bean id="Assignment-active-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Active"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
-    <property name="name" value="active"/>
-    <property name="label" value="Active"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
-  </bean>
-	
+
+	<bean id="Assignment-jobNumber" parent="Assignment-jobNumber-parentBean" />
+	<bean id="Assignment-jobNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Job Number" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+		<property name="name" value="jobNumber" />
+		<property name="label" value="Job Number" />
+	</bean>
+
+	<bean id="Assignment-effectiveDate" parent="Assignment-effectiveDate-parentBean" />
+	<bean id="Assignment-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+
+	<bean id="Assignment-dept" parent="Assignment-dept-parentBean" />
+	<bean id="Assignment-dept-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="forceUppercase" value="true" />
+
+		<property name="maxLength" value="21" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="21" />
+		</property>
+
+		<property name="name" value="dept" />
+		<property name="label" value="Department Name" />
+		<property name="description" value="dept" />
+	</bean>
+
+	<bean id="Assignment-workArea" parent="Assignment-workArea-parentBean" />
+	<bean id="Assignment-workArea-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Work Area" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="workArea" />
+		<property name="label" value="Work Area" />
+	</bean>
+
+	<bean id="Assignment-task" parent="Assignment-task-parentBean" />
+	<bean id="Assignment-task-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Task" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="task" />
+		<property name="label" value="Task" />
+	</bean>
+
+	<bean id="Assignment-active" parent="Assignment-active-parentBean" />
+	<bean id="Assignment-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+	</bean>
+
 	<!--  Inquiry Definitions  -->
-  
-  	<bean id="Assignment-inquiryDefinition" parent="Assignment-inquiryDefinition-parentBean" />
+
+	<bean id="Assignment-inquiryDefinition" parent="Assignment-inquiryDefinition-parentBean" />
 
 	<bean id="Assignment-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
@@ -201,26 +241,27 @@
 	<!--  Look up Definitions  -->
 
 
-  <bean id="Assignment-lookupDefinition" parent="Assignment-lookupDefinition-parentBean"/>
-  <bean id="Assignment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="lookupableID" value="assignmentLookupable"></property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="principalId"/>
-        <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
-      </list>
-      
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="principalId"/>
-        <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
-        <bean parent="FieldDefinition" p:attributeName="workArea"/>
-        <bean parent="FieldDefinition" p:attributeName="task"/>
-      </list>
-    </property>
-    <property name="title" value="Assignment Lookup"/>
-  </bean>
+	<bean id="Assignment-lookupDefinition" parent="Assignment-lookupDefinition-parentBean" />
+	<bean id="Assignment-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupableID" value="assignmentLookupable"></property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
+			</list>
+
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="workArea" />
+				<bean parent="FieldDefinition" p:attributeName="task" />
+			</list>
+		</property>
+		<property name="title" value="Assignment Lookup" />
+	</bean>
 
 </beans>

@@ -60,6 +60,12 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 		if (returnKeys.contains("effectiveDate")) {
 			returnKeys.remove("effectiveDate");
 		}
+		if (lookupForm.getFieldConversions().containsKey("dept")) {
+			lookupForm.getFieldConversions().remove("dept");
+		}
+		if (returnKeys.contains("dept")) {
+			returnKeys.remove("dept");
+		}
 		return super.getReturnUrl(businessObject, lookupForm, returnKeys,
 				businessObjectRestrictions);
 	}

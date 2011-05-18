@@ -7,12 +7,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
@@ -24,12 +29,35 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 public class AssignmentRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateWorkArea(Assignment assignment) {
-		boolean valid = ValidationUtils.validateWorkArea(assignment
-				.getWorkArea(), assignment.getEffectiveDate());
-
-		if (!valid) {
-			this.putFieldError("workArea", "error.existence", "work area '"
-					+ assignment.getWorkArea() + "'");
+		boolean valid = true;
+		if (assignment.getWorkArea() != null) {
+			if (!ValidationUtils.validateWorkArea(assignment.getWorkArea(),
+					assignment.getEffectiveDate())) {
+				this.putFieldError("workArea", "error.existence", "workArea '"
+						+ assignment.getWorkArea() + "'");
+				valid = false;
+			} else {
+				if (assignment.getJob() != null) {
+					Job job = TkServiceLocator.getJobSerivce().getJob(
+							assignment.getPrincipalId(),
+							assignment.getJobNumber(),
+							assignment.getEffectiveDate());
+					assignment.setDept(job.getDept());
+				}
+				Criteria crit = new Criteria();
+				crit.addEqualTo("dept", assignment.getDept());
+				crit.addEqualTo("workArea", assignment.getWorkArea());
+				Query query = QueryFactory.newQuery(WorkArea.class, crit);
+				int count = PersistenceBrokerFactory.defaultPersistenceBroker()
+						.getCount(query);
+				valid = (count > 0);
+				if (!valid) {
+					this.putFieldError("workArea",
+							"dept.workarea.invalid.sync", assignment
+									.getWorkArea()
+									+ "");
+				}
+			}
 		}
 		return valid;
 	}

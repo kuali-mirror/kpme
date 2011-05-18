@@ -41,6 +41,8 @@
 					p:noLookup="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="jobNumber"
 					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="dept" 
+					p:noLookup="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="workArea"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="task"

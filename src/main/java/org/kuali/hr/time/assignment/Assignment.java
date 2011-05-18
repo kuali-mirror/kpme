@@ -31,6 +31,7 @@ public class Assignment extends PersistableBusinessObjectBase {
 	private Long workArea;
 	private Long tkWorkAreaId;
 	private Long task;
+	private String dept;
 	private boolean active;
 	private Timestamp timestamp;
 	private TimeCollectionRule timeCollectionRule;
@@ -153,6 +154,14 @@ public class Assignment extends PersistableBusinessObjectBase {
 		this.task = task;
 	}
 	
+	public String getDept() {
+		return dept;
+	}
+
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+
 	public WorkArea getWorkAreaObj() {
 		return workAreaObj;
 	}
