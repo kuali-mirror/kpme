@@ -13,12 +13,13 @@ import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+
 /**
  * Override the Maintenance page behavior for Assignment object
  * 
- *
+ * 
  */
-public class AssignmentMaintainableServiceImpl extends KualiMaintainableImpl{
+public class AssignmentMaintainableServiceImpl extends KualiMaintainableImpl {
 
 	/**
 	 * 
@@ -30,16 +31,16 @@ public class AssignmentMaintainableServiceImpl extends KualiMaintainableImpl{
 	 */
 	@Override
 	public void saveBusinessObject() {
-		Assignment assignment = (Assignment)this.getBusinessObject();
+		Assignment assignment = (Assignment) this.getBusinessObject();
 		assignment.setTimestamp(null);
 		assignment.setTkAssignmentId(null);
 		KNSServiceLocator.getBusinessObjectService().save(assignment);
-		for(AssignmentAccount assignAcct : assignment.getAssignmentAccounts()){
+		for (AssignmentAccount assignAcct : assignment.getAssignmentAccounts()) {
 			assignAcct.setTkAssignAcctId(null);
 			assignAcct.setTkAssignmentId(assignment.getTkAssignmentId());
 		}
 	}
-	
+
 	@Override
 	public Map populateBusinessObject(Map<String, String> fieldValues,
 			MaintenanceDocument maintenanceDocument, String methodToCall) {
@@ -49,27 +50,50 @@ public class AssignmentMaintainableServiceImpl extends KualiMaintainableImpl{
 					fieldValues.get("principalId"));
 			if (p != null) {
 				fieldValues.put("name", p.getName());
-			}else{
+			} else {
 				fieldValues.put("name", "");
 			}
 		}
 		return super.populateBusinessObject(fieldValues, maintenanceDocument,
-				methodToCall); 
+				methodToCall);
 	}
-	
+
 	@Override
-	public Map<String, String> populateNewCollectionLines( Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall ) {
+	public Map<String, String> populateNewCollectionLines(
+			Map<String, String> fieldValues,
+			MaintenanceDocument maintenanceDocument, String methodToCall) {
 		if (fieldValues.containsKey("assignmentAccounts.accountNbr")
-				&& StringUtils.isNotEmpty(fieldValues.get("assignmentAccounts.accountNbr"))) {
+				&& StringUtils.isNotEmpty(fieldValues
+						.get("assignmentAccounts.accountNbr"))) {
 			Map<String, String> fields = new HashMap<String, String>();
-			fields.put("accountNumber", fieldValues.get("assignmentAccounts.accountNbr"));
+			fields.put("accountNumber", fieldValues
+					.get("assignmentAccounts.accountNbr"));
 			Collection account = KNSServiceLocator.getBusinessObjectDao()
 					.findMatching(Account.class, fields);
-			if (account.size()>0) {
+			if (account.size() > 0) {
 				Account acc = (Account) account.iterator().next();
-				fieldValues.put("assignmentAccounts.finCoaCd", acc.getChartOfAccountsCode());
+				fieldValues.put("assignmentAccounts.finCoaCd", acc
+						.getChartOfAccountsCode());
 			}
 		}
-		return super.populateNewCollectionLines(fieldValues, maintenanceDocument, methodToCall);
+		return super.populateNewCollectionLines(fieldValues,
+				maintenanceDocument, methodToCall);
 	}
+
+	@Override
+	public void processAfterEdit(MaintenanceDocument document,
+			Map<String, String[]> parameters) {
+		Assignment aOld = (Assignment) document.getOldMaintainableObject()
+				.getBusinessObject();
+		Assignment aNew = (Assignment) document.getNewMaintainableObject()
+				.getBusinessObject();
+		for (AssignmentAccount aAccount : aOld.getAssignmentAccounts()) {
+			aAccount.setActive(aOld.isActive());
+		}
+		for (AssignmentAccount aAccount : aNew.getAssignmentAccounts()) {
+			aAccount.setActive(aOld.isActive());
+		}
+		super.processAfterEdit(document, parameters);
+	}
+
 }
