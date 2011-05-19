@@ -32,15 +32,14 @@ public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 		}
 
 		List<Task> tasks = workArea.getTasks();
-
+		workArea.setTasks(tasks);
+		workArea.setRoles(roles);
+		KNSServiceLocator.getBusinessObjectService().save(workArea);
+		
 		for (TkRole role : roles) {
 			role.setWorkArea(workArea.getWorkArea());
 			role.setUserPrincipalId(TKContext.getPrincipalId());
 		}
-		
-		workArea.setTasks(tasks);
-		workArea.setRoles(roles);
-		KNSServiceLocator.getBusinessObjectService().save(workArea);
 		TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
 	}
 
