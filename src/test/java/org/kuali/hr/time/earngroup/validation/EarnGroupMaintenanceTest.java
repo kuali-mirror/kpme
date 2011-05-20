@@ -1,10 +1,12 @@
 package org.kuali.hr.time.earngroup.validation;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Test;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -21,6 +23,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 	private static final java.sql.Date TEST_DATE=new java.sql.Date(Calendar.getInstance().getTimeInMillis());
 	private static final String EARN_CODE = "RGN";
 	private static Long tkEarnGroupId;
+	private static Long tkEarnCodeId;
 	
 	@Override
 	public void setUp() throws Exception {
@@ -37,15 +40,32 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		earnGroup.setShowSummary(true);
 		earnGroup.setActive(true);
 		earnGroup.setEarnGroups(earnGroups);
-		KNSServiceLocator.getBusinessObjectService().save(earnGroup);	
 		
-		tkEarnGroupId = earnGroup.getTkEarnGroupId();		
+		KNSServiceLocator.getBusinessObjectService().save(earnGroup);	
+		tkEarnGroupId = earnGroup.getTkEarnGroupId();	
+		
+		EarnCode earnCode = new EarnCode();
+		earnCode.setActive(true);
+		earnCode.setEarnCode("RGG");
+		earnCode.setEffectiveDate(TEST_DATE);
+		earnCode.setRecordTime(true);
+		earnCode.setDescription("RGG");
+		earnCode.setOvtEarnCode(false);
+		earnCode.setInflateMinHours(BigDecimal.ZERO);
+		earnCode.setInflateFactor(BigDecimal.ZERO);		
+
+		KNSServiceLocator.getBusinessObjectService().save(earnCode);	
+		tkEarnCodeId = earnCode.getTkEarnCodeId();	
 	}
 
 	@Override
 	public void tearDown() throws Exception {
 		EarnGroup earnGroupObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnGroup.class, tkEarnGroupId);			
-		KNSServiceLocator.getBusinessObjectService().delete(earnGroupObj);				
+		KNSServiceLocator.getBusinessObjectService().delete(earnGroupObj);	
+		
+		EarnCode earnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, tkEarnCodeId);			
+		KNSServiceLocator.getBusinessObjectService().delete(earnCodeObj);	
+		
 		super.tearDown();
 	}
 	
@@ -58,10 +78,26 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		assertTrue("Maintenance Page contains test ClockLog",maintPage.asText().contains("test"));
 		HtmlTextInput text  = (HtmlTextInput) maintPage.getHtmlElementById("document.documentHeader.documentDescription");
 		text.setValueAttribute("test1");
-		HtmlElement element = maintPage.getElementByName("methodToCall.route");
+		
+		// Add a new Earn Code Group Definition
+		text  = (HtmlTextInput) maintPage.getHtmlElementById("document.newMaintainableObject.add.earnGroups.earnCode");
+        text.setValueAttribute("RGG");
+		HtmlElement element = maintPage.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
+        HtmlPage newCodeAddedPage = element.click();
+        assertFalse("Page contains Error", newCodeAddedPage.asText().contains("error"));
+        HtmlUnitUtil.createTempFile(newCodeAddedPage);
+        
+        // Delete this Earn Code Group Definition
+        element = newCodeAddedPage.getElementByName("methodToCall.deleteLine.earnGroups.(!!.line1.(:::;4;:::).anchor2");
+        HtmlPage deleteCodeAddedPage = element.click();
+		assertFalse("Page contains Error", deleteCodeAddedPage.asText().contains("error"));
+        HtmlUnitUtil.createTempFile(deleteCodeAddedPage);
+        
+        // submit the changes
+		element = deleteCodeAddedPage.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
         assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
-	
+
 	}
 	
 	
