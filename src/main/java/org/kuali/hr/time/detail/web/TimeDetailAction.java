@@ -53,7 +53,17 @@ public class TimeDetailAction extends TimesheetAction {
 
         return forward;
     }
- 
+
+    public ActionForward submitTimesheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+        ActionForward forward = super.execute(mapping, form, request, response);
+        TkServiceLocator.getTimesheetService().routeTimesheet(tdaf.getPrincipalId(), tdaf.getTimesheetDocument());
+
+
+
+        return forward;
+    }
+
     public void validateHourLimit(TimeDetailActionForm tdaf) throws Exception {
     	tdaf.setWarningJason("");
         JSONArray warnMsgJson = new JSONArray();
@@ -276,7 +286,7 @@ public class TimeDetailAction extends TimesheetAction {
             for (TimeBlock timeBlock : tdaf.getTimesheetDocument().getTimeBlocks()) {
             	if(StringUtils.equals(timeBlock.getEarnCodeType(), "TIME")) {
 	                Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
-	
+
 	                if (timeBlockInterval.overlaps(addedTimeblockInterval)) {
 	                	errorMsgList.add("The time block you are trying to add overlaps with an existing time block.");
 	                    break;

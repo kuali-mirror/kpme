@@ -17,7 +17,7 @@ import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
 import org.kuali.rice.kew.rule.Role;
 import org.kuali.rice.kew.rule.RoleAttribute;
 
-public class TkWorkflowAttribute implements RoleAttribute {
+public class TkWorkflowTimesheetAttribute implements RoleAttribute {
 
 	@Override
 	public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
@@ -33,7 +33,7 @@ public class TkWorkflowAttribute implements RoleAttribute {
 		// method for different types of "Roles"
 		// and have different principal Resolution.
 		// ... Now whether or not we need this is another question
-		throw new UnsupportedOperationException("Not supported in TkWorkflowAttribute");
+		throw new UnsupportedOperationException("Not supported in TkWorkflowTimesheetAttribute");
 	}
 
 	@Override
@@ -64,9 +64,9 @@ public class TkWorkflowAttribute implements RoleAttribute {
 			throw new RuntimeException("Handle this gracefully - placeholder exception due to missing timesheet document");
 		}
 
-		if (principals.size() == 0) 
+		if (principals.size() == 0)
 			throw new RuntimeException("No principals to route to. Push to exception routing.");
-		
+
 		rqr.setRecipients(principals);
 		return rqr;
 	}

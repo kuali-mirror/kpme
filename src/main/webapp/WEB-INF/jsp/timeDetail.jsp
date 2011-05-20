@@ -1,6 +1,10 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 <c:set var="Form" value="${TimeDetailActionForm}" scope="request"/>
 
+<!--
+<a href="TimesheetSubmit.do">submit timesheet</a>
+-->
+
 <tk:tkHeader tabId="timeDetail">
     <div style="clear:both;" class="">
         <html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDate"/>

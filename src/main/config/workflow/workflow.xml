@@ -146,6 +146,7 @@
 			<parent>RiceDocument</parent>
 			<label>TimesheetDocumentHeaderDocument</label>
 	</documentType>
+
 	<documentType>
 			<name>TimesheetDocumentHeaderMaintenanceDocumentType</name>
 			<parent>RiceDocument</parent>

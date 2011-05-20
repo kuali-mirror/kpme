@@ -13,6 +13,7 @@
                    type="org.kuali.hr.time.cache.web.CacheAdministrationActionForm"/>
         <form-bean name="TimeOffAccrualActionForm" type="org.kuali.hr.time.accrual.web.TimeOffAccrualActionForm"/>
         <form-bean name="BatchJobActionForm" type="org.kuali.hr.time.batch.web.BatchJobActionForm"/>
+        <form-bean name="TimesheetSubmitActionForm" type="org.kuali.hr.time.detail.web.TimesheetSubmitActionForm" />
     </form-beans>
 
 
@@ -26,6 +27,11 @@
             <forward name="tb" path="/WEB-INF/jsp/timeDistribute.jsp"/>
             <forward name="et" path="/WEB-INF/jsp/editTimeBlock.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/clockWebService.jsp"/>
+        </action>
+
+        <action path="/TimesheetSubmit" name="TimesheetSubmitActionForm" scope="request" input="/WEB-INF/jsp/timeDetail.jsp"
+                type="org.kuali.hr.time.detail.web.TimesheetSubmitAction" parameter="methodToCall" validate="false">
+            <forward name="timesheetRedirect" path="/TimeDetail.do"/>
         </action>
 
         <action path="/TimeDetail" name="TimeDetailActionForm" scope="request" input="/WEB-INF/jsp/timeDetail.jsp"

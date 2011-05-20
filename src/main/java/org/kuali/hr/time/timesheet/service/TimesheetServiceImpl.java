@@ -17,6 +17,7 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowDocument;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -35,8 +36,10 @@ public class TimesheetServiceImpl implements TimesheetService {
 		WorkflowDocument wd = null;
 		if (timesheetDocument != null) {
 			try {
-				wd = new WorkflowDocument(principalId, timesheetDocument.getDocumentHeader().getDocumentId());
-				wd.routeDocument("route");
+                String rhid = timesheetDocument.getDocumentId();
+				wd = new WorkflowDocument(principalId, Long.parseLong(rhid));
+				wd.routeDocument("Routing for Approval");
+
 				String kewStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(Long.parseLong(timesheetDocument.getDocumentHeader().getDocumentId()));
 				if (!kewStatus.equals(timesheetDocument.getDocumentHeader().getDocumentStatus())) {
 					timesheetDocument.getDocumentHeader().setDocumentStatus(kewStatus);

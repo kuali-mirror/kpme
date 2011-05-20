@@ -1,33 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ Rice is the greatest framework of all time:
+
+ Run these before re-ingesting changes to this document.
+
+ delete from krew_rule_t where doc_typ_nm like 'TimesheetDocument';
+ delete from krew_doc_typ_t where doc_typ_nm like 'TimesheetDocument';
+-->
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
-        <name>TkWorkflowAttribute</name>
-        <className>org.kuali.hr.time.workflow.TkWorkflowAttribute</className>
-        <label>TkWorkflowAttribute</label>
-        <description>TkWorkflowAttribute</description>
+        <name>TkWorkflowTimesheetAttribute</name>
+        <className>org.kuali.hr.time.workflow.TkWorkflowTimesheetAttribute</className>
+        <label>TkWorkflowTimesheetAttribute</label>
+        <description>TkWorkflowTimesheetAttribute</description>
         <type>RuleAttribute</type>
     </ruleAttribute>
   </ruleAttributes>
-  
+
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
         <ruleTemplate allowOverwrite="true">
-            <name>TkWorkflowTemplate</name>
-            <description>TkWorkflowTemplate</description>
+            <name>TkWorkflowTimesheetTemplate</name>
+            <description>TkWorkflowTimesheetTemplate</description>
             <attributes>
                 <attribute>
-                    <name>TkWorkflowAttribute</name>
+                    <name>TkWorkflowTimesheetAttribute</name>
                     <required>false</required>
                 </attribute>
             </attributes>
         </ruleTemplate>
 	</ruleTemplates>
 
- 	
- 	
    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
         <documentType>
             <name>TimesheetDocument</name>
+            <parent>RiceDocument</parent>
             <superUserWorkgroupName>TK_SYSTEM_ADMIN</superUserWorkgroupName>
       		<blanketApproveWorkgroupName>TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
       		<defaultExceptionWorkgroupName>TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
@@ -53,24 +61,24 @@
                 <requests name="Timesheet Attribute">
                     <exceptionWorkgroup>TK_SYSTEM_ADMIN</exceptionWorkgroup>
                     <activationType>S</activationType>
-                    <ruleTemplate>TkWorkflowTemplate</ruleTemplate>
+                    <ruleTemplate>TkWorkflowTimesheetTemplate</ruleTemplate>
                     <mandatoryRoute>true</mandatoryRoute>
                     <finalApproval>true</finalApproval>
                 </requests>
             </routeNodes>
         </documentType>
      </documentTypes>
-     
-     	
+
+
 	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
 	   <rule>
         <documentType>TimesheetDocument</documentType>
-        <ruleTemplate>TkWorkflowTemplate</ruleTemplate>
+        <ruleTemplate>TkWorkflowTimesheetTemplate</ruleTemplate>
         <description>TkWorkflow</description>
         <forceAction>true</forceAction>
 			<responsibilities>
 				<responsibility>
-                <role>org.kuali.hr.time.workflow.TkWorkflowAttribute!TK_APPROVER</role>
+                <role>org.kuali.hr.time.workflow.TkWorkflowTimesheetAttribute!TK_APPROVER</role>
                 <approvePolicy>F</approvePolicy>
                 <actionRequested>A</actionRequested>
                 <priority>1</priority>
