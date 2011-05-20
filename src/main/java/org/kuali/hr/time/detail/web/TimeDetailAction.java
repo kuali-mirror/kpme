@@ -54,16 +54,6 @@ public class TimeDetailAction extends TimesheetAction {
         return forward;
     }
 
-    public ActionForward submitTimesheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        ActionForward forward = super.execute(mapping, form, request, response);
-        TkServiceLocator.getTimesheetService().routeTimesheet(tdaf.getPrincipalId(), tdaf.getTimesheetDocument());
-
-
-
-        return forward;
-    }
-
     public void validateHourLimit(TimeDetailActionForm tdaf) throws Exception {
     	tdaf.setWarningJason("");
         JSONArray warnMsgJson = new JSONArray();
