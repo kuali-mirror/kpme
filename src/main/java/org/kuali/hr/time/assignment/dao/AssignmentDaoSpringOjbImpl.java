@@ -59,6 +59,8 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 
 		// OJB's awesome sub query setup part 1
 		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+		effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 		//effdt.addEqualTo("active", true);
 		effdt.addEqualTo("principalId", principalId);
@@ -67,6 +69,8 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 
 		// OJB's awesome sub query setup part 2
 		timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+		timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 		//timestamp.addEqualTo("active", true);
 		timestamp.addEqualTo("principalId", principalId);

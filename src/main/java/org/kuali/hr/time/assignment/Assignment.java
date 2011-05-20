@@ -66,8 +66,14 @@ public class Assignment extends PersistableBusinessObjectBase {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
+		toStringMap.put("tkAssignmentId", tkAssignmentId);
+		toStringMap.put("principalId", principalId);
+		toStringMap.put("jobNumber", jobNumber);
+		toStringMap.put("workArea", workArea);
+		toStringMap.put("task", task);
+
+		return toStringMap;
 	}
 
 	public String getPrincipalId() {
