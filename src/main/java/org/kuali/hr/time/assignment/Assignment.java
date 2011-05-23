@@ -9,10 +9,12 @@ import java.util.List;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class Assignment extends PersistableBusinessObjectBase {
@@ -85,6 +87,10 @@ public class Assignment extends PersistableBusinessObjectBase {
 	}
 
 	public String getName() {
+		if(name == null && !this.getPrincipalId().isEmpty()) {
+			Person person = KIMServiceLocator.getPersonService().getPerson(getPrincipalId());
+			setName((person != null) ? person.getName() : "");
+		}
 		return name;
 	}
 
@@ -161,6 +167,12 @@ public class Assignment extends PersistableBusinessObjectBase {
 	}
 	
 	public String getDept() {
+		if(dept == null && this.getJobNumber()!= null) {
+			if(this.getJob() == null) {
+				this.setJob(TkServiceLocator.getJobSerivce().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveDate()));
+			}
+			setDept((this.getJob() != null) ? this.getJob().getDept() : "");
+		}
 		return dept;
 	}
 

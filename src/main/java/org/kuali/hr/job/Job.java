@@ -104,6 +104,10 @@ public class Job extends PersistableBusinessObjectBase {
 	}
 
 	public String getName() {
+		if(name == null && !this.getPrincipalId().isEmpty()) {
+			Person person = KIMServiceLocator.getPersonService().getPerson(getPrincipalId());
+			setName((person != null) ? person.getName() : "");
+		}
 		return name;
 	}
 
