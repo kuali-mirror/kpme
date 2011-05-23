@@ -24,6 +24,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 	private static final String EARN_CODE = "RGN";
 	private static Long tkEarnGroupId;
 	private static Long tkEarnCodeId;
+	private static Long tkEarnGroupIdRGG;
 	
 	@Override
 	public void setUp() throws Exception {
@@ -40,10 +41,10 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		earnGroup.setShowSummary(true);
 		earnGroup.setActive(true);
 		earnGroup.setEarnGroups(earnGroups);
-		
 		KNSServiceLocator.getBusinessObjectService().save(earnGroup);	
 		tkEarnGroupId = earnGroup.getTkEarnGroupId();	
 		
+		// Set up earn code RGG in tk-earn_code_t
 		EarnCode earnCode = new EarnCode();
 		earnCode.setActive(true);
 		earnCode.setEarnCode("RGG");
@@ -53,15 +54,27 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		earnCode.setOvtEarnCode(false);
 		earnCode.setInflateMinHours(BigDecimal.ZERO);
 		earnCode.setInflateFactor(BigDecimal.ZERO);		
-
 		KNSServiceLocator.getBusinessObjectService().save(earnCode);	
-		tkEarnCodeId = earnCode.getTkEarnCodeId();	
+		tkEarnCodeId = earnCode.getTkEarnCodeId();
+		
+		// Set up earn group RGG in tk-earn_group_t
+		EarnGroup earnGroupRGG = new EarnGroup();
+		earnGroupRGG.setEarnGroup("RGG");
+		earnGroupRGG.setDescr("test RGG");
+		earnGroupRGG.setEffectiveDate(TEST_DATE);
+		earnGroupRGG.setShowSummary(true);
+		earnGroupRGG.setActive(true);
+		KNSServiceLocator.getBusinessObjectService().save(earnGroupRGG);	
+		tkEarnGroupIdRGG = earnGroupRGG.getTkEarnGroupId();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
 		EarnGroup earnGroupObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnGroup.class, tkEarnGroupId);			
 		KNSServiceLocator.getBusinessObjectService().delete(earnGroupObj);	
+		
+		EarnGroup earnGroupObjRGG = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnGroup.class, tkEarnGroupIdRGG);			
+		KNSServiceLocator.getBusinessObjectService().delete(earnGroupObjRGG);	
 		
 		EarnCode earnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, tkEarnCodeId);			
 		KNSServiceLocator.getBusinessObjectService().delete(earnCodeObj);	
@@ -75,26 +88,35 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		earnGroupLookUp = HtmlUnitUtil.clickInputContainingText(earnGroupLookUp, "search");
 		assertTrue("Page contains test Earn Group", earnGroupLookUp.asText().contains("test"));		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnGroupLookUp, "edit", tkEarnGroupId.toString());		
-		assertTrue("Maintenance Page contains test ClockLog",maintPage.asText().contains("test"));
+		assertTrue("Maintenance Page contains test ClockLog", maintPage.asText().contains("test"));
 		HtmlTextInput text  = (HtmlTextInput) maintPage.getHtmlElementById("document.documentHeader.documentDescription");
 		text.setValueAttribute("test1");
 		
+		// pull out earn group RGG to edit.
+		earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_GROUP_MAINT_URL);
+		earnGroupLookUp = HtmlUnitUtil.clickInputContainingText(earnGroupLookUp, "search");
+		assertTrue("Page contains test Earn Group", earnGroupLookUp.asText().contains("test RGG"));		
+		HtmlPage testEditRGGPage = HtmlUnitUtil.clickAnchorContainingText(earnGroupLookUp, "edit", tkEarnGroupIdRGG.toString());		
+		assertTrue("Maintenance Page contains test ClockLog", testEditRGGPage.asText().contains("test RGG"));
+		text  = (HtmlTextInput) testEditRGGPage.getHtmlElementById("document.documentHeader.documentDescription");
+		text.setValueAttribute("testEditRGG");
+		
 		// Add a new Earn Code Group Definition
-		text  = (HtmlTextInput) maintPage.getHtmlElementById("document.newMaintainableObject.add.earnGroups.earnCode");
+		text  = (HtmlTextInput) testEditRGGPage.getHtmlElementById("document.newMaintainableObject.add.earnGroups.earnCode");
         text.setValueAttribute("RGG");
-		HtmlElement element = maintPage.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
+		HtmlElement element = testEditRGGPage.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
         HtmlPage newCodeAddedPage = element.click();
         assertFalse("Page contains Error", newCodeAddedPage.asText().contains("error"));
         HtmlUnitUtil.createTempFile(newCodeAddedPage);
         
         // Delete this Earn Code Group Definition
-        element = newCodeAddedPage.getElementByName("methodToCall.deleteLine.earnGroups.(!!.line1.(:::;4;:::).anchor2");
-        HtmlPage deleteCodeAddedPage = element.click();
-		assertFalse("Page contains Error", deleteCodeAddedPage.asText().contains("error"));
-        HtmlUnitUtil.createTempFile(deleteCodeAddedPage);
+        element = newCodeAddedPage.getElementByName("methodToCall.deleteLine.earnGroups.(!!.line0.(:::;3;:::).anchor2");                                             
+        HtmlPage deleteCodePage = element.click();
+		assertFalse("Page contains Error", deleteCodePage.asText().contains("error"));
+        HtmlUnitUtil.createTempFile(deleteCodePage);
         
         // submit the changes
-		element = deleteCodeAddedPage.getElementByName("methodToCall.route");
+		element = deleteCodePage.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
         assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
 
