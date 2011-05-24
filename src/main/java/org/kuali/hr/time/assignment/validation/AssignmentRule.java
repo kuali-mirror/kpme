@@ -4,9 +4,11 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -37,7 +39,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 						+ assignment.getWorkArea() + "'");
 				valid = false;
 			} else {
-				if (assignment.getJob() != null) {
+				if (assignment.getJobNumber() != null) {
 					Job job = TkServiceLocator.getJobSerivce().getJob(
 							assignment.getPrincipalId(),
 							assignment.getJobNumber(),
@@ -82,56 +84,45 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	protected boolean validateActiveAccountTotalPercentage(Assignment assignment) {
-		boolean valid = false;
-		LOG.debug("Validating ActiveAccountTotalPercentage: ");
-		List<AssignmentAccount> assignmentAccounts = assignment
-				.getAssignmentAccounts();
-		if (assignmentAccounts != null && assignment.isActive()) {
-			int percent = 0;
-			for (AssignmentAccount account : assignmentAccounts) {
-				if (account.isActive() && account.getPercent() != null) {
-					percent += account.getPercent().toBigInteger().intValue();
-				}
-			}
-			if (percent == 100) {
-				valid = true;
-			} else {
-				this.putGlobalError("error.active.account.percentage");
-			}
-		} else {
-			valid = true;
-		}
-		return valid;
-	}
-
 	protected boolean validatePercentagePerEarnCode(Assignment assignment) {
 		boolean valid = true;
 		LOG.debug("Validating PercentagePerEarnCode: ");
 		List<AssignmentAccount> assignmentAccounts = assignment
 				.getAssignmentAccounts();
+		Set<String> invalidEarnCodes = null;
 		if (assignmentAccounts != null && assignment.isActive()) {
 			Map<String, Integer> earnCodePercent = new HashMap<String, Integer>();
 			for (AssignmentAccount account : assignmentAccounts) {
 				if (account.getPercent() != null && account.isActive()) {
 					int percent = 0;
-					if (earnCodePercent.containsKey(account.getAccountNbr())) {
-						percent = earnCodePercent.get(account.getAccountNbr());
+					if (earnCodePercent.containsKey(account.getEarnCode())) {
+						percent = earnCodePercent.get(account.getEarnCode());
 					}
 					percent += account.getPercent().toBigInteger().intValue();
-					earnCodePercent.put(account.getAccountNbr(), percent);
+					earnCodePercent.put(account.getEarnCode(), percent);
 				}
 			}
 			Iterator<String> itr = earnCodePercent.keySet().iterator();
 			while (itr.hasNext()) {
-				String acctNumber = itr.next();
-				if (earnCodePercent.get(acctNumber) != 100) {
+				String earnCode = itr.next();
+				if (earnCodePercent.get(earnCode) != 100) {
+					if (invalidEarnCodes == null) {
+						invalidEarnCodes = new HashSet<String>();
+					}
+					invalidEarnCodes.add(earnCode);
 					valid = false;
 				}
 			}
-		}
-		if (!valid) {
-			this.putGlobalError("error.percentage.earncode");
+			if (!valid) {
+				int index = 0;
+				for (AssignmentAccount account : assignmentAccounts) {
+					if (invalidEarnCodes.contains(account.getEarnCode())) {
+						this.putFieldError("assignmentAccounts[" + index
+								+ "].percent", "error.percentage.earncode");
+					}
+					index++;
+				}
+			}
 		}
 		return valid;
 	}
@@ -221,7 +212,6 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				valid = true;
 				valid &= this.validateWorkArea(assignment);
 				valid &= this.validateJob(assignment);
-				valid &= this.validateActiveAccountTotalPercentage(assignment);
 				valid &= this.validatePercentagePerEarnCode(assignment);
 			}
 		}
