@@ -33,12 +33,7 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 	boolean validateOrg(String value) {
 		boolean valid = true;
 		if (value != null) {
-			Map<String, String> primaryKeys = new HashMap<String, String>();
-			primaryKeys.put("organizationCode", value);
-			Organization org = (Organization) KNSServiceLocator
-					.getBusinessObjectService().findByPrimaryKey(
-							Organization.class, primaryKeys); // findBySinglePrimaryKey(Organization.class,
-			// value);
+			Organization org = this.getOrganization(value);
 			valid = (org != null);
 
 			if (!valid) {
@@ -46,6 +41,28 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 			}
 		}
 		return valid;
+	}
+	
+	boolean validateChartAndOrg(String chartString, String orgString) {
+		if(chartString != null && orgString != null) {
+			Chart chart = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chartString);
+			Organization org = this.getOrganization(orgString); 
+			if(chart != null && org != null) {
+				Chart chartTemp = org.getChartOfAccounts();
+				if(!chart.getChartOfAccountsCode().equals(chartTemp.getChartOfAccountsCode())) {
+					String[] params = new String[]{orgString, chartString};
+					this.putFieldError("org", "dept.org.chart.notmatch", params);
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	Organization getOrganization(String orgCode) {
+		Map<String, String> primaryKeys = new HashMap<String, String>();
+		primaryKeys.put("organizationCode", orgCode);
+		return (Organization) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, primaryKeys); 
 	}
 
 	/**
@@ -85,6 +102,7 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 			Department clr = (Department) pbo;
 			valid = validateChart(clr.getChart());
 			valid &= validateOrg(clr.getOrg());
+			valid &= validateChartAndOrg(clr.getChart(), clr.getOrg());
 			valid &= validateRolePresent(clr.getRoles());
 		}
 
