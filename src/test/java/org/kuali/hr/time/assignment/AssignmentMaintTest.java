@@ -22,7 +22,6 @@ public class AssignmentMaintTest extends org.kuali.hr.time.test.TkTestCase {
 	final String ERROR_WORK_AREA = "Work Area (Work Area) is a required field.";
 	final String ERROR_TASK = "Task (Task) is a required field.";
 	final String ERROR_TASK_NULL = "The specified task 'null' does not exist.";
-	final String ERROR_WORK_AREA_NULL = "The specified work area 'null' does not exist.";
 	final String ERROR_JOB_NUMBER_NULL = "The specified jobNumber 'null' does not exist.";
 	
 	
@@ -53,7 +52,6 @@ public class AssignmentMaintTest extends org.kuali.hr.time.test.TkTestCase {
         assertTrue("page does not contain: " + ERROR_JOB_NUMBER, nextPage.asText().contains(ERROR_JOB_NUMBER));
         assertTrue("page does not contain: " + ERROR_JOB_NUMBER_NULL, nextPage.asText().contains(ERROR_JOB_NUMBER_NULL));
         assertTrue("page does not contain: " + ERROR_WORK_AREA, nextPage.asText().contains(ERROR_WORK_AREA));
-        assertTrue("page does not contain: " + ERROR_WORK_AREA_NULL, nextPage.asText().contains(ERROR_WORK_AREA_NULL));
         // Task field is not required
         assertFalse("page contains: " + ERROR_TASK, nextPage.asText().contains(ERROR_TASK));
         // validating of task has been removed from AssignmentRule
