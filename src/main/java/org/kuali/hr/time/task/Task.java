@@ -1,5 +1,7 @@
 package org.kuali.hr.time.task;
 
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 import java.sql.Date;
@@ -121,5 +123,13 @@ public class Task extends PersistableBusinessObjectBase {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
+    
+	public String getWorkAreaDescription() { 
+		if (workArea != null) {
+        	WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, this.getEffectiveDate());
+        	return (wa != null) ? wa.getDescription() : "";
+		}
+		return "";
+	}
 
 }
