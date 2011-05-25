@@ -3,6 +3,7 @@ package org.kuali.hr.time.principal.calendar;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 import java.sql.Date;
@@ -16,7 +17,6 @@ public class PrincipalCalendar extends PersistableBusinessObjectBase {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String principalId;
-	private String name;
 	private String calendarGroup;
 	private String holidayCalendarGroup;
 	private Date effectiveDate;
@@ -42,11 +42,10 @@ public class PrincipalCalendar extends PersistableBusinessObjectBase {
 	}
 
 	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+		 if (person == null) {
+	            person = KIMServiceLocator.getPersonService().getPerson(this.principalId);
+	    }
+	    return (person != null) ? person.getName() : "";
 	}
 
 	public String getCalendarGroup() {

@@ -33,7 +33,6 @@ public class Job extends PersistableBusinessObjectBase {
 	private String principalId;
 	private String firstName;
 	private String lastName;
-	private String name;
 	private String principalName;
 	private Long jobNumber;
 	private Date effectiveDate;
@@ -104,11 +103,10 @@ public class Job extends PersistableBusinessObjectBase {
 	}
 
 	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+		if (principal == null) {
+            principal = KIMServiceLocator.getPersonService().getPerson(this.principalId);
+	    }
+	    return (principal != null) ? principal.getName() : "";
 	}
 
 	public String getPrincipalName() {
