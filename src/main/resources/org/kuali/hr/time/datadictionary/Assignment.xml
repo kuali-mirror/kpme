@@ -25,6 +25,7 @@
 				<ref bean="Assignment-workArea" />
 				<ref bean="Assignment-task" />
 				<ref bean="Assignment-active" />
+				<ref bean="Assignment-history" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -208,6 +209,18 @@
 		<property name="formatterClass"
 			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
 	</bean>
+	
+	<bean id="Assignment-history" parent="Assignment-history-parentBean" />
+	<bean id="Assignment-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
 
 	<!--  Inquiry Definitions  -->
 
@@ -248,6 +261,9 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
+				<bean parent="FieldDefinition" p:attributeName="workArea" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 			</list>
 
 		</property>
