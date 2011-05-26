@@ -69,6 +69,10 @@
 	font-size: .8em !important;
 }
 
+.ui-autocomplete .ui-menu-item {
+    font-size: .8em !important;
+}
+
 /* end of jQuery style override */
 
 /* full calendar override */
@@ -483,8 +487,8 @@ select {
 }
 
 .timeblock-delete{
-    width: 12px;
-    height: 12px;
+    width: 15px;
+    height: 15px;
     margin: 3px 5px 0 0;
     z-index: 15;
     cursor: pointer;
@@ -547,4 +551,8 @@ select {
 
 #timeBlockString {
     display: none;
+}
+
+#documents {
+    font-size: .8em;
 }

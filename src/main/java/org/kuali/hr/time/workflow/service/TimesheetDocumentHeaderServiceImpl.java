@@ -1,14 +1,15 @@
 package org.kuali.hr.time.workflow.service;
 
-import java.util.Date;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.query.Criteria;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.hr.time.workflow.dao.TimesheetDocumentHeaderDao;
+
+import java.util.Date;
+import java.util.List;
 
 public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHeaderService {
 
@@ -58,5 +59,15 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
     
     public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate){
     	return documentHeaderDao.getDocumentHeaders(payBeginDate);
+    }
+
+    @Override
+    public List<TimesheetDocumentHeader> getDocumentHeaders(Criteria crit, int start, int end) {
+        return documentHeaderDao.getDocumentHeaders(crit, start, end);
+    }
+
+    @Override
+    public List<String> getDataByField(Criteria crit, String[] fields) {
+        return documentHeaderDao.getDataByField(crit, fields);
     }
 }

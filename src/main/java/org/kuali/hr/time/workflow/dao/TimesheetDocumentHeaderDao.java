@@ -1,5 +1,6 @@
 package org.kuali.hr.time.workflow.dao;
 
+import org.apache.ojb.broker.query.Criteria;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 import java.util.Date;
@@ -18,4 +19,8 @@ public interface TimesheetDocumentHeaderDao {
     public TimesheetDocumentHeader getNextDocumentHeader(String principalId, Date payEndDate);
     
     public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate);
+
+    List<TimesheetDocumentHeader> getDocumentHeaders(Criteria crit, int start, int end);
+
+    List<String> getDataByField(Criteria crit, String[] fields);
 }

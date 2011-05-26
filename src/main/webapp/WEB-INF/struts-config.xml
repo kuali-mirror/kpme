@@ -43,6 +43,7 @@
         <action path="/TimeApproval" name="TimeApprovalActionForm" scope="request" input="/WEB-INF/jsp/timeApproval.jsp"
                 type="org.kuali.hr.time.approval.web.TimeApprovalAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/timeApproval.jsp"/>
+            <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
 
         <action path="/Admin" name="AdminActionForm" scope="request" input="/WEB-INF/jsp/admin.jsp"

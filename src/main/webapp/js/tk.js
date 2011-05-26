@@ -33,35 +33,35 @@ $(document).ready(function() {
     $('.button').button();
 
     $('button').button({
-        icons : {
-            primary : 'ui-icon-help'
-        },
-        text : false
-    });
+                icons : {
+                    primary : 'ui-icon-help'
+                },
+                text : false
+            });
 
     $('.expand').button({
-        icons: {
-            primary: 'ui-icon-plus'
-        }
-    });
+                icons: {
+                    primary: 'ui-icon-plus'
+                }
+            });
 
     // datepicker
     $('#date-range-begin, #date-range-end, #bdRow1, #edRow1').datepicker({
-        changeMonth : true,
-        changeYear : true,
-        showOn : 'button',
-        showAnim : 'fadeIn',
-        buttonImage : 'kr/static/images/cal.gif',
-        buttonImageOnly : true,
-        buttonText : 'Select a date',
-        showButtonPanel : true,
-        //numberOfMonths : 2,
-        // set default month based on the current browsing month
-        // appendText : '<br/>format: mm/dd/yyyy',
-        constrainInput : true,
-        minDate : new Date($('#beginPeriodDate').val()),
-        maxDate : new Date($('#endPeriodDate').val())
-    });
+                changeMonth : true,
+                changeYear : true,
+                showOn : 'button',
+                showAnim : 'fadeIn',
+                buttonImage : 'kr/static/images/cal.gif',
+                buttonImageOnly : true,
+                buttonText : 'Select a date',
+                showButtonPanel : true,
+                //numberOfMonths : 2,
+                // set default month based on the current browsing month
+                // appendText : '<br/>format: mm/dd/yyyy',
+                constrainInput : true,
+                minDate : new Date($('#beginPeriodDate').val()),
+                maxDate : new Date($('#endPeriodDate').val())
+            });
 
     // hide the date picker by default
     // https://jira.kuali.org/browse/KPME-395
@@ -114,44 +114,109 @@ $(document).ready(function() {
     var startTime = clockAction == 'CO' ? new Date(lastClockedInTime) : new Date(currentServerTime);
 
     $('.elapsedTime').countdown({
-        since : startTime,
-        compact : true,
-        format : 'dHMS',
-        description : ''
-    })
+                since : startTime,
+                compact : true,
+                format : 'dHMS',
+                description : ''
+            })
 
     // tooltip
     // http://flowplayer.org/tools/tooltip/index.html
     $("#beginTimeHelp, #endTimeHelp, #beginTimeHelp1, #endTimeHelp1").tooltip({
 
-        // place tooltip on the right edge
-        position : "center right",
+                // place tooltip on the right edge
+                position : "center right",
 
-        // a little tweaking of the position
-        offset : [-2, 10],
+                // a little tweaking of the position
+                offset : [-2, 10],
 
-        // use the built-in fadeIn/fadeOut effect
-        effect : "fade",
+                // use the built-in fadeIn/fadeOut effect
+                effect : "fade",
 
-        // custom opacity setting
-        opacity : 0.7,
+                // custom opacity setting
+                opacity : 0.7,
 
-        fadeInSpeed : 500
-    });
+                fadeInSpeed : 500
+            });
 
     // note accordion
     $("#note").accordion({
-        collapsible : true,
-        active : 2
-    });
+                collapsible : true,
+                active : 2
+            });
 
     // person detail accordion
     $("#person-detail-accordion").accordion({
-        collapsible : true,
-        active : 0,
-        autoHeight: false
+                collapsible : true,
+                active : 0,
+                autoHeight: false
+            });
+
+    /**
+     * Approval pages
+     */
+
+    // fetch more document headers
+    $("#approval").tablesorter();
+    $('a#next').click(function() {
+        $('div#loader').html('<img src="images/ajax-loader.gif">');
+        $.post('TimeApproval.do?methodToCall=getMoreDocument&lastDocumentId=' + $('span.document:last').attr('id'),
+                function(data) {
+                    // remove blank lines
+                    data = data.replace(/[\s\r\n]+$/, '');
+                    if (data != 0) {
+                        //$('span.document:last').hide().append(data).fadeIn();
+                        // scroll to where the link is
+                        //window.scrollTo(0, $('a#next').position().top);
+                        // append the data to the table body through ajax
+                        $('#approval tbody').append(data);
+                        // let the plugin know that we made a update
+                        $('#approval').trigger('update');
+                        // An array of instructions for per-column sorting and direction in the format: [[columnIndex, sortDirection], ... ]
+                        // where columnIndex is a zero-based index for your columns left-to-right and sortDirection is 0 for Ascending and 1 for Descending.
+                        // A valid argument that sorts ascending first by column 1 and then column 2 looks like: [[0,0],[1,0]]
+                        var sorting = [
+                            [0,0]
+                        ];
+                        // sort on the first column
+                        $('#approval').trigger('sorton', [sorting]);
+                    }
+                    else {
+                        // if there is no more document available, remove the link and scroll to the bottom
+                        $('a#next').remove();
+                        //window.scrollTo(0, $('span.document:last').position().top);
+                    }
+                    $('div#loader').empty();
+                });
+
     });
 
+    $('#searchValue').autocomplete({
+                // For some reason, when I use the $('#searchField').val() in the line below,
+                // it always gets the first option value instead of the selected one.
+                // Therefore, I have to use a callback function to feed the source and handle the respone/request by myself.
+                //source: "TimeApproval.do?methodToCall=searchDocumentHeaders" + $('#searchField').val(),
+                source: function(request, response) {
+                    $.post('TimeApproval.do?methodToCall=searchDocumentHeaders&searchField=' + $('#searchField').val() + '&term=' + request.term,
+                            function(data) {
+                                response($.map(jQuery.parseJSON(data), function(item) {
+                                    return {
+                                        value: item
+                                    }
+                                }));
+                            });
+                },
+                minLength: 3,
+                select: function(event, data) {
+                    window.location = 'TimeApproval.do?searchField=' + $('#searchField').val() + '&term=' + data.item.value;
+                },
+                open: function() {
+                    $(this).removeClass("ui-corner-all");
+                },
+                close: function() {
+                    $(this).removeClass("ui-corner-top");
+                }
+            });
 
     // show-hide earn codes in the approval page
     $("#fran-button").click(function() {
@@ -162,13 +227,18 @@ $(document).ready(function() {
         $(".frank").toggle();
         $("#frank-button span").toggleClass('ui-icon-minus');
     });
+
+    /**
+     * end of approval page
+     */
+
     // apply time entry widget to the tabular view
     $(".timesheet-table-week1 :input, .timesheet-table-week2 :input").blur(
             function() {
                 magicTime(this);
             }).focus(function() {
-        if (this.className != 'error') this.select();
-    });
+                if (this.className != 'error') this.select();
+            });
 
     // Button for iFrame show/hide to show the missed punch items
     // The iFrame is added to the missed-punch-dialog as a child element.
@@ -179,15 +249,15 @@ $(document).ready(function() {
         $('#missed-punch-dialog').append('<iframe width="800" height="500" src="kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.missedpunch.MissedPunch&methodToCall=start&tdocid=' + tdocid + '"></iframe>');
 
         $('#missed-punch-dialog').dialog({
-            autoOpen: true,
-            height: 'auto',
-            width: 'auto',
-            modal: true,
-            buttons: {
-                //"test" : function() {
-                //}
-            }
-        });
+                    autoOpen: true,
+                    height: 'auto',
+                    width: 'auto',
+                    modal: true,
+                    buttons: {
+                        //"test" : function() {
+                        //}
+                    }
+                });
     });
 
     $("#bdRow1, #edRow1").change(function() {
@@ -313,31 +383,31 @@ $(document).ready(function() {
         params['tbId'] = timeBlockId;
 
         $.ajax({
-            url: "Clock.do?methodToCall=validateNewTimeBlock",
-            data: params,
-            cache: false,
-            success: function(data) {
-                var json = jQuery.parseJSON(data);
-                // if there is no error message, submit the form and save the new time blocks
-                if (json.length == 0) {
-                    $('#methodToCall').val('saveNewTimeBlocks');
-                    $('#editTimeBlockForm').submit();
-                    window.close();
-                    return false;
-                } else {
-                    // if there is any error, grab error messages (json) and put them in the error message
-                    var json = jQuery.parseJSON(data);
-                    $.each(json, function (index) {
-                        errorMsgs += "Error : " + json[index] + "\n";
-                    });
-                    updateTips(errorMsgs);
-                    return false;
-                }
-            },
-            error: function() {
-                return false;
-            }
-        });
+                    url: "Clock.do?methodToCall=validateNewTimeBlock",
+                    data: params,
+                    cache: false,
+                    success: function(data) {
+                        var json = jQuery.parseJSON(data);
+                        // if there is no error message, submit the form and save the new time blocks
+                        if (json.length == 0) {
+                            $('#methodToCall').val('saveNewTimeBlocks');
+                            $('#editTimeBlockForm').submit();
+                            window.close();
+                            return false;
+                        } else {
+                            // if there is any error, grab error messages (json) and put them in the error message
+                            var json = jQuery.parseJSON(data);
+                            $.each(json, function (index) {
+                                errorMsgs += "Error : " + json[index] + "\n";
+                            });
+                            updateTips(errorMsgs);
+                            return false;
+                        }
+                    },
+                    error: function() {
+                        return false;
+                    }
+                });
 
     });
 
@@ -540,31 +610,31 @@ function addTimeBlockRow(form, tempArr) {
 
     // datepicker
     $(datePickerId).datepicker({
-        changeMonth : true,
-        changeYear : true,
-        showOn : 'button',
-        showAnim : 'fadeIn',
-        buttonImage : 'kr/static/images/cal.gif',
-        buttonImageOnly : true,
-        buttonText : 'Select a date',
-        showButtonPanel : true,
-        constrainInput : true,
-        minDate : new Date($('#beginDate').val()),
-        maxDate : new Date($('#endDate').val())
-    });
+                changeMonth : true,
+                changeYear : true,
+                showOn : 'button',
+                showAnim : 'fadeIn',
+                buttonImage : 'kr/static/images/cal.gif',
+                buttonImageOnly : true,
+                buttonText : 'Select a date',
+                showButtonPanel : true,
+                constrainInput : true,
+                minDate : new Date($('#beginDate').val()),
+                maxDate : new Date($('#endDate').val())
+            });
 
     //time format helper
     $(timeHelpId).tooltip({
-        // place tooltip on the right edge
-        position : "center right",
-        // a little tweaking of the position
-        offset : [-2, 10],
-        // use the built-in fadeIn/fadeOut effect
-        effect : "fade",
-        // custom opacity setting
-        opacity : 0.7,
-        fadeInSpeed : 100
-    });
+                // place tooltip on the right edge
+                position : "center right",
+                // a little tweaking of the position
+                offset : [-2, 10],
+                // use the built-in fadeIn/fadeOut effect
+                effect : "fade",
+                // custom opacity setting
+                opacity : 0.7,
+                fadeInSpeed : 100
+            });
 
     $(datePickerId).change(function() {
         $(this).removeClass('ui-state-error');
