@@ -70,10 +70,10 @@
 
   <bean id="EarnCode-earnCode" parent="EarnCode-earnCode-parentBean" />
   <bean id="EarnCode-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="maxLength" value="10" />
+    <property name="maxLength" value="3" />
     <property name="forceUppercase" value="true" />
     <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10" />
+      <bean parent="TextControlDefinition" p:size="3" />
     </property>
 
     <property name="name" value="earnCode" />
