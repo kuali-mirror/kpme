@@ -181,12 +181,12 @@
 	<bean id="EarnCode-inflateFactor-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Inflate Factor" />
-		<property name="maxLength" value="6" />
+		<property name="maxLength" value="4" />
 		<property name="validationPattern">
-			<bean parent="FloatingPointValidationPattern"/>
+			 <bean parent="FixedPointValidationPattern" p:precision="3" p:scale="2" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="6" />
+			<bean parent="TextControlDefinition" p:size="4" />
 		</property>
 		<property name="name" value="inflateFactor" />
 		<property name="label" value="Inflate Factor" />
