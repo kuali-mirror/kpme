@@ -1,5 +1,6 @@
 package org.kuali.hr.time.timesheet.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
@@ -17,7 +18,6 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowDocument;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -33,25 +33,54 @@ public class TimesheetServiceImpl implements TimesheetService {
 
 	@Override
 	public void routeTimesheet(String principalId, TimesheetDocument timesheetDocument) {
-		WorkflowDocument wd = null;
-		if (timesheetDocument != null) {
-			try {
-                String rhid = timesheetDocument.getDocumentId();
-				wd = new WorkflowDocument(principalId, Long.parseLong(rhid));
-				wd.routeDocument("Routing for Approval");
-
-				String kewStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(Long.parseLong(timesheetDocument.getDocumentHeader().getDocumentId()));
-				if (!kewStatus.equals(timesheetDocument.getDocumentHeader().getDocumentStatus())) {
-					timesheetDocument.getDocumentHeader().setDocumentStatus(kewStatus);
-					TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(timesheetDocument.getDocumentHeader());
-				}
-			} catch (WorkflowException e) {
-				throw new RuntimeException("Exception during route", e);
-			}
-		}
+        timesheetAction(TkConstants.TIMESHEET_ACTIONS.ROUTE, principalId, timesheetDocument);
 	}
 
-	@Override
+    @Override
+    public void approveTimesheet(String principalId, TimesheetDocument timesheetDocument) {
+        timesheetAction(TkConstants.TIMESHEET_ACTIONS.APPROVE, principalId, timesheetDocument);
+    }
+
+    @Override
+    public void disapproveTimesheet(String principalId, TimesheetDocument timesheetDocument) {
+        timesheetAction(TkConstants.TIMESHEET_ACTIONS.DISAPPROVE, principalId, timesheetDocument);
+    }
+
+    void timesheetAction(String action, String principalId, TimesheetDocument timesheetDocument) {
+        WorkflowDocument wd = null;
+        if (timesheetDocument != null) {
+            try {
+                String rhid = timesheetDocument.getDocumentId();
+                wd = new WorkflowDocument(principalId, Long.parseLong(rhid));
+
+                if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.ROUTE)) {
+                    wd.routeDocument("Routing for Approval");
+                } else if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.APPROVE)) {
+                    if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+                        wd.superUserApprove("Superuser approving timesheet.");
+                    } else {
+                        wd.approve("Approving timesheet.");
+                    }
+                } else if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.DISAPPROVE)) {
+                    if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+                        wd.superUserDisapprove("Superuser disapproving timesheet.");
+                    } else {
+                        wd.disapprove("Disapproving timesheet.");
+                    }
+                }
+
+                String kewStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(Long.parseLong(timesheetDocument.getDocumentHeader().getDocumentId()));
+                if (!kewStatus.equals(timesheetDocument.getDocumentHeader().getDocumentStatus())) {
+                    timesheetDocument.getDocumentHeader().setDocumentStatus(kewStatus);
+                    TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(timesheetDocument.getDocumentHeader());
+                }
+            } catch (WorkflowException e) {
+                throw new RuntimeException("Exception during route", e);
+            }
+        }
+    }
+
+    @Override
 	public TimesheetDocument openTimesheetDocument(String principalId, PayCalendarEntries payCalendarDates) throws WorkflowException {
 		TimesheetDocument timesheetDocument = null;
 

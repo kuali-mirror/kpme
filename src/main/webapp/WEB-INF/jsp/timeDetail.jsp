@@ -1,10 +1,6 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 <c:set var="Form" value="${TimeDetailActionForm}" scope="request"/>
 
-<!--
-<a href="TimesheetSubmit.do">submit timesheet</a>
--->
-
 <tk:tkHeader tabId="timeDetail">
     <div style="clear:both;" class="">
         <html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDate"/>
@@ -118,6 +114,8 @@
                 </html:form>
             </div>
                 <%-- end of dialog-form --%>
+
+            <tk:tkTimesheetRouting/>
 
                 <%--<tk:timeSummary timeSummary="${Form.timesheetDocument.timeSummary}" />  --%>
             <tk:timeSummary timeSummary="${Form.timeSummary}"/>

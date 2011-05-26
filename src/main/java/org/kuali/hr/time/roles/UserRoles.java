@@ -1,5 +1,7 @@
 package org.kuali.hr.time.roles;
 
+import org.kuali.hr.time.timesheet.TimesheetDocument;
+
 import java.util.Set;
 
 /**
@@ -93,5 +95,12 @@ public interface UserRoles {
      * @return a Set<String> of Chart names.
      */
     public Set<String> getOrgAdminCharts();
+
+    /**
+     * Indicates whether or not the current can approve the provided timesheet.
+     * @param doc The TimesheetDocument in question.
+     * @return true if the doc can be approved by the current user.
+     */
+    public boolean isApproverForTimesheet(TimesheetDocument doc);
 
 }

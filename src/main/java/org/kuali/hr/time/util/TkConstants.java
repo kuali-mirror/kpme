@@ -149,6 +149,17 @@ public class TkConstants {
         CLOCK_ACTION_STRINGS.put(LUNCH_OUT, "Lunch Out"); // Going to Lunch
     }
 
+    public static final class TIMESHEET_ACTIONS {
+        public static final String ROUTE = "R";
+        public static final String APPROVE = "A";
+        public static final String DISAPPROVE = "D";
+    }
+
+    public static final class ROUTE_STATUS {
+        public static final String INITIATED = "I";
+        public static final String ENROUTE = "R";
+        public static final String FINAL = "F";
+    }
 
     public static final class BATCH_JOB_ENTRY_STATUS
     {

@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -176,5 +177,25 @@ public class TkUserRoles implements UserRoles {
     @Override
     public Set<String> getProcessorDepartments() {
         return this.processorRolesDept.keySet();
+    }
+
+    @Override
+    public boolean isApproverForTimesheet(TimesheetDocument doc) {
+        boolean approver = false;
+
+        if (this.isSystemAdmin()) {
+            return true;
+        }
+
+        List<Assignment> assignments = doc.getAssignments();
+        for (Assignment assignment : assignments) {
+            if (this.processorRolesWorkArea.containsKey(assignment.getWorkArea())) {
+                return true;
+            } else if (this.approverRoles.containsKey(assignment.getWorkArea())) {
+                return true;
+            }
+        }
+
+        return approver;
     }
 }

@@ -23,12 +23,16 @@ public interface TimesheetService {
 	 * @param timesheetDocument
 	 */
 	public void routeTimesheet(String principalId, TimesheetDocument timesheetDocument);
-	
+
+    public void approveTimesheet(String principalId, TimesheetDocument timesheetDocument);
+
+    public void disapproveTimesheet(String principalId, TimesheetDocument timesheetDocument);
+
 	/**
 	 * For a given document ID, return a fully populated time sheet document.
-	 * 
+	 *
 	 * Fully populated means: TimeBlocks, Jobs, Assignments
-	 * 
+	 *
 	 * @param documentId
 	 * @return
 	 */
@@ -39,7 +43,7 @@ public interface TimesheetService {
 	 */
 	public boolean isSynchronousUser();
 	/**
-	 * Fetch TimeBlocks for previous pay periods 
+	 * Fetch TimeBlocks for previous pay periods
 	 * @param principalId
 	 * @param payBeginDate
 	 * @return
