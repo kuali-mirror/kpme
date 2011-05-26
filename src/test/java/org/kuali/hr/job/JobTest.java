@@ -25,8 +25,8 @@ public class JobTest extends TkTestCase {
 
 	private static final String TEST_USER_ID = "eric";
 	private static final String CALENDAR_GROUP = "BW-CAL";
-	private static Long jobId = 1L;//id entered in the bootstrap SQL
-	private static Long jobNumber = 30L;//number entered in the bootstrap SQL
+	private static Long jobId = 23L;//id entered in the bootstrap SQL
+	private static Long jobNumber = 5L;//number entered in the bootstrap SQL
 	
 	@Test
 	public void testInsertPayCalendar() throws Exception {
@@ -79,11 +79,14 @@ public class JobTest extends TkTestCase {
 	}
 	
 	@Test
-	public void jobMaintenancePage() throws Exception{				
-		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.JOB_MAINT_URL);
-		earnCodeLookUp = HtmlUnitUtil.clickInputContainingText(earnCodeLookUp, "search");
-		assertTrue("Page contains admin entry", earnCodeLookUp.asText().contains("admin"));		
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit",jobId.toString());		
-		assertTrue("Maintenance Page contains the correct job number",maintPage.asText().contains(jobNumber.toString()));		
+	public void jobMaintenancePage() throws Exception{
+		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.JOB_MAINT_URL);
+		lookupPage = HtmlUnitUtil.clickInputContainingText(lookupPage, "search");
+		HtmlUnitUtil.createTempFile(lookupPage);
+		assertTrue("Page contains admin entry", lookupPage.asText().contains("admin"));
+		// xichen, changed to edit jobId 23, because clickAnchorContainingText() is a wild search. The test was editing jobId 1, it returned the first entry whose jobId starts with 1.
+		HtmlPage editPage = HtmlUnitUtil.clickAnchorContainingText(lookupPage, "edit", jobId.toString());	
+		HtmlUnitUtil.createTempFile(editPage);
+		assertTrue("Maintenance Page contains the correct job number", editPage.asText().contains(jobNumber.toString()));				
 	}
 }
