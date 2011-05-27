@@ -27,22 +27,21 @@ public class PayCalendarEntryMaintainableImpl extends KualiMaintainableImpl {
 	@Override
 	public void saveBusinessObject() {
 		PayCalendarEntries payEntry = (PayCalendarEntries)super.getBusinessObject();
+		
 		java.sql.Date beginDate = payEntry.getBeginPeriodDate();
 		java.sql.Time beginTime = payEntry.getBeginPeriodTime();
-
-		LocalTime beginTimeLocal = new LocalTime(beginTime.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-		DateTime beginDateTime = new DateTime(beginDate.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+		LocalTime beginTimeLocal = new LocalTime(beginTime.getTime());
+		DateTime beginDateTime = new DateTime(beginDate.getTime());
 		beginDateTime = beginDateTime.plus(beginTimeLocal.getMillisOfDay());
 		payEntry.setBeginPeriodDateTime(new java.util.Date(beginDateTime.getMillis()));
 
 		java.sql.Date endDate = payEntry.getEndPeriodDate();
 		java.sql.Time endTime = payEntry.getEndPeriodTime();
-
-		LocalTime endTimeLocal = new LocalTime(endTime.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-		DateTime endDateTime = new DateTime(endDate.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+		LocalTime endTimeLocal = new LocalTime(endTime.getTime());
+		DateTime endDateTime = new DateTime(endDate.getTime());
 		endDateTime = endDateTime.plus(endTimeLocal.getMillisOfDay());
-
 		payEntry.setEndPeriodDateTime(new java.util.Date(endDateTime.getMillis()));
+		
 		super.saveBusinessObject();
 	}
 
