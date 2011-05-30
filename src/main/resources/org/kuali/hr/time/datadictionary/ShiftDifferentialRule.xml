@@ -236,7 +236,7 @@
 		<property name="formatterClass"
 			value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter" />
 		<property name="name" value="beginTime" />
-		<property name="label" value="Begin Time" />
+		<property name="label" value="Begin Time (00:00 AM)" />
 	</bean>
 
 	<!-- endTime -->
@@ -255,7 +255,7 @@
 		<property name="formatterClass"
 			value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter" />
 		<property name="name" value="endTime" />
-		<property name="label" value="End Time" />
+		<property name="label" value="End Time (00:00 AM)" />
 	</bean>
 	<!-- minHours  -->
 	<bean id="ShiftDifferentialRule-minHours" parent="ShiftDifferentialRule-minHours-parentBean" />
