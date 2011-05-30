@@ -124,7 +124,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="beginPeriodTime"/>
-    <property name="label" value="Begin Pay Period Time"/>
+    <property name="label" value="Begin Pay Period Time (00:00 AM)"/>
   </bean>
 
   <bean id="PayCalendarEntries-endPeriodDateTime" parent="PayCalendarEntries-endPeriodDateTime-parentBean"/>
@@ -169,7 +169,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="endPeriodTime"/>
-    <property name="label" value="End Pay Period Time"/>
+    <property name="label" value="End Pay Period Time (00:00 AM)"/>
   </bean>
     
   <bean id="PayCalendarEntries-initiateDate" parent="PayCalendarEntries-initiateDate-parentBean"/>
@@ -199,7 +199,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="batchInitiateTime"/>
-    <property name="label" value="Batch Initiate Time"/>
+    <property name="label" value="Batch Initiate Time (00:00 AM)"/>
   </bean>
 
   <!--  -->
@@ -231,7 +231,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="batchEndPayPeriodTime"/>
-    <property name="label" value="Batch End Pay Period Time"/>
+    <property name="label" value="Batch End Pay Period Time (00:00 AM)"/>
   </bean>
 
   <!--  -->
@@ -263,7 +263,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="batchEmployeeApprovalTime"/>
-    <property name="label" value="Batch Employee Approval Time"/>
+    <property name="label" value="Batch Employee Approval Time (00:00 AM)"/>
   </bean>
 
   <!--  -->
@@ -295,7 +295,7 @@
     </property>
     <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
     <property name="name" value="batchSupervisorApprovalTime"/>
-    <property name="label" value="Batch Supervisor Approval Time"/>
+    <property name="label" value="Batch Supervisor Approval Time (00:00 AM)"/>
   </bean>
   
 
