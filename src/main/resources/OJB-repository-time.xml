@@ -769,7 +769,7 @@
 		<field-descriptor name="batchJobException" column="batch_job_exception" jdbc-type="VARCHAR" length="100"/>
 		<field-descriptor name="ipAddress" column="ip_address" jdbc-type="VARCHAR" length="20"/>
 		<field-descriptor name="batchJobName" column="batch_job_name" jdbc-type="VARCHAR" length="40"/>
-		<field-descriptor name="clockLog" column="clock_log_id" jdbc-type="BIGINT" length="20"/>
+		<field-descriptor name="clockLogId" column="clock_log_id" jdbc-type="BIGINT" length="20"/>
 		
 	</class-descriptor>
 
