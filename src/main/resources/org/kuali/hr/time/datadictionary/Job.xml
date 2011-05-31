@@ -135,6 +135,7 @@
 	<bean id="Job-payGrade-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Pay Grade" />
 		<property name="maxLength" value="27" />
+		<property name="forceUppercase" value="true" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
