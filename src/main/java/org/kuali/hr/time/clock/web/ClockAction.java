@@ -111,8 +111,7 @@ public class ClockAction extends TimesheetAction {
     	    ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockTimestamp, caf.getSelectedAssignment(),caf.getTimesheetDocument(),caf.getCurrentClockAction(), ip);
     	    TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, TKUtils.getCurrentDate());
 
-    	    TkServiceLocator.getClockLogService().saveClockLog(clockLog);
-    	    caf.setClockLog(clockLog);
+
 
     	    if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
     	    	
@@ -123,6 +122,10 @@ public class ClockAction extends TimesheetAction {
     	    	else if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT)) {
     	    		lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId()).getClockTimestamp();
     	    	}
+    	    	
+    	    	//Save current clock log to get id for timeblock building
+        	    TkServiceLocator.getClockLogService().saveClockLog(clockLog);
+        	    caf.setClockLog(clockLog);
     	    	
     			long beginTime = lastClockTimestamp.getTime();
     			Timestamp beginTimestamp = new Timestamp(beginTime);
@@ -152,6 +155,9 @@ public class ClockAction extends TimesheetAction {
     			TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
     	    	//TkServiceLocator.getTimeHourDetailService().saveTimeHourDetail(tb);
     	    	//TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(caf);
+    	    } else {
+        	    TkServiceLocator.getClockLogService().saveClockLog(clockLog);
+        	    caf.setClockLog(clockLog);
     	    }
     	    return mapping.findForward("basic");
     	}
