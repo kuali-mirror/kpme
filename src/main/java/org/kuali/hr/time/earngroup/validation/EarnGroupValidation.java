@@ -37,6 +37,10 @@ public class EarnGroupValidation  extends MaintenanceDocumentRuleBase{
 			earnCodes.add(earnGroupDef.getEarnCode());
 			index++;
 		}
+		if(ValidationUtils.newerVersionExists(EarnGroup.class, "earnGroup", earnGroup.getEarnGroup(), earnGroup.getEffectiveDate())) {
+			this.putFieldError("effectiveDate", "earngroup.effectiveDate.newr.exists");
+			return false;
+		}
 		return true;
 	}
 	

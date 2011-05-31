@@ -191,5 +191,35 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Status: 	 FINAL"));
 	}
 	
+	@Test
+	public void testSubmitEarnGroupWithNewerVersionMaint() throws Exception {
+		String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.earngroup.EarnGroup&methodToCall=start";
+    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+    	assertNotNull(page);
+    	//save a Earn code
+    	populateEarnGroup(page, "01/01/2011"); 
+        HtmlElement element = page.getElementByName("methodToCall.route");
+        HtmlPage finalPage = element.click();
+        assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
+        
+      //try to save the same Earn code with older effective date
+        page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+    	populateEarnGroup(page, "01/01/2010"); 
+    	element = page.getElementByName("methodToCall.route");
+        finalPage = element.click();
+        assertTrue("Maintenance Page contains error messages",finalPage.asText().contains("There is a newer version of this Earn Group."));
+        
+	}
+	
+	private void populateEarnGroup(HtmlPage page, String effDateString) {
+		setFieldValue(page, "document.documentHeader.documentDescription", "test");
+        setFieldValue(page, TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "descr", "Test Earn Group");
+        setFieldValue(page, TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "earnGroup", "MM");
+        setFieldValue(page, TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "effectiveDate", effDateString);
+        setFieldValue(page, TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "showSummary", "on");
+        setFieldValue(page, TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "active", "on");
+	}
+	
+	
 	
 }
