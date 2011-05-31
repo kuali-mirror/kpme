@@ -1,11 +1,12 @@
 package org.kuali.hr.time.dept.lunch.validation;
 
+import java.math.BigDecimal;
+
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
@@ -80,6 +81,17 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 			return true;
 		}
 	}
+	
+	boolean validateShiftHour(DeptLunchRule ruleObj) {
+		BigDecimal shiftHour = ruleObj.getShiftHours();
+		BigDecimal maxHour = new BigDecimal(24);
+		if(shiftHour.compareTo(maxHour) == 1) {
+			this.putFieldError("shiftHours", "dept.shifthour.exceedsMax");
+			return false;	
+		}
+		return true;
+	}
+	
 
 	
 	/**
@@ -102,6 +114,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateWorkArea(deptLunchRule);
 				valid &= this.validatePrincipalId(deptLunchRule);
 				valid &= this.validateJobNumber(deptLunchRule);
+				valid &= this.validateShiftHour(deptLunchRule);
 			}
 		}
 		

@@ -83,6 +83,26 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 	}
 
 	@Test
+	public void testDepartmentLunchRuleMaintForMaxShiftHourErrorMessage() throws Exception {
+		HtmlPage departmentLunchRuleLookUp = HtmlUnitUtil
+				.gotoPageAndLogin(TkTestConstants.Urls.DEPT_LUNCH_RULE_MAINT_URL);
+		departmentLunchRuleLookUp = HtmlUnitUtil.clickInputContainingText(
+				departmentLunchRuleLookUp, "search");
+		assertTrue("Page contains test DepartmentLunchRule",
+				departmentLunchRuleLookUp.asText().contains(TEST_CODE));
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(
+				departmentLunchRuleLookUp, "edit",
+				deptLunchRuleIdWithInvalidWorkArea.toString());
+		
+		setFieldValue(maintPage, TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "shiftHours", "34");
+		setFieldValue(maintPage, "document.documentHeader.documentDescription", "test");
+		HtmlPage resultantPageAfterEdit = HtmlUnitUtil.clickInputContainingText(maintPage, "submit");		
+		HtmlUnitUtil.createTempFile(resultantPageAfterEdit);
+		assertTrue("Maintenance Page contains contains error message for Shift Hours",
+				resultantPageAfterEdit.asText().contains("Shift Hour cannot be greater than 24."));
+	}
+	
+	@Test
 	public void testDepartmentLunchRuleMaint() throws Exception {
 		HtmlPage departmentLunchRuleLookUp = HtmlUnitUtil
 				.gotoPageAndLogin(TkTestConstants.Urls.DEPT_LUNCH_RULE_MAINT_URL);
