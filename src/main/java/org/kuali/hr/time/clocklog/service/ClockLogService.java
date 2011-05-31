@@ -1,8 +1,10 @@
 package org.kuali.hr.time.clocklog.service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.kuali.hr.time.clocklog.ClockLog;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 public interface ClockLogService {
@@ -20,4 +22,6 @@ public interface ClockLogService {
      * @return
      */
 	public ClockLog buildClockLog(Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction, String ip);
+	
+	public List<ClockLog> getOpenClockLogs(PayCalendarEntries payCalendarEntry);
 }

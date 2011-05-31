@@ -45,29 +45,33 @@ public class BatchJobManagerThread extends Thread {
 
                 List<BatchJob> batchJobs = TkServiceLocator.getBatchJobService().getBatchJobs(payCalendarEntry.getPayCalendarEntriesId());
 
+//                batchJobs.clear();
+//                DumbJob dj = new DumbJob();
+//                jobsToRun.add(dj);
                 if ((payCalendarEntry.getBatchInitiateDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.INITIATE)) ) {
                     BatchJob job = new InitiateBatchJob(payCalendarEntry.getPayCalendarEntriesId());
                     TkServiceLocator.getBatchJobService().saveBatchJob(job);
                     batchJobs.add(job);
+                    jobsToRun.add(job);
                 }
-
-                if ((payCalendarEntry.getBatchEmployeeApprovalDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.APPROVE)) ) {
-                    BatchJob job = new EmployeeApprovalBatchJob(payCalendarEntry);
-                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
-                    batchJobs.add(job);
-                }
-
-                if ((payCalendarEntry.getBatchEndPayPeriodDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END)) ) {
-                    BatchJob job = new PayPeriodEndBatchJob(payCalendarEntry.getPayCalendarEntriesId());
-                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
-                    batchJobs.add(job);
-                }
-
-                if ((payCalendarEntry.getBatchSupervisorApprovalDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL)) ) {
-                    BatchJob job = new SupervisorApprovalBatchJob(payCalendarEntry.getPayCalendarEntriesId());
-                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
-                    batchJobs.add(job);
-                }
+//
+//                if ((payCalendarEntry.getBatchEmployeeApprovalDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.APPROVE)) ) {
+//                    BatchJob job = new EmployeeApprovalBatchJob(payCalendarEntry);
+//                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
+//                    batchJobs.add(job);
+//                }
+//
+//                if ((payCalendarEntry.getBatchEndPayPeriodDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END)) ) {
+//                    BatchJob job = new PayPeriodEndBatchJob(payCalendarEntry.getPayCalendarEntriesId());
+//                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
+//                    batchJobs.add(job);
+//                }
+//
+//                if ((payCalendarEntry.getBatchSupervisorApprovalDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL)) ) {
+//                    BatchJob job = new SupervisorApprovalBatchJob(payCalendarEntry.getPayCalendarEntriesId());
+//                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
+//                    batchJobs.add(job);
+//                }
             }
 
             for (BatchJob job : jobsToRun) {

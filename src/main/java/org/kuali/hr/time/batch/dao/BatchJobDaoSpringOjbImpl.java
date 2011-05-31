@@ -4,6 +4,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.batch.BatchJob;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 import java.util.ArrayList;
@@ -12,8 +15,13 @@ import java.util.List;
 
 public class BatchJobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements BatchJobDao {
 
-    public void saveOrUpdate(BatchJob batchJob) {
-        this.getPersistenceBrokerTemplate().store(batchJob);
+    public void saveOrUpdate(final BatchJob batchJob) {
+    	TkServiceLocator.getTransactionTemplate().execute(new TransactionCallbackWithoutResult() {
+			@Override
+			protected void doInTransactionWithoutResult(TransactionStatus status) {
+				getPersistenceBrokerTemplate().store(batchJob);
+			}
+    	});
     }
 
     public BatchJob getBatchJob(Long batchJobId){

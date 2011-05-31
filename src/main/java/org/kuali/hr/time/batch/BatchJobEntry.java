@@ -10,6 +10,7 @@ public class BatchJobEntry {
 	private String ipAddress;
 	private String batchJobName;
 	private Long payCalendarEntryId;
+	private Long clockLogId;
 	
 	public Long getTkBatchJobEntryId() {
 		return tkBatchJobEntryId;
@@ -64,5 +65,11 @@ public class BatchJobEntry {
 	}
 	public Long getPayCalendarEntryId() {
 		return payCalendarEntryId;
+	}
+	public void setClockLogId(Long clockLogId) {
+		this.clockLogId = clockLogId;
+	}
+	public Long getClockLogId() {
+		return clockLogId;
 	}
 }

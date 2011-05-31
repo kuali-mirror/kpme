@@ -3,14 +3,11 @@ package org.kuali.hr.time.paycalendar.service;
 import java.util.Date;
 import java.util.List;
 
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.paycalendar.dao.PayCalendarDao;
-import org.kuali.hr.time.paycalendar.dao.PayCalendarEntriesDao;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -66,6 +63,10 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 		}
 		
 		return pcd;
+	}
+	
+	public PayCalendarEntries getPreviousPayCalendarEntry(Long tkPayCalendarId, Date beginDateCurrentPayCalendar){
+		return payCalendarDao.getPreviousPayCalendarEntry(tkPayCalendarId, beginDateCurrentPayCalendar);
 	}
 	
 

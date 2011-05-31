@@ -4,12 +4,14 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.clocklog.dao.ClockLogDao;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class ClockLogServiceImpl implements ClockLogService {
 
@@ -65,6 +67,10 @@ public class ClockLogServiceImpl implements ClockLogService {
 
 	public ClockLog getLastClockLog(String principalId, String clockAction) {
 		return clockLogDao.getLastClockLog(principalId, clockAction);
+	}
+	
+	public List<ClockLog> getOpenClockLogs(PayCalendarEntries payCalendarEntry){
+		return clockLogDao.getOpenClockLogs(payCalendarEntry);
 	}
 
 }

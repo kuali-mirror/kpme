@@ -1,12 +1,18 @@
 package org.kuali.hr.time.util;
 
-import org.joda.time.DateTimeZone;
-
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TimeZone;
+
+import org.joda.time.DateTimeZone;
 
 public class TkConstants {
 
@@ -20,6 +26,12 @@ public class TkConstants {
     public static final String CLOCK_OUT = "CO";
     public static final String LUNCH_IN = "LI"; // Coming back from Lunch
     public static final String LUNCH_OUT = "LO"; // Leaving for Lunch
+    
+    public static final List<String> ON_THE_CLOCK_CODES = new ArrayList<String>();
+    static {
+        ON_THE_CLOCK_CODES.add(CLOCK_IN);
+        ON_THE_CLOCK_CODES.add(LUNCH_IN);
+    }
 
     // action history
     public static final String DELETE = "DELETE";

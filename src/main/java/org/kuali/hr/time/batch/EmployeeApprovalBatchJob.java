@@ -17,6 +17,7 @@ public class EmployeeApprovalBatchJob extends BatchJob {
 
     public EmployeeApprovalBatchJob(PayCalendarEntries payCalendarEntry) {
         this.payCalendarEntry = payCalendarEntry;
+        setBatchJobName(TkConstants.BATCH_JOB_NAMES.APPROVE);
     }
 
 	@Override
@@ -35,7 +36,7 @@ public class EmployeeApprovalBatchJob extends BatchJob {
 		String ip = this.getNextIpAddressInCluster();
 		if(StringUtils.isNotBlank(ip)){
             //insert a batch job entry here
-            BatchJobEntry entry = this.createBatchJobEntry(this.getBatchJobName(), ip, timesheetDocumentHeader.getPrincipalId(), timesheetDocumentHeader.getDocumentId());
+            BatchJobEntry entry = this.createBatchJobEntry(this.getBatchJobName(), ip, timesheetDocumentHeader.getPrincipalId(), timesheetDocumentHeader.getDocumentId(),null);
             TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
 		} else {
 			LOG.info("No ip found in cluster to assign batch jobs");

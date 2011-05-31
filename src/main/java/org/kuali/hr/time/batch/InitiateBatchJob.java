@@ -1,7 +1,6 @@
 package org.kuali.hr.time.batch;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -38,7 +37,7 @@ public class InitiateBatchJob extends BatchJob {
 		String ip = this.getNextIpAddressInCluster();
 		if(StringUtils.isNotBlank(ip)){
 			//insert a batch job entry here
-            BatchJobEntry entry = this.createBatchJobEntry(this.getBatchJobName(), ip, assign.getPrincipalId(), null);
+            BatchJobEntry entry = this.createBatchJobEntry(this.getBatchJobName(), ip, assign.getPrincipalId(), null,null);
             TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
 		} else {
 			LOG.info("No ip found in cluster to assign batch jobs");

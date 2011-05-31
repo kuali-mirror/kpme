@@ -30,4 +30,12 @@ public interface PayCalendarService {
 	 * @return
 	 */
 	public PayCalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate);	
+	
+	/**
+	 * Returns the Pay CalendarEntry for previous pay calendar
+	 * @param tkPayCalendarId
+	 * @param beginDateCurrentPayCalendar
+	 * @return
+	 */
+	public PayCalendarEntries getPreviousPayCalendarEntry(Long tkPayCalendarId, Date beginDateCurrentPayCalendar);
 }

@@ -47,7 +47,7 @@ public class BatchJob {
 			}
     	});
     }
-
+    
 	void doWork() {
         throw new UnsupportedOperationException("You must override this method in a subclass.");
 	}
@@ -129,7 +129,7 @@ public class BatchJob {
 		this.timestamp = timestamp;
 	}
 
-    BatchJobEntry createBatchJobEntry(String batchJobName, String ip, String principal, String documentId) {
+    BatchJobEntry createBatchJobEntry(String batchJobName, String ip, String principal, String documentId, Long clockLogId) {
         BatchJobEntry entry = new BatchJobEntry();
 
         entry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
@@ -139,6 +139,7 @@ public class BatchJob {
         entry.setPrincipalId(principal);
         entry.setTkBatchJobId(this.getTkBatchJobId());
         entry.setDocumentId(documentId);
+        entry.setClockLogId(clockLogId);
 
         return entry;
     }
