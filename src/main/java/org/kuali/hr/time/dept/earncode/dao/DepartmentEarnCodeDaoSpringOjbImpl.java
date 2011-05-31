@@ -32,7 +32,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tkSalGroup, Date asOfDate) {
+	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tkSalGroup, String location, Date asOfDate) {
 		List<DepartmentEarnCode> decs = new LinkedList<DepartmentEarnCode>();
 
 		Criteria root = new Criteria();
@@ -44,6 +44,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		effdt.addEqualToField("tkSalGroup", Criteria.PARENT_QUERY_PREFIX + "tkSalGroup");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 		effdt.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+		effdt.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
 		
 //		effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdt);
@@ -53,6 +54,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		timestamp.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
 		timestamp.addEqualToField("tkSalGroup", Criteria.PARENT_QUERY_PREFIX + "tkSalGroup");
 		timestamp.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+		timestamp.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 //		timestamp.addEqualTo("active", true);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestamp);
@@ -60,6 +62,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 
 		root.addEqualTo("dept", department);
 		root.addEqualTo("tkSalGroup", tkSalGroup);
+		root.addEqualTo("location", location);
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
 		

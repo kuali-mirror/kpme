@@ -36,7 +36,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 			throw new RuntimeException("No regular earn code defined.");
 		earnCodes.add(regularEc);
 		//TODO - Kenneth change from current date to document begin date for ALL effective date fetches 
-		List<DepartmentEarnCode> decs = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getTkSalGroup(), TKUtils.getCurrentDate());
+		List<DepartmentEarnCode> decs = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getTkSalGroup(), job.getLocation(), TKUtils.getCurrentDate());
 		for (DepartmentEarnCode dec : decs) {
 			// Iterating over these one by one, running a query because each earn code has effective dating/time stamp/active
 			EarnCode ec = getEarnCode(dec.getEarnCode(), dec.getEffectiveDate());

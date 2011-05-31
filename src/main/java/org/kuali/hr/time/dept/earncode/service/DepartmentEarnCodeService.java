@@ -11,6 +11,6 @@ public interface DepartmentEarnCodeService {
 	/** This should handle wild cards on department and tk_sal_group. 
 	 * 
 	 */
-	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tk_sal_group, Date asOfDate);
+	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tk_sal_group, String location, Date asOfDate);
 
 }

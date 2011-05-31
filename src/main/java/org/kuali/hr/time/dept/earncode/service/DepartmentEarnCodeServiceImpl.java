@@ -18,25 +18,25 @@ public class DepartmentEarnCodeServiceImpl implements DepartmentEarnCodeService 
 	/*
 	 * Handles the wildcarding.
 	 */
-	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tkSalGroup, java.util.Date asOfDate) {
+	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tkSalGroup, String location, java.util.Date asOfDate) {
 		List<DepartmentEarnCode> decs = new LinkedList<DepartmentEarnCode>();
 		
-		decs = deptEarnCodeDao.getDepartmentEarnCodes(department, tkSalGroup, asOfDate);
+		decs = deptEarnCodeDao.getDepartmentEarnCodes(department, tkSalGroup, location, asOfDate);
 		if (!decs.isEmpty()) {
 			return decs;
 		}
 		
-		decs = deptEarnCodeDao.getDepartmentEarnCodes("%", tkSalGroup, asOfDate);
+		decs = deptEarnCodeDao.getDepartmentEarnCodes("%", tkSalGroup, location, asOfDate);
 		if (!decs.isEmpty()) {
 			return decs;
 		}
 		
-		decs = deptEarnCodeDao.getDepartmentEarnCodes(department, "%", asOfDate);
+		decs = deptEarnCodeDao.getDepartmentEarnCodes(department, "%", location, asOfDate);
 		if (!decs.isEmpty()) {
 			return decs;
 		}
 
-		decs = deptEarnCodeDao.getDepartmentEarnCodes("%", "%", asOfDate);
+		decs = deptEarnCodeDao.getDepartmentEarnCodes("%", "%", location, asOfDate);
 		if (!decs.isEmpty()) {
 			return decs;
 		}

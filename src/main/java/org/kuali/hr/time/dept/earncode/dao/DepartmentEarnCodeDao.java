@@ -11,5 +11,5 @@ public interface DepartmentEarnCodeDao {
 
 	public void saveOrUpdate(List<DepartmentEarnCode> deptErncdList);
 
-	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tk_sal_group, Date asOfDate);
+	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tk_sal_group, String location, Date asOfDate);
 }
