@@ -151,7 +151,7 @@
 		</property>
 		<property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>		
 		<property name="name" value="clockTimestamp" />
-		<property name="label" value="Clock Timestamp" />
+		<property name="label" value="Clock Timestamp (MM/DD/YYYY HH:MM AM)" />
 	</bean>
 
 	<!-- clockTimestampTimezone -->
