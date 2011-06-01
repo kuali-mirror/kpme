@@ -171,7 +171,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 	}
 
 	private void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, Date payPeriodBegin, Date payPeriodEnd) {
-		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getTimelessDate(payPeriodBegin));
+		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getTimelessDate(payPeriodEnd));
 		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(principalId, TKUtils.getTimelessDate(payPeriodBegin));
 		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdoc.getDocumentHeader().getDocumentId()));
 

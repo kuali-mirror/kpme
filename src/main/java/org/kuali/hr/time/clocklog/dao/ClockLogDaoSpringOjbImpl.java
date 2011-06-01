@@ -52,12 +52,12 @@ public class ClockLogDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 	timestampJoinCriteria.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 	timestampJoinCriteria.addEqualToField("clockTimestamp", Criteria.PARENT_QUERY_PREFIX + "clockTimestamp");
 	
-	ReportQueryByCriteria timeStampSubQuery = QueryFactory.newReportQuery(ClockLog.class, timestampJoinCriteria);
-	timeStampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+		ReportQueryByCriteria timeStampSubQuery = QueryFactory.newReportQuery(ClockLog.class, timestampJoinCriteria);
+		timeStampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 	
-	currentRecordCriteria.addEqualTo("timestamp", timeStampSubQuery);
+		currentRecordCriteria.addEqualTo("timestamp", timeStampSubQuery);
 	
-	return (ClockLog)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ClockLog.class,currentRecordCriteria));
+		return (ClockLog)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ClockLog.class,currentRecordCriteria));
     }
     
     @Override

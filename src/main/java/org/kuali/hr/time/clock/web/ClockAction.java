@@ -1,5 +1,17 @@
 package org.kuali.hr.time.clock.web;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -18,13 +30,6 @@ import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class ClockAction extends TimesheetAction {
 
@@ -110,8 +115,6 @@ public class ClockAction extends TimesheetAction {
 
     	    ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockTimestamp, caf.getSelectedAssignment(),caf.getTimesheetDocument(),caf.getCurrentClockAction(), ip);
     	    TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, TKUtils.getCurrentDate());
-
-
 
     	    if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
     	    	

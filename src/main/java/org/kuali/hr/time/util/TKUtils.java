@@ -257,4 +257,10 @@ public class TKUtils {
             return "unknown";
         }
     }
+    //Used to preserve active row fetching based on max(timestamp)
+    public static Timestamp subtractOneSecondFromTimestamp(Timestamp originalTimestamp) {
+    	DateTime dt = new DateTime(originalTimestamp);
+    	dt = dt.minusSeconds(1);
+    	return new Timestamp(dt.getMillis());
+    }
 }

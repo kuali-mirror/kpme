@@ -1,6 +1,8 @@
 package org.kuali.hr.time.assignment.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,9 +11,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public class AssignmentLookupableHelper extends
 		KualiLookupableHelperServiceImpl {
@@ -54,38 +59,130 @@ public class AssignmentLookupableHelper extends
 			showHistory = fieldValues.get("history");
 			fieldValues.remove("history");
 		}
+		String active = "";
+		if(fieldValues.containsKey("active")){
+			active = fieldValues.get("active");
+			fieldValues.put("active", "");
+		}
+		
 		List<? extends BusinessObject> objectList = super.getSearchResults(fieldValues);
-		if (!objectList.isEmpty() && StringUtils.equals(showHistory, "N")) {
-			Map<String, BusinessObject> objectsWithoutHistory = new HashMap<String, BusinessObject>();
-			// Creating map for objects without history
-			for (BusinessObject bo : objectList) {
-				Assignment assignNew = (Assignment) bo;
-				AssignmentDescriptionKey assignKey = new AssignmentDescriptionKey(assignNew.getJobNumber(), assignNew.getWorkArea(), assignNew.getTask());
-				String assignmentKey = assignNew.getPrincipalId() + "_" + assignKey.toAssignmentKeyString();
-				if (objectsWithoutHistory.containsKey(assignKey)) {
-					// Comparing here for duplicates
-					Assignment assignOld = (Assignment) objectsWithoutHistory.get(assignmentKey);
-					int comparison = assignNew.getEffectiveDate().compareTo(assignOld.getEffectiveDate());
-					// Comparison for highest effective date object to put 
-					switch (comparison) {
-					case 0:
-						if (assignNew.getTimestamp().after(assignOld.getTimestamp())) {
-							// Sorting here by timestamp value
-							objectsWithoutHistory.put(assignmentKey, assignNew);
-						}
+		List<BusinessObject> finalBusinessObjectList = new ArrayList<BusinessObject>();
+		
+		//Create a principalId+jobNumber map as this is the unique key for results
+		Map<String,List<Assignment>> jobToAssignmentMap = new HashMap<String,List<Assignment>>();
+		
+		for(BusinessObject bo : objectList){
+			Assignment assign = (Assignment)bo;
+			String jobKey = assign.getPrincipalId()+"_"+assign.getJobNumber();
+			if(jobToAssignmentMap.get(jobKey)!=null){
+				List<Assignment> lstAssignments = jobToAssignmentMap.get(jobKey);
+				lstAssignments.add(assign);
+			} else {
+				List<Assignment> lstAssignments = new ArrayList<Assignment>();
+				lstAssignments.add(assign);
+				jobToAssignmentMap.put(jobKey, lstAssignments);
+			}
+		}
+		
+		//Sort by EffectiveDate/Timestamp and reverse each list so it goes from future back
+		for(List<Assignment> lstAssign : jobToAssignmentMap.values()){
+			Collections.sort(lstAssign, new EffectiveDateTimestampCompare());
+			Collections.reverse(lstAssign);
+		}
+		
+		Date currDate = TKUtils.getCurrentDate();
+		//Active = Both and Show History = Yes
+		//return all results
+		if(StringUtils.isEmpty(active) && StringUtils.equals("Y", showHistory)){
+			return objectList;
+		} 
+		//Active = Both and show history = No
+		//return the most effective results from today and any future rows
+		else if(StringUtils.isEmpty(active) && StringUtils.equals("N", showHistory)){
+			for(List<Assignment> lstAssign : jobToAssignmentMap.values()){
+				for(Assignment assign : lstAssign){
+					if(assign.getEffectiveDate().before(currDate)){
+						finalBusinessObjectList.add(assign);
 						break;
-					case 1:
-						objectsWithoutHistory.put(assignmentKey, assignNew);
+					} else {
+						finalBusinessObjectList.add(assign);
 					}
-				} else {
-					objectsWithoutHistory.put(assignmentKey, assignNew);
 				}
 			}
-			List<BusinessObject> objectListWithoutHistory = new ArrayList<BusinessObject>();
-			objectListWithoutHistory.addAll(objectsWithoutHistory.values());
-			return objectListWithoutHistory;
 		}
-		return objectList;
+		//Active = Yes and Show History = No
+		//return all active records as of today and any active future rows
+		else if(StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)){
+			for(List<Assignment> lstAssign : jobToAssignmentMap.values()){
+				for(Assignment assign : lstAssign){
+					if(assign.isActive()){
+						if(assign.getEffectiveDate().before(currDate)){
+							finalBusinessObjectList.add(assign);
+							break;
+						} else {
+							finalBusinessObjectList.add(assign);
+						}
+					}
+				}
+			}
+		}
+		//Active = Yes and Show History = Yes
+		//return all active records from database
+		else if(StringUtils.equals(active, "Y") && StringUtils.equals("Y", showHistory)){
+			for(List<Assignment> lstAssign : jobToAssignmentMap.values()){
+				for(Assignment assign : lstAssign){
+					if(assign.isActive()){
+						finalBusinessObjectList.add(assign);			
+					}
+				}
+			}
+		}
+		//Active = No and Show History = Yes
+		//return all inactive records in the database
+		else if(StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "Y")){
+			for(List<Assignment> lstAssign : jobToAssignmentMap.values()){
+				for(Assignment assign : lstAssign){
+					if(!assign.isActive()){
+						finalBusinessObjectList.add(assign);	
+					}
+				}
+			}
+		}
+		//Active = No and Show History = No
+		//return the most effective inactive rows if there are no active rows <= the curr date
+		else if(StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "N")){
+			for(List<Assignment> lstAssign : jobToAssignmentMap.values()){
+				for(Assignment assign : lstAssign){
+					if(assign.getEffectiveDate().before(currDate)){
+						if(!assign.isActive()){
+							finalBusinessObjectList.add(assign);
+						} 
+						break;
+					} else {
+						if(!assign.isActive()){
+							finalBusinessObjectList.add(assign);
+						}
+					}
+				}
+			}			
+		}
+		return finalBusinessObjectList;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public class EffectiveDateTimestampCompare implements Comparator{
+
+		@Override
+		public int compare(Object arg0, Object arg1) {
+			Assignment assign = (Assignment)arg0;
+			Assignment assign2 = (Assignment)arg1;
+			int result = assign.getEffectiveDate().compareTo(assign2.getEffectiveDate());
+			if(result==0){
+				return assign.getTimestamp().compareTo(assign2.getTimestamp());
+			}
+			return result;
+		}
+		
 	}
 
 }

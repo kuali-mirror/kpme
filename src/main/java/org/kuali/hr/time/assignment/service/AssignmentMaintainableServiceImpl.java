@@ -1,12 +1,15 @@
 package org.kuali.hr.time.assignment.service;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -32,13 +35,24 @@ public class AssignmentMaintainableServiceImpl extends KualiMaintainableImpl {
 	@Override
 	public void saveBusinessObject() {
 		Assignment assignment = (Assignment) this.getBusinessObject();
-		assignment.setTimestamp(null);
+		
+		//Inactivate the old assignment as of the effective date of new assignment
+		if(assignment.getTkAssignmentId()!=null && assignment.isActive()){
+			Assignment oldAssignment = (Assignment)SerializationUtils.clone(assignment);
+			oldAssignment.setActive(false);
+			//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
+			oldAssignment.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
+			oldAssignment.setTkAssignmentId(null);
+			KNSServiceLocator.getBusinessObjectService().save(oldAssignment);
+		}
+		
+		assignment.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		assignment.setTkAssignmentId(null);
-		KNSServiceLocator.getBusinessObjectService().save(assignment);
 		for (AssignmentAccount assignAcct : assignment.getAssignmentAccounts()) {
 			assignAcct.setTkAssignAcctId(null);
 			assignAcct.setTkAssignmentId(assignment.getTkAssignmentId());
 		}
+		KNSServiceLocator.getBusinessObjectService().save(assignment);
 	}
 
 	@Override
