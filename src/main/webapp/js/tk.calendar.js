@@ -43,7 +43,9 @@ $(document).ready(function() {
 
             // delete an existing event if the delete button is clicked
             if (targetClassName == 'timeblock-delete') {
-                window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + calEvent.id;
+            	if(confirm('You are about to delete a time block. Click OK to confirm the delete.')){
+            		window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + calEvent.id;
+            	}
             }
 
             // otherwise, just open the time entry form in the edit mode
