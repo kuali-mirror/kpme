@@ -259,8 +259,10 @@
 		<property name="lookupableID" value="assignmentLookupable"></property>
 		<property name="lookupFields">
 			<list>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
+				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
