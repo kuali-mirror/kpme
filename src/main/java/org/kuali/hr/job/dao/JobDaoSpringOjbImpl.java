@@ -151,4 +151,36 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 		Job job = (Job)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 		return job;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Job> getActiveJobsForPosition(Long positionNbr, Date asOfDate){
+		Criteria root = new Criteria();
+		Criteria effdt = new Criteria();
+		Criteria timestamp = new Criteria();
+
+		// OJB's awesome sub query setup part 1
+		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+		effdt.addEqualTo("positionNumber", positionNbr);
+		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
+		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+		
+		// OJB's awesome sub query setup part 2
+		timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+		timestamp.addEqualTo("positionNumber", positionNbr);
+		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestamp);
+		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+		
+		root.addEqualTo("positionNumber", positionNbr);
+		root.addEqualTo("effectiveDate", effdtSubQuery);
+		root.addEqualTo("timestamp", timestampSubQuery);
+
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+		
+		Query query = QueryFactory.newQuery(Job.class, root);
+		return (List<Job>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+	}
 }

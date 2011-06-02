@@ -9,6 +9,7 @@ import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.rice.kim.bo.Person;
@@ -38,12 +39,15 @@ public class AssignmentMaintainableServiceImpl extends KualiMaintainableImpl {
 		
 		//Inactivate the old assignment as of the effective date of new assignment
 		if(assignment.getTkAssignmentId()!=null && assignment.isActive()){
-			Assignment oldAssignment = (Assignment)SerializationUtils.clone(assignment);
-			oldAssignment.setActive(false);
-			//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
-			oldAssignment.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
-			oldAssignment.setTkAssignmentId(null);
-			KNSServiceLocator.getBusinessObjectService().save(oldAssignment);
+			Assignment oldAssignment = TkServiceLocator.getAssignmentService().getAssignment(assignment.getTkAssignmentId().toString());
+			//Do not lay down row if effective date is not before new one
+			if(oldAssignment.getEffectiveDate().before(assignment.getEffectiveDate())){
+				oldAssignment.setActive(false);
+				//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
+				oldAssignment.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
+				oldAssignment.setTkAssignmentId(null);
+				KNSServiceLocator.getBusinessObjectService().save(oldAssignment);
+			}
 		}
 		
 		assignment.setTimestamp(new Timestamp(System.currentTimeMillis()));

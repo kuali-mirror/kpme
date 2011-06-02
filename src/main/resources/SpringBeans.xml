@@ -634,6 +634,11 @@
             <bean class="org.kuali.hr.time.paytype.service.PayTypeLookupableHelper"/>
         </property>
     </bean>
+    <bean id="positionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.position.service.PositionLookupableHelper"/>
+        </property>
+    </bean>
     <bean id="salaryGroupLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.time.salgroup.service.SalaryGroupLookupableHelper"/>

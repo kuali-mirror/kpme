@@ -9,6 +9,7 @@ import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.paytype.PayType;
+import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -43,6 +44,7 @@ public class Job extends PersistableBusinessObjectBase {
 	private Boolean history;
 	private Boolean active;
 	private BigDecimal compRate = new BigDecimal(0);
+	private Long positionNumber;
 	
 	private Person principal;
 	private Department deptObj;
@@ -50,6 +52,7 @@ public class Job extends PersistableBusinessObjectBase {
 	private Location locationObj;
     private PayGrade payGradeObj;
     private SalGroup salGroupObj;
+    private Position positionObj;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -272,6 +275,22 @@ public class Job extends PersistableBusinessObjectBase {
 
 	public void setSalGroupObj(SalGroup salGroupObj) {
 		this.salGroupObj = salGroupObj;
+	}
+
+	public void setPositionNumber(Long positionNumber) {
+		this.positionNumber = positionNumber;
+	}
+
+	public Long getPositionNumber() {
+		return positionNumber;
+	}
+
+	public void setPositionObj(Position positionObj) {
+		this.positionObj = positionObj;
+	}
+
+	public Position getPositionObj() {
+		return positionObj;
 	}
 
 	

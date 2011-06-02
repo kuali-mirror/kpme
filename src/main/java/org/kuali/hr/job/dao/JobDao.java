@@ -44,5 +44,11 @@ public interface JobDao {
 	 * @return
 	 */
 	public Job getPrimaryJob(String principalId, Date payPeriodEndDate);
-
+	/**
+	 * Fetch active jobs that are incumbents of the position
+	 * @param positionNbr
+	 * @param asOfDate
+	 * @return
+	 */
+	public List<Job> getActiveJobsForPosition(Long positionNbr, Date asOfDate);
 }

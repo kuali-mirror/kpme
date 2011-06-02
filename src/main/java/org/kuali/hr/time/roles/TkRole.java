@@ -1,15 +1,16 @@
 package org.kuali.hr.time.roles;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 public class TkRole extends PersistableBusinessObjectBase {
 
@@ -29,6 +30,7 @@ public class TkRole extends PersistableBusinessObjectBase {
 	private boolean active;
 	private Long tkDeptId;
 	private Long tkWorkAreaId;
+	private Long positionNumber;
 
     /**
      * These objects are used by Lookups to provide links on the maintenance
@@ -38,6 +40,7 @@ public class TkRole extends PersistableBusinessObjectBase {
     private Department departmentObj;
     private WorkArea workAreaObj;
     private Chart chartObj;
+    private Position positionObj;
 
     public Chart getChartObj() {
         return chartObj;
@@ -162,4 +165,20 @@ public class TkRole extends PersistableBusinessObjectBase {
 
         return (person != null) ? person.getName() : "";
     }
+
+	public void setPositionNumber(Long positionNumber) {
+		this.positionNumber = positionNumber;
+	}
+
+	public Long getPositionNumber() {
+		return positionNumber;
+	}
+
+	public void setPositionObj(Position positionObj) {
+		this.positionObj = positionObj;
+	}
+
+	public Position getPositionObj() {
+		return positionObj;
+	}
 }

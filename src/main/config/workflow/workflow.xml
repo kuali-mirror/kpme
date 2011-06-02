@@ -195,6 +195,11 @@
     	<parent>RiceDocument</parent>
     	<label>PayGradeMaintenanceDocument</label>
     </documentType>
+    <documentType>
+    	<name>PositionMaintenanceDocumentType</name>
+    	<parent>RiceDocument</parent>
+    	<label>PositionMaintenanceDocument</label>
+    </documentType>    
 	<documentType>
       <name>ACCT</name>
       <parent>RiceDocument</parent>

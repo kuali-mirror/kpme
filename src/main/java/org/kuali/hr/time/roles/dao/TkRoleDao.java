@@ -20,7 +20,17 @@ public interface TkRoleDao {
      * @return A List<TkRole> of roles matching the specified parameters.
 	 */
 	public List<TkRole> findRoles(String principalId, Date asOfDate, String roleName, Long workArea, String department, String chart);
-	
+	/**
+	 * 
+	 * @param positionNumber
+	 * @param asOfDate
+	 * @param roleName
+	 * @param workArea
+	 * @param department
+	 * @param chart
+	 * @return
+	 */
+	public List<TkRole> findPositionRoles(Long positionNumber, Date asOfDate, String roleName, Long workArea, String department, String chart);
 	/**
 	 * Returns a list of inactive roles matching the specified criteria. Nulls are valid
 	 * as parameters, see parameter comments.

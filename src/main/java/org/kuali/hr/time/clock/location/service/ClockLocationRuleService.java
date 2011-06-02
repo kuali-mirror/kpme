@@ -27,4 +27,10 @@ public interface ClockLocationRuleService {
 	
 	public List<ClockLocationRule> getNewerVersionClockLocationRule(String dept, Long workArea, String principalId, 
 			Long jobNumber, Date asOfDate);
+	/**
+	 * 
+	 * @param tkClockLocationRuleId
+	 * @return
+	 */
+	public ClockLocationRule getClockLocationRule(Long tkClockLocationRuleId);
 }

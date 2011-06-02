@@ -37,6 +37,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="tkSalGroup" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="hrPayType" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="payGrade" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="compRate" p:required="true"/>

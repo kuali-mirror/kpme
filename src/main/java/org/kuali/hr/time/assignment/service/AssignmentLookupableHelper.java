@@ -73,7 +73,8 @@ public class AssignmentLookupableHelper extends
 		
 		for(BusinessObject bo : objectList){
 			Assignment assign = (Assignment)bo;
-			String jobKey = assign.getPrincipalId()+"_"+assign.getJobNumber();
+			String jobKey = assign.getPrincipalId()+"_"+assign.getJobNumber()+"_"+assign.getWorkArea()+"_"+
+								assign.getTask() != null ? assign.getTask().toString() : "";
 			if(jobToAssignmentMap.get(jobKey)!=null){
 				List<Assignment> lstAssignments = jobToAssignmentMap.get(jobKey);
 				lstAssignments.add(assign);

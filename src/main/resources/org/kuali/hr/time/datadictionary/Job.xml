@@ -35,6 +35,7 @@
 				<ref bean="Job-primaryIndicator" />
 				<ref bean="Job-history" />
 				<ref bean="Job-active" />
+				<ref bean="Job-positionNbr"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -89,7 +90,16 @@
 							p:targetName="tkSalGroup" />
 					</list>
 				</property>
-			</bean>            
+			</bean>   
+			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="positionObj" />
+				<property name="primitiveAttributes">
+					<list>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="positionNumber"
+							p:targetName="positionNumber" />
+					</list>
+				</property>
+			</bean>     			         
          </list>
          </property>
 		<property name="objectLabel" value="job" />
@@ -163,6 +173,22 @@
 		</property>
 		<property name="name" value="location" />
 		<property name="label" value="Job Location" />
+	</bean>
+	
+	<bean id="Job-positionNbr" parent="Job-positionNbr-parentBean" />
+	<bean id="Job-positionNbr-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Location" />
+		<property name="maxLength" value="27" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="27" />
+		</property>
+		<property name="name" value="positionNumber" />
+		<property name="label" value="Position Number" />
 	</bean>
 
 	<!-- The validation type and length on this may be wrong -->

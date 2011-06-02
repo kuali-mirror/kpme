@@ -20,6 +20,7 @@
         <ref bean="ClockLocationRule-jobNumber"/>
         <ref bean="ClockLocationRule-effectiveDate"/>
         <ref bean="ClockLocationRule-active"/>
+        <ref bean="ClockLocationRule-history" />
         <ref bean="ClockLocationRule-ipAddress"/>
         <ref bean="ClockLocationRule-userPrincipalId"/>
       </list>
@@ -221,6 +222,18 @@
     <property name="label" value="User Principal Id"/>
   </bean>
   
+	<bean id="ClockLocationRule-history" parent="ClockLocationRule-history-parentBean" />
+	<bean id="ClockLocationRule-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>  
+  
   <!--  Inquiry Definitions  -->
   
 	<bean id="ClockLocationRule-inquiryDefinition" parent="ClockLocationRule-inquiryDefinition-parentBean" />
@@ -262,6 +275,7 @@
         <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
         <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
       </list>
     </property>
     <property name="resultFields">

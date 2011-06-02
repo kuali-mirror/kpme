@@ -79,5 +79,12 @@ public class ClockLocationDaoOjbImpl extends PersistenceBrokerDaoSupport impleme
 		}
 		return clockLocationRules;
 	}
+	
+	public ClockLocationRule getClockLocationRule(Long tkClockLocationRuleId){
+	        Criteria criteria = new Criteria();
+	        criteria.addEqualTo("tkClockLocationRuleId", tkClockLocationRuleId);
+	        return (ClockLocationRule) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(
+	        							ClockLocationRule.class, criteria));
+	}
 
 }

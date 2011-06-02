@@ -53,4 +53,12 @@ public interface JobService {
 	 */
 	public Job getPrimaryJob(String principalId, Date asOfDate);
 	
+	/**
+	 * 
+	 * @param positionNbr
+	 * @param asOfDate
+	 * @return
+	 */
+	public List<Job> getActiveJobsForPosition(Long positionNbr, Date asOfDate);
+	
 }

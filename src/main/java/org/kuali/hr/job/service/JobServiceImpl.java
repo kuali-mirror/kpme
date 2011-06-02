@@ -75,4 +75,9 @@ public class JobServiceImpl implements JobService {
 		return job;
 	}
 
+	@Override
+	public List<Job> getActiveJobsForPosition(Long positionNbr, Date asOfDate) {
+		return jobDao.getActiveJobsForPosition(positionNbr, asOfDate);
+	}
+
 }

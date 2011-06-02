@@ -256,6 +256,7 @@
 		<field-descriptor name="compRate" 			column="comp_rate" 				jdbc-type="NUMERIC" nullable="false" length="27" />
 		<field-descriptor name="hrPayType" 			    column="hr_paytype"     	jdbc-type="VARCHAR" length="5" nullable="false" primaryKey="false" />
 		<field-descriptor name="payGrade" 				column="pay_grade" 			jdbc-type="VARCHAR" nullable="false" length="27" />
+		<field-descriptor name="positionNumber"			column="position_nbr"       jdbc-type="BIGINT" nullable="true" />
 		<field-descriptor name="primaryIndicator"       column="primary_indicator"	jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
@@ -649,7 +650,8 @@
 
 	<class-descriptor class="org.kuali.hr.time.roles.TkRole" table="tk_roles_t">
 		<field-descriptor name="tkRolesId"       column="tk_roles_id"       jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_roles_s"/>
-		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
+		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="true" primarykey="false" />
+		<field-descriptor name="positionNumber"     column="position_nbr"      jdbc-type="BIGINT" primarykey="false" nullable="true"/>
 		<field-descriptor name="userPrincipalId" column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />
 		<field-descriptor name="roleName"        column="role_name" jdbc-type="VARCHAR" length="20" primarykey="false"/>
 		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" primarykey="false" />
@@ -773,4 +775,14 @@
 		
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.hr.time.position.Position" table="hr_position_t">
+		<field-descriptor name="hrPositionId"  column="hr_position_id"       jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_position_id_s"/>
+		<field-descriptor name="positionNumber"        column="position_nbr" jdbc-type="BIGINT" sequence-name="hr_position_s" primarykey="false" autoincrement="true"/>
+		<field-descriptor name="description"        column="description" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
+		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+        <field-descriptor name="effectiveDate"  column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" />
+        <field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP" nullable="false"/>
+	</class-descriptor>
 </descriptor-repository>

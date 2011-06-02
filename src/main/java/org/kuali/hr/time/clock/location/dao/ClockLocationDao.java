@@ -20,4 +20,10 @@ public interface ClockLocationDao {
 	
 	public List<ClockLocationRule> getNewerVersionClockLocationRule(String dept, Long workArea, String principalId, 
 			Long jobNumber, Date asOfDate);
+	/**
+	 * Get Clock Location Rule based on id
+	 * @param tkClockLocationRuleId
+	 * @return
+	 */
+	public ClockLocationRule getClockLocationRule(Long tkClockLocationRuleId);
 }

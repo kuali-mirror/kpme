@@ -17,6 +17,7 @@
 		<property name="attributes">
 			<list>
 				<ref bean="Role-principalId" />
+				<ref bean="Role-positionNumber" />
                 <ref bean="Role-userName"/>
 				<ref bean="Role-roleName" />
 				<ref bean="Role-workArea" />
@@ -61,6 +62,14 @@
                   </list>
               </property>
               </bean>
+              <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="positionObj" />
+              <property name="primitiveAttributes">
+                  <list>
+                      <bean parent="PrimitiveAttributeDefinition" p:sourceName="positionNumber" p:targetName="positionNumber" />
+                  </list>
+              </property>
+              </bean>              
         </list>
     </property>
 	</bean>
@@ -81,6 +90,23 @@
 		<property name="name" value="principalId" />
 		<property name="label" value="Principal Id" />
 	</bean>
+	
+	<bean id="Role-positionNumber" parent="Role-positionNumber-parentBean" />
+	<bean id="Role-positionNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Position Number" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+		<property name="name" value="positionNumber" />
+		<property name="label" value="Position Number" />
+	</bean>	
 
 	<bean id="Role-roleName" parent="Role-roleName-parentBean" />
 	<bean id="Role-roleName-parentBean" abstract="true" parent="AttributeDefinition">
@@ -209,12 +235,14 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
                 <bean parent="FieldDefinition" p:attributeName="userName"/>
 				<bean parent="FieldDefinition" p:attributeName="roleName" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
