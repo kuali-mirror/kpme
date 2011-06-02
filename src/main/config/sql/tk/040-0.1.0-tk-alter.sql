@@ -1,21 +1,19 @@
-DROP TABLE IF EXISTS `hr_position_id_s`
-/
+DROP TABLE IF EXISTS `hr_position_id_s`;
+
 CREATE TABLE `hr_position_id_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2085 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
-/
+) ENGINE=MyISAM AUTO_INCREMENT=2085 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-DROP TABLE IF EXISTS `hr_position_s`
-/
+DROP TABLE IF EXISTS `hr_position_s`;
+
 CREATE TABLE `hr_position_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2085 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
-/
+) ENGINE=MyISAM AUTO_INCREMENT=2085 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-DROP TABLE IF EXISTS `hr_position_t`
-/
+DROP TABLE IF EXISTS `hr_position_t`;
+
 CREATE TABLE `hr_position_t` (
   `HR_POSITION_ID` bigint(20) NOT NULL,
   `POSITION_NBR` bigint(20) NOT NULL,
@@ -26,12 +24,10 @@ CREATE TABLE `hr_position_t` (
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
   `ACTIVE` varchar(1) COLLATE utf8_bin DEFAULT 'N',
   PRIMARY KEY (`HR_POSITION_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin
-/
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-alter table hr_job_t add column position_nbr bigint(20) NULL
-/
-alter table tk_roles_t modify principal_id bigint(20) NULL
-/
-alter table tk_roles_t add column position_nbr bigint(20) NULL
-/
+alter table hr_job_t add column position_nbr bigint(20) NULL;
+
+alter table tk_roles_t modify principal_id bigint(20) NULL;
+
+alter table tk_roles_t add column position_nbr bigint(20) NULL;
