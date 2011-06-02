@@ -18,16 +18,16 @@
     </changeSet>
     <changeSet author="lee55" id="3">
         <createTable tableName="hr_position_t">
-            <column defaultValue="" name="HR_POSITION_ID" type="BIGINT(20)">
+            <column name="HR_POSITION_ID" type="BIGINT(20)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column defaultValueNumeric="1" name="POSITION_NBR" type="BIGINT(20)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="" name="POSITION_NBR" type="BIGINT(20)">
+            <column name="DESCRIPTION" type="VARCHAR(40)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="" name="DESCRIPTION" type="VARCHAR(40)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="" name="EFFDT" type="DATETIME">
+            <column name="EFFDT" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
