@@ -140,7 +140,7 @@
                     <executions>
                         <execution>
                             <id>xvfb</id>
-                            <phase>test-compile</phase>
+                            <phase>process-test-resources</phase>
                             <goals>
                                 <goal>xvfb</goal>
                             </goals>

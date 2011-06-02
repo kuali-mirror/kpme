@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="lee55" id="1">
+        <createTable tableName="hr_position_id_s">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lee55" id="2">
+        <createTable tableName="hr_position_s">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lee55" id="3">
+        <createTable tableName="hr_position_t">
+            <column defaultValue="" name="HR_POSITION_ID" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="POSITION_NBR" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="DESCRIPTION" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="" name="EFFDT" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBJ_ID" type="VARCHAR(36)"/>
+            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="Y" name="active" type="VARCHAR(1)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lee55" id="4">
+        <addColumn tableName="hr_job_t">
+            <column name="position_nbr" type="BIGINT(20)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="lee55" id="5">
+        <modifyDataType tableName="tk_roles_t" columnName="principal_id" newDataType="BIGINT(20)"/>
+    </changeSet>
+    <changeSet author="lee55" id="6">
+        <addColumn tableName="tk_roles_t">
+            <column name="position_nbr" type="BIGINT(20)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
