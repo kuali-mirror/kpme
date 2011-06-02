@@ -16,8 +16,8 @@ public class TimesheetActionForm extends TkForm {
 	private static final long serialVersionUID = 6938733178369007689L;
 	private TimesheetDocument timesheetDocument;
 	private String documentId;
-	
-	
+
+
 	/**Job Number -> Formatted department earn codes  */
 	private Map<Long,String> earnCodeDescriptions;
 	/** String (concat(job number, work_area, task)) -> Formatted Assignment Descriptions */
@@ -25,9 +25,9 @@ public class TimesheetActionForm extends TkForm {
 	private PayCalendarEntries payCalendarDates;
 	private String selectedAssignment;
 	private String selectedEarnCode;
-	
+
 	private String calNav;
-	
+
 	private java.util.Date beginPeriodDateTime;
 	private java.util.Date endPeriodDateTime;
 
@@ -36,7 +36,7 @@ public class TimesheetActionForm extends TkForm {
 		super.reset(mapping, request);
 		this.documentId = "";
 	}
-	
+
 	public TimesheetDocument getTimesheetDocument() {
 		return timesheetDocument;
 	}
@@ -84,7 +84,7 @@ public class TimesheetActionForm extends TkForm {
 	public void setPayCalendarDates(PayCalendarEntries payCalendarDates) {
 		this.payCalendarDates = payCalendarDates;
 	}
-	
+
 	public String getCalNav() {
 		return calNav;
 	}
@@ -92,7 +92,7 @@ public class TimesheetActionForm extends TkForm {
 	public void setCalNav(String calNav) {
 		this.calNav = calNav;
 	}
-	
+
 	public java.util.Date getBeginPeriodDateTime() {
 		return getPayCalendarDates().getBeginPeriodDateTime();
 	}
@@ -108,4 +108,5 @@ public class TimesheetActionForm extends TkForm {
 	public void setDocumentId(String documentId) {
 		this.documentId = documentId;
 	}
+
 }

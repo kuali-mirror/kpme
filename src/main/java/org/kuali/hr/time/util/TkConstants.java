@@ -16,6 +16,8 @@ import org.joda.time.DateTimeZone;
 
 public class TkConstants {
 
+    public static final String TK_TARGET_USER_PRIN_SESSION_KEY = "tkUserSession";
+
 	public static final String WILDCARD_CHARACTER = "%";
 	public static final Long WILDCARD_LONG = -1L;
 
@@ -26,7 +28,7 @@ public class TkConstants {
     public static final String CLOCK_OUT = "CO";
     public static final String LUNCH_IN = "LI"; // Coming back from Lunch
     public static final String LUNCH_OUT = "LO"; // Leaving for Lunch
-    
+
     public static final List<String> ON_THE_CLOCK_CODES = new ArrayList<String>();
     static {
         ON_THE_CLOCK_CODES.add(CLOCK_IN);

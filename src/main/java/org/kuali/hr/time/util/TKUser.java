@@ -100,10 +100,10 @@ public class TKUser {
 
 	public Person getCurrentPerson() {
 		if (targetPerson != null)
-			return targetPerson;
+			return getTargetPerson();
 
 		if (backdoorPerson != null)
-			return backdoorPerson;
+			return getBackdoorPerson();
 
 		return actualPerson;
 	}
