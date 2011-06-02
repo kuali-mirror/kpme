@@ -1,0 +1,1 @@
+alter table tk_roles_t modify principal_id varchar(40) NULL;

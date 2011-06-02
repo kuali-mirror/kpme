@@ -48,7 +48,7 @@
         </addColumn>
     </changeSet>
     <changeSet author="lee55" id="5">
-        <modifyDataType tableName="tk_roles_t" columnName="principal_id" newDataType="BIGINT(20)"/>
+        <modifyDataType tableName="tk_roles_t" columnName="principal_id" newDataType="VARCHAR(40)"/>
     </changeSet>
     <changeSet author="lee55" id="6">
         <addColumn tableName="tk_roles_t">
