@@ -84,8 +84,8 @@ public class ClockLocationRuleLookupableHelper extends
 		
 		for(ClockLocationRule clockLocationRule : clockLocationList){
 			String clockLocKey = clockLocationRule.getDept()+"_"+clockLocationRule.getIpAddress()+"_"+clockLocationRule.getPrincipalId()+"_"+
-									clockLocationRule.getJobNumber()!=null ? clockLocationRule.getJobNumber().toString(): "" +"_" + 
-									clockLocationRule.getWorkArea() !=null ? clockLocationRule.getWorkArea().toString() : "";
+									(clockLocationRule.getJobNumber()!=null ? clockLocationRule.getJobNumber().toString(): "") +"_" + 
+									(clockLocationRule.getWorkArea() !=null ? clockLocationRule.getWorkArea().toString() : "");
 			if(clockLocationMap.get(clockLocKey)!=null){
 				List<ClockLocationRule> lstClockLocationRules = clockLocationMap.get(clockLocKey);
 				lstClockLocationRules.add(clockLocationRule);
