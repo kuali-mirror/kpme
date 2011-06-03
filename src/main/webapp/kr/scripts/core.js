@@ -217,20 +217,25 @@ function resizeTheRouteLogFrame() {
 }
 
 // should be in rice for direct inquiry 
- function inquiryPop(boClassName, inquiryParameters){
+function inquiryPop(boClassName, inquiryParameters, element){
+	while(element && element.type != 'text') {
+		element = element.previousSibling;
+	}
   parameterPairs = inquiryParameters.split(",");
   queryString="businessObjectClassName="+boClassName+"&methodToCall=start"
-  for (i in parameterPairs) {
-  
-    parameters = parameterPairs[i].split(":");
-  	if (document.forms[0].elements[parameters[0]].value=="") 
+  if (element.value=="") 
   	{
   		alert("Please enter a value in the appropriate field.");
   		//queryString=queryString+"&"+parameters[1]+"=directInquiryParameterNotSpecified";
 		return false;
-  	} else {
-    	queryString=queryString+"&"+parameters[1]+"="+document.forms[0].elements[parameters[0]].value;
   	}
+  for (i in parameterPairs) {
+    parameters = parameterPairs[i].split(":");
+  	if(document.forms[0].elements[parameters[1]]){
+		queryString=queryString+"&"+parameters[1]+"="+document.forms[0].elements[parameters[0]].value;
+	}else{
+		queryString=queryString+"&"+parameters[1]+"=";
+	}
   }
   url=window.location.href
   pathname=window.location.pathname

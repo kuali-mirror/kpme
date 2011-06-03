@@ -5,6 +5,7 @@ import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kim.bo.Person;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -32,6 +33,7 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	private WorkArea workAreaObj;
 	private Job job;
+	private Person principal;
 
 	@Override
 	protected LinkedHashMap<String,Object> toStringMapper() {
@@ -151,6 +153,14 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	public Boolean getHistory() {
 		return history;
+	}
+
+	public Person getPrincipal() {
+		return principal;
+	}
+
+	public void setPrincipal(Person principal) {
+		this.principal = principal;
 	}
 
 

@@ -4,6 +4,7 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 import java.math.BigDecimal;
@@ -31,6 +32,15 @@ public class DeptLunchRule extends PersistableBusinessObjectBase implements Depa
     WorkArea workAreaObj;
     Department departmentObj;
     private Job job;
+	private Person principal;
+	
+	public Person getPrincipal() {
+		return principal;
+	}
+
+	public void setPrincipal(Person principal) {
+		this.principal = principal;
+	}
 
 	public Job getJob() {
 		return job;
