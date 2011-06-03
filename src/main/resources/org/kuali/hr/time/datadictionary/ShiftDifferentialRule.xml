@@ -52,6 +52,11 @@
 								p:targetName="tkSalGroup" />
 						</list>
 					</property>
+					<property name="supportAttributes">
+		                <list>
+                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="location" p:targetName="tkSalGroupId"/>
+                		</list>
+              		</property>
 				</bean>
 
 
@@ -93,6 +98,11 @@
 								p:targetName="location" />
 						</list>
 					</property>
+					<property name="supportAttributes">
+		                <list>
+                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="payGrade" p:targetName="hrLocationId"/>
+                		</list>
+              		</property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -103,6 +113,11 @@
 								p:targetName="payGrade" />
 						</list>
 					</property>
+					<property name="supportAttributes">
+		                <list>
+                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="location" p:targetName="hrPayGradeId"/>
+                		</list>
+              		</property>
 				</bean>
 
 

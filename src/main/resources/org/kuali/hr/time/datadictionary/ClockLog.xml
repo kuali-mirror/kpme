@@ -41,6 +41,11 @@
 								p:targetName="workArea" />
 						</list>
 					</property>
+	              <property name="supportAttributes">
+	                <list>
+	                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="userPrincipalId" p:targetName="tkWorkAreaId"/>
+	                </list>
+	              </property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -51,6 +56,11 @@
 								p:targetName="task" />
 						</list>
 					</property>
+	              <property name="supportAttributes">
+	                <list>
+	                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="userPrincipalId" p:targetName="tkTaskId"/>
+	                </list>
+	              </property>
 				</bean>
 			
 				<bean parent="RelationshipDefinition">

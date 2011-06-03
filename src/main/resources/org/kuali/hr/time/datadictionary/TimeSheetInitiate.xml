@@ -35,7 +35,11 @@
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="payCalendarEntriesId" p:targetName="payCalendarEntriesId"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarGroup" p:targetName="calendarGroup"/>
+                </list>
+              </property>
+              <property name="supportAttributes">
+                <list>
+                  	<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="principalId" p:targetName="calendarGroup"/>
                 </list>
               </property>
             </bean>

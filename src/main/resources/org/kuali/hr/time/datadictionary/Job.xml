@@ -55,12 +55,22 @@
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
                 </list>
               </property>
+              <property name="supportAttributes">
+                <list>
+                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkDeptId"/>
+                </list>
+              </property>
             </bean>
             <bean parent="RelationshipDefinition">
               <property name="objectAttributeName" value="payTypeObj"/>
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPayType" p:targetName="payType"/>
+                </list>
+              </property>
+              <property name="supportAttributes">
+                <list>
+                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="hrPayTypeId"/>
                 </list>
               </property>
             </bean>

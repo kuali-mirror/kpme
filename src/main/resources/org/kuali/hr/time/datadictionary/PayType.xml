@@ -36,6 +36,11 @@
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="regEarnCode" p:targetName="earnCode"/>
                 </list>
               </property>
+              <property name="supportAttributes">
+		        <list>
+              		<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkEarnCodeId"/>
+              	</list>
+              </property>
             </bean>
           </list>
         </property>

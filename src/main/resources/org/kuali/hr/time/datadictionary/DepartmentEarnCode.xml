@@ -43,6 +43,11 @@
 								p:targetName="dept" />
 						</list>
 					</property>
+	              <property name="supportAttributes">
+	                <list>
+	                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkDeptId"/>
+	                </list>
+	              </property>
 				</bean>
 				
 				<bean parent="RelationshipDefinition">
@@ -53,6 +58,11 @@
 								p:targetName="tkSalGroup" />
 						</list>
 					</property>
+	              <property name="supportAttributes">
+	                <list>
+	                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkSalGroupId"/>
+	                </list>
+	              </property>
 				</bean>
 				
 				<bean parent="RelationshipDefinition">
@@ -63,6 +73,11 @@
 								p:targetName="earnCode" />
 						</list>
 					</property>
+		              <property name="supportAttributes">
+		                <list>
+		                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkEarnCodeId"/>
+		                </list>
+		              </property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -73,6 +88,11 @@
 								p:targetName="location" />
 						</list>
 					</property>
+	              <property name="supportAttributes">
+	                <list>
+	                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="hrLocationId"/>
+	                </list>
+	              </property>
 				</bean>
 			</list>
 		</property>

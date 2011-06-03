@@ -28,6 +28,16 @@
     <property name="relationships">
   		<list>
   			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="principal" />
+				<property name="primitiveAttributes">
+					<list>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
+							p:targetName="principalId" />
+					</list>
+				</property>
+			</bean>
+  		
+  			<bean parent="RelationshipDefinition">
 				<property name="objectAttributeName" value="workAreaObj" />
 				<property name="primitiveAttributes">
 				<list>
@@ -36,6 +46,12 @@
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
 				</list>
 				</property>
+				<property name="supportAttributes">
+                <list>
+                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkWorkAreaId"/>
+                </list>
+              	</property>
+				
 			</bean>
   		
   		
@@ -46,6 +62,11 @@
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
                 </list>
               </property>
+              <property name="supportAttributes">
+                <list>
+                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkDeptId"/>
+                </list>
+              </property>
             </bean>
             
             <bean parent="RelationshipDefinition">
@@ -54,6 +75,11 @@
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber" p:targetName="jobNumber"/>
+                </list>
+              </property>
+              <property name="supportAttributes">
+                <list>
+                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="hrJobId"/>
                 </list>
               </property>
             </bean>            
@@ -79,7 +105,7 @@
     <property name="name" value="dept"/>
     <property name="label" value="Department Id"/>
   </bean>
-  
+
     
   <bean id="ClockLocationRule-workArea" parent="ClockLocationRule-workArea-parentBean"/>
   <bean id="ClockLocationRule-workArea-parentBean" abstract="true" parent="AttributeDefinition">

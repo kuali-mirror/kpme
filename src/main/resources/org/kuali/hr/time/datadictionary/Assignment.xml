@@ -52,6 +52,11 @@
 								p:targetName="dept" />
 						</list>
 					</property>
+	              <property name="supportAttributes">
+	                <list>
+	                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkWorkAreaId"/>
+	                </list>
+	              </property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -68,6 +73,11 @@
 								p:targetName="dept" />
 						</list>
 					</property>
+		              <property name="supportAttributes">
+		                <list>
+		                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="hrJobId"/>
+		                </list>
+		              </property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">

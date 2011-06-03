@@ -46,6 +46,11 @@
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
 						</list>
 					</property>
+					<property name="supportAttributes">
+                		<list>
+                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkWorkAreaId"/>
+                		</list>
+              		</property>
 				</bean>
 
         <bean parent="RelationshipDefinition">
@@ -75,6 +80,11 @@
 								p:targetName="dept" />
 						</list>
 					</property>
+					<property name="supportAttributes">
+                		<list>
+                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkDeptId"/>
+                		</list>
+              		</property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -95,6 +105,11 @@
 								p:targetName="location" />
 						</list>
 					</property>
+					<property name="supportAttributes">
+                		<list>
+                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="hrLocationId"/>
+                		</list>
+              		</property>
 				</bean>
 			</list>
 		</property>

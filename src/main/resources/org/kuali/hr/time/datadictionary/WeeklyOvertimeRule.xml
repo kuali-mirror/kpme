@@ -38,6 +38,11 @@
 								p:targetName="earnGroup" />
 						</list>
 					</property>
+				    <property name="supportAttributes">
+		                <list>
+                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkEarnGroupId"/>
+                		</list>
+              		</property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -48,6 +53,7 @@
 								p:targetName="earnGroup" />
 						</list>
 					</property>
+					
 				</bean>
 				
 				<bean parent="RelationshipDefinition">

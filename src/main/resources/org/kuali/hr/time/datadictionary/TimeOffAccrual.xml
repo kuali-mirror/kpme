@@ -44,6 +44,11 @@
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory" p:targetName="accrualCategory"/>
                 </list>
               </property>
+              <property name="supportAttributes">
+                <list>
+                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="principalId" p:targetName="laAccrualCategoryId"/>
+                </list>
+              </property>
             </bean>
         </list>
     </property>  
