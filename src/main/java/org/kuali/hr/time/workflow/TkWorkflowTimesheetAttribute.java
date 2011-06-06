@@ -3,6 +3,8 @@ package org.kuali.hr.time.workflow;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.cxf.common.util.StringUtils;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.service.TkRoleService;
@@ -22,7 +24,15 @@ public class TkWorkflowTimesheetAttribute implements RoleAttribute {
 	@Override
 	public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
 		List<String> roles = new ArrayList<String>();
-		roles.add(roleName);
+		Long routeHeaderId = documentContent.getRouteContext().getDocument().getRouteHeaderId();
+		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
+
+		if (timesheetDocument != null) {
+			List<Assignment> assignments = timesheetDocument.getAssignments();
+			for (Assignment assignment : assignments) {		
+				roles.add(roleName+"_"+assignment.getWorkArea());
+			}
+		}
 		return roles;
 	}
 
@@ -44,30 +54,36 @@ public class TkWorkflowTimesheetAttribute implements RoleAttribute {
 		ResolvedQualifiedRole rqr = new ResolvedQualifiedRole();
 		List<Id> principals = new ArrayList<Id>();
 		Long routeHeaderId = routeContext.getDocument().getRouteHeaderId();
-		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
 		TkRoleService roleService = TkServiceLocator.getTkRoleService();
-
-		if (timesheetDocument != null) {
-			List<Assignment> assignments = timesheetDocument.getAssignments();
-			for (Assignment assignment : assignments) {
-				WorkArea workArea = assignment.getWorkAreaObj();
-				List<TkRole> roles = roleService.getWorkAreaRoles(workArea.getWorkArea(), roleName, workArea.getEffectiveDate());
-				for (TkRole role : roles) {
-					PrincipalId pid = new PrincipalId(role.getPrincipalId());
+		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
+		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(Long.parseLong(qualifiedRole), timesheetDocument.getAsOfDate());
+		
+		List<TkRole> roles = roleService.getWorkAreaRoles(Long.parseLong(qualifiedRole), roleName, timesheetDocument.getAsOfDate());
+		for (TkRole role : roles) {
+			//Position routing
+			if(StringUtils.isEmpty(role.getPrincipalId())){
+				Long positionNumber = role.getPositionNumber();
+				List<Job> lstJobsForPosition = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(positionNumber, timesheetDocument.getPayCalendarEntry().getEndPeriodDateTime());
+				for(Job job : lstJobsForPosition){
+					PrincipalId pid = new PrincipalId(job.getPrincipalId());
 					if (!principals.contains(pid)) {
 						principals.add(pid);
 					}
 				}
+			} else {
+				PrincipalId pid = new PrincipalId(role.getPrincipalId());
+					if (!principals.contains(pid)) {
+						principals.add(pid);
+					}
 			}
-		} else {
-			// TODO Graceful Ballerina Dancing
-			throw new RuntimeException("Handle this gracefully - placeholder exception due to missing timesheet document");
 		}
 
 		if (principals.size() == 0)
 			throw new RuntimeException("No principals to route to. Push to exception routing.");
 
 		rqr.setRecipients(principals);
+		rqr.setAnnotation("Dept: "+ workArea.getDept()+", Work Area: "+workArea.getWorkArea());
+		
 		return rqr;
 	}
 
