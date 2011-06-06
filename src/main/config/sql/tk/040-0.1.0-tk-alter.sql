@@ -28,6 +28,6 @@ CREATE TABLE `hr_position_t` (
 
 alter table hr_job_t add column position_nbr bigint(20) NULL;
 
-alter table tk_roles_t modify principal_id bigint(20) NULL;
+alter table tk_roles_t modify principal_id varchar(40) NULL;
 
 alter table tk_roles_t add column position_nbr bigint(20) NULL;
