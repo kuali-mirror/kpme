@@ -26,7 +26,9 @@ public class TkRoleGroupMaintainableImpl extends KualiMaintainableImpl {
                     if(StringUtils.isBlank(principalId)){
                     	principalId = trg.getPrincipalId();
                     }
-                    KIMServiceLocator.getRoleUpdateService().assignPrincipalToRole(principalId, TkConstants.ROLE_NAMESAPCE, role.getRoleName(), qualifier);
+                    if(StringUtils.isBlank(principalId)){
+                    	KIMServiceLocator.getRoleUpdateService().assignPrincipalToRole(principalId, TkConstants.ROLE_NAMESAPCE, role.getRoleName(), qualifier);
+                    }
                 }
             }
         }
