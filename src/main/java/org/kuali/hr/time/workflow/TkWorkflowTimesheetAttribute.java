@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.cxf.common.util.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
@@ -21,6 +22,8 @@ import org.kuali.rice.kew.rule.RoleAttribute;
 
 public class TkWorkflowTimesheetAttribute implements RoleAttribute {
 
+    private static final Logger LOG = Logger.getLogger(TkWorkflowTimesheetAttribute.class);
+
 	@Override
 	public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
 		List<String> roles = new ArrayList<String>();
@@ -29,7 +32,7 @@ public class TkWorkflowTimesheetAttribute implements RoleAttribute {
 
 		if (timesheetDocument != null) {
 			List<Assignment> assignments = timesheetDocument.getAssignments();
-			for (Assignment assignment : assignments) {		
+			for (Assignment assignment : assignments) {
 				roles.add(roleName+"_"+assignment.getWorkArea());
 			}
 		}
@@ -52,13 +55,29 @@ public class TkWorkflowTimesheetAttribute implements RoleAttribute {
 	 */
 	public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) {
 		ResolvedQualifiedRole rqr = new ResolvedQualifiedRole();
+        Long workAreaNumber = null;
+
+        try {
+            int pos = qualifiedRole.lastIndexOf("_");
+            if (pos > -1) {
+                String subs = qualifiedRole.substring(pos+1, qualifiedRole.length());
+                workAreaNumber = Long.parseLong(subs);
+            }
+        } catch (NumberFormatException nfe) {
+            LOG.error("qualifiedRole did not contain numeric data for work area.");
+        }
+
+        if (workAreaNumber == null) {
+            throw new RuntimeException("Unable to resolve work area during routing.");
+        }
+
 		List<Id> principals = new ArrayList<Id>();
 		Long routeHeaderId = routeContext.getDocument().getRouteHeaderId();
 		TkRoleService roleService = TkServiceLocator.getTkRoleService();
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
-		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(Long.parseLong(qualifiedRole), timesheetDocument.getAsOfDate());
-		
-		List<TkRole> roles = roleService.getWorkAreaRoles(Long.parseLong(qualifiedRole), roleName, timesheetDocument.getAsOfDate());
+		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, timesheetDocument.getAsOfDate());
+
+		List<TkRole> roles = roleService.getWorkAreaRoles(workAreaNumber, roleName, timesheetDocument.getAsOfDate());
 		for (TkRole role : roles) {
 			//Position routing
 			if(StringUtils.isEmpty(role.getPrincipalId())){
@@ -83,7 +102,7 @@ public class TkWorkflowTimesheetAttribute implements RoleAttribute {
 
 		rqr.setRecipients(principals);
 		rqr.setAnnotation("Dept: "+ workArea.getDept()+", Work Area: "+workArea.getWorkArea());
-		
+
 		return rqr;
 	}
 
