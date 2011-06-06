@@ -9,7 +9,12 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 
 public class TkRoleGroupMaintainableImpl extends KualiMaintainableImpl {
 
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Override
     public void saveBusinessObject() {
         BusinessObject bo = this.getBusinessObject();
         if (bo instanceof TkRoleGroup) {
@@ -17,8 +22,11 @@ public class TkRoleGroupMaintainableImpl extends KualiMaintainableImpl {
             for (TkRole role : trg.getRoles()) {
                 if (StringUtils.equals(role.getRoleName(), TkConstants.ROLE_TK_SYS_ADMIN)) {
                     AttributeSet qualifier = new AttributeSet();
-
-                    KIMServiceLocator.getRoleUpdateService().assignPrincipalToRole(role.getPrincipalId(), TkConstants.ROLE_NAMESAPCE, role.getRoleName(), qualifier);
+                    String principalId = role.getPrincipalId();
+                    if(StringUtils.isBlank(principalId)){
+                    	principalId = trg.getPrincipalId();
+                    }
+                    KIMServiceLocator.getRoleUpdateService().assignPrincipalToRole(principalId, TkConstants.ROLE_NAMESAPCE, role.getRoleName(), qualifier);
                 }
             }
         }
