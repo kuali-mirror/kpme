@@ -1,5 +1,6 @@
 package org.kuali.hr.time.base.web;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -53,10 +54,12 @@ public class PersonInfoAction extends TkAction {
 			List<TkRole> lstOrgAdminRoles = TkServiceLocator.getTkRoleService().getDepartmentRoles(assign.getWorkAreaObj().getDept(),
 													TkConstants.ROLE_TK_ORG_ADMIN, TKUtils.getCurrentDate());
 			deptToOrgAdmin.put(assign.getWorkAreaObj().getDept(), lstOrgAdminRoles);
-
+			
 			for(TkRole role : lstOrgAdminRoles){
-				Person orgAdmin = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
-				principalIdToPerson.put(orgAdmin.getPrincipalId(), orgAdmin);
+				if(StringUtils.isNotBlank(role.getPrincipalId())){
+					Person orgAdmin = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
+					principalIdToPerson.put(orgAdmin.getPrincipalId(), orgAdmin);
+				}
 			}
 			List<Assignment> lstCurrJobAssign = jobNumberToListAssignments.get(assign.getJobNumber());
 			if(lstCurrJobAssign == null){
