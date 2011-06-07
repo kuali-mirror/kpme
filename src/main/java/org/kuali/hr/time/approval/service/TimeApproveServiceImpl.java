@@ -36,14 +36,14 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@Override
 	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate) {
 		List<ApprovalTimeSummaryRow> lstApprovalRows = new ArrayList<ApprovalTimeSummaryRow>();
-	
+
 		TKUser tkUser = TKContext.getUser();
 		Set<Long> approverWorkAreas = tkUser.getActualPersonRoles().getApproverWorkAreas();
 		List<Assignment> lstEmployees = new ArrayList<Assignment>();
-		
+
 		for(Long workArea : approverWorkAreas){
 			if(workArea != null){
-				lstEmployees.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.toString(), TKUtils.getCurrentDate()));
+				lstEmployees.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, TKUtils.getCurrentDate()));
 			}
 		}
 		if (!lstEmployees.isEmpty()) {
@@ -102,7 +102,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		DateTime currTime = payBegin;
 		int dayCounter = 1;
 		int weekCounter = 1;
-		
+
 		while(currTime.isBefore(payEnd)){
 			String labelForDay = createLabelForDay(currTime);
 			lstPayCalendarLabels.add(labelForDay);
@@ -192,12 +192,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				weekTotal = weekTotal.add(dayTotals.get(dayCount), TkConstants.MATH_CONTEXT);
 				periodTotal = periodTotal.add(dayTotals.get(dayCount));
 				dayCount++;
-				
+
 			}
-			
+
 		}
 		return hoursToPayLabelMap;
 	}
 
-	
+
 }

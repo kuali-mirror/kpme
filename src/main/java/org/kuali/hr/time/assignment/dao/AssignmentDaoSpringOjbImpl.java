@@ -97,7 +97,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public List<Assignment> getActiveAssignmentsInWorkArea(String workArea, Date asOfDate){
+	public List<Assignment> getActiveAssignmentsInWorkArea(Long workArea, Date asOfDate){
 		List<Assignment> assignments = new ArrayList<Assignment>();
 		Criteria root = new Criteria();
 		Criteria effdt = new Criteria();
@@ -135,7 +135,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 
 		return assignments;
 	}
-	
+
 	public List<Assignment> getActiveAssignments(Date asOfDate){
 		List<Assignment> assignments = new ArrayList<Assignment>();
 		Criteria root = new Criteria();
@@ -171,7 +171,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 
 		return assignments;
 	}
-	
+
 	public Assignment getAssignment(String tkAssignmentId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("tkAssignmentId", tkAssignmentId);

@@ -2,6 +2,7 @@ package org.kuali.hr.time.roles.service;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
@@ -77,8 +78,34 @@ public interface TkRoleService {
      *
      * @param assignment the assignment to query
      * @param roleName The role we are interested in.
-     * @param asOfDate
+     * @param asOfDate effective date
      * @return
      */
     public List<String> getResponsibleParties(Assignment assignment, String roleName, Date asOfDate);
+
+    /**
+     * Provides a unique set of work areas that this user is an approver for.
+     * @param principalId The principal to retrieve roles for.
+     * @param asOfDate effective date
+     * @return A Set of Long work area numbers.
+     */
+    public Set<Long> getWorkAreasForApprover(String principalId, Date asOfDate);
+
+    /**
+     * Provides a unique set of work areas that the indicated user is a processor for.
+     * @param asOfDate effective date
+     * @param principalId The principal to retrieve roles for.
+     * @return A Set of Long work area numbers.
+     */
+    public Set<Long> getWorkAreasForProcessor(String principalId, Date asOfDate);
+
+    /**
+     * Provides a unique set of principal ids that have active assignments in the
+     * given work areas.
+     * @param workAreas A set of work area numbers.
+     * @param asOfDate effective date
+     * @return A Set of String principal IDs.
+     */
+    public Set<String> getActivePrinciaplsForWorkAreas(Set<Long> workAreas, Date asOfDate);
+
 }

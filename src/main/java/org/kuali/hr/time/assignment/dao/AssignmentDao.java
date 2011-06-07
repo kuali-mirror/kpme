@@ -24,10 +24,10 @@ public interface AssignmentDao {
 	public void delete(Assignment assignment);
 
 	public void deleteAllAssignments();
-	
-	public List<Assignment> getActiveAssignmentsInWorkArea(String workArea, Date asOfDate);
-	
+
+	public List<Assignment> getActiveAssignmentsInWorkArea(Long workArea, Date asOfDate);
+
 	public Assignment getAssignment(String tkAssignmentId);
-	
+
 	public List<Assignment> getActiveAssignments(Date asOfDate);
 }
