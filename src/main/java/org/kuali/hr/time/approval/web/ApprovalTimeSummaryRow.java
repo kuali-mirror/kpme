@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.util.TkConstants;
 
 public class ApprovalTimeSummaryRow {
 	private String name;
@@ -15,7 +17,7 @@ public class ApprovalTimeSummaryRow {
 	private String documentId;
 	private Map<String,BigDecimal> hoursToPayLabelMap = new HashMap<String,BigDecimal>();
 	private String clockStatusMessage;
-	
+
 	public String getName() {
 		return name;
 	}
@@ -52,5 +54,47 @@ public class ApprovalTimeSummaryRow {
 	public String getClockStatusMessage() {
 		return clockStatusMessage;
 	}
-	
+
+    /**
+     * Is this record initiated?
+     * @return true if initiated, false otherwise.
+     */
+    public boolean isRoutable() {
+        return StringUtils.equals(getApprovalStatus(), TkConstants.ROUTE_STATUS.INITIATED);
+    }
+
+    /**
+     * Is this record ready to be approved?
+     * @return true if a valid TK_APPROVER / TK_PROCESSOR can approve, false otherwise.
+     */
+    public boolean isApprovable() {
+        return StringUtils.equals(getApprovalStatus(), TkConstants.ROUTE_STATUS.ENROUTE);
+    }
+
+    /**
+     * Helper method to grab the URL parameters for setting target mode for a
+     * user/documentID timesheet. Returns a portion simlar to:
+     *
+     * documentId=16352&useTargetUser=true
+     *
+     * You can use this to append to your URLs, similar to:
+     *
+     * http://localhost:8080/tk-dev/TimeDetail.do
+     *
+     * resulting in:
+     *
+     * http://localhost:8080/tk-dev/TimeDetail.do?documentId=16352&useTargetUser=true
+     *
+     * @return parameter portion of a URL, usable to initiate target mode.
+     */
+    public String getTimesheetUserTargetURLParams() {
+        StringBuffer link = new StringBuffer();
+
+        link.append("documentId=");
+        link.append(this.getDocumentId());
+        link.append("&useTargetUser=true");
+
+        return link.toString();
+    }
+
 }
