@@ -11,6 +11,7 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.Section;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,8 @@ public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 
 		WorkArea workArea = (WorkArea) this.getBusinessObject();
 		List<TkRole> roles = workArea.getRoles();
-
+		List<TkRole> rolesCopy = new ArrayList<TkRole>();
+		rolesCopy.addAll(roles);
 		if (workArea.getInactiveRoles() != null
 				&& workArea.getInactiveRoles().size() > 0) {
 			for (TkRole role : workArea.getInactiveRoles()) {
@@ -35,28 +37,29 @@ public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 		workArea.setTasks(tasks);
 		workArea.setRoles(roles);
 		KNSServiceLocator.getBusinessObjectService().save(workArea);
-		
+
 		for (TkRole role : roles) {
 			role.setWorkArea(workArea.getWorkArea());
 			role.setUserPrincipalId(TKContext.getPrincipalId());
 		}
 		TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
+		workArea.setRoles(rolesCopy);
 	}
 
-    @Override
+	@Override
 	protected void setNewCollectionLineDefaultValues(String arg0,
 			PersistableBusinessObject arg1) {
-    	WorkArea workArea = (WorkArea) this.getBusinessObject();
-    	if(arg1 instanceof TkRole){
-    		TkRole role = (TkRole)arg1;
-    		role.setEffectiveDate(workArea.getEffectiveDate());
-    	}else if(arg1 instanceof Task){
-    		Task task = (Task)arg1;
-    		task.setEffectiveDate(workArea.getEffectiveDate());
-    	}
+		WorkArea workArea = (WorkArea) this.getBusinessObject();
+		if (arg1 instanceof TkRole) {
+			TkRole role = (TkRole) arg1;
+			role.setEffectiveDate(workArea.getEffectiveDate());
+		} else if (arg1 instanceof Task) {
+			Task task = (Task) arg1;
+			task.setEffectiveDate(workArea.getEffectiveDate());
+		}
 		super.setNewCollectionLineDefaultValues(arg0, arg1);
 	}
-    
+
 	@Override
 	public void processAfterEdit(MaintenanceDocument document,
 			Map<String, String[]> parameters) {
@@ -80,6 +83,9 @@ public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 			if (document.isOldBusinessObjectInDocument()
 					&& sec.getSectionId().equals("inactiveRoles")) {
 				sec.setHidden(false);
+			} else if (!document.isOldBusinessObjectInDocument()
+					&& sec.getSectionId().equals("inactiveRoles")) {
+				sec.setHidden(true);
 			}
 		}
 		return sections;
