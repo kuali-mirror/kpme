@@ -26,7 +26,7 @@ public interface TimesheetDocumentHeaderService {
 	 */
 	public TimesheetDocumentHeader getDocumentHeader(String principalId, Date payBeginDate, Date payEndDate);
 	/**
-	 * Fetch previous document header 
+	 * Fetch previous document header
 	 * @param principalId
 	 * @param payBeginDate
 	 * @return
@@ -40,12 +40,6 @@ public interface TimesheetDocumentHeaderService {
      * @return
      */
     TimesheetDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId, String documentId);
-    
+
     public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate);
-
-    public List<TimesheetDocumentHeader> getDocumentHeadersByField(String field, String value);
-
-    public List<String> getValueByField(String field, String value);
-
-    List<TimesheetDocumentHeader> getSortedDocumentHeaders(String orderBy, String orderDirection, String rows);
 }

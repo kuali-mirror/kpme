@@ -58,26 +58,4 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
     public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate) {
         return documentHeaderDao.getDocumentHeaders(payBeginDate);
     }
-
-    @Override
-    public List<TimesheetDocumentHeader> getDocumentHeadersByField(String field, String value) {
-        field = StringUtils.isNotBlank(field) ? field : "documentId";
-        return documentHeaderDao.getDocumentHeadersByField(field, value);
-    }
-
-    @Override
-    public List<String> getValueByField(String field, String value) {
-        return documentHeaderDao.getValueByField(field, value);
-    }
-
-    @Override
-    public List<TimesheetDocumentHeader> getSortedDocumentHeaders(String orderBy, String orderDirection, String rows) {
-        orderBy = StringUtils.isNotBlank(orderBy) ? orderBy : "documentId";
-        orderDirection = StringUtils.isNotBlank(orderDirection) ? orderDirection : "asc";
-        rows = StringUtils.isNotBlank(rows) ? rows : "5";
-
-        return documentHeaderDao.getSortedDocumentHeaders(orderBy, orderDirection, Integer.parseInt(rows));
-    }
-
-
 }

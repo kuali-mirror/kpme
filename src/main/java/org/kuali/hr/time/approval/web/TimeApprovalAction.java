@@ -48,8 +48,8 @@ public class TimeApprovalAction extends TkAction {
 
     public ActionForward searchDocumentHeaders(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
-        List<String> results = TkServiceLocator.getTimesheetDocumentHeaderService().getValueByField(taaf.getSearchField(), taaf.getTerm().toLowerCase());
-        taaf.setOutputString(JSONValue.toJSONString(results));
+        //List<String> results = TkServiceLocator.getTimesheetDocumentHeaderService().getValueByField(taaf.getSearchField(), taaf.getTerm().toLowerCase());
+        //taaf.setOutputString(JSONValue.toJSONString(results));
 
         return mapping.findForward("ws");
     }
