@@ -8,6 +8,7 @@ import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,11 +21,16 @@ public class TimeApprovalAction extends TkAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
-
-        //taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
         TKUser user = TKContext.getUser();
+
+        // TODO: Obtain this via form?
+        // Pay Begin/End needs to come from somewhere tangible, hard coded for now.
+        taaf.setPayBeginDate(TKUtils.createDate(5, 1, 2011, 0, 0, 0));
+        taaf.setPayEndDate(TKUtils.createDate(6, 30, 2011, 0, 0, 0));
+
         taaf.setName(user.getPrincipalName());
         taaf.setApprovalRows(getApprovalRows(taaf.getTerm(), taaf.isAscending(), taaf.getRows(), taaf.getPayBeginDate(), taaf.getPayEndDate()));
+        taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
 
         return super.execute(mapping, form, request, response);
     }
@@ -46,9 +52,13 @@ public class TimeApprovalAction extends TkAction {
         return mapping.findForward("ws");
     }
 
+    /**
+     * Action called via AJAX. (ajaj really...)
+     */
     public ActionForward searchDocumentHeaders(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
-        //List<String> results = TkServiceLocator.getTimesheetDocumentHeaderService().getValueByField(taaf.getSearchField(), taaf.getTerm().toLowerCase());
+
+        // TODO : Figure out how we want to implement this, multiple options...
         //taaf.setOutputString(JSONValue.toJSONString(results));
 
         return mapping.findForward("ws");
