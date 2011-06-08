@@ -1,27 +1,27 @@
 /* jQuery style override */
 
 .ui-widget {
-    font-family: "Trebuchet MS",Verdana,Arial,sans-serif !important;
+    font-family: "Trebuchet MS", Verdana, Arial, sans-serif !important;
 }
 
 .ui-widget-header {
 }
 
 .ui-button {
-    font-family: "Trebuchet MS",Verdana,Arial,sans-serif !important;
+    font-family: "Trebuchet MS", Verdana, Arial, sans-serif !important;
     font-weight: bold !important;
-} 
+}
 
 .ui-tabs-nav {
-   background: #ffffff url(ui-iu/images/headerback.gif) 100% 100% repeat-x;
+    background: #ffffff url(ui-iu/images/headerback.gif) 100% 100% repeat-x;
 }
 
 .ui-tabs .ui-tabs-nav ul {
     clear: right !important;
-} 
+}
 
-.ui-tabs .ui-tabs-nav li { 
-    
+.ui-tabs .ui-tabs-nav li {
+
     float: right !important;
     font-size: .8em !important;
     font-weight: bold;
@@ -40,7 +40,7 @@
 }
 
 .ui-state-focus {
-	font-weight: normal !important;
+    font-weight: normal !important;
 }
 
 .ui-state-hover {
@@ -48,13 +48,13 @@
 }
 
 #dialog-form {
-	font-size: .8em !important;
+    font-size: .8em !important;
 }
 
 .ui-dialog-buttonpane {
-	font-size: .9em !important;
-	/*margin-left: auto !important;*/
-	/*margin-right: auto !important;*/
+    font-size: .9em !important;
+    /*margin-left: auto !important;*/
+    /*margin-right: auto !important;*/
 }
 
 .ui-accordion-header {
@@ -66,7 +66,7 @@
 }
 
 .ui-datepicker {
-	font-size: .8em !important;
+    font-size: .8em !important;
 }
 
 .ui-autocomplete .ui-menu-item {
@@ -77,27 +77,28 @@
 
 /* full calendar override */
 .fc-day-number {
-	font-size: .8em !important;
+    font-size: .8em !important;
 }
+
 /* end of full calendar override */
 .highlight {
-    /*background: #FFD20F;*/   
-    background: #FFE79F;   
+    /*background: #FFD20F;*/
+    background: #FFE79F;
 }
 
 select {
-    font-family: "Trebuchet MS",Verdana,Arial,sans-serif !important; 
+    font-family: "Trebuchet MS", Verdana, Arial, sans-serif !important;
     font-size: inherit !important;
 }
 
 .backdoor {
-	color: #990000 !important;
+    color: #990000 !important;
 }
 
 .ui-header {
-	/*background-color: #A02919;*/
-	background: #ffffff url(ui-iu/images/headerback.gif) 50% 50% repeat-x;
-	height: 55px;
+    /*background-color: #A02919;*/
+    background: #ffffff url(ui-iu/images/headerback.gif) 50% 50% repeat-x;
+    height: 55px;
 }
 
 .person-info {
@@ -109,19 +110,19 @@ select {
 }
 
 .person-info table, .person-detail table {
-	border-collapse: collapse;
-	color: black;
-	font-size: .8em;
+    border-collapse: collapse;
+    color: black;
+    font-size: .8em;
     font-weight: normal;
 }
 
-.person-info table td{
-	padding:3px;
-	
+.person-info table td {
+    padding: 3px;
+
 }
 
 .person-info a {
-	color:black;
+    color: black;
 }
 
 .person-detail {
@@ -130,7 +131,7 @@ select {
     font-size: .8em;
 }
 
-.person-detail ul{
+.person-detail ul {
     list-style: none;
     margin-left: -20px;
 }
@@ -141,40 +142,40 @@ select {
 }
 
 .person-detail table {
-	color: black;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 10px;
+    color: black;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
 }
 
 .person-detail table td {
-	padding: 5px;
-	border: 1px solid #CCC;
+    padding: 5px;
+    border: 1px solid #CCC;
 }
 
 .person-detail .header {
-	border:none;
-	text-align: center;
-	font-size: 1.5em;
-	font-weight: bold;
+    border: none;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 .person-detail .sub-header {
-	font-weight:bold;
+    font-weight: bold;
 }
 
 #tabs .title, .sub-title {
-	font-family: Georgia,"Times New Roman",Serif;
-	color: black;
-	font-weight: bold;
-	font-size: 2em;
-	padding: 5px 0 5px 10px;
-	clear: both;
-	float:left;
+    font-family: Georgia, "Times New Roman", Serif;
+    color: black;
+    font-weight: bold;
+    font-size: 2em;
+    padding: 5px 0 5px 10px;
+    clear: both;
+    float: left;
 }
 
 #tabs .sub-title {
-	float:right;
+    float: right;
 }
 
 /*
@@ -198,162 +199,162 @@ select {
 */
 
 #timesheet-panel {
-	border: 1px solid #ccc;
-	float:left;
-	width:100%;
-	/*margin: 20px 10px 0 1%;*/
-	background-color: #FBF9EE;
+    border: 1px solid #ccc;
+    float: left;
+    width: 100%;
+    /*margin: 20px 10px 0 1%;*/
+    background-color: #FBF9EE;
 }
 
 #timesheet-panel table {
-	/*margin: 0 auto 0 auto;*/
-	margin: 5px;
-	padding: 0;
-	border-collapse: collapse;
+    /*margin: 0 auto 0 auto;*/
+    margin: 5px;
+    padding: 0;
+    border-collapse: collapse;
 }
 
-#timesheet-panel table tr td{
-	padding: 5px;
-	white-space: nowrap;
+#timesheet-panel table tr td {
+    padding: 5px;
+    white-space: nowrap;
 }
 
 #timesheet-panel .timesheet-panel-title {
-	font-weight: bold;
-	font-size: 1.1em;
+    font-weight: bold;
+    font-size: 1.1em;
 }
 
 #timesheet-panel select, .approvals select {
-	font-size: .9em;
+    font-size: .9em;
 }
 
 #timesheet-summary {
-	margin: 10px auto 20px auto;
+    margin: 10px auto 20px auto;
 }
 
-#timesheet-summary table{
-	font-size: .7em;
-	text-align: center;
-	border-collapse: collapse;
-	width: 100%
+#timesheet-summary table {
+    font-size: .7em;
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%
 }
 
 #timesheet-summary .header {
-	border: none;
-	font-weight: bold;
-	font-size: 1.5em;
-	padding-bottom: 20px;
+    border: none;
+    font-weight: bold;
+    font-size: 1.5em;
+    padding-bottom: 20px;
 }
 
-#timesheet-summary table tr td{
-	border: 1px solid #ccc;
-	padding: 3px;
+#timesheet-summary table tr td {
+    border: 1px solid #ccc;
+    padding: 3px;
 }
 
-#clock{
+#clock {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
 }
 
 #clock table {
-	background-color: #FBF9EE;
-	font-size: .9em;
-	border: 2px solid gray;
-	padding: 5px;
-	border-collapse: collapse;
-	margin: 20px auto 20px auto;
+    background-color: #FBF9EE;
+    font-size: .9em;
+    border: 2px solid gray;
+    padding: 5px;
+    border-collapse: collapse;
+    margin: 20px auto 20px auto;
 }
 
-
 #clock .header {
-	font-weight: bold;
-	font-size: 1.2em;
-	/*color: #1c94c4;*/
-	color: #8D2C1B;
-	/*background-color: #FBF9EE;*/
+    font-weight: bold;
+    font-size: 1.2em;
+    /*color: #1c94c4;*/
+    color: #8D2C1B;
+    /*background-color: #FBF9EE;*/
 }
 
 #clock .header, #clock .footer {
-    background: #ffffff url(ui-iu/images/headerback.gif) 50% 50% repeat-x;;    
+    background: #ffffff url(ui-iu/images/headerback.gif) 50% 50% repeat-x;;
 }
 
 #clock .sub-header {
-	text-align: right;
+    text-align: right;
 }
 
 #clock .footer {
 }
 
 #clock table td {
-	border-bottom: 1px solid gray;
-	padding: 8px;
+    border-bottom: 1px solid gray;
+    padding: 8px;
 }
 
 .approvals {
+    font-size: .6em;
 }
 
-.approvals table {
-	margin: 20px auto 20px auto;
-	font-size: .6em;
-    text-align: center;
-    border-collapse: collapse;
-    width: 95%
-}
+/*.approvals table {*/
+/*margin: 20px auto 20px auto;*/
+/*font-size: .6em;*/
+/*text-align: center;*/
+/*border-collapse: collapse;*/
+/*width: 95%*/
+/*}*/
 
-.approvals table tr td {
-	border: 1px solid black;
-	text-align: center;
-}
+/*.approvals table tr td {*/
+/*border: 1px solid black;*/
+/*text-align: center;*/
+/*}*/
 
-.approvals .header{
-	background-color: #FBF9EE
-}
+/*.approvals .header{*/
+/*background-color: #FBF9EE*/
+/*}*/
 
 #note {
-	font-size: .8em;
-	clear:both;
+    font-size: .8em;
+    clear: both;
 }
 
 .tooltip {
-	background-color:#000;
-	border:1px solid #fff;
-	padding:10px 15px;
-	width:200px;
-	display:none;
-	color:#fff;
-	text-align:left;
-	font-size: .8em;
-	font-family: "Trebuchet MS",Tahoma,Verdana,Arial,sans-serif;
+    background-color: #000;
+    border: 1px solid #fff;
+    padding: 10px 15px;
+    width: 200px;
+    display: none;
+    color: #fff;
+    text-align: left;
+    font-size: .8em;
+    font-family: "Trebuchet MS", Tahoma, Verdana, Arial, sans-serif;
 
-	/* outline radius for mozilla/firefox only */
-	-moz-box-shadow:0 0 10px #000;
-	-webkit-box-shadow:0 0 10px #000;
+    /* outline radius for mozilla/firefox only */
+    -moz-box-shadow: 0 0 10px #000;
+    -webkit-box-shadow: 0 0 10px #000;
 
-	z-index: 9999;
+    z-index: 9999;
 }
 
-#timesheet table{
-	font-size: .8em;
-	border-collapse: collapse;
-	width: 100%;
-	text-align: center;
+#timesheet table {
+    font-size: .8em;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
 }
 
 #timesheet table td {
-	padding: 3px;
+    padding: 3px;
 }
 
 #dialog-form form {
-	font-size: .9em !important;
+    font-size: .9em !important;
 }
 
 .validation {
-	padding: 0.3em;
+    padding: 0.3em;
 }
 
 .warning {
-	padding: 0.3em;
-	color: red;
+    padding: 0.3em;
+    color: red;
     font-size: .8em;
     width: 100%;
     margin: 0 auto 0 auto;
@@ -361,20 +362,20 @@ select {
 }
 
 .global-error {
-	font-size: .9em;
-	text-align: center;
-	margin-top: 10px;
-	color: red;
+    font-size: .9em;
+    text-align: center;
+    margin-top: 10px;
+    color: red;
 }
 
 .block-error {
-	border: 2px solid red !important;
+    border: 2px solid red !important;
 }
 
 .expand {
     height: 1em;
     width: 1.2em;
-    
+
 }
 
 /* admin section */
@@ -383,9 +384,9 @@ select {
 }
 
 #admin-page #content {
-    float:left;
+    float: left;
     width: 30%;
-    margin:10px;
+    margin: 10px;
 }
 
 #admin-page table {
@@ -405,7 +406,7 @@ select {
     font-weight: bold;
     color: #8D2C1B !important;
     background: #ffffff url(ui-iu/images/headerback.gif) 20% 20% repeat-x;
-    padding-left:5px;
+    padding-left: 5px;
 }
 
 #admin-page li:hover {
@@ -419,11 +420,11 @@ select {
 }
 
 #tab-section {
-    clear:both;
+    clear: both;
 }
 
 #timeOffAccrual {
-    
+
 }
 
 #timeOffAccrual table {
@@ -441,8 +442,9 @@ select {
     font-weight: bold;
     color: #8D2C1B !important;
     background: #ffffff url(ui-iu/images/headerback.gif) 20% 20% repeat-x;
-    padding-left:5px;
+    padding-left: 5px;
 }
+
 /* end of admin section */
 
 /* This is just a temp solution */
@@ -464,38 +466,38 @@ select {
     color: red;
 }
 
-.left-errmsg div div{
+.left-errmsg div div {
     display: inline !important;
 }
 
 .timeblock {
     line-height: 1.1em;
 }
+
 .timeblock-icon {
-    float:right;
-    cursor:pointer;
-    margin-right: 1px;    
+    float: right;
+    cursor: pointer;
+    margin-right: 1px;
 }
 
-.timeblock-icon .timeblock-delete:hover{
+.timeblock-icon .timeblock-delete:hover {
     background-color: gray;
 }
 
-.timeblock a{
+.timeblock a {
     display: inline !important;
     font-size: 1em !important;
 }
 
-.timeblock-delete{
+.timeblock-delete {
     width: 15px;
     height: 15px;
     margin: 3px 5px 0 0;
     z-index: 15;
     cursor: pointer;
-    float:right;
+    float: right;
     clear: none;
 }
-
 
 .timeblock #timeblock-edit {
     text-decoration: underline;
@@ -554,5 +556,44 @@ select {
 }
 
 #documents {
-    font-size: .8em;
+}
+
+table.tablesorter {
+	font-family:arial;
+	background-color: #CDCDCD;
+	margin:10px 0pt 15px;
+	width: 100%;
+	text-align: center;
+}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+	background-color: #e6EEEE;
+	border: 1px solid #FFF;
+	padding: 4px;
+}
+table.tablesorter thead tr .header {
+    /*
+	background-image: url(../images/bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	*/
+    background: url(../images/bg.gif) no-repeat center right;
+	cursor: pointer;
+}
+table.tablesorter tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: top;
+}
+table.tablesorter tbody tr.odd td {
+	background-color:#F0F0F6;
+}
+table.tablesorter thead tr .headerSortUp {
+	background: url(../images/asc.gif) no-repeat center right;
+}
+table.tablesorter thead tr .headerSortDown {
+	background: url(../images/desc.gif) no-repeat center right;
+}
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+background-color: #8dbdd8;
 }

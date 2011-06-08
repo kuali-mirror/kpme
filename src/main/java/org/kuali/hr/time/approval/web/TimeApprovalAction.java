@@ -3,7 +3,6 @@ package org.kuali.hr.time.approval.web;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.json.simple.JSONValue;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -25,8 +24,8 @@ public class TimeApprovalAction extends TkAction {
 
         // TODO: Obtain this via form?
         // Pay Begin/End needs to come from somewhere tangible, hard coded for now.
-        taaf.setPayBeginDate(TKUtils.createDate(5, 1, 2011, 0, 0, 0));
-        taaf.setPayEndDate(TKUtils.createDate(6, 30, 2011, 0, 0, 0));
+        taaf.setPayBeginDate(TKUtils.createDate(5, 29, 2011, 0, 0, 0));
+        taaf.setPayEndDate(TKUtils.createDate(6, 12, 2011, 0, 0, 0));
 
         taaf.setName(user.getPrincipalName());
         taaf.setApprovalRows(getApprovalRows(taaf.getTerm(), taaf.isAscending(), taaf.getRows(), taaf.getPayBeginDate(), taaf.getPayEndDate()));
@@ -76,7 +75,9 @@ public class TimeApprovalAction extends TkAction {
     List<ApprovalTimeSummaryRow> getApprovalRows(String sortTerm, boolean ascending, int rowsToReturn, Date beginDate, Date endDate) {
         List<ApprovalTimeSummaryRow> rows = new ArrayList<ApprovalTimeSummaryRow>();
 
-        // TODO : Fill this in.
+        beginDate = TKUtils.createDate(5, 29, 2011, 0, 0, 0);
+        endDate = TKUtils.createDate(6, 12, 2011, 0, 0, 0);
+        rows.addAll(TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(beginDate, endDate));
 
         return rows;
     }

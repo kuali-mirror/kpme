@@ -5,5 +5,4 @@
 <link type="text/css" href="css/ui-iu/jquery-ui-1.8.5.custom.css" rel="stylesheet" />
 <link type="text/css" href="css/tk.css" rel="stylesheet" />
 <link type="text/css" href="css/fullcalendar.css" rel="stylesheet" />
-<link type="text/css" href="css/tablesorter.css" rel="stylesheet" />
 <%-- End of CSS --%>
