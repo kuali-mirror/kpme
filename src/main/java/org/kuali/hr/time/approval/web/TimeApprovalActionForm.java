@@ -13,13 +13,14 @@ public class TimeApprovalActionForm extends TkForm {
      *
      */
     private static final long serialVersionUID = -173408280988754540L;
-    
+
     private String name;
     private List<ApprovalTimeSummaryRow> approvalTimeSummaryRows = new ArrayList<ApprovalTimeSummaryRow>();
     private Date payBeginDate;
     private Date payEndDate;
     private List<String> payCalendarLabels = new ArrayList<String>();
     private List<TimesheetDocumentHeader> docHeaders = new ArrayList<TimesheetDocumentHeader>();
+    private List<ApprovalTimeSummaryRow> approvalRows = new ArrayList<ApprovalTimeSummaryRow>();
     private String lastDocumentId;
     private String outputString;
     private String searchField;
@@ -27,8 +28,8 @@ public class TimeApprovalActionForm extends TkForm {
     private String rows;
     private String orderBy;
     private String orderDirection;
-    
-	public String getName() { 
+
+	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
@@ -121,5 +122,13 @@ public class TimeApprovalActionForm extends TkForm {
 
     public void setOrderDirection(String orderDirection) {
         this.orderDirection = orderDirection;
+    }
+
+    public List<ApprovalTimeSummaryRow> getApprovalRows() {
+        return approvalRows;
+    }
+
+    public void setApprovalRows(List<ApprovalTimeSummaryRow> approvalRows) {
+        this.approvalRows = approvalRows;
     }
 }
