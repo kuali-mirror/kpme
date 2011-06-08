@@ -1,7 +1,6 @@
 package org.kuali.hr.time.workflow.service;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
@@ -43,31 +42,42 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
     public TimesheetDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId, String documentId) {
         TimesheetDocument currentTimesheet = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
         TimesheetDocumentHeader tsdh;
-        if(StringUtils.equals(prevOrNext, TkConstants.PREV_TIMESHEET)) {
+        if (StringUtils.equals(prevOrNext, TkConstants.PREV_TIMESHEET)) {
             tsdh = documentHeaderDao.getPreviousDocumentHeader(principalId, currentTimesheet.getDocumentHeader().getPayBeginDate());
-        }
-        else {
+        } else {
             tsdh = documentHeaderDao.getNextDocumentHeader(principalId, currentTimesheet.getDocumentHeader().getPayEndDate());
         }
         // TODO: need to figure out how to handle the situation when there is no previous/next timesheet document header
         if (tsdh == null) {
-           throw new RuntimeException("There is no " + prevOrNext + " timesheet");
+            throw new RuntimeException("There is no " + prevOrNext + " timesheet");
         }
 
         return tsdh;
     }
-    
-    public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate){
-    	return documentHeaderDao.getDocumentHeaders(payBeginDate);
+
+    public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate) {
+        return documentHeaderDao.getDocumentHeaders(payBeginDate);
     }
 
     @Override
-    public List<TimesheetDocumentHeader> getDocumentHeaders(Criteria crit, int start, int end) {
-        return documentHeaderDao.getDocumentHeaders(crit, start, end);
+    public List<TimesheetDocumentHeader> getDocumentHeadersByField(String field, String value) {
+        field = StringUtils.isNotBlank(field) ? field : "documentId";
+        return documentHeaderDao.getDocumentHeadersByField(field, value);
     }
 
     @Override
-    public List<String> getDataByField(Criteria crit, String[] fields) {
-        return documentHeaderDao.getDataByField(crit, fields);
+    public List<String> getValueByField(String field, String value) {
+        return documentHeaderDao.getValueByField(field, value);
     }
+
+    @Override
+    public List<TimesheetDocumentHeader> getSortedDocumentHeaders(String orderBy, String orderDirection, String rows) {
+        orderBy = StringUtils.isNotBlank(orderBy) ? orderBy : "documentId";
+        orderDirection = StringUtils.isNotBlank(orderDirection) ? orderDirection : "asc";
+        rows = StringUtils.isNotBlank(rows) ? rows : "5";
+
+        return documentHeaderDao.getSortedDocumentHeaders(orderBy, orderDirection, Integer.parseInt(rows));
+    }
+
+
 }

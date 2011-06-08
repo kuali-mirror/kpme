@@ -24,6 +24,9 @@ public class TimeApprovalActionForm extends TkForm {
     private String outputString;
     private String searchField;
     private String term;
+    private String rows;
+    private String orderBy;
+    private String orderDirection;
     
 	public String getName() { 
 		return name;
@@ -94,5 +97,29 @@ public class TimeApprovalActionForm extends TkForm {
 
     public void setTerm(String term) {
         this.term = term;
+    }
+
+    public String getRows() {
+        return rows;
+    }
+
+    public void setRows(String rows) {
+        this.rows = rows;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getOrderDirection() {
+        return orderDirection;
+    }
+
+    public void setOrderDirection(String orderDirection) {
+        this.orderDirection = orderDirection;
     }
 }

@@ -1,5 +1,6 @@
 package org.kuali.hr.time.workflow.dao;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -80,11 +81,50 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PersistenceBrokerDa
     }
 
     @Override
-    public List<TimesheetDocumentHeader> getDocumentHeaders(Criteria crit, int start, int end) {
-        QueryByCriteria q = QueryFactory.newQuery(TimesheetDocumentHeader.class, crit);
-        q.addOrderByAscending("documentId");
-        q.setStartAtIndex(start);
-        q.setEndAtIndex(end);
+    public List<TimesheetDocumentHeader> getDocumentHeadersByField(String field, String value) {
+        Criteria crit = new Criteria();
+        crit.addEqualTo(field, value);
+
+        return getDocumentHeaders(crit, field, "asc", 5);
+    }
+
+    @Override
+    public List<TimesheetDocumentHeader> getSortedDocumentHeaders(String orderBy, String orderDirection, int rows) {
+        return getDocumentHeaders(new Criteria(), orderBy, orderDirection, rows);
+    }
+
+    @Override
+    public List<String> getValueByField(String field, String value) {
+        Criteria crit = new Criteria();
+        crit.addLike(field, "%" + value + "%");
+        // the 4th parameter means if the query should only pull back unique rows
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(TimesheetDocumentHeader.class, crit, true);
+        q.setAttributes(new String[]{field});
+
+        List<String> results = new ArrayList<String>();
+        Iterator iterator = this.getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+
+        while (iterator.hasNext()) {
+            Object[] objects = (Object[]) iterator.next();
+            results.add(objects[0].toString());
+        }
+        return results;
+    }
+
+    private List<TimesheetDocumentHeader> getDocumentHeaders(Criteria crit, String orderBy, String orderDirection, int rows) {
+        // the 4th parameter means if the query should only pull back unique rows
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(TimesheetDocumentHeader.class, crit, true);
+
+        if (StringUtils.isNotEmpty(orderDirection)) {
+            if (StringUtils.equals(orderDirection, "asc")) {
+                q.addOrderByAscending(orderBy);
+            } else {
+                q.addOrderByDescending(orderBy);
+            }
+        }
+
+        q.setStartAtIndex(0);
+        q.setEndAtIndex(rows);
 
         List<TimesheetDocumentHeader> lstDocumentHeaders = new ArrayList<TimesheetDocumentHeader>();
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(q);
@@ -92,23 +132,6 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PersistenceBrokerDa
             lstDocumentHeaders.addAll(c);
         }
         return lstDocumentHeaders;
-    }
-
-    @Override
-    public List<String> getDataByField(Criteria crit, String[] fields) {
-        ReportQueryByCriteria q = QueryFactory.newReportQuery(TimesheetDocumentHeader.class, crit, true);
-        q.setAttributes(fields);
-        q.setStartAtIndex(0);
-        q.setEndAtIndex(4);
-
-        List<String> results = new ArrayList<String>();
-        Iterator iterator = this.getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-
-        while (iterator.hasNext()) {
-            Object[] objects = (Object[])iterator.next();
-            results.add(objects[0].toString());
-        }
-        return results;
     }
 
 

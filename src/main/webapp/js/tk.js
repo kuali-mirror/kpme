@@ -156,8 +156,29 @@ $(document).ready(function() {
      * Approval pages
      */
 
+    // sort by column
+    $('#approval th').click(function() {
+        var field = $(this).html().replace(/ /, '');
+        var rows = $('#approval tbody tr').length;
+        var orderDirection = getParameterByName("orderDirection");
+
+        if (orderDirection == null) {
+            orderDirection = 'asc';
+        } else if (orderDirection == "asc") {
+            orderDirection = 'desc';
+        } else {
+            orderDirection = 'asc';
+        }
+
+        var class = orderDirection == 'asc' ? 'headerSortUp' : 'headerSortDown';
+        if (orderDirection != null) {
+            $(this).addClass(class);
+        }
+
+        window.location = 'TimeApproval.do?methodToCall=getSortedDocumentHeaders&orderBy=' + toCamelCase(field) + '&orderDirection=' + orderDirection + '&rows=' + rows;
+    });
+
     // fetch more document headers
-    $("#approval").tablesorter();
     $('a#next').click(function() {
         $('div#loader').html('<img src="images/ajax-loader.gif">');
         $.post('TimeApproval.do?methodToCall=getMoreDocument&lastDocumentId=' + $('span.document:last').attr('id'),
@@ -171,7 +192,7 @@ $(document).ready(function() {
                         // append the data to the table body through ajax
                         $('#approval tbody').append(data);
                         // let the plugin know that we made a update
-                        $('#approval').trigger('update');
+                        //$('#approval').trigger('update');
                         // An array of instructions for per-column sorting and direction in the format: [[columnIndex, sortDirection], ... ]
                         // where columnIndex is a zero-based index for your columns left-to-right and sortDirection is 0 for Ascending and 1 for Descending.
                         // A valid argument that sorts ascending first by column 1 and then column 2 looks like: [[0,0],[1,0]]
@@ -179,7 +200,7 @@ $(document).ready(function() {
                             [0,0]
                         ];
                         // sort on the first column
-                        $('#approval').trigger('sorton', [sorting]);
+                        //$('#approval').trigger('sorton', [sorting]);
                     }
                     else {
                         // if there is no more document available, remove the link and scroll to the bottom
@@ -197,6 +218,7 @@ $(document).ready(function() {
                 // Therefore, I have to use a callback function to feed the source and handle the respone/request by myself.
                 //source: "TimeApproval.do?methodToCall=searchDocumentHeaders" + $('#searchField').val(),
                 source: function(request, response) {
+
                     $.post('TimeApproval.do?methodToCall=searchDocumentHeaders&searchField=' + $('#searchField').val() + '&term=' + request.term,
                             function(data) {
                                 response($.map(jQuery.parseJSON(data), function(item) {
@@ -208,7 +230,12 @@ $(document).ready(function() {
                 },
                 minLength: 3,
                 select: function(event, data) {
-                    window.location = 'TimeApproval.do?searchField=' + $('#searchField').val() + '&term=' + data.item.value;
+                    var rows = $('#approval tbody tr').length;
+                    var orderBy = getParameterByName("orderBy");
+                    var orderDirection = getParameterByName("orderDirection");
+
+                    window.location = 'TimeApproval.do?orderBy=' + toCamelCase(orderBy) + '&orderDirection=' + orderDirection + '&rows=' + rows +
+                            '&searchField=' + $('#searchField').val() + '&term=' + data.item.value;
                 },
                 open: function() {
                     $(this).removeClass("ui-corner-all");
@@ -703,6 +730,23 @@ function ltrim(str) {
 }
 function rtrim(str) {
     return str.replace(/\s+$/, '');
+}
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(window.location.href);
+    if (results == null)
+        return "";
+    else
+        return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function toCamelCase(str) {
+    return str.replace(/^.?/g, function(match) {
+        return match.toLowerCase();
+    });
 }
 
 

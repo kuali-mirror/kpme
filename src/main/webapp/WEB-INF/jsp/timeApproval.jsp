@@ -15,7 +15,7 @@
         </label>
         Value :
         <label for="search value">
-            <input id="searchValue" name="searchValue" type="text"/>
+            <input id="searchValue" name="searchValue" type="text" size="" placeholder="enter at least 3 chars"/>
         </label>
         <table id="approval" class="tablesorter">
             <thead>

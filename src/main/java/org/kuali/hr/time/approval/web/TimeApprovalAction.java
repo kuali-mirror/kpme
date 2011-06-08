@@ -1,6 +1,5 @@
 package org.kuali.hr.time.approval.web;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -22,27 +21,23 @@ public class TimeApprovalAction extends TkAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form,
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TimeApprovalActionForm taf = (TimeApprovalActionForm) form;
+        TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
 
-        Criteria crit = new Criteria();
-        if (StringUtils.isNotBlank(taf.getSearchField()) && StringUtils.isNotBlank(taf.getTerm())) {
-            crit.addEqualTo(taf.getSearchField(), taf.getTerm());
-        }
-        taf.setDocHeaders(TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(crit, 0, 5));
+        taaf.setDocHeaders(TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersByField(taaf.getSearchField(), taaf.getTerm()));
 
         return super.execute(mapping, form, request, response);
     }
 
     public ActionForward load(ActionMapping mapping, ActionForm form,
                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TimeApprovalActionForm taf = (TimeApprovalActionForm) form;
+        TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         TKUser tkUser = TKContext.getUser();
-        taf.setName(tkUser.getCurrentPerson().getName());
-        taf.setPayBeginDate(TKUtils.createDate(10, 1, 2011, 0, 0, 0));
-        taf.setPayEndDate(TKUtils.createDate(10, 15, 2011, 0, 0, 0));
+        taaf.setName(tkUser.getCurrentPerson().getName());
+        taaf.setPayBeginDate(TKUtils.createDate(10, 1, 2011, 0, 0, 0));
+        taaf.setPayEndDate(TKUtils.createDate(10, 15, 2011, 0, 0, 0));
 
-        taf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taf.getPayBeginDate(), taf.getPayEndDate()));
-        taf.setApprovalTimeSummaryRows(TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taf.getPayBeginDate(), taf.getPayEndDate()));
+        taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
+        taaf.setApprovalTimeSummaryRows(TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate()));
 
 
         return mapping.findForward("basic");
@@ -50,10 +45,10 @@ public class TimeApprovalAction extends TkAction {
 
     public ActionForward getMoreDocument(ActionMapping mapping, ActionForm form,
                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TimeApprovalActionForm taf = (TimeApprovalActionForm) form;
+        TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         Criteria crit = new Criteria();
-        crit.addGreaterThan("documentId", taf.getLastDocumentId());
-        List<TimesheetDocumentHeader> documentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(crit, 0, 5);
+        crit.addGreaterThan("documentId", taaf.getLastDocumentId());
+        List<TimesheetDocumentHeader> documentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getSortedDocumentHeaders(taaf.getOrderBy(), taaf.getOrderDirection(), taaf.getRows());
 
         String outputHtml = "";
         for (TimesheetDocumentHeader documentHeader : documentHeaders) {
@@ -64,7 +59,7 @@ public class TimeApprovalAction extends TkAction {
                     "</tr>";
         }
 
-        taf.setOutputString(outputHtml);
+        taaf.setOutputString(outputHtml);
 
         return mapping.findForward("ws");
     }
@@ -72,14 +67,23 @@ public class TimeApprovalAction extends TkAction {
     public ActionForward searchDocumentHeaders(ActionMapping mapping, ActionForm form,
                                                HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        TimeApprovalActionForm taf = (TimeApprovalActionForm) form;
-        Criteria crit = new Criteria();
-        crit.addLike(taf.getSearchField(), "%" + taf.getTerm().toLowerCase() + "%");
-        List<String> results = TkServiceLocator.getTimesheetDocumentHeaderService().getDataByField(crit, new String[]{taf.getSearchField()});
-        taf.setOutputString(JSONValue.toJSONString(results));
+        TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
+        List<String> results = TkServiceLocator.getTimesheetDocumentHeaderService().getValueByField(taaf.getSearchField(), taaf.getTerm().toLowerCase());
+        taaf.setOutputString(JSONValue.toJSONString(results));
 
         return mapping.findForward("ws");
 
+    }
+
+    public ActionForward getSortedDocumentHeaders(ActionMapping mapping, ActionForm form,
+                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
+        String orderBy = "";
+        List<TimesheetDocumentHeader> documentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getSortedDocumentHeaders(taaf.getOrderBy(), taaf.getOrderDirection(), taaf.getRows());
+        taaf.setDocHeaders(documentHeaders);
+
+        return mapping.findForward("basic");
     }
 
 }

@@ -53,8 +53,8 @@
 
 .ui-dialog-buttonpane {
 	font-size: .9em !important;
-	margin-left: auto !important;
-	margin-right: auto !important;
+	/*margin-left: auto !important;*/
+	/*margin-right: auto !important;*/
 }
 
 .ui-accordion-header {
