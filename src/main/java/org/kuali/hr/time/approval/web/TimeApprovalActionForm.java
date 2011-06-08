@@ -1,7 +1,6 @@
 package org.kuali.hr.time.approval.web;
 
 import org.kuali.hr.time.base.web.TkForm;
-import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,29 +8,36 @@ import java.util.List;
 
 public class TimeApprovalActionForm extends TkForm {
 
-    /**
-     *
-     */
+    public static final String ORDER_BY_PRINCIPAL = "principalId";
+    public static final String ORDER_BY_DOCID = "documentId";
+
     private static final long serialVersionUID = -173408280988754540L;
 
     private String name;
-    private List<ApprovalTimeSummaryRow> approvalTimeSummaryRows = new ArrayList<ApprovalTimeSummaryRow>();
     private Date payBeginDate;
     private Date payEndDate;
     private List<String> payCalendarLabels = new ArrayList<String>();
-    private List<TimesheetDocumentHeader> docHeaders = new ArrayList<TimesheetDocumentHeader>();
     private List<ApprovalTimeSummaryRow> approvalRows = new ArrayList<ApprovalTimeSummaryRow>();
     private String lastDocumentId;
+
+    /** Used for ajax dynamic row updating */
     private String outputString;
+
     private String searchField;
     private String term;
-    private String rows;
-    private String orderBy;
-    private String orderDirection;
 
+    private int rows = 5;
+    private String orderBy = TimeApprovalActionForm.ORDER_BY_PRINCIPAL;
+    private boolean ascending = true;
+
+    /**
+     * Gets the name of the user that this row represents.
+     * @return String representing the users name.
+     */
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -47,26 +53,13 @@ public class TimeApprovalActionForm extends TkForm {
 	public Date getPayEndDate() {
 		return payEndDate;
 	}
-	public void setApprovalTimeSummaryRows(List<ApprovalTimeSummaryRow> approvalTimeSummaryRows) {
-		this.approvalTimeSummaryRows = approvalTimeSummaryRows;
-	}
-	public List<ApprovalTimeSummaryRow> getApprovalTimeSummaryRows() {
-		return approvalTimeSummaryRows;
-	}
+
 	public void setPayCalendarLabels(List<String> payCalendarLabels) {
 		this.payCalendarLabels = payCalendarLabels;
 	}
 	public List<String> getPayCalendarLabels() {
 		return payCalendarLabels;
 	}
-
-    public List<TimesheetDocumentHeader> getDocHeaders() {
-        return docHeaders;
-    }
-
-    public void setDocHeaders(List<TimesheetDocumentHeader> docHeaders) {
-        this.docHeaders = docHeaders;
-    }
 
     public String getLastDocumentId() {
         return lastDocumentId;
@@ -100,11 +93,11 @@ public class TimeApprovalActionForm extends TkForm {
         this.term = term;
     }
 
-    public String getRows() {
+    public int getRows() {
         return rows;
     }
 
-    public void setRows(String rows) {
+    public void setRows(int rows) {
         this.rows = rows;
     }
 
@@ -116,19 +109,19 @@ public class TimeApprovalActionForm extends TkForm {
         this.orderBy = orderBy;
     }
 
-    public String getOrderDirection() {
-        return orderDirection;
-    }
-
-    public void setOrderDirection(String orderDirection) {
-        this.orderDirection = orderDirection;
-    }
-
     public List<ApprovalTimeSummaryRow> getApprovalRows() {
         return approvalRows;
     }
 
     public void setApprovalRows(List<ApprovalTimeSummaryRow> approvalRows) {
         this.approvalRows = approvalRows;
+    }
+
+    public boolean isAscending() {
+        return ascending;
+    }
+
+    public void setAscending(boolean ascending) {
+        this.ascending = ascending;
     }
 }
