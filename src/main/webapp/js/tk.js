@@ -157,25 +157,26 @@ $(document).ready(function() {
      */
 
     // sort by column
-    $('#approval th').click(function() {
-        var field = $(this).html().replace(/ /, '');
-        var rows = $('#approval tbody tr').length;
-        var orderDirection = getParameterByName("orderDirection");
+    $('#approvals-table tr th').click(function() {
 
-        if (orderDirection == null) {
-            orderDirection = 'asc';
-        } else if (orderDirection == "asc") {
-            orderDirection = 'desc';
+        var field = $(this).html().replace(/ /, '');
+        var rows = $('#approvals-table tbody tr').length;
+        var isAscending = getParameterByName("isAscending");
+
+        if (isAscending == null) {
+            isAscending = true;
+        } else if (isAscending == "true") {
+            isAscending = false;
         } else {
-            orderDirection = 'asc';
+            isAscending = true;
         }
 
-        var class = orderDirection == 'asc' ? 'headerSortUp' : 'headerSortDown';
-        if (orderDirection != null) {
+        var class = isAscending == true ? 'headerSortUp' : 'headerSortDown';
+        if (isAscending != null) {
             $(this).addClass(class);
         }
 
-        window.location = 'TimeApproval.do?methodToCall=getSortedDocumentHeaders&orderBy=' + toCamelCase(field) + '&orderDirection=' + orderDirection + '&rows=' + rows;
+        window.location = 'TimeApproval.do?sortField=' + toCamelCase(field) + '&isAscending=' + isAscending + '&rows=' + rows;
     });
 
     // fetch more document headers

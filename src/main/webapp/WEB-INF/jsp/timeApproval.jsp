@@ -29,6 +29,7 @@
             <tr>
                 <th></th>
                 <th>Principal Name</th>
+                <th>Document Id</th>
                 <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
                     <th>${payCalLabel}</th>
                 </c:forEach>
@@ -46,6 +47,7 @@
                         <a href="TimeApproval.do?backdoorId=fran">${approveRow.name}<br/>${approveRow.clockStatusMessage}
                         </a>
                     </td>
+                    <td>${approveRow.documentId}</td>
                     <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
                         <td>${approveRow.hoursToPayLabelMap[payCalLabel]}</td>
                     </c:forEach>

@@ -27,7 +27,7 @@ public class TimeApprovalActionForm extends TkForm {
     private String term;
 
     private int rows = 5;
-    private String orderBy = TimeApprovalActionForm.ORDER_BY_PRINCIPAL;
+    private String sortField;
     private boolean ascending = true;
 
     /**
@@ -101,14 +101,6 @@ public class TimeApprovalActionForm extends TkForm {
         this.rows = rows;
     }
 
-    public String getOrderBy() {
-        return orderBy;
-    }
-
-    public void setOrderBy(String orderBy) {
-        this.orderBy = orderBy;
-    }
-
     public List<ApprovalTimeSummaryRow> getApprovalRows() {
         return approvalRows;
     }
@@ -123,5 +115,13 @@ public class TimeApprovalActionForm extends TkForm {
 
     public void setAscending(boolean ascending) {
         this.ascending = ascending;
+    }
+
+    public String getSortField() {
+        return sortField;
+    }
+
+    public void setSortField(String sortField) {
+        this.sortField = sortField;
     }
 }
