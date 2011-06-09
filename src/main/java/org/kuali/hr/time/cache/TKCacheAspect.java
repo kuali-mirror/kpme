@@ -22,32 +22,32 @@ public class TKCacheAspect {
 
 	@Around(value="@annotation(org.kuali.hr.time.cache.CacheResult) && @annotation(cacheResultAnnotation)", argNames="cacheResultAnnotation")
 	public Object accessCache(ProceedingJoinPoint pjp, CacheResult cacheResultAnnotation) throws Throwable {
-		if(StringUtils.isNotBlank(ConfigContext.getCurrentContextConfig().getProperty("test.mode")) &&
-			Boolean.parseBoolean(ConfigContext.getCurrentContextConfig().getProperty("test.mode"))){
+		//if(StringUtils.isNotBlank(ConfigContext.getCurrentContextConfig().getProperty("test.mode")) &&
+		//	Boolean.parseBoolean(ConfigContext.getCurrentContextConfig().getProperty("test.mode"))){
 			return pjp.proceed();
-		}
+		//}
 
-		GeneralCacheAdministrator cache = TkServiceLocator.getCacheManagerService().getCacheAdministrator();
-		String key = getKey(pjp.getArgs(), pjp.getTarget().getClass(), pjp.getSignature().getName());
-		try {
-			Object cachedObject = cache.getFromCache(key, cacheResultAnnotation.secondsRefreshPeriod());
-			synchronized(cachedObject) {
-				return SerializationUtils.clone((Serializable) cachedObject);
-			}
-		} catch (NeedsRefreshException nre) {
-			try {
-				Object entry = pjp.proceed(pjp.getArgs());
-				if (entry != null) {
-					cache.putInCache(key, entry, getGroups(pjp));
-				} else {
-					cache.cancelUpdate(key);
-				}
-				return entry;
-			} catch (Throwable t) {
-				cache.cancelUpdate(key);
-				throw t;
-			}
-		}
+//		GeneralCacheAdministrator cache = TkServiceLocator.getCacheManagerService().getCacheAdministrator();
+//		String key = getKey(pjp.getArgs(), pjp.getTarget().getClass(), pjp.getSignature().getName());
+//		try {
+//			Object cachedObject = cache.getFromCache(key, cacheResultAnnotation.secondsRefreshPeriod());
+//			synchronized(cachedObject) {
+//				return SerializationUtils.clone((Serializable) cachedObject);
+//			}
+//		} catch (NeedsRefreshException nre) {
+//			try {
+//				Object entry = pjp.proceed(pjp.getArgs());
+//				if (entry != null) {
+//					cache.putInCache(key, entry, getGroups(pjp));
+//				} else {
+//					cache.cancelUpdate(key);
+//				}
+//				return entry;
+//			} catch (Throwable t) {
+//				cache.cancelUpdate(key);
+//				throw t;
+//			}
+//		}
 	}
 
 	protected String getKey(Object[] args, Class<? extends Object> source, String methodName) {
