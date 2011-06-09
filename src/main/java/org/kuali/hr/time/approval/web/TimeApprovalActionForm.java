@@ -8,8 +8,8 @@ import java.util.List;
 
 public class TimeApprovalActionForm extends TkForm {
 
-    public static final String ORDER_BY_PRINCIPAL = "principalId";
-    public static final String ORDER_BY_DOCID = "documentId";
+    public static final String ORDER_BY_PRINCIPAL = "PrincipalName";
+    public static final String ORDER_BY_DOCID = "DocumentId";
 
     private static final long serialVersionUID = -173408280988754540L;
 

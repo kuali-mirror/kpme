@@ -161,7 +161,7 @@ $(document).ready(function() {
 
         var field = $(this).html().replace(/ /, '');
         var rows = $('#approvals-table tbody tr').length;
-        var isAscending = getParameterByName("isAscending");
+        var isAscending = getParameterByName("ascending");
 
         if (isAscending == null) {
             isAscending = true;
@@ -176,7 +176,7 @@ $(document).ready(function() {
             $(this).addClass(class);
         }
 
-        window.location = 'TimeApproval.do?sortField=' + toCamelCase(field) + '&isAscending=' + isAscending + '&rows=' + rows;
+        window.location = 'TimeApproval.do?sortField=' + field + '&ascending=' + isAscending + '&rows=' + rows;
     });
 
     // fetch more document headers

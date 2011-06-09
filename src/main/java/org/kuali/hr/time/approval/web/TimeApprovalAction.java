@@ -12,6 +12,7 @@ import org.kuali.hr.time.util.TKUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -74,6 +75,8 @@ public class TimeApprovalAction extends TkAction {
      * @return
      */
     List<ApprovalTimeSummaryRow> getApprovalRows(String sortField, boolean ascending, int rowsToReturn, Date beginDate, Date endDate) {
+        List<ApprovalTimeSummaryRow> rows = new ArrayList<ApprovalTimeSummaryRow>();
+
         // Relies on TkContext.getUser(), will work with backdoor users / etc.
         List<ApprovalTimeSummaryRow> allRows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(beginDate, endDate);
 
@@ -85,8 +88,10 @@ public class TimeApprovalAction extends TkAction {
             // unsorted?
         }
 
-        // TODO : Investigate more efficient row limiting. We're not really doing much here worthwhile.
-        return allRows;
+        // TODO : Investigate more efficient row limiting/filtering. We're not really doing much here worthwhile.
+        rows = allRows;
+
+        return rows;
     }
 
 }
