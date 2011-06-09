@@ -41,7 +41,7 @@
             <c:forEach var="approveRow" items="${Form.approvalRows}" varStatus="row">
                 <tr>
                     <td>
-                        <button class="expand" id="fran-button"></button>
+                        <tk:tkApprovalRowButtons appRow="${approveRow}"/>
                     </td>
                     <td>
                         <a href="TimeDetail.do?${approveRow.timesheetUserTargetURLParams}">${approveRow.name}<br/>${approveRow.clockStatusMessage}

@@ -171,13 +171,18 @@ $(document).ready(function() {
             isAscending = true;
         }
 
-        var class = isAscending == true ? 'headerSortUp' : 'headerSortDown';
-        if (isAscending != null) {
-            $(this).addClass(class);
-        }
-
         window.location = 'TimeApproval.do?sortField=' + field + '&ascending=' + isAscending + '&rows=' + rows;
     });
+
+    if (getParameterByName("ascending") != '') {
+        var class = getParameterByName("ascending") == "true" ? 'headerSortDown' : 'headerSortUp';
+
+        $('#approvals-table tr th').filter(
+                function(index) {
+                    return $(this).html().replace(/ /, '') == getParameterByName("sortField");
+                }).addClass(class);
+    }
+
 
     // fetch more document headers
     $('a#next').click(function() {

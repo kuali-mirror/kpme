@@ -5,8 +5,6 @@
 
 
 <div class="">
-
-    <div class="">
         <!-- Need to set the document ID so that TimesheetSubmit can find it -->
         <c:choose>
             <c:when test="${appRow.approvable}">
@@ -16,10 +14,4 @@
                 <input disabled id="ts-approve-button" type="button" class="button" value="Approve" name="approve"/>
             </c:otherwise>
         </c:choose>
-    </div>
-
-    <div class="">
-        <input type="button" id="ts-ts-view" class="button" value="View Timesheet" name="timesheetView" onclick="location.href='TimeDetail.do?action=${appRow.timesheetUserTargetURLParams}'"/>
-    </div>
-
 </div>
