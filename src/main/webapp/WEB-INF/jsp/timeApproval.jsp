@@ -10,13 +10,13 @@
             Search By :
             <label for="search field">
                 <select id="searchField" name="searchField">
-                    <option value="documentId">Document ID</option>
-                    <option value="principalId">Principal ID</option>
+                    <option value="DocumentId">Document Id</option>
+                    <option value="PrincipalName">Principal Name</option>
                 </select>
             </label>
             Value :
             <label for="search value">
-                <input id="searchValue" name="searchValue" type="text" size="" placeholder="enter at least 3 chars"/>
+                <input id="searchValue" name="searchValue" type="text" placeholder="enter at least 3 chars"/>
             </label>
         </div>
         <table id="approvals-table" class="tablesorter">

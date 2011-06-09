@@ -24,7 +24,7 @@ public class TimeApprovalActionForm extends TkForm {
     private String outputString;
 
     private String searchField;
-    private String term;
+    private String searchTerm;
 
     private int rows = 5;
     private String sortField;
@@ -85,12 +85,12 @@ public class TimeApprovalActionForm extends TkForm {
         this.searchField = searchField;
     }
 
-    public String getTerm() {
-        return term;
+    public String getSearchTerm() {
+        return searchTerm;
     }
 
-    public void setTerm(String term) {
-        this.term = term;
+    public void setSearchTerm(String searchTerm) {
+        this.searchTerm = searchTerm;
     }
 
     public int getRows() {

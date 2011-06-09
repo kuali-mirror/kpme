@@ -1,33 +1,25 @@
 package org.kuali.hr.time.approval.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
+import org.kuali.hr.time.approval.web.TimeApprovalActionForm;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.util.*;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 	/**
@@ -198,6 +190,25 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		}
 		return hoursToPayLabelMap;
 	}
+
+    @Override
+    public List<String> searchApprovalRows(List<ApprovalTimeSummaryRow> approvalRows, String field, String value) {
+         List<String> results = new ArrayList<String>();
+        for (ApprovalTimeSummaryRow row : approvalRows) {
+            if (StringUtils.equals(field, TimeApprovalActionForm.ORDER_BY_DOCID) &&
+                    row.getDocumentId().contains(value)) {
+
+                results.add(row.getDocumentId());
+            } else if (StringUtils.equals(field, TimeApprovalActionForm.ORDER_BY_PRINCIPAL) &&
+                    row.getName().toLowerCase().contains(value)) {
+
+                results.add(row.getName());
+            }
+
+        }
+
+        return results;
+    }
 
 
 }

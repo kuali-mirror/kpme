@@ -230,10 +230,11 @@ $(document).ready(function() {
                 // For some reason, when I use the $('#searchField').val() in the line below,
                 // it always gets the first option value instead of the selected one.
                 // Therefore, I have to use a callback function to feed the source and handle the respone/request by myself.
+
                 //source: "TimeApproval.do?methodToCall=searchDocumentHeaders" + $('#searchField').val(),
                 source: function(request, response) {
 
-                    $.post('TimeApproval.do?methodToCall=searchDocumentHeaders&searchField=' + $('#searchField').val() + '&term=' + request.term,
+                    $.post('TimeApproval.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term,
                             function(data) {
                                 response($.map(jQuery.parseJSON(data), function(item) {
                                     return {
@@ -244,12 +245,11 @@ $(document).ready(function() {
                 },
                 minLength: 3,
                 select: function(event, data) {
-                    var rows = $('#approval tbody tr').length;
-                    var orderBy = getParameterByName("orderBy");
-                    var orderDirection = getParameterByName("orderDirection");
+                    var rows = $('#approvals-table tbody tr').length;
+                    var isAscending = getParameterByName("ascending");
 
-                    window.location = 'TimeApproval.do?orderBy=' + toCamelCase(orderBy) + '&orderDirection=' + orderDirection + '&rows=' + rows +
-                            '&searchField=' + $('#searchField').val() + '&term=' + data.item.value;
+                    window.location = 'TimeApproval.do?searchField=' + $('#searchField').val() + '&searchTerm=' + data.item.value +
+                            'sortField=' + $('#searchField').val() + '&ascending=' + isAscending + '&rows=' + rows;
                 },
                 open: function() {
                     $(this).removeClass("ui-corner-all");

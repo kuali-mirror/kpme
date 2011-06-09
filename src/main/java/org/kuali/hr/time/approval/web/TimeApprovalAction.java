@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.json.simple.JSONValue;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -56,17 +57,18 @@ public class TimeApprovalAction extends TkAction {
     /**
      * Action called via AJAX. (ajaj really...)
      */
-    public ActionForward searchDocumentHeaders(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward searchApprovalRows(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
 
-        // TODO : Figure out how we want to implement this, multiple options...
-        //taaf.setOutputString(JSONValue.toJSONString(results));
+        List<String> results = TkServiceLocator.getTimeApproveService().searchApprovalRows(taaf.getApprovalRows(), taaf.getSearchField(), taaf.getSearchTerm());
+        taaf.setOutputString(JSONValue.toJSONString(results));
 
         return mapping.findForward("ws");
     }
 
     /**
      * Helper method to modify / manage the list of records needed to display approval data to the user.
+     *
      * @param sortField
      * @param ascending
      * @param rowsToReturn
