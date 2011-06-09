@@ -153,4 +153,9 @@ public class TkRoleServiceImpl implements TkRoleService {
 
         return principals;
     }
+
+	@Override
+	public TkRole getRole(Long tkRoleId) {
+		return tkRoleDao.getRole(tkRoleId);
+	}
 }

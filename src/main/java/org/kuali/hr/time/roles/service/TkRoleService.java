@@ -107,5 +107,10 @@ public interface TkRoleService {
      * @return A Set of String principal IDs.
      */
     public Set<String> getActivePrinciaplsForWorkAreas(Set<Long> workAreas, Date asOfDate);
+    
+    /**
+     * Fetches Role by primary key
+     */
+    public TkRole getRole(Long tkRoleId);
 
 }

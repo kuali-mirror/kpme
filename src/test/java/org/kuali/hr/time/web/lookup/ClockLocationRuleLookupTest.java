@@ -1,8 +1,11 @@
 package org.kuali.hr.time.web.lookup;
 
+import java.sql.Date;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
@@ -33,6 +36,8 @@ public class ClockLocationRuleLookupTest extends TkTestCase {
     	clr.setActive(true);
     	clr.setDept("12345");
     	clr.setIpAddress("ipaddress");
+    	Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+    	clr.setEffectiveDate(asOfDate);
     	boService.save(clr);
     }
     
@@ -51,6 +56,7 @@ public class ClockLocationRuleLookupTest extends TkTestCase {
     	assertNotNull("Could not locate search submit button", input);
     	page = (HtmlPage) input.click();
     	assertNotNull("Page not returned from click.", page);
+    	HtmlUnitUtil.createTempFile(page);
     	assertTrue("Expected one result.", StringUtils.contains(page.asText(), "One item retrieved"));
     	
     	page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);

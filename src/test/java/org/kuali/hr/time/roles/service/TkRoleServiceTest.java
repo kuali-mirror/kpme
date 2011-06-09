@@ -24,8 +24,8 @@ public class TkRoleServiceTest  extends TkTestCase {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(TkRoleServiceTest.class);	
 	
-	
-	
+	Long posNumber = null;
+	Long posRoleId = null;
 	
 	@Test
 	public void testGetWorkAreaRoles() throws Exception {
@@ -153,12 +153,13 @@ public class TkRoleServiceTest  extends TkTestCase {
 		 tkRole.setPositionNumber(posNumber);
 		 
 		 TkServiceLocator.getTkRoleService().saveOrUpdate(tkRole);
-	
+		 posRoleId = tkRole.getTkRolesId();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		// TODO Auto-generated method stub
+		TkRole tkRole = TkServiceLocator.getTkRoleService().getRole(posRoleId);
+		KNSServiceLocator.getBusinessObjectService().delete(tkRole);
 		super.tearDown();
 	}
 }
