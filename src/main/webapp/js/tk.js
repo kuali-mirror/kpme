@@ -174,6 +174,14 @@ $(document).ready(function() {
         window.location = 'TimeApproval.do?sortField=' + field + '&ascending=' + isAscending + '&rows=' + rows;
     });
 
+    /**
+     * render the sorting icons
+     */
+    $('#approvals-table tr th').filter(
+            function(index) {
+                return $(this).html().replace(/ /, '') == "DocumentId" || $(this).html().replace(/ /, '') == "PrincipalName";
+            }).addClass("sort");
+
     if (getParameterByName("ascending") != '') {
         var class = getParameterByName("ascending") == "true" ? 'headerSortDown' : 'headerSortUp';
 
