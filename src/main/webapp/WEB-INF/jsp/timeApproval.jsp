@@ -44,7 +44,7 @@
                         <button class="expand" id="fran-button"></button>
                     </td>
                     <td>
-                        <a href="TimeApproval.do?backdoorId=fran">${approveRow.name}<br/>${approveRow.clockStatusMessage}
+                        <a href="TimeDetail.do?action=${approveRow.timesheetUserTargetURLParams}">${approveRow.name}<br/>${approveRow.clockStatusMessage}
                         </a>
                     </td>
                     <td>${approveRow.documentId}</td>
