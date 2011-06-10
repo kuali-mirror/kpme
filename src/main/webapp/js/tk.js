@@ -179,7 +179,7 @@ $(document).ready(function() {
      */
     $('#approvals-table tr th').filter(
             function(index) {
-                return $(this).html().replace(/ /, '') == "DocumentId" || $(this).html().replace(/ /, '') == "PrincipalName";
+                return $(this).html().replace(/ /, '') == "DocumentId" || $(this).html().replace(/ /, '') == "PrincipalName" || $(this).html().replace(/ /, '') == "Status";
             }).addClass("sort");
 
     if (getParameterByName("ascending") != '') {

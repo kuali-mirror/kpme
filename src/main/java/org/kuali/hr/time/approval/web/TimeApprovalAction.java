@@ -86,6 +86,8 @@ public class TimeApprovalAction extends TkAction {
             Collections.sort(allRows, new ApprovalTimeSummaryRowPrincipalComparator(ascending));
         } else if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_DOCID)) {
             Collections.sort(allRows, new ApprovalTimeSummaryRowDocIdComparator(ascending));
+        } else if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_STATUS)) {
+            Collections.sort(allRows, new ApprovalTimeSummaryRowStatusComparator(ascending));
         } else {
             // unsorted?
         }

@@ -10,6 +10,7 @@ public class TimeApprovalActionForm extends TkForm {
 
     public static final String ORDER_BY_PRINCIPAL = "PrincipalName";
     public static final String ORDER_BY_DOCID = "DocumentId";
+    public static final String ORDER_BY_STATUS = "Status";
 
     private static final long serialVersionUID = -173408280988754540L;
 
