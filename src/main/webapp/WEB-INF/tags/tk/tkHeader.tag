@@ -42,7 +42,7 @@
                             <a href="?methodToCall=clearBackdoor" style="font-size: .8em;">Remove backdoor</a> |
                         </c:if>
                         <c:if test="${form.user.targetPerson ne null}">
-                            <a href="?useTargetUser=false" style="font-size: .8em;">Remove target user</a> |
+                            <a href="?methodToCall=clearTargetUser" style="font-size: .8em;">Remove target user</a> |
                         </c:if>
                         <a href="<%=request.getContextPath() %>/Logout.do" style="font-size: .8em;">Logout</a>
                     </td>

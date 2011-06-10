@@ -99,12 +99,14 @@ public class TKRequestProcessor extends KualiRequestProcessor {
      * @param user
      */
     private void handleTargetUser(HttpServletRequest request, TKUser user) {
+        String referer = request.getHeader("referer");
         String useTargetUser = request.getParameter("useTargetUser");
         String documentId = request.getParameter("documentId");
         String targetPrincipal = null;
 
         if (request.getSession(false) != null) {
            targetPrincipal = (String)request.getSession(false).getAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY);
+
         }
 
         if (StringUtils.equalsIgnoreCase(useTargetUser, "true")) {
@@ -113,6 +115,7 @@ public class TKRequestProcessor extends KualiRequestProcessor {
                 TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
                 targetPrincipal = tdh.getPrincipalId();
                 request.getSession(false).setAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY, targetPrincipal);
+                request.getSession(false).setAttribute(TkConstants.TK_REFERRAL_URL_KEY, referer);
             }
         } else if (StringUtils.equalsIgnoreCase(useTargetUser, "false")) {
             request.getSession(false).removeAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY);
