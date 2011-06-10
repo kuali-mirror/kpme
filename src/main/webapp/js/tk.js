@@ -205,16 +205,6 @@ $(document).ready(function() {
                         //window.scrollTo(0, $('a#next').position().top);
                         // append the data to the table body through ajax
                         $('#approval tbody').append(data);
-                        // let the plugin know that we made a update
-                        //$('#approval').trigger('update');
-                        // An array of instructions for per-column sorting and direction in the format: [[columnIndex, sortDirection], ... ]
-                        // where columnIndex is a zero-based index for your columns left-to-right and sortDirection is 0 for Ascending and 1 for Descending.
-                        // A valid argument that sorts ascending first by column 1 and then column 2 looks like: [[0,0],[1,0]]
-                        var sorting = [
-                            [0,0]
-                        ];
-                        // sort on the first column
-                        //$('#approval').trigger('sorton', [sorting]);
                     }
                     else {
                         // if there is no more document available, remove the link and scroll to the bottom
@@ -234,9 +224,10 @@ $(document).ready(function() {
                 //source: "TimeApproval.do?methodToCall=searchDocumentHeaders" + $('#searchField').val(),
                 source: function(request, response) {
 
-                    $.post('TimeApproval.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term,
+                    $.post('TimeApproval.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term + '&ajaxCall=true',
                             function(data) {
                                 response($.map(jQuery.parseJSON(data), function(item) {
+                                    console.log(item);
                                     return {
                                         value: item
                                     }
@@ -249,7 +240,7 @@ $(document).ready(function() {
                     var isAscending = getParameterByName("ascending");
 
                     window.location = 'TimeApproval.do?searchField=' + $('#searchField').val() + '&searchTerm=' + data.item.value +
-                            'sortField=' + $('#searchField').val() + '&ascending=' + isAscending + '&rows=' + rows;
+                            '&sortField=' + $('#searchField').val() + '&ascending=' + isAscending + '&rows=' + rows;
                 },
                 open: function() {
                     $(this).removeClass("ui-corner-all");

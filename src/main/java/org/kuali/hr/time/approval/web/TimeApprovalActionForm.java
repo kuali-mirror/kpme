@@ -30,6 +30,7 @@ public class TimeApprovalActionForm extends TkForm {
     private int rows = 5;
     private String sortField;
     private boolean ascending = true;
+    private boolean ajaxCall = false;
 
     /**
      * Gets the name of the user that this row represents.
@@ -124,5 +125,13 @@ public class TimeApprovalActionForm extends TkForm {
 
     public void setSortField(String sortField) {
         this.sortField = sortField;
+    }
+
+    public boolean isAjaxCall() {
+        return ajaxCall;
+    }
+
+    public void setAjaxCall(boolean ajaxCall) {
+        this.ajaxCall = ajaxCall;
     }
 }

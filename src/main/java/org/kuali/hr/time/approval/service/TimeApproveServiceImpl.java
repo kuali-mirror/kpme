@@ -6,7 +6,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
-import org.kuali.hr.time.approval.web.TimeApprovalActionForm;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.clocklog.ClockLog;
@@ -190,25 +189,4 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		}
 		return hoursToPayLabelMap;
 	}
-
-    @Override
-    public List<String> searchApprovalRows(List<ApprovalTimeSummaryRow> approvalRows, String field, String value) {
-         List<String> results = new ArrayList<String>();
-        for (ApprovalTimeSummaryRow row : approvalRows) {
-            if (StringUtils.equals(field, TimeApprovalActionForm.ORDER_BY_DOCID) &&
-                    row.getDocumentId().contains(value)) {
-
-                results.add(row.getDocumentId());
-            } else if (StringUtils.equals(field, TimeApprovalActionForm.ORDER_BY_PRINCIPAL) &&
-                    row.getName().toLowerCase().contains(value)) {
-
-                results.add(row.getName());
-            }
-
-        }
-
-        return results;
-    }
-
-
 }

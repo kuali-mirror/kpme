@@ -10,6 +10,7 @@
             Search By :
             <label for="search field">
                 <select id="searchField" name="searchField">
+                    <option value="">-- Select a filed --</option>
                     <option value="DocumentId">Document Id</option>
                     <option value="PrincipalName">Principal Name</option>
                 </select>
