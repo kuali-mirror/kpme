@@ -32,7 +32,9 @@ public class GracePeriodServiceImpl implements GracePeriodService {
 			//go ahead and round off seconds
 			actualTime.setSeconds(0);
 			
-			BigDecimal minuteIncrement = gracePeriodRule.getHourFactor();
+			//BigDecimal minuteIncrement = gracePeriodRule.getHourFactor();
+			// xichen. 06/13/11
+			BigDecimal minuteIncrement = gracePeriodRule.getHourFactor().multiply(new BigDecimal(60));
 			BigDecimal minutes = new BigDecimal(actualTime.getMinutes());
 			int bottomIntervalFactor = minutes.divide(minuteIncrement, 0, BigDecimal.ROUND_FLOOR).intValue();
 			BigDecimal bottomInterval = new BigDecimal(bottomIntervalFactor).multiply(minuteIncrement);
