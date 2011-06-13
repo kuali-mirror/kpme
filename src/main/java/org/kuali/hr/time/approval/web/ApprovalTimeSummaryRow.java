@@ -17,6 +17,7 @@ public class ApprovalTimeSummaryRow {
 	private String documentId;
 	private Map<String,BigDecimal> hoursToPayLabelMap = new HashMap<String,BigDecimal>();
 	private String clockStatusMessage;
+    private String payCalendarGroup;
 
 	public String getName() {
 		return name;
@@ -54,6 +55,14 @@ public class ApprovalTimeSummaryRow {
 	public String getClockStatusMessage() {
 		return clockStatusMessage;
 	}
+
+    public String getPayCalendarGroup() {
+        return payCalendarGroup;
+    }
+
+    public void setPayCalendarGroup(String payCalendarGroup) {
+        this.payCalendarGroup = payCalendarGroup;
+    }
 
     /**
      * Is this record initiated?

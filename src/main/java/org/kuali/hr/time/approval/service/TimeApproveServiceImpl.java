@@ -21,6 +21,69 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
+
+
+    @Override
+    public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsByCalendarGroup(Date payBeginDate, Date payEndDate, String calGroup) {
+        Map<String, List<ApprovalTimeSummaryRow>> mappedRows = new HashMap<String, List<ApprovalTimeSummaryRow>>();
+
+        TKUser tkUser = TKContext.getUser();
+        Set<Long> approverWorkAreas = tkUser.getActualPersonRoles().getApproverWorkAreas();
+        List<Assignment> lstEmployees = new ArrayList<Assignment>();
+
+        for(Long workArea : approverWorkAreas){
+            if(workArea != null){
+                lstEmployees.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, TKUtils.getCurrentDate()));
+            }
+        }
+        if (!lstEmployees.isEmpty()) {
+            List<String> userIds = new ArrayList<String>();
+            List<String> clockUsers = new ArrayList<String>();
+            for (Assignment assign : lstEmployees) {
+                if (!userIds.contains(assign.getPrincipalId())) {
+                    userIds.add(assign.getPrincipalId());
+
+                    // TODO: What are we storing this clockUsers list for?
+                    if (assign.getTimeCollectionRule().isClockUserFl()) {
+                        clockUsers.add(assign.getPrincipalId());
+                    }
+                }
+            }
+            for (String principalId : userIds) {
+                TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
+                if (tdh != null) {
+                    String calendarGroup = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, payBeginDate).getCalendarGroup();
+                    if (calGroup != null && !StringUtils.equals(calGroup, calendarGroup)) {
+                        // Skip this calendar group
+                        continue;
+                    }
+                    List<ApprovalTimeSummaryRow> rows = mappedRows.get(calendarGroup);
+                    if (rows == null) {
+                        rows = new ArrayList<ApprovalTimeSummaryRow>();
+                        mappedRows.put(calendarGroup, rows);
+                    }
+
+                    String documentId = tdh.getDocumentId();
+                    Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
+                    List<TimeBlock> lstTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(documentId));
+                    Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(principalId, payBeginDate, getPayCalendarLabelsForApprovalTab(payBeginDate,payEndDate), lstTimeBlocks);
+
+                    ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
+                    approvalSummaryRow.setName(person.getName());
+                    approvalSummaryRow.setPayCalendarGroup(calendarGroup);
+                    approvalSummaryRow.setDocumentId(documentId);
+                    approvalSummaryRow.setLstTimeBlocks(lstTimeBlocks);
+                    approvalSummaryRow.setApprovalStatus(tdh.getDocumentStatus());
+                    approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
+                    approvalSummaryRow.setClockStatusMessage(createLabelForLastClockLog(principalId));
+                    rows.add(approvalSummaryRow);
+                }
+            }
+        }
+
+        return mappedRows;
+    }
+
 	/**
 	 * Populate the Summary rows based on the user and begin and end date
 	 */
@@ -28,58 +91,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate) {
 		List<ApprovalTimeSummaryRow> lstApprovalRows = new ArrayList<ApprovalTimeSummaryRow>();
 
-		TKUser tkUser = TKContext.getUser();
-		Set<Long> approverWorkAreas = tkUser.getActualPersonRoles().getApproverWorkAreas();
-		List<Assignment> lstEmployees = new ArrayList<Assignment>();
+        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsByCalendarGroup(payBeginDate, payEndDate, null);
+        for (List<ApprovalTimeSummaryRow> list : mrows.values()) {
+            lstApprovalRows.addAll(list);
+        }
 
-		for(Long workArea : approverWorkAreas){
-			if(workArea != null){
-				lstEmployees.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, TKUtils.getCurrentDate()));
-			}
-		}
-		if (!lstEmployees.isEmpty()) {
-			List<String> userIds = new ArrayList<String>();
-			List<String> clockUsers = new ArrayList<String>();
-			for (Assignment assign : lstEmployees) {
-				if (!userIds.contains(assign.getPrincipalId())) {
-					userIds.add(assign.getPrincipalId());
-
-					if (assign.getTimeCollectionRule().isClockUserFl()) {
-						clockUsers.add(assign.getPrincipalId());
-					}
-				}
-			}
-			for (String principalId : userIds) {
-				TimesheetDocumentHeader tdh = TkServiceLocator
-						.getTimesheetDocumentHeaderService().getDocumentHeader(
-								principalId, payBeginDate, payEndDate);
-				if (tdh != null) {
-					String documentId = tdh.getDocumentId();
-					Person person = KIMServiceLocator.getPersonService()
-							.getPerson(principalId);
-					List<TimeBlock> lstTimeBlocks = TkServiceLocator
-							.getTimeBlockService().getTimeBlocks(
-									Long.parseLong(documentId));
-					Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
-							principalId,
-							payBeginDate,
-							getPayCalendarLabelsForApprovalTab(payBeginDate,
-									payEndDate), lstTimeBlocks);
-
-					ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
-					approvalSummaryRow.setName(person.getName());
-					approvalSummaryRow.setDocumentId(documentId);
-					approvalSummaryRow.setLstTimeBlocks(lstTimeBlocks);
-					approvalSummaryRow.setApprovalStatus(tdh
-							.getDocumentStatus());
-					approvalSummaryRow
-							.setHoursToPayLabelMap(hoursToPayLabelMap);
-					approvalSummaryRow
-							.setClockStatusMessage(createLabelForLastClockLog(principalId));
-					lstApprovalRows.add(approvalSummaryRow);
-				}
-			}
-		}
 		return lstApprovalRows;
 	}
 	/**

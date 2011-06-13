@@ -32,7 +32,7 @@ public class TimeApprovalAction extends TkAction {
 
         taaf.setName(user.getPrincipalName());
         taaf.setApprovalRows(getApprovalRows(taaf.isAjaxCall(), taaf.getSearchField(), taaf.getSearchTerm(), taaf.getSortField(),
-                taaf.isAscending(), taaf.getRows(), taaf.getPayBeginDate(), taaf.getPayEndDate()));
+                taaf.isAscending(), taaf.getRows(), taaf.getPayBeginDate(), taaf.getPayEndDate(), taaf.getPayCalendarGroup()));
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
 
         return super.execute(mapping, form, request, response);
@@ -57,6 +57,9 @@ public class TimeApprovalAction extends TkAction {
 
     /**
      * Action called via AJAX. (ajaj really...)
+     *
+     * This search returns quick-results to the search box for the user to further
+     * refine upon. The end value can then be form submitted.
      */
     public ActionForward searchApprovalRows(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
@@ -94,41 +97,47 @@ public class TimeApprovalAction extends TkAction {
      * @return
      */
     List<ApprovalTimeSummaryRow> getApprovalRows(boolean isAjaxCall, String searchField, String searchTerm, String sortField,
-                                                 boolean ascending, int rowsToReturn, Date beginDate, Date endDate) {
-        List<ApprovalTimeSummaryRow> rows = new ArrayList<ApprovalTimeSummaryRow>();
-
-        // Relies on TkContext.getUser(), will work with backdoor users / etc.
-        List<ApprovalTimeSummaryRow> allRows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(beginDate, endDate);
-
-        List<ApprovalTimeSummaryRow> filteredRows = new ArrayList<ApprovalTimeSummaryRow>();
+                                                 boolean ascending, int rowsToReturn, Date beginDate, Date endDate, String payCalendarGroup) {
+        // TODO: Handle pay calendar group.
+        List<ApprovalTimeSummaryRow> rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(beginDate, endDate);
 
         if (!isAjaxCall && StringUtils.isNotBlank(searchField) && StringUtils.isNotBlank(searchTerm)) {
-            for (ApprovalTimeSummaryRow row : allRows) {
-                if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_DOCID) &&
-                        row.getDocumentId().contains(searchTerm)) {
-                    filteredRows.add(row);
-                } else if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_PRINCIPAL) &&
-                        row.getName().contains(searchTerm)) {
-                    filteredRows.add(row);
-                }
-            }
-            allRows = filteredRows;
+            rows = searchApprovalRows(rows, searchField, searchTerm);
         }
 
-        if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
-            Collections.sort(allRows, new ApprovalTimeSummaryRowPrincipalComparator(ascending));
-        } else if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_DOCID)) {
-            Collections.sort(allRows, new ApprovalTimeSummaryRowDocIdComparator(ascending));
-        } else if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_STATUS)) {
-            Collections.sort(allRows, new ApprovalTimeSummaryRowStatusComparator(ascending));
-        } else {
-            // unsorted?
-        }
+        sortApprovalRows(rows, sortField, ascending);
 
-        // TODO : Investigate more efficient row limiting/filtering. We're not really doing much here worthwhile.
-        rows = allRows;
+        // TODO: count limit the rows.
 
         return rows;
+    }
+
+    List<ApprovalTimeSummaryRow> searchApprovalRows(List<ApprovalTimeSummaryRow> rows, String searchField, String searchTerm) {
+        List<ApprovalTimeSummaryRow> filteredRows = new ArrayList<ApprovalTimeSummaryRow>();
+
+        for (ApprovalTimeSummaryRow row : rows) {
+            if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_DOCID) && row.getDocumentId().contains(searchTerm)) {
+                filteredRows.add(row);
+            } else if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_PRINCIPAL) && row.getName().contains(searchTerm)) {
+                filteredRows.add(row);
+            }
+        }
+
+        return filteredRows;
+    }
+
+    void sortApprovalRows(List<ApprovalTimeSummaryRow> rows, String sortField, boolean ascending) {
+        if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
+            Collections.sort(rows, new ApprovalTimeSummaryRowPrincipalComparator(ascending));
+        } else if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_DOCID)) {
+            Collections.sort(rows, new ApprovalTimeSummaryRowDocIdComparator(ascending));
+        } else if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_STATUS)) {
+            Collections.sort(rows, new ApprovalTimeSummaryRowStatusComparator(ascending));
+        }
+    }
+
+    List<ApprovalTimeSummaryRow> filterCalendarType(String calendarType) {
+        return null;
     }
 
 }
