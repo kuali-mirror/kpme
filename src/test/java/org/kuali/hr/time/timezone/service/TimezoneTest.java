@@ -28,6 +28,6 @@ public class TimezoneTest extends TkTestCase {
     	// clock out 
     	page = TkTestUtils.clickButton(page, "clockAction");
     	HtmlUnitUtil.createTempFile(page);
-    	assertTrue("Time zone information is incorrect", page.asText().contains("Central Daylight Time"));
+    	assertTrue("Time zone information is incorrect", page.asText().contains("Central Standard Time"));
 	}
 }
