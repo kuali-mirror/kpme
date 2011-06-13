@@ -48,11 +48,11 @@ public class GracePeriodRuleServiceTest extends TkTestCase{
 		Timestamp beginDateTime = new Timestamp((new DateTime(2010, 10, 16, 12, 3, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		Timestamp derivedTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, new Date(System.currentTimeMillis()));
 
-		assertTrue("rounded to 1:06", derivedTimestamp.getMinutes()==6);
+		assertTrue("rounded to 1:03", derivedTimestamp.getMinutes()==3);
 		
 		beginDateTime = new Timestamp((new DateTime(2010, 10, 16, 12, 56, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		derivedTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(beginDateTime, new Date(System.currentTimeMillis()));
 
-		assertTrue("rounded to 1:56", derivedTimestamp.getMinutes()==54);
+		assertTrue("rounded to 1:56", derivedTimestamp.getMinutes()==56);
 	}
 }
