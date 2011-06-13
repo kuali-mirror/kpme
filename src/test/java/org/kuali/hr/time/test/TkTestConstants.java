@@ -85,6 +85,8 @@ public final class TkTestConstants {
 		public static final String CLOCK_URL = BASE_URL + "/Clock.do";
 		
 		public static final String TIME_DETAIL_URL = BASE_URL + "/TimeDetail.do";
+		
+		public static final String PERSON_INFO_URL = BASE_URL + "/PersonInfo.do";
 	}
 	
 	public static class FormElementTypes {
