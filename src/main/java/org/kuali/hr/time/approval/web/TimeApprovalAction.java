@@ -97,9 +97,10 @@ public class TimeApprovalAction extends TkAction {
 
         sortApprovalRows(rows, taaf.getSortField(), taaf.isAscending());
 
-        // TODO: count limit the rows.
+        // Create a sublist view backed by the actual list.
+        int limit = (taaf.getRowsToShow() > rows.size()) ? rows.size() : taaf.getRowsToShow();
 
-        return rows;
+        return rows.subList(0, limit);
     }
 
     List<ApprovalTimeSummaryRow> searchApprovalRows(List<ApprovalTimeSummaryRow> rows, String searchField, String searchTerm) {
