@@ -31,8 +31,7 @@ public class TimeApprovalAction extends TkAction {
         taaf.setPayEndDate(TKUtils.createDate(6, 12, 2011, 0, 0, 0));
 
         taaf.setName(user.getPrincipalName());
-        taaf.setApprovalRows(getApprovalRows(taaf.isAjaxCall(), taaf.getSearchField(), taaf.getSearchTerm(), taaf.getSortField(),
-                taaf.isAscending(), taaf.getRows(), taaf.getPayBeginDate(), taaf.getPayEndDate(), taaf.getPayCalendarGroup()));
+        taaf.setApprovalRows(getApprovalRows(taaf));
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
 
         return super.execute(mapping, form, request, response);
@@ -86,26 +85,17 @@ public class TimeApprovalAction extends TkAction {
     /**
      * Helper method to modify / manage the list of records needed to display approval data to the user.
      *
-     * @param isAjaxCall this is to determine if the request is coming from an ajax call or not
-     * @param searchField
-     * @param searchTerm
-     * @param sortField
-     * @param ascending
-     * @param rowsToReturn
-     * @param beginDate
-     * @param endDate
      * @return
      */
-    List<ApprovalTimeSummaryRow> getApprovalRows(boolean isAjaxCall, String searchField, String searchTerm, String sortField,
-                                                 boolean ascending, int rowsToReturn, Date beginDate, Date endDate, String payCalendarGroup) {
+    List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf) {
         // TODO: Handle pay calendar group.
-        List<ApprovalTimeSummaryRow> rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(beginDate, endDate);
+        List<ApprovalTimeSummaryRow> rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate());
 
-        if (!isAjaxCall && StringUtils.isNotBlank(searchField) && StringUtils.isNotBlank(searchTerm)) {
-            rows = searchApprovalRows(rows, searchField, searchTerm);
+        if (!taaf.isAjaxCall() && StringUtils.isNotBlank(taaf.getSearchField()) && StringUtils.isNotBlank(taaf.getSearchTerm())) {
+            rows = searchApprovalRows(rows, taaf.getSearchField(), taaf.getSearchTerm());
         }
 
-        sortApprovalRows(rows, sortField, ascending);
+        sortApprovalRows(rows, taaf.getSortField(), taaf.isAscending());
 
         // TODO: count limit the rows.
 

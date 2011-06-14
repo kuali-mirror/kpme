@@ -23,6 +23,32 @@ import java.util.*;
 public class TimeApproveServiceImpl implements TimeApproveService {
 
 
+    public Set<String> getApproverPayCalendarGroups(Date payBeginDate, Date payEndDate) {
+        HashSet<String> pcg = new HashSet<String>();
+
+        TKUser tkUser = TKContext.getUser();
+        Set<Long> approverWorkAreas = tkUser.getActualPersonRoles().getApproverWorkAreas();
+        List<Assignment> assignments = new ArrayList<Assignment>();
+
+        for(Long workArea : approverWorkAreas){
+            if(workArea != null){
+                assignments.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, TKUtils.getCurrentDate()));
+            }
+        }
+        if (!assignments.isEmpty()) {
+            for (Assignment assign : assignments) {
+                String principalId = assign.getPrincipalId();
+                TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
+                if (tdh != null) {
+                    String calendarGroup = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, payBeginDate).getCalendarGroup();
+                    pcg.add(calendarGroup);
+                }
+            }
+        }
+
+        return pcg;
+    }
+
     @Override
     public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsByCalendarGroup(Date payBeginDate, Date payEndDate, String calGroup) {
         Map<String, List<ApprovalTimeSummaryRow>> mappedRows = new HashMap<String, List<ApprovalTimeSummaryRow>>();
