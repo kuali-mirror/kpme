@@ -555,9 +555,6 @@ select {
     display: none;
 }
 
-#documents {
-}
-
 table.tablesorter {
     background-color: #CDCDCD;
     margin: 10px 0pt 15px;
@@ -599,4 +596,14 @@ table.tablesorter thead tr .headerSortDown {
 
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
     background-color: #8dbdd8;
+}
+
+#searchDocuments {
+    margin: 5px 0 5px 0;
+    width: 100%;
+    clear: both;
+}
+
+#payCalendarGroups {
+    float: right;
 }

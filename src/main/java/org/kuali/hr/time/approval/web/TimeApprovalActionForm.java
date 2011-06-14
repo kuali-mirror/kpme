@@ -28,7 +28,8 @@ public class TimeApprovalActionForm extends TkForm {
     private String searchField;
     private String searchTerm;
 
-    private int rows = 5;
+    private int rowsToShow = 5;
+    private int rowsInTotal;
     private String sortField;
     private boolean ascending = true;
     private boolean ajaxCall = false;
@@ -96,12 +97,12 @@ public class TimeApprovalActionForm extends TkForm {
         this.searchTerm = searchTerm;
     }
 
-    public int getRows() {
-        return rows;
+    public int getRowsToShow() {
+        return rowsToShow;
     }
 
-    public void setRows(int rows) {
-        this.rows = rows;
+    public void setRowsToShow(int rowsToShow) {
+        this.rowsToShow = rowsToShow;
     }
 
     public List<ApprovalTimeSummaryRow> getApprovalRows() {
@@ -142,5 +143,13 @@ public class TimeApprovalActionForm extends TkForm {
 
     public void setPayCalendarGroup(String payCalendarGroup) {
         this.payCalendarGroup = payCalendarGroup;
+    }
+
+    public int getRowsInTotal() {
+        return rowsInTotal;
+    }
+
+    public void setRowsInTotal(int rowsInTotal) {
+        this.rowsInTotal = rowsInTotal;
     }
 }

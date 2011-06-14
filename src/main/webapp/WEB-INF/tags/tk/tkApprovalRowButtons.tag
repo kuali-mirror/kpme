@@ -4,7 +4,7 @@
 <%@ attribute name="appRow" required="true" type="org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow"%>
 
 
-<div class="">
+<div id="actions">
         <!-- Need to set the document ID so that TimesheetSubmit can find it -->
         <c:choose>
             <c:when test="${appRow.approvable}">
