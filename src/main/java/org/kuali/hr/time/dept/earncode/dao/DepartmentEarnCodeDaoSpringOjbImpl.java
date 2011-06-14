@@ -48,7 +48,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 			effdt.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
 		}
 		
-//		effdt.addEqualTo("active", true);
+		// effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
@@ -60,19 +60,22 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 			timestamp.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
 		}
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-//		timestamp.addEqualTo("active", true);
+		// timestamp.addEqualTo("active", true);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 
-		root.addEqualTo("dept", department);
-		root.addEqualTo("tkSalGroup", tkSalGroup);
+		//root.addEqualTo("dept", department);
+		//root.addEqualTo("tkSalGroup", tkSalGroup);
+		// xichen, 06/14/11. KMPM-608, dept and salGroup are wildcardable
+		root.addLike("dept", "%" + department + "%"); 
+		root.addLike("tkSalGroup", "%" + tkSalGroup + "%");
 		if ( !location.trim().isEmpty() ){
 			root.addEqualTo("location", location);
 		}
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
 		
-//		root.addEqualTo("active", true);
+		// root.addEqualTo("active", true);
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
