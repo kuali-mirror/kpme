@@ -53,7 +53,7 @@
             <c:forEach var="approveRow" items="${Form.approvalRows}" varStatus="row">
                 <tr>
                     <td>
-                        <a href="TimeDetail.do?${approveRow.timesheetUserTargetURLParams}">${approveRow.name}<br/>${approveRow.clockStatusMessage}
+                        <a href="PersonInfo.do?${approveRow.timesheetUserTargetURLParams}">${approveRow.name}<br/>${approveRow.clockStatusMessage}
                         </a>
                     </td>
                     <td>${approveRow.documentId}</td>
