@@ -2,6 +2,7 @@ package org.kuali.hr.time.paycalendar;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -27,6 +28,8 @@ public class PayCalendarEntryMaintainableImpl extends KualiMaintainableImpl {
 	@Override
 	public void saveBusinessObject() {
 		PayCalendarEntries payEntry = (PayCalendarEntries)super.getBusinessObject();
+		PayCalendar pyCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(payEntry.getCalendarGroup());
+		payEntry.setPayCalendarId(pyCalendar.getPayCalendarId());
 		
 		java.sql.Date beginDate = payEntry.getBeginPeriodDate();
 		java.sql.Time beginTime = payEntry.getBeginPeriodTime();
