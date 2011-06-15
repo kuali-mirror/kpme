@@ -1,12 +1,8 @@
 $(document).ready(function() {
-    /**
-     * sorting
-     */
-
-// sort by the clicked column
+    // sort by the clicked column
     $('#approvals-table tr th').click(function() {
 
-        var field = $(this).html().replace(/ /, '');
+        var field = $(this).text().replace(/ /, '');
         var rows = $('#approvals-table tbody tr').length;
         var isAscending = getParameterByName("ascending");
 
@@ -19,16 +15,18 @@ $(document).ready(function() {
         }
 
         // submit the page for sorting
-        window.location = 'TimeApproval.do?sortField=' + field + '&ascending=' + isAscending + '&rowsToShow=' + rows;
+        if (field != 'Action' && field != 'Select') {
+            window.location = 'TimeApproval.do?sortField=' + field + '&ascending=' + isAscending + '&rowsToShow=' + rows;
+        }
     });
 
-// this is to determine which fields are sortable
+    // this is to determine which fields are sortable
     $('#approvals-table tr th').filter(
             function(index) {
                 return $(this).html().replace(/ /, '') == "DocumentId" || $(this).html().replace(/ /, '') == "PrincipalName" || $(this).html().replace(/ /, '') == "Status";
             }).addClass("sort");
 
-// add CSS to a sorted field
+    // add acs/desc icon to a sorted field
     if (getParameterByName("ascending") != '') {
         var class = getParameterByName("ascending") == "true" ? 'headerSortDown' : 'headerSortUp';
 
@@ -39,7 +37,7 @@ $(document).ready(function() {
     }
 
 
-// fetch more document headers
+    // fetch more document headers
     $('a#next').click(function() {
         $('div#loader').html('<img src="images/ajax-loader.gif">');
         $.post('TimeApproval.do?methodToCall=getMoreDocument&lastDocumentId=' + $('span.document:last').attr('id'),
@@ -97,11 +95,48 @@ $(document).ready(function() {
                 }
             });
 
-// check if the approve button is disabled. if so, disable the select checkbox as well
+    // check if the approve button is disabled. if so, disable the select checkbox as well
     $('#actions input[type=button]').filter(
             function(index) {
                 return $(this).prop("disabled");
             }).parent().parent().parent().find("input[type=checkbox]").attr("disabled", "disabled");
+
+    // select the whole row when the select checkbox is checked
+    $('.selectedEmpl').click(function() {
+        $(this).parent().parent().find("td").toggleClass("highlight")
+    });
+
+    // select All
+    $('#selectAll').click(function() {
+        $("input[name=selectedEmpl]").each(function() {
+            // only select the rows where the docs are in route
+            if ($(this).prop("disabled") !== true) {
+                this.checked = true;
+                $(this).parent().parent().find("td").addClass("highlight");
+            }
+        });
+
+        if ($(this).prop("checked") == false) {
+            $("#approvals-table tr td").removeClass("highlight");
+            $("input[name=selectedEmpl]").attr("checked", false);
+        }
+    });
+
+    // buttons for note and warning
+
+    $('.tablesorter .ui-state-default').hover(
+            function() {
+                $(this).addClass('ui-state-hover');
+            },
+            function() {
+                $(this).removeClass('ui-state-hover');
+            }
+    );
+
+    $('.tablesorter .ui-state-default').click(function() {
+        $(this).toggleClass('ui-state-active');
+    });
+
 
 // show-hide earn codes in the approval page
     $("#fran-button").click(function() {
@@ -112,4 +147,5 @@ $(document).ready(function() {
         $(".frank").toggle();
         $("#frank-button span").toggleClass('ui-icon-minus');
     });
-});
+})
+        ;

@@ -223,7 +223,7 @@ select {
     font-size: 1.1em;
 }
 
-#timesheet-panel select, .approvals select {
+#timesheet-panel select {
     font-size: .9em;
 }
 
@@ -293,24 +293,7 @@ select {
     font-size: .7em;
 }
 
-/*.approvals table {*/
-/*margin: 20px auto 20px auto;*/
-/*font-size: .6em;*/
-/*text-align: center;*/
-/*border-collapse: collapse;*/
-/*width: 95%*/
-/*}*/
-
-/*.approvals table tr td {*/
-/*border: 1px solid black;*/
-/*text-align: center;*/
-/*}*/
-
-/*.approvals .header{*/
-/*background-color: #FBF9EE*/
-/*}*/
-
-#note {
+#note, #routeLog {
     font-size: .8em;
     clear: both;
 }
@@ -596,6 +579,10 @@ table.tablesorter thead tr .headerSortDown {
 
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
     background-color: #8dbdd8;
+}
+
+table.tablesorter .highlight {
+    background-color: #EEE5E5;
 }
 
 #searchDocuments {

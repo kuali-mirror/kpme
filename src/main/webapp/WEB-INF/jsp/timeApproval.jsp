@@ -45,8 +45,8 @@
                 <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
                     <th>${payCalLabel}</th>
                 </c:forEach>
-                <th>Select</th>
                 <th>Action</th>
+                <th>Select <input type="checkbox" name="selectAll" id="selectAll"/></th>
             </tr>
             </thead>
             <tbody>
@@ -56,7 +56,14 @@
                         <a href="PersonInfo.do?${approveRow.timesheetUserTargetURLParams}">${approveRow.name}<br/>${approveRow.clockStatusMessage}
                         </a>
                     </td>
-                    <td>${approveRow.documentId}</td>
+                    <td>${approveRow.documentId}
+                        <div class="ui-state-default ui-corner-all" style="float:right;">
+                            <span class="ui-icon ui-icon-alert"></span>
+                        </div>
+                        <div class="ui-state-default ui-corner-all" style="float:right; margin-right: 2px;">
+                            <span class="ui-icon ui-icon-note"></span>
+                        </div>
+                    </td>
                     <td>${approveRow.approvalStatus}</td>
                     <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
                         <c:choose>
@@ -70,10 +77,11 @@
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
-                    <td align="center"><input type="checkbox" name="selectedEmpl" id="selectedEmpl"/></td>
                     <td>
                         <tk:tkApprovalRowButtons appRow="${approveRow}"/>
                     </td>
+                    <td align="center"><input type="checkbox" name="selectedEmpl" id="selectedEmpl"
+                                              class="selectedEmpl"/></td>
                 </tr>
             </c:forEach>
             <tr>

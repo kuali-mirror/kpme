@@ -67,33 +67,6 @@ $(document).ready(function() {
     // https://jira.kuali.org/browse/KPME-395
     $('#ui-datepicker-div').css('display', 'none');
 
-    // select All
-    $('#selectAll').click(function() {
-        var checked_status = this.checked;
-        $("input[name=selectedEmpl]").each(function() {
-            this.checked = checked_status;
-            $("input[name=selectedEmpl]").parent().parent()
-                    .addClass("ui-state-focus");
-        });
-
-        if (checked_status == false) {
-            $("input[name=selectedEmpl]").parent().parent()
-                    .removeClass("ui-state-focus");
-        }
-    });
-
-    // highlight row
-    $("input[name=selectedEmpl]").click(function() {
-
-        var checked_status = this.checked;
-
-        if (checked_status) {
-            $(this).parent().parent().addClass("ui-state-focus");
-        } else {
-            $(this).parent().parent().removeClass("ui-state-focus");
-        }
-    });
-
     // clock
     var currentServerTime = parseFloat($("#currentServerTime").val());
     var options = {
@@ -140,7 +113,7 @@ $(document).ready(function() {
             });
 
     // note accordion
-    $("#note").accordion({
+    $("#note, #routeLog").accordion({
                 collapsible : true,
                 active : 2
             });
