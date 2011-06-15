@@ -20,12 +20,11 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.Summarizable;
 
 /**
  *
  */
-public class Chart extends PersistableBusinessObjectBase implements Summarizable, Inactivateable {
+public class Chart extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = 4129020803214027609L;
 
