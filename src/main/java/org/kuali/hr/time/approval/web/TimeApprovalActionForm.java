@@ -15,7 +15,7 @@ public class TimeApprovalActionForm extends TkForm {
     private static final long serialVersionUID = -173408280988754540L;
 
     private String name;
-    private String payCalendarGroup = null;
+    private Set<String> payCalendarGroups = new HashSet<String>();
     private Date payBeginDate;
     private Date payEndDate;
     private List<String> payCalendarLabels = new ArrayList<String>();
@@ -138,12 +138,12 @@ public class TimeApprovalActionForm extends TkForm {
         this.ajaxCall = ajaxCall;
     }
 
-    public String getPayCalendarGroup() {
-        return payCalendarGroup;
+    public Set<String> getPayCalendarGroups() {
+        return payCalendarGroups;
     }
 
-    public void setPayCalendarGroup(String payCalendarGroup) {
-        this.payCalendarGroup = payCalendarGroup;
+    public void setPayCalendarGroups(Set<String> payCalendarGroups) {
+        this.payCalendarGroups = payCalendarGroups;
     }
 
     public int getRowsInTotal() {

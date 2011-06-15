@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public class TimeApprovalAction extends TkAction {
@@ -33,6 +32,7 @@ public class TimeApprovalAction extends TkAction {
         taaf.setName(user.getPrincipalName());
         taaf.setApprovalRows(getApprovalRows(taaf));
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
+        taaf.setPayCalendarGroups(TkServiceLocator.getTimeApproveService().getApproverPayCalendarGroups(taaf.getPayBeginDate(), taaf.getPayEndDate()));
 
         return super.execute(mapping, form, request, response);
     }

@@ -122,20 +122,20 @@ $(document).ready(function() {
         }
     });
 
-    // buttons for note and warning
+    // buttons for prev / next pay calendar entries
+    $('.prev').button({
+                icons: {
+                    primary: "ui-icon-circle-triangle-w"
+                },
+                text: false
+            });
 
-    $('.tablesorter .ui-state-default').hover(
-            function() {
-                $(this).addClass('ui-state-hover');
-            },
-            function() {
-                $(this).removeClass('ui-state-hover');
-            }
-    );
-
-    $('.tablesorter .ui-state-default').click(function() {
-        $(this).toggleClass('ui-state-active');
-    });
+    $('.next').button({
+                icons: {
+                    primary: "ui-icon-circle-triangle-e"
+                },
+                text: false
+            });
 
 
 // show-hide earn codes in the approval page

@@ -289,10 +289,6 @@ select {
     padding: 8px;
 }
 
-.approvals {
-    font-size: .7em;
-}
-
 #note, #routeLog {
     font-size: .8em;
     clear: both;
@@ -538,9 +534,17 @@ select {
     display: none;
 }
 
+/**
+* Approval
+*/
+
+.approvals {
+    font-size: .7em;
+}
+
 table.tablesorter {
     background-color: #CDCDCD;
-    margin: 10px 0pt 15px;
+    margin: 10px 0 15px;
     width: 100%;
     text-align: center;
 }
@@ -585,12 +589,10 @@ table.tablesorter .highlight {
     background-color: #EEE5E5;
 }
 
-#searchDocuments {
-    margin: 5px 0 5px 0;
+#filters {
+    margin-top: 10px;
     width: 100%;
-    clear: both;
 }
-
-#payCalendarGroups {
-    float: right;
+#filters tr td {
+    width: 33%;
 }
