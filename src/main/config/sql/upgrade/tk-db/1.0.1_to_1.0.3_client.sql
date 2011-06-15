@@ -13,7 +13,6 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 -- DO NOT add comments before the blank line below, or they will disappear.
-ALTER TABLE KRNS_ATT_T MODIFY (MIME_TYP VARCHAR(255))
-;
-ALTER TABLE KRNS_MAINT_DOC_ATT_T MODIFY (CNTNT_TYP VARCHAR(255))
-;
+ALTER TABLE `krns_att_t` CHANGE COLUMN `MIME_TYP` `MIME_TYP` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL  ;
+
+ALTER TABLE `krns_maint_doc_att_t` CHANGE COLUMN `CNTNT_TYP` `CNTNT_TYP` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL  ;
