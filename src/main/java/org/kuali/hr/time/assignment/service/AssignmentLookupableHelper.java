@@ -1,11 +1,6 @@
 package org.kuali.hr.time.assignment.service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
@@ -16,12 +11,10 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
 public class AssignmentLookupableHelper extends
 		KualiLookupableHelperServiceImpl {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -51,7 +44,7 @@ public class AssignmentLookupableHelper extends
 		}
 		return customActionUrls;
 	}
-	
+
 	@Override
 	public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 		String showHistory = "Y";
@@ -64,13 +57,13 @@ public class AssignmentLookupableHelper extends
 			active = fieldValues.get("active");
 			fieldValues.put("active", "");
 		}
-		
+
 		List<? extends BusinessObject> objectList = super.getSearchResults(fieldValues);
 		List<BusinessObject> finalBusinessObjectList = new ArrayList<BusinessObject>();
-		
+
 		//Create a principalId+jobNumber map as this is the unique key for results
 		Map<String,List<Assignment>> jobToAssignmentMap = new HashMap<String,List<Assignment>>();
-		
+
 		for(BusinessObject bo : objectList){
 			Assignment assign = (Assignment)bo;
 			String jobKey = assign.getPrincipalId()+"_"+assign.getJobNumber()+"_"+assign.getWorkArea()+"_"+
@@ -84,19 +77,19 @@ public class AssignmentLookupableHelper extends
 				jobToAssignmentMap.put(jobKey, lstAssignments);
 			}
 		}
-		
+
 		//Sort by EffectiveDate/Timestamp and reverse each list so it goes from future back
 		for(List<Assignment> lstAssign : jobToAssignmentMap.values()){
 			Collections.sort(lstAssign, new EffectiveDateTimestampCompare());
 			Collections.reverse(lstAssign);
 		}
-		
+
 		Date currDate = TKUtils.getCurrentDate();
 		//Active = Both and Show History = Yes
 		//return all results
 		if(StringUtils.isEmpty(active) && StringUtils.equals("Y", showHistory)){
 			return objectList;
-		} 
+		}
 		//Active = Both and show history = No
 		//return the most effective results from today and any future rows
 		else if(StringUtils.isEmpty(active) && StringUtils.equals("N", showHistory)){
@@ -133,7 +126,7 @@ public class AssignmentLookupableHelper extends
 			for(List<Assignment> lstAssign : jobToAssignmentMap.values()){
 				for(Assignment assign : lstAssign){
 					if(assign.isActive()){
-						finalBusinessObjectList.add(assign);			
+						finalBusinessObjectList.add(assign);
 					}
 				}
 			}
@@ -144,7 +137,7 @@ public class AssignmentLookupableHelper extends
 			for(List<Assignment> lstAssign : jobToAssignmentMap.values()){
 				for(Assignment assign : lstAssign){
 					if(!assign.isActive()){
-						finalBusinessObjectList.add(assign);	
+						finalBusinessObjectList.add(assign);
 					}
 				}
 			}
@@ -157,7 +150,7 @@ public class AssignmentLookupableHelper extends
 					if(assign.getEffectiveDate().before(currDate)){
 						if(!assign.isActive()){
 							finalBusinessObjectList.add(assign);
-						} 
+						}
 						break;
 					} else {
 						if(!assign.isActive()){
@@ -165,11 +158,11 @@ public class AssignmentLookupableHelper extends
 						}
 					}
 				}
-			}			
+			}
 		}
 		return finalBusinessObjectList;
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public class EffectiveDateTimestampCompare implements Comparator{
 
@@ -183,7 +176,7 @@ public class AssignmentLookupableHelper extends
 			}
 			return result;
 		}
-		
+
 	}
 
 }
