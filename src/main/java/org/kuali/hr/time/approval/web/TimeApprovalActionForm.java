@@ -1,10 +1,10 @@
 package org.kuali.hr.time.approval.web;
 
 import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class TimeApprovalActionForm extends TkForm {
 
@@ -20,6 +20,7 @@ public class TimeApprovalActionForm extends TkForm {
     private Date payEndDate;
     private List<String> payCalendarLabels = new ArrayList<String>();
     private List<ApprovalTimeSummaryRow> approvalRows = new ArrayList<ApprovalTimeSummaryRow>();
+    private Long workArea = null;
     private String lastDocumentId;
 
     /** Used for ajax dynamic row updating */
@@ -151,5 +152,24 @@ public class TimeApprovalActionForm extends TkForm {
 
     public void setRowsInTotal(int rowsInTotal) {
         this.rowsInTotal = rowsInTotal;
+    }
+
+    /**
+     * Provides a set of WorkArea numbers that the current approver has
+     * dominion over.
+     *
+     * @return A Set of Longs representing work areas.
+     */
+    public Set<Long> getApproverWorkAreas() {
+        TKUser tkUser = TKContext.getUser();
+        return tkUser.getActualPersonRoles().getApproverWorkAreas();
+    }
+
+    public Long getWorkArea() {
+        return workArea;
+    }
+
+    public void setWorkArea(Long workArea) {
+        this.workArea = workArea;
     }
 }

@@ -18,12 +18,19 @@ public interface TimeApproveService {
      * @param payEndDate
      * @param calGroup Specify a calendar group to filter by, or 'null' if all
      * calendar groups are desired.
+     * @param workArea Specify a work area to filter by, or 'null' if all
+     * work areas are desired.
      *
      * @return A Map<String, List<ApprovalTimeSummaryRow>> container.
      */
-    public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsByCalendarGroup(Date payBeginDate, Date payEndDate, String calGroup);
+    public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsMap(Date payBeginDate, Date payEndDate, Long workArea);
 
-	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate);
+    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, Long workArea);
+
+    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup);
+
+    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate);
+
 	public List<String> getPayCalendarLabelsForApprovalTab(Date payBeginDate, Date payEndDate);
 
     /**

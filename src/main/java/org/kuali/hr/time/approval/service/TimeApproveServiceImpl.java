@@ -50,16 +50,18 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     }
 
     @Override
-    public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsByCalendarGroup(Date payBeginDate, Date payEndDate, String calGroup) {
+    public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsMap(Date payBeginDate, Date payEndDate, Long workArea) {
         Map<String, List<ApprovalTimeSummaryRow>> mappedRows = new HashMap<String, List<ApprovalTimeSummaryRow>>();
 
         TKUser tkUser = TKContext.getUser();
         Set<Long> approverWorkAreas = tkUser.getActualPersonRoles().getApproverWorkAreas();
         List<Assignment> lstEmployees = new ArrayList<Assignment>();
 
-        for(Long workArea : approverWorkAreas){
-            if(workArea != null){
-                lstEmployees.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, TKUtils.getCurrentDate()));
+        for(Long aWorkArea : approverWorkAreas){
+            if (aWorkArea != null) {
+                if (workArea != null && aWorkArea.equals(workArea)) {
+                    lstEmployees.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(aWorkArea, TKUtils.getCurrentDate()));
+                }
             }
         }
         if (!lstEmployees.isEmpty()) {
@@ -79,10 +81,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
                 if (tdh != null) {
                     String calendarGroup = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, payBeginDate).getCalendarGroup();
-                    if (calGroup != null && !StringUtils.equals(calGroup, calendarGroup)) {
-                        // Skip this calendar group
-                        continue;
-                    }
                     List<ApprovalTimeSummaryRow> rows = mappedRows.get(calendarGroup);
                     if (rows == null) {
                         rows = new ArrayList<ApprovalTimeSummaryRow>();
@@ -110,6 +108,37 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         return mappedRows;
     }
 
+
+    /*
+     * Right now this code is just calling our "Big" data retriever and only returning
+     * a subset of that data. It is obvious that some optimization should be done here,
+     * for now this is a "future" TODO, to get this going.
+     */
+    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, Long workArea) {
+        List<ApprovalTimeSummaryRow> rows = new ArrayList<ApprovalTimeSummaryRow>();
+
+        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsMap(payBeginDate, payEndDate, workArea);
+        if (mrows.containsKey(calGroup))
+            rows = mrows.get(calGroup);
+
+        return rows;
+    }
+
+    /*
+     * Right now this code is just calling our "Big" data retriever and only returning
+     * a subset of that data. It is obvious that some optimization should be done here,
+     * for now this is a "future" TODO, to get this going.
+     */
+    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup) {
+        List<ApprovalTimeSummaryRow> rows = new ArrayList<ApprovalTimeSummaryRow>();
+
+        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsMap(payBeginDate, payEndDate, null);
+        if (mrows.containsKey(calGroup))
+            rows = mrows.get(calGroup);
+
+        return rows;
+    }
+
 	/**
 	 * Populate the Summary rows based on the user and begin and end date
 	 */
@@ -117,7 +146,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate) {
 		List<ApprovalTimeSummaryRow> lstApprovalRows = new ArrayList<ApprovalTimeSummaryRow>();
 
-        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsByCalendarGroup(payBeginDate, payEndDate, null);
+        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsMap(payBeginDate, payEndDate, null);
         for (List<ApprovalTimeSummaryRow> list : mrows.values()) {
             lstApprovalRows.addAll(list);
         }
