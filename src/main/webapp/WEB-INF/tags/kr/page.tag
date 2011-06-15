@@ -15,33 +15,33 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="docTitle" required="true" %>
-<%@ attribute name="transactionalDocument" required="true" %>
-<%@ attribute name="showDocumentInfo" required="false" %>
-<%@ attribute name="headerMenuBar" required="false" %>
-<%@ attribute name="headerTitle" required="false" %>
-<%@ attribute name="htmlFormAction" required="false" %>
-<%@ attribute name="renderMultipart" required="false" %>
-<%@ attribute name="showTabButtons" required="false" %>
-<%@ attribute name="extraTopButtons" required="false" type="java.util.List" %>
-<%@ attribute name="headerDispatch" required="false" %>
+<%@ attribute name="docTitle" required="true" description="The title to display for the page." %>
+<%@ attribute name="transactionalDocument" required="true" description="The name of the document type this document page is rendering." %>
+<%@ attribute name="showDocumentInfo" required="false" description="Boolean value of whether to display the Document Type name and document type help on the page." %>
+<%@ attribute name="headerMenuBar" required="false" description="HTML text for menu bar to display at the top of the page." %>
+<%@ attribute name="headerTitle" required="false" description="The title of this page which will be displayed in the browser's header bar.  If left blank, docTitle will be used instead." %>
+<%@ attribute name="htmlFormAction" required="false" description="The URL that the HTML form rendered on this page will be posted to." %>
+<%@ attribute name="renderMultipart" required="false" description="Boolean value of whether the HTML form rendred on this page will be encoded to accept multipart - ie, uploaded attachment - input." %>
+<%@ attribute name="showTabButtons" required="false" description="Whether to show the show/hide all tabs buttons." %>
+<%@ attribute name="extraTopButtons" required="false" type="java.util.List" description="A List of org.kuali.rice.kns.web.ui.ExtraButton objects to display at the top of the page." %>
+<%@ attribute name="headerDispatch" required="false" description="Overrides the header navigation tab buttons to go directly to the action given here." %>
 <%@ attribute name="lookup" required="false"
 	description="indicates whether the lookup page specific page should be shown"%>
 
 <%-- for non-lookup pages --%>
-<%@ attribute name="headerTabActive" required="false" %>
+<%@ attribute name="headerTabActive" required="false" description="The name of the active header tab, if header navigation is used." %>
 <%@ attribute name="feedbackKey" required="false"
 	description="application resources key that contains feedback contact address only used when lookup attribute is false"%>
-<%@ attribute name="defaultMethodToCall" required="false" %>
-<%@ attribute name="errorKey" required="false" %>
-<%@ attribute name="auditCount" required="false" %>
+<%@ attribute name="defaultMethodToCall" required="false" description="The name of default methodToCall on the action for this page." %>
+<%@ attribute name="errorKey" required="false" description="If present, this is the key which will be used to match errors that need to be rendered at the top of the page." %>
+<%@ attribute name="auditCount" required="false" description="The number of audit errors displayed on this page." %>
 <%@ attribute name="additionalScriptFiles" required="false"
-	type="java.util.List"%>
-<%@ attribute name="documentWebScope" required="false" %>
-<%@ attribute name="maintenanceDocument" required="false"%>
-<%@ attribute name="sessionDocument" required="false"%>
-<%@ attribute name="renderRequiredFieldsLabel" required = "false" %>
-
+	type="java.util.List" description="A List of JavaScript file names to have included on the page." %>
+<%@ attribute name="documentWebScope" required="false" description="The scope this page - which is hard coded to session, making this attribute somewhat useless." %>
+<%@ attribute name="maintenanceDocument" required="false" description="Boolean value of whether this page is rendering a maintenance document." %>
+<%@ attribute name="sessionDocument" required="false" description="Unused." %>
+<%@ attribute name="renderRequiredFieldsLabel" required = "false" description="Boolean value of whether to include a helpful note that the asterisk represents a required field - good for accessibility." %>
+<%@ attribute name="alternativeHelp" required="false"%>
 
 <%-- Is the screen an inquiry? --%>
 <c:set var="_isInquiry"
@@ -55,7 +55,15 @@
 </c:if>
 
 <head>
-	<script>var jsContextPath = "${pageContext.request.contextPath}";</script>
+<c:if test="${not empty SESSION_TIMEOUT_WARNING_MILLISECONDS}">
+	<script type="text/javascript">
+	<!-- 
+	setTimeout("alert('Your session will expire in ${SESSION_TIMEOUT_WARNING_MINUTES} minutes.')",'${SESSION_TIMEOUT_WARNING_MILLISECONDS}');
+	// -->
+	</script>
+</c:if>
+
+	<script type="text/javascript">var jsContextPath = "${pageContext.request.contextPath}";</script>
 	<title><bean:message key="app.title" /> :: ${headerTitle}</title>
 	<c:forEach items="${fn:split(ConfigProperties.css.files, ',')}"
 		var="cssFile">
@@ -78,19 +86,7 @@
 					type="text/css" />
 			  </c:if>
 
-			  <!-- Set the focus to first text box on form -->
 			  <script type="text/javascript">
-			  function placeFocus() {
-				if (document.forms.length > 0) {
-				  var field = document.forms[0];
-				  for (i = 0; i < field.length; i++) {
-					if ((field.elements[i].type == "text") || (field.elements[i].type == "textarea")) {
-					  document.forms[0].elements[i].focus();
-					  break;
-					}
-				  }
-			   }
-			  }
 			  <!-- allow for custom lookup calls -->
 			  function customLookupChanged() {
 
@@ -133,14 +129,17 @@
 					${headerMenuBar}
 				</div>
 		</c:if>
+		<c:choose>
+			<c:when test="${!empty alternativeHelp}">
+				<h1>${docTitle}<kul:help documentTypeName="${KualiForm.docTypeName}" alternativeHelp="${alternativeHelp}" altText="document help"/></h1>
+			</c:when>
+			<c:otherwise>
+				<c:if test="${showDocumentInfo}">
+					<h1>${docTitle}<kul:help documentTypeName="${KualiForm.docTypeName}" altText="document help"/></h1>
+				</c:if>
+			</c:otherwise>
+		</c:choose>
 
-		<c:if test="${showDocumentInfo}">
-				<h1>
-					${docTitle}
-					<kul:help documentTypeName="${KualiForm.docTypeName}"
-						altText="document help" />
-				</h1>
-		</c:if>
     </c:when>
 	<c:otherwise>
 		<c:if test="${not empty KualiForm.anchor}">
@@ -148,6 +147,9 @@
 				<c:set var="anchorScript"
 					value="jumpToAnchor('${KualiForm.anchor}');" />
 			</c:if>
+		</c:if>
+		<c:if test="${empty anchorScript}">
+		  <c:set var="anchorScript" value="placeFocus();" />
 		</c:if>
 		<body onload="if ( !restoreScrollPosition() ) { ${anchorScript} }"
 			onKeyPress="return isReturnKeyAllowed('${Constants.DISPATCH_REQUEST_PARAMETER}.' , event);">
@@ -172,10 +174,16 @@
 		<div class="headerarea" id="headerarea">
 				<h1>
 					${docTitle}&nbsp;
-					<c:if test="${showDocumentInfo}">
-						<kul:help documentTypeName="${KualiForm.docTypeName}"
-							altText="document help" />
-					</c:if>
+					<c:choose>
+						<c:when test="${!empty alternativeHelp}"> 
+							<kul:help documentTypeName="${KualiForm.docTypeName}" alternativeHelp="${alternativeHelp}" altText="document help" />
+						</c:when>
+						<c:otherwise>
+							<c:if test="${showDocumentInfo}">
+								<kul:help documentTypeName="${KualiForm.docTypeName}" altText="document help"/>
+							</c:if>
+						</c:otherwise>
+					</c:choose>
 				</h1>
 			<c:if test="${!empty defaultMethodToCall}">
 				<kul:enterKey methodToCall="${defaultMethodToCall}" />
@@ -187,34 +195,6 @@
 	<c:set var="docHeaderAttributes"
 		value="${DataDictionary.DocumentHeader.attributes}" />
 <c:if test="${showDocumentInfo}">
-<%--
-    <c:if test="${!empty KualiForm.document.documentHeader.additionalDocId1.label}">
-        <c:set var="secondDocAttributeName" value="${KualiForm.document.documentHeader.additionalDocId1.key}" />
-        <c:set var="secondDocId" value="${KualiForm.document.documentHeader.additionalDocId1.label}" />
-        <c:set var="addColumn" value="true" />
-    </c:if>
-		<c:if
-			test="${!empty KualiForm.document.documentHeader.additionalDocId2.label}">
-			<c:set var="thirdDocAttributeName"
-				value="${KualiForm.document.documentHeader.additionalDocId2.key}" />
-			<c:set var="thirdDocId"
-				value="${KualiForm.document.documentHeader.additionalDocId2.label}" />
-        <c:set var="addColumn" value="true" />
-    </c:if>
-    <c:set var="headerClass" value="headerinfo"/>
-		<c:if
-			test="${not empty KualiForm.additionalDocInfo1 or not empty KualiForm.additionalDocInfo2}">
-		<c:choose>
-			<c:when test="${lookup}" >
-				<c:set var="headerClass" value="headerinfo-3row"/>
-			</c:when>
-			<c:otherwise>
-				<c:set var="headerClass" value=""/>
-			</c:otherwise>
-		</c:choose>
-    </c:if>
---%>
-
 	<c:set var="KualiForm" value="${KualiForm}" />
 	<jsp:useBean id="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" />
 
@@ -272,35 +252,6 @@
 			 	</c:if>
 				<c:set var="fieldCounter" value="${fieldCounter+1}" />
 		 </c:forEach>
-<%--
-		 <c:if test="${addColumn}">
-		 	<c:if test="${i==1}">
-			 	<c:set var="attributeEntry" value="${secondDocAttributeName}" />
-			 	<c:set var="docId" value="${secondDocId}" />
-		 	</c:if>
-		 	<c:if test="${i==2}">
-			 	<c:set var="attributeEntry" value="${thirdDocAttributeName}" />
-			 	<c:set var="docId" value="${thirdDocId}" />
-		 	</c:if>
-		 	<c:if test="${i<=2}">
-	            <kul:htmlAttributeHeaderCell attributeEntry="${attributeEntry}" horizontal="true" scope="row"/>
-	            <td>
-					<c:choose>
-						<c:when test="${lookup}" >
-							${docId}
-						</c:when>
-						<c:otherwise>
-							<a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${docId}&command=displayDocSearchView">${docId}</a>
-						</c:otherwise>
-					</c:choose>
-				</td>
-       		 </c:if>
-       		 <c:if test="${i>2}">
-	             <kul:htmlAttributeHeaderCell/>
-                 <td><br/></td>
-       		 </c:if>
-        </c:if>
---%>
       </tr>
     </c:forEach>
    </table>
@@ -314,8 +265,8 @@
 			<div class="right">
 				<div class="excol">
 					<div class="lookupcreatenew">
-						<html:image property="methodToCall.showAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif" title="show all panel content" alt="show all panel content" styleClass="tinybutton" onclick="javascript: return expandAllTab(document, tabStatesSize); " />
-						<html:image property="methodToCall.hideAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif" title="hide all panel content" alt="hide all panel content" styleClass="tinybutton" onclick="javascript: return collapseAllTab(document, tabStatesSize); " />
+						<html:image property="methodToCall.showAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif" title="show all panel content" alt="show all panel content" styleClass="tinybutton" onclick="return expandAllTab();" tabindex="-1" />
+						<html:image property="methodToCall.hideAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif" title="hide all panel content" alt="hide all panel content" styleClass="tinybutton" onclick="return collapseAllTab();" tabindex="-1" />
 					</div>
 				</div>
 			</div>
@@ -325,34 +276,36 @@
 
 		</div>
 		<c:if test="${not empty KualiForm.headerNavigationTabs}">
-		  <div class="horz-links-bkgrnd" id="horz-links">
-			<c:choose>
-			  <c:when test="${empty headerDispatch}">
-													<c:forEach var="headerTab"
-														items="${KualiForm.headerNavigationTabs}"
-														varStatus="status">
-														<html:submit value="${headerTab.headerTabDisplayName}"
-															property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.${headerTab.headerTabNavigateTo}.x"
-															alt="${headerTab.headerTabDisplayName}" disabled="true"
-                              title="${headerTab.headerTabDisplayName}"
-															styleClass="${(headerTabActive eq headerTab.headerTabNavigateTo) ? 'selected' : ''}" />
-													</c:forEach>
-			  </c:when>
-			  <c:otherwise>
-													<c:forEach var="headerTab"
-														items="${KualiForm.headerNavigationTabs}"
-														varStatus="status">
-														<html:submit value="${headerTab.headerTabDisplayName}"
-															property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.${headerTab.headerTabNavigateTo}.x"
-															alt="${headerTab.headerTabDisplayName}"
-															disabled="${headerTab.disabled}"
-                              title="${headerTab.headerTabDisplayName}"
-															styleClass="${(headerTabActive eq headerTab.headerTabNavigateTo) ? 'selected' : ''}" />
-													</c:forEach>
-			  </c:otherwise>
-			</c:choose>
-		  </div>
-		</c:if>
+            <div class="horz-links-bkgrnd" id="horz-links">
+                <div id="tabs">
+                    <dl class="tabul">
+                        <c:choose>
+                            <c:when test="${empty headerDispatch}">
+                                <c:forEach var="headerTab" items="${KualiForm.headerNavigationTabs}" varStatus="status">
+                                    <c:set var="currentTab" value="${headerTabActive eq headerTab.headerTabNavigateTo}" /> <!-- ${headerTab.headerTabNavigateTo}; ${headerTabActive}; ${currentTab} -->
+                                    <c:choose>
+                                        <c:when test="${currentTab}"><dt class="licurrent"></c:when>
+                                        <c:otherwise><dt></c:otherwise>
+                                    </c:choose>
+                                    <span class="tabright ${currentTab ? 'tabcurrent' : ''}">
+                                        <html:submit value="${headerTab.headerTabDisplayName}" property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.${headerTab.headerTabNavigateTo}"  alt="${headerTab.headerTabDisplayName}" disabled="true" />
+                                    </span></dt>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach var="headerTab" items="${KualiForm.headerNavigationTabs}" varStatus="status">
+                                    <c:set var="currentTab" value="${headerTabActive eq headerTab.headerTabNavigateTo}" /> <!-- ${headerTab.headerTabNavigateTo}; ${headerTabActive}; ${currentTab} -->
+                                    <c:choose><c:when test="${currentTab}"><dt class="licurrent"></c:when><c:otherwise><dt></c:otherwise></c:choose>
+                                    <span class="tabright ${currentTab ? 'tabcurrent' : ''}">
+                                        <html:submit value="${headerTab.headerTabDisplayName}" property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.${headerTab.headerTabNavigateTo}"  alt="${headerTab.headerTabDisplayName}" disabled="${headerTab.disabled}"  />
+                                    </span></dt>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>  
+                    </dl>
+                </div>
+            </div>
+        </c:if>
 		<div class="msg-excol">
 		  <div class="left-errmsg">
 			 <kul:errorCount auditCount="${auditCount}"/>
@@ -374,8 +327,8 @@
 		         </c:forEach>
 	           </c:if>
 			   <c:if test="${showTabButtons != '' && showTabButtons == true}">
-				  <html:image property="methodToCall.showAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif" title="show all panel content" alt="show all panel content" styleClass="tinybutton" onclick="javascript: return expandAllTab(document, tabStatesSize); " />
-				  <html:image property="methodToCall.hideAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif" title="hide all panel content" alt="hide all panel content" styleClass="tinybutton" onclick="javascript: return collapseAllTab(document, tabStatesSize); " />
+				  <html:image property="methodToCall.showAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif" title="show all panel content" alt="show all panel content" styleClass="tinybutton" onclick="javascript: return expandAllTab(document, tabStatesSize); " tabindex="-1" />
+				  <html:image property="methodToCall.hideAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif" title="hide all panel content" alt="hide all panel content" styleClass="tinybutton" onclick="javascript: return collapseAllTab(document, tabStatesSize); " tabindex="-1" />
 		       </c:if>
 			   <c:if test="${renderRequiredFieldsLabel}" >
 				<br>* required field
@@ -383,7 +336,7 @@
 		  	 </div>
 		  </div>
 		</div>
-		<table width="100%" cellpadding="0" cellspacing="0">
+		<table class="page-main" width="100%" cellpadding="0" cellspacing="0">
 			<tr>
 											<td width="1%">
 												<img
@@ -430,6 +383,7 @@
 	<html:hidden property="docFormKey" value="${KualiForm.formKey}" />
     <html:hidden property="docNum" value="${KualiForm.document.documentNumber}" />
 </c:if>
+<kul:editablePropertiesGuid />
 
 </html:form>
 <div id="formComplete"></div>

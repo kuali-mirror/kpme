@@ -33,6 +33,7 @@
             fieldLabel="${field.fieldLabel}"
             referencesToRefresh="${field.referencesToRefresh}"
             anchor="${anchor}"
+            searchIconOverride="${field.imageSrc}" 
             baseLookupUrl="${field.baseLookupUrl}" />
                 
     </c:if>

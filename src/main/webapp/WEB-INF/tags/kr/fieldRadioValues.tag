@@ -15,7 +15,10 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="field" required="true" type="org.kuali.rice.kns.web.ui.Field"%>
+<%@ attribute name="field" required="true" type="org.kuali.rice.kns.web.ui.Field" description="The field to render radio button options for." %>
+<%@ attribute name="onblur" required="false" description="Javascript code which will be executed with the input field's onblur event is triggered." %>
+<%@ attribute name="onchange" required="false" description="Javascript code which will be executed with the input field's onchange event is triggered." %>
+<%@ attribute name="tabIndex" required="false" description="Tab index to use for next field" %>
 
 ${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
 <c:forEach items="${field.fieldValidValues}" var="radio">
@@ -23,9 +26,13 @@ ${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
     <input type="radio"
         ${field.propertyValue eq radio.key ? 'checked="checked"' : ''}
         name='${field.propertyName}'
+        id='${field.propertyName}${radio.label}'
         value='<c:out value="${radio.key}" />'
 		title='${field.fieldLabel} - ${radio.label}'
-        ${onblurcall} />
-    <c:out value="${radio.label}"/>
+        onblur="${onblur}" onchange="${onchange}" tabIndex="${tabIndex}"/>
+    <label for='${field.propertyName}${radio.label}'><c:out value="${radio.label}"/></label>
   </c:if>
+  
+  <c:set var="tabIndex" value="${KualiForm.currentTabIndex}"/>
+  <c:set var="dummyIncrementVar" value="${kfunc:incrementTabIndex(KualiForm, tabIndex)}" />
 </c:forEach>

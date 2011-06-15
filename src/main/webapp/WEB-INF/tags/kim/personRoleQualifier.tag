@@ -1,7 +1,7 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 <%@ tag body-content="empty" %>
-<%@ attribute name="roleIdx" required="true" %>
-<%@ attribute name="role" required="true" type="org.kuali.rice.kim.bo.ui.PersonDocumentRole" %>
+<%@ attribute name="roleIdx" required="true" description="In the list of roles a Person is a member of in the IdentityManagementPersonDocument, the index of the role to display qualifiers for." %>
+<%@ attribute name="role" required="true" type="org.kuali.rice.kim.bo.ui.PersonDocumentRole" description="Information about the displayed/maintained Person's relationship to the role displayed by this tag." %>
 <c:set var="docRolePrncplAttributes" value="${DataDictionary.KimDocumentRoleMember.attributes}" />
 <c:set var="docRoleRspActionAttributes" value="${DataDictionary.KimDocumentRoleResponsibilityAction.attributes}" />
 
@@ -91,7 +91,7 @@
 					        		<c:set var="fieldName" value="${attr.name}" />
 					        		<c:set var="attrEntry" value="${role.attributeEntry[fieldName]}" />
                     				<c:set var="attrDefinition" value="${role.definitionsKeyedByAttributeName[fieldName]}"/>
-									<c:set var="attrReadOnly" value="${(readOnlyRole || attrDefinition.unique)}"/>
+									<c:set var="attrReadOnly" value="${readOnlyRole}"/>
 				            <td align="left" valign="middle">
 				                <div align="center"> 
 				                	<kul:htmlControlAttribute kimTypeId="${role.kimTypeId}" property="document.roles[${roleIdx}].rolePrncpls[${status1.index}].qualifiers[${status.index}].attrVal"  attributeEntry="${attrEntry}" readOnly="${attrReadOnly}" />

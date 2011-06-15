@@ -16,19 +16,19 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 <%@ tag body-content="empty" %>
 
-<%@ attribute name="attributeEntry" required="false" type="java.util.Map" %>
+<%@ attribute name="attributeEntry" required="false" type="java.util.Map" description="A map of attribute information from the data dictionary." %>
 <%@ attribute name="attributeEntryName" required="false"
               description="The full name of the DataDictionary entry to use,
               e.g., 'DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier'.
               Either attributeEntry or attributeEntryName is required." %>
-<%@ attribute name="readOnly" required="false" %>
-<%@ attribute name="useShortLabel" required="false" %>
-<%@ attribute name="labelFor" required="false" %>
+<%@ attribute name="readOnly" required="false" description="Whether the label is for a read only attribute; if it is, then no 'required' icon will be displayed."  %>
+<%@ attribute name="useShortLabel" required="false" description="Whether the short label for the control should be used." %>
+<%@ attribute name="labelFor" required="false" description="The control name which this label is associated with; typically the property name will be sent in here." %>
 <%@ attribute name="includeHelpUrl" required="false" description="If set to true, then the help link will render a help URL regardless of the skipHelpUrl parameter value." %>
 <%@ attribute name="skipHelpUrl" required="false" description="If set to true and includeHelpUrl is set to false, then the help link will not be rendered for this attribute.  If both
               this attribute and includeHelpUrl are set to false, then the KualiForm.fieldLevelHelpEnabled will control whether to render the help link." %>
-<%@ attribute name="noColon" required="false" %>
-<%@ attribute name="forceRequired" required="false" %>
+<%@ attribute name="noColon" required="false" description="Whether a colon should be rendered after the label or not." %>
+<%@ attribute name="forceRequired" required="false" description="Whether the required icon should be forced to be rendered." %>
 
 <c:if test="${not empty attributeEntryName}">
     <dd:evalNameToMap mapName="${attributeEntryName}" returnVar="attributeEntry"/>
@@ -41,7 +41,7 @@
 ><c:if test="${(attributeEntry.required == true || forceRequired) && readOnly != true}">
   <font color="">${Constants.REQUIRED_FIELD_SYMBOL}&nbsp;</font></c:if
 ><c:if test="${includeHelpUrl || (!skipHelpUrl && KualiForm.fieldLevelHelpEnabled)}"><a
-        href="${ConfigProperties.kr.url}/help.do?methodToCall=getAttributeHelpText&amp;businessObjectClassName=${attributeEntry.fullClassName}&amp;attributeName=${attributeEntry.name}"
+        href="${ConfigProperties.application.url}/kr/help.do?methodToCall=getAttributeHelpText&amp;businessObjectClassName=${attributeEntry.fullClassName}&amp;attributeName=${attributeEntry.name}"
         tabindex="${KualiForm.nextArbitrarilyHighIndex}" target="helpWindow" title="[Help] ${attributeEntry.label}"></c:if
 ><c:if test="${useShortLabel == true}"><c:out value="${attributeEntry.shortLabel}" /></c:if
 ><c:if test="${useShortLabel != true}"><c:out value="${attributeEntry.label}" /></c:if
