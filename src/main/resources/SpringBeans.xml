@@ -577,6 +577,8 @@
     </bean>
 
     <bean id="tkRuleControllerService" class="org.kuali.hr.time.rule.TkRuleControllerServiceImpl"/>
+    
+    <bean id="tkWarningService" class="org.kuali.hr.time.warning.TkWarningServiceImpl"/>
 
 	<bean id="workAreaQualifierRoleTypeService" class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
 
