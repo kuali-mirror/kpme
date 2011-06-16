@@ -49,5 +49,5 @@ public interface TimeApproveService {
      * @return list of note objects
      */
     @SuppressWarnings("rawtypes")
-	public List hasNotes(String documentNumber);
+	public List getNotesForDocument(String documentNumber);
 }

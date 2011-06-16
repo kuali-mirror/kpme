@@ -262,7 +262,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return hoursToPayLabelMap;
 	}
 	@SuppressWarnings("rawtypes")
-	public List hasNotes(String documentNumber){
+	public List getNotesForDocument(String documentNumber){
 		List notes = KEWServiceLocator.getNoteService().getNotesByRouteHeaderId(Long.parseLong(documentNumber));
 		return notes;
 	}
