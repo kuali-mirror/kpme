@@ -42,6 +42,7 @@ import org.kuali.hr.time.timesummary.service.TimeSummaryService;
 import org.kuali.hr.time.timezone.service.TimezoneService;
 import org.kuali.hr.time.user.pref.service.UserPreferenceService;
 import org.kuali.hr.time.user.service.UserService;
+import org.kuali.hr.time.warning.TkWarningService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
 import org.kuali.hr.time.workschedule.service.WorkScheduleAssignmentService;
@@ -102,6 +103,8 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_BATCH_JOB_SERVICE = "batchJobService";
     public static final String TK_MISSED_PUNCH_SERVICE = "missedPunchService";
     public static final String TK_BATCH_JOB_ENTRY_SERVICE = "batchJobEntryService";
+    public static final String TK_WARNINGS_SERVICE = "tkWarningService";
+
 
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -299,6 +302,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (BatchJobEntryService)CONTEXT.getBean(TK_BATCH_JOB_ENTRY_SERVICE);
 	}
 	
+	public static TkWarningService getWarningService(){
+		return (TkWarningService) CONTEXT.getBean(TK_WARNINGS_SERVICE);
+	}
+
 	public static PlatformTransactionManager getPlatformTransactionManager() {
 		return (PlatformTransactionManager)CONTEXT.getBean("transactionManager");
 	}

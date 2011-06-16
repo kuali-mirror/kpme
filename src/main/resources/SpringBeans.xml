@@ -580,6 +580,9 @@
 
 	<bean id="workAreaQualifierRoleTypeService" class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
 
+    
+    <bean id="tkWarningService" class="org.kuali.hr.time.warning.TkWarningServiceImpl"/>
+
     <bean id="timezoneService" class="org.kuali.hr.time.timezone.service.TimezoneServiceImpl"/>
 
     <bean id="userService" class="org.kuali.hr.time.user.service.UserServiceImpl"/>
