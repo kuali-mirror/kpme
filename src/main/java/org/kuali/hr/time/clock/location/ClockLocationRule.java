@@ -19,10 +19,13 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	private Department department;
 	private String dept;
-
+	private Long tkDeptId;
+	
 	private Long workArea;
+	private Long tkWorkAreaId;
 	private String principalId;
 	private Long jobNumber;
+	private Long hrJobId;
 
 	private Date effectiveDate;
 	private boolean active;
@@ -161,6 +164,30 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	public void setPrincipal(Person principal) {
 		this.principal = principal;
+	}
+
+	public Long getTkDeptId() {
+		return tkDeptId;
+	}
+
+	public void setTkDeptId(Long tkDeptId) {
+		this.tkDeptId = tkDeptId;
+	}
+
+	public Long getTkWorkAreaId() {
+		return tkWorkAreaId;
+	}
+
+	public void setTkWorkAreaId(Long tkWorkAreaId) {
+		this.tkWorkAreaId = tkWorkAreaId;
+	}
+
+	public Long getHrJobId() {
+		return hrJobId;
+	}
+
+	public void setHrJobId(Long hrJobId) {
+		this.hrJobId = hrJobId;
 	}
 
 

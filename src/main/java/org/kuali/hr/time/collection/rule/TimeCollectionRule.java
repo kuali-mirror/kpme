@@ -23,6 +23,8 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase implements
 	private Timestamp timeStamp;
 	private boolean active;
 
+	private Long tkWorkAreaId;
+	private Long tkDeptId;
 
 	private Department departmentObj;
 	private WorkArea workAreaObj;
@@ -133,6 +135,22 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase implements
 
 	public void setDept(String dept) {
 		this.dept = dept;
+	}
+
+	public Long getTkWorkAreaId() {
+		return tkWorkAreaId;
+	}
+
+	public void setTkWorkAreaId(Long tkWorkAreaId) {
+		this.tkWorkAreaId = tkWorkAreaId;
+	}
+
+	public Long getTkDeptId() {
+		return tkDeptId;
+	}
+
+	public void setTkDeptId(Long tkDeptId) {
+		this.tkDeptId = tkDeptId;
 	}
 
 

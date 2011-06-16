@@ -18,6 +18,7 @@
       	<ref bean="TimeSheetInitiate-tkTimeSheetInitId"/>
         <ref bean="TimeSheetInitiate-principalId"/>
         <ref bean="TimeSheetInitiate-payCalendarEntriesId"/>
+        <ref bean="TimeSheetInitiate-calendarGroup"/>
       </list>
     </property>
     <property name="relationships">
@@ -35,11 +36,7 @@
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="payCalendarEntriesId" p:targetName="payCalendarEntriesId"/>
-                </list>
-              </property>
-              <property name="supportAttributes">
-                <list>
-                  	<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="principalId" p:targetName="calendarGroup"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarGroup" p:targetName="calendarGroup"/>
                 </list>
               </property>
             </bean>
@@ -95,7 +92,15 @@
 		<property name="name" value="payCalendarEntriesId" />
 		<property name="label" value="Pay Calendar Entries Id" />
 	</bean>
-   
+   	
+	<bean id="TimeSheetInitiate-calendarGroup" parent="TimeSheetInitiate-calendarGroup-parentBean" />
+	<bean id="TimeSheetInitiate-calendarGroup-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="calendarGroup" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
   <!-- Lookup Definition: -->
 
   <bean id="TimeSheetInitiate-lookupDefinition" parent="TimeSheetInitiate-lookupDefinition-parentBean"/>
@@ -105,6 +110,7 @@
      	<bean parent="FieldDefinition" p:attributeName="tkTimeSheetInitId"/>
         <bean parent="FieldDefinition" p:attributeName="principalId"/>
         <bean parent="FieldDefinition" p:attributeName="payCalendarEntriesId"/>
+        <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
        </list>
     </property>
     <property name="resultFields">

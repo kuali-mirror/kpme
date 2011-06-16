@@ -43,6 +43,10 @@ public class ShiftDifferentialRule extends TkRule {
 	private Timestamp timeStamp;
 	private boolean active;
 
+	private Long tkSalGroupId;
+	private Long hrLocationId;
+	private Long hrPayGradeId;	
+	
 	private EarnCode earnCodeObj;
 	private SalGroup salGroupObj;
     private EarnGroup fromEarnGroupObj;
@@ -285,6 +289,30 @@ public class ShiftDifferentialRule extends TkRule {
 
 	public void setPayGradeObj(PayGrade payGradeObj) {
 		this.payGradeObj = payGradeObj;
+	}
+
+	public Long getTkSalGroupId() {
+		return tkSalGroupId;
+	}
+
+	public void setTkSalGroupId(Long tkSalGroupId) {
+		this.tkSalGroupId = tkSalGroupId;
+	}
+
+	public Long getHrLocationId() {
+		return hrLocationId;
+	}
+
+	public void setHrLocationId(Long hrLocationId) {
+		this.hrLocationId = hrLocationId;
+	}
+
+	public Long getHrPayGradeId() {
+		return hrPayGradeId;
+	}
+
+	public void setHrPayGradeId(Long hrPayGradeId) {
+		this.hrPayGradeId = hrPayGradeId;
 	}
 
 }

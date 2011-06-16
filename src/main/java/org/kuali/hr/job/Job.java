@@ -46,6 +46,9 @@ public class Job extends PersistableBusinessObjectBase {
 	private BigDecimal compRate = new BigDecimal(0);
 	private Long positionNumber;
 	
+	private Long tkDeptId;
+	private Long hrPayTypeId;
+	
 	private Person principal;
 	private Department deptObj;
 	private PayType payTypeObj;
@@ -293,5 +296,20 @@ public class Job extends PersistableBusinessObjectBase {
 		return positionObj;
 	}
 
-	
+	public Long getTkDeptId() {
+		return tkDeptId;
+	}
+
+	public void setTkDeptId(Long tkDeptId) {
+		this.tkDeptId = tkDeptId;
+	}
+
+	public Long getHrPayTypeId() {
+		return hrPayTypeId;
+	}
+
+	public void setHrPayTypeId(Long hrPayTypeId) {
+		this.hrPayTypeId = hrPayTypeId;
+	}
+
 }

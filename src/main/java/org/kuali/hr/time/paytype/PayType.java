@@ -21,8 +21,10 @@ public class PayType extends PersistableBusinessObjectBase {
 	private Timestamp timestamp;
 	private Boolean history;
 	private Boolean active;
+	
 
     /** Used for lookup */
+	private Long tkEarnCodeId;
     private EarnCode regEarnCodeObj;
 
     public EarnCode getRegEarnCodeObj() {
@@ -139,4 +141,13 @@ public class PayType extends PersistableBusinessObjectBase {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
+
+	public Long getTkEarnCodeId() {
+		return tkEarnCodeId;
+	}
+
+	public void setTkEarnCodeId(Long tkEarnCodeId) {
+		this.tkEarnCodeId = tkEarnCodeId;
+	}
+	
 }

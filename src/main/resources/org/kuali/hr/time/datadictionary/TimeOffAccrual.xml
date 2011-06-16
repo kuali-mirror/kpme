@@ -24,6 +24,7 @@
 				<ref bean="TimeOffAccrual-hoursAccrued" />
 				<ref bean="TimeOffAccrual-hoursTaken" />
 				<ref bean="TimeOffAccrual-hoursAdjust" />
+				<ref bean="TimeOffAccrual-laAccrualCategoryId" />
 			</list>
 		</property>
 		 <property name="relationships">
@@ -42,11 +43,7 @@
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory" p:targetName="accrualCategory"/>
-                </list>
-              </property>
-              <property name="supportAttributes">
-                <list>
-                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="principalId" p:targetName="laAccrualCategoryId"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="laAccrualCategoryId" p:targetName="laAccrualCategoryId"/>
                 </list>
               </property>
             </bean>
@@ -157,7 +154,15 @@
 		<property name="name" value="hoursAdjust" />
 		<property name="label" value="Hours Adjust" />
 	</bean>
-
+	
+	<bean id="TimeOffAccrual-laAccrualCategoryId" parent="TimeOffAccrual-laAccrualCategoryId-parentBean" />
+	<bean id="TimeOffAccrual-laAccrualCategoryId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="laAccrualCategoryId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
 	<!--  Inquiry Definitions  -->
   
   	<bean id="TimeOffAccrual-inquiryDefinition" parent="TimeOffAccrual-inquiryDefinition-parentBean" />
@@ -195,6 +200,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="laAccrualCategoryId" />
 			</list>
 		</property>
 		<property name="resultFields">

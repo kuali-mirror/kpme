@@ -27,6 +27,8 @@
 				<ref bean="ClockLog-ipAddress" />
 				<ref bean="ClockLog-userPrincipalId" />
 				<ref bean="ClockLog-timestamp" />
+				<ref bean="ClockLog-tkTaskId" />
+				<ref bean="ClockLog-tkWorkAreaId" />
 			</list>
 		</property>
 		 
@@ -39,13 +41,10 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
 								p:targetName="workArea" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId"
+								p:targetName="tkWorkAreaId" />
 						</list>
 					</property>
-	              <property name="supportAttributes">
-	                <list>
-	                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="userPrincipalId" p:targetName="tkWorkAreaId"/>
-	                </list>
-	              </property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -54,13 +53,10 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="task"
 								p:targetName="task" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkTaskId"
+								p:targetName="tkTaskId" />
 						</list>
 					</property>
-	              <property name="supportAttributes">
-	                <list>
-	                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="userPrincipalId" p:targetName="tkTaskId"/>
-	                </list>
-	              </property>
 				</bean>
 			
 				<bean parent="RelationshipDefinition">
@@ -194,7 +190,9 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.clocklog.FlsaClocklogKeyValue" p:includeKeyInLabel="false"/>
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.clocklog.FlsaClocklogKeyValue" p:includeKeyInLabel="false">
+			<property name="script" value="alert('hii!! I am select box')"></property>
+			</bean>
 		</property>
 		<property name="name" value="clockAction" />
 		<property name="label" value="Clock Action" />
@@ -251,6 +249,23 @@
 		<property name="label" value="Timestamp" />
 	</bean>
 	
+	<bean id="ClockLog-tkTaskId" parent="ClockLog-tkTaskId-parentBean" />
+	<bean id="ClockLog-tkTaskId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkTaskId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+	
+	<bean id="ClockLog-tkWorkAreaId" parent="ClockLog-tkWorkAreaId-parentBean" />
+	<bean id="ClockLog-tkWorkAreaId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkWorkAreaId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
 	<!--  Inquiry Definitions  -->
   
   	<bean id="ClockLog-inquiryDefinition" parent="ClockLog-inquiryDefinition-parentBean" />
@@ -293,6 +308,8 @@
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="task" />
 				<bean parent="FieldDefinition" p:attributeName="ipAddress" />
+				<bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
+				<bean parent="FieldDefinition" p:attributeName="tkTaskId" />
 			</list>
 		</property>
 		<property name="resultFields">

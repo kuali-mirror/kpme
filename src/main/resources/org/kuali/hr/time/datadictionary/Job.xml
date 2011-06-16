@@ -36,6 +36,8 @@
 				<ref bean="Job-history" />
 				<ref bean="Job-active" />
 				<ref bean="Job-positionNbr"/>
+				<ref bean="Job-tkDeptId"/>
+				<ref bean="Job-hrPayTypeId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -53,11 +55,7 @@
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
-                </list>
-              </property>
-              <property name="supportAttributes">
-                <list>
-                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkDeptId"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="tkDeptId" p:targetName="tkDeptId"/>
                 </list>
               </property>
             </bean>
@@ -66,11 +64,7 @@
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPayType" p:targetName="payType"/>
-                </list>
-              </property>
-              <property name="supportAttributes">
-                <list>
-                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="hrPayTypeId"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPayTypeId" p:targetName="hrPayTypeId"/>
                 </list>
               </property>
             </bean>
@@ -299,7 +293,7 @@
 		<property name="label" value="Principal Name" />
     </bean>
 
-	<bean id="Job-name" parent="Assignment-name-parentBean"/>
+	<bean id="Job-name" parent="Job-name-parentBean"/>
   	<bean id="Job-name-parentBean" abstract="true" parent="AttributeDefinition">
     	<property name="shortLabel" value="Name"/>
     	<property name="maxLength" value="30"/>
@@ -436,8 +430,24 @@
 	</bean>
 
   	<bean id="Job-active" parent="Job-active-parentBean"/>
-
-
+	
+	<bean id="Job-tkDeptId" parent="Job-tkDeptId-parentBean" />
+	<bean id="Job-tkDeptId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkDeptId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+	
+	<bean id="Job-hrPayTypeId" parent="Job-hrPayTypeId-parentBean" />
+	<bean id="Job-hrPayTypeId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="hrPayTypeId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -485,6 +495,8 @@
 			    <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+				<bean parent="FieldDefinition" p:attributeName="tkDeptId" />
+				<bean parent="FieldDefinition" p:attributeName="hrPayTypeId" />
 			</list>
 		</property>
 		<!-- More information should be added here if needed -->

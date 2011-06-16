@@ -32,6 +32,9 @@
 				<ref bean="DailyOvertimeRule-history" />
 				<ref bean="DailyOvertimeRule-fromEarnGroup" />
 				<ref bean="DailyOvertimeRule-earnCode" />
+				<ref bean="DailyOvertimeRule-tkWorkAreaId" />
+				<ref bean="DailyOvertimeRule-tkDeptId" />
+				<ref bean="DailyOvertimeRule-hrLocationId" />
 			</list>
 		</property>
 
@@ -44,13 +47,9 @@
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
 								p:targetName="workArea" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId" p:targetName="tkWorkAreaId"/>
 						</list>
 					</property>
-					<property name="supportAttributes">
-                		<list>
-                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkWorkAreaId"/>
-                		</list>
-              		</property>
 				</bean>
 
         <bean parent="RelationshipDefinition">
@@ -78,13 +77,10 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
 								p:targetName="dept" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkDeptId"
+								p:targetName="tkDeptId" />
 						</list>
 					</property>
-					<property name="supportAttributes">
-                		<list>
-                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkDeptId"/>
-                		</list>
-              		</property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -103,13 +99,10 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
 								p:targetName="location" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrLocationId"
+								p:targetName="hrLocationId" />
 						</list>
 					</property>
-					<property name="supportAttributes">
-                		<list>
-                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="hrLocationId"/>
-                		</list>
-              		</property>
 				</bean>
 			</list>
 		</property>
@@ -328,6 +321,32 @@
     <property name="label" value="Convert to Earncode" />
   </bean>
 
+	<bean id="DailyOvertimeRule-tkDeptId" parent="DailyOvertimeRule-tkDeptId-parentBean" />
+	<bean id="DailyOvertimeRule-tkDeptId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkDeptId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+	
+	<bean id="DailyOvertimeRule-tkWorkAreaId" parent="DailyOvertimeRule-tkWorkAreaId-parentBean" />
+	<bean id="DailyOvertimeRule-tkWorkAreaId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkWorkAreaId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+	
+	<bean id="DailyOvertimeRule-hrLocationId" parent="DailyOvertimeRule-hrLocationId-parentBean" />
+	<bean id="DailyOvertimeRule-hrLocationId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="hrLocationId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
  	<!--  Inquiry Definitions  -->
   
   	<bean id="DailyOvertimeRule-inquiryDefinition" parent="DailyOvertimeRule-inquiryDefinition-parentBean" />
@@ -372,6 +391,9 @@
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
 				<bean parent="FieldDefinition" p:attributeName="active"/>
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+				<bean parent="FieldDefinition" p:attributeName="hrLocationId"/>
+				<bean parent="FieldDefinition" p:attributeName="tkDeptId"/>
+				<bean parent="FieldDefinition" p:attributeName="tkWorkAreaId"/>
 			</list>
 		</property>
 		<property name="resultFields">

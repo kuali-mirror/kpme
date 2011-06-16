@@ -30,6 +30,10 @@
 				<ref bean="DepartmentEarnCode-org_admin" />
 				<ref bean="DepartmentEarnCode-history" />
 				<ref bean="DepartmentEarnCode-active" />
+				<ref bean="DepartmentEarnCode-tkDeptId" />
+				<ref bean="DepartmentEarnCode-tkSalGroupId" />
+				<ref bean="DepartmentEarnCode-tkEarnCodeId" />
+				<ref bean="DepartmentEarnCode-hrLocationId" />
 			</list>
 		</property>
 		  
@@ -41,13 +45,10 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
 								p:targetName="dept" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkDeptId"
+								p:targetName="tkDeptId" />
 						</list>
 					</property>
-	              <property name="supportAttributes">
-	                <list>
-	                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkDeptId"/>
-	                </list>
-	              </property>
 				</bean>
 				
 				<bean parent="RelationshipDefinition">
@@ -56,13 +57,10 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkSalGroup"
 								p:targetName="tkSalGroup" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkSalGroupId"
+								p:targetName="tkSalGroupId" />
 						</list>
 					</property>
-	              <property name="supportAttributes">
-	                <list>
-	                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkSalGroupId"/>
-	                </list>
-	              </property>
 				</bean>
 				
 				<bean parent="RelationshipDefinition">
@@ -71,13 +69,10 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode"
 								p:targetName="earnCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkEarnCodeId"
+								p:targetName="tkEarnCodeId" />
 						</list>
-					</property>
-		              <property name="supportAttributes">
-		                <list>
-		                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkEarnCodeId"/>
-		                </list>
-		              </property>
+		            </property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -86,13 +81,10 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
 								p:targetName="location" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrLocationId"
+								p:targetName="hrLocationId" />
 						</list>
 					</property>
-	              <property name="supportAttributes">
-	                <list>
-	                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="hrLocationId"/>
-	                </list>
-	              </property>
 				</bean>
 			</list>
 		</property>
@@ -259,6 +251,41 @@
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
 
+	<bean id="DepartmentEarnCode-tkDeptId" parent="DepartmentEarnCode-tkDeptId-parentBean" />
+	<bean id="DepartmentEarnCode-tkDeptId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkDeptId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+	
+	<bean id="DepartmentEarnCode-tkSalGroupId" parent="DepartmentEarnCode-tkSalGroupId-parentBean" />
+	<bean id="DepartmentEarnCode-tkSalGroupId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkSalGroupId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+	
+	<bean id="DepartmentEarnCode-tkEarnCodeId" parent="DepartmentEarnCode-tkEarnCodeId-parentBean" />
+	<bean id="DepartmentEarnCode-tkEarnCodeId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkEarnCodeId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+	
+	<bean id="DepartmentEarnCode-hrLocationId" parent="DepartmentEarnCode-hrLocationId-parentBean" />
+	<bean id="DepartmentEarnCode-hrLocationId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="hrLocationId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
  	<!--  Inquiry Definitions  -->
   
   	<bean id="DepartmentEarnCode-inquiryDefinition" parent="DepartmentEarnCode-inquiryDefinition-parentBean" />
@@ -304,6 +331,10 @@
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+				<bean parent="FieldDefinition" p:attributeName="tkDeptId" />
+				<bean parent="FieldDefinition" p:attributeName="tkSalGroupId" />
+				<bean parent="FieldDefinition" p:attributeName="tkEarnCodeId" />
+				<bean parent="FieldDefinition" p:attributeName="hrLocationId" />
 			</list>
 		</property>
 		<property name="resultFields">

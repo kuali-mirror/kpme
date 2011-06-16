@@ -27,6 +27,9 @@
 				<ref bean="DeptLunchRule-active" />
 				<ref bean="DeptLunchRule-userPrincipalId" />
 				<ref bean="DeptLunchRule-timestamp" />
+				<ref bean="DeptLunchRule-tkWorkAreaId" />
+				<ref bean="DeptLunchRule-tkDeptId" />
+				<ref bean="DeptLunchRule-hrJobId" />
 			</list>
 		</property>
  
@@ -49,13 +52,9 @@
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
 								p:targetName="workArea" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId" p:targetName="tkWorkAreaId"/>
 						</list>
 					</property>
-					<property name="supportAttributes">
-                		<list>
-                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkWorkAreaId"/>
-                		</list>
-              		</property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -64,13 +63,10 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
 								p:targetName="dept" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkDeptId"
+								p:targetName="tkDeptId" />
 						</list>
 					</property>
-					<property name="supportAttributes">
-                		<list>
-                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkDeptId"/>
-                		</list>
-              		</property>
 				</bean>
             <bean parent="RelationshipDefinition">
               <property name="objectAttributeName" value="job"/>
@@ -78,11 +74,7 @@
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber" p:targetName="jobNumber"/>
-                </list>
-              </property>
-              <property name="supportAttributes">
-                <list>
-                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="hrJobId"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrJobId" p:targetName="hrJobId"/>
                 </list>
               </property>
             </bean>   
@@ -265,7 +257,34 @@
 		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>
-
+	
+	<bean id="DeptLunchRule-tkDeptId" parent="DeptLunchRule-tkDeptId-parentBean" />
+	<bean id="DeptLunchRule-tkDeptId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkDeptId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+	
+	<bean id="DeptLunchRule-tkWorkAreaId" parent="DeptLunchRule-tkWorkAreaId-parentBean" />
+	<bean id="DeptLunchRule-tkWorkAreaId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkWorkAreaId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+	
+	<bean id="DeptLunchRule-hrJobId" parent="DeptLunchRule-hrJobId-parentBean" />
+	<bean id="DeptLunchRule-hrJobId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="hrJobId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+	
  	<!--  Inquiry Definitions  -->
   
   	<bean id="DeptLunchRule-inquiryDefinition" parent="DeptLunchRule-inquiryDefinition-parentBean" />
@@ -310,6 +329,9 @@
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 				<bean parent="FieldDefinition" p:attributeName="active"/>
+				<bean parent="FieldDefinition" p:attributeName="tkDeptId"/>
+				<bean parent="FieldDefinition" p:attributeName="tkWorkAreaId"/>
+				<bean parent="FieldDefinition" p:attributeName="hrJobId"/>
 			</list>
 		</property>
 		<property name="resultFields">

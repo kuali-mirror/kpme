@@ -23,6 +23,9 @@
         <ref bean="ClockLocationRule-history" />
         <ref bean="ClockLocationRule-ipAddress"/>
         <ref bean="ClockLocationRule-userPrincipalId"/>
+        <ref bean="ClockLocationRule-hrJobId"/>
+        <ref bean="ClockLocationRule-tkDeptId"/>
+        <ref bean="ClockLocationRule-tkWorkAreaId"/>
       </list>
     </property>
     <property name="relationships">
@@ -44,13 +47,9 @@
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
 								p:targetName="workArea" />
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId" p:targetName="tkWorkAreaId"/>
 				</list>
 				</property>
-				<property name="supportAttributes">
-                <list>
-                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkWorkAreaId"/>
-                </list>
-              	</property>
 				
 			</bean>
   		
@@ -60,11 +59,7 @@
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
-                </list>
-              </property>
-              <property name="supportAttributes">
-                <list>
-                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkDeptId"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="tkDeptId" p:targetName="tkDeptId"/>
                 </list>
               </property>
             </bean>
@@ -75,15 +70,10 @@
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber" p:targetName="jobNumber"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrJobId" p:targetName="hrJobId"/>
                 </list>
               </property>
-              <property name="supportAttributes">
-                <list>
-                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="hrJobId"/>
-                </list>
-              </property>
-            </bean>            
-                    
+            </bean> 
         </list>
     </property>        
   </bean>
@@ -259,6 +249,33 @@
 		<property name="name" value="history" />
 		<property name="label" value="Show History" />
 	</bean>  
+	
+	<bean id="ClockLocationRule-hrJobId" parent="ClockLocationRule-hrJobId-parentBean" />
+	<bean id="ClockLocationRule-hrJobId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="hrJobId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+	
+	<bean id="ClockLocationRule-tkDeptId" parent="ClockLocationRule-tkDeptId-parentBean" />
+	<bean id="ClockLocationRule-tkDeptId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkDeptId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+
+	<bean id="ClockLocationRule-tkWorkAreaId" parent="ClockLocationRule-tkWorkAreaId-parentBean" />
+	<bean id="ClockLocationRule-tkWorkAreaId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkWorkAreaId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean> 
   
   <!--  Inquiry Definitions  -->
   
@@ -302,6 +319,9 @@
         <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
         <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+        <bean parent="FieldDefinition" p:attributeName="tkDeptId"/>
+        <bean parent="FieldDefinition" p:attributeName="tkWorkAreaId"/>
+        <bean parent="FieldDefinition" p:attributeName="hrJobId"/>
       </list>
     </property>
     <property name="resultFields">

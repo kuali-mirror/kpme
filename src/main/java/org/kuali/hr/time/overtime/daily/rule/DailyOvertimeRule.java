@@ -39,6 +39,10 @@ public class DailyOvertimeRule extends TkRule {
 	private boolean active;
 	private boolean history;
 
+	private Long tkWorkAreaId;
+	private Long tkDeptId;
+	private Long hrLocationId;
+	
 	private Task taskObj;
 	private WorkArea workAreaObj;
 	private Department departmentObj;
@@ -221,6 +225,30 @@ public class DailyOvertimeRule extends TkRule {
 
 	public void setHistory(boolean history) {
 		this.history = history;
+	}
+
+	public Long getTkWorkAreaId() {
+		return tkWorkAreaId;
+	}
+
+	public void setTkWorkAreaId(Long tkWorkAreaId) {
+		this.tkWorkAreaId = tkWorkAreaId;
+	}
+
+	public Long getTkDeptId() {
+		return tkDeptId;
+	}
+
+	public void setTkDeptId(Long tkDeptId) {
+		this.tkDeptId = tkDeptId;
+	}
+
+	public Long getHrLocationId() {
+		return hrLocationId;
+	}
+
+	public void setHrLocationId(Long hrLocationId) {
+		this.hrLocationId = hrLocationId;
 	}
 
 }

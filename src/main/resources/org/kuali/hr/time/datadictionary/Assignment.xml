@@ -20,9 +20,11 @@
 				<ref bean="Assignment-principalId" />
 				<ref bean="Assignment-name" />
 				<ref bean="Assignment-jobNumber" />
+				<ref bean="Assignment-hrJobId" />
 				<ref bean="Assignment-effectiveDate" />
 				<ref bean="Assignment-dept" />
 				<ref bean="Assignment-workArea" />
+				<ref bean="Assignment-tkWorkAreaId" />
 				<ref bean="Assignment-task" />
 				<ref bean="Assignment-active" />
 				<ref bean="Assignment-history" />
@@ -50,13 +52,10 @@
 								p:targetName="workArea" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
 								p:targetName="dept" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId"
+								p:targetName="tkWorkAreaId" />
 						</list>
 					</property>
-	              <property name="supportAttributes">
-	                <list>
-	                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="tkWorkAreaId"/>
-	                </list>
-	              </property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -71,13 +70,10 @@
 								p:targetName="jobNumber" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
 								p:targetName="dept" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrJobId"
+								p:targetName="hrJobId" />
 						</list>
 					</property>
-		              <property name="supportAttributes">
-		                <list>
-		                  <bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="active" p:targetName="hrJobId"/>
-		                </list>
-		              </property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -144,6 +140,24 @@
 		</property>
 		<property name="name" value="jobNumber" />
 		<property name="label" value="Job Number" />
+	</bean>
+
+	<bean id="Assignment-hrJobId" parent="Assignment-hrJobId-parentBean" />
+	<bean id="Assignment-hrJobId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="hrJobId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+	
+	<bean id="Assignment-tkWorkAreaId" parent="Assignment-tkWorkAreaId-parentBean" />
+	<bean id="Assignment-tkWorkAreaId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkWorkAreaId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
 	</bean>
 
 	<bean id="Assignment-effectiveDate" parent="Assignment-effectiveDate-parentBean" />
@@ -276,6 +290,8 @@
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+				<bean parent="FieldDefinition" p:attributeName="hrJobId" />
+				<bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
 			</list>
 
 		</property>

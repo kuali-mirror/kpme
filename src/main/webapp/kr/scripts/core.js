@@ -231,7 +231,7 @@ function inquiryPop(boClassName, inquiryParameters, element){
   	}
   for (i in parameterPairs) {
     parameters = parameterPairs[i].split(":");
-  	if(document.forms[0].elements[parameters[1]]){
+  	if(document.forms[0].elements[parameters[1]] || document.forms[0].elements["document.newMaintainableObject."+parameters[1]]){
 		queryString=queryString+"&"+parameters[1]+"="+document.forms[0].elements[parameters[0]].value;
 	}else{
 		queryString=queryString+"&"+parameters[1]+"=";

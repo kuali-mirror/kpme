@@ -29,6 +29,8 @@ public class WorkArea extends PersistableBusinessObjectBase implements Departmen
     private String defaultOvertimeEarnCode;
     private Timestamp timestamp;
     private String overtimeEditRole;
+    
+    private Long tkDeptId;
 
     private List<TkRole> roles = new ArrayList<TkRole>();
     private List<TkRole> inactiveRoles = new ArrayList<TkRole>();
@@ -213,4 +215,13 @@ public class WorkArea extends PersistableBusinessObjectBase implements Departmen
     public void setOvertimeEditRole(String overtimeEditRole) {
         this.overtimeEditRole = overtimeEditRole;
     }
+
+	public Long getTkDeptId() {
+		return tkDeptId;
+	}
+
+	public void setTkDeptId(Long tkDeptId) {
+		this.tkDeptId = tkDeptId;
+	}
+    
 }

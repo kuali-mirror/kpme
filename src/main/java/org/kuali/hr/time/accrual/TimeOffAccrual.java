@@ -22,6 +22,8 @@ public class TimeOffAccrual extends PersistableBusinessObjectBase {
 	private BigDecimal hoursTaken = new BigDecimal("0");
 	private BigDecimal hoursAdjust = new BigDecimal("0");
 
+	private Long laAccrualCategoryId;
+	
 	private AccrualCategory accrualCategoryObj;
 
 	protected PersonImpl principal;
@@ -106,6 +108,16 @@ public class TimeOffAccrual extends PersistableBusinessObjectBase {
 
 	public void setPrincipal(PersonImpl principal) {
 		this.principal = principal;
+	}
+
+
+	public Long getLaAccrualCategoryId() {
+		return laAccrualCategoryId;
+	}
+
+
+	public void setLaAccrualCategoryId(Long laAccrualCategoryId) {
+		this.laAccrualCategoryId = laAccrualCategoryId;
 	}
 
 }

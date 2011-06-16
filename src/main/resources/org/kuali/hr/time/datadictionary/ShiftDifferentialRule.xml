@@ -40,6 +40,9 @@
 				<ref bean="ShiftDifferentialRule-active" />
 				<ref bean="ShiftDifferentialRule-calendarGroup" />
 				<ref bean="ShiftDifferentialRule-fromEarnGroup" />
+				<ref bean="ShiftDifferentialRule-tkSalGroupId" />
+				<ref bean="ShiftDifferentialRule-hrLocationId" />
+				<ref bean="ShiftDifferentialRule-hrPayGradeId" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -50,13 +53,10 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkSalGroup"
 								p:targetName="tkSalGroup" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkSalGroupId"
+								p:targetName="tkSalGroupId" />
 						</list>
 					</property>
-					<property name="supportAttributes">
-		                <list>
-                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="location" p:targetName="tkSalGroupId"/>
-                		</list>
-              		</property>
 				</bean>
 
 
@@ -96,13 +96,10 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
 								p:targetName="location" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrLocationId"
+								p:targetName="hrLocationId" />
 						</list>
 					</property>
-					<property name="supportAttributes">
-		                <list>
-                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="payGrade" p:targetName="hrLocationId"/>
-                		</list>
-              		</property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">
@@ -111,13 +108,10 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="payGrade"
 								p:targetName="payGrade" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPayGradeId"
+								p:targetName="hrPayGradeId" />
 						</list>
 					</property>
-					<property name="supportAttributes">
-		                <list>
-                  			<bean parent="SupportAttributeDefinition" p:identifier="false" p:sourceName="location" p:targetName="hrPayGradeId"/>
-                		</list>
-              		</property>
 				</bean>
 
 
@@ -443,7 +437,33 @@
 		<property name="name" value="calendarGroup" />
 		<property name="label" value="Calendar Group" />
 	</bean>
-	
+		
+	<bean id="ShiftDifferentialRule-tkSalGroupId" parent="ShiftDifferentialRule-tkSalGroupId-parentBean" />
+	<bean id="ShiftDifferentialRule-tkSalGroupId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkSalGroupId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+		
+	<bean id="ShiftDifferentialRule-hrLocationId" parent="ShiftDifferentialRule-hrLocationId-parentBean" />
+	<bean id="ShiftDifferentialRule-hrLocationId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="hrLocationId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
+		
+	<bean id="ShiftDifferentialRule-hrPayGradeId" parent="ShiftDifferentialRule-hrPayGradeId-parentBean" />
+	<bean id="ShiftDifferentialRule-hrPayGradeId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="hrPayGradeId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
 	<!--  Inquiry Definitions  -->
   
   	<bean id="ShiftDifferentialRule-inquiryDefinition" parent="ShiftDifferentialRule-inquiryDefinition-parentBean" />
@@ -495,6 +515,9 @@
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
+				<bean parent="FieldDefinition" p:attributeName="tkSalGroupId" />
+				<bean parent="FieldDefinition" p:attributeName="hrLocationId" />
+				<bean parent="FieldDefinition" p:attributeName="hrPayGradeId" />
 			</list>
 		</property>
 		<property name="resultFields">
