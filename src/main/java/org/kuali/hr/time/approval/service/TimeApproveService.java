@@ -42,4 +42,12 @@ public interface TimeApproveService {
      * @return
      */
     public Set<String> getApproverPayCalendarGroups(Date payBeginDate, Date payEndDate);
+    
+    /**
+     * Used to determine if there are notes on a document
+     * @param documentNumber
+     * @return list of note objects
+     */
+    @SuppressWarnings("rawtypes")
+	public List hasNotes(String documentNumber);
 }
