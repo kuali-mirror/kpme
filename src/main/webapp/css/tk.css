@@ -542,57 +542,88 @@ select {
     font-size: .7em;
 }
 
-table.tablesorter {
+.approvals-table {
     background-color: #CDCDCD;
     margin: 10px 0 15px;
     width: 100%;
     text-align: center;
 }
 
-table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+.approvals-table thead tr th, .approvals-table tfoot tr th {
     background-color: #e6EEEE;
     border: 1px solid #FFF;
     padding: 4px;
 }
 
-/*table.tablesorter thead tr .header {*/
-table.tablesorter .sort {
+.approvals-table .sort {
     background: #e6EEEE url(../images/sort.gif) no-repeat center right;
     padding-right: 4px;
     cursor: pointer;
 }
 
-table.tablesorter tbody td {
+.approvals-table tbody td {
     color: #3D3D3D;
     padding: 4px;
     background-color: #FFF;
     vertical-align: top;
 }
 
-table.tablesorter tbody tr.odd td {
+.approvals-table tbody tr.odd td {
     background-color: #F0F0F6;
 }
 
-table.tablesorter thead tr .headerSortUp {
+.approvals-table thead tr .headerSortUp {
     background: url(../images/asc.gif) no-repeat center right;
 }
 
-table.tablesorter thead tr .headerSortDown {
+.approvals-table thead tr .headerSortDown {
     background: url(../images/desc.gif) no-repeat center right;
 }
 
-table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+.approvals-table thead tr .headerSortDown, .approvals-table thead tr .headerSortUp {
     background-color: #8dbdd8;
 }
 
-table.tablesorter .highlight {
+.approvals-table .highlight {
     background-color: #EEE5E5;
 }
 
-#filters {
+.approvals-table #approvals-warning:hover, .approvals-table #approvals-note:hover {
+    background-color: #dadada;
+    cursor: pointer;
+}
+
+.approvals-note-detail table {
+    border-collapse: collapse !important;
+}
+
+.approvals-note-detail .title {
+    font-size: 1em;
+    font-weight: bold;
+    text-align: left;
+}
+
+.approvals-note-detail table tr td, .approvals-note-detail table tr th{
+    border: 1px solid gray;
+}
+
+#approvals-filter {
     margin-top: 10px;
     width: 100%;
 }
-#filters tr td {
+#approvals-filter tr td {
     width: 33%;
 }
+
+#approvals-filter .left {
+    text-align: left;
+}
+
+#approvals-filter .center {
+    text-align: center;
+}
+
+#approvals-filter .right {
+    text-align: right;
+}
+
