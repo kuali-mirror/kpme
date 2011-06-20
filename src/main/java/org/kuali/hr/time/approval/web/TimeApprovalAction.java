@@ -26,13 +26,15 @@ public class TimeApprovalAction extends TkAction {
 
         // TODO: Obtain this via form?
         // Pay Begin/End needs to come from somewhere tangible, hard coded for now.
-        taaf.setPayBeginDate(TKUtils.createDate(5, 29, 2011, 0, 0, 0));
-        taaf.setPayEndDate(TKUtils.createDate(6, 12, 2011, 0, 0, 0));
+        taaf.setPayBeginDate(TKUtils.createDate(6, 12, 2011, 0, 0, 0));
+        taaf.setPayEndDate(TKUtils.createDate(6, 26, 2011, 0, 0, 0));
 
         taaf.setName(user.getPrincipalName());
         taaf.setApprovalRows(getApprovalRows(taaf));
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
         taaf.setPayCalendarGroups(TkServiceLocator.getTimeApproveService().getApproverPayCalendarGroups(taaf.getPayBeginDate(), taaf.getPayEndDate()));
+
+        TkServiceLocator.getWarningService().getWarnings("16274");
 
         return super.execute(mapping, form, request, response);
     }
@@ -89,7 +91,7 @@ public class TimeApprovalAction extends TkAction {
      */
     List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf) {
         // TODO: Handle pay calendar group.
-        List<ApprovalTimeSummaryRow> rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate());
+        List<ApprovalTimeSummaryRow> rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), "IU-BW");
 
         if (!taaf.isAjaxCall() && StringUtils.isNotBlank(taaf.getSearchField()) && StringUtils.isNotBlank(taaf.getSearchTerm())) {
             rows = searchApprovalRows(rows, taaf.getSearchField(), taaf.getSearchTerm());

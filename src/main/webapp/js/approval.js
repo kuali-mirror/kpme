@@ -72,7 +72,6 @@ $(document).ready(function() {
                     $.post('TimeApproval.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term + '&ajaxCall=true',
                             function(data) {
                                 response($.map(jQuery.parseJSON(data), function(item) {
-                                    console.log(item);
                                     return {
                                         value: item
                                     }
@@ -137,6 +136,14 @@ $(document).ready(function() {
                 text: false
             });
 
+    $(".approvals-note").tooltip({ effect: 'slide'});
+
+    // add css styles to the not and warning buttons
+//    $("#approvals-warning, #approvals-note").hover(function() {
+//        $(this).addClass("ui-state-hover");
+//    }, function() {
+//        $(this).removeClass("ui-state-hover");
+//    });
 
 // show-hide earn codes in the approval page
     $("#fran-button").click(function() {
@@ -147,5 +154,4 @@ $(document).ready(function() {
         $(".frank").toggle();
         $("#frank-button span").toggleClass('ui-icon-minus');
     });
-})
-        ;
+});

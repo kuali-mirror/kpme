@@ -16,6 +16,7 @@ public class TimeApprovalActionForm extends TkForm {
 
     private String name;
     private Set<String> payCalendarGroups = new HashSet<String>();
+    private String selectedPayCalendarGroup;
     private Date payBeginDate;
     private Date payEndDate;
     private List<String> payCalendarLabels = new ArrayList<String>();
@@ -171,5 +172,13 @@ public class TimeApprovalActionForm extends TkForm {
 
     public void setWorkArea(Long workArea) {
         this.workArea = workArea;
+    }
+
+    public String getSelectedPayCalendarGroup() {
+        return selectedPayCalendarGroup;
+    }
+
+    public void setSelectedPayCalendarGroup(String selectedPayCalendarGroup) {
+        this.selectedPayCalendarGroup = selectedPayCalendarGroup;
     }
 }

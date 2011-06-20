@@ -92,6 +92,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                     Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
                     List<TimeBlock> lstTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(documentId));
                     Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(principalId, payBeginDate, getPayCalendarLabelsForApprovalTab(payBeginDate,payEndDate), lstTimeBlocks);
+                    List notes = this.getNotesForDocument("16547");
 
                     ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
                     approvalSummaryRow.setName(person.getName());
@@ -101,6 +102,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                     approvalSummaryRow.setApprovalStatus(tdh.getDocumentStatus());
                     approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
                     approvalSummaryRow.setClockStatusMessage(createLabelForLastClockLog(principalId));
+                    approvalSummaryRow.setNotes(notes);
                     rows.add(approvalSummaryRow);
                 }
             }
@@ -133,7 +135,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup) {
         List<ApprovalTimeSummaryRow> rows = new ArrayList<ApprovalTimeSummaryRow>();
 
-        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsMap(payBeginDate, payEndDate, null);
+        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsMap(payBeginDate, payEndDate, 1007L);
         if (mrows.containsKey(calGroup))
             rows = mrows.get(calGroup);
 

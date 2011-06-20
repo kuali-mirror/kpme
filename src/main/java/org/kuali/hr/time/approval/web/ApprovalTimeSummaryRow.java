@@ -1,14 +1,14 @@
 package org.kuali.hr.time.approval.web;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.util.TkConstants;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.util.TkConstants;
 
 public class ApprovalTimeSummaryRow {
 	private String name;
@@ -18,6 +18,7 @@ public class ApprovalTimeSummaryRow {
 	private Map<String,BigDecimal> hoursToPayLabelMap = new HashMap<String,BigDecimal>();
 	private String clockStatusMessage;
     private String payCalendarGroup;
+    private List notes = new ArrayList();
 
 	public String getName() {
 		return name;
@@ -106,4 +107,11 @@ public class ApprovalTimeSummaryRow {
         return link.toString();
     }
 
+    public List getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List notes) {
+        this.notes = notes;
+    }
 }
