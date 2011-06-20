@@ -7,37 +7,42 @@
     <html:hidden property="rowsInTotal" value="${fn:length(Form.approvalRows)}"/>
 
     <div class="approvals">
-        <div id="searchDocuments">
-            Search By :
-            <label for="search field">
-                <select id="searchField" name="searchField">
-                    <option value="">-- Select a filed --</option>
-                    <option value="DocumentId">Document Id</option>
-                    <option value="PrincipalName">Principal Name</option>
-                </select>
-            </label>
-            Value :
-            <label for="search value">
-                <input id="searchValue" name="searchValue" type="text" placeholder="enter at least 3 chars"/>
-            </label>
-
-            <div id="payCalendarGroups">
-                Switch Pay Calendar Groups:
-                <label for="switch pay calendar groups">
-                    <select id="payCalendar">
-                        <option value="">-- Select a pay calendar --</option>
-                    </select>
-                </label>
-            </div>
-        </div>
+        <table id="filters">
+            <tr>
+                <td style="text-align: left;">
+                    Search By :
+                    <label for="search field">
+                        <select id="searchField" name="searchField">
+                            <option value="">-- Select a filed --</option>
+                            <option value="DocumentId">Document Id</option>
+                            <option value="PrincipalName">Principal Name</option>
+                        </select>
+                    </label>
+                    Value :
+                    <label for="search value">
+                        <input id="searchValue" name="searchValue" type="text" placeholder="enter at least 3 chars"/>
+                    </label>
+                </td>
+                <td style="text-align: center;">
+                    <button class="prev">Previous</button>
+                    <span style="font-size: 1.5em">${Form.payBeginDate} - ${Form.payEndDate}</span>
+                    <button class="next">Next</button>
+                </td>
+                <td style="text-align: right;">
+                    Switch Pay Calendar Groups:
+                    <label for="switch pay calendar groups">
+                        <select id="payCalendar">
+                            <c:forEach var="payCalendarGroup" items="${Form.payCalendarGroups}">
+                                <option value="${payCalendarGroup}">${payCalendarGroup}</option>
+                            </c:forEach>
+                        </select>
+                    </label>
+                </td>
+            </tr>
+        </table>
 
         <table id="approvals-table" class="tablesorter">
             <thead>
-            <tr>
-                <td colspan="22" align="center">
-                    <span style="font-weight: bold; font-size: 1.5em;">${Form.name}</span>
-                </td>
-            </tr>
             <tr>
                 <th><bean:message key="approval.principalName"/></th>
                 <th><bean:message key="approval.documentId"/></th>

@@ -27,6 +27,7 @@ public class Assignment extends PersistableBusinessObjectBase {
 	private Long tkAssignmentId;
 	private String principalId;
 	private Long jobNumber;
+	private Long hrJobId;
 	private Job job;
 	private Date effectiveDate;
 	private Long workArea;
@@ -107,6 +108,14 @@ public class Assignment extends PersistableBusinessObjectBase {
 
 	public void setJobNumber(Long jobNumber) {
 		this.jobNumber = jobNumber;
+	}
+
+	public Long getHrJobId() {
+		return hrJobId;
+	}
+
+	public void setHrJobId(Long hrJobId) {
+		this.hrJobId = hrJobId;
 	}
 
 	public Date getEffectiveDate() {

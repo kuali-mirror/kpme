@@ -9,11 +9,14 @@ import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -112,6 +115,18 @@ public class AssignmentMaintainableServiceImpl extends KualiMaintainableImpl {
 			aAccount.setActive(aOld.isActive());
 		}
 		super.processAfterEdit(document, parameters);
+	}
+
+
+    @Override
+	protected void setNewCollectionLineDefaultValues(String arg0,
+			PersistableBusinessObject arg1) {
+    	if(arg1 instanceof AssignmentAccount){
+    		AssignmentAccount assignmentAccount = (AssignmentAccount)arg1;
+    		Assignment assignment = (Assignment) this.getBusinessObject();
+    		assignmentAccount.setActive(assignment.isActive());
+    	}
+		super.setNewCollectionLineDefaultValues(arg0, arg1);
 	}
 
 }

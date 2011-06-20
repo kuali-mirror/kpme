@@ -30,6 +30,11 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	private String location;
 	private Boolean active;
 	
+	private Long tkDeptId;
+	private Long tkSalGroupId;
+	private Long tkEarnCodeId;
+	private Long hrLocationId;
+	
 	private SalGroup  salGroupObj;
 	private Department departmentObj;
 	private EarnCode earnCodeObj;
@@ -165,6 +170,30 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	}
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	public Long getTkDeptId() {
+		return tkDeptId;
+	}
+	public void setTkDeptId(Long tkDeptId) {
+		this.tkDeptId = tkDeptId;
+	}
+	public Long getTkSalGroupId() {
+		return tkSalGroupId;
+	}
+	public void setTkSalGroupId(Long tkSalGroupId) {
+		this.tkSalGroupId = tkSalGroupId;
+	}
+	public Long getTkEarnCodeId() {
+		return tkEarnCodeId;
+	}
+	public void setTkEarnCodeId(Long tkEarnCodeId) {
+		this.tkEarnCodeId = tkEarnCodeId;
+	}
+	public Long getHrLocationId() {
+		return hrLocationId;
+	}
+	public void setHrLocationId(Long hrLocationId) {
+		this.hrLocationId = hrLocationId;
 	}
 
 

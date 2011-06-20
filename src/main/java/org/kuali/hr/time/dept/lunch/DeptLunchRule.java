@@ -29,6 +29,10 @@ public class DeptLunchRule extends PersistableBusinessObjectBase implements Depa
 
     private Timestamp timestamp;
 
+    private Long tkWorkAreaId;
+    private Long tkDeptId;
+    private Long hrJobId;
+
     WorkArea workAreaObj;
     Department departmentObj;
     private Job job;
@@ -186,4 +190,29 @@ public class DeptLunchRule extends PersistableBusinessObjectBase implements Depa
 	public void setShiftHours(BigDecimal shiftHours) {
 		this.shiftHours = shiftHours;
 	}
+
+	public Long getTkWorkAreaId() {
+		return tkWorkAreaId;
+	}
+
+	public void setTkWorkAreaId(Long tkWorkAreaId) {
+		this.tkWorkAreaId = tkWorkAreaId;
+	}
+
+	public Long getTkDeptId() {
+		return tkDeptId;
+	}
+
+	public void setTkDeptId(Long tkDeptId) {
+		this.tkDeptId = tkDeptId;
+	}
+
+	public Long getHrJobId() {
+		return hrJobId;
+	}
+
+	public void setHrJobId(Long hrJobId) {
+		this.hrJobId = hrJobId;
+	}
+	
 }

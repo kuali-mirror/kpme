@@ -14,6 +14,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.*;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
@@ -259,5 +260,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 		}
 		return hoursToPayLabelMap;
+	}
+	@SuppressWarnings("rawtypes")
+	public List getNotesForDocument(String documentNumber){
+		List notes = KEWServiceLocator.getNoteService().getNotesByRouteHeaderId(Long.parseLong(documentNumber));
+		return notes;
 	}
 }
