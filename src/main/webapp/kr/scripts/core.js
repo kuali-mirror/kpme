@@ -353,3 +353,16 @@ function setDateValues(object) {
 		}	
 	}
 }
+
+function setAssignAccountActiveState(object){
+	if(document.getElementById && document.getElementById("document.newMaintainableObject.add.assignmentAccounts.active")) {
+		document.getElementById("document.newMaintainableObject.add.assignmentAccounts.active").checked = object.checked;
+		for(var i=0; i>=0; i++){
+			if(document.getElementById && document.getElementById("document.newMaintainableObject.assignmentAccounts["+i+"].active")){
+				document.getElementById("document.newMaintainableObject.assignmentAccounts["+i+"].active").checked = object.checked;
+			}else{
+				break;
+			}
+		}	
+	}
+}

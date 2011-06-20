@@ -226,7 +226,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Active" />
 		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
+			<bean parent="CheckboxControlDefinition" p:script="setAssignAccountActiveState(this);"/>
 		</property>
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
