@@ -136,7 +136,7 @@ $(document).ready(function() {
                 text: false
             });
 
-    $(".approvals-note").tooltip({ effect: 'slide'});
+    $(" .approvals-warning, .approvals-note").tooltip({ effect: 'slide'});
 
     // add css styles to the not and warning buttons
 //    $("#approvals-warning, #approvals-note").hover(function() {

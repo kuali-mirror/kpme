@@ -19,6 +19,7 @@ public class ApprovalTimeSummaryRow {
 	private String clockStatusMessage;
     private String payCalendarGroup;
     private List notes = new ArrayList();
+    private List<String> warnings = new ArrayList<String>();
 
 	public String getName() {
 		return name;
@@ -113,5 +114,13 @@ public class ApprovalTimeSummaryRow {
 
     public void setNotes(List notes) {
         this.notes = notes;
+    }
+
+    public List<String> getWarnings() {
+        return warnings;
+    }
+
+    public void setWarnings(List<String> warnings) {
+        this.warnings = warnings;
     }
 }

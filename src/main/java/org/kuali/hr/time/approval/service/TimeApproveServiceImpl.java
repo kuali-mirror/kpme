@@ -93,6 +93,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                     List<TimeBlock> lstTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(documentId));
                     Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(principalId, payBeginDate, getPayCalendarLabelsForApprovalTab(payBeginDate,payEndDate), lstTimeBlocks);
                     List notes = this.getNotesForDocument("16547");
+                    List<String> warnings = TkServiceLocator.getWarningService().getWarnings("16547");
 
                     ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
                     approvalSummaryRow.setName(person.getName());
@@ -103,6 +104,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                     approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
                     approvalSummaryRow.setClockStatusMessage(createLabelForLastClockLog(principalId));
                     approvalSummaryRow.setNotes(notes);
+                    approvalSummaryRow.setWarnings(warnings);
                     rows.add(approvalSummaryRow);
                 }
             }

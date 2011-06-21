@@ -178,25 +178,17 @@ select {
     float: right;
 }
 
-/*
-#timesheet {
-
-}
-
 #timesheet table {
-	width: 98%;
-	border-collapse: collapse;
-	border: 1px solid gray;
-	font-size: .9em;
-	margin: 20px 0px 20px 0px;
-	margin-left:auto;
-	margin-right:auto;
+    font-size: .8em;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
 }
 
-#timesheet table .header {
-	background: #f6a828 url(ui-lightness/images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
+#timesheet table td {
+    padding: 3px;
 }
-*/
+
 
 #timesheet-panel {
     border: 1px solid #ccc;
@@ -249,6 +241,12 @@ select {
     border: 1px solid #ccc;
     padding: 3px;
 }
+
+#timesheet-routing {
+    margin: 10px 40% 10px 40%;
+    text-align: center;
+}
+
 
 #clock {
     margin-left: auto;
@@ -310,17 +308,6 @@ select {
     -webkit-box-shadow: 0 0 10px #000;
 
     z-index: 9999;
-}
-
-#timesheet table {
-    font-size: .8em;
-    border-collapse: collapse;
-    width: 100%;
-    text-align: center;
-}
-
-#timesheet table td {
-    padding: 3px;
 }
 
 #dialog-form form {
@@ -593,17 +580,19 @@ select {
     cursor: pointer;
 }
 
-.approvals-note-detail table {
+.approvals-note-details table, .approvals-warning-details table {
     border-collapse: collapse !important;
 }
 
-.approvals-note-detail .title {
+.approvals-note-details th .title, .approvals-warning-details th .title {
     font-size: 1em;
     font-weight: bold;
     text-align: left;
+
 }
 
-.approvals-note-detail table tr td, .approvals-note-detail table tr th{
+.approvals-note-details table tr td, .approvals-note-details table tr th,
+.approvals-warning-details table tr td, .approvals-warning-details table tr th{
     border: 1px solid gray;
 }
 
