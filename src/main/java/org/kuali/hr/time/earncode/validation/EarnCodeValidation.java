@@ -9,7 +9,7 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 	
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		EarnCode earnCode = (EarnCode)this.getNewBo();
 		//if earn code is not designated how to record then throw error
 
