@@ -121,7 +121,7 @@
 			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
 		</property>
 		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
+		<property name="name" value="effDate" />
 		<property name="label" value="Effective Date" />
 	</bean>
 
@@ -179,7 +179,7 @@
 		<property name="name" value="timeStamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>
-		
+
 	<bean id="TimeCollectionRule-tkDeptId" parent="TimeCollectionRule-tkDeptId-parentBean" />
 	<bean id="TimeCollectionRule-tkDeptId-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -188,7 +188,7 @@
 			<bean parent="HiddenControlDefinition" />
 		</property>
 	</bean>
-		
+
 	<bean id="TimeCollectionRule-tkWorkAreaId" parent="TimeCollectionRule-tkWorkAreaId-parentBean" />
 	<bean id="TimeCollectionRule-tkWorkAreaId-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -198,7 +198,7 @@
 		</property>
 	</bean>
 	<!--  Inquiry Definitions  -->
-  
+
   	<bean id="TimeCollectionRule-inquiryDefinition" parent="TimeCollectionRule-inquiryDefinition-parentBean" />
 
 	<bean id="TimeCollectionRule-inquiryDefinition-parentBean" abstract="true"
@@ -209,7 +209,7 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="effDate" />
 							<bean parent="FieldDefinition" p:attributeName="dept" />
 							<bean parent="FieldDefinition" p:attributeName="workArea" />
 							<bean parent="FieldDefinition" p:attributeName="clockUserFl" />
@@ -243,7 +243,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="effDate" />
 				<bean parent="FieldDefinition" p:attributeName="clockUserFl" />
                 <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
