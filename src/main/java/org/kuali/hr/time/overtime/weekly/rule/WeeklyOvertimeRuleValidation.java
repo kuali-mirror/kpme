@@ -23,7 +23,7 @@ public class WeeklyOvertimeRuleValidation extends MaintenanceDocumentRuleBase {
     }
 
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = true;
 		WeeklyOvertimeRuleGroup ruleGroup = (WeeklyOvertimeRuleGroup)this.getNewBo();
 

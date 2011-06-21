@@ -17,7 +17,7 @@ public class WorkScheduleRule extends MaintenanceDocumentRuleBase {
 //		WorkArea workArea = KNSServiceLocator.getBusinessObjectService()
 //				.findBySinglePrimaryKey(WorkArea.class, workSchedule.getWorkArea());
 //		if (workArea != null) {
-//			
+//
 //			valid = true;
 //			LOG.debug("found workarea.");
 //		} else {
@@ -29,7 +29,7 @@ public class WorkScheduleRule extends MaintenanceDocumentRuleBase {
 //
 //	protected boolean validateDepartment(WorkSchedule workSchedule) {
 //		boolean valid = false;
-//		
+//
 //		if (workSchedule.getDept().equals(TkConstants.WILDCARD_CHARACTER)) {
 //			valid = true;
 //		} else {
@@ -48,13 +48,13 @@ public class WorkScheduleRule extends MaintenanceDocumentRuleBase {
 //		}
 //		return valid;
 //	}
-//	
+//
 //	/**
 //	 * It looks like the method that calls this class doesn't actually care
 //	 * about the return type.
 //	 */
 //	@Override
-//	protected boolean processCustomSaveDocumentBusinessRules(
+//	protected boolean processCustomRouteDocumentBusinessRules(
 //			MaintenanceDocument document) {
 //		boolean valid = false;
 //
@@ -62,14 +62,14 @@ public class WorkScheduleRule extends MaintenanceDocumentRuleBase {
 //		PersistableBusinessObject pbo = this.getNewBo();
 //		if (pbo instanceof WorkSchedule) {
 //			WorkSchedule workSchedule = (WorkSchedule) pbo;
-//			
+//
 //			if (workSchedule != null) {
-//				valid = true;				
+//				valid = true;
 //				valid &= this.validateWorkArea(workSchedule);
 //				valid &= this.validateDepartment(workSchedule);
-//				
+//
 //			}
-//		}		
+//		}
 //		return valid;
 //	}
 //

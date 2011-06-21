@@ -89,7 +89,7 @@ public class WorkAreaMaintenanceDocumentRule extends
 	}
 
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(
+	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
 

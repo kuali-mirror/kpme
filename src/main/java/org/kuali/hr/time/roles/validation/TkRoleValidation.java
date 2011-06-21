@@ -166,7 +166,7 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
     }
 
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = true;
 
 		PersistableBusinessObject pbo = this.getNewBo();

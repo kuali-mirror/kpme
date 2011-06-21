@@ -21,12 +21,12 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 	boolean validateDept(DepartmentEarnCode clr) {
 		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveDate())) {
 			this.putFieldError("dept", "error.existence", "department '" + clr.getDept() + "'");
-			return false;				
+			return false;
 		} else {
 			return true;
 		}
 	}
-	
+
 	boolean validateEarnCode(DepartmentEarnCode departmentEarnCode ) {
 		if (!ValidationUtils.validateEarnCode(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveDate())) {
 			this.putFieldError("earnCode", "error.existence", "Earncode '" + departmentEarnCode.getEarnCode()+ "'");
@@ -35,7 +35,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 			return true;
 		}
 	}
-	
+
 	boolean validateDuplication(DepartmentEarnCode departmentEarnCode) {
 		if(ValidationUtils.duplicateDeptEarnCodeExists(departmentEarnCode)) {
 			this.putFieldError("effectiveDate", "deptEarncode.duplicate.exists");
@@ -44,7 +44,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 			return true;
 		}
 	}
-	
+
 	boolean validateLocation(DepartmentEarnCode departmentEarnCode) {
 		if (departmentEarnCode.getLocation() != null
 				&& !ValidationUtils.validateLocation(departmentEarnCode.getLocation(), null)) {
@@ -55,13 +55,13 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 			return true;
 		}
 	}
-	
+
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
 	 */
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(
+	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
 
@@ -69,30 +69,19 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 		PersistableBusinessObject pbo = this.getNewBo();
 		if (pbo instanceof DepartmentEarnCode) {
 			DepartmentEarnCode departmentEarnCode = (DepartmentEarnCode) pbo;
-			
+
 			if (departmentEarnCode != null) {
 				valid = true;
 				valid &= this.validateSalGroup(departmentEarnCode);
 				valid &= this.validateDept(departmentEarnCode);
-				valid &= this.validateEarnCode(departmentEarnCode);	
+				valid &= this.validateEarnCode(departmentEarnCode);
 				valid &= this.validateDuplication(departmentEarnCode);
 				valid &= this.validateLocation(departmentEarnCode);
 			}
 
 		}
-		
+
 		return valid;
 	}
 
-	@Override
-	protected boolean processCustomApproveDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomApproveDocumentBusinessRules(document);
-	}
-
-	@Override
-	protected boolean processCustomRouteDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomRouteDocumentBusinessRules(document);
-	}
 }

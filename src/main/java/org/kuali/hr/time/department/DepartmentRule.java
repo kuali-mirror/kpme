@@ -42,11 +42,11 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
-	
+
 	boolean validateChartAndOrg(String chartString, String orgString) {
 		if(chartString != null && orgString != null) {
 			Chart chart = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chartString);
-			Organization org = this.getOrganization(orgString); 
+			Organization org = this.getOrganization(orgString);
 			if(chart != null && org != null) {
 				Chart chartTemp = org.getChartOfAccounts();
 				if(!chart.getChartOfAccountsCode().equals(chartTemp.getChartOfAccountsCode())) {
@@ -58,17 +58,17 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 		}
 		return true;
 	}
-	
+
 	Organization getOrganization(String orgCode) {
 		Map<String, String> primaryKeys = new HashMap<String, String>();
 		primaryKeys.put("organizationCode", orgCode);
-		return (Organization) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, primaryKeys); 
+		return (Organization) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, primaryKeys);
 	}
 
 	/**
 	 * Checks for not null and size > 0, but follows the validation pattern
 	 * given in this class for future expanding.
-	 * 
+	 *
 	 * @return true if there is a role, false otherwise.
 	 */
 	boolean validateRolePresent(List<TkRole> roles) {
@@ -93,7 +93,7 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 	 * The calling method doesn't seem to examine the return value.
 	 */
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(
+	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
 
@@ -109,15 +109,4 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	@Override
-	protected boolean processCustomApproveDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomApproveDocumentBusinessRules(document);
-	}
-
-	@Override
-	protected boolean processCustomRouteDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomRouteDocumentBusinessRules(document);
-	}
 }

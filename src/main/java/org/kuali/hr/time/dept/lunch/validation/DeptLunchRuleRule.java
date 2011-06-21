@@ -46,7 +46,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 	boolean validateDepartment(DeptLunchRule ruleObj) {
 		if (!ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffectiveDate())) {
 			this.putFieldError("dept", "error.existence", "department '" + ruleObj.getDept() + "'");
-			return false;				
+			return false;
 		} else {
 			return true;
 		}
@@ -71,35 +71,35 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
-	
+
 	boolean validatePrincipalId(DeptLunchRule ruleObj) {
 		if (!ruleObj.getPrincipalId().equals(TkConstants.WILDCARD_CHARACTER)
 				&&!ValidationUtils.validatePrincipalId(ruleObj.getPrincipalId())) {
 			this.putFieldError("principalId", "error.existence", "Principal Id '" + ruleObj.getPrincipalId() + "'");
-			return false;				
+			return false;
 		} else {
 			return true;
 		}
 	}
-	
+
 	boolean validateShiftHour(DeptLunchRule ruleObj) {
 		BigDecimal shiftHour = ruleObj.getShiftHours();
 		BigDecimal maxHour = new BigDecimal(24);
 		if(shiftHour.compareTo(maxHour) == 1) {
 			this.putFieldError("shiftHours", "dept.shifthour.exceedsMax");
-			return false;	
+			return false;
 		}
 		return true;
 	}
-	
 
-	
+
+
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
 	 */
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(
+	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
 
@@ -117,7 +117,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateShiftHour(deptLunchRule);
 			}
 		}
-		
+
 		return valid;
 	}
 
@@ -125,11 +125,5 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 	protected boolean processCustomApproveDocumentBusinessRules(
 			MaintenanceDocument document) {
 		return super.processCustomApproveDocumentBusinessRules(document);
-	}
-
-	@Override
-	protected boolean processCustomRouteDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomRouteDocumentBusinessRules(document);
 	}
 }

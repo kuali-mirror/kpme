@@ -96,7 +96,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 	}
 
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(
+	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Job");

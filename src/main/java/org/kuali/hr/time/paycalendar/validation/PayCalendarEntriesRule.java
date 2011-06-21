@@ -7,7 +7,7 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 public class PayCalendarEntriesRule extends MaintenanceDocumentRuleBase {
     @Override
-	protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = false;
 
         PayCalendarEntries payCalendarEntries = (PayCalendarEntries) this.getNewBo();
@@ -15,7 +15,7 @@ public class PayCalendarEntriesRule extends MaintenanceDocumentRuleBase {
         valid = validateCalendarGroup(payCalendarEntries.getCalendarGroup());
         return valid;
     }
-    
+
     protected boolean validateCalendarGroup(String calendarGroup) {
     	boolean valid = ValidationUtils.validatePayCalendar(calendarGroup);
         if (!valid) {

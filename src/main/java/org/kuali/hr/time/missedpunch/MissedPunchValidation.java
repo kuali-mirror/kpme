@@ -70,7 +70,7 @@ public class MissedPunchValidation extends MaintenanceDocumentRuleBase {
     }
 
     @Override
-	protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean ret = true;
 
         PersistableBusinessObject pbo = this.getNewBo();

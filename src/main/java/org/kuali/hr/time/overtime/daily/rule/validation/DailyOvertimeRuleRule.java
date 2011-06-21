@@ -116,7 +116,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 	 * about the return type.
 	 */
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(
+	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
 
@@ -140,15 +140,4 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	@Override
-	protected boolean processCustomApproveDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomApproveDocumentBusinessRules(document);
-	}
-
-	@Override
-	protected boolean processCustomRouteDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomRouteDocumentBusinessRules(document);
-	}
 }

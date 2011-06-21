@@ -74,7 +74,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 	 * about the return type.
 	 */
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(
+	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for TimeCollectionRule");
@@ -95,15 +95,4 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	@Override
-	protected boolean processCustomApproveDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomApproveDocumentBusinessRules(document);
-	}
-
-	@Override
-	protected boolean processCustomRouteDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomRouteDocumentBusinessRules(document);
-	}
 }

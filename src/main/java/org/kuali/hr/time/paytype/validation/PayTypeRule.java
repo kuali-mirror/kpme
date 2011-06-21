@@ -21,7 +21,7 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
     }
 
     @Override
-	protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = false;
 
         PersistableBusinessObject pbo = this.getNewBo();

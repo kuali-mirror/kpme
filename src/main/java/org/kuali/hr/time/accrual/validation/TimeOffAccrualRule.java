@@ -13,7 +13,7 @@ public class TimeOffAccrualRule extends MaintenanceDocumentRuleBase {
 	 * about the return type.
 	 */
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(
+	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
 
@@ -54,15 +54,4 @@ public class TimeOffAccrualRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	@Override
-	protected boolean processCustomApproveDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomApproveDocumentBusinessRules(document);
-	}
-
-	@Override
-	protected boolean processCustomRouteDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomRouteDocumentBusinessRules(document);
-	}
 }

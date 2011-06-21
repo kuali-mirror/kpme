@@ -20,13 +20,13 @@ public class HolidayCalendarRule extends MaintenanceDocumentRuleBase {
 			return true;
 		}
 	}
-	
+
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
 	 */
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(
+	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for TimeCollectionRule");
@@ -40,18 +40,6 @@ public class HolidayCalendarRule extends MaintenanceDocumentRuleBase {
 		}
 
 		return valid;
-	}
-
-	@Override
-	protected boolean processCustomApproveDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomApproveDocumentBusinessRules(document);
-	}
-
-	@Override
-	protected boolean processCustomRouteDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomRouteDocumentBusinessRules(document);
 	}
 
 }

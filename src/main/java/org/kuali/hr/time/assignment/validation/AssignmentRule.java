@@ -201,7 +201,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	 * about the return type.
 	 */
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(
+	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for DeptLunchRule");
@@ -217,18 +217,6 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		}
 
 		return valid;
-	}
-
-	@Override
-	protected boolean processCustomApproveDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomApproveDocumentBusinessRules(document);
-	}
-
-	@Override
-	protected boolean processCustomRouteDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomRouteDocumentBusinessRules(document);
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 		}
 		if(ip.isEmpty() || ip.length() > 15 || ip.endsWith(IP_SEPERATOR) || ip.startsWith(IP_SEPERATOR)) {
 			return this.flagError(ip);
-		} 
+		}
 		String[] lst =  StringUtils.split(ip, IP_SEPERATOR);
 		if(lst.length > 4 || (lst.length <4 && ip.indexOf(WILDCARD_CHARACTER)< 0)) {
 			return this.flagError(ip);
@@ -45,7 +45,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 		}
 		return true;
 	}
-	
+
 	boolean flagError(String ip) {
 		this.putFieldError("ipAddress", "ipaddress.invalid.format", ip);
 		return false;
@@ -161,7 +161,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 	 * about the return type.
 	 */
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 
 		PersistableBusinessObject pbo = this.getNewBo();

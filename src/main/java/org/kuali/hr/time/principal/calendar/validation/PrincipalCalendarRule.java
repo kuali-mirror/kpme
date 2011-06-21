@@ -25,7 +25,7 @@ public class PrincipalCalendarRule extends MaintenanceDocumentRuleBase {
 	}
 
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(
+	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
 

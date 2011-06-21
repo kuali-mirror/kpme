@@ -47,16 +47,16 @@ public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 
 		return valid;
 	}
-	
+
 	//TODO fix this class
 	protected boolean validateWorkArea(ClockLog clockLog ) {
 		boolean valid = false;
 		LOG.debug("Validating workarea: " + clockLog.getWorkArea());
 		Criteria crit = new Criteria();
-		crit.addEqualTo("workArea", clockLog.getWorkArea());		
+		crit.addEqualTo("workArea", clockLog.getWorkArea());
 		Query query = QueryFactory.newQuery(WorkArea.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
-		
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+
 		if (count >0 ) {
 			valid = true;
 			LOG.debug("found workarea.");
@@ -65,16 +65,16 @@ public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 					+ clockLog.getWorkArea()+ "'");
 		}
 		return valid;
-	} 
-	
+	}
+
 	protected boolean validateTask(ClockLog clockLog ) {
 		boolean valid = false;
 		LOG.debug("Validating task: " + clockLog.getTask());
 		Criteria crit = new Criteria();
-		crit.addEqualTo("task", clockLog.getTask());		
+		crit.addEqualTo("task", clockLog.getTask());
 		Query query = QueryFactory.newQuery(Task.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);	
-		
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+
 		if (count >0 ) {
 			valid = true;
 			LOG.debug("found task.");
@@ -84,14 +84,14 @@ public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
-	
-	
+
+
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
 	 */
 	@Override
-	protected boolean processCustomSaveDocumentBusinessRules(
+	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean valid = false;
 
@@ -104,22 +104,11 @@ public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 				valid = true;
 				valid &= this.validateIpAddress(clockLog.getIpAddress());
 				valid &= this.validateWorkArea(clockLog);
-				valid &= this.validateTask(clockLog);									
+				valid &= this.validateTask(clockLog);
 			}
 		}
-		
+
 		return valid;
 	}
 
-	@Override
-	protected boolean processCustomApproveDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomApproveDocumentBusinessRules(document);
-	}
-
-	@Override
-	protected boolean processCustomRouteDocumentBusinessRules(
-			MaintenanceDocument document) {
-		return super.processCustomRouteDocumentBusinessRules(document);
-	}
 }

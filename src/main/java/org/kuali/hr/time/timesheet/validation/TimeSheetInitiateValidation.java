@@ -12,10 +12,10 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 public class TimeSheetInitiateValidation extends MaintenanceDocumentRuleBase {
     @Override
-	protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = true;
         TimeSheetInitiate timeInit = (TimeSheetInitiate)this.getNewBo();
-        
+
        // need to check if the current date is between the begin and end dates of pay calendar entries
         PayCalendarEntries payCalEntries = (PayCalendarEntries) timeInit.getPayCalendarEntriesObj();
         if(payCalEntries == null) {
@@ -23,26 +23,26 @@ public class TimeSheetInitiateValidation extends MaintenanceDocumentRuleBase {
         	valid = false;
         	return valid;
         }
-        
+
         Date currentDate = new Date();
-    	if(!(currentDate.after(payCalEntries.getBeginPeriodDateTime()) 
+    	if(!(currentDate.after(payCalEntries.getBeginPeriodDateTime())
     			&& currentDate.before(payCalEntries.getEndPeriodDateTime()))) {
     		this.putFieldError("payCalendarEntriesId", "timeSheetInit.payCalEntriesId.InvalidDateRange");
         	valid = false;
         	return valid;
        	}
-    	
-		if(valid) { 
+
+		if(valid) {
 			this.createTimeSheetDocument(timeInit, payCalEntries);
 		}
 
         return valid;
     }
-    
+
     protected void createTimeSheetDocument(TimeSheetInitiate timeInit, PayCalendarEntries entries) {
     	try {
 			TkServiceLocator.getTimesheetService().openTimesheetDocument(timeInit.getPrincipalId(), entries);
-		
+
 		} catch (WorkflowException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
