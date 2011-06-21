@@ -39,7 +39,7 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"	p:targetName="workArea" />
                             <bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"	p:targetName="dept" />
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId"	p:targetName="tkWorkAreaId" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="workAreaObj.tkWorkAreaId"	p:targetName="tkWorkAreaId" />
 						</list>
 					</property>
 				</bean>
@@ -49,7 +49,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"	p:targetName="dept" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkDeptId"	p:targetName="tkDeptId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="departmentObj.tkDeptId"	p:targetName="tkDeptId" />
 						</list>
 					</property>
 				</bean>
@@ -121,7 +121,7 @@
 			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
 		</property>
 		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
-		<property name="name" value="effDate" />
+		<property name="name" value="effectiveDate" />
 		<property name="label" value="Effective Date" />
 	</bean>
 
@@ -209,7 +209,7 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="effDate" />
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="dept" />
 							<bean parent="FieldDefinition" p:attributeName="workArea" />
 							<bean parent="FieldDefinition" p:attributeName="clockUserFl" />
@@ -243,7 +243,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
-				<bean parent="FieldDefinition" p:attributeName="effDate" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="clockUserFl" />
                 <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
