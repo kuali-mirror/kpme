@@ -1,11 +1,7 @@
 package org.kuali.hr.time.clock.web;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.clocklog.ClockLog;
@@ -14,8 +10,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public class ClockActionForm extends TimesheetActionForm {
 
@@ -39,29 +33,29 @@ public class ClockActionForm extends TimesheetActionForm {
     private List<String> assignDescriptionsList;
 
     private List<String> assignmentKeyList;
-    
+
     private Map<String, String> assignmentKeyDesList;
-    
+
     private String editTimeBlockId;
     private TimeBlock currentTimeBlock;
     private String currentAssignmentDescription;
     private String currentAssignmentKey;
     private String tbId;
-    
+
     private String newAssignDesCol;
     private String newBDCol;
     private String newBTCol;
     private String newEDCol;
     private String newETCol;
     private String newHrsCol;
-    
-  //this field will hold all the app specific error messages  
+
+  //this field will hold all the app specific error messages
 	private String errorMessage;
-    
-    
+
+
  // this is for the ajax call
 	private String outputString;
-	
+
 	public String getErrorMessage() {
 		return errorMessage;
 	}
@@ -153,7 +147,7 @@ public class ClockActionForm extends TimesheetActionForm {
 	public void setLastClockAction(String lastClockAction) {
 		this.lastClockAction = lastClockAction;
 	}
-	
+
 	public TimeBlock getCurrentTimeBlock() {
 		if(currentTimeBlock == null && this.getEditTimeBlockId() != null) {
 			this.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(Long.valueOf(this.getEditTimeBlockId())));
@@ -206,7 +200,7 @@ public class ClockActionForm extends TimesheetActionForm {
     public void setShowLunchButton(boolean showLunchButton) {
         this.showLunchButton = showLunchButton;
     }
-    
+
     /**
      *
      * This method is dependent on hrsDistributionF flag of TimeCollectionRule
@@ -219,7 +213,7 @@ public class ClockActionForm extends TimesheetActionForm {
     		List<Assignment> assignments = timesheetDocument.getAssignments();
     		if(assignments.size() <= 1) {
     			setShowDistrubuteButton(false);
-    			return showDistributeButton;	
+    			return showDistributeButton;
     		}
     		for(Assignment assignment: assignments) {
     			TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveDate());
@@ -230,7 +224,7 @@ public class ClockActionForm extends TimesheetActionForm {
 		    		}
 		    	}
     		}
-    		
+
     	}
     	return showDistributeButton;
     }
@@ -238,7 +232,7 @@ public class ClockActionForm extends TimesheetActionForm {
     public void setShowDistrubuteButton(boolean showDistrubuteButton) {
         this.showDistributeButton = showDistrubuteButton;
     }
-    
+
 	public void setSelectedAssignment(String selectedAssignment) {
 		super.setSelectedAssignment(selectedAssignment);
 		this.isShowDistributeButton();
@@ -304,7 +298,7 @@ public class ClockActionForm extends TimesheetActionForm {
 				 }
 				 this.setAssignmentKeyDesList(secondMap);
 				 this.setTimeBlocksMap(tbMap);
-				 
+
 				 List<String> list1= new ArrayList<String>();
 				 for(String aString : tbMap.keySet()) {
 					 list1.add(aString);
@@ -317,7 +311,7 @@ public class ClockActionForm extends TimesheetActionForm {
 				 this.setAssignDescriptionsList(list1);
 			 }
 		 }
-		
+
 	}
 
 	public String getCurrentAssignmentKey() {
@@ -410,5 +404,5 @@ public class ClockActionForm extends TimesheetActionForm {
 		this.timeBlocksMap = timeBlocksMap;
 	}
 
-    
+
 }

@@ -1,7 +1,6 @@
 package org.kuali.hr.time.clock.location.service;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
@@ -10,14 +9,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ClockLocationRuleLookupableHelper extends
         TkAuthorizedLookupableHelperBase {
@@ -77,14 +69,14 @@ public class ClockLocationRuleLookupableHelper extends
 			active = fieldValues.get("active");
 			fieldValues.put("active", "");
 		}
-		
+
 		List<ClockLocationRule> clockLocationList = (List<ClockLocationRule>)super.getSearchResults(fieldValues);
 		//Create a principalId+jobNumber map as this is the unique key for results
 		Map<String,List<ClockLocationRule>> clockLocationMap = new HashMap<String,List<ClockLocationRule>>();
-		
+
 		for(ClockLocationRule clockLocationRule : clockLocationList){
 			String clockLocKey = clockLocationRule.getDept()+"_"+clockLocationRule.getIpAddress()+"_"+clockLocationRule.getPrincipalId()+"_"+
-									(clockLocationRule.getJobNumber()!=null ? clockLocationRule.getJobNumber().toString(): "") +"_" + 
+									(clockLocationRule.getJobNumber()!=null ? clockLocationRule.getJobNumber().toString(): "") +"_" +
 									(clockLocationRule.getWorkArea() !=null ? clockLocationRule.getWorkArea().toString() : "");
 			if(clockLocationMap.get(clockLocKey)!=null){
 				List<ClockLocationRule> lstClockLocationRules = clockLocationMap.get(clockLocKey);
@@ -95,20 +87,20 @@ public class ClockLocationRuleLookupableHelper extends
 				clockLocationMap.put(clockLocKey, lstClockLocationRules);
 			}
 		}
-		
+
 		List<BusinessObject> finalBusinessObjectList = new ArrayList<BusinessObject>();
-		
+
 		for(List<ClockLocationRule> lstClockLocation : clockLocationMap.values()){
 			Collections.sort(lstClockLocation, new EffectiveDateTimestampCompare());
 			Collections.reverse(lstClockLocation);
 		}
-		
+
 		Date currDate = TKUtils.getCurrentDate();
 		//Active = Both and Show History = Yes
 		//return all results
 		if(StringUtils.isEmpty(active) && StringUtils.equals("Y", showHistory)){
 			return clockLocationList;
-		} 
+		}
 		//Active = Both and show history = No
 		//return the most effective results from today and any future rows
 		else if(StringUtils.isEmpty(active) && StringUtils.equals("N", showHistory)){
@@ -137,7 +129,7 @@ public class ClockLocationRuleLookupableHelper extends
 						}
 					}
 				}
-			}			
+			}
 		}
 		//Active = Yes and Show History = Yes
 		//return all active records from database
@@ -145,7 +137,7 @@ public class ClockLocationRuleLookupableHelper extends
 			for(List<ClockLocationRule> lstClr : clockLocationMap.values()){
 				for(ClockLocationRule clr : lstClr){
 					if(clr.isActive()){
-						finalBusinessObjectList.add(clr);			
+						finalBusinessObjectList.add(clr);
 					}
 				}
 			}
@@ -156,7 +148,7 @@ public class ClockLocationRuleLookupableHelper extends
 			for(List<ClockLocationRule> lstClr : clockLocationMap.values()){
 				for(ClockLocationRule clr : lstClr){
 					if(!clr.isActive()){
-						finalBusinessObjectList.add(clr);	
+						finalBusinessObjectList.add(clr);
 					}
 				}
 			}
@@ -169,7 +161,7 @@ public class ClockLocationRuleLookupableHelper extends
 					if(clr.getEffectiveDate().before(currDate)){
 						if(!clr.isActive()){
 							finalBusinessObjectList.add(clr);
-						} 
+						}
 						break;
 					} else {
 						if(!clr.isActive()){
@@ -179,7 +171,7 @@ public class ClockLocationRuleLookupableHelper extends
 				}
 			}
 		}
-		
+
 		return finalBusinessObjectList;
 	}
 
@@ -191,7 +183,7 @@ public class ClockLocationRuleLookupableHelper extends
 					attributeValue);
 		}
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public class EffectiveDateTimestampCompare implements Comparator{
 
@@ -205,6 +197,6 @@ public class ClockLocationRuleLookupableHelper extends
 			}
 			return result;
 		}
-		
+
 	}
 }

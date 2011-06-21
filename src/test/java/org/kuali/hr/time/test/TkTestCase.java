@@ -31,13 +31,13 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 @SuppressWarnings("deprecation")
 @Ignore
 public class TkTestCase extends KNSTestCase{
-	
+
 	public void setUp() throws Exception {
 		ApplicationInitializeListener.ALTERNATE_LOG4J_FILE = "classpath:test_log4j.properties";
 		setContextName("/tk-dev");
 		setRelativeWebappRoot("/src/main/webapp");
-		
-		ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/tk-test-config.xml";		
+
+		ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/tk-test-config.xml";
 		TkLoginFilter.TEST_ID = "admin";
 		GlobalVariables.setErrorMap(new ErrorMap());
 		TKContext.setHttpServletRequest(new MockHttpServletRequest());
@@ -47,7 +47,7 @@ public class TkTestCase extends KNSTestCase{
 		TKContext.setHttpServletRequest(new MockHttpServletRequest());
 		new ClearDatabaseLifecycle().start();
 	}
-	
+
 	@Override
 	protected List<Lifecycle> getSuiteLifecycles() {
 		List<Lifecycle> lifeCycles = super.getPerTestLifecycles();
@@ -89,19 +89,19 @@ public class TkTestCase extends KNSTestCase{
 		});
 		return lifeCycles;
 	}
-	
+
 	@Override
 	protected List<String> getConfigLocations() {
 		List<String> og_config = super.getConfigLocations();
 		og_config.add("classpath:META-INF/tk-test-config.xml");
 	    return og_config;
 	}
-	
+
 	@Override
 	protected String getModuleName() {
 		return "";
 	}
-	
+
    protected final void setFieldValue(HtmlPage page, String fieldId, String fieldValue) {
         HtmlElement element = page.getHtmlElementById(fieldId);
         assertTrue("element " + fieldId + " is null, page: " + page.asText(), element != null);

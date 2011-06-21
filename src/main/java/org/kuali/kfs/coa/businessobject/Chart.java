@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,12 +20,11 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.Summarizable;
 
 /**
- * 
+ *
  */
-public class Chart extends PersistableBusinessObjectBase implements Summarizable, Inactivateable {
+public class Chart extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = 4129020803214027609L;
 
@@ -41,7 +40,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
 
     /**
      * Gets the finChartOfAccountDescription attribute.
-     * 
+     *
      * @return Returns the finChartOfAccountDescription
      */
     public String getFinChartOfAccountDescription() {
@@ -50,7 +49,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
 
     /**
      * Sets the finChartOfAccountDescription attribute.
-     * 
+     *
      * @param finChartOfAccountDescription The finChartOfAccountDescription to set.
      */
     public void setFinChartOfAccountDescription(String finChartOfAccountDescription) {
@@ -59,7 +58,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active
      */
     public boolean isActive() {
@@ -68,7 +67,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
 
     /**
      * Sets the active attribute.
-     * 
+     *
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -77,22 +76,22 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
-    
+
     /**
      * Sets the chartOfAccountsCode attribute value.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
-    
+
 
     /**
      * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
@@ -100,7 +99,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
     public String getCodeAndDescription() {
         if (StringUtils.isNotBlank(getChartOfAccountsCode()) && StringUtils.isNotBlank(getFinChartOfAccountDescription()))
             return getChartOfAccountsCode() + " - " + getFinChartOfAccountDescription();
-        else 
+        else
             return "";
     }
 

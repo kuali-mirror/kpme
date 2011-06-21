@@ -301,7 +301,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static BatchJobEntryService getBatchJobEntryService(){
 		return (BatchJobEntryService)CONTEXT.getBean(TK_BATCH_JOB_ENTRY_SERVICE);
 	}
-	
+
 	public static TkWarningService getWarningService(){
 		return (TkWarningService) CONTEXT.getBean(TK_WARNINGS_SERVICE);
 	}
@@ -309,7 +309,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static PlatformTransactionManager getPlatformTransactionManager() {
 		return (PlatformTransactionManager)CONTEXT.getBean("transactionManager");
 	}
-	
+
 	public static TransactionTemplate getTransactionTemplate() {
 		return new TransactionTemplate(getPlatformTransactionManager());
 	}

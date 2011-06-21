@@ -14,13 +14,15 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="textAreaFieldName" required="true" %>
-<%@ attribute name="action" required="true" %>
-<%@ attribute name="textAreaLabel" required="true" %>
-<%@ attribute name="disabled" required="false" %>
-<%@ attribute name="formKey" required="false" %>
-<%@ attribute name="sessionDocument" required="false" %>
-<%@ attribute name="title" required="false" %>
+<%@ attribute name="textAreaFieldName" required="true" description="The name of the field populated by the text area window." %>
+<%@ attribute name="action" required="true" description="The name of the action method to be filled in by the text area window." %>
+<%@ attribute name="textAreaLabel" required="true" description="The label to render as part of the text area." %>
+<%@ attribute name="disabled" required="false" description="Whether the text area control will be rendered as disabled." %>
+<%@ attribute name="formKey" required="false" description="The unique key of the form which holds the document holding the field being populated by the text area." %>
+<%@ attribute name="sessionDocument" required="false" description="An unused attribute." %>
+<%@ attribute name="title" required="false" description="The title of the text area window." %>
+<%@ attribute name="readOnly" required="false" description="Whether this field should be rendered as read only." %>
+<%@ attribute name="maxLength" required="false" description="The maximum length of the text that can be entered into the text area." %>
 
 <c:if test="${empty formKey}">
   <c:set var="formKey" value="88888888" />
@@ -34,11 +36,23 @@
            alt="Expand Text Area">
     </c:when>
     <c:otherwise>
-       <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${textAreaLabel}#))"
-                   src='${ConfigProperties.kr.externalizable.images.url}pencil_add.png'
-                   onclick="javascript: textAreaPop('${textAreaFieldName}','${action}','${textAreaLabel}',${formKey});return false"
+	    <c:choose>
+	    	<c:when test="${readOnly}">
+	           <c:set var="srcImage" value="${ConfigProperties.kr.externalizable.images.url}openreadonly_greenarrow01.png"/>
+	           <c:set var="altMsg" value="View Text"/>
+	    	</c:when>
+	    	<c:otherwise>
+	           <c:set var="readOnly" value="false" />
+	           <c:set var="srcImage" value="${ConfigProperties.kr.externalizable.images.url}pencil_add.png"/>
+	           <c:set var="altMsg" value="Expand Text Area"/>
+	   		</c:otherwise>
+	  	</c:choose>
+    
+       <html:image property="methodToCall.updateTextArea.((`${textAreaFieldName}:${action}:${textAreaLabel}:${readOnly}:${maxLength}`))"
+                   src="${srcImage}"
+                   onclick="javascript: textAreaPop('${textAreaFieldName}','${action}','${textAreaLabel}','${formKey}','${readOnly}','${maxLength}');return false"
                    styleClass="tinybutton"
                    title="${title}"
-                   alt="Expanded Text Area"/>
+                   alt="${altMsg}"/>
     </c:otherwise>
   </c:choose>

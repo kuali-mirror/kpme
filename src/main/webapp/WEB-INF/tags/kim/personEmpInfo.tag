@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="afflnIdx" required="true" %>
+<%@ attribute name="afflnIdx" required="true" description="In the array of affiliations on the IdentityManagementPersonDocument, the index of the affiliation to display employee information records for." %>
 <c:set var="docEmploymentInfoAttributes" value="${DataDictionary.PersonDocumentEmploymentInfo.attributes}" />
 
 <kul:subtab lookedUpCollectionName="empInfo" width="${tableWidth}" subTabTitle="Employment Information">      
@@ -23,7 +23,7 @@
        	<tr>
             <th width="5%" rowspan="20" style="border-style:none">&nbsp;</th>
        		<th><div align="left">&nbsp</div></th> 
-       		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${docEmploymentInfoAttributes.entityEmploymentId}" noColon="true" /></div></th>
+       		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${docEmploymentInfoAttributes.employeeId}" noColon="true" /></div></th>
        		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${docEmploymentInfoAttributes.primary}" noColon="true" /></div></th>
        		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${docEmploymentInfoAttributes.employeeStatusCode}" noColon="true" /></div></th>
        		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${docEmploymentInfoAttributes.employeeTypeCode}" noColon="true" /></div></th>

@@ -13,8 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ page
-	import="org.kuali.rice.kns.web.struts.action.KualiAction,org.kuali.rice.core.util.RiceConstants,org.kuali.rice.kns.util.KNSConstants,java.util.Map"%>
+<%@ page import="org.kuali.rice.kns.web.struts.action.KualiAction,org.kuali.rice.kns.util.KNSConstants"%>
 <%@ include file="tldHeader.jsp"%>
 <html:html>
 
@@ -24,13 +23,16 @@ if (textAreaFieldLabel == null) {
     textAreaFieldLabel = (String) request.getAttribute(KualiAction.TEXT_AREA_FIELD_LABEL);
 }
 %>
+<c:if test="${empty textAreaFieldName}">
+	<c:set var="textAreaFieldName"
+		value="<%=request.getParameter(KualiAction.TEXT_AREA_FIELD_NAME)%>" />
+</c:if>
 
 <head>
 <link href="${pageContext.request.contextPath}/kr/css/kuali.css" rel="stylesheet" type="text/css" />
-<%--<script language="javascript" src="/kuali-dev/kr/scripts/core.js"></script>--%>
 <script language="javascript" src="${pageContext.request.contextPath}/kr/scripts/core.js"></script>
 </head>
-<body onload="setTextArea()">
+<body onload="setTextArea('${textAreaFieldName}')">
 <div class="headerarea" id="headerarea-small">
 <h1><%=textAreaFieldLabel%></h1>
 </div>
@@ -43,10 +45,7 @@ if (textAreaFieldLabel == null) {
 	<c:set var="textAreaFieldName"
 		value="<%=request.getAttribute(KualiAction.TEXT_AREA_FIELD_NAME)%>" />
 </c:if>
-<c:if test="${empty textAreaFieldName}">
-	<c:set var="textAreaFieldName"
-		value="<%=request.getParameter(KualiAction.TEXT_AREA_FIELD_NAME)%>" />
-</c:if>
+
 <c:if test="${empty htmlFormAction}">
 	<c:set var="htmlFormAction"
 		value="<%=request.getAttribute(KualiAction.FORM_ACTION)%>" />
@@ -85,6 +84,15 @@ if (textAreaFieldLabel == null) {
 	<c:set var="textAreaFieldAnchor"
 		value="<%=request.getParameter(KualiAction.TEXT_AREA_FIELD_ANCHOR)%>" />
 </c:if>
+<c:if test="${empty textAreaReadOnly}">
+	<c:set var="textAreaReadOnly"
+		value="<%=request.getParameter(KualiAction.TEXT_AREA_READ_ONLY)%>" />
+</c:if>
+
+<c:if test="${empty textAreaMaxLength}">
+	<c:set var="textAreaMaxLength"
+		value="<%=request.getParameter(KualiAction.TEXT_AREA_MAX_LENGTH)%>" />
+</c:if>
 
 <html:form styleId="kualiForm" method="post"
 	action="/${htmlFormAction}.do" enctype=""
@@ -94,8 +102,26 @@ if (textAreaFieldLabel == null) {
 		<tr>
 			<td>
 			  <div>
-			    <kul:htmlControlAttribute property="${textAreaFieldName}"
-				                          attributeEntry="${textAreaAttributes.extendedTextArea}" />
+			    <c:set var="attributeEntry" value="${textAreaAttributes.extendedTextArea}"/>
+			    <%-- cannot use struts form tags here b/c some id values will not be valid properties --%>
+			    <c:choose>
+			    	<c:when test="${textAreaReadOnly == 'true'}" >
+			            <textarea id="${textAreaFieldName}" name="${textAreaFieldName}"
+                        	rows="${attributeEntry.control.rows}"
+                            cols="${attributeEntry.control.cols}"
+                            readonly="readonly"
+                            ><%-- if it's a valid property then get the value...this is kind of hacky --%><c:catch><bean:write name="KualiForm" property="${textAreaFieldName}"/></c:catch></textarea>
+			    	</c:when>
+			    	<c:otherwise>
+			    		${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
+			            <textarea id="${textAreaFieldName}" name="${textAreaFieldName}"
+                        	rows="${attributeEntry.control.rows}"
+                            cols="${attributeEntry.control.cols}"
+                            maxlength="${textAreaMaxLength}"
+                            onkeyup="textLimit(this, ${textAreaMaxLength});"
+                            ><%-- if it's a valid property then get the value...this is kind of hacky --%><c:catch><bean:write name="KualiForm" property="${textAreaFieldName}"/></c:catch></textarea>
+					</c:otherwise>
+				</c:choose>
 			  </div>
 			</td>
 		</tr>
@@ -103,11 +129,21 @@ if (textAreaFieldLabel == null) {
 		<tr>
 			<td>
 			  <div id="globalbuttons" class="globalbuttons">
-				<html:image
-					property="methodToCall.postTextAreaToParent.anchor${textAreaFieldAnchor}"
-					onclick="javascript:postValueToParentWindow();return false"
-					src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_continue.gif"
-					styleClass="globalbuttons" title="return" alt="return" />
+			  	<c:choose>
+				    <c:when test="${textAreaReadOnly == 'true'}">
+						<html:image
+							onclick="javascript:window.close();"
+							src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif"
+							styleClass="globalbuttons" title="close" alt="close" />
+					</c:when>
+					<c:otherwise>
+						<html:image
+							property="methodToCall.postTextAreaToParent.anchor${textAreaFieldAnchor}"
+							onclick="javascript:postValueToParentWindow('${textAreaFieldName}');return false"
+							src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_continue.gif"
+							styleClass="globalbuttons" title="return" alt="return" />
+					</c:otherwise>
+				</c:choose>	
 			  </div>
 			</td>
 		</tr>
@@ -127,6 +163,7 @@ if (textAreaFieldLabel == null) {
 	</c:if>
 
 </html:form>
+<div id="formComplete"></div>
 </body>
 
 </html:html>

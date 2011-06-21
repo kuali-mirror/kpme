@@ -105,7 +105,6 @@ Calendar.setup = function (params) {
 		var update = (cal.dateClicked || p.electric);
 		if (update && p.inputField) {
 			p.inputField.value = cal.date.print(p.ifFormat);
-			p.inputField.focus();
 			if (typeof p.inputField.onchange == "function")
 				p.inputField.onchange();
 		}

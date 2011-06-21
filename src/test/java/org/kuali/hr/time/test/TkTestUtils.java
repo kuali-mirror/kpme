@@ -1,7 +1,6 @@
 package org.kuali.hr.time.test;
 
 import com.gargoylesoftware.htmlunit.html.*;
-import edu.emory.mathcs.backport.java.util.Arrays;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -374,7 +373,7 @@ public class TkTestUtils {
 
 		return dateToHoursMap;
 	}
-	
+
 	public static Date createDate(int month, int day, int year, int hours, int minutes, int seconds){
 		DateTime dt = new DateTime(year, month, day, hours, minutes, seconds, 0);
 		return new Date(dt.getMillis());

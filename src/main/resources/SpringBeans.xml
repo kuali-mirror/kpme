@@ -578,9 +578,11 @@
 
     <bean id="tkRuleControllerService" class="org.kuali.hr.time.rule.TkRuleControllerServiceImpl"/>
 
+    <bean id="tkWarningService" class="org.kuali.hr.time.warning.TkWarningServiceImpl"/>
+
 	<bean id="workAreaQualifierRoleTypeService" class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
 
-    
+
     <bean id="tkWarningService" class="org.kuali.hr.time.warning.TkWarningServiceImpl"/>
 
     <bean id="timezoneService" class="org.kuali.hr.time.timezone.service.TimezoneServiceImpl"/>
@@ -804,6 +806,6 @@
     </bean>
 
     <!-- Starts thread pool and node managers for Batch Job Processing -->
-    <bean name="TkBatchManager" class="org.kuali.hr.time.batch.TkBatchManager"></bean>    
+    <bean name="TkBatchManager" class="org.kuali.hr.time.batch.TkBatchManager"></bean>
 
 </beans>

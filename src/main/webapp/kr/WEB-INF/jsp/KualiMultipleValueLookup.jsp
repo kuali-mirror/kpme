@@ -15,6 +15,8 @@
 --%>
 <%@ include file="tldHeader.jsp"%>
 
+<%@ page buffer = "16kb" %>
+
 <%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
 
 <kul:page lookup="true" showDocumentInfo="false"
@@ -52,6 +54,7 @@
 	<html-el:hidden name="KualiForm" property="resultsLimitedSize" />
 	<html-el:hidden name="KualiForm" property="hasReturnableRow" />
 	<html-el:hidden name="KualiForm" property="docNum" />
+	<html-el:hidden name="KualiForm" property="fieldNameToFocusOnAfterSubmit"/>
 
 	<kul:errors errorTitle="Errors found in Search Criteria:" />
 	<kul:messages/>
@@ -96,17 +99,20 @@
 							src='<c:out value="${KualiForm.extraButtonSource}" />'
 							class="tinybutton" border="0" /></a>
 					</c:if>
+					
+					<%-- removed for 3219 --%>
+					<%--
 					<c:if test="${ KualiForm.hasReturnableRow }" >
-						<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retselected.gif" class="tinybutton" name="methodToCall.prepareToReturnSelectedResults.x" alt="Return selected results" title="Return selected results"/>
+						<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retselected.gif" class="tinybutton" name="methodToCall.prepareToReturnSelectedResults" alt="Return selected results" title="Return selected results"/>
 					</c:if>
+					--%>
+					
 					</td>
 				</tr>
 			</table>
 			</div>
-
 			<br>
-			<br>
-
+			<br>	
             <kul:displayMultipleValueLookupResults resultsList="${requestScope.reqSearchResults}"/>
 			</td>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"

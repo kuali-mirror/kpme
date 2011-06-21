@@ -25,21 +25,36 @@ function toggleTab(doc, tabKey) {
 	return false;
 }
 
-function expandAllTab(doc, tabStatesSize) {
-	for (var tabIndex = 0; tabIndex <= tabStatesSize.value; tabIndex++) {
-        showTab(doc, tabIndex);
+/** expands all tabs by unhiding them. */
+function expandAllTab() {
+	doToAllTabs(showTab);
+	return false;
 	}
+
+/** collapses all tab by hiding them. */
+function collapseAllTab() {
+	doToAllTabs(hideTab);
 	return false;
 }
 
-function collapseAllTab(doc, tabStatesSize) {
-	for (var tabIndex = 0; tabIndex <= tabStatesSize.value; tabIndex++) {
-        hideTab(doc, tabIndex);
+/** executes a function on all tabs.  The function will be passed a document & partial tab name. */
+function doToAllTabs(func) {
+	var elements = document.getElementsByTagName('div');
+	
+	for (var x in elements) {
+		if (elements[x].id && elements[x].id.substring(0, 4) === 'tab-' 
+			&& elements[x].id.substring(elements[x].id.length - 4, elements[x].id.length) === '-div') {
+			func(document, elements[x].id.substring(4, elements[x].id.length - 4));
+		}
 	}
 	return false;
 }
 
 function showTab(doc, tabKey) {
+    if (!doc.getElementById('tab-' + tabKey + '-div') || !doc.getElementById('tab-' + tabKey + '-imageToggle')) {
+		return false;
+	}
+	
     // replaced 'block' with '' to make budgetExpensesRow.tag happy.
     doc.getElementById('tab-' + tabKey + '-div').style.display = '';
     doc.forms[0].elements['tabStates(' + tabKey + ')'].value = 'OPEN';
@@ -53,6 +68,10 @@ function showTab(doc, tabKey) {
 }
 
 function hideTab(doc, tabKey) {
+    if (!doc.getElementById('tab-' + tabKey + '-div') || !doc.getElementById('tab-' + tabKey + '-imageToggle')) {
+		return false;
+	}
+	
     doc.getElementById('tab-' + tabKey + '-div').style.display = 'none';
     doc.forms[0].elements['tabStates(' + tabKey + ')'].value = 'CLOSE';
     var image = doc.getElementById('tab-' + tabKey + '-imageToggle');
@@ -89,6 +108,36 @@ function hasFormAlreadyBeenSubmitted() {
 	       alert("Page has not finished loading.");
 	       return false;
 	} 
+}
+
+// Called when we want to submit the form from a field event and 
+// want focus to be placed on the next field according to the current tab order
+// when the page refreshes
+function setFieldToFocusAndSubmit(triggerElement) {
+	if(document.forms[0].fieldNameToFocusOnAfterSubmit) {
+		if (document.forms.length > 0) {
+			var nextTabField;
+			var field = document.forms[0];
+			for (i = 0; i < field.length; i++) {
+				if (field.elements[i].tabIndex > triggerElement.tabIndex) {
+					if (nextTabField) {
+						if (field.elements[i].tabIndex < nextTabField.tabIndex) {
+					       nextTabField = field.elements[i];
+			         	}
+					}
+		       	    else {
+				       nextTabField = field.elements[i];
+			        }
+				}	
+			}
+	
+	        if (nextTabField) {
+	        	document.forms[0].fieldNameToFocusOnAfterSubmit.value = nextTabField.name;
+	        }
+		}	
+	}
+	
+    document.forms[0].submit();
 }
 
 function submitForm() {
@@ -181,10 +230,11 @@ var safari = navigator.userAgent.toLowerCase().indexOf('safari');
 
 function setRouteLogIframeDimensions() {
   var routeLogFrame = document.getElementById("routeLogIFrame");
+  var routeLogFrame = document.getElementById("routeLogIFrame");
   var routeLogFrameWin = window.frames["routeLogIFrame"];
   var frameDocHeight = 0;
   try {
-    frameDocHeight = routeLogFrameWin.document.height;
+    frameDocHeight = routeLogFrameWin.document.documentElement.scrollHeight;
   } catch ( e ) {
     // unable to set due to cross-domain scripting
     frameDocHeight = 0;
@@ -193,7 +243,7 @@ function setRouteLogIframeDimensions() {
   if ( frameDocHeight > 0 ) {
 	  if (routeLogFrame && routeLogFrameWin) {
 	  	
-	    if ((Math.abs(frameDocHeight - currentHeight)) > 20 ) {
+	    if ((Math.abs(frameDocHeight - currentHeight)) > 30 ) {
 	      if (safari > -1) {
 	        if ((Math.abs(frameDocHeight - currentHeight)) > 59 ) {
 	          routeLogFrame.style.height = (frameDocHeight + 30) + "px";
@@ -204,38 +254,33 @@ function setRouteLogIframeDimensions() {
 	        currentHeight = frameDocHeight;
 	      }
 	    }
+	  }
+  }
 	  
 	    if (routeLogResizeTimer == "" ) {
 	      routeLogResizeTimer = setInterval("resizeTheRouteLogFrame()",300);
 	    }
 	  }
-  }
-}
 
 function resizeTheRouteLogFrame() {
   setRouteLogIframeDimensions();
 }
 
 // should be in rice for direct inquiry 
-function inquiryPop(boClassName, inquiryParameters, element){
-	while(element && element.type != 'text') {
-		element = element.previousSibling;
-	}
+ function inquiryPop(boClassName, inquiryParameters){
   parameterPairs = inquiryParameters.split(",");
   queryString="businessObjectClassName="+boClassName+"&methodToCall=start"
-  if (element.value=="") 
+  for (i in parameterPairs) {
+  
+    parameters = parameterPairs[i].split(":");
+  	if (document.forms[0].elements[parameters[0]].value=="") 
   	{
   		alert("Please enter a value in the appropriate field.");
   		//queryString=queryString+"&"+parameters[1]+"=directInquiryParameterNotSpecified";
 		return false;
+  	} else {
+    	queryString=queryString+"&"+parameters[1]+"="+document.forms[0].elements[parameters[0]].value;
   	}
-  for (i in parameterPairs) {
-    parameters = parameterPairs[i].split(":");
-  	if(document.forms[0].elements[parameters[1]] || document.forms[0].elements["document.newMaintainableObject."+parameters[1]]){
-		queryString=queryString+"&"+parameters[1]+"="+document.forms[0].elements[parameters[0]].value;
-	}else{
-		queryString=queryString+"&"+parameters[1]+"=";
-	}
   }
   url=window.location.href
   pathname=window.location.pathname
@@ -245,32 +290,22 @@ function inquiryPop(boClassName, inquiryParameters, element){
   window.open(baseUrl+"/kr/directInquiry.do?"+queryString, "_blank", "width=640, height=600, scrollbars=yes");
 }
  
-function textAreaPop(textAreaName,
-                     htmlFormAction,
-                     textAreaLabel,
-                     docFormKey) {
-  var documentWebScope
-
-  documentWebScope="session"
-
-  url=window.location.href
-  pathname=window.location.pathname
-  idx1=url.indexOf(pathname);
-  idx2=url.indexOf("/",idx1+1);
-  baseUrl=url.substr(0,idx2)
-  window.open(baseUrl+"/updateTextArea.do?textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope);
+function textAreaPop(textAreaName, htmlFormAction, textAreaLabel, docFormKey, textAreaReadOnly, textAreaMaxLength) {
+	
+	if (textAreaReadOnly === null || textAreaReadOnly === undefined) {
+		textAreaReadOnly = false;
+	}
+	
+	if (textAreaMaxLength === null || textAreaMaxLength === undefined) {
+		textAreaMaxLength = "";
+	}
+	
+	var documentWebScope="session"
+	window.open("updateTextArea.do?textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&textAreaReadOnly="+textAreaReadOnly+"&textAreaMaxLength="+textAreaMaxLength, "_blank", "width=650, height=650, scrollbars=yes");
 }
 
-var textAreaFieldName;
-function setTextArea() {
-  passData=document.location.search.substring(1);
-  var idx=passData.indexOf("&textAreaFieldName=");
-  var idx2=passData.indexOf("&htmlFormAction=");
-  textAreaFieldName=passData.substring(idx+19,idx2);
-  var ta = window.opener.document.getElementsByName(textAreaFieldName)[0];
-  text = ta.value;
-  document.getElementsByName(textAreaFieldName)[0].value = text;
-  
+function setTextArea(textAreaName) {
+  document.getElementById(textAreaName).value = window.opener.document.getElementById(textAreaName).value; 
 }
 
 function textLimit(taElement, maxlen) 
@@ -282,8 +317,8 @@ function textLimit(taElement, maxlen)
     } 
 } 
 
-function postValueToParentWindow() {
-  opener.document.getElementsByName(textAreaFieldName)[0].value = document.getElementsByName(textAreaFieldName)[0].value;
+function postValueToParentWindow(textAreaName) {
+  window.opener.document.getElementById(textAreaName).value = document.getElementById(textAreaName).value; 
   self.close();
 }
 
@@ -331,38 +366,30 @@ function getStyleObject(objectId) {
    }
 }
 
-function setDateValues(object) {
-	if(document.getElementById && document.getElementById("document.newMaintainableObject.add.roles.effectiveDate")) {
-		document.getElementById("document.newMaintainableObject.add.roles.effectiveDate").value = object.value;
-		for(var i=0; i>=0; i++){
-			if(document.getElementById && document.getElementById("document.newMaintainableObject.roles["+i+"].effectiveDate")){
-				document.getElementById("document.newMaintainableObject.roles["+i+"].effectiveDate").value = object.value;
-			}else{
-				break;
-			}
-		}	
-	}
-	if(document.getElementById && document.getElementById("document.newMaintainableObject.add.tasks.effectiveDate")) {
-		document.getElementById("document.newMaintainableObject.add.tasks.effectiveDate").value = object.value;
-		for(var i=0; i>=0; i++){
-			if(document.getElementById && document.getElementById("document.newMaintainableObject.tasks["+i+"].effectiveDate")){
-				document.getElementById("document.newMaintainableObject.tasks["+i+"].effectiveDate").value = object.value;
-			}else{
-				break;
-			}
-		}	
-	}
-}
-
-function setAssignAccountActiveState(object){
-	if(document.getElementById && document.getElementById("document.newMaintainableObject.add.assignmentAccounts.active")) {
-		document.getElementById("document.newMaintainableObject.add.assignmentAccounts.active").checked = object.checked;
-		for(var i=0; i>=0; i++){
-			if(document.getElementById && document.getElementById("document.newMaintainableObject.assignmentAccounts["+i+"].active")){
-				document.getElementById("document.newMaintainableObject.assignmentAccounts["+i+"].active").checked = object.checked;
-			}else{
-				break;
-			}
-		}	
-	}
+function placeFocus() {
+	if (document.forms.length > 0) {
+	  var fieldNameToFocus;
+	  if (document.forms[0].fieldNameToFocusOnAfterSubmit) {
+	    fieldNameToFocus = document.forms[0].fieldNameToFocusOnAfterSubmit.value;
+	  }
+	  
+	  var focusSet = false;
+	  var field = document.forms[0];
+	  for (i = 0; i < field.length; i++) {
+		if (fieldNameToFocus) {
+	  	  if (field.elements[i].name == fieldNameToFocus) {
+			  document.forms[0].elements[i].focus();
+			  focusSet = true;
+		  }	 
+		}
+		else if ((field.elements[i].type == "text") || (field.elements[i].type == "textarea")) {
+		  document.forms[0].elements[i].focus();
+		  focusSet = true;
+		}
+		
+		if (focusSet) {
+			break;
+		}
+	  }
+   }
 }
