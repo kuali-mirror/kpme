@@ -28,12 +28,12 @@ $(document).ready(function() {
 
     // add acs/desc icon to a sorted field
     if (getParameterByName("ascending") != '') {
-        var class = getParameterByName("ascending") == "true" ? 'headerSortDown' : 'headerSortUp';
+        var klass = getParameterByName("ascending") == "true" ? 'headerSortDown' : 'headerSortUp';
 
         $('#approvals-table tr th').filter(
                 function(index) {
                     return $(this).html().replace(/ /, '') == getParameterByName("sortField");
-                }).addClass(class);
+                }).addClass(klass);
     }
 
 
@@ -129,12 +129,20 @@ $(document).ready(function() {
                 text: false
             });
 
+    $('.prev').click(function() {
+        window.location = "TimeApproval.do?calNav=prev&documentId=" + $("#documentId").val();
+    });
+
     $('.next').button({
                 icons: {
                     primary: "ui-icon-circle-triangle-e"
                 },
                 text: false
             });
+
+    $('.next').click(function() {
+        window.location = "TimeApproval.do?calNav=next&documentId=" + $("#documentId").val();
+    });
 
     $(" .approvals-warning, .approvals-note").tooltip({ effect: 'slide'});
 

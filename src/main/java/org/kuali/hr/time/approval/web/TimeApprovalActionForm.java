@@ -1,12 +1,12 @@
 package org.kuali.hr.time.approval.web;
 
-import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 
 import java.util.*;
 
-public class TimeApprovalActionForm extends TkForm {
+public class TimeApprovalActionForm extends TimesheetActionForm {
 
     public static final String ORDER_BY_PRINCIPAL = "PrincipalName";
     public static final String ORDER_BY_DOCID = "DocumentId";

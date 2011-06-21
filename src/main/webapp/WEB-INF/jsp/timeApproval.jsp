@@ -5,6 +5,7 @@
 <tk:tkHeader tabId="approvals">
     <html:hidden property="methodToCall" value=""/>
     <html:hidden property="rowsInTotal" value="${fn:length(Form.approvalRows)}"/>
+    <html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
 
     <div class="approvals">
         <table id="approvals-filter">
@@ -25,7 +26,9 @@
                 </td>
                 <td class="center">
                     <button class="prev">Previous</button>
-                    <span style="font-size: 1.5em; vertical-align: middle;">${Form.payBeginDate} - ${Form.payEndDate}</span>
+                    <span style="font-size: 1.5em; vertical-align: middle;">
+                    <fmt:formatDate value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/> -
+                    <fmt:formatDate value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
                     <button class="next">Next</button>
                 </td>
                 <td class="right">

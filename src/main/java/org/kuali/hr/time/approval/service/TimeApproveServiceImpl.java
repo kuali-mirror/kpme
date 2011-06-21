@@ -92,8 +92,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                     Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
                     List<TimeBlock> lstTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(documentId));
                     Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(principalId, payBeginDate, getPayCalendarLabelsForApprovalTab(payBeginDate,payEndDate), lstTimeBlocks);
-                    List notes = this.getNotesForDocument("16547");
-                    List<String> warnings = TkServiceLocator.getWarningService().getWarnings("16547");
+                    List notes = this.getNotesForDocument(documentId);
+                    List<String> warnings = TkServiceLocator.getWarningService().getWarnings(documentId);
 
                     ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
                     approvalSummaryRow.setName(person.getName());
@@ -137,6 +137,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup) {
         List<ApprovalTimeSummaryRow> rows = new ArrayList<ApprovalTimeSummaryRow>();
 
+        // TODO: need to figure out how to get the work area
         Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsMap(payBeginDate, payEndDate, 1007L);
         if (mrows.containsKey(calGroup))
             rows = mrows.get(calGroup);
