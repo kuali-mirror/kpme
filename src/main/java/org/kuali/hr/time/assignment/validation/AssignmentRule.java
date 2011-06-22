@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -195,6 +196,14 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
+	
+	protected boolean validateHasAccounts(Assignment assign){
+		if(assign.getAssignmentAccounts().isEmpty()){
+			this.putGlobalError("error.assign.must.have.one.or.more.account");
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * It looks like the method that calls this class doesn't actually care
@@ -213,6 +222,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateWorkArea(assignment);
 				valid &= this.validateJob(assignment);
 				valid &= this.validatePercentagePerEarnCode(assignment);
+				valid &= this.validateHasAccounts(assignment);
 			}
 		}
 
