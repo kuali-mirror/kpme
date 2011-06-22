@@ -1,5 +1,6 @@
 package org.kuali.hr.time.workarea;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.web.format.Formatter;
 
 public class WorkAreaFormatter extends Formatter {
@@ -16,9 +17,21 @@ public class WorkAreaFormatter extends Formatter {
 			if(val == -1L){
 				return "%";
 			}
-			return val.toString();
+			return val;
 		}
 		return super.format(value);
+	}
+
+	@Override
+	public Object convertFromPresentationFormat(Object value) {
+		if(value instanceof String){
+			if(StringUtils.isNotEmpty((String)value)){
+				Long val = Long.parseLong((String)value);
+				return val;
+			}
+		} 
+		
+		return super.convertFromPresentationFormat(value);
 	}
 
 }

@@ -66,6 +66,13 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 		if (returnKeys.contains("dept")) {
 			returnKeys.remove("dept");
 		}
+		if(lookupForm.getFieldConversions().containsKey("tkWorkAreaId")){
+			lookupForm.getFieldConversions().remove("tkWorkAreaId");
+		}
+		if(returnKeys.contains("tkWorkAreaId")){
+			returnKeys.remove("tkWorkAreaId");
+		}
+		
 		return super.getReturnUrl(businessObject, lookupForm, returnKeys,
 				businessObjectRestrictions);
 	}

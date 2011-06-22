@@ -38,7 +38,6 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"	p:targetName="workArea" />
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"	p:targetName="dept" />
                             <bean parent="PrimitiveAttributeDefinition" p:sourceName="workAreaObj.tkWorkAreaId"	p:targetName="tkWorkAreaId" />
 						</list>
 					</property>
