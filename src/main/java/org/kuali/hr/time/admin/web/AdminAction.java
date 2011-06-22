@@ -11,6 +11,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.web.TKRequestProcessor;
 import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
@@ -23,22 +24,30 @@ public class AdminAction extends TkAction {
 
 	public ActionForward backdoor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		AdminActionForm adminForm = (AdminActionForm) form;
-		
+
 		if (StringUtils.isNotBlank(adminForm.getBackdoorPrincipalName())) {
 			TKUser tkUser = TKContext.getUser();
 			Person backdoorPerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getBackdoorPrincipalName());
 
 			if (backdoorPerson != null && tkUser != null) {
 				UserSession userSession = UserLoginFilter.getUserSession(request);
-				
+
 				userSession.establishBackdoorWithPrincipalName(backdoorPerson.getPrincipalId());
 				GlobalVariables.getUserSession().setBackdoorUser(backdoorPerson.getPrincipalId());
-				
+
 				tkUser.setBackdoorPerson(backdoorPerson);
-				
+
+                // We've already missed the TKContext at this point, so we'll re-set it:
+                // Questionable location of loadRoles, it was created as a helper function
+                // During the request processor. It may be worthwhile to move backdoor
+                // initiation to the RequestProcessor as well, since that happens before any
+                // of the other page rendering / requests.
+                TKRequestProcessor.loadRoles(tkUser);
+                TKContext.setUser(tkUser);
+
 				LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + backdoorPerson.getPrincipalName() + "\n\n");
 			}
-			
+
 		}
 
 		return mapping.findForward("basic");

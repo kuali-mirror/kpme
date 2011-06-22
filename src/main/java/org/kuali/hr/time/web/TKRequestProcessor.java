@@ -142,7 +142,7 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 	 *
 	 * @param user
 	 */
-	private void loadRoles(TKUser user) {
+	public static void loadRoles(TKUser user) {
 		TkRoleService roleService = TkServiceLocator.getTkRoleService();
 		AssignmentService assignmentService = TkServiceLocator.getAssignmentService();
 

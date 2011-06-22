@@ -9,8 +9,13 @@ import org.kuali.rice.kim.bo.Person;
  * is essentially a lightweight wrapper around multiple KIM Person objects.
  *
  * One for the actual ACTUAL person
- * One for the user the ACTUAL person is backdooring as.
- * One for the user the ACTUAL person is targeting.
+ *
+ * One for the user the ACTUAL person is backdooring as: Back Door user is like
+ * doing 'su - <username>' in unix. You "become" that person, assume all of their
+ * roles, etc.
+ *
+ * One for the user the ACTUAL person is targeting: Targeting a user is being
+ * granted read/write access to the users data.
  *
  */
 public class TKUser {
@@ -90,6 +95,10 @@ public class TKUser {
 		this.backdoorPersonRoles = backdoorPersonRoles;
 	}
 
+    /**
+     * Provides access to the current roles.
+     * @return The roles of the current 'acting' Person (backdoor or actual).
+     */
 	public UserRoles getCurrentRoles() {
 		if (getBackdoorPersonRoles() != null) {
 			return getBackdoorPersonRoles();
@@ -98,10 +107,13 @@ public class TKUser {
 		}
 	}
 
+    /**
+     * Returns the current 'acting' person. This will be either the back door
+     * person, or the actual person.
+     *
+     * @return the current 'acting' Person (backdoor or actual).
+     */
 	public Person getCurrentPerson() {
-		if (targetPerson != null)
-			return getTargetPerson();
-
 		if (backdoorPerson != null)
 			return getBackdoorPerson();
 
