@@ -1,5 +1,6 @@
 package org.kuali.hr.job;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.web.format.Formatter;
 
 public class JobNumberFormatter extends Formatter {
@@ -19,4 +20,15 @@ public class JobNumberFormatter extends Formatter {
 		}
 		return super.format(value);
 	}
+	
+	@Override
+	public Object convertFromPresentationFormat(Object value) {
+		if(value instanceof String){
+			if(StringUtils.isNotEmpty((String)value)){
+				Long val = Long.parseLong((String)value);
+				return val;
+			}
+		} 	
+		return super.convertFromPresentationFormat(value);
+	}	
 }
