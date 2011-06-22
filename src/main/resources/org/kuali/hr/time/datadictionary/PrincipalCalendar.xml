@@ -133,7 +133,6 @@
 		</property>
 		<property name="name" value="holidayCalendarGroup" />
 		<property name="label" value="Holiday Calendar Group" />
-		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
 	</bean>
 	
  	<bean id="PrincipalCalendar-active" parent="PrincipalCalendar-active-parentBean"/>
