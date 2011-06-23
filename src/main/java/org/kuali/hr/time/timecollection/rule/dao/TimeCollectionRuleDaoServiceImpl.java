@@ -12,18 +12,18 @@ import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSupport implements TimeCollectionRuleDaoService{
 
 	/*
-	 * Returns valid TimeCollectionRule based on dept,workArea, and asOfDate  
+	 * Returns valid TimeCollectionRule based on dept,workArea, and asOfDate
 	 * dept and work area are wildcardable values
-	 * @see org.kuali.hr.time.timecollection.rule.dao.TimeCollectionRuleDaoService#getTimeCollectionRule(java.lang.String dept, 
+	 * @see org.kuali.hr.time.timecollection.rule.dao.TimeCollectionRuleDaoService#getTimeCollectionRule(java.lang.String dept,
 	 * java.lang.Long workArea, java.sql.Date asOfDate)
 	 */
-	
+
 	@Override
 	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea,Date asOfDate) {
-		
-		
+
+
 		TimeCollectionRule timeCollectionRule = new TimeCollectionRule();
-		
+
 		//First call confirm no exact match
 		timeCollectionRule = getTimeCollectionRuleWildCarded(dept, workArea, asOfDate);
 		if(timeCollectionRule!=null){
@@ -34,34 +34,34 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 		if(timeCollectionRule!=null){
 			return timeCollectionRule;
 		}
-		
+
 		//Try with work area wildcarded
 		timeCollectionRule = getTimeCollectionRuleWildCarded(dept, -1L, asOfDate);
 		if(timeCollectionRule!=null){
 			return timeCollectionRule;
 		}
-		
+
 		//Try with everything wildcarded
 		timeCollectionRule = getTimeCollectionRuleWildCarded("%", -1L, asOfDate);
 		if(timeCollectionRule!=null){
 			return timeCollectionRule;
 		}
 		throw new RuntimeException("No valid TimeCollection rule for dept: "+dept+" work area: "+workArea+" asOfDate: "+asOfDate);
-		
+
 	}
-	
+
 	private TimeCollectionRule getTimeCollectionRuleWildCarded(String dept, Long workArea, Date asOfDate){
 		Criteria root = new Criteria();
 		Criteria effdt = new Criteria();
 		Criteria timestamp = new Criteria();
 
 		effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-		effdt.addLessOrEqualThan("effDate", asOfDate);
+		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 //		effdt.addEqualTo("active", true);
 		effdt.addEqualTo("dept", dept);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(TimeCollectionRule.class, effdt);
 		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-		
+
 		timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effDate");
 //		timestamp.addEqualTo("active", true);
@@ -79,7 +79,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
 
-		
+
 		Query query = QueryFactory.newQuery(TimeCollectionRule.class, root);
 		return (TimeCollectionRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 
