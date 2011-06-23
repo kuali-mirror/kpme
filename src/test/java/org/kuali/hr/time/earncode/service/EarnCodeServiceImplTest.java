@@ -5,18 +5,15 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.hr.job.service.JobServiceImplTest;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.util.TKUtils;
 
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -30,7 +27,7 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 	public static final Long TEST_ASSIGNMENT_JOB_NUMBER_4 = 4L;
 	
 	@SuppressWarnings("unused")
-	private static final Logger LOG = Logger.getLogger(JobServiceImplTest.class);
+	private static final Logger LOG = Logger.getLogger(EarnCodeServiceImplTest.class);
 
 	EarnCodeService earnCodeService = null;
 	
