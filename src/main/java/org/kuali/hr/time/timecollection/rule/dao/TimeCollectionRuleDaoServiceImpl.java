@@ -63,7 +63,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 		
 		timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-		timestamp.addEqualToField("effDate", Criteria.PARENT_QUERY_PREFIX + "effDate");
+		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effDate");
 //		timestamp.addEqualTo("active", true);
 		timestamp.addEqualTo("dept", dept);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(TimeCollectionRule.class, timestamp);
@@ -71,7 +71,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 
 		root.addEqualTo("dept", dept);
 		root.addEqualTo("workArea", workArea);
-		root.addEqualTo("effDate", effdtSubQuery);
+		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
 //		root.addEqualTo("active", true);
 
