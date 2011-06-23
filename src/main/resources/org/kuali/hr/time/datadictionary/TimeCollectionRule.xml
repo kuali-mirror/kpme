@@ -120,7 +120,7 @@
 			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
 		</property>
 		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
-		<property name="name" value="effDate" />
+		<property name="name" value="effectiveDate" />
 		<property name="label" value="Effective Date" />
 	</bean>
 
@@ -208,7 +208,7 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="effDate" />
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="dept" />
 							<bean parent="FieldDefinition" p:attributeName="workArea" />
 							<bean parent="FieldDefinition" p:attributeName="clockUserFl" />
@@ -242,7 +242,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
-				<bean parent="FieldDefinition" p:attributeName="effDate" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="clockUserFl" />
                 <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>

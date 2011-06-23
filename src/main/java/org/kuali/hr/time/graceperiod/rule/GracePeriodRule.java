@@ -1,39 +1,26 @@
 package org.kuali.hr.time.graceperiod.rule;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.hr.time.rule.TkRule;
+import org.kuali.hr.time.HrBusinessObject;
 
 
 
-public class GracePeriodRule extends TkRule {
+public class GracePeriodRule extends HrBusinessObject {
     
 	private static final long serialVersionUID = 1L;
 
 	private Long tkGracePeriodRuleId;
-	private Date effDt;
-	private boolean active;
 	private BigDecimal hourFactor;
 	private String userPrincipalId;
-	private Timestamp timestamp; 
 	
 	protected LinkedHashMap<String,Object> toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
-		toStringMap.put("effDt", effDt);
+		toStringMap.put("effDt", effectiveDate);
 		toStringMap.put("hourFactor", hourFactor);
 		return toStringMap;
-	}
-
-
-	public Date getEffDt() {
-	    return effDt;
-	}
-
-	public void setEffDt(Date effDt) {
-	    this.effDt = effDt;
 	}
 
 	public boolean isActive() {
@@ -79,6 +66,12 @@ public class GracePeriodRule extends TkRule {
 
 	public void setTkGracePeriodRuleId(Long tkGracePeriodRuleId) {
 		this.tkGracePeriodRuleId = tkGracePeriodRuleId;
+	}
+
+
+	@Override
+	protected String getUniqueKey() {
+		return hourFactor + "";
 	}
 
 

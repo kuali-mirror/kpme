@@ -2,14 +2,14 @@ package org.kuali.hr.time.graceperiod.service;
 
 import java.util.List;
 
+import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class GracePeriodRuleLookupableHelper extends
-		KualiLookupableHelperServiceImpl {
+		HrEffectiveDateActiveLookupableHelper {
 	/**
 	 * 
 	 */

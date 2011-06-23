@@ -1,27 +1,24 @@
 package org.kuali.hr.time.collection.rule;
 
-import org.kuali.hr.time.authorization.DepartmentalRule;
-import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-public class TimeCollectionRule extends PersistableBusinessObjectBase implements DepartmentalRule {
+import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.authorization.DepartmentalRule;
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.workarea.WorkArea;
+
+public class TimeCollectionRule extends HrBusinessObject implements DepartmentalRule {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long tkTimeCollectionRuleId;
 	private String dept;
 	private Long workArea;
-	private Date effDate;
 	private boolean clockUserFl;
 	private boolean hrsDistributionF;
 	private String userPrincipalId;
 	private Timestamp timeStamp;
-	private boolean active;
 
 	private Long tkWorkAreaId;
 	private Long tkDeptId;
@@ -53,10 +50,6 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase implements
 		this.workArea = workArea;
 	}
 
-	public Date getEffDate() {
-		return effDate;
-	}
-
 	public boolean isActive() {
 		return active;
 	}
@@ -64,11 +57,6 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase implements
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
-	public void setEffDate(Date effDate) {
-		this.effDate = effDate;
-	}
-
 
 	public boolean isClockUserFl() {
 		return clockUserFl;
@@ -112,7 +100,7 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase implements
 		toStringMap.put("dept", dept);
 		toStringMap.put("workAreaObj", workAreaObj);
 		toStringMap.put("workArea", workArea);
-		toStringMap.put("effDate", effDate);
+		toStringMap.put("effDate", effectiveDate);
 		toStringMap.put("clockUserFl", clockUserFl);
 		toStringMap.put("hrsDistributionF", hrsDistributionF);
 		toStringMap.put("userPrincipalId", userPrincipalId);
@@ -151,6 +139,14 @@ public class TimeCollectionRule extends PersistableBusinessObjectBase implements
 
 	public void setTkDeptId(Long tkDeptId) {
 		this.tkDeptId = tkDeptId;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		String timeCollKey = getDept()+"_"+isClockUserFl()+"_"+isHrsDistributionF()+"_"+
+		(getWorkArea() !=null ? getWorkArea().toString() : "");
+		
+		return timeCollKey;
 	}
 
 

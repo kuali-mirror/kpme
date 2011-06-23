@@ -1,33 +1,30 @@
 package org.kuali.hr.time.workarea;
 
-import org.kuali.hr.time.authorization.DepartmentalRule;
-import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.roles.TkRole;
-import org.kuali.hr.time.task.Task;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class WorkArea extends PersistableBusinessObjectBase implements DepartmentalRule {
+import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.authorization.DepartmentalRule;
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.task.Task;
+
+public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 
     private static final long serialVersionUID = 1L;
 
     private Long tkWorkAreaId;
     private Long workArea;
-    private Date effectiveDate;
-    private boolean active = false;
     private String description;
     private String dept;
     private Long task;
     private String adminDescr;
     private String userPrincipalId;
     private String defaultOvertimeEarnCode;
-    private Timestamp timestamp;
     private String overtimeEditRole;
     
     private Long tkDeptId;
@@ -222,6 +219,12 @@ public class WorkArea extends PersistableBusinessObjectBase implements Departmen
 
 	public void setTkDeptId(Long tkDeptId) {
 		this.tkDeptId = tkDeptId;
+	}
+
+
+	@Override
+	protected String getUniqueKey() {
+		return workArea != null ? workArea.toString() : "" +"_"+dept;
 	}
     
 }

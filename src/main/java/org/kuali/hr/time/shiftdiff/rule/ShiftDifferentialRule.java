@@ -1,5 +1,10 @@
 package org.kuali.hr.time.shiftdiff.rule;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -7,12 +12,6 @@ import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.salgroup.SalGroup;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 public class ShiftDifferentialRule extends TkRule {
 
@@ -24,7 +23,6 @@ public class ShiftDifferentialRule extends TkRule {
 	private String location;
 	private String tkSalGroup;
 	private String payGrade;
-	private Date effectiveDate;
 	private String earnCode;
 	private Time beginTime;
 	private Time endTime;
@@ -40,8 +38,6 @@ public class ShiftDifferentialRule extends TkRule {
 	private String calendarGroup;
 	private BigDecimal maxGap; // Gap is in HOURS
 	private String userPrincipalId;
-	private Timestamp timeStamp;
-	private boolean active;
 
 	private Long tkSalGroupId;
 	private Long hrLocationId;
@@ -54,7 +50,7 @@ public class ShiftDifferentialRule extends TkRule {
     private Location locationObj;
     private PayGrade payGradeObj;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		return null;
@@ -129,14 +125,6 @@ public class ShiftDifferentialRule extends TkRule {
 
 	public void setUserPrincipalId(String userPrincipalId) {
 		this.userPrincipalId = userPrincipalId;
-	}
-
-	public Timestamp getTimeStamp() {
-		return timeStamp;
-	}
-
-	public void setTimeStamp(Timestamp timeStamp) {
-		this.timeStamp = timeStamp;
 	}
 
 	public boolean isActive() {
@@ -313,6 +301,11 @@ public class ShiftDifferentialRule extends TkRule {
 
 	public void setHrPayGradeId(Long hrPayGradeId) {
 		this.hrPayGradeId = hrPayGradeId;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return location + "_" + tkSalGroup + "_" + payGrade;
 	}
 
 }

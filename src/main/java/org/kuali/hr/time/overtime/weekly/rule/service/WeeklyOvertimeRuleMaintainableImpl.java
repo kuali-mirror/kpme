@@ -55,7 +55,7 @@ public class WeeklyOvertimeRuleMaintainableImpl extends
 //			KNSServiceLocator.getBusinessObjectService().save(oldWeeklyOvertimeRule);
 //		}
 		weeklyOvertimeRule.setTkWeeklyOvertimeRuleId(null);
-		weeklyOvertimeRule.setTimeStamp(null);
+		weeklyOvertimeRule.setTimestamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(weeklyOvertimeRule);
 	}
 }

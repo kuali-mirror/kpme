@@ -4,9 +4,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.hr.time.HrBusinessObject;
 
-public class SalGroup extends PersistableBusinessObjectBase {
+public class SalGroup extends HrBusinessObject {
 
 	/**
 	 * 
@@ -15,12 +15,9 @@ public class SalGroup extends PersistableBusinessObjectBase {
 	private Long tkSalGroupId;
 	private String tkSalGroup;
 	private String descr;
-	private Date effectiveDate;
-	private Timestamp timestamp;
 	private boolean history;
-	private boolean active;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		return null;
@@ -80,6 +77,11 @@ public class SalGroup extends PersistableBusinessObjectBase {
 
 	public void setDescr(String descr) {
 		this.descr = descr;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return tkSalGroup;
 	}
 
 }

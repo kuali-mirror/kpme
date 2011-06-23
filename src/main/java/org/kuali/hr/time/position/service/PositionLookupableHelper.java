@@ -1,8 +1,8 @@
 package org.kuali.hr.time.position.service;
 
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 
-public class PositionLookupableHelper extends KualiLookupableHelperServiceImpl {
+public class PositionLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 
 	/**
 	 * 

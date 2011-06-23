@@ -2,19 +2,20 @@ package org.kuali.hr.time.principal.calendar.service;
 
 import java.util.List;
 
+import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class PrincipalCalendarLookupableHelper extends
-		KualiLookupableHelperServiceImpl {
+		HrEffectiveDateActiveLookupableHelper {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings({ "rawtypes", "serial" })
 	@Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
 			List pkNames) {

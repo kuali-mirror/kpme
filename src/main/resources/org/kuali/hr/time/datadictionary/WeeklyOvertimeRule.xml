@@ -23,7 +23,7 @@
 				<ref bean="WeeklyOvertimeRule-step" />
 				<ref bean="WeeklyOvertimeRule-maxHours" />
 				<ref bean="WeeklyOvertimeRule-userPrincipalId" />
-				<ref bean="WeeklyOvertimeRule-timeStamp" />
+				<ref bean="WeeklyOvertimeRule-timestamp" />
 				<ref bean="WeeklyOvertimeRule-active" />
 			</list>
 		</property>
@@ -177,10 +177,10 @@
 		<property name="label" value="UserPrincipal Id" />
 	</bean>
 	
-	<bean id="WeeklyOvertimeRule-timeStamp" parent="WeeklyOvertimeRule-timeStamp-parentBean" />
-	<bean id="WeeklyOvertimeRule-timeStamp-parentBean" abstract="true"
+	<bean id="WeeklyOvertimeRule-timestamp" parent="WeeklyOvertimeRule-timestamp-parentBean" />
+	<bean id="WeeklyOvertimeRule-timestamp-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Timestamp" />
+		<property name="shortLabel" value="timestamp" />
 		<property name="maxLength" value="15" />
 
 		<property name="control">
@@ -188,7 +188,7 @@
 		</property>
 		<property name="formatterClass"
 			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timeStamp" />
+		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>
 	
@@ -209,6 +209,7 @@
 	<bean id="WeeklyOvertimeRule-lookupDefinition" parent="WeeklyOvertimeRule-lookupDefinition-parentBean" />
 	<bean id="WeeklyOvertimeRule-lookupDefinition-parentBean"
 		abstract="true" parent="LookupDefinition">
+		<property name="lookupableID" value="weeklyOvertimeRuleLookupable" />
 		<property name="lookupFields">
 			<list>				
 				<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" />

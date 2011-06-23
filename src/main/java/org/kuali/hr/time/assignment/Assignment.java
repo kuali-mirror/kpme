@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -15,9 +16,8 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class Assignment extends PersistableBusinessObjectBase {
+public class Assignment extends HrBusinessObject {
 
 	/**
      *
@@ -29,13 +29,10 @@ public class Assignment extends PersistableBusinessObjectBase {
 	private Long jobNumber;
 	private Long hrJobId;
 	private Job job;
-	private Date effectiveDate;
 	private Long workArea;
 	private Long tkWorkAreaId;
 	private Long task;
 	private String dept;
-	private boolean active;
-	private Timestamp timestamp;
 	private TimeCollectionRule timeCollectionRule;
 	private DeptLunchRule deptLunchRule;
 	private WorkArea workAreaObj;
@@ -66,7 +63,7 @@ public class Assignment extends PersistableBusinessObjectBase {
 		this.task = taskId;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
@@ -255,6 +252,14 @@ public class Assignment extends PersistableBusinessObjectBase {
 	}
 	public void setHistory(Boolean history) {
 		this.history = history;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		String jobKey = getPrincipalId()+"_"+getJobNumber()+"_"+getWorkArea()+"_"+
+			(getTask() != null ? getTask().toString() : "");
+		return jobKey;
+		
 	}
 	
 }

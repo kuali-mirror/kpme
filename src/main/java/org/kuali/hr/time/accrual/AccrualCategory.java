@@ -4,9 +4,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.hr.time.HrBusinessObject;
 
-public class AccrualCategory extends PersistableBusinessObjectBase {
+public class AccrualCategory extends HrBusinessObject {
 
 	/**
 	 * 
@@ -15,14 +15,11 @@ public class AccrualCategory extends PersistableBusinessObjectBase {
 	private Long laAccrualCategoryId;
 	private String accrualCategory;
 	private String descr;
-	private Date effectiveDate;
-	private Timestamp timestamp;
 	private boolean history;
-	private boolean active;
 	
 	
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		// TODO Auto-generated method stub
@@ -96,6 +93,11 @@ public class AccrualCategory extends PersistableBusinessObjectBase {
 
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return accrualCategory;
 	}
 
 	 

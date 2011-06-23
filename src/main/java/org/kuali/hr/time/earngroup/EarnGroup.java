@@ -1,14 +1,12 @@
 package org.kuali.hr.time.earngroup;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.hr.time.HrBusinessObject;
 
-public class EarnGroup extends PersistableBusinessObjectBase {
+public class EarnGroup extends HrBusinessObject {
 
 	/**
 	 * 
@@ -21,13 +19,7 @@ public class EarnGroup extends PersistableBusinessObjectBase {
 
 	private String descr;
 
-	private Date effectiveDate;
-
 	private Boolean history;
-	
-	private Boolean active;
-	
-	private Timestamp timestamp;
 	
 	private Boolean showSummary;
 
@@ -41,13 +33,6 @@ public class EarnGroup extends PersistableBusinessObjectBase {
 		this.earnGroup = earnGroup;
 	}
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
 
 	public Boolean getHistory() {
 		return history;
@@ -56,14 +41,7 @@ public class EarnGroup extends PersistableBusinessObjectBase {
 	public void setHistory(Boolean history) {
 		this.history = history;
 	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
+	
 
 	@Override
 	protected LinkedHashMap<String, Object> toStringMapper() {
@@ -94,21 +72,18 @@ public class EarnGroup extends PersistableBusinessObjectBase {
 	public void setTkEarnGroupId(Long tkEarnGroupId) {
 		this.tkEarnGroupId = tkEarnGroupId;
 	}
-
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-
+	
 	public Boolean getShowSummary() {
 		return showSummary;
 	}
 
 	public void setShowSummary(Boolean showSummary) {
 		this.showSummary = showSummary;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return earnGroup;
 	}
 
 }

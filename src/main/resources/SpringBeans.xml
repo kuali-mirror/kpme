@@ -681,6 +681,13 @@
             <bean class="org.kuali.hr.time.shiftdiff.rule.service.ShiftDifferentialRuleLookupableHelper"/>
         </property>
     </bean>
+    
+    <bean id="weeklyOvertimeRuleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleLookupableHelper"/>
+        </property>
+    </bean>
+        
     <bean id="timeCollectionRuleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleLookupableHelper"/>

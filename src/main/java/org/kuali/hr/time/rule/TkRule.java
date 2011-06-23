@@ -1,8 +1,8 @@
 package org.kuali.hr.time.rule;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.hr.time.HrBusinessObject;
 
-public abstract class TkRule extends PersistableBusinessObjectBase {
+public abstract class TkRule extends HrBusinessObject {
 	/**
 	 * 
 	 */

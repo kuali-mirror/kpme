@@ -1,5 +1,7 @@
 package org.kuali.hr.time.workarea.service;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
@@ -9,9 +11,6 @@ import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
-
-import java.util.List;
-import java.util.Map;
 
 public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 
@@ -66,30 +65,17 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 		if (returnKeys.contains("dept")) {
 			returnKeys.remove("dept");
 		}
+		
 		if(lookupForm.getFieldConversions().containsKey("tkWorkAreaId")){
 			lookupForm.getFieldConversions().remove("tkWorkAreaId");
 		}
 		if(returnKeys.contains("tkWorkAreaId")){
 			returnKeys.remove("tkWorkAreaId");
 		}
-		
 		return super.getReturnUrl(businessObject, lookupForm, returnKeys,
 				businessObjectRestrictions);
 	}
 	
-	@Override
-	public List<? extends BusinessObject> getSearchResults(
-			Map<String, String> fieldValues) {
-		if (fieldValues.containsKey("workArea")
-				&& StringUtils.equals(fieldValues.get("workArea"), "%")) {
-			fieldValues.put("workArea", "");
-		}
-		if (fieldValues.containsKey("dept")
-				&& StringUtils.equals(fieldValues.get("dept"), "%")) {
-			fieldValues.put("dept", "");
-		}
-		return super.getSearchResults(fieldValues);
-	}
 
 
 	@Override

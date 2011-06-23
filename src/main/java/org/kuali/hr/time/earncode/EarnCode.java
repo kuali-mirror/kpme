@@ -1,10 +1,5 @@
 package org.kuali.hr.time.earncode;
 
-import org.kuali.hr.time.accrual.AccrualCategory;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -13,7 +8,12 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class EarnCode extends PersistableBusinessObjectBase {
+import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.accrual.AccrualCategory;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+
+public class EarnCode extends HrBusinessObject {
 
 	/**
      *
@@ -33,10 +33,7 @@ public class EarnCode extends PersistableBusinessObjectBase {
 	private BigDecimal inflateMinHours;
 	private BigDecimal inflateFactor;
 
-	private Timestamp timestamp;
-	private Date effectiveDate;
 	private boolean history;
-	private boolean active;
 
 	private AccrualCategory accrualCategoryObj;
 
@@ -195,5 +192,10 @@ public class EarnCode extends PersistableBusinessObjectBase {
 		else {
 			return "";
 		}
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return earnCode;
 	}
 }

@@ -71,7 +71,7 @@
 		</property>
 		<property name="formatterClass"
 			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timeStamp" />
+		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>
 <!-- history -->
@@ -158,7 +158,7 @@
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="showLunchButton" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="timeStamp" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 			</list>
 		</property>
 		<property name="title" value="System Lunch Rule Lookup" />

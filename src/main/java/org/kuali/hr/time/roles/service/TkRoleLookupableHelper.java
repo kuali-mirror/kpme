@@ -2,18 +2,19 @@ package org.kuali.hr.time.roles.service;
 
 import java.util.List;
 
+import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.roles.TkRoleGroup;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
-public class TkRoleLookupableHelper extends KualiLookupableHelperServiceImpl {
+public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings({ "rawtypes", "serial" })
 	@Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
 			List pkNames) {

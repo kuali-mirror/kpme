@@ -4,13 +4,13 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.hr.time.HrBusinessObject;
 /**
  * Represents a Location object
  * 
  *
  */
-public class Location extends PersistableBusinessObjectBase {
+public class Location extends HrBusinessObject {
 
 	/**
 	 * 
@@ -19,12 +19,9 @@ public class Location extends PersistableBusinessObjectBase {
 	private Long hrLocationId;
 	private String location;
 	private String description;
-	private Date effectiveDate;
-	private Timestamp timestamp;
-	private Boolean active = Boolean.TRUE;
 	private String userPrincipalId;
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		// TODO Auto-generated method stub
@@ -85,6 +82,11 @@ public class Location extends PersistableBusinessObjectBase {
 
 	public void setUserPrincipalId(String userPrincipalId) {
 		this.userPrincipalId = userPrincipalId;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return location;
 	}
 
 }

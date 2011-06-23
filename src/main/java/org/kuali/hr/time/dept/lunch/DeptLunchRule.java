@@ -1,33 +1,27 @@
 package org.kuali.hr.time.dept.lunch;
 
+import java.math.BigDecimal;
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
-public class DeptLunchRule extends PersistableBusinessObjectBase implements DepartmentalRule {
+public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule {
 
     private static final long serialVersionUID = 1L;
 
     private Long tkDeptLunchRuleId;
     private String dept;
     private Long workArea;
-    private String principalId;         // like principal id
-    private Long jobNumber;    // like job number
-    private Date effectiveDate;
-    private boolean active;
+    private String principalId;
+    private Long jobNumber;    
     private BigDecimal deductionMins;
     private BigDecimal shiftHours;
     private String userPrincipalId;
-
-    private Timestamp timestamp;
 
     private Long tkWorkAreaId;
     private Long tkDeptId;
@@ -76,7 +70,7 @@ public class DeptLunchRule extends PersistableBusinessObjectBase implements Depa
 	}
 
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	@Override
     protected LinkedHashMap toStringMapper() {
 	// TODO Auto-generated method stub
@@ -93,35 +87,6 @@ public class DeptLunchRule extends PersistableBusinessObjectBase implements Depa
 	public void setWorkArea(Long workArea) {
 		this.workArea = workArea;
 	}
-
-
-	public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-
-
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
-
 
     public String getPrincipalId() {
         return principalId;
@@ -214,5 +179,10 @@ public class DeptLunchRule extends PersistableBusinessObjectBase implements Depa
 	public void setHrJobId(Long hrJobId) {
 		this.hrJobId = hrJobId;
 	}
-	
+
+	@Override
+	protected String getUniqueKey() {
+		return getDept() + "_" + getWorkArea() != null ? getWorkArea().toString() : "" + "_" + 
+				getPrincipalId() + "_" + getJobNumber() != null ? getJobNumber().toString() : "";
+	}
 }

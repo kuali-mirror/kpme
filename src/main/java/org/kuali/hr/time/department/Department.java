@@ -1,5 +1,6 @@
 package org.kuali.hr.time.department;
 
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
@@ -11,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Department extends PersistableBusinessObjectBase {
+public class Department extends HrBusinessObject {
 
     /**
      *
@@ -23,9 +24,6 @@ public class Department extends PersistableBusinessObjectBase {
     private String description;
     private String chart;
     private String org;
-    private Date effectiveDate;
-    private Timestamp timestamp;
-    private Boolean active;
 
     private Chart chartObj;
     private Organization orgObj;
@@ -124,5 +122,10 @@ public class Department extends PersistableBusinessObjectBase {
 
 	public void setRoles(List<TkRole> roles) {
 		this.roles = roles;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return getDept() + "_" + getOrg() + "_" + getChart() + getRoles().size();
 	}
 }

@@ -10,7 +10,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateWorkArea(TimeCollectionRule ruleObj) {
-		if (!ValidationUtils.validateWorkArea(ruleObj.getWorkArea(), ruleObj.getDept(), ruleObj.getEffDate())) {
+		if (!ValidationUtils.validateWorkArea(ruleObj.getWorkArea(), ruleObj.getDept(), ruleObj.getEffectiveDate())) {
 			this.putFieldError("workArea", "error.existence", "workarea '" + ruleObj.getWorkArea() + "'");
 			return false;
 		} else {
@@ -19,7 +19,7 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 	}
 
 	boolean validateDepartment(TimeCollectionRule ruleObj) {
-		if (!ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffDate())) {
+		if (!ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffectiveDate())) {
 			this.putFieldError("dept", "error.existence", "department '" + ruleObj.getDept() + "'");
 			return false;
 		} else {

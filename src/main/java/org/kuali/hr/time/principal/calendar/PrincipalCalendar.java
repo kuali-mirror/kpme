@@ -1,16 +1,16 @@
 package org.kuali.hr.time.principal.calendar;
 
-import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-public class PrincipalCalendar extends PersistableBusinessObjectBase {
+import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
+import org.kuali.hr.time.paycalendar.PayCalendar;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+
+public class PrincipalCalendar extends HrBusinessObject {
 
 	/**
 	 * 
@@ -19,14 +19,12 @@ public class PrincipalCalendar extends PersistableBusinessObjectBase {
 	private String principalId;
 	private String calendarGroup;
 	private String holidayCalendarGroup;
-	private Date effectiveDate;
-	private Timestamp timestamp;
-	private Boolean active;
 	
 	private PayCalendar payCalendar;
 	private HolidayCalendar holidayCalendar;
 	private Person person;
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		// TODO Auto-generated method stub
@@ -110,5 +108,10 @@ public class PrincipalCalendar extends PersistableBusinessObjectBase {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return principalId + "_" + calendarGroup + "_" + holidayCalendarGroup;
 	}
 }

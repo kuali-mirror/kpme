@@ -1,12 +1,11 @@
 package org.kuali.hr.time.position;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.hr.time.HrBusinessObject;
 
-public class Position extends PersistableBusinessObjectBase {
+public class Position extends HrBusinessObject {
 
 	/**
 	 * 
@@ -15,10 +14,7 @@ public class Position extends PersistableBusinessObjectBase {
 	
 	private Long hrPositionId;
 	private Long positionNumber;
-	private Date effectiveDate;
 	private String description;
-	private boolean active;
-	private Timestamp timestamp;
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -43,14 +39,6 @@ public class Position extends PersistableBusinessObjectBase {
 		this.positionNumber = positionNumber;
 	}
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -73,6 +61,11 @@ public class Position extends PersistableBusinessObjectBase {
 
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return positionNumber + "";
 	}
 
 }

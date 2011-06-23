@@ -18,7 +18,7 @@ public class GracePeriodRuleServiceTest extends TkTestCase{
 	public void testGracePeriodRuleFetch() throws Exception{
 		GracePeriodRule gpr = new GracePeriodRule();
 		gpr.setActive(true);
-		gpr.setEffDt(new Date(System.currentTimeMillis()));
+		gpr.setEffectiveDate(new Date(System.currentTimeMillis()));
 		gpr.setHourFactor(new BigDecimal(0.1));
 		
 		KNSServiceLocator.getBusinessObjectService().save(gpr);
@@ -38,7 +38,7 @@ public class GracePeriodRuleServiceTest extends TkTestCase{
 	public void testGracePeriodRuleTest() throws Exception{
 		GracePeriodRule gpr = new GracePeriodRule();
 		gpr.setActive(true);
-		gpr.setEffDt(new Date(System.currentTimeMillis()));
+		gpr.setEffectiveDate(new Date(System.currentTimeMillis()));
 		gpr.setHourFactor(new BigDecimal(0.1));
 		
 		KNSServiceLocator.getBusinessObjectService().save(gpr);

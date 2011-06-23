@@ -37,7 +37,7 @@ public class TimeCollectionRuleTest extends TkTestCase{
 		TimeCollectionRule timeCollectionRule = new TimeCollectionRule();
 		timeCollectionRule.setDept("TEST-DEPT");
 		timeCollectionRule.setWorkArea(1234L);
-		timeCollectionRule.setEffDate(new Date(System.currentTimeMillis()));
+		timeCollectionRule.setEffectiveDate(new Date(System.currentTimeMillis()));
 		timeCollectionRule.setActive(true);
 		timeCollectionRule.setTimeStamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));		
 		KNSServiceLocator.getBusinessObjectService().save(timeCollectionRule);
@@ -45,7 +45,7 @@ public class TimeCollectionRuleTest extends TkTestCase{
 		TimeCollectionRule timeCollectionRule2 = new TimeCollectionRule();
 		timeCollectionRule2.setDept("TEST-ME");
 		timeCollectionRule2.setWorkArea(234L);
-		timeCollectionRule2.setEffDate(new Date(System.currentTimeMillis()));
+		timeCollectionRule2.setEffectiveDate(new Date(System.currentTimeMillis()));
 		timeCollectionRule2.setActive(true);
 		timeCollectionRule2.setTimeStamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));		
 		KNSServiceLocator.getBusinessObjectService().save(timeCollectionRule2);

@@ -1,15 +1,14 @@
 package org.kuali.hr.time.clock.location;
 
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
@@ -27,8 +26,6 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 	private Long jobNumber;
 	private Long hrJobId;
 
-	private Date effectiveDate;
-	private boolean active;
 	private String ipAddress;
 	private String userPrincipalId;
 	private Timestamp timestamp;
@@ -61,22 +58,6 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
-	}
-
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 
 	public String getIpAddress() {
@@ -188,6 +169,15 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	public void setHrJobId(Long hrJobId) {
 		this.hrJobId = hrJobId;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		String clockLocKey = getDept()+"_"+getIpAddress()+"_"+getPrincipalId()+"_"+
+		(getJobNumber()!=null ? getJobNumber().toString(): "") +"_" + 
+		(getWorkArea() !=null ? getWorkArea().toString() : "");
+		
+		return clockLocKey;
 	}
 
 

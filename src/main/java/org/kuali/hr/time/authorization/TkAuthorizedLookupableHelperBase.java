@@ -1,14 +1,14 @@
 package org.kuali.hr.time.authorization;
 
 
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class TkAuthorizedLookupableHelperBase extends KualiLookupableHelperServiceImpl {
+import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.rice.kns.bo.BusinessObject;
+
+public abstract class TkAuthorizedLookupableHelperBase extends HrEffectiveDateActiveLookupableHelper {
 
     @Override
     /**

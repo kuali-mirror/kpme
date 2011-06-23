@@ -1,14 +1,14 @@
 package org.kuali.hr.time.task;
 
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-public class Task extends PersistableBusinessObjectBase {
+import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.workarea.WorkArea;
+
+public class Task extends HrBusinessObject {
 
     /**
      *
@@ -22,11 +22,8 @@ public class Task extends PersistableBusinessObjectBase {
     private String description;
     private String userPrincipalId;
     private String administrativeDescription;
-    private Date effectiveDate;
-    private boolean active = true;
-    private Timestamp timestamp;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({  "rawtypes" })
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
@@ -130,6 +127,11 @@ public class Task extends PersistableBusinessObjectBase {
         	return (wa != null) ? wa.getDescription() : "";
 		}
 		return "";
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return workArea + "_" + task;
 	}
 
 }

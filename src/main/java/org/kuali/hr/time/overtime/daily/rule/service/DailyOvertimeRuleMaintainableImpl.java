@@ -3,10 +3,10 @@ package org.kuali.hr.time.overtime.daily.rule.service;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 
 public class DailyOvertimeRuleMaintainableImpl extends
@@ -42,10 +42,11 @@ public class DailyOvertimeRuleMaintainableImpl extends
 		DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) this
 				.getBusinessObject();
 		dailyOvertimeRule.setTkDailyOvertimeRuleId(null);
-		dailyOvertimeRule.setTimeStamp(null);
+		dailyOvertimeRule.setTimestamp(null);
 		KNSServiceLocator.getBusinessObjectService().save(dailyOvertimeRule);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Map populateBusinessObject(Map<String, String> fieldValues,
 			MaintenanceDocument maintenanceDocument, String methodToCall) {

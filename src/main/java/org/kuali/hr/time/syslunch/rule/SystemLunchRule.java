@@ -1,7 +1,6 @@
 package org.kuali.hr.time.syslunch.rule;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.rule.TkRule;
@@ -13,25 +12,11 @@ public class SystemLunchRule extends TkRule {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long tkSystemLunchRuleId;
-	private Date effectiveDate;
 	private Boolean showLunchButton = false;
 	private boolean history;
-	private boolean active;
 	private String userPrincipalId;
-	private Timestamp timeStamp;
 
-	
-	public Timestamp getTimeStamp() {
-		return timeStamp;
-	}
-
-
-	public void setTimeStamp(Timestamp timeStamp) {
-		this.timeStamp = timeStamp;
-	}
-
-
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		// TODO Auto-generated method stub
@@ -88,6 +73,12 @@ public class SystemLunchRule extends TkRule {
 
 	public void setShowLunchButton(Boolean showLunchButton) {
 		this.showLunchButton = showLunchButton;
+	}
+
+
+	@Override
+	protected String getUniqueKey() {
+		return "";
 	}
 
 }

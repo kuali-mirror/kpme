@@ -7,19 +7,19 @@ import java.util.LinkedHashMap;
 
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * 
  * Job representation
  *
  */
-public class Job extends PersistableBusinessObjectBase {
+public class Job extends HrBusinessObject {
 
 	/*
 	 * Standard field included for serialization support
@@ -36,13 +36,10 @@ public class Job extends PersistableBusinessObjectBase {
 	private String lastName;
 	private String principalName;
 	private Long jobNumber;
-	private Date effectiveDate;
 	private String dept;
 	private String tkSalGroup;
 	private Boolean primaryIndicator;
-	private Timestamp timestamp;
 	private Boolean history;
-	private Boolean active;
 	private BigDecimal compRate = new BigDecimal(0);
 	private Long positionNumber;
 	
@@ -57,7 +54,7 @@ public class Job extends PersistableBusinessObjectBase {
     private SalGroup salGroupObj;
     private Position positionObj;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
@@ -310,6 +307,11 @@ public class Job extends PersistableBusinessObjectBase {
 
 	public void setHrPayTypeId(Long hrPayTypeId) {
 		this.hrPayTypeId = hrPayTypeId;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return getPrincipalId() + "_" + getJobNumber();
 	}
 
 }

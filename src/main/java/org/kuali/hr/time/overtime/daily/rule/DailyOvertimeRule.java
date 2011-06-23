@@ -1,5 +1,9 @@
 package org.kuali.hr.time.overtime.daily.rule;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -8,11 +12,6 @@ import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 
 public class DailyOvertimeRule extends TkRule {
@@ -33,10 +32,7 @@ public class DailyOvertimeRule extends TkRule {
 
 	private BigDecimal maxGap;
 	private BigDecimal minHours;
-	private Date effectiveDate;
 	private String userPrincipalId;
-	private Timestamp timeStamp;
-	private boolean active;
 	private boolean history;
 
 	private Long tkWorkAreaId;
@@ -97,14 +93,6 @@ public class DailyOvertimeRule extends TkRule {
 
 	public void setUserPrincipalId(String userPrincipalId) {
 		this.userPrincipalId = userPrincipalId;
-	}
-
-	public Timestamp getTimeStamp() {
-		return timeStamp;
-	}
-
-	public void setTimeStamp(Timestamp timeStamp) {
-		this.timeStamp = timeStamp;
 	}
 
 	public boolean isActive() {
@@ -249,6 +237,11 @@ public class DailyOvertimeRule extends TkRule {
 
 	public void setHrLocationId(Long hrLocationId) {
 		this.hrLocationId = hrLocationId;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return fromEarnGroup +"_"+earnCode;
 	}
 
 }

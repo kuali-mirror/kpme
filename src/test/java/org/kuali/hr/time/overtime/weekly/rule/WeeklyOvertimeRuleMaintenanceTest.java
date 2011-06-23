@@ -37,7 +37,7 @@ public class WeeklyOvertimeRuleMaintenanceTest extends TkTestCase {
 		weeklyOvertimeRule.setMaxHours(TEST_NO);
 		weeklyOvertimeRule.setMaxHoursEarnGroup(TEST_CODE);
 		weeklyOvertimeRule.setStep(TEST_NO);
-		weeklyOvertimeRule.setTimeStamp(TEST_TIME_STAMP);
+		weeklyOvertimeRule.setTimestamp(TEST_TIME_STAMP);
 		weeklyOvertimeRule.setUserPrincipalId(TEST_CODE);	
 		KNSServiceLocator.getBusinessObjectService().save(weeklyOvertimeRule);		
 		weeklyOvertimeRuleId=weeklyOvertimeRule.getTkWeeklyOvertimeRuleId();		

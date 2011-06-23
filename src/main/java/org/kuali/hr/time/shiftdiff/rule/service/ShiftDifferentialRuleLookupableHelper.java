@@ -2,19 +2,20 @@ package org.kuali.hr.time.shiftdiff.rule.service;
 
 import java.util.List;
 
+import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class ShiftDifferentialRuleLookupableHelper extends
-		KualiLookupableHelperServiceImpl {
+		HrEffectiveDateActiveLookupableHelper {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
 			List pkNames) {
@@ -26,6 +27,11 @@ public class ShiftDifferentialRuleLookupableHelper extends
 			final Long tkShiftDiffRuleId = shiftDifferentialRule
 					.getTkShiftDiffRuleId();
 			HtmlData htmlData = new HtmlData() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -8135670958145207661L;
 
 				@Override
 				public String constructCompleteHtmlTag() {

@@ -2,7 +2,6 @@ package org.kuali.hr.time.overtime.weekly.rule;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.earncode.EarnCode;
@@ -19,12 +18,9 @@ public class WeeklyOvertimeRule extends TkRule {
 	private String maxHoursEarnGroup;
 	private String convertFromEarnGroup;
 	private String convertToEarnCode;
-	private Date effectiveDate;
 	private BigDecimal step;
 	private BigDecimal maxHours;
 	private String userPrincipalId;
-	private Timestamp timeStamp;
-	private boolean active;
 	
 	private Long tkWeeklyOvertimeRuleGroupId = 1L;
 	
@@ -33,7 +29,7 @@ public class WeeklyOvertimeRule extends TkRule {
 	private EarnCode convertToEarnCodeObj;
 	
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		// TODO Auto-generated method stub
@@ -105,23 +101,6 @@ public class WeeklyOvertimeRule extends TkRule {
 	public void setUserPrincipalId(String userPrincipalId) {
 		this.userPrincipalId = userPrincipalId;
 	}
-
-	public Timestamp getTimeStamp() {
-		return timeStamp;
-	}
-
-	public void setTimeStamp(Timestamp timeStamp) {
-		this.timeStamp = timeStamp;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
 	public EarnGroup getMaxHoursEarnGroupObj() {
 		return maxHoursEarnGroupObj;
 	}
@@ -152,5 +131,10 @@ public class WeeklyOvertimeRule extends TkRule {
 
 	public void setTkWeeklyOvertimeRuleGroupId(Long tkWeeklyOvertimeRuleGroupId) {
 		this.tkWeeklyOvertimeRuleGroupId = tkWeeklyOvertimeRuleGroupId;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return convertFromEarnGroup + "_" + maxHoursEarnGroup;
 	}
 }

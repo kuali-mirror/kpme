@@ -4,15 +4,15 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class TkRole extends PersistableBusinessObjectBase {
+public class TkRole extends HrBusinessObject {
 
 	/**
 	 *
@@ -25,9 +25,6 @@ public class TkRole extends PersistableBusinessObjectBase {
 	private Long workArea;
 	private String department;
     private String chart;
-	private Date effectiveDate;
-	private Timestamp timestamp;
-	private boolean active;
 	private Long tkDeptId;
 	private Long tkWorkAreaId;
 	private Long positionNumber;
@@ -127,7 +124,7 @@ public class TkRole extends PersistableBusinessObjectBase {
 	public void setPerson(Person person) {
 		this.person = person;
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		// TODO Auto-generated method stub
@@ -180,5 +177,12 @@ public class TkRole extends PersistableBusinessObjectBase {
 
 	public Position getPositionObj() {
 		return positionObj;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return principalId + "_" + positionNumber != null ? positionNumber.toString() : "" +"_"+
+				roleName + "_" + workArea != null ? workArea.toString() : "" + "_" +
+				department + "_" + chart;
 	}
 }

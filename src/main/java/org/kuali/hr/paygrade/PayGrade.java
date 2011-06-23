@@ -4,9 +4,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.hr.time.HrBusinessObject;
 
-public class PayGrade extends PersistableBusinessObjectBase {
+public class PayGrade extends HrBusinessObject {
 
 	/**
 	 * 
@@ -15,12 +15,9 @@ public class PayGrade extends PersistableBusinessObjectBase {
 	private Long hrPayGradeId;
 	private String payGrade;
 	private String description;
-	private Date effectiveDate;
-	private Timestamp timestamp;
-	private Boolean active = Boolean.TRUE;
 	private String userPrincipalId;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		// TODO Auto-generated method stub
@@ -81,5 +78,10 @@ public class PayGrade extends PersistableBusinessObjectBase {
 
 	public String getUserPrincipalId() {
 		return userPrincipalId;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return payGrade;
 	}
 }

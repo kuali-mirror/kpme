@@ -141,7 +141,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 			}
 		}
 		timeCollectionRuleWIthInvalidDept.setDept(TEST_CODE_INVALID_DEPT_ID);
-		timeCollectionRuleWIthInvalidDept.setEffDate(TEST_DATE);
+		timeCollectionRuleWIthInvalidDept.setEffectiveDate(TEST_DATE);
 		timeCollectionRuleWIthInvalidDept.setHrsDistributionF(true);
 		timeCollectionRuleWIthInvalidDept.setTimeStamp(new Timestamp(Calendar
 				.getInstance().getTimeInMillis()));
@@ -169,7 +169,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		}
 		timeCollectionRuleWIthInvalidWorkArea
 				.setDept(TEST_CODE_DEPARTMENT_VALID);
-		timeCollectionRuleWIthInvalidWorkArea.setEffDate(TEST_DATE);
+		timeCollectionRuleWIthInvalidWorkArea.setEffectiveDate(TEST_DATE);
 		timeCollectionRuleWIthInvalidWorkArea.setHrsDistributionF(true);
 		timeCollectionRuleWIthInvalidWorkArea.setTimeStamp(new Timestamp(
 				Calendar.getInstance().getTimeInMillis()));
