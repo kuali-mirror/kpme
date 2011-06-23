@@ -1,9 +1,13 @@
 package org.kuali.hr.job;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
@@ -27,6 +31,8 @@ public class JobTest extends TkTestCase {
 	private static final String CALENDAR_GROUP = "BW-CAL";
 	private static Long jobId = 23L;//id entered in the bootstrap SQL
 	private static Long jobNumber = 5L;//number entered in the bootstrap SQL
+	public static final String TEST_USER = "admin";
+
 	
 	@Test
 	public void testInsertPayCalendar() throws Exception {
@@ -89,4 +95,42 @@ public class JobTest extends TkTestCase {
 		HtmlUnitUtil.createTempFile(editPage);
 		assertTrue("Maintenance Page contains the correct job number", editPage.asText().contains(jobNumber.toString()));				
 	}
+	
+	@Test
+	public void testGetJobs() {
+		Date payPeriodEndDate = new Date((new DateTime(2010,7,30,1,0,0,0,DateTimeZone.forID("EST"))).getMillis());
+		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TEST_USER, payPeriodEndDate);
+		assertNotNull("Jobs was null", jobs);
+		assertEquals("Incorrect number of jobs", 2, jobs.size());
+	}
+	
+	
+	@Test
+	public void testSaveAndFetchObject() throws Exception{
+		//Confirming the save and fetch 
+		//save an object and confirm that it can be fetched
+	}
+	
+	@Test
+	public void testMaintenancePageNew() throws Exception {
+		//create new 
+		//input the data 
+		//confirm submit works
+	}
+	
+	@Test
+	public void testMaintenancePageEdit() throws Exception {
+		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.JOB_MAINT_URL);
+		lookupPage = HtmlUnitUtil.clickInputContainingText(lookupPage, "search");
+		HtmlPage editPage = HtmlUnitUtil.clickAnchorContainingText(lookupPage, "edit", jobId.toString());	
+		//input bad dept, sal group, job location, pay type, pay grade
+		//submit
+		//confirm each error shows up
+		
+		//use each of the above lookups to populate the page
+		//submit 
+		//confirm submit worked
+		
+	}
 }
+
