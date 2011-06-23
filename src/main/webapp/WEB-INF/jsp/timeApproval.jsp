@@ -67,55 +67,67 @@
                                 </a>
                             </td>
                             <td>${approveRow.documentId}
-                                <c:if test="${fn:length(approveRow.warnings) > 0 }">
-                                <div class="ui-state-default ui-corner-all" style="float:right;">
-                                    <span id="approvals-warning" class="ui-icon ui-icon-alert approvals-warning"></span>
+                                <div style="float:right;">
+                                    <c:if test="${fn:length(approveRow.warnings) > 0 }">
+                                        <div class="ui-state-default ui-corner-all" style="float:right;">
+                                            <span id="approvals-warning"
+                                                  class="ui-icon ui-icon-alert approvals-warning"></span>
+                                        </div>
+                                        <div id="approvals-warning-details" class="approvals-warning-details"
+                                             style="display:none;">
+                                            <table>
+                                                <thead>
+                                                <tr>
+                                                    <th style="font-size: 1.2em; font-weight: bold; text-align: left;">
+                                                        Warnings:
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach var="warning" items="${approveRow.warnings}">
+                                                    <tr>
+                                                        <td style="text-align: left;">${warning}</td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${fn:length(approveRow.notes) > 0 }">
+                                        <div class="ui-state-default ui-corner-all"
+                                             style="float:right; margin-right: 2px;">
+                                            <span id="approvals-note"
+                                                  class="ui-icon ui-icon-note approvals-note"></span>
+                                        </div>
+                                        <div id="approvals-note-details" class="approvals-note-details"
+                                             style="display:none;">
+                                            <table>
+                                                <thead>
+                                                <tr>
+                                                    <th colspan="3"
+                                                        style="font-size: 1.2em; font-weight: bold; text-align: left;">
+                                                        Notes :
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Creator</th>
+                                                    <th>Created Date</th>
+                                                    <th>Content</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach var="note" items="${approveRow.notes}">
+                                                    <tr>
+                                                        <td>${note.noteAuthorWorkflowId}</td>
+                                                        <td>${note.noteCreateDate}</td>
+                                                        <td>${note.noteText}</td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </c:if>
                                 </div>
-                                <div id="approvals-warning-details" class="approvals-warning-details" style="display:none;">
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th style="font-size: 1.2em; font-weight: bold; text-align: left;">Warnings:</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <c:forEach var="warning" items="${approveRow.warnings}">
-                                            <tr>
-                                                <td style="text-align: left;">${warning}</td>
-                                            </tr>
-                                        </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                </c:if>
-                                <c:if test="${fn:length(approveRow.notes) > 0 }">
-                                <div class="ui-state-default ui-corner-all" style="float:right; margin-right: 2px;">
-                                    <span id="approvals-note" class="ui-icon ui-icon-note approvals-note"></span>
-                                </div>
-                                <div id="approvals-note-details" class="approvals-note-details" style="display:none;">
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th colspan="3" style="font-size: 1.2em; font-weight: bold; text-align: left;">Notes :</th>
-                                        </tr>
-                                        <tr>
-                                            <th>Creator</th>
-                                            <th>Created Date</th>
-                                            <th>Content</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <c:forEach var="note" items="${approveRow.notes}">
-                                            <tr>
-                                                <td>${note.noteAuthorWorkflowId}</td>
-                                                <td>${note.noteCreateDate}</td>
-                                                <td>${note.noteText}</td>
-                                            </tr>
-                                        </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                </c:if>
                             </td>
                             <td>${approveRow.approvalStatus}</td>
                             <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">

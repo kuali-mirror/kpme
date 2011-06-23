@@ -5,7 +5,7 @@ import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.SortedSet;
 
 
 public interface TimeApproveService {
@@ -23,9 +23,9 @@ public interface TimeApproveService {
      *
      * @return A Map<String, List<ApprovalTimeSummaryRow>> container.
      */
-    public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsMap(Date payBeginDate, Date payEndDate, Long workArea);
+    public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsMap(Date payBeginDate, Date payEndDate, List<Long> workArea);
 
-    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, Long workArea);
+    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<Long> workArea);
 
     public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup);
 
@@ -36,12 +36,15 @@ public interface TimeApproveService {
     /**
      * Method to obtain all of the active Pay Calendar Group names for the current
      * user / approver.
+     * We used SortedSet here since we only want unique values while keeping the order.
+     * Besides, we also need to get the first value as the default pay calendar group in some cases.
+     * There is not get() method in the Set interface.
      *
      * @param payBeginDate
      * @param payEndDate
      * @return
      */
-    public Set<String> getApproverPayCalendarGroups(Date payBeginDate, Date payEndDate);
+    public SortedSet<String> getApproverPayCalendarGroups(Date payBeginDate, Date payEndDate);
     
     /**
      * Used to determine if there are notes on a document

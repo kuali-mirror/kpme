@@ -36,8 +36,6 @@ public class TimeApprovalAction extends TimesheetAction {
         taaf.setApprovalRows(getApprovalRows(taaf));
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
 
-        TkServiceLocator.getWarningService().getWarnings("16274");
-
         return forward;
     }
 
@@ -66,9 +64,11 @@ public class TimeApprovalAction extends TimesheetAction {
      */
     public ActionForward searchApprovalRows(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
+        taaf.setPayBeginDate(taaf.getTimesheetDocument().getDocumentHeader().getPayBeginDate());
+        taaf.setPayEndDate(taaf.getTimesheetDocument().getDocumentHeader().getPayEndDate());
 
         List<String> results = new ArrayList<String>();
-        for (ApprovalTimeSummaryRow row : taaf.getApprovalRows()) {
+        for (ApprovalTimeSummaryRow row : this.getApprovalRows(taaf)) {
             if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID) &&
                     row.getDocumentId().contains(taaf.getSearchTerm())) {
 
@@ -89,11 +89,13 @@ public class TimeApprovalAction extends TimesheetAction {
     /**
      * Helper method to modify / manage the list of records needed to display approval data to the user.
      *
+     * @param taaf
      * @return
      */
     List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf) {
-        // TODO: Handle pay calendar group.
-        List<ApprovalTimeSummaryRow> rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), "IU-BW");
+
+        String calGroup = StringUtils.isNotEmpty(taaf.getSelectedPayCalendarGroup()) ? taaf.getSelectedPayCalendarGroup() : taaf.getPayCalendarGroups().first();
+        List<ApprovalTimeSummaryRow> rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup);
 
         if (!taaf.isAjaxCall() && StringUtils.isNotBlank(taaf.getSearchField()) && StringUtils.isNotBlank(taaf.getSearchTerm())) {
             rows = searchApprovalRows(rows, taaf.getSearchField(), taaf.getSearchTerm());

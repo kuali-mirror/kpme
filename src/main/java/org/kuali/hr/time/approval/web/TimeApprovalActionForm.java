@@ -15,7 +15,7 @@ public class TimeApprovalActionForm extends TimesheetActionForm {
     private static final long serialVersionUID = -173408280988754540L;
 
     private String name;
-    private Set<String> payCalendarGroups = new HashSet<String>();
+    private SortedSet<String> payCalendarGroups = new TreeSet<String>();
     private String selectedPayCalendarGroup;
     private Date payBeginDate;
     private Date payEndDate;
@@ -139,11 +139,11 @@ public class TimeApprovalActionForm extends TimesheetActionForm {
         this.ajaxCall = ajaxCall;
     }
 
-    public Set<String> getPayCalendarGroups() {
+    public SortedSet<String> getPayCalendarGroups() {
         return payCalendarGroups;
     }
 
-    public void setPayCalendarGroups(Set<String> payCalendarGroups) {
+    public void setPayCalendarGroups(SortedSet<String> payCalendarGroups) {
         this.payCalendarGroups = payCalendarGroups;
     }
 

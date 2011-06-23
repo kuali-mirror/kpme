@@ -69,7 +69,8 @@ $(document).ready(function() {
                 //source: "TimeApproval.do?methodToCall=searchDocumentHeaders" + $('#searchField').val(),
                 source: function(request, response) {
 
-                    $.post('TimeApproval.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term + '&ajaxCall=true',
+                    $.post('TimeApproval.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term +
+                            '&selectedPayCalendarGroup=' + $('#selectedPayCalendarGroup').val() +'&ajaxCall=true',
                             function(data) {
                                 response($.map(jQuery.parseJSON(data), function(item) {
                                     return {
