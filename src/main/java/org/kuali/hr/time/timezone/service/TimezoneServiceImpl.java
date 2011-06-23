@@ -14,17 +14,17 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 public class TimezoneServiceImpl implements TimezoneService {
-	
+
 	/**
 	 * Used to determine if an override condition exists for a user timezone
 	 */
 	@Override
 	public String getUserTimeZone() {
-		UserPreferences userPref = TKContext.getUser().getUserPreference();
+		UserPreferences userPref = TKContext.getUser().getTargetUserPreferences();
 		if(userPref != null && StringUtils.isNotEmpty(userPref.getTimezone())){
 			return userPref.getTimezone();
 		}
-		
+
 		if(!TkConstants.LOCATION_TO_TIME_ZONE_MAP.isEmpty()){
 			//TODO change current date to context of document being looked at
 			List<Job> lstJobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
@@ -48,11 +48,11 @@ public class TimezoneServiceImpl implements TimezoneService {
 		for(TimeBlock tb : timeBlocks){
 			/*
 			 *  the code below won't work since the timestamp is the same across time zone,
-			 *  so that's why we need to set the time with the time zone information to the fields for the display purpose 
+			 *  so that's why we need to set the time with the time zone information to the fields for the display purpose
 			 */
 			//tb.setBeginTimestamp(new Timestamp(modifiedStartTime.getMillis()));
 			//tb.setEndTimestamp(new Timestamp(modifiedEndTime.getMillis()));
-			
+
 			//No need for translation if it matches the current timezone
 			if(StringUtils.equals(timezone, TkConstants.SYSTEM_TIME_ZONE)){
 				tb.setBeginTimeDisplay(new DateTime(tb.getBeginTimestamp()));
@@ -68,13 +68,13 @@ public class TimezoneServiceImpl implements TimezoneService {
 
 	@Override
 	public boolean isSameTimezone() {
-		String userTimezone = TKContext.getUser().getUserPreference().getTimezone();
+		String userTimezone = TKContext.getUser().getTargetUserPreferences().getTimezone();
 		if(StringUtils.isNotBlank(userTimezone)) {
-			return StringUtils.equals(TkConstants.SYSTEM_TIME_ZONE, TKContext.getUser().getUserPreference().getTimezone());
+			return StringUtils.equals(TkConstants.SYSTEM_TIME_ZONE, TKContext.getUser().getTargetUserPreferences().getTimezone());
 		}
 		return true;
 	}
-	
-	
+
+
 
 }

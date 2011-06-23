@@ -81,11 +81,9 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 					}
 				}
 			}
-			TKUser tkUser = TkServiceLocator.getUserService().buildTkUser(person.getPrincipalId(), TKUtils.getCurrentDate());
-			tkUser.setBackdoorPerson(backdoorPerson);
-			tkUser.setActualPerson(person);
-            handleTargetUser(request, tkUser);
-			loadRoles(tkUser);
+
+            Person targetPerson = handleTargetUser(request);
+			TKUser tkUser = TkServiceLocator.getUserService().buildTkUser(person, backdoorPerson, targetPerson, TKUtils.getCurrentDate());
 			TKContext.setUser(tkUser);
 		} else {
 			// Bail with Exception
@@ -96,9 +94,9 @@ public class TKRequestProcessor extends KualiRequestProcessor {
     /**
      * Sets up the Target user for the session. Requires that a documentId is passed
      * @param request
-     * @param user
      */
-    private void handleTargetUser(HttpServletRequest request, TKUser user) {
+    private Person handleTargetUser(HttpServletRequest request) {
+        Person target = null;
         String referer = request.getHeader("referer");
         String useTargetUser = request.getParameter("useTargetUser");
         String documentId = request.getParameter("documentId");
@@ -119,49 +117,15 @@ public class TKRequestProcessor extends KualiRequestProcessor {
             }
         } else if (StringUtils.equalsIgnoreCase(useTargetUser, "false")) {
             request.getSession(false).removeAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY);
-            user.clearTargetUser();
             targetPrincipal = null;
         }
 
         // still need to update the TKUser
         if (targetPrincipal != null) {
-            Person targetPerson = KIMServiceLocator.getPersonService().getPerson(targetPrincipal);
-            user.setTargetPerson(targetPerson);
+            target = KIMServiceLocator.getPersonService().getPerson(targetPrincipal);
         }
+
+        return target;
     }
 
-	/**
-	 * Helper method to load roles.
-	 *
-	 * TODO : Do we want to load both backdoor and Regular roles?  In most
-	 * situations if there is a backdoor user, we are looking at the backdoor
-	 * roles.
-	 *
-	 * We are looking looking for the roles with the most recent effective
-	 * date.
-	 *
-	 * @param user
-	 */
-	public static void loadRoles(TKUser user) {
-		TkRoleService roleService = TkServiceLocator.getTkRoleService();
-		AssignmentService assignmentService = TkServiceLocator.getAssignmentService();
-
-		Date asOfDate = TKUtils.getCurrentDate();
-		Date payPeriodBeginDate = TKUtils.getCurrentDate(); // TODO : Fix this!
-
-		if (user.getBackdoorPerson() != null) {
-			List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(user.getBackdoorPerson().getPrincipalId(), asOfDate);
-			List<Assignment> assignments = assignmentService.getAssignments(user.getBackdoorPerson().getPrincipalId(), payPeriodBeginDate);
-			user.setBackdoorPersonRoles(new TkUserRoles(roles,assignments));
-		}
-
-		List<TkRole> roles = roleService.getRoles(user.getActualPerson().getPrincipalId(), asOfDate);
-		// TODO - we need to handle the Assignment / Employee role.
-		//
-		// This seems expensive/excessive, unless it's cached.
-		List<Assignment> assignments = assignmentService.getAssignments(user.getActualPerson().getPrincipalId(), payPeriodBeginDate);
-
-		//
-		user.setActualPersonRoles(new TkUserRoles(roles, assignments));
-	}
 }

@@ -56,13 +56,13 @@ public class TimesheetServiceImpl implements TimesheetService {
                 if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.ROUTE)) {
                     wd.routeDocument("Routing for Approval");
                 } else if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.APPROVE)) {
-                    if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+                    if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()) {
                         wd.superUserApprove("Superuser approving timesheet.");
                     } else {
                         wd.approve("Approving timesheet.");
                     }
                 } else if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.DISAPPROVE)) {
-                    if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+                    if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()) {
                         wd.superUserDisapprove("Superuser disapproving timesheet.");
                     } else {
                         wd.disapprove("Disapproving timesheet.");
@@ -181,7 +181,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 	}
 
 	public boolean isSynchronousUser(){
-		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getUser().getPrincipalId(), TKUtils.getCurrentDate());
+		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getUser().getTargetPrincipalId(), TKUtils.getCurrentDate());
 		boolean isSynchronousUser = true;
 		for(Assignment assignment: assignments){
 			isSynchronousUser &= assignment.isSynchronous();

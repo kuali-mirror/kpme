@@ -30,6 +30,10 @@ public class TimesheetAction extends TkAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimesheetActionForm taForm = (TimesheetActionForm)form;
 		TKUser user = TKContext.getUser();
+
+        // Here - viewPrincipal will be the principal of the user we intend to
+        // view, be it target user, backdoor or otherwise.
+        String viewPrincipal = user.getTargetPrincipalId();
 		PayCalendarEntries payCalendarEntries = null;
 		TimesheetDocument td  = null;
 		TimesheetDocumentHeader tsdh;
@@ -50,21 +54,21 @@ public class TimesheetAction extends TkAction {
          *    and fetch the timeBlocks.
          */
 		if(StringUtils.equals(taForm.getCalNav(), TkConstants.PREV_TIMESHEET) || StringUtils.equals(taForm.getCalNav(), TkConstants.NEXT_TIMESHEET)) {
-			tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(taForm.getCalNav(), TKContext.getPrincipalId(), taForm.getDocumentId());
+			tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(taForm.getCalNav(), viewPrincipal, taForm.getDocumentId());
             // use the getPayEndDate()-1 as the date to get the current payCalendarDates, since the the payBeginDate is equal to the payEndDate of the previous pay period
-			payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),  TKUtils.getTimelessDate(DateUtils.addDays(tsdh.getPayEndDate(), -1)));
-			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getPrincipalId(), payCalendarEntries);
+			payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(viewPrincipal,  TKUtils.getTimelessDate(DateUtils.addDays(tsdh.getPayEndDate(), -1)));
+			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntries);
 		}
 		else {
 			if(StringUtils.isNotBlank(taForm.getDocumentId())) {
 				tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(taForm.getDocumentId());
-				payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),  TKUtils.getTimelessDate(DateUtils.addDays(tsdh.getPayEndDate(), -1)));
+				payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(viewPrincipal,  TKUtils.getTimelessDate(DateUtils.addDays(tsdh.getPayEndDate(), -1)));
 			}
 			else {
 				Date currentDate = TKUtils.getTimelessDate(null);
-				payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(user.getPrincipalId(),  currentDate);
+				payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(viewPrincipal,  currentDate);
 			}
-			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(user.getPrincipalId(), payCalendarEntries);
+			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntries);
 		}
 
         // Set the TKContext for the current timesheet document id.
@@ -72,8 +76,12 @@ public class TimesheetAction extends TkAction {
             TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
         }
 
-		taForm.setTimesheetDocument(td);
-		taForm.setDocumentId(td.getDocumentId());
+        if (td != null) {
+		    taForm.setTimesheetDocument(td);
+		    taForm.setDocumentId(td.getDocumentId());
+        } else {
+            LOG.error("Null timesheet document in TimesheetAction.");
+        }
 		taForm.setPayCalendarDates(payCalendarEntries);
 
 		return super.execute(mapping, form, request, response);

@@ -141,7 +141,7 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	}
 
 	public String getUserTimezone() {
-		return TKContext.getUser().getUserPreference().getTimezone();
+		return TKContext.getUser().getTargetUserPreferences().getTimezone();
 	}
 
 	public BigDecimal getAmount() {

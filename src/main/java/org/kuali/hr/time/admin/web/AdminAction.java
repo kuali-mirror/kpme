@@ -9,6 +9,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.user.service.UserServiceImpl;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.web.TKRequestProcessor;
@@ -22,7 +24,16 @@ public class AdminAction extends TkAction {
 
 	private static final Logger LOG = Logger.getLogger(AdminAction.class);
 
-	public ActionForward backdoor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TKUser user = TKContext.getUser();
+        if (user == null || !user.getActualPersonRoles().isSystemAdmin()) {
+            throw new RuntimeException("User does not have administrative privileges.");
+        }
+        return super.execute(mapping, form, request, response);
+    }
+
+    public ActionForward backdoor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		AdminActionForm adminForm = (AdminActionForm) form;
 
 		if (StringUtils.isNotBlank(adminForm.getBackdoorPrincipalName())) {
@@ -37,12 +48,7 @@ public class AdminAction extends TkAction {
 
 				tkUser.setBackdoorPerson(backdoorPerson);
 
-                // We've already missed the TKContext at this point, so we'll re-set it:
-                // Questionable location of loadRoles, it was created as a helper function
-                // During the request processor. It may be worthwhile to move backdoor
-                // initiation to the RequestProcessor as well, since that happens before any
-                // of the other page rendering / requests.
-                TKRequestProcessor.loadRoles(tkUser);
+                UserServiceImpl.loadRoles(tkUser);
                 TKContext.setUser(tkUser);
 
 				LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + backdoorPerson.getPrincipalName() + "\n\n");

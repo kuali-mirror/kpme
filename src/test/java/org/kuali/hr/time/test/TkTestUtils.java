@@ -31,8 +31,8 @@ public class TkTestUtils {
 
 	public static TimesheetDocument populateBlankTimesheetDocument(Date calDate) {
 		try {
-			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(),
-							TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),
+			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
+							TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getUser().getTargetPrincipalId(),
 							  calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
@@ -46,16 +46,16 @@ public class TkTestUtils {
 
 	public static TimesheetDocument populateTimesheetDocument(Date calDate) {
 		try {
-			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(),
-							TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),
+			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
+							TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getUser().getTargetPrincipalId(),
 							  calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
 			}
 
 			//refetch clean document
-			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getPrincipalId(),
-					TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(),
+			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
+					TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getUser().getTargetPrincipalId(),
 					   calDate));
 			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			for(int i = 0;i<5;i++){

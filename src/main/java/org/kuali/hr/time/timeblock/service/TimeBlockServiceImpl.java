@@ -138,15 +138,15 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
 
     }
-    
-    
+
+
     public void saveTimeBlocks(List<TimeBlock> tbList) {
 		 for (TimeBlock tb : tbList) {
 	         TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(tb.getTkTimeBlockId());
 	         timeBlockDao.saveOrUpdate(tb);
 	     }
     }
-    
+
 
 
     public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean clockLogCreated) {
@@ -196,7 +196,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
         tb.setHours(hours);
         tb.setClockLogCreated(clockLogCreated);
-        tb.setUserPrincipalId(TKContext.getUser().getPrincipalId());
+        tb.setUserPrincipalId(TKContext.getUser().getTargetPrincipalId());
         tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
         tb.setTimeHourDetails(this.createTimeHourDetails(tb.getEarnCode(), tb.getHours(), tb.getAmount(), tb.getTkTimeBlockId()));
@@ -215,23 +215,23 @@ public class TimeBlockServiceImpl implements TimeBlockService {
       	form.setAssignStyleClassMap(buildAssignmentStyleClassMap(tsd));
         return JSONValue.toJSONString(getTimeBlocksJson(timeBlocks, form.getAssignStyleClassMap()));
     }
-    
+
     private Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd) {
 		Map<String, String> aMap = new HashMap<String, String>();
 		List<String> assignmentKeys = new ArrayList<String> ();
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(tsd.getPrincipalId(), tsd.getAsOfDate());
-		
+
 		for(Assignment assignment: assignments) {
-			AssignmentDescriptionKey aKey = new AssignmentDescriptionKey(assignment.getJobNumber(), 
-					assignment.getWorkArea(), assignment.getTask());	
+			AssignmentDescriptionKey aKey = new AssignmentDescriptionKey(assignment.getJobNumber(),
+					assignment.getWorkArea(), assignment.getTask());
 			assignmentKeys.add(aKey.toAssignmentKeyString());
 		}
 		Collections.sort(assignmentKeys);
-		
+
 		for(int i = 0; i< assignmentKeys.size(); i++) {
 			aMap.put(assignmentKeys.get(i), "assignment"+ Integer.toString(i));
 		}
-		
+
 		return aMap;
 	}
 
@@ -250,13 +250,13 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
             //String assignmentKey = TKUtils.formatAssignmentKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask());
             String workAreaDesc = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), new java.sql.Date(timeBlock.getEndTimestamp().getTime())).getDescription();
- 
+
             String cssClass = "";
             if(aMap.containsKey(timeBlock.getAssignmentKey())) {
             	cssClass = aMap.get(timeBlock.getAssignmentKey());
-            } 
+            }
             timeBlockMap.put("assignmentCss", cssClass);
-            
+
             // DateTime object in jodatime is immutable. If manipulation of a datetime obj is necessary, use MutableDateTime instead.
             MutableDateTime start = timeBlock.getBeginTimeDisplay().toMutableDateTime();
             MutableDateTime end = timeBlock.getEndTimeDisplay().toMutableDateTime();
@@ -351,7 +351,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
             String earnCodeType = TkServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), new java.sql.Date(tb.getBeginTimestamp().getTime()));
             tb.setEarnCodeType(earnCodeType);
         }
-    	
+
         return timeBlocks;
     }
 }

@@ -25,7 +25,7 @@ public class WorkflowTagSupport {
 
     public boolean isDisplayingApprovalButtons() {
 
-        UserRoles roles = TKContext.getUser().getCurrentRoles();
+        UserRoles roles = TKContext.getUser().getCurrentTargetRoles();
 
         String docId = TKContext.getCurrentTimesheetDocumentId();
         TimesheetDocument doc = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);

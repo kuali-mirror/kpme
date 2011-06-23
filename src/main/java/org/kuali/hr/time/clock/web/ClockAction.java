@@ -56,7 +56,7 @@ public class ClockAction extends TimesheetAction {
                 }
                 caf.setAssignmentLunchMap(assignmentDeptLunchRuleMap);
             }
-    	    String principalId = TKContext.getUser().getPrincipalId();
+    	    String principalId = TKContext.getUser().getTargetPerson().getPrincipalId();
     	    if(principalId != null) {
     	    	caf.setPrincipalId(principalId);
     	    }
@@ -66,10 +66,10 @@ public class ClockAction extends TimesheetAction {
     	    if(tbIdString != null) {
     	    	caf.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(Long.valueOf(caf.getEditTimeBlockId())));
     	    }
-    	    
+
     	    ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
     	    if (lastClockLog != null) {
-    	    	Timestamp lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId()).getClockTimestamp();
+    	    	Timestamp lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(principalId).getClockTimestamp();
     	    	caf.setLastClockTimestamp(lastClockTimestamp);
     	    	caf.setLastClockAction(lastClockLog.getClockAction());
     	    }
@@ -117,19 +117,19 @@ public class ClockAction extends TimesheetAction {
     	    TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, TKUtils.getCurrentDate());
 
     	    if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
-    	    	
+
     	    	Timestamp lastClockTimestamp = null;
     	    	if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
-    	    		lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId(), TkConstants.CLOCK_IN).getClockTimestamp(); 
+    	    		lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPerson().getPrincipalId(), TkConstants.CLOCK_IN).getClockTimestamp();
     	    	}
     	    	else if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT)) {
-    	    		lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getPrincipalId()).getClockTimestamp();
+    	    		lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPerson().getPrincipalId()).getClockTimestamp();
     	    	}
-    	    	
+
     	    	//Save current clock log to get id for timeblock building
         	    TkServiceLocator.getClockLogService().saveClockLog(clockLog);
         	    caf.setClockLog(clockLog);
-    	    	
+
     			long beginTime = lastClockTimestamp.getTime();
     			Timestamp beginTimestamp = new Timestamp(beginTime);
     			Timestamp endTimestamp = caf.getClockLog().getClockTimestamp();
@@ -137,7 +137,7 @@ public class ClockAction extends TimesheetAction {
     			Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(),
 						caf.getSelectedAssignment());
 
-    			String earnCode = TKContext.getUser().getCurrentRoles().isSynchronous() ? assignment.getJob().getPayTypeObj().getRegEarnCode() : caf.getSelectedEarnCode();
+    			String earnCode = TKContext.getUser().getCurrentTargetRoles().isSynchronous() ? assignment.getJob().getPayTypeObj().getRegEarnCode() : caf.getSelectedEarnCode();
 
     			// New Time Blocks, pointer reference
                 List<TimeBlock> newTimeBlocks = caf.getTimesheetDocument().getTimeBlocks();
@@ -164,25 +164,25 @@ public class ClockAction extends TimesheetAction {
     	    }
     	    return mapping.findForward("basic");
     	}
-    	
+
     public ActionForward distributeTimeBlocks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
    		 ClockActionForm caf = (ClockActionForm)form;
    		 caf.findTimeBlocksToDistribute();
    		 return mapping.findForward("tb");
    	 }
-    
-	
+
+
 	public ActionForward editTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
 		ClockActionForm caf = (ClockActionForm)form;
 		TimeBlock tb = caf.getCurrentTimeBlock();
 		caf.setCurrentAssignmentKey(tb.getAssignmentKey());
-	
+
 		ActionForward forward = mapping.findForward("et");
-		
+
 		return new ActionForward(forward.getPath() + "?editTimeBlockId=" + tb.getTkTimeBlockId().toString());
-	
+
 	}
-	
+
 	public ActionForward addTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
 		 ClockActionForm caf = (ClockActionForm)form;
 		 TimeBlock currentTb = caf.getCurrentTimeBlock();
@@ -193,18 +193,18 @@ public class ClockAction extends TimesheetAction {
          }
        //call persist method that only saves added/deleted/changed timeblocks
 			TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
-         
+
 		ActionForward forward = mapping.findForward("et");
-			
+
 		return new ActionForward(forward.getPath() + "?editTimeBlockId=" + currentTb.getTkTimeBlockId().toString());
 //		 return mapping.findForward("et");
-		
+
 	}
-	
+
 	public ActionForward saveNewTimeBlocks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
 		ClockActionForm caf = (ClockActionForm)form;
 		Long tbId = new Long(caf.getTbId());
-		
+
 		String[] assignments = caf.getNewAssignDesCol().split(SEPERATOR);
 		String[] beginDates = caf.getNewBDCol().split(SEPERATOR);
 		String[] beginTimes = caf.getNewBTCol().split(SEPERATOR);
@@ -212,7 +212,7 @@ public class ClockAction extends TimesheetAction {
 		String[] endTimes = caf.getNewETCol().split(SEPERATOR);
 		String[] hrs = caf.getNewHrsCol().split(SEPERATOR);
 		String earnCode = TkServiceLocator.getTimeBlockService().getTimeBlock(tbId).getEarnCode();
-		
+
 		List<TimeBlock> newTbList = new ArrayList<TimeBlock>();
 		for(int i = 0; i < hrs.length; i++) {
 			TimeBlock tb = new TimeBlock();
@@ -230,10 +230,10 @@ public class ClockAction extends TimesheetAction {
 		TkServiceLocator.getTimeBlockService().deleteTimeBlock(oldTB);
 		return mapping.findForward("basic");
 	}
-	
-	
-	
-		
+
+
+
+
 	public ActionForward validateNewTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
 		ClockActionForm caf = (ClockActionForm)form;
 		Long tbId = new Long(caf.getTbId());
@@ -243,10 +243,10 @@ public class ClockAction extends TimesheetAction {
 		String[] endDates = caf.getNewEDCol().split(SEPERATOR);
 		String[] endTimes = caf.getNewETCol().split(SEPERATOR);
 		String[] hrs = caf.getNewHrsCol().split(SEPERATOR);
-		
+
 		List<Interval> newIntervals = new ArrayList<Interval>();
 		JSONArray errorMsgList = new JSONArray();
-		
+
 		// validates that all fields are available
 		if(assignments.length != beginDates.length ||
 				assignments.length!= beginTimes.length ||
@@ -257,10 +257,10 @@ public class ClockAction extends TimesheetAction {
 		    caf.setOutputString(JSONValue.toJSONString(errorMsgList));
 		    return mapping.findForward("ws");
 		}
-		
+
 		for(int i = 0; i < hrs.length; i++) {
 			String index = String.valueOf(i+1);
-			
+
 			// validate the hours field
 			BigDecimal dc = new BigDecimal(hrs[i]);
 		    if (dc.compareTo(new BigDecimal("0")) == 0) {
@@ -268,7 +268,7 @@ public class ClockAction extends TimesheetAction {
 		        caf.setOutputString(JSONValue.toJSONString(errorMsgList));
 		        return mapping.findForward("ws");
 		    }
-		
+
 		    // check if the begin / end time are valid
 		    Timestamp beginTS = TKUtils.convertDateStringToTimestamp(beginDates[i], beginTimes[i]);
 			Timestamp endTS = TKUtils.convertDateStringToTimestamp(endDates[i], endTimes[i]);
@@ -277,7 +277,7 @@ public class ClockAction extends TimesheetAction {
 		        caf.setOutputString(JSONValue.toJSONString(errorMsgList));
 		        return mapping.findForward("ws");
 		    }
-		   
+
 		    // check if new time blocks overlap with existing time blocks
 		    DateTime start = new DateTime(beginTS);
 		    DateTime end = new DateTime(endTS);
@@ -294,7 +294,7 @@ public class ClockAction extends TimesheetAction {
 			        return mapping.findForward("ws");
 			    }
 		    }
-		}   
+		}
 		// check if new time blocks overlap with each other
 		if(newIntervals.size() > 1 ) {
 			for(Interval intv1 : newIntervals) {
@@ -310,9 +310,9 @@ public class ClockAction extends TimesheetAction {
 				}
 			}
 		}
-		
+
 	    caf.setOutputString(JSONValue.toJSONString(errorMsgList));
 		return mapping.findForward("ws");
  	}
-	
+
 }

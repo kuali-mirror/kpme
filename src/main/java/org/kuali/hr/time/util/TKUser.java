@@ -25,8 +25,11 @@ public class TKUser {
 
 	private UserRoles actualPersonRoles = null;
 	private UserRoles backdoorPersonRoles = null;
+    private UserRoles targetPersonRoles = null;
 
-	private UserPreferences userPreference;
+	private UserPreferences actualUserPreferences;
+    private UserPreferences backdoorUserPreferences;
+    private UserPreferences targetUserPreferences;
 
 	public Person getActualPerson() {
 		return actualPerson;
@@ -56,11 +59,25 @@ public class TKUser {
 	/**
 	 * @return The principal name of the User.
 	 *
-	 * Target User > Back Door User > Actual User
+	 * Back Door User > Actual User
 	 */
 	public String getPrincipalName() {
 		return getCurrentPerson().getPrincipalName();
 	}
+
+    /**
+     * Target > Back Door > Actual
+     * @return The Principal ID of the user we are viewing.
+     */
+    public String getTargetPrincipalId() {
+        Person p = getTargetPerson();
+        if (p == null)
+            p = getBackdoorPerson();
+        if (p == null)
+            p = getActualPerson();
+
+        return p.getPrincipalName();
+    }
 
 	public void clearBackdoorUser() {
 		this.backdoorPerson = null;
@@ -95,6 +112,25 @@ public class TKUser {
 		this.backdoorPersonRoles = backdoorPersonRoles;
 	}
 
+    public Person getCurrentTargetPerson() {
+        Person p = this.getTargetPerson();
+        if (p == null)
+            p = this.getCurrentPerson();
+
+        return p;
+    }
+
+    public UserRoles getCurrentTargetRoles() {
+        UserRoles r = this.targetPersonRoles;
+
+        if (r == null)
+            r = this.backdoorPersonRoles;
+        if (r == null)
+            r =  this.actualPersonRoles;
+
+        return r;
+    }
+
     /**
      * Provides access to the current roles.
      * @return The roles of the current 'acting' Person (backdoor or actual).
@@ -120,11 +156,47 @@ public class TKUser {
 		return actualPerson;
 	}
 
-	public UserPreferences getUserPreference() {
-		return userPreference;
+	public UserPreferences getCurrentUserPreferences() {
+		UserPreferences p = this.backdoorUserPreferences;
+        if (p == null)
+            p = this.actualUserPreferences;
+
+        return p;
 	}
 
-	public void setUserPreference(UserPreferences userPreference) {
-		this.userPreference = userPreference;
-	}
+    public UserPreferences getTargetUserPreferences() {
+        UserPreferences p = this.targetUserPreferences;
+        if (p == null)
+            p = this.getCurrentUserPreferences();
+
+        return p;
+    }
+
+    public UserRoles getTargetPersonRoles() {
+        return targetPersonRoles;
+    }
+
+    public void setTargetPersonRoles(UserRoles targetPersonRoles) {
+        this.targetPersonRoles = targetPersonRoles;
+    }
+
+    public UserPreferences getActualUserPreferences() {
+        return actualUserPreferences;
+    }
+
+    public void setActualUserPreferences(UserPreferences actualUserPreference) {
+        this.actualUserPreferences = actualUserPreference;
+    }
+
+    public UserPreferences getBackdoorUserPreferences() {
+        return backdoorUserPreferences;
+    }
+
+    public void setBackdoorUserPreferences(UserPreferences backdoorUserPreference) {
+        this.backdoorUserPreferences = backdoorUserPreference;
+    }
+
+    public void setTargetUserPreferences(UserPreferences targetUserPreference) {
+        this.targetUserPreferences = targetUserPreference;
+    }
 }

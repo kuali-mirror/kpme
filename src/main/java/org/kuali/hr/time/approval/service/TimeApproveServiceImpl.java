@@ -32,7 +32,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         SortedSet<String> pcg = new TreeSet<String>();
 
         TKUser tkUser = TKContext.getUser();
-        Set<Long> approverWorkAreas = tkUser.getActualPersonRoles().getApproverWorkAreas();
+        Set<Long> approverWorkAreas = tkUser.getCurrentRoles().getApproverWorkAreas();
         List<Assignment> assignments = new ArrayList<Assignment>();
 
         for (Long workArea : approverWorkAreas) {
@@ -64,7 +64,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         Map<String, List<ApprovalTimeSummaryRow>> mappedRows = new HashMap<String, List<ApprovalTimeSummaryRow>>();
 
         TKUser tkUser = TKContext.getUser();
-        Set<Long> approverWorkAreas = tkUser.getActualPersonRoles().getApproverWorkAreas();
+        Set<Long> approverWorkAreas = tkUser.getCurrentRoles().getApproverWorkAreas();
         List<Assignment> lstEmployees = new ArrayList<Assignment>();
 
         for (Long aWorkArea : approverWorkAreas) {

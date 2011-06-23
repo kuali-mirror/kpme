@@ -163,7 +163,7 @@ public class TimeApprovalActionForm extends TimesheetActionForm {
      */
     public Set<Long> getApproverWorkAreas() {
         TKUser tkUser = TKContext.getUser();
-        return tkUser.getActualPersonRoles().getApproverWorkAreas();
+        return tkUser.getCurrentRoles().getApproverWorkAreas();
     }
 
     public Long getWorkArea() {
