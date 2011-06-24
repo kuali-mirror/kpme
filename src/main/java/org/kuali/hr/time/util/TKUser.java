@@ -84,7 +84,7 @@ public class TKUser {
         if (p == null)
             p = getActualPerson();
 
-        return p.getPrincipalName();
+        return p.getPrincipalId();
     }
 
 	public void clearBackdoorUser() {
