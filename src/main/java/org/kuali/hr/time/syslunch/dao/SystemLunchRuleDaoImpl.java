@@ -27,8 +27,8 @@ public class SystemLunchRuleDaoImpl  extends PersistenceBrokerDaoSupport impleme
         ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemLunchRule.class, timestamp);
         timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 
-		root.addEqualTo("effDt", effdtSubQuery);
-        root.addEqualTo("timeStamp", timestampSubQuery);
+		root.addEqualTo("effectiveDate", effdtSubQuery);
+        root.addEqualTo("timestamp", timestampSubQuery);
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
