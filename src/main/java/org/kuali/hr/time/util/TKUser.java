@@ -17,6 +17,14 @@ import org.kuali.rice.kim.bo.Person;
  * One for the user the ACTUAL person is targeting: Targeting a user is being
  * granted read/write access to the users data.
  *
+ * See Javadocs for:
+ *
+ * getCurrentTargetPerson(), getCurrentPerson(), getActualPerson(),
+ * getBackdoorPerson(), getTargetPerson().
+ *
+ * the getCurrent*() methods are most likely what you should be using in any
+ * end user display logic. The methods get[ABT]*() can return null.
+ *
  */
 public class TKUser {
 	private Person actualPerson = null;
@@ -88,6 +96,10 @@ public class TKUser {
 		this.targetPerson = null;
 	}
 
+    /**
+     * Provides the ACTUAL target person. Null is possible.
+     * @return The target Person object, if present, otherwise null.
+     */
 	public Person getTargetPerson() {
 		return targetPerson;
 	}
@@ -112,22 +124,29 @@ public class TKUser {
 		this.backdoorPersonRoles = backdoorPersonRoles;
 	}
 
+    /**
+     * Returns a Person object for the target person if present, otherwise
+     * the backdoor, and finally the actual.
+     *
+     * @return A Person object: target > backdoor > actual.
+     */
     public Person getCurrentTargetPerson() {
         Person p = this.getTargetPerson();
         if (p == null)
             p = this.getCurrentPerson();
-
         return p;
     }
 
+    /**
+     * Returns a UserRoles object for the target person if present, otherwise
+     * the backdoor, and finally the actual.
+     *
+     * @return A UserRoles object: target > backdoor > actual.
+     */
     public UserRoles getCurrentTargetRoles() {
         UserRoles r = this.targetPersonRoles;
-
         if (r == null)
-            r = this.backdoorPersonRoles;
-        if (r == null)
-            r =  this.actualPersonRoles;
-
+            r = getCurrentRoles();
         return r;
     }
 
@@ -156,6 +175,10 @@ public class TKUser {
 		return actualPerson;
 	}
 
+    /**
+     * Returns the UserPreferences for the current user. (backdoor > actual)
+     * @return A UserPreferences object for backdoor or actual.
+     */
 	public UserPreferences getCurrentUserPreferences() {
 		UserPreferences p = this.backdoorUserPreferences;
         if (p == null)
@@ -164,6 +187,11 @@ public class TKUser {
         return p;
 	}
 
+    /**
+     * UserPreferences for target > backdoor > actual.
+     * @return UserPreferences object for either target if present, backdoor, or
+     * actual (in that order).
+     */
     public UserPreferences getTargetUserPreferences() {
         UserPreferences p = this.targetUserPreferences;
         if (p == null)
@@ -172,6 +200,9 @@ public class TKUser {
         return p;
     }
 
+    /**
+     * @return UserRoles for the target person if present, null otherwise.
+     */
     public UserRoles getTargetPersonRoles() {
         return targetPersonRoles;
     }
