@@ -30,6 +30,8 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="payCalendarEntriesId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="calendarGroup" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="endPeriodDate" p:noLookup="true"/>
       </list>
     </property>
   </bean>

@@ -1,8 +1,5 @@
 package org.kuali.hr.time.timesheet.validation;
 
-
-import java.util.Date;
-
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimeSheetInitiate;
@@ -23,14 +20,6 @@ public class TimeSheetInitiateValidation extends MaintenanceDocumentRuleBase {
         	valid = false;
         	return valid;
         }
-
-        Date currentDate = new Date();
-    	if(!(currentDate.after(payCalEntries.getBeginPeriodDateTime())
-    			&& currentDate.before(payCalEntries.getEndPeriodDateTime()))) {
-    		this.putFieldError("payCalendarEntriesId", "timeSheetInit.payCalEntriesId.InvalidDateRange");
-        	valid = false;
-        	return valid;
-       	}
 
 		if(valid) {
 			this.createTimeSheetDocument(timeInit, payCalEntries);

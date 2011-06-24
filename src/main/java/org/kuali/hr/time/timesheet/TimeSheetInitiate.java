@@ -1,5 +1,6 @@
 package org.kuali.hr.time.timesheet;
 
+import java.text.DateFormat;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
@@ -73,6 +74,17 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
         this.calendarGroup = calendarGroup;
     }
     
+    public String getEndPeriodDate() {
+		if(this.getPayCalendarEntriesObj() != null){
+			if (this.getPayCalendarEntriesObj().getEndPeriodDateTime() != null) {
+				java.util.Date aDate = this.getPayCalendarEntriesObj().getEndPeriodDateTime();
+				DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT);
+				return dateFormatter.format(aDate);
+			}
+		}
+		return "";
+	}
+ 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
@@ -81,10 +93,4 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 		toStringMap.put("principalId", principalId);
 		return toStringMap;
 	}
-
-
-
-
-
-
 }
