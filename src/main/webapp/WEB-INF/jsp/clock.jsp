@@ -34,7 +34,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
 	<html:hidden property="currentClockAction" styleId="clockAction"/>
 	<html:hidden property="lastClockedInTime" value="${Form.lastClockTimestamp}" styleId="lastClockedInTime"/>
 	<html:hidden property="currentServerTime" value="${Form.currentServerTime}" styleId="currentServerTime"/>
-		
+
 	<div id="errorMessage" style="color:red;font-size:14px">
 		<c:if test="${Form.errorMessage ne null}">
 			<b>Error</b> : ${Form.errorMessage}
@@ -50,7 +50,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
 			<tr>
 				<td class="sub-header"><bean:message key="clock.workStatus"/> : </td>
 				<td>${lastClockActionMessage}
-				<fmt:timeZone value="${Form.user.userPreference.timezone}"><fmt:formatDate type="both" value="${Form.lastClockTimestamp}" pattern="EEE, MMMM d yyyy HH:mm:ss, zzzz"/></fmt:timeZone>
+				<fmt:timeZone value="${Form.user.currentUserPreferences.timezone}"><fmt:formatDate type="both" value="${Form.lastClockTimestamp}" pattern="EEE, MMMM d yyyy HH:mm:ss, zzzz"/></fmt:timeZone>
 				</td>
 			</tr>
 			<tr>
@@ -76,7 +76,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
                     </c:choose>
 					<input type="button" class="button" id="missed-punch-iframe-button" value="Missed Punch" name="missedPunch"/>
 					<c:if test="${Form.showDistributeButton}">
-						<input id="distribute-button" type="button" class="button" value="Distribute Time Blocks" 
+						<input id="distribute-button" type="button" class="button" value="Distribute Time Blocks"
 							name="distributeTime" onclick="javascrpt: window.open(extractUrlBase()+'/Clock.do?methodToCall=distributeTimeBlocks', 'distributePopup')"/>
 					</c:if>
 				</td>
