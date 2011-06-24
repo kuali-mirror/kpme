@@ -56,7 +56,7 @@ public class ClockAction extends TimesheetAction {
                 }
                 caf.setAssignmentLunchMap(assignmentDeptLunchRuleMap);
             }
-    	    String principalId = TKContext.getUser().getTargetPerson().getPrincipalId();
+    	    String principalId = TKContext.getUser().getTargetPrincipalId();
     	    if(principalId != null) {
     	    	caf.setPrincipalId(principalId);
     	    }
@@ -120,10 +120,10 @@ public class ClockAction extends TimesheetAction {
 
     	    	Timestamp lastClockTimestamp = null;
     	    	if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
-    	    		lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPerson().getPrincipalId(), TkConstants.CLOCK_IN).getClockTimestamp();
+    	    		lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId(), TkConstants.CLOCK_IN).getClockTimestamp();
     	    	}
     	    	else if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT)) {
-    	    		lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPerson().getPrincipalId()).getClockTimestamp();
+    	    		lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId()).getClockTimestamp();
     	    	}
 
     	    	//Save current clock log to get id for timeblock building
