@@ -89,14 +89,14 @@
 	<bean id="TimeSheetInitiate-calendarGroup" parent="TimeSheetInitiate-calendarGroup-parentBean" />
 	<bean id="TimeSheetInitiate-calendarGroup-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Pay Calendar" />
-		<property name="maxLength" value="45" />
+		<property name="maxLength" value="30" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="yes" />
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="45" />
+			<bean parent="TextControlDefinition" p:size="30" />
 		</property>
 		<property name="name" value="calendarGroup" />
 		<property name="label" value="Pay Calendar" />
