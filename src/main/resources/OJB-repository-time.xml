@@ -492,7 +492,7 @@
 		<field-descriptor name="clockUserFl" column="CLOCK_USERS_FL" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="hrsDistributionF" column="HRS_DISTRIBUTION_FL" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
-		<field-descriptor name="timeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="objectId" column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />
@@ -760,7 +760,7 @@
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="timeElapsed"          column="time_elapsed"      jdbc-type="BIGINT" />
 	</class-descriptor>
-	
+
 	<class-descriptor class="org.kuali.hr.time.batch.BatchJobEntry" table="tk_batch_job_entry_t">
 		<field-descriptor name="tkBatchJobEntryId"     column="tk_batch_job_entry_id" jdbc-type="BIGINT" length="20" nullable="false" autoincrement="true" primarykey="true" sequence-name="tk_batch_job_entry_s"/>
 		<field-descriptor name="tkBatchJobId"   column="tk_batch_job_id" jdbc-type="BIGINT" />
@@ -772,7 +772,7 @@
 		<field-descriptor name="ipAddress" column="ip_address" jdbc-type="VARCHAR" length="20"/>
 		<field-descriptor name="batchJobName" column="batch_job_name" jdbc-type="VARCHAR" length="40"/>
 		<field-descriptor name="clockLogId" column="clock_log_id" jdbc-type="BIGINT" length="20"/>
-		
+
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.position.Position" table="hr_position_t">

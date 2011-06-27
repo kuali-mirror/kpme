@@ -18,7 +18,6 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 	private boolean clockUserFl;
 	private boolean hrsDistributionF;
 	private String userPrincipalId;
-	private Timestamp timeStamp;
 
 	private Long tkWorkAreaId;
 	private Long tkDeptId;
@@ -82,14 +81,6 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 		this.userPrincipalId = userPrincipalId;
 	}
 
-	public Timestamp getTimeStamp() {
-		return timeStamp;
-	}
-
-	public void setTimeStamp(Timestamp timeStamp) {
-		this.timeStamp = timeStamp;
-	}
-
 
 	@Override
 	protected LinkedHashMap<String,Object> toStringMapper() {
@@ -104,7 +95,7 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 		toStringMap.put("clockUserFl", clockUserFl);
 		toStringMap.put("hrsDistributionF", hrsDistributionF);
 		toStringMap.put("userPrincipalId", userPrincipalId);
-		toStringMap.put("timeStamp", timeStamp);
+		toStringMap.put("timestamp", timestamp);
 
 		return toStringMap;
 	}
@@ -145,7 +136,7 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 	protected String getUniqueKey() {
 		String timeCollKey = getDept()+"_"+isClockUserFl()+"_"+isHrsDistributionF()+"_"+
 		(getWorkArea() !=null ? getWorkArea().toString() : "");
-		
+
 		return timeCollKey;
 	}
 

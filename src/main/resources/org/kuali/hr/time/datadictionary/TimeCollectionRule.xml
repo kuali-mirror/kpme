@@ -24,7 +24,7 @@
 				<ref bean="TimeCollectionRule-clockUserFl" />
 				<ref bean="TimeCollectionRule-hrsDistributionF" />
 				<ref bean="TimeCollectionRule-userPrincipalId" />
-				<ref bean="TimeCollectionRule-timeStamp" />
+				<ref bean="TimeCollectionRule-timestamp" />
                 <ref bean="TimeCollectionRule-active" />
                 <ref bean="TimeCollectionRule-tkWorkAreaId" />
                 <ref bean="TimeCollectionRule-tkDeptId" />
@@ -165,8 +165,8 @@
 	</bean>
 
 
-	<bean id="TimeCollectionRule-timeStamp" parent="TimeCollectionRule-timeStamp-parentBean" />
-	<bean id="TimeCollectionRule-timeStamp-parentBean" abstract="true"
+	<bean id="TimeCollectionRule-timestamp" parent="TimeCollectionRule-timestamp-parentBean" />
+	<bean id="TimeCollectionRule-timestamp-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Timestamp" />
 		<property name="maxLength" value="15" />
@@ -175,8 +175,8 @@
 		</property>
 		<property name="formatterClass"
 			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timeStamp" />
-		<property name="label" value="Time Stamp" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Timestamp" />
 	</bean>
 
 	<bean id="TimeCollectionRule-tkDeptId" parent="TimeCollectionRule-tkDeptId-parentBean" />

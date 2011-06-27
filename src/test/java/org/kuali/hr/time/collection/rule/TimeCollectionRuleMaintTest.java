@@ -23,24 +23,24 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class TimeCollectionRuleMaintTest extends TkTestCase {
-	
-	private static final String TEST_CODE = "X";	
+
+	private static final String TEST_CODE = "X";
 	private static final java.sql.Date TEST_DATE = new java.sql.Date(Calendar
 			.getInstance().getTimeInMillis());
 	private static final String TEST_CODE_DEPARTMENT_VALID = "_test";
-	
+
 	private static Long timeCollectionRuleIdWithInvalidDept;
 	private static Long timeCollectionRuleIdWithInvalidWorkArea;
 	private static Long deptId;
-	
-	
+
+
 	private static String TEST_CODE_INVALID_DEPT_ID = "0";
 	private static Long TEST_CODE_INVALID_WORKAREA = 2L;
 
 	/**
 	 * Test to check whether it is showing error message on maintenance screen
 	 * if we supply non exist deptId
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -69,7 +69,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 								+ "' does not exist."));
 	}
 
-	
+
 	@Test
 	public void testTimeCollectionRuleMaintForWorkAreaErrorMessage() throws Exception {
 		HtmlPage timeCollectionRuleLookup = HtmlUnitUtil
@@ -96,7 +96,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 
 	/**
 	 * Test to load maint. screen
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -119,7 +119,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		super.setUp();
 		Department department = new Department();
 		department.setDept(TEST_CODE_DEPARTMENT_VALID);
-		department.setChart(TEST_CODE_DEPARTMENT_VALID);		
+		department.setChart(TEST_CODE_DEPARTMENT_VALID);
 		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
 		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
 		KNSServiceLocator.getBusinessObjectService().save(department);
@@ -130,11 +130,11 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		for (;;) {
 			long deptIdIndex = randomObj.nextInt();
 			Criteria crit = new Criteria();
-			crit.addEqualTo("dept", deptIdIndex);		
+			crit.addEqualTo("dept", deptIdIndex);
 			Query query = QueryFactory.newQuery(Department.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
-			
-		 
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+
+
 			if (count == 0) {
 				TEST_CODE_INVALID_DEPT_ID = Long.toString(deptIdIndex);
 				break;
@@ -143,7 +143,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		timeCollectionRuleWIthInvalidDept.setDept(TEST_CODE_INVALID_DEPT_ID);
 		timeCollectionRuleWIthInvalidDept.setEffectiveDate(TEST_DATE);
 		timeCollectionRuleWIthInvalidDept.setHrsDistributionF(true);
-		timeCollectionRuleWIthInvalidDept.setTimeStamp(new Timestamp(Calendar
+		timeCollectionRuleWIthInvalidDept.setTimestamp(new Timestamp(Calendar
 				.getInstance().getTimeInMillis()));
 		timeCollectionRuleWIthInvalidDept.setUserPrincipalId(TEST_CODE);
 		// timeCollectionRule.setWorkArea(TEST_ID_LONG);
@@ -151,17 +151,17 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 				timeCollectionRuleWIthInvalidDept);
 		timeCollectionRuleIdWithInvalidDept = timeCollectionRuleWIthInvalidDept
 				.getTkTimeCollectionRuleId();
- 	
+
 		TimeCollectionRule timeCollectionRuleWIthInvalidWorkArea = new TimeCollectionRule();
 		// setting workAreaId for which Workarea doesn't exist .
 		for (;;) {
 			long workAreaIndex = randomObj.nextInt();
 			Criteria crit = new Criteria();
-			crit.addEqualTo("workArea", workAreaIndex);		
+			crit.addEqualTo("workArea", workAreaIndex);
 			Query query = QueryFactory.newQuery(WorkArea.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);		
-			
-		 
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+
+
 			if (count == 0) {
 				TEST_CODE_INVALID_WORKAREA = new Long(workAreaIndex);
 				break;
@@ -171,7 +171,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 				.setDept(TEST_CODE_DEPARTMENT_VALID);
 		timeCollectionRuleWIthInvalidWorkArea.setEffectiveDate(TEST_DATE);
 		timeCollectionRuleWIthInvalidWorkArea.setHrsDistributionF(true);
-		timeCollectionRuleWIthInvalidWorkArea.setTimeStamp(new Timestamp(
+		timeCollectionRuleWIthInvalidWorkArea.setTimestamp(new Timestamp(
 				Calendar.getInstance().getTimeInMillis()));
 		timeCollectionRuleWIthInvalidWorkArea.setUserPrincipalId(TEST_CODE);
 		timeCollectionRuleWIthInvalidWorkArea
@@ -193,7 +193,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().delete(
 				timeCollectionRuleObj);
 
-		timeCollectionRuleObj = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(TEST_CODE_DEPARTMENT_VALID, 
+		timeCollectionRuleObj = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(TEST_CODE_DEPARTMENT_VALID,
 									TEST_CODE_INVALID_WORKAREA, TKUtils.getCurrentDate());
 		timeCollectionRuleObj = KNSServiceLocator.getBusinessObjectService()
 				.findBySinglePrimaryKey(TimeCollectionRule.class,
@@ -202,7 +202,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 				timeCollectionRuleObj);
 
 		Department deptObj = TkServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, TKUtils.getCurrentDate());
-		KNSServiceLocator.getBusinessObjectService().delete(deptObj);		
+		KNSServiceLocator.getBusinessObjectService().delete(deptObj);
 		super.tearDown();
 	}
 

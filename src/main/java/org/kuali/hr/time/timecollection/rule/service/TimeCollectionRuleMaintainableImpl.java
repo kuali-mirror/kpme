@@ -47,7 +47,7 @@ public class TimeCollectionRuleMaintainableImpl extends KualiMaintainableImpl {
 //					oldTimeCollectionRule);
 //		}
         timeCollectionRule.setTkTimeCollectionRuleId(null);
-        timeCollectionRule.setTimeStamp(null);
+        timeCollectionRule.setTimestamp(null);
         KNSServiceLocator.getBusinessObjectService().save(timeCollectionRule);
     }
 

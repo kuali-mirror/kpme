@@ -15,39 +15,39 @@ public class TimeCollectionRuleTest extends TkTestCase{
 	@Test
 	public void testTimeCollectionRuleFetch() throws Exception{
 		loadData();
-		TimeCollectionRule timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT", 
+		TimeCollectionRule timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT",
 												1234L, new Date(System.currentTimeMillis()));
 		assertTrue("Time collection rule present" , timeCollection!=null);
-		
-		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME", 
+
+		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME",
 				1234L, new Date(System.currentTimeMillis()));
 		assertTrue("Time collection rule present" , timeCollection!=null);
-		
-		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT", 
+
+		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT",
 				234L, new Date(System.currentTimeMillis()));
 		assertTrue("Time collection rule present" , timeCollection!=null);
-		
-		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME", 
+
+		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME",
 				234L, new Date(System.currentTimeMillis()));
 		assertTrue("Time collection rule present" , timeCollection!=null);
 	}
 
-	private void loadData() 
+	private void loadData()
 	{
 		TimeCollectionRule timeCollectionRule = new TimeCollectionRule();
 		timeCollectionRule.setDept("TEST-DEPT");
 		timeCollectionRule.setWorkArea(1234L);
 		timeCollectionRule.setEffectiveDate(new Date(System.currentTimeMillis()));
 		timeCollectionRule.setActive(true);
-		timeCollectionRule.setTimeStamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));		
+		timeCollectionRule.setTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 		KNSServiceLocator.getBusinessObjectService().save(timeCollectionRule);
-		
+
 		TimeCollectionRule timeCollectionRule2 = new TimeCollectionRule();
 		timeCollectionRule2.setDept("TEST-ME");
 		timeCollectionRule2.setWorkArea(234L);
 		timeCollectionRule2.setEffectiveDate(new Date(System.currentTimeMillis()));
 		timeCollectionRule2.setActive(true);
-		timeCollectionRule2.setTimeStamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));		
+		timeCollectionRule2.setTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 		KNSServiceLocator.getBusinessObjectService().save(timeCollectionRule2);
 	}
 }
