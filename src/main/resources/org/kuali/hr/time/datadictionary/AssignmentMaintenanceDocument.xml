@@ -39,7 +39,7 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="name" 
 					p:noLookup="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="jobNumber"
+				<bean parent="MaintainableFieldDefinition" p:name="jobNumber" p:webUILeaveFieldFunction="refreshPage"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="dept" 
 					p:noLookup="true"/>
@@ -81,7 +81,7 @@
 							<bean parent="MaintainableFieldDefinition" p:name="projectCd" />
 							<bean parent="MaintainableFieldDefinition" p:name="orgRefId" />
 							<bean parent="MaintainableFieldDefinition" p:name="percent" p:required="true"/>							
-							<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="active"/>
 						</list>
 					</property>
 				</bean>
