@@ -10,7 +10,6 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
-import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKContext;
@@ -44,23 +43,24 @@ public class TimeApproveServiceImpl implements TimeApproveService {
             for (Assignment assign : assignments) {
                 String principalId = assign.getPrincipalId();
                 TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
-                if (tdh != null) {
-                    String calendarGroup = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, payBeginDate).getCalendarGroup();
-                    pcg.add(calendarGroup);
+                if (tdh == null) {
+                    throw new RuntimeException("Timesheet document header shouldn't be null");
                 }
+                String calendarGroup = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, payBeginDate).getCalendarGroup();
+                pcg.add(calendarGroup);
             }
         }
 
         // Handle the situation where pay calendar is null. This shouldn't happen but just in case.
-        if( pcg.size() == 0) {
-            throw new RuntimeException("Pay calendar group is required");
+        if (pcg.size() == 0) {
+            throw new RuntimeException("Pay calendar group is null");
         }
 
         return pcg;
     }
 
     @Override
-    public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsMap(Date payBeginDate, Date payEndDate, List<Long> workArea) {
+    public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsMap(Date payBeginDate, Date payEndDate, String calGroup, Long workarea) {
         Map<String, List<ApprovalTimeSummaryRow>> mappedRows = new HashMap<String, List<ApprovalTimeSummaryRow>>();
 
         TKUser tkUser = TKContext.getUser();
@@ -68,45 +68,53 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         List<Assignment> lstEmployees = new ArrayList<Assignment>();
 
         for (Long aWorkArea : approverWorkAreas) {
-            if (aWorkArea != null) {
-                if (workArea != null && workArea.contains(aWorkArea)) {
-                    lstEmployees.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(aWorkArea, new java.sql.Date(payBeginDate.getTime())));
-                }
+            // if the workarea is not null, it means we only want the active assignments under the specified workarea
+            if (workarea != null && aWorkArea.compareTo(workarea) == 0) {
+                lstEmployees.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(aWorkArea, new java.sql.Date(payBeginDate.getTime())));
+                break;
+            }
+            // otherwise we will get all the active assigments that the person has an approval role associated with
+            else {
+                lstEmployees.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(aWorkArea, new java.sql.Date(payBeginDate.getTime())));
             }
         }
         if (!lstEmployees.isEmpty()) {
             List<String> userIds = new ArrayList<String>();
             List<String> clockUsers = new ArrayList<String>();
+            Map<String, Set<String>> employeeWorkAreas = new LinkedHashMap<String, Set<String>>();
+            List<ApprovalTimeSummaryRow> rows = new LinkedList<ApprovalTimeSummaryRow>();
+
             for (Assignment assign : lstEmployees) {
+
                 if (!userIds.contains(assign.getPrincipalId())) {
                     userIds.add(assign.getPrincipalId());
+                    Set<String> workAreas = new HashSet<String>();
+                    workAreas.add(assign.getWorkArea().toString());
+                    employeeWorkAreas.put(assign.getPrincipalId(), workAreas);
 
                     // TODO: What are we storing this clockUsers list for?
                     if (assign.getTimeCollectionRule().isClockUserFl()) {
                         clockUsers.add(assign.getPrincipalId());
                     }
                 }
+                else {
+                    employeeWorkAreas.get(assign.getPrincipalId()).add(assign.getWorkArea().toString());
+                }
             }
             for (String principalId : userIds) {
                 TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
                 if (tdh != null) {
-                    String calendarGroup = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, payBeginDate).getCalendarGroup();
-                    List<ApprovalTimeSummaryRow> rows = mappedRows.get(calendarGroup);
-                    if (rows == null) {
-                        rows = new ArrayList<ApprovalTimeSummaryRow>();
-                        mappedRows.put(calendarGroup, rows);
-                    }
-
                     String documentId = tdh.getDocumentId();
                     Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
                     List<TimeBlock> lstTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(documentId));
-                    Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(principalId, payBeginDate, getPayCalendarLabelsForApprovalTab(payBeginDate, payEndDate), lstTimeBlocks);
+                    Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(principalId, payBeginDate, getPayCalendarLabelsForApprovalTab(payBeginDate, payEndDate), lstTimeBlocks, workarea);
                     List notes = this.getNotesForDocument(documentId);
                     List<String> warnings = TkServiceLocator.getWarningService().getWarnings(documentId);
+                    String[] workAreas = employeeWorkAreas.get(principalId).toArray(new String[employeeWorkAreas.get(principalId).size()]);
 
                     ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
                     approvalSummaryRow.setName(person.getName());
-                    approvalSummaryRow.setPayCalendarGroup(calendarGroup);
+                    approvalSummaryRow.setPayCalendarGroup(calGroup);
                     approvalSummaryRow.setDocumentId(documentId);
                     approvalSummaryRow.setLstTimeBlocks(lstTimeBlocks);
                     approvalSummaryRow.setApprovalStatus(tdh.getDocumentStatus());
@@ -114,7 +122,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                     approvalSummaryRow.setClockStatusMessage(createLabelForLastClockLog(principalId));
                     approvalSummaryRow.setNotes(notes);
                     approvalSummaryRow.setWarnings(warnings);
+                    approvalSummaryRow.setWorkAreas(workAreas);
                     rows.add(approvalSummaryRow);
+
+                    mappedRows.put(calGroup, rows);
                 }
             }
         }
@@ -128,49 +139,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
      * a subset of that data. It is obvious that some optimization should be done here,
      * for now this is a "future" TODO, to get this going.
      */
-    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<Long> workArea) {
+    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, Long workArea) {
         List<ApprovalTimeSummaryRow> rows = new ArrayList<ApprovalTimeSummaryRow>();
 
-        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsMap(payBeginDate, payEndDate, workArea);
-        if (mrows.containsKey(calGroup))
-            rows = mrows.get(calGroup);
+        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsMap(payBeginDate, payEndDate, calGroup, workArea);
+        rows = mrows.get(calGroup);
 
         return rows;
-    }
-
-    /*
-     * Right now this code is just calling our "Big" data retriever and only returning
-     * a subset of that data. It is obvious that some optimization should be done here,
-     * for now this is a "future" TODO, to get this going.
-     */
-    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup) {
-        List<ApprovalTimeSummaryRow> rows = new ArrayList<ApprovalTimeSummaryRow>();
-
-        List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(TKContext.getPrincipalId(), TkConstants.ROLE_TK_APPROVER, new java.sql.Date(payBeginDate.getTime()));
-        List<Long> workareas = new ArrayList<Long>();
-        for (TkRole role : roles) {
-            workareas.add(role.getWorkArea());
-        }
-        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsMap(payBeginDate, payEndDate, workareas);
-        if (mrows.containsKey(calGroup))
-            rows = mrows.get(calGroup);
-
-        return rows;
-    }
-
-    /**
-     * Populate the Summary rows based on the user and begin and end date
-     */
-    @Override
-    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate) {
-        List<ApprovalTimeSummaryRow> lstApprovalRows = new ArrayList<ApprovalTimeSummaryRow>();
-
-        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsMap(payBeginDate, payEndDate, null);
-        for (List<ApprovalTimeSummaryRow> list : mrows.values()) {
-            lstApprovalRows.addAll(list);
-        }
-
-        return lstApprovalRows;
     }
 
     /**
@@ -248,9 +223,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
      * @param beginDateTime
      * @param payCalendarLabels
      * @param lstTimeBlocks
+     * @param workArea
      * @return
      */
-    public Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date beginDateTime, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks) {
+    public Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date beginDateTime, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea) {
         Map<String, BigDecimal> hoursToPayLabelMap = new HashMap<String, BigDecimal>();
         List<BigDecimal> dayTotals = new ArrayList<BigDecimal>();
         PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId, beginDateTime);
@@ -259,7 +235,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         for (List<TimeBlock> lstTimeBlocksForDay : lstOfLstOfTimeBlocksPerDay) {
             BigDecimal total = new BigDecimal(0.00);
             for (TimeBlock tb : lstTimeBlocksForDay) {
-                if (tb.getHours() != null) {
+                if (workArea != null) {
+                    if (tb.getHours() != null && tb.getWorkArea().compareTo(workArea) == 0) {
+                        total = total.add(tb.getHours(), TkConstants.MATH_CONTEXT);
+                    }
+                } else {
                     total = total.add(tb.getHours(), TkConstants.MATH_CONTEXT);
                 }
             }

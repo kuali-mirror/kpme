@@ -20,6 +20,7 @@ public class ApprovalTimeSummaryRow {
     private String payCalendarGroup;
     private List notes = new ArrayList();
     private List<String> warnings = new ArrayList<String>();
+    private String[] workAreas;
 
 	public String getName() {
 		return name;
@@ -122,5 +123,13 @@ public class ApprovalTimeSummaryRow {
 
     public void setWarnings(List<String> warnings) {
         this.warnings = warnings;
+    }
+
+    public String[] getWorkAreas() {
+        return workAreas;
+    }
+
+    public void setWorkAreas(String[] workAreas) {
+        this.workAreas = workAreas;
     }
 }

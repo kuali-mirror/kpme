@@ -68,6 +68,7 @@ public class TimeApprovalAction extends TimesheetAction {
         taaf.setPayEndDate(taaf.getTimesheetDocument().getDocumentHeader().getPayEndDate());
 
         List<String> results = new ArrayList<String>();
+        // TODO: create a field for the work area and figure out how to get the work area
         for (ApprovalTimeSummaryRow row : this.getApprovalRows(taaf)) {
             if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID) &&
                     row.getDocumentId().contains(taaf.getSearchTerm())) {
@@ -95,7 +96,7 @@ public class TimeApprovalAction extends TimesheetAction {
     List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf) {
 
         String calGroup = StringUtils.isNotEmpty(taaf.getSelectedPayCalendarGroup()) ? taaf.getSelectedPayCalendarGroup() : taaf.getPayCalendarGroups().first();
-        List<ApprovalTimeSummaryRow> rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup);
+        List<ApprovalTimeSummaryRow> rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup, null);
 
         if (!taaf.isAjaxCall() && StringUtils.isNotBlank(taaf.getSearchField()) && StringUtils.isNotBlank(taaf.getSearchTerm())) {
             rows = searchApprovalRows(rows, taaf.getSearchField(), taaf.getSearchTerm());

@@ -51,6 +51,7 @@
                     <tr>
                         <th><bean:message key="approval.principalName"/></th>
                         <th><bean:message key="approval.documentId"/></th>
+                        <th><bean:message key="approval.workAreas"/></th>
                         <th><bean:message key="approval.status"/></th>
                         <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
                             <th>${payCalLabel}</th>
@@ -129,6 +130,7 @@
                                     </c:if>
                                 </div>
                             </td>
+                            <td>${fn:join(approveRow.workAreas, ",")}</td>
                             <td>${approveRow.approvalStatus}</td>
                             <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
                                 <c:choose>
@@ -150,7 +152,7 @@
                         </tr>
                     </c:forEach>
                     <tr>
-                        <td colspan="22" align="center" style="border:none;">
+                        <td colspan="23" align="center" style="border:none;">
                             <input type="button" class="button" value="Approve" name="Approve">
                         </td>
                     </tr>
