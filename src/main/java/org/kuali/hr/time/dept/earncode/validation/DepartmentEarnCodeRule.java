@@ -1,6 +1,8 @@
 package org.kuali.hr.time.dept.earncode.validation;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -19,7 +21,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 	}
 
 	boolean validateDept(DepartmentEarnCode clr) {
-		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveDate())) {
+		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveDate()) && !StringUtils.equals(clr.getDept(), TkConstants.WILDCARD_CHARACTER)) {
 			this.putFieldError("dept", "error.existence", "department '" + clr.getDept() + "'");
 			return false;
 		} else {
@@ -47,7 +49,8 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateLocation(DepartmentEarnCode departmentEarnCode) {
 		if (departmentEarnCode.getLocation() != null
-				&& !ValidationUtils.validateLocation(departmentEarnCode.getLocation(), null)) {
+				&& !ValidationUtils.validateLocation(departmentEarnCode.getLocation(), null) && 
+				!StringUtils.equals(departmentEarnCode.getLocation(), TkConstants.WILDCARD_CHARACTER)) {
 			this.putFieldError("location", "error.existence", "location '"
 					+ departmentEarnCode.getLocation() + "'");
 			return false;
