@@ -122,6 +122,11 @@ public class WorkAreaMaintenanceDocumentRule extends
 				valid &= this.validateTask(task, wa.getTasks());
 			}
 		} else if ((pbo instanceof TkRole && pboWorkArea instanceof WorkArea)) {
+			TkRole tkRole = (TkRole)pbo;
+			if(StringUtils.isEmpty(tkRole.getPrincipalId()) || StringUtils.isEmpty(tkRole.getPositionObj().toString())){
+				this.putFieldError("add.roles.principalId:add.roles.positionNumber", "principal.position.required");
+				valid = false;
+			}
 			valid = true;
 		}
 		return valid;

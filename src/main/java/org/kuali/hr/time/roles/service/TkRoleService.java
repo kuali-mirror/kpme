@@ -112,5 +112,10 @@ public interface TkRoleService {
      * Fetches Role by primary key
      */
     public TkRole getRole(Long tkRoleId);
+    
+    /**
+     * Fetches Role by primary key
+     */
+    public List<TkRole> getRolesByPosition(Long positionNumber);
 
 }

@@ -27,6 +27,7 @@ import org.kuali.hr.time.paycalendar.service.PayCalendarEntriesService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
 import org.kuali.hr.time.principal.calendar.service.PrincipalCalendarService;
+import org.kuali.hr.time.roles.service.TkRoleGroupService;
 import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.rule.TkRuleControllerService;
 import org.kuali.hr.time.salgroup.service.SalGroupService;
@@ -76,6 +77,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_EARN_CODE = "earnCodeService";
 	public static final String TK_TIME_COLLECTION_RULE_SERVICE = "timeCollectionRuleService";
 	public static final String TK_ROLE_SERVICE = "tkRoleService";
+	public static final String TK_ROLE_GROUP_SERVICE = "tkRoleGroupService";
 	public static final String TK_TIME_SUMMARY_SERVICE = "timeSummaryService";
 	public static final String TK_TIME_EARN_GROUP_SERVICE = "earnGroupService";
 	public static final String TK_TIME_HOUR_DETAIL_SERVICE= "timeHourDetailService";
@@ -115,9 +117,9 @@ public class TkServiceLocator implements ApplicationContextAware {
 //		CONTEXT.stop();
 	}
 
-    public static MissedPunchService getMissedPunchService() {
-        return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
-    }
+//    public static MissedPunchService getMissedPunchService() {
+//        return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
+//    }
 
     public static TaskService getTaskService() {
         return (TaskService) CONTEXT.getBean(TK_TASK_SERVICE);
@@ -155,6 +157,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (TkRoleService) CONTEXT.getBean(TK_ROLE_SERVICE);
 	}
 
+	public static TkRoleGroupService getTkRoleGroupService() {
+		return (TkRoleGroupService) CONTEXT.getBean(TK_ROLE_GROUP_SERVICE);
+	}
+	
 	public static TimesheetDocumentHeaderService getTimesheetDocumentHeaderService() {
 		return (TimesheetDocumentHeaderService) CONTEXT.getBean(TK_TIMESHEET_DOCUMENT_HEADER_SERVICE);
 	}

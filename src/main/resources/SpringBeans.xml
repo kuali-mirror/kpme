@@ -284,6 +284,10 @@
     <bean id="tkRoleDao" class="org.kuali.hr.time.roles.dao.TkRoleDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+    <bean id="tkRoleGroupDao" class="org.kuali.hr.time.roles.dao.TkRoleGroupDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 
     <bean id="timeBlockDao" class="org.kuali.hr.time.timeblock.dao.TimeBlockDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
@@ -494,6 +498,10 @@
 
     <bean id="tkRoleService" class="org.kuali.hr.time.roles.service.TkRoleServiceImpl">
     	<property name="tkRoleDao" ref="tkRoleDao"/>
+    </bean>
+
+    <bean id="tkRoleGroupService" class="org.kuali.hr.time.roles.service.TkRoleGroupServiceImpl">
+    	<property name="tkRoleGroupDao" ref="tkRoleGroupDao"/>
     </bean>
 
     <bean id="payCalendarService" class="org.kuali.hr.time.paycalendar.service.PayCalendarServiceImpl">

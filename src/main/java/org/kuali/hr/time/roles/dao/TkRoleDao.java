@@ -59,4 +59,6 @@ public interface TkRoleDao {
 	public void saveOrUpdateRoles(List<TkRole> roles);
 	
 	public TkRole getRole(Long tkRoleId);
+	
+	public List<TkRole> getRolesByPosition(Long positionNumber);
 }

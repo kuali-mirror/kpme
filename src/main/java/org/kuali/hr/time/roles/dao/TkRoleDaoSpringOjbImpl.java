@@ -10,7 +10,6 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -394,6 +393,17 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 		currentRecordCriteria.addEqualTo("tkRolesId", tkRoleId);
 
 		return (TkRole) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(TkRole.class, currentRecordCriteria));
+	}
+	
+	@Override
+	public List<TkRole> getRolesByPosition(Long positionNumber) {
+		Criteria currentRecordCriteria = new Criteria();
+		currentRecordCriteria.addEqualTo("positionNumber", positionNumber);
+		List<TkRole> tkRoles = new ArrayList<TkRole>();
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TkRole.class, currentRecordCriteria));
+		if(c != null)
+			tkRoles.addAll(c);
+		return tkRoles;
 	}
 
 }
