@@ -1,6 +1,5 @@
 package org.kuali.hr.time.dept.earncode.service;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
@@ -16,32 +15,10 @@ public class DepartmentEarnCodeServiceImpl implements DepartmentEarnCodeService 
 
 	@Override
 	/*
-	 * Handles the wildcarding.
+	 * Fetch dept earn codes
 	 */
 	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tkSalGroup, String location, java.util.Date asOfDate) {
-		List<DepartmentEarnCode> decs = new LinkedList<DepartmentEarnCode>();
-		
-		decs = deptEarnCodeDao.getDepartmentEarnCodes(department, tkSalGroup, location, asOfDate);
-		if (!decs.isEmpty()) {
-			return decs;
-		}
-		
-		decs = deptEarnCodeDao.getDepartmentEarnCodes("%", tkSalGroup, location, asOfDate);
-		if (!decs.isEmpty()) {
-			return decs;
-		}
-		
-		decs = deptEarnCodeDao.getDepartmentEarnCodes(department, "%", location, asOfDate);
-		if (!decs.isEmpty()) {
-			return decs;
-		}
-
-		decs = deptEarnCodeDao.getDepartmentEarnCodes("%", "%", location, asOfDate);
-		if (!decs.isEmpty()) {
-			return decs;
-		}
-
-		return decs;
+		return deptEarnCodeDao.getDepartmentEarnCodes(department, tkSalGroup, location, asOfDate);
 	}
 	
 }
