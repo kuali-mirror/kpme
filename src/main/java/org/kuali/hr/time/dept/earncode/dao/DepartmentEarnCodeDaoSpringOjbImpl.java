@@ -64,11 +64,8 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 
-		//root.addEqualTo("dept", department);
-		//root.addEqualTo("tkSalGroup", tkSalGroup);
-		// xichen, 06/14/11. KMPM-608, dept and salGroup are wildcardable
-		root.addLike("dept", "%" + department + "%"); 
-		root.addLike("tkSalGroup", "%" + tkSalGroup + "%");
+		root.addEqualTo("dept", department);
+		root.addEqualTo("tkSalGroup", tkSalGroup);
 		if ( !location.trim().isEmpty() ){
 			root.addEqualTo("location", location);
 		}
