@@ -19,6 +19,7 @@ public class TkUserRoles implements UserRoles {
     private boolean synchronousAssignments = false;
     private TkRole globalViewOnly;
 	private TkRole systemAdmin;
+    private String principalId;
 
 	private Map<String, TkRole> orgAdminRolesDept = new HashMap<String,TkRole>();
     private Map<String, TkRole> orgAdminRolesChart = new HashMap<String,TkRole>();
@@ -35,7 +36,8 @@ public class TkUserRoles implements UserRoles {
 	 *
 	 * @param roles
 	 */
-	public TkUserRoles(List<TkRole> roles) {
+	public TkUserRoles(String principalId, List<TkRole> roles) {
+        this.principalId = principalId;
 		setRoles(roles);
 	}
 
@@ -47,10 +49,19 @@ public class TkUserRoles implements UserRoles {
 	 * @param roles
 	 * @param assignments
 	 */
-	public TkUserRoles(List<TkRole> roles, List<Assignment> assignments) {
+	public TkUserRoles(String principalId, List<TkRole> roles, List<Assignment> assignments) {
+        this.principalId = principalId;
 		setRoles(roles);
 		setAssignments(assignments);
 	}
+
+    public String getPrincipalId() {
+        return principalId;
+    }
+
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
+    }
 
     @Override
     public Set<Long> getApproverWorkAreas() {
@@ -197,5 +208,94 @@ public class TkUserRoles implements UserRoles {
         }
 
         return approver;
+    }
+
+    @Override
+    public boolean isApproverForTimesheet(String docId) {
+        boolean approver = false;
+
+        TimesheetDocument doc =  TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
+        if (doc != null)
+            approver = isApproverForTimesheet(doc);
+
+        return approver;
+    }
+
+    @Override
+    public boolean isDocumentWritable(TimesheetDocument document) {
+        boolean writable = false;
+
+        // Quick escape.
+        if (document == null)
+            return writable;
+
+        // Sysadmin
+        writable = this.isSystemAdmin();
+        // Owner (and not enroute/final)
+        writable |= ( StringUtils.equals(this.principalId, document.getPrincipalId())
+                && StringUtils.equals(TkConstants.ROUTE_STATUS.INITIATED, document.getDocumentHeader().getDocumentStatus()) );
+
+        if (!writable) {
+            // Departmental View Only? || Reviewer || Processor || Org Admin || Approver
+            // (document object iteration)
+            List<Assignment> assignments = document.getAssignments();
+            for (Assignment assignment : assignments) {
+                String dept = assignment.getDept();
+                Long wa = assignment.getWorkArea();
+
+                // processor (dept and wa covered)
+                writable |= this.processorRolesWorkArea.containsKey(wa);
+                writable |= this.orgAdminRolesDept.containsKey(dept);
+                writable |= this.approverRoles.containsKey(wa);
+                writable |= this.reviewerRoles.containsKey(wa);
+            }
+        }
+
+        return writable;
+    }
+
+    @Override
+    public boolean isDocumentWritable(String documentId) {
+        return isDocumentWritable(TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId));
+    }
+
+    @Override
+    public boolean isDocumentReadable(String documentId) {
+        return isDocumentReadable(TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId));
+    }
+
+    @Override
+    public boolean isDocumentReadable(TimesheetDocument document) {
+        boolean readable = false;
+
+        // Quick escape.
+        if (document == null)
+            return readable;
+
+        // Sysadmin
+        readable = this.isSystemAdmin();
+        // Owner
+        readable |= StringUtils.equals(this.principalId, document.getPrincipalId());
+        // Global VO
+        readable |= this.isGlobalViewOnly();
+
+        if (!readable) {
+            // Departmental View Only? || Reviewer || Processor || Org Admin || Approver
+            // (document object iteration)
+            List<Assignment> assignments = document.getAssignments();
+            for (Assignment assignment : assignments) {
+                String dept = assignment.getDept();
+                Long wa = assignment.getWorkArea();
+
+                // processor (dept and wa covered)
+                readable |= this.processorRolesWorkArea.containsKey(wa);
+                readable |= this.orgAdminRolesDept.containsKey(dept);
+                readable |= this.approverRoles.containsKey(wa);
+                readable |= this.reviewerRoles.containsKey(wa);
+                readable |= this.deptViewOnlyRoles.containsKey(dept);
+            }
+        }
+
+        return readable;
     }
 }

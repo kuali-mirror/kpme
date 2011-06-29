@@ -8,6 +8,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
@@ -15,6 +16,7 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kns.exception.AuthorizationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +28,22 @@ public class TimesheetAction extends TkAction {
 	private static final Logger LOG = Logger.getLogger(TimesheetAction.class);
 
 
-	@Override
+    @Override
+    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+        TimesheetActionForm taForm = (TimesheetActionForm)form;
+        TKUser user = TKContext.getUser();
+        UserRoles roles = user.getCurrentRoles(); // either backdoor or actual
+        String docid = taForm.getDocumentId();
+
+        // Does the current user have permissions to view the requested
+        // document id?
+
+        if (!roles.isDocumentReadable(docid)) {
+            throw new AuthorizationException(user.getPrincipalId(), "TimesheetAction", "");
+        }
+    }
+
+    @Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimesheetActionForm taForm = (TimesheetActionForm)form;
 		TKUser user = TKContext.getUser();
@@ -61,22 +78,18 @@ public class TimesheetAction extends TkAction {
 		}
 		else {
 			if(StringUtils.isNotBlank(taForm.getDocumentId())) {
-				tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(taForm.getDocumentId());
-				payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(viewPrincipal,  TKUtils.getTimelessDate(DateUtils.addDays(tsdh.getPayEndDate(), -1)));
-			}
-			else {
+                td = TkServiceLocator.getTimesheetService().getTimesheetDocument(taForm.getDocumentId());
+				payCalendarEntries = td.getPayCalendarEntry();
+			} else {
 				Date currentDate = TKUtils.getTimelessDate(null);
 				payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(viewPrincipal,  currentDate);
+                td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntries);
 			}
-			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntries);
 		}
 
         // Set the TKContext for the current timesheet document id.
         if (td != null) {
             TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
-        }
-
-        if (td != null) {
 		    taForm.setTimesheetDocument(td);
 		    taForm.setDocumentId(td.getDocumentId());
         } else {
@@ -84,8 +97,9 @@ public class TimesheetAction extends TkAction {
         }
 		taForm.setPayCalendarDates(payCalendarEntries);
 
+        // Do this at the end, so we load the document first,
+        // then check security permissions via the superclass execution chain.
 		return super.execute(mapping, form, request, response);
 	}
-
 
 }

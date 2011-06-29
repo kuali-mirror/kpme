@@ -64,18 +64,18 @@ public class UserServiceImpl implements UserService {
 		if (user.getBackdoorPerson() != null) {
 			List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(user.getBackdoorPerson().getPrincipalId(), asOfDate);
 			List<Assignment> assignments = assignmentService.getAssignments(user.getBackdoorPerson().getPrincipalId(), payPeriodBeginDate);
-			user.setBackdoorPersonRoles(new TkUserRoles(roles,assignments));
+			user.setBackdoorPersonRoles(new TkUserRoles(user.getBackdoorPerson().getPrincipalId(), roles,assignments));
 		}
 
         if (user.getTargetPerson() != null) {
             List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(user.getTargetPerson().getPrincipalId(), asOfDate);
             List<Assignment> assignments = assignmentService.getAssignments(user.getTargetPerson().getPrincipalId(), payPeriodBeginDate);
-            user.setTargetPersonRoles(new TkUserRoles(roles,assignments));
+            user.setTargetPersonRoles(new TkUserRoles(user.getTargetPerson().getPrincipalId(), roles,assignments));
         }
 
 		List<TkRole> roles = roleService.getRoles(user.getActualPerson().getPrincipalId(), asOfDate);
 		List<Assignment> assignments = assignmentService.getAssignments(user.getActualPerson().getPrincipalId(), payPeriodBeginDate);
-		user.setActualPersonRoles(new TkUserRoles(roles, assignments));
+		user.setActualPersonRoles(new TkUserRoles(user.getActualPerson().getPrincipalId(), roles, assignments));
 	}
 
 }

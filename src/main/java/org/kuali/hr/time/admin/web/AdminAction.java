@@ -18,6 +18,7 @@ import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AdminAction extends TkAction {
@@ -25,36 +26,41 @@ public class AdminAction extends TkAction {
 	private static final Logger LOG = Logger.getLogger(AdminAction.class);
 
     @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         TKUser user = TKContext.getUser();
-        if (user == null || !user.getActualPersonRoles().isSystemAdmin()) {
-            throw new RuntimeException("User does not have administrative privileges.");
+        if (user == null || !user.getCurrentRoles().isSystemAdmin()) {
+            throw new AuthorizationException("", "", "");
         }
-        return super.execute(mapping, form, request, response);
     }
 
     public ActionForward backdoor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		AdminActionForm adminForm = (AdminActionForm) form;
+        TKUser tkUser = TKContext.getUser();
 
-		if (StringUtils.isNotBlank(adminForm.getBackdoorPrincipalName())) {
-			TKUser tkUser = TKContext.getUser();
-			Person backdoorPerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getBackdoorPrincipalName());
+        if (tkUser.getCurrentRoles().isSystemAdmin()) {
+            if (StringUtils.isNotBlank(adminForm.getBackdoorPrincipalName())) {
 
-			if (backdoorPerson != null && tkUser != null) {
-				UserSession userSession = UserLoginFilter.getUserSession(request);
+                Person backdoorPerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getBackdoorPrincipalName());
 
-				userSession.establishBackdoorWithPrincipalName(backdoorPerson.getPrincipalId());
-				GlobalVariables.getUserSession().setBackdoorUser(backdoorPerson.getPrincipalId());
+                if (backdoorPerson != null && tkUser != null) {
+                    UserSession userSession = UserLoginFilter.getUserSession(request);
 
-				tkUser.setBackdoorPerson(backdoorPerson);
+                    userSession.establishBackdoorWithPrincipalName(backdoorPerson.getPrincipalId());
+                    GlobalVariables.getUserSession().setBackdoorUser(backdoorPerson.getPrincipalId());
 
-                UserServiceImpl.loadRoles(tkUser);
-                TKContext.setUser(tkUser);
+                    tkUser.setBackdoorPerson(backdoorPerson);
 
-				LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + backdoorPerson.getPrincipalName() + "\n\n");
-			}
+                    UserServiceImpl.loadRoles(tkUser);
+                    TKContext.setUser(tkUser);
 
-		}
+                    LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + backdoorPerson.getPrincipalName() + "\n\n");
+                }
+
+            }
+        } else {
+            LOG.warn("Non-Admin user attempting to backdoor.");
+            return mapping.findForward("unauthorized");
+        }
 
 		return mapping.findForward("basic");
 	}

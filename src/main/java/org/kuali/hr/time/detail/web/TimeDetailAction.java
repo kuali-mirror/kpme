@@ -11,21 +11,44 @@ import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
+import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kns.exception.AuthorizationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.beans.MethodDescriptor;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TimeDetailAction extends TimesheetAction {
+
+    @Override
+    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+        super.checkAuthorization(form, methodToCall); // Checks for read access first.
+
+        TimesheetActionForm taForm = (TimesheetActionForm)form;
+        TKUser user = TKContext.getUser();
+        UserRoles roles = user.getCurrentRoles(); // either backdoor or actual
+        String docid = taForm.getDocumentId();
+
+        // Check for write access to Timeblock.
+        if (StringUtils.equals(methodToCall, "addTimeBlock") || StringUtils.equals(methodToCall, "deleteTimeBlock")) {
+            if (!roles.isDocumentWritable(docid)) {
+                throw new AuthorizationException(roles.getPrincipalId(), "TimeDetailAction", "");
+            }
+        }
+    }
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

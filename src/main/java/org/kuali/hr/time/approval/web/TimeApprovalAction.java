@@ -5,11 +5,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONValue;
+import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kns.exception.AuthorizationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +21,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TimeApprovalAction extends TimesheetAction {
+public class TimeApprovalAction extends TkAction {
+
+    @Override
+    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+        TKUser user = TKContext.getUser();
+        UserRoles roles = user.getCurrentRoles();
+
+        if (!roles.isAnyApproverActive() && !roles.isSystemAdmin()) {
+            throw new AuthorizationException(user.getPrincipalId(), "TimeApprovalAction", "");
+        }
+    }
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -27,9 +41,10 @@ public class TimeApprovalAction extends TimesheetAction {
 
         // TODO: Obtain this via form?
         // Pay Begin/End needs to come from somewhere tangible, hard coded for now.
-        TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(taaf.getDocumentId());
-        taaf.setPayBeginDate(tdh.getPayBeginDate());
-        taaf.setPayEndDate(tdh.getPayEndDate());
+        // TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(taaf.getDocumentId());
+
+        taaf.setPayBeginDate(TKUtils.createDate(6, 12, 2011, 0, 0, 0));
+        taaf.setPayEndDate(TKUtils.createDate(6, 26, 2011, 0, 0, 0));
 
         taaf.setName(user.getPrincipalName());
         taaf.setPayCalendarGroups(TkServiceLocator.getTimeApproveService().getApproverPayCalendarGroups(taaf.getPayBeginDate(), taaf.getPayEndDate()));

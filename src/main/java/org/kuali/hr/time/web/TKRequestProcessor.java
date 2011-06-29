@@ -2,13 +2,10 @@ package org.kuali.hr.time.web;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.exceptions.UnauthorizedException;
-import org.kuali.hr.time.roles.TkRole;
-import org.kuali.hr.time.roles.TkUserRoles;
-import org.kuali.hr.time.roles.service.TkRoleService;
+import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
@@ -26,8 +23,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
-import java.util.List;
 
 public class TKRequestProcessor extends KualiRequestProcessor {
 	private static final Logger LOG = Logger.getLogger(TKRequestProcessor.class);
@@ -104,16 +99,20 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 
         if (request.getSession(false) != null) {
            targetPrincipal = (String)request.getSession(false).getAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY);
-
         }
 
         if (StringUtils.equalsIgnoreCase(useTargetUser, "true")) {
             if (!StringUtils.isEmpty(documentId)) {
                 // we may be changing target principal here
-                TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-                targetPrincipal = tdh.getPrincipalId();
-                request.getSession(false).setAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY, targetPrincipal);
-                request.getSession(false).setAttribute(TkConstants.TK_REFERRAL_URL_KEY, referer);
+                TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+                TimesheetDocumentHeader tdh = document.getDocumentHeader();
+                UserRoles currentRoles = TKContext.getUser().getCurrentRoles();
+
+                if (currentRoles.isDocumentReadable(document)) {
+                    targetPrincipal = tdh.getPrincipalId();
+                    request.getSession(false).setAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY, targetPrincipal);
+                    request.getSession(false).setAttribute(TkConstants.TK_REFERRAL_URL_KEY, referer);
+                }
             }
         } else if (StringUtils.equalsIgnoreCase(useTargetUser, "false")) {
             request.getSession(false).removeAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY);

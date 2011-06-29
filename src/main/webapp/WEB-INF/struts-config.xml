@@ -18,6 +18,7 @@
 
 
     <global-forwards type="org.apache.struts.action.ActionForward">
+        <forward name="unauthorized" path="/WEB-INF/jsp/unauthorized.jsp"/>
     </global-forwards>
 
     <action-mappings>

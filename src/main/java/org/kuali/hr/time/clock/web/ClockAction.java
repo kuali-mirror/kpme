@@ -24,18 +24,45 @@ import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.clocklog.ClockLog;
+import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
+import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kns.exception.AuthorizationException;
 
 public class ClockAction extends TimesheetAction {
 
     	private static final Logger LOG = Logger.getLogger(ClockAction.class);
     	public static final SimpleDateFormat SDF =  new SimpleDateFormat("EEE, MMMM d yyyy HH:mm:ss, zzzz");
     	public static final String SEPERATOR = "[****]+";
+
+    @Override
+    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+        super.checkAuthorization(form, methodToCall); // Checks for read access first.
+
+        TimesheetActionForm taForm = (TimesheetActionForm)form;
+        TKUser user = TKContext.getUser();
+        UserRoles roles = user.getCurrentRoles(); // either backdoor or actual
+        String docid = taForm.getDocumentId();
+
+        // Check for write access to Timeblock.
+        if (StringUtils.equals(methodToCall, "clockAction") ||
+                StringUtils.equals(methodToCall, "addTimeBlock") ||
+                StringUtils.equals(methodToCall, "editTimeBlock") ||
+                StringUtils.equals(methodToCall, "distributeTimeBlocks") ||
+                StringUtils.equals(methodToCall, "saveNewTimeBlocks") ||
+                StringUtils.equals(methodToCall, "deleteTimeBlock")) {
+            if (!roles.isDocumentWritable(docid)) {
+                throw new AuthorizationException(roles.getPrincipalId(), "ClockAction", "");
+            }
+        }
+    }
+
 
     	@Override
     	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

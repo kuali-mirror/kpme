@@ -9,6 +9,8 @@ import java.util.Set;
  */
 public interface UserRoles {
 
+    public String getPrincipalId();
+
     /**
      * Is the current user a system administrator?
      * @return true if yes, false otherwise
@@ -102,5 +104,11 @@ public interface UserRoles {
      * @return true if the doc can be approved by the current user.
      */
     public boolean isApproverForTimesheet(TimesheetDocument doc);
+    public boolean isApproverForTimesheet(String docId);
 
+    public boolean isDocumentReadable(TimesheetDocument document);
+    public boolean isDocumentReadable(String documentId);
+
+    public boolean isDocumentWritable(TimesheetDocument document);
+    public boolean isDocumentWritable(String documentId);
 }
