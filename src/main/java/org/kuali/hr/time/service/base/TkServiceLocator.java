@@ -117,9 +117,9 @@ public class TkServiceLocator implements ApplicationContextAware {
 //		CONTEXT.stop();
 	}
 
-//    public static MissedPunchService getMissedPunchService() {
-//        return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
-//    }
+    public static MissedPunchService getMissedPunchService() {
+        return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
+    }
 
     public static TaskService getTaskService() {
         return (TaskService) CONTEXT.getBean(TK_TASK_SERVICE);
