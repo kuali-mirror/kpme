@@ -14,7 +14,7 @@
  			<html:hidden property="tbId" value="${Form.editTimeBlockId}"  styleId="tbId"/>
  			<html:hidden property="originHrs" value="${Form.currentTimeBlock.hours}"  styleId="originHrs"/>
 			<html:hidden property="assignmentList" value="${Form.assignDescriptionsList}"/>
-			<html:hidden property="assignKeyList" value="${Form.assignmentKeyList}"/>
+			<html:hidden property="distributeAssignList" value="${Form.distributeAssignList}" />
 			<html:hidden property="originalAssignment" value="${Form.currentAssignmentDescription}"/>
 			<html:hidden property="beginTimestamp" value="${Form.currentTimeBlock.beginTimestamp}"/>
 			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endTimestamp}"/>
@@ -65,14 +65,14 @@
 						<tr>
 							<td>1</td>
 							<td>
-								<select name="assignmentRow1" id="assignmentRow1">
-									<c:forEach var="assignment" items="${Form.assignmentKeyDesList}">
+								 <select name="assignmentRow1" id="assignmentRow1">
+									<c:forEach var="assignment" items="${Form.desList}">
 										<c:choose>
 											<c:when test='${assignment.value == Form.currentAssignmentDescription}'>
-												<option value="${assignment.key}" selected="yes">${assignment.value}</option>
+												<option value="${assignment.key}" selected>${assignment.value}</option>
 											</c:when>
 											<c:otherwise>
-												<option value="${assignment.key}">${assignment.value}</option>
+												<option value="${assignment.key}" >${assignment.value}</option>
 											</c:otherwise>
 										</c:choose>
 									</c:forEach>

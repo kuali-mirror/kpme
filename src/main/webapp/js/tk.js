@@ -394,7 +394,7 @@ function addTimeBlockRow(form, tempArr) {
 //	}
 
     var originalAssign = form.originalAssignment.value;
-    var initString = form.assignKeyList.value;
+    var initString = form.distributeAssignList.value;
     var string1 = initString.substring(1, initString.length - 1);
     var keyValueList = string1.split(',');
     for (var i = 0; i < keyValueList.length; i++) {
