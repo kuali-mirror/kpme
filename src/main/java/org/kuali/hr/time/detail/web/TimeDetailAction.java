@@ -89,9 +89,9 @@ public class TimeDetailAction extends TimesheetAction {
     // this is an ajax call
     public ActionForward getEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        String earnCodeString = "";
+        StringBuffer earnCodeString = new StringBuffer();
         if (StringUtils.isBlank(tdaf.getSelectedAssignment())) {
-            earnCodeString += "<option value=''>-- select an assignment first --</option>";
+            earnCodeString.append("<option value=''>-- select an assignment first --</option>");
         } else {
             List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
             AssignmentDescriptionKey key = new AssignmentDescriptionKey(tdaf.getSelectedAssignment());
@@ -100,15 +100,21 @@ public class TimeDetailAction extends TimesheetAction {
                         assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(key.getTask()) == 0) {
 
+
                     List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment);
                     for (EarnCode earnCode : earnCodes) {
-                        earnCodeString += "<option value='" + earnCode.getEarnCode() + "_" + earnCode.getEarnCodeType() + "'>" + earnCode.getEarnCode() + " : " + earnCode.getDescription() + "</option>";
+                        if ( !(assignment.getTimeCollectionRule().isClockUserFl() &&
+                                StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(), earnCode.getEarnCode())) ) {
+                            earnCodeString.append("<option value='").append(earnCode.getEarnCode()).append("_").append(earnCode.getEarnCodeType());
+                            earnCodeString.append("'>").append(earnCode.getEarnCode()).append(" : ").append(earnCode.getDescription());
+                            earnCodeString.append("</option>");
+                        }
                     }
                 }
             }
         }
 
-        tdaf.setOutputString(earnCodeString);
+        tdaf.setOutputString(earnCodeString.toString());
         return mapping.findForward("ws");
     }
 
