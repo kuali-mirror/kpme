@@ -168,12 +168,12 @@ public class Assignment extends HrBusinessObject {
 	}
 	
 	public String getDept() {
-		if(dept == null && this.getJobNumber()!= null) {
-			if(this.getJob() == null) {
+		if(this.getJobNumber()!= null) {
+			if(this.getJob() == null || !this.getJobNumber().equals(this.getJob().getJobNumber())) {
 				if(this.getEffectiveDate()!=null){
-					this.setJob(TkServiceLocator.getJobSerivce().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveDate()));
+					this.setJob(TkServiceLocator.getJobSerivce().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveDate(), false));
 				}else{
-					this.setJob(TkServiceLocator.getJobSerivce().getJob(this.getPrincipalId(), this.getJobNumber(), TKUtils.getCurrentDate()));
+					this.setJob(TkServiceLocator.getJobSerivce().getJob(this.getPrincipalId(), this.getJobNumber(), TKUtils.getCurrentDate(), false));
 				}
 			}
 			setDept((this.getJob() != null) ? this.getJob().getDept() : "");

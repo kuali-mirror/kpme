@@ -40,13 +40,6 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 						+ assignment.getWorkArea() + "'");
 				valid = false;
 			} else {
-				if (assignment.getJobNumber() != null) {
-					Job job = TkServiceLocator.getJobSerivce().getJob(
-							assignment.getPrincipalId(),
-							assignment.getJobNumber(),
-							assignment.getEffectiveDate());
-					assignment.setDept(job.getDept());
-				}
 				Criteria crit = new Criteria();
 				crit.addEqualTo("dept", assignment.getDept());
 				crit.addEqualTo("workArea", assignment.getWorkArea());
