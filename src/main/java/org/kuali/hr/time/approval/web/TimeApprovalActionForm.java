@@ -1,12 +1,12 @@
 package org.kuali.hr.time.approval.web;
 
-import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
+import org.kuali.hr.time.base.web.TkForm;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 
 import java.util.*;
 
-public class TimeApprovalActionForm extends TimesheetActionForm {
+public class TimeApprovalActionForm extends TkForm {
 
     public static final String ORDER_BY_PRINCIPAL = "PrincipalName";
     public static final String ORDER_BY_DOCID = "DocumentId";
@@ -22,7 +22,8 @@ public class TimeApprovalActionForm extends TimesheetActionForm {
     private List<String> payCalendarLabels = new ArrayList<String>();
     private List<ApprovalTimeSummaryRow> approvalRows = new ArrayList<ApprovalTimeSummaryRow>();
     private Long workArea = null;
-    private String lastDocumentId;
+    private String documentId;
+    private String employeeWorkArea;
 
     /** Used for ajax dynamic row updating */
     private String outputString;
@@ -67,12 +68,12 @@ public class TimeApprovalActionForm extends TimesheetActionForm {
 		return payCalendarLabels;
 	}
 
-    public String getLastDocumentId() {
-        return lastDocumentId;
+    public String getDocumentId() {
+        return documentId;
     }
 
-    public void setLastDocumentId(String lastDocumentId) {
-        this.lastDocumentId = lastDocumentId;
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public String getOutputString() {
@@ -180,5 +181,13 @@ public class TimeApprovalActionForm extends TimesheetActionForm {
 
     public void setSelectedPayCalendarGroup(String selectedPayCalendarGroup) {
         this.selectedPayCalendarGroup = selectedPayCalendarGroup;
+    }
+
+    public String getEmployeeWorkArea() {
+        return employeeWorkArea;
+    }
+
+    public void setEmployeeWorkArea(String employeeWorkArea) {
+        this.employeeWorkArea = employeeWorkArea;
     }
 }

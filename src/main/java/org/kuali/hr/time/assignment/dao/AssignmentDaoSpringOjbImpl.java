@@ -1,10 +1,5 @@
 package org.kuali.hr.time.assignment.dao;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -12,6 +7,11 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.assignment.Assignment;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements AssignmentDao {
 
@@ -107,6 +107,8 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 		effdt.addEqualTo("active", true);
 		effdt.addEqualTo("workArea", workArea);
+        effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+        effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
 		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 
@@ -114,6 +116,8 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 		timestamp.addEqualTo("active", true);
 		timestamp.addEqualTo("workArea", workArea);
+        timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
 		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 

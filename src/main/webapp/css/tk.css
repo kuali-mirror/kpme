@@ -616,3 +616,12 @@ select {
     text-align: right;
 }
 
+.rowInfo:hover {
+    background-color: #dadada;
+    cursor: pointer;
+}
+
+.hours-by-workArea tr{
+    border: 1px double black !important;
+}
+

@@ -1,7 +1,9 @@
 package org.kuali.hr.time.approval.service;
 
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
+import org.kuali.hr.time.timeblock.TimeBlock;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +21,6 @@ public interface TimeApproveService {
      * @param calGroup Specify a calendar group to filter by.
      * @param workarea Specify a work area to filter by, or 'null' if all
      * work areas are desired.
-     *
      * @return A Map<String, List<ApprovalTimeSummaryRow>> container.
      */
     public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsMap(Date payBeginDate, Date payEndDate, String calGroup, Long workarea);
@@ -48,4 +49,6 @@ public interface TimeApproveService {
      */
     @SuppressWarnings("rawtypes")
 	public List getNotesForDocument(String documentNumber);
+
+    Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date beginDateTime, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea);
 }

@@ -62,38 +62,38 @@ $(document).ready(function() {
     });
 
     $('#searchValue').autocomplete({
-                // For some reason, when I use the $('#searchField').val() in the line below,
-                // it always gets the first option value instead of the selected one.
-                // Therefore, I have to use a callback function to feed the source and handle the respone/request by myself.
+        // For some reason, when I use the $('#searchField').val() in the line below,
+        // it always gets the first option value instead of the selected one.
+        // Therefore, I have to use a callback function to feed the source and handle the respone/request by myself.
 
-                //source: "TimeApproval.do?methodToCall=searchDocumentHeaders" + $('#searchField').val(),
-                source: function(request, response) {
+        //source: "TimeApproval.do?methodToCall=searchDocumentHeaders" + $('#searchField').val(),
+        source: function(request, response) {
 
-                    $.post('TimeApproval.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term +
-                            '&selectedPayCalendarGroup=' + $('#selectedPayCalendarGroup').val() +'&ajaxCall=true',
-                            function(data) {
-                                response($.map(jQuery.parseJSON(data), function(item) {
-                                    return {
-                                        value: item
-                                    }
-                                }));
-                            });
-                },
-                minLength: 3,
-                select: function(event, data) {
-                    var rows = $('#approvals-table tbody tr').length;
-                    var isAscending = getParameterByName("ascending");
+            $.post('TimeApproval.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term +
+                    '&selectedPayCalendarGroup=' + $('#selectedPayCalendarGroup').val() + '&ajaxCall=true',
+                    function(data) {
+                        response($.map(jQuery.parseJSON(data), function(item) {
+                            return {
+                                value: item
+                            }
+                        }));
+                    });
+        },
+        minLength: 3,
+        select: function(event, data) {
+            var rows = $('#approvals-table tbody tr').length;
+            var isAscending = getParameterByName("ascending");
 
-                    window.location = 'TimeApproval.do?searchField=' + $('#searchField').val() + '&searchTerm=' + data.item.value +
-                            '&sortField=' + $('#searchField').val() + '&ascending=' + isAscending + '&rowsToShow=' + rows;
-                },
-                open: function() {
-                    $(this).removeClass("ui-corner-all");
-                },
-                close: function() {
-                    $(this).removeClass("ui-corner-top");
-                }
-            });
+            window.location = 'TimeApproval.do?searchField=' + $('#searchField').val() + '&searchTerm=' + data.item.value +
+                    '&sortField=' + $('#searchField').val() + '&ascending=' + isAscending + '&rowsToShow=' + rows;
+        },
+        open: function() {
+            $(this).removeClass("ui-corner-all");
+        },
+        close: function() {
+            $(this).removeClass("ui-corner-top");
+        }
+    });
 
     // check if the approve button is disabled. if so, disable the select checkbox as well
     $('#actions input[type=button]').filter(
@@ -124,22 +124,22 @@ $(document).ready(function() {
 
     // buttons for prev / next pay calendar entries
     $('.prev').button({
-                icons: {
-                    primary: "ui-icon-circle-triangle-w"
-                },
-                text: false
-            });
+        icons: {
+            primary: "ui-icon-circle-triangle-w"
+        },
+        text: false
+    });
 
     $('.prev').click(function() {
         window.location = "TimeApproval.do?calNav=prev&documentId=" + $("#documentId").val();
     });
 
     $('.next').button({
-                icons: {
-                    primary: "ui-icon-circle-triangle-e"
-                },
-                text: false
-            });
+        icons: {
+            primary: "ui-icon-circle-triangle-e"
+        },
+        text: false
+    });
 
     $('.next').click(function() {
         window.location = "TimeApproval.do?calNav=next&documentId=" + $("#documentId").val();
@@ -147,8 +147,32 @@ $(document).ready(function() {
 
     $(" .approvals-warning, .approvals-note").tooltip({ effect: 'slide'});
 
+    $('.rowInfo').click(function() {
+        if ($(this).hasClass('ui-icon-plus')) {
+
+            $(this).removeClass('ui-icon-plus').addClass('ui-icon-minus');
+
+            var data = $(this).html().split('||');
+            var documentId = data[0];
+            var principalId = data[1];
+            var workAreas = data[2].split(",");
+
+            var row = $(this).parent().parent().parent();
+
+            $.post('TimeApproval.do?methodToCall=getApprovalRowsByWorkArea&documentId=' + documentId +
+                    '&principalId=' + principalId +
+                    '&employeeWorkArea=' + workAreas, function(data) {
+                row.after(data);
+            });
+        }
+        else {
+            $('.hours-by-workArea').css("display", "none");
+            $(this).removeClass('ui-icon-minus').addClass('ui-icon-plus');
+        }
+    });
+
     // add css styles to the not and warning buttons
-//    $("#approvals-warning, #approvals-note").hover(function() {
+//    $(".rowInfo").hover(function() {
 //        $(this).addClass("ui-state-hover");
 //    }, function() {
 //        $(this).removeClass("ui-state-hover");

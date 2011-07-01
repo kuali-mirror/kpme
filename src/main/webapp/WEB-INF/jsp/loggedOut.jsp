@@ -25,6 +25,7 @@ You have logged out of the system.
 <a href="Admin.do">Administrative</a><br/>
 <a href="Clock.do">Clock</a><br/>
 <a href="TimeDetail.do">TimeDetail</a><br/>
+<a href="TimeApproval.do">Time Approval</a><br/>
 </p>
 </div>
 </body>

@@ -21,14 +21,15 @@ public class ApprovalTimeSummaryRow {
     private List notes = new ArrayList();
     private List<String> warnings = new ArrayList<String>();
     private String[] workAreas;
+    private String principalId;
 
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
+    public void setName(String name) {
 		this.name = name;
 	}
-	public List<TimeBlock> getLstTimeBlocks() {
+    public List<TimeBlock> getLstTimeBlocks() {
 		return lstTimeBlocks;
 	}
 	public void setLstTimeBlocks(List<TimeBlock> lstTimeBlocks) {
@@ -131,5 +132,13 @@ public class ApprovalTimeSummaryRow {
 
     public void setWorkAreas(String[] workAreas) {
         this.workAreas = workAreas;
+    }
+
+    public String getPrincipalId() {
+        return principalId;
+    }
+
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 }
