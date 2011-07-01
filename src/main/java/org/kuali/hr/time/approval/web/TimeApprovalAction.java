@@ -98,11 +98,17 @@ public class TimeApprovalAction extends TkAction {
         return mapping.findForward("ws");
     }
 
+    /**
+     * Action called via AJAX.
+     *
+     * This is used to get the hours by work area
+     */
     public ActionForward getApprovalRowsByWorkArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
 
         List<String> labels = TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate());
         List<TimeBlock> lstTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(taaf.getDocumentId()));
+        // work area(s) is a hidden comma-separated string which is generated when the approval table is rendered.
         List<String> workAreas = Arrays.asList(StringUtils.split(taaf.getEmployeeWorkArea(), ","));
         StringBuilder outputHtml = new StringBuilder();
 
@@ -111,32 +117,16 @@ public class TimeApprovalAction extends TkAction {
             outputHtml.append("<tr class='hours-by-workArea'>");
             outputHtml.append("<td colspan='3'>Work Area: ").append(workArea).append("</td>");
             for (Map.Entry<String, BigDecimal> entry : hourstoPayDapMap.entrySet()) {
-                String key = entry.getKey();
                 BigDecimal value = entry.getValue();
                 outputHtml.append("<td>").append(value.toString()).append("</td>");
             }
             outputHtml.append("<td colspan='2'></td>");
             outputHtml.append("</tr>");
-
         }
 
         taaf.setOutputString(outputHtml.toString());
 
         return mapping.findForward("ws");
-    }
-
-    /**
-     * Helper method to get the hoursToPayDayMaps from the approval time summary row
-     * @param approvalTimeSummaryRows
-     * @return
-     */
-    List<Map<String, BigDecimal>> hoursToPayDayMaps(List<ApprovalTimeSummaryRow> approvalTimeSummaryRows) {
-        List<Map<String, BigDecimal>> hoursToPayDayMaps = new LinkedList<Map<String, BigDecimal>>();
-
-        for (ApprovalTimeSummaryRow row : approvalTimeSummaryRows) {
-            hoursToPayDayMaps.add(row.getHoursToPayLabelMap());
-        }
-        return hoursToPayDayMaps;
     }
 
     /**

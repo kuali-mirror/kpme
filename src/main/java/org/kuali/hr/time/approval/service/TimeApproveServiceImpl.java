@@ -95,7 +95,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                     String documentId = tdh.getDocumentId();
                     Person person = KIMServiceLocator.getPersonService().getPerson(userId);
                     List<TimeBlock> lstTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(documentId));
-                    // If the work area is not null, it means we only need the total hour calculation for a given work area.
                     Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(userId, payBeginDate, getPayCalendarLabelsForApprovalTab(payBeginDate, payEndDate), lstTimeBlocks, null);
                     List notes = this.getNotesForDocument(documentId);
                     List<String> warnings = TkServiceLocator.getWarningService().getWarnings(documentId);
@@ -231,6 +230,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         for (List<TimeBlock> lstTimeBlocksForDay : lstOfLstOfTimeBlocksPerDay) {
             BigDecimal total = new BigDecimal(0.00);
             for (TimeBlock tb : lstTimeBlocksForDay) {
+                // if the work area is provided, it means we only need the hours for a given work area
                 if (workArea != null) {
                     if (tb.getWorkArea().compareTo(workArea) == 0) {
                         total = total.add(tb.getHours(), TkConstants.MATH_CONTEXT);
