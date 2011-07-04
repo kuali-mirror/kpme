@@ -527,6 +527,7 @@
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
 				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="fromEarnGroup" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
 				<bean parent="FieldDefinition" p:attributeName="beginTime" />

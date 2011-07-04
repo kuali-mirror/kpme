@@ -22,6 +22,7 @@
         <ref bean="Department-org" />
         <ref bean="Department-chart" />
         <ref bean="Department-effectiveDate" />
+        <ref bean="Department-timestamp" />
         <ref bean="Department-active" />
        </list>
     </property>
@@ -116,7 +117,21 @@
     <property name="description" value="Chart" />
   </bean>
 
-
+	<!-- timestamp -->
+	<bean id="Department-timestamp" parent="Department-timestamp-parentBean" />
+	<bean id="Department-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+	
   <bean id="Department-effectiveDate" parent="Department-effectiveDate-parentBean"/>
   <bean id="Department-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Effective Date"/>
@@ -190,6 +205,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="dept" p:forceInquiry="true" />
         <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="timestamp" />
       </list>
     </property>
     <property name="title" value="Department Lookup" />

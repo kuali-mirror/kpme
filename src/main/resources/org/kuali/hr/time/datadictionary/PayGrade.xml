@@ -182,6 +182,7 @@
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
