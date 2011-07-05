@@ -26,6 +26,14 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 			return true;
 		}
 	}
+	
+	boolean validateClockUserAndHrsDistFlags(TimeCollectionRule ruleObj) {
+		if (!ruleObj.isClockUserFl() && ruleObj.isHrsDistributionF()) {
+			this.putFieldError("hrsDistributionF", "timecollRule.hrDistribution.invalid");
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * It looks like the method that calls this class doesn't actually care
@@ -47,6 +55,7 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 				valid = true;
 				valid &= this.validateDepartment(timeCollectionRule);
 				valid &= this.validateWorkArea(timeCollectionRule);
+				valid &= this.validateClockUserAndHrsDistFlags(timeCollectionRule);
 			}
 		}
 

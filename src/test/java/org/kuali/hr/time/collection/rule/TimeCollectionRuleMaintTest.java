@@ -67,6 +67,8 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 						"The specified department '"
 								+ TEST_CODE_INVALID_DEPT_ID
 								+ "' does not exist."));
+		assertTrue("Maintenance Page contains test timeCollectionRule",
+				resultantPageAfterEdit.asText().contains("Clock User needs to be checked if Hr Distribution is checked."));
 	}
 
 
