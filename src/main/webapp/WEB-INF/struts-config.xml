@@ -19,7 +19,14 @@
 
     <global-forwards type="org.apache.struts.action.ActionForward">
         <forward name="unauthorized" path="/WEB-INF/jsp/unauthorized.jsp"/>
+        <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" />
     </global-forwards>
+    
+	<global-exceptions>
+		<exception type="java.lang.Throwable"
+			handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
+			key="meaningless" />
+	</global-exceptions>    
 
     <action-mappings>
         <action path="/Clock" name="ClockActionForm" scope="request" input="/WEB-INF/jsp/clock.jsp"

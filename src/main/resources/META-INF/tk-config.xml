@@ -126,6 +126,7 @@
 	<param name="mail.relay.server">mail.relay.server</param>
 	<param name="mailing.list.batch">mailing.list.batch</param>
 
+
 	<param name="production.environment.code">prd</param>
 	<!-- end rice web app params -->
 
@@ -135,6 +136,8 @@
     <param name="log.performance.services">true</param>
 	<!-- end performance logging params -->
 
+	<param name="KualiExceptionIncidentServiceImpl.REPORT_MAIL_LIST">tk@test.edu</param>
+	
 	<!--  crazy stuff -->
 	<param name="filter.login.class">org.kuali.hr.time.web.TkLoginFilter</param>
 	<param name="filtermapping.login.1">/*</param>
