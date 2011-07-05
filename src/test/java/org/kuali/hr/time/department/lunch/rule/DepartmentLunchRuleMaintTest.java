@@ -67,8 +67,10 @@ public class DepartmentLunchRuleMaintTest extends TkTestCase {
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(
 				departmentLunchRuleLookUp, "edit",
 				deptLunchRuleIdWithInvalidWorkArea.toString());
+		HtmlUnitUtil.createTempFile(maintPage);
+		
 		HtmlInput inputForWorkArea = HtmlUnitUtil.getInputContainingText(maintPage,
-				Long.toString(TEST_CODE_WORKAREA_INVALID));
+				"newMaintainableObject.workArea");
 		inputForWorkArea.setValueAttribute(Long.toString(TEST_CODE_WORKAREA_INVALID));
 		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(
 				maintPage, "* Document Description");
