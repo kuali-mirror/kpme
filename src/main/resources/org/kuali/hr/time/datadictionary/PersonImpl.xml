@@ -188,6 +188,7 @@
         </bean>
       </list>
     </property>
+    <property name="translateCodes" value="false"/>
   </bean>
 
   <bean id="PersonImpl-lookupDefinition" parent="PersonImpl-lookupDefinition-parentBean"/>

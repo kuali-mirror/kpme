@@ -122,6 +122,7 @@
 			</bean>
 		</list>
 	</property>
+	<property name="translateCodes" value="false"/>
 </bean>
    
 </beans>

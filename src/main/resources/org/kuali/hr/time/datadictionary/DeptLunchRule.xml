@@ -308,6 +308,7 @@
 							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
+					<property name="translateCodes" value="false"/>
 					<property name="title" value="DeptLunchRule" />
 				</bean>
 			</list>

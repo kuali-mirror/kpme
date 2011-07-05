@@ -501,6 +501,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="translateCodes" value="false"/>
 		<property name="title" value="ShiftDifferentialRule Inquiry" />
 	</bean>
 

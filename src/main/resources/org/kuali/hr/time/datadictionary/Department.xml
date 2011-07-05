@@ -179,6 +179,7 @@
         </bean>
       </list>
     </property>
+    <property name="translateCodes" value="false"/>
     <!-- <property name="inquirableClass" value="edu.iu.hrms.hredoc.position.lookups.DepartmentInquirable" />-->
     <property name="title" value="Department Inquiry" />
   </bean>

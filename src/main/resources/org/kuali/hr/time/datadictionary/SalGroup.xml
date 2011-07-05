@@ -149,6 +149,7 @@
 	        </bean>
 	      </list>
 	    </property>
+	    <property name="translateCodes" value="false"/>
 	    <property name="title" value="Sal Group Inquiry" />
   	</bean>
 	

@@ -287,6 +287,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="translateCodes" value="false"/>
 		<property name="title" value="Assignment Inquiry" />
 	</bean>
 

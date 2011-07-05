@@ -137,6 +137,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="translateCodes" value="false"/>
 		<property name="title" value="SystemLunchRule Inquiry" />
 	</bean>
 
