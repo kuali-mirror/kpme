@@ -72,11 +72,11 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 		
 		// Wildcard on SalGroup
 		earnCodes = earnCodeService.getEarnCodes(assignment2);
-		assertEquals("Wrong number of earn codes returned.", 4, earnCodes.size());
+		assertEquals("Wrong number of earn codes returned.", 3, earnCodes.size());
 		
 		// Dual Wildcards
 		earnCodes = earnCodeService.getEarnCodes(assignment3);
-		assertEquals("Wrong number of earn codes returned.",4, earnCodes.size());
+		assertEquals("Wrong number of earn codes returned.",3, earnCodes.size());
 	}
 	
 	@Test

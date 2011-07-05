@@ -104,13 +104,14 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		// Add a new Earn Code Group Definition
 		text  = (HtmlTextInput) testEditRGGPage.getHtmlElementById("document.newMaintainableObject.add.earnGroups.earnCode");
         text.setValueAttribute("RGG");
-		HtmlElement element = testEditRGGPage.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
+        HtmlUnitUtil.createTempFile(testEditRGGPage);
+		HtmlElement element = HtmlUnitUtil.getInputContainingText(testEditRGGPage,"methodToCall.addLine.earnGroups");
         HtmlPage newCodeAddedPage = element.click();
         assertFalse("Page contains Error", newCodeAddedPage.asText().contains("error"));
         HtmlUnitUtil.createTempFile(newCodeAddedPage);
         
         // Delete this Earn Code Group Definition
-        element = newCodeAddedPage.getElementByName("methodToCall.deleteLine.earnGroups.(!!.line0.(:::;3;:::).anchor2");                                             
+        element = HtmlUnitUtil.getInputContainingText(newCodeAddedPage,"methodToCall.deleteLine.earnGroups");                                             
         HtmlPage deleteCodePage = element.click();
 		assertFalse("Page contains Error", deleteCodePage.asText().contains("error"));
         HtmlUnitUtil.createTempFile(deleteCodePage);
@@ -148,7 +149,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		// add an Earn code that is being used by another active earn group, submit, should generate error message
 		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnGroups.earnCode");
 		text.setValueAttribute(EARN_CODE);
-		HtmlElement element = page.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
+		HtmlElement element = HtmlUnitUtil.getInputContainingText(page,"methodToCall.addLine.earnGroups");
 		HtmlPage page1 = element.click();
 		//error for earn code not being effective by the effectiveDate of the earn group
 		assertTrue("Maintenance Page contains error messages",page1.asText().contains("The specified Earncode '" + EARN_CODE + "' does not exist."));
@@ -156,14 +157,14 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
         // set the effective date to one that works for the earn code
         text  = (HtmlTextInput) page1.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "effectiveDate");
 		text.setValueAttribute("5/01/2011");
-		element = page1.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
+		element = HtmlUnitUtil.getInputContainingText(page1,"methodToCall.addLine.earnGroups");
 		HtmlPage page2 = element.click();
 		assertFalse("Page contains Error", page2.asText().contains("error"));
 		
 		// add the same earn code again to get the duplicate error
 		text  = (HtmlTextInput) page2.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnGroups.earnCode");
 		text.setValueAttribute(EARN_CODE);
-		element = page2.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
+		element = HtmlUnitUtil.getInputContainingText(page2,"methodToCall.addLine.earnGroups");
 		page1 = element.click();
 		assertTrue("Maintenance Page contains error messages",page1.asText().contains(EARN_CODE + " is already a part of this earngroup."));
 		
@@ -174,14 +175,14 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
         assertTrue("Maintenance Page contains error messages", finalPage.asText().contains(EARN_CODE + " is used by another earn group - 'test'."));
 		
 		//delete this earn code
-		element = finalPage.getElementByName("methodToCall.deleteLine.earnGroups.(!!.line0.(:::;3;:::).anchor2");
+		element = HtmlUnitUtil.getInputContainingText(finalPage,"methodToCall.deleteLine.earnGroups");
 		HtmlPage page3 = element.click();
 		assertFalse("Page contains Error", page3.asText().contains("error"));
 		
 		//add an earn code that is not being used, submit, should get success message
 		text  = (HtmlTextInput) page3.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnGroups.earnCode");
 		text.setValueAttribute("SDR");
-		element = page3.getElementByName("methodToCall.addLine.earnGroups.(!!org.kuali.hr.time.earngroup.EarnGroupDefinition!!).(:::;2;:::).anchor2");
+		element = HtmlUnitUtil.getInputContainingText(page3,"methodToCall.addLine.earnGroups");
 		page1 = element.click();
 		assertFalse("Page contains Error", page1.asText().contains("error"));
 		element = page1.getElementByName("methodToCall.route");
