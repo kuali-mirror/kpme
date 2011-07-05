@@ -68,27 +68,15 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 		
 		// Testing standard lookup.
 		List<EarnCode> earnCodes = earnCodeService.getEarnCodes(assignment1);
-		assertEquals("Wrong number of earn codes returned.", 9, earnCodes.size());
+		assertEquals("Wrong number of earn codes returned.", 8, earnCodes.size());
 		
 		// Wildcard on SalGroup
 		earnCodes = earnCodeService.getEarnCodes(assignment2);
-		assertEquals("Wrong number of earn codes returned.", 12, earnCodes.size());
-		for (EarnCode ec : earnCodes) {
-			//assertTrue("Wrong earn codes.", (ec.getEarnCode().equals("RGN") || ec.getEarnCode().equals("XYY")));
-		}
+		assertEquals("Wrong number of earn codes returned.", 4, earnCodes.size());
 		
 		// Dual Wildcards
 		earnCodes = earnCodeService.getEarnCodes(assignment3);
-		assertEquals("Wrong number of earn codes returned.", 18, earnCodes.size());
-		for (EarnCode ec : earnCodes) {
-			//assertTrue("Wrong earn codes.", (ec.getEarnCode().equals("RGN") || ec.getEarnCode().equals("XZZ")));
-		}
-		
-		// Wildcard on Department
-		earnCodes = earnCodeService.getEarnCodes(assignment4);
-		for (EarnCode ec : earnCodes) {
-			//assertTrue("Wrong earn codes.", (ec.getEarnCode().equals("RGN") || ec.getEarnCode().equals("XYZ")));
-		}
+		assertEquals("Wrong number of earn codes returned.",4, earnCodes.size());
 	}
 	
 	@Test
