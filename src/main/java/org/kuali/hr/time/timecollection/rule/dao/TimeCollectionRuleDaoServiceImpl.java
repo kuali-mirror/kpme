@@ -46,7 +46,8 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 		if(timeCollectionRule!=null){
 			return timeCollectionRule;
 		}
-		throw new RuntimeException("No valid TimeCollection rule for dept: "+dept+" work area: "+workArea+" asOfDate: "+asOfDate);
+		throw new RuntimeException("No valid TimeCollection rule matching for the following.  " +
+									"Dept: "+dept+" work area: "+workArea+" asOfDate: "+asOfDate);
 
 	}
 
