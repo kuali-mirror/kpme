@@ -59,7 +59,7 @@ public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
         setFieldValue(page, "document.newMaintainableObject.add.roles.principalId", "admin");
         setFieldValue(page, "document.newMaintainableObject.add.roles.active", "on");
 
-        element = page.getElementByName("methodToCall.addLine.roles.(!!org.kuali.hr.time.roles.TkRole!!).(:::;3;:::).anchor3");
+        element = HtmlUnitUtil.getInputContainingText(page,"methodToCall.addLine.roles");
         nextPage = element.click();
         assertFalse("page text:\n" + nextPage.asText() + "\n contains:\n" + ERROR_MESSAGE, nextPage.asText().contains(ERROR_MESSAGE));
             	
