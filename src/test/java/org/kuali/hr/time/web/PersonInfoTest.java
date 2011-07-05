@@ -23,7 +23,7 @@ public class PersonInfoTest extends TkTestCase {
 		setRelativeWebappRoot("/src/main/webapp");
 		
 		ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/tk-test-config.xml";		
-		TkLoginFilter.TEST_ID = "earl";
+		TkLoginFilter.TEST_ID = "eric";
 		GlobalVariables.setErrorMap(new ErrorMap());
 		TKContext.setHttpServletRequest(new MockHttpServletRequest());
 		
@@ -34,9 +34,9 @@ public class PersonInfoTest extends TkTestCase {
 	
 	@Test
 	public void testPersonInfo() throws Exception{	
-		 
 		// pass the login filter
 		HtmlPage clockPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.PERSON_INFO_URL);
+		HtmlUnitUtil.createTempFile(clockPage);
 		assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Job Number"));
 		assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Organization Admin"));
 	}
