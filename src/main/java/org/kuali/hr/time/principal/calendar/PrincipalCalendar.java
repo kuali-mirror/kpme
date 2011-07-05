@@ -37,6 +37,7 @@ public class PrincipalCalendar extends HrBusinessObject {
 
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
+		person = KIMServiceLocator.getPersonService().getPerson(this.principalId);
 	}
 
 	public String getName() {
