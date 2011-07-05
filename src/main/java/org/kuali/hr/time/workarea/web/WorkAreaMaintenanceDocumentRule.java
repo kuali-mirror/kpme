@@ -123,11 +123,11 @@ public class WorkAreaMaintenanceDocumentRule extends
 			}
 		} else if ((pbo instanceof TkRole && pboWorkArea instanceof WorkArea)) {
 			TkRole tkRole = (TkRole)pbo;
-			if(StringUtils.isEmpty(tkRole.getPrincipalId()) || StringUtils.isEmpty(tkRole.getPositionObj().toString())){
-				this.putFieldError("add.roles.principalId:add.roles.positionNumber", "principal.position.required");
+			valid = true;
+			if(StringUtils.isEmpty(tkRole.getPrincipalId()) && (tkRole.getPositionNumber() == null || StringUtils.isEmpty(tkRole.getPositionNumber().toString()))){
+				this.putFieldError("add.roles.principalId", "principal.position.required");
 				valid = false;
 			}
-			valid = true;
 		}
 		return valid;
 	}
