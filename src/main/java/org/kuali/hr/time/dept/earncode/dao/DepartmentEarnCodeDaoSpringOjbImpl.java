@@ -46,67 +46,61 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		Criteria locationCrit = new Criteria();
 		
 		deptCrit.addEqualTo("dept", "%");
-		
 		salGroupCrit.addEqualTo("tkSalGroup", "%");
-		
 		locationCrit.addEqualTo("location", "%");
+		
+		Criteria deptCrit2 = new Criteria();
+		deptCrit2.addEqualTo("dept", department);
+		deptCrit2.addOrCriteria(deptCrit);
+		root.addAndCriteria(deptCrit2);
+		
+		Criteria salGroupCrit2 = new Criteria();
+		salGroupCrit2.addEqualTo("tkSalGroup", tkSalGroup);
+		salGroupCrit2.addOrCriteria(salGroupCrit);
+		root.addAndCriteria(salGroupCrit2);
+		
+		Criteria locationCrit2 = new Criteria();
+		if ( !location.trim().isEmpty() ){
+			locationCrit2.addEqualTo("location", location);
+			locationCrit2.addOrCriteria(locationCrit);
+			root.addAndCriteria(locationCrit2);
+		}
+		
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
 		
 		// OJB's awesome sub query setup part 1
 		effdt.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
-		effdt.addOrCriteria(deptCrit);
-		effdt.addOrCriteria(salGroupCrit);
-		effdt.addOrCriteria(locationCrit);
 		effdt.addEqualToField("tkSalGroup", Criteria.PARENT_QUERY_PREFIX + "tkSalGroup");
-		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 		effdt.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 		if ( !location.trim().isEmpty() ){
+			effdt.addAndCriteria(locationCrit2);
 			effdt.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-			effdt.addOrCriteria(locationCrit);
 		}
-		
-		// effdt.addEqualTo("active", true);
+		effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
 		// OJB's awesome sub query setup part 2
 		timestamp.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
 		timestamp.addEqualToField("tkSalGroup", Criteria.PARENT_QUERY_PREFIX + "tkSalGroup");
-		timestamp.addOrCriteria(deptCrit);
-		timestamp.addOrCriteria(salGroupCrit);
-		
 		timestamp.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
 		if ( !location.trim().isEmpty() ){
 			timestamp.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-			timestamp.addOrCriteria(locationCrit);
 		}
+		timestamp.addEqualTo("active", true);
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		// timestamp.addEqualTo("active", true);
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestamp);
-		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
-
+		timestampSubQuery.setAttributes(new String[]{ "max(timestamp)" });
 		
-		
-		root.addEqualTo("dept", department);
-		root.addEqualTo("tkSalGroup", tkSalGroup);
-		root.addOrCriteria(deptCrit);
-		root.addOrCriteria(salGroupCrit);
-		
-		if ( !location.trim().isEmpty() ){
-			root.addEqualTo("location", location);
-			root.addOrCriteria(locationCrit);
-		}
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
 		
-		// root.addEqualTo("active", true);
-
-		Criteria activeFilter = new Criteria(); // Inner Join For Activity
-		activeFilter.addEqualTo("active", true);
-		root.addAndCriteria(activeFilter);
 		root.addOrderBy("dept",false);
 		root.addOrderBy("tkSalGroup", false);
 		root.addOrderBy("location", false);
-		
 		
 		Query query = QueryFactory.newQuery(DepartmentEarnCode.class, root);
 		

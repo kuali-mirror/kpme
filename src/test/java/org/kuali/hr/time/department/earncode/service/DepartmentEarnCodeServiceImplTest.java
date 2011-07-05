@@ -11,8 +11,8 @@ import org.kuali.hr.time.test.TkTestCase;
 
 public class DepartmentEarnCodeServiceImplTest extends TkTestCase {
 
-	public static final String TEST_TEST_DEPT = "TEST";
-	public static final String TEST_LORA = "LORA";
+	public static final String TEST_TEST_DEPT = "TEST-DEPT";
+	public static final String TEST_LORA = "LORA-DEPT";
 	public static final String TEST_SAL_GROUP_A10 = "A10";
 	public static final String TEST_SAL_GROUP_A = "A";
 	public static final String TEST_LOCATION = "";
@@ -29,18 +29,20 @@ public class DepartmentEarnCodeServiceImplTest extends TkTestCase {
 	public void testGetDepartmentEarnCodes() throws Exception {		
 		// Testing Wildcard on department.
 		List<DepartmentEarnCode> departmentEarnCodes = departmentEarnCodeService.getDepartmentEarnCodes(TEST_LORA, TEST_SAL_GROUP_A10, TEST_LOCATION, TEST_DATE);
-		assertEquals("Wrong number of earn codes returned.", 3, departmentEarnCodes.size());
+		assertEquals("Wrong number of earn codes returned.", 5, departmentEarnCodes.size());
 		
 		for (DepartmentEarnCode ec : departmentEarnCodes) {
-			assertTrue("Wrong department earn code.", (ec.getDept()).equals("LORA-DEPT") );
+			assertTrue("Wrong department earn code.", ((ec.getDept()).equals("LORA-DEPT") || (ec.getDept()).equals("%")) );
+			assertTrue("Wrong SAL_GROUP.", (ec.getTkSalGroup()).equals(TEST_SAL_GROUP_A10) || (ec.getTkSalGroup()).equals("%") );
 		}
 		
 		// Testing Wildcard on dept and salGroup.
 		List<DepartmentEarnCode> departmentEarnCodes1 = departmentEarnCodeService.getDepartmentEarnCodes(TEST_TEST_DEPT, TEST_SAL_GROUP_A, TEST_LOCATION, TEST_DATE);
-		assertEquals("Wrong number of earn codes returned.", 8, departmentEarnCodes1.size());
+		assertEquals("Wrong number of earn codes returned.", 2, departmentEarnCodes1.size());
 		
 		for (DepartmentEarnCode ec1 : departmentEarnCodes1) {
-			assertTrue("Wrong SAL_GROUP.", (ec1.getTkSalGroup()).equals(TEST_SAL_GROUP_A10) );
+			assertTrue("Wrong department earn code.", ((ec1.getDept()).equals(TEST_TEST_DEPT) || (ec1.getDept()).equals("%")) );
+			assertTrue("Wrong SAL_GROUP.", (ec1.getTkSalGroup()).equals(TEST_SAL_GROUP_A) || (ec1.getTkSalGroup()).equals("%") );
 		}
 	}
 
