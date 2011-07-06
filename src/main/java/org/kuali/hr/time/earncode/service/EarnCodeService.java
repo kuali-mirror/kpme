@@ -10,9 +10,10 @@ public interface EarnCodeService {
 	/**
 	 * Fetch a List of earn codes for a particular assignment
 	 * @param a
+     * @param asOfDate
 	 * @return
 	 */
-	public List<EarnCode> getEarnCodes(Assignment a);
+	public List<EarnCode> getEarnCodes(Assignment a, Date asOfDate);
 	/**
 	 * Fetch an EarnCode of a particular date
 	 * @param earnCode

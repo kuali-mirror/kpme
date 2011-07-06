@@ -101,7 +101,7 @@ public class TimeDetailAction extends TimesheetAction {
                         assignment.getTask().compareTo(key.getTask()) == 0) {
 
 
-                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment);
+                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, tdaf.getTimesheetDocument().getAsOfDate());
                     for (EarnCode earnCode : earnCodes) {
                         if ( !(assignment.getTimeCollectionRule().isClockUserFl() &&
                                 StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(), earnCode.getEarnCode())) ) {
