@@ -108,7 +108,7 @@
 			<bean parent="TextControlDefinition" p:size="20" />
 		</property>
 		<property name="name" value="jobNumber" />
-		<property name="label" value="JobNumber" />
+		<property name="label" value="Job&#160;Number" />
 	</bean>
 
 	<!--workArea  -->
@@ -157,7 +157,7 @@
 		</property>
 		<property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>		
 		<property name="name" value="clockTimestamp" />
-		<property name="label" value="Clock Timestamp (MM/DD/YYYY HH:MM AM)" />
+		<property name="label" value="Clock Timestamp (MM/DD/YYYY&#160;HH:MM AM)" />
 	</bean>
 
 	<!-- clockTimestampTimezone -->
@@ -191,11 +191,10 @@
 		</property>
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.clocklog.FlsaClocklogKeyValue" p:includeKeyInLabel="false">
-			<property name="script" value="alert('hii!! I am select box')"></property>
 			</bean>
 		</property>
 		<property name="name" value="clockAction" />
-		<property name="label" value="Clock Action" />
+		<property name="label" value="Clock&#160;Action" />
 	</bean>	
 
 	<!-- ipAddress -->
@@ -212,7 +211,7 @@
 			<bean parent="TextControlDefinition" p:size="15" />
 		</property>
 		<property name="name" value="ipAddress" />
-		<property name="label" value="IP Address" />
+		<property name="label" value="IP&#160;Address" />
 	</bean>
 
 	<!-- userPrincipalId -->
@@ -230,7 +229,7 @@
 			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
 		</property>
 		<property name="name" value="userPrincipalId" />
-		<property name="label" value="UserPrincipal Id" />
+		<property name="label" value="UserPrincipal&#160;Id" />
 	</bean>
 	 <!-- timestamp -->
 	<bean id="ClockLog-timestamp" parent="ClockLog-timestamp-parentBean" />
@@ -309,6 +308,7 @@
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="task" />
 				<bean parent="FieldDefinition" p:attributeName="ipAddress" />
+				<bean parent="FieldDefinition" p:attributeName="clockTimestamp" />
 				<bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
 				<bean parent="FieldDefinition" p:attributeName="tkTaskId" />
 			</list>
@@ -319,6 +319,9 @@
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="task" />
 				<bean parent="FieldDefinition" p:attributeName="ipAddress" />
+				<bean parent="FieldDefinition" p:attributeName="clockAction" />
+				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
+				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 				<bean parent="FieldDefinition" p:attributeName="clockTimestamp" />
 				<bean parent="FieldDefinition" p:attributeName="clockTimestampTimezone" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
