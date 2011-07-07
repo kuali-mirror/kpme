@@ -40,7 +40,6 @@ public class TkRoleGroupMaintainableImpl extends KualiMaintainableImpl {
     			}
     		}
             for (TkRole role : roles) {
-            	System.out.println("In for "+role.getRoleName());
                 if (StringUtils.equals(role.getRoleName(), TkConstants.ROLE_TK_SYS_ADMIN)) {
                     AttributeSet qualifier = new AttributeSet();
                     String principalId = role.getPrincipalId();
@@ -53,7 +52,6 @@ public class TkRoleGroupMaintainableImpl extends KualiMaintainableImpl {
                 }
                 role.setPrincipalId(trg.getPrincipalId());
                 role.setUserPrincipalId(TKContext.getUser().getPrincipalId());
-                System.out.println("end of for "+role.getPrincipalId());
             }
             TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
         }
