@@ -3,6 +3,7 @@ package org.kuali.hr.time.timesummary.service;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
@@ -243,6 +244,10 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			for(String assignmentDescr : earnGroupToAssignmentSets.get(earnGroup)){
 				AssignmentRow assignRow = new AssignmentRow();
 				Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument,assignmentDescr);
+				// set assignmentkey for looking up css classes for assignmentRow
+				AssignmentDescriptionKey adk = new AssignmentDescriptionKey(assign.getJobNumber().toString(), assign.getWorkArea().toString(), assign.getTask().toString());
+				assignRow.setAssignmentKey(adk.toAssignmentKeyString());
+				
 				assignRow.setDescr(assign.getAssignmentDescription());
 				BigDecimal weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 				BigDecimal periodTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;

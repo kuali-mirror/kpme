@@ -8,6 +8,7 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 public interface TimeBlockService {
 	/**
@@ -93,4 +94,6 @@ public interface TimeBlockService {
 	 */
 	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime,
 										Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean isClockLogCreated);
+	
+	public Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd);
 }

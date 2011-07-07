@@ -21,6 +21,9 @@
 	    	<tbody>
 				<tr style="border-bottom-style: double; font-weight: bold;">
 					<td>Worked Hours:</td>
+					<c:if test="${beginPosition<0}">
+						<c:set var="beginPosition" value="0" />
+					</c:if>
 					<c:forEach items="${timeSummary.workedHours}" begin="${beginPosition}" var="entry">
 						<td>${entry}</td>
 					</c:forEach>
@@ -31,9 +34,16 @@
 				</tr>
 					<c:forEach items="${section.assignmentRows}" var="assignRow">
 						<tr style="border-bottom-style: double; font-weight: bold;">
-							<td>${assignRow.descr}</td>
+							<td class="${assignRow.cssClass}">${assignRow.descr}</td>
 							<c:forEach items="${assignRow.total}" var="entry">
-								<td><c:if test="${entry ne '0.00' and entry%7 != 0}">${entry}</c:if></td>
+								<c:choose>
+									<c:when test="${entry ne '0.00' and entry%7 != 0}">
+										<td class="${assignRow.cssClass}">${entry}</td>
+									</c:when>
+									<c:otherwise>
+										<td></td>
+									</c:otherwise>
+								</c:choose>								
 							</c:forEach>
 						</tr>
 					</c:forEach>

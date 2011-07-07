@@ -17,6 +17,9 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
+import org.kuali.hr.time.timesummary.AssignmentRow;
+import org.kuali.hr.time.timesummary.EarnGroupSection;
+import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
@@ -25,11 +28,11 @@ import org.kuali.rice.kns.exception.AuthorizationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.beans.MethodDescriptor;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -62,8 +65,22 @@ public class TimeDetailAction extends TimesheetAction {
         // when adding / removing timeblocks, it should update the timeblocks on the timesheet document,e
         // so that we can directly fetch the timeblocks from the document
         List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentId()));
-        tdaf.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument(), timeBlocks));
-
+        TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument(), timeBlocks);
+    	tdaf.setAssignStyleClassMap(TkServiceLocator.getTimeBlockService().buildAssignmentStyleClassMap(tdaf.getTimesheetDocument()));
+        Map<String, String> aMap = tdaf.getAssignStyleClassMap();
+        // set css classes for each assignment row
+        for(EarnGroupSection section: ts.getSections()) {
+        	for(AssignmentRow assignRow: section.getAssignmentRows()) {
+        		if(assignRow.getAssignmentKey() != null && aMap.containsKey(assignRow.getAssignmentKey())) {
+                	assignRow.setCssClass(aMap.get(assignRow.getAssignmentKey()));
+                } else {
+                	assignRow.setCssClass("");
+                }
+        	}    	
+        	
+        }
+        tdaf.setTimeSummary(ts);
+       
         this.validateHourLimit(tdaf);
 
         // get time blocks

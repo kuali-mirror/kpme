@@ -216,7 +216,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         return JSONValue.toJSONString(getTimeBlocksJson(timeBlocks, form.getAssignStyleClassMap()));
     }
 
-    private Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd) {
+    public Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd) {
 		Map<String, String> aMap = new HashMap<String, String>();
 		List<String> assignmentKeys = new ArrayList<String> ();
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(tsd.getPrincipalId(), tsd.getAsOfDate());
