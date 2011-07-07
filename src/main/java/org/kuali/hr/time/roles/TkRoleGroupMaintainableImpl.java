@@ -54,6 +54,7 @@ public class TkRoleGroupMaintainableImpl extends KualiMaintainableImpl {
                 role.setUserPrincipalId(TKContext.getUser().getPrincipalId());
             }
             TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
+            trg.setRoles(rolesCopy);
         }
     }
 
