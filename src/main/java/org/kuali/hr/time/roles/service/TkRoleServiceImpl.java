@@ -6,7 +6,6 @@ import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.dao.TkRoleDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 
@@ -68,6 +67,13 @@ public class TkRoleServiceImpl implements TkRoleService {
 		return tkRoleDao.findRoles(principalId, asOfDate, null, null, null, null);
 	}
 
+	/**
+	 * Returns all active roles for the given principal as of the indi
+	 */
+	public List<TkRole> getInActiveRoles(String principalId, Date asOfDate) {
+		return tkRoleDao.findInActiveRoles(principalId, asOfDate, null, null, null, null);
+	}
+	
 	/**
 	 * Return a List of TkRoles that match the principal ID and roleName.
 	 *

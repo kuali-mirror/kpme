@@ -18,5 +18,7 @@ public interface TkRoleGroupService {
      * Fetches Role by principal id
      */
     public TkRoleGroup getRoleGroup(String principalId);
+    
+    public void populateRoles(TkRoleGroup tkRoleGroup);
 
 }

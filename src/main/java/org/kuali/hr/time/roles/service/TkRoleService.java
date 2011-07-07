@@ -15,6 +15,14 @@ public interface TkRoleService {
 	 * @return
 	 */
 	public List<TkRole> getRoles(String principalId, Date asOfDate);
+	
+	/**
+	 * Fetch all inactive roles for a given Principal ID as of a particular date
+	 * @param principalId
+	 * @param asOfDate
+	 * @return
+	 */
+	public List<TkRole> getInActiveRoles(String principalId, Date asOfDate);
 	/**
 	 * Fetch all roles for a given Principal ID and Role Name as of a particular date
 	 * @param principalId

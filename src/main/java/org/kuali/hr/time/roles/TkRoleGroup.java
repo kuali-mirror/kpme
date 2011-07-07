@@ -17,6 +17,8 @@ public class TkRoleGroup extends PersistableBusinessObjectBase {
     @Transient
     private List<TkRole> roles = new ArrayList<TkRole>();
     @Transient
+    private List<TkRole> inactiveRoles = new ArrayList<TkRole>();
+    @Transient
     private List<TkRole> positionRoles = new ArrayList<TkRole>();
     @Transient
     private String principalId;
@@ -39,7 +41,15 @@ public class TkRoleGroup extends PersistableBusinessObjectBase {
         this.roles = roles;
     }
 
-    public List<TkRole> getPositionRoles() {
+    public List<TkRole> getInactiveRoles() {
+		return inactiveRoles;
+	}
+
+	public void setInactiveRoles(List<TkRole> inactiveRoles) {
+		this.inactiveRoles = inactiveRoles;
+	}
+
+	public List<TkRole> getPositionRoles() {
 		return positionRoles;
 	}
 
