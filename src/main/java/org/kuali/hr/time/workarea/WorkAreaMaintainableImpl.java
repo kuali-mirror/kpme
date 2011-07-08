@@ -1,5 +1,9 @@
 package org.kuali.hr.time.workarea;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
@@ -10,10 +14,6 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.Section;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 
@@ -74,6 +74,7 @@ public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 		super.processAfterEdit(document, parameters);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List getSections(MaintenanceDocument document,
 			Maintainable oldMaintainable) {
@@ -89,6 +90,19 @@ public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 			}
 		}
 		return sections;
+	}
+
+	/**
+	 * Used to show the work area id after submit on new 
+	 * This is because real saving is occurring in a background thread now
+	 */
+	@Override
+	public void prepareForSave() {
+		super.prepareForSave();
+		saveBusinessObject();
+		WorkArea workArea = (WorkArea) this.getBusinessObject();
+		workArea.setTkWorkAreaId(null);
+
 	}
 
 }
