@@ -791,6 +791,12 @@
             <bean class="org.kuali.kfs.coa.businessobject.service.SubObjectCodeLookupableHelper"/>
         </property>
     </bean>
+    <bean id="taskLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.task.service.TaskLookupableHelper"/>
+        </property>
+    </bean>
+    
         <!-- Scheduler configuration -->
 	<!-- Serializer service -->
 	<bean id="timeBlockSerializerService" class="org.kuali.hr.time.scheduler.TimeBlockSerializerService"/>

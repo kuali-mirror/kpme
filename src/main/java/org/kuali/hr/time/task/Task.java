@@ -22,7 +22,9 @@ public class Task extends HrBusinessObject {
     private String description;
     private String userPrincipalId;
     private String administrativeDescription;
-
+	private WorkArea workAreaObj;
+	private String workAreaDescription;
+	
 	@SuppressWarnings({  "rawtypes" })
 	@Override
 	protected LinkedHashMap toStringMapper() {
@@ -120,18 +122,32 @@ public class Task extends HrBusinessObject {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
-    
+
 	public String getWorkAreaDescription() { 
-		if (workArea != null) {
+		if(workAreaDescription == null)
+			this.setWorkAreaDescription("");
+		if (workArea != null && workAreaDescription.isEmpty()) {
         	WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, this.getEffectiveDate());
-        	return (wa != null) ? wa.getDescription() : "";
+        	this.setWorkAreaDescription((wa != null) ? wa.getDescription() : "");
 		}
-		return "";
+		return workAreaDescription;
+	}
+	
+	public void setWorkAreaDescription(String workAreaDescription) {
+		this.workAreaDescription = workAreaDescription;
 	}
 
 	@Override
 	protected String getUniqueKey() {
 		return workArea + "_" + task;
+	}
+
+	public WorkArea getWorkAreaObj() {
+		return workAreaObj;
+	}
+
+	public void setWorkAreaObj(WorkArea workAreaObj) {
+		this.workAreaObj = workAreaObj;
 	}
 
 }
