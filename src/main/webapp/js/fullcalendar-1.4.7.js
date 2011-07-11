@@ -1725,9 +1725,10 @@
             timeHourDetail = "";
             // convert the string to a json obj by using the jquery-json plugin
             var jsonString = jQuery.parseJSON(event.timeHourDetails);
-
+            var timeBlockTitle = "";
             $.each(jsonString, function (index) {
                 if (jsonString[index].earnCode != 'LUN') {
+          			timeBlockTitle = event.title;
                     timeHourDetail += "<tr>";
                     timeHourDetail += "<td align='center' style='width:50%;'>Earn Code: " + jsonString[index].earnCode + "</td>";
                     if ((event.earnCodeType == 'TIME' || event.earnCodeType == 'HOUR')) {
@@ -1741,18 +1742,19 @@
                         timeHourDetail += "<td align='center' style='width:50%;'>Amount: $" + jsonString[index].amount + "</td>";
                     }
                     timeHourDetail += "</tr>";
+                } else {
+                	timeBlockTitle = "Lunch Deducted";
                 }
             });
 
             html +=
                     "<div class='" + className + event.className.join(' ') + " timeblock' style='position:absolute;z-index:8;left:" + left + "px;margin-bottom:3px;' id='" + event.id + "'>" +
-                            "<div id='timeblock-edit'><img class='timeblock-delete' src='images/delete.png'/>" + event.title + "</div>" +
+                            "<div id='timeblock-edit'><img class='timeblock-delete' src='images/delete.png'/>" + timeBlockTitle + "</div>" +
                             fromTo +
                             "<table style='font-size:0.7em;'>" +
                             timeHourDetail +
                             "</table>" +
                             "</div>";
-
             seg.left = left;
             seg.outerWidth = right - left;
         }
