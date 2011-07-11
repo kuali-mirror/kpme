@@ -22,6 +22,7 @@ public class ApprovalTimeSummaryRow {
     private List<String> warnings = new ArrayList<String>();
     private String[] workAreas;
     private String principalId;
+    private Boolean clockedInOverThreshold = Boolean.FALSE;
 
 	public String getName() {
 		return name;
@@ -141,4 +142,10 @@ public class ApprovalTimeSummaryRow {
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
     }
+	public Boolean getClockedInOverThreshold() {
+		return clockedInOverThreshold;
+	}
+	public void setClockedInOverThreshold(Boolean clockedInOverThreshold) {
+		this.clockedInOverThreshold = clockedInOverThreshold;
+	}
 }

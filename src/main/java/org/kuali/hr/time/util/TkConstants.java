@@ -202,4 +202,6 @@ public class TkConstants {
 
     // Timesheet document ID request parameter name
     public static final String TIMESHEET_DOCUMENT_ID_REQUEST_NAME = "tdocid";
+    //Threshold in hours for clockin highlighting on approvers tab
+    public static final Integer NUMBER_OF_HOURS_CLOCKED_IN_APPROVE_TAB_HIGHLIGHT = 24;
 }

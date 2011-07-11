@@ -1,8 +1,23 @@
 package org.kuali.hr.time.approval.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.Hours;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
@@ -20,9 +35,6 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 
@@ -117,6 +129,24 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                         workAreas.add(tb.getWorkArea().toString());
                     }
                     approvalSummaryRow.setWorkAreas(workAreas.toArray(new String[workAreas.size()]));
+                    
+                    //Compare last clock log versus now and if > threshold highlight entry
+                    ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(person.getPrincipalId());
+                    if(lastClockLog != null && 
+                    		(StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_IN) || 
+                    		StringUtils.equals(lastClockLog.getClockAction(), TkConstants.LUNCH_IN))){
+                    	DateTime startTime = new DateTime(lastClockLog.getClockTimestamp().getTime());
+                    	DateTime endTime = new DateTime(System.currentTimeMillis());
+                    	
+                    	Hours hour = Hours.hoursBetween(startTime, endTime);
+                    	if(hour!=null){
+                    		int elapsedHours = hour.getHours();
+                    		if(elapsedHours >= TkConstants.NUMBER_OF_HOURS_CLOCKED_IN_APPROVE_TAB_HIGHLIGHT){
+                    			approvalSummaryRow.setClockedInOverThreshold(true);
+                    		}
+                    	}
+                    	
+                    }
                     rows.add(approvalSummaryRow);
 
                     mappedRows.put(calGroup, rows);
