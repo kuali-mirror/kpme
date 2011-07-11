@@ -5,12 +5,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
-import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -43,22 +40,26 @@ public class AssignmentMaintainableServiceImpl extends KualiMaintainableImpl {
 		//Inactivate the old assignment as of the effective date of new assignment
 		if(assignment.getTkAssignmentId()!=null && assignment.isActive()){
 			Assignment oldAssignment = TkServiceLocator.getAssignmentService().getAssignment(assignment.getTkAssignmentId().toString());
-			//Do not lay down row if effective date is not before new one
-			if(oldAssignment.getEffectiveDate().before(assignment.getEffectiveDate())){
-				oldAssignment.setActive(false);
-				//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
-				oldAssignment.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
-				oldAssignment.setTkAssignmentId(null);
-				KNSServiceLocator.getBusinessObjectService().save(oldAssignment);
+			if(assignment.getEffectiveDate().equals(oldAssignment.getEffectiveDate())){
+				assignment.setTimestamp(null);
+			} else{
+				if(oldAssignment!=null){
+					oldAssignment.setActive(false);
+					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
+					oldAssignment.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
+					oldAssignment.setEffectiveDate(assignment.getEffectiveDate());
+					KNSServiceLocator.getBusinessObjectService().save(oldAssignment);
+				}
+				assignment.setTimestamp(new Timestamp(System.currentTimeMillis()));
+				assignment.setTkAssignmentId(null);
+			
+				for (AssignmentAccount assignAcct : assignment.getAssignmentAccounts()) {
+					assignAcct.setTkAssignAcctId(null);
+					assignAcct.setTkAssignmentId(assignment.getTkAssignmentId());
+				}
 			}
 		}
 		
-		assignment.setTimestamp(new Timestamp(System.currentTimeMillis()));
-		assignment.setTkAssignmentId(null);
-		for (AssignmentAccount assignAcct : assignment.getAssignmentAccounts()) {
-			assignAcct.setTkAssignAcctId(null);
-			assignAcct.setTkAssignmentId(assignment.getTkAssignmentId());
-		}
 		KNSServiceLocator.getBusinessObjectService().save(assignment);
 	}
 
