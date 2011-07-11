@@ -47,7 +47,7 @@ public class TimesheetAction extends TkAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimesheetActionForm taForm = (TimesheetActionForm)form;
 		TKUser user = TKContext.getUser();
-
+		String documentId = StringUtils.isNotBlank(TKContext.getCurrentTimesheetDocumentId()) ? TKContext.getCurrentTimesheetDocumentId() : taForm.getDocumentId() ;
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
         String viewPrincipal = user.getTargetPrincipalId();
@@ -77,8 +77,8 @@ public class TimesheetAction extends TkAction {
 			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntries);
 		}
 		else {
-			if(StringUtils.isNotBlank(taForm.getDocumentId())) {
-                td = TkServiceLocator.getTimesheetService().getTimesheetDocument(taForm.getDocumentId());
+			if(StringUtils.isNotBlank(documentId)) {
+                td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 				payCalendarEntries = td.getPayCalendarEntry();
 			} else {
 				Date currentDate = TKUtils.getTimelessDate(null);
