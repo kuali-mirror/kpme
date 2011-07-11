@@ -540,12 +540,13 @@
                 // when prev / next button is clicked, it will do a form submit instead of the default navigation
 
                 prev: function() {
-                    window.location = "TimeDetail.do?calNav=prev&documentId=" + $("#documentId").val();
+                    window.location = "TimeDetail.do?calNav=prev";
+                    	
                     //render(-1);
                 },
 
                 next: function() {
-                    window.location = "TimeDetail.do?calNav=next&documentId=" + $("#documentId").val();
+                    window.location = "TimeDetail.do?calNav=next";
                     //render(1);
                 },
 
