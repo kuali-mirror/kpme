@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
@@ -99,10 +100,12 @@ public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 	@Override
 	public void prepareForSave() {
 		super.prepareForSave();
-		saveBusinessObject();
-		WorkArea workArea = (WorkArea) this.getBusinessObject();
-		workArea.setTkWorkAreaId(null);
-
+		
+		if(!StringUtils.equals(getMaintenanceAction(),"Edit")){
+			saveBusinessObject();
+			WorkArea workArea = (WorkArea) this.getBusinessObject();
+			workArea.setTkWorkAreaId(null);
+		}
 	}
 
 }
