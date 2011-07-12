@@ -93,7 +93,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 	}
 
 	protected boolean validateJobNumber(ClockLocationRule clr) {
-		boolean valid = false;
+		boolean valid = true;
 		if (clr.getJobNumber() == null) {
 			valid = false;
 		} else if (!clr.getJobNumber().equals(TkConstants.WILDCARD_LONG)) {
