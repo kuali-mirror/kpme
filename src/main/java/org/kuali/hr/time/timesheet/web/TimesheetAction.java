@@ -39,7 +39,7 @@ public class TimesheetAction extends TkAction {
         // document id?
 
         if (!roles.isDocumentReadable(docid)) {
-            throw new AuthorizationException(user.getPrincipalId(), "TimesheetAction", "");
+            throw new AuthorizationException(user.getPrincipalId(), "TimesheetAction: docid: " + docid, "");
         }
     }
 
@@ -48,6 +48,8 @@ public class TimesheetAction extends TkAction {
 		TimesheetActionForm taForm = (TimesheetActionForm)form;
 		TKUser user = TKContext.getUser();
 		String documentId = StringUtils.isNotBlank(TKContext.getCurrentTimesheetDocumentId()) ? TKContext.getCurrentTimesheetDocumentId() : taForm.getDocumentId() ;
+
+        LOG.warn("DOCID: " + documentId);
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
         String viewPrincipal = user.getTargetPrincipalId();
@@ -92,19 +94,19 @@ public class TimesheetAction extends TkAction {
             TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
 		    taForm.setTimesheetDocument(td);
 		    taForm.setDocumentId(td.getDocumentId());
-//		    TimesheetDocumentHeader prevDocHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, 
+//		    TimesheetDocumentHeader prevDocHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET,
 //		    										TKContext.getUser().getPrincipalId(), documentId);
-//		    TimesheetDocumentHeader nextDocHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, 
+//		    TimesheetDocumentHeader nextDocHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET,
 //		    										TKContext.getUser().getPrincipalId(), documentId);
-//		    
+//
 //		    if(prevDocHeader != null){
 //		    	taForm.setPrevDocumentId(prevDocHeader.getDocumentId());
 //		    }
-//		    
+//
 //		    if(nextDocHeader != null){
 //		    	taForm.setNextDocumentId(nextDocHeader.getDocumentId());;
 //		    }
-		    
+
         } else {
             LOG.error("Null timesheet document in TimesheetAction.");
         }
