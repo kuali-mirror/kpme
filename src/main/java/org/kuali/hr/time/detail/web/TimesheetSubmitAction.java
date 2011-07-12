@@ -35,20 +35,21 @@ public class TimesheetSubmitAction extends TkAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String action = request.getParameter("action");
         String timesheetDocumentId = TKContext.getCurrentTimesheetDocumentId();
-        String principal = TKContext.getPrincipalId();
         TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
 
+        // Switched to grab the target (chain, resolution: target -> backdoor -> actual) user.
+        // Approvals still using backdoor > actual
         if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.ROUTE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals("I")) {
-                TkServiceLocator.getTimesheetService().routeTimesheet(principal, document);
+                TkServiceLocator.getTimesheetService().routeTimesheet(TKContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.APPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals("R")) {
-                TkServiceLocator.getTimesheetService().approveTimesheet(principal, document);
+                TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), document);
             }
         } else if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.DISAPPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals("R")) {
-                TkServiceLocator.getTimesheetService().disapproveTimesheet(principal, document);
+                TkServiceLocator.getTimesheetService().disapproveTimesheet(TKContext.getPrincipalId(), document);
             }
         }
 

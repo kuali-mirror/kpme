@@ -58,7 +58,7 @@ public class TKUser {
 	/**
 	 * @return The principal ID of the User.  Precedence order:
 	 *
-	 *  Target User > Back Door User > Actual User
+	 *  Back Door User > Actual User
 	 */
 	public String getPrincipalId() {
 		return getCurrentPerson().getPrincipalId();

@@ -71,7 +71,7 @@
                                 <a href="PersonInfo.do?${approvalRow.timesheetUserTargetURLParams}">${approvalRow.name}</a>
                                 <br/>${approvalRow.clockStatusMessage}
                             </td>
-                            <td>${approvalRow.documentId}
+                            <td><a href="TimeDetail.do?${approvalRow.timesheetUserTargetURLParams}">${approvalRow.documentId}</a>
                                 <div style="float:right;">
                                     <c:if test="${fn:length(approvalRow.warnings) > 0 }">
                                         <div class="ui-state-default ui-corner-all" style="float:right;">
