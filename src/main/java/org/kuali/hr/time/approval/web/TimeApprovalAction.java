@@ -1,5 +1,18 @@
 package org.kuali.hr.time.approval.web;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -15,12 +28,6 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.exception.AuthorizationException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.*;
 
 public class TimeApprovalAction extends TkAction {
 
@@ -182,20 +189,24 @@ public class TimeApprovalAction extends TkAction {
      * @return
      */
     List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf) {
+    	List<ApprovalTimeSummaryRow> rows = new ArrayList<ApprovalTimeSummaryRow>();
+    	
+    	if(taaf.getPayCalendarGroups().size() > 0){
+            String calGroup = StringUtils.isNotEmpty(taaf.getSelectedPayCalendarGroup()) ? taaf.getSelectedPayCalendarGroup() : taaf.getPayCalendarGroups().first();
+            rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup, taaf.getWorkArea());
 
-        String calGroup = StringUtils.isNotEmpty(taaf.getSelectedPayCalendarGroup()) ? taaf.getSelectedPayCalendarGroup() : taaf.getPayCalendarGroups().first();
-        List<ApprovalTimeSummaryRow> rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup, taaf.getWorkArea());
+            if (!taaf.isAjaxCall() && StringUtils.isNotBlank(taaf.getSearchField()) && StringUtils.isNotBlank(taaf.getSearchTerm())) {
+                rows = searchApprovalRows(rows, taaf.getSearchField(), taaf.getSearchTerm());
+            }
 
-        if (!taaf.isAjaxCall() && StringUtils.isNotBlank(taaf.getSearchField()) && StringUtils.isNotBlank(taaf.getSearchTerm())) {
-            rows = searchApprovalRows(rows, taaf.getSearchField(), taaf.getSearchTerm());
-        }
+            sortApprovalRows(rows, taaf.getSortField(), taaf.isAscending());
 
-        sortApprovalRows(rows, taaf.getSortField(), taaf.isAscending());
+            // Create a sublist view backed by the actual list.
+            int limit = (taaf.getRowsToShow() > rows.size()) ? rows.size() : taaf.getRowsToShow();
 
-        // Create a sublist view backed by the actual list.
-        int limit = (taaf.getRowsToShow() > rows.size()) ? rows.size() : taaf.getRowsToShow();
-
-        return rows.subList(0, limit);
+            return rows.subList(0, limit);
+    	}
+    	return rows;
     }
 
     List<ApprovalTimeSummaryRow> searchApprovalRows(List<ApprovalTimeSummaryRow> rows, String searchField, String searchTerm) {

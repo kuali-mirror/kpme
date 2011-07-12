@@ -7,6 +7,7 @@ public class AdminActionForm extends TkForm {
     private static final long serialVersionUID = -4827349215638585861L;
 
     private String backdoorPrincipalName;
+    private String changeTargetPrincipalName;
 
     public String getBackdoorPrincipalName() {
         return backdoorPrincipalName;
@@ -15,5 +16,13 @@ public class AdminActionForm extends TkForm {
     public void setBackdoorPrincipalName(String backdoorPrincipalName) {
         this.backdoorPrincipalName = backdoorPrincipalName;
     }
+
+	public String getChangeTargetPrincipalName() {
+		return changeTargetPrincipalName;
+	}
+
+	public void setChangeTargetPrincipalName(String changeTargetPrincipalName) {
+		this.changeTargetPrincipalName = changeTargetPrincipalName;
+	}
 
 }

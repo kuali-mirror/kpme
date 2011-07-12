@@ -56,7 +56,7 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 	@Override
 	public BigDecimal calculateHolidayHours(Job job, BigDecimal holidayHours) {
 		BigDecimal fte = job.getStandardHours().divide(new BigDecimal(40.0),TkConstants.BIG_DECIMAL_SCALE);
-		return fte.multiply(holidayHours);
+		return fte.multiply(holidayHours).setScale(TkConstants.BIG_DECIMAL_SCALE);
 	}
 
 }

@@ -64,4 +64,38 @@ public class AdminAction extends TkAction {
 
 		return mapping.findForward("basic");
 	}
+    
+    public ActionForward changeEmployee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		AdminActionForm adminForm = (AdminActionForm) form;
+        TKUser tkUser = TKContext.getUser();
+
+        if (tkUser.getCurrentRoles().isSystemAdmin()) {
+            if (StringUtils.isNotBlank(adminForm.getBackdoorPrincipalName())) {
+
+                Person backdoorPerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getBackdoorPrincipalName());
+
+                if (backdoorPerson != null && tkUser != null) {
+                    UserSession userSession = UserLoginFilter.getUserSession(request);
+
+                    userSession.establishBackdoorWithPrincipalName(backdoorPerson.getPrincipalId());
+                    GlobalVariables.getUserSession().setBackdoorUser(backdoorPerson.getPrincipalId());
+
+                    tkUser.setBackdoorPerson(backdoorPerson);
+
+                    UserServiceImpl.loadRoles(tkUser);
+                    TKContext.setUser(tkUser);
+
+                    LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " change employee as : " + backdoorPerson.getPrincipalName() + "\n\n");
+                }
+
+            }
+        } else {
+            LOG.warn("Non-Admin user attempting to backdoor.");
+            return mapping.findForward("unauthorized");
+        }
+
+    	
+    	
+    	return mapping.findForward("basic");
+    }
 }

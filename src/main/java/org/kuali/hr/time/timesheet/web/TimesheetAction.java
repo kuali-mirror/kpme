@@ -71,7 +71,7 @@ public class TimesheetAction extends TkAction {
          *    and fetch the timeBlocks.
          */
 		if(StringUtils.equals(taForm.getCalNav(), TkConstants.PREV_TIMESHEET) || StringUtils.equals(taForm.getCalNav(), TkConstants.NEXT_TIMESHEET)) {
-			tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(taForm.getCalNav(), viewPrincipal, taForm.getDocumentId());
+			tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(taForm.getCalNav(), viewPrincipal, documentId);
             // use the getPayEndDate()-1 as the date to get the current payCalendarDates, since the the payBeginDate is equal to the payEndDate of the previous pay period
 			payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(viewPrincipal,  TKUtils.getTimelessDate(DateUtils.addDays(tsdh.getPayEndDate(), -1)));
 			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntries);
@@ -92,6 +92,19 @@ public class TimesheetAction extends TkAction {
             TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
 		    taForm.setTimesheetDocument(td);
 		    taForm.setDocumentId(td.getDocumentId());
+//		    TimesheetDocumentHeader prevDocHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, 
+//		    										TKContext.getUser().getPrincipalId(), documentId);
+//		    TimesheetDocumentHeader nextDocHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, 
+//		    										TKContext.getUser().getPrincipalId(), documentId);
+//		    
+//		    if(prevDocHeader != null){
+//		    	taForm.setPrevDocumentId(prevDocHeader.getDocumentId());
+//		    }
+//		    
+//		    if(nextDocHeader != null){
+//		    	taForm.setNextDocumentId(nextDocHeader.getDocumentId());;
+//		    }
+		    
         } else {
             LOG.error("Null timesheet document in TimesheetAction.");
         }

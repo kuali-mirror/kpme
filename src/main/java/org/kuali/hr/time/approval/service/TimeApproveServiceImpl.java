@@ -99,18 +99,17 @@ public class TimeApproveServiceImpl implements TimeApproveService {
             for (Assignment assign : assignments) {
                 String principalId = assign.getPrincipalId();
                 TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
-                if (tdh == null) {
-                    throw new RuntimeException("Timesheet document header shouldn't be null");
+                if (tdh != null) {
+                	String calendarGroup = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, payBeginDate).getCalendarGroup();
+                    pcg.add(calendarGroup);    
                 }
-                String calendarGroup = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, payBeginDate).getCalendarGroup();
-                pcg.add(calendarGroup);
             }
         }
 
         // Handle the situation where pay calendar is null. This shouldn't happen but just in case.
-        if (pcg.size() == 0) {
-            throw new RuntimeException("Pay calendar group is null");
-        }
+//        if (pcg.size() == 0) {
+//            throw new RuntimeException("Pay calendar group is null");
+//        }
 
         return pcg;
     }
