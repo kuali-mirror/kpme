@@ -18,7 +18,7 @@
 		                <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Shift Differential Rule</a></li>
 		                <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.syslunch.rule.SystemLunchRule&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">System Lunch Rule</a></li>
 		                <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.collection.rule.TimeCollectionRule&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">TimeCollection Rule</a></li>
-		                <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRuleGroup&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Weekly Overtime Rule</a></li>
+		                <li><a href="kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRuleGroup&tkWeeklyOvertimeRuleGroupId=1&returnLocation=${ConfigProperties.application.url}/Admin.do&methodToCall=edit">Weekly Overtime Rule</a></li>
 		            </ul>
                     <b>Administrative Activities</b>
                      <ul>
@@ -72,6 +72,15 @@
 						<input type="button" class="button" value="Clear" name="clearBackdoor" onclick="this.form.methodToCall.value='clearBackdoor'; this.form.submit();">
 	                </td>
 	            </tr>
+	            <tr/>
+	            <tr class="header"><td><b>Change Target Person</b></td></tr>
+	            <tr>
+	                <td>
+						<html:text property="backdoorPrincipalName" size="20" />
+						<input type="button" class="button" value="Submit" name="changeEmployee" onclick="this.form.methodToCall.value='changeEmployee'; this.form.submit();">
+						<input type="button" class="button" value="Clear" name="clearChangeEmployee" onclick="this.form.methodToCall.value='clearChangeEmployee'; this.form.submit();">
+	                </td>
+	            </tr>	            
 		  </table>
 	  </html:form>
     </div>
