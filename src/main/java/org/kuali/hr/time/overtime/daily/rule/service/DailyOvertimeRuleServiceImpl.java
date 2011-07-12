@@ -135,63 +135,72 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 		return keybuf.toString();
 	}
 
-	/** Duplicated method:: 'Expression Problem' problem. :) */
-	private String getIdentifyingKey(TimeBlock block, Date asOfDate, String principalId) {
-		StringBuffer keybuf = new StringBuffer();
-		Job job = TkServiceLocator.getJobSerivce().getJob(principalId, block.getJobNumber(), asOfDate);
-
-		keybuf.append(job.getLocation()).append('_');
-		keybuf.append(job.getHrPayType()).append('_');
-		keybuf.append(job.getDept()).append('_');
-		keybuf.append(block.getWorkArea());
-
-		return keybuf.toString();
+	private Assignment getIdentifyingKey(TimeBlock block, Date asOfDate, String principalId) {
+		List<Assignment> lstAssign = TkServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+		
+		for(Assignment assign : lstAssign){
+			if((assign.getJobNumber().compareTo(block.getJobNumber()) == 0) && (assign.getWorkArea().compareTo(block.getWorkArea()) == 0)){
+				return assign;
+			}
+		}
+		return null;
 	}
 
 
 	public void processDailyOvertimeRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate timeBlockAggregate){
-		Map<String, DailyOvertimeRule> idKeyToDailyOvertimeRules = new HashMap<String, DailyOvertimeRule>();
-
-		//iterate over all assignments and place the list of rules if any in map
-		// TODO : Verify the required rules here - What are we using to retrieve the rules
+		Map<DailyOvertimeRule, List<Assignment>> mapDailyOvtRulesToAssignment = new HashMap<DailyOvertimeRule, List<Assignment>>();
+		
 		for(Assignment assignment : timesheetDocument.getAssignments()) {
 			Job job = assignment.getJob();
 			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getLocation(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), timesheetDocument.getAsOfDate());
 
 			if(dailyOvertimeRule !=null) {
-				String idKey = this.getIdentifyingKey(assignment);
-				idKeyToDailyOvertimeRules.put(idKey, dailyOvertimeRule);
+				if(mapDailyOvtRulesToAssignment.containsKey(dailyOvertimeRule)){
+					List<Assignment> lstAssign = mapDailyOvtRulesToAssignment.get(dailyOvertimeRule);
+					lstAssign.add(assignment);
+					mapDailyOvtRulesToAssignment.put(dailyOvertimeRule, lstAssign);
+				}  else {
+					List<Assignment> lstAssign = new ArrayList<Assignment>();
+					lstAssign.add(assignment);
+					mapDailyOvtRulesToAssignment.put(dailyOvertimeRule, lstAssign);
+				}
 			}
 		}
-
-		// Quick Bail
-		if(idKeyToDailyOvertimeRules.isEmpty()){
+		
+		//Quick bail
+		if(mapDailyOvtRulesToAssignment.isEmpty()){
 			return;
 		}
-
+		
 		// TODO: We iterate Day by Day
 		for(List<TimeBlock> dayTimeBlocks : timeBlockAggregate.getDayTimeBlockList()){
 
 			if (dayTimeBlocks.size() == 0)
 				continue;
 
-			// 1: ... bucketing by (idKey -> List<TimeBlock>)
-			Map<String,List<TimeBlock>> idKeyToDayTotals = new HashMap<String,List<TimeBlock>>();
+			// 1: ... bucketing by (DailyOvertimeRule -> List<TimeBlock>)
+			Map<DailyOvertimeRule,List<TimeBlock>> dailyOvtRuleToDayTotals = new HashMap<DailyOvertimeRule,List<TimeBlock>>();
 			for(TimeBlock timeBlock : dayTimeBlocks) {
-				String idKey = this.getIdentifyingKey(timeBlock, timesheetDocument.getAsOfDate(), timesheetDocument.getPrincipalId());
-				List<TimeBlock> blocks = idKeyToDayTotals.get(idKey);
-				if (blocks == null) {
-					blocks = new LinkedList<TimeBlock>();
-					idKeyToDayTotals.put(idKey, blocks);
+				Assignment assign = this.getIdentifyingKey(timeBlock, timesheetDocument.getAsOfDate(), timesheetDocument.getPrincipalId());
+				for(DailyOvertimeRule dr : mapDailyOvtRulesToAssignment.keySet()){
+					List<Assignment> lstAssign = mapDailyOvtRulesToAssignment.get(dr);
+					if(lstAssign.contains(assign)){
+						if(dailyOvtRuleToDayTotals.get(dr) != null){
+							List<TimeBlock> lstTimeBlock = dailyOvtRuleToDayTotals.get(dr);
+							lstTimeBlock.add(timeBlock);
+							dailyOvtRuleToDayTotals.put(dr, lstTimeBlock);
+						} else {
+							List<TimeBlock> lstTimeBlock = new ArrayList<TimeBlock>();
+							lstTimeBlock.add(timeBlock);
+							dailyOvtRuleToDayTotals.put(dr, lstTimeBlock);
+						}
+					}
 				}
-				blocks.add(timeBlock);
 			}
-
-			// 2: Iterate over ruleKeys, then over blockBucket
-			for (String key : idKeyToDailyOvertimeRules.keySet()) {
-				DailyOvertimeRule rule = idKeyToDailyOvertimeRules.get(key); // should be able to assume not null here.
-				Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(rule.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
-				List<TimeBlock> blocksForRule = idKeyToDayTotals.get(key);
+			
+			for(DailyOvertimeRule dr : mapDailyOvtRulesToAssignment.keySet() ){
+				Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(dr.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
+				List<TimeBlock> blocksForRule = dailyOvtRuleToDayTotals.get(dr);
 				if (blocksForRule == null || blocksForRule.size() == 0)
 					continue; // skip to next rule and check for valid blocks.
 				sortTimeBlocksNatural(blocksForRule);
@@ -201,8 +210,8 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 				List<TimeBlock> applicationList = new LinkedList<TimeBlock>();
 				TimeBlock previous = null;
 				for (TimeBlock block : blocksForRule) {
-					if (exceedsMaxGap(previous, block, rule.getMaxGap())) {
-						apply(hours, applicationList, rule, fromEarnGroup);
+					if (exceedsMaxGap(previous, block, dr.getMaxGap())) {
+						apply(hours, applicationList, dr, fromEarnGroup);
 						applicationList.clear();
 						hours = BigDecimal.ZERO;
 						previous = null; // reset our chain
@@ -215,9 +224,8 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 							hours = hours.add(thd.getHours(), TkConstants.MATH_CONTEXT);
 				}
 				// when we run out of blocks, we may have more to apply.
-				apply(hours, applicationList, rule, fromEarnGroup);
+				apply(hours, applicationList, dr, fromEarnGroup);
 			}
-
 		}
 	}
 
