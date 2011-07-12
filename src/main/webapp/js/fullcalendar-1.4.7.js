@@ -540,13 +540,13 @@
                 // when prev / next button is clicked, it will do a form submit instead of the default navigation
 
                 prev: function() {
-                    window.location = "TimeDetail.do?calNav=prev";
+                    window.location = "TimeDetail.do?calNav=prev&documentId=" + $("#documentId").val();
                     	
                     //render(-1);
                 },
 
                 next: function() {
-                    window.location = "TimeDetail.do?calNav=next";
+                    window.location = "TimeDetail.do?calNav=next&documentId=" + $("#documentId").val();
                     //render(1);
                 },
 
@@ -1010,6 +1010,7 @@
                 addDays(visEnd, (7 - visEnd.getDay() + Math.max(options.firstDay, nwe)) % 7);
                 // row count
                 var rowCnt = Math.round((visEnd - visStart) / (DAY_MS * 7));
+                
                 if (options.weekMode == 'fixed') {
                     addDays(visEnd, (6 - rowCnt) * 7);
                     dayCnt = Math.ceil((endPeriodDate - beginPeriodDate) / (DAY_MS));
@@ -1018,6 +1019,7 @@
                     if (dayCnt % 7 >= 0) {
                         rowCnt++;
                     }
+                   
                 }
                 // title
                 this.title = formatDate(
