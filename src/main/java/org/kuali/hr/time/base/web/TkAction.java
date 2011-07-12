@@ -31,19 +31,12 @@ public class TkAction extends KualiAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward;
 
-        LOG.warn("USER INFO:");
-        LOG.warn(TKContext.getTargetPrincipalId());
-        LOG.warn(TKContext.getPrincipalId());
-        LOG.warn("USER INFO:");
-
-        forward = super.execute(mapping, form, request, response);
-
-//        try {
-//
-//        } catch (AuthorizationException e) {
-//            // This is a globally defined forward.
-//            //return mapping.findForward("unauthorized");
-//        }
+        try {
+            forward = super.execute(mapping, form, request, response);
+        } catch (AuthorizationException e) {
+            LOG.error("User: " + TKContext.getPrincipalId() + " Target: " + TKContext.getTargetPrincipalId(), e);
+            return mapping.findForward("unauthorized");
+        }
 
         return forward;
     }
@@ -86,7 +79,7 @@ public class TkAction extends KualiAction {
 	}
 
 	public ActionForward userLogout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TKContext.setCurrentTimesheetDocumentId(null);
+        TKContext.clear();
 		request.getSession().invalidate();
 
 		return mapping.findForward("basic");

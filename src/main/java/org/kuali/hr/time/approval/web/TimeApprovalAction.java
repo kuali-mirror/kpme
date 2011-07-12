@@ -134,13 +134,9 @@ public class TimeApprovalAction extends TkAction {
 
         List<String> results = new ArrayList<String>();
         for (ApprovalTimeSummaryRow row : taaf.getApprovalRows()) {
-            if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID) &&
-                    row.getDocumentId().contains(taaf.getSearchTerm())) {
-
+            if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID) && row.getDocumentId().contains(taaf.getSearchTerm())) {
                 results.add(row.getDocumentId());
-            } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL) &&
-                    row.getName().toLowerCase().contains(taaf.getSearchTerm())) {
-
+            } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL) && row.getName().toLowerCase().contains(taaf.getSearchTerm())) {
                 results.add(row.getName());
             }
 
@@ -190,7 +186,7 @@ public class TimeApprovalAction extends TkAction {
      */
     List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf) {
     	List<ApprovalTimeSummaryRow> rows = new ArrayList<ApprovalTimeSummaryRow>();
-    	
+
     	if(taaf.getPayCalendarGroups().size() > 0){
             String calGroup = StringUtils.isNotEmpty(taaf.getSelectedPayCalendarGroup()) ? taaf.getSelectedPayCalendarGroup() : taaf.getPayCalendarGroups().first();
             rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup, taaf.getWorkArea());

@@ -16,7 +16,7 @@ $(document).ready(function() {
 
         // submit the page for sorting
         if (field != 'Action' && field != 'Select') {
-            window.location = 'TimeApproval.do?sortField=' + field + '&ascending=' + isAscending + '&rowsToShow=' + rows;
+            window.location = 'TimeApproval.do?sortField=' + field + '&ascending=' + isAscending + '&rowsToShow=' + rows + "&payCalendarId=" + $("#pcid").val() + "&payCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val();
         }
     });
 
@@ -70,7 +70,7 @@ $(document).ready(function() {
         source: function(request, response) {
 
             $.post('TimeApproval.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term +
-                    '&selectedPayCalendarGroup=' + $('#selectedPayCalendarGroup').val() + '&ajaxCall=true',
+                    '&selectedPayCalendarGroup=' + $('#selectedPayCalendarGroup').val() + "&ajaxCall=true&payCalendarId=" + $("#pcid").val() + "&payCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val(),
                     function(data) {
                         response($.map(jQuery.parseJSON(data), function(item) {
                             return {
@@ -85,7 +85,7 @@ $(document).ready(function() {
             var isAscending = getParameterByName("ascending");
 
             window.location = 'TimeApproval.do?searchField=' + $('#searchField').val() + '&searchTerm=' + data.item.value +
-                    '&sortField=' + $('#searchField').val() + '&ascending=' + isAscending + '&rowsToShow=' + rows;
+                    '&sortField=' + $('#searchField').val() + '&ascending=' + isAscending + '&rowsToShow=' + rows + "&payCalendarId=" + $("#pcid").val() + "&payCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val();
         },
         open: function() {
             $(this).removeClass("ui-corner-all");
