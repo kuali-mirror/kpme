@@ -31,15 +31,19 @@ public class TkAction extends KualiAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward;
 
-        LOG.info(TKContext.getTargetPrincipalId());
-        LOG.info(TKContext.getPrincipalId());
+        LOG.warn("USER INFO:");
+        LOG.warn(TKContext.getTargetPrincipalId());
+        LOG.warn(TKContext.getPrincipalId());
+        LOG.warn("USER INFO:");
 
-        //try {
-            forward = super.execute(mapping, form, request, response);
-        //} catch (AuthorizationException e) {
-            // This is a globally defined forward.
-        //    return mapping.findForward("unauthorized");
-       // }
+        forward = super.execute(mapping, form, request, response);
+
+//        try {
+//
+//        } catch (AuthorizationException e) {
+//            // This is a globally defined forward.
+//            //return mapping.findForward("unauthorized");
+//        }
 
         return forward;
     }

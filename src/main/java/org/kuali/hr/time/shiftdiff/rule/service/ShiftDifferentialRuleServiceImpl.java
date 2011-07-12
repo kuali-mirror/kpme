@@ -180,6 +180,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 					DateTime shiftEnd = (ruleEnd.toLocalTime()).toDateTime(currentDay);
 					DateTime shiftStart = (ruleStart.toLocalTime()).toDateTime(currentDay);
+                    // TODO: Investigate this line:
 					if (shiftEnd.isBefore(shiftStart))
 						shiftEnd = shiftEnd.plusDays(1);
 					Interval shiftInterval = new Interval(shiftStart, shiftEnd);
