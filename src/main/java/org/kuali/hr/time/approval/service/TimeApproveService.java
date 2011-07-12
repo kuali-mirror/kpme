@@ -1,6 +1,7 @@
 package org.kuali.hr.time.approval.service;
 
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 
 import java.math.BigDecimal;
@@ -41,7 +42,7 @@ public interface TimeApproveService {
      * @return
      */
     public SortedSet<String> getApproverPayCalendarGroups(Date payBeginDate, Date payEndDate);
-    
+
     /**
      * Used to determine if there are notes on a document
      * @param documentNumber
@@ -51,4 +52,16 @@ public interface TimeApproveService {
 	public List getNotesForDocument(String documentNumber);
 
     Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date beginDateTime, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea);
+
+    /**
+     * Method to provide a mapping of PayCalendarGroupNames to PayCalendarEntries to
+     * allow for various starting points in Approval Tab Navigation.
+     *
+     * @param currentDate The current date. This method will search for active
+     * assignments for this approver active as of this date, and 31 days prior
+     * to pull back PayCalendarEntries.
+     *
+     * @return A CalendarGroup Name to PayCalendarEntries mapping.
+     */
+    public Map<String,PayCalendarEntries> getPayCalendarEntriesForApprover(Date currentDate);
 }

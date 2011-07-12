@@ -12,7 +12,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 public class PayCalendar extends PersistableBusinessObjectBase {
 
 	/**
-     * 
+     *
      */
 	private static final long serialVersionUID = 1L;
 
@@ -23,7 +23,7 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 	private Time flsaBeginTime;
 	private int flsaBeginDayConstant = -1;
     private boolean active = true;
-	
+
 	private List<PayCalendarEntries> payCalendarEntries = new ArrayList<PayCalendarEntries>();
 
 	public PayCalendar() {
@@ -68,21 +68,21 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 		this.flsaBeginDay = flsaBeginDay;
 		this.setFlsaBeinDayConstant(flsaBeginDay);
 	}
-	
+
 	/**
 	 * This method sets a constant matching those listed in
 	 * org.joda.time.DateTimeConstants for day comparisons.
-	 * 
-	 * Currently this is 'hard-coded' to be English specific, it would 
-	 * be trivial to change and support more than one language/day naming 
+	 *
+	 * Currently this is 'hard-coded' to be English specific, it would
+	 * be trivial to change and support more than one language/day naming
 	 * convention.
-	 *  
-	 * @param flsaBeginDay
+	 *
+	 * @param day
 	 */
 	private void setFlsaBeinDayConstant(String day) {
 		if (!StringUtils.isEmpty(day)) {
 			day = day.toLowerCase().trim();
-			
+
 			if (day.startsWith("m")) {
 				this.flsaBeginDayConstant = DateTimeConstants.MONDAY;
 			} else if (day.startsWith("tu")) {
@@ -98,7 +98,7 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 			} else if (day.startsWith("su")) {
 				this.flsaBeginDayConstant = DateTimeConstants.SUNDAY;
 			}
-		}		
+		}
 	}
 
 	public Time getFlsaBeginTime() {
@@ -116,12 +116,12 @@ public class PayCalendar extends PersistableBusinessObjectBase {
     public void setActive(boolean active) {
         this.active = active;
     }
-	
+
 	/**
-	 * org.joda.time.DateTimeConstants.MONDAY 
+	 * org.joda.time.DateTimeConstants.MONDAY
 	 * ...
 	 * org.joda.time.DateTimeConstants.SUNDAY
-	 * 
+	 *
 	 * @return an int representing the FLSA start day, sourced from
 	 * org.joda.time.DateTimeConstants in the interval [1,7].
 	 */
@@ -131,4 +131,14 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 		}
 		return flsaBeginDayConstant;
 	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof PayCalendar) {
+            PayCalendar pc = (PayCalendar)o;
+            return this.getPayCalendarId().compareTo(pc.getPayCalendarId()) == 0;
+        } else {
+            return false;
+        }
+    }
 }

@@ -29,7 +29,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
 	@Override
 	public List<Assignment> getAssignments(String principalId, Date asOfDate) {
-		List<Assignment> assignments = new LinkedList<Assignment>();
+		List<Assignment> assignments;
 
 		if (asOfDate == null) {
 			asOfDate = TKUtils.getCurrentDate();
@@ -38,11 +38,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 		assignments = assignmentDao.findAssignments(principalId, asOfDate);
 
 		for(Assignment assignment: assignments){
-			assignment.setJob(TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate()));
-			assignment.setTimeCollectionRule(TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), asOfDate));
-			assignment.setWorkAreaObj(TkServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), asOfDate));
-			assignment.setDeptLunchRule(TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(assignment.getJob().getDept(),
-											assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));
+            populateAssignment(assignment, asOfDate);
 		}
 
 		return assignments;
@@ -75,6 +71,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 		return assignmentDescriptions;
 	}
 
+    @Override
 	public Map<String,String> getAssignmentDescriptions(Assignment assignment) {
 		if(assignment == null) {
 			throw new RuntimeException("Assignment is null");
@@ -104,15 +101,16 @@ public class AssignmentServiceImpl implements AssignmentService {
 		return new Assignment();
 	}
 
+    @Override
 	public Assignment getAssignment(String tkAssignmentId) {
 		return getAssignmentDao().getAssignment(tkAssignmentId);
 	}
 
+    @Override
 	public List<Assignment> getActiveAssignmentsForWorkArea(Long workArea, Date asOfDate){
 		List<Assignment> assignments = assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
 		for(Assignment assignment :assignments){
-			assignment.setJob(TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate()));
-			assignment.setTimeCollectionRule(TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), asOfDate));
+            populateAssignment(assignment, asOfDate);
 		}
 		return assignments;
 	}
@@ -121,5 +119,13 @@ public class AssignmentServiceImpl implements AssignmentService {
 	public List<Assignment> getActiveAssignments(Date asOfDate) {
 		return assignmentDao.getActiveAssignments(asOfDate);
 	}
+
+    private void populateAssignment(Assignment assignment, Date asOfDate) {
+        assignment.setJob(TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate()));
+        assignment.setTimeCollectionRule(TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), asOfDate));
+        assignment.setWorkAreaObj(TkServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), asOfDate));
+        assignment.setDeptLunchRule(TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(assignment.getJob().getDept(),
+                                        assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));
+    }
 
 }

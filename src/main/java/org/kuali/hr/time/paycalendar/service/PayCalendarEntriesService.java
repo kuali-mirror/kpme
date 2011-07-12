@@ -24,6 +24,9 @@ public interface PayCalendarEntriesService {
      */
 	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(Long payCalendarId, Date asOfDate);
 
+    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries pce);
+    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries pce);
+
     /**
      * Provides a list of PayCalendarEntries that are in the indicated window
      * of time from the as of date.

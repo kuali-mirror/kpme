@@ -25,7 +25,17 @@ public class PayCalendarEntriesServiceImpl implements PayCalendarEntriesService 
 		return payCalendarEntriesDao.getCurrentPayCalendarEntriesByPayCalendarId(payCalendarId, currentDate);
 	}
 
-	public List<PayCalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate){
+    @Override
+    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries pce) {
+        return payCalendarEntriesDao.getPreviousPayCalendarEntriesByPayCalendarId(payCalendarId, pce);
+    }
+
+    @Override
+    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries pce) {
+        return payCalendarEntriesDao.getNextPayCalendarEntriesByPayCalendarId(payCalendarId, pce);
+    }
+
+    public List<PayCalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate){
 		return payCalendarEntriesDao.getCurrentPayCalendarEntryNeedsScheduled(thresholdDays, asOfDate);
 	}
 

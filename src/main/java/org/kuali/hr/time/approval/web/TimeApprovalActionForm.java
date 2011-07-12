@@ -14,6 +14,8 @@ public class TimeApprovalActionForm extends TkForm {
 
     private static final long serialVersionUID = -173408280988754540L;
 
+    private Long payCalendarEntriesId;
+    private Long payCalendarId;
     private String name;
     private SortedSet<String> payCalendarGroups = new TreeSet<String>();
     private String selectedPayCalendarGroup;
@@ -36,6 +38,32 @@ public class TimeApprovalActionForm extends TkForm {
     private String sortField;
     private boolean ascending = true;
     private boolean ajaxCall = false;
+
+    private String calNav = null;
+
+    public String getCalNav() {
+        return calNav;
+    }
+
+    public void setCalNav(String calNav) {
+        this.calNav = calNav;
+    }
+
+    public Long getPayCalendarEntriesId() {
+        return payCalendarEntriesId;
+    }
+
+    public void setPayCalendarEntriesId(Long payCalendarEntriesId) {
+        this.payCalendarEntriesId = payCalendarEntriesId;
+    }
+
+    public Long getPayCalendarId() {
+        return payCalendarId;
+    }
+
+    public void setPayCalendarId(Long payCalendarId) {
+        this.payCalendarId = payCalendarId;
+    }
 
     /**
      * Gets the name of the user that this row represents.

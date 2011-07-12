@@ -1,22 +1,9 @@
 package org.kuali.hr.time.approval.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import org.joda.time.Hours;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -24,19 +11,76 @@ import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.clocklog.ClockLog;
+import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.util.*;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
+import java.math.BigDecimal;
+import java.util.*;
+
 public class TimeApproveServiceImpl implements TimeApproveService {
+
+    private static final Logger LOG = Logger.getLogger(TimeApproveServiceImpl.class);
+
+    public static final int DAYS_WINDOW_DELTA = 31;
+
+    @Override
+    public Map<String,PayCalendarEntries> getPayCalendarEntriesForApprover(Date currentDate) {
+        TKUser tkUser = TKContext.getUser();
+        Map<String,PayCalendarEntries> pceMap = new HashMap<String,PayCalendarEntries>();
+        Set<String> principals = new HashSet<String>();
+        DateTime minDt = new DateTime(currentDate, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
+        java.sql.Date windowDate = TKUtils.getTimelessDate(minDt.toDate());
+        Set<Long> approverWorkAreas = tkUser.getCurrentRoles().getApproverWorkAreas();
+
+        // Get all of the principals within our window of time.
+        for (Long waNum : approverWorkAreas) {
+            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, TKUtils.getTimelessDate(currentDate));
+
+            if (assignments != null) {
+                for (Assignment assignment : assignments) {
+                    principals.add(assignment.getPrincipalId());
+                }
+            } else {
+                assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, windowDate);
+                if (assignments != null) {
+                    for (Assignment assignment : assignments) {
+                        principals.add(assignment.getPrincipalId());
+                    }
+                }
+            }
+        }
+
+        // Get the pay calendars
+        Set<PayCalendar> payCals = new HashSet<PayCalendar>();
+        for (String pid : principals) {
+            PrincipalCalendar pc = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(pid, currentDate);
+            if (pc == null)
+                pc = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(pid, windowDate);
+
+            if (pc != null) {
+                payCals.add(pc.getPayCalendar());
+            } else {
+                LOG.warn("PrincipalCalendar null for principal: '" + pid + "'");
+            }
+        }
+
+        // Grab the pay calendar entries + groups
+        for (PayCalendar pc : payCals) {
+            PayCalendarEntries pce = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(pc.getPayCalendarId(), currentDate);
+            pceMap.put(pc.getCalendarGroup(), pce);
+        }
+
+        return pceMap;
+    }
 
 
     public SortedSet<String> getApproverPayCalendarGroups(Date payBeginDate, Date payEndDate) {
@@ -129,15 +173,15 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                         workAreas.add(tb.getWorkArea().toString());
                     }
                     approvalSummaryRow.setWorkAreas(workAreas.toArray(new String[workAreas.size()]));
-                    
+
                     //Compare last clock log versus now and if > threshold highlight entry
                     ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(person.getPrincipalId());
-                    if(lastClockLog != null && 
-                    		(StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_IN) || 
+                    if(lastClockLog != null &&
+                    		(StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_IN) ||
                     		StringUtils.equals(lastClockLog.getClockAction(), TkConstants.LUNCH_IN))){
                     	DateTime startTime = new DateTime(lastClockLog.getClockTimestamp().getTime());
                     	DateTime endTime = new DateTime(System.currentTimeMillis());
-                    	
+
                     	Hours hour = Hours.hoursBetween(startTime, endTime);
                     	if(hour!=null){
                     		int elapsedHours = hour.getHours();
@@ -145,7 +189,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                     			approvalSummaryRow.setClockedInOverThreshold(true);
                     		}
                     	}
-                    	
+
                     }
                     rows.add(approvalSummaryRow);
 
@@ -164,10 +208,15 @@ public class TimeApproveServiceImpl implements TimeApproveService {
      * for now this is a "future" TODO, to get this going.
      */
     public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, Long workArea) {
-        List<ApprovalTimeSummaryRow> rows = new ArrayList<ApprovalTimeSummaryRow>();
+        List<ApprovalTimeSummaryRow> rows;
 
         Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsMap(payBeginDate, payEndDate, calGroup, workArea);
         rows = mrows.get(calGroup);
+
+        if (rows == null) {
+            // Not sure if we want to return an empty list or null...
+            rows = new ArrayList<ApprovalTimeSummaryRow>();
+        }
 
         return rows;
     }

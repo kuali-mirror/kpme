@@ -10,6 +10,9 @@ public interface PayCalendarEntriesDao {
 	public PayCalendarEntries getPayCalendarEntries(Long payCalendarEntriesId);
 
 	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(Long payCalendarId, Date currentDate);
+    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries payCalendarEntries);
+    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries payCalendarEntries);
+
 
 	public List<PayCalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
 }

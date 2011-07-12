@@ -131,7 +131,7 @@ $(document).ready(function() {
     });
 
     $('.prev').click(function() {
-        window.location = "TimeApproval.do?calNav=prev&documentId=" + $("#documentId").val();
+        window.location = "TimeApproval.do?calNav=prev&payCalendarId=" + $("#pcid").val() + "&payCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val();
     });
 
     $('.next').button({
@@ -142,7 +142,7 @@ $(document).ready(function() {
     });
 
     $('.next').click(function() {
-        window.location = "TimeApproval.do?calNav=next&documentId=" + $("#documentId").val();
+        window.location = "TimeApproval.do?calNav=next&payCalendarId=" + $("#pcid").val() + "&payCalendarEntriesId=" + $("#pceid").val()  + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val();
     });
 
     $(" .approvals-warning, .approvals-note").tooltip({ effect: 'slide'});

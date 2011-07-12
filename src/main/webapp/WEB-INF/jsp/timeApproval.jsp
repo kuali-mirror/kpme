@@ -4,8 +4,9 @@
 
 <tk:tkHeader tabId="approvals">
     <html:hidden property="methodToCall" value=""/>
-    <html:hidden property="rowsInTotal" value="${fn:length(Form.approvalRows)}"/>
-    <%--<html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>--%>
+    <html:hidden styleId="rit"   property="rowsInTotal"              value="${fn:length(Form.approvalRows)}"/>
+    <html:hidden styleId="pcid"  property="payCalendarId"            value="${Form.payCalendarId}"/>
+    <html:hidden styleId="pceid" property="payCalendarEntriesId"     value="${Form.payCalendarEntriesId}"/>
 
     <div class="approvals">
         <table id="approvals-filter">

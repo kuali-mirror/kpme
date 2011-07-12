@@ -19,18 +19,17 @@ public interface PayCalendarService {
 	 * @return
 	 */
 	public PayCalendar getPayCalendarByGroup(String calendarGroup);
-	
+
 	/**
 	 * Returns the PayCalendarDates object that the provided parameters
 	 * fit into.
-	 * 
+	 *
 	 * @param principalId
-	 * @param job
 	 * @param currentDate
 	 * @return
 	 */
-	public PayCalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate);	
-	
+	public PayCalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate);
+
 	/**
 	 * Returns the Pay CalendarEntry for previous pay calendar
 	 * @param tkPayCalendarId

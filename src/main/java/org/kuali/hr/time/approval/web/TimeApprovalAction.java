@@ -6,6 +6,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONValue;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.paycalendar.PayCalendar;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -36,17 +38,61 @@ public class TimeApprovalAction extends TkAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         TKUser user = TKContext.getUser();
+        Date currentDate;
+        PayCalendarEntries selectedPayCalendarEntries = null;
+        PayCalendar currentPayCalendar = null;
 
-        // TOOD: need to figure out how to implement the navigation
-        Date currentDate = TKUtils.getTimelessDate(null);
-        // PayCalendarEntries pces = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getPrincipalId(), currentDate);
-        //taaf.setPayBeginDate(pces.getBeginPeriodDateTime());
-        //taaf.setPayEndDate(pces.getEndPeriodDateTime());
-        taaf.setPayBeginDate(TKUtils.createDate(6, 12, 2011, 0, 0, 0));
-        taaf.setPayEndDate(TKUtils.createDate(6, 26, 2011, 0, 0, 0));
+        // Set current pay calendar entries if present.
+        // Set Current Date
+        if (taaf.getPayCalendarEntriesId() != null) {
+            selectedPayCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(taaf.getPayCalendarEntriesId());
+            currentDate = selectedPayCalendarEntries.getBeginPeriodDate();
+        } else {
+            currentDate = TKUtils.getTimelessDate(null);
+        }
 
+        // Set pay calendar + current pay calendar entries if present.
+        if (taaf.getPayCalendarId() != null) {
+            currentPayCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(taaf.getPayCalendarId());
+            if (selectedPayCalendarEntries == null) {
+                selectedPayCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(taaf.getPayCalendarId(), currentDate);
+            }
+        }
+
+        if (currentPayCalendar != null && selectedPayCalendarEntries != null) {
+            if (StringUtils.equals(taaf.getCalNav(), "next")) {
+                PayCalendarEntries tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getNextPayCalendarEntriesByPayCalendarId(currentPayCalendar.getPayCalendarId(), selectedPayCalendarEntries);
+                if (tpce != null) {
+                    selectedPayCalendarEntries = tpce;
+                }
+            } else if (StringUtils.equals(taaf.getCalNav(), "prev")) {
+                PayCalendarEntries tpce  = TkServiceLocator.getPayCalendarEntriesSerivce().getPreviousPayCalendarEntriesByPayCalendarId(currentPayCalendar.getPayCalendarId(), selectedPayCalendarEntries);
+                if (tpce != null) {
+                    selectedPayCalendarEntries = tpce;
+                }
+            }
+        }
+
+        Map<String, PayCalendarEntries> currentPayCalendarEntries = TkServiceLocator.getTimeApproveService().getPayCalendarEntriesForApprover(currentDate);
+        SortedSet<String> calGroups = new TreeSet<String>(currentPayCalendarEntries.keySet());
+
+        // Check pay Calendar Group
+        if (StringUtils.isEmpty(taaf.getSelectedPayCalendarGroup())) {
+            taaf.setSelectedPayCalendarGroup(calGroups.first());
+        }
+
+        // Finally, set our entries, if not set already.
+        if (selectedPayCalendarEntries == null) {
+            selectedPayCalendarEntries = currentPayCalendarEntries.get(taaf.getSelectedPayCalendarGroup());
+        }
+
+        taaf.setPayCalendarId(selectedPayCalendarEntries.getPayCalendarId());
+        taaf.setPayCalendarEntriesId(selectedPayCalendarEntries.getPayCalendarEntriesId());
+        taaf.setPayBeginDate(selectedPayCalendarEntries.getBeginPeriodDateTime());
+        taaf.setPayEndDate(selectedPayCalendarEntries.getEndPeriodDateTime());
         taaf.setName(user.getPrincipalName());
-        taaf.setPayCalendarGroups(TkServiceLocator.getTimeApproveService().getApproverPayCalendarGroups(taaf.getPayBeginDate(), taaf.getPayEndDate()));
+
+        taaf.setPayCalendarGroups(calGroups);
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
         taaf.setApprovalRows(getApprovalRows(taaf));
 
