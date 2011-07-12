@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -24,16 +25,21 @@ import java.util.List;
 
 public class TkAction extends KualiAction {
 
+    private static final Logger LOG = Logger.getLogger(TkAction.class);
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward;
 
-        try {
+        LOG.info(TKContext.getTargetPrincipalId());
+        LOG.info(TKContext.getPrincipalId());
+
+        //try {
             forward = super.execute(mapping, form, request, response);
-        } catch (AuthorizationException e) {
+        //} catch (AuthorizationException e) {
             // This is a globally defined forward.
-            return mapping.findForward("unauthorized");
-        }
+        //    return mapping.findForward("unauthorized");
+       // }
 
         return forward;
     }
