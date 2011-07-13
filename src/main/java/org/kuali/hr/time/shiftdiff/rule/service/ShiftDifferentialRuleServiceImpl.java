@@ -180,15 +180,15 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 					DateTime shiftEnd = (ruleEnd.toLocalTime()).toDateTime(currentDay);
 					DateTime shiftStart = (ruleStart.toLocalTime()).toDateTime(currentDay);
-                    // TODO: Investigate this line:
-					if (shiftEnd.isBefore(shiftStart))
+                    // Investigate this line:
+					if (shiftEnd.isBefore(shiftStart) || shiftEnd.isEqual(shiftStart))
 						shiftEnd = shiftEnd.plusDays(1);
 					Interval shiftInterval = new Interval(shiftStart, shiftEnd);
 
-					// TODO : Set up buckets to handle previous days time accumulations
+					// Set up buckets to handle previous days time accumulations
 					BigDecimal hoursBeforeVirtualDay = BigDecimal.ZERO;
 
-					// TODO: Check current day first block to see if start time gap from virtual day start is greater than max gap
+					// Check current day first block to see if start time gap from virtual day start is greater than max gap
 					// if so, we can skip the previous day checks.
 					TimeBlock firstBlockOfCurrentDay = null;
 					for (TimeBlock b : ruleTimeBlocksCurr) {
@@ -198,7 +198,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 						}
 					}
 
-					// TODO: Previous Day :: We have prior block container of nonzero size, and the previous day is active.
+					// Previous Day :: We have prior block container of nonzero size, and the previous day is active.
 					Interval previousDayShiftInterval = new Interval(shiftStart.minusDays(1), shiftEnd.minusDays(1));
 
                     // Blank initialization pointer for picking which interval to pass to applyPremium()
@@ -207,7 +207,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 						// Simple heuristic to see if we even need to worry about
 						// the Shift rule for this set of data.
 						if (shiftEnd.isAfter(virtualDay.getEnd())) {
-							// TODO : Compare first block of previous day with first block of current day for max gaptitude.
+							// Compare first block of previous day with first block of current day for max gaptitude.
 							TimeBlock firstBlockOfPreviousDay = null;
 							for (TimeBlock b : ruleTimeBlocksPrev) {
 								if (timeBlockHasEarnCode(fromEarnGroup, b)) {
@@ -262,24 +262,32 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 					BigDecimal hoursToApply = BigDecimal.ZERO;
 					BigDecimal hoursToApplyPrevious = BigDecimal.ZERO;
-					// TODO: How many un-applied hours from the previous day
+					// How many un-applied hours from the previous day
 					if (hoursBeforeVirtualDay.compareTo(rule.getMinHours()) <= 0) {
 						// we need to apply these hours.
 						hoursToApplyPrevious = hoursBeforeVirtualDay;
 					}
 
 
-					// TODO: Current Day
+					//  Current Day
 
 					TimeBlock previous = null; // Previous Time Block
 					List<TimeBlock> accumulatedBlocks = new ArrayList<TimeBlock>(); // TimeBlocks we MAY or MAY NOT apply Shift Premium to.
                     List<Interval> accumulatedBlockIntervals = new ArrayList<Interval>(); // To save recompute time when checking timeblocks for application we store them as we create them.
 					// Iterate over sorted list, checking time boundaries vs Shift Intervals.
 					long accumulatedMillis = TKUtils.convertHoursToMillis(hoursBeforeVirtualDay);
-                    boolean previousDayOnly = false; // IF the rule is not active today, but was on the previous day, we need to still look at time blocks.
 
+                    // TODO: It appears that the dayIsRuleActive isn't taken into consideration at all.
+
+                    boolean previousDayOnly = false; // IF the rule is not active today, but was on the previous day, we need to still look at time blocks.
                     if (!dayIsRuleActive(currentDay, rule)) {
-                        previousDayOnly = dayIsRuleActive(currentDay.minusDays(1), rule);
+                        if (dayIsRuleActive(currentDay.minusDays(1), rule)) {
+                            previousDayOnly = true;
+                        } else {
+                            // Nothing to see here, move to next rule.
+                            continue;
+                        }
+
                     }
 
 					/*

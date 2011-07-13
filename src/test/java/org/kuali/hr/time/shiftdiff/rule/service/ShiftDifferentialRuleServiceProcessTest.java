@@ -163,7 +163,6 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		// Verify carry over and applied PRM bucket
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 		TkTestUtils.verifyAggregateHourSumsFlatList("September Post-Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal("14.75"));put("RGN", new BigDecimal(20));}},aggregate);
-
 	}
 
 
