@@ -96,4 +96,6 @@ public interface TimeBlockService {
 										Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean isClockLogCreated);
 	
 	public Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd);
+	
+	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 }

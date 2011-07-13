@@ -80,7 +80,15 @@
 						<input type="button" class="button" value="Submit" name="changeEmployee" onclick="this.form.methodToCall.value='changeEmployee'; this.form.submit();">
 						<input type="button" class="button" value="Clear" name="clearChangeEmployee" onclick="this.form.methodToCall.value='clearChangeEmployee'; this.form.submit();">
 	                </td>
-	            </tr>	            
+	            </tr>	   
+	            <tr/>
+	            <tr class="header"><td><b>Delete Timesheet</b></td></tr>
+	            <tr>
+	                <td>
+						<html:text property="deleteDocumentId" size="20" />
+						<input type="button" class="button" value="Submit" name="deleteTimesheet" onclick="this.form.methodToCall.value='deleteTimesheet'; this.form.submit();">
+	                </td>
+	            </tr>	                     
 		  </table>
 	  </html:form>
     </div>

@@ -98,4 +98,13 @@ public class AdminAction extends TkAction {
     	
     	return mapping.findForward("basic");
     }
+    
+    public ActionForward deleteTimesheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	AdminActionForm adminForm = (AdminActionForm) form;
+    	String documentId = adminForm.getDeleteDocumentId();
+    	if(StringUtils.isNotBlank(documentId)){
+    		TkServiceLocator.getTimesheetService().deleteTimesheet(documentId);
+    	}
+    	return mapping.findForward("basic");
+    }
 }

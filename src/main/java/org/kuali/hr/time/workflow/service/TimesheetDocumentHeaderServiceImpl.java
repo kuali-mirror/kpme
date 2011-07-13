@@ -58,4 +58,10 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
     public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate) {
         return documentHeaderDao.getDocumentHeaders(payBeginDate);
     }
+
+	@Override
+	public void deleteTimesheetHeader(String documentId) {
+		documentHeaderDao.deleteTimesheetHeader(documentId);
+		
+	}
 }

@@ -1,12 +1,13 @@
 package org.kuali.hr.time.timesheet.web;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkForm;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 public class TimesheetActionForm extends TkForm {
 
@@ -15,7 +16,6 @@ public class TimesheetActionForm extends TkForm {
 	 */
 	private static final long serialVersionUID = 6938733178369007689L;
 	private TimesheetDocument timesheetDocument;
-	private String documentId;
 
 
 	/**Job Number -> Formatted department earn codes  */
@@ -27,6 +27,7 @@ public class TimesheetActionForm extends TkForm {
 	private String selectedEarnCode;
 
 	private String calNav;
+	private String documentId;
 
 	private java.util.Date beginPeriodDateTime;
 	private java.util.Date endPeriodDateTime;
@@ -34,7 +35,7 @@ public class TimesheetActionForm extends TkForm {
 	@Override
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
 		super.reset(mapping, request);
-		this.documentId = "";
+		setDocumentId("");
 	}
 
 	public TimesheetDocument getTimesheetDocument() {
@@ -108,6 +109,7 @@ public class TimesheetActionForm extends TkForm {
 	public void setDocumentId(String documentId) {
 		this.documentId = documentId;
 	}
+
 
 
 }

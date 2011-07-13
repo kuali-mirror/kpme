@@ -14,6 +14,7 @@ public class TkForm extends KualiForm {
 
 	private String methodToCall;
 	private String principalId;
+	
 
 	public String getMethodToCall() {
 		return methodToCall;
@@ -39,4 +40,8 @@ public class TkForm extends KualiForm {
 		return ConfigContext.getCurrentContextConfig().getProperty("workflow.url");
 	}
 
+
+	public String getDocumentIdFromContext(){
+		return TKContext.getCurrentTimesheetDocumentId();
+	}
 }

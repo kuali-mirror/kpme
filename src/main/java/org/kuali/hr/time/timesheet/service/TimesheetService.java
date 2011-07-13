@@ -57,4 +57,9 @@ public interface TimesheetService {
 	 * @param endDate
 	 */
 	public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, Date beginDate, Date endDate);
+	/**
+	 * Delete a timesheet(used for testing only)
+	 * @param documentId
+	 */
+	public void deleteTimesheet(String documentId);
 }

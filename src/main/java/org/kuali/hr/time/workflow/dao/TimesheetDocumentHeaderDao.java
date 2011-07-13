@@ -18,4 +18,6 @@ public interface TimesheetDocumentHeaderDao {
     public TimesheetDocumentHeader getNextDocumentHeader(String principalId, Date payEndDate);
 
     public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate);
+    
+    public void deleteTimesheetHeader(String documentId);
 }

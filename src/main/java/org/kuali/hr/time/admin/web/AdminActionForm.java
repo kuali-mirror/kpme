@@ -8,6 +8,7 @@ public class AdminActionForm extends TkForm {
 
     private String backdoorPrincipalName;
     private String changeTargetPrincipalName;
+    private String deleteDocumentId;
 
     public String getBackdoorPrincipalName() {
         return backdoorPrincipalName;
@@ -23,6 +24,14 @@ public class AdminActionForm extends TkForm {
 
 	public void setChangeTargetPrincipalName(String changeTargetPrincipalName) {
 		this.changeTargetPrincipalName = changeTargetPrincipalName;
+	}
+
+	public String getDeleteDocumentId() {
+		return deleteDocumentId;
+	}
+
+	public void setDeleteDocumentId(String deleteDocumentId) {
+		this.deleteDocumentId = deleteDocumentId;
 	}
 
 }

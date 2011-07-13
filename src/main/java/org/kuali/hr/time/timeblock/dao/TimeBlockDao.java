@@ -15,5 +15,7 @@ public interface TimeBlockDao {
 	public TimeBlock getTimeBlock(Long timeBlockId);
 	
 	public List<TimeBlock> getTimeBlocks(Long documentId);
+	
+	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 
 }

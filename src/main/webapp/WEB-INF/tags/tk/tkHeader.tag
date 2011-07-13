@@ -63,6 +63,12 @@
                     <td align="right">${prefix} <bean:message key="person.info.employeeId"/>:</td>
                     <td>${person.name}</td>
                 </tr>
+                <c:if test="${form.documentIdFromContext ne null}">
+                	<tr>
+                		<td align="right">${prefix} <bean:message key="approval.documentId"/>:</td>
+                		<td>${form.documentIdFromContext}</td>
+                	</tr>
+                </c:if>
             </table>
         </div>
         <tk:tabs/>

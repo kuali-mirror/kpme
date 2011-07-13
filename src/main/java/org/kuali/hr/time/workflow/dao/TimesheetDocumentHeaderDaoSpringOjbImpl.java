@@ -25,6 +25,12 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PersistenceBrokerDa
             this.getPersistenceBrokerTemplate().store(documentHeader);
         }
     }
+    
+    public void deleteTimesheetHeader(String documentId){
+        Criteria crit = new Criteria();
+        crit.addEqualTo("documentId", documentId);
+        this.getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(TimesheetDocumentHeader.class, crit));
+    }
 
     @Override
     public TimesheetDocumentHeader getTimesheetDocumentHeader(String principalId, Date payBeginDate, Date payEndDate) {

@@ -1,5 +1,12 @@
 package org.kuali.hr.time.timesheet.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
@@ -18,13 +25,8 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowDocument;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class TimesheetServiceImpl implements TimesheetService {
 
@@ -187,6 +189,12 @@ public class TimesheetServiceImpl implements TimesheetService {
 			isSynchronousUser &= assignment.isSynchronous();
 		}
 		return isSynchronousUser;
+	}
+	
+	//this is an admin function used for testing
+	public void deleteTimesheet(String documentId){
+		TkServiceLocator.getTimeBlockService().deleteTimeBlocksAssociatedWithDocumentId(documentId);
+		TkServiceLocator.getTimesheetDocumentHeaderService().deleteTimesheetHeader(documentId);
 	}
 
 }

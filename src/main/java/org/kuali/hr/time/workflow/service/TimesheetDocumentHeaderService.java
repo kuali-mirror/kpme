@@ -42,4 +42,6 @@ public interface TimesheetDocumentHeaderService {
     TimesheetDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId, String documentId);
 
     public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate);
+    
+    public void deleteTimesheetHeader(String documentId);
 }

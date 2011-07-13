@@ -354,4 +354,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
         return timeBlocks;
     }
+
+	@Override
+	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId) {
+		timeBlockDao.deleteTimeBlocksAssociatedWithDocumentId(documentId);
+	}
 }
