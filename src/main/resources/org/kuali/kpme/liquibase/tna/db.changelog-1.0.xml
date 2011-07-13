@@ -206,6 +206,9 @@
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
+            <column name="timezone" type="VARCHAR(10)">
+            	<constraints nullable="false"/>
+            </column>
             <column name="active" type="BIT"/>
             <column name="user_principal_id" type="VARCHAR(40)"/>
         </createTable>
@@ -1523,6 +1526,9 @@
             <column name="OBJ_ID" type="VARCHAR(36)">
                 <constraints nullable="false"/>
             </column>
+            <column name="timezone" type="VARCHAR(10)">
+            	<constraints nullable="false"/>
+            </column>            
             <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
                 <constraints nullable="false"/>
             </column>
