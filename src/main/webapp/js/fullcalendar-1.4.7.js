@@ -1014,12 +1014,16 @@
                 if (options.weekMode == 'fixed') {
                     addDays(visEnd, (6 - rowCnt) * 7);
                     dayCnt = Math.ceil((endPeriodDate - beginPeriodDate) / (DAY_MS));
-                    rowCnt = Math.ceil((endPeriodDate - beginPeriodDate) / (DAY_MS * 7));
-                    // deal with the case where the end date is the first day of the week
-                    if (dayCnt % 7 >= 0) {
-                        rowCnt++;
+//                    rowCnt = Math.ceil((endPeriodDate - beginPeriodDate) / (DAY_MS * 7));
+                    rowCnt = Math.ceil(dayCnt/7);
+                    // handle the case when day count is exact division of 7 yet days cover more weeks
+                    if(dayCnt%7 == 0 && endPeriodDate.getDay() != 6) {
+                    	rowCnt ++;
                     }
-                   
+                    // handle the case when reminder of dayCnt%7 spreads to two weeks
+                    if((7 - beginPeriodDate.getDay()) < dayCnt%7) {
+                    	rowCnt ++;
+                    }
                 }
                 // title
                 this.title = formatDate(
@@ -1027,7 +1031,6 @@
                         this.option('titleFormat'),
                         options
                         );
-
                 this.renderGrid(
                         rowCnt, options.weekends ? 7 : 5,
                         this.option('columnFormat'),
