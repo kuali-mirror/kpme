@@ -36,7 +36,7 @@ public class PersonInfoAction extends TkAction {
 		ActionForward actForw =  super.execute(mapping, form, request, response);
 		PersonInfoActionForm personForm = (PersonInfoActionForm)form;
 		//TODO make this applicable for the given timesheet
-		List<Assignment> lstAssign = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
+		List<Assignment> lstAssign = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
 		Map<Long,List<Assignment>> jobNumberToListAssignments = new HashMap<Long,List<Assignment>>();
 		Map<Long,List<TkRole>> workAreaToApprover = new HashMap<Long,List<TkRole>>();
 		Map<String,List<TkRole>> deptToOrgAdmin = new HashMap<String,List<TkRole>>();
@@ -54,7 +54,7 @@ public class PersonInfoAction extends TkAction {
 			List<TkRole> lstOrgAdminRoles = TkServiceLocator.getTkRoleService().getDepartmentRoles(assign.getWorkAreaObj().getDept(),
 													TkConstants.ROLE_TK_ORG_ADMIN, TKUtils.getCurrentDate());
 			deptToOrgAdmin.put(assign.getWorkAreaObj().getDept(), lstOrgAdminRoles);
-			
+
 			for(TkRole role : lstOrgAdminRoles){
 				if(StringUtils.isNotBlank(role.getPrincipalId())){
 					Person orgAdmin = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
