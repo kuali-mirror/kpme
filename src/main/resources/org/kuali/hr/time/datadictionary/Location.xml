@@ -19,6 +19,7 @@
 			<list>
 				<ref bean="Location-hrLocationId" />
 				<ref bean="Location-location" />
+				<ref bean="Location-timezone" />
 				<ref bean="Location-description" />
 				<ref bean="Location-effectiveDate" />
 				<ref bean="Location-active" />
@@ -60,6 +61,23 @@
 		</property>
 		<property name="name" value="location" />
 		<property name="label" value="Location" />
+	</bean>
+	
+	<bean id="Location-timezone" parent="Location-timezone-parentBean" />
+	<bean id="Location-timezone-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timezone" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="timezone" />
+		<property name="label" value="Timezone" />
 	</bean>
 
 	<bean id="Location-description" parent="Location-description-parentBean" />
@@ -183,6 +201,7 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="location" />
+				<bean parent="FieldDefinition" p:attributeName="timezone" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />

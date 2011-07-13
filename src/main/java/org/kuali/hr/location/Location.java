@@ -18,6 +18,7 @@ public class Location extends HrBusinessObject {
 	private static final long serialVersionUID = 1L;
 	private Long hrLocationId;
 	private String location;
+	private String timezone;
 	private String description;
 	private String userPrincipalId;
 	
@@ -42,6 +43,14 @@ public class Location extends HrBusinessObject {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getTimezone() {
+		return timezone;
+	}
+
+	public void setTimezone(String timezone) {
+		this.timezone = timezone;
 	}
 
 	public String getDescription() {
