@@ -206,7 +206,7 @@
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="timezone" type="VARCHAR(10)" defaultValue="America\Indianapolis">
+            <column name="timezone" type="VARCHAR(10)" defaultValue="America\\Indianapolis">
             	<constraints nullable="false"/>
             </column>
             <column name="active" type="BIT"/>
