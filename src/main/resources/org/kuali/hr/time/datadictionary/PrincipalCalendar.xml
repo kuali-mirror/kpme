@@ -23,6 +23,7 @@
 				<ref bean="PrincipalCalendar-name" />
 				<ref bean="PrincipalCalendar-calendarGroup" />
 				<ref bean="PrincipalCalendar-holidayCalendarGroup" />
+				<ref bean="PrincipalCalendar-timezone" />
 				<ref bean="PrincipalCalendar-effectiveDate" />
 				<ref bean="PrincipalCalendar-timestamp" />
 				<ref bean="PrincipalCalendar-active"/>
@@ -101,6 +102,23 @@
 		</property>
 		<property name="name" value="calendarGroup" />
 		<property name="label" value="Calendar Group" />
+	</bean>
+	
+	<bean id="PrincipalCalendar-timezone" parent="PrincipalCalendar-timezone-parentBean" />
+	<bean id="PrincipalCalendar-timezone-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timezone" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="timezone" />
+		<property name="label" value="Timezone" />
 	</bean>
 	
 	<!-- timestamp -->
@@ -205,6 +223,7 @@
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="calendarGroup" />
 				<bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup" />
+				<bean parent="FieldDefinition" p:attributeName="timezone" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 			</list>

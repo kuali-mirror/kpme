@@ -19,6 +19,7 @@ public class PrincipalCalendar extends HrBusinessObject {
 	private String principalId;
 	private String calendarGroup;
 	private String holidayCalendarGroup;
+	private String timezone;
 	
 	private PayCalendar payCalendar;
 	private HolidayCalendar holidayCalendar;
@@ -61,6 +62,14 @@ public class PrincipalCalendar extends HrBusinessObject {
 
 	public void setHolidayCalendarGroup(String holidayCalendarGroup) {
 		this.holidayCalendarGroup = holidayCalendarGroup;
+	}
+
+	public String getTimezone() {
+		return timezone;
+	}
+
+	public void setTimezone(String timezone) {
+		this.timezone = timezone;
 	}
 
 	public Date getEffectiveDate() {
