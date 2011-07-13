@@ -32,6 +32,14 @@ public interface UserRoles {
      */
     public boolean isAnyApproverActive();
 
+
+    /**
+     * Does the current user have any role that grants permission to approve
+     * timesheets?
+     * @return true if yes, false otherwise.
+     */
+    public boolean isTimesheetApprover();
+
     /**
      * Does the current user have the Global View Only role?
      *

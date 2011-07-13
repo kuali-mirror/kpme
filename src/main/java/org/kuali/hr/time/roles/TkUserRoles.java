@@ -176,6 +176,11 @@ public class TkUserRoles implements UserRoles {
     }
 
     @Override
+    public boolean isTimesheetApprover() {
+        return this.isSystemAdmin() || this.approverRoles.size() > 0 || this.processorRolesWorkArea.size() > 0 || this.orgAdminRolesDept.size() > 0;
+    }
+
+    @Override
     public boolean isAnyApproverActive() {
         return this.approverRoles.size() > 0;
     }
