@@ -102,10 +102,14 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 		}
 		//Active = Yes and Show History = No
 		//return all active records as of today and any active future rows
+		//if there is an inactive record before the active one then do not show the results as this record is inactive
 		else if(StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)){
 			for(List<HrBusinessObject> lstHrBus : hrBusinessMap.values()){
 				for(HrBusinessObject hrBusinessObject : lstHrBus){
-					if(hrBusinessObject.isActive()){
+					if(!hrBusinessObject.isActive()){
+						break;
+					}
+					else {
 						if(hrBusinessObject.getEffectiveDate().before(currDate)){
 							finalBusinessObjectList.add(hrBusinessObject);
 							break;
@@ -118,10 +122,14 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 		}
 		//Active = Yes and Show History = Yes
 		//return all active records from database
+		//if there is an inactive record before the active one then do not show the results as this record is inactive
 		else if(StringUtils.equals(active, "Y") && StringUtils.equals("Y", showHistory)){
 			for(List<HrBusinessObject> lstHrBus : hrBusinessMap.values()){
 				for(HrBusinessObject hrBus : lstHrBus){
-					if(hrBus.isActive()){
+					if(!hrBus.isActive()){
+						break;
+					}
+					else {
 						finalBusinessObjectList.add(hrBus);			
 					}
 				}
