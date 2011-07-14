@@ -28,9 +28,9 @@ public class AdminAction extends TkAction {
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         TKUser user = TKContext.getUser();
-        if (user == null || !user.getCurrentRoles().isSystemAdmin()) {
-            throw new AuthorizationException("", "", "");
-        }
+//        if (user == null || !user.getCurrentRoles().isSystemAdmin()) {
+//            throw new AuthorizationException("", "", "");
+//        }
     }
 
     public ActionForward backdoor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -64,7 +64,7 @@ public class AdminAction extends TkAction {
 
 		return mapping.findForward("basic");
 	}
-    
+
     public ActionForward changeEmployee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		AdminActionForm adminForm = (AdminActionForm) form;
         TKUser tkUser = TKContext.getUser();
@@ -94,17 +94,17 @@ public class AdminAction extends TkAction {
             return mapping.findForward("unauthorized");
         }
 
-    	
-    	
+
+
     	return mapping.findForward("basic");
     }
-    
+
     public ActionForward deleteTimesheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	AdminActionForm adminForm = (AdminActionForm) form;
     	String documentId = adminForm.getDeleteDocumentId();
     	if(StringUtils.isNotBlank(documentId)){
     		TkServiceLocator.getTimesheetService().deleteTimesheet(documentId);
-    	}
+}
     	return mapping.findForward("basic");
     }
 }

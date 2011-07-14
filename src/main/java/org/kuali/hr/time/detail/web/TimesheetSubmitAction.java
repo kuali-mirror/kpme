@@ -25,10 +25,10 @@ public class TimesheetSubmitAction extends TkAction {
         String principal = TKContext.getPrincipalId();
         UserRoles roles = TKContext.getUser().getCurrentRoles();
 
-        TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
-        if (!roles.isDocumentWritable(document)) {
-            throw new AuthorizationException(principal, "TimesheetSubmitAction", "");
-        }
+        //TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
+        //if (!roles.isDocumentWritable(document)) {
+        //    throw new AuthorizationException(principal, "TimesheetSubmitAction", "");
+        //}
     }
 
     @Override

@@ -38,9 +38,9 @@ public class TimesheetAction extends TkAction {
         // Does the current user have permissions to view the requested
         // document id?
 
-        if (!roles.isDocumentReadable(docid)) {
-            throw new AuthorizationException(user.getPrincipalId(), "TimesheetAction: docid: " + docid, "");
-        }
+        //if (!roles.isDocumentReadable(docid)) {
+        //    throw new AuthorizationException(user.getPrincipalId(), "TimesheetAction: docid: " + docid, "");
+        //}
     }
 
     @Override

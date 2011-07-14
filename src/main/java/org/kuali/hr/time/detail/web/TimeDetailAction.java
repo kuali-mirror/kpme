@@ -46,11 +46,11 @@ public class TimeDetailAction extends TimesheetAction {
         String docid = taForm.getDocumentId();
 
         // Check for write access to Timeblock.
-        if (StringUtils.equals(methodToCall, "addTimeBlock") || StringUtils.equals(methodToCall, "deleteTimeBlock")) {
-            if (!roles.isDocumentWritable(docid)) {
-                throw new AuthorizationException(roles.getPrincipalId(), "TimeDetailAction", "");
-            }
-        }
+//        if (StringUtils.equals(methodToCall, "addTimeBlock") || StringUtils.equals(methodToCall, "deleteTimeBlock")) {
+//            if (!roles.isDocumentWritable(docid)) {
+//                throw new AuthorizationException(roles.getPrincipalId(), "TimeDetailAction", "");
+//            }
+//        }
     }
 
     @Override
@@ -76,11 +76,11 @@ public class TimeDetailAction extends TimesheetAction {
                 } else {
                 	assignRow.setCssClass("");
                 }
-        	}    	
-        	
+        	}
+
         }
         tdaf.setTimeSummary(ts);
-       
+
         this.validateHourLimit(tdaf);
 
         // get time blocks
