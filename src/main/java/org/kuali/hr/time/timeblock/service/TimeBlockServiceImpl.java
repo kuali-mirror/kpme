@@ -90,9 +90,11 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         for (Interval dayInt : dayIntervals) {
             //on second day of span so safe to assume doesnt go furthur than this
             if (firstDay != null) {
-                TimeBlock tb = createTimeBlock(timesheetDocument, new Timestamp(dayInt.getStartMillis()), endTimestamp, assignment, earnCode, hours, amount, isClockLogCreated);
-                lstTimeBlocks.add(tb);
-                break;
+            	if((dayInt.getStartMillis() - endTimestamp.getTime()) != 0){
+            		TimeBlock tb = createTimeBlock(timesheetDocument, new Timestamp(dayInt.getStartMillis()), endTimestamp, assignment, earnCode, hours, amount, isClockLogCreated);
+            		lstTimeBlocks.add(tb);
+            		break;
+            	}
             }
             if (dayInt.contains(beginTimestamp.getTime())) {
                 firstDay = dayInt;
