@@ -57,6 +57,7 @@ public class TKContext {
 			session.removeAttribute("PersonInfoActionForm");
 			session.removeAttribute("kewUserSession");
 			session.removeAttribute("UserSession");
+			getStorageMap().remove(TDOC_KEY);
 		}
 	}
 
