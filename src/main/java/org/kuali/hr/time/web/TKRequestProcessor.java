@@ -40,6 +40,7 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 	protected boolean processPreprocess(HttpServletRequest request, HttpServletResponse response) {
 		boolean status = super.processPreprocess(request, response);
 
+        TKContext.clear();
 		setUserOnContext(request);
 
 		return status;
