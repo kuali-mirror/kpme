@@ -47,20 +47,6 @@ public class TKContext {
 		TKContext.getStorageMap().put(USER_KEY, user);
 	}
 
-	public static void clearEverythingFromSession() {
-		if (getHttpServletRequest() != null) {
-			HttpSession session = getHttpServletRequest().getSession();
-			session.removeAttribute("TimeDetailActionForm");
-			session.removeAttribute("TimeApprovalActionForm");
-			session.removeAttribute("AdminActionForm");
-			session.removeAttribute("ClockActionForm");
-			session.removeAttribute("PersonInfoActionForm");
-			session.removeAttribute("kewUserSession");
-			session.removeAttribute("UserSession");
-			getStorageMap().remove(TDOC_KEY);
-		}
-	}
-
 	public static String getPrincipalId(){
 		if(getUser()!= null){
 			return getUser().getPrincipalId();
@@ -92,8 +78,6 @@ public class TKContext {
 	}
 
 	public static void clear() {
-		clearEverythingFromSession();
 		resetStorageMap();
-		
 	}
 }
