@@ -14,9 +14,7 @@ public class LogoutAction extends KualiAction {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-         TKContext.clear();
 		request.getSession().invalidate();
-
 		return mapping.findForward("basic");
     }
 }
