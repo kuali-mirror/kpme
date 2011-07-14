@@ -1,9 +1,11 @@
 package org.kuali.hr.time.util;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class TKContext {
 
@@ -45,9 +47,16 @@ public class TKContext {
 		TKContext.getStorageMap().put(USER_KEY, user);
 	}
 
-	public static void clearFormsFromSession() {
+	public static void clearEverythingFromSession() {
 		if (getHttpServletRequest() != null) {
-
+			HttpSession session = getHttpServletRequest().getSession();
+			session.removeAttribute("TimeDetailActionForm");
+			session.removeAttribute("TimeApprovalActionForm");
+			session.removeAttribute("AdminActionForm");
+			session.removeAttribute("ClockActionForm");
+			session.removeAttribute("PersonInfoActionForm");
+			session.removeAttribute("kewUserSession");
+			session.removeAttribute("UserSession");
 		}
 	}
 
@@ -82,6 +91,8 @@ public class TKContext {
 	}
 
 	public static void clear() {
+		clearEverythingFromSession();
 		resetStorageMap();
+		
 	}
 }

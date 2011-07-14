@@ -77,7 +77,7 @@
         </action>
 
         <action path="/Logout" scope="request" type="org.kuali.hr.time.base.web.LogoutAction">
-            <forward name="basic" path="/WEB-INF/jsp/loggedOut.jsp"/>
+            <forward name="basic" path="/WEB-INF/jsp/loggedOut.jsp" redirect="true"/>
         </action>
 
         <action path="/BatchJob" name="BatchJobActionForm" scope="request"
