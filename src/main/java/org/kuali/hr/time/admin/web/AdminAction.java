@@ -28,9 +28,9 @@ public class AdminAction extends TkAction {
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         TKUser user = TKContext.getUser();
-//        if (user == null || !user.getCurrentRoles().isSystemAdmin()) {
-//            throw new AuthorizationException("", "", "");
-//        }
+        if (user == null || !user.getCurrentRoles().isSystemAdmin()) {
+            throw new AuthorizationException("", "", "");
+        }
     }
 
     public ActionForward backdoor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -35,12 +35,12 @@ public class TimesheetAction extends TkAction {
         UserRoles roles = user.getCurrentRoles(); // either backdoor or actual
         String docid = taForm.getDocumentId();
 
-        // Does the current user have permissions to view the requested
-        // document id?
+//        Does the current user have permissions to view the requested
+//        document id?
 
-        //if (!roles.isDocumentReadable(docid)) {
-        //    throw new AuthorizationException(user.getPrincipalId(), "TimesheetAction: docid: " + docid, "");
-        //}
+        if (!roles.isDocumentReadable(docid)) {
+            throw new AuthorizationException(user.getPrincipalId(), "TimesheetAction: docid: " + docid, "");
+        }
     }
 
     @Override

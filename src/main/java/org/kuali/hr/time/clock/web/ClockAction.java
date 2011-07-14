@@ -51,16 +51,16 @@ public class ClockAction extends TimesheetAction {
         String docid = taForm.getDocumentId();
 
 //        // Check for write access to Timeblock.
-//        if (StringUtils.equals(methodToCall, "clockAction") ||
-//                StringUtils.equals(methodToCall, "addTimeBlock") ||
-//                StringUtils.equals(methodToCall, "editTimeBlock") ||
-//                StringUtils.equals(methodToCall, "distributeTimeBlocks") ||
-//                StringUtils.equals(methodToCall, "saveNewTimeBlocks") ||
-//                StringUtils.equals(methodToCall, "deleteTimeBlock")) {
-//            if (!roles.isDocumentWritable(docid)) {
-//                throw new AuthorizationException(roles.getPrincipalId(), "ClockAction", "");
-//            }
-//        }
+        if (StringUtils.equals(methodToCall, "clockAction") ||
+                StringUtils.equals(methodToCall, "addTimeBlock") ||
+                StringUtils.equals(methodToCall, "editTimeBlock") ||
+                StringUtils.equals(methodToCall, "distributeTimeBlocks") ||
+                StringUtils.equals(methodToCall, "saveNewTimeBlocks") ||
+                StringUtils.equals(methodToCall, "deleteTimeBlock")) {
+            if (!roles.isDocumentWritable(docid)) {
+                throw new AuthorizationException(roles.getPrincipalId(), "ClockAction", "");
+            }
+        }
     }
 
 
