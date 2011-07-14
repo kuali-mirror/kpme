@@ -108,14 +108,14 @@
 	<bean id="PrincipalCalendar-timezone-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Timezone" />
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="30" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+			<bean parent="TextControlDefinition" p:size="20" />
 		</property>
 		<property name="name" value="timezone" />
 		<property name="label" value="Timezone" />
