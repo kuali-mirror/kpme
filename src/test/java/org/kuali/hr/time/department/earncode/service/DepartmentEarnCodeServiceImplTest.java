@@ -30,6 +30,12 @@ public class DepartmentEarnCodeServiceImplTest extends TkTestCase {
 		// Testing Wildcard on department.
 		List<DepartmentEarnCode> departmentEarnCodes = departmentEarnCodeService.getDepartmentEarnCodes(TEST_LORA, TEST_SAL_GROUP_A10, TEST_LOCATION, TEST_DATE);
 		assertEquals("Wrong number of earn codes returned.", 5, departmentEarnCodes.size());
+		// Test sorting of earn codes
+		assertEquals("First Earn Code should be RGH", "RGH", departmentEarnCodes.get(0).getEarnCode());
+		assertEquals("Second Earn Code should be SCK", "SCK", departmentEarnCodes.get(1).getEarnCode());
+		assertEquals("Third Earn Code should be VAC", "VAC", departmentEarnCodes.get(2).getEarnCode());
+		assertEquals("Forth Earn Code should be XYZ", "XYZ", departmentEarnCodes.get(3).getEarnCode());
+		assertEquals("Fifth Earn Code should be XZZ", "XZZ", departmentEarnCodes.get(4).getEarnCode());
 		
 		for (DepartmentEarnCode ec : departmentEarnCodes) {
 			assertTrue("Wrong department earn code.", ((ec.getDept()).equals("LORA-DEPT") || (ec.getDept()).equals("%")) );

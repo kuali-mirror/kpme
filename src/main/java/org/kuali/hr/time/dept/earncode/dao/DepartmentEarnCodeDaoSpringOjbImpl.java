@@ -1,11 +1,12 @@
 package org.kuali.hr.time.dept.earncode.dao;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
@@ -98,13 +99,10 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
 		
-		root.addOrderBy("dept",false);
-		root.addOrderBy("tkSalGroup", false);
-		root.addOrderBy("location", false);
+		root.addOrderBy("earnCode", true);
 		
 		Query query = QueryFactory.newQuery(DepartmentEarnCode.class, root);
 		
-		@SuppressWarnings("rawtypes")
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		
 		if (c != null) {
@@ -112,17 +110,15 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		}
 		
 		//Now we can have duplicates so remove any that match more than once
-		Map<String,DepartmentEarnCode> earnCodeToDecMap = new HashMap<String,DepartmentEarnCode>();
+		Set<String> aSet = new HashSet<String>();
+		List<DepartmentEarnCode> aList = new ArrayList<DepartmentEarnCode>();
 		for(DepartmentEarnCode dec : decs){
-			if(!earnCodeToDecMap.containsKey(dec.getEarnCode())){
-				earnCodeToDecMap.put(dec.getEarnCode(), dec);
-			}
+			if(!aSet.contains(dec.getEarnCode())){
+				aList.add(dec);
+				aSet.add(dec.getEarnCode());
+			} 
 		}
-		
-		decs.removeAll(decs);
-		decs.addAll(earnCodeToDecMap.values());
-
-		return decs;
+		return aList;
 	}
 	
 }
