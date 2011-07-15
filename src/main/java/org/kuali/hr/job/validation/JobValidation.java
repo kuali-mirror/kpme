@@ -2,6 +2,7 @@ package org.kuali.hr.job.validation;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -94,6 +95,18 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 			return true;
 		}
 	}
+	
+	boolean validatePrimaryIndicator(Job job) {
+		boolean valid = true;
+		if (job.getPrimaryIndicator()) {
+			Job existingJob = TkServiceLocator.getJobSerivce().getPrimaryJob(job.getPrincipalId(), TKUtils.getCurrentDate());
+			if (existingJob != null && existingJob.getPrimaryIndicator()) {
+				this.putFieldError("primaryIndicator", "error.primary.job.already.exist", job.getPrincipalId());
+				valid = false;
+			}
+		}
+		return valid;
+	}
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
@@ -114,6 +127,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 				valid &= this.validateLocation(job);
 				valid &= this.validatePayType(job);
 				valid &= this.validatePayGrade(job);
+				valid &= this.validatePrimaryIndicator(job);
 			}
 		}
 		return valid;
