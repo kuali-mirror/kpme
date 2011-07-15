@@ -66,6 +66,16 @@
                     <finalApproval>true</finalApproval>
                 </requests>
             </routeNodes>
+            <policies>
+                <policy>
+                    <name>INITIATOR_MUST_CANCEL</name>
+                    <value>false</value>
+                </policy>
+                <policy>
+                    <name>INITIATOR_MUST_ROUTE</name>
+                    <value>false</value>
+                </policy>
+            </policies>
         </documentType>
      </documentTypes>
 
@@ -86,4 +96,5 @@
 			</responsibilities>
     </rule>
  	</rules>
+
 </data>

@@ -110,13 +110,9 @@ public class TKRequestProcessor extends KualiRequestProcessor {
                 // we may be changing target principal here
                 TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
                 TimesheetDocumentHeader tdh = document.getDocumentHeader();
-                UserRoles currentRoles = TKContext.getUser().getCurrentRoles();
-
-                if (currentRoles.isDocumentReadable(document)) {
-                    targetPrincipal = tdh.getPrincipalId();
-                    request.getSession(false).setAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY, targetPrincipal);
-                    request.getSession(false).setAttribute(TkConstants.TK_REFERRAL_URL_KEY, referer);
-                }
+                targetPrincipal = tdh.getPrincipalId();
+                request.getSession(false).setAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY, targetPrincipal);
+                request.getSession(false).setAttribute(TkConstants.TK_REFERRAL_URL_KEY, referer);
             }
         } else if (StringUtils.equalsIgnoreCase(useTargetUser, "false")) {
             request.getSession(false).removeAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY);

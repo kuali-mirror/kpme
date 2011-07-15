@@ -9,6 +9,10 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class WorkflowTagSupport {
 
+    public String getDocumentId() {
+        return TKContext.getCurrentTimesheetDocumentId();
+    }
+
     public boolean isDisplayingRouteButton() {
         return true;
     }

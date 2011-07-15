@@ -8,7 +8,7 @@
     <c:if test="${tagSupport.displayingRouteButton}">
         <c:choose>
             <c:when test="${tagSupport.routeButtonEnabled}">
-                <input id="ts-route-button" type="button" class="button" value="Submit for Approval" name="route" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.routeAction}'"/>
+                <input id="ts-route-button" type="button" class="button" value="Submit for Approval" name="route" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.routeAction}&documentId=${tagSupport.documentId}'"/>
             </c:when>
             <c:otherwise>
                 <input disabled id="ts-route-button" type="button" class="button" value="Submit for Approval" name="route"/>
@@ -21,7 +21,7 @@
         <c:choose>
             <c:when test="${tagSupport.approvalButtonsEnabled}">
                 <input type="button" id="ts-approve-button" class="button" value="Approve" name="approve" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.approveAction}'"/>
-                <!--<input type="button" id="ts-disapprove-button" class="button" value="Disapprove" name="disapprove" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.disapproveAction}'"/>-->
+                <!--<input type="button" id="ts-disapprove-button" class="button" value="Disapprove" name="disapprove" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.disapproveAction}&documentId=${tagSupport.documentId}'"/>-->
             </c:when>
             <c:otherwise>
                 <input disabled id="ts-approve-button" type="button" class="button" value="Approve" name="approve"/>

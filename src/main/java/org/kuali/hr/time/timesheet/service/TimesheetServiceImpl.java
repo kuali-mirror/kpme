@@ -190,7 +190,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		}
 		return isSynchronousUser;
 	}
-	
+
 	//this is an admin function used for testing
 	public void deleteTimesheet(String documentId){
 		TkServiceLocator.getTimeBlockService().deleteTimeBlocksAssociatedWithDocumentId(documentId);
