@@ -191,7 +191,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
         //If earn code has an inflate factor multiple hours specified by the factor
         if (earnCodeObj.getInflateFactor() != null) {
-            if ((earnCodeObj.getInflateFactor().compareTo(new BigDecimal(1.0)) != 0)) {
+            if ((earnCodeObj.getInflateFactor().compareTo(new BigDecimal(1.0)) != 0) 
+            		&& (earnCodeObj.getInflateFactor().compareTo(BigDecimal.ZERO)!= 0) ) {
                 hours = earnCodeObj.getInflateFactor().multiply(hours, TkConstants.MATH_CONTEXT);
             }
         }
@@ -258,6 +259,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
             	cssClass = aMap.get(timeBlock.getAssignmentKey());
             }
             timeBlockMap.put("assignmentCss", cssClass);
+            timeBlockMap.put("editable",  isTimeBlockEditable(timeBlock.getUserPrincipalId()));
 
             // DateTime object in jodatime is immutable. If manipulation of a datetime obj is necessary, use MutableDateTime instead.
             MutableDateTime start = timeBlock.getBeginTimeDisplay().toMutableDateTime();
@@ -361,4 +363,20 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId) {
 		timeBlockDao.deleteTimeBlocksAssociatedWithDocumentId(documentId);
 	}
+	
+	@Override
+	// figure out if the user has permission to edit/delete the time block
+	public String isTimeBlockEditable(String creatorId) {
+		String userId = TKContext.getUser().getPrincipalId();
+		if(userId != null ) {
+			if(userId.equals(creatorId)) {
+				return "true";				// if the user is the creator of this time block
+			} else {
+				if(TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().getCurrentRoles().isTimesheetApprover())
+					return "true";
+			}
+		} 
+		return "false";
+	}
+
 }

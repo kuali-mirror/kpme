@@ -1751,10 +1751,17 @@
                 	timeBlockTitle = "Lunch Deducted";
                 }
             });
+            
+            var titleString = "";
+            if(event.editable == "true") {
+            	titleString = "<div id='timeblock-edit'><img class='timeblock-delete' src='images/delete.png'/>" + timeBlockTitle + "</div>";
+            } else {
+            	titleString = "<div id='timeblock-readOnly'>" + timeBlockTitle + "</div>";
+            }
 
             html +=
                     "<div class='" + className + event.className.join(' ') + " timeblock' style='position:absolute;z-index:8;left:" + left + "px;margin-bottom:3px;' id='" + event.id + "'>" +
-                            "<div id='timeblock-edit'><img class='timeblock-delete' src='images/delete.png'/>" + timeBlockTitle + "</div>" +
+                            titleString +
                             fromTo +
                             "<table style='font-size:0.7em;'>" +
                             timeHourDetail +

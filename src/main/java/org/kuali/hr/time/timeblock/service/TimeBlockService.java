@@ -98,4 +98,6 @@ public interface TimeBlockService {
 	public Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd);
 	
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
+	
+	public String isTimeBlockEditable(String creatorId);
 }

@@ -474,6 +474,13 @@ select {
     text-align: center;
 }
 
+.timeblock #timeblock-readOnly {
+    font-size: .7em;
+    font-weight: bold;
+    /*margin: 0 auto 0 auto;*/
+    text-align: center;
+	}
+
 .timeblock .timeblock-detail {
     font-size: .7em;
     margin: 0 auto 0 auto;
