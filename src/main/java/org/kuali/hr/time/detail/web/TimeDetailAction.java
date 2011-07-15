@@ -320,14 +320,35 @@ public class TimeDetailAction extends TimesheetAction {
         //------------------------
         if (tdaf.getTkTimeBlockId() == null) {
             Interval addedTimeblockInterval = new Interval(startTime, endTime);
+            List<Interval> dayInt = new ArrayList<Interval> ();
+            
+            if(StringUtils.equals(tdaf.getAcrossDays(), "y")) {
+            	DateTime start = new DateTime(startTime);
+            	DateTime end = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getEndTime()).getTime());
+            	DateTime groupEnd = new DateTime(endTime);
+            	Long startLong = start.getMillis();
+            	Long endLong = end.getMillis();
+            	while(start.isBefore(groupEnd.getMillis())) {
+            		Interval tempInt = new Interval(startLong, endLong);
+            		dayInt.add(tempInt);
+            		start = start.plusDays(1);
+            		end = end.plusDays(1);
+            		startLong = start.getMillis();
+                	endLong = end.getMillis();
+            	}
+            } else {
+            	dayInt.add(addedTimeblockInterval);
+            }
 
             for (TimeBlock timeBlock : tdaf.getTimesheetDocument().getTimeBlocks()) {
             	if(StringUtils.equals(timeBlock.getEarnCodeType(), "TIME")) {
 	                Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
-
-	                if (timeBlockInterval.overlaps(addedTimeblockInterval)) {
-	                	errorMsgList.add("The time block you are trying to add overlaps with an existing time block.");
-	                    break;
+	                for(Interval intv: dayInt) {
+		                if (timeBlockInterval.overlaps(intv)) {
+		                	errorMsgList.add("The time block you are trying to add overlaps with an existing time block.");
+		                	tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+		                    return mapping.findForward("ws");
+		                }
 	                }
             	}
             }
