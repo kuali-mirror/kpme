@@ -29,6 +29,11 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        // Make sure ThreadLocal context is clean before doing anything else -
+        // Tomcat uses a threadpool, and the ThreadLocals do not automatically
+        // die.
+		TKContext.clear();
 		TKContext.setHttpServletRequest(request);
 		super.process(request, response);
 	}
@@ -40,10 +45,6 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 	protected boolean processPreprocess(HttpServletRequest request, HttpServletResponse response) {
 		boolean status = super.processPreprocess(request, response);
 
-        // Make sure ThreadLocal context is clean before doing anything else -
-        // Tomcat uses a threadpool, and the ThreadLocals do not automatically
-        // die.
-        TKContext.clear();
 		setUserOnContext(request);
 
 		return status;
