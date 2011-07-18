@@ -344,8 +344,8 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 		long difference = current.getBeginTimestamp().getTime() - previous.getEndTimestamp().getTime();
 		BigDecimal gapHours = TKUtils.convertMillisToHours(difference);
-
-		return (gapHours.compareTo(maxGap) > 0);
+		BigDecimal cmpGapHrs = TKUtils.convertMinutesToHours(maxGap);
+		return (gapHours.compareTo(cmpGapHrs) > 0);
 	}
 
 	@Override
