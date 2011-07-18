@@ -22,6 +22,7 @@
 				<ref bean="Location-timezone" />
 				<ref bean="Location-description" />
 				<ref bean="Location-effectiveDate" />
+				<ref bean="Location-history"/>
 				<ref bean="Location-active" />
 				<ref bean="Location-userPrincipalId" />
 				<ref bean="Location-timestamp" />
@@ -159,6 +160,18 @@
 		<property name="label" value="Time Stamp" />
 	</bean>
 	
+	<bean id="Location-history" parent="Location-history-parentBean" />
+	<bean id="Location-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
+	
 	<!--  Inquiry Definitions  -->
   
   	<bean id="Location-inquiryDefinition" parent="Location-inquiryDefinition-parentBean" />
@@ -195,6 +208,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>

@@ -15,6 +15,7 @@ public class Position extends HrBusinessObject {
 	private Long hrPositionId;
 	private Long positionNumber;
 	private String description;
+	private String history;
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -66,6 +67,14 @@ public class Position extends HrBusinessObject {
 	@Override
 	protected String getUniqueKey() {
 		return positionNumber + "";
+	}
+
+	public String getHistory() {
+		return history;
+	}
+
+	public void setHistory(String history) {
+		this.history = history;
 	}
 
 }

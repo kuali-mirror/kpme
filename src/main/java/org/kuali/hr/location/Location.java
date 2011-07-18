@@ -21,6 +21,7 @@ public class Location extends HrBusinessObject {
 	private String timezone;
 	private String description;
 	private String userPrincipalId;
+	private String history;
 	
 	@SuppressWarnings({ "rawtypes" })
 	@Override
@@ -96,6 +97,14 @@ public class Location extends HrBusinessObject {
 	@Override
 	protected String getUniqueKey() {
 		return location;
+	}
+
+	public String getHistory() {
+		return history;
+	}
+
+	public void setHistory(String history) {
+		this.history = history;
 	}
 
 }

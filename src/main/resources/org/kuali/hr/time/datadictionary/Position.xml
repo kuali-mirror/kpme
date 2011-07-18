@@ -20,6 +20,7 @@
 				<ref bean="Position-positionNumber" />
 				<ref bean="Position-description" />
 				<ref bean="Position-effectiveDate" />
+				<ref bean="Position-history"/>
 				<ref bean="Position-active" />
 				<ref bean="Position-timestamp" />
 			</list>
@@ -92,6 +93,8 @@
 		<property name="name" value="effectiveDate" />
 		<property name="label" value="Effective Date" />
 	</bean>
+	
+	
 
 	<bean id="Position-active" parent="Position-active-parentBean" />
 	<bean id="Position-active-parentBean" abstract="true"
@@ -119,6 +122,19 @@
 		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>
+	
+	<bean id="Position-history" parent="Position-history-parentBean" />
+	
+	<bean id="Position-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>	
 		<!--  Inquiry Definitions  -->
   
   	<bean id="Position-inquiryDefinition" parent="Position-inquiryDefinition-parentBean" />
@@ -155,6 +171,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
@@ -170,4 +187,3 @@
 		<property name="title" value="Position Lookup" />
 	</bean>
 </beans>
-
