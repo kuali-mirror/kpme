@@ -110,4 +110,9 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
         }
         return total;
     }
+
+	@Override
+	public TimeOffAccrual getTimeOffAccrual(Long laTimeOffAccrualId) {
+		return timeOffAccrualDao.getTimeOffAccrual(laTimeOffAccrualId);
+	}
 }

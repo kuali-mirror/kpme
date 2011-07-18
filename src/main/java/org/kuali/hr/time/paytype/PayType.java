@@ -1,13 +1,11 @@
 package org.kuali.hr.time.paytype;
 
-import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-public class PayType extends PersistableBusinessObjectBase {
+import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.earncode.EarnCode;
+
+public class PayType extends HrBusinessObject {
 
 	/**
 	 *
@@ -17,15 +15,10 @@ public class PayType extends PersistableBusinessObjectBase {
 	private String payType;
 	private String descr;
 	private String regEarnCode;
-	private Date effectiveDate;
-	private Timestamp timestamp;
-	private Boolean history;
-	private Boolean active;
-	
-
     /** Used for lookup */
 	private Long tkEarnCodeId;
     private EarnCode regEarnCodeObj;
+    private String history;
 
     public EarnCode getRegEarnCodeObj() {
         return regEarnCodeObj;
@@ -57,15 +50,6 @@ public class PayType extends PersistableBusinessObjectBase {
 	public void setDescr(String descr) {
 		this.descr = descr;
 	}
-
-//	public String getCalendarGroup() {
-//		return calendarGroup;
-//	}
-//
-//	public void setCalendarGroup(String calendarGroup) {
-//		this.calendarGroup = calendarGroup;
-//	}
-
 	public String getRegEarnCode() {
 		return regEarnCode;
 	}
@@ -73,48 +57,6 @@ public class PayType extends PersistableBusinessObjectBase {
 	public void setRegEarnCode(String regEarnCode) {
 		this.regEarnCode = regEarnCode;
 	}
-
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-//	public void setHolidayCalendarGroup(String holidayCalendarGroup) {
-//		this.holidayCalendarGroup = holidayCalendarGroup;
-//	}
-//
-//	public String getHolidayCalendarGroup() {
-//		return holidayCalendarGroup;
-//	}
-//
-//	public HolidayCalendar getHolidayCalendar() {
-//		return holidayCalendar;
-//	}
-//
-//	public void setHolidayCalendar(HolidayCalendar holidayCalendar) {
-//		this.holidayCalendar = holidayCalendar;
-//	}
-//
-//	public PayCalendar getPayCalendar() {
-//		return payCalendar;
-//	}
-//
-//	public void setPayCalendar(PayCalendar payCalendar) {
-//		this.payCalendar = payCalendar;
-//	}
-
-
 	public Long getHrPayTypeId() {
 		return hrPayTypeId;
 	}
@@ -125,22 +67,6 @@ public class PayType extends PersistableBusinessObjectBase {
 	}
 
 
-	public Boolean getHistory() {
-		return history;
-	}
-
-	public void setHistory(Boolean history) {
-		this.history = history;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
 
 	public Long getTkEarnCodeId() {
 		return tkEarnCodeId;
@@ -148,6 +74,19 @@ public class PayType extends PersistableBusinessObjectBase {
 
 	public void setTkEarnCodeId(Long tkEarnCodeId) {
 		this.tkEarnCodeId = tkEarnCodeId;
+	}
+
+	@Override
+	protected String getUniqueKey() {
+		return payType;
+	}
+
+	public String getHistory() {
+		return history;
+	}
+
+	public void setHistory(String history) {
+		this.history = history;
 	}
 	
 }

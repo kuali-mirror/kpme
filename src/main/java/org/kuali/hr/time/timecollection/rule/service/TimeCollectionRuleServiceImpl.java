@@ -20,4 +20,9 @@ public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService{
 			TimeCollectionRuleDaoService timeCollectRuleDao) {
 		this.timeCollectRuleDao = timeCollectRuleDao;
 	}
+
+	@Override
+	public TimeCollectionRule getTimeCollectionRule(Long tkTimeCollectionRuleId) {
+		return timeCollectRuleDao.getTimeCollectionRule(tkTimeCollectionRuleId);
+	}
 }

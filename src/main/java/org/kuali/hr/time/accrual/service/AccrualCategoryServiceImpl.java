@@ -32,4 +32,9 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 		this.accrualCategoryDao = accrualCategoryDao;
 	}
 
+	@Override
+	public AccrualCategory getAccrualCategory(Long laAccrualCategoryId) {
+		return accrualCategoryDao.getAccrualCategory(laAccrualCategoryId);
+	}
+
 }

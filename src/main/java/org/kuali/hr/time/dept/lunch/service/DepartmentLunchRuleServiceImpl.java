@@ -90,4 +90,9 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 		this.deptLunchRuleDao = deptLunchRuleDao;
 	}
 
+	@Override
+	public DeptLunchRule getDepartmentLunchRule(Long tkDeptLunchRuleId) {
+		return deptLunchRuleDao.getDepartmentLunchRule(tkDeptLunchRuleId);
+	}
+
 }

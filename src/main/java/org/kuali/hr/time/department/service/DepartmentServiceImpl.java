@@ -47,4 +47,9 @@ public class DepartmentServiceImpl implements DepartmentService {
             );
         }
     }
+
+	@Override
+	public Department getDepartment(Long tkDeptId) {
+		return departmentDao.getDepartment(tkDeptId);
+	}
 }

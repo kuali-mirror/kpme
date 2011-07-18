@@ -51,4 +51,11 @@ public interface JobDao {
 	 * @return
 	 */
 	public List<Job> getActiveJobsForPosition(Long positionNbr, Date asOfDate);
+	
+	/**
+	 * Get job based on id
+	 * @param hrJobId
+	 * @return
+	 */
+	public Job getJob(Long hrJobId);
 }

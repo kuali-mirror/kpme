@@ -1,8 +1,13 @@
 package org.kuali.hr.time.department;
 
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -11,9 +16,6 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import java.util.List;
-import java.util.Map;
 
 public class DepartmentMaintainableImpl extends KualiMaintainableImpl {
 
@@ -24,15 +26,35 @@ public class DepartmentMaintainableImpl extends KualiMaintainableImpl {
 
 		Department dept = (Department) this.getBusinessObject();
 		List<TkRole> roles = dept.getRoles();
+        
+		//Inactivate the old department as of the effective date of new department
+		if(dept.getTkDeptId()!=null && dept.isActive()){
+			Department oldDept = TkServiceLocator.getDepartmentService().getDepartment(dept.getTkDeptId());
+			if(dept.getEffectiveDate().equals(oldDept.getEffectiveDate())){
+				dept.setTimestamp(null);
+			} else{
+				if(oldDept!=null){
+					oldDept.setActive(false);
+					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
+					oldDept.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
+					oldDept.setEffectiveDate(dept.getEffectiveDate());
+					KNSServiceLocator.getBusinessObjectService().save(oldDept);
+				}
+				dept.setTimestamp(new Timestamp(System.currentTimeMillis()));
+				dept.setTkDeptId(null);
+			
 
-		for(TkRole role : roles) {
-			role.setDepartment(dept.getDept());
-			role.setUserPrincipalId(TKContext.getPrincipalId());
+				for(TkRole role : roles) {
+					role.setDepartment(dept.getDept());
+					role.setUserPrincipalId(TKContext.getPrincipalId());
+					role.setTkDeptId(dept.getTkDeptId());
+					role.setTkRolesId(null);
+				}
+				TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
+				dept.setRoles(roles);
+			}
 		}
-
-		dept.setRoles(roles);
-		KNSServiceLocator.getBusinessObjectService().save(dept);
-        TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
+		KNSServiceLocator.getBusinessObjectService().save(dept); 
 
 	}
 

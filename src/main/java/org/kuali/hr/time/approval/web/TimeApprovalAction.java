@@ -85,7 +85,7 @@ public class TimeApprovalAction extends TkAction {
 
         // Check pay Calendar Group
         if (StringUtils.isEmpty(taaf.getSelectedPayCalendarGroup())) {
-            taaf.setSelectedPayCalendarGroup(calGroups.first());
+            taaf.setSelectedPayCalendarGroup(calGroups.first()); 
         }
 
         // Finally, set our entries, if not set already.

@@ -6,12 +6,13 @@ import java.util.LinkedHashMap;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.location.Location;
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class DepartmentEarnCode extends PersistableBusinessObjectBase {
+public class DepartmentEarnCode extends HrBusinessObject {
 
 	/**
 	 *
@@ -24,11 +25,7 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	private boolean employee;
 	private boolean approver;
 	private boolean org_admin;
-	private Date effectiveDate;
-	private Timestamp timestamp;
-	private Boolean history;
 	private String location;
-	private Boolean active;
 	
 	private Long tkDeptId;
 	private Long tkSalGroupId;
@@ -40,6 +37,7 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	private EarnCode earnCodeObj;
     private Job jobObj;
     private Location locationObj;
+    private String history;
 
 
 	@SuppressWarnings("unchecked")
@@ -140,12 +138,6 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
-	public Boolean getHistory() {
-		return history;
-	}
-	public void setHistory(Boolean history) {
-		this.history = history;
-	}
 	public Boolean getActive() {
 		return active;
 	}
@@ -194,6 +186,16 @@ public class DepartmentEarnCode extends PersistableBusinessObjectBase {
 	}
 	public void setHrLocationId(Long hrLocationId) {
 		this.hrLocationId = hrLocationId;
+	}
+	@Override
+	protected String getUniqueKey() {
+		return dept + "_" + tkSalGroup + "_" + earnCode;
+	}
+	public String getHistory() {
+		return history;
+	}
+	public void setHistory(String history) {
+		this.history = history;
 	}
 
 

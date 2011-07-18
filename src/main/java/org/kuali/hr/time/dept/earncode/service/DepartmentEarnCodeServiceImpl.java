@@ -20,5 +20,10 @@ public class DepartmentEarnCodeServiceImpl implements DepartmentEarnCodeService 
 	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tkSalGroup, String location, java.util.Date asOfDate) {
 		return deptEarnCodeDao.getDepartmentEarnCodes(department, tkSalGroup, location, asOfDate);
 	}
+
+	@Override
+	public DepartmentEarnCode getDepartmentEarnCode(Long tkDeptEarnCodeId) {
+		return deptEarnCodeDao.getDepartmentEarnCode(tkDeptEarnCodeId);
+	}
 	
 }

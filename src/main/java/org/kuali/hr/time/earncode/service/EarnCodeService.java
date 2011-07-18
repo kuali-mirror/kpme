@@ -29,4 +29,6 @@ public interface EarnCodeService {
      * @return
      */
     String getEarnCodeType(String earnCode, Date asOfDate);
+    
+    public EarnCode getEarnCodeById(Long earnCodeId);
 }

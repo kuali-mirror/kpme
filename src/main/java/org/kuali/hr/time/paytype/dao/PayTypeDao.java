@@ -12,5 +12,7 @@ public interface PayTypeDao {
 	public void saveOrUpdate(List<PayType> payTypeList);
 
 	public PayType getPayType(String payType, Date effectiveDate);
+	
+	public PayType getPayType(Long hrPayTypeId);
 
 }

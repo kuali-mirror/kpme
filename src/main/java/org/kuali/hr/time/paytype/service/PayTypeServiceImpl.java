@@ -29,4 +29,9 @@ public class PayTypeServiceImpl implements PayTypeService {
 		return payTypeDao.getPayType(payType, effectiveDate);
 	}
 
+	@Override
+	public PayType getPayType(Long hrPayTypeId) {
+		return payTypeDao.getPayType(hrPayTypeId);
+	}
+
 }

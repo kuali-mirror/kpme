@@ -33,22 +33,26 @@ public class ClockLocationMaintainableImpl extends KualiMaintainableImpl {
 	public void saveBusinessObject() {
 		ClockLocationRule clockLocationRule = (ClockLocationRule) this
 				.getBusinessObject();
-		//Inactivate the old clock location rule as of the effective date of new clock location rule
+		//Inactivate the old clock location as of the effective date of new clock location
 		if(clockLocationRule.getTkClockLocationRuleId()!=null && clockLocationRule.isActive()){
 			ClockLocationRule oldClockLocationRule = TkServiceLocator.getClockLocationRuleService().getClockLocationRule(clockLocationRule.getTkClockLocationRuleId());
-			//Do not lay down row if effective date is not before new one
-			if(oldClockLocationRule.getEffectiveDate().before(clockLocationRule.getEffectiveDate())){
-				oldClockLocationRule.setActive(false);
-				//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
-				oldClockLocationRule.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(TKUtils.getCurrentDate().getTime())));
-				oldClockLocationRule.setTkClockLocationRuleId(null);
-				KNSServiceLocator.getBusinessObjectService().save(oldClockLocationRule);
+			if(clockLocationRule.getEffectiveDate().equals(oldClockLocationRule.getEffectiveDate())){
+				clockLocationRule.setTimestamp(null);
+			} else{
+				if(oldClockLocationRule!=null){
+					oldClockLocationRule.setActive(false);
+					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
+					oldClockLocationRule.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
+					oldClockLocationRule.setEffectiveDate(clockLocationRule.getEffectiveDate());
+					KNSServiceLocator.getBusinessObjectService().save(oldClockLocationRule);
+				}
+				clockLocationRule.setTimestamp(new Timestamp(System.currentTimeMillis()));
+				clockLocationRule.setTkClockLocationRuleId(null);
 			}
 		}
 		
-		clockLocationRule.setTimestamp(new Timestamp(TKUtils.getCurrentDate().getTime()));
-		clockLocationRule.setTkClockLocationRuleId(null);
 		KNSServiceLocator.getBusinessObjectService().save(clockLocationRule);
+
 	}
 
 	/**

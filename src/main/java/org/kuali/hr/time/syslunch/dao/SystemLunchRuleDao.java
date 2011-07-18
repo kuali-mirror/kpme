@@ -6,4 +6,5 @@ import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
 
 public interface SystemLunchRuleDao {
 	public SystemLunchRule getSystemLunchRule(Date asOfDate);
+	public SystemLunchRule getSystemLunchRule(Long tkSystemLunchRuleId);
 }

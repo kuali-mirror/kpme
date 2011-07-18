@@ -30,4 +30,6 @@ public interface WeeklyOvertimeRuleService {
 	 * @param aggregate
 	 */
 	public void processWeeklyOvertimeRule(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate);
+
+	public WeeklyOvertimeRule getWeeklyOvertimeRule(Long tkWeeklyOvertimeRuleId);
 }

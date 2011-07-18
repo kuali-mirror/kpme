@@ -86,4 +86,14 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 
 	}
 
+	@Override
+	public TimeCollectionRule getTimeCollectionRule(Long tkTimeCollectionRuleId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("tkTimeCollectionRuleId", tkTimeCollectionRuleId);
+		
+		Query query = QueryFactory.newQuery(TimeCollectionRule.class, crit);
+		return (TimeCollectionRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		
+	}
+
 }

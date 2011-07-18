@@ -12,4 +12,6 @@ public interface SalGroupService {
 	 * @return
 	 */
 	public SalGroup getSalGroup(String salGroup, Date asOfDate);
+	
+	public SalGroup getSalGroup(Long tkSalGroupId);
 }

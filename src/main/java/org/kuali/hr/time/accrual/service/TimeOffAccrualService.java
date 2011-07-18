@@ -28,4 +28,6 @@ public interface TimeOffAccrualService {
 	 * @return JSONArray
 	 */
 	public JSONArray validateAccrualHoursLimit(TimesheetDocument timesheetDocument);
+	
+	public TimeOffAccrual getTimeOffAccrual(Long laTimeOffAccrualId);
 }

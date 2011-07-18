@@ -12,4 +12,6 @@ public interface LocationService {
 	 * @return {@link Location}
 	 */
 	public Location getLocation(String location, Date asOfDate);
+	
+	public Location getLocation(Long hrLocationId);
 }

@@ -26,6 +26,7 @@ import org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarEntriesService;
 import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
+import org.kuali.hr.time.position.service.PositionService;
 import org.kuali.hr.time.principal.calendar.service.PrincipalCalendarService;
 import org.kuali.hr.time.roles.service.TkRoleGroupService;
 import org.kuali.hr.time.roles.service.TkRoleService;
@@ -106,6 +107,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_MISSED_PUNCH_SERVICE = "missedPunchService";
     public static final String TK_BATCH_JOB_ENTRY_SERVICE = "batchJobEntryService";
     public static final String TK_WARNINGS_SERVICE = "tkWarningService";
+    public static final String HR_POSITION_SERVICE = "positionService";
 
 
 	public static void start() throws Exception {
@@ -310,6 +312,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static TkWarningService getWarningService(){
 		return (TkWarningService) CONTEXT.getBean(TK_WARNINGS_SERVICE);
+	}
+	
+	public static PositionService getPositionService(){
+		return (PositionService) CONTEXT.getBean(HR_POSITION_SERVICE);
 	}
 
 	public static PlatformTransactionManager getPlatformTransactionManager() {

@@ -8,4 +8,5 @@ public interface AccrualCategoryDao {
 
     public AccrualCategory getAccrualCategory(String accrualCategory, Date asOfDate);
     public void saveOrUpdate(AccrualCategory accrualCategory);
+    public AccrualCategory getAccrualCategory(Long laAccrualCategoryId);
 }

@@ -16,4 +16,6 @@ public interface SystemLunchRuleService {
 	 * @return
 	 */
 	public boolean isShowLunchButton();
+	
+	public SystemLunchRule getSystemLunchRule(Long tkSystemLunchRuleId);
 }

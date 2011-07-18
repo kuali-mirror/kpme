@@ -120,5 +120,14 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		}
 		return aList;
 	}
+
+	@Override
+	public DepartmentEarnCode getDepartmentEarnCode(Long tkDeptEarnCodeId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("tkDeptEarnCodeId", tkDeptEarnCodeId);
+		
+		Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+		return (DepartmentEarnCode)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
 	
 }

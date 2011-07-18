@@ -6,4 +6,5 @@ import org.kuali.hr.paygrade.PayGrade;
 
 public interface PayGradeDao {
 	public PayGrade getPayGrade(String payGrade,Date asOfDate);
+	public PayGrade getPayGrade(Long hrPayGradeId);
 }

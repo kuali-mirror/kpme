@@ -227,4 +227,10 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 		this.weeklyOvertimeRuleDao = weeklyOvertimeRuleDao;
 	}
 
+
+	@Override
+	public WeeklyOvertimeRule getWeeklyOvertimeRule(Long tkWeeklyOvertimeRuleId) {
+		return weeklyOvertimeRuleDao.getWeeklyOvertimeRule(tkWeeklyOvertimeRuleId);
+	}
+
 }

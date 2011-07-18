@@ -16,5 +16,10 @@ public class PayGradeServiceImpl implements PayGradeService{
 	public void setPayGradeDao(PayGradeDao payGradeDao) {
 		this.payGradeDao = payGradeDao;
 	}
+
+	@Override
+	public PayGrade getPayGrade(Long hrPayGradeId) {
+		return payGradeDao.getPayGrade(hrPayGradeId);
+	}
 	
 }

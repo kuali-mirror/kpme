@@ -49,4 +49,14 @@ public class PayGradeDaoSpringObjImpl  extends PersistenceBrokerDaoSupport imple
 		return pg;
 	}
 
+	@Override
+	public PayGrade getPayGrade(Long hrPayGradeId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("hrPayGradeId", hrPayGradeId);
+		
+		Query query = QueryFactory.newQuery(PayGrade.class, crit);
+		
+		return (PayGrade)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+
 }

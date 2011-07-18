@@ -45,4 +45,13 @@ public class SalGroupDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 		return s;
 	}
 
+	@Override
+	public SalGroup getSalGroup(Long tkSalGroupId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("tkSalGroupId", tkSalGroupId);
+		
+		Query query = QueryFactory.newQuery(SalGroup.class, crit);
+		return (SalGroup)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+
 }

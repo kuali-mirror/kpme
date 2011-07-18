@@ -12,4 +12,6 @@ public interface PayGradeService {
 	 * @return
 	 */
 	public PayGrade getPayGrade(String payGrade, Date asOfDate);
+	
+	public PayGrade getPayGrade(Long hrPayGradeId);
 }

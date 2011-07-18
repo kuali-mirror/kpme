@@ -122,4 +122,13 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 		return earnGroupObj;
 	}
 
+	@Override
+	public EarnGroup getEarnGroup(Long tkEarnGroupId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("tkEarnGroupId", tkEarnGroupId);
+		
+		Query query = QueryFactory.newQuery(EarnGroup.class, crit);
+		return (EarnGroup)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+
 }

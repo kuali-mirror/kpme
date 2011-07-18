@@ -53,4 +53,14 @@ public class PayTypeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impleme
 		Query query = QueryFactory.newQuery(PayType.class, currentRecordCriteria);
 		return (PayType)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
+
+
+	@Override
+	public PayType getPayType(Long hrPayTypeId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("hrPayTypeId", hrPayTypeId);
+		
+		Query query = QueryFactory.newQuery(PayType.class, crit);
+		return (PayType)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
 }

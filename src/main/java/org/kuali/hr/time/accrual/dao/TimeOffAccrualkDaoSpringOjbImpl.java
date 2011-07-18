@@ -54,5 +54,15 @@ public class TimeOffAccrualkDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
 
 		return timeOffAccruals;
 	}
+
+	@Override
+	public TimeOffAccrual getTimeOffAccrual(Long laTimeOffAccrualId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("laAccrualId", laTimeOffAccrualId);
+		
+		Query query = QueryFactory.newQuery(TimeOffAccrual.class, crit);
+		return (TimeOffAccrual)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+
+	}
 	
 }

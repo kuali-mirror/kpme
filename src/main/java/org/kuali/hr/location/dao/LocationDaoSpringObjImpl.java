@@ -50,4 +50,13 @@ public class LocationDaoSpringObjImpl extends PersistenceBrokerDaoSupport implem
 		return l;
 	}
 
+	@Override
+	public Location getLocation(Long hrLocationId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("hrLocationId", hrLocationId);
+		
+		Query query = QueryFactory.newQuery(Location.class, crit);
+		return (Location)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+
 }

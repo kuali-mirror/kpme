@@ -7,5 +7,7 @@ import org.kuali.hr.time.accrual.TimeOffAccrual;
 public interface TimeOffAccrualDao {
 
 	public List<TimeOffAccrual> getTimeOffAccruals(String principalId);
+	
+	public TimeOffAccrual getTimeOffAccrual(Long laTimeOffAccrualId);
 
 }

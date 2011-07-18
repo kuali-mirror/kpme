@@ -9,4 +9,5 @@ public interface DepartmentDao {
 	public void saveOrUpdate(Department dept);
 	public Department getDepartment(String department,Date asOfDate);
     public List<Department> getDepartments(String chart, Date asOfDate);
+    public Department getDepartment(Long tkDeptId);
 }

@@ -39,4 +39,6 @@ public interface WorkAreaService {
      * @param workArea The WorkArea for which we need roles populated.
      */
     public void populateWorkAreaRoles(WorkArea workArea);
+    
+    public WorkArea getWorkArea(Long tkWorkAreaId);
 }

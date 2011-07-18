@@ -11,4 +11,6 @@ public interface WeeklyOvertimeRuleDao {
 	public void saveOrUpdate(List<WeeklyOvertimeRule> weeklyOvertimeRules);
 	
 	public List<WeeklyOvertimeRule> findWeeklyOvertimeRules(Date asOfDate);
+	
+	public WeeklyOvertimeRule getWeeklyOvertimeRule(Long tkWeeklyOvertimeRuleId);
 }

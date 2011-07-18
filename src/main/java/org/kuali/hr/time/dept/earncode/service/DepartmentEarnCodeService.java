@@ -13,4 +13,5 @@ public interface DepartmentEarnCodeService {
 	 */
 	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tk_sal_group, String location, Date asOfDate);
 
+	public DepartmentEarnCode getDepartmentEarnCode(Long tkDeptEarnCodeId);
 }

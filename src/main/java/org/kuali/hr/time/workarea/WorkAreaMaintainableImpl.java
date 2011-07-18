@@ -1,5 +1,6 @@
 package org.kuali.hr.time.workarea;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -24,27 +26,43 @@ public class WorkAreaMaintainableImpl extends KualiMaintainableImpl {
 	public void saveBusinessObject() {
 
 		WorkArea workArea = (WorkArea) this.getBusinessObject();
-		List<TkRole> roles = workArea.getRoles();
-		List<TkRole> rolesCopy = new ArrayList<TkRole>();
-		rolesCopy.addAll(roles);
-		if (workArea.getInactiveRoles() != null
-				&& workArea.getInactiveRoles().size() > 0) {
-			for (TkRole role : workArea.getInactiveRoles()) {
-				roles.add(role);
+		
+		//Inactivate the old assignment as of the effective date of new assignment
+		if(workArea.getTkWorkAreaId()!=null && workArea.isActive()){
+			WorkArea oldWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(workArea.getTkWorkAreaId());
+			if(workArea.getEffectiveDate().equals(oldWorkArea.getEffectiveDate())){
+				workArea.setTimestamp(null);
+			} else{
+				if(oldWorkArea!=null){
+					oldWorkArea.setActive(false);
+					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
+					oldWorkArea.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
+					oldWorkArea.setEffectiveDate(workArea.getEffectiveDate());
+					KNSServiceLocator.getBusinessObjectService().save(oldWorkArea);
+				}
+				workArea.setTimestamp(new Timestamp(System.currentTimeMillis()));
+				workArea.setTkWorkAreaId(null);
+			
+				List<TkRole> roles = workArea.getRoles();
+				List<TkRole> rolesCopy = new ArrayList<TkRole>();
+				rolesCopy.addAll(roles);
+				if (workArea.getInactiveRoles() != null
+						&& workArea.getInactiveRoles().size() > 0) {
+					for (TkRole role : workArea.getInactiveRoles()) {
+						roles.add(role);
+					}
+				}
+				List<Task> tasks = workArea.getTasks();
+				workArea.setTasks(tasks);
+				workArea.setRoles(roles);
+				for (TkRole role : roles) {
+					role.setWorkArea(workArea.getWorkArea());
+					role.setUserPrincipalId(TKContext.getPrincipalId());
+				}
+				TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
 			}
 		}
-
-		List<Task> tasks = workArea.getTasks();
-		workArea.setTasks(tasks);
-		workArea.setRoles(roles);
 		KNSServiceLocator.getBusinessObjectService().save(workArea);
-
-		for (TkRole role : roles) {
-			role.setWorkArea(workArea.getWorkArea());
-			role.setUserPrincipalId(TKContext.getPrincipalId());
-		}
-		TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
-		workArea.setRoles(rolesCopy);
 	}
 
 	@Override

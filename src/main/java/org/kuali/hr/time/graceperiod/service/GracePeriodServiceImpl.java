@@ -50,4 +50,9 @@ public class GracePeriodServiceImpl implements GracePeriodService {
 		}
 		return actualTime;
 	}
+
+	@Override
+	public GracePeriodRule getGracePeriodRule(Long tkGracePeriodId) {
+		return gracePeriodDao.getGracePeriodRule(tkGracePeriodId);
+	}
 }

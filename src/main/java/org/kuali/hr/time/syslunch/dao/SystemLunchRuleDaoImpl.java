@@ -38,4 +38,14 @@ public class SystemLunchRuleDaoImpl  extends PersistenceBrokerDaoSupport impleme
 		return (SystemLunchRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
+	@Override
+	public SystemLunchRule getSystemLunchRule(Long tkSystemLunchRuleId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("tkSystemLunchRuleId", tkSystemLunchRuleId);
+		
+		Query query = QueryFactory.newQuery(SystemLunchRule.class, crit);
+		
+		return (SystemLunchRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+
 }

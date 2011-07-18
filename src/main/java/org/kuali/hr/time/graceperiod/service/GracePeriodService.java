@@ -19,4 +19,6 @@ public interface GracePeriodService {
 	 * @return
 	 */
 	public Timestamp processGracePeriodRule(Timestamp actualTime, Date asOfDate);
+	
+	public GracePeriodRule getGracePeriodRule(Long tkGracePeriodId);
 }

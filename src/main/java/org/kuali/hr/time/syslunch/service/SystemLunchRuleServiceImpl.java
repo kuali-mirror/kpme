@@ -35,4 +35,9 @@ public class SystemLunchRuleServiceImpl implements SystemLunchRuleService {
 		return isShowLunchButton;
 	}
 
+	@Override
+	public SystemLunchRule getSystemLunchRule(Long tkSystemLunchRuleId) {
+		return systemLunchRuleDao.getSystemLunchRule(tkSystemLunchRuleId);
+	}
+
 }

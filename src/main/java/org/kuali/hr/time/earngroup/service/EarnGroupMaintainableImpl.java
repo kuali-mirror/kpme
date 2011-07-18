@@ -1,11 +1,14 @@
 package org.kuali.hr.time.earngroup.service;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -23,34 +26,24 @@ public class EarnGroupMaintainableImpl extends KualiMaintainableImpl{
 	@Override
 	public void saveBusinessObject() {
 		EarnGroup earnGroup = (EarnGroup)this.getBusinessObject();
-		earnGroup.setTkEarnGroupId(null);
-		earnGroup.setTimestamp(null);
-		
-//		Criteria root = new Criteria();
-//		Criteria effdt = new Criteria();
-//		Criteria timestamp = new Criteria();
-//
-//		effdt.addGreaterThan("effectiveDate", earnGroup.getEffectiveDate());
-//		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnGroup.class, effdt);
-//		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
-//
-//		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-//		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnGroup.class, timestamp);
-//		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
-//
-//		root.addEqualTo("effectiveDate", effdtSubQuery);
-//		root.addEqualTo("timestamp", timestampSubQuery);
-//
-//		Criteria activeFilter = new Criteria(); // Inner Join For Activity
-//		activeFilter.addEqualTo("active", true);
-//		root.addAndCriteria(activeFilter);
-//		
-//		Query query = QueryFactory.newQuery(EarnGroup.class, root);
-//		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-//		if(count > 0){
-//			throw new RuntimeException("Date after your given effective date exists.");
-//		}
-		
+
+		//Inactivate the old earn group as of the effective date of new earn group
+		if(earnGroup.getTkEarnGroupId()!=null && earnGroup.isActive()){
+			EarnGroup oldEarnGroup = TkServiceLocator.getEarnGroupService().getEarnGroup(earnGroup.getTkEarnGroupId());
+			if(earnGroup.getEffectiveDate().equals(oldEarnGroup.getEffectiveDate())){
+				earnGroup.setTimestamp(null);
+			} else{
+				if(oldEarnGroup!=null){
+					oldEarnGroup.setActive(false);
+					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
+					oldEarnGroup.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
+					oldEarnGroup.setEffectiveDate(earnGroup.getEffectiveDate());
+					KNSServiceLocator.getBusinessObjectService().save(oldEarnGroup);
+				}
+				earnGroup.setTimestamp(new Timestamp(System.currentTimeMillis()));
+				earnGroup.setTkEarnGroupId(null);
+			}
+		}
 		KNSServiceLocator.getBusinessObjectService().save(earnGroup);
 	}
 	

@@ -80,4 +80,9 @@ public class JobServiceImpl implements JobService {
 		return jobDao.getActiveJobsForPosition(positionNbr, asOfDate);
 	}
 
+	@Override
+	public Job getJob(Long hrJobId) {
+		return jobDao.getJob(hrJobId);
+	}
+
 }

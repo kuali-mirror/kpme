@@ -18,4 +18,6 @@ public interface AccrualCategoryService {
      * @param accrualCategory
      */
     public void saveOrUpdate(AccrualCategory accrualCategory);
+    
+    public AccrualCategory getAccrualCategory(Long laAccrualCategoryId);
 }

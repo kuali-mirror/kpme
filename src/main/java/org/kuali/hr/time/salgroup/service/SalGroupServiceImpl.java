@@ -18,4 +18,9 @@ public class SalGroupServiceImpl implements SalGroupService {
 		this.salGroupDao = salGroupDao;
 	}
 
+	@Override
+	public SalGroup getSalGroup(Long tkSalGroupId) {
+		return salGroupDao.getSalGroup(tkSalGroupId);
+	}
+
 }

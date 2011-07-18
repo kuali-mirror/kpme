@@ -47,7 +47,7 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 		this.getPersistenceBrokerTemplate().delete(timeBlock);
 	}
 
-	@Override
+	
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("documentId", documentId);

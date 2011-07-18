@@ -1,5 +1,10 @@
 package org.kuali.hr.time.workarea.dao;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -7,11 +12,6 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class WorkAreaDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements WorkAreaDao {
 
@@ -80,5 +80,14 @@ public class WorkAreaDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
     public void saveOrUpdate(WorkArea workArea) {
     	this.getPersistenceBrokerTemplate().store(workArea);
     }
+
+	@Override
+	public WorkArea getWorkArea(Long tkWorkAreaId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("tkWorkAreaId", tkWorkAreaId);
+		
+		Query query = QueryFactory.newQuery(WorkArea.class, crit);
+		return (WorkArea)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
 
 }

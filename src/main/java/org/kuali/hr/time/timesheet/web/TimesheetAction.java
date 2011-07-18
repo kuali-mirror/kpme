@@ -47,7 +47,7 @@ public class TimesheetAction extends TkAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimesheetActionForm taForm = (TimesheetActionForm)form;
 		TKUser user = TKContext.getUser();
-		String documentId = StringUtils.isNotBlank(TKContext.getCurrentTimesheetDocumentId()) ? TKContext.getCurrentTimesheetDocumentId() : taForm.getDocumentId() ;
+		String documentId = taForm.getDocumentId();
 
         LOG.warn("DOCID: " + documentId);
         // Here - viewPrincipal will be the principal of the user we intend to

@@ -265,6 +265,10 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
+	<bean id="positionDao" class="org.kuali.hr.time.position.dao.PositionDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
     <bean id="clockLogDao" class="org.kuali.hr.time.clocklog.dao.ClockLogDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
@@ -432,6 +436,10 @@
 
     <bean id="gracePeriodService" class="org.kuali.hr.time.graceperiod.service.GracePeriodServiceImpl">
     	<property name="gracePeriodDao" ref="gracePeriodDao"/>
+    </bean>
+    
+    <bean id="positionService" class="org.kuali.hr.time.position.service.PositionServiceImpl">
+    	<property name="positionDao" ref="positionDao"/>
     </bean>
 
     <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">

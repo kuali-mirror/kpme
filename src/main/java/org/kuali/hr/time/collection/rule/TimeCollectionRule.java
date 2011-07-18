@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.workarea.WorkArea;
 
 public class TimeCollectionRule extends HrBusinessObject implements DepartmentalRule {

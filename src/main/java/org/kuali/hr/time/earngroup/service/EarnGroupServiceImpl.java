@@ -45,4 +45,9 @@ public class EarnGroupServiceImpl implements EarnGroupService {
 		return earnCodes;
 	}
 
+	@Override
+	public EarnGroup getEarnGroup(Long tkEarnGroupId) {
+		return earnGroupDao.getEarnGroup(tkEarnGroupId);
+	}
+
 }

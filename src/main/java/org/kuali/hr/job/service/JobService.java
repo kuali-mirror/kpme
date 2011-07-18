@@ -61,4 +61,6 @@ public interface JobService {
 	 */
 	public List<Job> getActiveJobsForPosition(Long positionNbr, Date asOfDate);
 	
+	public Job getJob(Long hrJobId);
+	
 }

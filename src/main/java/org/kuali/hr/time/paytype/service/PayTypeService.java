@@ -23,4 +23,6 @@ public interface PayTypeService {
 	 * @return A fully populated PayType.
 	 */
 	public PayType getPayType(String payType, Date effectiveDate);
+	
+	public PayType getPayType(Long hrPayTypeId);
 }

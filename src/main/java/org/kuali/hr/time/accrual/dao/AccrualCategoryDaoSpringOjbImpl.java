@@ -35,4 +35,14 @@ public class AccrualCategoryDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
     	this.getPersistenceBrokerTemplate().store(accrualCategory);
     }
 
+	@Override
+	public AccrualCategory getAccrualCategory(Long laAccrualCategoryId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("laAccrualCategoryId", laAccrualCategoryId);
+		
+		Query query = QueryFactory.newQuery(AccrualCategory.class, crit);
+		return (AccrualCategory)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		
+	}
+
 }

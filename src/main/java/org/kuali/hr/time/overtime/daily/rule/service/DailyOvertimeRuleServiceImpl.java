@@ -347,4 +347,9 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 		return (gapHours.compareTo(maxGap) > 0);
 	}
+
+	@Override
+	public DailyOvertimeRule getDailyOvertimeRule(Long tkDailyOvertimeRuleId) {
+		return dailyOvertimeRuleDao.getDailyOvertimeRule(tkDailyOvertimeRuleId);
+	}
 }

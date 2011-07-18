@@ -18,4 +18,6 @@ public interface DailyOvertimeRuleDao {
 	public void saveOrUpdate(DailyOvertimeRule dailyOvertimeRule);
 	
 	public void saveOrUpdate(List<DailyOvertimeRule> dailyOvertimeRules);
+	
+	public DailyOvertimeRule getDailyOvertimeRule(Long tkDailyOvertimeRuleId);
 }

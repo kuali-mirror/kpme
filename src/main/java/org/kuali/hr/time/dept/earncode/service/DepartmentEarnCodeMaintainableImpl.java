@@ -1,8 +1,11 @@
 package org.kuali.hr.time.dept.earncode.service;
 
+import java.sql.Timestamp;
 import java.util.Map;
 
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -19,9 +22,26 @@ public class DepartmentEarnCodeMaintainableImpl extends KualiMaintainableImpl {
 	@Override
 	public void saveBusinessObject() {
 		DepartmentEarnCode departmentEarnCode = (DepartmentEarnCode) this.getBusinessObject();
-		departmentEarnCode.setTkDeptEarnCodeId(null);
-        departmentEarnCode.setTimestamp(null);
-		KNSServiceLocator.getBusinessObjectService().save(departmentEarnCode);
+		
+		//Inactivate the old dept earn code as of the effective date of new dept earn code
+		if(departmentEarnCode.getTkDeptEarnCodeId()!=null && departmentEarnCode.isActive()){
+			DepartmentEarnCode oldDeptEarnCode = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCode(departmentEarnCode.getTkDeptEarnCodeId());
+			if(departmentEarnCode.getEffectiveDate().equals(oldDeptEarnCode.getEffectiveDate())){
+				departmentEarnCode.setTimestamp(null);
+			} else{
+				if(oldDeptEarnCode!=null){
+					oldDeptEarnCode.setActive(false);
+					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
+					oldDeptEarnCode.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
+					oldDeptEarnCode.setEffectiveDate(departmentEarnCode.getEffectiveDate());
+					KNSServiceLocator.getBusinessObjectService().save(oldDeptEarnCode);
+				}
+				departmentEarnCode.setTimestamp(new Timestamp(System.currentTimeMillis()));
+				departmentEarnCode.setTkDeptEarnCodeId(null);
+			}
+		}
+		
+		KNSServiceLocator.getBusinessObjectService().save(departmentEarnCode);	
 	}
 	
 	@Override

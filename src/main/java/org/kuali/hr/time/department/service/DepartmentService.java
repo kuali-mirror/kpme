@@ -33,4 +33,6 @@ public interface DepartmentService {
      * @param department The department for which we need roles populated.
      */
     public void populateDepartmentRoles(Department department);
+    
+    public Department getDepartment(Long tkDeptId);
 }

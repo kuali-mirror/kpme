@@ -32,4 +32,6 @@ public interface EarnGroupService {
 	 * CAUTION this is used only for the timesheet summary
 	 */
 	public EarnGroup getEarnGroupSummaryForEarnCode(String earnCode, Date asOfDate);
+	
+	public EarnGroup getEarnGroup(Long tkEarnGroupId);
 }
