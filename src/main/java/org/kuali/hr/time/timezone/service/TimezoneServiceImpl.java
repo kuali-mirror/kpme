@@ -20,19 +20,22 @@ public class TimezoneServiceImpl implements TimezoneService {
 	 */
 	@Override
 	public String getUserTimeZone() {
-		UserPreferences userPref = TKContext.getUser().getTargetUserPreferences();
-		if(userPref != null && StringUtils.isNotEmpty(userPref.getTimezone())){
-			return userPref.getTimezone();
-		}
+		//TODO revist this fetch for background processing(i.e. missed punch)
+		if(TKContext.getUser()!=null){
+			UserPreferences userPref = TKContext.getUser().getTargetUserPreferences();
+			if(userPref != null && StringUtils.isNotEmpty(userPref.getTimezone())){
+				return userPref.getTimezone();
+			}
 
-		if(!TkConstants.LOCATION_TO_TIME_ZONE_MAP.isEmpty()){
-			//TODO change current date to context of document being looked at
-			List<Job> lstJobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
-			if(lstJobs.size() > 0){
-				//Grab the location off the first job in the list
-				String location = lstJobs.get(0).getLocation();
-				if(TkConstants.LOCATION_TO_TIME_ZONE_MAP.containsKey(location)){
-					return TkConstants.LOCATION_TO_TIME_ZONE_MAP.get(location);
+			if(!TkConstants.LOCATION_TO_TIME_ZONE_MAP.isEmpty()){
+				//TODO change current date to context of document being looked at
+				List<Job> lstJobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
+				if(lstJobs.size() > 0){
+					//Grab the location off the first job in the list
+					String location = lstJobs.get(0).getLocation();
+					if(TkConstants.LOCATION_TO_TIME_ZONE_MAP.containsKey(location)){
+						return TkConstants.LOCATION_TO_TIME_ZONE_MAP.get(location);
+					}
 				}
 			}
 		}

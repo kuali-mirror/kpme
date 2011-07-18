@@ -21,6 +21,7 @@ public class MissedPunch extends PersistableBusinessObjectBase {
 	private String documentStatus;
 	private Long tkClockLogId;
 	private Timestamp timestamp;
+	private String ipAddress;
 
     /** Selection key matching what is used on the clock action GUI */
     private String assignment;
@@ -128,4 +129,12 @@ public class MissedPunch extends PersistableBusinessObjectBase {
     public void setTimesheetDocumentId(String timesheetDocumentId) {
         this.timesheetDocumentId = timesheetDocumentId;
     }
+
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
 }

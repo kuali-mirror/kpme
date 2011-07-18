@@ -26,7 +26,7 @@ public class ClockLogServiceImpl implements ClockLogService {
 
 	@Override
 	public ClockLog buildClockLog(Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction, String ip) {
-		String principalId = TKContext.getUser().getTargetPrincipalId();
+		String principalId = timesheetDocument.getPrincipalId();
 
 	    ClockLog clockLog = new ClockLog();
 	    clockLog.setPrincipalId(principalId);

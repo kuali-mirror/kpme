@@ -1,5 +1,10 @@
 package org.kuali.hr.time.missedpunch;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
@@ -9,15 +14,9 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MissedPunchMaintainableImpl extends KualiMaintainableImpl {
 
@@ -44,7 +43,7 @@ public class MissedPunchMaintainableImpl extends KualiMaintainableImpl {
                 missedPunch.getAssignment(),
                 tdoc,
                 missedPunch.getClockAction(),
-                TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest()));
+                missedPunch.getIpAddress());
 
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
         TkServiceLocator.getClockLogService().saveClockLog(clockLog);
@@ -105,4 +104,10 @@ public class MissedPunchMaintainableImpl extends KualiMaintainableImpl {
 
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
     }
+
+	@Override
+	public void prepareForSave() {
+		MissedPunch mp = (MissedPunch)this.getBusinessObject();
+		mp.setIpAddress(TKContext.getHttpServletRequest().getRemoteAddr());
+	}
 }
