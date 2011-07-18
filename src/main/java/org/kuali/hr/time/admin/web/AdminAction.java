@@ -70,22 +70,22 @@ public class AdminAction extends TkAction {
         TKUser tkUser = TKContext.getUser();
 
         if (tkUser.getCurrentRoles().isSystemAdmin()) {
-            if (StringUtils.isNotBlank(adminForm.getBackdoorPrincipalName())) {
+            if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalName())) {
 
-                Person backdoorPerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getBackdoorPrincipalName());
+                Person changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalName());
 
-                if (backdoorPerson != null && tkUser != null) {
+                if (changePerson != null && tkUser != null) {
                     UserSession userSession = UserLoginFilter.getUserSession(request);
 
-                    userSession.establishBackdoorWithPrincipalName(backdoorPerson.getPrincipalId());
-                    GlobalVariables.getUserSession().setBackdoorUser(backdoorPerson.getPrincipalId());
+                    userSession.establishBackdoorWithPrincipalName(changePerson.getPrincipalId());
+                    GlobalVariables.getUserSession().setBackdoorUser(changePerson.getPrincipalId());
 
-                    tkUser.setBackdoorPerson(backdoorPerson);
+                    tkUser.setTargetPerson(changePerson);
 
                     UserServiceImpl.loadRoles(tkUser);
                     TKContext.setUser(tkUser);
 
-                    LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " change employee as : " + backdoorPerson.getPrincipalName() + "\n\n");
+                    LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " change employee as : " + changePerson.getPrincipalName() + "\n\n");
                 }
 
             }

@@ -76,7 +76,7 @@
 	            <tr class="header"><td><b>Change Target Person</b></td></tr>
 	            <tr>
 	                <td>
-						<html:text property="backdoorPrincipalName" size="20" />
+						<html:text property="changeTargetPrincipalName" size="20" />
 						<input type="button" class="button" value="Submit" name="changeEmployee" onclick="this.form.methodToCall.value='changeEmployee'; this.form.submit();">
 						<input type="button" class="button" value="Clear" name="clearChangeEmployee" onclick="this.form.methodToCall.value='clearChangeEmployee'; this.form.submit();">
 	                </td>
