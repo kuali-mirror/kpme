@@ -53,7 +53,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 	}
 
 	boolean validateJobNumber(DeptLunchRule ruleObj) {
-		boolean valid = false;
+		boolean valid = true;
 		if (ruleObj.getJobNumber() == null) {
 			valid = false;
 		} else if (!ruleObj.getJobNumber().equals(TkConstants.WILDCARD_LONG)) {
@@ -61,8 +61,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 			crit.addEqualTo("principalId", ruleObj.getPrincipalId());
 			crit.addEqualTo("jobNumber", ruleObj.getJobNumber());
 			Query query = QueryFactory.newQuery(Job.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker()
-					.getCount(query);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
 			valid = (count > 0);
 			if (!valid) {
 				this.putFieldError("jobNumber", "principalid.job.invalid.sync",
