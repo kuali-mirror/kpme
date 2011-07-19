@@ -17,6 +17,9 @@ public class ApprovalTimeSummaryRow {
     private Map<String, Map<String, BigDecimal>> approverHoursByAssignment;
     /** A Map (Assignment key) of Mapped totals (pay label mapping) */
     private Map<String, Map<String, BigDecimal>> otherHoursByAssignment;
+    /** A String (AssignmentDescriptionKey) to Description mapping for all assignments on this summary row */
+    private Map<String,String> assignmentDescriptions; // could refactor out to action level call
+
 	private String approvalStatus;
 	private String documentId;
 	private Map<String,BigDecimal> hoursToPayLabelMap = new HashMap<String,BigDecimal>();
@@ -27,6 +30,14 @@ public class ApprovalTimeSummaryRow {
     private String[] workAreas;
     private String principalId;
     private Boolean clockedInOverThreshold = Boolean.FALSE;
+
+    public Map<String, String> getAssignmentDescriptions() {
+        return assignmentDescriptions;
+    }
+
+    public void setAssignmentDescriptions(Map<String, String> assignmentDescriptions) {
+        this.assignmentDescriptions = assignmentDescriptions;
+    }
 
     public Map<String, Map<String, BigDecimal>> getApproverHoursByAssignment() {
         return approverHoursByAssignment;

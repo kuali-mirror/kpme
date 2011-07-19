@@ -162,7 +162,7 @@
                             <c:forEach var="entry" items="${approvalRow.approverHoursByAssignment}">
                                 <td></td>
                                 <td colspan="2">
-                                    ${entry.key}
+                                    ${approvalRow.assignmentDescriptions[entry.key]}
                                 </td>
                                 <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
                                     <c:choose>
@@ -183,7 +183,7 @@
                             <c:forEach var="entry" items="${approvalRow.otherHoursByAssignment}">
                                 <td></td>
                                 <td colspan="2">
-                                    ${entry.key}
+                                    ${approvalRow.assignmentDescriptions[entry.key]}
                                 </td>
                                 <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
                                     <c:choose>

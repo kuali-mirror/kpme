@@ -49,6 +49,48 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		this.getPersistenceBrokerTemplate().deleteByQuery(query);
 	}
 
+
+    @Override
+    public Assignment getAssignment(Long job, Long workArea, Long task, Date asOfDate) {
+        Criteria root = new Criteria();
+        Criteria effdt = new Criteria();
+        Criteria timestamp = new Criteria();
+
+        effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+        effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+        effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+        //effdt.addEqualTo("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
+        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+        // OJB's awesome sub query setup part 2
+        timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+        timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+        timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+        //timestamp.addEqualTo("active", true);
+        //timestamp.addEqualTo("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+        root.addEqualTo("jobNumber", job);
+        root.addEqualTo("workArea", workArea);
+        root.addEqualTo("task", task);
+        root.addEqualTo("effectiveDate", effdtSubQuery);
+        root.addEqualTo("timestamp", timestampSubQuery);
+        //root.addEqualTo("active", true);
+
+        Criteria activeFilter = new Criteria(); // Inner Join For Activity
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Query query = QueryFactory.newQuery(Assignment.class, root);
+        Object o = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+
+        return (Assignment)o;
+    }
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public List<Assignment> findAssignments(String principalId, Date asOfDate) {
@@ -57,7 +99,6 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		Criteria effdt = new Criteria();
 		Criteria timestamp = new Criteria();
 
-		// OJB's awesome sub query setup part 1
 		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
 		effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
 		effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");

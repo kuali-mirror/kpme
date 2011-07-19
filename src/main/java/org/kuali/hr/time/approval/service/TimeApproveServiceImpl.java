@@ -2,7 +2,6 @@ package org.kuali.hr.time.approval.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.codehaus.groovy.binding.AggregateBinding;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
@@ -20,7 +19,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.*;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.core.jaxb.MapStringStringAdapter;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -158,12 +156,30 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                     Map<String, Map<String, BigDecimal>> approverAssignmentDaySums = detailBucketTuple.get(0);
                     Map<String, Map<String, BigDecimal>> otherAssignmentDaySums = detailBucketTuple.get(1);
 
+                    // Build the assignmentDescriptionKey -> Textual Description string mapping.
+                    Map<String,String> assignmentDescriptions = new HashMap<String, String>();
+                    Set<String> assignDescriptionKeys = new HashSet<String>();
+                    assignDescriptionKeys.addAll(approverAssignmentDaySums.keySet());
+                    assignDescriptionKeys.addAll(otherAssignmentDaySums.keySet());
+
+                    for (String adks: assignDescriptionKeys) {
+                        AssignmentDescriptionKey adk = new AssignmentDescriptionKey(adks);
+                        Assignment a = TkServiceLocator.getAssignmentService().getAssignment(adk, TKUtils.getTimelessDate(payBeginDate));
+                        String desc = null;
+                        if (a != null) {
+                            desc = TKUtils.getAssignmentString(a);
+                        }
+                        if (desc == null) desc = adks;
+                        assignmentDescriptions.put(adks, desc);
+                    }
+
                     Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(userId, payBeginDate, getPayCalendarLabelsForApprovalTab(payBeginDate, payEndDate), timeBlocks, null);
 
                     List notes = this.getNotesForDocument(documentId);
                     List<String> warnings = TkServiceLocator.getWarningService().getWarnings(documentId);
 
                     ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
+                    approvalSummaryRow.setAssignmentDescriptions(assignmentDescriptions);
                     approvalSummaryRow.setApproverHoursByAssignment(approverAssignmentDaySums);
                     approvalSummaryRow.setOtherHoursByAssignment(otherAssignmentDaySums);
                     approvalSummaryRow.setName(person.getName());

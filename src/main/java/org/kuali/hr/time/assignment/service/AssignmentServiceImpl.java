@@ -27,6 +27,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 		this.assignmentDao = assignmentDao;
 	}
 
+
 	@Override
 	public List<Assignment> getAssignments(String principalId, Date asOfDate) {
 		List<Assignment> assignments;
@@ -126,6 +127,17 @@ public class AssignmentServiceImpl implements AssignmentService {
         assignment.setWorkAreaObj(TkServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), asOfDate));
         assignment.setDeptLunchRule(TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(assignment.getJob().getDept(),
                                         assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));
+    }
+
+    @Override
+    public Assignment getAssignment(AssignmentDescriptionKey key, Date asOfDate) {
+        Assignment a = null;
+
+        if (key != null) {
+            a = assignmentDao.getAssignment(key.getJobNumber(), key.getWorkArea(), key.getTask(), asOfDate);
+        }
+
+        return a;
     }
 
 }

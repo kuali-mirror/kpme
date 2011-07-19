@@ -57,4 +57,12 @@ public interface AssignmentService {
 	public List<Assignment> getActiveAssignmentsForWorkArea(Long workArea, Date asOfDate);
 
 	public List<Assignment> getActiveAssignments(Date asOfDate);
+
+
+    /**
+     * For a given AssignmentDescriptionKey return the matching assignment.
+     * @param key
+     * @return
+     */
+    public Assignment getAssignment(AssignmentDescriptionKey key, Date asOfDate);
 }
