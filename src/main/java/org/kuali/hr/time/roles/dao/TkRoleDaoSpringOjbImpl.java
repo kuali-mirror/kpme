@@ -12,6 +12,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements TkRoleDao {
@@ -246,7 +247,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
             roles.addAll(c);
         }
         
-        List<Job> lstActiveJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, asOfDate);
+        List<Job> lstActiveJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, TKUtils.getCurrentDate());
         for(Job job : lstActiveJobs){
         	if(job.getPositionNumber()!=null){
         		List<TkRole> lstRoles = findPositionRoles(job.getPositionNumber(), 
