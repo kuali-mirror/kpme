@@ -10,7 +10,7 @@
 			</column>
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet author="yingzhou" id="2">
 		<createTable tableName="tk_batch_job_entry_t">
 			<column autoIncrement="true" name="tk_batch_job_entry_id" type="BIGINT">
@@ -39,6 +39,9 @@
             </column>
             <column name="TK_PY_CALENDAR_ENTRY_ID" type="BIGINT">
                 <constraints nullable="false"/>
+            </column>
+            <column name="CLOCK_LOG_ID" type="BIGINT">
+                <constraints nullable="true"/>
             </column>
 		</createTable>
 	</changeSet>
