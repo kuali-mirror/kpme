@@ -102,12 +102,14 @@ request.setAttribute("test", incident);
   <html:hidden property="stackTrace"       write="false" value="${stackTrace}" />
   <html:hidden property="exceptionHideIncidentReport" write="false" value="${exceptionHideIncidentReport}" />
 
+<div align="right"><a href="./Logout.do">LOGOUT</a></div>
 <c:if test="${exceptionHideIncidentReport eq false}">
   <div align="center">
     <font color="blue" size="3">Please use the Incident Report form below to report the problems</font>
   </div>
   <br/>
 </c:if>
+     
 	<div class="topblurb">
 		<div align="center">
 			<table cellpadding="10" cellspacing="0" border="0" class="container2">
