@@ -279,6 +279,7 @@
             </list>
           </property>
           <property name="title" value="TimeBlock" />
+          
         </bean>
         
         <bean parent="InquirySectionDefinition">
@@ -305,6 +306,7 @@
       </list>
     </property>
     <property name="title" value="TimeBlock Inquiry" />
+    <property name="translateCodes" value="false"/>
   </bean>
 
 <!-- Business Object Lookup Definition -->
