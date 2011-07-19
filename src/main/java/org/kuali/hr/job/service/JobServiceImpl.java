@@ -84,5 +84,10 @@ public class JobServiceImpl implements JobService {
 	public Job getJob(Long hrJobId) {
 		return jobDao.getJob(hrJobId);
 	}
+	
+	@Override
+	public Job getMaxJob(String principalId){
+		return jobDao.getMaxJob(principalId);
+	}
 
 }

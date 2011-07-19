@@ -10,7 +10,7 @@
 
   <bean id="JobMaintenanceDocument" parent="JobMaintenanceDocument-parentBean"/>
 
-  <bean id="JobMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+  <bean id="JobMaintenanceDocument-parentBean" abstract="true" parent="JobMaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.job.Job"
   		p:businessRulesClass="org.kuali.hr.job.validation.JobValidation"
   		p:maintainableClass="org.kuali.hr.job.service.JobMaintainableImpl">
@@ -33,7 +33,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="name" p:noLookup="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="jobNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="jobNumber" p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="tkSalGroup" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>

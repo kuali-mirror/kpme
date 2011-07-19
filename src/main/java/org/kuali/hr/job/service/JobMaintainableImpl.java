@@ -5,8 +5,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.assignment.AssignmentAccount;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kim.bo.Person;
@@ -51,7 +49,21 @@ public class JobMaintainableImpl extends KualiMaintainableImpl {
 			}
 		}
 		
+		this.setJobNumber(job);
+		
 		KNSServiceLocator.getBusinessObjectService().save(job);
+	}
+	
+	public void setJobNumber(Job job) {
+		Long jobNumber = new Long("0");
+		Job maxJob = TkServiceLocator.getJobSerivce().getMaxJob(job.getPrincipalId());
+		
+		if(maxJob != null) {
+			// get the max of job number of the collection
+			jobNumber = maxJob.getJobNumber() +1;
+		}
+		
+		job.setJobNumber(jobNumber);
 	}
 	/**
 	 * Override to populate user information in Maintenance page

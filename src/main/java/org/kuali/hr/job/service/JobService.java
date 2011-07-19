@@ -63,4 +63,6 @@ public interface JobService {
 	
 	public Job getJob(Long hrJobId);
 	
+	public Job getMaxJob(String principalId);
+	
 }

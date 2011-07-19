@@ -31,4 +31,11 @@ public class JobServiceImplTest extends TkTestCase {
 		assertNotNull("Jobs was null", jobs);
 		assertEquals("Incorrect number of jobs", 2, jobs.size());
 	}
+	
+	@Test
+	public void testGetMaxJob() {
+		Job aJob = jobService.getMaxJob("admin");
+		assertNotNull("Max Job should not be null", aJob);
+		assertEquals("Max job number of admin should be 30", new Long("30"), aJob.getJobNumber());
+	}
 }

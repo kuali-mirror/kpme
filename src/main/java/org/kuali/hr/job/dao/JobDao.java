@@ -58,4 +58,11 @@ public interface JobDao {
 	 * @return
 	 */
 	public Job getJob(Long hrJobId);
+	
+	/**
+	 * Get job with max(jobNumber) for a certain principalId
+	 * @param principalId
+	 * @return
+	 */
+	public Job getMaxJob(String principalId);
 }

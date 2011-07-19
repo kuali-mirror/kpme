@@ -192,4 +192,19 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 		Query query = QueryFactory.newQuery(Job.class, crit);
 		return (Job)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
+	
+	@Override
+	public Job getMaxJob(String principalId) {
+		Criteria root = new Criteria();
+		Criteria crit = new Criteria();
+		crit.addEqualTo("principalId", principalId);
+		ReportQueryByCriteria jobNumberSubQuery = QueryFactory.newReportQuery(Job.class, crit); 
+		jobNumberSubQuery.setAttributes(new String[]{"max(jobNumber)"});
+		
+		crit.addEqualTo("principalId", principalId);
+		root.addEqualTo("jobNumber", jobNumberSubQuery);
+		
+		Query query = QueryFactory.newQuery(Job.class, root);
+		return (Job)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
 }
