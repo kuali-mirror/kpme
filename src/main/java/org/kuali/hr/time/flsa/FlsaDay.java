@@ -100,6 +100,11 @@ public class FlsaDay {
 		Interval overlapInterval = flsaDateInterval.overlap(timeBlockInterval);
 		long overlap = (overlapInterval == null) ? 0L : overlapInterval.toDurationMillis();
 		BigDecimal overlapHours = TKUtils.convertMillisToHours(overlap);
+		if((overlapHours.compareTo(BigDecimal.ZERO) == 0) && flsaDateInterval.contains(beginDateTime) && flsaDateInterval.contains(endDateTime)){
+			if(block.getHours().compareTo(BigDecimal.ZERO) > 0){
+				overlapHours = block.getHours();
+			}
+		}
 
         // Local lookup for this time-block to ensure we are not over applicable hours.
         // You will notice below we are earn codes globally per day, and also locally per timeblock.
