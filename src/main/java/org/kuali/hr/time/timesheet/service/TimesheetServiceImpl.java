@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
@@ -164,7 +165,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		if (tdh != null) {
 			timesheetDocument = new TimesheetDocument(tdh);
 			loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), tdh.getPayBeginDate(), tdh.getPayEndDate());
-            PayCalendarEntries pce = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(tdh.getPrincipalId(), TKUtils.getTimelessDate(tdh.getPayBeginDate()));
+            PayCalendarEntries pce = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(tdh.getPrincipalId(), tdh.getPayEndDate());
             timesheetDocument.setPayCalendarEntry(pce);
 		} else {
 			throw new RuntimeException("Could not find TimesheetDocumentHeader for DocumentID: " + documentId);
