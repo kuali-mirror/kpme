@@ -31,7 +31,9 @@ public class EarnGroupMaintainableImpl extends KualiMaintainableImpl{
 		if(earnGroup.getTkEarnGroupId()!=null && earnGroup.isActive()){
 			EarnGroup oldEarnGroup = TkServiceLocator.getEarnGroupService().getEarnGroup(earnGroup.getTkEarnGroupId());
 			if(earnGroup.getEffectiveDate().equals(oldEarnGroup.getEffectiveDate())){
-				earnGroup.setTimestamp(null);
+				oldEarnGroup.setActive(false);
+				earnGroup.setTimestamp(new Timestamp(System.currentTimeMillis()));
+				earnGroup.setTkEarnGroupId(null);
 			} else{
 				if(oldEarnGroup!=null){
 					oldEarnGroup.setActive(false);
