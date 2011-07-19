@@ -29,7 +29,7 @@ public class TimesheetAction extends TkAction {
 
 
     @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+    protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         TimesheetActionForm taForm = (TimesheetActionForm)form;
         TKUser user = TKContext.getUser();
         UserRoles roles = user.getCurrentRoles(); // either backdoor or actual

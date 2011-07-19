@@ -26,10 +26,10 @@ public class AdminAction extends TkAction {
 	private static final Logger LOG = Logger.getLogger(AdminAction.class);
 
     @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+    protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         TKUser user = TKContext.getUser();
         if (user == null || !user.getCurrentRoles().isSystemAdmin()) {
-            throw new AuthorizationException("", "", "");
+            throw new AuthorizationException("", "AdminAction", "");
         }
     }
 

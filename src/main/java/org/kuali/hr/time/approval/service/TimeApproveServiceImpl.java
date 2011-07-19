@@ -2,6 +2,7 @@ package org.kuali.hr.time.approval.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.groovy.binding.AggregateBinding;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
@@ -9,6 +10,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.paycalendar.PayCalendar;
@@ -18,6 +20,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.*;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.core.jaxb.MapStringStringAdapter;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -101,7 +104,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
                 if (tdh != null) {
                 	String calendarGroup = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, payBeginDate).getCalendarGroup();
-                    pcg.add(calendarGroup);    
+                    pcg.add(calendarGroup);
                 }
             }
         }
@@ -122,25 +125,21 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
         TKUser tkUser = TKContext.getUser();
         Set<Long> approverWorkAreas = tkUser.getCurrentRoles().getApproverWorkAreas();
-        List<Assignment> lstEmployees = new ArrayList<Assignment>();
+
+        // All of the assignments that the current approver has dominion over
+        List<Assignment> activeAssignments = new ArrayList<Assignment>();
 
         for (Long aWorkArea : approverWorkAreas) {
-            lstEmployees.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(aWorkArea, new java.sql.Date(payBeginDate.getTime())));
+            activeAssignments.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(aWorkArea, new java.sql.Date(payBeginDate.getTime())));
         }
 
-        if (!lstEmployees.isEmpty()) {
+        if (!activeAssignments.isEmpty()) {
             List<String> userIds = new ArrayList<String>();
-            List<String> clockUsers = new ArrayList<String>();
             List<ApprovalTimeSummaryRow> rows = new LinkedList<ApprovalTimeSummaryRow>();
 
-            for (Assignment assign : lstEmployees) {
+            for (Assignment assign : activeAssignments) {
                 if (!userIds.contains(assign.getPrincipalId())) {
                     userIds.add(assign.getPrincipalId());
-
-                    // TODO: What are we storing this clockUsers list for?
-                    if (assign.getTimeCollectionRule().isClockUserFl()) {
-                        clockUsers.add(assign.getPrincipalId());
-                    }
                 }
             }
 
@@ -149,17 +148,29 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 if (tdh != null) {
                     String documentId = tdh.getDocumentId();
                     Person person = KIMServiceLocator.getPersonService().getPerson(userId);
-                    List<TimeBlock> lstTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(documentId));
-                    Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(userId, payBeginDate, getPayCalendarLabelsForApprovalTab(payBeginDate, payEndDate), lstTimeBlocks, null);
+                    List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(documentId));
+
+                    // Bucket time blocks into assignment groupings by Day for approval and non approval assignments.
+                    PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(userId, payBeginDate);
+                    TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
+
+                    List<Map<String, Map<String, BigDecimal>>> detailBucketTuple = getHoursByDayAssignmentBuckets(aggregate, activeAssignments, getPayCalendarLabelsForApprovalTab(payBeginDate, payEndDate));
+                    Map<String, Map<String, BigDecimal>> approverAssignmentDaySums = detailBucketTuple.get(0);
+                    Map<String, Map<String, BigDecimal>> otherAssignmentDaySums = detailBucketTuple.get(1);
+
+                    Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(userId, payBeginDate, getPayCalendarLabelsForApprovalTab(payBeginDate, payEndDate), timeBlocks, null);
+
                     List notes = this.getNotesForDocument(documentId);
                     List<String> warnings = TkServiceLocator.getWarningService().getWarnings(documentId);
 
                     ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
+                    approvalSummaryRow.setApproverHoursByAssignment(approverAssignmentDaySums);
+                    approvalSummaryRow.setOtherHoursByAssignment(otherAssignmentDaySums);
                     approvalSummaryRow.setName(person.getName());
                     approvalSummaryRow.setPrincipalId(person.getPrincipalId());
                     approvalSummaryRow.setPayCalendarGroup(calGroup);
                     approvalSummaryRow.setDocumentId(documentId);
-                    approvalSummaryRow.setLstTimeBlocks(lstTimeBlocks);
+                    approvalSummaryRow.setLstTimeBlocks(timeBlocks);
                     approvalSummaryRow.setApprovalStatus(tdh.getDocumentStatus());
                     approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
                     approvalSummaryRow.setClockStatusMessage(createLabelForLastClockLog(userId));
@@ -168,7 +179,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                     // This is used to by the work area grouping. This creates a hidden field with a string of work areas separated by comma.
                     // The fn:join only supports string array. That's why we use a Set<String> instead of Set<Long>.
                     Set<String> workAreas = new LinkedHashSet<String>();
-                    for (TimeBlock tb : lstTimeBlocks) {
+                    for (TimeBlock tb : timeBlocks) {
                         workAreas.add(tb.getWorkArea().toString());
                     }
                     approvalSummaryRow.setWorkAreas(workAreas.toArray(new String[workAreas.size()]));
@@ -288,6 +299,99 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
     }
 
+    public List<Map<String, Map<String, BigDecimal>>> getHoursByDayAssignmentBuckets(TkTimeBlockAggregate aggregate, List<Assignment> approverAssignments,  List<String> payCalendarLabels) {
+        Map<String,Assignment> mappedAssignments = mapAssignmentsByAssignmentKey(approverAssignments);
+        List<List<TimeBlock>> blocksByDay = aggregate.getDayTimeBlockList();
+
+        // (assignment_key, <List of Hours Summed by Day>)
+        Map<String,List<BigDecimal>> approverHours = new HashMap<String,List<BigDecimal>>();
+        Map<String,List<BigDecimal>> otherHours = new HashMap<String,List<BigDecimal>>();
+        for (int day=0; day < blocksByDay.size(); day++) {
+            List<TimeBlock> dayBlocks = blocksByDay.get(day);
+            for (TimeBlock block : dayBlocks) {
+                List<BigDecimal> hours;
+                // Approver vs. Other :: Set our day-hour-list object
+                if (mappedAssignments.containsKey(block.getAssignmentKey())) {
+                    hours = approverHours.get(block.getAssignmentKey());
+                    if (hours == null) {
+                        hours = new ArrayList<BigDecimal>();
+                        approverHours.put(block.getAssignmentKey(), hours);
+                    }
+                } else {
+                    hours = otherHours.get(block.getAssignmentKey());
+                    if (hours == null) {
+                        hours = new ArrayList<BigDecimal>();
+                        otherHours.put(block.getAssignmentKey(), hours);
+                    }
+                }
+
+                // Fill in zeroes for days with 0 hours / no time blocks
+                for (int fill=hours.size(); fill<=day; fill++) {
+                    hours.add(TkConstants.BIG_DECIMAL_SCALED_ZERO);
+                }
+
+                // Add time from time block to existing time.
+                BigDecimal timeToAdd = hours.get(day);
+                timeToAdd = timeToAdd.add(block.getHours(), TkConstants.MATH_CONTEXT);
+                hours.set(day, timeToAdd);
+            }
+        }
+
+        // Compute Weekly / Period Summary Totals for each Assignment.
+        // assignment row, each row has a map of pay calendar label -> big decimal totals.
+        Map<String, Map<String, BigDecimal>> approverAssignToPayHourTotals = new HashMap<String, Map<String,BigDecimal>>();
+        Map<String, Map<String, BigDecimal>> otherAssignToPayHourTotals = new HashMap<String, Map<String,BigDecimal>>();
+
+        // Pass by Reference
+        generateSummaries(approverAssignToPayHourTotals, approverHours, payCalendarLabels);
+        generateSummaries(otherAssignToPayHourTotals, otherHours, payCalendarLabels);
+
+        // Add to our return list, "virtual" tuple.
+        List<Map<String, Map<String, BigDecimal>>> returnTuple = new ArrayList<Map<String, Map<String, BigDecimal>>>(2);
+        returnTuple.add(approverAssignToPayHourTotals);
+        returnTuple.add(otherAssignToPayHourTotals);
+
+        return returnTuple;
+    }
+
+    // Helper method for above method.
+    private void generateSummaries(Map<String, Map<String, BigDecimal>> payHourTotals,  Map<String,List<BigDecimal>> assignmentToHours, List<String> payCalendarLabels) {
+        for (String key : assignmentToHours.keySet()) {
+            // for every Assignment
+            Map<String, BigDecimal> hoursToPayLabelMap = new LinkedHashMap<String, BigDecimal>();
+            List<BigDecimal> dayTotals = assignmentToHours.get(key);
+            int dayCount = 0;
+            BigDecimal weekTotal = new BigDecimal(0.00);
+            BigDecimal periodTotal = new BigDecimal(0.00);
+            for (String payCalendarLabel : payCalendarLabels) {
+                if (StringUtils.contains(payCalendarLabel, "Week")) {
+                    hoursToPayLabelMap.put(payCalendarLabel, weekTotal);
+                    weekTotal = new BigDecimal(0.00);
+                } else if (StringUtils.contains(payCalendarLabel, "Total Hours")) {
+                    hoursToPayLabelMap.put(payCalendarLabel, periodTotal);
+                } else {
+                    BigDecimal dayTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+                    if (dayCount < dayTotals.size())
+                        dayTotal = dayTotals.get(dayCount);
+
+                    hoursToPayLabelMap.put(payCalendarLabel, dayTotal);
+                    weekTotal = weekTotal.add(dayTotal, TkConstants.MATH_CONTEXT);
+                    periodTotal = periodTotal.add(dayTotal);
+                    dayCount++;
+                }
+            }
+            payHourTotals.put(key, hoursToPayLabelMap);
+        }
+    }
+
+    private Map<String,Assignment> mapAssignmentsByAssignmentKey(List<Assignment> assignments) {
+        Map<String,Assignment> assignmentMap = new HashMap<String,Assignment>();
+        for (Assignment assignment : assignments) {
+            assignmentMap.put(AssignmentDescriptionKey.getAssignmentKeyString(assignment), assignment);
+        }
+        return assignmentMap;
+    }
+
     /**
      * Aggregate TimeBlocks to hours per day and sum for week
      *
@@ -304,6 +408,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         List<BigDecimal> dayTotals = new ArrayList<BigDecimal>();
         PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId, beginDateTime);
         TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, payCalendarEntry);
+        // :) http://stackoverflow.com/questions/111933/why-shouldnt-i-use-hungarian-notation
         List<List<TimeBlock>> lstOfLstOfTimeBlocksPerDay = tkTimeBlockAggregate.getDayTimeBlockList();
         for (List<TimeBlock> lstTimeBlocksForDay : lstOfLstOfTimeBlocksPerDay) {
             BigDecimal total = new BigDecimal(0.00);

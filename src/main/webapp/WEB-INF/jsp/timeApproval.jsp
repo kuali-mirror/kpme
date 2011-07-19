@@ -65,8 +65,10 @@
                         <tr>
                             <td>
                                 <div class="ui-state-default ui-corner-all" style="float:left;">
-                                    <span id=""
-                                          class="ui-icon ui-icon-plus rowInfo">${approvalRow.documentId}||${approvalRow.principalId}||${fn:join(approvalRow.workAreas, ",")}</span>
+                                    <span id="" class="ui-icon ui-icon-plus rowInfo">${approvalRow.documentId}||${approvalRow.principalId}||${fn:join(approvalRow.workAreas, ",")}</span>
+                                    <div class="">
+
+                                    </div>
                                 </div>
                                 <a href="PersonInfo.do?${approvalRow.timesheetUserTargetURLParams}">${approvalRow.name}</a>
                                 <br/>${approvalRow.clockStatusMessage}
@@ -153,6 +155,51 @@
                             <td align="center"><input type="checkbox" name="selectedEmpl" id="selectedEmpl"
                                                       class="selectedEmpl"/></td>
                         </tr>
+
+
+                        <tr>
+                            <%-- Render details of approver's hours by Assignment --%>
+                            <c:forEach var="entry" items="${approvalRow.approverHoursByAssignment}">
+                                <td></td>
+                                <td colspan="2">
+                                    ${entry.key}
+                                </td>
+                                <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
+                                    <c:choose>
+                                        <c:when test="${fn:contains(payCalLabel,'Week')}">
+                                            <td style="background-color: #E5E5E5;">
+                                                <span style="font-weight: bold;">${entry.value[payCalLabel]}</span>
+                                            </td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td>${entry.value[payCalLabel]}</td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                            </c:forEach>
+                        </tr>
+                        <tr>
+                            <%-- Render details of non-approvers's hours by Assignment --%>
+                            <c:forEach var="entry" items="${approvalRow.otherHoursByAssignment}">
+                                <td></td>
+                                <td colspan="2">
+                                    ${entry.key}
+                                </td>
+                                <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
+                                    <c:choose>
+                                        <c:when test="${fn:contains(payCalLabel,'Week')}">
+                                            <td style="background-color: #E5E5E5;">
+                                                <span style="font-weight: bold;">${entry.value[payCalLabel]}</span>
+                                            </td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td>${entry.value[payCalLabel]}</td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                            </c:forEach>
+                        </tr>
+
                     </c:forEach>
                     <tr>
                         <td colspan="22" align="center" style="border:none;">

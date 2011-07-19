@@ -27,18 +27,28 @@ public class TkAction extends KualiAction {
 
     private static final Logger LOG = Logger.getLogger(TkAction.class);
 
+
+    protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+        // TODO : Rename, and Handle Authorization independent of Rice and the checkAuthorization() method.
+    }
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward;
-
         try {
-            forward = super.execute(mapping, form, request, response);
+            String methodToCall = null;
+            if (form instanceof TkForm)
+                methodToCall = ((TkForm)form).getMethodToCall();
+
+            checkTKAuthorization(form, methodToCall);
         } catch (AuthorizationException e) {
             LOG.error("User: " + TKContext.getPrincipalId() + " Target: " + TKContext.getTargetPrincipalId(), e);
             return mapping.findForward("unauthorized");
         }
 
-        return forward;
+        // Run our logic / security first - For some reason kuali
+        // dispatches actions BEFORE checking the security...
+
+        return super.execute(mapping, form, request, response);
     }
 
     /**

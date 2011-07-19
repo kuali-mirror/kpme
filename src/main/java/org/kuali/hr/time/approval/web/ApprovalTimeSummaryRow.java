@@ -13,6 +13,10 @@ import java.util.Map;
 public class ApprovalTimeSummaryRow {
 	private String name;
 	private List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
+    /** A Map (Assignment key) of Mapped totals (pay label mapping) */
+    private Map<String, Map<String, BigDecimal>> approverHoursByAssignment;
+    /** A Map (Assignment key) of Mapped totals (pay label mapping) */
+    private Map<String, Map<String, BigDecimal>> otherHoursByAssignment;
 	private String approvalStatus;
 	private String documentId;
 	private Map<String,BigDecimal> hoursToPayLabelMap = new HashMap<String,BigDecimal>();
@@ -24,7 +28,23 @@ public class ApprovalTimeSummaryRow {
     private String principalId;
     private Boolean clockedInOverThreshold = Boolean.FALSE;
 
-	public String getName() {
+    public Map<String, Map<String, BigDecimal>> getApproverHoursByAssignment() {
+        return approverHoursByAssignment;
+    }
+
+    public void setApproverHoursByAssignment(Map<String, Map<String, BigDecimal>> approverHoursByAssignment) {
+        this.approverHoursByAssignment = approverHoursByAssignment;
+    }
+
+    public Map<String, Map<String, BigDecimal>> getOtherHoursByAssignment() {
+        return otherHoursByAssignment;
+    }
+
+    public void setOtherHoursByAssignment(Map<String, Map<String, BigDecimal>> otherHoursByAssignment) {
+        this.otherHoursByAssignment = otherHoursByAssignment;
+    }
+
+    public String getName() {
 		return name;
 	}
     public void setName(String name) {

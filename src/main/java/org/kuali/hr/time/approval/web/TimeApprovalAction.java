@@ -32,7 +32,7 @@ import org.kuali.rice.kns.exception.AuthorizationException;
 public class TimeApprovalAction extends TkAction {
 
     @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+    protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         TKUser user = TKContext.getUser();
         UserRoles roles = user.getCurrentRoles();
 
@@ -43,6 +43,7 @@ public class TimeApprovalAction extends TkAction {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward fwd = super.execute(mapping, form, request, response);
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         TKUser user = TKContext.getUser();
         Date currentDate;
@@ -85,7 +86,7 @@ public class TimeApprovalAction extends TkAction {
 
         // Check pay Calendar Group
         if (StringUtils.isEmpty(taaf.getSelectedPayCalendarGroup())) {
-            taaf.setSelectedPayCalendarGroup(calGroups.first()); 
+            taaf.setSelectedPayCalendarGroup(calGroups.first());
         }
 
         // Finally, set our entries, if not set already.
@@ -103,7 +104,7 @@ public class TimeApprovalAction extends TkAction {
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
         taaf.setApprovalRows(getApprovalRows(taaf));
 
-        return super.execute(mapping, form, request, response);
+        return fwd;
     }
 
 

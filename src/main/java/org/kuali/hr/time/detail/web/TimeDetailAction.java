@@ -37,8 +37,8 @@ import java.util.Map;
 public class TimeDetailAction extends TimesheetAction {
 
     @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        super.checkAuthorization(form, methodToCall); // Checks for read access first.
+    protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+        super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
 
         TimesheetActionForm taForm = (TimesheetActionForm)form;
         TKUser user = TKContext.getUser();
@@ -118,7 +118,7 @@ public class TimeDetailAction extends TimesheetAction {
                         assignment.getTask().compareTo(key.getTask()) == 0) {
                     List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, tdaf.getTimesheetDocument().getAsOfDate());
                     for (EarnCode earnCode : earnCodes) {
-                    	if(earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE) 
+                    	if(earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)
                     			&& !(TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().getCurrentRoles().isTimesheetApprover())) {
                     		continue;
                     	}
@@ -321,7 +321,7 @@ public class TimeDetailAction extends TimesheetAction {
         if (tdaf.getTkTimeBlockId() == null) {
             Interval addedTimeblockInterval = new Interval(startTime, endTime);
             List<Interval> dayInt = new ArrayList<Interval> ();
-            
+
             if(StringUtils.equals(tdaf.getAcrossDays(), "y")) {
             	DateTime start = new DateTime(startTime);
             	DateTime end = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getEndTime()).getTime());

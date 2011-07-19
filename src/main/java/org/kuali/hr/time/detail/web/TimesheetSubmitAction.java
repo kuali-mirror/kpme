@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TimesheetSubmitAction extends TkAction {
 
     @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+    protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         String timesheetDocumentId = TKContext.getCurrentTimesheetDocumentId();
         String principal = TKContext.getPrincipalId();
         UserRoles roles = TKContext.getUser().getCurrentRoles();
@@ -33,6 +33,7 @@ public class TimesheetSubmitAction extends TkAction {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.execute(mapping, form, request, response);
         TimesheetSubmitActionForm tsaf = (TimesheetSubmitActionForm)form;
         TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsaf.getDocumentId());
 

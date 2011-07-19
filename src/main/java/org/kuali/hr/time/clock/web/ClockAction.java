@@ -37,13 +37,13 @@ import org.kuali.rice.kns.exception.AuthorizationException;
 
 public class ClockAction extends TimesheetAction {
 
-    	private static final Logger LOG = Logger.getLogger(ClockAction.class);
-    	public static final SimpleDateFormat SDF =  new SimpleDateFormat("EEE, MMMM d yyyy HH:mm:ss, zzzz");
-    	public static final String SEPERATOR = "[****]+";
+    private static final Logger LOG = Logger.getLogger(ClockAction.class);
+    public static final SimpleDateFormat SDF =  new SimpleDateFormat("EEE, MMMM d yyyy HH:mm:ss, zzzz");
+    public static final String SEPERATOR = "[****]+";
 
     @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        super.checkAuthorization(form, methodToCall); // Checks for read access first.
+    protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+        super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
 
         TimesheetActionForm taForm = (TimesheetActionForm)form;
         TKUser user = TKContext.getUser();
