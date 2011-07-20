@@ -123,6 +123,9 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
     }
 
     public java.sql.Date getBeginPeriodDate() {
+    	if(beginPeriodDate == null && this.getBeginPeriodDateTime() != null) {
+    		setBeginPeriodDate(new java.sql.Date(this.getBeginPeriodDateTime().getTime()));
+    	}
         return beginPeriodDate;
     }
 
@@ -131,6 +134,9 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
     }
 
     public java.sql.Date getEndPeriodDate() {
+    	if(endPeriodDate == null && this.getEndPeriodDateTime() != null) {
+    		setEndPeriodDate(new java.sql.Date(this.getEndPeriodDateTime().getTime()));
+    	}
         return endPeriodDate;
     }
 

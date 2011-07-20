@@ -38,6 +38,8 @@
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="payCalendarEntriesId" p:targetName="payCalendarEntriesId"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarGroup" p:targetName="calendarGroup"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="endPeriodDateTime" p:targetName="endPeriodDateTime"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="endPeriodDate" p:targetName="endPeriodDate"/>
                 </list>
               </property>
             </bean>
@@ -106,14 +108,19 @@
 	<bean id="TimeSheetInitiate-endPeriodDate-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="End Date" />
 		<property name="maxLength" value="10" />
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="10" />
-		</property>
+		<property name="validationPattern">
+ 			<bean parent="DateValidationPattern"/>
+    	</property>
+	    <property name="control">
+	      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+	    </property>
+	     <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
 		<property name="name" value="endPeriodDate" />
 		<property name="label" value="Pay Period End Date" />
-	</bean> 
-	
-	
+	</bean>
+	 
+	 
+	 
   <!-- Lookup Definition: -->
 
   <bean id="TimeSheetInitiate-lookupDefinition" parent="TimeSheetInitiate-lookupDefinition-parentBean"/>

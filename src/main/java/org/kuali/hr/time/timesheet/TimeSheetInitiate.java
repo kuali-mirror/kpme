@@ -1,6 +1,5 @@
 package org.kuali.hr.time.timesheet;
 
-import java.text.DateFormat;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
@@ -21,6 +20,7 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 	
 	private Person principal;
 	private PayCalendarEntries payCalendarEntriesObj;
+	private java.sql.Date endPeriodDate;
 	
 	public String getPrincipalId() {
 		return principalId;
@@ -74,16 +74,18 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
         this.calendarGroup = calendarGroup;
     }
     
-    public String getEndPeriodDate() {
-		if(this.getPayCalendarEntriesObj() != null){
-			if (this.getPayCalendarEntriesObj().getEndPeriodDateTime() != null) {
-				java.util.Date aDate = this.getPayCalendarEntriesObj().getEndPeriodDateTime();
-				DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT);
-				return dateFormatter.format(aDate);
+    public java.sql.Date getEndPeriodDate() {
+		if(endPeriodDate == null && this.getPayCalendarEntriesObj() != null){
+			if(this.getPayCalendarEntriesObj().getEndPeriodDate() != null) {
+				setEndPeriodDate(this.getPayCalendarEntriesObj().getEndPeriodDate());
 			}
 		}
-		return "";
+    	return endPeriodDate;
 	}
+    
+    public void setEndPeriodDate(java.sql.Date endPeriodDate) {
+        this.endPeriodDate = endPeriodDate;
+    }
  
 	@SuppressWarnings("unchecked")
 	@Override
@@ -93,4 +95,9 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 		toStringMap.put("principalId", principalId);
 		return toStringMap;
 	}
+
+	public java.util.Date getEndPeriodDateTime() {
+		return this.getEndPeriodDate();
+	}
+
 }
