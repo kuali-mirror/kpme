@@ -64,12 +64,12 @@
                     <c:forEach var="approvalRow" items="${Form.approvalRows}" varStatus="row">
                         <tr>
                             <td>
-                                <div class="ui-state-default ui-corner-all" style="float:left;">
-                                    <span id="" class="ui-icon ui-icon-plus rowInfo">${approvalRow.documentId}||${approvalRow.principalId}||${fn:join(approvalRow.workAreas, ",")}</span>
-                                    <div class="">
+                                <%--<div class="ui-state-default ui-corner-all" style="float:left;">--%>
+                                    <%--<span id="" class="ui-icon ui-icon-plus rowInfo">${approvalRow.documentId}||${approvalRow.principalId}||${fn:join(approvalRow.workAreas, ",")}</span>--%>
+                                    <%--<div class="">--%>
 
-                                    </div>
-                                </div>
+                                    <%--</div>--%>
+                                <%--</div>--%>
                                 <a href="PersonInfo.do?${approvalRow.timesheetUserTargetURLParams}">${approvalRow.name}</a>
                                 <br/>${approvalRow.clockStatusMessage}
                             </td>
