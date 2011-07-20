@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
@@ -31,7 +32,10 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.FieldRestriction;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.BusinessObjectRelationship;
 import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.KualiCode;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
@@ -59,16 +63,10 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ModuleService;
-import org.kuali.rice.kns.util.ExternalizableBusinessObjectUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.MaintenanceUtils;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.FormatException;
 import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.PropertyRenderingConfigElement;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 
@@ -76,7 +74,6 @@ import org.kuali.rice.kns.web.ui.Section;
 /**
  * This class is used to build Field objects from underlying data dictionary and general utility methods for handling fields.
  */
-@SuppressWarnings("all")
 public class FieldUtils {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FieldUtils.class);
     private static DataDictionaryService dataDictionaryService = null;
@@ -84,8 +81,7 @@ public class FieldUtils {
     private static BusinessObjectDictionaryService businessObjectDictionaryService = null;
     private static KualiModuleService kualiModuleService = null;
 
-    
-	public static void setInquiryURL(Field field, BusinessObject bo, String propertyName) {
+    public static void setInquiryURL(Field field, BusinessObject bo, String propertyName) {
         HtmlData inquiryHref = new AnchorHtmlData(KNSConstants.EMPTY_STRING, KNSConstants.EMPTY_STRING);
 
         Boolean b = getBusinessObjectDictionaryService().noInquiryFieldInquiry(bo.getClass(), propertyName);
@@ -112,43 +108,42 @@ public class FieldUtils {
 
         field.setInquiryURL(inquiryHref);
     }
+    
+	/**
+	 * Sets the control on the field based on the data dictionary definition
+	 * 
+	 * @param businessObjectClass
+	 *            - business object class for the field attribute
+	 * @param attributeName
+	 *            - name of the attribute whose {@link Field} is being set
+	 * @param convertForLookup
+	 *            - whether the field is being build for lookup search which impacts the control chosen
+	 * @param field
+	 *            - {@link Field} to set control on
+	 */
+	public static void setFieldControl(Class businessObjectClass, String attributeName, boolean convertForLookup,
+			Field field) {
+		ControlDefinition control = getDataDictionaryService().getAttributeControlDefinition(businessObjectClass,
+				attributeName);
+		String fieldType = Field.TEXT;
 
+		if (control != null) {
+			if (control.isSelect()) {
+				if (control.getScript() != null && control.getScript().length() > 0) {
+					fieldType = Field.DROPDOWN_SCRIPT;
+					field.setScript(control.getScript());
+				} else {
+					fieldType = Field.DROPDOWN;
+				}
+			}
 
-    /**
-     * Builds up a Field object based on the propertyName and business object class.
-     *
-     * See KULRICE-2480 for info on translateCheckboxes flag
-     *
-     * @param propertyName
-     * @return Field
-     */
-    public static Field getPropertyField(Class businessObjectClass, String attributeName, boolean translateCheckboxes) {
-        Field field = new Field();
-        field.setPropertyName(attributeName);
-        field.setFieldLabel(getDataDictionaryService().getAttributeLabel(businessObjectClass, attributeName));
+			if (control.isMultiselect()) {
+				fieldType = Field.MULTISELECT;
+			}
 
-        // get control type for ui, depending on type set other field properties
-        ControlDefinition control = getDataDictionaryService().getAttributeControlDefinition(businessObjectClass, attributeName);
-        String fieldType = Field.TEXT;
-
-        if (control != null) {
-            if (control.isSelect()) {
-                if (control.getScript() != null && control.getScript().length() > 0) {
-                    fieldType = Field.DROPDOWN_SCRIPT;
-                    field.setScript(control.getScript());
-                }
-                else {
-                    fieldType = Field.DROPDOWN;
-                }
-            }
-
-            if (control.isMultiselect()) {
-                fieldType = Field.MULTISELECT;
-            }
-
-            if (control.isApcSelect()) {
-                fieldType = Field.DROPDOWN_APC;
-            }
+			if (control.isApcSelect()) {
+				fieldType = Field.DROPDOWN_APC;
+			}
 
             if (control.isCheckbox()) {
                 fieldType = Field.CHECKBOX;
@@ -157,164 +152,188 @@ public class FieldUtils {
                 }
             }
 
-            if (control.isRadio()) {
-                fieldType = Field.RADIO;
-            }
+			if (control.isRadio()) {
+				fieldType = Field.RADIO;
+			}
 
-            if (control.isHidden()) {
-                fieldType = Field.HIDDEN;
-            }
+			if (control.isHidden()) {
+				fieldType = Field.HIDDEN;
+			}
 
-            if (control.isKualiUser()) {
-                fieldType = Field.KUALIUSER;
-                KualiUserControlDefinition kualiUserControl = (KualiUserControlDefinition) control;
-                field.setUniversalIdAttributeName(kualiUserControl.getUniversalIdAttributeName());
-                field.setUserIdAttributeName(kualiUserControl.getUserIdAttributeName());
-                field.setPersonNameAttributeName(kualiUserControl.getPersonNameAttributeName());
-            }
+			if (control.isKualiUser()) {
+				fieldType = Field.KUALIUSER;
+				KualiUserControlDefinition kualiUserControl = (KualiUserControlDefinition) control;
+				field.setUniversalIdAttributeName(kualiUserControl.getUniversalIdAttributeName());
+				field.setUserIdAttributeName(kualiUserControl.getUserIdAttributeName());
+				field.setPersonNameAttributeName(kualiUserControl.getPersonNameAttributeName());
+			}
 
-            if (control.isWorkflowWorkgroup()) {
-                fieldType = Field.WORKFLOW_WORKGROUP;
-            }
+			if (control.isWorkflowWorkgroup()) {
+				fieldType = Field.WORKFLOW_WORKGROUP;
+			}
 
-            if (control.isFile()) {
-                fieldType = Field.FILE;
-            }
+			if (control.isFile()) {
+				fieldType = Field.FILE;
+			}
 
-            if (control.isTextarea()) {
-                fieldType = Field.TEXT_AREA;
-            }
+			if (control.isTextarea() && !convertForLookup) {
+				fieldType = Field.TEXT_AREA;
+			}
 
-            if (control.isLookupHidden()) {
-                fieldType = Field.LOOKUP_HIDDEN;
-            }
+			if (control.isLookupHidden()) {
+				fieldType = Field.LOOKUP_HIDDEN;
+			}
 
-            if (control.isLookupReadonly()) {
-                fieldType = Field.LOOKUP_READONLY;
-            }
+			if (control.isLookupReadonly()) {
+				fieldType = Field.LOOKUP_READONLY;
+			}
 
-            if (control.isCurrency()) {
-                fieldType = Field.CURRENCY;
-            }
+			if (control.isCurrency()) {
+				fieldType = Field.CURRENCY;
+			}
 
-            if(control.isButton()){
-            	fieldType = Field.BUTTON;
-            }
+			if (control.isButton()) {
+				fieldType = Field.BUTTON;
+			}
 
-            if(control.isLink()){
-            	fieldType = Field.LINK;
-            }
+			if (control.isLink()) {
+				fieldType = Field.LINK;
+			}
 
-            if (Field.CURRENCY.equals(fieldType) && control instanceof CurrencyControlDefinition) {
-                CurrencyControlDefinition currencyControl = (CurrencyControlDefinition) control;
-                field.setStyleClass("amount");
-                field.setSize(currencyControl.getSize());
-                field.setFormattedMaxLength(currencyControl.getFormattedMaxLength());
-            }
+			if (Field.CURRENCY.equals(fieldType) && control instanceof CurrencyControlDefinition) {
+				CurrencyControlDefinition currencyControl = (CurrencyControlDefinition) control;
+				field.setStyleClass("amount");
+				field.setSize(currencyControl.getSize());
+				field.setFormattedMaxLength(currencyControl.getFormattedMaxLength());
+			}
 
-            // for text controls, set size attribute
-            if (Field.TEXT.equals(fieldType)) {
-                Integer size = control.getSize();
-                if (size != null) {
-                    field.setSize(size.intValue());
-                }
-                else {
-                    field.setSize(30);
-                }
-                field.setDatePicker(control.isDatePicker());
+			// for text controls, set size attribute
+			if (Field.TEXT.equals(fieldType)) {
+				Integer size = control.getSize();
+				if (size != null) {
+					field.setSize(size.intValue());
+				} else {
+					field.setSize(30);
+				}
+				field.setDatePicker(control.isDatePicker());
+				field.setRanged(control.isRanged());
+			}
 
-            }
+			if (Field.WORKFLOW_WORKGROUP.equals(fieldType)) {
+				Integer size = control.getSize();
+				if (size != null) {
+					field.setSize(size.intValue());
+				} else {
+					field.setSize(30);
+				}
+			}
 
-            if (Field.WORKFLOW_WORKGROUP.equals(fieldType)) {
-                Integer size = control.getSize();
-                if (size != null) {
-                    field.setSize(size.intValue());
-                }
-                else {
-                    field.setSize(30);
-                }
-            }
+			// for text area controls, set rows and cols attributes
+			if (Field.TEXT_AREA.equals(fieldType)) {
+				Integer rows = control.getRows();
+				if (rows != null) {
+					field.setRows(rows.intValue());
+				} else {
+					field.setRows(3);
+				}
 
-            // for text area controls, set rows and cols attributes
-            if (Field.TEXT_AREA.equals(fieldType)) {
-                Integer rows = control.getRows();
-                if (rows != null) {
-                    field.setRows(rows.intValue());
-                }
-                else {
-                    field.setRows(3);
-                }
+				Integer cols = control.getCols();
+				if (cols != null) {
+					field.setCols(cols.intValue());
+				} else {
+					field.setCols(40);
+				}
+				field.setExpandedTextArea(control.isExpandedTextArea());
+			}
 
-                Integer cols = control.getCols();
-                if (cols != null) {
-                    field.setCols(cols.intValue());
-                }
-                else {
-                    field.setCols(40);
-                }
-            }
+			// for dropdown and radio, get instance of specified KeyValuesFinder and set field values
+			if (Field.DROPDOWN.equals(fieldType) || Field.RADIO.equals(fieldType)
+					|| Field.DROPDOWN_SCRIPT.equals(fieldType) || Field.DROPDOWN_APC.equals(fieldType)
+					|| Field.MULTISELECT.equals(fieldType)) {
+				String keyFinderClassName = control.getValuesFinderClass();
 
-            // for dropdown and radio, get instance of specified KeyValuesFinder and set field values
-            if (Field.DROPDOWN.equals(fieldType) || Field.RADIO.equals(fieldType) || Field.DROPDOWN_SCRIPT.equals(fieldType) || Field.DROPDOWN_APC.equals(fieldType) || Field.MULTISELECT.equals(fieldType)) {
-                String keyFinderClassName = control.getValuesFinderClass();
+				if (StringUtils.isNotBlank(keyFinderClassName)) {
+					try {
+						Class keyFinderClass = ClassLoaderUtils.getClass(keyFinderClassName);
+						KeyValuesFinder finder = (KeyValuesFinder) keyFinderClass.newInstance();
 
-                if (StringUtils.isNotBlank(keyFinderClassName)) {
-                    try {
-                    	Class keyFinderClass = ClassLoaderUtils.getClass(keyFinderClassName);
-                        KeyValuesFinder finder = (KeyValuesFinder) keyFinderClass.newInstance();
+						if (finder != null) {
+							if (finder instanceof ApcValuesFinder && control instanceof ApcSelectControlDefinition) {
+								((ApcValuesFinder) finder).setParameterNamespace(((ApcSelectControlDefinition) control)
+										.getParameterNamespace());
+								((ApcValuesFinder) finder)
+										.setParameterDetailType(((ApcSelectControlDefinition) control)
+												.getParameterDetailType());
+								((ApcValuesFinder) finder).setParameterName(((ApcSelectControlDefinition) control)
+										.getParameterName());
+							} else if (finder instanceof PersistableBusinessObjectValuesFinder) {
+								((PersistableBusinessObjectValuesFinder) finder)
+										.setBusinessObjectClass(ClassLoaderUtils.getClass(control
+												.getBusinessObjectClass()));
+								((PersistableBusinessObjectValuesFinder) finder).setKeyAttributeName(control
+										.getKeyAttribute());
+								((PersistableBusinessObjectValuesFinder) finder).setLabelAttributeName(control
+										.getLabelAttribute());
+								if (control.getIncludeBlankRow() != null) {
+									((PersistableBusinessObjectValuesFinder) finder).setIncludeBlankRow(control
+											.getIncludeBlankRow());
+								}
+								((PersistableBusinessObjectValuesFinder) finder).setIncludeKeyInDescription(control
+										.getIncludeKeyInLabel());
+							}
+							field.setFieldValidValues(finder.getKeyValues());
+							field.setFieldInactiveValidValues(finder.getKeyValues(false));
+						}
+					} catch (InstantiationException e) {
+						LOG.error("Unable to get new instance of finder class: " + keyFinderClassName);
+						throw new RuntimeException("Unable to get new instance of finder class: " + keyFinderClassName);
+					} catch (IllegalAccessException e) {
+						LOG.error("Unable to get new instance of finder class: " + keyFinderClassName);
+						throw new RuntimeException("Unable to get new instance of finder class: " + keyFinderClassName);
+					}
+				}
+			}
 
-                        if (finder != null) {
-                            if (finder instanceof ApcValuesFinder && control instanceof ApcSelectControlDefinition) {
-                                ((ApcValuesFinder) finder).setParameterNamespace(((ApcSelectControlDefinition) control).getParameterNamespace());
-                                ((ApcValuesFinder) finder).setParameterDetailType(((ApcSelectControlDefinition) control).getParameterDetailType());
-                                ((ApcValuesFinder) finder).setParameterName(((ApcSelectControlDefinition) control).getParameterName());
-                            } else if (finder instanceof PersistableBusinessObjectValuesFinder) {
-                                ((PersistableBusinessObjectValuesFinder) finder).setBusinessObjectClass(ClassLoaderUtils.getClass(control.getBusinessObjectClass()));
-                                ((PersistableBusinessObjectValuesFinder) finder).setKeyAttributeName(control.getKeyAttribute());
-                                ((PersistableBusinessObjectValuesFinder) finder).setLabelAttributeName(control.getLabelAttribute());
-                                if (control.getIncludeBlankRow() != null) {
-                                	((PersistableBusinessObjectValuesFinder) finder).setIncludeBlankRow(control.getIncludeBlankRow());
-                                }
-                                ((PersistableBusinessObjectValuesFinder) finder).setIncludeKeyInDescription(control.getIncludeKeyInLabel());
-                            }
-                            field.setFieldValidValues(finder.getKeyValues());
-                            field.setFieldInactiveValidValues(finder.getKeyValues(false));
-                        }
-                    }
-                    catch (InstantiationException e) {
-                        LOG.error("Unable to get new instance of finder class: " + keyFinderClassName);
-                        throw new RuntimeException("Unable to get new instance of finder class: " + keyFinderClassName);
-                    }
-                    catch (IllegalAccessException e) {
-                        LOG.error("Unable to get new instance of finder class: " + keyFinderClassName);
-                        throw new RuntimeException("Unable to get new instance of finder class: " + keyFinderClassName);
-                    }
-                }
-            }
+			if (Field.CHECKBOX.equals(fieldType) && convertForLookup) {
+				fieldType = Field.RADIO;
+				field.setFieldValidValues(IndicatorValuesFinder.INSTANCE.getKeyValues());
+			}
 
-            if (Field.CHECKBOX.equals(fieldType) && translateCheckboxes) {
-                fieldType = Field.RADIO;
-                field.setFieldValidValues(IndicatorValuesFinder.INSTANCE.getKeyValues());
-            }
+			// for button control
+			if (Field.BUTTON.equals(fieldType)) {
+				ButtonControlDefinition buttonControl = (ButtonControlDefinition) control;
+				field.setImageSrc(buttonControl.getImageSrc());
+				field.setStyleClass(buttonControl.getStyleClass());
+			}
 
-            // for button control
-            if (Field.BUTTON.equals(fieldType)) {
-            	ButtonControlDefinition buttonControl = (ButtonControlDefinition) control;
-                field.setImageSrc(buttonControl.getImageSrc());
-                field.setStyleClass(buttonControl.getStyleClass());
-            }
+			// for link control
+			if (Field.LINK.equals(fieldType)) {
+				LinkControlDefinition linkControl = (LinkControlDefinition) control;
+				field.setStyleClass(linkControl.getStyleClass());
+				field.setTarget(linkControl.getTarget());
+				field.setHrefText(linkControl.getHrefText());
+			}
 
-            // for link control
-            if (Field.LINK.equals(fieldType)) {
-            	LinkControlDefinition linkControl = (LinkControlDefinition) control;
-                field.setStyleClass(linkControl.getStyleClass());
-                field.setTarget(linkControl.getTarget());
-                field.setHrefText(linkControl.getHrefText());
-            }
+		}
 
-        }
+		field.setFieldType(fieldType);
+	}
 
-        field.setFieldType(fieldType);
+
+    /**
+     * Builds up a Field object based on the propertyName and business object class.
+     *
+     * See KULRICE-2480 for info on convertForLookup flag
+     *
+     * @param propertyName
+     * @return Field
+     */
+    public static Field getPropertyField(Class businessObjectClass, String attributeName, boolean convertForLookup) {
+        Field field = new Field();
+        field.setPropertyName(attributeName);
+        field.setFieldLabel(getDataDictionaryService().getAttributeLabel(businessObjectClass, attributeName));
+
+        setFieldControl(businessObjectClass, attributeName, convertForLookup, field);
 
         Boolean fieldRequired = getBusinessObjectDictionaryService().getLookupAttributeRequired(businessObjectClass, attributeName);
         if (fieldRequired != null) {
@@ -337,21 +356,19 @@ public class FieldUtils {
         if (upperCase != null) {
             field.setUpperCase(upperCase.booleanValue());
         }
-
-        Class<? extends Formatter> formatterClass = getDataDictionaryService().getAttributeFormatter(businessObjectClass, attributeName);
-        if (formatterClass != null) {
-            try {
-                field.setFormatter(formatterClass.newInstance());
-            }
-            catch (InstantiationException e) {
-                LOG.error("Unable to get new instance of formatter class: " + formatterClass.getName());
-                throw new RuntimeException("Unable to get new instance of formatter class: " + formatterClass.getName());
-            }
-            catch (IllegalAccessException e) {
-                LOG.error("Unable to get new instance of formatter class: " + formatterClass.getName());
-                throw new RuntimeException("Unable to get new instance of formatter class: " + formatterClass.getName());
-            }
-        }
+        
+		if (!businessObjectClass.isInterface()) {
+			try {
+				field.setFormatter(ObjectUtils.getFormatterWithDataDictionary(businessObjectClass.newInstance(),
+						attributeName));
+			} catch (InstantiationException e) {
+				LOG.info("Unable to get new instance of business object class: " + businessObjectClass.getName(), e);
+				// just swallow exception and leave formatter blank
+			} catch (IllegalAccessException e) {
+				LOG.info("Unable to get new instance of business object class: " + businessObjectClass.getName(), e);
+				// just swallow exception and leave formatter blank
+			}
+		}
 
         // set Field help properties
         field.setBusinessObjectClassName(businessObjectClass.getName());
@@ -360,6 +377,34 @@ public class FieldUtils {
 
         return field;
     }
+
+	/**
+	 * For attributes that are codes (determined by whether they have a
+	 * reference to a KualiCode bo and similar naming) sets the name as an
+	 * additional display property
+	 * 
+	 * @param businessObjectClass -
+	 *            class containing attribute
+	 * @param attributeName - 
+	 *            name of attribute in the business object
+	 * @param field - 
+	 *            property display element
+	 */
+	public static void setAdditionalDisplayPropertyForCodes(Class businessObjectClass, String attributeName, PropertyRenderingConfigElement field) {
+		try {
+			BusinessObjectRelationship relationship = getBusinessObjectMetaDataService().getBusinessObjectRelationship(
+					(BusinessObject) businessObjectClass.newInstance(), attributeName);
+
+			if (relationship != null && attributeName.startsWith(relationship.getParentAttributeName())
+					&& KualiCode.class.isAssignableFrom(relationship.getRelatedClass())) {
+				field.setAdditionalDisplayPropertyName(relationship.getParentAttributeName() + "."
+						+ KNSPropertyConstants.NAME);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("Cannot get new instance of class to check for KualiCode references: "
+					+ e.getMessage());
+		}
+	}
 
 
     /**
@@ -515,6 +560,10 @@ public class FieldUtils {
     public static List<Field> populateFieldsFromBusinessObject(List<Field> fields, BusinessObject bo) {
         List<Field> populatedFields = new ArrayList<Field>();
 
+        if (bo instanceof PersistableBusinessObject) {
+        	((PersistableBusinessObject) bo).refreshNonUpdateableReferences();
+        }
+        
         for (Iterator<Field> iter = fields.iterator(); iter.hasNext();) {
             Field element = iter.next();
             if (element.containsBOData()) {
@@ -529,6 +578,18 @@ public class FieldUtils {
                 else if (PropertyUtils.isReadable(bo, propertyName)) {
                 	populateReadableField(element, bo);
                 }
+                
+    			if (StringUtils.isNotBlank(element.getAlternateDisplayPropertyName())) {
+    				String alternatePropertyValue = ObjectUtils.getFormattedPropertyValueUsingDataDictionary(bo, element
+    						.getAlternateDisplayPropertyName());
+    				element.setAlternateDisplayPropertyValue(alternatePropertyValue);
+    			}
+
+    			if (StringUtils.isNotBlank(element.getAdditionalDisplayPropertyName())) {
+    				String additionalPropertyValue = ObjectUtils.getFormattedPropertyValueUsingDataDictionary(bo, element
+    						.getAdditionalDisplayPropertyName());
+    				element.setAdditionalDisplayPropertyValue(additionalPropertyValue);
+    			}
             }
             populatedFields.add(element);
         }
@@ -537,9 +598,11 @@ public class FieldUtils {
     }
 
     public static void populateReadableField(Field field, BusinessObject businessObject){
-        Object obj = ObjectUtils.getNestedValue(businessObject, field.getPropertyName());
-        if (obj != null) {
-        	field.setPropertyValue(obj);
+		Object obj = ObjectUtils.getNestedValue(businessObject, field.getPropertyName());
+		if (obj != null) {
+			String formattedValue = ObjectUtils.getFormattedPropertyValueUsingDataDictionary(businessObject, field.getPropertyName());
+			field.setPropertyValue(formattedValue);
+        	
             // for user fields, attempt to pull the principal ID and person's name from the source object
             if ( field.getFieldType().equals(Field.KUALIUSER) ) {
             	// this is supplemental, so catch and log any errors
@@ -561,6 +624,7 @@ public class FieldUtils {
             	}
             }
         }
+        
         populateSecureField(field, obj);
     }
 
@@ -700,11 +764,7 @@ public class FieldUtils {
                     // if the field propertyName is a valid property on the bo class
                     Class type = ObjectUtils.easyGetPropertyType(bo, propertyName);
                     try {
-                    	//convert to upperCase based on data dictionary
-                    	Class businessObjectClass = bo.getClass();
-
                     	Object fieldValue = fieldValues.get(propertyName);
-
                         ObjectUtils.setObjectProperty(bo, propertyName, type, fieldValue);
                     }
                     catch (FormatException e) {
@@ -785,7 +845,8 @@ public class FieldUtils {
 
                 for (int l = 0; l < conversions.length; l++) {
                     String conversion = conversions[l];
-                    String[] conversionPair = StringUtils.split(conversion, KNSConstants.FIELD_CONVERSION_PAIR_SEPARATOR);
+                    //String[] conversionPair = StringUtils.split(conversion, KNSConstants.FIELD_CONVERSION_PAIR_SEPARATOR);
+                    String[] conversionPair = StringUtils.split(conversion, KNSConstants.FIELD_CONVERSION_PAIR_SEPARATOR, 2);
                     String conversionFrom = conversionPair[0];
                     String conversionTo = conversionPair[1];
                     conversionTo = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + conversionTo;
@@ -807,7 +868,8 @@ public class FieldUtils {
 
                 for (int l = 0; l < parameters.length; l++) {
                     String parameter = parameters[l];
-                    String[] parameterPair = StringUtils.split(parameter, KNSConstants.FIELD_CONVERSION_PAIR_SEPARATOR);
+                    //String[] parameterPair = StringUtils.split(parameter, KNSConstants.FIELD_CONVERSION_PAIR_SEPARATOR);
+                    String[] parameterPair = StringUtils.split(parameter, KNSConstants.FIELD_CONVERSION_PAIR_SEPARATOR, 2);
                     String conversionFrom = parameterPair[0];
                     String conversionTo = parameterPair[1];
 
@@ -846,7 +908,8 @@ public class FieldUtils {
 
                 for (int m = 0; m < conversions.length; m++) {
                     String conversion = conversions[m];
-                    String[] conversionPair = StringUtils.split(conversion, KNSConstants.FIELD_CONVERSION_PAIR_SEPARATOR);
+                    //String[] conversionPair = StringUtils.split(conversion, KNSConstants.FIELD_CONVERSION_PAIR_SEPARATOR);
+                    String[] conversionPair = StringUtils.split(conversion, KNSConstants.FIELD_CONVERSION_PAIR_SEPARATOR, 2);                    
                     String conversionFrom = conversionPair[0];
                     String conversionTo = conversionPair[1];
                     conversionFrom = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + conversionFrom;
@@ -1193,7 +1256,7 @@ public class FieldUtils {
         {
             Field field = FieldUtils.getPropertyField(businessObjectClass, attributeName, true);
 
-            if(field.isDatePicker()) {
+            if(field.isDatePicker() && field.isRanged()) {
 
             	Field newDate = createRangeDateField(field);
             	fields.add(newDate);
@@ -1215,7 +1278,6 @@ public class FieldUtils {
             if (!Field.MULTISELECT.equals(field.getFieldType())) {
             	field.setMaxLength(100);
             }
-            fields.add(field);
 
             // if the attrib name is "active", and BO is Inactivatable, then set the default value to Y
             if (attributeName.equals(KNSPropertyConstants.ACTIVE) && Inactivateable.class.isAssignableFrom(businessObjectClass)) {
@@ -1241,16 +1303,56 @@ public class FieldUtils {
                 field.setReadOnly(true);
             }
 
-            if( isHiddenMap.containsKey(field.getPropertyName()) && isHiddenMap.get(field.getPropertyName()).booleanValue()){
-            	field.setFieldType(Field.HIDDEN);
-            	field.setHidden(true);
-            }
+            populateQuickfinderDefaultsForLookup(businessObjectClass, attributeName, field);
+
+			if ((isHiddenMap.containsKey(field.getPropertyName()) && isHiddenMap.get(field.getPropertyName()).booleanValue())) {
+				field.setFieldType(Field.HIDDEN);
+			}
+            
+            boolean triggerOnChange = getBusinessObjectDictionaryService().isLookupFieldTriggerOnChange(businessObjectClass, attributeName);
+            field.setTriggerOnChange(triggerOnChange);
 
             field.setFieldLevelHelpEnabled(isLookupFieldLevelHelpEnabled(businessObjectClass, attributeName));
             field.setFieldLevelHelpDisabled(isLookupFieldLevelHelpDisabled(businessObjectClass, attributeName));
+            
+            fields.add(field);
         }
         return fields;
     }
+
+
+	/**
+	 * This method ...
+	 *
+	 * @param businessObjectClass
+	 * @param attributeName
+	 * @param field
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
+	private static void populateQuickfinderDefaultsForLookup(
+			Class businessObjectClass, String attributeName, Field field)
+			throws InstantiationException, IllegalAccessException {
+		// handle quickfinderParameterString / quickfinderParameterFinderClass
+		String quickfinderParamString = getBusinessObjectMetaDataService().getLookupFieldQuickfinderParameterString(businessObjectClass, attributeName);
+		Class<? extends ValueFinder> quickfinderParameterFinderClass =
+			getBusinessObjectMetaDataService().getLookupFieldQuickfinderParameterStringBuilderClass(businessObjectClass, attributeName);
+		if (quickfinderParameterFinderClass != null) {
+			quickfinderParamString = quickfinderParameterFinderClass.newInstance().getValue();
+		}
+
+		if (!StringUtils.isEmpty(quickfinderParamString)) {
+			String [] params = quickfinderParamString.split(",");
+			if (params != null) for (String param : params) {
+				if (param.contains(KNSConstants.LOOKUP_PARAMETER_LITERAL_DELIMITER)) {
+					String[] paramChunks = param.split(KNSConstants.LOOKUP_PARAMETER_LITERAL_DELIMITER, 2);
+					field.appendLookupParameters(
+							KNSConstants.LOOKUP_PARAMETER_LITERAL_PREFIX+KNSConstants.LOOKUP_PARAMETER_LITERAL_DELIMITER+
+							paramChunks[1]+":"+paramChunks[0]);
+				}
+			}
+		}
+	}
 
 
 	/**
