@@ -157,9 +157,10 @@
                         </tr>
 
 
-                        <tr>
-                            <%-- Render details of approver's hours by Assignment --%>
-                            <c:forEach var="entry" items="${approvalRow.approverHoursByAssignment}">
+
+                        <%-- Render details of approver's hours by Assignment --%>
+                        <c:forEach var="entry" items="${approvalRow.approverHoursByAssignment}">
+                            <tr>
                                 <td></td>
                                 <td colspan="2">
                                     ${approvalRow.assignmentDescriptions[entry.key]}
@@ -176,11 +177,12 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </c:forEach>
-                            </c:forEach>
-                        </tr>
-                        <tr>
-                            <%-- Render details of non-approvers's hours by Assignment --%>
-                            <c:forEach var="entry" items="${approvalRow.otherHoursByAssignment}">
+                            </tr>
+                        </c:forEach>
+
+                        <%-- Render details of non-approvers's hours by Assignment --%>
+                        <c:forEach var="entry" items="${approvalRow.otherHoursByAssignment}">
+                            <tr>
                                 <td></td>
                                 <td colspan="2">
                                     ${approvalRow.assignmentDescriptions[entry.key]}
@@ -197,8 +199,8 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </c:forEach>
-                            </c:forEach>
-                        </tr>
+                            </tr>
+                        </c:forEach>
 
                     </c:forEach>
                     <tr>
