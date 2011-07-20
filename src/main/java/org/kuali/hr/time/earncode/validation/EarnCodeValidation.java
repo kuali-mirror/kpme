@@ -1,5 +1,7 @@
 package org.kuali.hr.time.earncode.validation;
 
+import java.math.BigDecimal;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.util.ValidationUtils;
@@ -54,6 +56,25 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 			this.putFieldError("effectiveDate", "earncode.effectiveDate.newer.exists");
 			return false;
 		}
+		
+		//check if the ovtEarnCode and InflateMinHours is equal to 0
+		if((earnCode.getRecordAmount() || earnCode.getOvtEarnCode()) && !earnCode.getInflateMinHours().equals(new BigDecimal(0))){
+			this.putFieldError("inflateMinHours", "earncode.inflateminhours.should.be.zero");
+			return false;
+		}
+		
+		//check if the RecordAmount and AccrualCategory has no value
+		if(earnCode.getRecordAmount() && StringUtils.isNotBlank(earnCode.getAccrualCategory())){
+			this.putFieldError("accrualCategory", "earncode.accrualcategory.should.be.blank");
+			return false;
+		}
+		
+		//check if the RecordAmount and InflateFactor is equal to 1
+		if(earnCode.getRecordAmount() && !earnCode.getInflateFactor().equals(new BigDecimal(1))){
+			this.putFieldError("inflateFactor", "earncode.inflatefactor.should.be.one");
+			return false;
+		}
+		
 		return true;
 	}
 
