@@ -2,19 +2,12 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     <changeSet author="lee55" id="1">
-        <addColumn tableName="tk_batch_job_entry_t">
-            <column name="clock_log_id" type="TIMESTAMP">
-                <constraints nullable="true"/>
-            </column>
-        </addColumn>
-    </changeSet>
-    <changeSet author="lee55" id="2">
         <addNotNullConstraint columnDataType="varchar(40)" columnName="document_id" tableName="tk_batch_job_entry_t"/>
     </changeSet>
-    <changeSet author="lee55" id="3">
+    <changeSet author="lee55" id="2">
         <addNotNullConstraint columnDataType="varchar(40)" columnName="principal_id" tableName="tk_batch_job_entry_t"/>
     </changeSet>
-    <changeSet author="lee55" id="4">
+    <changeSet author="lee55" id="3">
         <addNotNullConstraint columnDataType="varchar(100)" columnName="batch_job_exception" tableName="tk_batch_job_entry_t"/>
     </changeSet>
 
