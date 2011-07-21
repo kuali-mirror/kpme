@@ -10,7 +10,7 @@
 
   <bean id="JobMaintenanceDocument" parent="JobMaintenanceDocument-parentBean"/>
 
-  <bean id="JobMaintenanceDocument-parentBean" abstract="true" parent="JobMaintenanceDocumentEntry"
+  <bean id="JobMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.job.Job"
   		p:businessRulesClass="org.kuali.hr.job.validation.JobValidation"
   		p:maintainableClass="org.kuali.hr.job.service.JobMaintainableImpl">
