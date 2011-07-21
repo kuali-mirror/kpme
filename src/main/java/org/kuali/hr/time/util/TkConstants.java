@@ -15,9 +15,8 @@ import java.util.TimeZone;
 import org.joda.time.DateTimeZone;
 
 public class TkConstants {
-
-    public static final String TK_REFERRAL_URL_KEY = "REF_URL_KEY";
-    public static final String TK_TARGET_USER_PRIN_SESSION_KEY = "tkUserSession";
+    public static final String TK_TARGET_USER_RETURN = "tkTargetReturn";
+    public static final String TK_TARGET_USER_PERSON = "tkTargetPerson";
 
 	public static final String WILDCARD_CHARACTER = "%";
 	public static final Long WILDCARD_LONG = -1L;

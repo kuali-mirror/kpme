@@ -120,24 +120,14 @@ public class ApprovalTimeSummaryRow {
      * Helper method to grab the URL parameters for setting target mode for a
      * user/documentID timesheet. Returns a portion simlar to:
      *
-     * documentId=16352&useTargetUser=true
-     *
-     * You can use this to append to your URLs, similar to:
-     *
-     * http://localhost:8080/tk-dev/TimeDetail.do
-     *
-     * resulting in:
-     *
-     * http://localhost:8080/tk-dev/TimeDetail.do?documentId=16352&useTargetUser=true
-     *
      * @return parameter portion of a URL, usable to initiate target mode.
      */
     public String getTimesheetUserTargetURLParams() {
         StringBuffer link = new StringBuffer();
 
-        link.append("documentId=");
-        link.append(this.getDocumentId());
-        link.append("&useTargetUser=true");
+        link.append("methodToCall=changeEmployee");
+        link.append("&documentId=").append(this.getDocumentId());
+        link.append("&changeTargetPrincipalName=").append(this.getPrincipalId());
 
         return link.toString();
     }

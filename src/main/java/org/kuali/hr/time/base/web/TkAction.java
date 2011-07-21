@@ -73,17 +73,14 @@ public class TkAction extends KualiAction {
 		return mapping.findForward("basic");
 	}
 
-	public ActionForward clearTargetUser(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String refUrl = (String)request.getSession(false).getAttribute(TkConstants.TK_REFERRAL_URL_KEY);
-        String returnAction = "/PersonInfo.do";
+	public ActionForward clearChangeUser(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        UserSession userSession = UserLoginFilter.getUserSession(request);
 
-        request.getSession(false).removeAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY);
-        request.getSession(false).removeAttribute(TkConstants.TK_REFERRAL_URL_KEY);
+        String returnAction = (String)userSession.getObjectMap().get(TkConstants.TK_TARGET_USER_RETURN);
+        if (returnAction == null) returnAction = "/PersonInfo.do";
+
+        userSession.getObjectMap().remove(TkConstants.TK_TARGET_USER_PERSON);
         TKContext.getUser().clearTargetUser();
-
-        if (refUrl != null) {
-            returnAction = refUrl;
-        }
 
         return new ActionRedirect(returnAction);
 	}

@@ -64,16 +64,10 @@
                     <c:forEach var="approvalRow" items="${Form.approvalRows}" varStatus="row">
                         <tr>
                             <td>
-                                <%--<div class="ui-state-default ui-corner-all" style="float:left;">--%>
-                                    <%--<span id="" class="ui-icon ui-icon-plus rowInfo">${approvalRow.documentId}||${approvalRow.principalId}||${fn:join(approvalRow.workAreas, ",")}</span>--%>
-                                    <%--<div class="">--%>
-
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                                <a href="PersonInfo.do?${approvalRow.timesheetUserTargetURLParams}">${approvalRow.name}</a>
+                                <a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${approvalRow.name}</a>
                                 <br/>${approvalRow.clockStatusMessage}
                             </td>
-                            <td><a href="TimeDetail.do?${approvalRow.timesheetUserTargetURLParams}">${approvalRow.documentId}</a>
+                            <td><a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do&returnUrl=TimeApproval.do">${approvalRow.documentId}</a>
                                 <div style="float:right;">
                                     <c:if test="${fn:length(approvalRow.warnings) > 0 }">
                                         <div class="ui-state-default ui-corner-all" style="float:right;">

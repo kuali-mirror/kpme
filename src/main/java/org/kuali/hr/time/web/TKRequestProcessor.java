@@ -1,16 +1,12 @@
 package org.kuali.hr.time.web;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.exceptions.UnauthorizedException;
-import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kew.web.session.UserSession;
@@ -61,9 +57,12 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 
 			Person person = null;
 			Person backdoorPerson = null;
+            Person targetPerson = null;
+
 			if(userSession!=null){
 				backdoorPerson = userSession.getBackdoorPerson();
 				person = userSession.getActualPerson();
+                targetPerson = (Person)userSession.getObjectMap().get(TkConstants.TK_TARGET_USER_PERSON);
 			}
 
 			// Check for test mode; if not test mode check for backDoor validity.
@@ -82,7 +81,6 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 				}
 			}
 
-            Person targetPerson = handleTargetUser(request);
 			TKUser tkUser = TkServiceLocator.getUserService().buildTkUser(person, backdoorPerson, targetPerson, TKUtils.getCurrentDate());
 			TKContext.setUser(tkUser);
 		} else {
@@ -90,42 +88,5 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 			throw new RuntimeException("Null HttpServletRequest while setting user.");
 		}
 	}
-
-    /**
-     * Sets up the Target user for the session. Requires that a documentId is passed
-     * @param request
-     */
-    private Person handleTargetUser(HttpServletRequest request) {
-        Person target = null;
-        String referer = request.getHeader("referer");
-        String useTargetUser = request.getParameter("useTargetUser");
-        String documentId = request.getParameter("documentId");
-        String targetPrincipal = null;
-
-        if (request.getSession(false) != null) {
-           targetPrincipal = (String)request.getSession(false).getAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY);
-        }
-
-        if (StringUtils.equalsIgnoreCase(useTargetUser, "true")) {
-            if (!StringUtils.isEmpty(documentId)) {
-                // we may be changing target principal here
-                TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
-                TimesheetDocumentHeader tdh = document.getDocumentHeader();
-                targetPrincipal = tdh.getPrincipalId();
-                request.getSession(false).setAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY, targetPrincipal);
-                request.getSession(false).setAttribute(TkConstants.TK_REFERRAL_URL_KEY, referer);
-            }
-        } else if (StringUtils.equalsIgnoreCase(useTargetUser, "false")) {
-            request.getSession(false).removeAttribute(TkConstants.TK_TARGET_USER_PRIN_SESSION_KEY);
-            targetPrincipal = null;
-        }
-
-        // still need to update the TKUser
-        if (targetPrincipal != null) {
-            target = KIMServiceLocator.getPersonService().getPerson(targetPrincipal);
-        }
-
-        return target;
-    }
 
 }

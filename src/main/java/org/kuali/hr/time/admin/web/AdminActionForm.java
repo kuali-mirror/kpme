@@ -9,6 +9,33 @@ public class AdminActionForm extends TkForm {
     private String backdoorPrincipalName;
     private String changeTargetPrincipalName;
     private String deleteDocumentId;
+    private String documentId;
+    private String targetUrl;
+    private String returnUrl;
+
+    public String getReturnUrl() {
+        return returnUrl;
+    }
+
+    public void setReturnUrl(String returnUrl) {
+        this.returnUrl = returnUrl;
+    }
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
+
+    public String getTargetUrl() {
+        return targetUrl;
+    }
+
+    public void setTargetUrl(String targetUrl) {
+        this.targetUrl = targetUrl;
+    }
 
     public String getBackdoorPrincipalName() {
         return backdoorPrincipalName;

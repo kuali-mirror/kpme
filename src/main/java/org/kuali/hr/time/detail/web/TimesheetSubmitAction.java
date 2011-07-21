@@ -21,11 +21,12 @@ public class TimesheetSubmitAction extends TkAction {
 
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        String timesheetDocumentId = TKContext.getCurrentTimesheetDocumentId();
+        TimesheetSubmitActionForm tsaf = (TimesheetSubmitActionForm)form;
+
         String principal = TKContext.getPrincipalId();
         UserRoles roles = TKContext.getUser().getCurrentRoles();
 
-        TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
+        TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsaf.getDocumentId());
         if (!roles.isDocumentWritable(document)) {
             throw new AuthorizationException(principal, "TimesheetSubmitAction", "");
         }
