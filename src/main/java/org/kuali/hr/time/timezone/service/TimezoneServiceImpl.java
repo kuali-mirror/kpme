@@ -6,9 +6,10 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.location.Location;
+import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.user.pref.UserPreferences;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
@@ -20,23 +21,16 @@ public class TimezoneServiceImpl implements TimezoneService {
 	 */
 	@Override
 	public String getUserTimeZone() {
-		//TODO revist this fetch for background processing(i.e. missed punch)
-		if(TKContext.getUser()!=null){
-			UserPreferences userPref = TKContext.getUser().getTargetUserPreferences();
-			if(userPref != null && StringUtils.isNotEmpty(userPref.getTimezone())){
-				return userPref.getTimezone();
-			}
-
-			if(!TkConstants.LOCATION_TO_TIME_ZONE_MAP.isEmpty()){
-				//TODO change current date to context of document being looked at
-				List<Job> lstJobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
-				if(lstJobs.size() > 0){
-					//Grab the location off the first job in the list
-					String location = lstJobs.get(0).getLocation();
-					if(TkConstants.LOCATION_TO_TIME_ZONE_MAP.containsKey(location)){
-						return TkConstants.LOCATION_TO_TIME_ZONE_MAP.get(location);
-					}
-				}
+ 		PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
+		if(principalCalendar != null && principalCalendar.getTimezone() != null){
+			return principalCalendar.getTimezone();
+		}
+		List<Job> lstJobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
+		if (lstJobs.size() > 0) {
+			// Grab the location off the first job in the list
+			Location location = TkServiceLocator.getLocationService().getLocation(lstJobs.get(0).getLocation(), TKUtils.getCurrentDate());
+			if (location!=null){
+				return location.getTimezone();
 			}
 		}
 		return TkConstants.SYSTEM_TIME_ZONE;
@@ -71,9 +65,9 @@ public class TimezoneServiceImpl implements TimezoneService {
 
 	@Override
 	public boolean isSameTimezone() {
-		String userTimezone = TKContext.getUser().getTargetUserPreferences().getTimezone();
+		String userTimezone = getUserTimeZone();
 		if(StringUtils.isNotBlank(userTimezone)) {
-			return StringUtils.equals(TkConstants.SYSTEM_TIME_ZONE, TKContext.getUser().getTargetUserPreferences().getTimezone());
+			return StringUtils.equals(TkConstants.SYSTEM_TIME_ZONE, userTimezone);
 		}
 		return true;
 	}

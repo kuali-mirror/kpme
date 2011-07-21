@@ -1,9 +1,9 @@
 package org.kuali.hr.time.detail.web;
 
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.timesummary.TimeSummary;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -141,7 +141,7 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	}
 
 	public String getUserTimezone() {
-		return TKContext.getUser().getTargetUserPreferences().getTimezone();
+		return TkServiceLocator.getTimezoneService().getUserTimeZone();
 	}
 
 	public BigDecimal getAmount() {
