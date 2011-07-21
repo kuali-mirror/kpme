@@ -25,7 +25,7 @@ public class WorkAreaFormatter extends Formatter {
 	@Override
 	public Object convertFromPresentationFormat(Object value) {
 		if(value instanceof String){
-			if(StringUtils.isNotEmpty((String)value)){
+			if(StringUtils.isNotEmpty((String)value) && !StringUtils.equals("%", (String)value)){
 				Long val = Long.parseLong((String)value);
 				return val;
 			}
