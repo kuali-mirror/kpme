@@ -314,4 +314,15 @@ public class Job extends HrBusinessObject {
 		return getPrincipalId() + "_" + getJobNumber();
 	}
 
+	@Override
+	public Long getId() {
+		return getHrJobId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		// TODO Auto-generated method stub
+		setHrJobId(id);
+	}
+
 }

@@ -18,6 +18,10 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase{
 	protected boolean active;
 	protected Timestamp timestamp;
 	
+	public Long getId(){return 1L;}
+	
+	public void setId(Long id){};
+	
 	public Date getEffectiveDate() {
 		return effectiveDate;
 	}
