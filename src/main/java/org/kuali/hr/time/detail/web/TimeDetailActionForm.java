@@ -1,5 +1,6 @@
 package org.kuali.hr.time.detail.web;
 
+import org.kuali.hr.time.calendar.TkCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
@@ -37,8 +38,17 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 	private TimeSummary timeSummary;
 	private Map<String, String> assignStyleClassMap = new HashMap<String, String>();
     private String timeBlockString;
+    private TkCalendar calendar;
 
-	public String getOutputString() {
+    public TkCalendar getTkCalendar() {
+        return calendar;
+    }
+
+    public void setTkCalendar(TkCalendar calendar) {
+        this.calendar = calendar;
+    }
+
+    public String getOutputString() {
 		return outputString;
 	}
 

@@ -10,6 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.time.calendar.TkCalendar;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -20,10 +21,7 @@ import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.timesummary.AssignmentRow;
 import org.kuali.hr.time.timesummary.EarnGroupSection;
 import org.kuali.hr.time.timesummary.TimeSummary;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.util.*;
 import org.kuali.rice.kns.exception.AuthorizationException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -85,6 +83,10 @@ public class TimeDetailAction extends TimesheetAction {
 
         // get time blocks
         tdaf.setTimeBlockString(TkServiceLocator.getTimeBlockService().getTimeBlocksForOutput(tdaf));
+
+        // Set calendar
+        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, tdaf.getTimesheetDocument().getPayCalendarEntry());
+        tdaf.setTkCalendar(TkCalendar.getCalendar(aggregate));
 
         // for visually impaired users
         // TimesheetDocument td = tdaf.getTimesheetDocument();
@@ -231,7 +233,11 @@ public class TimeDetailAction extends TimesheetAction {
         // This is just a reference, for code clarity, the above list is actually
         // separate at the object level.
         List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
-        if (StringUtils.equals(tdaf.getAcrossDays(), "y")) {
+        DateTime startTemp = new DateTime(startTime);
+        DateTime endTemp = new DateTime(endTime);
+        if (StringUtils.equals(tdaf.getAcrossDays(), "y") 
+        		&& !(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1
+        				&& endTemp.getHourOfDay() == 0)) {
             newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
                     endTime, tdaf.getHours(), tdaf.getAmount(), false));
@@ -303,11 +309,13 @@ public class TimeDetailAction extends TimesheetAction {
         //------------------------
         // check if the overnight shift is across days
         //------------------------
+        DateTime startTemp = new DateTime(startTime);
+        DateTime endTemp = new DateTime(endTime);
         if (StringUtils.equals(tdaf.getAcrossDays(), "y") && tdaf.getHours() == null && tdaf.getAmount() == null) {
             //Interval timeInterval = new Interval(startTime, endTime);
-            DateTime start = new DateTime(startTime);
-            DateTime end = new DateTime(endTime);
-            if (start.getHourOfDay() >= end.getHourOfDay()) {
+            if (startTemp.getHourOfDay() >= endTemp.getHourOfDay() 
+            		&& !(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1
+            				&& endTemp.getHourOfDay() == 0)) {
                 errorMsgList.add("The \"apply to each day\" box should not be checked.");
                 tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
                 return mapping.findForward("ws");
@@ -325,6 +333,9 @@ public class TimeDetailAction extends TimesheetAction {
             if(StringUtils.equals(tdaf.getAcrossDays(), "y")) {
             	DateTime start = new DateTime(startTime);
             	DateTime end = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getEndTime()).getTime());
+            	if(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1) {
+            		end = new DateTime(endTime);
+            	}
             	DateTime groupEnd = new DateTime(endTime);
             	Long startLong = start.getMillis();
             	Long endLong = end.getMillis();

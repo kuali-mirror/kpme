@@ -32,6 +32,8 @@
         <html:textarea property="timeBlockString" styleId="timeBlockString" value="${Form.timeBlockString}"/>
 
         <div class="global-error"><!-- Error: This is a global error for the demo purpose  --></div>
+        <tk:calendar cal="${Form.tkCalendar}"/>
+
         <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;">
 
             <div id="dialog-form" title="Add time blocks:" style="margin-left: auto; margin-right: auto;">

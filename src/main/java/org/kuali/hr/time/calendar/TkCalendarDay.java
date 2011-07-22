@@ -7,6 +7,8 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 
 public class TkCalendarDay {
 	private List<TimeBlock> timeblocks = new ArrayList<TimeBlock>();
+    private List<TimeBlockRenderer> blockRenderers = new ArrayList<TimeBlockRenderer>();
+    private String dayNumberString;
 
 	public List<TimeBlock> getTimeblocks() {
 		return timeblocks;
@@ -14,5 +16,20 @@ public class TkCalendarDay {
 
 	public void setTimeblocks(List<TimeBlock> timeblocks) {
 		this.timeblocks = timeblocks;
+        for (TimeBlock tb : timeblocks) {
+            blockRenderers.add(new TimeBlockRenderer(tb));
+        }
 	}
+
+    public List<TimeBlockRenderer> getBlockRenderers() {
+        return blockRenderers;
+    }
+
+    public String getDayNumberString() {
+        return dayNumberString;
+    }
+
+    public void setDayNumberString(String dayNumberString) {
+        this.dayNumberString = dayNumberString;
+    }
 }
