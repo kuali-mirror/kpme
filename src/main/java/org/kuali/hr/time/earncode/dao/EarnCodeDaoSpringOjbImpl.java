@@ -31,7 +31,7 @@ public class EarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 
 	public EarnCode getEarnCodeById(Long earnCodeId) {
 		Criteria crit = new Criteria();
-		crit.addEqualTo("earnCodeId", earnCodeId);
+		crit.addEqualTo("tkEarnCodeId", earnCodeId);
 		return (EarnCode) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(EarnCode.class, crit));
 	}
 
