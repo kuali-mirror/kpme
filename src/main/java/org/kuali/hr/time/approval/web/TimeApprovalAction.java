@@ -84,6 +84,9 @@ public class TimeApprovalAction extends TkAction {
         Map<String, PayCalendarEntries> currentPayCalendarEntries = TkServiceLocator.getTimeApproveService().getPayCalendarEntriesForApprover(currentDate);
         SortedSet<String> calGroups = new TreeSet<String>(currentPayCalendarEntries.keySet());
 
+        if(calGroups.isEmpty()){
+        	return fwd;
+        }
         // Check pay Calendar Group
         if (StringUtils.isEmpty(taaf.getSelectedPayCalendarGroup())) {
             taaf.setSelectedPayCalendarGroup(calGroups.first());
