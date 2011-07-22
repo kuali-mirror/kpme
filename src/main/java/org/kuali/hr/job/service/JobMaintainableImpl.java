@@ -51,6 +51,19 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 				fieldValues.put("name", "");
 			}
 		}
+		if(StringUtils.equals(getMaintenanceAction(),"New")){
+			if (!fieldValues.containsKey("jobNumber") || StringUtils.isEmpty(fieldValues.get("jobNumber"))) {
+				if (fieldValues.containsKey("principalId") && StringUtils.isNotEmpty(fieldValues.get("principalId"))) {
+					Job maxJob = TkServiceLocator.getJobSerivce().getMaxJob(fieldValues.get("principalId"));
+					if(maxJob != null) {
+						fieldValues.put("jobNumber", Long.toString(maxJob.getJobNumber() +1));
+					} else {
+						fieldValues.put("jobNumber", "0");
+					}
+				}
+			} 
+		}
+		
 		return super.populateBusinessObject(fieldValues, maintenanceDocument,
 				methodToCall); 
 	}
