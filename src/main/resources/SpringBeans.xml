@@ -70,7 +70,7 @@
 	<bean id="nonTransDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${tk.datasource.driver.name}" />
         <property name="maxWait" value="30000" />
-        <property name="validationQuery" value="select 1" />
+        <property name="validationQuery" value="${tk.datasource.pool.validationQuery}" />
         <property name="url" value="${tk.datasource.url}" />
         <property name="username" value="${tk.datasource.username}" />
         <property name="password" value="${tk.datasource.password}" />

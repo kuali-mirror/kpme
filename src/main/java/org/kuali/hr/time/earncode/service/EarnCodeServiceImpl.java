@@ -81,7 +81,9 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
             if (addEc) {
 			    EarnCode ec = getEarnCode(dec.getEarnCode(), asOfDate);
-			    earnCodes.add(ec);
+			    if(ec!=null){
+			    	earnCodes.add(ec);
+			    }
             }
 		}
 
