@@ -58,7 +58,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		}
 		
 		//check if the ovtEarnCode and InflateMinHours is equal to 0
-		if((earnCode.getRecordAmount() || earnCode.getOvtEarnCode()) && !earnCode.getInflateMinHours().equals(new BigDecimal(0))){
+		if((earnCode.getRecordAmount() || earnCode.getOvtEarnCode()) && earnCode.getInflateMinHours().compareTo(new BigDecimal(0))!=0){
 			this.putFieldError("inflateMinHours", "earncode.inflateminhours.should.be.zero");
 			return false;
 		}
