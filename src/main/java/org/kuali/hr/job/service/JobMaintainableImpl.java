@@ -25,16 +25,14 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	
 	public void setJobNumber(Job job) {
-		if(!StringUtils.equals(getMaintenanceAction(),"Edit")){
-			Long jobNumber = new Long("0");
-			Job maxJob = TkServiceLocator.getJobSerivce().getMaxJob(job.getPrincipalId());
+		Long jobNumber = new Long("0");
+		Job maxJob = TkServiceLocator.getJobSerivce().getMaxJob(job.getPrincipalId());
 		
-			if(maxJob != null) {
-				// get the max of job number of the collection
-				jobNumber = maxJob.getJobNumber() +1;
-			}		
-			job.setJobNumber(jobNumber);
-		}
+		if(maxJob != null) {
+			// get the max of job number of the collection
+			jobNumber = maxJob.getJobNumber() +1;
+		}		
+		job.setJobNumber(jobNumber);
 	}
 	/**
 	 * Override to populate user information in Maintenance page
@@ -64,8 +62,10 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	@Override
 	public void customSaveLogic(HrBusinessObject hrObj) {
-		Job job = (Job)hrObj;
-		this.setJobNumber(job);
+		if(StringUtils.equals(getMaintenanceAction(),"New")){
+			Job job = (Job)hrObj;
+			this.setJobNumber(job);
+		}
 	}
 	
 	
