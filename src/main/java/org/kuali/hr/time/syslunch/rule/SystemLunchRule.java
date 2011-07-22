@@ -1,6 +1,5 @@
 package org.kuali.hr.time.syslunch.rule;
 
-import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.rule.TkRule;
@@ -31,14 +30,6 @@ public class SystemLunchRule extends TkRule {
 		this.tkSystemLunchRuleId = tkSystemLunchRuleId;
 	}
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
 	public boolean isHistory() {
 		return history;
 	}
@@ -46,15 +37,6 @@ public class SystemLunchRule extends TkRule {
 
 	public void setHistory(boolean history) {
 		this.history = history;
-	}
-
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 
 	public String getUserPrincipalId() {
