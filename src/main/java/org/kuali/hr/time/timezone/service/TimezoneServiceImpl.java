@@ -30,7 +30,10 @@ public class TimezoneServiceImpl implements TimezoneService {
 			// Grab the location off the first job in the list
 			Location location = TkServiceLocator.getLocationService().getLocation(lstJobs.get(0).getLocation(), TKUtils.getCurrentDate());
 			if (location!=null){
-				return location.getTimezone();
+				if(StringUtils.isNotBlank(location.getTimezone())){
+					return location.getTimezone();
+				}
+				return TkConstants.SYSTEM_TIME_ZONE;
 			}
 		}
 		return TkConstants.SYSTEM_TIME_ZONE;
