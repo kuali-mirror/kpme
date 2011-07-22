@@ -33,7 +33,6 @@ public class TimezoneServiceImpl implements TimezoneService {
 				if(StringUtils.isNotBlank(location.getTimezone())){
 					return location.getTimezone();
 				}
-				return TkConstants.SYSTEM_TIME_ZONE;
 			}
 		}
 		return TkConstants.SYSTEM_TIME_ZONE;
