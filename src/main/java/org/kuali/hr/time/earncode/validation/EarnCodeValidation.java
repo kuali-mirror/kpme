@@ -70,7 +70,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		}
 		
 		//check if the RecordAmount and InflateFactor is equal to 1
-		if(earnCode.getRecordAmount() && !earnCode.getInflateFactor().equals(new BigDecimal(1))){
+		if(earnCode.getRecordAmount() && (earnCode.getInflateFactor().compareTo(new BigDecimal(1))!=0)){
 			this.putFieldError("inflateFactor", "earncode.inflatefactor.should.be.one");
 			return false;
 		}
