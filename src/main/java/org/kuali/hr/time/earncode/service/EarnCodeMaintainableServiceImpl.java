@@ -2,8 +2,6 @@ package org.kuali.hr.time.earncode.service;
 
 import java.sql.Timestamp;
 
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.assignment.AssignmentAccount;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
@@ -23,7 +21,7 @@ public class EarnCodeMaintainableServiceImpl extends KualiMaintainableImpl{
 		EarnCode earnCode = (EarnCode)this.getBusinessObject();
 		
 		//Inactivate the old earn code as of the effective date of new earn code
-		if(earnCode.getTkEarnCodeId()!=null && earnCode.isActive()){
+		if(earnCode.getTkEarnCodeId()!=null){
 			EarnCode oldEarnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(earnCode.getTkEarnCodeId());
 			if(earnCode.getEffectiveDate().equals(oldEarnCode.getEffectiveDate())){
 				earnCode.setTimestamp(null);
