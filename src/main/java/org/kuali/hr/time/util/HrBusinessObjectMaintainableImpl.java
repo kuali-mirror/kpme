@@ -16,7 +16,7 @@ public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainable
 	@Override
 	public void saveBusinessObject() {
 		HrBusinessObject hrObj = (HrBusinessObject) this.getBusinessObject();
-		if(hrObj.getId()!=null && hrObj.isActive()){
+		if(hrObj.getId()!=null){
 			HrBusinessObject oldHrObj = this.getObjectById(hrObj.getId());
 			if(oldHrObj!= null){
 				//if the effective dates are the same do not create a new row just inactivate the old one
