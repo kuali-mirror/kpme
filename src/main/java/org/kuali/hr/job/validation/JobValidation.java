@@ -100,7 +100,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 		boolean valid = true;
 		if (job.getPrimaryIndicator()) {
 			//do not block editing of previous primary job
-			if(oldJob!=null && oldJob.getPrimaryIndicator()){
+			if(oldJob!=null && oldJob.getPrimaryIndicator()!=null && oldJob.getPrimaryIndicator()){
 				return valid;
 			}
 			Job existingJob = TkServiceLocator.getJobSerivce().getPrimaryJob(job.getPrincipalId(), TKUtils.getCurrentDate());
