@@ -75,7 +75,7 @@
                                                   class="ui-icon ui-icon-alert approvals-warning"></span>
                                         </div>
                                         <div id="approvals-warning-details" class="approvals-warning-details"
-                                             style="display:none;">
+                                             style="display:none; float:right; width: 600px; margin-left: 200px;">
                                             <table>
                                                 <thead>
                                                 <tr>
