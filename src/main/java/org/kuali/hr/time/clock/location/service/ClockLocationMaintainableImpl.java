@@ -1,16 +1,14 @@
 package org.kuali.hr.time.clock.location.service;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -18,42 +16,12 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * Used to modify behavior of Clock Location Maintenance page
  * 
  */
-public class ClockLocationMaintainableImpl extends KualiMaintainableImpl {
+public class ClockLocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	/**
      * 
      */
-	private static final long serialVersionUID = -93577754706987067L;
-
-	/**
-	 * Used to preserve immutability of ClockLocationRule
-	 */
-
-	@Override
-	public void saveBusinessObject() {
-		ClockLocationRule clockLocationRule = (ClockLocationRule) this
-				.getBusinessObject();
-		//Inactivate the old clock location as of the effective date of new clock location
-		if(clockLocationRule.getTkClockLocationRuleId()!=null && clockLocationRule.isActive()){
-			ClockLocationRule oldClockLocationRule = TkServiceLocator.getClockLocationRuleService().getClockLocationRule(clockLocationRule.getTkClockLocationRuleId());
-			if(clockLocationRule.getEffectiveDate().equals(oldClockLocationRule.getEffectiveDate())){
-				clockLocationRule.setTimestamp(null);
-			} else{
-				if(oldClockLocationRule!=null){
-					oldClockLocationRule.setActive(false);
-					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
-					oldClockLocationRule.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
-					oldClockLocationRule.setEffectiveDate(clockLocationRule.getEffectiveDate());
-					KNSServiceLocator.getBusinessObjectService().save(oldClockLocationRule);
-				}
-				clockLocationRule.setTimestamp(new Timestamp(System.currentTimeMillis()));
-				clockLocationRule.setTkClockLocationRuleId(null);
-			}
-		}
-		
-		KNSServiceLocator.getBusinessObjectService().save(clockLocationRule);
-
-	}
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Used to swap out wildcard values for numeric types
@@ -91,5 +59,10 @@ public class ClockLocationMaintainableImpl extends KualiMaintainableImpl {
 					"clocklocationrule.newer.exists", null);
 		}
 		super.processAfterEdit(document, parameters);
+	}
+
+	@Override
+	public HrBusinessObject getObjectById(Long id) {
+		return TkServiceLocator.getClockLocationRuleService().getClockLocationRule(id);
 	}
 }

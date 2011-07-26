@@ -86,4 +86,14 @@ public class EarnGroup extends HrBusinessObject {
 		return earnGroup;
 	}
 
+	@Override
+	public Long getId() {
+		return getTkEarnGroupId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkEarnGroupId(id);
+	}
+
 }

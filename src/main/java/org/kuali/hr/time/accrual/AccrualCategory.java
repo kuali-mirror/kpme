@@ -100,6 +100,14 @@ public class AccrualCategory extends HrBusinessObject {
 		return accrualCategory;
 	}
 
-	 
+	@Override
+	public Long getId() {
+		return getLaAccrualCategoryId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setLaAccrualCategoryId(id);
+	}
 
 }

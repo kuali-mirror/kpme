@@ -185,4 +185,14 @@ public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule 
 		return getDept() + "_" + getWorkArea() != null ? getWorkArea().toString() : "" + "_" + 
 				getPrincipalId() + "_" + getJobNumber() != null ? getJobNumber().toString() : "";
 	}
+
+	@Override
+	public Long getId() {
+		return getTkDeptLunchRuleId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkDeptLunchRuleId(id);
+	}
 }

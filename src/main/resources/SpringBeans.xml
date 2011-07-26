@@ -158,6 +158,7 @@
             <property name="additionalSpringFiles">
     		<list>
       			<value>classpath:KEWOverrideSpringBeans.xml</value>
+      			<value>classpath:OverrideSpringBeans.xml</value>
     		</list>
   	</property>
     </bean>

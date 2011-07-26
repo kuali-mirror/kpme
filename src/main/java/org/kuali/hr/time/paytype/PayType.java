@@ -88,5 +88,15 @@ public class PayType extends HrBusinessObject {
 	public void setHistory(String history) {
 		this.history = history;
 	}
+
+	@Override
+	public Long getId() {
+		return getHrPayTypeId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setHrPayTypeId(id);
+	}
 	
 }

@@ -1,21 +1,20 @@
 package org.kuali.hr.time.assignment.service;
 
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 /**
@@ -23,45 +22,12 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
  * 
  * 
  */
-public class AssignmentMaintainableServiceImpl extends KualiMaintainableImpl {
+public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Preserves immutability of Assignments
-	 */
-	@Override
-	public void saveBusinessObject() {
-		Assignment assignment = (Assignment) this.getBusinessObject();
-		
-		//Inactivate the old assignment as of the effective date of new assignment
-		if(assignment.getTkAssignmentId()!=null && assignment.isActive()){
-			Assignment oldAssignment = TkServiceLocator.getAssignmentService().getAssignment(assignment.getTkAssignmentId().toString());
-			if(assignment.getEffectiveDate().equals(oldAssignment.getEffectiveDate())){
-				assignment.setTimestamp(null);
-			} else{
-				if(oldAssignment!=null){
-					oldAssignment.setActive(false);
-					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
-					oldAssignment.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
-					oldAssignment.setEffectiveDate(assignment.getEffectiveDate());
-					KNSServiceLocator.getBusinessObjectService().save(oldAssignment);
-				}
-				assignment.setTimestamp(new Timestamp(System.currentTimeMillis()));
-				assignment.setTkAssignmentId(null);
-			
-				for (AssignmentAccount assignAcct : assignment.getAssignmentAccounts()) {
-					assignAcct.setTkAssignAcctId(null);
-					assignAcct.setTkAssignmentId(assignment.getTkAssignmentId());
-				}
-			}
-		}
-		
-		KNSServiceLocator.getBusinessObjectService().save(assignment);
-	}
 
 	@Override
 	public Map populateBusinessObject(Map<String, String> fieldValues,
@@ -128,6 +94,20 @@ public class AssignmentMaintainableServiceImpl extends KualiMaintainableImpl {
     		assignmentAccount.setActive(assignment.isActive());
     	}
 		super.setNewCollectionLineDefaultValues(arg0, arg1);
+	}
+
+	@Override
+	public HrBusinessObject getObjectById(Long id) {
+		return TkServiceLocator.getAssignmentService().getAssignment(id);
+	}
+
+	@Override
+	public void customSaveLogic(HrBusinessObject hrObj) {
+		Assignment assignment = (Assignment)hrObj;
+		for (AssignmentAccount assignAcct : assignment.getAssignmentAccounts()) {
+			assignAcct.setTkAssignAcctId(null);
+			assignAcct.setTkAssignmentId(assignment.getTkAssignmentId());
+		}
 	}
 
 }

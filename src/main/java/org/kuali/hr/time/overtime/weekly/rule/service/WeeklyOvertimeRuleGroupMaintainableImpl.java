@@ -17,18 +17,7 @@ public class WeeklyOvertimeRuleGroupMaintainableImpl extends KualiMaintainableIm
 	 */
 	private static final long serialVersionUID = 1L;
 
-	
-	
 
-//	@Override
-//	public Map populateBusinessObject(Map<String, String> fieldValues,
-//			MaintenanceDocument maintenanceDocument, String methodToCall) {
-//		
-//		WeeklyOvertimeRuleGroup weeklyOvertimeRuleGroup = new WeeklyOvertimeRuleGroup();
-//		this.setBusinessObject(weeklyOvertimeRuleGroup);
-//		return fieldValues;
-//	}
-	
 	@Override
     public void addNewLineToCollection(String collectionName) {
         if (collectionName.equals("lstWeeklyOvertimeRules")) {

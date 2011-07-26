@@ -1,19 +1,17 @@
 package org.kuali.hr.time.overtime.daily.rule.service;
 
-import java.sql.Timestamp;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 
-public class DailyOvertimeRuleMaintainableImpl extends
-		org.kuali.rice.kns.maintenance.KualiMaintainableImpl {
+public class DailyOvertimeRuleMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	/**
 	 * 
@@ -39,31 +37,6 @@ public class DailyOvertimeRuleMaintainableImpl extends
 				.getPrincipalId());
 		super.processAfterEdit(document, parameters);
 	}
-
-	@Override
-	public void saveBusinessObject() {
-		DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) this
-				.getBusinessObject();
-
-		if(dailyOvertimeRule.getTkDailyOvertimeRuleId()!=null && dailyOvertimeRule.isActive()){
-			DailyOvertimeRule oldDailyOvtRule = TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRule(dailyOvertimeRule.getTkDailyOvertimeRuleId());
-			if(dailyOvertimeRule.getEffectiveDate().equals(oldDailyOvtRule.getEffectiveDate())){
-				dailyOvertimeRule.setTimestamp(null);
-			} else{
-				if(oldDailyOvtRule!=null){
-					oldDailyOvtRule.setActive(false);
-					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
-					oldDailyOvtRule.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
-					oldDailyOvtRule.setEffectiveDate(dailyOvertimeRule.getEffectiveDate());
-					KNSServiceLocator.getBusinessObjectService().save(oldDailyOvtRule);
-				}
-				dailyOvertimeRule.setTimestamp(new Timestamp(System.currentTimeMillis()));
-				dailyOvertimeRule.setTkDailyOvertimeRuleId(null);
-			}
-		}
-		
-		KNSServiceLocator.getBusinessObjectService().save(dailyOvertimeRule);		
-	}
 	
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -74,6 +47,11 @@ public class DailyOvertimeRuleMaintainableImpl extends
 		}
 		return super.populateBusinessObject(fieldValues, maintenanceDocument,
 				methodToCall);
+	}
+
+	@Override
+	public HrBusinessObject getObjectById(Long id) {
+		return TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRule(id);
 	}
     
 

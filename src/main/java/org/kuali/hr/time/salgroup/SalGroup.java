@@ -84,4 +84,14 @@ public class SalGroup extends HrBusinessObject {
 		return tkSalGroup;
 	}
 
+	@Override
+	public Long getId() {
+		return getTkSalGroupId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkSalGroupId(id);
+	}
+
 }

@@ -77,4 +77,14 @@ public class Position extends HrBusinessObject {
 		this.history = history;
 	}
 
+	@Override
+	public Long getId() {
+		return getHrPositionId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setHrPositionId(id);
+	}
+
 }

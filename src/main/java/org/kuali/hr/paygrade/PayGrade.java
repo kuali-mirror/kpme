@@ -84,4 +84,14 @@ public class PayGrade extends HrBusinessObject {
 	protected String getUniqueKey() {
 		return payGrade;
 	}
+	
+	@Override
+	public Long getId() {
+		return getHrPayGradeId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setHrPayGradeId(id);
+	}
 }
