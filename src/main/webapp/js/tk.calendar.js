@@ -16,6 +16,77 @@ $(document).ready(function() {
         endPeriodDateTimeObj.setDate(endPeriodDateTimeObj.getDate() - 1);
     }
 
+    var thing = $('#tkCal').click( function(event) {
+        if (event.target.id.indexOf("_") > -1) {
+            var actionA = event.target.id.split("_");
+            if (actionA.length == 2) {
+                var action = actionA[0];
+                var actionVal = actionA[1];
+                console.log(action);
+                console.log(actionVal);
+
+                if (action == "day") {
+                    // Handle new entries
+                    console.log("handle new day timeblock:");
+                    var currentDay = new Date(beginPeriodDateTimeObj);
+                    currentDay.setDate(currentDay.getDate() + parseInt(actionVal));
+                    console.log(currentDay);
+                    $('#date-range-begin').val($.datepicker.formatDate('mm/dd/yy', currentDay));
+                    $('#date-range-end').val($.datepicker.formatDate('mm/dd/yy', currentDay));
+                    $('#acrossDaysField').attr('checked', '');
+                    if ($('#assignment-value').html() != '') {
+                        $('#earnCode').loadEarnCode($('#assignment').val());
+                    }
+
+                    $('#tkTimeBlockId').val('');
+                    $('#dialog-form').dialog('open');
+                } else if (action == "block") {
+                    // Handle existing timeblocks
+                    var timeBlockId = parseInt(actionVal);
+                    console.log("handle edit timeblock: " + timeBlockId);
+                    var tblocks = jQuery.parseJSON($('#timeBlockString').val());
+                    var calEvent = tblocks[timeBlockId];
+                    // need to convert dates
+
+                    // 2011-07-28T17:00:00.000-04:00
+                    calEvent.start = Date.parse(calEvent.start);
+                    calEvent.end = Date.parse(calEvent.end);
+                    console.log(calEvent.start);
+
+                    $('#dialog-form').dialog('open');
+                    // load data to the fields
+                    $('#date-range-begin').val(calEvent.start.toString('MM/dd/yyyy'));
+                    $('#date-range-end').val(calEvent.end.toString('MM/dd/yyyy'));
+                    $("select#assignment option[value='" + calEvent.assignment + "']").attr("selected", "selected");
+                    $('#earnCode').loadEarnCode($('#assignment').val(), calEvent.earnCode + "_" + calEvent.earnCodeType);
+                    $('#beginTimeField').val(calEvent.start.toString('hh:mm tt'));
+                    $('#endTimeField').val(calEvent.end.toString('hh:mm tt'));
+                    $('#tkTimeBlockId').val(calEvent.tkTimeBlockId);
+                    $('#hoursField').val(calEvent.hours == '0' ? '' : calEvent.hours);
+                    $('#amountField').val(calEvent.amount == '0' ? '' : calEvent.amount);
+                    // the month value in the javascript date object is the actual month minus 1.
+                    $('#beginTimeField-messages').val(calEvent.start.getHours() + ':' + calEvent.start.getMinutes());
+                    $('#endTimeField-messages').val(calEvent.end.getHours() + ':' + calEvent.end.getMinutes());
+
+                    // push existing timeblock values to a hash for the later comparison against the modified values
+                    oriTimeDetail = {
+                        'startDate' : $('#date-range-begin').val(),
+                        'endDate' : $('#date-range-end').val(),
+                        'selectedAssignment' : calEvent.assignment,
+                        'selectedEarnCode' : calEvent.earnCode,
+                        'startTime' : $('#beginTimeField-messages').val(),
+                        'endTime' : $('#endTimeField-messages').val(),
+                        'hours' : $('#hoursField').val(),
+                        'amount' : $('#amountField').val(),
+                        'acrossDays' : $('#acrossDaysField').val()
+                    };
+
+
+                }
+            }
+        }
+    });
+
     var docId = $('#documentId').val();
     var eventUrl = "TimeDetail.do?methodToCall=getTimeBlocks&documentId=" + docId;
 

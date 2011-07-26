@@ -9,6 +9,7 @@ public class TkCalendarDay {
 	private List<TimeBlock> timeblocks = new ArrayList<TimeBlock>();
     private List<TimeBlockRenderer> blockRenderers = new ArrayList<TimeBlockRenderer>();
     private String dayNumberString;
+    private int dayNumberDelta;
 
 	public List<TimeBlock> getTimeblocks() {
 		return timeblocks;
@@ -31,5 +32,13 @@ public class TkCalendarDay {
 
     public void setDayNumberString(String dayNumberString) {
         this.dayNumberString = dayNumberString;
+    }
+
+    public int getDayNumberDelta() {
+        return dayNumberDelta;
+    }
+
+    public void setDayNumberDelta(int dayNumberDelta) {
+        this.dayNumberDelta = dayNumberDelta;
     }
 }

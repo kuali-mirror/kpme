@@ -31,6 +31,7 @@ public class TkCalendar {
                     TkCalendarDay day = new TkCalendarDay();
                     day.setTimeblocks(dayBlocks);
                     day.setDayNumberString(tc.getDayNumberString(i * 7 + j));
+                    day.setDayNumberDelta(i * 7 + j);
                     days.add(day);
                 }
                 week.setDays(days);
@@ -80,7 +81,10 @@ public class TkCalendar {
     public String getCalendarTitle() {
         StringBuilder sb = new StringBuilder();
 
-        if (getBeginDateTime().getMonthOfYear() == getEndDateTime().getMonthOfYear()) {
+        if (getBeginDateTime().getMonthOfYear() == getEndDateTime().getMonthOfYear() ||
+                (getBeginDateTime().getMonthOfYear() != getEndDateTime().getMonthOfYear()
+                    && getEndDateTime().getDayOfMonth() == 1 && getEndDateTime().getSecondOfDay() == 0) )
+        {
             sb.append(getBeginDateTime().toString("MMMM y"));
         } else {
             sb.append(getBeginDateTime().toString("MMM y"));

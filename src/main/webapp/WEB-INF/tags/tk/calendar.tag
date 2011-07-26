@@ -22,7 +22,7 @@
 </tbody>
 </table>
 
-<div class="fc-content ui-widget-content" style="position: relative; min-height: 1px; ">
+<div id="tkCal" class="fc-content ui-widget-content" style="position: relative; min-height: 1px; ">
 <table>
     <thead>
     <%-- Render Day Labels, starting at FLSA Start day --%>
@@ -39,13 +39,13 @@
         <tr class="fc-week1">
             <%-- Generate Each Day --%>
             <c:forEach var="day" items="${week.days}" varStatus="dayS">
-                <td class="fc-wed ui-state-default fc-day3 fc-not-today" style="height: 120px;">
+                <td id="day_${day.dayNumberDelta}" class="fc-wed ui-state-default fc-day3 fc-not-today" style="height: 120px;">
                     <%-- Day Number --%>
                     <div class="fc-day-number">${day.dayNumberString}</div>
                     <%-- Render the Time Blocks --%>
                     <div class="fc-day-content">
                         <c:forEach var="block" items="${day.blockRenderers}">
-                        <div id="${block.timeBlock.tkTimeBlockId}" class="fc-event fc-event-hori fc-corner-left fc-corner-right assignment0  timeblock ui-draggable ui-resizable" style="width: 179px;">
+                        <div id="block_${block.timeBlock.tkTimeBlockId}" class="fc-event fc-event-hori fc-corner-left fc-corner-right assignment0  timeblock ui-draggable ui-resizable" style="width: 179px;">
                             ${block.title}
                             ${block.timeRange}
                             <div>
