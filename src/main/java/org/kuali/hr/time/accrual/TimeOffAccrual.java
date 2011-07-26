@@ -4,11 +4,12 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class TimeOffAccrual extends PersistableBusinessObjectBase {
+public class TimeOffAccrual extends HrBusinessObject {
 
 	/**
 	 * 
@@ -118,6 +119,22 @@ public class TimeOffAccrual extends PersistableBusinessObjectBase {
 
 	public void setLaAccrualCategoryId(Long laAccrualCategoryId) {
 		this.laAccrualCategoryId = laAccrualCategoryId;
+	}
+
+
+	@Override
+	protected String getUniqueKey() {
+		return accrualCategory;
+	}
+	
+	@Override
+	public Long getId() {
+		return getLaAccrualId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setLaAccrualId(id);
 	}
 
 }

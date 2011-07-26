@@ -185,4 +185,14 @@ public class TkRole extends HrBusinessObject {
 				roleName + "_" + workArea != null ? workArea.toString() : "" + "_" +
 				department + "_" + chart;
 	}
+
+	@Override
+	public Long getId() {
+		return getTkRolesId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkRolesId(id);
+	}
 }

@@ -32,4 +32,6 @@ public interface AssignmentDao {
     public Assignment getAssignment(Long job, Long workArea, Long task, Date asOfDate);
 
 	public List<Assignment> getActiveAssignments(Date asOfDate);
+	
+	public Assignment getAssignment(Long tkAssignmentId);
 }

@@ -65,4 +65,11 @@ public interface AssignmentService {
      * @return
      */
     public Assignment getAssignment(AssignmentDescriptionKey key, Date asOfDate);
+    
+    /**
+     * 
+     * @param tkAssignmentId
+     * @return
+     */
+    public Assignment getAssignment(Long tkAssignmentId);
 }

@@ -1,5 +1,10 @@
 package org.kuali.hr.time.assignment.dao;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -7,11 +12,6 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.assignment.Assignment;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements AssignmentDao {
 
@@ -218,6 +218,14 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 	}
 
 	public Assignment getAssignment(String tkAssignmentId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("tkAssignmentId", tkAssignmentId);
+		Query query = QueryFactory.newQuery(Assignment.class, crit);
+		return (Assignment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+
+	@Override
+	public Assignment getAssignment(Long tkAssignmentId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("tkAssignmentId", tkAssignmentId);
 		Query query = QueryFactory.newQuery(Assignment.class, crit);

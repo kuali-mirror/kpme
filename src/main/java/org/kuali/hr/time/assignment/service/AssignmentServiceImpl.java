@@ -1,5 +1,10 @@
 package org.kuali.hr.time.assignment.service;
 
+import java.sql.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -7,12 +12,6 @@ import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
-
-import java.sql.Date;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public class AssignmentServiceImpl implements AssignmentService {
 
@@ -106,6 +105,10 @@ public class AssignmentServiceImpl implements AssignmentService {
 	public Assignment getAssignment(String tkAssignmentId) {
 		return getAssignmentDao().getAssignment(tkAssignmentId);
 	}
+    
+    public Assignment getAssignment(Long tkAssignmentId){
+    	return getAssignmentDao().getAssignment(tkAssignmentId);
+    }
 
     @Override
 	public List<Assignment> getActiveAssignmentsForWorkArea(Long workArea, Date asOfDate){

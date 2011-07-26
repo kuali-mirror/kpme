@@ -226,5 +226,17 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 	protected String getUniqueKey() {
 		return workArea != null ? workArea.toString() : "" +"_"+dept;
 	}
+
+
+	@Override
+	public Long getId() {
+		return getTkWorkAreaId();
+	}
+
+
+	@Override
+	public void setId(Long id) {
+		setTkWorkAreaId(id);
+	}
     
 }

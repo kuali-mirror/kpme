@@ -10,7 +10,6 @@ import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.salgroup.SalGroup;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class DepartmentEarnCode extends HrBusinessObject {
 
@@ -196,6 +195,14 @@ public class DepartmentEarnCode extends HrBusinessObject {
 	}
 	public void setHistory(String history) {
 		this.history = history;
+	}
+	@Override
+	public Long getId() {
+		return getTkDeptEarnCodeId();
+	}
+	@Override
+	public void setId(Long id) {
+		setTkDeptEarnCodeId(id);
 	}
 
 

@@ -244,4 +244,14 @@ public class DailyOvertimeRule extends TkRule {
 		return location + "_" + dept + "_" + workArea + "_" + paytype;
 	}
 
+	@Override
+	public Long getId() {
+		return getTkDailyOvertimeRuleId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkDailyOvertimeRuleId(id);
+	}
+
 }

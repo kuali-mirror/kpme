@@ -1,16 +1,15 @@
 package org.kuali.hr.time.department;
 
-import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.roles.TkRole;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Organization;
 
 public class Department extends HrBusinessObject {
 
@@ -127,5 +126,15 @@ public class Department extends HrBusinessObject {
 	@Override
 	protected String getUniqueKey() {
 		return getDept() + "_" + getOrg() + "_" + getChart() + getRoles().size();
+	}
+
+	@Override
+	public Long getId() {
+		return getTkDeptId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkDeptId(id);
 	}
 }

@@ -124,4 +124,13 @@ public class PrincipalCalendar extends HrBusinessObject {
 	protected String getUniqueKey() {
 		return principalId + "_" + calendarGroup + "_" + holidayCalendarGroup;
 	}
+
+	@Override
+	public Long getId() {
+		return 1L;
+	}
+
+	@Override
+	public void setId(Long id) {
+	}
 }

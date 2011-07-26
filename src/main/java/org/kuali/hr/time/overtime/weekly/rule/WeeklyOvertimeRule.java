@@ -137,4 +137,14 @@ public class WeeklyOvertimeRule extends TkRule {
 	protected String getUniqueKey() {
 		return convertFromEarnGroup + "_" + maxHoursEarnGroup;
 	}
+
+	@Override
+	public Long getId() {
+		return getTkWeeklyOvertimeRuleId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkWeeklyOvertimeRuleId(id);
+	}
 }

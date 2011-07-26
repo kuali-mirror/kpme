@@ -31,7 +31,15 @@
     <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ${highlight}">
 			<span class="title ${backdoor}">
 	            <img src="images/kuali_base.png" style="width:4em;"/>
-	            TIME
+	            TIME        
+	            <span style="font-size: .4em;color: red;">
+	            	<c:if test="${form.user.targetPerson ne null}">
+		                You are working on 
+		                <a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo" style="color: black;">${form.user.targetPerson.name}</a>'s calendar. 
+		                <input type="button" class="button" id="return-button" value="Return" name="return"
+		                 onclick="location.href='?methodToCall=clearChangeUser'" />
+	           		 </c:if>
+	            </span>
 	        </span>
 
         <div class="person-info">
@@ -40,9 +48,6 @@
                     <td align="right" colspan="2">
                         <c:if test="${form.user.backdoorPerson ne null}">
                             <a href="?methodToCall=clearBackdoor" style="font-size: .8em;">Remove backdoor</a> |
-                        </c:if>
-                        <c:if test="${form.user.targetPerson ne null}">
-                            <a href="?methodToCall=clearChangeUser" style="font-size: .8em;">Remove target user</a> |
                         </c:if>
                         <a href="<%=request.getContextPath() %>/Logout.do" style="font-size: .8em;">Logout</a>
                     </td>

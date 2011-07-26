@@ -3,15 +3,16 @@ package org.kuali.hr.time.overtime.weekly.rule.service;
 import java.sql.Timestamp;
 import java.util.Map;
 
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class WeeklyOvertimeRuleMaintainableImpl extends
-		org.kuali.rice.kns.maintenance.KualiMaintainableImpl {
+public class WeeklyOvertimeRuleMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	/**
 	 * 
@@ -45,25 +46,8 @@ public class WeeklyOvertimeRuleMaintainableImpl extends
 	}
 
 	@Override
-	public void saveBusinessObject() {
-		WeeklyOvertimeRule weeklyOvertimeRule = (WeeklyOvertimeRule) this
-				.getBusinessObject();
-		if(weeklyOvertimeRule.getTkWeeklyOvertimeRuleId()!=null && weeklyOvertimeRule.isActive()){
-			WeeklyOvertimeRule oldWeeklyOvertimeRule = TkServiceLocator.getWeeklyOvertimeRuleService().getWeeklyOvertimeRule(weeklyOvertimeRule.getTkWeeklyOvertimeRuleId());
-			if(weeklyOvertimeRule.getEffectiveDate().equals(oldWeeklyOvertimeRule.getEffectiveDate())){
-				weeklyOvertimeRule.setTimestamp(null);
-			} else{
-				if(oldWeeklyOvertimeRule!=null){
-					oldWeeklyOvertimeRule.setActive(false);
-					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
-					oldWeeklyOvertimeRule.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
-					oldWeeklyOvertimeRule.setEffectiveDate(weeklyOvertimeRule.getEffectiveDate());
-					KNSServiceLocator.getBusinessObjectService().save(oldWeeklyOvertimeRule);
-				}
-				weeklyOvertimeRule.setTimestamp(new Timestamp(System.currentTimeMillis()));
-				weeklyOvertimeRule.setTkWeeklyOvertimeRuleId(null);
-			}
-		}		
-		KNSServiceLocator.getBusinessObjectService().save(weeklyOvertimeRule);
+	public HrBusinessObject getObjectById(Long id) {
+		return TkServiceLocator.getWeeklyOvertimeRuleService().getWeeklyOvertimeRule(id);
 	}
+
 }

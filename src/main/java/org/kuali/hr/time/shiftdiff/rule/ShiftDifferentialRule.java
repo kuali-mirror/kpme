@@ -308,4 +308,14 @@ public class ShiftDifferentialRule extends TkRule {
 		return location + "_" + tkSalGroup + "_" + payGrade;
 	}
 
+	@Override
+	public Long getId() {
+		return getTkShiftDiffRuleId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkSalGroupId(id);
+	}
+
 }

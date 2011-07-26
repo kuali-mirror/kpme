@@ -141,5 +141,15 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 		return timeCollKey;
 	}
 
+	@Override
+	public Long getId() {
+		return getTkTimeCollectionRuleId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkTimeCollectionRuleId(id);
+	}
+
 
 }

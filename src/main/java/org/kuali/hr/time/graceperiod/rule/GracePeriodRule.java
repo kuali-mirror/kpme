@@ -74,5 +74,15 @@ public class GracePeriodRule extends HrBusinessObject {
 		return hourFactor + "";
 	}
 
+	@Override
+	public Long getId() {
+		return getTkGracePeriodRuleId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkGracePeriodRuleId(id);
+	}
+
 
 }

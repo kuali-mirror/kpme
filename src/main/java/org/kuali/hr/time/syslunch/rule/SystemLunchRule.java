@@ -63,4 +63,14 @@ public class SystemLunchRule extends TkRule {
 		return "";
 	}
 
+	@Override
+	public Long getId() {
+		return getTkSystemLunchRuleId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkSystemLunchRuleId(id);
+	}
+
 }

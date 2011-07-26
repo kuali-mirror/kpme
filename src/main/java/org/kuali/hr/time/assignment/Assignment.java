@@ -265,5 +265,15 @@ public class Assignment extends HrBusinessObject {
 		return jobKey;
 		
 	}
+
+	@Override
+	public Long getId() {
+		return getHrJobId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setHrJobId(id);
+	}
 	
 }

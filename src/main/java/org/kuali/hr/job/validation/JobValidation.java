@@ -96,9 +96,13 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 		}
 	}
 	
-	boolean validatePrimaryIndicator(Job job) {
+	boolean validatePrimaryIndicator(Job job, Job oldJob) {
 		boolean valid = true;
 		if (job.getPrimaryIndicator()) {
+			//do not block editing of previous primary job
+			if(oldJob!=null && oldJob.getPrimaryIndicator()!=null && oldJob.getPrimaryIndicator()){
+				return valid;
+			}
 			Job existingJob = TkServiceLocator.getJobSerivce().getPrimaryJob(job.getPrincipalId(), TKUtils.getCurrentDate());
 			if (existingJob != null && existingJob.getPrimaryIndicator()) {
 				this.putFieldError("primaryIndicator", "error.primary.job.already.exist", job.getPrincipalId());
@@ -116,6 +120,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 		PersistableBusinessObject pbo = this.getNewBo();
 		if (pbo instanceof Job) {
 			Job job = (Job) pbo;
+			Job oldJob = (Job) this.getOldBo();
 			if (job != null) {
 				valid = true;
 				valid &= this.validatePrincipalId(job);
@@ -127,7 +132,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 				valid &= this.validateLocation(job);
 				valid &= this.validatePayType(job);
 				valid &= this.validatePayGrade(job);
-				valid &= this.validatePrimaryIndicator(job);
+				valid &= this.validatePrimaryIndicator(job, oldJob);
 			}
 		}
 		return valid;

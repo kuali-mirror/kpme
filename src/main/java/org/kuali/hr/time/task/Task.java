@@ -150,4 +150,14 @@ public class Task extends HrBusinessObject {
 		this.workAreaObj = workAreaObj;
 	}
 
+	@Override
+	public Long getId() {
+		return getTkTaskId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkTaskId(id);
+	}
+
 }

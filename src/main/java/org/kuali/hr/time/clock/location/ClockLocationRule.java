@@ -180,5 +180,15 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 		return clockLocKey;
 	}
 
+	@Override
+	public Long getId() {
+		return getTkClockLocationRuleId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkClockLocationRuleId(id);
+	}
+
 
 }

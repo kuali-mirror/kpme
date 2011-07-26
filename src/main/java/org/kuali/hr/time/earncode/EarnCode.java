@@ -198,4 +198,14 @@ public class EarnCode extends HrBusinessObject {
 	protected String getUniqueKey() {
 		return earnCode;
 	}
+
+	@Override
+	public Long getId() {
+		return getTkEarnCodeId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		setTkEarnCodeId(id);
+	}
 }

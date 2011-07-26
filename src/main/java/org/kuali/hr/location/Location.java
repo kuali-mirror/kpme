@@ -106,5 +106,16 @@ public class Location extends HrBusinessObject {
 	public void setHistory(String history) {
 		this.history = history;
 	}
+	
+	@Override
+	public Long getId() {
+		return getHrLocationId();
+	}
+
+	@Override
+	public void setId(Long id) {
+		// TODO Auto-generated method stub
+		setHrLocationId(id);
+	}
 
 }
