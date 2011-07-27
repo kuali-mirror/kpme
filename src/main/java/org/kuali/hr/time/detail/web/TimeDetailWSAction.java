@@ -1,6 +1,7 @@
 package org.kuali.hr.time.detail.web;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TimeDetailWSAction extends TimesheetAction {
+
+    private static final Logger LOG = Logger.getLogger(TimeDetailWSAction.class);
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -174,7 +177,7 @@ public class TimeDetailWSAction extends TimesheetAction {
                 }
             }
         }
-
+        LOG.info(tdaf.toString());
         tdaf.setOutputString(earnCodeString.toString());
         return mapping.findForward("ws");
     }

@@ -49,8 +49,9 @@
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
 
-        <action path="/TimeDetailWS" name="TimeDetailWSActionForm" scope="request" input="/WEB-INF/jsp/timeDetail.jsp"
+        <action path="/TimeDetailWS" name="TimeDetailWSActionForm" scope="request" input="/WEB-INF/jsp/webService.jsp"
                 type="org.kuali.hr.time.detail.web.TimeDetailWSAction" parameter="methodToCall" validate="false">
+            <forward name="basic" path="/WEB-INF/jsp/webService.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
 

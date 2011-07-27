@@ -397,6 +397,7 @@ $.fn.loadEarnCode = function(assignment, selectedEarnCode) {
         cache: true,
         success: function(data) {
             $('#earnCode').html(data);
+            console.log(data);
             if (selectedEarnCode != undefined && selectedEarnCode != '') {
                 $("select#earnCode option[value='" + selectedEarnCode + "']").attr("selected", "selected");
             }
