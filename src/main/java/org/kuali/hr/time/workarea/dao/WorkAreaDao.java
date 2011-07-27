@@ -11,4 +11,5 @@ public interface WorkAreaDao {
     public List<WorkArea> getWorkArea(String department, Date asOfDate);
     public void saveOrUpdate(WorkArea workArea);
     public WorkArea getWorkArea(Long tkWorkAreaId);
+    public Long getNextWorkAreaKey();
 }

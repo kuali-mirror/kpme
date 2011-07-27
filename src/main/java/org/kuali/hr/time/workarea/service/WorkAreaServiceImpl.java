@@ -76,4 +76,9 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 	public WorkArea getWorkArea(Long tkWorkAreaId) {
 		return workAreaDao.getWorkArea(tkWorkAreaId);
 	}
+
+	@Override
+	public Long getNextWorkAreaKey() {
+		return workAreaDao.getNextWorkAreaKey();
+	}
 }
