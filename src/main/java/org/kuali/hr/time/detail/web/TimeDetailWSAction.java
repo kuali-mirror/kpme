@@ -141,7 +141,7 @@ public class TimeDetailWSAction extends TimesheetAction {
             	}
             }
         }
-        this.validateHourLimit(tdaf);
+        ActionFormUtils.validateHourLimit(tdaf);
 
         tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
 
@@ -181,16 +181,5 @@ public class TimeDetailWSAction extends TimesheetAction {
         tdaf.setOutputString(earnCodeString.toString());
         return mapping.findForward("ws");
     }
-
-
-    public void validateHourLimit(TimeDetailActionForm tdaf) throws Exception {
-    	tdaf.setWarningJason("");
-        JSONArray warnMsgJson = new JSONArray();
-        warnMsgJson = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(tdaf.getTimesheetDocument());
-        if (!warnMsgJson.isEmpty()) {
-        	tdaf.setWarningJason(JSONValue.toJSONString(warnMsgJson));
-        }
-    }
-
 
 }
