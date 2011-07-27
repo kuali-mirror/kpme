@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -70,18 +69,16 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	 * Used to show the work area id after submit on new 
 	 * This is because real saving is occurring in a background thread now
 	 */
-	@Override
-	public void prepareForSave() {
-		super.prepareForSave();
-		
-		if(!StringUtils.equals(getMaintenanceAction(),"Edit")){
-			saveBusinessObject();
-			WorkArea workArea = (WorkArea) this.getBusinessObject();
-			workArea.setTkWorkAreaId(null);
-		}
-	}
-	
-	
+//	@Override
+//	public void prepareForSave() {
+//		super.prepareForSave();
+//		
+//		if(!StringUtils.equals(getMaintenanceAction(),"Edit")){
+//			saveBusinessObject();
+//			WorkArea workArea = (WorkArea) this.getBusinessObject();
+//			workArea.setTkWorkAreaId(null);
+//		}
+//	}
 	
 
 	@Override
@@ -109,6 +106,16 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 			role.setUserPrincipalId(TKContext.getPrincipalId());
 		}
 		TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
+	}
+
+	@Override
+	public void processAfterNew(MaintenanceDocument document,
+			Map<String, String[]> parameters) {
+			WorkArea workArea = (WorkArea) this.getBusinessObject();
+			if(workArea.getWorkArea() == null){
+				workArea.setWorkArea(TkServiceLocator.getWorkAreaService().getNextWorkAreaKey());
+			}
+			super.processAfterNew(document, parameters);
 	}
 
 }

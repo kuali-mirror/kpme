@@ -11,6 +11,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class WorkAreaDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements WorkAreaDao {
@@ -88,6 +89,10 @@ public class WorkAreaDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 		
 		Query query = QueryFactory.newQuery(WorkArea.class, crit);
 		return (WorkArea)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+	
+	public Long getNextWorkAreaKey(){
+		 return KNSServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("tk_work_area_key_s");
 	}
 
 }
