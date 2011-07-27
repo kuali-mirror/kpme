@@ -66,7 +66,7 @@ public class TimeDetailAction extends TimesheetAction {
         // so that we can directly fetch the timeblocks from the document
         List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentId()));
         TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument(), timeBlocks);
-    	tdaf.setAssignStyleClassMap(buildAssignmentStyleClassMap(tdaf.getTimesheetDocument()));
+    	tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(tdaf.getTimesheetDocument()));
         Map<String, String> aMap = tdaf.getAssignStyleClassMap();
         // set css classes for each assignment row
         for(EarnGroupSection section: ts.getSections()) {
@@ -80,12 +80,12 @@ public class TimeDetailAction extends TimesheetAction {
 
         }
         tdaf.setTimeSummary(ts);
-        this.validateHourLimit(tdaf);
+        ActionFormUtils.validateHourLimit(tdaf);
 
         // Set calendar
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, tdaf.getTimesheetDocument().getPayCalendarEntry());
         tdaf.setTkCalendar(TkCalendar.getCalendar(aggregate));
-        tdaf.setTimeBlockString(getTimeBlockJSONMap(tdaf.getTimesheetDocument(), aggregate.getFlattenedTimeBlockList()));
+        tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(tdaf.getTimesheetDocument(), aggregate.getFlattenedTimeBlockList()));
 
         // for visually impaired users
         // TimesheetDocument td = tdaf.getTimesheetDocument();
@@ -95,48 +95,8 @@ public class TimeDetailAction extends TimesheetAction {
         return forward;
     }
 
-    public void validateHourLimit(TimeDetailActionForm tdaf) throws Exception {
-    	tdaf.setWarningJason("");
-        JSONArray warnMsgJson = new JSONArray();
-        warnMsgJson = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(tdaf.getTimesheetDocument());
-        if (!warnMsgJson.isEmpty()) {
-        	tdaf.setWarningJason(JSONValue.toJSONString(warnMsgJson));
-        }
-    }
 
-    // this is an ajax call
-    public ActionForward getEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        StringBuffer earnCodeString = new StringBuffer();
-        if (StringUtils.isBlank(tdaf.getSelectedAssignment())) {
-            earnCodeString.append("<option value=''>-- select an assignment first --</option>");
-        } else {
-            List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
-            AssignmentDescriptionKey key = new AssignmentDescriptionKey(tdaf.getSelectedAssignment());
-            for (Assignment assignment : assignments) {
-                if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
-                        assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
-                        assignment.getTask().compareTo(key.getTask()) == 0) {
-                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, tdaf.getTimesheetDocument().getAsOfDate());
-                    for (EarnCode earnCode : earnCodes) {
-                    	if(earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)
-                    			&& !(TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().getCurrentRoles().isTimesheetApprover())) {
-                    		continue;
-                    	}
-						if ( !(assignment.getTimeCollectionRule().isClockUserFl() &&
-                                StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(), earnCode.getEarnCode())) ) {
-                            earnCodeString.append("<option value='").append(earnCode.getEarnCode()).append("_").append(earnCode.getEarnCodeType());
-                            earnCodeString.append("'>").append(earnCode.getEarnCode()).append(" : ").append(earnCode.getDescription());
-                            earnCodeString.append("</option>");
-                        }
-                    }
-                }
-            }
-        }
 
-        tdaf.setOutputString(earnCodeString.toString());
-        return mapping.findForward("ws");
-    }
 
     /**
      * This method involves creating an object-copy of every TimeBlock on the
@@ -241,234 +201,7 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
         //call history service
 
-        this.validateHourLimit(tdaf);
+        ActionFormUtils.validateHourLimit(tdaf);
         return mapping.findForward("basic");
     }
-
-    /**
-     * This is an ajax call triggered after a user submits the time entry form.
-     * If there is any error, it will return error messages as a json object.
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return jsonObj
-     * @throws Exception
-     */
-    @SuppressWarnings("unchecked")
-    public ActionForward validateTimeEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        JSONArray errorMsgList = new JSONArray();
-
-        //------------------------
-        // validate the hour field
-        //------------------------
-//        if (tdaf.getHours() != null && tdaf.getHours().compareTo(BigDecimal.ZERO) > 0) {
-//            if (tdaf.getHours().compareTo(new BigDecimal("0")) == 0) {
-//                errorMsgList.add("The entered hours is not valid.");
-//                tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-//                return mapping.findForward("ws");
-//            }
-//        }
-
-        //------------------------
-        // some of the simple validations are in the js side in order to reduce the server calls
-        // 1. check if the begin / end time is empty - tk.calenadr.js
-        // 2. check the time format - timeparse.js
-        // 3. only allows decimals to be entered in the hour field
-        //------------------------
-        Long startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime()).getTime();
-        Long endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime()).getTime();
-
-        // this is for the output of the error message
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss z");
-
-        //------------------------
-        // check if the begin / end time are valid
-        //------------------------
-        if ((startTime.compareTo(endTime) > 0 || endTime.compareTo(startTime) < 0)) {
-            errorMsgList.add("The time or date is not valid.");
-            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-            return mapping.findForward("ws");
-        }
-
-        //------------------------
-        // check if the overnight shift is across days
-        //------------------------
-        DateTime startTemp = new DateTime(startTime);
-        DateTime endTemp = new DateTime(endTime);
-        if (StringUtils.equals(tdaf.getAcrossDays(), "y") && tdaf.getHours() == null && tdaf.getAmount() == null) {
-            //Interval timeInterval = new Interval(startTime, endTime);
-            if (startTemp.getHourOfDay() >= endTemp.getHourOfDay()
-            		&& !(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1
-            				&& endTemp.getHourOfDay() == 0)) {
-                errorMsgList.add("The \"apply to each day\" box should not be checked.");
-                tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-                return mapping.findForward("ws");
-            }
-
-        }
-        //------------------------
-        // check if time blocks overlap with each other. Note that the tkTimeBlockId is used to
-        // determine is it's updating an existing time block or adding a new one
-        //------------------------
-        if (tdaf.getTkTimeBlockId() == null) {
-            Interval addedTimeblockInterval = new Interval(startTime, endTime);
-            List<Interval> dayInt = new ArrayList<Interval> ();
-
-            if(StringUtils.equals(tdaf.getAcrossDays(), "y")) {
-            	DateTime start = new DateTime(startTime);
-            	DateTime end = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getEndTime()).getTime());
-            	if(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1) {
-            		end = new DateTime(endTime);
-            	}
-            	DateTime groupEnd = new DateTime(endTime);
-            	Long startLong = start.getMillis();
-            	Long endLong = end.getMillis();
-            	while(start.isBefore(groupEnd.getMillis())) {
-            		Interval tempInt = new Interval(startLong, endLong);
-            		dayInt.add(tempInt);
-            		start = start.plusDays(1);
-            		end = end.plusDays(1);
-            		startLong = start.getMillis();
-                	endLong = end.getMillis();
-            	}
-            } else {
-            	dayInt.add(addedTimeblockInterval);
-            }
-
-            for (TimeBlock timeBlock : tdaf.getTimesheetDocument().getTimeBlocks()) {
-            	if(StringUtils.equals(timeBlock.getEarnCodeType(), "TIME")) {
-	                Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
-	                for(Interval intv: dayInt) {
-		                if (timeBlockInterval.overlaps(intv)) {
-		                	errorMsgList.add("The time block you are trying to add overlaps with an existing time block.");
-		                	tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-		                    return mapping.findForward("ws");
-		                }
-	                }
-            	}
-            }
-        }
-        this.validateHourLimit(tdaf);
-
-        tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-
-        return mapping.findForward("ws");
-    }
-
-    // Some of this needs to move to util classes.
-
-    public static String getTimeBlockJSONMap(TimesheetDocument tsd, List<TimeBlock> blocks) {
-        List<Map<String, Object>> jsonList = getTimeBlocksJson(blocks, null);
-        Map<String, Map<String, Object>> jsonMappedList = new HashMap<String, Map<String, Object>>();
-        for (Map<String,Object> tbm : jsonList) {
-            String id = (String)tbm.get("id");
-            jsonMappedList.put(id, tbm);
-        }
-        return JSONValue.toJSONString(jsonMappedList);
-    }
-
-    public static String getTimeBlocksForOutput(TimesheetDocument tsd, List<TimeBlock> timeBlocks) {
-        return JSONValue.toJSONString(getTimeBlocksJson(timeBlocks, buildAssignmentStyleClassMap(tsd)));
-    }
-
-    public static Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd) {
-          Map<String, String> aMap = new HashMap<String, String>();
-          List<String> assignmentKeys = new ArrayList<String> ();
-          List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(tsd.getPrincipalId(), tsd.getAsOfDate());
-
-          for(Assignment assignment: assignments) {
-              AssignmentDescriptionKey aKey = new AssignmentDescriptionKey(assignment.getJobNumber(),
-                      assignment.getWorkArea(), assignment.getTask());
-              assignmentKeys.add(aKey.toAssignmentKeyString());
-          }
-          Collections.sort(assignmentKeys);
-
-          for(int i = 0; i< assignmentKeys.size(); i++) {
-              aMap.put(assignmentKeys.get(i), "assignment"+ Integer.toString(i));
-          }
-
-          return aMap;
-    }
-
-    private static List<Map<String, Object>> getTimeBlocksJson(List<TimeBlock> timeBlocks, Map<String, String> assignmentStyleClassMap) {
-
-        if (timeBlocks == null || timeBlocks.size() == 0) {
-            return new ArrayList<Map<String, Object>>();
-        }
-
-        List<Map<String, Object>> timeBlockList = new LinkedList<Map<String, Object>>();
-        String timezone = TkServiceLocator.getTimezoneService().getUserTimeZone();
-        timeBlocks = TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks, timezone);
-
-        for (TimeBlock timeBlock : timeBlocks) {
-            Map<String, Object> timeBlockMap = new LinkedHashMap<String, Object>();
-
-            //String assignmentKey = TKUtils.formatAssignmentKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask());
-            String workAreaDesc = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), new java.sql.Date(timeBlock.getEndTimestamp().getTime())).getDescription();
-
-            String cssClass = "";
-            if(assignmentStyleClassMap != null && assignmentStyleClassMap.containsKey(timeBlock.getAssignmentKey())) {
-            	cssClass = assignmentStyleClassMap.get(timeBlock.getAssignmentKey());
-            }
-            timeBlockMap.put("assignmentCss", cssClass);
-            timeBlockMap.put("editable",  TkServiceLocator.getTimeBlockService().isTimeBlockEditable(timeBlock.getUserPrincipalId()));
-
-            // DateTime object in jodatime is immutable. If manipulation of a datetime obj is necessary, use MutableDateTime instead.
-            // ^^ to whoever wrote this: The point of immutable objects is to ensure consistency, if you're going to alter the object
-            //    and you start with an immutable, just create another immutable. Similar to how you would use a BigDecimal. We are not
-            //    tracking any kind of 'mutating' state with this object, it's just a one off modification under a specific circumstance.
-            DateTime start = timeBlock.getBeginTimeDisplay();
-            DateTime end = timeBlock.getEndTimeDisplay();
-
-            /**
-             * This is the timeblock backward pushing logic.
-             * the purpose of this is to accommodate the virtual day mode where the start/end period time is not from 12a to 12a.
-             * A timeblock will be pushed back if the timeblock is still within the previous interval
-             */
-            if (timeBlock.isPushBackward()) {
-                start = start.minusDays(1);
-                end = end.minusDays(1);
-            }
-
-            timeBlockMap.put("title", workAreaDesc);
-            timeBlockMap.put("earnCode", timeBlock.getEarnCode());
-            //TODO: need to cache this or pre-load it when the app boots up
-            // EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
-            timeBlockMap.put("earnCodeType", timeBlock.getEarnCodeType());
-
-            timeBlockMap.put("start", start.toDateTime().toString(ISODateTimeFormat.dateTimeNoMillis()));
-            timeBlockMap.put("end", end.toDateTime().toString(ISODateTimeFormat.dateTimeNoMillis()));
-            timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
-            timeBlockMap.put("hours", timeBlock.getHours());
-            timeBlockMap.put("amount", timeBlock.getAmount());
-            timeBlockMap.put("timezone", timezone);
-            timeBlockMap.put("assignment", new AssignmentDescriptionKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask()).toAssignmentKeyString());
-            timeBlockMap.put("tkTimeBlockId", timeBlock.getTkTimeBlockId() != null ? timeBlock.getTkTimeBlockId() : "");
-
-            List<Map<String, Object>> timeHourDetailList = new LinkedList<Map<String, Object>>();
-            for (TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {
-                Map<String, Object> timeHourDetailMap = new LinkedHashMap<String, Object>();
-                timeHourDetailMap.put("earnCode", timeHourDetail.getEarnCode());
-                timeHourDetailMap.put("hours", timeHourDetail.getHours());
-                timeHourDetailMap.put("amount", timeHourDetail.getAmount());
-
-                // if there is a lunch hour deduction, add a flag to the timeBlockMap
-                if(StringUtils.equals(timeHourDetail.getEarnCode(), "LUN")) {
-                    timeBlockMap.put("lunchDeduction", true);
-                }
-
-                timeHourDetailList.add(timeHourDetailMap);
-            }
-            timeBlockMap.put("timeHourDetails", JSONValue.toJSONString(timeHourDetailList));
-
-            timeBlockList.add(timeBlockMap);
-        }
-
-        return timeBlockList;
-    }
-
 }

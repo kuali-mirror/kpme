@@ -14,15 +14,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TimeDetailActionForm extends TimesheetActionForm {
+public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
     /**
      *
      */
     private static final long serialVersionUID = 5277197287612035236L;
 
-	private String outputString;
-	private String warningJason;
 	private Long tkTimeBlockId;
 	private String startTime;
 	private String endTime;
@@ -47,14 +45,6 @@ public class TimeDetailActionForm extends TimesheetActionForm {
     public void setTkCalendar(TkCalendar calendar) {
         this.calendar = calendar;
     }
-
-    public String getOutputString() {
-		return outputString;
-	}
-
-	public void setOutputString(String outputString) {
-		this.outputString = outputString;
-	}
 
 	public Long getTkTimeBlockId() {
 		return tkTimeBlockId;
@@ -160,14 +150,6 @@ public class TimeDetailActionForm extends TimesheetActionForm {
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
-	}
-
-	public String getWarningJason() {
-		return warningJason;
-	}
-
-	public void setWarningJason(String warningJason) {
-		this.warningJason = warningJason;
 	}
 
 	public Map<String, String> getAssignStyleClassMap() {

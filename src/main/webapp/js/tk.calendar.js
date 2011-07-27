@@ -251,7 +251,7 @@ $(document).ready(function() {
 
             // validate timeblocks
             $.ajax({
-                url: "TimeDetail.do?methodToCall=validateTimeEntry",
+                url: "TimeDetailWS.do?methodToCall=validateTimeEntry",
                 data: params,
                 cache: false,
                 success: function(data) {
@@ -392,7 +392,7 @@ $.fn.loadEarnCode = function(assignment, selectedEarnCode) {
     params['selectedAssignment'] = assignment;
 
     $.ajax({
-        url: "TimeDetail.do?methodToCall=getEarnCodes",
+        url: "TimeDetailWS.do?methodToCall=getEarnCodes",
         data: params,
         cache: true,
         success: function(data) {
