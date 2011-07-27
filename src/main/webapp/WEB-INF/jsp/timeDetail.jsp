@@ -32,10 +32,9 @@
         <html:textarea property="timeBlockString" styleId="timeBlockString" value="${Form.timeBlockString}"/>
 
         <div class="global-error"><!-- Error: This is a global error for the demo purpose  --></div>
-        <tk:calendar cal="${Form.tkCalendar}"/>
+        <tk:calendar cal="${Form.tkCalendar}" docId="${Form.documentId}"/>
 
         <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;">
-
             <div id="dialog-form" title="Add time blocks:" style="margin-left: auto; margin-right: auto;">
                 <p id="validation" class="validation" title="Validation">All form fields are required.</p>
                 <html:form action="/TimeDetail.do" styleId="time-detail">

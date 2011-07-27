@@ -60,8 +60,6 @@ public class TimeDetailAction extends TimesheetAction {
         ActionForward forward = super.execute(mapping, form, request, response);
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         tdaf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(tdaf.getTimesheetDocument(), false));
-//		tdaf.setBeginPeriodDateTime(td.getPayCalendarEntry().getBeginPeriodDateTime());
-//		tdaf.setEndPeriodDateTime(td.getPayCalendarEntry().getEndPeriodDateTime());
 
         // TODO: may need to revisit this:
         // when adding / removing timeblocks, it should update the timeblocks on the timesheet document,e
@@ -82,16 +80,11 @@ public class TimeDetailAction extends TimesheetAction {
 
         }
         tdaf.setTimeSummary(ts);
-
         this.validateHourLimit(tdaf);
-
 
         // Set calendar
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, tdaf.getTimesheetDocument().getPayCalendarEntry());
         tdaf.setTkCalendar(TkCalendar.getCalendar(aggregate));
-
-        // get time blocks
-        //tdaf.setTimeBlockString(getTimeBlocksForOutput(tdaf.getTimesheetDocument(), aggregate.getFlattenedTimeBlockList()));
         tdaf.setTimeBlockString(getTimeBlockJSONMap(tdaf.getTimesheetDocument(), aggregate.getFlattenedTimeBlockList()));
 
         // for visually impaired users

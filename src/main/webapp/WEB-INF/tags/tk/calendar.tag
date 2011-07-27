@@ -1,8 +1,9 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
 <%@ attribute name="cal" required="true" type="org.kuali.hr.time.calendar.TkCalendar"%>
+<%@ attribute name="docId" required="true" type="java.lang.String"%>
 
-<div class="fc ui-widget" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;">
+<div id="tkCal" class="fc ui-widget" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;">
 <%-- Add Paging Controls for moving between Calendars --%>
 <table class="fc-header">
 <tbody>
@@ -11,9 +12,10 @@
 <tr>
     <td>
         <div class="fc-button-prev ui-state-default ui-corner-left ui-corner-right">
-            <a><span class="ui-icon ui-icon-circle-triangle-w"></span></a></div></td><td><span class="fc-header-space"></span></td>
+            <a><span  id="nav_prev" class="ui-icon ui-icon-circle-triangle-w"></span></a></div></td><td><span class="fc-header-space"></span></td>
             <td><h2 class="fc-header-title">${cal.calendarTitle}</h2></td>
-            <td><span class="fc-header-space"></span></td><td><div class="fc-button-next ui-state-default ui-corner-left ui-corner-right"><a><span class="ui-icon ui-icon-circle-triangle-e"></span></a>
+            <td><span class="fc-header-space"></span></td><td><div class="fc-button-next ui-state-default ui-corner-left ui-corner-right">
+                <a><span id="nav_next" class="ui-icon ui-icon-circle-triangle-e"></span></a>
         </div>
     </td>
 </tr>
@@ -22,7 +24,7 @@
 </tbody>
 </table>
 
-<div id="tkCal" class="fc-content ui-widget-content" style="position: relative; min-height: 1px; ">
+<div id="tkCalContent" class="fc-content ui-widget-content" style="position: relative; min-height: 1px; ">
 <table>
     <thead>
     <%-- Render Day Labels, starting at FLSA Start day --%>
@@ -46,6 +48,7 @@
                     <div class="fc-day-content">
                         <c:forEach var="block" items="${day.blockRenderers}">
                         <div id="block_${block.timeBlock.tkTimeBlockId}" class="fc-event fc-event-hori fc-corner-left fc-corner-right assignment0  timeblock ui-draggable ui-resizable" style="width: 179px;">
+                            <div ><img id="delete_${block.timeBlock.tkTimeBlockId}" class='timeblock-delete' src='images/delete.png'/></div><br/>
                             ${block.title}
                             ${block.timeRange}
                             <div>

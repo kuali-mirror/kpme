@@ -15,7 +15,7 @@ $(document).ready(function() {
     if ($('#isVirtualWorkDay').val() == 'false') {
         endPeriodDateTimeObj.setDate(endPeriodDateTimeObj.getDate() - 1);
     }
-
+    var docId = $('#documentId').val();
     var thing = $('#tkCal').click( function(event) {
         if (event.target.id.indexOf("_") > -1) {
             var actionA = event.target.id.split("_");
@@ -25,12 +25,34 @@ $(document).ready(function() {
                 console.log(action);
                 console.log(actionVal);
 
-                if (action == "day") {
+                if (action == "nav") {
+                    // Handle nav click
+                    // Handle nav click
+                    // Handle nav click
+                    if (actionVal == "next") {
+                        window.location='TimeDetail.do?calNav=next&documentId=' + docId;
+                    } else if (actionVal == "prev") {
+                        window.location='TimeDetail.do?calNav=prev&documentId=' + docId;
+                    }
+                } else if (action == "delete") {
+                    // Handle delete
+                    // Handle delete
+                    // Handle delete
+            	    if(confirm('You are about to delete a time block. Click OK to confirm the delete.')){
+            		    window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + actionVal;
+            	    }
+                } else if (action == "day") {
                     // Handle new entries
+                    // Handle new entries
+                    // Handle new entries
+                     oriTimeDetail = {};
+                    $('#beginTimeField, #endTimeField, #hoursField, #acrossDaysField').val('');
+                    $('#acrossDaysField').attr('checked', '');
+
                     console.log("handle new day timeblock:");
                     var currentDay = new Date(beginPeriodDateTimeObj);
                     currentDay.setDate(currentDay.getDate() + parseInt(actionVal));
-                    console.log(currentDay);
+
                     $('#date-range-begin').val($.datepicker.formatDate('mm/dd/yy', currentDay));
                     $('#date-range-end').val($.datepicker.formatDate('mm/dd/yy', currentDay));
                     $('#acrossDaysField').attr('checked', '');
@@ -42,19 +64,16 @@ $(document).ready(function() {
                     $('#dialog-form').dialog('open');
                 } else if (action == "block") {
                     // Handle existing timeblocks
+                    // Handle existing timeblocks
+                    // Handle existing timeblocks
                     var timeBlockId = parseInt(actionVal);
-                    console.log("handle edit timeblock: " + timeBlockId);
                     var tblocks = jQuery.parseJSON($('#timeBlockString').val());
                     var calEvent = tblocks[timeBlockId];
-                    // need to convert dates
-
-                    // 2011-07-28T17:00:00.000-04:00
                     calEvent.start = Date.parse(calEvent.start);
                     calEvent.end = Date.parse(calEvent.end);
                     console.log(calEvent.start);
 
                     $('#dialog-form').dialog('open');
-                    // load data to the fields
                     $('#date-range-begin').val(calEvent.start.toString('MM/dd/yyyy'));
                     $('#date-range-end').val(calEvent.end.toString('MM/dd/yyyy'));
                     $("select#assignment option[value='" + calEvent.assignment + "']").attr("selected", "selected");
@@ -80,142 +99,7 @@ $(document).ready(function() {
                         'amount' : $('#amountField').val(),
                         'acrossDays' : $('#acrossDaysField').val()
                     };
-
-
                 }
-            }
-        }
-    });
-
-    var docId = $('#documentId').val();
-    var eventUrl = "TimeDetail.do?methodToCall=getTimeBlocks&documentId=" + docId;
-
-    var calendar = $('#cal').fullCalendar({
-        // begin / end period date is how we control the calendar dates display
-        beginPeriodDate : beginPeriodDateTimeObj,
-        endPeriodDate : endPeriodDateTimeObj,
-        // the calendar will use the jQuery theme
-        theme : true,
-        // this is to control the width/height ratio for each day cell on the calendar
-        aspectRatio : 5,
-        allDaySlot : false,
-        multidaySelect : true,
-        // prev / next is the buttons for the calendar navigation
-        header: {
-            left : "",
-            center : 'prev, title, next',
-            right : ''
-        },
-        // this is the logic for the edit form. when an existing event is clicked, the edit form will be brought up and data will be loaded to the fields
-        eventClick: function(calEvent, jsEvent) {
-
-            var targetId = jsEvent.target.id;
-            var targetClassName = jsEvent.target.className;
-
-            // delete an existing event if the delete button is clicked
-            if (targetClassName == 'timeblock-delete') {
-            	if(confirm('You are about to delete a time block. Click OK to confirm the delete.')){
-            		window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + calEvent.id;
-            	}
-            }
-
-            // otherwise, just open the time entry form in the edit mode
-            if (targetId == 'timeblock-edit' /* || targetId == ''*/) {
-                var dateFormat = "MM/dd/yyyy";
-                var timeFormat = "hh:mm TT";
-
-                // open the time entry form
-                $('#dialog-form').dialog('open');
-                // load data to the fields
-                $('#date-range-begin').val($.fullCalendar.formatDate(calEvent.start, dateFormat));
-                $('#date-range-end').val($.fullCalendar.formatDate(calEvent.end, dateFormat));
-                $("select#assignment option[value='" + calEvent.assignment + "']").attr("selected", "selected");
-                $('#earnCode').loadEarnCode($('#assignment').val(), calEvent.earnCode + "_" + calEvent.earnCodeType);
-                $('#beginTimeField').val($.fullCalendar.formatDate(calEvent.start, timeFormat));
-                $('#endTimeField').val($.fullCalendar.formatDate(calEvent.end, timeFormat));
-                $('#tkTimeBlockId').val(calEvent.tkTimeBlockId);
-                $('#hoursField').val(calEvent.hours == '0' ? '' : calEvent.hours);
-                $('#amountField').val(calEvent.amount == '0' ? '' : calEvent.amount);
-                // the month value in the javascript date object is the actual month minus 1.
-                $('#beginTimeField-messages').val(calEvent.start.getHours() + ':' + calEvent.start.getMinutes());
-                $('#endTimeField-messages').val(calEvent.end.getHours() + ':' + calEvent.end.getMinutes());
-
-                // push existing timeblock values to a hash for the later comparison against the modified values
-                oriTimeDetail = {
-                    'startDate' : $('#date-range-begin').val(),
-                    'endDate' : $('#date-range-end').val(),
-                    'selectedAssignment' : calEvent.assignment,
-                    'selectedEarnCode' : calEvent.earnCode,
-                    'startTime' : $('#beginTimeField-messages').val(),
-                    'endTime' : $('#endTimeField-messages').val(),
-                    'hours' : $('#hoursField').val(),
-                    'amount' : $('#amountField').val(),
-                    'acrossDays' : $('#acrossDaysField').val()
-                };
-            }
-        },
-        selectable: true,
-        selectHelper: true,
-        // this is triggered when a day is clicked for entering the time details
-        select: function(start, end, allDay) {
-
-            // clear any existing values
-            oriTimeDetail = {};
-            $('#beginTimeField, #endTimeField, #hoursField, #acrossDaysField').val('');
-            $('#acrossDaysField').attr('checked', '');
-            // check acrossDaysField if multiple days are selected
-            if (start.getTime() != end.getTime()) {
-                $('#acrossDaysField').attr('checked', 'checked');
-            }
-
-            // if the virtual day mode is true, set the start hour the same as the pay period time
-            if ($('#isVirtualWorkDay').val() == 'true') {
-                start.setHours(beginPeriodDateTimeObj.getHours());
-                end.setHours(endPeriodDateTimeObj.getHours());
-            }
-
-            // disable showing the time entry form if the date is not within the pay period
-            if (start.getTime() >= beginPeriodDateTimeObj.getTime() && end.getTime() <= endPeriodDateTimeObj.getTime()) {
-
-                // if there is only one assignment, get the earn code without selecting the assignment
-                if ($('#assignment-value').html() != '') {
-                    $('#earnCode').loadEarnCode($('#assignment').val());
-                }
-
-                $('#tkTimeBlockId').val('');
-                $('#dialog-form').dialog('open');
-
-            }
-        },
-        editable: false,
-        // this is the url for fetching timeblocks through the ajax call
-        //events : eventUrl,
-        events: jQuery.parseJSON($('#timeBlockString').val()),
-        /*
-        events : [
-            {
-                "assignmentCss":"assignment0",
-                "title":"custservice",
-                "earnCode":"RGN",
-                "earnCodeType":"TIME",
-                "start":"2011-05-11T08:15:00.000-04:00",
-                "end":"2011-05-11T17:15:00.000-04:00",
-                "id":"5792",
-                "hours":9.00,
-                "amount":null,
-                "timezone":"America\/Indianapolis",
-                "assignment":"0_8529_0",
-                "tkTimeBlockId":5792,
-                "timeHourDetails":"[{\"earnCode\":\"RGN\",\"hours\":9.00,\"amount\":null}]"
-            }
-        ],
-        */
-        loading: function(bool) {
-            if (bool) {
-                $('#loading').show();
-            }
-            else {
-                $('#loading').hide();
             }
         }
     });
