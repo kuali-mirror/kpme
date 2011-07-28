@@ -1,5 +1,6 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 <c:set var="Form" value="${BatchJobActionForm}" scope="request"/>
+<c:set var="KualiForm" value="${BatchJobActionForm}" scope="request"/>
 
 <tk:tkHeader tabId="batchJob">
 
@@ -13,7 +14,7 @@
                         <td>
                             <select name="batchJobNames" id="batchJobNames">
                                 <c:forEach var="job" items="${Form.batchJobNames}">
-                                    <option value="${job.key}">${job.value}</option>
+                                    <option value="${job}">${job}</option>
                                 </c:forEach>
                             </select>
                         </td>
@@ -21,7 +22,12 @@
                     <tr>
                         <th><label>Pay calendar period : </label></th>
                         <td>
-                            <input type="text" name="calendarGroup" id="calendarGroup"/>
+                            <input type="text" name="payCalendarEntryId" id="payCalendarEntryId" value="${Form.payCalendarEntryId}"/>
+                        </td>
+                        <td>
+                        	<kul:lookup boClassName="org.kuali.hr.time.paycalendar.PayCalendarEntries"
+                					fieldConversions="payCalendarEntriesId:payCalendarEntryId"
+                					lookupParameters="" />
                         </td>
                         <td><input type="submit" value="Run"/></td>
                     </tr>
@@ -29,7 +35,6 @@
                 <br/>
             </fieldset>
         </html:form>
-
         <html:form action="/BatchJob.do?methodToCall=getBatchJobEntryStatus" styleId="batch-job">
             <fieldset id="batch-status">
                 <legend>Batch Job Entry Status</legend>
