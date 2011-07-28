@@ -1730,16 +1730,20 @@
             timeHourDetail = "";
             // convert the string to a json obj by using the jquery-json plugin
             var jsonString = jQuery.parseJSON(event.timeHourDetails);
-            var timeBlockTitle = "";
             $.each(jsonString, function (index) {
                 if (jsonString[index].earnCode != 'LUN') {
-          			timeBlockTitle = event.title;
                     timeHourDetail += "<tr>";
                     timeHourDetail += "<td align='center' style='width:50%;'>Earn Code: " + jsonString[index].earnCode + "</td>";
                     if ((event.earnCodeType == 'TIME' || event.earnCodeType == 'HOUR')) {
-                        var lunchDeduction = "";
+                        var lunchDeduction= "";
                         if (event.lunchDeduction === true && jsonString[index].earnCode === 'RGN') {
-                            lunchDeduction = "<span class='lunch'>Lunch</span>";
+                        	var lunchLabel = "";
+                        	if(event.lunchLabel === undefined) {
+                        		lunchLabel = "Lunch";
+                        	} else {
+                        		lunchLabel = event.lunchLabel;
+                        	}
+                        	lunchDeduction = "<span class='lunch'>" + lunchLabel + "</span>";
                         }
                         timeHourDetail += "<td align='center' style='width:50%;'>Hours: " + jsonString[index].hours + lunchDeduction + "</td>";
                     }
@@ -1747,16 +1751,14 @@
                         timeHourDetail += "<td align='center' style='width:50%;'>Amount: $" + jsonString[index].amount + "</td>";
                     }
                     timeHourDetail += "</tr>";
-                } else {
-                	timeBlockTitle = "Lunch Deducted";
                 }
             });
             
             var titleString = "";
             if(event.editable == "true") {
-            	titleString = "<div id='timeblock-edit'><img class='timeblock-delete' src='images/delete.png'/>" + timeBlockTitle + "</div>";
+            	titleString = "<div id='timeblock-edit'><img class='timeblock-delete' src='images/delete.png'/>" + event.title + "</div>";
             } else {
-            	titleString = "<div id='timeblock-readOnly'>" + timeBlockTitle + "</div>";
+            	titleString = "<div id='timeblock-readOnly'>" + event.title + "</div>";
             }
 
             html +=

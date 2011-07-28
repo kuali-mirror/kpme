@@ -299,7 +299,13 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
                 // if there is a lunch hour deduction, add a flag to the timeBlockMap
                 if(StringUtils.equals(timeHourDetail.getEarnCode(), "LUN")) {
-                    timeBlockMap.put("lunchDeduction", true);
+                    timeBlockMap.put("lunchDeduction", "true");
+                    EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeHourDetail.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
+                    String lunchLabel = "Lunch";
+                    if(earnCode != null) {
+                    	lunchLabel = earnCode.getDescription();
+                    }
+                    timeBlockMap.put("lunchLabel", lunchLabel);
                 }
 
                 timeHourDetailList.add(timeHourDetailMap);
