@@ -13,7 +13,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class HolidayCalendarTest extends TkTestCase {
 	
 	private static Long holidayGroupId = 1L;//id entered in the bootstrap SQL
-	final String ERROR_LOCATION_NULL = "The specified location '%' does not exist.";
 	@Test
 	public void testHolidayCalendarMaintenancePage() throws Exception{	
 		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.HOLIDAY_CALENDAR_MAINT_URL);
@@ -35,10 +34,8 @@ public class HolidayCalendarTest extends TkTestCase {
     	
     	setFieldValue(page, "document.documentHeader.documentDescription", "HolidayCalendar - test");
     	setFieldValue(page, "document.newMaintainableObject.holidayCalendarGroup", "TT");
-    	setFieldValue(page, "document.newMaintainableObject.location", "%");
     	HtmlElement element = page.getElementByName("methodToCall.route");
-        HtmlPage nextPage = element.click();
-        assertFalse("pagedoes not contain: " + ERROR_LOCATION_NULL, nextPage.asText().contains(ERROR_LOCATION_NULL));
+    	assertTrue("Page was submitted successfully" , page.asText().contains("submitted"));
         
 	}
 
