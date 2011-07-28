@@ -310,7 +310,6 @@
         <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
         <bean parent="FieldDefinition" p:attributeName="active" />
         <bean parent="FieldDefinition" p:attributeName="tkDeptId" />
-        <bean parent="FieldDefinition" p:attributeName="active"/>
 		<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
       </list>
     </property>
