@@ -15,8 +15,24 @@ $(document).ready(function() {
     if ($('#isVirtualWorkDay').val() == 'false') {
         endPeriodDateTimeObj.setDate(endPeriodDateTimeObj.getDate() - 1);
     }
+
+    // create navigation buttons
+    $('#nav_prev').button({
+        icons: {
+            primary: "ui-icon-circle-triangle-w"
+        },
+        text: false
+    });
+
+    $('#nav_next').button({
+        icons: {
+            primary: "ui-icon-circle-triangle-e"
+        },
+        text: false
+    });
+
     var docId = $('#documentId').val();
-    var thing = $('#tkCal').click( function(event) {
+    var thing = $('#tkCal').click(function(event) {
         if (event.target.id.indexOf("_") > -1) {
             var actionA = event.target.id.split("_");
             if (actionA.length == 2) {
@@ -30,22 +46,22 @@ $(document).ready(function() {
                     // Handle nav click
                     // Handle nav click
                     if (actionVal == "next") {
-                        window.location='TimeDetail.do?calNav=next&documentId=' + docId;
+                        window.location = 'TimeDetail.do?calNav=next&documentId=' + docId;
                     } else if (actionVal == "prev") {
-                        window.location='TimeDetail.do?calNav=prev&documentId=' + docId;
+                        window.location = 'TimeDetail.do?calNav=prev&documentId=' + docId;
                     }
                 } else if (action == "delete") {
                     // Handle delete
                     // Handle delete
                     // Handle delete
-            	    if(confirm('You are about to delete a time block. Click OK to confirm the delete.')){
-            		    window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + actionVal;
-            	    }
+                    if (confirm('You are about to delete a time block. Click OK to confirm the delete.')) {
+                        window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + actionVal;
+                    }
                 } else if (action == "day") {
                     // Handle new entries
                     // Handle new entries
                     // Handle new entries
-                     oriTimeDetail = {};
+                    oriTimeDetail = {};
                     $('#beginTimeField, #endTimeField, #hoursField, #acrossDaysField').val('');
                     $('#acrossDaysField').attr('checked', '');
 
@@ -360,7 +376,7 @@ $(document).ready(function() {
      * Misc. section
      */
 
-    // use keyboard to open the form
+        // use keyboard to open the form
     var isCtrl,isAlt = false;
 
     // ctrl+alt+a will open the form
@@ -375,9 +391,9 @@ $(document).ready(function() {
                 }
 
             }).keyup(function(e) {
-        isCtrl = false;
-        isAlt = false;
-    });
+                isCtrl = false;
+                isAlt = false;
+            });
 
     // ------------------- end of the misc. section -------------------
 
