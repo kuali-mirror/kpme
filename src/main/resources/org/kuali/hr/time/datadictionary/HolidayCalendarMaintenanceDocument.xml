@@ -42,8 +42,6 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="descr"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="location" 
-				    p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"  
 					p:defaultValue="true" p:required="true"/>
 			</list>

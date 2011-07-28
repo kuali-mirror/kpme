@@ -22,21 +22,7 @@
 				<ref bean="HolidayCalendar-holidayCalendarId" />
 				<ref bean="HolidayCalendar-holidayCalendarGroup" />
 				<ref bean="HolidayCalendar-descr" />
-				<ref bean="HolidayCalendar-location" />
 				<ref bean="HolidayCalendar-active" />
-			</list>
-		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="locationObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
-								p:targetName="location" />
-						</list>
-					</property>
-				</bean>
 			</list>
 		</property>
 		<property name="collections">
@@ -97,24 +83,6 @@
 		<property name="label" value="Description" />
 	</bean>
 
-	<!-- location -->
-	<bean id="HolidayCalendar-location" parent="HolidayCalendar-location-parentBean" />
-	<bean id="HolidayCalendar-location-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Location" />
-		<property name="maxLength" value="2" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="2" />
-		</property>
-		<property name="name" value="location" />
-		<property name="label" value="Location" />
-	</bean>
-
 	<bean id="HolidayCalendar-active" parent="HolidayCalendar-active-parentBean" />
 	<bean id="HolidayCalendar-active-parentBean" abstract="true"
 		parent="GenericAttributes-activeIndicator">
@@ -135,7 +103,6 @@
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup" />
 							<bean parent="FieldDefinition" p:attributeName="descr" />
-							<bean parent="FieldDefinition" p:attributeName="location" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
