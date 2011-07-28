@@ -15,7 +15,6 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 
 public class MissedPunchMaintainableImpl extends KualiMaintainableImpl {
@@ -23,7 +22,8 @@ public class MissedPunchMaintainableImpl extends KualiMaintainableImpl {
 	private static final long serialVersionUID = -1505817190754176279L;
 
     @Override
-    public void doRouteStatusChange(DocumentHeader documentHeader) {
+	public void saveBusinessObject() {
+        super.saveBusinessObject();
         MissedPunch missedPunch = (MissedPunch)super.getBusinessObject();
         java.util.Date actionDate = missedPunch.getActionDate();
         java.sql.Time actionTime = missedPunch.getActionTime();
@@ -60,11 +60,6 @@ public class MissedPunchMaintainableImpl extends KualiMaintainableImpl {
 
             this.buildTimeBlockRunRules(lastClockLog, clockLog, tdoc, assignment, earnCode, lastClockLog.getClockTimestamp(), clockLog.getClockTimestamp());
         }
-    }
-
-    @Override
-	public void saveBusinessObject() {
-        super.saveBusinessObject();
 	}
 
     /**
