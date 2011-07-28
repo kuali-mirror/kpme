@@ -529,6 +529,7 @@
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroupId" />
 				<bean parent="FieldDefinition" p:attributeName="hrLocationId" />
 				<bean parent="FieldDefinition" p:attributeName="hrPayGradeId" />

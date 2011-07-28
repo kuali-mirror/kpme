@@ -27,6 +27,8 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     private String defaultOvertimeEarnCode;
     private String overtimeEditRole;
     
+	private boolean history;
+    
     private Long tkDeptId;
 
     private List<TkRole> roles = new ArrayList<TkRole>();
@@ -237,6 +239,16 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 	@Override
 	public void setId(Long id) {
 		setTkWorkAreaId(id);
+	}
+
+
+	public boolean isHistory() {
+		return history;
+	}
+
+
+	public void setHistory(boolean history) {
+		this.history = history;
 	}
     
 }
