@@ -48,7 +48,7 @@ public class TimeDetailWSAction extends TimesheetAction {
     @SuppressWarnings("unchecked")
     public ActionForward validateTimeEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+        TimeDetailActionFormBase tdaf = (TimeDetailActionFormBase) form;
         JSONArray errorMsgList = new JSONArray();
 
         //------------------------

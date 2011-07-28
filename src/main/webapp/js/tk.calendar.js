@@ -275,7 +275,8 @@ $(document).ready(function() {
                     var json = jQuery.parseJSON(data);
                     // if there is no error message, submit the form to add the time block
                     if (json.length == 0) {
-                        $('#time-detail').submit();
+                        console.log($('#documentId'));
+                        //$('#time-detail').submit();
                     }
                     else {
                         // if there is any error, grab error messages (json) and display them
