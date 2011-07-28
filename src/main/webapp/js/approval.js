@@ -188,3 +188,24 @@ $(document).ready(function() {
         $("#frank-button span").toggleClass('ui-icon-minus');
     });
 });
+
+function showHideRow(className) {
+	var els = document.getElementsByTagName('*');
+	
+	for (i = 0; i < els.length; i++) {
+		if(els[i].getAttribute('class') == className) {
+			if(els[i].style.display == "table-row") {
+				els[i].style.display = "none";
+		  	} else {
+		  		els[i].style.display = "table-row";
+			}
+		}
+	}
+	var ele = document.getElementById('showDetailButton');
+	if(ele.value=="Hide Assignments") {
+		ele.value="Show Assignments"
+	} else {
+		ele.value="Hide Assignments"
+	}
+} 
+

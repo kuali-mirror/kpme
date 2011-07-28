@@ -1,21 +1,20 @@
 package org.kuali.hr.time.batch.web;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.kuali.hr.time.base.web.TkForm;
 import org.kuali.hr.time.batch.BatchJobEntry;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public class BatchJobActionForm extends TkForm {
     /**
      *
      */
     private static final long serialVersionUID = 385904747462568474L;
-    private Map<String, String> batchJobNames = new LinkedHashMap<String, String>();
-    private Map<String, String> batchJobStatuses = new LinkedHashMap<String, String>();
+    private List<String> batchJobNames = new ArrayList<String>();
+    private List<String> batchJobStatuses = new ArrayList<String>();
     private List<BatchJobEntry> batchJobEntries = new LinkedList<BatchJobEntry>();
     private String batchJobId;
     private String documentId;
@@ -27,28 +26,28 @@ public class BatchJobActionForm extends TkForm {
     private String tkBatchJobEntryId;
     private String ipToChange;
 
-    public Map<String, String> getBatchJobNames() {
-        batchJobNames.put(TkConstants.BATCH_JOB_NAMES.INITIATE, "initiate");
-        batchJobNames.put(TkConstants.BATCH_JOB_NAMES.APPROVE, "approve");
-        batchJobNames.put(TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END, "payPeriodEnd");
-        batchJobNames.put(TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL, "supervisorApproval");
+    public List<String> getBatchJobNames() {
+        batchJobNames.add(TkConstants.BATCH_JOB_NAMES.INITIATE);
+        batchJobNames.add(TkConstants.BATCH_JOB_NAMES.APPROVE);
+        batchJobNames.add(TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END);
+        batchJobNames.add(TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL);
 
         return batchJobNames;
     }
 
-    public void setBatchJobNames(Map<String, String> batchJobs) {
+    public void setBatchJobNames(List<String> batchJobs) {
         this.batchJobNames = batchJobs;
     }
 
-    public Map<String, String> getBatchJobStatuses() {
-        batchJobStatuses.put(TkConstants.BATCH_JOB_ENTRY_STATUS.RUNNING, "running");
-        batchJobStatuses.put(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED, "scheduled");
-        batchJobStatuses.put(TkConstants.BATCH_JOB_ENTRY_STATUS.FINISHED, "finished");
+    public List<String> getBatchJobStatuses() {
+        batchJobStatuses.add(TkConstants.BATCH_JOB_ENTRY_STATUS.RUNNING);
+        batchJobStatuses.add(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
+        batchJobStatuses.add(TkConstants.BATCH_JOB_ENTRY_STATUS.FINISHED);
 
         return batchJobStatuses;
     }
 
-    public void setBatchJobStatuses(Map<String, String> batchJobStatuses) {
+    public void setBatchJobStatuses(List<String> batchJobStatuses) {
         this.batchJobStatuses = batchJobStatuses;
     }
 

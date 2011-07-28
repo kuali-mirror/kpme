@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.hr.location.Location;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class HolidayCalendar extends PersistableBusinessObjectBase {
@@ -17,10 +16,7 @@ public class HolidayCalendar extends PersistableBusinessObjectBase {
 	private Long holidayCalendarId;
 	private String holidayCalendarGroup;
 	private String descr;
-	private String location;
 	private boolean active = true;
-	
-	private Location locationObj;
 	
 	private List<HolidayCalendarDateEntry> dateEntries = new ArrayList<HolidayCalendarDateEntry>();
 	
@@ -81,24 +77,5 @@ public class HolidayCalendar extends PersistableBusinessObjectBase {
 		this.active = active;
 	}
 
-
-	public String getLocation() {
-		return location;
-	}
-
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-
-	public Location getLocationObj() {
-		return locationObj;
-	}
-
-
-	public void setLocationObj(Location locationObj) {
-		this.locationObj = locationObj;
-	}
 
 }

@@ -61,11 +61,17 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <c:set var="rowCount" value="1" />
                     <c:forEach var="approvalRow" items="${Form.approvalRows}" varStatus="row">
+                    	<c:set var="assignmentRowId" value="assignmentDetails${rowCount}"/>
+                    	<c:set var="rowCount" value="${rowCount+1}" />
                         <tr>
                             <td>
                                 <a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${approvalRow.name}</a>
                                 <br/>${approvalRow.clockStatusMessage}
+                                <br/>
+                                <input class="button" value="Show Assignments" type="button" name="showDetailButton" id="showDetailButton"
+									onclick="javascript: showHideRow('${assignmentRowId}');" />
                             </td>
                             <td><a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do&returnUrl=TimeApproval.do">${approvalRow.documentId}</a>
                                 <div style="float:right;">
@@ -149,12 +155,10 @@
                             <td align="center"><input type="checkbox" name="selectedEmpl" id="selectedEmpl"
                                                       class="selectedEmpl"/></td>
                         </tr>
-
-
-
+					
                         <%-- Render details of approver's hours by Assignment --%>
                         <c:forEach var="entry" items="${approvalRow.approverHoursByAssignment}">
-                            <tr>
+                            <tr class="${assignmentRowId}" style="display: none">
                                 <td></td>
                                 <td colspan="2">
                                     ${approvalRow.assignmentDescriptions[entry.key]}
@@ -176,7 +180,7 @@
 
                         <%-- Render details of non-approvers's hours by Assignment --%>
                         <c:forEach var="entry" items="${approvalRow.otherHoursByAssignment}">
-                            <tr>
+                            <tr class="${assignmentRowId}" style="display: none">
                                 <td></td>
                                 <td colspan="2">
                                     ${approvalRow.assignmentDescriptions[entry.key]}
@@ -194,7 +198,9 @@
                                     </c:choose>
                                 </c:forEach>
                             </tr>
+                           
                         </c:forEach>
+                    
 
                     </c:forEach>
                     <tr>
