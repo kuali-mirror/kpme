@@ -43,6 +43,8 @@ public class ShiftDifferentialRule extends TkRule {
 	private Long hrLocationId;
 	private Long hrPayGradeId;	
 	
+	private boolean history;
+	
 	private EarnCode earnCodeObj;
 	private SalGroup salGroupObj;
     private EarnGroup fromEarnGroupObj;
@@ -316,6 +318,14 @@ public class ShiftDifferentialRule extends TkRule {
 	@Override
 	public void setId(Long id) {
 		setTkSalGroupId(id);
+	}
+
+	public boolean isHistory() {
+		return history;
+	}
+
+	public void setHistory(boolean history) {
+		this.history = history;
 	}
 
 }
