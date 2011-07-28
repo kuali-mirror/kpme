@@ -263,4 +263,10 @@ public class TKUtils {
     	dt = dt.minusSeconds(1);
     	return new Timestamp(dt.getMillis());
     }
+    
+    public static Date subtractOneMillisecondFromDate(java.util.Date date){
+    	DateTime dt = new DateTime(date);
+    	dt = dt.minusMillis(1);
+    	return new Date(dt.getMillis());
+    }
 }
