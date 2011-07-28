@@ -48,6 +48,47 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		LOG.warn("Deleting all Assignments");
 		this.getPersistenceBrokerTemplate().deleteByQuery(query);
 	}
+	
+	public Assignment getAssignment(String principalId, Long jobNumber, Long workArea, Long task, Date asOfDate){
+        Criteria root = new Criteria();
+        Criteria effdt = new Criteria();
+        Criteria timestamp = new Criteria();
+
+        effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+        effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+        effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+        effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
+        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+        // OJB's awesome sub query setup part 2
+        timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+        timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+        timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+        //timestamp.addEqualTo("active", true);
+        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+        root.addEqualTo("principalId", principalId);
+        root.addEqualTo("jobNumber", jobNumber);
+        root.addEqualTo("workArea", workArea);
+        root.addEqualTo("task", task);
+        root.addEqualTo("effectiveDate", effdtSubQuery);
+        root.addEqualTo("timestamp", timestampSubQuery);
+        //root.addEqualTo("active", true);
+
+        Criteria activeFilter = new Criteria(); // Inner Join For Activity
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Query query = QueryFactory.newQuery(Assignment.class, root);
+        Object o = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+
+        return (Assignment)o;
+	}
 
 
     @Override

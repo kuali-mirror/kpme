@@ -72,4 +72,6 @@ public interface AssignmentService {
      * @return
      */
     public Assignment getAssignment(Long tkAssignmentId);
+    
+    public Assignment getAssignment(String principalId, AssignmentDescriptionKey key, Date asOfDate);
 }

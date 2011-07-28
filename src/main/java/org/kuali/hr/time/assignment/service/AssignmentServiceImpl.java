@@ -131,6 +131,16 @@ public class AssignmentServiceImpl implements AssignmentService {
         assignment.setDeptLunchRule(TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(assignment.getJob().getDept(),
                                         assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));
     }
+    
+    public Assignment getAssignment(String principalId, AssignmentDescriptionKey key, Date asOfDate){
+        Assignment a = null;
+
+        if (key != null) {
+            a = assignmentDao.getAssignment(principalId, key.getJobNumber(), key.getWorkArea(), key.getTask(), asOfDate);
+        }
+        
+        return a;
+    }
 
     @Override
     public Assignment getAssignment(AssignmentDescriptionKey key, Date asOfDate) {
