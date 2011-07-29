@@ -203,4 +203,13 @@ public class TkConstants {
     public static final String TIMESHEET_DOCUMENT_ID_REQUEST_NAME = "tdocid";
     //Threshold in hours for clockin highlighting on approvers tab
     public static final Integer NUMBER_OF_HOURS_CLOCKED_IN_APPROVE_TAB_HIGHLIGHT = 24;
+    
+    public static final List<String> TIME_ZONES = new ArrayList<String>();
+    static{
+    	TIME_ZONES.add("America/Chicago");
+    	TIME_ZONES.add("America/Denver");
+    	TIME_ZONES.add("America/Detroit");
+    	TIME_ZONES.add("America/Indiana/Indianapolis");
+    	TIME_ZONES.add("America/Phoenix");    	
+    }
 }

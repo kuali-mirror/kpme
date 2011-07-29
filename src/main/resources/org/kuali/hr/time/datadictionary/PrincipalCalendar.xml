@@ -115,7 +115,7 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.timezone.service.TimeZoneKeyValue" p:includeKeyInLabel="false"/>
 		</property>
 		<property name="name" value="timezone" />
 		<property name="label" value="Timezone" />
