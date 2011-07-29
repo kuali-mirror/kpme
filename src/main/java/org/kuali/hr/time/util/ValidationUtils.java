@@ -13,6 +13,7 @@ import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
+import org.kuali.hr.time.earngroup.EarnGroupDefinition;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.salgroup.SalGroup;
@@ -313,6 +314,29 @@ public class ValidationUtils {
         }
 
         return valid;
+    }
+    
+    /**
+     * @param earnGroup EarnGroup
+     * @param asOfDate
+     * @return True if the EarnGroup has overtime earn codes
+     */
+    public static boolean earnGroupHasOvertimeEarnCodes(String earnGroup, Date asOfDate) {
+         if (earnGroup != null && asOfDate != null) {
+             EarnGroup eg = TkServiceLocator.getEarnGroupService().getEarnGroup(earnGroup, asOfDate);
+             if(eg != null) {
+            	for(EarnGroupDefinition egd : eg.getEarnGroups()) {
+            		if(egd.getEarnCode() != null) {
+            			EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(egd.getEarnCode(), asOfDate);
+            			if(ec != null && ec.getOvtEarnCode()) {
+            				return true;
+            			}
+            		}
+            	}
+             }
+         }
+
+        return false;
     }
 
 	/**

@@ -85,6 +85,9 @@ public final class TkTestConstants {
 		
 		public static final String WORK_AREA_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.workarea.WorkArea&methodToCall=start";
 		
+		public static final String WEEKLY_OVERTIME_RULE_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRuleGroup&tkWeeklyOvertimeRuleGroupId=1&returnLocation=" +
+		BASE_URL + "/Admin.do&methodToCall=edit";
+		
 		public static final String CLOCK_URL = BASE_URL + "/Clock.do";
 		
 		public static final String TIME_DETAIL_URL = BASE_URL + "/TimeDetail.do";
