@@ -452,7 +452,7 @@ select {
 .timeblock-delete {
     width: 15px;
     height: 15px;
-    margin: 3px 5px 0 0;
+    margin: 1px 4px 0 0;
     z-index: 15;
     cursor: pointer;
     float: right;
@@ -653,6 +653,7 @@ select {
 
 .cal .cal-table td {
     vertical-align: top;
+    height:100px;
 }
 
 .cal .event {
@@ -660,6 +661,10 @@ select {
     width: 98%;
     text-align: center;
     padding: 3px 0 3px 0;
+}
+
+.cal .last-event {
+    margin-bottom: 20px;
 }
 
 .cal .week-header {
@@ -670,6 +675,14 @@ select {
 .cal .day-number {
     padding-left: 2%;
 }
+.cal .cell-overlay { /* semi-transparent rectangle while dragging */
+	background: #9cf;
+	opacity: .2;
+	filter: alpha(opacity=20); /* for IE */
+}
+
+.ui-selecting { background: #ccffee !important; }
+.ui-selected { background: #cceeff !important; }
 
 /* Customized styles
 ------------------------------------------------------------------------*/

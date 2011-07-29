@@ -39,11 +39,18 @@
                             <div class="day-number">${day.dayNumberString}</div>
                                 <%-- Render the Time Blocks --%>
                             <div>
-                                <c:forEach var="block" items="${day.blockRenderers}">
-                                    <div id="block_${block.timeBlock.tkTimeBlockId}" class="assignment0 event">
+                                <c:forEach var="block" items="${day.blockRenderers}" varStatus="status">
+                                    <c:choose>
+                                        <c:when test="${status.last}">
+                                            <c:set var="last" value="last-event"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:set var="last" value=""/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <div id="block_${block.timeBlock.tkTimeBlockId}" class="assignment0 event ${last}">
                                         <div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='timeblock-delete'
                                                   src='images/delete.png'/></div>
-                                        <br/>
                                             ${block.title}
                                             ${block.timeRange}
                                         <div>

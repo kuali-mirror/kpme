@@ -31,6 +31,28 @@ $(document).ready(function() {
         text: false
     });
 
+    var selectedDays = [];
+
+    $(".cal-table").selectable({
+        filter: "td",
+        distance: 1,
+        selected: function(event, ui) {
+            // add the event day to an array
+            selectedDays.push(ui.selected.attributes[2].nodeValue);
+        },
+        stop: function(event, ui) {
+
+            var currentDay = new Date(beginPeriodDateTimeObj);
+            var beginDay = new Date();
+            var endDay = new Date();
+            beginDay.setDate(currentDay.getDate() + parseInt(selectedDays[0].split("_")[1]));
+            endDay.setDate(currentDay.getDate() + parseInt(selectedDays[selectedDays.length - 1].split("_")[1]))
+
+            $(this).openTimeEntryDialog(beginDay, endDay);
+            selectedDays = [];
+        }
+    });
+
     var docId = $('#documentId').val();
     var thing = $('#tkCal').click(function(event) {
         if (event.target.id.indexOf("_") > -1) {
@@ -38,8 +60,8 @@ $(document).ready(function() {
             if (actionA.length == 2) {
                 var action = actionA[0];
                 var actionVal = actionA[1];
-                console.log(action);
-                console.log(actionVal);
+                //console.log(action);
+                //console.log(actionVal);
 
                 if (action == "nav") {
                     // Handle nav click
@@ -58,26 +80,11 @@ $(document).ready(function() {
                         window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + actionVal;
                     }
                 } else if (action == "day") {
-                    // Handle new entries
-                    // Handle new entries
-                    // Handle new entries
-                    oriTimeDetail = {};
-                    $('#beginTimeField, #endTimeField, #hoursField, #acrossDaysField').val('');
-                    $('#acrossDaysField').attr('checked', '');
-
-                    console.log("handle new day timeblock:");
                     var currentDay = new Date(beginPeriodDateTimeObj);
                     currentDay.setDate(currentDay.getDate() + parseInt(actionVal));
 
-                    $('#date-range-begin').val($.datepicker.formatDate('mm/dd/yy', currentDay));
-                    $('#date-range-end').val($.datepicker.formatDate('mm/dd/yy', currentDay));
-                    $('#acrossDaysField').attr('checked', '');
-                    if ($('#assignment-value').html() != '') {
-                        $('#earnCode').loadEarnCode($('#assignment').val());
-                    }
+                    $(this).openTimeEntryDialog(currentDay, currentDay);
 
-                    $('#tkTimeBlockId').val('');
-                    $('#dialog-form').dialog('open');
                 } else if (action == "block") {
                     // Handle existing timeblocks
                     // Handle existing timeblocks
@@ -87,7 +94,7 @@ $(document).ready(function() {
                     var calEvent = tblocks[timeBlockId];
                     calEvent.start = Date.parse(calEvent.start);
                     calEvent.end = Date.parse(calEvent.end);
-                    console.log(calEvent.start);
+                    //console.log(calEvent.start);
 
                     $('#dialog-form').dialog('open');
                     $('#date-range-begin').val(calEvent.start.toString('MM/dd/yyyy'));
@@ -275,7 +282,7 @@ $(document).ready(function() {
                     var json = jQuery.parseJSON(data);
                     // if there is no error message, submit the form to add the time block
                     if (json.length == 0) {
-                        console.log($('#documentId'));
+                        //console.log($('#documentId'));
                         //$('#time-detail').submit();
                     }
                     else {
@@ -414,7 +421,7 @@ $.fn.loadEarnCode = function(assignment, selectedEarnCode) {
         cache: true,
         success: function(data) {
             $('#earnCode').html(data);
-            console.log(data);
+            //console.log(data);
             if (selectedEarnCode != undefined && selectedEarnCode != '') {
                 $("select#earnCode option[value='" + selectedEarnCode + "']").attr("selected", "selected");
             }
@@ -489,6 +496,10 @@ $.fn.resetState = function() {
         $(this).removeClass('ui-state-error');
     });
 
+    $('.cal-table td').each(function() {
+        $(this).removeClass('ui-selected');
+    });
+
     // clear the error messages
     $('.error').html('');
     // remove the error message and error state
@@ -522,4 +533,20 @@ $.fn.getEarnCode = function() {
 
 $.fn.getEarnCodeType = function() {
     return $(this).val().split("_")[1];
+}
+
+$.fn.openTimeEntryDialog = function(beginDay, endDay) {
+    oriTimeDetail = {};
+    $('#beginTimeField, #endTimeField, #hoursField, #acrossDaysField').val('');
+    $('#acrossDaysField').attr('checked', '');
+
+    $('#date-range-begin').val($.datepicker.formatDate('mm/dd/yy', beginDay));
+    $('#date-range-end').val($.datepicker.formatDate('mm/dd/yy', endDay));
+    $('#acrossDaysField').attr('checked', '');
+    if ($('#assignment-value').html() != '') {
+        $('#earnCode').loadEarnCode($('#assignment').val());
+    }
+
+    $('#tkTimeBlockId').val('');
+    $('#dialog-form').dialog('open');
 }
