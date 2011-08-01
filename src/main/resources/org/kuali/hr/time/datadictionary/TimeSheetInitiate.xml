@@ -38,8 +38,8 @@
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="payCalendarEntriesId" p:targetName="payCalendarEntriesId"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarGroup" p:targetName="calendarGroup"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="endPeriodDateTime" p:targetName="endPeriodDateTime"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="endPeriodDate" p:targetName="endPeriodDate"/>
+<!--                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="endPeriodDateTime" p:targetName="endPeriodDateTime"/>-->
+<!--                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="endPeriodDate" p:targetName="endPeriodDate"/>-->
                 </list>
               </property>
             </bean>
