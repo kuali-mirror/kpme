@@ -65,22 +65,6 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 		return sections;
 	}
 
-	/**
-	 * Used to show the work area id after submit on new 
-	 * This is because real saving is occurring in a background thread now
-	 */
-//	@Override
-//	public void prepareForSave() {
-//		super.prepareForSave();
-//		
-//		if(!StringUtils.equals(getMaintenanceAction(),"Edit")){
-//			saveBusinessObject();
-//			WorkArea workArea = (WorkArea) this.getBusinessObject();
-//			workArea.setTkWorkAreaId(null);
-//		}
-//	}
-	
-
 	@Override
 	public HrBusinessObject getObjectById(Long id) {
 		return TkServiceLocator.getWorkAreaService().getWorkArea(id);

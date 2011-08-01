@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.net.UnknownHostException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TKUtils {
@@ -262,5 +263,16 @@ public class TKUtils {
     	DateTime dt = new DateTime(originalTimestamp);
     	dt = dt.minusSeconds(1);
     	return new Timestamp(dt.getMillis());
+    }
+   
+    public static Date subtractOneMillisecondFromDate(java.util.Date date){
+    	DateTime dt = new DateTime(date);
+    	dt = dt.minusMillis(1);
+    	return new Date(dt.getMillis());
+    }
+    
+    public static String formatDate(Date dt){
+    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+    	return sdf.format(dt);
     }
 }

@@ -83,7 +83,7 @@ public class TimeApprovalAction extends TkAction {
             }
         }
 
-        Map<String, PayCalendarEntries> currentPayCalendarEntries = TkServiceLocator.getTimeApproveService().getPayCalendarEntriesForApprover(currentDate);
+        Map<String, PayCalendarEntries> currentPayCalendarEntries = TkServiceLocator.getTimeApproveService().getPayCalendarEntriesForApprover(TKContext.getPrincipalId(), currentDate);
         SortedSet<String> calGroups = new TreeSet<String>(currentPayCalendarEntries.keySet());
 
         if(calGroups.isEmpty()){
@@ -112,6 +112,13 @@ public class TimeApprovalAction extends TkAction {
         return fwd;
     }
 
+    public ActionForward selectNewPayCalendarGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
+        taaf.setPayCalendarId(null);
+        
+    	return mapping.findForward("basic");
+    	
+    }
 
     public ActionForward getMoreDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;

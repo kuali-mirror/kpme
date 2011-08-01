@@ -33,7 +33,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     public static final int DAYS_WINDOW_DELTA = 31;
 
     @Override
-    public Map<String,PayCalendarEntries> getPayCalendarEntriesForApprover(Date currentDate) {
+    public Map<String,PayCalendarEntries> getPayCalendarEntriesForApprover(String principalId, Date currentDate) {
         TKUser tkUser = TKContext.getUser();
         Map<String,PayCalendarEntries> pceMap = new HashMap<String,PayCalendarEntries>();
         Set<String> principals = new HashSet<String>();

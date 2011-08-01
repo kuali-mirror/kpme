@@ -54,6 +54,12 @@ public class WeeklyOvertimeRuleValidation extends MaintenanceDocumentRuleBase {
                 valid = false;
             }
         }
+        
+		if (!StringUtils.isEmpty(rule.getConvertFromEarnGroup())
+				&& ValidationUtils.earnGroupHasOvertimeEarnCodes(rule.getConvertFromEarnGroup(), rule.getEffectiveDate())){
+			this.putFieldError(errorFieldPrefix + "convertFromEarnGroup", "earngroup.earncode.overtime",  rule.getConvertFromEarnGroup());
+			valid = false;;
+		}
 
         if(!StringUtils.isEmpty(rule.getConvertToEarnCode())) {
             if(!ValidationUtils.validateEarnCode(rule.getConvertToEarnCode(), rule.getEffectiveDate())) {

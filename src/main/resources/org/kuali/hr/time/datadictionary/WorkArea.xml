@@ -28,6 +28,7 @@
         <ref bean="WorkArea-userPrincipalId" />
         <ref bean="WorkArea-timestamp" />
         <ref bean="WorkArea-tkDeptId" />
+        <ref bean="WorkArea-history" />
        </list>
     </property>
     <property name="objectLabel" value="workAreaObj"/>
@@ -117,6 +118,19 @@
     <property name="label" value="Effective Date"/>
   </bean>
 
+
+	<bean id="WorkArea-history" parent="WorkArea-history-parentBean" />
+	<bean id="WorkArea-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
+	
   <bean id="WorkArea-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
     <property name="label" value="Active?"/>
@@ -293,8 +307,10 @@
         <bean parent="FieldDefinition" p:attributeName="dept" />
       	<bean parent="FieldDefinition" p:attributeName="workArea" />
         <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
         <bean parent="FieldDefinition" p:attributeName="active" />
         <bean parent="FieldDefinition" p:attributeName="tkDeptId" />
+		<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
       </list>
     </property>
     <property name="resultFields" >
@@ -303,6 +319,9 @@
       	<bean parent="FieldDefinition" p:attributeName="workArea"/>
         <bean parent="FieldDefinition" p:attributeName="description" />
         <bean parent="FieldDefinition" p:attributeName="defaultOvertimeEarnCode" />
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+		<bean parent="FieldDefinition" p:attributeName="history"/>
       </list>
     </property>
     <property name="title" value="WorkArea Lookup" />

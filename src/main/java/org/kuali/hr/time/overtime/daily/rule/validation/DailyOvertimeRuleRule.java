@@ -1,5 +1,6 @@
 package org.kuali.hr.time.overtime.daily.rule.validation;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -80,11 +81,15 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 					"from EarnGroup '" + dailyOvertimeRule.getFromEarnGroup()
 							+ "'");
 			return false;
-		} else {
-			return true;
 		}
+		if (!StringUtils.isEmpty(dailyOvertimeRule.getFromEarnGroup())
+				&& ValidationUtils.earnGroupHasOvertimeEarnCodes(dailyOvertimeRule.getFromEarnGroup(), dailyOvertimeRule.getEffectiveDate())){
+			this.putFieldError("fromEarnGroup", "earngroup.earncode.overtime", dailyOvertimeRule.getFromEarnGroup());
+			return false;
+		}
+		return true;
 	}
-
+	
 	boolean validateLocation(DailyOvertimeRule dailyOvertimeRule) {
 		if (dailyOvertimeRule.getLocation() != null
 				&& !ValidationUtils.validateLocation(dailyOvertimeRule

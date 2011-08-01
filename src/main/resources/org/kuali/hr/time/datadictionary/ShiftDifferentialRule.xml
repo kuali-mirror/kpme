@@ -43,6 +43,7 @@
 				<ref bean="ShiftDifferentialRule-tkSalGroupId" />
 				<ref bean="ShiftDifferentialRule-hrLocationId" />
 				<ref bean="ShiftDifferentialRule-hrPayGradeId" />
+				<ref bean="ShiftDifferentialRule-history" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -137,6 +138,18 @@
 		</property>
 		<property name="name" value="location" />
 		<property name="label" value="Location" />
+	</bean>
+	
+	<bean id="ShiftDifferentialRule-history" parent="ShiftDifferentialRule-history-parentBean" />
+	<bean id="ShiftDifferentialRule-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
 	</bean>
 
 	<!-- tkSalGroup -->
@@ -516,9 +529,12 @@
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="tkSalGroupId" />
 				<bean parent="FieldDefinition" p:attributeName="hrLocationId" />
 				<bean parent="FieldDefinition" p:attributeName="hrPayGradeId" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -533,6 +549,7 @@
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
 				<bean parent="FieldDefinition" p:attributeName="beginTime" />
 				<bean parent="FieldDefinition" p:attributeName="endTime" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
 		<property name="title" value="ShiftDifferential Lookup" />
