@@ -19,6 +19,7 @@
 								<li>Pay Type: ${assignment.job.payTypeObj.descr}</li>
 								<li>Location: ${assignment.job.location }</li>
 								<li>Compensation Rate: ${assignment.job.compRate }</li>
+								<li>Effective Date: ${assignment.job.effectiveDate }</li>
 							</ul>
 						</p>
 						<p class="assignment">
