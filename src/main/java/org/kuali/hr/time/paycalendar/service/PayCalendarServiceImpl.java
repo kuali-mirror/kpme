@@ -52,6 +52,12 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 		return pcd;
 	}
 
+    /**
+     * Helper method common to the PayCalendarEntry search methods above.
+     * @param principalId Principal ID to lookup
+     * @param date A date, Principal Calendars are EffDt/Timestamped, so we can any current date.
+     * @return A PayCalendar
+     */
     private PayCalendar getPayCalendar(String principalId, Date date) {
         PayCalendar pcal = null;
 
