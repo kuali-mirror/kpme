@@ -55,11 +55,11 @@ $(document).ready(function() {
         stop: function(event, ui) {
 
             var currentDay = new Date(beginPeriodDateTimeObj);
-            var beginDay = new Date();
-            var endDay = new Date();
+            var beginDay = new Date(currentDay);
+            var endDay = new Date(currentDay);
 
-            beginDay.setDate(currentDay.getDate() + parseInt(selectedDays[0].split("_")[1]));
-            endDay.setDate(currentDay.getDate() + parseInt(selectedDays[selectedDays.length - 1].split("_")[1]))
+            beginDay.addDays(parseInt(selectedDays[0].split("_")[1]));
+            endDay.addDays(parseInt(selectedDays[selectedDays.length - 1].split("_")[1]));
 
             $(this).openTimeEntryDialog(beginDay, endDay);
             selectedDays = [];

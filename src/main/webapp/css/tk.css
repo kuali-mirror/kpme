@@ -668,6 +668,11 @@ select {
     cursor: pointer;
 }
 
+.cal .event-content {
+    clear:both;
+    text-align: center;
+}
+
 .cal .last-event {
     margin-bottom: 20px;
 }

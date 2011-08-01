@@ -57,7 +57,7 @@
                                         </div>
                                         <div>
                                             <c:forEach var="thdr" items="${block.detailRenderers}">
-                                                <div id="${thdr.timeHourDetail.tkTimeHourDetailId}">
+                                                <div id="${thdr.timeHourDetail.tkTimeHourDetailId}" class="event-content">
                                                         ${thdr.title} - ${thdr.hours}
                                                 </div>
                                             </c:forEach>
