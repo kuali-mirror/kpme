@@ -137,7 +137,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 	private Assignment getIdentifyingKey(TimeBlock block, Date asOfDate, String principalId) {
 		List<Assignment> lstAssign = TkServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
-		
+
 		for(Assignment assign : lstAssign){
 			if((assign.getJobNumber().compareTo(block.getJobNumber()) == 0) && (assign.getWorkArea().compareTo(block.getWorkArea()) == 0)){
 				return assign;
@@ -149,7 +149,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 	public void processDailyOvertimeRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate timeBlockAggregate){
 		Map<DailyOvertimeRule, List<Assignment>> mapDailyOvtRulesToAssignment = new HashMap<DailyOvertimeRule, List<Assignment>>();
-		
+
 		for(Assignment assignment : timesheetDocument.getAssignments()) {
 			Job job = assignment.getJob();
 			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getLocation(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), timesheetDocument.getAsOfDate());
@@ -166,12 +166,12 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 				}
 			}
 		}
-		
+
 		//Quick bail
 		if(mapDailyOvtRulesToAssignment.isEmpty()){
 			return;
 		}
-		
+
 		// TODO: We iterate Day by Day
 		for(List<TimeBlock> dayTimeBlocks : timeBlockAggregate.getDayTimeBlockList()){
 
@@ -197,9 +197,9 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 					}
 				}
 			}
-			
+
 			for(DailyOvertimeRule dr : mapDailyOvtRulesToAssignment.keySet() ){
-				Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(dr.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
+				Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(dr.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getEndPeriodDateTime()));
 				List<TimeBlock> blocksForRule = dailyOvtRuleToDayTotals.get(dr);
 				if (blocksForRule == null || blocksForRule.size() == 0)
 					continue; // skip to next rule and check for valid blocks.

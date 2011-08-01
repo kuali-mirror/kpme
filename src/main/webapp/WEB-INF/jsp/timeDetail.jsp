@@ -39,6 +39,7 @@
                 <p id="validation" class="validation" title="Validation">All form fields are required.</p>
                 <html:form action="/TimeDetail.do" styleId="time-detail">
                     <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
+                    <html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
                     <html:hidden property="tkTimeBlockId" value="" styleId="tkTimeBlockId"/>
                     <html:hidden property="startDate" styleId="startDate"/>
                     <html:hidden property="endDate" styleId="endDate"/>

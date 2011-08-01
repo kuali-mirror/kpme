@@ -283,7 +283,7 @@ $(document).ready(function() {
                     // if there is no error message, submit the form to add the time block
                     if (json.length == 0) {
                         //console.log($('#documentId'));
-                        //$('#time-detail').submit();
+                        $('#time-detail').submit();
                     }
                     else {
                         // if there is any error, grab error messages (json) and display them
