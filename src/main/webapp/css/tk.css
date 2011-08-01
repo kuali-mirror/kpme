@@ -663,6 +663,11 @@ select {
     padding: 3px 0 3px 0;
 }
 
+.cal .event-title {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .cal .last-event {
     margin-bottom: 20px;
 }

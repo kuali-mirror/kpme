@@ -16,12 +16,19 @@ $(document).ready(function() {
         endPeriodDateTimeObj.setDate(endPeriodDateTimeObj.getDate() - 1);
     }
 
+    var docId = $('#documentId').val();
+
     // create navigation buttons
     $('#nav_prev').button({
         icons: {
             primary: "ui-icon-circle-triangle-w"
         },
         text: false
+    });
+
+    $('#nav_prev').click(function() {
+        console.log("prev");
+        window.location = 'TimeDetail.do?calNav=prev&documentId=' + docId;
     });
 
     $('#nav_next').button({
@@ -31,6 +38,11 @@ $(document).ready(function() {
         text: false
     });
 
+    $('#nav_next').click(function() {
+        console.log("next");
+        window.location = 'TimeDetail.do?calNav=next&documentId=' + docId;
+    });
+
     var selectedDays = [];
 
     $(".cal-table").selectable({
@@ -38,13 +50,14 @@ $(document).ready(function() {
         distance: 1,
         selected: function(event, ui) {
             // add the event day to an array
-            selectedDays.push(ui.selected.attributes[2].nodeValue);
+            selectedDays.push(ui.selected.id);
         },
         stop: function(event, ui) {
 
             var currentDay = new Date(beginPeriodDateTimeObj);
             var beginDay = new Date();
             var endDay = new Date();
+
             beginDay.setDate(currentDay.getDate() + parseInt(selectedDays[0].split("_")[1]));
             endDay.setDate(currentDay.getDate() + parseInt(selectedDays[selectedDays.length - 1].split("_")[1]))
 
@@ -53,8 +66,8 @@ $(document).ready(function() {
         }
     });
 
-    var docId = $('#documentId').val();
     var thing = $('#tkCal').click(function(event) {
+
         if (event.target.id.indexOf("_") > -1) {
             var actionA = event.target.id.split("_");
             if (actionA.length == 2) {
@@ -63,16 +76,7 @@ $(document).ready(function() {
                 //console.log(action);
                 //console.log(actionVal);
 
-                if (action == "nav") {
-                    // Handle nav click
-                    // Handle nav click
-                    // Handle nav click
-                    if (actionVal == "next") {
-                        window.location = 'TimeDetail.do?calNav=next&documentId=' + docId;
-                    } else if (actionVal == "prev") {
-                        window.location = 'TimeDetail.do?calNav=prev&documentId=' + docId;
-                    }
-                } else if (action == "delete") {
+                if (action == "delete") {
                     // Handle delete
                     // Handle delete
                     // Handle delete

@@ -48,11 +48,13 @@
                                             <c:set var="last" value=""/>
                                         </c:otherwise>
                                     </c:choose>
-                                    <div id="block_${block.timeBlock.tkTimeBlockId}" class="assignment0 event ${last}">
+                                    <div class="assignment0 event ${last}">
                                         <div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='timeblock-delete'
                                                   src='images/delete.png'/></div>
+                                        <div id="block_${block.timeBlock.tkTimeBlockId}" class="event-title">
                                             ${block.title}
                                             ${block.timeRange}
+                                        </div>
                                         <div>
                                             <c:forEach var="thdr" items="${block.detailRenderers}">
                                                 <div id="${thdr.timeHourDetail.tkTimeHourDetailId}">
