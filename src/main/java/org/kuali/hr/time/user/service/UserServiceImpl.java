@@ -34,13 +34,30 @@ public class UserServiceImpl implements UserService {
         tkUser.setActualPerson(actual);
         tkUser.setBackdoorPerson(backdoor);
         tkUser.setTargetPerson(target);
-
+        
+        tkUser.setActualUserPrincipalCalendar(TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(actual.getPrincipalId(), asOfDate));
+        tkUser.setActualUserJobs(TkServiceLocator.getJobSerivce().getJobs(actual.getPrincipalId(), asOfDate));
+        if(!tkUser.getActualUserJobs().isEmpty()){
+        	tkUser.setActualUserAssignments(TkServiceLocator.getAssignmentService().getAssignments(actual.getPrincipalId(), asOfDate));
+        }
+        	
         tkUser.setActualUserPreferences(TkServiceLocator.getUserPreferenceService().getUserPreferences(actual.getPrincipalId()));
-        if (backdoor != null)
+        if (backdoor != null){
             tkUser.setBackdoorUserPreferences(TkServiceLocator.getUserPreferenceService().getUserPreferences(backdoor.getPrincipalId()));
-        if (target != null)
+            tkUser.setBackdoorUserPrincipalCalendar(TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(backdoor.getPrincipalId(), asOfDate));
+            tkUser.setBackdoorUserJobs(TkServiceLocator.getJobSerivce().getJobs(backdoor.getPrincipalId(), asOfDate));
+            if(!tkUser.getBackdoorUserJobs().isEmpty()){
+            	tkUser.setBackdoorUserAssignments(TkServiceLocator.getAssignmentService().getAssignments(backdoor.getPrincipalId(), asOfDate));
+            }
+        }    
+        if (target != null) {
             tkUser.setTargetUserPreferences(TkServiceLocator.getUserPreferenceService().getUserPreferences(target.getPrincipalId()));
-
+            tkUser.setTargetUserPrincipalCalendar(TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(target.getPrincipalId(), asOfDate));
+            tkUser.setTargetUserJobs(TkServiceLocator.getJobSerivce().getJobs(target.getPrincipalId(), asOfDate));
+            if(!tkUser.getTargetUserJobs().isEmpty()){
+            	tkUser.setTargetUserAssignments(TkServiceLocator.getAssignmentService().getAssignments(target.getPrincipalId(), asOfDate));
+            }
+        }
         loadRoles(tkUser);
 
         return tkUser;
