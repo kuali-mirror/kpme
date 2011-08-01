@@ -81,7 +81,7 @@ $(document).ready(function() {
                     // Handle delete
                     // Handle delete
                     if (confirm('You are about to delete a time block. Click OK to confirm the delete.')) {
-                        window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&tkTimeBlockId=" + actionVal;
+                        window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&documentId=" + docId + "&tkTimeBlockId=" + actionVal;
                     }
                 } else if (action == "day") {
                     var currentDay = new Date(beginPeriodDateTimeObj);

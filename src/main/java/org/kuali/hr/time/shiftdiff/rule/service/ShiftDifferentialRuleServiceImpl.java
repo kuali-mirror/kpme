@@ -58,7 +58,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		if (prevBlocks.size() > 0) {
 			TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getPayEndDate());
 			if (prevTdh != null) {
-				PayCalendarEntries prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(timesheetDocument.getPrincipalId(), TKUtils.getTimelessDate(prevTdh.getPayEndDate()));
+				PayCalendarEntries prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(timesheetDocument.getPrincipalId(), prevTdh.getPayEndDate());
 				TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
 				List<List<TimeBlock>> dayBlocks = prevTimeAggregate.getDayTimeBlockList();
 				List<TimeBlock> previousPeriodLastDayBlocks = dayBlocks.get(dayBlocks.size() - 1);

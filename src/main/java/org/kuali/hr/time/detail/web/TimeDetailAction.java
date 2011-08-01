@@ -105,7 +105,6 @@ public class TimeDetailAction extends TimesheetAction {
      * @throws Exception
      */
     public ActionForward deleteTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // the corresponding js code resides in the fullcalendar-1.4.7.js somewhere around #1664
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         //Grab timeblock to be deleted from form
         List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();

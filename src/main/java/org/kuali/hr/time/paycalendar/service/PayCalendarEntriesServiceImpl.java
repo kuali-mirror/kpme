@@ -19,6 +19,11 @@ public class PayCalendarEntriesServiceImpl implements PayCalendarEntriesService 
 		return payCalendarEntriesDao.getPayCalendarEntries(payCalendarEntriesId);
 	}
 
+    @Override
+    public PayCalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long payCalendarId, Date endPeriodDate) {
+        return payCalendarEntriesDao.getPayCalendarEntriesByIdAndPeriodEndDate(payCalendarId, endPeriodDate);
+    }
+
 	@Override
 	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(
 			Long payCalendarId, Date currentDate) {

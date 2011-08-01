@@ -29,6 +29,7 @@ public interface PayCalendarService {
 	 * @return
 	 */
 	public PayCalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate);
+    public PayCalendarEntries getPayCalendarDatesByPayEndDate(String principalId, Date payEndDate);
 
 	/**
 	 * Returns the Pay CalendarEntry for previous pay calendar
