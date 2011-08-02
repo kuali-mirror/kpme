@@ -54,9 +54,9 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 		// Get the last day of the last week of the previous pay period.
 		// This is the only day that can have impact on the current day.
-		List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getPayEndDate());
+		List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getPayBeginDate());
 		if (prevBlocks.size() > 0) {
-			TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getPayEndDate());
+			TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getPayBeginDate());
 			if (prevTdh != null) {
 				PayCalendarEntries prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(timesheetDocument.getPrincipalId(), prevTdh.getPayEndDate());
 				TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
