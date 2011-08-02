@@ -5,9 +5,6 @@
             <column name="chart" type="VARCHAR(10)"/>
         </addColumn>
     </changeSet>
-    <changeSet author="djunk (generated)" id="1301500253844-2">
-        <addNotNullConstraint columnDataType="TIME" columnName="action_time" tableName="tk_missed_punch_t"/>
-    </changeSet>
     <changeSet author="djunk (generated)" id="1301500253844-3">
         <addNotNullConstraint columnDataType="VARCHAR(1)" columnName="active" defaultNullValue="'Y'" tableName="tk_roles_t"/>
     </changeSet>
