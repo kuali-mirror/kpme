@@ -20,4 +20,8 @@ public class TimeHourDetailRenderer {
     public String getHours() {
         return timeHourDetail.getHours().toString();
     }
+
+    public String getAmount() {
+        return timeHourDetail.getAmount().toString();
+    }
 }

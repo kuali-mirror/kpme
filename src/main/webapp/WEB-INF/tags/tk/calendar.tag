@@ -49,16 +49,23 @@
                                         </c:otherwise>
                                     </c:choose>
                                     <div class="assignment0 event ${last}">
-                                        <div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='timeblock-delete'
-                                                  src='images/delete.png'/></div>
                                         <div id="block_${block.timeBlock.tkTimeBlockId}" class="event-title">
+                                            <div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='event-delete' src='images/delete.png'/></div>
                                             ${block.title}
-                                            ${block.timeRange}
                                         </div>
+                                        ${block.timeRange}
                                         <div>
                                             <c:forEach var="thdr" items="${block.detailRenderers}">
                                                 <div id="${thdr.timeHourDetail.tkTimeHourDetailId}" class="event-content">
-                                                        ${thdr.title} - ${thdr.hours}
+                                                        <c:choose>
+                                                            <c:when test="${thdr.hours ne ''}">
+                                                                ${thdr.title} - ${thdr.hours} hours
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                ${thdr.title} - $${thdr.hours}
+                                                            </c:otherwise>
+                                                        </c:choose>
+
                                                 </div>
                                             </c:forEach>
                                         </div>

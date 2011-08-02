@@ -45,6 +45,15 @@ $(document).ready(function() {
 
     var selectedDays = [];
 
+
+    // When making a mouse selection, it creates a "lasso" effect which we want to get rid of.
+    // In the future version of jQuery UI, lasso is going to one of the options where it can be enabled / disabled.
+    // For now, the way to disable it is to modify the css.
+    //
+    // .ui-selectable-helper { border:none; }
+    //
+    // This discussion thread on stackoverflow was helpful:
+    // http://bit.ly/fvRW4X
     $(".cal-table").selectable({
         filter: "td",
         distance: 1,
@@ -323,6 +332,10 @@ $(document).ready(function() {
         beforeClose: function(event, ui) {
             // restore the earn code value to the default
             $('#earnCode').html("<option value=''>-- select an assignment first --</option>");
+            // remove the style for multi-day selection
+            $('.cal-table td').each(function() {
+                $(this).removeClass('ui-selected');
+            });
         },
         buttons: buttons
     });
@@ -498,10 +511,6 @@ $.fn.resetState = function() {
     // "End the most recent filtering operation in the current chain and return the set of matched elements to its previous state."
     $('#timesheet-panel').find('input').end().find('select').each(function() {
         $(this).removeClass('ui-state-error');
-    });
-
-    $('.cal-table td').each(function() {
-        $(this).removeClass('ui-selected');
     });
 
     // clear the error messages

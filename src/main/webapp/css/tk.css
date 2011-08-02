@@ -434,31 +434,6 @@ select {
     display: inline !important;
 }
 
-.timeblock-icon {
-    float: right;
-    cursor: pointer;
-    margin-right: 1px;
-}
-
-.timeblock-icon .timeblock-delete:hover {
-    background-color: gray;
-}
-
-.timeblock a {
-    display: inline !important;
-    font-size: 1em !important;
-}
-
-.timeblock-delete {
-    width: 15px;
-    height: 15px;
-    margin: 1px 4px 0 0;
-    z-index: 15;
-    cursor: pointer;
-    float: right;
-    clear: none;
-}
-
 .timeblock #timeblock-edit {
     text-decoration: underline;
     font-size: .7em;
@@ -653,7 +628,7 @@ select {
 
 .cal .cal-table td {
     vertical-align: top;
-    height:100px;
+    height: 100px;
 }
 
 .cal .event {
@@ -661,6 +636,7 @@ select {
     width: 98%;
     text-align: center;
     padding: 3px 0 3px 0;
+    line-height: 1.3em;
 }
 
 .cal .event-title {
@@ -669,12 +645,22 @@ select {
 }
 
 .cal .event-content {
-    clear:both;
+    clear: both;
     text-align: center;
 }
 
 .cal .last-event {
     margin-bottom: 20px;
+}
+
+.cal .event-delete {
+    width: 15px;
+    height: 15px;
+    margin: 1px 4px 0 0;
+    z-index: 15;
+    cursor: pointer;
+    float: right;
+    clear: none;
 }
 
 .cal .week-header {
@@ -685,14 +671,26 @@ select {
 .cal .day-number {
     padding-left: 2%;
 }
-.cal .cell-overlay { /* semi-transparent rectangle while dragging */
-	background: #9cf;
-	opacity: .2;
-	filter: alpha(opacity=20); /* for IE */
+
+.cal .cell-overlay {
+    /* semi-transparent rectangle while dragging */
+    background: #9cf;
+    opacity: .2;
+    filter: alpha(opacity = 20); /* for IE */
 }
 
-.ui-selecting { background: #ccffee !important; }
-.ui-selected { background: #cceeff !important; }
+.ui-selectee {
+}
+
+.ui-selecting {
+    background: #ccffee !important;
+}
+
+.ui-selected {
+    background: #cceeff !important;
+}
+
+.ui-selectable-helper { border:none; }
 
 /* Customized styles
 ------------------------------------------------------------------------*/
@@ -700,65 +698,75 @@ select {
 }
 
 .pay-period select {
-	padding: 3px;
-	font-size: .9em;
+    padding: 3px;
+    font-size: .9em;
 }
 
 /*	assignment background colors
 ------------------------------------------------------------------------*/
 
 .assignment0 {
-	border-color: #006400;
-	background-color: #006400;
-	color: white;
+    border-color: #006400;
+    background-color: #006400;
+    color: white;
 }
+
 .assignment1 {
-	border-color: #384C7A;
-	background-color: #384C7A;
-	color: white;
+    border-color: #384C7A;
+    background-color: #384C7A;
+    color: white;
 }
+
 .assignment2 {
-	border-color: #8B2323;
-	background-color: #8B2323;
-	color: white;
+    border-color: #8B2323;
+    background-color: #8B2323;
+    color: white;
 }
+
 .assignment3 {
-	border-color: #731D87;
-	background-color: #731D87;
-	color: white;
+    border-color: #731D87;
+    background-color: #731D87;
+    color: white;
 }
+
 .assignment4 {
-	border-color: #085D60;
-	background-color: #085D60;
-	color: white;
+    border-color: #085D60;
+    background-color: #085D60;
+    color: white;
 }
+
 .assignment5 {
-	border-color: #EE7621;
-	background-color: #EE7621;
-	color: white;
+    border-color: #EE7621;
+    background-color: #EE7621;
+    color: white;
 }
+
 .assignment6 {
-	border-color: #0F157A;
-	background-color: #0F157A;
-	color: white;
+    border-color: #0F157A;
+    background-color: #0F157A;
+    color: white;
 }
+
 .assignment7 {
-	border-color: #8470FF;
-	background-color: #8470FF;
-	color: white;
+    border-color: #8470FF;
+    background-color: #8470FF;
+    color: white;
 }
+
 .assignment8 {
-	border-color: #8B5A2B;
-	background-color: #8B5A2B;
-	color: white;
+    border-color: #8B5A2B;
+    background-color: #8B5A2B;
+    color: white;
 }
+
 .assignment9 {
-	border-color: #51193D;
-	background-color: #51193D;
-	color: white;
+    border-color: #51193D;
+    background-color: #51193D;
+    color: white;
 }
+
 .assignment10 {
-	border-color: #8E8E38;
-	background-color: #8E8E38;
-	color: white;
+    border-color: #8E8E38;
+    background-color: #8E8E38;
+    color: white;
 }

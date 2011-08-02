@@ -1,8 +1,10 @@
 package org.kuali.hr.time.calendar;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 
 import java.util.ArrayList;
@@ -32,10 +34,11 @@ public class TimeBlockRenderer {
 
     public String getTimeRange() {
         StringBuilder b = new StringBuilder();
-
-        b.append(timeBlock.getBeginTimeString());
-        b.append(" - ");
-        b.append(timeBlock.getEndTimeString());
+        if(StringUtils.equals(timeBlock.getEarnCodeType(), TkConstants.EARN_CODE_TIME)) {
+            b.append(timeBlock.getBeginTimeString());
+            b.append(" - ");
+            b.append(timeBlock.getEndTimeString());
+        }
 
         return b.toString();
     }
