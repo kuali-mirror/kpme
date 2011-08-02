@@ -755,11 +755,6 @@
             <bean class="org.kuali.hr.time.workschedule.service.WorkScheduleLookupableHelper"/>
         </property>
     </bean>
-    <bean id="missedPunchLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.missedpunch.service.MissedPunchLookupableHelper"/>
-        </property>
-    </bean>
     <bean id="tkRoleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.time.roles.service.TkRoleLookupableHelper"/>
