@@ -51,6 +51,7 @@ public class TimeApprovalAction extends TkAction {
         PayCalendar currentPayCalendar = null;
 
         // Set current pay calendar entries if present.
+        // Correct usage here is to use the beginPeriodDate or Current date -- use the non-specific search.
         // Set Current Date
         if (taaf.getPayCalendarEntriesId() != null) {
             selectedPayCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(taaf.getPayCalendarEntriesId());
@@ -63,6 +64,7 @@ public class TimeApprovalAction extends TkAction {
         if (taaf.getPayCalendarId() != null) {
             currentPayCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(taaf.getPayCalendarId());
             if (selectedPayCalendarEntries == null) {
+                // Use of non-specific pay calendar entry search.
                 selectedPayCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(taaf.getPayCalendarId(), currentDate);
             }
         }

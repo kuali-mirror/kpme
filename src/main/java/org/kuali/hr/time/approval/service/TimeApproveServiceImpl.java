@@ -149,7 +149,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                     List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(documentId));
 
                     // Bucket time blocks into assignment groupings by Day for approval and non approval assignments.
-                    PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(userId, payBeginDate);
+                    //PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(userId, payBeginDate);
+                    PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(userId, TKUtils.getTimelessDate(payEndDate));
                     TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry);
 
                     List<Map<String, Map<String, BigDecimal>>> detailBucketTuple = getHoursByDayAssignmentBuckets(aggregate, activeAssignments, getPayCalendarLabelsForApprovalTab(payBeginDate, payEndDate));
@@ -173,7 +174,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                         assignmentDescriptions.put(adks, desc);
                     }
 
-                    Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(userId, payBeginDate, getPayCalendarLabelsForApprovalTab(payBeginDate, payEndDate), timeBlocks, null);
+                    Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(userId, payEndDate, getPayCalendarLabelsForApprovalTab(payBeginDate, payEndDate), timeBlocks, null);
 
                     List notes = this.getNotesForDocument(documentId);
                     List<String> warnings = TkServiceLocator.getWarningService().getWarnings(documentId);
@@ -412,17 +413,17 @@ public class TimeApproveServiceImpl implements TimeApproveService {
      * Aggregate TimeBlocks to hours per day and sum for week
      *
      * @param principalId
-     * @param beginDateTime
+     * @param payEndDate
      * @param payCalendarLabels
      * @param lstTimeBlocks
      * @param workArea
      * @return
      */
     @Override
-    public Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date beginDateTime, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea) {
+    public Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea) {
         Map<String, BigDecimal> hoursToPayLabelMap = new LinkedHashMap<String, BigDecimal>();
         List<BigDecimal> dayTotals = new ArrayList<BigDecimal>();
-        PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId, beginDateTime);
+        PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(principalId, payEndDate);
         TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, payCalendarEntry);
         // :) http://stackoverflow.com/questions/111933/why-shouldnt-i-use-hungarian-notation
         List<List<TimeBlock>> lstOfLstOfTimeBlocksPerDay = tkTimeBlockAggregate.getDayTimeBlockList();

@@ -1,14 +1,9 @@
 package org.kuali.hr.time.timeblock.service;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
-import org.joda.time.MutableDateTime;
-import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.detail.web.TimeDetailActionForm;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
@@ -20,11 +15,13 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 public class TimeBlockServiceImpl implements TimeBlockService {
 
@@ -191,7 +188,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
         //If earn code has an inflate factor multiple hours specified by the factor
         if (earnCodeObj.getInflateFactor() != null) {
-            if ((earnCodeObj.getInflateFactor().compareTo(new BigDecimal(1.0)) != 0) 
+            if ((earnCodeObj.getInflateFactor().compareTo(new BigDecimal(1.0)) != 0)
             		&& (earnCodeObj.getInflateFactor().compareTo(BigDecimal.ZERO)!= 0) ) {
                 hours = earnCodeObj.getInflateFactor().multiply(hours, TkConstants.MATH_CONTEXT);
             }
@@ -210,112 +207,6 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     public TimeBlock getTimeBlock(Long tkTimeBlockId) {
         return timeBlockDao.getTimeBlock(tkTimeBlockId);
-    }
-
-    public String getTimeBlocksForOutput(TimeDetailActionForm form) {
-    	TimesheetDocument tsd = form.getTimesheetDocument();
-        List<TimeBlock> timeBlocks = new TkTimeBlockAggregate(tsd.getTimeBlocks(), tsd.getPayCalendarEntry()).getFlattenedTimeBlockList();
-      	form.setAssignStyleClassMap(buildAssignmentStyleClassMap(tsd));
-        return JSONValue.toJSONString(getTimeBlocksJson(timeBlocks, form.getAssignStyleClassMap()));
-    }
-
-    public Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd) {
-		Map<String, String> aMap = new HashMap<String, String>();
-		List<String> assignmentKeys = new ArrayList<String> ();
-		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(tsd.getPrincipalId(), tsd.getAsOfDate());
-
-		for(Assignment assignment: assignments) {
-			AssignmentDescriptionKey aKey = new AssignmentDescriptionKey(assignment.getJobNumber(),
-					assignment.getWorkArea(), assignment.getTask());
-			assignmentKeys.add(aKey.toAssignmentKeyString());
-		}
-		Collections.sort(assignmentKeys);
-
-		for(int i = 0; i< assignmentKeys.size(); i++) {
-			aMap.put(assignmentKeys.get(i), "assignment"+ Integer.toString(i));
-		}
-
-		return aMap;
-	}
-
-    private List<Map<String, Object>> getTimeBlocksJson(List<TimeBlock> timeBlocks, Map<String, String> aMap) {
-
-        if (timeBlocks == null || timeBlocks.size() == 0) {
-            return new ArrayList<Map<String, Object>>();
-        }
-
-        List<Map<String, Object>> timeBlockList = new LinkedList<Map<String, Object>>();
-        String timezone = TkServiceLocator.getTimezoneService().getUserTimeZone();
-        timeBlocks = TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks, timezone);
-
-        for (TimeBlock timeBlock : timeBlocks) {
-            Map<String, Object> timeBlockMap = new LinkedHashMap<String, Object>();
-
-            //String assignmentKey = TKUtils.formatAssignmentKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask());
-            String workAreaDesc = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), new java.sql.Date(timeBlock.getEndTimestamp().getTime())).getDescription();
-
-            String cssClass = "";
-            if(aMap.containsKey(timeBlock.getAssignmentKey())) {
-            	cssClass = aMap.get(timeBlock.getAssignmentKey());
-            }
-            timeBlockMap.put("assignmentCss", cssClass);
-            timeBlockMap.put("editable",  isTimeBlockEditable(timeBlock.getUserPrincipalId()));
-
-            // DateTime object in jodatime is immutable. If manipulation of a datetime obj is necessary, use MutableDateTime instead.
-            MutableDateTime start = timeBlock.getBeginTimeDisplay().toMutableDateTime();
-            MutableDateTime end = timeBlock.getEndTimeDisplay().toMutableDateTime();
-
-            /**
-             * This is the timeblock backward pushing logic.
-             * the purpose of this is to accommodate the virtual day mode where the start/end period time is not from 12a to 12a.
-             * A timeblock will be pushed back if the timeblock is still within the previous interval
-             */
-            if (timeBlock.isPushBackward()) {
-                start.addDays(-1);
-                end.addDays(-1);
-            }
-
-            timeBlockMap.put("title", workAreaDesc);
-            timeBlockMap.put("earnCode", timeBlock.getEarnCode());
-            //TODO: need to cache this or pre-load it when the app boots up
-            // EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
-            timeBlockMap.put("earnCodeType", timeBlock.getEarnCodeType());
-
-            timeBlockMap.put("start", start.toDateTime().toString());
-            timeBlockMap.put("end", end.toDateTime().toString());
-            timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
-            timeBlockMap.put("hours", timeBlock.getHours());
-            timeBlockMap.put("amount", timeBlock.getAmount());
-            timeBlockMap.put("timezone", timezone);
-            timeBlockMap.put("assignment", new AssignmentDescriptionKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask()).toAssignmentKeyString());
-            timeBlockMap.put("tkTimeBlockId", timeBlock.getTkTimeBlockId() != null ? timeBlock.getTkTimeBlockId() : "");
-
-            List<Map<String, Object>> timeHourDetailList = new LinkedList<Map<String, Object>>();
-            for (TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {
-                Map<String, Object> timeHourDetailMap = new LinkedHashMap<String, Object>();
-                timeHourDetailMap.put("earnCode", timeHourDetail.getEarnCode());
-                timeHourDetailMap.put("hours", timeHourDetail.getHours());
-                timeHourDetailMap.put("amount", timeHourDetail.getAmount());
-
-                // if there is a lunch hour deduction, add a flag to the timeBlockMap
-                if(StringUtils.equals(timeHourDetail.getEarnCode(), "LUN")) {
-                    timeBlockMap.put("lunchDeduction", "true");
-                    EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeHourDetail.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
-                    String lunchLabel = "Lunch";
-                    if(earnCode != null) {
-                    	lunchLabel = earnCode.getDescription();
-                    }
-                    timeBlockMap.put("lunchLabel", lunchLabel);
-                }
-
-                timeHourDetailList.add(timeHourDetailMap);
-            }
-            timeBlockMap.put("timeHourDetails", JSONValue.toJSONString(timeHourDetailList));
-
-            timeBlockList.add(timeBlockMap);
-        }
-
-        return timeBlockList;
     }
 
     @Override
@@ -369,7 +260,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId) {
 		timeBlockDao.deleteTimeBlocksAssociatedWithDocumentId(documentId);
 	}
-	
+
 	@Override
 	// figure out if the user has permission to edit/delete the time block
 	public String isTimeBlockEditable(String creatorId) {
@@ -381,7 +272,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 				if(TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().getCurrentRoles().isTimesheetApprover())
 					return "true";
 			}
-		} 
+		}
 		return "false";
 	}
 

@@ -17,12 +17,7 @@ public interface TimeBlockService {
 	 * @return
 	 */
 	public TimeBlock getTimeBlock(Long timeBlockId);
-	/**
-	 * Returns a JSON string of TimeBlocks for a given document
-	 * @param tsd
-	 * @return
-	 */
-	public String getTimeBlocksForOutput(TimeDetailActionForm from);
+
 	/**
 	 * Delete a given TimeBlock
 	 * @param timeBlock
@@ -49,7 +44,7 @@ public interface TimeBlockService {
 	 * @param newTimeBlocks
 	 */
 	public void saveTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks);
-	
+
 	/**
 	 * Save a list of new TimeBlocks
 	 * @param tbList
@@ -94,10 +89,8 @@ public interface TimeBlockService {
 	 */
 	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime,
 										Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean isClockLogCreated);
-	
-	public Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd);
-	
+
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
-	
+
 	public String isTimeBlockEditable(String creatorId);
 }

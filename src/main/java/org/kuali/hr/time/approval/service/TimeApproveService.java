@@ -51,7 +51,7 @@ public interface TimeApproveService {
     @SuppressWarnings("rawtypes")
 	public List getNotesForDocument(String documentNumber);
 
-    Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date beginDateTime, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea);
+    Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea);
 
     /**
      * Method to provide a mapping of PayCalendarGroupNames to PayCalendarEntries to

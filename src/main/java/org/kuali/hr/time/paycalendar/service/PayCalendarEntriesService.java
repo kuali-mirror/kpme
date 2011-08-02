@@ -23,6 +23,7 @@ public interface PayCalendarEntriesService {
      * @return the current PayCalendarEntries effective by the asOfDate.
      */
 	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(Long payCalendarId, Date asOfDate);
+    public PayCalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long payCalendarId, Date endPeriodDate);
 
     public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries pce);
     public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries pce);

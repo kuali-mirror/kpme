@@ -75,7 +75,8 @@ public class TimesheetAction extends TkAction {
 		if(StringUtils.equals(taForm.getCalNav(), TkConstants.PREV_TIMESHEET) || StringUtils.equals(taForm.getCalNav(), TkConstants.NEXT_TIMESHEET)) {
 			tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(taForm.getCalNav(), viewPrincipal, documentId);
             // use the getPayEndDate()-1 as the date to get the current payCalendarDates, since the the payBeginDate is equal to the payEndDate of the previous pay period
-			payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(viewPrincipal,  TKUtils.getTimelessDate(DateUtils.addDays(tsdh.getPayEndDate(), -1)));
+
+			payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(viewPrincipal,  tsdh.getPayEndDate());
 			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntries);
 		}
 		else {

@@ -189,7 +189,6 @@ select {
     padding: 3px;
 }
 
-
 #timesheet-panel {
     border: 1px solid #ccc;
     float: left;
@@ -246,7 +245,6 @@ select {
     margin: 10px 40% 10px 40%;
     text-align: center;
 }
-
 
 #clock {
     margin-left: auto;
@@ -436,10 +434,6 @@ select {
     display: inline !important;
 }
 
-.timeblock {
-    line-height: 1.1em;
-}
-
 .timeblock-icon {
     float: right;
     cursor: pointer;
@@ -458,7 +452,7 @@ select {
 .timeblock-delete {
     width: 15px;
     height: 15px;
-    margin: 3px 5px 0 0;
+    margin: 1px 4px 0 0;
     z-index: 15;
     cursor: pointer;
     float: right;
@@ -479,7 +473,7 @@ select {
     font-weight: bold;
     /*margin: 0 auto 0 auto;*/
     text-align: center;
-	}
+}
 
 .timeblock .timeblock-detail {
     font-size: .7em;
@@ -599,7 +593,7 @@ select {
 }
 
 .approvals-note-details table tr td, .approvals-note-details table tr th,
-.approvals-warning-details table tr td, .approvals-warning-details table tr th{
+.approvals-warning-details table tr td, .approvals-warning-details table tr th {
     border: 1px solid gray;
 }
 
@@ -607,6 +601,7 @@ select {
     margin-top: 10px;
     width: 100%;
 }
+
 #approvals-filter tr td {
     width: 33%;
 }
@@ -628,7 +623,142 @@ select {
     cursor: pointer;
 }
 
-.hours-by-workArea tr{
+.hours-by-workArea tr {
     border: 1px double black !important;
 }
 
+.cal {
+    font-size: .7em !important;
+}
+
+.cal table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.cal .cal-header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.cal .cal-header .header-title {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.cal .cal-table {
+    width: 100%;
+}
+
+.cal .cal-table td {
+    vertical-align: top;
+    height:100px;
+}
+
+.cal .event {
+    margin: 3px auto 3px auto;
+    width: 98%;
+    text-align: center;
+    padding: 3px 0 3px 0;
+}
+
+.cal .event-title {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.cal .event-content {
+    clear:both;
+    text-align: center;
+}
+
+.cal .last-event {
+    margin-bottom: 20px;
+}
+
+.cal .week-header {
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.cal .day-number {
+    padding-left: 2%;
+}
+.cal .cell-overlay { /* semi-transparent rectangle while dragging */
+	background: #9cf;
+	opacity: .2;
+	filter: alpha(opacity=20); /* for IE */
+}
+
+.ui-selecting { background: #ccffee !important; }
+.ui-selected { background: #cceeff !important; }
+
+/* Customized styles
+------------------------------------------------------------------------*/
+.pay-period {
+}
+
+.pay-period select {
+	padding: 3px;
+	font-size: .9em;
+}
+
+/*	assignment background colors
+------------------------------------------------------------------------*/
+
+.assignment0 {
+	border-color: #006400;
+	background-color: #006400;
+	color: white;
+}
+.assignment1 {
+	border-color: #384C7A;
+	background-color: #384C7A;
+	color: white;
+}
+.assignment2 {
+	border-color: #8B2323;
+	background-color: #8B2323;
+	color: white;
+}
+.assignment3 {
+	border-color: #731D87;
+	background-color: #731D87;
+	color: white;
+}
+.assignment4 {
+	border-color: #085D60;
+	background-color: #085D60;
+	color: white;
+}
+.assignment5 {
+	border-color: #EE7621;
+	background-color: #EE7621;
+	color: white;
+}
+.assignment6 {
+	border-color: #0F157A;
+	background-color: #0F157A;
+	color: white;
+}
+.assignment7 {
+	border-color: #8470FF;
+	background-color: #8470FF;
+	color: white;
+}
+.assignment8 {
+	border-color: #8B5A2B;
+	background-color: #8B5A2B;
+	color: white;
+}
+.assignment9 {
+	border-color: #51193D;
+	background-color: #51193D;
+	color: white;
+}
+.assignment10 {
+	border-color: #8E8E38;
+	background-color: #8E8E38;
+	color: white;
+}

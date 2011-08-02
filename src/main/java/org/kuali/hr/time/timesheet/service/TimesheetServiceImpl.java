@@ -165,8 +165,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		if (tdh != null) {
 			timesheetDocument = new TimesheetDocument(tdh);
 			loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), tdh.getPayBeginDate(), tdh.getPayEndDate());
-			//one millisecond is subtracted from the end to get the current calendar date range not in the next range as payendate = paybegin date of next period
-            PayCalendarEntries pce = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(tdh.getPrincipalId(), TKUtils.subtractOneMillisecondFromDate(tdh.getPayEndDate()));
+            PayCalendarEntries pce = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getPayEndDate());
             timesheetDocument.setPayCalendarEntry(pce);
 		} else {
 			throw new RuntimeException("Could not find TimesheetDocumentHeader for DocumentID: " + documentId);

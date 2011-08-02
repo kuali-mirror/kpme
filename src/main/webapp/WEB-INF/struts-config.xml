@@ -6,6 +6,7 @@
     <form-beans>
         <form-bean name="ClockActionForm" type="org.kuali.hr.time.clock.web.ClockActionForm"/>
         <form-bean name="TimeDetailActionForm" type="org.kuali.hr.time.detail.web.TimeDetailActionForm"/>
+        <form-bean name="TimeDetailWSActionForm" type="org.kuali.hr.time.detail.web.TimeDetailWSActionForm"/>
         <form-bean name="TimeApprovalActionForm" type="org.kuali.hr.time.approval.web.TimeApprovalActionForm"/>
         <form-bean name="AdminActionForm" type="org.kuali.hr.time.admin.web.AdminActionForm"/>
         <form-bean name="PersonInfoActionForm" type="org.kuali.hr.time.base.web.PersonInfoActionForm"/>
@@ -45,6 +46,12 @@
         <action path="/TimeDetail" name="TimeDetailActionForm" scope="request" input="/WEB-INF/jsp/timeDetail.jsp"
                 type="org.kuali.hr.time.detail.web.TimeDetailAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/timeDetail.jsp"/>
+            <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
+        </action>
+
+        <action path="/TimeDetailWS" name="TimeDetailWSActionForm" scope="request" input="/WEB-INF/jsp/webService.jsp"
+                type="org.kuali.hr.time.detail.web.TimeDetailWSAction" parameter="methodToCall" validate="false">
+            <forward name="basic" path="/WEB-INF/jsp/webService.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
 
