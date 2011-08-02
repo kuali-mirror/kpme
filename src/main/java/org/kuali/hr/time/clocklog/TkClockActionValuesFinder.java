@@ -1,6 +1,5 @@
-package org.kuali.kfs.coa.businessobject.options;
+package org.kuali.hr.time.clocklog;
 
-import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
@@ -20,7 +19,6 @@ public class TkClockActionValuesFinder extends KeyValuesBase {
 		List<KeyLabelPair> keyLabels = new LinkedList<KeyLabelPair>();
 
         TKUser user = TKContext.getUser();
-
         if (user != null) {
             ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(user.getTargetPrincipalId());
 

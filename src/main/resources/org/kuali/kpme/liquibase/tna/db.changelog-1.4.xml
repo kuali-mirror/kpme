@@ -57,13 +57,7 @@
             </column>
         </addColumn>
     </changeSet>
-    <changeSet author="djunk (generated)" id="1300980772130-6">
-        <addColumn tableName="tk_missed_punch_t">
-            <column name="timesheet_doc_id" type="VARCHAR(14)">
-                <constraints nullable="false"/>
-            </column>
-        </addColumn>
-    </changeSet>
+
     <changeSet author="djunk (generated)" id="1300980772130-7">
         <addColumn tableName="tk_time_block_t">
             <column name="clock_log_begin_id" type="BIGINT"/>
@@ -73,9 +67,6 @@
         <addColumn tableName="tk_time_block_t">
             <column name="clock_log_end_id" type="BIGINT"/>
         </addColumn>
-    </changeSet>
-    <changeSet author="djunk (generated)" id="1300980772130-9">
-        <modifyDataType columnName="action_time" newDataType="TIME" tableName="tk_missed_punch_t"/>
     </changeSet>
     <changeSet author="djunk (generated)" id="1300980772130-10">
         <dropColumn columnName="HR_WORK_SCHEDULE_ID" tableName="hr_work_schedule_entry_t"/>

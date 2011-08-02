@@ -1,14 +1,23 @@
 package org.kuali.hr.time.workflow;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.missedpunch.MissedPunch;
-import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.identity.Id;
 import org.kuali.rice.kew.identity.PrincipalId;
@@ -17,19 +26,7 @@ import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
 import org.kuali.rice.kew.rule.Role;
 import org.kuali.rice.kew.rule.RoleAttribute;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TkWorkflowMissedPunchAttribute implements RoleAttribute {
 
@@ -69,7 +66,7 @@ public class TkWorkflowMissedPunchAttribute implements RoleAttribute {
 		Long routeHeaderId = routeContext.getDocument().getRouteHeaderId();
 
 		TkRoleService roleService = TkServiceLocator.getTkRoleService();
-        MissedPunch missedPunch = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(routeHeaderId);
+        MissedPunchDocument missedPunch = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(routeHeaderId.toString());
 
         DocumentContent dc = routeContext.getDocumentContent();
         String assign_string = null;

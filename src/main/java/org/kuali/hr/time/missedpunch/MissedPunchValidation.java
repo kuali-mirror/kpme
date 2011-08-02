@@ -1,19 +1,19 @@
 package org.kuali.hr.time.missedpunch;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 
-import java.util.HashSet;
-import java.util.Set;
-
-public class MissedPunchValidation extends MaintenanceDocumentRuleBase {
+public class MissedPunchValidation extends TransactionalDocumentRuleBase {
 
     /**
      * Checks the provided MissedPunch for a valid ClockAction.
@@ -23,14 +23,14 @@ public class MissedPunchValidation extends MaintenanceDocumentRuleBase {
      *
      * @return true if valid, false otherwise.
      */
-    boolean validateClockAction(MissedPunch mp, ClockLog lastClock) {
+    boolean validateClockAction(MissedPunchDocument mp, ClockLog lastClock) {
         boolean valid = true;
         Set<String> validActions = (lastClock != null) ? TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction()) : new HashSet<String>();
 
         if (validActions.isEmpty()) {
 
         } else if (!validActions.contains(mp.getClockAction())) {
-            this.putFieldError("clockAction", "clock.mp.invalid.action");
+            GlobalVariables.getMessageMap().putError("clockAction", "clock.mp.invalid.action");
             valid = false;
         }
 
@@ -46,7 +46,7 @@ public class MissedPunchValidation extends MaintenanceDocumentRuleBase {
      *
      * @return true if valid, false otherwise.
      */
-    boolean validateClockTime(MissedPunch mp, ClockLog lastClock) {
+    boolean validateClockTime(MissedPunchDocument mp, ClockLog lastClock) {
         boolean valid = true;
 
         if (lastClock == null)
@@ -61,28 +61,23 @@ public class MissedPunchValidation extends MaintenanceDocumentRuleBase {
         if ( (!StringUtils.equals(lastClock.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax))
                 || actionDateTime.isBefore(clockLogDateTime)) {
             // Error -
-            this.putFieldError("actionDate", "clock.mp.invalid.datetime");
-            this.putFieldError("actionTime", "clock.mp.invalid.datetime");
+        	GlobalVariables.getMessageMap().putError("actionDate", "clock.mp.invalid.datetime");
+        	GlobalVariables.getMessageMap().putError("actionTime", "clock.mp.invalid.datetime");
             valid = false;
         }
 
         return valid;
     }
+ 
 
-    @Override
-	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        boolean ret = true;
-
-        PersistableBusinessObject pbo = this.getNewBo();
-        if (pbo instanceof MissedPunch) {
-            MissedPunch mp = (MissedPunch)pbo;
-
-            ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(mp.getPrincipalId());
-
-            ret = validateClockAction(mp, lastClock);
-            ret &= validateClockTime(mp, lastClock);
-        }
-
+	@Override
+	public boolean processRouteDocument(Document document) {
+        boolean ret = super.processRouteDocument(document);
+        MissedPunchDocument mpDoc = (MissedPunchDocument)document;
+        ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(mpDoc.getPrincipalId());
+        ret = validateClockAction(mpDoc, lastClock);
+        ret &= validateClockTime(mpDoc, lastClock);
+        
         return ret;
-    }
+	}
 }

@@ -700,17 +700,18 @@
 		</collection-descriptor>
 	</class-descriptor>
 
-    <class-descriptor class="org.kuali.hr.time.missedpunch.MissedPunch" table="tk_missed_punch_t">
-        <field-descriptor name="tkMissedPunchId"     column="tk_missed_punch_id"      jdbc-type="BIGINT" length="20" nullable="false" primarykey="true" autoincrement="true" sequence-name="hr_location_s" />
+    <class-descriptor class="org.kuali.hr.time.missedpunch.MissedPunchDocument" table="tk_missed_punch_doc_t">
+        <field-descriptor name="documentId"      column="doc_hdr_id"        jdbc-type="VARCHAR" length="14" primarykey="true"/>
         <field-descriptor name="principalId"     column="principal_id"      jdbc-type="VARCHAR" length="40" nullable="false"/>
         <field-descriptor name="clockAction"     column="clock_action"      jdbc-type="VARCHAR" length="20" nullable="false"/>
         <field-descriptor name="actionDate"   column="action_date" jdbc-type="TIMESTAMP" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
         <field-descriptor name="actionTime"   column="action_time" jdbc-type="TIME" nullable="false" />
         <field-descriptor name="timesheetDocumentId" column="timesheet_doc_id" jdbc-type="VARCHAR" length="14"/>
-        <field-descriptor name="documentId"             column="document_id"        jdbc-type="VARCHAR" length="14"/>
         <field-descriptor name="documentStatus" column="document_status" jdbc-type="VARCHAR" length="1" />
         <field-descriptor name="tkClockLogId"     column="tk_clock_log_id"      jdbc-type="BIGINT" length="20"/>
         <field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />        
     </class-descriptor>
 
 	<!-- override MaintenanceDocumentBase primarily for Work Area maintenance -->

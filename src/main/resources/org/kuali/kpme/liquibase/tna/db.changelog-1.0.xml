@@ -1484,9 +1484,9 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-94">
-        <createTable tableName="tk_missed_punch_t">
-            <column autoIncrement="true" name="tk_missed_punch_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="tk_missed_punch_doc_t">
+            <column name="document_id" type="VARCHAR(14)" >
+            	<constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="principal_id" type="VARCHAR(40)">
                 <constraints nullable="false"/>
@@ -1497,15 +1497,23 @@
             <column defaultValueDate="0002-11-30T00:00:00.0" name="action_date" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="0000-00-00 00:00:00" name="action_time" type="TIMESTAMP">
+            <column defaultValue="0000-00-00 00:00:00" name="action_time" type="TIME">
                 <constraints nullable="false"/>
             </column>
-            <column name="document_id" type="VARCHAR(14)"/>
             <column name="document_status" type="VARCHAR(1)"/>
             <column name="tk_clock_log_id" type="BIGINT"/>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
+            <column name="timesheet_doc_id" type="VARCHAR(14)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBJ_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
+                <constraints nullable="false"/>
+            </column>            
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-95">

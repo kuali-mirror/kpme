@@ -34,7 +34,7 @@
  delete from tk_holiday_calendar_t;        
  delete from tk_hour_detail_hist_t;        
  delete from tk_hour_detail_t;             
- delete from tk_missed_punch_t;            
+ delete from tk_missed_punch_doc_t;            
  delete from tk_principal_calendar_t;      
  delete from tk_py_calendar_entries_t;     
  delete from tk_py_calendar_t;             

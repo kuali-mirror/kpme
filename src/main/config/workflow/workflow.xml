@@ -181,11 +181,6 @@
         <label>DepartmentRoleMaintenanceDocument</label>
     </documentType>
     <documentType>
-        <name>MissedPunchMaintenanceDocumentType</name>
-        <parent>RiceDocument</parent>
-        <label>MissedPunchMaintenanceDocument</label>
-    </documentType>
-    <documentType>
     	<name>LocationMaintenanceDocumentType</name>
     	<parent>RiceDocument</parent>
     	<label>LocationMaintenanceDocument</label>
