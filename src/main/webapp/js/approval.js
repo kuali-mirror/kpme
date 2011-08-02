@@ -192,9 +192,9 @@ $(document).ready(function() {
 function showHideRow(count) {
 	var els = document.getElementsByTagName('*');
 	var className='assignmentDetails' + count;
-	
+
 	for (i = 0; i < els.length; i++) {
-		if(els[i].getAttribute('class') == className) {
+		if(els[i].className == className) {
 			if(els[i].style.display == "table-row") {
 				els[i].style.display = "none";
 		  	} else {
