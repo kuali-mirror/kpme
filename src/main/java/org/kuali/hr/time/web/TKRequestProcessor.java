@@ -80,8 +80,8 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 					}
 				}
 			}
-			//TODO do not use current date use target documentId payPeriodEndDate or find one in the current 
-			//for the target person
+
+            // Current date is sufficient for loading of current roles and permissions.
 			TKUser tkUser = TkServiceLocator.getUserService().buildTkUser(person, backdoorPerson, targetPerson, TKUtils.getCurrentDate());
 			TKContext.setUser(tkUser);
 		} else {

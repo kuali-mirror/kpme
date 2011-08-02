@@ -5,22 +5,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
-import org.joda.time.Interval;
-import org.joda.time.MutableDateTime;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.TkCalendar;
-import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
-import org.kuali.hr.time.timeblock.TimeHourDetail;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.timesummary.AssignmentRow;
@@ -31,10 +21,10 @@ import org.kuali.rice.kns.exception.AuthorizationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -86,11 +76,6 @@ public class TimeDetailAction extends TimesheetAction {
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, tdaf.getTimesheetDocument().getPayCalendarEntry());
         tdaf.setTkCalendar(TkCalendar.getCalendar(aggregate));
         tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(tdaf.getTimesheetDocument(), aggregate.getFlattenedTimeBlockList()));
-
-        // for visually impaired users
-        // TimesheetDocument td = tdaf.getTimesheetDocument();
-        // List<TimeBlock> timeBlocks = td.getTimeBlocks();
-        // tdaf.setTimeBlocks(timeBlocks);
 
         return forward;
     }

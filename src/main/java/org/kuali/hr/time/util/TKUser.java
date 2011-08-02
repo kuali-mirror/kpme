@@ -44,18 +44,10 @@ public class TKUser {
 	private UserPreferences actualUserPreferences;
     private UserPreferences backdoorUserPreferences;
     private UserPreferences targetUserPreferences;
-    
+
     private PrincipalCalendar actualUserPrincipalCalendar = null;
     private PrincipalCalendar backdoorUserPrincipalCalendar = null;
     private PrincipalCalendar targetUserPrincipalCalendar = null;
-    
-    private List<Job> actualUserJobs = new ArrayList<Job>();
-    private List<Job> backdoorUserJobs = new ArrayList<Job>();
-    private List<Job> targetUserJobs = new ArrayList<Job>();
-    
-    private List<Assignment> actualUserAssignments = new ArrayList<Assignment>();
-    private List<Assignment> backdoorUserAssignments = new ArrayList<Assignment>();
-    private List<Assignment> targetUserAssignments = new ArrayList<Assignment>();
 
 	public Person getActualPerson() {
 		return actualPerson;
@@ -276,51 +268,4 @@ public class TKUser {
 		this.targetUserPrincipalCalendar = targetUserPrincipalCalendar;
 	}
 
-	public List<Job> getActualUserJobs() {
-		return actualUserJobs;
-	}
-
-	public void setActualUserJobs(List<Job> actualUserJobs) {
-		this.actualUserJobs = actualUserJobs;
-	}
-
-	public List<Job> getBackdoorUserJobs() {
-		return backdoorUserJobs;
-	}
-
-	public void setBackdoorUserJobs(List<Job> backdoorUserJobs) {
-		this.backdoorUserJobs = backdoorUserJobs;
-	}
-
-	public List<Job> getTargetUserJobs() {
-		return targetUserJobs;
-	}
-
-	public void setTargetUserJobs(List<Job> targetUserJobs) {
-		this.targetUserJobs = targetUserJobs;
-	}
-
-	public List<Assignment> getActualUserAssignments() {
-		return actualUserAssignments;
-	}
-
-	public void setActualUserAssignments(List<Assignment> actualUserAssignments) {
-		this.actualUserAssignments = actualUserAssignments;
-	}
-
-	public List<Assignment> getBackdoorUserAssignments() {
-		return backdoorUserAssignments;
-	}
-
-	public void setBackdoorUserAssignments(List<Assignment> backdoorUserAssignments) {
-		this.backdoorUserAssignments = backdoorUserAssignments;
-	}
-
-	public List<Assignment> getTargetUserAssignments() {
-		return targetUserAssignments;
-	}
-
-	public void setTargetUserAssignments(List<Assignment> targetUserAssignments) {
-		this.targetUserAssignments = targetUserAssignments;
-	}
 }

@@ -70,7 +70,6 @@ public class ActionFormUtils {
         for (TimeBlock timeBlock : timeBlocks) {
             Map<String, Object> timeBlockMap = new LinkedHashMap<String, Object>();
 
-            //String assignmentKey = TKUtils.formatAssignmentKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask());
             String workAreaDesc = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), new java.sql.Date(timeBlock.getEndTimestamp().getTime())).getDescription();
 
             String cssClass = "";
@@ -80,9 +79,6 @@ public class ActionFormUtils {
             timeBlockMap.put("assignmentCss", cssClass);
             timeBlockMap.put("editable",  TkServiceLocator.getTimeBlockService().isTimeBlockEditable(timeBlock.getUserPrincipalId()));
 
-            // DateTime object in jodatime is immutable. If manipulation of a datetime obj is necessary, use MutableDateTime instead.
-            // ^^ to whoever wrote this: The point of immutable objects is to ensure consistency, if you're going to alter the object
-            //    and you start with an immutable, just create another immutable. Similar to how you would use a BigDecimal. We are not
             //    tracking any kind of 'mutating' state with this object, it's just a one off modification under a specific circumstance.
             DateTime start = timeBlock.getBeginTimeDisplay();
             DateTime end = timeBlock.getEndTimeDisplay();
