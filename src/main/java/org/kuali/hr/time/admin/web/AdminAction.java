@@ -29,13 +29,16 @@ public class AdminAction extends TkAction {
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         TKUser user = TKContext.getUser();
+        AdminActionForm adminForm = (AdminActionForm) form;
 
         if (StringUtils.equals(methodToCall, "targetEmployee") || StringUtils.equals(methodToCall, "clearBackdoor") || StringUtils.equals(methodToCall, "clearChangeUser")) {
             // Handle security validation in targetEmployee action, we may need
             // to check the document for validity, since the user may not
             // necessarily be a system administrator.
         } else {
-            if (user == null || !user.getCurrentRoles().isSystemAdmin()) {
+            if (user == null ||           		
+            		(!user.getCurrentRoles().isSystemAdmin() 
+            			&& !user.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())) ) {
                 throw new AuthorizationException("", "AdminAction", "");
             }
         }
@@ -77,7 +80,8 @@ public class AdminAction extends TkAction {
 		AdminActionForm adminForm = (AdminActionForm) form;
         TKUser tkUser = TKContext.getUser();
 
-        if (tkUser.getCurrentRoles().isSystemAdmin()) {
+        if (tkUser.getCurrentRoles().isSystemAdmin()
+        	|| tkUser.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())) {
             if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalName())) {
 
                 Person changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalName());
