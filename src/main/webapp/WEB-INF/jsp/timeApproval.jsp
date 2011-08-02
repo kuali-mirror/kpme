@@ -63,15 +63,16 @@
                     <tbody>
                     <c:set var="rowCount" value="1" />
                     <c:forEach var="approvalRow" items="${Form.approvalRows}" varStatus="row">
-                    	<c:set var="assignmentRowId" value="assignmentDetails${rowCount}"/>
-                    	<c:set var="rowCount" value="${rowCount+1}" />
+                    	
                         <tr>
                             <td>
                                 <a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${approvalRow.name}</a>
                                 <br/>${approvalRow.clockStatusMessage}
                                 <br/>
-                                <input class="button" value="Show Assignments" type="button" name="showDetailButton" id="showDetailButton"
-									onclick="javascript: showHideRow('${assignmentRowId}');" />
+                                <c:set var="assignmentRowId" value="assignmentDetails${rowCount}"/>
+                                <input class="button" value="Show Assignments" type="button" name="showDetailButton${rowCount}" id="showDetailButton${rowCount}"
+									onclick="javascript: showHideRow('${rowCount}');" />
+								<c:set var="rowCount" value="${rowCount+1}" />	
                             </td>
                             <td><a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do&returnUrl=TimeApproval.do">${approvalRow.documentId}</a>
                                 <div style="float:right;">

@@ -189,8 +189,9 @@ $(document).ready(function() {
     });
 });
 
-function showHideRow(className) {
+function showHideRow(count) {
 	var els = document.getElementsByTagName('*');
+	var className='assignmentDetails' + count;
 	
 	for (i = 0; i < els.length; i++) {
 		if(els[i].getAttribute('class') == className) {
@@ -201,7 +202,8 @@ function showHideRow(className) {
 			}
 		}
 	}
-	var ele = document.getElementById('showDetailButton');
+	var tempString = 'showDetailButton' + count;
+	var ele = document.getElementById(tempString);
 	if(ele.value=="Hide Assignments") {
 		ele.value="Show Assignments"
 	} else {
