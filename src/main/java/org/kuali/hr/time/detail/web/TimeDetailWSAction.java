@@ -110,7 +110,7 @@ public class TimeDetailWSAction extends TimesheetAction {
             if(StringUtils.equals(tdaf.getAcrossDays(), "y")) {
             	DateTime start = new DateTime(startTime);
             	DateTime end = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getEndTime()).getTime());
-            	if(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1) {
+            	if(endTemp.getDayOfYear() - startTemp.getDayOfYear() < 1) {
             		end = new DateTime(endTime);
             	}
             	DateTime groupEnd = new DateTime(endTime);
