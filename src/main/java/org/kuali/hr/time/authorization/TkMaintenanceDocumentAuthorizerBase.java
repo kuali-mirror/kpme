@@ -100,11 +100,11 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
 
     @Override
     /**
-     * TODO: Does this get called by any of our code?
+     * 
      * One Reference in KualiDocumentActionBase:366
      */
     public boolean canOpen(Document document, Person user) {
-        return false;
+    	return this.rolesIndicateGeneralReadAccess();
     }
 
     @Override

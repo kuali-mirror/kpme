@@ -41,10 +41,10 @@
             <superUserWorkgroupName>TK_SYSTEM_ADMIN</superUserWorkgroupName>
       		<blanketApproveWorkgroupName>TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
       		<defaultExceptionWorkgroupName>TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
-            <description>MP Routing Doc Type</description>
+            <description>Missed Punch Document</description>
             <label>MP Routing Doc Type</label>
             <postProcessorName>org.kuali.hr.time.workflow.postprocessor.TkMissedPunchPostProcessor</postProcessorName>
-            <docHandler>${tk_dochandlerprefix_url}</docHandler>
+            <docHandler>${TK.DocHandlerPrefix}</docHandler>
             <active>true</active>
             <routingVersion>1</routingVersion>
             <routePaths>

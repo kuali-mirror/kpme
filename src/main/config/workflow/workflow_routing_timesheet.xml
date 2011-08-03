@@ -42,7 +42,7 @@
             <description>TK Timesheet</description>
             <label>TK Timesheet</label>
             <postProcessorName>org.kuali.hr.time.workflow.postprocessor.TkPostProcessor</postProcessorName>
-            <docHandler>${tk_dochandlerprefix_url}/Timesheet.do?methodToCall=docHandler</docHandler>
+            <docHandler>${TK.DocHandlerPrefix}/Timesheet.do?methodToCall=docHandler</docHandler>
             <active>true</active>
             <routingVersion>1</routingVersion>
             <routePaths>
