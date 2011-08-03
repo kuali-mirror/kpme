@@ -3,6 +3,7 @@ package org.kuali.hr.time.timeblock.service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
@@ -123,5 +125,16 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 		}
 	  return true;
 	 }
-      
+		@Override
+		public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
+				@SuppressWarnings("rawtypes") List pkNames) {
+			List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+			List<HtmlData> overrideUrls = new ArrayList<HtmlData>();
+			for(HtmlData actionUrl : customActionUrls){
+				if(!StringUtils.equals(actionUrl.getMethodToCall(), "copy")){
+					overrideUrls.add(actionUrl);
+				}
+			}
+			return overrideUrls;
+		}
 }

@@ -1,7 +1,9 @@
 package org.kuali.hr.time.earngroup.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.util.TKContext;
@@ -19,6 +21,12 @@ public class EarnGroupLookupableHelper extends HrEffectiveDateActiveLookupableHe
 			@SuppressWarnings("rawtypes") List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
+		List<HtmlData> overrideUrls = new ArrayList<HtmlData>();
+		for(HtmlData actionUrl : customActionUrls){
+			if(!StringUtils.equals(actionUrl.getMethodToCall(), "copy")){
+				overrideUrls.add(actionUrl);
+			}
+		}
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
 			EarnGroup earnGroupObj = (EarnGroup) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
@@ -38,10 +46,10 @@ public class EarnGroupLookupableHelper extends HrEffectiveDateActiveLookupableHe
 							+ earnGroup + "&tkEarnGroupId=\">view</a>";
 				}
 			};
-			customActionUrls.add(htmlData);
-		} else if (customActionUrls.size() != 0) {
-			customActionUrls.remove(0);
+			overrideUrls.add(htmlData);
+		} else if (overrideUrls.size() != 0) {
+			overrideUrls.remove(0);
 		}
-		return customActionUrls;
+		return overrideUrls;
 	}
 }

@@ -1,7 +1,9 @@
 package org.kuali.hr.time.clocklog.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -19,6 +21,12 @@ public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
+		List<HtmlData> overrideUrls = new ArrayList<HtmlData>();
+		for(HtmlData actionUrl : customActionUrls){
+			if(!StringUtils.equals(actionUrl.getMethodToCall(), "copy")){
+				overrideUrls.add(actionUrl);
+			}
+		}
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
 			ClockLog clockLog = (ClockLog) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
@@ -33,10 +41,10 @@ public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
 							+ tkClockLogId + "\">view</a>";
 				}
 			};
-			customActionUrls.add(htmlData);
-		} else if (customActionUrls.size() != 0) {
-			customActionUrls.remove(0);
+			overrideUrls.add(htmlData);
+		} else if (overrideUrls.size() != 0) {
+			overrideUrls.remove(0);
 		}
-		return customActionUrls;
+		return overrideUrls;
 	}
 }

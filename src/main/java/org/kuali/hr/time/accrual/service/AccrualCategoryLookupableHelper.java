@@ -29,6 +29,13 @@ public class AccrualCategoryLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
+			List<HtmlData> overrideUrls = new ArrayList<HtmlData>();
+			for(HtmlData actionUrl : customActionUrls){
+				if(!StringUtils.equals(actionUrl.getMethodToCall(), "copy")){
+					overrideUrls.add(actionUrl);
+				}
+			}
+
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
 			AccrualCategory accrualCategory = (AccrualCategory) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
@@ -44,11 +51,11 @@ public class AccrualCategoryLookupableHelper extends
 							+ laAccrualCategoryId + "\">view</a>";
 				}
 			};
-			customActionUrls.add(htmlData);
-		} else if (customActionUrls.size() != 0) {
-			customActionUrls.remove(0);
+			overrideUrls.add(htmlData);
+		} else if (overrideUrls.size() != 0) {
+			overrideUrls.remove(0);
 		}
-		return customActionUrls;
+		return overrideUrls;
 	}
 
 	@Override

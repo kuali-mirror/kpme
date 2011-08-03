@@ -1,7 +1,9 @@
 package org.kuali.hr.time.paycalendar.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -19,6 +21,12 @@ public class PayCalendarEntriesLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
+		List<HtmlData> overrideUrls = new ArrayList<HtmlData>();
+		for(HtmlData actionUrl : customActionUrls){
+			if(!StringUtils.equals(actionUrl.getMethodToCall(), "copy")){
+				overrideUrls.add(actionUrl);
+			}
+		}
 		PayCalendarEntries payCalendarEntries = (PayCalendarEntries) businessObject;
 		final String className = this.getBusinessObjectClass().getName();
 		final Long payCalendarEntriesId = payCalendarEntries.getPayCalendarEntriesId();
@@ -31,7 +39,7 @@ public class PayCalendarEntriesLookupableHelper extends
 						+ "&calendarGroup=\">view</a>";
 			}
 		};
-		customActionUrls.add(htmlData);
-		return customActionUrls;
+		overrideUrls.add(htmlData);
+		return overrideUrls;
 	}
 }

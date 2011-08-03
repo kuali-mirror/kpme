@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupableHelperServiceImpl{
@@ -20,6 +21,7 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<? extends BusinessObject> getSearchResults(
 			Map<String, String> fieldValues) {
@@ -50,7 +52,6 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 			fieldValues.put("active", "");
 		}
 		
-		@SuppressWarnings("unchecked")
 		List<HrBusinessObject> hrObjList = (List<HrBusinessObject>)super.getSearchResults(fieldValues);
 		//Create a principalId+jobNumber map as this is the unique key for results
 		Map<String,List<HrBusinessObject>> hrBusinessMap = new HashMap<String,List<HrBusinessObject>>();
@@ -182,5 +183,20 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 		}
 		
 	}
+	@Override
+	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
+			@SuppressWarnings("rawtypes") List pkNames) {
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+		List<HtmlData> overrideUrls = new ArrayList<HtmlData>();
+		for(HtmlData actionUrl : customActionUrls){
+			if(!StringUtils.equals(actionUrl.getMethodToCall(), "copy")){
+				overrideUrls.add(actionUrl);
+			}
+		}
+		return overrideUrls;
+	}
+	
+	
+	
  
 }
