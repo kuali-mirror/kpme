@@ -7,11 +7,8 @@
 <script type="text/javascript" src="js/timeparse.js"></script>
 <script type="text/javascript" src="js/jquery.countdown.js"></script>
 <script type="text/javascript" src="js/jquery.tools.tooltip.min.js"></script>
-<script type="text/javascript" src="js/fullcalendar-1.4.7.js"></script>
 <script type="text/javascript" src="js/tk.js"></script>
 <script type="text/javascript" src="js/tk.calendar.js"></script>
 <script type="text/javascript" src="js/approval.js"></script>
 <script type="text/javascript" src="js/date.js"></script>
-<!-- <script type="text/javascript" src="js/fullcalendar-1.4.7-min.js"></script> -->
-
 <%-- End of javascript --%>

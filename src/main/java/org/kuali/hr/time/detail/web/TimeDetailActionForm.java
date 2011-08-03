@@ -9,6 +9,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -95,5 +96,16 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
     public void setTimeBlockString(String timeBlockString) {
         this.timeBlockString = timeBlockString;
+    }
+
+    // Stopgap Measure - remove this
+    public String getBeginPeriodDTNoTZ() {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy");
+        return sdf.format(this.getBeginPeriodDateTime());
+    }
+
+    public String getEndPeriodDTNoTZ() {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy");
+        return sdf.format(this.getEndPeriodDateTime());
     }
 }

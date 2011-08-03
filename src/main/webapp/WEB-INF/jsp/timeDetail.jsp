@@ -1,10 +1,11 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 <c:set var="Form" value="${TimeDetailActionForm}" scope="request"/>
 
+
 <tk:tkHeader tabId="timeDetail">
     <div style="clear:both;" class="">
-        <html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDate"/>
-        <html:hidden property="endPeriodDateTime" value="${Form.endPeriodDateTime}" styleId="endPeriodDate"/>
+        <html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDTNoTZ}" styleId="beginPeriodDate"/>
+        <html:hidden property="endPeriodDateTime" value="${Form.endPeriodDTNoTZ}" styleId="endPeriodDate"/>
         <html:hidden property="isVirtualWorkDay" value="${Form.isVirtualWorkDay}" styleId="isVirtualWorkDay"/>
         <html:hidden property="serverTimezone" value="${Form.serverTimezone}" styleId="serverTimezone"/>
         <html:hidden property="userTimezone" value="${Form.userTimezone}" styleId="userTimezone"/>
