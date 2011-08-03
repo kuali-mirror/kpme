@@ -47,11 +47,6 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
         } else {
             tsdh = documentHeaderDao.getNextDocumentHeader(principalId, currentTimesheet.getDocumentHeader().getPayEndDate());
         }
-        // TODO: need to figure out how to handle the situation when there is no previous/next timesheet document header
-        if (tsdh == null) {
-            throw new RuntimeException("There is no " + prevOrNext + " timesheet");
-        }
-
         return tsdh;
     }
 
