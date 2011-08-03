@@ -34,17 +34,6 @@ public class UserServiceImpl implements UserService {
         tkUser.setBackdoorPerson(backdoor);
         tkUser.setTargetPerson(target);
 
-        tkUser.setActualUserPrincipalCalendar(TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(actual.getPrincipalId(), asOfDate));
-        tkUser.setActualUserPreferences(TkServiceLocator.getUserPreferenceService().getUserPreferences(actual.getPrincipalId()));
-
-        if (backdoor != null){
-            tkUser.setBackdoorUserPreferences(TkServiceLocator.getUserPreferenceService().getUserPreferences(backdoor.getPrincipalId()));
-            tkUser.setBackdoorUserPrincipalCalendar(TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(backdoor.getPrincipalId(), asOfDate));
-        }
-        if (target != null) {
-            tkUser.setTargetUserPreferences(TkServiceLocator.getUserPreferenceService().getUserPreferences(target.getPrincipalId()));
-            tkUser.setTargetUserPrincipalCalendar(TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(target.getPrincipalId(), asOfDate));
-        }
         loadRoles(tkUser);
 
         return tkUser;

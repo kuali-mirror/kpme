@@ -45,10 +45,6 @@ public class TKUser {
     private UserPreferences backdoorUserPreferences;
     private UserPreferences targetUserPreferences;
 
-    private PrincipalCalendar actualUserPrincipalCalendar = null;
-    private PrincipalCalendar backdoorUserPrincipalCalendar = null;
-    private PrincipalCalendar targetUserPrincipalCalendar = null;
-
 	public Person getActualPerson() {
 		return actualPerson;
 	}
@@ -241,31 +237,5 @@ public class TKUser {
         this.targetUserPreferences = targetUserPreference;
     }
 
-	public PrincipalCalendar getActualUserPrincipalCalendar() {
-		return actualUserPrincipalCalendar;
-	}
-
-	public void setActualUserPrincipalCalendar(
-			PrincipalCalendar actualUserPrincipalCalendar) {
-		this.actualUserPrincipalCalendar = actualUserPrincipalCalendar;
-	}
-
-	public PrincipalCalendar getBackdoorUserPrincipalCalendar() {
-		return backdoorUserPrincipalCalendar;
-	}
-
-	public void setBackdoorUserPrincipalCalendar(
-			PrincipalCalendar backdoorUserPrincipalCalendar) {
-		this.backdoorUserPrincipalCalendar = backdoorUserPrincipalCalendar;
-	}
-
-	public PrincipalCalendar getTargetUserPrincipalCalendar() {
-		return targetUserPrincipalCalendar;
-	}
-
-	public void setTargetUserPrincipalCalendar(
-			PrincipalCalendar targetUserPrincipalCalendar) {
-		this.targetUserPrincipalCalendar = targetUserPrincipalCalendar;
-	}
 
 }
