@@ -1,5 +1,12 @@
 package org.kuali.hr.time.detail.web;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -12,18 +19,13 @@ import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TimeDetailWSAction extends TimesheetAction {
 
@@ -50,7 +52,47 @@ public class TimeDetailWSAction extends TimesheetAction {
 
         TimeDetailActionFormBase tdaf = (TimeDetailActionFormBase) form;
         JSONArray errorMsgList = new JSONArray();
+        
+        if(tdaf.getStartDate()==null){
+            errorMsgList.add("The start date is blank.");
+            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+            return mapping.findForward("ws");
+        }
 
+        if(tdaf.getEndDate()==null){
+            errorMsgList.add("The end date is blank.");
+            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+            return mapping.findForward("ws");
+        }
+        
+        if(tdaf.getStartTime()==null){
+            errorMsgList.add("The start time is blank.");
+            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+            return mapping.findForward("ws");
+        }
+        
+        if(tdaf.getEndTime()==null){
+            errorMsgList.add("The end time is blank.");
+            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+            return mapping.findForward("ws");
+        }
+        
+        Long startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime()).getTime();
+        Long endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime()).getTime();
+        
+        PayCalendarEntries payCalEntry = tdaf.getTimesheetDocument().getPayCalendarEntry();
+        Interval payInterval = new Interval(payCalEntry.getBeginPeriodDateTime().getTime(), payCalEntry.getEndPeriodDateTime().getTime());
+        if(!payInterval.contains(startTime)){
+        	errorMsgList.add("The start date/time is outside the pay period");
+            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+            return mapping.findForward("ws");
+        }
+        if(!payInterval.contains(endTime)){
+        	errorMsgList.add("The end date/time is outside the pay period");
+            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+            return mapping.findForward("ws");
+        }
+        
         //------------------------
         // validate the hour field
         //------------------------
@@ -68,8 +110,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         // 2. check the time format - timeparse.js
         // 3. only allows decimals to be entered in the hour field
         //------------------------
-        Long startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime()).getTime();
-        Long endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime()).getTime();
+
 
         // this is for the output of the error message
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss z");
