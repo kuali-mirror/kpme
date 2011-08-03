@@ -27,7 +27,6 @@ $(document).ready(function() {
     });
 
     $('#nav_prev').click(function() {
-        //console.log("prev");
         window.location = 'TimeDetail.do?calNav=prev&documentId=' + docId;
     });
 
@@ -39,7 +38,6 @@ $(document).ready(function() {
     });
 
     $('#nav_next').click(function() {
-        //console.log("next");
         window.location = 'TimeDetail.do?calNav=next&documentId=' + docId;
     });
 
@@ -94,7 +92,6 @@ $(document).ready(function() {
                     }
                 } else if (action == "day") {
                     var currentDay = new Date(beginPeriodDateTimeObj);
-                    //console.log(currentDay);
                     currentDay.setDate(currentDay.getDate() + parseInt(actionVal));
 
                     $(this).openTimeEntryDialog(currentDay, currentDay);

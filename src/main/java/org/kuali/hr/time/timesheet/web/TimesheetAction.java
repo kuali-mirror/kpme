@@ -79,6 +79,14 @@ public class TimesheetAction extends TkAction {
             TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
 		    taForm.setTimesheetDocument(td);
 		    taForm.setDocumentId(td.getDocumentId());
+            TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, viewPrincipal, td.getDocumentId());
+            TimesheetDocumentHeader nextTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, viewPrincipal, td.getDocumentId());
+            if( prevTdh != null ) {
+                taForm.setPrevDocumentId(prevTdh.getDocumentId());
+            }
+            else if( nextTdh != null) {
+                taForm.setNextDocumentId(nextTdh.getDocumentId());
+            }
         } else {
             LOG.error("Null timesheet document in TimesheetAction.");
         }

@@ -9,9 +9,13 @@
         <tbody>
         <tr>
             <td>
-                <button id="nav_prev">Previous</button>
+                <c:if test="${Form.prevDocumentId ne null}">
+                    <button id="nav_prev">Previous</button>
+                </c:if>
                 <span class="header-title">${cal.calendarTitle}</span>
-                <button id="nav_next">Next</button>
+                <c:if test="${Form.nextDocumentId ne null}">
+                    <button id="nav_next">Next</button>
+                </c:if>
             </td>
         </tr>
         </tbody>

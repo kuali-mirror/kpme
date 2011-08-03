@@ -411,16 +411,6 @@ select {
 
 /* end of admin section */
 
-/* This is just a temp solution */
-
-.fran td, .frank td {
-    background-color: #EEEEEE;
-}
-
-.fran-main td, .frank-main td {
-    font-weight: bold;
-}
-
 .msg-excol {
     width: 95%;
     margin-top: 10px;

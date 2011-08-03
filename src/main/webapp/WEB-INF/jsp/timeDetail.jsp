@@ -11,6 +11,8 @@
         <html:hidden property="userTimezone" value="${Form.userTimezone}" styleId="userTimezone"/>
         <html:hidden property="calNav" value="${Form.calNav}" styleId="calNav"/>
         <html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
+        <html:hidden property="prevDocumentId" value="${Form.prevDocumentId}" styleId="prevDocumentId"/>
+        <html:hidden property="nextDocumentId" value="${Form.nextDocumentId}" styleId="nextDocumentId"/>
         <html:hidden property="warningJson" value="${Form.warningJason}" styleId="warningJson"/>
 
             <%--This is for visually impaired users --%>
