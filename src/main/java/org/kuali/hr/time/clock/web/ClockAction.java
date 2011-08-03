@@ -144,18 +144,27 @@ public class ClockAction extends TimesheetAction {
     	    TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, TKUtils.getCurrentDate());
 
     	    if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
-
+    	    	ClockLog lastLog = null;
     	    	Timestamp lastClockTimestamp = null;
+    	    	Long beginClockLogId = null;
+    	    	Long endClockLogId = null;
+    	    	
     	    	if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
-    	    		lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId(), TkConstants.CLOCK_IN).getClockTimestamp();
+    	    		lastLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId(), TkConstants.CLOCK_IN);
+    	    	} else if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT)) {
+    	    		lastLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId());
     	    	}
-    	    	else if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT)) {
-    	    		lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId()).getClockTimestamp();
+    	    	if(lastLog != null) {
+    	    		lastClockTimestamp= lastLog.getClockTimestamp();
+    	    		beginClockLogId = lastLog.getTkClockLogId();
+    	    	} else {
+    	    		caf.setErrorMessage("No Clock action found for " + TKContext.getUser().getTargetPrincipalId());
+        			return mapping.findForward("basic");
     	    	}
-
     	    	//Save current clock log to get id for timeblock building
         	    TkServiceLocator.getClockLogService().saveClockLog(clockLog);
         	    caf.setClockLog(clockLog);
+        	    endClockLogId = clockLog.getTkClockLogId();
 
     			long beginTime = lastClockTimestamp.getTime();
     			Timestamp beginTimestamp = new Timestamp(beginTime);
@@ -174,7 +183,12 @@ public class ClockAction extends TimesheetAction {
                 }
 
                 // Add TimeBlocks after we store our reference object!
-                newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,earnCode, caf.getTimesheetDocument(),beginTimestamp, endTimestamp,BigDecimal.ZERO, BigDecimal.ZERO, true));
+                List<TimeBlock> aList = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,earnCode, caf.getTimesheetDocument(),beginTimestamp, endTimestamp,BigDecimal.ZERO, BigDecimal.ZERO, true);
+                for(TimeBlock tb: aList){
+                	tb.setClockLogBeginId(beginClockLogId);
+                	tb.setClockLogEndId(endClockLogId);
+                }
+                newTimeBlocks.addAll(aList);
 
     			//reset time hour details
     			TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTimeBlocks);

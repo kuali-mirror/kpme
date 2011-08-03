@@ -1,6 +1,8 @@
 package org.kuali.hr.time.util;
 
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -31,4 +33,21 @@ public class TKUtilsTest extends Assert {
 
 	}
 
+	@Test
+	public void testgetHoursBetween() throws Exception {
+		Timestamp beginTime = new Timestamp((new DateTime(2010, 10, 16, 12, 3, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		Timestamp endTime = new Timestamp((new DateTime(2010, 10, 17, 12, 3, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		BigDecimal hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
+		assertEquals("Wrong hours", 24, hours.intValue());
+		
+		endTime = new Timestamp((new DateTime(2010, 10, 16, 18, 3, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
+		assertEquals("Wrong hours", 6, hours.intValue());
+		
+		endTime = new Timestamp((new DateTime(2010, 10, 16, 18, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
+		assertEquals("Wrong hours", 5, hours.intValue());
+
+	}
+	
 }

@@ -84,31 +84,35 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         Interval firstDay = null;
         List<Interval> dayIntervals = TKUtils.getDaySpanForPayCalendarEntry(timesheetDocument.getPayCalendarEntry());
         List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
+        Timestamp beginTemp = beginTimestamp;
+        
         for (Interval dayInt : dayIntervals) {
-            //on second day of span so safe to assume doesnt go furthur than this
+        	// the time period spans more than one day
             if (firstDay != null) {
-            	if((dayInt.getStartMillis() - endTimestamp.getTime()) != 0){
+            	if(!dayInt.contains(endTimestamp.getTime())){
+            		beginTemp = new Timestamp(dayInt.getStartMillis());
+            	} else if((dayInt.getStartMillis() - endTimestamp.getTime()) != 0){
             		TimeBlock tb = createTimeBlock(timesheetDocument, new Timestamp(dayInt.getStartMillis()), endTimestamp, assignment, earnCode, hours, amount, isClockLogCreated);
             		lstTimeBlocks.add(tb);
             		break;
             	}
             }
-            if (dayInt.contains(beginTimestamp.getTime())) {
+            if (dayInt.contains(beginTemp.getTime())) {
                 firstDay = dayInt;
                 // KPME-361
                 // added a condition to handle the time block which ends at 12a, e.g. a 10p-12a timeblock
                 // this is the same fix as TkTimeBlockAggregate
                 if (dayInt.contains(endTimestamp.getTime()) || (endTimestamp.getTime() == dayInt.getEnd().getMillis())) {
                     //create one timeblock if contained in one day interval
-                    TimeBlock tb = createTimeBlock(timesheetDocument, beginTimestamp, endTimestamp, assignment, earnCode, hours, amount, isClockLogCreated);
-                    tb.setBeginTimestamp(beginTimestamp);
+                	TimeBlock tb = createTimeBlock(timesheetDocument, beginTemp, endTimestamp, assignment, earnCode, hours, amount, isClockLogCreated);
+                    tb.setBeginTimestamp(beginTemp);
                     tb.setEndTimestamp(endTimestamp);
                     lstTimeBlocks.add(tb);
                     break;
                 } else {
                     // create a timeblock that wraps the 24 hr day
-                    TimeBlock tb = createTimeBlock(timesheetDocument, beginTimestamp, new Timestamp(dayInt.getEndMillis()), assignment, earnCode, hours, amount, isClockLogCreated);
-                    tb.setBeginTimestamp(beginTimestamp);
+                	TimeBlock tb = createTimeBlock(timesheetDocument, beginTemp, new Timestamp(dayInt.getEndMillis()), assignment, earnCode, hours, amount, isClockLogCreated);
+                    tb.setBeginTimestamp(beginTemp);
                     tb.setEndTimestamp(new Timestamp(firstDay.getEndMillis()));
                     lstTimeBlocks.add(tb);
                 }

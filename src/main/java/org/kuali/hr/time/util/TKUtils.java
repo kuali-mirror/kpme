@@ -74,7 +74,12 @@ public class TKUtils {
 
 	public static BigDecimal getHoursBetween(long start, long end) {
 		long diff = end - start;
-		return new BigDecimal((diff / 3600000.0) % 24).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
+		BigDecimal hrsReminder = new BigDecimal((diff/3600000.0) %24);
+		// if the hours is exact duplicate of 24 hours
+		if(hrsReminder.compareTo(BigDecimal.ZERO) == 0 && diff > 0) {
+			return new BigDecimal(diff / 3600000.0).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
+		}
+		return hrsReminder.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
 	}
 
 
