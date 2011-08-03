@@ -112,6 +112,19 @@ public class TimesheetActionForm extends TkForm {
 		this.documentId = documentId;
 	}
 
+    public String getPrevDocumentId() {
+        return prevDocumentId;
+    }
 
+    public void setPrevDocumentId(String prevDocumentId) {
+        this.prevDocumentId = prevDocumentId;
+    }
 
+    public String getNextDocumentId() {
+        return nextDocumentId;
+    }
+
+    public void setNextDocumentId(String nextDocumentId) {
+        this.nextDocumentId = nextDocumentId;
+    }
 }
