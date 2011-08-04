@@ -14,6 +14,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
+import org.joda.time.Hours;
 import org.joda.time.Interval;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
@@ -94,6 +95,25 @@ public class TimeDetailWSAction extends TimesheetAction {
             return mapping.findForward("ws");
         }
         
+        if(startTime - endTime == 0){
+        	errorMsgList.add("Start time and end time cannot be equivalent");
+            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+            return mapping.findForward("ws");
+        }
+        
+        
+        DateTime startTemp = new DateTime(startTime);
+        DateTime endTemp = new DateTime(endTime);
+        
+        if(StringUtils.equals(tdaf.getAcrossDays(),"n")){
+        	Hours hrs = Hours.hoursBetween(startTemp, endTemp);
+        	if(hrs.getHours() >= 24){
+            	errorMsgList.add("One timeblock cannot exceed 24 hours");
+                tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                return mapping.findForward("ws");        		
+        	}
+        }
+        
         //------------------------
         // validate the hour field
         //------------------------
@@ -128,8 +148,6 @@ public class TimeDetailWSAction extends TimesheetAction {
         //------------------------
         // check if the overnight shift is across days
         //------------------------
-        DateTime startTemp = new DateTime(startTime);
-        DateTime endTemp = new DateTime(endTime);
         if (StringUtils.equals(tdaf.getAcrossDays(), "y") && tdaf.getHours() == null && tdaf.getAmount() == null) {
             //Interval timeInterval = new Interval(startTime, endTime);
             if (startTemp.getHourOfDay() >= endTemp.getHourOfDay()
