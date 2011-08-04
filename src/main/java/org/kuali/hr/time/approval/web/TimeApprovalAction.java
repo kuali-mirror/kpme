@@ -1,18 +1,5 @@
 package org.kuali.hr.time.approval.web;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -29,6 +16,12 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.exception.AuthorizationException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.*;
+
 public class TimeApprovalAction extends TkAction {
 
     @Override
@@ -43,7 +36,7 @@ public class TimeApprovalAction extends TkAction {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward fwd = super.execute(mapping, form, request, response);
+        //ActionForward fwd = super.execute(mapping, form, request, response);
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         TKUser user = TKContext.getUser();
         Date currentDate;
@@ -87,7 +80,7 @@ public class TimeApprovalAction extends TkAction {
         SortedSet<String> calGroups = new TreeSet<String>(currentPayCalendarEntries.keySet());
 
         if(calGroups.isEmpty()){
-        	return fwd;
+        	return super.execute(mapping, form, request, response);
         }
         // Check pay Calendar Group
         if (StringUtils.isEmpty(taaf.getSelectedPayCalendarGroup())) {
@@ -109,7 +102,7 @@ public class TimeApprovalAction extends TkAction {
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
         taaf.setApprovalRows(getApprovalRows(taaf));
 
-        return fwd;
+        return super.execute(mapping, form, request, response);
     }
 
     public ActionForward selectNewPayCalendarGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
