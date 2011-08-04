@@ -227,12 +227,12 @@ $(document).ready(function() {
 
             if (validFlag) {
                 var dateString = beginDate + ' ' + beginTime;
-                var beginTimeTemp = $.fullCalendar.parseDate(dateString);
+                var beginTimeTemp = new Date(dateString);
                 var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes();
                 beginTimeCol += bTimeFormated + valueSeperator;
 
                 dateString = endDate + ' ' + endTime;
-                var endTimeTemp = $.fullCalendar.parseDate(dateString);
+                var endTimeTemp = new Date(dateString);
                 var eTimeFormated = endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes();
                 endTimeCol += eTimeFormated + valueSeperator;
 
@@ -419,8 +419,8 @@ function addTimeBlockRow(form, tempArr) {
     el.name = idString;
     el.id = idString;
     el.size = 10;
-    var beginDate = $.fullCalendar.parseDate(form.beginTimestamp.value);
-    var formatedDate = $.fullCalendar.formatDate(beginDate, "MM/dd/yyyy");
+    var beginDate = new Date(form.beginTimestamp.value);
+    var formatedDate = beginDate.toString("MM/dd/yyyy");
     el.value = formatedDate;
     cellBeginDate.appendChild(el);
 
@@ -432,7 +432,7 @@ function addTimeBlockRow(form, tempArr) {
     el.name = idString;
     el.id = idString;
     el.size = 10;
-    var beginTime = $.fullCalendar.formatDate(beginDate, "hh:mm TT");
+    var beginTime = beginDate.toString("hh:mm tt");
     el.value = beginTime;
     cellBeginTime.appendChild(el);
     var timeChangeId = '#' + idString;
@@ -458,8 +458,8 @@ function addTimeBlockRow(form, tempArr) {
     el.name = idString;
     el.id = idString;
     el.size = 10;
-    var endDate = $.fullCalendar.parseDate(form.endTimestamp.value);
-    var formatedDate = $.fullCalendar.formatDate(endDate, "MM/dd/yyyy");
+    var endDate = new Date(form.endTimestamp.value);
+    var formatedDate = endDate.toString("MM/dd/yyyy");
     el.value = formatedDate;
     cellEndDate.appendChild(el);
     datePickerId += ', #' + idString;
@@ -470,7 +470,7 @@ function addTimeBlockRow(form, tempArr) {
     el.name = idString;
     el.id = idString;
     el.size = 10;
-    var endTime = $.fullCalendar.formatDate(endDate, "hh:mm TT");
+    var endTime = endDate.toString("hh:mm tt");
     el.value = endTime;
     cellEndTime.appendChild(el);
     timeChangeId += ', #' + idString;
@@ -556,11 +556,11 @@ function recalculateHrs(itr) {
 
     if (validFlag) {
         var dateString = beginDate + ' ' + beginTime;
-        var beginTimeTemp = $.fullCalendar.parseDate(dateString);
+        var beginTimeTemp = new Date(dateString);
         var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes();
 
         dateString = endDate + ' ' + endTime;
-        var endTimeTemp = $.fullCalendar.parseDate(dateString);
+        var endTimeTemp = new Date(dateString);
         var eTimeFormated = endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes();
 
         var hrsDifferent = endTimeTemp - beginTimeTemp;
