@@ -66,13 +66,14 @@
                     	
                         <tr>
                             <td>
+                                <div class="ui-state-default ui-corner-all" style="float:left;">
+                                    <span id="showDetailButton${rowCount}" class="ui-icon ui-icon-plus rowInfo" onclick="javascript: showHideRow('${rowCount}');"></span>
+                                </div>
                                 <a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${approvalRow.name}</a>
                                 <br/>${approvalRow.clockStatusMessage}
                                 <br/>
                                 <c:set var="assignmentRowId" value="assignmentDetails${rowCount}"/>
-                                <input class="button" value="Show Assignments" type="button" name="showDetailButton${rowCount}" id="showDetailButton${rowCount}"
-									onclick="javascript: showHideRow('${rowCount}');" />
-								<c:set var="rowCount" value="${rowCount+1}" />	
+								<c:set var="rowCount" value="${rowCount+1}" />
                             </td>
                             <td><a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do&returnUrl=TimeApproval.do">${approvalRow.documentId}</a>
                                 <div style="float:right;">
@@ -153,7 +154,7 @@
                             <td>
                                 <tk:tkApprovalRowButtons appRow="${approvalRow}"/>
                             </td>
-                            <td align="center"><input type="checkbox" name="selectedEmpl" id="selectedEmpl"
+                            <td align="center"><input type="checkbox" ame="selectedEmpl" id="selectedEmpl"
                                                       class="selectedEmpl"/></td>
                         </tr>
 					

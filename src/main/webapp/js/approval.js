@@ -147,26 +147,12 @@ $(document).ready(function() {
 
     $(" .approvals-warning, .approvals-note").tooltip({ effect: 'slide'});
 
+    // toggle the button for the assigment details
     $('.rowInfo').click(function() {
         if ($(this).hasClass('ui-icon-plus')) {
-
             $(this).removeClass('ui-icon-plus').addClass('ui-icon-minus');
-
-            var data = $(this).html().split('||');
-            var documentId = data[0];
-            var principalId = data[1];
-            var workAreas = data[2].split(",");
-
-            var row = $(this).parent().parent().parent();
-
-            $.post('TimeApproval.do?methodToCall=getApprovalRowsByWorkArea&documentId=' + documentId +
-                    '&principalId=' + principalId +
-                    '&employeeWorkArea=' + workAreas, function(data) {
-                row.after(data);
-            });
         }
         else {
-            $('.hours-by-workArea').css("display", "none");
             $(this).removeClass('ui-icon-minus').addClass('ui-icon-plus');
         }
     });
