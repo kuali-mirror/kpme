@@ -1,5 +1,6 @@
 package org.kuali.hr.time.detail.web;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -140,6 +141,19 @@ public class TimeDetailWSAction extends TimesheetAction {
             }
 
         }
+        //------------------------
+        // check if the hours entered for hourly earn code is greater than 24 hours per day
+        //------------------------
+        if(tdaf.getHours() != null) {
+        	int dayDiff = endTemp.getDayOfYear() - startTemp.getDayOfYear() + 1;
+        	if(tdaf.getHours().compareTo(new BigDecimal(dayDiff * 24)) == 1){
+        		errorMsgList.add("Cannot enter more than 24 hours per day.");
+                tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                return mapping.findForward("ws");
+        	}
+        }
+        
+        
         //------------------------
         // check if time blocks overlap with each other. Note that the tkTimeBlockId is used to
         // determine is it's updating an existing time block or adding a new one
