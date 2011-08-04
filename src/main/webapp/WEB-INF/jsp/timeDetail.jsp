@@ -80,7 +80,7 @@
                                     <input name="beginTimeField" id="beginTimeField" type="text" size="10"/>
                                     <button style="width:20px; height:20px; vertical-align: text-top"
                                             title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530"
-                                            id="beginTimeHelp" tabindex="999">help
+                                            id="beginTimeHelp" tabindex="999" onclick="return false;">help
                                     </button>
                                     <div id="beginTimeField-error" style="color:red;"></div>
                                     <input type="hidden" id="beginTimeField-messages" title="Errors on BeginTime Field"/>
@@ -92,7 +92,7 @@
                                     <input name="endTimeField" id="endTimeField" type="text" size="10"/>
                                     <button style="width:20px; height:20px; vertical-align: text-top" id="endTimeHelp"
                                             title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530"
-                                            tabindex="999">help
+                                            tabindex="999" onclick="return false;">help
                                     </button>
                                     <div id="endTimeField-error" style="color:red;"></div>
                                     <input type="hidden" id="endTimeField-messages" title="Errors on EndTime Field"/>
