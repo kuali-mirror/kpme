@@ -1,14 +1,13 @@
 package org.kuali.hr.time.detail.web;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.calendar.TkCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -31,6 +30,7 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	private Map<String, String> assignStyleClassMap = new HashMap<String, String>();
     private String timeBlockString;
     private TkCalendar calendar;
+    private String docEditable;
 
     public TkCalendar getTkCalendar() {
         return calendar;
@@ -108,4 +108,15 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy");
         return sdf.format(this.getEndPeriodDateTime());
     }
+
+	public String getDocEditable() {
+		if(StringUtils.isEmpty(docEditable)) {
+			docEditable="false";
+		}
+		return docEditable;
+	}
+
+	public void setDocEditable(String docEditable) {
+		this.docEditable = docEditable;
+	}
 }

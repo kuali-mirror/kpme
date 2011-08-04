@@ -77,10 +77,15 @@ public class TimeDetailAction extends TimesheetAction {
         tdaf.setTkCalendar(TkCalendar.getCalendar(aggregate));
         tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(tdaf.getTimesheetDocument(), aggregate.getFlattenedTimeBlockList()));
 
+        // set docEditable string
+        if(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL)) {
+        	 tdaf.setDocEditable("false");
+        } else {
+        	 tdaf.setDocEditable("true");
+        }
+        
         return forward;
     }
-
-
 
 
     /**

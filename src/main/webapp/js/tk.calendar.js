@@ -75,6 +75,10 @@ $(document).ready(function() {
 
     var thing = $('#tkCal').click(function(event) {
 
+		if($('#docEditable').val() == "false") {
+			return false;
+		}
+
         if (event.target.id.indexOf("_") > -1) {
             var actionA = event.target.id.split("_");
             if (actionA.length == 2) {

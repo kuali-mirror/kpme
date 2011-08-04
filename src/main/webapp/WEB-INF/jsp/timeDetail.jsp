@@ -14,7 +14,8 @@
         <html:hidden property="prevDocumentId" value="${Form.prevDocumentId}" styleId="prevDocumentId"/>
         <html:hidden property="nextDocumentId" value="${Form.nextDocumentId}" styleId="nextDocumentId"/>
         <html:hidden property="warningJson" value="${Form.warningJason}" styleId="warningJson"/>
-
+        <html:hidden property="docEditable" value="${Form.docEditable}" styleId="docEditable"/>
+        
             <%--This is for visually impaired users --%>
         <!--
         <c:forEach var="timeBlock" items="${Form.timeBlockList}" varStatus="row">
