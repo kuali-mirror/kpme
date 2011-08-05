@@ -52,7 +52,8 @@
                                             <c:set var="last" value=""/>
                                         </c:otherwise>
                                     </c:choose>
-                                    <div class="assignment0 event ${last}">
+
+                                    <div class="event ${last} ${block.assignmentClass}">
                                         <div id="block_${block.timeBlock.tkTimeBlockId}" class="event-title">
                                             <div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='event-delete' src='images/delete.png'/></div>
                                             ${block.title}

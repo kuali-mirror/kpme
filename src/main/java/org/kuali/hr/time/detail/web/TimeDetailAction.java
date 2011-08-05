@@ -71,10 +71,13 @@ public class TimeDetailAction extends TimesheetAction {
         }
         tdaf.setTimeSummary(ts);
         ActionFormUtils.validateHourLimit(tdaf);
-
+        
         // Set calendar
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, tdaf.getTimesheetDocument().getPayCalendarEntry());
-        tdaf.setTkCalendar(TkCalendar.getCalendar(aggregate));
+        TkCalendar cal = TkCalendar.getCalendar(aggregate);
+        cal.assignAssignmentStyle(aMap);
+        tdaf.setTkCalendar(cal);
+        
         tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(tdaf.getTimesheetDocument(), aggregate.getFlattenedTimeBlockList()));
 
         // set docEditable string

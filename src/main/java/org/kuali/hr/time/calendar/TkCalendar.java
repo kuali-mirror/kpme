@@ -8,6 +8,7 @@ import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TkCalendar {
 	private List<TkCalendarWeek> weeks = new ArrayList<TkCalendarWeek>();
@@ -44,7 +45,23 @@ public class TkCalendar {
 
         return tc;
     }
-
+    
+    public void assignAssignmentStyle(Map<String, String> styleMap) {
+    	for(TkCalendarWeek aWeek : this.getWeeks()) {
+    		for(TkCalendarDay aDay: aWeek.getDays()) {
+				for(TimeBlockRenderer tbr: aDay.getBlockRenderers()) {
+					String assignmentKey = tbr.getTimeBlock().getAssignmentKey();
+					if(assignmentKey != null && styleMap.containsKey(assignmentKey)) {
+		            	tbr.setAssignmentClass(styleMap.get(assignmentKey));
+		            } else {
+		            	tbr.setAssignmentClass("");
+		            }
+				}
+    		}
+    	}
+    }
+    
+    
 	public List<TkCalendarWeek> getWeeks() {
 		return weeks;
 	}

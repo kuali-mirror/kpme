@@ -16,6 +16,7 @@ import java.util.List;
 public class TimeBlockRenderer {
     private TimeBlock timeBlock;
     private List<TimeHourDetailRenderer> detailRenderers = new ArrayList<TimeHourDetailRenderer>();
+    private String assignmentClass;
 
     public TimeBlockRenderer(TimeBlock b) {
         this.timeBlock = b;
@@ -51,5 +52,13 @@ public class TimeBlockRenderer {
 
         return b.toString();
     }
+
+	public String getAssignmentClass() {
+		return assignmentClass;
+	}
+
+	public void setAssignmentClass(String assignmentClass) {
+		this.assignmentClass = assignmentClass;
+	}
 
 }
