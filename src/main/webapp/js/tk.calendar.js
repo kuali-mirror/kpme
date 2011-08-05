@@ -508,12 +508,17 @@ $.fn.deleteTimeBlock = function(tkTimeBlockId) {
 // reset the field state to the default
 $.fn.resetState = function() {
 
-    // clear the red background for fields with wrong inputs
+    // clear the red background for dropdownlist fields with wrong inputs
     // .end() is a jQuery built-in function which does:
     // "End the most recent filtering operation in the current chain and return the set of matched elements to its previous state."
     $('#timesheet-panel').find('input').end().find('select').each(function() {
         $(this).removeClass('ui-state-error');
     });
+    
+    // clear the red background for input fields with wrong inputs
+	 $('#timesheet-panel').find('input').each(function() {
+	        $(this).removeClass('ui-state-error');
+	 });
 
     // clear the error messages
     $('.error').html('');
