@@ -50,6 +50,8 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"
 					p:defaultValue="true" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode"
+					p:defaultValue="Y"/>
 			</list>
 		</property>
 	</bean>

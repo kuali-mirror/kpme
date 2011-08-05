@@ -26,6 +26,7 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     private String userPrincipalId;
     private String defaultOvertimeEarnCode;
     private String overtimeEditRole;
+    private Boolean ovtEarnCode;
     
 	private boolean history;
     
@@ -214,6 +215,16 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     public void setOvertimeEditRole(String overtimeEditRole) {
         this.overtimeEditRole = overtimeEditRole;
     }
+
+	public Boolean getOvtEarnCode() {
+		return ovtEarnCode;
+	}
+
+
+	public void setOvtEarnCode(Boolean ovtEarnCode) {
+		this.ovtEarnCode = ovtEarnCode;
+	}
+
 
 	public Long getTkDeptId() {
 		return tkDeptId;

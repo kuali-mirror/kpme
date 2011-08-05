@@ -15,6 +15,11 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 
         if (!valid) {
             this.putFieldError("regEarnCode", "earncode.notfound");
+        }else{
+        	valid = !ValidationUtils.validateEarnCode(regEarnCode, true, asOfDate);
+        	if(!valid){
+        		this.putFieldError("regEarnCode", "earncode.ovt.not.required", regEarnCode);
+        	}
         }
 
         return valid;

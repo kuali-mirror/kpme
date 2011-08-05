@@ -19,6 +19,7 @@ public class PayType extends HrBusinessObject {
 	private Long tkEarnCodeId;
     private EarnCode regEarnCodeObj;
     private String history;
+    private Boolean ovtEarnCode;
 
     public EarnCode getRegEarnCodeObj() {
         return regEarnCodeObj;
@@ -87,6 +88,14 @@ public class PayType extends HrBusinessObject {
 
 	public void setHistory(String history) {
 		this.history = history;
+	}
+
+	public Boolean getOvtEarnCode() {
+		return ovtEarnCode;
+	}
+
+	public void setOvtEarnCode(Boolean ovtEarnCode) {
+		this.ovtEarnCode = ovtEarnCode;
 	}
 
 	@Override

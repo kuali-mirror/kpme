@@ -50,6 +50,7 @@
 					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="step" />
 					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="maxHours" />
 					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="active" p:defaultValue="true"/>
+					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="ovtEarnCode" p:defaultValue="Y"/>
             	</list>
           </property>
         </bean>

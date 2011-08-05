@@ -41,6 +41,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="maxGap" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="minHours" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode" p:defaultValue="Y"/>
         		<bean parent="MaintainableFieldDefinition" p:name="earnCode" p:required="true"/>
         		<bean parent="MaintainableFieldDefinition" p:name="fromEarnGroup" p:required="true"/>				
 			</list>

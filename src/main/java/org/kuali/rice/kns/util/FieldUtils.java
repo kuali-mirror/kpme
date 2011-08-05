@@ -18,6 +18,7 @@ package org.kuali.rice.kns.util;
 import java.lang.reflect.InvocationTargetException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.core.util.ClassLoaderUtils;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.FieldRestriction;
@@ -296,7 +298,26 @@ public class FieldUtils {
 
 			if (Field.CHECKBOX.equals(fieldType) && convertForLookup) {
 				fieldType = Field.RADIO;
-				field.setFieldValidValues(IndicatorValuesFinder.INSTANCE.getKeyValues());
+				List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
+				for (KeyLabelPair keyLabelPair : IndicatorValuesFinder.INSTANCE
+						.getKeyValues()) {
+					if (StringUtils.equals(attributeName, "ovtEarnCode")
+							&& StringUtils.equals(keyLabelPair.getKey()
+									.toString(), "Y")) {
+						keyLabelPairs.add(new KeyLabelPair("Yes", keyLabelPair
+								.getLabel()));
+						continue;
+					}
+					if (StringUtils.equals(attributeName, "ovtEarnCode")
+							&& StringUtils.equals(keyLabelPair.getKey()
+									.toString(), "N")) {
+						keyLabelPairs.add(new KeyLabelPair("No", keyLabelPair
+								.getLabel()));
+						continue;
+					}
+					keyLabelPairs.add(keyLabelPair);
+				}
+				field.setFieldValidValues(keyLabelPairs);
 			}
 
 			// for button control

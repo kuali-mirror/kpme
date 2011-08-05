@@ -34,6 +34,7 @@ public class DailyOvertimeRule extends TkRule {
 	private BigDecimal minHours;
 	private String userPrincipalId;
 	private boolean history;
+	private Boolean ovtEarnCode;
 
 	private Long tkWorkAreaId;
 	private Long tkDeptId;
@@ -213,6 +214,14 @@ public class DailyOvertimeRule extends TkRule {
 
 	public void setHistory(boolean history) {
 		this.history = history;
+	}
+
+	public Boolean getOvtEarnCode() {
+		return ovtEarnCode;
+	}
+
+	public void setOvtEarnCode(Boolean ovtEarnCode) {
+		this.ovtEarnCode = ovtEarnCode;
 	}
 
 	public Long getTkWorkAreaId() {

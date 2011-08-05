@@ -42,6 +42,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="maxHours" />
 				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />				
 				<bean parent="MaintainableFieldDefinition" p:name="active" />
+				<bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode" p:defaultValue="Y"/>
 			</list>
 		</property>
 	</bean>

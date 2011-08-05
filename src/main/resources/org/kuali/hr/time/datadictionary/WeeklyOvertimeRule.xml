@@ -25,6 +25,7 @@
 				<ref bean="WeeklyOvertimeRule-userPrincipalId" />
 				<ref bean="WeeklyOvertimeRule-timestamp" />
 				<ref bean="WeeklyOvertimeRule-active" />
+				<ref bean="WeeklyOvertimeRule-ovtEarnCode" />
 			</list>
 		</property>
 		
@@ -57,6 +58,8 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="convertToEarnCode"
 								p:targetName="earnCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="ovtEarnCode" 
+								p:targetName="ovtEarnCode" />
 						</list>
 					</property>
 				</bean>				
@@ -202,7 +205,17 @@
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 	</bean>
-
+	
+	<bean id="WeeklyOvertimeRule-ovtEarnCode" parent="WeeklyOvertimeRule-ovtEarnCode-parentBean" />
+	<bean id="WeeklyOvertimeRule-ovtEarnCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="ovtEarnCode" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+		<property name="name" value="ovtEarnCode" />
+		<property name="label" value="ovtEarnCode" />
+	</bean>
 	
 	<!--  Inquiry Definitions  -->
 
