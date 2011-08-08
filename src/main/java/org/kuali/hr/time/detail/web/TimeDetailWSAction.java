@@ -1,7 +1,6 @@
 package org.kuali.hr.time.detail.web;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,53 +53,60 @@ public class TimeDetailWSAction extends TimesheetAction {
 
         TimeDetailActionFormBase tdaf = (TimeDetailActionFormBase) form;
         JSONArray errorMsgList = new JSONArray();
-        
-        if(tdaf.getStartDate()==null){
-            errorMsgList.add("The start date is blank.");
-            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-            return mapping.findForward("ws");
-        }
-
-        if(tdaf.getEndDate()==null){
-            errorMsgList.add("The end date is blank.");
-            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-            return mapping.findForward("ws");
-        }
-        
-        if(tdaf.getStartTime()==null){
-            errorMsgList.add("The start time is blank.");
-            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-            return mapping.findForward("ws");
-        }
-        
-        if(tdaf.getEndTime()==null){
-            errorMsgList.add("The end time is blank.");
-            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-            return mapping.findForward("ws");
-        }
+        PayCalendarEntries payCalEntry = tdaf.getTimesheetDocument().getPayCalendarEntry();
+        java.sql.Date asOfDate = payCalEntry.getEndPeriodDate();
         
         Long startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime()).getTime();
         Long endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime()).getTime();
         
-        PayCalendarEntries payCalEntry = tdaf.getTimesheetDocument().getPayCalendarEntry();
-        Interval payInterval = new Interval(payCalEntry.getBeginPeriodDateTime().getTime(), payCalEntry.getEndPeriodDateTime().getTime());
-        if(!payInterval.contains(startTime)){
-        	errorMsgList.add("The start date/time is outside the pay period");
-            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-            return mapping.findForward("ws");
-        }
-        if(!payInterval.contains(endTime)){
-        	errorMsgList.add("The end date/time is outside the pay period");
-            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-            return mapping.findForward("ws");
-        }
         
-        if(startTime - endTime == 0){
-        	errorMsgList.add("Start time and end time cannot be equivalent");
-            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-            return mapping.findForward("ws");
+        if(StringUtils.isNotBlank(tdaf.getSelectedEarnCode())){
+        	EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), asOfDate);
+        	if(earnCode!=null && earnCode.getRecordTime()){
+                if(tdaf.getStartDate()==null){
+                    errorMsgList.add("The start date is blank.");
+                    tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                    return mapping.findForward("ws");
+                }
+
+                if(tdaf.getEndDate()==null){
+                    errorMsgList.add("The end date is blank.");
+                    tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                    return mapping.findForward("ws");
+                }
+                
+                if(tdaf.getStartTime()==null){
+                    errorMsgList.add("The start time is blank.");
+                    tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                    return mapping.findForward("ws");
+                }
+                
+                if(tdaf.getEndTime()==null){
+                    errorMsgList.add("The end time is blank.");
+                    tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                    return mapping.findForward("ws");
+                }
+
+
+                Interval payInterval = new Interval(payCalEntry.getBeginPeriodDateTime().getTime(), payCalEntry.getEndPeriodDateTime().getTime());
+                if(!payInterval.contains(startTime)){
+                	errorMsgList.add("The start date/time is outside the pay period");
+                    tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                    return mapping.findForward("ws");
+                }
+                if(!payInterval.contains(endTime)){
+                	errorMsgList.add("The end date/time is outside the pay period");
+                    tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                    return mapping.findForward("ws");
+                }
+                
+                if(startTime - endTime == 0){
+                	errorMsgList.add("Start time and end time cannot be equivalent");
+                    tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                    return mapping.findForward("ws");
+                }
+        	}
         }
-        
         
         DateTime startTemp = new DateTime(startTime);
         DateTime endTemp = new DateTime(endTime);
@@ -113,17 +119,6 @@ public class TimeDetailWSAction extends TimesheetAction {
                 return mapping.findForward("ws");        		
         	}
         }
-        
-        //------------------------
-        // validate the hour field
-        //------------------------
-//        if (tdaf.getHours() != null && tdaf.getHours().compareTo(BigDecimal.ZERO) > 0) {
-//            if (tdaf.getHours().compareTo(new BigDecimal("0")) == 0) {
-//                errorMsgList.add("The entered hours is not valid.");
-//                tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-//                return mapping.findForward("ws");
-//            }
-//        }
 
         //------------------------
         // some of the simple validations are in the js side in order to reduce the server calls
@@ -131,10 +126,6 @@ public class TimeDetailWSAction extends TimesheetAction {
         // 2. check the time format - timeparse.js
         // 3. only allows decimals to be entered in the hour field
         //------------------------
-
-
-        // this is for the output of the error message
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss z");
 
         //------------------------
         // check if the begin / end time are valid
@@ -149,7 +140,6 @@ public class TimeDetailWSAction extends TimesheetAction {
         // check if the overnight shift is across days
         //------------------------
         if (StringUtils.equals(tdaf.getAcrossDays(), "y") && tdaf.getHours() == null && tdaf.getAmount() == null) {
-            //Interval timeInterval = new Interval(startTime, endTime);
             if (startTemp.getHourOfDay() >= endTemp.getHourOfDay()
             		&& !(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1
             				&& endTemp.getHourOfDay() == 0)) {
