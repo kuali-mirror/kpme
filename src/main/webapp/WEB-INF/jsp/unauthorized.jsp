@@ -8,7 +8,7 @@
     </c:if>
 </c:forEach>
 </head>
-<title>HRMS eDocs</title>
+<title>KPME TIME</title>
 
 <body>
 
