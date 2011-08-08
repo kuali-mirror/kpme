@@ -1,6 +1,7 @@
 package org.kuali.hr.time.detail.web;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,6 +112,8 @@ public class TimeDetailWSAction extends TimesheetAction {
         DateTime startTemp = new DateTime(startTime);
         DateTime endTemp = new DateTime(endTime);
         
+        
+        
         if(StringUtils.equals(tdaf.getAcrossDays(),"n")){
         	Hours hrs = Hours.hoursBetween(startTemp, endTemp);
         	if(hrs.getHours() >= 24){
@@ -118,6 +121,21 @@ public class TimeDetailWSAction extends TimesheetAction {
                 tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
                 return mapping.findForward("ws");        		
         	}
+        }
+        
+        //Check that assignment is valid for both days
+        AssignmentDescriptionKey assignKey = TkServiceLocator.getAssignmentService().getAssignmentDescriptionKey(tdaf.getSelectedAssignment());
+        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(assignKey, new Date(startTime));
+        if(assign == null){
+        	errorMsgList.add("Assignment is not valid for "+TKUtils.formatDate(new Date(startTime)));
+            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+            return mapping.findForward("ws");  
+        }
+        assign = TkServiceLocator.getAssignmentService().getAssignment(assignKey, new Date(endTime));
+        if(assign == null){
+        	errorMsgList.add("Assignment is not valid for "+TKUtils.formatDate(new Date(endTime)));
+            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+            return mapping.findForward("ws");
         }
 
         //------------------------
