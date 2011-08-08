@@ -84,7 +84,7 @@ public class TimesheetAction extends TkAction {
             if( prevTdh != null ) {
                 taForm.setPrevDocumentId(prevTdh.getDocumentId());
             }
-            else if( nextTdh != null) {
+            if( nextTdh != null) {
                 taForm.setNextDocumentId(nextTdh.getDocumentId());
             }
         } else {
