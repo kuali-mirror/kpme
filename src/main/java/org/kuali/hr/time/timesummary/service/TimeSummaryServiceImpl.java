@@ -1,9 +1,19 @@
 package org.kuali.hr.time.timesummary.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
@@ -19,9 +29,6 @@ import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
@@ -52,7 +59,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getPayCalendarEntry(), dayArrangements));
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getPayCalendarEntry());
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
-        List<EarnGroupSection> sections = buildSummarySections(dayArrangements, tkTimeBlockAggregate, timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime(), timesheetDocument);
+        List<EarnGroupSection> sections = buildSummarySections(dayArrangements, tkTimeBlockAggregate, timesheetDocument.getPayCalendarEntry().getEndPeriodDateTime(), timesheetDocument);
         timeSummary.setSections(sections);
 
 		return timeSummary;
@@ -215,6 +222,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			for(TimeBlock tb : timeBlocksForDay){
 				for(TimeHourDetail thd : tb.getTimeHourDetails()){
 					EarnGroup earnGroup = TkServiceLocator.getEarnGroupService().getEarnGroupForEarnCode(thd.getEarnCode(), TKUtils.getTimelessDate(asOfDate));
+					EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(thd.getEarnCode(), TKUtils.getTimelessDate(asOfDate));
 					if(earnGroup == null){
 						earnGroup = new EarnGroup();
 						earnGroup.setEarnGroup(OTHER_EARN_GROUP);
@@ -243,6 +251,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			earnGroupSection.setEarnGroup(earnGroup);
 			for(String assignmentDescr : earnGroupToAssignmentSets.get(earnGroup)){
 				AssignmentRow assignRow = new AssignmentRow();
+				
 				Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument,assignmentDescr);
 				// set assignmentkey for looking up css classes for assignmentRow
 				AssignmentDescriptionKey adk = new AssignmentDescriptionKey(assign.getJobNumber().toString(), assign.getWorkArea().toString(), assign.getTask().toString());
