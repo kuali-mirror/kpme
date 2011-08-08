@@ -3,7 +3,6 @@ package org.kuali.hr.time.detail.web;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -17,10 +16,9 @@ import java.util.*;
 public class ActionFormUtils {
 
     public static void validateHourLimit(TimeDetailActionFormBase tdaf) throws Exception {
-    	tdaf.setWarningJason("");
-        JSONArray warnMsgJson = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(tdaf.getTimesheetDocument());
-        if (!warnMsgJson.isEmpty()) {
-        	tdaf.setWarningJason(JSONValue.toJSONString(warnMsgJson));
+        List<String> warningMessages = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(tdaf.getTimesheetDocument());
+        if (!warningMessages.isEmpty()) {
+        	tdaf.setWarnings(warningMessages);
         }
     }
 

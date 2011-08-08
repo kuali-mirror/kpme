@@ -1,14 +1,6 @@
 package org.kuali.hr.time.accrual.service;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
-import org.json.simple.JSONArray;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.accrual.dao.TimeOffAccrualDao;
 import org.kuali.hr.time.cache.CacheResult;
@@ -16,6 +8,13 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 
@@ -61,8 +60,8 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public JSONArray validateAccrualHoursLimit(TimesheetDocument timesheetDocument) {
-		 JSONArray warningMessages = new JSONArray();
+	public List<String> validateAccrualHoursLimit(TimesheetDocument timesheetDocument) {
+		 List<String> warningMessages = new ArrayList<String>();
     	 String pId = "";
          if (timesheetDocument != null) {
              pId = timesheetDocument.getPrincipalId();

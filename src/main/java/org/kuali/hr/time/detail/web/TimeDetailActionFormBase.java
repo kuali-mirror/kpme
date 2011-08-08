@@ -3,6 +3,7 @@ package org.kuali.hr.time.detail.web;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Base form for both WS and Regular TimeDetail action.
@@ -11,7 +12,7 @@ public class TimeDetailActionFormBase extends TimesheetActionForm {
 
     private Long tkTimeBlockId;
     private String outputString;
-    private String warningJason;
+    private List<String> warnings;
     private String startTime;
     private String endTime;
     private String acrossDays;
@@ -92,11 +93,11 @@ public class TimeDetailActionFormBase extends TimesheetActionForm {
         this.outputString = outputString;
     }
 
-    public String getWarningJason() {
-        return warningJason;
+    public List<String> getWarnings() {
+        return warnings;
     }
 
-    public void setWarningJason(String warningJason) {
-        this.warningJason = warningJason;
+    public void setWarnings(List<String> warnings) {
+        this.warnings = warnings;
     }
 }

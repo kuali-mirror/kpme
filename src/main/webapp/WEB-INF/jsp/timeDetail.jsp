@@ -13,7 +13,7 @@
         <html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
         <html:hidden property="prevDocumentId" value="${Form.prevDocumentId}" styleId="prevDocumentId"/>
         <html:hidden property="nextDocumentId" value="${Form.nextDocumentId}" styleId="nextDocumentId"/>
-        <html:hidden property="warningJson" value="${Form.warningJason}" styleId="warningJson"/>
+        <html:hidden property="warningJson" value="${Form.warnings}" styleId="warningJson"/>
         <html:hidden property="docEditable" value="${Form.docEditable}" styleId="docEditable"/>
         
             <%--This is for visually impaired users --%>
@@ -35,7 +35,6 @@
         <%-- this is used by the javascript to fetch the time block json --%>
         <html:textarea property="timeBlockString" styleId="timeBlockString" value="${Form.timeBlockString}"/>
 
-        <div class="global-error"><!-- Error: This is a global error for the demo purpose  --></div>
         <tk:calendar cal="${Form.tkCalendar}" docId="${Form.documentId}"/>
 
         <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;">

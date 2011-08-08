@@ -21,6 +21,12 @@
         </tbody>
     </table>
 
+    <div class="global-error">
+        <c:forEach var="warning" items="${Form.warnings}">
+            ${warning} <br/>
+        </c:forEach>
+    </div>
+
     <div id="tkCalContent">
         <table class="cal-table">
             <thead>
@@ -55,21 +61,23 @@
 
                                     <div class="event ${last} ${block.assignmentClass}">
                                         <div id="block_${block.timeBlock.tkTimeBlockId}" class="event-title">
-                                            <div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='event-delete' src='images/delete.png'/></div>
-                                            ${block.title}
+                                            <div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='event-delete'
+                                                      src='images/delete.png'/></div>
+                                                ${block.title}
                                         </div>
-                                        ${block.timeRange}
+                                            ${block.timeRange}
                                         <div>
                                             <c:forEach var="thdr" items="${block.detailRenderers}">
-                                                <div id="${thdr.timeHourDetail.tkTimeHourDetailId}" class="event-content">
-                                                        <c:choose>
-                                                            <c:when test="${thdr.hours ne ''}">
-                                                                ${thdr.title} - ${thdr.hours} hours
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                ${thdr.title} - $${thdr.hours}
-                                                            </c:otherwise>
-                                                        </c:choose>
+                                                <div id="${thdr.timeHourDetail.tkTimeHourDetailId}"
+                                                     class="event-content">
+                                                    <c:choose>
+                                                        <c:when test="${thdr.hours ne ''}">
+                                                            ${thdr.title} - ${thdr.hours} hours
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            ${thdr.title} - $${thdr.hours}
+                                                        </c:otherwise>
+                                                    </c:choose>
 
                                                 </div>
                                             </c:forEach>
@@ -79,7 +87,7 @@
                                                 Amount: ${block.amount}
                                             </c:if>
                                         </div>
-                                        
+
                                     </div>
                                 </c:forEach>
                             </div>
