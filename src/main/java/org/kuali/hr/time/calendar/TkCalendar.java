@@ -148,37 +148,19 @@ public class TkCalendar {
 
         if (getBeginDateTime().getMinuteOfDay() == 0) {
             DateTime currStart = getBeginDateTime().plusDays(dayDelta);
-            b.append(currStart.toString("d")).append(getSuffix(currStart.getDayOfMonth()));
+            b.append(currStart.toString("d"));
         } else {
             DateTime currStart = getBeginDateTime().plusDays(dayDelta);
             DateTime currEnd = getBeginDateTime().plusDays(dayDelta);
 
-            b.append(currStart.toString("d")).append(getSuffix(currStart.getDayOfMonth()));
+            b.append(currStart.toString("d"));
             b.append(currStart.toString("HH:mm"));
             b.append(" - ");
-            b.append(currEnd.toString("d")).append(getSuffix(currEnd.getDayOfMonth()));
+            b.append(currEnd.toString("d"));
             b.append(currStart.toString("HH:mm"));
         }
 
         return b.toString();
-    }
-
-    private String getSuffix(int dayOfMonth) {
-        String ret;
-        String dString = dayOfMonth + "";
-
-        if (dayOfMonth > 9 && dayOfMonth < 20)
-            ret = "th";
-        else if (dString.endsWith("1"))
-            ret = "st";
-        else if (dString.endsWith("2"))
-            ret = "nd";
-        else if (dString.endsWith("3"))
-            ret = "rd";
-        else
-            ret = "th";
-
-        return ret;
     }
 
 }
