@@ -65,29 +65,25 @@
                                                       src='images/delete.png'/></div>
                                                 ${block.title}
                                         </div>
-                                            ${block.timeRange}
+                                        ${block.timeRange}
                                         <div>
-                                            <c:forEach var="thdr" items="${block.detailRenderers}">
-                                                <div id="${thdr.timeHourDetail.tkTimeHourDetailId}"
-                                                     class="event-content">
-                                                    <c:choose>
-                                                        <c:when test="${thdr.hours ne ''}">
-                                                            ${thdr.title} - ${thdr.hours} hours
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            ${thdr.title} - $${thdr.hours}
-                                                        </c:otherwise>
-                                                    </c:choose>
-
-                                                </div>
-                                            </c:forEach>
+	                                        <c:if test="${block.earnCodeType ne 'AMOUNT'}">
+	                                            <c:forEach var="thdr" items="${block.detailRenderers}">
+	                                                <div id="${thdr.timeHourDetail.tkTimeHourDetailId}" class="event-content">
+	                                                        <c:choose>
+	                                                            <c:when test="${thdr.hours ne ''}">
+	                                                                ${thdr.title} - ${thdr.hours} hours
+	                                                            </c:when>
+	                                                            <c:otherwise>
+	                                                                ${thdr.title} - $${thdr.hours}
+	                                                            </c:otherwise>
+	                                                        </c:choose>
+	
+	                                                </div>
+	                                            </c:forEach>
+	                                         </c:if>
                                         </div>
-                                        <div>
-                                            <c:if test="${block.amount ne ''}">
-                                                Amount: ${block.amount}
-                                            </c:if>
-                                        </div>
-
+                                        ${block.amount}
                                     </div>
                                 </c:forEach>
                             </div>

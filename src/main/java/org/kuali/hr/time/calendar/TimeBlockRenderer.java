@@ -52,14 +52,20 @@ public class TimeBlockRenderer {
 
         return b.toString();
     }
-    
+  
     public String getAmount() {
-    	if(timeBlock.getAmount() != null) {
-    		return timeBlock.getAmount().toString();
-    	}
-    	return ""; 
+    	if(StringUtils.equals(timeBlock.getEarnCodeType(), TkConstants.EARN_CODE_AMOUNT)) {
+    		if(timeBlock.getAmount() != null) {
+    			return "Amount: " + timeBlock.getAmount().toString();
+    		}
+	    }
+    	return "";
     }
 
+    public String getEarnCodeType() {
+    	return timeBlock.getEarnCodeType();
+    }
+ 
 	public String getAssignmentClass() {
 		return assignmentClass;
 	}
