@@ -52,6 +52,13 @@ public class TimeBlockRenderer {
 
         return b.toString();
     }
+    
+    public String getAmount() {
+    	if(timeBlock.getAmount() != null) {
+    		return timeBlock.getAmount().toString();
+    	}
+    	return ""; 
+    }
 
 	public String getAssignmentClass() {
 		return assignmentClass;

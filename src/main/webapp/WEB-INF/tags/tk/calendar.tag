@@ -74,6 +74,12 @@
                                                 </div>
                                             </c:forEach>
                                         </div>
+                                        <div>
+                                            <c:if test="${block.amount ne ''}">
+                                                Amount: ${block.amount}
+                                            </c:if>
+                                        </div>
+                                        
                                     </div>
                                 </c:forEach>
                             </div>
