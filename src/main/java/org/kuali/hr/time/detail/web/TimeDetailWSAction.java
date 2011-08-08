@@ -179,7 +179,7 @@ public class TimeDetailWSAction extends TimesheetAction {
             	DateTime groupEnd = new DateTime(endTime);
             	Long startLong = start.getMillis();
             	Long endLong = end.getMillis();
-            	while(start.isBefore(groupEnd.getMillis())) {
+            	while(start.isBefore(groupEnd.getMillis()) &&(endLong >= startLong)) {
             		Interval tempInt = new Interval(startLong, endLong);
             		dayInt.add(tempInt);
             		start = start.plusDays(1);
