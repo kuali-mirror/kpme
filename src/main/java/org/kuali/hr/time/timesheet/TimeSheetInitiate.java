@@ -2,6 +2,7 @@ package org.kuali.hr.time.timesheet;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.bo.Person;
@@ -17,10 +18,13 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 	private String principalId;
 	private Long payCalendarEntriesId;
 	private String calendarGroup;
+	private String documentId;
 	
 	private Person principal;
+	private PayCalendar payCalendarObj;
+	
 	private PayCalendarEntries payCalendarEntriesObj;
-	private java.sql.Date endPeriodDate;
+    private java.util.Date endPeriodDateTime;
 	
 	public String getPrincipalId() {
 		return principalId;
@@ -73,19 +77,7 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
     public void setCalendarGroup(String calendarGroup) {
         this.calendarGroup = calendarGroup;
     }
-    
-    public java.sql.Date getEndPeriodDate() {
-		if(endPeriodDate == null && this.getPayCalendarEntriesObj() != null){
-			if(this.getPayCalendarEntriesObj().getEndPeriodDate() != null) {
-				setEndPeriodDate(this.getPayCalendarEntriesObj().getEndPeriodDate());
-			}
-		}
-    	return endPeriodDate;
-	}
-    
-    public void setEndPeriodDate(java.sql.Date endPeriodDate) {
-        this.endPeriodDate = endPeriodDate;
-    }
+
  
 	@SuppressWarnings("unchecked")
 	@Override
@@ -95,9 +87,27 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 		toStringMap.put("principalId", principalId);
 		return toStringMap;
 	}
+	public String getDocumentId() {
+		return documentId;
+	}
 
-	public java.util.Date getEndPeriodDateTime() {
-		return this.getEndPeriodDate();
+	public void setDocumentId(String documentId) {
+		this.documentId = documentId;
+	}
+
+	public PayCalendar getPayCalendarObj() {
+		return payCalendarObj;
+	}
+
+	public void setPayCalendarObj(PayCalendar payCalendarObj) {
+		this.payCalendarObj = payCalendarObj;
+	}
+
+	public void setEndPeriodDateTime(java.util.Date endPeriodDateTime) {
+		this.endPeriodDateTime = endPeriodDateTime;
+	}
+	public java.util.Date getEndPeriodDateTime() {		
+    	return endPeriodDateTime;
 	}
 
 }

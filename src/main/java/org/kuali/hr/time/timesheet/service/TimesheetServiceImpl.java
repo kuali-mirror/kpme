@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
@@ -26,8 +25,6 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowDocument;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class TimesheetServiceImpl implements TimesheetService {
 
@@ -115,10 +112,12 @@ public class TimesheetServiceImpl implements TimesheetService {
 																beginDate, endDate);
 				for(HolidayCalendarDateEntry holiday : lstHolidays){
 					Assignment holidayAssign = TkServiceLocator.getHolidayCalendarService().getAssignmentToApplyHolidays(timesheetDocument, TKUtils.getTimelessDate(endDate));
-					BigDecimal holidayCalcHours = TkServiceLocator.getHolidayCalendarService().calculateHolidayHours(holidayAssign.getJob(), holiday.getHolidayHours());
-					TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, new Timestamp(holiday.getHolidayDate().getTime()),
-									new Timestamp(holiday.getHolidayDate().getTime()), holidayAssign, TkConstants.HOLIDAY_EARN_CODE, holidayCalcHours, BigDecimal.ZERO, false);
-					timesheetDocument.getTimeBlocks().add(timeBlock);
+					if(holidayAssign != null) {
+						BigDecimal holidayCalcHours = TkServiceLocator.getHolidayCalendarService().calculateHolidayHours(holidayAssign.getJob(), holiday.getHolidayHours());
+						TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, new Timestamp(holiday.getHolidayDate().getTime()),
+										new Timestamp(holiday.getHolidayDate().getTime()), holidayAssign, TkConstants.HOLIDAY_EARN_CODE, holidayCalcHours, BigDecimal.ZERO, false);
+						timesheetDocument.getTimeBlocks().add(timeBlock);
+					}
 				}
 
 				//If holidays are loaded will need to save them to the database
