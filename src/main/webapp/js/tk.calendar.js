@@ -244,11 +244,18 @@ $(document).ready(function() {
             // if the end time is 12:00 am, move the end date to the next day
             var endTimeValue = $('#endTimeField-messages').val().toUpperCase();
             var endDateValue = $('#date-range-end').val();
+            alert(endDateValue + " testing");
             if (endTimeValue == "0:0") {
                 var dateRangeField = endDateValue.split("/");
+                alert('dateString '+dateRangeField[1]);
+                if(dateRangeField[1].charAt(0) == '0'){
+                	dateRangeField[1] = dateRangeField[1].replace('0','');
+                	alert('dateString '+dateRangeField[1]);
+                }
                 var dateString = parseInt(dateRangeField[1]) + 1;
                 endDateValue = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
             }
+            alert(endDateValue + " testing");
             // these are for the submitted form
             $('#methodToCall').val('addTimeBlock');
             $('#startDate').val($('#date-range-begin').val());
