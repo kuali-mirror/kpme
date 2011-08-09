@@ -95,7 +95,7 @@ public class TimeDetailWSAction extends TimesheetAction {
                     tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
                     return mapping.findForward("ws");
                 }
-                if(!payInterval.contains(endTime)){
+                if(!payInterval.contains(endTime) && payCalEntry.getEndPeriodDateTime().getTime() != endTime){
                 	errorMsgList.add("The end date/time is outside the pay period");
                     tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
                     return mapping.findForward("ws");
