@@ -201,6 +201,19 @@
             <docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
             <label>RoleGroupMaintenanceDocument</label>
     </documentType>
+    
+    <documentType>
+      <name>RoleAssignDocumentType</name>
+      <parent>RiceDocument</parent>
+      <docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <label>RoleAssignDocument</label>
+    </documentType>     
+    <documentType>
+      <name>WorkAreaMaintenanceDocument</name>
+      <parent>RiceDocument</parent>
+      <docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <label>WorkAreaMaintenanceDocument</label>
+    </documentType>       
 
 	<documentType>
     <name>RoleMaintenanceDocumentType</name>

@@ -1,9 +1,18 @@
 package org.kuali.hr.time.base.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -12,13 +21,6 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class PersonInfoAction extends TkAction {
 
@@ -47,8 +49,20 @@ public class PersonInfoAction extends TkAction {
 												TKUtils.getCurrentDate());
 			workAreaToApprover.put(assign.getWorkArea(), lstApproverRoles);
 			for(TkRole role : lstApproverRoles){
-				Person approver = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
-				principalIdToPerson.put(approver.getPrincipalId(), approver);
+				if(role.getPositionNumber() != null){
+					List<Job> lstJobs = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(role.getPositionNumber(), TKUtils.getCurrentDate());
+					for(Job j : lstJobs){
+						Person approver = KIMServiceLocator.getPersonService().getPerson(j.getPrincipalId());
+						if(approver!=null){
+							principalIdToPerson.put(approver.getPrincipalId(), approver);
+						}
+					}
+				} else{
+					Person approver = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
+					if(approver!=null){
+						principalIdToPerson.put(approver.getPrincipalId(), approver);
+					}
+				}
 			}
 
 			List<TkRole> lstOrgAdminRoles = TkServiceLocator.getTkRoleService().getDepartmentRoles(assign.getWorkAreaObj().getDept(),
