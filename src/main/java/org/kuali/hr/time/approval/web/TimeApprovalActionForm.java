@@ -33,7 +33,7 @@ public class TimeApprovalActionForm extends TkForm {
     private String searchField;
     private String searchTerm;
 
-    private int rowsToShow = 5;
+    private int rowsToShow = 50;
     private int rowsInTotal;
     private String sortField;
     private boolean ascending = true;
