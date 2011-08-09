@@ -7,6 +7,7 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.roles.UserRoles;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.user.pref.UserPreferences;
 import org.kuali.rice.kim.bo.Person;
 
@@ -51,6 +52,9 @@ public class TKUser {
 
 	public void setActualPerson(Person person) {
 		this.actualPerson = person;
+        if (actualPerson != null) {
+            this.actualUserPreferences = TkServiceLocator.getUserPreferenceService().getUserPreferences(person.getPrincipalId());
+        }
 	}
 
 	public Person getBackdoorPerson() {
@@ -59,6 +63,9 @@ public class TKUser {
 
 	public void setBackdoorPerson(Person backdoorPerson) {
 		this.backdoorPerson = backdoorPerson;
+        if (backdoorPerson != null) {
+            this.backdoorUserPreferences = TkServiceLocator.getUserPreferenceService().getUserPreferences(backdoorPerson.getPrincipalId());
+        }
 	}
 
 	/**
@@ -112,6 +119,9 @@ public class TKUser {
 
 	public void setTargetPerson(Person targetPerson) {
 		this.targetPerson = targetPerson;
+        if (targetPerson != null) {
+            this.targetUserPreferences = TkServiceLocator.getUserPreferenceService().getUserPreferences(targetPerson.getPrincipalId());
+        }
 	}
 
 	public UserRoles getActualPersonRoles() {
