@@ -204,9 +204,10 @@ public class TimeApprovalAction extends TkAction {
             sortApprovalRows(rows, taaf.getSortField(), taaf.isAscending());
 
             // Create a sublist view backed by the actual list.
-            int limit = (taaf.getRowsToShow() > rows.size()) ? rows.size() : taaf.getRowsToShow();
+            //int limit = (taaf.getRowsToShow() > rows.size()) ? rows.size() : taaf.getRowsToShow();
 
-            return rows.subList(0, limit);
+            //return rows.subList(0, limit);
+            return rows;
     	}
     	return rows;
     }
