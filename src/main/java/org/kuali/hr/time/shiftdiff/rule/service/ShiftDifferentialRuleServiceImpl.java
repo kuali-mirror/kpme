@@ -480,39 +480,32 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 	@Override
 	@CacheResult
 	public List<ShiftDifferentialRule> getShiftDifferentalRules(String location, String tkSalGroup, String payGrade, String calendarGroup, Date asOfDate) {
-		List<ShiftDifferentialRule> sdrs = null;
+		List<ShiftDifferentialRule> sdrs = new ArrayList<ShiftDifferentialRule>();
 
 		// location, sal group, pay grade
-		if (sdrs == null)
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules(location, tkSalGroup, payGrade, calendarGroup, asOfDate);
+
+	    sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules(location, tkSalGroup, payGrade, calendarGroup, asOfDate));
 
 		// location, sal group, *
-		if (sdrs == null)
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules(location, tkSalGroup, "%", calendarGroup, asOfDate);
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules(location, tkSalGroup, "%", calendarGroup, asOfDate));
 
 		// location, *, pay grade
-		if (sdrs == null)
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules(location, tkSalGroup, "%", calendarGroup, asOfDate);
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules(location, "%", payGrade, calendarGroup, asOfDate));
 
 		// location, *, *
-		if (sdrs == null)
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules(location, "%", "%", calendarGroup, asOfDate);
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules(location, "%", "%", calendarGroup, asOfDate));
 
 		// *, sal group, pay grade
-		if (sdrs == null)
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules("%", tkSalGroup, payGrade, calendarGroup, asOfDate);
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules("%", tkSalGroup, payGrade, calendarGroup, asOfDate));
 
 		// *, sal group, *
-		if (sdrs == null)
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules("%", tkSalGroup, "%", calendarGroup, asOfDate);
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules("%", tkSalGroup, "%", calendarGroup, asOfDate));
 
 		// *, *, pay grade
-		if (sdrs == null)
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules("%", "%", payGrade, calendarGroup, asOfDate);
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules("%", "%", payGrade, calendarGroup, asOfDate));
 
 		// *, *, *
-		if (sdrs == null)
-			sdrs = shiftDifferentialRuleDao.findShiftDifferentialRules("%", "%", "%", calendarGroup, asOfDate);
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules("%", "%", "%", calendarGroup, asOfDate));
 
 		if (sdrs == null)
 			sdrs = Collections.emptyList();
