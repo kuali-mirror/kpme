@@ -33,7 +33,7 @@ public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainable
 				KNSServiceLocator.getBusinessObjectService().save(oldHrObj);
 			}
 		}
-		hrObj.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
+		hrObj.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		hrObj.setId(null);
 		
 		customSaveLogic(hrObj);
