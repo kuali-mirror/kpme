@@ -104,13 +104,22 @@ public class TimeApprovalAction extends TkAction {
 
         return super.execute(mapping, form, request, response);
     }
+    
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
+    	List<ApprovalTimeSummaryRow> lstApprovalRows = taaf.getApprovalRows();
+    	for(ApprovalTimeSummaryRow ar: lstApprovalRows){
+    		//call to approve each row here
+    	}
+    	return mapping.findForward("basic");
+    	
+    }
 
     public ActionForward selectNewPayCalendarGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         taaf.setPayCalendarId(null);
         
     	return mapping.findForward("basic");
-    	
     }
 
     public ActionForward getMoreDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
