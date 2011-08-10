@@ -59,6 +59,20 @@ $(document).ready(function() {
             // add the event day to an array
             selectedDays.push(ui.selected.id);
         },
+        selecting: function(event, ui) {
+            var selectingDays = [];
+            // get the index number of the selected td
+            $(".ui-selecting", this).each(function() {
+                selectingDays.push($(".cal-table td").index(this));
+            });
+
+            var beginSelecting = selectingDays[0];
+            var endSelecting = selectingDays[selectingDays.length-1];
+            // add css styles to all the days within the
+            for(var i = beginSelecting; i < endSelecting; i++) {
+                $("#day_" + i).addClass("ui-selecting");
+            }
+        },
         stop: function(event, ui) {
 
             var currentDay = new Date(beginPeriodDateTimeObj);
@@ -75,9 +89,9 @@ $(document).ready(function() {
 
     var thing = $('#tkCal').click(function(event) {
 
-		if($('#docEditable').val() == "false") {
-			return false;
-		}
+        if ($('#docEditable').val() == "false") {
+            return false;
+        }
 
         if (event.target.id.indexOf("_") > -1) {
             var actionA = event.target.id.split("_");
@@ -521,9 +535,9 @@ $.fn.resetState = function() {
     });
 
     // clear the red background for input fields with wrong inputs
-	 $('#timesheet-panel').find('input').each(function() {
-	        $(this).removeClass('ui-state-error');
-	 });
+    $('#timesheet-panel').find('input').each(function() {
+        $(this).removeClass('ui-state-error');
+    });
 
     // clear the error messages
     $('.error').html('');

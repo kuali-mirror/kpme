@@ -1,4 +1,21 @@
 $(document).ready(function() {
+
+    // select All
+    $('#selectAll').click(function() {
+        $("input[name=selectedEmpl]").each(function() {
+            // only select the rows where the docs are in route
+            if ($(this).prop("disabled") !== true) {
+                this.checked = true;
+                $(this).parent().parent().find("td").addClass("highlight");
+            }
+        });
+
+        if ($(this).prop("checked") == false) {
+            $("#approvals-table tr td").removeClass("highlight");
+            $("input[name=selectedEmpl]").attr("checked", false);
+        }
+    });
+
     // sort by the clicked column
     $('#approvals-table tr th').click(function() {
 
@@ -106,22 +123,6 @@ $(document).ready(function() {
         $(this).parent().parent().find("td").toggleClass("highlight")
     });
 
-    // select All
-    $('#selectAll').click(function() {
-        $("input[name=selectedEmpl]").each(function() {
-            // only select the rows where the docs are in route
-            if ($(this).prop("disabled") !== true) {
-                this.checked = true;
-                $(this).parent().parent().find("td").addClass("highlight");
-            }
-        });
-
-        if ($(this).prop("checked") == false) {
-            $("#approvals-table tr td").removeClass("highlight");
-            $("input[name=selectedEmpl]").attr("checked", false);
-        }
-    });
-
     // buttons for prev / next pay calendar entries
     $('.prev').button({
         icons: {
@@ -142,7 +143,7 @@ $(document).ready(function() {
     });
 
     $('.next').click(function() {
-        window.location = "TimeApproval.do?calNav=next&payCalendarId=" + $("#pcid").val() + "&payCalendarEntriesId=" + $("#pceid").val()  + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val();
+        window.location = "TimeApproval.do?calNav=next&payCalendarId=" + $("#pcid").val() + "&payCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val();
     });
 
     $(" .approvals-warning, .approvals-note").tooltip({ effect: 'slide'});
@@ -164,36 +165,27 @@ $(document).ready(function() {
 //        $(this).removeClass("ui-state-hover");
 //    });
 
-// show-hide earn codes in the approval page
-    $("#fran-button").click(function() {
-        $(".fran").toggle();
-        $("#fran-button span").toggleClass('ui-icon-minus');
-    });
-    $("#frank-button").click(function() {
-        $(".frank").toggle();
-        $("#frank-button span").toggleClass('ui-icon-minus');
-    });
 });
 
 function showHideRow(count) {
-	var els = document.getElementsByTagName('*');
-	var className='assignmentDetails' + count;
+    var els = document.getElementsByTagName('*');
+    var className = 'assignmentDetails' + count;
 
-	for (i = 0; i < els.length; i++) {
-		if(els[i].className == className) {
-			if(els[i].style.display == "table-row") {
-				els[i].style.display = "none";
-		  	} else {
-		  		els[i].style.display = "table-row";
-			}
-		}
-	}
-	var tempString = 'showDetailButton' + count;
-	var ele = document.getElementById(tempString);
-	if(ele.value=="Hide Assignments") {
-		ele.value="Show Assignments"
-	} else {
-		ele.value="Hide Assignments"
-	}
+    for (i = 0; i < els.length; i++) {
+        if (els[i].className == className) {
+            if (els[i].style.display == "table-row") {
+                els[i].style.display = "none";
+            } else {
+                els[i].style.display = "table-row";
+            }
+        }
+    }
+    var tempString = 'showDetailButton' + count;
+    var ele = document.getElementById(tempString);
+    if (ele.value == "Hide Assignments") {
+        ele.value = "Show Assignments"
+    } else {
+        ele.value = "Hide Assignments"
+    }
 } 
 

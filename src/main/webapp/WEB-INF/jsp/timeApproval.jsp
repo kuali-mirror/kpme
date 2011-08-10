@@ -154,7 +154,7 @@
                             <td>
                                 <tk:tkApprovalRowButtons appRow="${approvalRow}"/>
                             </td>
-                            <td align="center"><input type="checkbox" ame="selectedEmpl" id="selectedEmpl"
+                            <td align="center"><input type="checkbox" name="selectedEmpl" id="selectedEmpl"
                                                       class="selectedEmpl"/></td>
                         </tr>
 					
