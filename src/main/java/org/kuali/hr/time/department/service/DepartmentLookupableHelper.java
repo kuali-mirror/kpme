@@ -24,7 +24,8 @@ public class DepartmentLookupableHelper extends
 		final String className = this.getBusinessObjectClass().getName();
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().isSystemAdmin() ||
+				TKContext.getUser().isLocationAdmin()) {
 			HtmlData htmlData = new HtmlData() {
 
 				/**

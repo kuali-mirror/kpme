@@ -78,7 +78,7 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 			for (TkRole role : roles) {
 				valid |= role.isActive()
 						&& StringUtils.equals(role.getRoleName(),
-								TkConstants.ROLE_TK_LOCATION_ADMIN);
+								TkConstants.ROLE_TK_DEPT_ADMIN);
 			}
 		}
 

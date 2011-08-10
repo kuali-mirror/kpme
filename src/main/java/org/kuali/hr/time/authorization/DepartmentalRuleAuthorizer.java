@@ -28,8 +28,7 @@ public class DepartmentalRuleAuthorizer extends TkMaintenanceDocumentAuthorizerB
                 getRoles().getOrgAdminCharts().size() > 0 ||
                 getRoles().getOrgAdminDepartments().size() > 0 ||
                 getRoles().getDepartmentViewOnlyDepartments().size() > 0 ||
-                getRoles().isAnyApproverActive() ||
-                getRoles().getProcessorDepartments().size() > 0 || getRoles().getProcessorWorkAreas().size() > 0;
+                getRoles().isAnyApproverActive();
     }
 
     @Override
@@ -97,8 +96,7 @@ public class DepartmentalRuleAuthorizer extends TkMaintenanceDocumentAuthorizerB
             if (StringUtils.equals(dr.getDept(), TkConstants.WILDCARD_CHARACTER) &&
                     dr.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
                 // case 1
-                ret = roles.getApproverWorkAreas().size() > 0 || roles.getProcessorDepartments().size() > 0 ||
-                        roles.getProcessorWorkAreas().size() > 0 || roles.getOrgAdminCharts().size() > 0 ||
+                ret = roles.getApproverWorkAreas().size() > 0 || roles.getOrgAdminCharts().size() > 0 ||
                         roles.getOrgAdminDepartments().size() > 0;
             } else if (StringUtils.equals(dr.getDept(), TkConstants.WILDCARD_CHARACTER)) {
                 // case 2 *
@@ -106,13 +104,10 @@ public class DepartmentalRuleAuthorizer extends TkMaintenanceDocumentAuthorizerB
                 LOG.error("Invalid case encountered while scanning business objects: Wildcard Department & Defined workArea.");
             } else if (dr.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
                 // case 3
-                ret = roles.getProcessorDepartments().contains(dr.getDept()) ||
-                        roles.getOrgAdminDepartments().contains(dr.getDept());
+                ret = roles.getOrgAdminDepartments().contains(dr.getDept());
             } else {
                 ret = roles.getApproverWorkAreas().contains(dr.getWorkArea()) ||
-                    roles.getProcessorDepartments().contains(dr.getDept()) ||
-                    roles.getOrgAdminDepartments().contains(dr.getDept()) ||
-                    roles.getProcessorWorkAreas().contains(dr.getWorkArea());
+                    roles.getOrgAdminDepartments().contains(dr.getDept());
             }
         }
 

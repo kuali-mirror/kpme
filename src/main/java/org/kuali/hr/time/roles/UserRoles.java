@@ -67,23 +67,10 @@ public interface UserRoles {
     public Set<Long> getReviewerWorkAreas();
 
     /**
-     * Provides a Set of WorkArea names that this user is a processor for.
-     * @return a Set<Long> of workarea names.
-     */
-    public Set<Long> getProcessorWorkAreas();
-
-    /**
      * Provides a Set of Assignment ids that this user is active under.
      * @return a Set<Long> of assignment object ids.
      */
     public Set<Long> getActiveAssignmentIds();
-
-    /**
-     * Provides a Set<String> of Department names that this user is a processor
-     * for.
-     * @return a Set<String> of Department names.
-     */
-    public Set<String> getProcessorDepartments();
 
     /**
      * Provides a Set<String> of Department names that this user is a

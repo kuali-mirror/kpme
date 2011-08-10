@@ -1,11 +1,14 @@
 package org.kuali.hr.time.department;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -59,4 +62,21 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
 	public HrBusinessObject getObjectById(Long id) {
 		return TkServiceLocator.getDepartmentService().getDepartment(id);
 	}
+
+	@Override
+	public void customSaveLogic(HrBusinessObject hrObj) {
+		Department dept = (Department)hrObj;
+		List<TkRole> roles = dept.getRoles();
+		List<TkRole> rolesCopy = new ArrayList<TkRole>();
+		rolesCopy.addAll(roles);
+
+		dept.setRoles(roles);
+		for (TkRole role : roles) {
+			role.setDepartment(dept.getDept());
+			role.setUserPrincipalId(TKContext.getPrincipalId());
+		}
+		TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
+	}
+	
+	
 }

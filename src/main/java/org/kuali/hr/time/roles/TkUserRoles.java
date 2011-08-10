@@ -27,9 +27,7 @@ public class TkUserRoles implements UserRoles {
 	private Map<String, TkRole> orgAdminRolesDept = new HashMap<String,TkRole>();
     private Map<String, TkRole> orgAdminRolesChart = new HashMap<String,TkRole>();
 	private Map<Long, TkRole> approverRoles = new HashMap<Long,TkRole>();
-    private Map<Long, TkRole> reviewerRoles = new HashMap<Long,TkRole>();
-    private Map<Long, TkRole> processorRolesWorkArea = new HashMap<Long,TkRole>();
-    private Map<String, TkRole> processorRolesDept = new HashMap<String,TkRole>();
+    private Map<Long, TkRole> reviewerRoles = new HashMap<Long,TkRole>();;
     private Map<String, TkRole> deptViewOnlyRoles = new HashMap<String, TkRole>();
 	private Set<Long> activeAssignmentIds = new HashSet<Long>();
 
@@ -167,7 +165,7 @@ public class TkUserRoles implements UserRoles {
 
     @Override
     public boolean isTimesheetApprover() {
-        return this.isSystemAdmin() || this.approverRoles.size() > 0 || this.processorRolesWorkArea.size() > 0 || this.orgAdminRolesDept.size() > 0;
+        return this.isSystemAdmin() || this.approverRoles.size() > 0 || this.orgAdminRolesDept.size() > 0;
     }
 
     @Override
@@ -175,15 +173,6 @@ public class TkUserRoles implements UserRoles {
         return this.approverRoles.size() > 0;
     }
 
-    @Override
-    public Set<Long> getProcessorWorkAreas() {
-        return this.processorRolesWorkArea.keySet();
-    }
-
-    @Override
-    public Set<String> getProcessorDepartments() {
-        return this.processorRolesDept.keySet();
-    }
 
     @Override
     public boolean isApproverForTimesheet(TimesheetDocument doc) {
@@ -195,9 +184,7 @@ public class TkUserRoles implements UserRoles {
 
         List<Assignment> assignments = doc.getAssignments();
         for (Assignment assignment : assignments) {
-            if (this.processorRolesWorkArea.containsKey(assignment.getWorkArea())) {
-                return true;
-            } else if (this.approverRoles.containsKey(assignment.getWorkArea())) {
+            if (this.approverRoles.containsKey(assignment.getWorkArea())) {
                 return true;
             }
         }
@@ -231,15 +218,13 @@ public class TkUserRoles implements UserRoles {
                 && StringUtils.equals(TkConstants.ROUTE_STATUS.INITIATED, document.getDocumentHeader().getDocumentStatus()) );
 
         if (!writable) {
-            // Departmental View Only? || Reviewer || Processor || Org Admin || Approver
+            // Departmental View Only? || Reviewer || Org Admin || Approver
             // (document object iteration)
             List<Assignment> assignments = document.getAssignments();
             for (Assignment assignment : assignments) {
                 String dept = assignment.getDept();
                 Long wa = assignment.getWorkArea();
 
-                // processor (dept and wa covered)
-                writable |= this.processorRolesWorkArea.containsKey(wa);
                 writable |= this.orgAdminRolesDept.containsKey(dept);
                 writable |= this.approverRoles.containsKey(wa);
                 writable |= this.reviewerRoles.containsKey(wa);
@@ -275,15 +260,13 @@ public class TkUserRoles implements UserRoles {
         readable |= this.isGlobalViewOnly();
 
         if (!readable) {
-            // Departmental View Only? || Reviewer || Processor || Org Admin || Approver
+            // Departmental View Only? || Reviewer || Org Admin || Approver
             // (document object iteration)
             List<Assignment> assignments = document.getAssignments();
             for (Assignment assignment : assignments) {
                 String dept = assignment.getDept();
                 Long wa = assignment.getWorkArea();
 
-                // processor (dept and wa covered)
-                readable |= this.processorRolesWorkArea.containsKey(wa);
                 readable |= this.orgAdminRolesDept.containsKey(dept);
                 readable |= this.approverRoles.containsKey(wa);
                 readable |= this.reviewerRoles.containsKey(wa);
