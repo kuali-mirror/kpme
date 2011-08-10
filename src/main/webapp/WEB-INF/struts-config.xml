@@ -42,7 +42,8 @@
         <action path="/TimesheetSubmit" name="TimesheetSubmitActionForm" scope="request" input="/WEB-INF/jsp/timeDetail.jsp"
                 type="org.kuali.hr.time.detail.web.TimesheetSubmitAction" parameter="methodToCall" validate="false">
             <forward name="timesheetRedirect" path="/TimeDetail.do"/>
-        </action>
+            <forward name="approverRedirect" path="/TimeApproval.do"/>
+        </action> 
 
         <action path="/TimeDetail" name="TimeDetailActionForm" scope="request" input="/WEB-INF/jsp/timeDetail.jsp"
                 type="org.kuali.hr.time.detail.web.TimeDetailAction" parameter="methodToCall" validate="false">

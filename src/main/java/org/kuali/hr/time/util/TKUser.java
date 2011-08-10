@@ -1,14 +1,10 @@
 package org.kuali.hr.time.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.hr.job.Job;
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.user.pref.UserPreferences;
+import org.kuali.rice.kew.web.UserLoginFilter;
+import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
 
 /**
@@ -107,6 +103,12 @@ public class TKUser {
 
 	public void clearTargetUser() {
 		this.targetPerson = null;
+	}
+	
+	public void clearTargetUserFromSession(){
+		UserSession userSession = UserLoginFilter.getUserSession(TKContext.getHttpServletRequest());
+        userSession.getObjectMap().remove(TkConstants.TK_TARGET_USER_PERSON);
+        clearTargetUser();
 	}
 
     /**

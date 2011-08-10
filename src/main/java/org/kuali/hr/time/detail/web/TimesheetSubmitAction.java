@@ -31,10 +31,11 @@ public class TimesheetSubmitAction extends TkAction {
             throw new AuthorizationException(principal, "TimesheetSubmitAction", "");
         }
     }
-
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.execute(mapping, form, request, response);
+    
+    
+    
+    
+    public ActionForward approveTimesheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimesheetSubmitActionForm tsaf = (TimesheetSubmitActionForm)form;
         TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsaf.getDocumentId());
 
@@ -55,7 +56,31 @@ public class TimesheetSubmitAction extends TkAction {
         }
 
         return new ActionRedirect(mapping.findForward("timesheetRedirect"));
+
     }
+    
+    public ActionForward approveApprovalTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	TimesheetSubmitActionForm tsaf = (TimesheetSubmitActionForm)form;
+        TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsaf.getDocumentId());
 
+        // Switched to grab the target (chain, resolution: target -> backdoor -> actual) user.
+        // Approvals still using backdoor > actual
+        if (StringUtils.equals(tsaf.getAction(), TkConstants.TIMESHEET_ACTIONS.ROUTE)) {
+            if (document.getDocumentHeader().getDocumentStatus().equals("I")) {
+                TkServiceLocator.getTimesheetService().routeTimesheet(TKContext.getTargetPrincipalId(), document);
+            }
+        } else if (StringUtils.equals(tsaf.getAction(), TkConstants.TIMESHEET_ACTIONS.APPROVE)) {
+            if (document.getDocumentHeader().getDocumentStatus().equals("R")) {
+                TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), document);
+            }
+        } else if (StringUtils.equals(tsaf.getAction(), TkConstants.TIMESHEET_ACTIONS.DISAPPROVE)) {
+            if (document.getDocumentHeader().getDocumentStatus().equals("R")) {
+                TkServiceLocator.getTimesheetService().disapproveTimesheet(TKContext.getPrincipalId(), document);
+            }
+        }
+        TKContext.getUser().clearTargetUserFromSession();
+        return new ActionRedirect(mapping.findForward("approverRedirect"));
 
+    	
+    }
 }
