@@ -16,6 +16,8 @@ import java.util.Map;
 
 public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
+    private static SimpleDateFormat SDF_NO_TZ = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy");
+
     /**
      *
      */
@@ -98,15 +100,12 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
         this.timeBlockString = timeBlockString;
     }
 
-    // Stopgap Measure - remove this
     public String getBeginPeriodDTNoTZ() {
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy");
-        return sdf.format(this.getBeginPeriodDateTime());
+        return SDF_NO_TZ.format(this.getBeginPeriodDateTime());
     }
 
     public String getEndPeriodDTNoTZ() {
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy");
-        return sdf.format(this.getEndPeriodDateTime());
+        return SDF_NO_TZ.format(this.getEndPeriodDateTime());
     }
 
 	public String getDocEditable() {
@@ -119,4 +118,5 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	public void setDocEditable(String docEditable) {
 		this.docEditable = docEditable;
 	}
+
 }

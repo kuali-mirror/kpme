@@ -107,8 +107,9 @@ $(document).ready(function() {
                     var timeBlockId = parseInt(actionVal);
                     var tblocks = jQuery.parseJSON($('#timeBlockString').val());
                     var calEvent = tblocks[timeBlockId];
-                    calEvent.start = Date.parse(calEvent.start);
-                    calEvent.end = Date.parse(calEvent.end);
+                    calEvent.start = Date.parse(calEvent.startNoTz);
+                    calEvent.end = Date.parse(calEvent.endNoTz);
+
                     //console.log(calEvent.start);
 
                     $('#dialog-form').dialog('open');
@@ -246,7 +247,7 @@ $(document).ready(function() {
             var endDateValue = $('#date-range-end').val();
             if (endTimeValue == "0:0") {
                 var dateRangeField = endDateValue.split("/");
-                
+
                 if(dateRangeField[1].charAt(0) == '0'){
                 	dateRangeField[1] = dateRangeField[1].replace('0','');
                 }
@@ -518,7 +519,7 @@ $.fn.resetState = function() {
     $('#timesheet-panel').find('input').end().find('select').each(function() {
         $(this).removeClass('ui-state-error');
     });
-    
+
     // clear the red background for input fields with wrong inputs
 	 $('#timesheet-panel').find('input').each(function() {
 	        $(this).removeClass('ui-state-error');

@@ -97,8 +97,10 @@ public class ActionFormUtils {
             // EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
             timeBlockMap.put("earnCodeType", timeBlock.getEarnCodeType());
 
-            timeBlockMap.put("start", start.toDateTime().toString(ISODateTimeFormat.dateTimeNoMillis()));
-            timeBlockMap.put("end", end.toDateTime().toString(ISODateTimeFormat.dateTimeNoMillis()));
+            timeBlockMap.put("start", start.toString(ISODateTimeFormat.dateTimeNoMillis()));
+            timeBlockMap.put("end", end.toString(ISODateTimeFormat.dateTimeNoMillis()));
+            timeBlockMap.put("startNoTz", start.toString(ISODateTimeFormat.dateHourMinuteSecond()));
+            timeBlockMap.put("endNoTz", end.toString(ISODateTimeFormat.dateHourMinuteSecond()));
             timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
             timeBlockMap.put("hours", timeBlock.getHours());
             timeBlockMap.put("amount", timeBlock.getAmount());

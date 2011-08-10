@@ -1,10 +1,8 @@
 package org.kuali.hr.time.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
-import org.joda.time.Interval;
+import org.joda.time.*;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -269,15 +267,42 @@ public class TKUtils {
     	dt = dt.minusSeconds(1);
     	return new Timestamp(dt.getMillis());
     }
-   
+
     public static Date subtractOneMillisecondFromDate(java.util.Date date){
     	DateTime dt = new DateTime(date);
     	dt = dt.minusMillis(1);
     	return new Date(dt.getMillis());
     }
-    
+
     public static String formatDate(Date dt){
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
     	return sdf.format(dt);
     }
+
+    /**
+     * Method to obtain the timezone offset string for the specified date time.
+     *
+     * Examples:
+     *
+     * -0500
+     * -0800
+     *
+     * @param date
+     * @return
+     */
+    public static String getTimezoneOffset(DateTime date) {
+        StringBuilder o = new StringBuilder();
+
+        int offsetms = date.getZone().getOffset(date);
+        boolean negative = offsetms < 0;
+        if (negative) offsetms = offsetms * -1;
+
+        Period period = new Period(offsetms);
+        if (negative) o.append('-');
+        o.append(StringUtils.leftPad(period.getHours()+"", 2, '0'));
+        o.append(StringUtils.leftPad(period.getMinutes()+"", 2, '0'));
+
+        return o.toString();
+    }
+
 }
