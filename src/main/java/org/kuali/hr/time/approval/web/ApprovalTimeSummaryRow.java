@@ -127,7 +127,7 @@ public class ApprovalTimeSummaryRow {
 
         link.append("methodToCall=changeEmployee");
         link.append("&documentId=").append(this.getDocumentId());
-        link.append("&changeTargetPrincipalName=").append(this.getPrincipalId());
+        link.append("&changeTargetPrincipalId=").append(this.getPrincipalId());
 
         return link.toString();
     }

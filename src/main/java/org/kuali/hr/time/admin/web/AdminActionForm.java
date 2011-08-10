@@ -7,7 +7,7 @@ public class AdminActionForm extends TkForm {
     private static final long serialVersionUID = -4827349215638585861L;
 
     private String backdoorPrincipalName;
-    private String changeTargetPrincipalName;
+    private String changeTargetPrincipalId;
     private String deleteDocumentId;
     private String documentId;
     private String targetUrl;
@@ -45,12 +45,12 @@ public class AdminActionForm extends TkForm {
         this.backdoorPrincipalName = backdoorPrincipalName;
     }
 
-	public String getChangeTargetPrincipalName() {
-		return changeTargetPrincipalName;
+	public String getChangeTargetPrincipalId() {
+		return changeTargetPrincipalId;
 	}
 
-	public void setChangeTargetPrincipalName(String changeTargetPrincipalName) {
-		this.changeTargetPrincipalName = changeTargetPrincipalName;
+	public void setChangeTargetPrincipalId(String changeTargetPrincipalId) {
+		this.changeTargetPrincipalId = changeTargetPrincipalId;
 	}
 
 	public String getDeleteDocumentId() {

@@ -82,10 +82,9 @@ public class AdminAction extends TkAction {
 
         if (tkUser.getCurrentRoles().isSystemAdmin()
         	|| tkUser.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())) {
-            if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalName())) {
+            if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalId())) {
 
-                Person changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalName());
-
+                Person changePerson = KIMServiceLocator.getPersonService().getPerson(adminForm.getChangeTargetPrincipalId());
                 if (changePerson != null && tkUser != null) {
                     UserSession userSession = UserLoginFilter.getUserSession(request);
                     userSession.getObjectMap().put(TkConstants.TK_TARGET_USER_PERSON, changePerson);
