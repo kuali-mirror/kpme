@@ -1,6 +1,8 @@
 package org.kuali.hr.time.accrual.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.accrual.dao.TimeOffAccrualDao;
 import org.kuali.hr.time.cache.CacheResult;
@@ -8,6 +10,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -72,12 +75,25 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
          if (tbList.isEmpty()) {
              return warningMessages;
          }
+         List<String> accruals = new ArrayList<String>();
+         for (Map<String, Object> aMap : calcList) {
+    		accruals.add((String) aMap.get(ACCRUAL_CATEGORY_KEY));
+    	 }
+         List<AccrualCategory> accrualCategories = (List<AccrualCategory>) KNSServiceLocator.getBusinessObjectDao().findAllActive(AccrualCategory.class);
+         for(AccrualCategory accrualCategory : accrualCategories){
+        	 if(!accruals.contains(accrualCategory.getAccrualCategory())){
+        		Map<String, Object> accrualData = new LinkedHashMap<String, Object>();
+     			accrualData.put(ACCRUAL_CATEGORY_KEY, accrualCategory.getAccrualCategory());
+     			accrualData.put(HOURS_ACCRUED_KEY, new BigDecimal(0.00));
+     			accrualData.put(HOURS_TAKEN_KEY, new BigDecimal(0.00));
+     			calcList.add(accrualData);
+        	 }
+         }
          for (Map<String, Object> aMap : calcList) {
              String accrualCategory = (String) aMap.get(ACCRUAL_CATEGORY_KEY);
              List<TimeBlock> warningTbs = new ArrayList<TimeBlock>();
              BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList, warningTbs);
              BigDecimal balanceHrs = ((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY));
-             
              if (totalForAccrCate.compareTo(balanceHrs) == 1) {
              	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category " + accrualCategory + " has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are:<br/>";
              	for(TimeBlock tb : warningTbs) {
