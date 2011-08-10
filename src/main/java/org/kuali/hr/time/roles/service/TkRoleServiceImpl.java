@@ -1,5 +1,11 @@
 package org.kuali.hr.time.roles.service;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
@@ -7,13 +13,6 @@ import org.kuali.hr.time.roles.dao.TkRoleDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.workarea.WorkArea;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class TkRoleServiceImpl implements TkRoleService {
 
@@ -123,28 +122,7 @@ public class TkRoleServiceImpl implements TkRoleService {
         return workAreas;
     }
 
-    @Override
-    public Set<Long> getWorkAreasForProcessor(String principalId, Date asOfDate) {
-        Set<Long> workAreas = new HashSet<Long>();
 
-        List<TkRole> roles = this.getRoles(principalId, TkConstants.ROLE_TK_PROCESSOR, asOfDate);
-        for (TkRole role : roles) {
-            Long wa = role.getWorkArea();
-            String dept = role.getDepartment();
-            if (wa != null) {
-                workAreas.add(wa);
-            } else if (dept != null) {
-                List<WorkArea> was = TkServiceLocator.getWorkAreaService().getWorkAreas(dept, asOfDate);
-                for (WorkArea workArea : was) {
-                    workAreas.add(workArea.getWorkArea());
-                }
-            } else {
-                LOG.warn(TkConstants.ROLE_TK_PROCESSOR + " found without WorkArea or Department, ignoring roleId: " + role.getTkRolesId());
-            }
-        }
-
-        return workAreas;
-    }
 
     @Override
     public Set<String> getActivePrinciaplsForWorkAreas(Set<Long> workAreas, Date asOfDate) {

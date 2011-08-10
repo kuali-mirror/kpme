@@ -37,8 +37,11 @@ public class AdminAction extends TkAction {
             // necessarily be a system administrator.
         } else {
             if (user == null ||           		
-            		(!user.getCurrentRoles().isSystemAdmin() 
-            			&& !user.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())) ) {
+            		(!user.isSystemAdmin() 
+            			&& !user.isLocationAdmin()
+            			&& !user.isDepartmentAdmin()
+            			&& !user.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())
+            			) ) {
                 throw new AuthorizationException("", "AdminAction", "");
             }
         }

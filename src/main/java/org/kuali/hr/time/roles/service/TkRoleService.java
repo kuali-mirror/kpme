@@ -100,14 +100,6 @@ public interface TkRoleService {
     public Set<Long> getWorkAreasForApprover(String principalId, Date asOfDate);
 
     /**
-     * Provides a unique set of work areas that the indicated user is a processor for.
-     * @param asOfDate effective date
-     * @param principalId The principal to retrieve roles for.
-     * @return A Set of Long work area numbers.
-     */
-    public Set<Long> getWorkAreasForProcessor(String principalId, Date asOfDate);
-
-    /**
      * Provides a unique set of principal ids that have active assignments in the
      * given work areas.
      * @param workAreas A set of work area numbers.

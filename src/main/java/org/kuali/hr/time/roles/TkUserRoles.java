@@ -1,5 +1,11 @@
 package org.kuali.hr.time.roles;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.department.Department;
@@ -7,9 +13,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.workarea.WorkArea;
-
-import java.util.*;
 
 /**
  * TkUserRoles encapsulates the concept of roles for a single user and provides
@@ -124,10 +127,8 @@ public class TkUserRoles implements UserRoles {
 		for (TkRole role : roles) {
 			if (role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER)) {
 				approverRoles.put(role.getWorkArea(), role);
-			} else if (role.getRoleName().equals(TkConstants.ROLE_TK_ORG_ADMIN)) {
-                if (StringUtils.isEmpty(role.getChart())) {
-                    orgAdminRolesDept.put(role.getDepartment(), role);
-                } else {
+			} else if (role.getRoleName().equals(TkConstants.ROLE_TK_LOCATION_ADMIN)) {
+                if (!StringUtils.isEmpty(role.getChart())) {
                     orgAdminRolesChart.put(role.getChart(), role);
                     // TODO : Not sure what date makes most sense here as the effdt...
                     List<Department> ds = TkServiceLocator.getDepartmentService().getDepartments(role.getChart(), TKUtils.getCurrentDate());
@@ -139,24 +140,13 @@ public class TkUserRoles implements UserRoles {
 				systemAdmin = role;
             } else if (role.getRoleName().equals(TkConstants.ROLE_TK_DEPT_VO)) {
                 deptViewOnlyRoles.put(role.getDepartment(), role);
+            } else if (role.getRoleName().equals(TkConstants.ROLE_TK_DEPT_ADMIN)) {
+                orgAdminRolesDept.put(role.getDepartment(), role);
             } else if (role.getRoleName().equals(TkConstants.ROLE_TK_GLOBAL_VO)) {
                 globalViewOnly = role;
             } else if (role.getRoleName().equals(TkConstants.ROLE_TK_REVIEWER)) {
                 reviewerRoles.put(role.getWorkArea(), role);
-            } else if (role.getRoleName().equals(TkConstants.ROLE_TK_PROCESSOR)) {
-                if (role.getWorkArea() != null) {
-                    processorRolesWorkArea.put(role.getWorkArea(), role);
-                } else if (!StringUtils.isEmpty(role.getDepartment())) {
-                    processorRolesDept.put(role.getDepartment(), role);
-                    // Pull work areas that belong to department for transitive
-                    // role relationship
-                    // TODO : Not sure what date makes most sense here as the effdt...
-                    List<WorkArea> was = TkServiceLocator.getWorkAreaService().getWorkAreas(role.getDepartment(), TKUtils.getCurrentDate());
-                    for (WorkArea w : was) {
-                        processorRolesWorkArea.put(w.getWorkArea(), role);
-                    }
-                }
-			} else {
+            }  else {
 				throw new RuntimeException("Invalid Role."); // TODO: Maybe we want to just ignore this exception.
 			}
 		}

@@ -1,5 +1,7 @@
 package org.kuali.hr.time.util;
 
+import java.util.Set;
+
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.user.pref.UserPreferences;
@@ -178,6 +180,29 @@ public class TKUser {
 		} else {
 			return getActualPersonRoles();
 		}
+	}
+	
+	public boolean isSystemAdmin() {
+		UserRoles userRoles = getCurrentRoles();
+		return userRoles.isSystemAdmin();
+	}
+	
+	public boolean isLocationAdmin() {
+		return getLocationAdminAreas().size() > 0;
+	}
+	
+	public boolean isDepartmentAdmin() {
+		return getDepartmentAdminAreas().size() > 0;
+	}
+	
+	public Set<String> getLocationAdminAreas() {
+		UserRoles userRoles = getCurrentRoles();
+		return userRoles.getOrgAdminCharts();
+	}
+	
+	public Set<String> getDepartmentAdminAreas() {
+		UserRoles userRoles = getCurrentRoles();
+		return userRoles.getOrgAdminDepartments();
 	}
 
     /**

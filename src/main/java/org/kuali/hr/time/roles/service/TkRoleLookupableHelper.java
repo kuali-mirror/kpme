@@ -1,17 +1,17 @@
 package org.kuali.hr.time.roles.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.roles.TkRoleGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -29,7 +29,9 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().isSystemAdmin() || 
+			TKContext.getUser().isLocationAdmin() ||
+			TKContext.getUser().isDepartmentAdmin()) {
 			TkRoleGroup tkRoleGroup = (TkRoleGroup) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String principalId = tkRoleGroup.getPrincipalId();
@@ -57,11 +59,15 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 		String principalId = fieldValues.get("principalId");
 		if(principalId!=""){
 			Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
-			roleGroupList.add(getRoleGroupFromPerson(person));
-		}else{
+			if(isAuthorizedToEditUserRole(person)){
+				roleGroupList.add(getRoleGroupFromPerson(person));
+			}
+		} else{
 			List<Person> personList = KIMServiceLocator.getPersonService().findPeople(null);
 			for(Person person : personList){
-				roleGroupList.add(getRoleGroupFromPerson(person));
+				if(isAuthorizedToEditUserRole(person)){
+					roleGroupList.add(getRoleGroupFromPerson(person));
+				}
 			}
 		}
 		for(BusinessObject businessObject : roleGroupList){
@@ -72,6 +78,36 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 			}
 		}
 		return roleGroupList;
+	}
+	
+	private boolean isAuthorizedToEditUserRole(Person person){
+		boolean isAuthorized = false;
+		//System admin can do anything
+		if(TKContext.getUser().isSystemAdmin()){
+			return true;
+		}
+		
+		List<Job> lstJobs = TkServiceLocator.getJobSerivce().getJobs(person.getPrincipalId(), TKUtils.getCurrentDate());
+		Set<String> locationAdminAreas = TKContext.getUser().getLocationAdminAreas();
+		//Confirm if any job matches this users location admin roles
+		for(String location : locationAdminAreas){
+			for(Job job : lstJobs){
+				if(StringUtils.equals(location, job.getLocation())){
+					return true;
+				}
+			}
+		}
+		
+		Set<String> departmentAdminAreas = TKContext.getUser().getDepartmentAdminAreas();
+		//Confirm if any job matches this users department admin roles
+		for(String dept : departmentAdminAreas){
+			for(Job job : lstJobs){
+				if(StringUtils.equals(dept, job.getDept())){
+					return true;
+				}
+			}
+		}
+		return isAuthorized;
 	}
 	
 	private TkRoleGroup getRoleGroupFromPerson(Person person){

@@ -41,7 +41,7 @@ public class DepartmentServiceImpl implements DepartmentService {
             department.setRoles(
                     TkServiceLocator.getTkRoleService().getDepartmentRoles(
                             department.getDept(),
-                            TkConstants.ROLE_TK_ORG_ADMIN,
+                            TkConstants.ROLE_TK_LOCATION_ADMIN,
                             department.getEffectiveDate()
                     )
             );

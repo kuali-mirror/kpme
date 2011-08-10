@@ -88,10 +88,10 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
             if (role.getDepartment() != null)
                 this.putFieldError(fieldPrefix + "department", "field.unused");
             valid &= vwa;
-        } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_ORG_ADMIN)) {
+        } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_LOCATION_ADMIN)) {
             valid &= isDeptAndChartXor(role, fieldPrefix);
-        } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_PROCESSOR)) {
-            valid &= isWorkAreaAndDeptXor(role, fieldPrefix);
+        } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_DEPT_ADMIN)) {
+            valid &= isDeptAndChartXor(role, fieldPrefix);
         } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_SYS_ADMIN)) {
             // no department or work area required, error if provided?
             if (role.getDepartment() != null) {
