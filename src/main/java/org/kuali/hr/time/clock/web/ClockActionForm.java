@@ -24,6 +24,8 @@ public class ClockActionForm extends TimesheetActionForm {
     // do we still need nextClockAction?
     private String nextClockAction;
     private Timestamp lastClockTimestamp;
+    private Date lastClockTimeWithZone;
+
     private String lastClockHours;
     private ClockLog clockLog;
     private TimeBlock timeBlock;
@@ -53,7 +55,15 @@ public class ClockActionForm extends TimesheetActionForm {
  // this is for the ajax call
 	private String outputString;
 
-	public String getErrorMessage() {
+    public Date getLastClockTimeWithZone() {
+        return lastClockTimeWithZone;
+    }
+
+    public void setLastClockTimeWithZone(Date lastClockTimeWithZone) {
+        this.lastClockTimeWithZone = lastClockTimeWithZone;
+    }
+
+    public String getErrorMessage() {
 		return errorMessage;
 	}
 
@@ -272,13 +282,13 @@ public class ClockActionForm extends TimesheetActionForm {
 				 Map<String, List<TimeBlock>> tbMap = new HashMap<String, List<TimeBlock>>();
 				 Map<String, String> map2 = new HashMap<String, String>();
 				 LinkedHashMap<String, String> desMap = new LinkedHashMap<String, String>();  // for populating assignment dropdown list when click Edit button
-				 
+
 				 for(Assignment assignment : assignmentList) {
 					TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveDate());
 					if(rule.isHrsDistributionF() && rule.isClockUserFl()) {
 						aList.add(assignment.getAssignmentDescription()+ "=" + assignment.getTkAssignmentId().toString());
 						desMap.put(assignment.getTkAssignmentId().toString(), assignment.getAssignmentDescription());
-						
+
 						for(TimeBlock tb: tbList){
 							if(assignment.getWorkArea().equals(tb.getWorkArea())) {
 								List<TimeBlock> tempList = tbMap.get(assignment.getAssignmentDescription());
@@ -293,7 +303,7 @@ public class ClockActionForm extends TimesheetActionForm {
 						}
 					}
 				 }
-				 
+
 				 this.setTimeBlocksMap(tbMap);
 				 this.setDesList(desMap);
 
@@ -301,7 +311,7 @@ public class ClockActionForm extends TimesheetActionForm {
 				 for(String aString : tbMap.keySet()) {
 					 list1.add(aString);
 				 }
-				 
+
 				 //remove duplicate
 				 HashSet h = new HashSet(aList);
 				 aList.clear();

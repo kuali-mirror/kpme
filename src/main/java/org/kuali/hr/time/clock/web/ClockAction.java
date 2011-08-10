@@ -18,6 +18,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
@@ -96,7 +97,17 @@ public class ClockAction extends TimesheetAction {
 
     	    ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
     	    if (lastClockLog != null) {
-    	    	Timestamp lastClockTimestamp = TkServiceLocator.getClockLogService().getLastClockLog(principalId).getClockTimestamp();
+    	    	Timestamp lastClockTimestamp = lastClockLog.getClockTimestamp();
+                String lastClockZone = lastClockLog.getClockTimestampTimezone();
+                if (StringUtils.isEmpty(lastClockZone)) {
+                    lastClockZone = TkConstants.SYSTEM_TIME_ZONE;
+                }
+                // zone will not be null. At this point is Valid or Exception.
+                // Exception would indicate bad data stored in the system. We can wrap this, but
+                // for now, the thrown exception is probably more valuable.
+                DateTimeZone zone = DateTimeZone.forID(lastClockZone);
+                DateTime clockWithZone = new DateTime(lastClockTimestamp, zone);
+                caf.setLastClockTimeWithZone(clockWithZone.toDate());
     	    	caf.setLastClockTimestamp(lastClockTimestamp);
     	    	caf.setLastClockAction(lastClockLog.getClockAction());
     	    }
@@ -148,7 +159,7 @@ public class ClockAction extends TimesheetAction {
     	    	Timestamp lastClockTimestamp = null;
     	    	Long beginClockLogId = null;
     	    	Long endClockLogId = null;
-    	    	
+
     	    	if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
     	    		lastLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId(), TkConstants.CLOCK_IN);
     	    	} else if(StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT)) {
