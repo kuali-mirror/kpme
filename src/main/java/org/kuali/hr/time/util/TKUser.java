@@ -195,6 +195,26 @@ public class TKUser {
 		return getDepartmentAdminAreas().size() > 0;
 	}
 	
+	public boolean isGlobalViewOnly() {
+		UserRoles userRoles = getCurrentRoles();
+		return userRoles.isGlobalViewOnly();
+	}
+	
+	public boolean isDepartmentViewOnly() {
+		UserRoles userRoles = getCurrentRoles();
+		return userRoles.getDepartmentViewOnlyDepartments().size() > 0;
+	}
+	
+	public boolean isReviewer(){
+		UserRoles userRoles = getCurrentRoles();
+		return userRoles.getReviewerWorkAreas().size() > 0;
+	}
+	
+	public boolean isApprover() {
+		UserRoles userRoles = getCurrentRoles();
+		return userRoles.getApproverWorkAreas().size() > 0;
+	}
+	
 	public Set<String> getLocationAdminAreas() {
 		UserRoles userRoles = getCurrentRoles();
 		return userRoles.getOrgAdminCharts();

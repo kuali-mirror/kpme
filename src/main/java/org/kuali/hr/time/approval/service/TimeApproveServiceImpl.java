@@ -156,7 +156,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			List<ApprovalTimeSummaryRow> rows = new LinkedList<ApprovalTimeSummaryRow>();
 
 			for (Assignment assign : activeAssignments) {
-				if (!userIds.contains(assign.getPrincipalId())) {
+				PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(assign.getPrincipalId(), payEndDate);
+				//TODO remove this comparision sometiem
+				if (!userIds.contains(assign.getPrincipalId()) && StringUtils.equals(principalCalendar.getCalendarGroup(), calGroup)) {
 					userIds.add(assign.getPrincipalId());
 				}
 			}
