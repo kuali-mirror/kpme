@@ -60,9 +60,12 @@
                                     </c:choose>
 
                                     <div class="event ${last} ${block.assignmentClass}">
-                                        <div id="block_${block.timeBlock.tkTimeBlockId}" class="event-title">
-                                            <div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='event-delete'
-                                                      src='images/delete.png'/></div>
+                                        <div id="block_${block.timeBlock.tkTimeBlockId}" class="event-title-${Form.docEditable}">
+                                            <c:if test="${Form.docEditable}">
+                                            	<div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='event-delete'
+                                                      src='images/delete.png'/>
+                                                 </div>
+                                              </c:if>
                                                 ${block.title}
                                         </div>
                                         ${block.timeRange}

@@ -632,7 +632,7 @@ select {
     line-height: 1.3em;
 }
 
-.cal .event-title {
+.cal .event-title-true {
     text-decoration: underline;
     cursor: pointer;
 }
