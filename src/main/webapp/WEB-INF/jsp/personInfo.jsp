@@ -32,10 +32,9 @@
 						<p class="approver">
 							<b>Approvers : </b>
 							<ul>
-							<c:forEach var="workAreaToApprover" items="${Form.workAreaToApprover }">
+							<c:forEach var="workAreaToApprover" items="${Form.workAreaToApproverPerson }">
 								<c:forEach var="approver" items="${workAreaToApprover.value}">
-									<c:set var="person" value="${Form.principalIdToPerson[approver.principalId]}"/>
-										<li>Name: <a href="mailto:${person.emailAddress }">${person.name }</a> ; Phone Number: ${person.phoneNumber }</li>
+										<li>Name: <a href="mailto:${approver.emailAddress }">${approver.name}</a> ; Phone Number: ${approver.phoneNumber }</li>
 								</c:forEach>
 							</c:forEach>
 							</ul>

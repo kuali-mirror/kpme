@@ -42,8 +42,11 @@ public class PersonInfoAction extends TkAction {
 		Map<Long,List<Assignment>> jobNumberToListAssignments = new HashMap<Long,List<Assignment>>();
 		Map<Long,List<TkRole>> workAreaToApprover = new HashMap<Long,List<TkRole>>();
 		Map<String,List<TkRole>> deptToOrgAdmin = new HashMap<String,List<TkRole>>();
+		
 		Map<String,Person> principalIdToPerson = new HashMap<String,Person>();
 
+		Map<Long,List<Person>> workAreaToApproverPerson = new HashMap<Long, List<Person>>();
+		
 		for(Assignment assign : lstAssign){
 			List<TkRole> lstApproverRoles = TkServiceLocator.getTkRoleService().getWorkAreaRoles(assign.getWorkArea(), TkConstants.ROLE_TK_APPROVER,
 												TKUtils.getCurrentDate());
@@ -54,13 +57,13 @@ public class PersonInfoAction extends TkAction {
 					for(Job j : lstJobs){
 						Person approver = KIMServiceLocator.getPersonService().getPerson(j.getPrincipalId());
 						if(approver!=null){
-							principalIdToPerson.put(approver.getPrincipalId(), approver);
+							addApproverPersonForWorkArea(assign.getWorkArea(), approver, workAreaToApproverPerson);
 						}
 					}
 				} else{
 					Person approver = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
 					if(approver!=null){
-						principalIdToPerson.put(approver.getPrincipalId(), approver);
+						addApproverPersonForWorkArea(assign.getWorkArea(), approver, workAreaToApproverPerson);
 					}
 				}
 			}
@@ -86,6 +89,16 @@ public class PersonInfoAction extends TkAction {
 		personForm.setWorkAreaToApprover(workAreaToApprover);
 		personForm.setDeptToOrgAdmin(deptToOrgAdmin);
 		personForm.setPrincipalIdToPerson(principalIdToPerson);
+		personForm.setWorkAreaToApproverPerson(workAreaToApproverPerson);
 		return actForw;
+	}
+	
+	private void addApproverPersonForWorkArea(Long workArea, Person person, Map<Long,List<Person>> workAreaToApproverPerson){
+		List<Person> approvers = workAreaToApproverPerson.get(workArea);
+		if(approvers == null){
+			approvers = new ArrayList<Person>();
+		}
+		approvers.add(person);
+		workAreaToApproverPerson.put(workArea, approvers);
 	}
 }

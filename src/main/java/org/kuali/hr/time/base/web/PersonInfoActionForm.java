@@ -18,6 +18,7 @@ public class PersonInfoActionForm extends TkForm {
 	private Map<Long,List<TkRole>> workAreaToApprover = new HashMap<Long,List<TkRole>>();
 	private Map<String,List<TkRole>> deptToOrgAdmin = new HashMap<String,List<TkRole>>();
 	private Map<String,Person> principalIdToPerson = new HashMap<String,Person>();
+	private Map<Long,List<Person>> workAreaToApproverPerson = new HashMap<Long, List<Person>>();
 
 	public Map<Long, List<Assignment>> getJobNumberToListAssignments() {
 		return jobNumberToListAssignments;
@@ -50,6 +51,14 @@ public class PersonInfoActionForm extends TkForm {
 
 	public void setPrincipalIdToPerson(Map<String, Person> principalIdToPerson) {
 		this.principalIdToPerson = principalIdToPerson;
+	}
+
+	public Map<Long,List<Person>> getWorkAreaToApproverPerson() {
+		return workAreaToApproverPerson;
+	}
+
+	public void setWorkAreaToApproverPerson(Map<Long,List<Person>> workAreaToApproverPerson) {
+		this.workAreaToApproverPerson = workAreaToApproverPerson;
 	}
    
 }
