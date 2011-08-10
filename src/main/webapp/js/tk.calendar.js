@@ -256,18 +256,21 @@ $(document).ready(function() {
         if (bValid) {
 
             var params = {};
-            // if the end time is 12:00 am, move the end date to the next day
             var endTimeValue = $('#endTimeField-messages').val().toUpperCase();
             var endDateValue = $('#date-range-end').val();
-            if (endTimeValue == "0:0") {
-                var dateRangeField = endDateValue.split("/");
 
-                if(dateRangeField[1].charAt(0) == '0'){
-                	dateRangeField[1] = dateRangeField[1].replace('0','');
-                }
-                var dateString = parseInt(dateRangeField[1]) + 1;
-                endDateValue = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
-            }
+            // if the end time is 12:00 am, move the end date to the next day
+
+//            if (endTimeValue == "0:0") {
+//                var dateRangeField = endDateValue.split("/");
+//                var dateString = parseInt(dateRangeField[1]) + 1;
+//                endDateValue = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
+//            }
+
+            // Does not work, if you are editing an existing block that ends at midnight, you
+            // do not want to re-increment the date.
+
+
             // these are for the submitted form
             $('#methodToCall').val('addTimeBlock');
             $('#startDate').val($('#date-range-begin').val());
