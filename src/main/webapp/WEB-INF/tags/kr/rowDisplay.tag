@@ -432,7 +432,7 @@
                                 ${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
                                 <c:set var="checkboxPresentOnFormAnnotationFieldName" value="${field.propertyName}${Constants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION}" />
                                 ${kfunc:registerEditableProperty(KualiForm, checkboxPresentOnFormAnnotationFieldName)}
-                                <input type="checkbox" id='${field.propertyName}' name="${field.propertyName}"
+                                <input type="checkbox" id='${field.propertyName}' name="${field.propertyName}" onchange="${field.script}"
                                     ${field.propertyValue eq 'Yes' || field.propertyValue eq 'YES' ? 'checked="checked"' : ''}
                                     ${onblurcall} ${onchangecall} tabIndex="${tabIndex}"/>
                                 <input type="hidden" name="${checkboxPresentOnFormAnnotationFieldName}" value="present"/>
