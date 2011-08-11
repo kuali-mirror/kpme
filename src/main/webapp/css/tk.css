@@ -95,6 +95,13 @@ select {
     color: #990000 !important;
 }
 
+.yellowbanner {
+	font-size: .4em;
+	font-weight: normal;
+	color: red; 
+	background-color:yellow;
+}
+
 .ui-header {
     /*background-color: #A02919;*/
     background: #ffffff url(ui-iu/images/headerback.gif) 50% 50% repeat-x;
@@ -450,6 +457,7 @@ select {
     background-color: yellow;
     padding: 0 1px 0 1px;
     margin-left: 5px;
+    margin-right: 5px;
 }
 
 #batch-content legend {

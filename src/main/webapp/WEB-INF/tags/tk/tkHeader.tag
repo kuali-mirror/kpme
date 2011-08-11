@@ -32,7 +32,7 @@
 			<span class="title ${backdoor}">
 	            <img src="images/kuali_base.png" style="width:4em;"/>
 	            TIME        
-	            <span style="font-size: .4em;color: red;">
+	            <span class="yellowbanner">
 	            	<c:if test="${form.user.targetPerson ne null}">
 		                You are working on 
 		                <a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo" style="color: black;">${form.user.targetPerson.name}</a>'s calendar. 
