@@ -33,7 +33,7 @@ public class GracePeriodDaoImpl extends PersistenceBrokerDaoSupport implements G
 	@Override
 	public GracePeriodRule getGracePeriodRule(Long tkGracePeriodId) {
 		Criteria crit = new Criteria();
-		crit.addEqualTo("tkGracePeriodId", tkGracePeriodId);
+		crit.addEqualTo("tkGracePeriodRuleId", tkGracePeriodId);
 		
 		Query query = QueryFactory.newQuery(GracePeriodRule.class, crit);
 		return (GracePeriodRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
