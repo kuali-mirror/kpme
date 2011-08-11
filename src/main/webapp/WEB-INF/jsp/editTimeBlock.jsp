@@ -97,6 +97,8 @@
 							</td>
 							<td>
 								<input name="hrRow1" id="hrRow1" size="5" readonly="" value="${Form.currentTimeBlock.hours}">
+								<input type="button" style="width: 20px; height: 23px;" id="hourHelp1" value="?" 
+									title="Supported formats:<br/>0.5, 0.50, 5, 5.0, 5.00">
 							</td>
 							<td>
 								<input class="button" value="Add" type="button" name="addTimeBlock" id="addTimeBlock"

@@ -102,6 +102,10 @@
                                 <td><label for="hoursField">Hours:</label></td>
                                 <td>
                                     <input id="hoursField" name="hours"/>
+                                    <button style="width:20px; height:20px; vertical-align: text-top" id="endTimeHelp"
+                                            title="Supported formats:<br/>0.5, 0.50, 5, 5.0, 5.00"
+                                            tabindex="999" onclick="return false;">help
+                                    </button>
                                 </td>
                             </tr>
                             <tr id="amountSection" style="display: none;">
