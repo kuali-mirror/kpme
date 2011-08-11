@@ -80,8 +80,11 @@ public class TimeDetailAction extends TimesheetAction {
         
         tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(tdaf.getTimesheetDocument(), aggregate.getFlattenedTimeBlockList()));
 
-        if(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL)) {
+        if(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL) ||
+        		TKContext.getUser().isSystemAdmin()) {
         	tdaf.setDocEditable("false");
+        } else if(StringUtils.equals(tdaf.getTimesheetDocument().getPrincipalId(), TKContext.getUser().getPrincipalId())){
+        	tdaf.setDocEditable("true");
         } else {
         	if(TKContext.getUser().isSystemAdmin() || TKContext.getUser().isLocationAdmin() || TKContext.getUser().isDepartmentAdmin() ||
         			TKContext.getUser().isReviewer() || TKContext.getUser().isApprover()){
