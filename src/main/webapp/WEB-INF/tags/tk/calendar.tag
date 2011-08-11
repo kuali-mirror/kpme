@@ -50,44 +50,49 @@
                                 <%-- Render the Time Blocks --%>
                             <div>
                                 <c:forEach var="block" items="${day.blockRenderers}" varStatus="status">
-                                    <c:choose>
-                                        <c:when test="${status.last}">
-                                            <c:set var="last" value="last-event"/>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <c:set var="last" value=""/>
-                                        </c:otherwise>
-                                    </c:choose>
-
-                                    <div class="event ${last} ${block.assignmentClass}">
-                                        <div id="block_${block.timeBlock.tkTimeBlockId}" class="event-title-${Form.docEditable}">
-                                            <c:if test="${Form.docEditable}">
-                                            	<div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='event-delete'
-                                                      src='images/delete.png'/>
-                                                 </div>
-                                              </c:if>
-                                                ${block.title}
-                                        </div>
-                                        ${block.timeRange}
-                                        <div>
-	                                        <c:if test="${block.earnCodeType ne 'AMOUNT'}">
-	                                            <c:forEach var="thdr" items="${block.detailRenderers}">
-	                                                <div id="${thdr.timeHourDetail.tkTimeHourDetailId}" class="event-content">
-	                                                        <c:choose>
-	                                                            <c:when test="${thdr.hours ne ''}">
-	                                                                ${thdr.title} - ${thdr.hours} hours
-	                                                            </c:when>
-	                                                            <c:otherwise>
-	                                                                ${thdr.title} - $${thdr.hours}
-	                                                            </c:otherwise>
-	                                                        </c:choose>
+                                	<c:if test="${block.timeBlock.earnCode ne TkConstants.LUNCH_EARN_CODE}">
+	                                    <c:choose>
+	                                        <c:when test="${status.last}">
+	                                            <c:set var="last" value="last-event"/>
+	                                        </c:when>
+	                                        <c:otherwise>
+	                                            <c:set var="last" value=""/>
+	                                        </c:otherwise>
+	                                    </c:choose>
 	
-	                                                </div>
-	                                            </c:forEach>
-	                                         </c:if>
-                                        </div>
-                                        ${block.amount}
-                                    </div>
+	                                    <div class="event ${last} ${block.assignmentClass}">
+	                                        <div id="block_${block.timeBlock.tkTimeBlockId}" class="event-title-${Form.docEditable}">
+	                                            <c:if test="${Form.docEditable}">
+	                                            	<div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='event-delete'
+	                                                      src='images/delete.png'/>
+	                                                 </div>
+	                                              </c:if>
+	                                                ${block.title}
+	                                        </div>
+	                                        ${block.timeRange}
+	                                        <div>
+		                                        <c:if test="${block.earnCodeType ne TkConstants.EARN_CODE_AMOUNT}">
+		                                            <c:forEach var="thdr" items="${block.detailRenderers}">
+		                                                <div id="${thdr.timeHourDetail.tkTimeHourDetailId}" class="event-content">
+		                                                        <c:choose>
+		                                                            <c:when test="${thdr.hours ne ''}">
+		                                                                ${thdr.title} - ${thdr.hours} hours
+		                                                            </c:when>
+		                                                            <c:otherwise>
+		                                                                ${thdr.title} - $${thdr.hours}
+		                                                            </c:otherwise>
+		                                                        </c:choose>
+		
+		                                                </div>
+		                                            </c:forEach>
+		                                         </c:if>
+	                                        </div>
+	                                        ${block.amount}
+	                                        <div class="lunch">
+	                                        	${block.lunchLabel}
+	                                        </div>
+	                                    </div>
+                                    </c:if>
                                 </c:forEach>
                             </div>
                         </td>

@@ -218,4 +218,11 @@ public class TkConstants {
     	TIME_ZONES.add("America/Indiana/Indianapolis");
     	TIME_ZONES.add("America/Phoenix");    	
     }
+
+	public String getLUNCH_EARN_CODE() {
+		return LUNCH_EARN_CODE;
+	}
+	public String getEARN_CODE_AMOUNT() {
+		return EARN_CODE_AMOUNT;
+	}
 }

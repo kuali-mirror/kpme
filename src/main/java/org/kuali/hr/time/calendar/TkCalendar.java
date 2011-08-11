@@ -1,12 +1,16 @@
 package org.kuali.hr.time.calendar;
 
 import org.joda.time.DateTime;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.workarea.WorkArea;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +37,7 @@ public class TkCalendar {
                     day.setTimeblocks(dayBlocks);
                     day.setDayNumberString(tc.getDayNumberString(i * 7 + j));
                     day.setDayNumberDelta(i * 7 + j);
+                    assignDayLunchLabel(day);
                     days.add(day);
                 }
                 week.setDays(days);
@@ -44,6 +49,25 @@ public class TkCalendar {
         }
 
         return tc;
+    }
+    
+    public static void assignDayLunchLabel(TkCalendarDay day) {
+    	EarnCode ec = null;
+    	Map<String, String> aMap = new HashMap<String, String>();
+		for(TimeBlock tb : day.getTimeblocks()) {
+			if(tb.getEarnCode().equals(TkConstants.LUNCH_EARN_CODE)) {
+				ec = TkServiceLocator.getEarnCodeService().getEarnCode(tb.getEarnCode(), tb.getBeginDate());
+				if(ec != null) {
+					WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(tb.getTkWorkAreaId());
+					aMap.put(wa.getDescription(), ec.getDescription() + "-" + tb.getHours().toString());
+				}
+			}
+		}
+		for(TimeBlockRenderer tbr : day.getBlockRenderers()) {
+			if(aMap.containsKey(tbr.getTitle())) {
+				tbr.setLunchLabel(aMap.get(tbr.getTitle()));
+			}
+		}
     }
     
     public void assignAssignmentStyle(Map<String, String> styleMap) {
