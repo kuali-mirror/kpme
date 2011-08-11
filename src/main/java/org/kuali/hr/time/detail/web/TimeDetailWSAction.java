@@ -53,6 +53,7 @@ public class TimeDetailWSAction extends TimesheetAction {
     public ActionForward validateTimeEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         TimeDetailActionFormBase tdaf = (TimeDetailActionFormBase) form;
+       
         JSONArray errorMsgList = new JSONArray();
         PayCalendarEntries payCalEntry = tdaf.getTimesheetDocument().getPayCalendarEntry();
         java.sql.Date asOfDate = payCalEntry.getEndPeriodDate();

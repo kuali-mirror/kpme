@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -148,9 +147,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         ReportQueryByCriteria timestampSubQuery;
 
         effdt.addEqualToField("roleName", Criteria.PARENT_QUERY_PREFIX + "roleName");
-        if(StringUtils.isNotEmpty(principalId)){
-        	effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        }
+        effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
         effdt.addLessOrEqualThan("effectiveDate", asOfDate);
         
         // EFFECTIVE DATE --
@@ -189,9 +186,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 
         //Configure the actual "criteria" in the where clause
         timestamp.addEqualToField("roleName", Criteria.PARENT_QUERY_PREFIX + "roleName");
-        if(StringUtils.isNotEmpty(principalId)){
-        	timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        }
+        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
         timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 
         // Adding criteria to nest an AND that has multiple ORs to select

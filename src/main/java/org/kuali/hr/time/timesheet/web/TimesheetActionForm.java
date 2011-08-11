@@ -37,7 +37,7 @@ public class TimesheetActionForm extends TkForm {
 	@Override
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
 		super.reset(mapping, request);
-		setDocumentId("");
+		//setDocumentId("");
 	}
 
 	public TimesheetDocument getTimesheetDocument() {

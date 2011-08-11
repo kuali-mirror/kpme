@@ -59,14 +59,7 @@ public class TimesheetAction extends TkAction {
         // methods, we would first fetch the current document, and then fetch
         // the next one instead of doing it in the single action.
         if (StringUtils.isNotBlank(documentId)) {
-            if(StringUtils.equals(taForm.getCalNav(), TkConstants.PREV_TIMESHEET) || StringUtils.equals(taForm.getCalNav(), TkConstants.NEXT_TIMESHEET)) {
-                tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(taForm.getCalNav(), viewPrincipal, documentId);
-                payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(viewPrincipal, tsdh.getPayEndDate());
-                td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntries);
-            } else {
-                td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
-				payCalendarEntries = td.getPayCalendarEntry();
-            }
+            td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
         } else {
             // Default to whatever is active for "today".
             Date currentDate = TKUtils.getTimelessDate(null);
@@ -76,25 +69,30 @@ public class TimesheetAction extends TkAction {
 
         // Set the TKContext for the current timesheet document id.
         if (td != null) {
-            TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
-		    taForm.setTimesheetDocument(td);
-		    taForm.setDocumentId(td.getDocumentId());
-            TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, viewPrincipal, td.getDocumentId());
-            TimesheetDocumentHeader nextTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, viewPrincipal, td.getDocumentId());
-            if( prevTdh != null ) {
-                taForm.setPrevDocumentId(prevTdh.getDocumentId());
-            }
-            if( nextTdh != null) {
-                taForm.setNextDocumentId(nextTdh.getDocumentId());
-            }
+           setupDocumentOnFormContext(taForm, td);
         } else {
             LOG.error("Null timesheet document in TimesheetAction.");
         }
-		taForm.setPayCalendarDates(payCalendarEntries);
 
         // Do this at the end, so we load the document first,
         // then check security permissions via the superclass execution chain.
 		return super.execute(mapping, form, request, response);
 	}
+    
+    protected void setupDocumentOnFormContext(TimesheetActionForm taForm, TimesheetDocument td){
+    	String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+    	TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
+	    taForm.setTimesheetDocument(td);
+	    taForm.setDocumentId(td.getDocumentId());
+        TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, viewPrincipal, td.getDocumentId());
+        TimesheetDocumentHeader nextTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, viewPrincipal, td.getDocumentId());
+        if( prevTdh != null ) {
+            taForm.setPrevDocumentId(prevTdh.getDocumentId());
+        }
+        if( nextTdh != null) {
+            taForm.setNextDocumentId(nextTdh.getDocumentId());
+        }
+        taForm.setPayCalendarDates(td.getPayCalendarEntry());
+    }
 
 }

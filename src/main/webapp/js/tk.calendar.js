@@ -17,6 +17,8 @@ $(document).ready(function() {
     }
 
     var docId = $('#documentId').val();
+    var prevDocId = $('#prevDocumentId').val();
+    var nextDocId = $('#nextDocumentId').val();
 
     // create navigation buttons
     $('#nav_prev').button({
@@ -27,7 +29,7 @@ $(document).ready(function() {
     });
 
     $('#nav_prev').click(function() {
-        window.location = 'TimeDetail.do?calNav=prev&documentId=' + docId;
+        window.location = 'TimeDetail.do?methodToCall=loadDocument&documentId=' + prevDocId;
     });
 
     $('#nav_next').button({
@@ -38,7 +40,7 @@ $(document).ready(function() {
     });
 
     $('#nav_next').click(function() {
-        window.location = 'TimeDetail.do?calNav=next&documentId=' + docId;
+        window.location = 'TimeDetail.do?methodToCall=loadDocument&documentId=' + nextDocId;
     });
 
     var selectedDays = [];
@@ -311,7 +313,7 @@ $(document).ready(function() {
 
             // validate timeblocks
             $.ajax({
-                url: "TimeDetailWS.do?methodToCall=validateTimeEntry",
+                url: "TimeDetailWS.do?methodToCall=validateTimeEntry&documentId="+docId,
                 data: params,
                 cache: false,
                 success: function(data) {
