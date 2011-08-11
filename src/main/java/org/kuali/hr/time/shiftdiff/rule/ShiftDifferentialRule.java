@@ -317,7 +317,7 @@ public class ShiftDifferentialRule extends TkRule {
 
 	@Override
 	public void setId(Long id) {
-		setTkSalGroupId(id);
+		setTkShiftDiffRuleId(id);
 	}
 
 	public boolean isHistory() {
