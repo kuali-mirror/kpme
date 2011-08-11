@@ -11,6 +11,7 @@ import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.identity.Id;
@@ -77,7 +78,7 @@ public class TkWorkflowTimesheetAttribute implements RoleAttribute {
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
 		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, timesheetDocument.getAsOfDate());
 
-		List<TkRole> roles = roleService.getWorkAreaRoles(workAreaNumber, roleName, timesheetDocument.getAsOfDate());
+		List<TkRole> roles = roleService.getWorkAreaRoles(workAreaNumber, roleName, TKUtils.getCurrentDate());
 		for (TkRole role : roles) {
 			//Position routing
 			if(StringUtils.isEmpty(role.getPrincipalId())){
