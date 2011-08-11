@@ -31,16 +31,16 @@
     <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ${highlight}">
 			<span class="title ${backdoor}">
 	            <img src="images/kuali_base.png" style="width:4em;"/>
-	            TIME        
-	            <span class="yellowbanner">
-	            	<c:if test="${form.user.targetPerson ne null}">
-		                You are working on 
-		                <a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo" style="color: black;">${form.user.targetPerson.name}</a>'s calendar. 
-		                <input type="button" class="button" id="return-button" value="Return" name="return"
-		                 onclick="location.href='?methodToCall=clearChangeUser'" />
-	           		 </c:if>
-	            </span>
+	            TIME 
 	        </span>
+	        <span class="yellowbanner">
+            	<c:if test="${form.user.targetPerson ne null}">
+	               You are working on 
+	                <a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo" style="color: black;">${form.user.targetPerson.name}</a>'s calendar. 
+	                <input type="button" class="button" id="return-button" value="Return" name="return"
+	                 onclick="location.href='?methodToCall=clearChangeUser'" />
+           		 </c:if>
+	         </span>
 
         <div class="person-info">
             <table class="${backdoor}">

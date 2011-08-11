@@ -96,10 +96,12 @@ select {
 }
 
 .yellowbanner {
-	font-size: .4em;
+	font-size: .8em;
 	font-weight: normal;
 	color: red; 
 	background-color:yellow;
+	margin-top: 100px;
+	margin-left: 50px;
 }
 
 .ui-header {
