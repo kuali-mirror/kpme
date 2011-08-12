@@ -7,10 +7,8 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
-import org.kuali.hr.time.workarea.WorkArea;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,20 +57,18 @@ public class TkCalendar {
 
     public static void assignDayLunchLabel(TkCalendarDay day) {
     	EarnCode ec = null;
-    	Map<String, String> aMap = new HashMap<String, String>();
-		for(TimeBlock tb : day.getTimeblocks()) {
-			if(tb.getEarnCode().equals(TkConstants.LUNCH_EARN_CODE)) {
-				ec = TkServiceLocator.getEarnCodeService().getEarnCode(tb.getEarnCode(), tb.getBeginDate());
-				if(ec != null) {
-					WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(tb.getTkWorkAreaId());
-					aMap.put(wa.getDescription(), ec.getDescription() + "-" + tb.getHours().toString());
+		String label = "";
+		for(TimeBlockRenderer tbr : day.getBlockRenderers()) {
+			for(TimeHourDetailRenderer thdr : tbr.getDetailRenderers()) {
+				if(thdr.getTitle().equals(TkConstants.LUNCH_EARN_CODE)) {
+					ec = TkServiceLocator.getEarnCodeService().getEarnCode(thdr.getTitle(), tbr.getTimeBlock().getBeginDate());
+					if(ec != null) {
+						label = ec.getDescription() + "-" + thdr.getHours();
+					}
 				}
 			}
-		}
-		for(TimeBlockRenderer tbr : day.getBlockRenderers()) {
-			if(aMap.containsKey(tbr.getTitle())) {
-				tbr.setLunchLabel(aMap.get(tbr.getTitle()));
-			}
+			tbr.setLunchLabel(label);
+			label = "";
 		}
     }
     
