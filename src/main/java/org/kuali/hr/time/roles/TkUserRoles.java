@@ -184,14 +184,6 @@ public class TkUserRoles implements UserRoles {
 
         List<Assignment> assignments = doc.getAssignments();
         for (Assignment assignment : assignments) {
-        	String location = assignment.getJob().getLocation();
-        	if(this.getOrgAdminCharts().contains(location)){
-        		return true;
-        	}
-        	String dept = assignment.getDept();
-        	if(this.getOrgAdminDepartments().contains(dept)){
-        		return true;
-        	}
             if (this.approverRoles.containsKey(assignment.getWorkArea())) {
                 return true;
             }
@@ -313,8 +305,8 @@ public class TkUserRoles implements UserRoles {
 			return true;
 		}
 		
-		//System admins/location admins/dept admins can route the document as well as the employee
-		if(this.isSystemAdmin() || isLocationAdmin(doc) || isDepartmentAdmin(doc)){
+		//System admins can route the document as well as the employee
+		if(this.isSystemAdmin()){
 			return true;
 		}
 		return false;
