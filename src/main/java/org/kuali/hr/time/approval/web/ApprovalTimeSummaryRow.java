@@ -2,7 +2,13 @@ package org.kuali.hr.time.approval.web;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.ken.util.NotificationConstants.KEW_CONSTANTS;
+import org.kuali.rice.kew.doctype.SecuritySession;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.util.KEWConstants;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -113,7 +119,18 @@ public class ApprovalTimeSummaryRow {
      * @return true if a valid TK_APPROVER / TK_PROCESSOR can approve, false otherwise.
      */
     public boolean isApprovable() {
-        return StringUtils.equals(getApprovalStatus(), TkConstants.ROUTE_STATUS.ENROUTE);
+    	boolean isEnroute =  StringUtils.equals(getApprovalStatus(), TkConstants.ROUTE_STATUS.ENROUTE) ;
+        if(isEnroute){
+        	DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(Long.parseLong(this.getDocumentId()));
+        	boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(TKContext.getUserSession(), routeHeader, new SecuritySession(TKContext.getUserSession()));
+        	if(authorized){
+        		List<String> principalsToApprove = KEWServiceLocator.getActionRequestService().getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId(KEWConstants.ACTION_REQUEST_APPROVE_REQ, routeHeader.getRouteHeaderId());
+        		if(principalsToApprove != null && principalsToApprove.contains(TKContext.getPrincipalId())){
+            		return true;
+            	}
+        	}
+        }
+        return false;
     }
 
     /**
