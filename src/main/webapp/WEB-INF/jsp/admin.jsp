@@ -127,7 +127,7 @@
 										Schedule</a>
 								</li>
 							</c:if>
-							<c:if test="${Form.user.systemAdmin || Form.user.locationAdmin}">
+							<c:if test="${Form.user.systemAdmin}">
 								<li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.department.Department&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Department</a>
 								</li>
 							</c:if>

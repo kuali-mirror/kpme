@@ -56,7 +56,7 @@ public class DepartmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		Criteria effdt = new Criteria();
 		Criteria timestamp = new Criteria();
 
-		effdt.addEqualToField("chart", Criteria.PARENT_QUERY_PREFIX + "chart");
+		effdt.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Department.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
