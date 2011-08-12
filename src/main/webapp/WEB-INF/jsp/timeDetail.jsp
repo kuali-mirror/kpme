@@ -15,7 +15,7 @@
         <html:hidden property="nextDocumentId" value="${Form.nextDocumentId}" styleId="nextDocumentId"/>
         <html:hidden property="warningJson" value="${Form.warnings}" styleId="warningJson"/>
         <html:hidden property="docEditable" value="${Form.docEditable}" styleId="docEditable"/>
-        
+
             <%--This is for visually impaired users --%>
         <!--
         <c:forEach var="timeBlock" items="${Form.timeBlockList}" varStatus="row">
@@ -24,8 +24,8 @@
             Workarea Id: ${timeBlock.workArea}<br/>
             Task Id: ${timeBlock.task}<br/>
             Earn Code: ${timeBlock.earnCode}<br/>
-            Begin Time: <fmt:formatDate type="both" dateStyle="full" value="${timeBlock.beginTimestamp}"/><br/>
-            End Time: <fmt:formatDate type="both" dateStyle="full" value="${timeBlock.endTimestamp}"/><br/>
+            Begin Time: <fmt:formatDate type="both" dateStyle="full" value="${timeBlock.beginTimeDisplayDate}"/><br/>
+            End Time: <fmt:formatDate type="both" dateStyle="full" value="${timeBlock.endTimeDisplayDate}"/><br/>
             Hours: ${timeBlock.hours}<br/>
             Amount: ${timeBlock.amount}<br/>
             <br/>

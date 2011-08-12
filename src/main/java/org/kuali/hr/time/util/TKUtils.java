@@ -210,6 +210,9 @@ public class TKUtils {
 	}
 
     /**
+     * Creates a Timestamp object using Jodatime as an intermediate data structure
+     * from the provided date and time string. (From the form POST and javascript
+     * formats)
      *
      * @param dateStr (the format is 01/01/2011)
      * @param timeStr (the format is 8:0)
@@ -220,7 +223,7 @@ public class TKUtils {
 		String[] date = dateStr.split("/");
 		String[] time = timeStr.split(":");
 
-		DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimeZone());
+		DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone());
 
 		// this is from the jodattime javadoc:
 		// DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)

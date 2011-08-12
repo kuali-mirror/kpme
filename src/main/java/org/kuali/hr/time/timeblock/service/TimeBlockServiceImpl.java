@@ -85,7 +85,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         List<Interval> dayIntervals = TKUtils.getDaySpanForPayCalendarEntry(timesheetDocument.getPayCalendarEntry());
         List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
         Timestamp beginTemp = beginTimestamp;
-        
+
         for (Interval dayInt : dayIntervals) {
         	// the time period spans more than one day
             if (firstDay != null) {
@@ -153,7 +153,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
 
     public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean clockLogCreated) {
-        String tz = TkServiceLocator.getTimezoneService().getUserTimeZone();
+        String tz = TkServiceLocator.getTimezoneService().getUserTimezone();
         EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, timesheetDocument.getAsOfDate());
 
         TimeBlock tb = new TimeBlock();

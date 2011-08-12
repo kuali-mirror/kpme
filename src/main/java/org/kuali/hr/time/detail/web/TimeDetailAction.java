@@ -63,6 +63,11 @@ public class TimeDetailAction extends TimesheetAction {
         // when adding / removing timeblocks, it should update the timeblocks on the timesheet document,e
         // so that we can directly fetch the timeblocks from the document
         List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentId()));
+
+        // Handle User preference / timezone information (pushed up from TkCalendar to avoid duplication)
+        String timezone = TkServiceLocator.getTimezoneService().getUserTimezone();
+        TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks, timezone);
+
         TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument(), timeBlocks);
     	tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(tdaf.getTimesheetDocument()));
         Map<String, String> aMap = tdaf.getAssignStyleClassMap();
@@ -79,13 +84,13 @@ public class TimeDetailAction extends TimesheetAction {
         }
         tdaf.setTimeSummary(ts);
         ActionFormUtils.validateHourLimit(tdaf);
-        
+
         // Set calendar
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, tdaf.getTimesheetDocument().getPayCalendarEntry());
         TkCalendar cal = TkCalendar.getCalendar(aggregate);
         cal.assignAssignmentStyle(aMap);
         tdaf.setTkCalendar(cal);
-        
+
         tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(tdaf.getTimesheetDocument(), aggregate.getFlattenedTimeBlockList()));
 
         if(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL) ||
@@ -97,12 +102,12 @@ public class TimeDetailAction extends TimesheetAction {
         	if(TKContext.getUser().isSystemAdmin() || TKContext.getUser().isLocationAdmin() || TKContext.getUser().isDepartmentAdmin() ||
         			TKContext.getUser().isReviewer() || TKContext.getUser().isApprover()){
         		tdaf.setDocEditable("true");
-        	} 
+        	}
         	if(TKContext.getUser().isGlobalViewOnly() || TKContext.getUser().isDepartmentViewOnly()){
         		tdaf.setDocEditable("false");
         	}
         }
-        
+
         return forward;
     }
 
@@ -173,9 +178,10 @@ public class TimeDetailAction extends TimesheetAction {
             }
         }
 
-        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(),
-                tdaf.getSelectedAssignment());
+        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());
 
+
+        // Surgery point - Need to construct a Date/Time with Appropriate Timezone.
         Timestamp startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime());
         Timestamp endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime());
 

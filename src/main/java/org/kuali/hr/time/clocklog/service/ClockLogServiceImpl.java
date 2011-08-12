@@ -8,7 +8,6 @@ import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -46,7 +45,7 @@ public class ClockLogServiceImpl implements ClockLogService {
 	    }
 	    clockLog.setTask(assignmentDesc.getTask());
 	    clockLog.setTkTaskId(tkTaskId);
-	    clockLog.setClockTimestampTimezone(TkServiceLocator.getTimezoneService().getUserTimeZone());
+	    clockLog.setClockTimestampTimezone(TkServiceLocator.getTimezoneService().getUserTimezone());
 	    clockLog.setClockTimestamp(clockTimestamp);
 	    clockLog.setClockAction(clockAction);
 	    clockLog.setIpAddress(ip);

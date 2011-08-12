@@ -14,6 +14,7 @@ import java.util.List;
  * Render helper to handle timeblock and time hour details display
  */
 public class TimeBlockRenderer {
+
     private TimeBlock timeBlock;
     private List<TimeHourDetailRenderer> detailRenderers = new ArrayList<TimeHourDetailRenderer>();
     private String assignmentClass;
@@ -37,9 +38,9 @@ public class TimeBlockRenderer {
     public String getTimeRange() {
         StringBuilder b = new StringBuilder();
         if(StringUtils.equals(timeBlock.getEarnCodeType(), TkConstants.EARN_CODE_TIME)) {
-            b.append(timeBlock.getBeginTimeString());
+            b.append(timeBlock.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_TIME_FORMAT));
             b.append(" - ");
-            b.append(timeBlock.getEndTimeString());
+            b.append(timeBlock.getEndTimeDisplay().toString(TkConstants.DT_BASIC_TIME_FORMAT));
         }
 
         return b.toString();
@@ -53,7 +54,7 @@ public class TimeBlockRenderer {
 
         return b.toString();
     }
-  
+
     public String getAmount() {
     	if(StringUtils.equals(timeBlock.getEarnCodeType(), TkConstants.EARN_CODE_AMOUNT)) {
     		if(timeBlock.getAmount() != null) {
@@ -66,7 +67,7 @@ public class TimeBlockRenderer {
     public String getEarnCodeType() {
     	return timeBlock.getEarnCodeType();
     }
- 
+
 	public String getAssignmentClass() {
 		return assignmentClass;
 	}

@@ -13,6 +13,8 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class TkConstants {
     public static final String TK_TARGET_USER_RETURN = "tkTargetReturn";
@@ -50,7 +52,8 @@ public class TkConstants {
     public static final String   SYSTEM_TIME_ZONE = "America/Indianapolis";
 
     public static final DateTimeZone SYSTEM_DATE_TIME_ZONE = DateTimeZone.forID(TkConstants.SYSTEM_TIME_ZONE);
-    public static final SimpleDateFormat SDF = new SimpleDateFormat("MM/dd/yyyy");
+    public static DateTimeFormatter DT_BASIC_TIME_FORMAT = DateTimeFormat.forPattern("hh:mm aa");
+    public static DateTimeFormatter DT_BASIC_DATE_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy");
 
     public static final int BIG_DECIMAL_SCALE = 2;
     public static final RoundingMode BIG_DECIMAL_SCALE_ROUNDING = RoundingMode.HALF_EVEN;
@@ -103,7 +106,7 @@ public class TkConstants {
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_LOCATION_ADMIN);
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_LOCATION_VO);
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_SYS_ADMIN);
-    	
+
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_EMPLOYEE);
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_APPROVER);
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_LOCATION_ADMIN);
@@ -118,7 +121,7 @@ public class TkConstants {
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_LOCATION_ADMIN, "Location Admin"); // location admin rename
         ALL_ROLES_MAP.put(TkConstants.ROLE_TK_DEPT_ADMIN, "Department Admin");
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_SYS_ADMIN, "System Admin");
-        
+
     }
 
     public static final class ACTIONS {
@@ -209,14 +212,14 @@ public class TkConstants {
     public static final String TIMESHEET_DOCUMENT_ID_REQUEST_NAME = "tdocid";
     //Threshold in hours for clockin highlighting on approvers tab
     public static final Integer NUMBER_OF_HOURS_CLOCKED_IN_APPROVE_TAB_HIGHLIGHT = 24;
-    
+
     public static final List<String> TIME_ZONES = new ArrayList<String>();
     static{
     	TIME_ZONES.add("America/Chicago");
     	TIME_ZONES.add("America/Denver");
     	TIME_ZONES.add("America/Detroit");
     	TIME_ZONES.add("America/Indiana/Indianapolis");
-    	TIME_ZONES.add("America/Phoenix");    	
+    	TIME_ZONES.add("America/Phoenix");
     }
 
 	public String getLUNCH_EARN_CODE() {

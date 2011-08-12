@@ -33,6 +33,12 @@ public class TkCalendar {
 
                 for (int j=0; j<weekBlocks.size(); j++) {
                     List<TimeBlock> dayBlocks = weekBlocks.get(j);
+
+                    // Account for the current users Timezone display preference
+                    // (this has already been done in the TimeDetailAction execute
+                    //  method, because we need to reduce the number of list iterations)
+
+                    // Create the individual days.
                     TkCalendarDay day = new TkCalendarDay();
                     day.setTimeblocks(dayBlocks);
                     day.setDayNumberString(tc.getDayNumberString(i * 7 + j));
@@ -50,7 +56,7 @@ public class TkCalendar {
 
         return tc;
     }
-    
+
     public static void assignDayLunchLabel(TkCalendarDay day) {
     	EarnCode ec = null;
     	Map<String, String> aMap = new HashMap<String, String>();
@@ -84,8 +90,8 @@ public class TkCalendar {
     		}
     	}
     }
-    
-    
+
+
 	public List<TkCalendarWeek> getWeeks() {
 		return weeks;
 	}

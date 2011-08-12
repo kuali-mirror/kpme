@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 	private String earnCodeType;
 	private Timestamp beginTimestamp;
 	private Timestamp endTimestamp;
-	
+
     @Transient
     private java.sql.Date beginDate;
     @Transient
@@ -46,12 +47,12 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private Time beginTime;
     @Transient
     private Time endTime;
-    
+
     private String beginDateString;
     private String endDateString;
     private String beginTimeString;
     private String endTimeString;
-	
+
 	private Boolean clockLogCreated;
 	private BigDecimal hours = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 	private BigDecimal amount = TkConstants.BIG_DECIMAL_SCALED_ZERO;
@@ -64,7 +65,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 
     private Long clockLogBeginId;
     private Long clockLogEndId;
-    
+
     private String assignmentKey;
 
 
@@ -132,7 +133,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 	public Timestamp getEndTimestamp() {
 		return endTimestamp;
 	}
-	
+
 	public void setEndTimestamp(Timestamp endTimestamp) {
 		this.endTimestamp = endTimestamp;
 	}
@@ -342,18 +343,64 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 		this.pushBackward = pushBackward;
 	}
 
+    /**
+     * Use this call for all GUI/Display related rendering of the BEGIN
+     * timestamp of the given time block. Timeblocks require pre-processing
+     * before there will be a non-null return value here.
+     *
+     * @return The Timeblock Begin time to display, with the Users Timezone
+     * taken into account and applied to this DateTime object.
+     */
 	public DateTime getBeginTimeDisplay() {
 		return beginTimeDisplay;
 	}
 
+    /**
+     * Helper to call DateTime.toDate().
+     * @return a java.util.Date representing the getBeginTimeDisplay() DateTime.
+     */
+    public Date getBeginTimeDisplayDate() {
+        return getBeginTimeDisplay().toDate();
+    }
+
+    /**
+     * Set this value with a DateTime that is in the current users Timezone. This
+     * should happen as a pre processing step for display purposes. Do not use these
+     * values for server-side computation.
+     *
+     * @param beginTimeDisplay
+     */
 	public void setBeginTimeDisplay(DateTime beginTimeDisplay) {
 		this.beginTimeDisplay = beginTimeDisplay;
 	}
 
+    /**
+     * Use this call for all GUI/Display related rendering of the END
+     * timestamp of the given time block. Timeblocks require pre-processing
+     * before there will be a non-null return value here.
+     *
+     * @return The Timeblock end time to display, with the Users Timezone
+     * taken into account and applied to this DateTime object.
+     */
 	public DateTime getEndTimeDisplay() {
 		return endTimeDisplay;
 	}
 
+    /**
+     * Helper to call DateTime.toDate().
+     * @return a java.util.Date representing the getEndTimeDisplay() DateTime.
+     */
+    public Date getEndTimeDisplayDate() {
+        return getEndTimeDisplay().toDate();
+    }
+
+    /**
+     * Set this value with a DateTime that is in the current users Timezone. This
+     * should happen as a pre processing step for display purposes. Do not use these
+     * values for server-side computation.
+     *
+     * @param endTimeDisplay
+     */
 	public void setEndTimeDisplay(DateTime endTimeDisplay) {
 		this.endTimeDisplay = endTimeDisplay;
 	}
@@ -393,7 +440,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     public void setClockLogEndId(Long clockLogEndId) {
         this.clockLogEndId = clockLogEndId;
     }
-    
+
 	public String getAssignmentKey() {
 		if(assignmentKey == null) {
 			AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber().toString(), this.getWorkArea().toString(), this.getTask().toString());
@@ -405,8 +452,8 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 	public void setAssignmentKey(String assignmentDescription) {
 		this.assignmentKey = assignmentDescription;
 	}
-    
-    
+
+
 
     /**
      * Word on the street is that Object.clone() is a POS. We only need some
@@ -469,7 +516,13 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 	public void setEarnCodeType(String earnCodeType) {
 		this.earnCodeType = earnCodeType;
 	}
-    
+
+
+    // The following methods will be removed - they were added in revision
+    // 1071. They add bulk to the object and are not consistent with the
+    // rest of the application.
+
+    @Deprecated
 public String getBeginDateString() {
 		if(this.getBeginDate() != null) {
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -478,10 +531,12 @@ public String getBeginDateString() {
 		return beginDateString;
 	}
 
+    @Deprecated
 	public void setBeginDateString(String beginDateString) {
 		this.beginDateString = beginDateString;
 	}
 
+    @Deprecated
 	public String getEndDateString() {
 		if(this.getEndDate() != null) {
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -490,23 +545,27 @@ public String getBeginDateString() {
 		return endDateString;
 	}
 
+    @Deprecated
 	public void setEndDateString(String endDateString) {
 		this.endDateString = endDateString;
 	}
 
+    @Deprecated
 	public String getBeginTimeString() {
 		if(this.getBeginTime() != null) {
 			SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
 			this.setBeginTimeString(sdFormat.format(this.getBeginTime()));
 		}
-		
+
 		return beginTimeString;
 	}
 
+    @Deprecated
 	public void setBeginTimeString(String beginTimeString) {
 		this.beginTimeString = beginTimeString;
 	}
 
+    @Deprecated
 	public String getEndTimeString() {
 		if(this.getEndTime() != null) {
 			SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
@@ -515,6 +574,7 @@ public String getBeginDateString() {
 		return endTimeString;
 	}
 
+    @Deprecated
 	public void setEndTimeString(String endTimeString) {
 		this.endTimeString = endTimeString;
 	}
@@ -526,7 +586,7 @@ public String getBeginDateString() {
     public int compareTo(Object o) {
         return compareTo((TimeBlock) o);
     }
-    
+
     public int compareTo(TimeBlock tb) {
         return this.getBeginTimestamp().compareTo(tb.getBeginTimestamp());
     }

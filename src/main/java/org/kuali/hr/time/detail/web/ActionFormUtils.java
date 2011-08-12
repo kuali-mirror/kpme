@@ -55,6 +55,16 @@ public class ActionFormUtils {
           return aMap;
     }
 
+    /**
+     * This method will build the JSON data structure needed for calendar
+     * manipulation and processing on the client side. Start and End times here
+     * are based on the pre-timezone adjusted times startDisplayTime, and
+     * endDisplayTime.
+     *
+     * @param timeBlocks
+     * @param assignmentStyleClassMap
+     * @return
+     */
     private static List<Map<String, Object>> getTimeBlocksJson(List<TimeBlock> timeBlocks, Map<String, String> assignmentStyleClassMap) {
 
         if (timeBlocks == null || timeBlocks.size() == 0) {
@@ -62,7 +72,7 @@ public class ActionFormUtils {
         }
 
         List<Map<String, Object>> timeBlockList = new LinkedList<Map<String, Object>>();
-        String timezone = TkServiceLocator.getTimezoneService().getUserTimeZone();
+        String timezone = TkServiceLocator.getTimezoneService().getUserTimezone();
         timeBlocks = TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks, timezone);
 
         for (TimeBlock timeBlock : timeBlocks) {

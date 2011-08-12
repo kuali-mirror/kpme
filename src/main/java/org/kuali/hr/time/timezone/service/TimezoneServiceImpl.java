@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.location.Location;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -16,27 +17,34 @@ import org.kuali.hr.time.util.TkConstants;
 
 public class TimezoneServiceImpl implements TimezoneService {
 
-	/**
+    @Override
+    @CacheResult
+    public String getUserTimezone(String principalId) {
+        PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, TKUtils.getCurrentDate());
+        if(principalCalendar != null && principalCalendar.getTimezone() != null){
+            return principalCalendar.getTimezone();
+        }
+        List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
+        if (jobs.size() > 0) {
+            // Grab the location off the first job in the list
+            Location location = TkServiceLocator.getLocationService().getLocation(jobs.get(0).getLocation(), TKUtils.getCurrentDate());
+            if (location!=null){
+                if(StringUtils.isNotBlank(location.getTimezone())){
+                    return location.getTimezone();
+                }
+            }
+        }
+        return TkConstants.SYSTEM_TIME_ZONE;
+    }
+
+    /**
 	 * Used to determine if an override condition exists for a user timezone
 	 */
 	@Override
-	public String getUserTimeZone() {
- 		PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
-		if(principalCalendar != null && principalCalendar.getTimezone() != null){
-			return principalCalendar.getTimezone();
-		}
-		List<Job> lstJobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
-		if (lstJobs.size() > 0) {
-			// Grab the location off the first job in the list
-			Location location = TkServiceLocator.getLocationService().getLocation(lstJobs.get(0).getLocation(), TKUtils.getCurrentDate());
-			if (location!=null){
-				if(StringUtils.isNotBlank(location.getTimezone())){
-					return location.getTimezone();
-				}
-			}
-		}
-		return TkConstants.SYSTEM_TIME_ZONE;
+	public String getUserTimezone() {
+        return getUserTimezone(TKContext.getPrincipalId());
 	}
+
 	/**
 	 * Translation needed for UI Display
 	 * @param timeBlocks
@@ -67,7 +75,7 @@ public class TimezoneServiceImpl implements TimezoneService {
 
 	@Override
 	public boolean isSameTimezone() {
-		String userTimezone = getUserTimeZone();
+		String userTimezone = getUserTimezone();
 		if(StringUtils.isNotBlank(userTimezone)) {
 			return StringUtils.equals(TkConstants.SYSTEM_TIME_ZONE, userTimezone);
 		}

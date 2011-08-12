@@ -1,13 +1,12 @@
 package org.kuali.hr.time.util;
 
-import java.util.Set;
-
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.user.pref.UserPreferences;
 import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
+
+import java.util.Set;
 
 /**
  * This class houses the concept of a user in the Timekeeping system.  It
@@ -40,9 +39,15 @@ public class TKUser {
 	private UserRoles backdoorPersonRoles = null;
     private UserRoles targetPersonRoles = null;
 
-	private UserPreferences actualUserPreferences;
-    private UserPreferences backdoorUserPreferences;
-    private UserPreferences targetUserPreferences;
+    /**
+     * Uses the current "target" principal ID to fetch the timezone to use for
+     * render/display purposes.
+     *
+     * @return A timezone string, see: http://joda-time.sourceforge.net/timezones.html
+     */
+    public String getUserTimezone() {
+        return TkServiceLocator.getTimezoneService().getUserTimezone(this.getTargetPrincipalId());
+    }
 
 	public Person getActualPerson() {
 		return actualPerson;
@@ -50,9 +55,6 @@ public class TKUser {
 
 	public void setActualPerson(Person person) {
 		this.actualPerson = person;
-        if (actualPerson != null) {
-            this.actualUserPreferences = TkServiceLocator.getUserPreferenceService().getUserPreferences(person.getPrincipalId());
-        }
 	}
 
 	public Person getBackdoorPerson() {
@@ -61,9 +63,6 @@ public class TKUser {
 
 	public void setBackdoorPerson(Person backdoorPerson) {
 		this.backdoorPerson = backdoorPerson;
-        if (backdoorPerson != null) {
-            this.backdoorUserPreferences = TkServiceLocator.getUserPreferenceService().getUserPreferences(backdoorPerson.getPrincipalId());
-        }
 	}
 
 	/**
@@ -106,7 +105,7 @@ public class TKUser {
 	public void clearTargetUser() {
 		this.targetPerson = null;
 	}
-	
+
 	public void clearTargetUserFromSession(){
 		UserSession userSession = UserLoginFilter.getUserSession(TKContext.getHttpServletRequest());
         userSession.getObjectMap().remove(TkConstants.TK_TARGET_USER_PERSON);
@@ -123,9 +122,6 @@ public class TKUser {
 
 	public void setTargetPerson(Person targetPerson) {
 		this.targetPerson = targetPerson;
-        if (targetPerson != null) {
-            this.targetUserPreferences = TkServiceLocator.getUserPreferenceService().getUserPreferences(targetPerson.getPrincipalId());
-        }
 	}
 
 	public UserRoles getActualPersonRoles() {
@@ -181,45 +177,45 @@ public class TKUser {
 			return getActualPersonRoles();
 		}
 	}
-	
+
 	public boolean isSystemAdmin() {
 		UserRoles userRoles = getCurrentRoles();
 		return userRoles.isSystemAdmin();
 	}
-	
+
 	public boolean isLocationAdmin() {
 		return getLocationAdminAreas().size() > 0;
 	}
-	
+
 	public boolean isDepartmentAdmin() {
 		return getDepartmentAdminAreas().size() > 0;
 	}
-	
+
 	public boolean isGlobalViewOnly() {
 		UserRoles userRoles = getCurrentRoles();
 		return userRoles.isGlobalViewOnly();
 	}
-	
+
 	public boolean isDepartmentViewOnly() {
 		UserRoles userRoles = getCurrentRoles();
 		return userRoles.getDepartmentViewOnlyDepartments().size() > 0;
 	}
-	
+
 	public boolean isReviewer(){
 		UserRoles userRoles = getCurrentRoles();
 		return userRoles.getReviewerWorkAreas().size() > 0;
 	}
-	
+
 	public boolean isApprover() {
 		UserRoles userRoles = getCurrentRoles();
 		return userRoles.getApproverWorkAreas().size() > 0;
 	}
-	
+
 	public Set<String> getLocationAdminAreas() {
 		UserRoles userRoles = getCurrentRoles();
 		return userRoles.getOrgAdminCharts();
 	}
-	
+
 	public Set<String> getDepartmentAdminAreas() {
 		UserRoles userRoles = getCurrentRoles();
 		return userRoles.getOrgAdminDepartments();
@@ -239,31 +235,6 @@ public class TKUser {
 	}
 
     /**
-     * Returns the UserPreferences for the current user. (backdoor > actual)
-     * @return A UserPreferences object for backdoor or actual.
-     */
-	public UserPreferences getCurrentUserPreferences() {
-		UserPreferences p = this.backdoorUserPreferences;
-        if (p == null)
-            p = this.actualUserPreferences;
-
-        return p;
-	}
-
-    /**
-     * UserPreferences for target > backdoor > actual.
-     * @return UserPreferences object for either target if present, backdoor, or
-     * actual (in that order).
-     */
-    public UserPreferences getTargetUserPreferences() {
-        UserPreferences p = this.targetUserPreferences;
-        if (p == null)
-            p = this.getCurrentUserPreferences();
-
-        return p;
-    }
-
-    /**
      * @return UserRoles for the target person if present, null otherwise.
      */
     public UserRoles getTargetPersonRoles() {
@@ -273,26 +244,4 @@ public class TKUser {
     public void setTargetPersonRoles(UserRoles targetPersonRoles) {
         this.targetPersonRoles = targetPersonRoles;
     }
-
-    public UserPreferences getActualUserPreferences() {
-        return actualUserPreferences;
-    }
-
-    public void setActualUserPreferences(UserPreferences actualUserPreference) {
-        this.actualUserPreferences = actualUserPreference;
-    }
-
-    public UserPreferences getBackdoorUserPreferences() {
-        return backdoorUserPreferences;
-    }
-
-    public void setBackdoorUserPreferences(UserPreferences backdoorUserPreference) {
-        this.backdoorUserPreferences = backdoorUserPreference;
-    }
-
-    public void setTargetUserPreferences(UserPreferences targetUserPreference) {
-        this.targetUserPreferences = targetUserPreference;
-    }
-
-
 }

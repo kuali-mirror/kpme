@@ -81,7 +81,7 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	}
 
 	public String getUserTimezone() {
-		return TkServiceLocator.getTimezoneService().getUserTimeZone();
+		return TkServiceLocator.getTimezoneService().getUserTimezone();
 	}
 
 	public Map<String, String> getAssignStyleClassMap() {
