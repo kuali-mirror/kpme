@@ -305,6 +305,10 @@ public class TkUserRoles implements UserRoles {
 
 	@Override
 	public boolean canSubmitTimesheet(TimesheetDocument doc) {
+		if(StringUtils.equals(this.getPrincipalId(),doc.getPrincipalId())){
+			return true;
+		}
+		
 		if(this.isApproverForTimesheet(doc)){
 			return true;
 		}
