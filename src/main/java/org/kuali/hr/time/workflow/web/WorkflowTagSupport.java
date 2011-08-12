@@ -6,6 +6,9 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kew.doctype.SecuritySession;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 
 public class WorkflowTagSupport {
 
@@ -45,7 +48,13 @@ public class WorkflowTagSupport {
     public boolean isApprovalButtonsEnabled() {
         String docId = TKContext.getCurrentTimesheetDocumentId();
         TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(docId);
-        return (tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE));
+        boolean isEnroute = tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE);
+        if(isEnroute){
+        	DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(Long.parseLong(docId));
+        	boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(TKContext.getUserSession(), routeHeader, new SecuritySession(TKContext.getUserSession()));
+        	return authorized;
+        }
+        return false;
     }
 
     public String getRouteAction() { return TkConstants.TIMESHEET_ACTIONS.ROUTE; }

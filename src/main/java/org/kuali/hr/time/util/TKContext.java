@@ -7,6 +7,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.web.session.UserSession;
+
 public class TKContext {
 
     private static final String TDOC_KEY = "_TDOC_ID_KEY"; // Timesheet Document ID Key
@@ -45,6 +48,10 @@ public class TKContext {
 
 	public static void setUser(TKUser user) {
 		TKContext.getStorageMap().put(USER_KEY, user);
+	}
+	
+	public static UserSession getUserSession(){
+		return (UserSession) getHttpServletRequest().getSession().getAttribute(KEWConstants.USER_SESSION_KEY);
 	}
 
 	public static String getPrincipalId(){

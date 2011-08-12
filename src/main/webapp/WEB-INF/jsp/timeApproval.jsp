@@ -75,7 +75,7 @@
                                 <c:set var="assignmentRowId" value="assignmentDetails${rowCount}"/>
 								<c:set var="rowCount" value="${rowCount+1}" />
                             </td>
-                            <td><a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do&returnUrl=TimeApproval.do">${approvalRow.documentId}</a>
+                            <td><a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${approvalRow.documentId}&returnUrl=TimeApproval.do">${approvalRow.documentId}</a>
                                 <div style="float:right;">
                                     <c:if test="${fn:length(approvalRow.warnings) > 0 }">
                                         <div class="ui-state-default ui-corner-all" style="float:right;">
