@@ -100,6 +100,9 @@ public interface UserRoles {
      */
     public boolean isApproverForTimesheet(TimesheetDocument doc);
     public boolean isApproverForTimesheet(String docId);
+    
+    public boolean canSubmitTimesheet(TimesheetDocument doc);
+    public boolean canSubmitTimesheet(String docId);
 
     public boolean isDocumentReadable(TimesheetDocument document);
     public boolean isDocumentReadable(String documentId);

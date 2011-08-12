@@ -184,6 +184,14 @@ public class TkUserRoles implements UserRoles {
 
         List<Assignment> assignments = doc.getAssignments();
         for (Assignment assignment : assignments) {
+        	String location = assignment.getJob().getLocation();
+        	if(this.getOrgAdminCharts().contains(location)){
+        		return true;
+        	}
+        	String dept = assignment.getDept();
+        	if(this.getOrgAdminDepartments().contains(dept)){
+        		return true;
+        	}
             if (this.approverRoles.containsKey(assignment.getWorkArea())) {
                 return true;
             }
@@ -278,4 +286,39 @@ public class TkUserRoles implements UserRoles {
 
         return readable;
     }
+    
+    private boolean isLocationAdmin(TimesheetDocument doc){
+    	for(Assignment assign : doc.getAssignments()){
+    		String location = assign.getJob().getLocation();
+    		return this.orgAdminRolesChart.containsKey(location);
+    	}
+    	return false;
+    }
+    
+    private boolean isDepartmentAdmin(TimesheetDocument doc){
+    	for(Assignment assign : doc.getAssignments()){
+    		String dept = assign.getDept();
+    		return this.orgAdminRolesDept.containsKey(dept);
+    	}
+    	return false;
+    }
+
+	@Override
+	public boolean canSubmitTimesheet(TimesheetDocument doc) {
+		if(this.isApproverForTimesheet(doc)){
+			return true;
+		}
+		
+		//System admins/location admins/dept admins can route the document as well as the employee
+		if(this.isSystemAdmin() || isLocationAdmin(doc) || isDepartmentAdmin(doc)){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canSubmitTimesheet(String docId) {
+		TimesheetDocument doc = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
+		return canSubmitTimesheet(doc);
+	}
 }

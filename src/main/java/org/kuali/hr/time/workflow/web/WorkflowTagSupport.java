@@ -14,7 +14,13 @@ public class WorkflowTagSupport {
     }
 
     public boolean isDisplayingRouteButton() {
-        return true;
+      UserRoles roles = TKContext.getUser().getCurrentTargetRoles();
+      String docId = TKContext.getCurrentTimesheetDocumentId();
+      TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(docId);
+      if(tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED)){
+    	  return roles.canSubmitTimesheet(docId);
+      }
+      return false;
     }
 
     /**
