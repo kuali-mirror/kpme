@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     // calendar
     var date = new Date();
     var d = date.getDate();
@@ -20,6 +19,8 @@ $(document).ready(function() {
     var prevDocId = $('#prevDocumentId').val();
     var nextDocId = $('#nextDocumentId').val();
 
+
+    
     // create navigation buttons
     $('#nav_prev').button({
         icons: {
@@ -46,6 +47,7 @@ $(document).ready(function() {
     var selectedDays = [];
 
 
+    
     // When making a mouse selection, it creates a "lasso" effect which we want to get rid of.
     // In the future version of jQuery UI, lasso is going to one of the options where it can be enabled / disabled.
     // For now, the way to disable it is to modify the css.
@@ -59,9 +61,10 @@ $(document).ready(function() {
         distance: 1,
         selected: function(event, ui) {
             // add the event day to an array
-            selectedDays.push(ui.selected.id);
+        		selectedDays.push(ui.selected.id);
         },
         selecting: function(event, ui) {
+
             var selectingDays = [];
             // get the index number of the selected td
             $(".ui-selecting", this).each(function() {
@@ -76,8 +79,7 @@ $(document).ready(function() {
             }
         },
         stop: function(event, ui) {
-
-            var currentDay = new Date(beginPeriodDateTimeObj);
+        	var currentDay = new Date(beginPeriodDateTimeObj);
             var beginDay = new Date(currentDay);
             var endDay = new Date(currentDay);
 
@@ -89,12 +91,15 @@ $(document).ready(function() {
         }
     });
 
+    if($('#docEditable').val() == 'false'){
+    	$(".cal-table").selectable( "destroy" );
+    }
+    
+    
     var thing = $('#tkCal').click(function(event) {
-
         if ($('#docEditable').val() == "false") {
             return false;
         }
-
         if (event.target.id.indexOf("_") > -1) {
             var actionA = event.target.id.split("_");
             if (actionA.length == 2) {
