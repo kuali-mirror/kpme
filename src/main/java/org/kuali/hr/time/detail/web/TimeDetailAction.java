@@ -218,15 +218,4 @@ public class TimeDetailAction extends TimesheetAction {
         ActionFormUtils.validateHourLimit(tdaf);
         return mapping.findForward("basic");
     }
-    
-    public ActionForward loadDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        String viewPrincipal = TKContext.getUser().getPrincipalId();
-        TimesheetDocumentHeader tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(tdaf.getDocumentId());
-        PayCalendarEntries payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(viewPrincipal, tsdh.getPayEndDate());
-        TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntries);
-        setupDocumentOnFormContext(tdaf, td);
-        
-    	return mapping.findForward("basic");
-    }
 }

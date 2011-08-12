@@ -29,7 +29,7 @@ $(document).ready(function() {
     });
 
     $('#nav_prev').click(function() {
-        window.location = 'TimeDetail.do?methodToCall=loadDocument&documentId=' + prevDocId;
+        window.location = 'TimeDetail.do?documentId=' + prevDocId;
     });
 
     $('#nav_next').button({
@@ -40,7 +40,7 @@ $(document).ready(function() {
     });
 
     $('#nav_next').click(function() {
-        window.location = 'TimeDetail.do?methodToCall=loadDocument&documentId=' + nextDocId;
+        window.location = 'TimeDetail.do?documentId=' + nextDocId;
     });
 
     var selectedDays = [];
