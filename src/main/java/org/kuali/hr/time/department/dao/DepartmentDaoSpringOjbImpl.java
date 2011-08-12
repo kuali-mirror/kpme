@@ -51,7 +51,7 @@ public class DepartmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 	}
 
     @Override
-    public List<Department> getDepartments(String chart, Date asOfDate) {
+    public List<Department> getDepartments(String location, Date asOfDate) {
 		Criteria root = new Criteria();
 		Criteria effdt = new Criteria();
 		Criteria timestamp = new Criteria();
@@ -66,7 +66,7 @@ public class DepartmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Department.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 
-		root.addEqualTo("chart", chart);
+		root.addEqualTo("location", location);
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
 

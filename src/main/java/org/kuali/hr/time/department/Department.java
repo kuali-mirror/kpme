@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -23,9 +24,12 @@ public class Department extends HrBusinessObject {
     private String description;
     private String chart;
     private String org;
+    private String location;
 
     private Chart chartObj;
     private Organization orgObj;
+    private Location locationObj;
+    
     private List<TkRole> roles = new LinkedList<TkRole>();
 
     @SuppressWarnings("unchecked")
@@ -136,5 +140,21 @@ public class Department extends HrBusinessObject {
 	@Override
 	public void setId(Long id) {
 		setTkDeptId(id);
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public Location getLocationObj() {
+		return locationObj;
+	}
+
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
 	}
 }
