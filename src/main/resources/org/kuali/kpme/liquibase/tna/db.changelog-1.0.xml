@@ -1246,6 +1246,7 @@
             <column name="DESCRIPTION" type="VARCHAR(75)"/>
             <column name="ORG" type="VARCHAR(10)"/>
             <column name="CHART" type="VARCHAR(10)"/>
+            <column name="location" type="VARCHAR(20)"/>
             <column name="effdt" type="DATE"/>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
