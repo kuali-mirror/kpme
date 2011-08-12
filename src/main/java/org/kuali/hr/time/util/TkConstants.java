@@ -3,7 +3,6 @@ package org.kuali.hr.time.util;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -109,7 +108,6 @@ public class TkConstants {
 
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_EMPLOYEE);
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_APPROVER);
-        ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_LOCATION_ADMIN);
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_DEPT_ADMIN);
 
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_REVIEWER,  "Reviewer"); // attach at 'work area' level, like approvers without departmental rules
