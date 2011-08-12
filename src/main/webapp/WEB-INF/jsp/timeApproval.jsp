@@ -3,47 +3,48 @@
 <jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport"/>
 
 <tk:tkHeader tabId="approvals">
-    <html:hidden property="methodToCall" value=""/>
-    <html:hidden styleId="rit"   property="rowsInTotal"              value="${fn:length(Form.approvalRows)}"/>
-    <html:hidden styleId="pcid"  property="payCalendarId"            value="${Form.payCalendarId}"/>
-    <html:hidden styleId="pceid" property="payCalendarEntriesId"     value="${Form.payCalendarEntriesId}"/>
 
-    <div class="approvals">
-        <table id="approvals-filter">
-            <tr>
-                <td class="left">
-                    Search By :
-                    <label for="search field">
-                        <select id="searchField" name="searchField">
-                            <option value="">-- Select a field --</option>
-                            <option value="DocumentId">Document Id</option>
-                            <option value="PrincipalName">Principal Name</option>
-                        </select>
-                    </label>
-                    Value :
-                    <label for="search value">
-                        <input id="searchValue" name="searchValue" type="text" placeholder="enter at least 3 chars"/>
-                    </label>
-                </td>
-                <td class="center">
-                    <button class="prev">Previous</button>
-                    <span style="font-size: 1.5em; vertical-align: middle;">
-                    <fmt:formatDate value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/> -
-                    <fmt:formatDate value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
-                    <button class="next">Next</button>
-                </td>
-                <td class="right">
-                    Switch Pay Calendar Groups:
-                    <label for="switch pay calendar groups">
-                        <select id="selectedPayCalendarGroup" name="selectedPayCalendarGroup">
-                            <c:forEach var="payCalendarGroup" items="${Form.payCalendarGroups}">
-                                <option value="${payCalendarGroup}" selected="selected">${payCalendarGroup}</option>
-                            </c:forEach>
-                        </select>
-                    </label>
-                </td>
-            </tr>
-        </table>
+    <html:form action="/TimeApproval.do" styleId="time-approval">
+        <html:hidden property="methodToCall" value="approve"/>
+        <html:hidden styleId="rit"   property="rowsInTotal"              value="${fn:length(Form.approvalRows)}"/>
+        <html:hidden styleId="pcid"  property="payCalendarId"            value="${Form.payCalendarId}"/>
+        <html:hidden styleId="pceid" property="payCalendarEntriesId"     value="${Form.payCalendarEntriesId}"/>
+        <div class="approvals">
+            <table id="approvals-filter">
+                <tr>
+                    <td class="left">
+                        Search By :
+                        <label for="search field">
+                            <select id="searchField" name="searchField">
+                                <option value="">-- Select a field --</option>
+                                <option value="DocumentId">Document Id</option>
+                                <option value="PrincipalName">Principal Name</option>
+                            </select>
+                        </label>
+                        Value :
+                        <label for="search value">
+                            <input id="searchValue" name="searchValue" type="text" placeholder="enter at least 3 chars"/>
+                        </label>
+                    </td>
+                    <td class="center">
+                        <button class="prev">Previous</button>
+                        <span style="font-size: 1.5em; vertical-align: middle;">
+                        <fmt:formatDate value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/> -
+                        <fmt:formatDate value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
+                        <button class="next">Next</button>
+                    </td>
+                    <td class="right">
+                        Switch Pay Calendar Groups:
+                        <label for="switch pay calendar groups">
+                            <select id="selectedPayCalendarGroup" name="selectedPayCalendarGroup">
+                                <c:forEach var="payCalendarGroup" items="${Form.payCalendarGroups}">
+                                    <option value="${payCalendarGroup}" selected="selected">${payCalendarGroup}</option>
+                                </c:forEach>
+                            </select>
+                        </label>
+                    </td>
+                </tr>
+            </table>
 
         <c:choose>
             <c:when test="${fn:length(Form.approvalRows) > 0}">
@@ -219,8 +220,8 @@
                 <span style="font-size: 1.5em;">No document for approval.</span>
             </c:otherwise>
         </c:choose>
-
     </div>
+</html:form>
 
 
 </tk:tkHeader>

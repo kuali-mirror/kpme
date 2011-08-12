@@ -22,7 +22,7 @@ public class TimeApprovalActionForm extends TkForm {
     private Date payBeginDate;
     private Date payEndDate;
     private List<String> payCalendarLabels = new ArrayList<String>();
-    private List<ApprovalTimeSummaryRow> approvalRows = new ArrayList<ApprovalTimeSummaryRow>();
+    private ApprovalTimeSummaryRow[] approvalRows;
     private Long workArea = null;
     private String documentId;
     private String employeeWorkArea;
@@ -136,11 +136,11 @@ public class TimeApprovalActionForm extends TkForm {
         this.rowsToShow = rowsToShow;
     }
 
-    public List<ApprovalTimeSummaryRow> getApprovalRows() {
+    public ApprovalTimeSummaryRow[] getApprovalRows() {
         return approvalRows;
     }
 
-    public void setApprovalRows(List<ApprovalTimeSummaryRow> approvalRows) {
+    public void setApprovalRows(ApprovalTimeSummaryRow[] approvalRows) {
         this.approvalRows = approvalRows;
     }
 

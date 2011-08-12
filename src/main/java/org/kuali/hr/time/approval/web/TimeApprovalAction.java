@@ -100,16 +100,16 @@ public class TimeApprovalAction extends TkAction {
 
         taaf.setPayCalendarGroups(calGroups);
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
-        taaf.setApprovalRows(getApprovalRows(taaf));
+        taaf.setApprovalRows(convertToArray(getApprovalRows(taaf)));
 
         return super.execute(mapping, form, request, response);
     }
     
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
-    	List<ApprovalTimeSummaryRow> lstApprovalRows = taaf.getApprovalRows();
+    	ApprovalTimeSummaryRow[] lstApprovalRows = taaf.getApprovalRows();
     	for(ApprovalTimeSummaryRow ar: lstApprovalRows){
-    		//call to approve each row here
+    		ar.getSelected();
     	}
     	return mapping.findForward("basic");
     	
@@ -247,6 +247,10 @@ public class TimeApprovalAction extends TkAction {
 
     List<ApprovalTimeSummaryRow> filterCalendarType(String calendarType) {
         return null;
+    }
+
+    private ApprovalTimeSummaryRow[] convertToArray(List<ApprovalTimeSummaryRow> rows) {
+        return rows.toArray(new ApprovalTimeSummaryRow[rows.size()]);
     }
 
 }

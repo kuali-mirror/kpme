@@ -4,7 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.ken.util.NotificationConstants.KEW_CONSTANTS;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -36,6 +35,7 @@ public class ApprovalTimeSummaryRow {
     private String[] workAreas;
     private String principalId;
     private Boolean clockedInOverThreshold = Boolean.FALSE;
+    private Boolean selected = Boolean.FALSE;
 
     public Map<String, String> getAssignmentDescriptions() {
         return assignmentDescriptions;
@@ -186,4 +186,12 @@ public class ApprovalTimeSummaryRow {
 	public void setClockedInOverThreshold(Boolean clockedInOverThreshold) {
 		this.clockedInOverThreshold = clockedInOverThreshold;
 	}
+
+    public Boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Boolean selected) {
+        this.selected = selected;
+    }
 }
