@@ -590,5 +590,9 @@ public String getBeginDateString() {
     public int compareTo(TimeBlock tb) {
         return this.getBeginTimestamp().compareTo(tb.getBeginTimestamp());
     }
+    
+    public Boolean getEditable() {
+    	return TkServiceLocator.getTimeBlockService().isTimeBlockEditable(this);
+    }
 
 }

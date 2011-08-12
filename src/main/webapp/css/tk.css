@@ -647,6 +647,11 @@ select {
     cursor: pointer;
 }
 
+.cal .event-title-false {
+    text-decoration: none;
+    cursor: text;
+}
+
 .cal .event-content {
     clear: both;
     text-align: center;

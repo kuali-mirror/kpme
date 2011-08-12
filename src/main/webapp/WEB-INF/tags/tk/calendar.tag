@@ -50,7 +50,7 @@
                                 <%-- Render the Time Blocks --%>
                             <div>
                                 <c:forEach var="block" items="${day.blockRenderers}" varStatus="status">
-                              		<c:if test="${block.timeBlock.earnCode ne TkConstants.LUNCH_EARN_CODE}">
+                              		<c:if test="${block.timeBlock.earnCode ne TkConstants.LUNCH_EARN_CODE}" >
 	                                   <c:choose>
 	                                       <c:when test="${status.last}">
 	                                           <c:set var="last" value="last-event"/>
@@ -60,15 +60,28 @@
 	                                       </c:otherwise>
 	                                   </c:choose>
 	
+									
 	                                   <div class="event ${last} ${block.assignmentClass}">
-	                                       <div id="block_${block.timeBlock.tkTimeBlockId}" class="event-title-${Form.docEditable}">
-	                                           <c:if test="${Form.docEditable}">
-	                                           	<div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='event-delete'
-	                                                     src='images/delete.png'/>
-	                                                </div>
-	                                             </c:if>
-	                                               ${block.title}
-	                                       </div>
+	                                   	   <c:set var="editableClass" value="event-title-false"/>
+	                                   	   <c:if test="${Form.docEditable && block.timeBlock.editable}">
+	                                   	   		<c:set var="editableClass" value="event-title-true"/>
+	                                   	   </c:if>
+	                                   	   
+	                                        <div id="block_${block.timeBlock.tkTimeBlockId}" class="${editableClass}">
+	                                    		<c:choose>
+		                                           <c:when test="${Form.docEditable && block.timeBlock.editable}">
+			                                           	<div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='event-delete'
+			                                                     src='images/delete.png'/>
+			                                            </div>
+			                                            ${block.title}
+		                                           </c:when>
+		                                           <c:otherwise>
+		                                           		<div class="event-content">
+			                                            	${block.title}
+			                                            </div>
+		                                           </c:otherwise>
+		                                        </c:choose>
+		                                     </div>
 	                                       ${block.timeRange}
 	                                       <div>
 	                                        <c:if test="${block.earnCodeType ne TkConstants.EARN_CODE_AMOUNT}">

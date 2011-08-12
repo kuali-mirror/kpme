@@ -92,5 +92,5 @@ public interface TimeBlockService {
 
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 
-	public String isTimeBlockEditable(String creatorId);
+	public Boolean isTimeBlockEditable(TimeBlock tb);
 }

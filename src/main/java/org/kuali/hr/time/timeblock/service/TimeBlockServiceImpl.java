@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -267,17 +268,22 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
 	@Override
 	// figure out if the user has permission to edit/delete the time block
-	public String isTimeBlockEditable(String creatorId) {
+	public Boolean isTimeBlockEditable(TimeBlock tb) {
+		UserRoles ur = TKContext.getUser().getCurrentRoles();
 		String userId = TKContext.getUser().getPrincipalId();
-		if(userId != null ) {
-			if(userId.equals(creatorId)) {
-				return "true";				// if the user is the creator of this time block
-			} else {
-				if(TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().getCurrentRoles().isTimesheetApprover())
-					return "true";
+    			
+		if(userId != null && ur != null) {
+			if(tb.getClockLogCreated() && userId.equals(tb.getUserPrincipalId())) {
+				return false;		// time block was created by clock in/out
+			} 
+			if(ur.isSystemAdmin() || ur.isTimesheetApprover()) {
+				return true;
+			}
+			if(userId.equals(tb.getUserPrincipalId())) {
+				return true;				// if the user is the creator of this time block
 			}
 		}
-		return "false";
+		return false;
 	}
 
 }
