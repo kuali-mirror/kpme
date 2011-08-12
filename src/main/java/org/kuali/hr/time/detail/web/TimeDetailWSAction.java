@@ -58,6 +58,18 @@ public class TimeDetailWSAction extends TimesheetAction {
         PayCalendarEntries payCalEntry = tdaf.getTimesheetDocument().getPayCalendarEntry();
         java.sql.Date asOfDate = payCalEntry.getEndPeriodDate();
         
+        if(tdaf.getStartDate()==null){
+            errorMsgList.add("The start date is blank.");
+            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+            return mapping.findForward("ws");
+        }
+
+        if(tdaf.getEndDate()==null){
+            errorMsgList.add("The end date is blank.");
+            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+            return mapping.findForward("ws");
+        }
+        
         Long startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime()).getTime();
         Long endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime()).getTime();
         
@@ -65,19 +77,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         if(StringUtils.isNotBlank(tdaf.getSelectedEarnCode())){
         	EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), asOfDate);
         	if(earnCode!=null && earnCode.getRecordTime()){
-                if(tdaf.getStartDate()==null){
-                    errorMsgList.add("The start date is blank.");
-                    tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-                    return mapping.findForward("ws");
-                }
-
-                if(tdaf.getEndDate()==null){
-                    errorMsgList.add("The end date is blank.");
-                    tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-                    return mapping.findForward("ws");
-                }
-                
-                if(tdaf.getStartTime()==null){
+        		if(tdaf.getStartTime()==null){
                     errorMsgList.add("The start time is blank.");
                     tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
                     return mapping.findForward("ws");
