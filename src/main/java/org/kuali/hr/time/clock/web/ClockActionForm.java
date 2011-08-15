@@ -275,8 +275,13 @@ public class ClockActionForm extends TimesheetActionForm {
 			 if(td != null) {
 				 List<TimeBlock> tbList = new ArrayList<TimeBlock>();
 				 if(td != null) {
-					 tbList = td.getTimeBlocks();
+					 for(TimeBlock tbTemp : td.getTimeBlocks()) {
+						 if(tbTemp.getClockLogCreated()) {
+							 tbList.add(tbTemp);
+						 }
+					 }
 				 }
+				 
 				 List<Assignment> assignmentList = TkServiceLocator.getAssignmentService().getAssignments(pId, null);
 				 List<String> aList = new ArrayList<String>();
 				 Map<String, List<TimeBlock>> tbMap = new HashMap<String, List<TimeBlock>>();
