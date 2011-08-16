@@ -48,11 +48,6 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     @Transient
     private Time endTime;
 
-    private String beginDateString;
-    private String endDateString;
-    private String beginTimeString;
-    private String endTimeString;
-
 	private Boolean clockLogCreated;
 	private BigDecimal hours = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 	private BigDecimal amount = TkConstants.BIG_DECIMAL_SCALED_ZERO;
@@ -517,68 +512,6 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 		this.earnCodeType = earnCodeType;
 	}
 
-
-    // The following methods will be removed - they were added in revision
-    // 1071. They add bulk to the object and are not consistent with the
-    // rest of the application.
-
-    @Deprecated
-public String getBeginDateString() {
-		if(this.getBeginDate() != null) {
-			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			this.setBeginDateString(df.format(this.getBeginDate()));
-		}
-		return beginDateString;
-	}
-
-    @Deprecated
-	public void setBeginDateString(String beginDateString) {
-		this.beginDateString = beginDateString;
-	}
-
-    @Deprecated
-	public String getEndDateString() {
-		if(this.getEndDate() != null) {
-			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			this.setEndDateString(df.format(this.getEndDate()));
-		}
-		return endDateString;
-	}
-
-    @Deprecated
-	public void setEndDateString(String endDateString) {
-		this.endDateString = endDateString;
-	}
-
-    @Deprecated
-	public String getBeginTimeString() {
-		if(this.getBeginTime() != null) {
-			SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
-			this.setBeginTimeString(sdFormat.format(this.getBeginTime()));
-		}
-
-		return beginTimeString;
-	}
-
-    @Deprecated
-	public void setBeginTimeString(String beginTimeString) {
-		this.beginTimeString = beginTimeString;
-	}
-
-    @Deprecated
-	public String getEndTimeString() {
-		if(this.getEndTime() != null) {
-			SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
-			this.setEndTimeString(sdFormat.format(this.getEndTime()));
-		}
-		return endTimeString;
-	}
-
-    @Deprecated
-	public void setEndTimeString(String endTimeString) {
-		this.endTimeString = endTimeString;
-	}
-
 	/**
      * This is for distribute time block page to sort it by begin date/time
      * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -590,7 +523,7 @@ public String getBeginDateString() {
     public int compareTo(TimeBlock tb) {
         return this.getBeginTimestamp().compareTo(tb.getBeginTimestamp());
     }
-    
+
     public Boolean getEditable() {
     	return TkServiceLocator.getTimeBlockService().isTimeBlockEditable(this);
     }

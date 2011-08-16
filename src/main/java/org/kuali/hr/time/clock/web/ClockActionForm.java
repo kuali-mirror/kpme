@@ -281,7 +281,7 @@ public class ClockActionForm extends TimesheetActionForm {
 						 }
 					 }
 				 }
-				 
+                 TkServiceLocator.getTimezoneService().translateForTimezone(tbList, TkServiceLocator.getTimezoneService().getUserTimezone());
 				 List<Assignment> assignmentList = TkServiceLocator.getAssignmentService().getAssignments(pId, null);
 				 List<String> aList = new ArrayList<String>();
 				 Map<String, List<TimeBlock>> tbMap = new HashMap<String, List<TimeBlock>>();

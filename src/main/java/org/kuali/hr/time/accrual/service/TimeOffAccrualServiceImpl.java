@@ -10,6 +10,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.math.BigDecimal;
@@ -28,24 +29,24 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 	public static final String HOURS_ADJUST_KEY = "hoursAdjust";
 	public static final String TOTAL_HOURS_KEY = "totalHours";
 	public static final String EFF_DATE_KEY = "effdt";
-	
+
 	private TimeOffAccrualDao timeOffAccrualDao;
 
 	public void setTimeOffAccrualDao(TimeOffAccrualDao timeOffAccrualDao) {
 		this.timeOffAccrualDao = timeOffAccrualDao;
 	}
-	
+
 	@Override
 	@CacheResult
 	public List<TimeOffAccrual> getTimeOffAccruals(String principalId) {
 		return timeOffAccrualDao.getTimeOffAccruals(principalId);
 	}
-	
+
 	@Override
 	public List<Map<String, Object>> getTimeOffAccrualsCalc(String principalId) {
-		
+
 		List<Map<String, Object>> timeOffAccrualsCalc = new ArrayList<Map<String, Object>>();
-		
+
 		for(TimeOffAccrual timeOffAccrual : getTimeOffAccruals(principalId)) {
 			Map<String, Object> output = new LinkedHashMap<String, Object>();
 			output.put(ACCRUAL_CATEGORY_KEY, timeOffAccrual.getAccrualCategory());
@@ -55,13 +56,13 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 			BigDecimal totalHours = timeOffAccrual.getHoursAccrued().subtract(timeOffAccrual.getHoursTaken()).add(timeOffAccrual.getHoursAdjust());
 			output.put(TOTAL_HOURS_KEY, totalHours);
 			output.put(EFF_DATE_KEY, timeOffAccrual.getEffectiveDate());
-			
+
 			timeOffAccrualsCalc.add(output);
 		}
-		
+
 		return timeOffAccrualsCalc;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<String> validateAccrualHoursLimit(TimesheetDocument timesheetDocument) {
 		 List<String> warningMessages = new ArrayList<String>();
@@ -97,15 +98,15 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
              if (totalForAccrCate.compareTo(balanceHrs) == 1) {
              	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category " + accrualCategory + " has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are:<br/>";
              	for(TimeBlock tb : warningTbs) {
-             		msg += "Earn code: " + tb.getEarnCode()+ " Hours: " + tb.getHours().toString() + " on Date " + tb.getBeginDateString() + "<br/>";
+             		msg += "Earn code: " + tb.getEarnCode()+ " Hours: " + tb.getHours().toString() + " on Date " + tb.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT) + "<br/>";
              	}
                 warningMessages.add(msg);
-                 
+
              }
          }
          return warningMessages;
     }
-    
+
     public BigDecimal totalForAccrCate(String accrualCategory, List<TimeBlock> tbList, List<TimeBlock> warningTbs) {
         BigDecimal total = BigDecimal.ZERO;
         for (TimeBlock tb : tbList) {

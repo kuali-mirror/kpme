@@ -44,7 +44,7 @@
 					</tbody>
 				</table>
 		</div>
-		
+
 		<div id="clock">
 		 	<p id="validation" class="validation">All form fields are required.</p>
 		 	<div id="edit-panel">
@@ -79,25 +79,29 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" name="bdRow1" id="bdRow1" size="10" value="${Form.currentTimeBlock.beginDateString}">
+								<input type="text" name="bdRow1" id="bdRow1" size="10"
+                                       value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.beginTimeDisplayDate}" pattern="MM/dd/yyyy"/>"/>
 							</td>
-								
+
 							<td>
-								<input name="btRow1" id="btRow1" size="10" value="${Form.currentTimeBlock.beginTimeString}">
-								<input type="button" style="width: 20px; height: 23px;" id="beginTimeHelp1" value="?" 
+								<input name="btRow1" id="btRow1"
+                                       size="10" value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.beginTimeDisplayDate}" pattern="hh:mm aa"/>">
+								<input type="button" style="width: 20px; height: 23px;" id="beginTimeHelp1" value="?"
 									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
 							</td>
 							<td>
-								<input type="text" name="edRow1" id="edRow1" size="10" value="${Form.currentTimeBlock.endDateString}">
+								<input type="text" name="edRow1" id="edRow1" size="10"
+                                       value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.endTimeDisplayDate}" pattern="MM/dd/yyyy"/>">
 							</td>
 							<td>
-								<input name="etRow1" id="etRow1" size="10" value="${Form.currentTimeBlock.endTimeString}">
+								<input name="etRow1" id="etRow1" size="10"
+                                       value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.endTimeDisplayDate}" pattern="hh:mm aa"/>">
 								<input type="button" style="width: 20px; height: 23px;" id="endTimeHelp1" value="?"
 									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
 							</td>
 							<td>
 								<input name="hrRow1" id="hrRow1" size="5" readonly="" value="${Form.currentTimeBlock.hours}">
-								<input type="button" style="width: 20px; height: 23px;" id="hourHelp1" value="?" 
+								<input type="button" style="width: 20px; height: 23px;" id="hourHelp1" value="?"
 									title="Supported formats:<br/>0.5, 0.50, 5, 5.0, 5.00">
 							</td>
 							<td>
@@ -123,14 +127,14 @@
 				</table>
 			</div>
 		</div>
-		
-		
+
+
 		<div align="center">
 			 <input type="button" class="button" value="Save" name="saveTimeBlock" id="saveTimeBlock"/>
-			<input type="submit" class="button" value="Cancel" name="cancel" 
+			<input type="submit" class="button" value="Cancel" name="cancel"
 			onclick="javascript: window.close();return false;"/>
 		</div>
-	
+
 	</html:form>
 </tk:tkHeader>
 
