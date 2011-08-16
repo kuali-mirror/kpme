@@ -130,12 +130,20 @@ $(document).ready(function() {
                     var calEvent = tblocks[timeBlockId];
                     calEvent.start = Date.parse(calEvent.startNoTz);
                     calEvent.end = Date.parse(calEvent.endNoTz);
-
+                    
+                    // if end date time is 12:00 AM, subtract 1 day from end date, it matches what we do in Add click function
+					var endDateString = calEvent.end.toString('MM/dd/yyyy');
+					if (calEvent.end.toString('hh:mm tt') == "12:00 AM") {
+					    var dateRangeField = endDateString.split("/");
+					    var dateString = parseInt(dateRangeField[1]) - 1;
+					    endDateString = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
+					}
+					
                     //console.log(calEvent.start);
 
                     $('#dialog-form').dialog('open');
                     $('#date-range-begin').val(calEvent.start.toString('MM/dd/yyyy'));
-                    $('#date-range-end').val(calEvent.end.toString('MM/dd/yyyy'));
+                    $('#date-range-end').val(endDateString);
                     $("select#assignment option[value='" + calEvent.assignment + "']").attr("selected", "selected");
                     $('#earnCode').loadEarnCode($('#assignment').val(), calEvent.earnCode + "_" + calEvent.earnCodeType);
                     $('#beginTimeField').val(calEvent.start.toString('hh:mm tt'));
@@ -268,16 +276,12 @@ $(document).ready(function() {
 
             // if the end time is 12:00 am, move the end date to the next day
 
-//            if (endTimeValue == "0:0") {
-//                var dateRangeField = endDateValue.split("/");
-//                var dateString = parseInt(dateRangeField[1]) + 1;
-//                endDateValue = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
-//            }
-
-            // Does not work, if you are editing an existing block that ends at midnight, you
-            // do not want to re-increment the date.
-
-
+            if (endTimeValue == "0:0") {
+                var dateRangeField = endDateValue.split("/");
+                var dateString = parseInt(dateRangeField[1]) + 1;
+                endDateValue = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
+            }
+            
             // these are for the submitted form
             $('#methodToCall').val('addTimeBlock');
             $('#startDate').val($('#date-range-begin').val());
