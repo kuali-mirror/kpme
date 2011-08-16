@@ -63,19 +63,38 @@ public class WorkAreaMaintenanceDocumentRule extends
 
 		return valid;
 	}
-
+	
 	boolean validateTask(Task task, List<Task> tasks) {
 		boolean valid = true;
+				
 		for (Task t : tasks) {
-			if (t.getTask().equals(task.getTask())) {
-				this.putGlobalError("error.duplicate.entry", "task '"
-						+ task.getTask() + "'");
-				valid = false;
+			if (t.getTask().equals(task.getTask()) || task.getTask().compareTo(100L) < 0) {
+				if ( t.getTask().equals(task.getTask()) ){
+					this.putGlobalError("error.duplicate.entry", "task '" + task.getTask() + "'");
+					valid = false;
+				}
+				if ( task.getTask().compareTo(100L) < 0 ) {
+					this.putFieldError("add.tasks.task", "error.workArea.addTask.taskNumber" );
+					valid = false;
+				}
+				
 			}
 		}
 		return valid;
 	}
-
+	
+	
+	boolean validateTaskNumber(Task task, List<Task> tasks) {
+		boolean valid = true;
+		
+		if (task.getTask().compareTo(100L) < 0){
+			this.putFieldError("task", "workArea.task.taskNumber");
+			valid = false;
+		}
+		
+		return valid;
+	}
+	
 	boolean validateDefaultOTEarnCode(String earnCode, Date asOfDate) {
 		boolean valid = ValidationUtils.validateEarnCode(earnCode, true,
 				asOfDate);
@@ -116,10 +135,13 @@ public class WorkAreaMaintenanceDocumentRule extends
 		PersistableBusinessObject pbo = line;
 		if (pbo instanceof Task && pboWorkArea instanceof WorkArea) {
 			WorkArea wa = (WorkArea) pboWorkArea;
+			
 			Task task = (Task) pbo;
+			
 			if (task != null && wa.getTasks() != null) {
 				valid = true;
 				valid &= this.validateTask(task, wa.getTasks());
+				//valid &= this.validateTaskNumber(task, wa.getTasks()); // Jira870
 			}
 		} else if ((pbo instanceof TkRole && pboWorkArea instanceof WorkArea)) {
 			TkRole tkRole = (TkRole)pbo;
