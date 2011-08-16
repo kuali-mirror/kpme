@@ -90,7 +90,7 @@
 	<bean id="PrincipalCalendar-calendarGroup" parent="PrincipalCalendar-calendarGroup-parentBean" />
 	<bean id="PrincipalCalendar-calendarGroup-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Calendar Group" />
+		<property name="shortLabel" value="Pay Calendar Group" />
 		<property name="maxLength" value="30" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -101,7 +101,7 @@
 			<bean parent="TextControlDefinition" p:size="30" />
 		</property>
 		<property name="name" value="calendarGroup" />
-		<property name="label" value="Calendar Group" />
+		<property name="label" value="Pay Calendar Group" />
 	</bean>
 	
 	<bean id="PrincipalCalendar-timezone" parent="PrincipalCalendar-timezone-parentBean" />

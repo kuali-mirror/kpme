@@ -32,13 +32,13 @@
 
   <bean id="PayCalendar-calendarGroup" parent="PayCalendar-calendarGroup-parentBean"/>
   <bean id="PayCalendar-calendarGroup-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Calendar Group"/>
+    <property name="shortLabel" value="Pay Calendar Group"/>
     <property name="maxLength" value="21"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     <property name="name" value="calendarGroup"/>
-    <property name="label" value="Calendar Group"/>
+    <property name="label" value="Pay Calendar Group"/>
   </bean>
 
   <bean id="PayCalendar-flsaBeginDay" parent="PayCalendar-flsaBeginDay-parentBean"/>
