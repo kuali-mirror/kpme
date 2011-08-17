@@ -99,7 +99,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         return pceMap;
     }
 
-
     public SortedSet<String> getApproverPayCalendarGroups(Date payBeginDate, Date payEndDate) {
         SortedSet<String> pcg = new TreeSet<String>();
 
