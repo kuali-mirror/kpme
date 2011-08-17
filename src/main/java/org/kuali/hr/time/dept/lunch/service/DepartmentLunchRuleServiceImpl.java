@@ -50,8 +50,8 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 	@Override
 	public void applyDepartmentLunchRule(List<TimeBlock> timeblocks) {
 		for(TimeBlock timeBlock : timeblocks) {
-			String dept = TkServiceLocator.getJobSerivce().getJob(TKContext.getPrincipalId(), timeBlock.getJobNumber(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime())).getDept();
-			DeptLunchRule deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(dept, timeBlock.getWorkArea(), TKContext.getPrincipalId(), timeBlock.getJobNumber(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
+			String dept = TkServiceLocator.getJobSerivce().getJob(TKContext.getTargetPrincipalId(), timeBlock.getJobNumber(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime())).getDept();
+			DeptLunchRule deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(dept, timeBlock.getWorkArea(), TKContext.getTargetPrincipalId(), timeBlock.getJobNumber(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
 
 			if(timeBlock.getClockLogCreated() && deptLunchRule!= null && deptLunchRule.getDeductionMins() != null && timeBlock.getHours().compareTo(deptLunchRule.getShiftHours()) >= 0) {
                 applyLunchRuleToDetails(timeBlock, deptLunchRule);
