@@ -98,7 +98,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
              if (totalForAccrCate.compareTo(balanceHrs) == 1) {
              	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category " + accrualCategory + " has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are:<br/>";
              	for(TimeBlock tb : warningTbs) {
-             		msg += "Earn code: " + tb.getEarnCode()+ " Hours: " + tb.getHours().toString() + " on Date " + tb.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT) + "<br/>";
+             		msg += "Earn code: " + tb.getEarnCode()+ " Hours: " + tb.getHours().toString() + " on Date " + (tb.getBeginTimeDisplay() != null ? tb.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT) : "") + "<br/>";
              	}
                 warningMessages.add(msg);
 

@@ -1,5 +1,11 @@
 package org.kuali.hr.time.approval.web;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKContext;
@@ -8,12 +14,6 @@ import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ApprovalTimeSummaryRow {
 	private String name;
@@ -34,8 +34,9 @@ public class ApprovalTimeSummaryRow {
     private List<String> warnings = new ArrayList<String>();
     private String[] workAreas;
     private String principalId;
-    private Boolean clockedInOverThreshold = Boolean.FALSE;
-    private Boolean selected = Boolean.FALSE;
+    private Boolean clockedInOverThreshold = Boolean.FALSE;    
+    private String selected = "off";
+
 
     public Map<String, String> getAssignmentDescriptions() {
         return assignmentDescriptions;
@@ -186,12 +187,11 @@ public class ApprovalTimeSummaryRow {
 	public void setClockedInOverThreshold(Boolean clockedInOverThreshold) {
 		this.clockedInOverThreshold = clockedInOverThreshold;
 	}
+	public String getSelected() {
+		return selected;
+	}
 
-    public Boolean getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Boolean selected) {
-        this.selected = selected;
-    }
+	public void setSelected(String selected) {
+		this.selected = selected;
+	}
 }

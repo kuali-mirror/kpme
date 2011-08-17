@@ -3,48 +3,60 @@
 <jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport"/>
 
 <tk:tkHeader tabId="approvals">
+	<html:form action="/TimeApproval.do" method="POST">
+    <html:hidden property="methodToCall" value=""/>
+    <html:hidden styleId="rit"   property="rowsInTotal"              value="${fn:length(Form.approvalRows)}"/>
+    <html:hidden styleId="pcid"  property="payCalendarId"            value="${Form.payCalendarId}"/>
+    <html:hidden styleId="pceid" property="payCalendarEntriesId"     value="${Form.payCalendarEntriesId}"/>
 
-    <html:form action="/TimeApproval.do" styleId="time-approval">
-        <html:hidden property="methodToCall" value="approve"/>
-        <html:hidden styleId="rit"   property="rowsInTotal"              value="${fn:length(Form.approvalRows)}"/>
-        <html:hidden styleId="pcid"  property="payCalendarId"            value="${Form.payCalendarId}"/>
-        <html:hidden styleId="pceid" property="payCalendarEntriesId"     value="${Form.payCalendarEntriesId}"/>
-        <div class="approvals">
-            <table id="approvals-filter">
-                <tr>
-                    <td class="left">
-                        Search By :
-                        <label for="search field">
-                            <select id="searchField" name="searchField">
-                                <option value="">-- Select a field --</option>
-                                <option value="DocumentId">Document Id</option>
-                                <option value="PrincipalName">Principal Name</option>
-                            </select>
-                        </label>
-                        Value :
-                        <label for="search value">
-                            <input id="searchValue" name="searchValue" type="text" placeholder="enter at least 3 chars"/>
-                        </label>
-                    </td>
-                    <td class="center">
-                        <button class="prev">Previous</button>
-                        <span style="font-size: 1.5em; vertical-align: middle;">
-                        <fmt:formatDate value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/> -
-                        <fmt:formatDate value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
-                        <button class="next">Next</button>
-                    </td>
-                    <td class="right">
-                        Switch Pay Calendar Groups:
-                        <label for="switch pay calendar groups">
-                            <select id="selectedPayCalendarGroup" name="selectedPayCalendarGroup">
-                                <c:forEach var="payCalendarGroup" items="${Form.payCalendarGroups}">
-                                    <option value="${payCalendarGroup}" selected="selected">${payCalendarGroup}</option>
-                                </c:forEach>
-                            </select>
-                        </label>
-                    </td>
-                </tr>
-            </table>
+    <div class="approvals">
+        <table id="approvals-filter">
+            <tr>
+                <td class="left">
+                    Search By :
+                    <label for="search field">
+                        <select id="searchField" name="searchField">
+                            <option value="">-- Select a field --</option>
+                            <option value="DocumentId">Document Id</option>
+                            <option value="PrincipalName">Principal Name</option>
+                        </select>
+                    </label>
+                    Value :
+                    <label for="search value">
+                        <input id="searchValue" name="searchValue" type="text" placeholder="enter at least 3 chars"/>
+                    </label>
+                </td>
+                <td class="center">
+                	<c:if test="${Form.prevPayCalendarId ne null}">
+                    	<input type="button" class="prev" value="Previous" name="Previous" onclick="this.form.payCalendarEntriesId.value='${Form.prevPayCalendarId}'; this.form.submit();"/>
+                    </c:if>
+                    <span style="font-size: 1.5em; vertical-align: middle;">
+                    <fmt:formatDate value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/> -
+                    <fmt:formatDate value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
+                	<c:if test="${Form.nextPayCalendarId ne null}">
+                    	<input type="button" class="next" value="Next" name="Next" onclick="this.form.payCalendarEntriesId.value='${Form.nextPayCalendarId}'; this.form.submit();"/>
+                    </c:if>
+
+                </td>
+                <td class="right">
+                    Switch Pay Calendar Groups:
+                    <label for="switch pay calendar groups">
+                        <select id="selectedPayCalendarGroup" name="selectedPayCalendarGroup" onchange="this.form.methodToCall.value='selectNewPayCalendarGroup'; this.form.submit();">
+                            <c:forEach var="payCalendarGroup" items="${Form.payCalendarGroups}">
+                            	<c:choose>
+                            	<c:when test="${Form.selectedPayCalendarGroup eq payCalendarGroup}">
+                            		<option value="${payCalendarGroup}" selected="true">${payCalendarGroup}</option>
+                            	</c:when>
+                            	<c:otherwise>
+                            		<option value="${payCalendarGroup}">${payCalendarGroup}</option>
+                            	</c:otherwise>
+                            	</c:choose>
+                            </c:forEach>
+                        </select>
+                    </label>
+                </td>
+            </tr>
+        </table>
 
         <c:choose>
             <c:when test="${fn:length(Form.approvalRows) > 0}">
@@ -74,7 +86,7 @@
                                 <br/>${approvalRow.clockStatusMessage}
                                 <br/>
                                 <c:set var="assignmentRowId" value="assignmentDetails${rowCount}"/>
-								<c:set var="rowCount" value="${rowCount+1}" />
+								
                             </td>
                             <td><a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${approvalRow.documentId}&returnUrl=TimeApproval.do">${approvalRow.documentId}</a>
                                 <div style="float:right;">
@@ -155,8 +167,7 @@
                             <td>
                                 <tk:tkApprovalRowButtons appRow="${approvalRow}"/>
                             </td>
-                            <td align="center"><input type="checkbox" name="selectedEmpl" id="selectedEmpl"
-                                                      class="selectedEmpl"/></td>
+                            <td align="center"><html:checkbox property="approvalRows[${rowCount-1}].selected" disabled="${!approvalRow.approvable}"/></td>
                         </tr>
 					
                         <%-- Render details of approver's hours by Assignment --%>
@@ -201,14 +212,13 @@
                                     </c:choose>
                                 </c:forEach>
                             </tr>
-                           
+                           <c:set var="rowCount" value="${rowCount+1}" />
                         </c:forEach>
-                    
-
+					
                     </c:forEach>
                     <tr>
                         <td colspan="22" align="center" style="border:none;">
-                            <input type="button" class="button" value="Approve" name="Approve">
+                            <input type="submit" class="approve" value="Approve" name="Approve" onclick="this.form.methodToCall.value='approve'; this.form.submit();"/>
                         </td>
                     </tr>
                     </tbody>
@@ -222,6 +232,5 @@
         </c:choose>
     </div>
 </html:form>
-
 
 </tk:tkHeader>

@@ -39,6 +39,11 @@ public class TimeApprovalActionForm extends TkForm {
     private boolean ascending = true;
     private boolean ajaxCall = false;
 
+    private Boolean testSelected = Boolean.FALSE;
+    
+    private Long prevPayCalendarId = null;
+    private Long nextPayCalendarId = null;
+    
     private String calNav = null;
 
     public String getCalNav() {
@@ -218,4 +223,28 @@ public class TimeApprovalActionForm extends TkForm {
     public void setEmployeeWorkArea(String employeeWorkArea) {
         this.employeeWorkArea = employeeWorkArea;
     }
+
+	public Boolean getTestSelected() {
+		return testSelected;
+	}
+
+	public void setTestSelected(Boolean testSelected) {
+		this.testSelected = testSelected;
+	}
+
+	public Long getPrevPayCalendarId() {
+		return prevPayCalendarId;
+	}
+
+	public void setPrevPayCalendarId(Long prevPayCalendarId) {
+		this.prevPayCalendarId = prevPayCalendarId;
+	}
+
+	public Long getNextPayCalendarId() {
+		return nextPayCalendarId;
+	}
+
+	public void setNextPayCalendarId(Long nextPayCalendarId) {
+		this.nextPayCalendarId = nextPayCalendarId;
+	}
 }

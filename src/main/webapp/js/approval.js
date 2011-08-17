@@ -15,7 +15,7 @@ $(document).ready(function() {
             $("input[name=selectedEmpl]").attr("checked", false);
         }
     });
-
+    
     // sort by the clicked column
     $('#approvals-table tr th').click(function() {
 
@@ -78,6 +78,7 @@ $(document).ready(function() {
 
     });
 
+
     $('#searchValue').autocomplete({
         // For some reason, when I use the $('#searchField').val() in the line below,
         // it always gets the first option value instead of the selected one.
@@ -113,10 +114,10 @@ $(document).ready(function() {
     });
 
     // check if the approve button is disabled. if so, disable the select checkbox as well
-    $('#actions input[type=button]').filter(
-            function(index) {
-                return $(this).prop("disabled");
-            }).parent().parent().parent().find("input[type=checkbox]").attr("disabled", "disabled");
+  //  $('#actions input[type=button]').filter(
+    //        function(index) {
+      //          return $(this).prop("disabled");
+        //    }).parent().parent().parent().find("input[type=checkbox]").attr("disabled", "disabled");
 
     // select the whole row when the select checkbox is checked
     $('.selectedEmpl').click(function() {
@@ -131,21 +132,18 @@ $(document).ready(function() {
         text: false
     });
 
-    $('.prev').click(function() {
-        window.location = "TimeApproval.do?calNav=prev&payCalendarId=" + $("#pcid").val() + "&payCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val();
-    });
-
     $('.next').button({
         icons: {
             primary: "ui-icon-circle-triangle-e"
         },
         text: false
     });
-
-    $('.next').click(function() {
-        window.location = "TimeApproval.do?calNav=next&payCalendarId=" + $("#pcid").val() + "&payCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val();
+    
+    $('.approve').button({
+        text: false
     });
-
+    
+    
     $(" .approvals-warning, .approvals-note").tooltip({ effect: 'slide'});
 
     // toggle the button for the assigment details
@@ -165,6 +163,10 @@ $(document).ready(function() {
 //        $(this).removeClass("ui-state-hover");
 //    });
 
+    
+//    $("#selectedPayCalendarGroup").change(function() {
+//    	$.post("TimeApproval.do?methodToCall=selectNewPayCalendarGroup&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val());
+//    });
 });
 
 function showHideRow(count) {

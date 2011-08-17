@@ -50,6 +50,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     @Override
     public Map<String,PayCalendarEntries> getPayCalendarEntriesForApprover(String principalId, Date currentDate) {
         TKUser tkUser = TKContext.getUser();
+         
         Map<String,PayCalendarEntries> pceMap = new HashMap<String,PayCalendarEntries>();
         Set<String> principals = new HashSet<String>();
         DateTime minDt = new DateTime(currentDate, TkConstants.SYSTEM_DATE_TIME_ZONE);
@@ -148,7 +149,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		for (Long aWorkArea : approverWorkAreas) {
 			activeAssignments.addAll(TkServiceLocator.getAssignmentService()
 					.getActiveAssignmentsForWorkArea(aWorkArea,
-							new java.sql.Date(payBeginDate.getTime())));
+							new java.sql.Date(payEndDate.getTime())));
 		}
 
 		if (!activeAssignments.isEmpty()) {
@@ -533,6 +534,29 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         }
         return hoursToPayLabelMap;
     }
+    
+	public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate, String calGroup) {
+		TKUser tkUser = TKContext.getUser();
+		Set<Long> approverWorkAreas = tkUser.getCurrentRoles().getApproverWorkAreas();
+		for(Long workArea : approverWorkAreas){
+			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, new java.sql.Date(asOfDate.getTime()));
+			List<String> principalIds = new ArrayList<String>();
+			for(Assignment assign : assignments){
+				if(principalIds.contains(assign.getPrincipalId())){
+					continue;
+				}
+				principalIds.add(assign.getPrincipalId());
+			}
+		
+			for(String principalId : principalIds){
+				PrincipalCalendar principalCal = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, asOfDate);
+				if(StringUtils.equals(principalCal.getCalendarGroup(), calGroup)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
     @SuppressWarnings("rawtypes")
     public List getNotesForDocument(String documentNumber) {
