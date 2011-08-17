@@ -18,10 +18,10 @@ public class WorkflowTagSupport {
 
     public boolean isDisplayingRouteButton() {
       UserRoles roles = TKContext.getUser().getCurrentTargetRoles();
-      String docId = TKContext.getCurrentTimesheetDocumentId();
-      TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(docId);
+      TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
+      TimesheetDocumentHeader tdh = doc.getDocumentHeader();
       if(tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED)){
-    	  return roles.canSubmitTimesheet(docId);
+    	  return roles.canSubmitTimesheet(doc);
       }
       return false;
     }
@@ -31,26 +31,23 @@ public class WorkflowTagSupport {
      * @return true if the route button should render as enabled.
      */
     public boolean isRouteButtonEnabled() {
-        String docId = TKContext.getCurrentTimesheetDocumentId();
-        TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(docId);
+        TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
+        TimesheetDocumentHeader tdh = doc.getDocumentHeader();
         return (tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED));
     }
 
     public boolean isDisplayingApprovalButtons() {
-
         UserRoles roles = TKContext.getUser().getCurrentTargetRoles();
-
-        String docId = TKContext.getCurrentTimesheetDocumentId();
-        TimesheetDocument doc = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
+        TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
         return roles.isApproverForTimesheet(doc);
     }
 
     public boolean isApprovalButtonsEnabled() {
-        String docId = TKContext.getCurrentTimesheetDocumentId();
-        TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(docId);
+        TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
+        TimesheetDocumentHeader tdh = doc.getDocumentHeader();
         boolean isEnroute = tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE);
         if(isEnroute){
-        	DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(Long.parseLong(docId));
+        	DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(Long.parseLong(doc.getDocumentId()));
         	boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(TKContext.getUserSession(), routeHeader, new SecuritySession(TKContext.getUserSession()));
         	return authorized;
         }

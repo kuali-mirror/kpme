@@ -33,15 +33,14 @@ public interface TimesheetDocumentHeaderService {
 	 */
     public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, Date payBeginDate);
     /**
-     * Fetch previous or next Document Header
+     * Fetch previous or next Document Header -- uses the current Document from context.
      * @param prevOrNext
      * @param principalId
-     * @param documentId
      * @return
      */
-    TimesheetDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId, String documentId);
+    TimesheetDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId);
 
     public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate);
-    
+
     public void deleteTimesheetHeader(String documentId);
 }

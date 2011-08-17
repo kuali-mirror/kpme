@@ -13,8 +13,8 @@ import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
-import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.timesummary.AssignmentRow;
 import org.kuali.hr.time.timesummary.EarnGroupSection;
 import org.kuali.hr.time.timesummary.TimeSummary;
@@ -33,15 +33,13 @@ public class TimeDetailAction extends TimesheetAction {
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
-
-        TimesheetActionForm taForm = (TimesheetActionForm)form;
         TKUser user = TKContext.getUser();
         UserRoles roles = user.getCurrentRoles(); // either backdoor or actual
-        String docid = taForm.getDocumentId();
+        TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
 
         // Check for write access to Timeblock.
         if (StringUtils.equals(methodToCall, "addTimeBlock") || StringUtils.equals(methodToCall, "deleteTimeBlock")) {
-            if (!roles.isDocumentWritable(docid)) {
+            if (!roles.isDocumentWritable(doc)) {
                 throw new AuthorizationException(roles.getPrincipalId(), "TimeDetailAction", "");
             }
         }
@@ -51,13 +49,14 @@ public class TimeDetailAction extends TimesheetAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        tdaf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(tdaf.getTimesheetDocument(), false));
+        tdaf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(TKContext.getCurrentTimesheetDoucment(), false));
 
-        List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentId()));
+        //List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentId()));
+        List<TimeBlock> timeBlocks = TKContext.getCurrentTimesheetDoucment().getTimeBlocks();
 
         // Handle User preference / timezone information (pushed up from TkCalendar to avoid duplication)
-        TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument(), timeBlocks);
-    	tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(tdaf.getTimesheetDocument()));
+        TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(TKContext.getCurrentTimesheetDoucment());
+    	tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(TKContext.getCurrentTimesheetDoucment()));
         Map<String, String> aMap = tdaf.getAssignStyleClassMap();
         // set css classes for each assignment row
         for(EarnGroupSection section: ts.getSections()) {
@@ -81,12 +80,12 @@ public class TimeDetailAction extends TimesheetAction {
         cal.assignAssignmentStyle(aMap);
         tdaf.setTkCalendar(cal);
 
-        tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(tdaf.getTimesheetDocument(), aggregate.getFlattenedTimeBlockList()));
+        tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(TKContext.getCurrentTimesheetDoucment(), aggregate.getFlattenedTimeBlockList()));
 
-        if(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL) ||
+        if(TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL) ||
         		TKContext.getUser().isSystemAdmin()) {
         	tdaf.setDocEditable("false");
-        } else if(StringUtils.equals(tdaf.getTimesheetDocument().getPrincipalId(), TKContext.getUser().getPrincipalId())){
+        } else if(StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())){
         	tdaf.setDocEditable("true");
         } else {
         	if(TKContext.getUser().isSystemAdmin() || TKContext.getUser().isLocationAdmin() || TKContext.getUser().isDepartmentAdmin() ||

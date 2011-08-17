@@ -29,13 +29,12 @@ public class TimesheetAction extends TkAction {
 
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        TimesheetActionForm taForm = (TimesheetActionForm)form;
         TKUser user = TKContext.getUser();
         UserRoles roles = user.getCurrentRoles(); // either backdoor or actual
-        String docid = taForm.getDocumentId();
+        TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
 
-        if (!roles.isDocumentReadable(docid)) {
-            throw new AuthorizationException(user.getPrincipalId(), "TimesheetAction: docid: " + docid, "");
+        if (!roles.isDocumentReadable(doc)) {
+            throw new AuthorizationException(user.getPrincipalId(), "TimesheetAction: docid: " + doc.getDocumentId(), "");
         }
     }
 
@@ -78,14 +77,15 @@ public class TimesheetAction extends TkAction {
         // then check security permissions via the superclass execution chain.
 		return super.execute(mapping, form, request, response);
 	}
-    
+
     protected void setupDocumentOnFormContext(TimesheetActionForm taForm, TimesheetDocument td){
     	String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
     	TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
+        TKContext.setCurrentTimesheetDocument(td);
 	    taForm.setTimesheetDocument(td);
 	    taForm.setDocumentId(td.getDocumentId());
-        TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, viewPrincipal, td.getDocumentId());
-        TimesheetDocumentHeader nextTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, viewPrincipal, td.getDocumentId());
+        TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, viewPrincipal);
+        TimesheetDocumentHeader nextTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, viewPrincipal);
         if( prevTdh != null ) {
             taForm.setPrevDocumentId(prevTdh.getDocumentId());
         }

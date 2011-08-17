@@ -7,11 +7,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.web.session.UserSession;
 
 public class TKContext {
 
+    private static final String TDOC_OBJ_KEY = "_TDOC_O_KEY";
     private static final String TDOC_KEY = "_TDOC_ID_KEY"; // Timesheet Document ID Key
 	private static final String USER_KEY = "_USER_KEY";
 
@@ -21,6 +23,14 @@ public class TKContext {
 			return Collections.synchronizedMap(new HashMap<String, Object>());
 		}
 	};
+
+    public static TimesheetDocument getCurrentTimesheetDoucment() {
+        return (TimesheetDocument)TKContext.getStorageMap().get(TDOC_OBJ_KEY);
+    }
+
+    public static void setCurrentTimesheetDocument(TimesheetDocument tdoc) {
+        TKContext.getStorageMap().put(TDOC_OBJ_KEY, tdoc);
+    }
 
     /**
      * @return The current timesheet document id, as set by the detail/clock
@@ -49,7 +59,7 @@ public class TKContext {
 	public static void setUser(TKUser user) {
 		TKContext.getStorageMap().put(USER_KEY, user);
 	}
-	
+
 	public static UserSession getUserSession(){
 		return (UserSession) getHttpServletRequest().getSession().getAttribute(KEWConstants.USER_SESSION_KEY);
 	}

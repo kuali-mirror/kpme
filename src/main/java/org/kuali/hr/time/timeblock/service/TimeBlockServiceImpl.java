@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -179,6 +180,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         tb.setBeginTimestampTimezone(tz);
         tb.setEndTimestamp(endTime);
         tb.setEndTimestampTimezone(tz);
+        DateTimeZone dtz = DateTimeZone.forID(tz);
+        tb.setBeginTimeDisplay(new DateTime(tb.getBeginTimestamp(), dtz));
+        tb.setEndTimeDisplay(new DateTime(tb.getEndTimestamp(), dtz));
         // only calculate the hours from the time fields if the passed in hour is zero
         if(hours == null || hours.compareTo(BigDecimal.ZERO) == 0) {
         	hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
@@ -201,6 +205,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
             }
         }
 
+        tb.setEarnCodeType(earnCodeObj.getEarnCodeType());
         tb.setHours(hours);
         tb.setClockLogCreated(clockLogCreated);
         tb.setUserPrincipalId(TKContext.getUser().getTargetPrincipalId());
@@ -275,16 +280,16 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	public Boolean isTimeBlockEditable(TimeBlock tb) {
 		UserRoles ur = TKContext.getUser().getCurrentRoles();
 		String userId = TKContext.getUser().getPrincipalId();
-    	TimesheetDocumentHeader docHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(tb.getDocumentId());		
+    	TimesheetDocumentHeader docHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(tb.getDocumentId());
 		if(userId != null && ur != null) {
 			if(tb.getClockLogCreated() && StringUtils.equals(userId, docHeader.getPrincipalId())) {
 				return false;		// time block was created by clock in/out
 			}
-			
+
 			if(ur.isSystemAdmin() || (ur.isTimesheetApprover() && ur.getApproverWorkAreas().contains(tb.getWorkArea()))) {
 				return true;
 			}
-			
+
 			if(userId.equals(docHeader.getPrincipalId())) {
 				return true;				// if the user is the creator of this time block
 			}

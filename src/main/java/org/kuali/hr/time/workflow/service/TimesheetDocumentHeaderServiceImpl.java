@@ -3,6 +3,7 @@ package org.kuali.hr.time.workflow.service;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.hr.time.workflow.dao.TimesheetDocumentHeaderDao;
@@ -39,8 +40,8 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
     }
 
     @Override
-    public TimesheetDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId, String documentId) {
-        TimesheetDocument currentTimesheet = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+    public TimesheetDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId) {
+        TimesheetDocument currentTimesheet = TKContext.getCurrentTimesheetDoucment();
         TimesheetDocumentHeader tsdh;
         if (StringUtils.equals(prevOrNext, TkConstants.PREV_TIMESHEET)) {
             tsdh = documentHeaderDao.getPreviousDocumentHeader(principalId, currentTimesheet.getDocumentHeader().getPayBeginDate());
@@ -57,6 +58,6 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
 	@Override
 	public void deleteTimesheetHeader(String documentId) {
 		documentHeaderDao.deleteTimesheetHeader(documentId);
-		
+
 	}
 }

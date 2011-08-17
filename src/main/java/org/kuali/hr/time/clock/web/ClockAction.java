@@ -28,6 +28,7 @@ import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.util.TKContext;
@@ -39,17 +40,14 @@ import org.kuali.rice.kns.exception.AuthorizationException;
 public class ClockAction extends TimesheetAction {
 
     private static final Logger LOG = Logger.getLogger(ClockAction.class);
-    public static final SimpleDateFormat SDF =  new SimpleDateFormat("EEE, MMMM d yyyy HH:mm:ss, zzzz");
     public static final String SEPERATOR = "[****]+";
 
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
-
-        TimesheetActionForm taForm = (TimesheetActionForm)form;
         TKUser user = TKContext.getUser();
         UserRoles roles = user.getCurrentRoles(); // either backdoor or actual
-        String docid = taForm.getDocumentId();
+        TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
 
 //        // Check for write access to Timeblock.
         if (StringUtils.equals(methodToCall, "clockAction") ||
@@ -58,7 +56,7 @@ public class ClockAction extends TimesheetAction {
                 StringUtils.equals(methodToCall, "distributeTimeBlocks") ||
                 StringUtils.equals(methodToCall, "saveNewTimeBlocks") ||
                 StringUtils.equals(methodToCall, "deleteTimeBlock")) {
-            if (!roles.isDocumentWritable(docid)) {
+            if (!roles.isDocumentWritable(doc)) {
                 throw new AuthorizationException(roles.getPrincipalId(), "ClockAction", "");
             }
         }
