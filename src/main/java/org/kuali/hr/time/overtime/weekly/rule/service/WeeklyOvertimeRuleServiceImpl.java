@@ -10,9 +10,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeZone;
-import org.kuali.hr.job.Job;
 import org.kuali.hr.time.cache.CacheResult;
-import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
@@ -145,19 +143,21 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 		}
 	}
 
-
+	/**
+	 * If a Work for this timeblock has an overtime preference use that
+	 * otherwise use the convert to on the rule
+	 * @param principalId
+	 * @param block
+	 * @param wor
+	 * @param asOfDate
+	 * @return
+	 */
 	private String getOvertimeEarnCode(String principalId, TimeBlock block, WeeklyOvertimeRule wor, Date asOfDate) {
 		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(block.getWorkArea(), asOfDate);
-		Job job = TkServiceLocator.getJobSerivce().getJob(principalId, block.getJobNumber(), asOfDate);
-
-        // TODO : Refactoring to Default Earn Code, see KPME-242 comments to determine how this should be implemented now.
-		String otEarnCode = null;
-
-		// If no Work Area Overtime Preference, set to the Weekly Overtime Rule Earn Code
-		if (otEarnCode == null)
-			otEarnCode = wor.getConvertToEarnCode();
-
-		return otEarnCode;
+		if(StringUtils.isNotBlank(workArea.getDefaultOvertimeEarnCode())){
+			return workArea.getDefaultOvertimeEarnCode();
+		} 	
+		return wor.getConvertToEarnCode();
 	}
 
 	/**
@@ -171,9 +171,8 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	 *
 	 * @return The amount of overtime hours remaining to be applied.  (BigDecimal is immutable)
 	 */
-	private BigDecimal applyOvertimeToTimeBlock(TimeBlock block, String otEarnCode, Set<String> convertFromEarnCodes, BigDecimal otHours) {
+	protected BigDecimal applyOvertimeToTimeBlock(TimeBlock block, String otEarnCode, Set<String> convertFromEarnCodes, BigDecimal otHours) {
 		BigDecimal applied = BigDecimal.ZERO;
-		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(block.getWorkArea(), block.getEndDate());
 		List<TimeHourDetail> details = block.getTimeHourDetails();
 		List<TimeHourDetail> addDetails = new LinkedList<TimeHourDetail>();
 		for (TimeHourDetail detail : details) {
@@ -194,11 +193,8 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				// Make a new TimeHourDetail with the otEarnCode with "applied" hours
 				TimeHourDetail timeHourDetail = new TimeHourDetail();
 				timeHourDetail.setHours(applied);
-				if(StringUtils.isNotBlank(workArea.getDefaultOvertimeEarnCode())){
-					timeHourDetail.setEarnCode(workArea.getDefaultOvertimeEarnCode());
-				} else {
-					timeHourDetail.setEarnCode(otEarnCode);
-				}
+				timeHourDetail.setEarnCode(otEarnCode);
+				
 				timeHourDetail.setTkTimeBlockId(block.getTkTimeBlockId());
 
 				// Decrement existing matched FROM earn code.
