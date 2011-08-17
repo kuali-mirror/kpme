@@ -39,22 +39,18 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     //This function is used to build timeblocks that span days
     public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
                                                     Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, BigDecimal amount, Boolean isClockLogCreated) {
-        Calendar beginCal = GregorianCalendar.getInstance();
-        beginCal.setTimeInMillis(beginTimestamp.getTime());
-        Calendar beginCalCompare = GregorianCalendar.getInstance();
-        beginCalCompare.setTimeInMillis(endTimestamp.getTime());
-        beginCalCompare.set(beginCal.get(Calendar.YEAR), beginCal.get(Calendar.MONTH), beginCal.get(Calendar.DATE));
-        if (beginCalCompare.before(beginCal)) {
-            beginCalCompare.add(Calendar.DATE, 1);
-        }
+        DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTime beginDt = new DateTime(beginTimestamp.getTime(), zone);
+        DateTime endDt = beginDt.toLocalDate().toDateTime((new DateTime(endTimestamp.getTime(), zone)).toLocalTime(), zone);
+        if (endDt.isBefore(beginDt)) endDt = endDt.plusDays(1);
+
         List<Interval> dayInt = TKUtils.getDaySpanForPayCalendarEntry(timesheetDocument.getPayCalendarEntry());
         TimeBlock firstTimeBlock = new TimeBlock();
         List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
         for (Interval dayIn : dayInt) {
-            if (dayIn.contains(beginTimestamp.getTime())) {
-                if (dayIn.contains(beginCalCompare.getTimeInMillis())) {
-                    firstTimeBlock = createTimeBlock(timesheetDocument, beginTimestamp, new Timestamp(beginCalCompare.getTimeInMillis()),
-                            assignment, earnCode, hours, amount, false);
+            if (dayIn.contains(beginDt)) {
+                if (dayIn.contains(endDt)) {
+                    firstTimeBlock = createTimeBlock(timesheetDocument, beginTimestamp, new Timestamp(endDt.getMillis()), assignment, earnCode, hours, amount, false);
                     lstTimeBlocks.add(firstTimeBlock);
                 } else {
                     //TODO move this to prerule validation
@@ -63,12 +59,10 @@ public class TimeBlockServiceImpl implements TimeBlockService {
             }
         }
 
-        DateTime beginTime = new DateTime(beginCal.getTimeInMillis(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-        DateTime endTime = new DateTime(endTimestamp.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-
-        DateTime endOfFirstDay = new DateTime(firstTimeBlock.getEndTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-        long diffInMillis = endOfFirstDay.minus(beginTime.getMillis()).getMillis();
-        DateTime currTime = beginTime.plusDays(1);
+        DateTime endTime = new DateTime(endTimestamp.getTime(), zone);
+        DateTime endOfFirstDay = new DateTime(firstTimeBlock.getEndTimestamp(), zone);
+        long diffInMillis = endOfFirstDay.minus(beginDt.getMillis()).getMillis();
+        DateTime currTime = beginDt.plusDays(1);
         while (currTime.isBefore(endTime) || currTime.isEqual(endTime)) {
             Timestamp begin = new Timestamp(currTime.getMillis());
             Timestamp end = new Timestamp((currTime.plus(diffInMillis).getMillis()));
