@@ -298,16 +298,16 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			if(userId.equals(TKContext.getTargetPrincipalId())) {
 				Job job = TkServiceLocator.getJobSerivce().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
 				PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayTypeId());
-				if(StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())){
-					return true;
-				}
+				//if(StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())){
+				//	return true;
+				//}
 				
-				List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getTkSalGroup(), job.getLocation(), tb.getEndDate());
-				for(DepartmentEarnCode dec : deptEarnCodes){
-					if(dec.isEmployee() && StringUtils.equals(dec.getEarnCode(), tb.getEarnCode())){
+//				List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getTkSalGroup(), job.getLocation(), tb.getEndDate());
+//				for(DepartmentEarnCode dec : deptEarnCodes){
+//					if(dec.isEmployee() && StringUtils.equals(dec.getEarnCode(), tb.getEarnCode())){
 						return true;
-					}
-				}
+//					}
+//				}
 				// if the user is the creator of this time block
 			}
 			
