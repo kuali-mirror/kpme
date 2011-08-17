@@ -173,7 +173,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	 */
 	private BigDecimal applyOvertimeToTimeBlock(TimeBlock block, String otEarnCode, Set<String> convertFromEarnCodes, BigDecimal otHours) {
 		BigDecimal applied = BigDecimal.ZERO;
-		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(block.getTkWorkAreaId());
+		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(block.getWorkArea(), block.getEndDate());
 		List<TimeHourDetail> details = block.getTimeHourDetails();
 		List<TimeHourDetail> addDetails = new LinkedList<TimeHourDetail>();
 		for (TimeHourDetail detail : details) {
