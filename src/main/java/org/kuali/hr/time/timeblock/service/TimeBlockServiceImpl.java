@@ -1,5 +1,13 @@
 package org.kuali.hr.time.timeblock.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -16,13 +24,7 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class TimeBlockServiceImpl implements TimeBlockService {
 
@@ -273,15 +275,17 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	public Boolean isTimeBlockEditable(TimeBlock tb) {
 		UserRoles ur = TKContext.getUser().getCurrentRoles();
 		String userId = TKContext.getUser().getPrincipalId();
-
+    	TimesheetDocumentHeader docHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(tb.getDocumentId());		
 		if(userId != null && ur != null) {
-			if(tb.getClockLogCreated() && userId.equals(tb.getUserPrincipalId())) {
+			if(tb.getClockLogCreated() && StringUtils.equals(userId, docHeader.getPrincipalId())) {
 				return false;		// time block was created by clock in/out
 			}
-			if(ur.isSystemAdmin() || ur.isTimesheetApprover()) {
+			
+			if(ur.isSystemAdmin() || (ur.isTimesheetApprover() && ur.getApproverWorkAreas().contains(tb.getWorkArea()))) {
 				return true;
 			}
-			if(userId.equals(tb.getUserPrincipalId())) {
+			
+			if(userId.equals(docHeader.getPrincipalId())) {
 				return true;				// if the user is the creator of this time block
 			}
 		}
