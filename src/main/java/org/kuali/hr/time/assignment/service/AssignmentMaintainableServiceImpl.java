@@ -105,7 +105,9 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 	public void customSaveLogic(HrBusinessObject hrObj) {
 		Assignment assignment = (Assignment)hrObj;
 		for (AssignmentAccount assignAcct : assignment.getAssignmentAccounts()) {
-			assignAcct.setTkAssignAcctId(null);
+			if(!isOldBusinessObjectInDocument()){ //prevents duplicate object on edit
+				assignAcct.setTkAssignAcctId(null);
+			}
 			assignAcct.setTkAssignmentId(assignment.getTkAssignmentId());
 		}
 	}
