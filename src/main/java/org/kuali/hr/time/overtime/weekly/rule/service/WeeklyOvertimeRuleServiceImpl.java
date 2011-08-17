@@ -1,8 +1,18 @@
 package org.kuali.hr.time.overtime.weekly.rule.service;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeZone;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.cache.CacheResult;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
@@ -17,10 +27,6 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.*;
 
 public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService {
 
@@ -167,7 +173,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	 */
 	private BigDecimal applyOvertimeToTimeBlock(TimeBlock block, String otEarnCode, Set<String> convertFromEarnCodes, BigDecimal otHours) {
 		BigDecimal applied = BigDecimal.ZERO;
-
+		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(block.getTkWorkAreaId());
 		List<TimeHourDetail> details = block.getTimeHourDetails();
 		List<TimeHourDetail> addDetails = new LinkedList<TimeHourDetail>();
 		for (TimeHourDetail detail : details) {
@@ -188,7 +194,11 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				// Make a new TimeHourDetail with the otEarnCode with "applied" hours
 				TimeHourDetail timeHourDetail = new TimeHourDetail();
 				timeHourDetail.setHours(applied);
-				timeHourDetail.setEarnCode(otEarnCode);
+				if(StringUtils.isNotBlank(workArea.getDefaultOvertimeEarnCode())){
+					timeHourDetail.setEarnCode(workArea.getDefaultOvertimeEarnCode());
+				} else {
+					timeHourDetail.setEarnCode(otEarnCode);
+				}
 				timeHourDetail.setTkTimeBlockId(block.getTkTimeBlockId());
 
 				// Decrement existing matched FROM earn code.
