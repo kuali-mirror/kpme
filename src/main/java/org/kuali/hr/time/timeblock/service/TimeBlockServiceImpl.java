@@ -3,8 +3,6 @@ package org.kuali.hr.time.timeblock.service;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,8 +10,11 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
@@ -274,19 +275,43 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	public Boolean isTimeBlockEditable(TimeBlock tb) {
 		UserRoles ur = TKContext.getUser().getCurrentRoles();
 		String userId = TKContext.getUser().getPrincipalId();
-    	TimesheetDocumentHeader docHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(tb.getDocumentId());
-		if(userId != null && ur != null) {
-			if(tb.getClockLogCreated() && StringUtils.equals(userId, docHeader.getPrincipalId())) {
+    	
+    	if(userId != null && ur != null) {
+			if(tb.getClockLogCreated() && StringUtils.equals(userId, TKContext.getTargetPrincipalId())) {
 				return false;		// time block was created by clock in/out
 			}
 
-			if(ur.isSystemAdmin() || (ur.isTimesheetApprover() && ur.getApproverWorkAreas().contains(tb.getWorkArea()))) {
+			if(ur.isSystemAdmin()) { 
 				return true;
 			}
 
-			if(userId.equals(docHeader.getPrincipalId())) {
-				return true;				// if the user is the creator of this time block
+			if(ur.isTimesheetApprover() && ur.getApproverWorkAreas().contains(tb.getWorkArea())) {
+				Job job = TkServiceLocator.getJobSerivce().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
+				List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getTkSalGroup(), job.getLocation(), tb.getEndDate());
+				for(DepartmentEarnCode dec : deptEarnCodes){
+					if(dec.isApprover() && StringUtils.equals(dec.getEarnCode(), tb.getEarnCode())){
+						return true;
+					}
+				}
 			}
+			
+			if(userId.equals(TKContext.getTargetPrincipalId())) {
+				Job job = TkServiceLocator.getJobSerivce().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
+				PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayTypeId());
+				if(StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())){
+					return true;
+				}
+				
+				List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getTkSalGroup(), job.getLocation(), tb.getEndDate());
+				for(DepartmentEarnCode dec : deptEarnCodes){
+					if(dec.isEmployee() && StringUtils.equals(dec.getEarnCode(), tb.getEarnCode())){
+						return true;
+					}
+				}
+				// if the user is the creator of this time block
+			}
+			
+			
 		}
 		return false;
 	}
