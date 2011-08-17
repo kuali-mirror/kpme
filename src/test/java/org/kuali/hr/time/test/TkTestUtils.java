@@ -3,6 +3,7 @@ package org.kuali.hr.time.test;
 import com.gargoylesoftware.htmlunit.html.*;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.junit.Assert;
@@ -298,7 +299,7 @@ public class TkTestUtils {
 		// that were passed in.
 		Map<String,BigDecimal> ecToSumMap = new HashMap<String,BigDecimal>() {{ for (String ec : ecToHoursMap.keySet()) { put(ec, BigDecimal.ZERO); }}};
 
-		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks();
+		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks(DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone()));
 		Assert.assertTrue(msg + " >> Not enough FLSA weeks to verify aggregate hours, max: " + (flsaWeeks.size() - 1), flsaWeeks.size() > flsaWeek);
 
 		// Build our Sum Map.

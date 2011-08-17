@@ -31,11 +31,6 @@ public class TkCalendar {
 
                 for (int j=0; j<weekBlocks.size(); j++) {
                     List<TimeBlock> dayBlocks = weekBlocks.get(j);
-
-                    // Account for the current users Timezone display preference
-                    // (this has already been done in the TimeDetailAction execute
-                    //  method, because we need to reduce the number of list iterations)
-
                     // Create the individual days.
                     TkCalendarDay day = new TkCalendarDay();
                     day.setTimeblocks(dayBlocks);
@@ -71,7 +66,7 @@ public class TkCalendar {
 			label = "";
 		}
     }
-    
+
     public void assignAssignmentStyle(Map<String, String> styleMap) {
     	for(TkCalendarWeek aWeek : this.getWeeks()) {
     		for(TkCalendarDay aDay: aWeek.getDays()) {
@@ -102,8 +97,9 @@ public class TkCalendar {
 
 	public void setPayCalEntry(PayCalendarEntries payCalEntry) {
 		this.payCalEntry = payCalEntry;
-        this.beginDateTime = new DateTime(payCalEntry.getBeginPeriodDateTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-        this.endDateTime = new DateTime(payCalEntry.getEndPeriodDateTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+        // Relative time, with time zone added.
+        this.beginDateTime = payCalEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        this.endDateTime = payCalEntry.getEndLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
 	}
 
     public DateTime getBeginDateTime() {

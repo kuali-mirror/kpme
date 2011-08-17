@@ -6,9 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
-import org.joda.time.LocalTime;
+import org.joda.time.*;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.paycalendar.PayCalendar;
@@ -21,19 +19,51 @@ public class TkTimeBlockAggregate {
 	private PayCalendarEntries payCalendarEntry;
 	private PayCalendar payCalendar;
 
+    /**
+     * Defaults to using SYSTEM time zone.
+     *
+     * @param timeBlocks
+     * @param payCalendarEntry
+     */
 	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, PayCalendarEntries payCalendarEntry){
 		this(timeBlocks, payCalendarEntry, TkServiceLocator.getPayCalendarSerivce().getPayCalendar(payCalendarEntry.getPayCalendarId()));
 	}
 
-	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, PayCalendarEntries payCalendarEntry, PayCalendar payCalendar){
+    /**
+     * Defaults to using SYSTEM time zone.
+     *
+     * @param timeBlocks
+     * @param payCalendarEntry
+     * @param payCalendar
+     */
+	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, PayCalendarEntries payCalendarEntry, PayCalendar payCalendar) {
+        this(timeBlocks, payCalendarEntry, payCalendar, false);
+    }
+
+    /**
+     * Provides the option to refer to the time zone adjusted time for the current
+     * user.
+     * @param timeBlocks
+     * @param payCalendarEntry
+     * @param payCalendar
+     * @param useUserTimeZone
+     */
+    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, PayCalendarEntries payCalendarEntry, PayCalendar payCalendar, boolean useUserTimeZone) {
 		this.payCalendarEntry = payCalendarEntry;
 		this.payCalendar = payCalendar;
+
 		List<Interval> dayIntervals = TKUtils.getDaySpanForPayCalendarEntry(payCalendarEntry);
 		for(Interval dayInt : dayIntervals){
 			List<TimeBlock> dayTimeBlocks = new ArrayList<TimeBlock>();
 			for(TimeBlock timeBlock : timeBlocks){
-				DateTime beginTime = new DateTime(timeBlock.getBeginTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-				DateTime endTime = new DateTime(timeBlock.getEndTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+
+                // Assumption: Timezones can only be switched at pay period end boundaries.
+                // If the above assumption becomes false, the logic below will need to
+                // accommodate virtual chopping of time blocks to have them fit nicely
+                // in the "days" that are displayed to users.
+
+				DateTime beginTime = useUserTimeZone ? timeBlock.getBeginTimeDisplay() : new DateTime(timeBlock.getBeginTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+				DateTime endTime = useUserTimeZone ? timeBlock.getEndTimeDisplay() :  new DateTime(timeBlock.getEndTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
 				if(dayInt.contains(beginTime)){
 					if(dayInt.contains(endTime) || endTime.compareTo(dayInt.getEnd()) == 0){
 						// determine if the time block needs to be pushed forward / backward
@@ -105,8 +135,10 @@ public class TkTimeBlockAggregate {
 	 * virtual day, ie noon to noon schedule and have your FLSA time start
 	 * before the virtual day start,
 	 * but still have a full 7 days for your week.
+     *
+     * @param zone The TimeZone to use when constructing this relative sorting.
 	 */
-	public List<FlsaWeek> getFlsaWeeks(){
+	public List<FlsaWeek> getFlsaWeeks(DateTimeZone zone){
 		int flsaDayConstant = payCalendar.getFlsaBeginDayConstant();
 		Time flsaBeginTime  = payCalendar.getFlsaBeginTime();
 
@@ -118,8 +150,9 @@ public class TkTimeBlockAggregate {
 		// We will add 1 day to this to move over all days.
 		//
 		// FLSA time is set.  This is an FLSA start date.
-		DateTime startDate = new DateTime(payCalendarEntry.getBeginPeriodDateTime());
-		startDate = startDate.toLocalDate().toDateTime(flsaBeginLocalTime,TkConstants.SYSTEM_DATE_TIME_ZONE);
+        LocalDateTime startLDT = payCalendarEntry.getBeginLocalDateTime();
+//		DateTime startDate = new DateTime(payCalendarEntry.getBeginPeriodDateTime());
+//		startDate = startDate.toLocalDate().toDateTime(flsaBeginLocalTime,TkConstants.SYSTEM_DATE_TIME_ZONE);
 
 		List<FlsaWeek> flsaWeeks = new ArrayList<FlsaWeek>();
 		List<TimeBlock> flatSortedBlockList = getFlattenedTimeBlockList();
@@ -128,8 +161,8 @@ public class TkTimeBlockAggregate {
 		flsaWeeks.add(currentWeek);
 
 		for (int i = 0; i<dayTimeBlockList.size(); i++) {
-			DateTime currentDate = startDate.plusDays(i);
-			FlsaDay flsaDay = new FlsaDay(currentDate, flatSortedBlockList);
+			LocalDateTime currentDate = startLDT.plusDays(i);
+			FlsaDay flsaDay = new FlsaDay(currentDate, flatSortedBlockList, zone);
 
 			if (currentDate.getDayOfWeek() == flsaDayConstant) {
 				currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime, flsaBeginLocalTime);

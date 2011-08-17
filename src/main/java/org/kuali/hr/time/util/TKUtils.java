@@ -126,9 +126,17 @@ public class TKUtils {
 		return assignment.getWorkAreaObj().getDescription() + " : $" + assignment.getJob().getCompRate() + " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
 	}
 
-	public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
-		DateTime beginDateTime = new DateTime(payCalendarEntry.getBeginPeriodDateTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-		DateTime endDateTime = new DateTime(payCalendarEntry.getEndPeriodDateTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+    /**
+     * Constructs a list of Day Spans for the pay calendar entry provided. You
+     * must also provide a DateTimeZone so that we can create relative boundaries.
+     *
+     * @param payCalendarEntry
+     * @param timeZone
+     * @return
+     */
+	public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry, DateTimeZone timeZone) {
+		DateTime beginDateTime = payCalendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
+		DateTime endDateTime = payCalendarEntry.getEndLocalDateTime().toDateTime(timeZone);
 
 		List<Interval> dayIntervals = new ArrayList<Interval>();
 
@@ -141,6 +149,10 @@ public class TKUtils {
 		}
 
 		return dayIntervals;
+    }
+
+    public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
+        return getDaySpanForPayCalendarEntry(payCalendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
 
 	/**

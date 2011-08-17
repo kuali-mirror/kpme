@@ -45,6 +45,16 @@ public class TimezoneServiceImpl implements TimezoneService {
         return getUserTimezone(TKContext.getPrincipalId());
 	}
 
+    @Override
+    public DateTimeZone getUserTimezoneWithFallback() {
+        String tzid = getUserTimezone();
+        if (StringUtils.isEmpty(tzid)) {
+            return TkConstants.SYSTEM_DATE_TIME_ZONE;
+        } else {
+            return DateTimeZone.forID(tzid);
+        }
+    }
+
 	/**
 	 * Translation needed for UI Display
 	 * @param timeBlocks
@@ -53,13 +63,6 @@ public class TimezoneServiceImpl implements TimezoneService {
 	 */
 	public List<TimeBlock> translateForTimezone(List<TimeBlock> timeBlocks, String timezone){
 		for(TimeBlock tb : timeBlocks){
-			/*
-			 *  the code below won't work since the timestamp is the same across time zone,
-			 *  so that's why we need to set the time with the time zone information to the fields for the display purpose
-			 */
-			//tb.setBeginTimestamp(new Timestamp(modifiedStartTime.getMillis()));
-			//tb.setEndTimestamp(new Timestamp(modifiedEndTime.getMillis()));
-
 			//No need for translation if it matches the current timezone
 			if(StringUtils.equals(timezone, TkConstants.SYSTEM_TIME_ZONE)){
 				tb.setBeginTimeDisplay(new DateTime(tb.getBeginTimestamp()));
@@ -72,6 +75,10 @@ public class TimezoneServiceImpl implements TimezoneService {
 		}
 		return timeBlocks;
 	}
+
+    public void translateForTimezone(List<TimeBlock> timeBlocks) {
+        translateForTimezone(timeBlocks, getUserTimezone());
+    }
 
 	@Override
 	public boolean isSameTimezone() {

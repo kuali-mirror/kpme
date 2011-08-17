@@ -250,9 +250,11 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         return tbhs;
     }
 
+    // This method now translates time based on timezone settings.
+    //
     public List<TimeBlock> getTimeBlocks(Long documentId) {
-
     	List<TimeBlock> timeBlocks = timeBlockDao.getTimeBlocks(documentId);
+        TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks);
         for(TimeBlock tb : timeBlocks) {
             String earnCodeType = TkServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), new java.sql.Date(tb.getBeginTimestamp().getTime()));
             tb.setEarnCodeType(earnCodeType);
@@ -271,11 +273,11 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	public Boolean isTimeBlockEditable(TimeBlock tb) {
 		UserRoles ur = TKContext.getUser().getCurrentRoles();
 		String userId = TKContext.getUser().getPrincipalId();
-    			
+
 		if(userId != null && ur != null) {
 			if(tb.getClockLogCreated() && userId.equals(tb.getUserPrincipalId())) {
 				return false;		// time block was created by clock in/out
-			} 
+			}
 			if(ur.isSystemAdmin() || ur.isTimesheetApprover()) {
 				return true;
 			}

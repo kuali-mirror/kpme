@@ -1,16 +1,8 @@
 package org.kuali.hr.time.timesummary.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDateTime;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -30,17 +22,30 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
+import java.math.BigDecimal;
+import java.util.*;
+
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
+    private DateTimeZone timeZone;
 
-	@Override
+    DateTimeZone getTimeZone() {
+        return (timeZone != null) ? timeZone : TkConstants.SYSTEM_DATE_TIME_ZONE;
+    }
+
+    @Override
 	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument) {
-		return this.getTimeSummary(timesheetDocument, timesheetDocument.getTimeBlocks());
+		return this.getTimeSummary(timesheetDocument, timesheetDocument.getTimeBlocks(), TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
 	}
 
-	@Override
-	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument, List<TimeBlock> timeBlocks) {
+    @Override
+    public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument, List<TimeBlock> timeBlocks) {
+        return this.getTimeSummary(timesheetDocument, timeBlocks, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+    }
+
+	protected TimeSummary getTimeSummary(TimesheetDocument timesheetDocument, List<TimeBlock> timeBlocks, DateTimeZone timeZone) {
 		TimeSummary timeSummary = new TimeSummary();
+        this.timeZone = timeZone;
 
 		if(timesheetDocument.getTimeBlocks() == null) {
 			return timeSummary;
@@ -57,7 +62,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         List<Boolean> dayArrangements = new ArrayList<Boolean>();
 
 		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getPayCalendarEntry(), dayArrangements));
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getPayCalendarEntry());
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getPayCalendarEntry(), TkServiceLocator.getPayCalendarSerivce().getPayCalendar(timesheetDocument.getPayCalendarEntry().getPayCalendarId()), true);
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
         List<EarnGroupSection> sections = buildSummarySections(dayArrangements, tkTimeBlockAggregate, timesheetDocument.getPayCalendarEntry().getEndPeriodDateTime(), timesheetDocument);
         timeSummary.setSections(sections);
@@ -79,7 +84,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         List<BigDecimal> hours = new ArrayList<BigDecimal>();
         BigDecimal periodTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 
-        for (FlsaWeek week : aggregate.getFlsaWeeks()) {
+        for (FlsaWeek week : aggregate.getFlsaWeeks(getTimeZone())) {
             BigDecimal weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
             for (FlsaDay day : week.getFlsaDays()) {
                 BigDecimal totalForDay = TkConstants.BIG_DECIMAL_SCALED_ZERO;
@@ -113,8 +118,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         // Maps directly to joda time day of week constants.
         int flsaBeginDay = this.getPayCalendarForEntry(cal).getFlsaBeginDayConstant();
         boolean virtualDays = false;
-        DateTime startDate = new DateTime(cal.getBeginPeriodDateTime());
-        DateTime endDate = new DateTime(cal.getEndPeriodDateTime());
+        LocalDateTime startDate = cal.getBeginLocalDateTime();
+        LocalDateTime endDate = cal.getEndLocalDateTime();
 
         // Increment end date if we are on a virtual day calendar, so that the
         // for loop can account for having the proper amount of days on the
@@ -128,7 +133,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
         boolean afterFirstDay = false;
         int week = 1;
-        for (DateTime currentDate = startDate; currentDate.compareTo(endDate) < 0; currentDate = currentDate.plusDays(1)) {
+        for (LocalDateTime currentDate = startDate; currentDate.compareTo(endDate) < 0; currentDate = currentDate.plusDays(1)) {
 
             if (currentDate.getDayOfWeek() == flsaBeginDay && afterFirstDay) {
                 header.add("Week " + week);
@@ -163,15 +168,13 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @param virtualDays Whether or not virtual days apply.
      * @return A string appropriate for UI display.
      */
-    private String makeHeaderDiplayString(DateTime currentDate, boolean virtualDays) {
-        StringBuffer display = new StringBuffer();
-        display.append(currentDate.get(DateTimeFieldType.monthOfYear())).append('/');
-        display.append(currentDate.get(DateTimeFieldType.dayOfMonth()));
+    private String makeHeaderDiplayString(LocalDateTime currentDate, boolean virtualDays) {
+        StringBuilder display = new StringBuilder(currentDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
 
         if (virtualDays) {
+            LocalDateTime nextDay = currentDate.plusDays(1);
             display.append(" - ");
-            display.append(currentDate.get(DateTimeFieldType.monthOfYear())).append('/');
-            display.append(currentDate.get(DateTimeFieldType.dayOfMonth()) + 1);
+            display.append(nextDay.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
         }
 
         return display.toString();
@@ -251,12 +254,12 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			earnGroupSection.setEarnGroup(earnGroup);
 			for(String assignmentDescr : earnGroupToAssignmentSets.get(earnGroup)){
 				AssignmentRow assignRow = new AssignmentRow();
-				
+
 				Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument,assignmentDescr);
 				// set assignmentkey for looking up css classes for assignmentRow
 				AssignmentDescriptionKey adk = new AssignmentDescriptionKey(assign.getJobNumber().toString(), assign.getWorkArea().toString(), assign.getTask().toString());
 				assignRow.setAssignmentKey(adk.toAssignmentKeyString());
-				
+
 				assignRow.setDescr(assign.getAssignmentDescription());
 				BigDecimal weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 				BigDecimal periodTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;

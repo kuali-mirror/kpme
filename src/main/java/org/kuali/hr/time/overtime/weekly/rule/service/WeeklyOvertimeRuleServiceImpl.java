@@ -1,5 +1,6 @@
 package org.kuali.hr.time.overtime.weekly.rule.service;
 
+import org.joda.time.DateTimeZone;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.flsa.FlsaDay;
@@ -32,7 +33,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 		List<WeeklyOvertimeRule> weeklyOvertimeRules = this.getWeeklyOvertimeRules(asOfDate);
 
 		// For the given payperiod, this is our time broken into FLSA weeks.
-		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks();
+		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks(DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone()));
 		List<FlsaWeek> previousWeeks = null;
 
 		if (flsaWeeks.size() == 0) {
@@ -49,7 +50,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (prevTdh != null) {
 					PayCalendarEntries prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(principalId, prevTdh.getPayEndDate());
 					TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
-					previousWeeks = prevTimeAggregate.getFlsaWeeks();
+					previousWeeks = prevTimeAggregate.getFlsaWeeks(DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone()));
 					if (previousWeeks.size() == 0) {
 						previousWeeks = null;
 					}

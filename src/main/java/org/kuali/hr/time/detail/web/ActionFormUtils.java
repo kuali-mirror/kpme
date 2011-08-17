@@ -73,7 +73,6 @@ public class ActionFormUtils {
 
         List<Map<String, Object>> timeBlockList = new LinkedList<Map<String, Object>>();
         String timezone = TkServiceLocator.getTimezoneService().getUserTimezone();
-        timeBlocks = TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks, timezone);
 
         for (TimeBlock timeBlock : timeBlocks) {
             Map<String, Object> timeBlockMap = new LinkedHashMap<String, Object>();

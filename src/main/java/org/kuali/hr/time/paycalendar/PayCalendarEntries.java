@@ -1,5 +1,7 @@
 package org.kuali.hr.time.paycalendar;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -15,7 +17,19 @@ import java.util.LinkedHashMap;
  * 3:55 pm   (at any date)
  * 6/22/2010 (at any time)
  *
- * @author djunk
+ * Make sure you are aware of whether or not you need a Local Relative time or
+ * an absolute server time.
+ *
+ * Local Relative Time Methods: (Time/Date without Timezone)
+ *
+ * LocalDateTime : getBeginLocalDateTime()
+ * LocalDateTime : getEndLocalDateTime()
+ *
+ * Absolute Methods:
+ *
+ * java.util.Date : getEndPeriodDateTime()
+ * java.util.Date : getBeginPeriodDateTime()
+ *
  */
 public class PayCalendarEntries extends PersistableBusinessObjectBase {
 
@@ -57,6 +71,26 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
 
     private PayCalendar payCalendarObj;
 
+
+    /**
+     * Provides the Begin Period time without timezone information, used
+     * for relative calculations.
+     *
+     * @return A LocalDateTime representation of the begin period date/time.
+     */
+    public LocalDateTime getBeginLocalDateTime() {
+        return (new DateTime(this.getBeginPeriodDateTime())).toLocalDateTime();
+    }
+
+    /**
+     * Provides the End Period time without timezone information, used
+     * for relative calculations.
+     *
+     * @return A LocalDateTime representation of the end period date/time.
+     */
+    public LocalDateTime getEndLocalDateTime() {
+        return (new DateTime(this.getEndPeriodDateTime())).toLocalDateTime();
+    }
 
     public Long getPayCalendarId() {
         payCalendarObj = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(this.getCalendarGroup());

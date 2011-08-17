@@ -1,8 +1,6 @@
 package org.kuali.hr.time.flsa;
 
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
-import org.joda.time.LocalTime;
+import org.joda.time.*;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.util.TKUtils;
@@ -18,14 +16,22 @@ public class FlsaDay {
 	private Map<String,BigDecimal> earnCodeToHours = new HashMap<String,BigDecimal>();
 	private Map<String,List<TimeBlock>> earnCodeToTimeBlocks = new HashMap<String,List<TimeBlock>>();
 	private List<TimeBlock> appliedTimeBlocks = new ArrayList<TimeBlock>();
-	LocalTime flsaBeginTime;
 
 	Interval flsaDateInterval;
-	DateTime flsaDate;
+	LocalDateTime flsaDate;
+    DateTimeZone timeZone;
 
-	public FlsaDay(DateTime flsaDate, List<TimeBlock> timeBlocks) {
+    /**
+     *
+     * @param flsaDate A LocalDateTime because we want to be conscious of the
+     * relative nature of this flsa/window
+     * @param timeBlocks
+     * @param timeZone The timezone we are constructing, relative.
+     */
+	public FlsaDay(LocalDateTime flsaDate, List<TimeBlock> timeBlocks, DateTimeZone timeZone) {
 		this.flsaDate = flsaDate;
-		flsaDateInterval = new Interval(flsaDate, flsaDate.plusHours(24));
+        this.timeZone = timeZone;
+		flsaDateInterval = new Interval(flsaDate.toDateTime(timeZone), flsaDate.toDateTime(timeZone).plusHours(24));
 		this.setTimeBlocks(timeBlocks);
 	}
 
@@ -89,8 +95,8 @@ public class FlsaDay {
      * Danger may still lurk in day-boundary overlapping time blocks that have multiple Time Hour Detail entries.
 	 */
 	private boolean applyBlock(TimeBlock block, List<TimeBlock> applyList) {
-		DateTime beginDateTime = new DateTime(block.getBeginTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-		DateTime endDateTime = new DateTime(block.getEndTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+		DateTime beginDateTime = new DateTime(block.getBeginTimestamp(), this.timeZone);
+		DateTime endDateTime = new DateTime(block.getEndTimestamp(), this.timeZone);
 
 		if (beginDateTime.isAfter(flsaDateInterval.getEnd()))
 			return false;
