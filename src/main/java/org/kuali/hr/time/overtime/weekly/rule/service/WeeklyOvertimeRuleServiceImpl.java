@@ -11,6 +11,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeZone;
 import org.kuali.hr.time.cache.CacheResult;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
@@ -144,7 +145,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	}
 
 	/**
-	 * If a Work for this timeblock has an overtime preference use that
+	 * If a WorkArea for this timeblock has an overtime preference use that
 	 * otherwise use the convert to on the rule
 	 * @param principalId
 	 * @param block
@@ -192,9 +193,12 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 
 				// Make a new TimeHourDetail with the otEarnCode with "applied" hours
 				TimeHourDetail timeHourDetail = new TimeHourDetail();
-				timeHourDetail.setHours(applied);
-				timeHourDetail.setEarnCode(otEarnCode);
 				
+				
+				EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(otEarnCode, block.getEndDate());
+				BigDecimal hrs = earnCodeObj.getInflateFactor().multiply(applied, TkConstants.MATH_CONTEXT);
+				timeHourDetail.setEarnCode(otEarnCode);
+				timeHourDetail.setHours(hrs);				
 				timeHourDetail.setTkTimeBlockId(block.getTkTimeBlockId());
 
 				// Decrement existing matched FROM earn code.
