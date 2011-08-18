@@ -119,6 +119,10 @@ public class TkUserRoles implements UserRoles {
     public boolean isGlobalViewOnly() {
         return globalViewOnly != null;
     }
+    
+    public boolean isDeptViewOnly() {
+    	return deptViewOnlyRoles.size() > 0;
+    }
 
     @Override
 	public boolean isSynchronous() {

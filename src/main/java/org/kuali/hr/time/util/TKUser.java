@@ -235,7 +235,7 @@ public class TKUser {
 		depts.addAll(userRoles.getOrgAdminDepartments());
 		
 		for(String dept : depts){
-			if(!depts.contains(dept)){
+			if(!reportingApprovalDepartments.contains(dept)){
 				reportingApprovalDepartments.add(dept);
 			}
 		}

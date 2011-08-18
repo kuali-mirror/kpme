@@ -96,6 +96,8 @@ public interface UserRoles {
      * @return a Set<String> of Chart names.
      */
     public Set<String> getOrgAdminCharts();
+    
+    public boolean isDeptViewOnly();
 
     /**
      * Indicates whether or not the current can approve the provided timesheet.

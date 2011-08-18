@@ -38,7 +38,7 @@ public class TimeApprovalAction extends TkAction {
         TKUser user = TKContext.getUser();
         UserRoles roles = user.getCurrentRoles();
 
-        if (!roles.isAnyApproverActive() && !roles.isSystemAdmin()) {
+        if (!roles.isAnyApproverActive() && !roles.isSystemAdmin() && !roles.isLocationAdmin() && !roles.isGlobalViewOnly() && !roles.isDeptViewOnly()) {
             throw new AuthorizationException(user.getPrincipalId(), "TimeApprovalAction", "");
         }
     }
