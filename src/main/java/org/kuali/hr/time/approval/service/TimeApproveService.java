@@ -24,9 +24,9 @@ public interface TimeApproveService {
      * work areas are desired.
      * @return A Map<String, List<ApprovalTimeSummaryRow>> container.
      */
-    public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsMap(Date payBeginDate, Date payEndDate, String calGroup, Long workarea);
+	public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsMap(Date payBeginDate, Date payEndDate, String calGroup, List<Long> workAreas);
 
-    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, Long workArea);
+	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<Long> deptWorkAreas);
 
 	public List<String> getPayCalendarLabelsForApprovalTab(Date payBeginDate, Date payEndDate);
 
@@ -63,6 +63,7 @@ public interface TimeApproveService {
      *
      * @return A CalendarGroup Name to PayCalendarEntries mapping.
      */
-    public Map<String,PayCalendarEntries> getPayCalendarEntriesForApprover(String principalId, Date currentDate);
+    public Map<String,PayCalendarEntries> getPayCalendarEntriesForApprover(String principalId, Date currentDate, String dept);
     public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate, String calGroup);
+    public Map<String,PayCalendarEntries> getPayCalendarEntriesForDept(String dept, Date currentDate);
 }

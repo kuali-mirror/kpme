@@ -44,6 +44,9 @@ public class TimeApprovalActionForm extends TkForm {
     private Long prevPayCalendarId = null;
     private Long nextPayCalendarId = null;
     
+    private List<String> departments = new ArrayList<String>();
+    private String selectedDept;
+    
     private String calNav = null;
 
     public String getCalNav() {
@@ -246,5 +249,21 @@ public class TimeApprovalActionForm extends TkForm {
 
 	public void setNextPayCalendarId(Long nextPayCalendarId) {
 		this.nextPayCalendarId = nextPayCalendarId;
+	}
+
+	public String getSelectedDept() {
+		return selectedDept;
+	}
+
+	public void setSelectedDept(String selectedDept) {
+		this.selectedDept = selectedDept;
+	}
+
+	public List<String> getDepartments() {
+		return departments;
+	}
+
+	public void setDepartments(List<String> departments) {
+		this.departments = departments;
 	}
 }

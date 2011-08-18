@@ -36,6 +36,7 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
@@ -46,9 +47,60 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     private static final Logger LOG = Logger.getLogger(TimeApproveServiceImpl.class);
 
     public static final int DAYS_WINDOW_DELTA = 31;
+    
+    
+    public Map<String,PayCalendarEntries> getPayCalendarEntriesForDept(String dept, Date currentDate) {
+        DateTime minDt = new DateTime(currentDate, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
+        java.sql.Date windowDate = TKUtils.getTimelessDate(minDt.toDate());
+        
+        Map<String,PayCalendarEntries> pceMap = new HashMap<String,PayCalendarEntries>();
+        Set<String> principals = new HashSet<String>();
+        List<WorkArea> workAreasForDept = TkServiceLocator.getWorkAreaService().getWorkAreas(dept,new java.sql.Date(currentDate.getTime()));
+     // Get all of the principals within our window of time.
+        for (WorkArea workArea : workAreasForDept) {
+        	Long waNum = workArea.getWorkArea();
+        	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, TKUtils.getTimelessDate(currentDate));
+
+            if (assignments != null) {
+                for (Assignment assignment : assignments) {
+                    principals.add(assignment.getPrincipalId());
+                }
+            } else {
+                assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, windowDate);
+                if (assignments != null) {
+                    for (Assignment assignment : assignments) {
+                        principals.add(assignment.getPrincipalId());
+                    }
+                }
+            }
+        }
+
+        // Get the pay calendars
+        Set<PayCalendar> payCals = new HashSet<PayCalendar>();
+        for (String pid : principals) {
+            PrincipalCalendar pc = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(pid, currentDate);
+            if (pc == null)
+                pc = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(pid, windowDate);
+
+            if (pc != null) {
+                payCals.add(pc.getPayCalendar());
+            } else {
+                LOG.warn("PrincipalCalendar null for principal: '" + pid + "'");
+            }
+        }
+
+        // Grab the pay calendar entries + groups
+        for (PayCalendar pc : payCals) {
+            PayCalendarEntries pce = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(pc.getPayCalendarId(), currentDate);
+            pceMap.put(pc.getCalendarGroup(), pce);
+        }
+
+        return pceMap;
+    }
 
     @Override
-    public Map<String,PayCalendarEntries> getPayCalendarEntriesForApprover(String principalId, Date currentDate) {
+    public Map<String,PayCalendarEntries> getPayCalendarEntriesForApprover(String principalId, Date currentDate, String dept) {
         TKUser tkUser = TKContext.getUser();
          
         Map<String,PayCalendarEntries> pceMap = new HashMap<String,PayCalendarEntries>();
@@ -135,12 +187,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsMap(
-			Date payBeginDate, Date payEndDate, String calGroup, Long workArea) {
+			Date payBeginDate, Date payEndDate, String calGroup, List<Long> deptWorkAreas) {
 		Map<String, List<ApprovalTimeSummaryRow>> mappedRows = new HashMap<String, List<ApprovalTimeSummaryRow>>();
-
-		TKUser tkUser = TKContext.getUser();
-		Set<Long> approverWorkAreas = tkUser.getCurrentRoles()
-				.getApproverWorkAreas();
+		List<Long> approverWorkAreas = deptWorkAreas;
 
 		// All of the assignments that the current approver has dominion over
 		List<Assignment> activeAssignments = new ArrayList<Assignment>();
@@ -304,10 +353,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
      * a subset of that data. It is obvious that some optimization should be done here,
      * for now this is a "future" TODO, to get this going.
      */
-    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, Long workArea) {
+    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<Long> deptWorkAreas) {
         List<ApprovalTimeSummaryRow> rows;
 
-        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsMap(payBeginDate, payEndDate, calGroup, workArea);
+        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRowsMap(payBeginDate, payEndDate, calGroup, deptWorkAreas);
         rows = mrows.get(calGroup);
 
         if (rows == null) {

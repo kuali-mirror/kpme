@@ -53,11 +53,13 @@ public class WorkAreaDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
         Criteria timestamp = new Criteria();
 
         effdt.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+        effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
         effdt.addLessOrEqualThan("effectiveDate", asOfDate);
         ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(WorkArea.class, effdt);
         effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 
         timestamp.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+        timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
         timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
         ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(WorkArea.class, timestamp);
         timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});

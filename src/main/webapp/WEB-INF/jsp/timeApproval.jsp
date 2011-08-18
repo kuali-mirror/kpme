@@ -11,6 +11,23 @@
 
     <div class="approvals">
         <table id="approvals-filter">
+        	<tr class="left">
+        		Department:
+        			<select id="selectedDept" name="selectedDept" property="selectedDept" onchange="this.form.submit();">
+        				<option value="">-- Select a department -- </option>
+        				<c:forEach var="dept" items="${Form.departments}">
+        					<c:choose>
+                           		<c:when test="${Form.selectedDept eq dept}">
+                           			<option value="${dept}" selected="true">${dept}</option>		
+                           		</c:when>
+                           		<c:otherwise>
+                           			<option value="${dept}">${dept}</option>	
+                           		</c:otherwise>
+        					</c:choose>
+        				</c:forEach>
+        			</select>
+        	</tr>
+        	<c:if test="${Form.selectedDept != null and Form.selectedPayCalendarGroup != null}">
             <tr>
                 <td class="left">
                     Search By :
@@ -56,6 +73,7 @@
                     </label>
                 </td>
             </tr>
+            </c:if>
         </table>
 
         <c:choose>
@@ -227,7 +245,7 @@
                 <div id="loader"></div>
             </c:when>
             <c:otherwise>
-                <span style="font-size: 1.5em;">No document for approval.</span>
+                <span style="font-size: 1.5em;">Not an administrator for any active employees.</span>
             </c:otherwise>
         </c:choose>
     </div>

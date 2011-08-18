@@ -28,6 +28,7 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.exception.AuthorizationException;
 
 public class TimeApprovalAction extends TkAction {
@@ -51,6 +52,15 @@ public class TimeApprovalAction extends TkAction {
         Date currentDate;
         PayCalendarEntries selectedPayCalendarEntries = null;
         PayCalendar currentPayCalendar = null;
+        
+        taaf.setDepartments(user.getReportingApprovalDepartments());
+        if(taaf.getDepartments().size() == 1){
+        	taaf.setSelectedDept(taaf.getDepartments().get(0));
+        }
+        
+        if(StringUtils.isBlank(taaf.getSelectedDept())){
+        	return fwd;
+        }
 
         // Set current pay calendar entries if present.
         // Correct usage here is to use the beginPeriodDate or Current date -- use the non-specific search.
@@ -71,10 +81,13 @@ public class TimeApprovalAction extends TkAction {
             }
         }
         
-        Map<String, PayCalendarEntries> currentPayCalendarEntries = TkServiceLocator.getTimeApproveService().getPayCalendarEntriesForApprover(TKContext.getPrincipalId(), currentDate);
+        Map<String, PayCalendarEntries> currentPayCalendarEntries = TkServiceLocator.getTimeApproveService().getPayCalendarEntriesForDept( taaf.getSelectedDept(), currentDate);
         SortedSet<String> calGroups = new TreeSet<String>(currentPayCalendarEntries.keySet());
 
         if(calGroups.isEmpty()){
+        	taaf.setSelectedPayCalendarGroup(null);
+        	taaf.setPayCalendarGroups(null);
+        	taaf.setApprovalRows(null);
         	return fwd;
         }
         // Check pay Calendar Group
@@ -225,7 +238,13 @@ public class TimeApprovalAction extends TkAction {
 
     	if(taaf.getPayCalendarGroups().size() > 0){
             String calGroup = StringUtils.isNotEmpty(taaf.getSelectedPayCalendarGroup()) ? taaf.getSelectedPayCalendarGroup() : taaf.getPayCalendarGroups().first();
-            rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup, taaf.getWorkArea());
+            List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayEndDate().getTime()));
+            //TODO push this up
+            List<Long> workAreas = new ArrayList<Long>();
+            for(WorkArea wa : workAreaObjs){
+            	workAreas.add(wa.getWorkArea());
+            }
+            rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup, workAreas);
 
             if (!taaf.isAjaxCall() && StringUtils.isNotBlank(taaf.getSearchField()) && StringUtils.isNotBlank(taaf.getSearchTerm())) {
                 rows = searchApprovalRows(rows, taaf.getSearchField(), taaf.getSearchTerm());

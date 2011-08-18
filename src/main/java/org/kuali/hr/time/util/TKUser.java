@@ -1,12 +1,16 @@
 package org.kuali.hr.time.util;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
-
-import java.util.Set;
 
 /**
  * This class houses the concept of a user in the Timekeeping system.  It
@@ -209,6 +213,69 @@ public class TKUser {
 	public boolean isApprover() {
 		UserRoles userRoles = getCurrentRoles();
 		return userRoles.getApproverWorkAreas().size() > 0;
+	}
+	
+	public List<String> getReportingApprovalDepartments(){
+		UserRoles userRoles = getCurrentRoles();
+		List<String> reportingApprovalDepartments = new ArrayList<String>();
+		Set<Long> workAreas = new HashSet<Long>();
+		workAreas.addAll(userRoles.getApproverWorkAreas());
+		workAreas.addAll(userRoles.getReviewerWorkAreas());
+		
+		for(Long workArea : workAreas){
+			WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, TKUtils.getCurrentDate());
+			if(workAreaObj != null){
+				if(!reportingApprovalDepartments.contains(workAreaObj.getDept())){
+					reportingApprovalDepartments.add(workAreaObj.getDept());
+				}
+			}
+		}
+		Set<String> depts = new HashSet<String>();
+		depts.addAll(userRoles.getDepartmentViewOnlyDepartments());
+		depts.addAll(userRoles.getOrgAdminDepartments());
+		
+		for(String dept : depts){
+			if(!depts.contains(dept)){
+				reportingApprovalDepartments.add(dept);
+			}
+		}
+		return reportingApprovalDepartments;
+	}
+	
+	public List<Long> getReportingWorkAreas(){
+		UserRoles userRoles = getCurrentRoles();
+		List<Long> reportingWorkAreas = new ArrayList<Long>();
+		List<String> depts = new ArrayList<String>();
+		
+		reportingWorkAreas.addAll(userRoles.getApproverWorkAreas());
+		for(Long workArea : userRoles.getApproverWorkAreas()){
+			if(!reportingWorkAreas.contains(workArea)){
+				reportingWorkAreas.add(workArea);
+			}
+		}
+		
+		for(Long workArea : userRoles.getReviewerWorkAreas()){
+			if(!reportingWorkAreas.contains(workArea)){
+				reportingWorkAreas.add(workArea);
+			}
+		}
+		
+		reportingWorkAreas.addAll(userRoles.getReviewerWorkAreas());
+		
+		depts.addAll(userRoles.getDepartmentViewOnlyDepartments());
+		depts.addAll(userRoles.getOrgAdminDepartments());
+		
+		for(String dept : depts){
+			List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(dept, TKUtils.getCurrentDate());
+			for(WorkArea workArea : workAreas){
+				if(!reportingWorkAreas.contains(workArea.getWorkArea())){
+					reportingWorkAreas.add(workArea.getWorkArea());
+				}
+			}
+		}
+		
+		
+		return reportingWorkAreas;
 	}
 
 	public Set<String> getLocationAdminAreas() {
