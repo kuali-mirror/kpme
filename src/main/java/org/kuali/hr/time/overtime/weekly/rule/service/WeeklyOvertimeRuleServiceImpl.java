@@ -33,12 +33,13 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 
 	@Override
 	public void processWeeklyOvertimeRule(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate) {
+        DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
 		java.sql.Date asOfDate = TKUtils.getTimelessDate(timesheetDocument.getDocumentHeader().getPayEndDate());
 		String principalId = timesheetDocument.getDocumentHeader().getPrincipalId();
 		List<WeeklyOvertimeRule> weeklyOvertimeRules = this.getWeeklyOvertimeRules(asOfDate);
 
 		// For the given payperiod, this is our time broken into FLSA weeks.
-		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks(DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone()));
+		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks(zone);
 		List<FlsaWeek> previousWeeks = null;
 
 		if (flsaWeeks.size() == 0) {
@@ -54,8 +55,8 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getPayBeginDate());
 				if (prevTdh != null) {
 					PayCalendarEntries prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(principalId, prevTdh.getPayEndDate());
-					TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry);
-					previousWeeks = prevTimeAggregate.getFlsaWeeks(DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone()));
+					TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry, prevPayCalendarEntry.getPayCalendarObj(), true);
+					previousWeeks = prevTimeAggregate.getFlsaWeeks(zone);
 					if (previousWeeks.size() == 0) {
 						previousWeeks = null;
 					}
@@ -157,7 +158,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(block.getWorkArea(), asOfDate);
 		if(StringUtils.isNotBlank(workArea.getDefaultOvertimeEarnCode())){
 			return workArea.getDefaultOvertimeEarnCode();
-		} 	
+		}
 		return wor.getConvertToEarnCode();
 	}
 
@@ -193,12 +194,12 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 
 				// Make a new TimeHourDetail with the otEarnCode with "applied" hours
 				TimeHourDetail timeHourDetail = new TimeHourDetail();
-				
-				
+
+
 				EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(otEarnCode, block.getEndDate());
 				BigDecimal hrs = earnCodeObj.getInflateFactor().multiply(applied, TkConstants.MATH_CONTEXT);
 				timeHourDetail.setEarnCode(otEarnCode);
-				timeHourDetail.setHours(hrs);				
+				timeHourDetail.setHours(hrs);
 				timeHourDetail.setTkTimeBlockId(block.getTkTimeBlockId());
 
 				// Decrement existing matched FROM earn code.

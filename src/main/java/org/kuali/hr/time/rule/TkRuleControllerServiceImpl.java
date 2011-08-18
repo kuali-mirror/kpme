@@ -17,7 +17,7 @@ public class TkRuleControllerServiceImpl implements TkRuleControllerService {
 	public void applyRules(String action, List<TimeBlock> timeBlocks, PayCalendarEntries payEntry, TimesheetDocument timesheetDocument){
 		//foreach action run the rules that apply
 		if(StringUtils.equals(action, TkConstants.ACTIONS.ADD_TIME_BLOCK) || StringUtils.equals(action, TkConstants.ACTIONS.CLOCK_OUT)){
-			TkTimeBlockAggregate timeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, payEntry);
+			TkTimeBlockAggregate timeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, payEntry, payEntry.getPayCalendarObj(), true);
             //
             // Need to run LunchRule first - It will reduce hours in some instances
 

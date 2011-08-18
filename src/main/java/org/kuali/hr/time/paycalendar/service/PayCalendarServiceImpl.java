@@ -38,6 +38,7 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 
         PayCalendar payCalendar = getPayCalendar(principalId, payEndDate);
         pcd = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntriesByIdAndPeriodEndDate(payCalendar.getPayCalendarId(), payEndDate);
+        pcd.setPayCalendarObj(payCalendar);
 
         return pcd;
     }
@@ -48,7 +49,7 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 		PayCalendarEntries pcd = null;
         PayCalendar payCalendar = getPayCalendar(principalId, currentDate);
 	    pcd = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(payCalendar.getPayCalendarId(), currentDate);
-
+        pcd.setPayCalendarObj(payCalendar);
 		return pcd;
 	}
 
