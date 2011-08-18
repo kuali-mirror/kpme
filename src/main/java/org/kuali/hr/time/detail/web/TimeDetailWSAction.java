@@ -250,7 +250,7 @@ public class TimeDetailWSAction extends TimesheetAction {
                     		continue;
                     	}
 						if ( !(assignment.getTimeCollectionRule().isClockUserFl() &&
-                                StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(), earnCode.getEarnCode())) ) {
+                                StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(), earnCode.getEarnCode()) && StringUtils.equals(TKContext.getTargetPrincipalId(), assignment.getPrincipalId()))) {
                             earnCodeString.append("<option value='").append(earnCode.getEarnCode()).append("_").append(earnCode.getEarnCodeType());
                             earnCodeString.append("'>").append(earnCode.getEarnCode()).append(" : ").append(earnCode.getDescription());
                             earnCodeString.append("</option>");
