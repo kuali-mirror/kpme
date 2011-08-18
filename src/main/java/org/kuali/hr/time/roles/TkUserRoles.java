@@ -56,6 +56,16 @@ public class TkUserRoles implements UserRoles {
 		setAssignments(assignments);
 	}
 
+    @Override
+    public boolean isLocationAdmin() {
+        return getOrgAdminCharts().size() > 0;
+    }
+
+    @Override
+    public boolean isDepartmentAdmin() {
+        return getOrgAdminDepartments().size() > 0;
+    }
+
     public String getPrincipalId() {
         return principalId;
     }
@@ -217,7 +227,7 @@ public class TkUserRoles implements UserRoles {
         writable |= ( StringUtils.equals(this.principalId, document.getPrincipalId())
                 && (StringUtils.equals(TkConstants.ROUTE_STATUS.INITIATED, document.getDocumentHeader().getDocumentStatus()) ||
                 	(StringUtils.equals(TkConstants.ROUTE_STATUS.ENROUTE, document.getDocumentHeader().getDocumentStatus()))));
-        
+
 
         if (!writable) {
             // Departmental View Only? || Reviewer || Org Admin || Approver
@@ -278,7 +288,7 @@ public class TkUserRoles implements UserRoles {
 
         return readable;
     }
-    
+
     private boolean isLocationAdmin(TimesheetDocument doc){
     	for(Assignment assign : doc.getAssignments()){
     		String location = assign.getJob().getLocation();
@@ -286,7 +296,7 @@ public class TkUserRoles implements UserRoles {
     	}
     	return false;
     }
-    
+
     private boolean isDepartmentAdmin(TimesheetDocument doc){
     	for(Assignment assign : doc.getAssignments()){
     		String dept = assign.getDept();
@@ -300,11 +310,11 @@ public class TkUserRoles implements UserRoles {
 		if(StringUtils.equals(this.getPrincipalId(),doc.getPrincipalId())){
 			return true;
 		}
-		
+
 		if(this.isApproverForTimesheet(doc)){
 			return true;
 		}
-		
+
 		//System admins can route the document as well as the employee
 		if(this.isSystemAdmin()){
 			return true;

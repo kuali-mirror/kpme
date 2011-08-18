@@ -1,10 +1,10 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
 <div id="tab-section">
-    <c:if test="${Form.user.systemAdmin || Form.user.locationAdmin || Form.user.departmentAdmin}">
+    <c:if test="${Form.user.currentTargetRoles.systemAdmin || Form.user.currentTargetRoles.locationAdmin || Form.user.currentTargetRoles.departmentAdmin}">
         <li id="admin" class="ui-state-default ui-corner-top"><a href="Admin.do">Admin</a></li>
     </c:if>
-    <c:if test="${Form.user.systemAdmin}">        
+    <c:if test="${Form.user.currentTargetRoles.systemAdmin}">
     	<li id="batchJob" class="ui-state-default ui-corner-top"><a href="BatchJob.do">Batch Job</a></li>
     </c:if>
     <li id="personInfo" class="ui-state-default ui-corner-top"><a href="PersonInfo.do">Person Info</a></li>

@@ -9,6 +9,10 @@ import java.util.Set;
  */
 public interface UserRoles {
 
+    public boolean isLocationAdmin();
+
+    public boolean isDepartmentAdmin();
+
     public String getPrincipalId();
 
     /**
@@ -100,7 +104,7 @@ public interface UserRoles {
      */
     public boolean isApproverForTimesheet(TimesheetDocument doc);
     public boolean isApproverForTimesheet(String docId);
-    
+
     public boolean canSubmitTimesheet(TimesheetDocument doc);
     public boolean canSubmitTimesheet(String docId);
 
