@@ -19,6 +19,11 @@
 				<ref bean="WorkAreaMaintenanceDocument-InactiveRoleMaintenance" />
 			</list>
 		</property>
+		<property name="webScriptFiles">
+     		<list>
+        		<value>../js/core.js</value>
+      		</list>
+    	</property>
 		<property name="lockingKeys">
 			<list>
 				<value>workArea</value>

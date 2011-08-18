@@ -20,6 +20,11 @@
 				<ref bean="AssignmentMaintenanceDocument-AssignmentAccountMaintenance" />
 			</list>
 		</property>
+		<property name="webScriptFiles">
+     		<list>
+        		<value>../js/core.js</value>
+      		</list>
+    	</property>
 		<property name="documentTypeName" value="AssignmentDocumentType" />
 	</bean>
 

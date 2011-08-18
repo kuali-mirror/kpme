@@ -20,6 +20,11 @@
         <ref bean="DepartmentMaintenanceDocument-RoleMaintenance" />
       </list>
     </property>
+    <property name="webScriptFiles">
+     		<list>
+        		<value>../js/core.js</value>
+      		</list>
+    	</property>
     <property name="documentTypeName" value="DepartmentMaintenanceDocumentType"/>
   </bean>
 
