@@ -10,6 +10,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 
 public class TKUtilsTest extends Assert {
 	
@@ -49,5 +50,31 @@ public class TKUtilsTest extends Assert {
 		assertEquals("Wrong hours", 5, hours.intValue());
 
 	}
+	
+	@Test
+	public void testGetFullWeekDaySpanForPayCalendarEntry() {
+		PayCalendarEntries payCalendarEntry = new PayCalendarEntries();
+		// begin date is a Monday
+		payCalendarEntry.setBeginPeriodDateTime(new Date((new DateTime(2011, 8, 8, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		// end date is a Thursday
+		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 25, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		List<Interval> intervals = TKUtils.getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry, DateTimeZone.forID("EST") );
+		assertEquals("First Interval should be 08/07/2011", "2011-08-07T12:00:00.000-05:00", intervals.get(0).getStart().toString()); 
+		assertEquals("Last Interval should be 08/26/2011", "2011-08-26T12:00:00.000-05:00", intervals.get(intervals.size()-1).getStart().toString());
+		
+		// begin date is a Sunday
+		payCalendarEntry.setBeginPeriodDateTime(new Date((new DateTime(2011, 8, 14, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		intervals = TKUtils.getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry, DateTimeZone.forID("EST") );
+		assertEquals("First Interval should be 08/14/2011", "2011-08-14T12:00:00.000-05:00", intervals.get(0).getStart().toString()); 
+		assertEquals("Last Interval should be 08/26/2011", "2011-08-26T12:00:00.000-05:00", intervals.get(intervals.size()-1).getStart().toString());
+		
+		// end date is a Sunday
+		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 28, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		intervals = TKUtils.getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry, DateTimeZone.forID("EST") );
+		assertEquals("First Interval should be 08/14/2011", "2011-08-14T12:00:00.000-05:00", intervals.get(0).getStart().toString()); 
+		assertEquals("Last Interval should be 08/28/2011", "2011-09-02T12:00:00.000-05:00", intervals.get(intervals.size()-1).getStart().toString());
+		
+	}
+	
 	
 }

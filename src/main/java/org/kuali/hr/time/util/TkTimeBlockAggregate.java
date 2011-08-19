@@ -79,6 +79,38 @@ public class TkTimeBlockAggregate {
 		}
 	}
 
+    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, PayCalendarEntries payCalendarEntry, PayCalendar payCalendar, boolean useUserTimeZone, List<Interval> dayIntervals) {
+    	this.payCalendarEntry = payCalendarEntry;
+		this.payCalendar = payCalendar;
+		
+		for(Interval dayInt : dayIntervals){
+			List<TimeBlock> dayTimeBlocks = new ArrayList<TimeBlock>();
+			for(TimeBlock timeBlock : timeBlocks){
+
+                // Assumption: Timezones can only be switched at pay period end boundaries.
+                // If the above assumption becomes false, the logic below will need to
+                // accommodate virtual chopping of time blocks to have them fit nicely
+                // in the "days" that are displayed to users.
+
+				DateTime beginTime = useUserTimeZone ? timeBlock.getBeginTimeDisplay() : new DateTime(timeBlock.getBeginTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+				DateTime endTime = useUserTimeZone ? timeBlock.getEndTimeDisplay() :  new DateTime(timeBlock.getEndTimestamp(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+				if(dayInt.contains(beginTime)){
+					if(dayInt.contains(endTime) || endTime.compareTo(dayInt.getEnd()) == 0){
+						// determine if the time block needs to be pushed forward / backward
+						if(beginTime.getHourOfDay() < dayInt.getStart().getHourOfDay()) {
+							timeBlock.setPushBackward(true);
+						}
+
+						dayTimeBlocks.add(timeBlock);
+					}
+				}
+			}
+			dayTimeBlockList.add(dayTimeBlocks);
+		}
+		
+    }
+    
+    
 	public List<TimeBlock> getFlattenedTimeBlockList(){
 		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
 		for(List<TimeBlock> timeBlocks : dayTimeBlockList){

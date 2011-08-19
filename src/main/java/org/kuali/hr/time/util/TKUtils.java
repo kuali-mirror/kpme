@@ -154,6 +154,36 @@ public class TKUtils {
     public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
         return getDaySpanForPayCalendarEntry(payCalendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
+    
+    public static List<Interval> getFullWeekDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
+        return getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+    }
+    
+	public static List<Interval> getFullWeekDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry, DateTimeZone timeZone) {
+		DateTime beginDateTime = payCalendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
+		DateTime endDateTime = payCalendarEntry.getEndLocalDateTime().toDateTime(timeZone);
+
+		List<Interval> dayIntervals = new ArrayList<Interval>();
+		
+		DateTime currDateTime = beginDateTime;
+		if(beginDateTime.getDayOfWeek() != 7 ) {
+			currDateTime = beginDateTime.plusDays(0 - beginDateTime.getDayOfWeek());
+		}
+		
+		int afterEndDate = 6 - endDateTime.getDayOfWeek();
+		if(endDateTime.getDayOfWeek() == 7) {
+			afterEndDate = 6;
+		}
+		DateTime aDate = endDateTime.plusDays(afterEndDate);
+		while (currDateTime.isBefore(aDate)) {
+			DateTime prevDateTime = currDateTime;
+			currDateTime = currDateTime.plusDays(1);
+			Interval daySpan = new Interval(prevDateTime, currDateTime);
+			dayIntervals.add(daySpan);
+		}
+
+		return dayIntervals;
+    }
 
 	/**
 	 * Includes partial weeks if the time range provided does not divide evenly

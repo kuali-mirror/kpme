@@ -10,6 +10,7 @@ public class TkCalendarDay {
     private List<TimeBlockRenderer> blockRenderers = new ArrayList<TimeBlockRenderer>();
     private String dayNumberString;
     private int dayNumberDelta;
+    private Boolean gray;
 
 	public List<TimeBlock> getTimeblocks() {
 		return timeblocks;
@@ -41,4 +42,12 @@ public class TkCalendarDay {
     public void setDayNumberDelta(int dayNumberDelta) {
         this.dayNumberDelta = dayNumberDelta;
     }
+
+	public Boolean getGray() {
+		return gray;
+	}
+
+	public void setGray(Boolean gray) {
+		this.gray = gray;
+	}
 }

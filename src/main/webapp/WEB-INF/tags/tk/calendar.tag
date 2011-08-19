@@ -44,7 +44,16 @@
                 <tr>
                         <%-- Generate Each Day --%>
                     <c:forEach var="day" items="${week.days}" varStatus="dayS">
-                        <td id="day_${day.dayNumberDelta}" class="ui-state-default" style="width:14%;">
+                    
+	                   	<c:set var="dayStyle" value="width:14%;"/>
+	                   	<c:set var="dayId" value = "day_${day.dayNumberDelta}" />
+	                	<c:if test="${day.gray}">
+	                		<c:set var="dayStyle" value="width:14%; background: gray;"/>
+	                		<c:set var="dayId" value = "gray_day" />
+	                	</c:if>
+                   	
+                     	
+                        <td id="${dayId}" class="ui-state-default" style="${dayStyle}">
                                 <%-- Day Number --%>
                             <div class="day-number">${day.dayNumberString}</div>
                                 <%-- Render the Time Blocks --%>

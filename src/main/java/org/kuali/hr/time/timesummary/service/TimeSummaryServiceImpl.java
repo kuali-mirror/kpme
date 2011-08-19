@@ -271,7 +271,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
                 // that we can refactor now that we are not under the assumption of
                 // always having 7 day weeks.
                 int daydaycount = 0;
-				for(int i = 1; i <= dayToEarnGroupAssignToHoursMap.size(); i++){ // replace this with std. iterator after refactor above storage code
+				for(int i = 1; i < dayToEarnGroupAssignToHoursMap.size(); i++){ // replace this with std. iterator after refactor above storage code
 					Map<String,BigDecimal> earnGroupAssignToHoursMap = dayToEarnGroupAssignToHoursMap.get(i);
                     Boolean dayIsDay = dayArrangements.get(daydaycount); // is this day 'i', a Day? (or a week/period summary)
 					BigDecimal hrs = TkConstants.BIG_DECIMAL_SCALED_ZERO;

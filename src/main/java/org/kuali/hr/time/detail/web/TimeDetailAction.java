@@ -75,7 +75,8 @@ public class TimeDetailAction extends TimesheetAction {
         // Set calendar
         PayCalendarEntries payCalendarEntry = tdaf.getPayCalendarDates();
         PayCalendar payCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(payCalendarEntry.getPayCalendarId());
-        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true);
+        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true, 
+        		TKUtils.getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry));
         TkCalendar cal = TkCalendar.getCalendar(aggregate);
         cal.assignAssignmentStyle(aMap);
         tdaf.setTkCalendar(cal);

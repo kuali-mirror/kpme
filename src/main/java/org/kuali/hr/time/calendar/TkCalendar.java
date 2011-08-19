@@ -24,19 +24,31 @@ public class TkCalendar {
         if (aggregate != null) {
             List<TkCalendarWeek> weeks = new ArrayList<TkCalendarWeek>();
             tc.setPayCalEntry(aggregate.getPayCalendarEntry());
+
+            int firstDay = 0;   
+            if(tc.getBeginDateTime().getDayOfWeek() != 7 ) {
+            	firstDay = 0 - tc.getBeginDateTime().getDayOfWeek();   // always render calendar weeks from Sundays 
+    		}
             for (int i=0; i<aggregate.numberOfAggregatedWeeks(); i++) {
                 TkCalendarWeek week = new TkCalendarWeek();
                 List<List<TimeBlock>> weekBlocks = aggregate.getWeekTimeBlocks(i);
                 List<TkCalendarDay> days = new ArrayList<TkCalendarDay>(7);
-
+                
                 for (int j=0; j<weekBlocks.size(); j++) {
                     List<TimeBlock> dayBlocks = weekBlocks.get(j);
                     // Create the individual days.
                     TkCalendarDay day = new TkCalendarDay();
                     day.setTimeblocks(dayBlocks);
-                    day.setDayNumberString(tc.getDayNumberString(i * 7 + j));
-                    day.setDayNumberDelta(i * 7 + j);
+                    day.setDayNumberString(tc.getDayNumberString(i * 7 + j + firstDay));
+                    day.setDayNumberDelta(i * 7 + j + firstDay);
                     assignDayLunchLabel(day);
+                    int dayIndex = i * 7 + j + firstDay;
+                    DateTime beginDateTemp = tc.getBeginDateTime().plusDays(dayIndex);
+                    day.setGray(false);
+                    if(beginDateTemp.isBefore(tc.getBeginDateTime().getMillis()) 
+                    		|| beginDateTemp.isAfter(tc.getEndDateTime().getMillis())) {
+                    	day.setGray(true);
+                    }
                     days.add(day);
                 }
                 week.setDays(days);
@@ -140,17 +152,20 @@ public class TkCalendar {
      */
     public List<String> getCalendarDayHeadings() {
         List<String> dayStrings = new ArrayList<String>(7);
-
+        // always render from Sunday
+        int firstDay = 0 - getBeginDateTime().getDayOfWeek();
+        int lastDay = firstDay +7;
+        
         if (getBeginDateTime().getMinuteOfDay() == 0) {
             // "Standard" days.
-            for (int i=0; i<7; i++) {
+            for (int i=firstDay; i<lastDay; i++) {
                 DateTime currDay = getBeginDateTime().plusDays(i);
                 dayStrings.add(currDay.toString("E"));
             }
         } else {
             // Day Split Strings
             StringBuilder builder = new StringBuilder();
-            for (int i=0; i<7; i++) {
+            for (int i=firstDay; i<lastDay; i++) {
                 DateTime currStart = getBeginDateTime().plusDays(i);
                 DateTime currEnd = getBeginDateTime().plusDays(i);
 
