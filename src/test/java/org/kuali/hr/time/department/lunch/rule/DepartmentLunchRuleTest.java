@@ -70,7 +70,7 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		for(TimeBlock tb : doc.getTimeBlocks()){
 			tb.setClockLogCreated(true);
 		}
-		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, doc.getTimeBlocks(), doc.getPayCalendarEntry(), doc);
+		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, doc.getTimeBlocks(), doc.getPayCalendarEntry(), doc, "admin");
 		for(TimeBlock tb : doc.getTimeBlocks()) {
 			if(tb.getHours().compareTo(deptLunchRule.getShiftHours()) == 1) {
 				for(TimeHourDetail thd : tb.getTimeHourDetails()){

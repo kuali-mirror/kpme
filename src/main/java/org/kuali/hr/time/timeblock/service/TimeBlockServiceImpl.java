@@ -1,10 +1,5 @@
 package org.kuali.hr.time.timeblock.service;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -26,7 +21,11 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimeBlockServiceImpl implements TimeBlockService {
 
@@ -196,14 +195,14 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         if (earnCodeObj.getInflateFactor() != null) {
             if ((earnCodeObj.getInflateFactor().compareTo(new BigDecimal(1.0)) != 0)
             		&& (earnCodeObj.getInflateFactor().compareTo(BigDecimal.ZERO)!= 0) ) {
-                hours = earnCodeObj.getInflateFactor().multiply(hours, TkConstants.MATH_CONTEXT).setScale(TkConstants.BIG_DECIMAL_SCALE);;
+                hours = earnCodeObj.getInflateFactor().multiply(hours, TkConstants.MATH_CONTEXT).setScale(TkConstants.BIG_DECIMAL_SCALE);
             }
         }
 
         tb.setEarnCodeType(earnCodeObj.getEarnCodeType());
         tb.setHours(hours);
         tb.setClockLogCreated(clockLogCreated);
-        tb.setUserPrincipalId(TKContext.getUser().getTargetPrincipalId());
+        tb.setUserPrincipalId(timesheetDocument.getPrincipalId());
         tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
         tb.setTimeHourDetails(this.createTimeHourDetails(tb.getEarnCode(), tb.getHours(), tb.getAmount(), tb.getTkTimeBlockId()));

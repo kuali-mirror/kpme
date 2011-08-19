@@ -1,11 +1,12 @@
 package org.kuali.hr.time.clocklog.service;
 
-import java.sql.Timestamp;
-import java.util.List;
-
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 public interface ClockLogService {
 
@@ -15,13 +16,15 @@ public interface ClockLogService {
     /**
      * Build ClockLog based on criteria passed in
      * @param clockTimestamp
-     * @param selectedAssign
+     * @param assignment
      * @param timesheetDocument
      * @param clockAction
      * @param ip
      * @return
      */
-	public ClockLog buildClockLog(Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction, String ip);
+	public ClockLog buildClockLog(Timestamp clockTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip);
 	
 	public List<ClockLog> getOpenClockLogs(PayCalendarEntries payCalendarEntry);
+
+    ClockLog processClockLog(Timestamp clockTimestamp, Assignment assignment, PayCalendarEntries pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId);
 }

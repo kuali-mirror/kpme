@@ -1,17 +1,16 @@
 package org.kuali.hr.time.clocklog.dao;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.util.TkConstants;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.util.List;
 
 public class ClockLogDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements ClockLogDao {
 
@@ -91,17 +90,19 @@ public class ClockLogDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
     @SuppressWarnings("unchecked")
 	public List<ClockLog> getOpenClockLogs(PayCalendarEntries payCalendarEntry){
     	Criteria criteria = new Criteria();
-    	criteria.addIn("action", TkConstants.ON_THE_CLOCK_CODES);
-    	
+    	criteria.addIn("clockAction", TkConstants.ON_THE_CLOCK_CODES);
+
     	Criteria clockTimeJoinCriteria = new Criteria();
-    	clockTimeJoinCriteria.addEqualToField("principal_id", Criteria.PARENT_QUERY_PREFIX + "principal_id");
+        clockTimeJoinCriteria.addBetween("clockTimestamp", payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate());
+    	clockTimeJoinCriteria.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
     	ReportQueryByCriteria clockTimeSubQuery = QueryFactory.newReportQuery(ClockLog.class, clockTimeJoinCriteria);
-    	clockTimeSubQuery.setAttributes(new String[] {new StringBuffer("max(").append("clock_time").append(")").toString() });
+    	clockTimeSubQuery.setAttributes(new String[] {new StringBuffer("max(").append("clockTimestamp").append(")").toString() });
     	
-    	criteria.addEqualTo("clock_time", clockTimeSubQuery);
+    	criteria.addEqualTo("clockTimestamp", clockTimeSubQuery);
     	
     	Criteria clockTimestampJoinCriteria = new Criteria();
-    	clockTimestampJoinCriteria.addEqualToField("principal_id", Criteria.PARENT_QUERY_PREFIX + "principal_id");
+        clockTimestampJoinCriteria.addBetween("clockTimestamp", payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate());
+    	clockTimestampJoinCriteria.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
     	ReportQueryByCriteria clockTimestampSubQuery = QueryFactory.newReportQuery(ClockLog.class, clockTimestampJoinCriteria);
     	clockTimestampSubQuery.setAttributes(new String[] { new StringBuffer("max(").append("timestamp").append(")").toString()});
     	

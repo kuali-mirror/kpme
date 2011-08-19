@@ -13,5 +13,5 @@ public interface TkRuleControllerService {
      * to reference old vs. new changes, be sure to copy/clone the list before
      * passing it to this method.
      */
-	public void applyRules(String action, List<TimeBlock> timeBlocks, PayCalendarEntries payEntry, TimesheetDocument timesheetDocument);
+	public void applyRules(String action, List<TimeBlock> timeBlocks, PayCalendarEntries payEntry, TimesheetDocument timesheetDocument, String principalId);
 }
