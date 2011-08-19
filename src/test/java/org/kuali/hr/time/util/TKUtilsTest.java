@@ -3,6 +3,7 @@ package org.kuali.hr.time.util;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -59,20 +60,21 @@ public class TKUtilsTest extends Assert {
 		// end date is a Thursday
 		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 25, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
 		List<Interval> intervals = TKUtils.getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry, DateTimeZone.forID("EST") );
-		assertEquals("First Interval should be 08/07/2011", "2011-08-07T12:00:00.000-05:00", intervals.get(0).getStart().toString()); 
-		assertEquals("Last Interval should be 08/26/2011", "2011-08-26T12:00:00.000-05:00", intervals.get(intervals.size()-1).getStart().toString());
+		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+		assertEquals("First Interval should be 08/07/2011", "08/07/2011", format.format(intervals.get(0).getStart().toDate())); 
+		assertEquals("Last Interval should be 08/26/2011", "08/26/2011", format.format(intervals.get(intervals.size()-1).getStart().toDate()));
 		
 		// begin date is a Sunday
 		payCalendarEntry.setBeginPeriodDateTime(new Date((new DateTime(2011, 8, 14, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
 		intervals = TKUtils.getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry, DateTimeZone.forID("EST") );
-		assertEquals("First Interval should be 08/14/2011", "2011-08-14T12:00:00.000-05:00", intervals.get(0).getStart().toString()); 
-		assertEquals("Last Interval should be 08/26/2011", "2011-08-26T12:00:00.000-05:00", intervals.get(intervals.size()-1).getStart().toString());
+		assertEquals("First Interval should be 08/14/2011", "08/14/2011", format.format(intervals.get(0).getStart().toDate()));
+		assertEquals("Last Interval should be 08/26/2011", "08/26/2011",  format.format(intervals.get(intervals.size()-1).getStart().toDate()));
 		
 		// end date is a Sunday
 		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 28, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
 		intervals = TKUtils.getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry, DateTimeZone.forID("EST") );
-		assertEquals("First Interval should be 08/14/2011", "2011-08-14T12:00:00.000-05:00", intervals.get(0).getStart().toString()); 
-		assertEquals("Last Interval should be 08/28/2011", "2011-09-02T12:00:00.000-05:00", intervals.get(intervals.size()-1).getStart().toString());
+		assertEquals("First Interval should be 08/14/2011", "08/14/2011",format.format(intervals.get(0).getStart().toDate()));
+		assertEquals("Last Interval should be 09/02/2011", "09/02/2011", format.format(intervals.get(intervals.size()-1).getStart().toDate()));
 		
 	}
 	
