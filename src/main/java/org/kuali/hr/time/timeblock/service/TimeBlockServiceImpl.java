@@ -196,7 +196,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         if (earnCodeObj.getInflateFactor() != null) {
             if ((earnCodeObj.getInflateFactor().compareTo(new BigDecimal(1.0)) != 0)
             		&& (earnCodeObj.getInflateFactor().compareTo(BigDecimal.ZERO)!= 0) ) {
-                hours = earnCodeObj.getInflateFactor().multiply(hours, TkConstants.MATH_CONTEXT);
+                hours = earnCodeObj.getInflateFactor().multiply(hours, TkConstants.MATH_CONTEXT).setScale(TkConstants.BIG_DECIMAL_SCALE);;
             }
         }
 
