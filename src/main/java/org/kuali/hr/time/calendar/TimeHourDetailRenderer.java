@@ -1,10 +1,16 @@
 package org.kuali.hr.time.calendar;
 
+import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
+import org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry;
+import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
+import org.kuali.hr.time.util.TkConstants;
 
 public class TimeHourDetailRenderer {
     private TimeHourDetail timeHourDetail;
-
+    
     public TimeHourDetailRenderer(TimeHourDetail d) {
         this.timeHourDetail = d;
     }
@@ -24,4 +30,32 @@ public class TimeHourDetailRenderer {
     public String getAmount() {
         return timeHourDetail.getAmount().toString();
     }
+    
+    public String getHolidayName() {
+		HolidayCalendarDateEntry holidayCalendarDateEntry = null;
+		String holidayDesc = "";
+		TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().getTimeBlock(timeHourDetail.getTkTimeBlockId());
+		
+		if ( timeBlock != null ){
+			if(timeBlock.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)) {
+				String principalId = timeBlock.getUserPrincipalId();
+				PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, new java.sql.Date(timeBlock.getBeginDate().getTime()));
+				
+				if ( principalCalendar.getHolidayCalendarGroup() != null ){
+					HolidayCalendar holidayCalendar = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarByGroup(principalCalendar.getHolidayCalendarGroup());
+					
+					if ( holidayCalendar != null ){
+						holidayCalendarDateEntry = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarDateEntryByDate(holidayCalendar.getHolidayCalendarId(), timeBlock.getBeginDate());
+						
+						if(holidayCalendarDateEntry != null) {
+							holidayDesc = holidayCalendarDateEntry.getHolidayDescr();
+						}
+					}
+				}
+			}
+		}
+			
+		return holidayDesc;
+	}
+
 }

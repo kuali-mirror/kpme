@@ -26,6 +26,13 @@ public interface HolidayCalendarService {
 	 */
 	public List<HolidayCalendarDateEntry> getHolidayCalendarDateEntriesForPayPeriod(Long holidayCalendarId, Date startDate, Date endDate);
 	/**
+	 * Fetch a HolidayCalendarDateEntry for a given holidayCalendarId and date
+	 * @param holidayCalendarId
+	 * @param date
+	 * @return
+	 */
+	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(Long holidayCalendarId, Date startDate);
+	/**
 	 * Get Assignment to apply to holidays
 	 * @param timesheetDocument
 	 * @param payEndDate

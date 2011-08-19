@@ -26,4 +26,11 @@ public class HolidayCalendarDaoImpl extends PersistenceBrokerDaoSupport implemen
 		return (List<HolidayCalendarDateEntry>)this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(HolidayCalendarDateEntry.class, root));
 	}
 
+	@SuppressWarnings("unchecked")
+	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(Long holidayCalendarId, Date startDate){
+		Criteria root = new Criteria();
+		root.addEqualTo("holidayCalendarId", holidayCalendarId);
+		root.addEqualTo("holidayDate", startDate);
+		return (HolidayCalendarDateEntry)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(HolidayCalendarDateEntry.class, root));
+	}
 }

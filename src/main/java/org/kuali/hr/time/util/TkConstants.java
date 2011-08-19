@@ -227,4 +227,7 @@ public class TkConstants {
 	public String getEARN_CODE_AMOUNT() {
 		return EARN_CODE_AMOUNT;
 	}
+	public String getHOLIDAY_EARN_CODE() {
+		return HOLIDAY_EARN_CODE;
+	}
 }

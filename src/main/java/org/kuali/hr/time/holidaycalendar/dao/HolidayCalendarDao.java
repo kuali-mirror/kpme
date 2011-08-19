@@ -10,4 +10,5 @@ public interface HolidayCalendarDao {
 	public HolidayCalendar getHolidayCalendarByGroup(String holidayCalendarGroup);
 	public List<HolidayCalendarDateEntry> getHolidayCalendarDateEntriesForPayPeriod(Long holidayCalendarId, 
 				Date startDate, Date endDate);
+	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(Long holidayCalendarId, Date startDate);
 }

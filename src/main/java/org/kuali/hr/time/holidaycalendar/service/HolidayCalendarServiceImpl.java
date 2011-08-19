@@ -40,6 +40,10 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 		return holidayCalendarDao.getHolidayCalendarDateEntriesForPayPeriod(holidayCalendarId, startDate, endDate);
 	}
 
+	@Override
+	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(Long holidayCalendarId, Date startDate) {
+		return holidayCalendarDao.getHolidayCalendarDateEntryByDate(holidayCalendarId, startDate);
+	}
 
 	@Override
 	public Assignment getAssignmentToApplyHolidays(TimesheetDocument timesheetDocument, java.sql.Date payEndDate) {

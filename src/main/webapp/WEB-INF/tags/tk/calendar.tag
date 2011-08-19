@@ -91,9 +91,21 @@
 		                                                        <c:choose>
 		                                                            <c:when test="${thdr.hours ne ''}">
 		                                                                ${thdr.title} - ${thdr.hours} hours
+		                                                                <c:if test="${thdr.title eq TkConstants.HOLIDAY_EARN_CODE}">
+		                                                                	<button style="width:20px; height:20px; vertical-align: text-top" id="endTimeHelp"
+                                            										title="Holiday: ${thdr.holidayName}"
+                                            										tabindex="999" onclick="return false;">help
+                                    										</button>
+                                    									</c:if>
 		                                                            </c:when>
 		                                                            <c:otherwise>
 		                                                                ${thdr.title} - $${thdr.hours}
+		                                                                <c:if test="${thdr.title eq TkConstants.HOLIDAY_EARN_CODE}">
+		                                                                	<button style="width:20px; height:20px; vertical-align: text-top" id="endTimeHelp"
+                                            										title="Holiday: ${thdr.holidayName}" 
+                                            										tabindex="999" onclick="return false;">help
+                                    										</button>
+                                    									</c:if>
 		                                                            </c:otherwise>
 		                                                        </c:choose>
 		
