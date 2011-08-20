@@ -278,6 +278,10 @@ $(document).ready(function() {
 
             if (endTimeValue == "0:0") {
                 var dateRangeField = endDateValue.split("/");
+                if(dateRangeField[1].charAt(0) == '0'){
+                	dateRangeField[1] = dateRangeField[1].replace('0','');
+                }
+                
                 var dateString = parseInt(dateRangeField[1]) + 1;
                 endDateValue = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
             }

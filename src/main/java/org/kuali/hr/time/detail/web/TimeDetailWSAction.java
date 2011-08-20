@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
 import org.joda.time.Interval;
@@ -198,8 +199,16 @@ public class TimeDetailWSAction extends TimesheetAction {
             	DateTime groupEnd = new DateTime(endTime);
             	Long startLong = start.getMillis();
             	Long endLong = end.getMillis();
-            	while(start.isBefore(groupEnd.getMillis()) &&(endLong >= startLong)) {
-            		Interval tempInt = new Interval(startLong, endLong);
+            	//create interval span if start is before the end and the end is after the start except
+            	//for when the end is midnight ..that converts to midnight of next day
+            	DateMidnight midNight = new DateMidnight(endLong);
+            	while(start.isBefore(groupEnd.getMillis()) &&((endLong >= startLong) || end.isEqual(midNight))) {
+            		Interval tempInt = null;
+            		if(end.isEqual(midNight)){
+            			tempInt = addedTimeblockInterval;
+            		} else {
+            			tempInt = new Interval(startLong, endLong);
+            		}
             		dayInt.add(tempInt);
             		start = start.plusDays(1);
             		end = end.plusDays(1);
