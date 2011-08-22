@@ -148,15 +148,20 @@ $(document).ready(function() {
 
     // toggle the button for the assigment details
     $('.rowInfo').click(function() {
+        var seq = $(this).closest("span").attr("id").split("_")[1];
+        $('.assignmentDetails_' + seq).find('td').css('background-color', '#F6F6F6');
+
         if ($(this).hasClass('ui-icon-plus')) {
+            $('.assignmentDetails_' + seq).show();
             $(this).removeClass('ui-icon-plus').addClass('ui-icon-minus');
         }
         else {
+            $('.assignmentDetails_' + seq).hide();
             $(this).removeClass('ui-icon-minus').addClass('ui-icon-plus');
         }
     });
 
-    // add css styles to the not and warning buttons
+    // add css styles to the note and warning buttons
 //    $(".rowInfo").hover(function() {
 //        $(this).addClass("ui-state-hover");
 //    }, function() {
@@ -169,25 +174,27 @@ $(document).ready(function() {
 //    });
 });
 
-function showHideRow(count) {
-    var els = document.getElementsByTagName('*');
-    var className = 'assignmentDetails' + count;
-
-    for (i = 0; i < els.length; i++) {
-        if (els[i].className == className) {
-            if (els[i].style.display == "table-row") {
-                els[i].style.display = "none";
-            } else {
-                els[i].style.display = "table-row";
-            }
-        }
-    }
-    var tempString = 'showDetailButton' + count;
-    var ele = document.getElementById(tempString);
-    if (ele.value == "Hide Assignments") {
-        ele.value = "Show Assignments"
-    } else {
-        ele.value = "Hide Assignments"
-    }
-} 
+//function showHideRow(count) {
+//    var els = document.getElementsByTagName('*');
+//    var className = 'assignmentDetails' + count;
+//
+//    console.log(els.length);
+//
+//    for (i = 0; i < els.length; i++) {
+//        if (els[i].className == className) {
+//            if (els[i].style.display == "table-row") {
+//                els[i].style.display = "none";
+//            } else {
+//                els[i].style.display = "table-row";
+//            }
+//        }
+//    }
+//    var tempString = 'showDetailButton' + count;
+//    var ele = document.getElementById(tempString);
+//    if (ele.value == "Hide Assignments") {
+//        ele.value = "Show Assignments"
+//    } else {
+//        ele.value = "Hide Assignments"
+//    }
+//}
 

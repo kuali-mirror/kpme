@@ -92,18 +92,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:set var="rowCount" value="1" />
                     <c:forEach var="approvalRow" items="${Form.approvalRows}" varStatus="row">
                     	
                         <tr>
                             <td>
+                                <c:if test="${fn:length(approvalRow.approverHoursByAssignment) > 0 || fn:length(approvalRow.otherHoursByAssignment) > 0}">
                                 <div class="ui-state-default ui-corner-all" style="float:left;">
-                                    <span id="showDetailButton${rowCount}" class="ui-icon ui-icon-plus rowInfo" onclick="javascript: showHideRow('${rowCount}');"></span>
+                                    <span id="showDetailButton_${row.count-1}" class="ui-icon ui-icon-plus rowInfo"></span>
                                 </div>
+                                </c:if>
                                 <a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${approvalRow.name}</a>
                                 <br/>${approvalRow.clockStatusMessage}
                                 <br/>
-                                <c:set var="assignmentRowId" value="assignmentDetails${rowCount}"/>
+                                <c:set var="assignmentRowId" value="assignmentDetails_${row.count-1}"/>
 								
                             </td>
                             <td><a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${approvalRow.documentId}&returnUrl=TimeApproval.do">${approvalRow.documentId}</a>
@@ -185,54 +186,52 @@
                             <td>
                                 <tk:tkApprovalRowButtons appRow="${approvalRow}"/>
                             </td>
-                            <td align="center"><html:checkbox property="approvalRows[${rowCount-1}].selected" disabled="${!approvalRow.approvable}"/></td>
+                            <td align="center"><html:checkbox property="approvalRows[${row.count-1}].selected" disabled="${!approvalRow.approvable}"/></td>
                         </tr>
-					
-                        <%-- Render details of approver's hours by Assignment --%>
-                        <c:forEach var="entry" items="${approvalRow.approverHoursByAssignment}">
-                            <tr class="${assignmentRowId}" style="display: none">
-                                <td></td>
-                                <td colspan="2">
-                                    ${approvalRow.assignmentDescriptions[entry.key]}
-                                </td>
-                                <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
-                                    <c:choose>
-                                        <c:when test="${fn:contains(payCalLabel,'Week')}">
-                                            <td style="background-color: #E5E5E5;">
-                                                <span style="font-weight: bold;">${entry.value[payCalLabel]}</span>
-                                            </td>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <td>${entry.value[payCalLabel]}</td>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                            </tr>
-                        </c:forEach>
 
-                        <%-- Render details of non-approvers's hours by Assignment --%>
-                        <c:forEach var="entry" items="${approvalRow.otherHoursByAssignment}">
-                            <tr class="${assignmentRowId}" style="display: none">
-                                <td></td>
-                                <td colspan="2">
-                                    ${approvalRow.assignmentDescriptions[entry.key]}
-                                </td>
-                                <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
-                                    <c:choose>
-                                        <c:when test="${fn:contains(payCalLabel,'Week')}">
-                                            <td style="background-color: #E5E5E5;">
-                                                <span style="font-weight: bold;">${entry.value[payCalLabel]}</span>
-                                            </td>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <td>${entry.value[payCalLabel]}</td>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                            </tr>
-                           <c:set var="rowCount" value="${rowCount+1}" />
-                        </c:forEach>
-					
+                        <div class="hourDetails">
+                            <%-- Render details of approver's hours by Assignment --%>
+                            <c:forEach var="entry" items="${approvalRow.approverHoursByAssignment}">
+                                <tr class="${assignmentRowId}" style="display: none;">
+                                    <td colspan="3">
+                                        ${approvalRow.assignmentDescriptions[entry.key]}
+                                    </td>
+                                    <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
+                                        <c:choose>
+                                            <c:when test="${fn:contains(payCalLabel,'Week')}">
+                                                <td style="background-color: #E5E5E5;">
+                                                    <span style="font-weight: bold;">${entry.value[payCalLabel]}</span>
+                                                </td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td>${entry.value[payCalLabel]}</td>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </tr>
+                            </c:forEach>
+
+                            <%-- Render details of non-approvers's hours by Assignment --%>
+                            <c:forEach var="entry" items="${approvalRow.otherHoursByAssignment}">
+                                <tr class="${assignmentRowId}" style="display: none">
+                                    <td colspan="3">
+                                        ${approvalRow.assignmentDescriptions[entry.key]}
+                                    </td>
+                                    <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
+                                        <c:choose>
+                                            <c:when test="${fn:contains(payCalLabel,'Week')}">
+                                                <td style="background-color: #E5E5E5;">
+                                                    <span style="font-weight: bold;">${entry.value[payCalLabel]}</span>
+                                                </td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td>${entry.value[payCalLabel]}</td>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </tr>
+                            </c:forEach>
+					    </div>
                     </c:forEach>
                     <tr>
                         <td colspan="22" align="center" style="border:none;">
