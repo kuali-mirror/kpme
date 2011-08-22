@@ -58,7 +58,9 @@ public class TimeBlockRenderer {
     public String getAmount() {
     	if(StringUtils.equals(timeBlock.getEarnCodeType(), TkConstants.EARN_CODE_AMOUNT)) {
     		if(timeBlock.getAmount() != null) {
-    			return "Amount: " + timeBlock.getAmount().toString();
+    			return timeBlock.getEarnCode() + ": $" + timeBlock.getAmount().toString();
+    		} else {
+    			return timeBlock.getEarnCode() + ": $0.00";
     		}
 	    }
     	return "";
