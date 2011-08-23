@@ -224,7 +224,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			Map<String,BigDecimal> earnGroupAssignToHoursMap = null;
 			for(TimeBlock tb : timeBlocksForDay){
 				for(TimeHourDetail thd : tb.getTimeHourDetails()){
-					EarnGroup earnGroup = TkServiceLocator.getEarnGroupService().getEarnGroupForEarnCode(thd.getEarnCode(), TKUtils.getTimelessDate(asOfDate));
+					EarnGroup earnGroup = TkServiceLocator.getEarnGroupService().getEarnGroupSummaryForEarnCode(thd.getEarnCode(), TKUtils.getTimelessDate(asOfDate));
 					EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(thd.getEarnCode(), TKUtils.getTimelessDate(asOfDate));
 					if(earnGroup == null){
 						earnGroup = new EarnGroup();
