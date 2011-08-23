@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
 	<changeSet author="xichen" id="1">
-		<dropNotNullConstraint columnDataType="CHAR(3)" columnName="default_overtime_earncode" tableName="tk_work_area_t"/>
+		<dropNotNullConstraint tableName="tk_work_area_t" columnName="default_overtime_earncode"/>
 	</changeSet>
 
 </databaseChangeLog>
