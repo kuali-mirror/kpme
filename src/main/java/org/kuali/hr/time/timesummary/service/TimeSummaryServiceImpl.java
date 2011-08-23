@@ -252,6 +252,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			//for each assignment
 			EarnGroupSection earnGroupSection = new EarnGroupSection();
 			earnGroupSection.setEarnGroup(earnGroup);
+			BigDecimal periodTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 			for(String assignmentDescr : earnGroupToAssignmentSets.get(earnGroup)){
 				AssignmentRow assignRow = new AssignmentRow();
 
@@ -262,7 +263,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
 				assignRow.setDescr(assign.getAssignmentDescription());
 				BigDecimal weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
-				BigDecimal periodTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+				
 
                 // this counter is used to know what position in the dayArrangements
                 // boolean list we should use.
@@ -271,7 +272,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
                 // that we can refactor now that we are not under the assumption of
                 // always having 7 day weeks.
                 int daydaycount = 0;
-				for(int i = 1; i < dayToEarnGroupAssignToHoursMap.size(); i++){ // replace this with std. iterator after refactor above storage code
+				for(int i = 1; i <= dayToEarnGroupAssignToHoursMap.size(); i++){ // replace this with std. iterator after refactor above storage code
 					Map<String,BigDecimal> earnGroupAssignToHoursMap = dayToEarnGroupAssignToHoursMap.get(i);
                     Boolean dayIsDay = dayArrangements.get(daydaycount); // is this day 'i', a Day? (or a week/period summary)
 					BigDecimal hrs = TkConstants.BIG_DECIMAL_SCALED_ZERO;
@@ -285,7 +286,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 						assignRow.getTotal().add(weeklyTotal);
 						weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
                         daydaycount++; // bump to catch up. The map only contains time block info not period summaries.
-					}
+					} 
 
                     assignRow.getTotal().add(hrs);
                     weeklyTotal = weeklyTotal.add(hrs,TkConstants.MATH_CONTEXT);
