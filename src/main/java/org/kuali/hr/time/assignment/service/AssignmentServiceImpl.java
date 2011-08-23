@@ -5,12 +5,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 
 public class AssignmentServiceImpl implements AssignmentService {
@@ -61,6 +63,14 @@ public class AssignmentServiceImpl implements AssignmentService {
 
 		Map<String,String> assignmentDescriptions = new LinkedHashMap<String,String>();
 		for(Assignment assignment : assignments) {
+			//if the user is not the same as the timesheet and does not have approver access for the assignment
+			//do not add to the display
+			if(!StringUtils.equals(TKContext.getTargetPrincipalId(), TKContext.getPrincipalId())){
+				if(TKContext.getUser().isSystemAdmin() || !TKContext.getUser().getReportingWorkAreas().contains(assignment.getWorkArea())){
+					continue;
+				}
+			}
+			
 			//only add to the assignment list if they are synchronous assignments
 			//or clock only assignments is false
 			if(!clockOnlyAssignments || assignment.isSynchronous()){
@@ -96,7 +106,14 @@ public class AssignmentServiceImpl implements AssignmentService {
 					return assignment;
 				}
 		}
-
+		
+		//No assignment found so fetch the inactive ones for this payBeginDate
+		Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(desc, timesheetDocument.getPayCalendarEntry().getBeginPeriodDate());
+		if(assign != null){
+			return assign;
+		}
+		
+		
 		LOG.warn("no matched assignment found");
 		return new Assignment();
 	}
