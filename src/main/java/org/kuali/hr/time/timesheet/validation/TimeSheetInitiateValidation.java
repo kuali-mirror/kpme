@@ -20,11 +20,6 @@ public class TimeSheetInitiateValidation extends MaintenanceDocumentRuleBase {
         	valid = false;
         }
         
-        if(timeInit.getPayCalendarEntriesId() == null) {
-        	this.putFieldError("payCalendarEntriesId", "timeSheetInit.payCalEntriesId.Invalid");
-        	valid = false;
-        }
-        
     	PayCalendarEntries pce = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(timeInit.getPayCalendarEntriesId());
     	if(pce == null) {
     		this.putFieldError("payCalendarEntriesId", "timeSheetInit.payCalEntriesId.Invalid");

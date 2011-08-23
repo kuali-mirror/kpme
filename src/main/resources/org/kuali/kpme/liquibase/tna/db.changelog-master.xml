@@ -35,6 +35,7 @@
     <include file="org/kuali/kpme/liquibase/tna/db.changelog-1.10.xml"/>
     <include file="org/kuali/kpme/liquibase/tna/db.changelog-1.11.xml"/>
 	<include file="org/kuali/kpme/liquibase/tna/db.changelog-1.12.xml"/>
+	<include file="org/kuali/kpme/liquibase/tna/db.changelog-2.0.xml"/>
 
     <!-- Context: -->
     <!-- Add other data scripts with context here -->

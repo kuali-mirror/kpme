@@ -275,6 +275,7 @@
 		<field-descriptor name="payCalendarEntriesId"    column="py_calendar_entries_id"    jdbc-type="BIGINT" length="20" primarykey="false" />
 		<field-descriptor name="principalId"    column="principal_id"    jdbc-type="VARCHAR" length="40" primarykey="false" />
 		<field-descriptor name="documentId" 	column="document_id"     jdbc-type="VARCHAR" length="14" primarykey="false" />
+		<field-descriptor name="calendarGroup"        column="calendar_group" jdbc-type="VARCHAR" length="30" nullable="true" primarykey="false" />
 	</class-descriptor>
 
 

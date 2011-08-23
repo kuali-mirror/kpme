@@ -29,9 +29,9 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="payCalendarEntriesId"/>
         <bean parent="MaintainableFieldDefinition" p:name="calendarGroup" p:required="true"/>
-         <bean parent="MaintainableFieldDefinition" p:name="endPeriodDateTime" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="payCalendarEntriesId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="beginAndEndDateTime" />
         <bean parent="MaintainableFieldDefinition" p:name="documentId" p:unconditionallyReadOnly="true" />
        
       </list>

@@ -24,7 +24,6 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 	private PayCalendar payCalendarObj;
 	
 	private PayCalendarEntries payCalendarEntriesObj;
-    private java.util.Date endPeriodDateTime;
 	
 	public String getPrincipalId() {
 		return principalId;
@@ -103,11 +102,12 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 		this.payCalendarObj = payCalendarObj;
 	}
 
-	public void setEndPeriodDateTime(java.util.Date endPeriodDateTime) {
-		this.endPeriodDateTime = endPeriodDateTime;
-	}
-	public java.util.Date getEndPeriodDateTime() {		
-    	return endPeriodDateTime;
+	public String getBeginAndEndDateTime() {
+		if (payCalendarEntriesObj == null && this.getPayCalendarEntriesId() != null) {
+			payCalendarEntriesObj = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(this.getPayCalendarEntriesId());
+	    }
+	    return (payCalendarEntriesObj != null) ? 
+	    		payCalendarEntriesObj.getBeginPeriodDateTime().toString() + " - "+ payCalendarEntriesObj.getEndPeriodDateTime().toString() : "";
 	}
 
 }
