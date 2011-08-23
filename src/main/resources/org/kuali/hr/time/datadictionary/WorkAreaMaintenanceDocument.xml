@@ -48,7 +48,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="overtimeEditRole"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="defaultOvertimeEarnCode"
-					p:required="true" />
+					p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="dept"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="adminDescr"

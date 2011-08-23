@@ -88,14 +88,18 @@ public class WorkAreaMaintenanceDocumentRule extends
 	}
 	
 	boolean validateDefaultOTEarnCode(String earnCode, Date asOfDate) {
-		boolean valid = ValidationUtils.validateEarnCode(earnCode, true,
-				asOfDate);
-
-		if (!valid) {
-			this.putFieldError("defaultOvertimeEarnCode",
-					"earncode.ovt.notfound", earnCode);
+		// defaultOvertimeEarnCode is a nullable field. 
+		boolean valid = true; 
+		if ( earnCode != null ){
+			valid = ValidationUtils.validateEarnCode(earnCode, true,
+					asOfDate);
+	
+			if (!valid) {
+				this.putFieldError("defaultOvertimeEarnCode",
+						"earncode.ovt.notfound", earnCode);
+			}
 		}
-
+		
 		return valid;
 	}
 
@@ -109,8 +113,11 @@ public class WorkAreaMaintenanceDocumentRule extends
 			WorkArea wa = (WorkArea) pbo;
 			valid = validateDepartment(wa.getDept(), wa.getEffectiveDate());
 			valid &= validateRoles(wa.getRoles());
-			valid &= validateDefaultOTEarnCode(wa.getDefaultOvertimeEarnCode(),
-					wa.getEffectiveDate());
+			// defaultOvertimeEarnCode is a nullable field. 
+			if ( wa.getDefaultOvertimeEarnCode() != null ){
+				valid &= validateDefaultOTEarnCode(wa.getDefaultOvertimeEarnCode(),
+						wa.getEffectiveDate());
+			}
 		}
 
 		return valid;
