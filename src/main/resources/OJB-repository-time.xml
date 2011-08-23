@@ -221,7 +221,7 @@
         <field-descriptor name="active"          	column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="description"        column="descr" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="dept"               column="dept" jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
-		<field-descriptor name="defaultOvertimeEarnCode" column="default_overtime_earncode" jdbc-type="VARCHAR"  length="3" primarykey="false" />
+		<field-descriptor name="defaultOvertimeEarnCode" column="default_overtime_earncode" jdbc-type="VARCHAR" nullable="true" length="3" primarykey="false" />
 		<field-descriptor name="adminDescr"         column="admin_descr"	jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="userPrincipalId"    column="user_principal_id"	jdbc-type="VARCHAR" length="10" nullable="false" />
         <field-descriptor name="overtimeEditRole"   column="overtime_edit_role" jdbc-type="VARCHAR" length="20" primarykey="false"/>
