@@ -171,8 +171,11 @@ public class TKUtils {
 		}
 		
 		int afterEndDate = 6 - endDateTime.getDayOfWeek();
-		if(endDateTime.getDayOfWeek() == 7) {
-			afterEndDate = 6;
+		if(endDateTime.getDayOfWeek() == 7 && endDateTime.getHourOfDay() != 0) {
+				afterEndDate = 6;
+		}
+		if(endDateTime.getHourOfDay() == 0) {
+			afterEndDate += 1 ;
 		}
 		DateTime aDate = endDateTime.plusDays(afterEndDate);
 		while (currDateTime.isBefore(aDate)) {

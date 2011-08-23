@@ -76,6 +76,18 @@ public class TKUtilsTest extends Assert {
 		assertEquals("First Interval should be 08/14/2011", "08/14/2011",format.format(intervals.get(0).getStart().toDate()));
 		assertEquals("Last Interval should be 09/02/2011", "09/02/2011", format.format(intervals.get(intervals.size()-1).getStart().toDate()));
 		
+		// end date is a Sunday and end time is 0:00
+		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 28, 0, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		intervals = TKUtils.getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry, DateTimeZone.forID("EST") );
+		assertEquals("First Interval should be 08/14/2011", "08/14/2011",format.format(intervals.get(0).getStart().toDate()));
+		assertEquals("Last Interval should be 08/27/2011", "08/27/2011", format.format(intervals.get(intervals.size()-1).getStart().toDate()));
+		
+		// end date is a Monday and end time is 0:00
+		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 29, 0, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		intervals = TKUtils.getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry, DateTimeZone.forID("EST") );
+		assertEquals("First Interval should be 08/14/2011", "08/14/2011",format.format(intervals.get(0).getStart().toDate()));
+		assertEquals("Last Interval should be 09/03/2011", "09/03/2011", format.format(intervals.get(intervals.size()-1).getStart().toDate()));
+		
 	}
 	
 	

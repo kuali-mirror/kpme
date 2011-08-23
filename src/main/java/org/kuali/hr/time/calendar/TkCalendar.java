@@ -49,6 +49,9 @@ public class TkCalendar {
                     		|| beginDateTemp.isAfter(tc.getEndDateTime().getMillis())) {
                     	day.setGray(true);
                     }
+                    if(tc.getEndDateTime().getHourOfDay() == 0 && beginDateTemp.equals(tc.getEndDateTime())) {
+                    	day.setGray(true);
+                    }
                     days.add(day);
                 }
                 week.setDays(days);
