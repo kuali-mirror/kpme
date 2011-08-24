@@ -127,7 +127,11 @@
                                                 <tbody>
                                                 <c:forEach var="warning" items="${approvalRow.warnings}">
                                                     <tr>
-                                                        <td style="text-align: left;">${warning}</td>
+                                                        <td>
+	                                                        <div class="warning-note-message">
+	                                                        	${warning}
+	                                                        </div>
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -141,7 +145,7 @@
                                                   class="ui-icon ui-icon-note approvals-note"></span>
                                         </div>
                                         <div id="approvals-note-details" class="approvals-note-details"
-                                             style="display:none; float:right; width: 600px; margin-left: 150px;">
+                                             style="display:none; float:right; margin-left: 150px;">
                                             <table>
                                                 <thead>
                                                 <tr>
@@ -160,8 +164,12 @@
                                                 <c:forEach var="note" items="${approvalRow.notes}">
                                                     <tr>
                                                         <td>${note.noteAuthorWorkflowId}</td>
-                                                        <td>${note.noteCreateDate}</td>
-                                                        <td>${note.noteText}</td>
+                                                        <td style="width: 30px;">${note.noteCreateDate}</td>
+                                                         <td>
+															<div class="warning-note-message">
+																${note.noteText}
+															</div>
+														</td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>

@@ -576,6 +576,14 @@ select {
     border: 1px solid gray;
 }
 
+.warning-note-message {
+	text-align: left; 
+	word-wrap: break-word; 
+	width: 400px; 
+	height: 40px; 
+	overflow-y: auto;
+}
+
 #approvals-filter {
     margin-top: 10px;
     width: 100%;
