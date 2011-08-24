@@ -178,7 +178,7 @@
     <bean id="Role-chart" parent="Role-chart-parentBean" />
     <bean id="Role-chart-parentBean" abstract="true"
         parent="AttributeDefinition">
-        <property name="shortLabel" value="Chart" />
+        <property name="shortLabel" value="Location" />
         <property name="maxLength" value="30" />
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern">
@@ -189,7 +189,7 @@
             <bean parent="TextControlDefinition" p:size="10" />
         </property>
         <property name="name" value="chart" />
-        <property name="label" value="Chart" />
+        <property name="label" value="Location" />
     </bean>
 
 	<bean id="Role-active" parent="Role-active-parentBean" />
