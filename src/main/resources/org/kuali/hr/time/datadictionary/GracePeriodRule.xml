@@ -146,7 +146,6 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="hourFactor" />
-				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -155,7 +154,6 @@
 				<bean parent="FieldDefinition" p:attributeName="hourFactor" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 			</list>
 		</property>
