@@ -4,6 +4,26 @@
 <tk:tkHeader tabId="personInfo">
 	<div class="person-detail">
 		<div id="person-detail-accordion">
+			<b>Person Details: </b>
+			<ul>
+				<li>Principal ID: ${Form.principalId}</li>
+				<li>Name: ${Form.principalName}</li>
+			</ul>
+			<c:forEach var="job" items="${Form.jobs}">
+				<b>Job Details: </b>
+				<ul>
+					<li>Network ID: ${job.principalId } </li>
+					<li>Department: ${job.dept }</li>
+					<li>Salary Group: ${job.tkSalGroup }</li>
+					<li>Pay Grade: ${job.payGrade }</li>
+					<li>Standard Hours: ${job.standardHours }</li>
+					<li>Pay Type: ${job.payTypeObj.descr}</li>
+					<li>Location: ${job.location }</li>
+					<li>Compensation Rate: ${job.compRate }</li>
+					<li>Effective Date: ${job.effectiveDate }</li>
+				</ul>
+			</c:forEach>
+		
 			<c:forEach var="job" items="${Form.jobNumberToListAssignments}">
 				<c:forEach var="assignment" items="${job.value}">
 					<h3><a href="#">Job Number: ${assignment.jobNumber }</a></h3>
