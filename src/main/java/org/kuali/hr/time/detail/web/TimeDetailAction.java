@@ -48,6 +48,9 @@ public class TimeDetailAction extends TimesheetAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
+        if(forward.getRedirect()){
+        	return forward;
+        }
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         tdaf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(TKContext.getCurrentTimesheetDoucment(), false));
 
