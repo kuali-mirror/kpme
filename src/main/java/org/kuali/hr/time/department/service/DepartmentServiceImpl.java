@@ -2,6 +2,7 @@ package org.kuali.hr.time.department.service;
 
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.department.dao.DepartmentDao;
+import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -38,13 +39,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void populateDepartmentRoles(Department department) {
         if (department != null) {
-            department.setRoles(
-                    TkServiceLocator.getTkRoleService().getDepartmentRoles(
-                            department.getDept(),
-                            TkConstants.ROLE_TK_LOCATION_ADMIN,
-                            department.getEffectiveDate()
-                    )
-            );
+        	List<TkRole> deptAdminRoles = TkServiceLocator.getTkRoleService().getDepartmentRoles(
+                    department.getDept(),
+                    TkConstants.ROLE_TK_DEPT_ADMIN,
+                    department.getEffectiveDate()); 
+        	List<TkRole> deptViewOnlyRoles = TkServiceLocator.getTkRoleService().getDepartmentRoles(department.getDept(),
+                    TkConstants.ROLE_TK_DEPT_VO,
+                    department.getEffectiveDate());
+        	department.getRoles().addAll(deptAdminRoles);
+        	department.getRoles().addAll(deptViewOnlyRoles);
         }
     }
 
