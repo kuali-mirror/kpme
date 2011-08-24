@@ -73,7 +73,7 @@ $(document).ready(function() {
 
             var beginSelecting = selectingDays[0];
             var endSelecting = selectingDays[selectingDays.length-1];
-            // add css styles to all the days within the
+            // add css styles to all the days within the range
             for(var i = beginSelecting; i < endSelecting; i++) {
                 $("#day_" + i).addClass("ui-selecting");
             }
