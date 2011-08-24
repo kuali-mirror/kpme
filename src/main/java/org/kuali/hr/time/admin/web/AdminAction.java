@@ -40,6 +40,8 @@ public class AdminAction extends TkAction {
             		(!user.isSystemAdmin() 
             			&& !user.isLocationAdmin()
             			&& !user.isDepartmentAdmin()
+            			&& !user.isGlobalViewOnly() 
+            			&& !user.isDepartmentViewOnly()
             			&& !user.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())
             			) ) {
                 throw new AuthorizationException("", "AdminAction", "");
@@ -84,7 +86,11 @@ public class AdminAction extends TkAction {
         TKUser tkUser = TKContext.getUser();
 
         if (tkUser.getCurrentRoles().isSystemAdmin()
-        	|| tkUser.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())) {
+        	|| tkUser.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())
+        	|| tkUser.getCurrentRoles().isLocationAdmin() 
+        	|| tkUser.getCurrentRoles().isDepartmentAdmin()
+        	|| tkUser.getCurrentRoles().isDeptViewOnly()
+        	|| tkUser.getCurrentRoles().isGlobalViewOnly()) {
             if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalId())) {
 
                 Person changePerson = KIMServiceLocator.getPersonService().getPerson(adminForm.getChangeTargetPrincipalId());
