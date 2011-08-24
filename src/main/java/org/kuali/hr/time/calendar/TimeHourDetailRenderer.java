@@ -7,6 +7,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class TimeHourDetailRenderer {
     private TimeHourDetail timeHourDetail;
@@ -38,8 +39,9 @@ public class TimeHourDetailRenderer {
 		
 		if ( timeBlock != null ){
 			if(timeBlock.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)) {
-				String principalId = timeBlock.getUserPrincipalId();
-				PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, new java.sql.Date(timeBlock.getBeginDate().getTime()));
+				String documentId = timeBlock.getDocumentId();
+				TimesheetDocumentHeader docHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
+				PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(docHeader.getPrincipalId(), new java.sql.Date(timeBlock.getBeginDate().getTime()));
 				
 				if ( principalCalendar.getHolidayCalendarGroup() != null ){
 					HolidayCalendar holidayCalendar = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarByGroup(principalCalendar.getHolidayCalendarGroup());
