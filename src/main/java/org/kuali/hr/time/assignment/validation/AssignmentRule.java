@@ -15,6 +15,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -178,6 +179,25 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		}
 		return true;
 	}
+	
+	protected boolean validateActiveFlag(Assignment assign){
+		if(!assign.isActive()) {
+			List<TimeBlock> tbList = TkServiceLocator.getTimeBlockService().getTimeBlocksForAssignment(assign);
+			if(!tbList.isEmpty()) {
+				Date tbEndDate = tbList.get(0).getEndDate();
+				for(TimeBlock tb : tbList) {
+					if(tb.getEndDate().after(tbEndDate)) {
+						tbEndDate = tb.getEndDate();			// get the max end date
+					}
+				}
+				if(tbEndDate.equals(assign.getEffectiveDate()) || tbEndDate.after(assign.getEffectiveDate())) {
+					this.putFieldError("active", "error.assignment.timeblock.existence", tbEndDate.toString());
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * It looks like the method that calls this class doesn't actually care
@@ -197,6 +217,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateJob(assignment);
 				valid &= this.validatePercentagePerEarnCode(assignment);
 				valid &= this.validateHasAccounts(assignment);
+				valid &= this.validateActiveFlag(assignment);
 			}
 		}
 

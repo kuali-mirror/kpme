@@ -263,6 +263,20 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
         return timeBlocks;
     }
+    
+    public List<TimeBlock> getTimeBlocksForAssignment(Assignment assign) {
+    	List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
+    	if(assign != null) {
+        	timeBlocks = timeBlockDao.getTimeBlocksForAssignment(assign);
+    	}
+    	TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks);
+    	 for(TimeBlock tb : timeBlocks) {
+             String earnCodeType = TkServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), new java.sql.Date(tb.getBeginTimestamp().getTime()));
+             tb.setEarnCodeType(earnCodeType);
+         }
+    	return timeBlocks;
+    }
+    
 
 	@Override
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId) {

@@ -60,7 +60,13 @@ public interface TimeBlockService {
 	 * @param documentId
 	 * @return
 	 */
-	public List<TimeBlock> getTimeBlocks(Long documentId);
+	public List<TimeBlock> getTimeBlocks(Long documentId);	
+	/**
+	 * Get the List of TimeBlock of a given Assignment
+	 * @param assign
+	 * @return List<TimeBlock>
+	 */
+	 public List<TimeBlock> getTimeBlocksForAssignment(Assignment assign);
 	/**
 	 * Build a List of TimeBlocks over a span of multiple days
 	 * @param assignment
