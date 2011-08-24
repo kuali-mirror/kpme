@@ -142,12 +142,19 @@ public class TkUserRoles implements UserRoles {
 			} else if (role.getRoleName().equals(TkConstants.ROLE_TK_LOCATION_ADMIN)) {
                 if (!StringUtils.isEmpty(role.getChart())) {
                     orgAdminRolesChart.put(role.getChart(), role);
-                    // TODO : Not sure what date makes most sense here as the effdt...
                     List<Department> ds = TkServiceLocator.getDepartmentService().getDepartments(role.getChart(), TKUtils.getCurrentDate());
                     for (Department d : ds) {
                         orgAdminRolesDept.put(d.getDept(), role);
                     }
                 }
+			} else if(StringUtils.equals(role.getRoleName(), TkConstants.ROLE_TK_LOCATION_VO)){
+				if (!StringUtils.isEmpty(role.getChart())) {
+					List<Department> ds = TkServiceLocator.getDepartmentService().getDepartments(role.getChart(), TKUtils.getCurrentDate());
+					for(Department dept : ds){
+						deptViewOnlyRoles.put(dept.getDept(), role);
+					}
+					
+				}
 			} else if (role.getRoleName().equals(TkConstants.ROLE_TK_SYS_ADMIN)) {
 				systemAdmin = role;
             } else if (role.getRoleName().equals(TkConstants.ROLE_TK_DEPT_VO)) {
