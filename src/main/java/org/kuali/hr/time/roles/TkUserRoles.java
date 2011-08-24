@@ -11,6 +11,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -318,7 +319,7 @@ public class TkUserRoles implements UserRoles {
 
 	@Override
 	public boolean canSubmitTimesheet(TimesheetDocument doc) {
-		if(StringUtils.equals(this.getPrincipalId(),doc.getPrincipalId())){
+		if(StringUtils.equals(TKContext.getPrincipalId(),doc.getPrincipalId())){
 			return true;
 		}
 
