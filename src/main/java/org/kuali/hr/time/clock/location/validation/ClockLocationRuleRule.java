@@ -146,7 +146,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
             valid = false;
         }
 
-        if (clr.getWorkArea().equals(TkConstants.WILDCARD_LONG) &&
+        if (clr!= null && clr.getWorkArea().equals(TkConstants.WILDCARD_LONG) &&
                 !AuthorizationValidationUtils.canWildcardWorkArea(clr)) {
             this.putFieldError("dept", "error.wc.wa.perm", "department '" + clr.getDept() + "'");
             valid = false;
