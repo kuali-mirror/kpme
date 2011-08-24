@@ -140,6 +140,24 @@ public class ClockAction extends TimesheetAction {
 
         String ip = TKUtils.getIPAddressFromRequest(request);
         Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), caf.getSelectedAssignment());
+        
+        List<Assignment> lstAssingmentAsOfToday = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
+        boolean foundValidAssignment = false;
+        for(Assignment assign : lstAssingmentAsOfToday){
+        	if(assign.getJobNumber() == assignment.getJobNumber() &&
+        		assign.getWorkArea() == assignment.getWorkArea() &&
+        		assign.getTask() == assignment.getTask()){
+        		foundValidAssignment = true;
+        		break;
+        	}
+        }
+        
+        if(!foundValidAssignment){
+        	caf.setErrorMessage("Assignment is not effective as of today");
+        	return mapping.findForward("basic");
+        }
+        
+               
         ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new Timestamp(System.currentTimeMillis()), assignment, caf.getPayCalendarDates(), ip,
                 TKUtils.getCurrentDate(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), TKContext.getUser().getTargetPrincipalId());
 
