@@ -141,7 +141,7 @@
                                                   class="ui-icon ui-icon-note approvals-note"></span>
                                         </div>
                                         <div id="approvals-note-details" class="approvals-note-details"
-                                             style="display:none;">
+                                             style="display:none; float:right; width: 600px; margin-left: 150px;">
                                             <table>
                                                 <thead>
                                                 <tr>
