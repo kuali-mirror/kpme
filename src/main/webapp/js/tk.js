@@ -93,9 +93,10 @@ $(document).ready(function() {
                 description : ''
             })
 
+    
     // tooltip
     // http://flowplayer.org/tools/tooltip/index.html
-    $("#beginTimeHelp, #endTimeHelp, #beginTimeHelp1, #endTimeHelp1, #hourHelp").tooltip({
+    $("#beginTimeHelp, #endTimeHelp, #beginTimeHelp1, #endTimeHelp1, #hourHelp, #holidayNameHelp").tooltip({
 
                 // place tooltip on the right edge
                 position : "center right",
@@ -614,6 +615,10 @@ function toCamelCase(str) {
         return match.toLowerCase();
     });
 }
+
+
+
+
 
 
 

@@ -99,22 +99,20 @@
 		                                                <div id="${thdr.timeHourDetail.tkTimeHourDetailId}" class="event-content">
 		                                                        <c:choose>
 		                                                            <c:when test="${thdr.hours ne ''}">
-		                                                                ${thdr.title} - ${thdr.hours} hours
-		                                                                <c:if test="${thdr.title eq TkConstants.HOLIDAY_EARN_CODE}">
-		                                                                	<button style="width:20px; height:20px; vertical-align: text-top" id="endTimeHelp"
-                                            										title="Holiday: ${thdr.holidayName}"
-                                            										tabindex="999" onclick="return false;">help
-                                    										</button>
-                                    									</c:if>
-		                                                            </c:when>
+	                                                            		<c:if test="${thdr.title eq TkConstants.HOLIDAY_EARN_CODE}">
+	                                                            			<div><a id="holidayNameHelp" title="${thdr.holidayName}" style="color:white; cursor:pointer">${thdr.title} - ${thdr.hours} hours</a></div>
+	                                                            		</c:if>
+	                                                            		<c:if test="${thdr.title ne TkConstants.HOLIDAY_EARN_CODE}">
+	                                                                		${thdr.title} - ${thdr.hours} hours
+	                                                                	</c:if>
+	                                                                </c:when>
 		                                                            <c:otherwise>
-		                                                                ${thdr.title} - $${thdr.hours}
-		                                                                <c:if test="${thdr.title eq TkConstants.HOLIDAY_EARN_CODE}">
-		                                                                	<button style="width:20px; height:20px; vertical-align: text-top" id="endTimeHelp"
-                                            										title="Holiday: ${thdr.holidayName}" 
-                                            										tabindex="999" onclick="return false;">help
-                                    										</button>
-                                    									</c:if>
+		                                                            	<c:if test="${thdr.title eq TkConstants.HOLIDAY_EARN_CODE}">
+	                                                            			<div><a id="holidayNameHelp" title="${thdr.holidayName}" style="color:white; cursor:pointer">${thdr.title} - $${thdr.hours}</a></div>
+	                                                            		</c:if>
+	                                                            		<c:if test="${thdr.title ne TkConstants.HOLIDAY_EARN_CODE}">
+	                                                                		${thdr.title} - $${thdr.hours}
+	                                                                	</c:if>
 		                                                            </c:otherwise>
 		                                                        </c:choose>
 		
