@@ -39,9 +39,8 @@ public class ActionFormUtils {
     public static Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd) {
           Map<String, String> aMap = new HashMap<String, String>();
           List<String> assignmentKeys = new ArrayList<String>();
-          List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(tsd.getPrincipalId(), tsd.getAsOfDate());
 
-          for(Assignment assignment: assignments) {
+          for(Assignment assignment: tsd.getAssignments()) {
               AssignmentDescriptionKey aKey = new AssignmentDescriptionKey(assignment.getJobNumber(),
                       assignment.getWorkArea(), assignment.getTask());
               assignmentKeys.add(aKey.toAssignmentKeyString());
