@@ -85,15 +85,17 @@ $(document).ready(function() {
 
 
     $('#searchValue').autocomplete({
-        // For some reason, when I use the $('#searchField').val() in the line below,
-        // it always gets the first option value instead of the selected one.
-        // Therefore, I have to use a callback function to feed the source and handle the respone/request by myself.
-
         //source: "TimeApproval.do?methodToCall=searchDocumentHeaders" + $('#searchField').val(),
         source: function(request, response) {
-
+            $('#loading-value').ajaxStart(function() {
+                $(this).show();
+            });
+            $('#loading-value').ajaxStop(function() {
+                $(this).hide();
+            });
             $.post('TimeApproval.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term +
-                    '&selectedPayCalendarGroup=' + $('#selectedPayCalendarGroup').val() + "&ajaxCall=true&payCalendarId=" + $("#pcid").val() + "&payCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val(),
+                    '&selectedPayCalendarGroup=' + $('#selectedPayCalendarGroup').val() + "&payCalendarId=" + $("#pcid").val() +
+                    "&payCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val(),
                     function(data) {
                         response($.map(jQuery.parseJSON(data), function(item) {
                             return {
@@ -119,10 +121,10 @@ $(document).ready(function() {
     });
 
     // check if the approve button is disabled. if so, disable the select checkbox as well
-  //  $('#actions input[type=button]').filter(
+    //  $('#actions input[type=button]').filter(
     //        function(index) {
-      //          return $(this).prop("disabled");
-        //    }).parent().parent().parent().find("input[type=checkbox]").attr("disabled", "disabled");
+    //          return $(this).prop("disabled");
+    //    }).parent().parent().parent().find("input[type=checkbox]").attr("disabled", "disabled");
 
     // select the whole row when the select checkbox is checked
     $('.selectedEmpl').click(function() {
@@ -143,12 +145,12 @@ $(document).ready(function() {
         },
         text: false
     });
-    
+
     $('.approve').button({
         text: false
     });
-    
-    
+
+
     $(" .approvals-warning, .approvals-note").tooltip({ effect: 'slide'});
 
     // toggle the button for the assigment details
@@ -173,7 +175,7 @@ $(document).ready(function() {
 //        $(this).removeClass("ui-state-hover");
 //    });
 
-    
+
 //    $("#selectedPayCalendarGroup").change(function() {
 //    	$.post("TimeApproval.do?methodToCall=selectNewPayCalendarGroup&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val());
 //    });

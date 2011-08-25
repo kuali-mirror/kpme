@@ -11,6 +11,7 @@ public class TimeApprovalActionForm extends TkForm {
     public static final String ORDER_BY_PRINCIPAL = "PrincipalName";
     public static final String ORDER_BY_DOCID = "DocumentId";
     public static final String ORDER_BY_STATUS = "Status";
+    public static final String ORDER_BY_WORKAREA = "WorkArea";
 
     private static final long serialVersionUID = -173408280988754540L;
 
@@ -22,7 +23,7 @@ public class TimeApprovalActionForm extends TkForm {
     private Date payBeginDate;
     private Date payEndDate;
     private List<String> payCalendarLabels = new ArrayList<String>();
-    private ApprovalTimeSummaryRow[] approvalRows;
+    private List<ApprovalTimeSummaryRow> approvalRows;
     private Long workArea = null;
     private String documentId;
     private String employeeWorkArea;
@@ -144,11 +145,11 @@ public class TimeApprovalActionForm extends TkForm {
         this.rowsToShow = rowsToShow;
     }
 
-    public ApprovalTimeSummaryRow[] getApprovalRows() {
+    public List<ApprovalTimeSummaryRow> getApprovalRows() {
         return approvalRows;
     }
 
-    public void setApprovalRows(ApprovalTimeSummaryRow[] approvalRows) {
+    public void setApprovalRows(List<ApprovalTimeSummaryRow> approvalRows) {
         this.approvalRows = approvalRows;
     }
 

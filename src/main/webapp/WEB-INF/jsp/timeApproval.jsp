@@ -36,11 +36,13 @@
                             <option value="">-- Select a field --</option>
                             <option value="DocumentId">Document Id</option>
                             <option value="PrincipalName">Principal Name</option>
+                            <option value="WorkArea">Work Area</option>
                         </select>
                     </label>
                     Value :
                     <label for="search value">
                         <input id="searchValue" name="searchValue" type="text" placeholder="enter at least 3 chars"/>
+                        <span id='loading-value' style="display:none;"><img src='images/ajax-loader.gif'></span>
                     </label>
                 </td>
                 <td class="center">

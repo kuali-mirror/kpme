@@ -1,18 +1,5 @@
 package org.kuali.hr.time.approval.web;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -31,6 +18,12 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.exception.AuthorizationException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.*;
+
 public class TimeApprovalAction extends TkAction {
 
     @Override
@@ -45,8 +38,7 @@ public class TimeApprovalAction extends TkAction {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward fwd = super.execute(mapping, form, request, response);
-    	
+
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         TKUser user = TKContext.getUser();
         Date currentDate;
@@ -59,7 +51,7 @@ public class TimeApprovalAction extends TkAction {
         }
         
         if(StringUtils.isBlank(taaf.getSelectedDept())){
-        	return fwd;
+        	return super.execute(mapping, form, request, response);
         }
 
         // Set current pay calendar entries if present.
@@ -88,7 +80,7 @@ public class TimeApprovalAction extends TkAction {
         	taaf.setSelectedPayCalendarGroup(null);
         	taaf.setPayCalendarGroups(null);
         	taaf.setApprovalRows(null);
-        	return fwd;
+        	return super.execute(mapping, form, request, response);
         }
         // Check pay Calendar Group
         if (StringUtils.isEmpty(taaf.getSelectedPayCalendarGroup())) {
@@ -129,13 +121,13 @@ public class TimeApprovalAction extends TkAction {
 
         taaf.setPayCalendarGroups(calGroups);
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
-        taaf.setApprovalRows(convertToArray(getApprovalRows(taaf)));
-        return fwd;
+        taaf.setApprovalRows(getApprovalRows(taaf));
+        return super.execute(mapping, form, request, response);
     }
     
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
-    	ApprovalTimeSummaryRow[] lstApprovalRows = taaf.getApprovalRows();
+    	List<ApprovalTimeSummaryRow> lstApprovalRows = taaf.getApprovalRows();
     	for(ApprovalTimeSummaryRow ar: lstApprovalRows){
     		if(ar.isApprovable() && StringUtils.equals(ar.getSelected(), "on")){
     			String documentNumber = ar.getDocumentId();
@@ -182,13 +174,19 @@ public class TimeApprovalAction extends TkAction {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
 
         List<String> results = new ArrayList<String>();
+
         for (ApprovalTimeSummaryRow row : taaf.getApprovalRows()) {
             if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID) && row.getDocumentId().contains(taaf.getSearchTerm())) {
                 results.add(row.getDocumentId());
-            } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL) && row.getName().toLowerCase().contains(taaf.getSearchTerm())) {
+            } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL) && row.getName().toLowerCase().contains(taaf.getSearchTerm().toLowerCase())) {
                 results.add(row.getName());
+            } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_WORKAREA)) {
+                for(String wa : row.getWorkAreas()) {
+                    if(StringUtils.equals(wa, taaf.getSearchTerm())) {
+                        results.add(wa);
+                    }
+                }
             }
-
         }
 
         taaf.setOutputString(JSONValue.toJSONString(results));
@@ -246,8 +244,8 @@ public class TimeApprovalAction extends TkAction {
             }
             rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup, workAreas);
 
-            if (!taaf.isAjaxCall() && StringUtils.isNotBlank(taaf.getSearchField()) && StringUtils.isNotBlank(taaf.getSearchTerm())) {
-                rows = searchApprovalRows(rows, taaf.getSearchField(), taaf.getSearchTerm());
+            if (StringUtils.isNotBlank(taaf.getSearchField()) && StringUtils.isNotBlank(taaf.getSearchTerm())) {
+                rows = filterApprovalRows(rows, taaf.getSearchField(), taaf.getSearchTerm());
             }
 
             sortApprovalRows(rows, taaf.getSortField(), taaf.isAscending());
@@ -261,14 +259,20 @@ public class TimeApprovalAction extends TkAction {
     	return rows;
     }
 
-    List<ApprovalTimeSummaryRow> searchApprovalRows(List<ApprovalTimeSummaryRow> rows, String searchField, String searchTerm) {
+    List<ApprovalTimeSummaryRow> filterApprovalRows(List<ApprovalTimeSummaryRow> rows, String searchField, String searchTerm) {
         List<ApprovalTimeSummaryRow> filteredRows = new ArrayList<ApprovalTimeSummaryRow>();
 
         for (ApprovalTimeSummaryRow row : rows) {
             if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_DOCID) && row.getDocumentId().contains(searchTerm)) {
                 filteredRows.add(row);
-            } else if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_PRINCIPAL) && row.getName().contains(searchTerm)) {
+            } else if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_PRINCIPAL) && row.getName().toLowerCase().contains(searchTerm.toLowerCase())) {
                 filteredRows.add(row);
+            } else if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_WORKAREA)) {
+                for(String wa : row.getWorkAreas()) {
+                    if(StringUtils.equals(wa, searchTerm)) {
+                        filteredRows.add(row);
+                    }
+                }
             }
         }
 
