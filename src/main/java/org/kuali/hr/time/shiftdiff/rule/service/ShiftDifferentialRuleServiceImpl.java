@@ -173,11 +173,17 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 				for (ShiftDifferentialRule rule : shiftDifferentialRules) {
 					Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(rule.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
 
-					DateTime ruleStart = new DateTime(rule.getBeginTime(), zone);
-					DateTime ruleEnd = new DateTime(rule.getEndTime(), zone);
+                    // Because of the way java.sql.Time are stored, we need to first
+                    // construct a LocalTime in the System Time Zone, then convert that
+                    // time to the users time zone.
+                    LocalTime ruleStart = new LocalTime(rule.getBeginTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+                    LocalTime ruleEnd = new LocalTime(rule.getEndTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+                    ruleStart = new LocalTime(ruleStart, zone);
+                    ruleEnd = new LocalTime(ruleEnd, zone);
 
-					DateTime shiftEnd = (ruleEnd.toLocalTime()).toDateTime(currentDay);
-					DateTime shiftStart = (ruleStart.toLocalTime()).toDateTime(currentDay);
+
+					DateTime shiftEnd = ruleEnd.toDateTime(currentDay);
+					DateTime shiftStart = ruleStart.toDateTime(currentDay);
 
 					if (shiftEnd.isBefore(shiftStart) || shiftEnd.isEqual(shiftStart))
 						shiftEnd = shiftEnd.plusDays(1);
