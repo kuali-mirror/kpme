@@ -137,7 +137,11 @@ public class ClockAction extends TimesheetAction {
             caf.setErrorMessage("No assignment selected.");
             return mapping.findForward("basic");
         }
-
+        ClockLog previousClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId());
+        if(StringUtils.equals(caf.getCurrentClockAction(), previousClockLog.getClockAction())){
+        	caf.setErrorMessage("The operation is already performed.");
+            return mapping.findForward("basic");
+        }
         String ip = TKUtils.getIPAddressFromRequest(request);
         Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(caf.getTimesheetDocument(), caf.getSelectedAssignment());
         
