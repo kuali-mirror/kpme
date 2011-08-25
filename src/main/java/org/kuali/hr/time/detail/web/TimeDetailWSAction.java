@@ -191,7 +191,6 @@ public class TimeDetailWSAction extends TimesheetAction {
         // check if time blocks overlap with each other. Note that the tkTimeBlockId is used to
         // determine is it's updating an existing time block or adding a new one
         //------------------------
-        if (tdaf.getTkTimeBlockId() == null) {
             Interval addedTimeblockInterval = new Interval(startTime, endTime);
             List<Interval> dayInt = new ArrayList<Interval>();
 
@@ -236,7 +235,7 @@ public class TimeDetailWSAction extends TimesheetAction {
 	                }
             	}
             }
-        }
+
         ActionFormUtils.validateHourLimit(tdaf);
 
         tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
