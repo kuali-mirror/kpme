@@ -1,19 +1,5 @@
 package org.kuali.hr.time.approval.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
@@ -31,16 +17,16 @@ import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.util.*;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 
@@ -418,17 +404,22 @@ public class TimeApproveServiceImpl implements TimeApproveService {
      */
     private String createLabelForLastClockLog(String principalId) {
         ClockLog cl = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
+
+
+//    	return sdf.format(dt);
         if (cl == null) {
             return "No previous clock information";
         }
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        String dateTime = sdf.format(new java.sql.Date(cl.getClockTimestamp().getTime()));
         if (StringUtils.equals(cl.getClockAction(), TkConstants.CLOCK_IN)) {
-            return "Clocked in since: " + cl.getClockTimestamp();
+            return "Clocked in since: " + dateTime;
         } else if (StringUtils.equals(cl.getClockAction(), TkConstants.LUNCH_IN)) {
-            return "At Lunch since: " + cl.getClockTimestamp();
+            return "At Lunch since: " + dateTime;
         } else if (StringUtils.equals(cl.getClockAction(), TkConstants.LUNCH_OUT)) {
-            return "Returned from Lunch : " + cl.getClockTimestamp();
+            return "Returned from Lunch : " + dateTime;
         } else if (StringUtils.equals(cl.getClockAction(), TkConstants.CLOCK_OUT)) {
-            return "Clocked out since: " + cl.getClockTimestamp();
+            return "Clocked out since: " + dateTime;
         } else {
             return "No previous clock information";
         }
