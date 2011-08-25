@@ -13,10 +13,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
-import org.joda.time.Hours;
-import org.joda.time.Interval;
+import org.joda.time.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
@@ -54,11 +51,11 @@ public class TimeDetailWSAction extends TimesheetAction {
     public ActionForward validateTimeEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         TimeDetailActionFormBase tdaf = (TimeDetailActionFormBase) form;
-       
+
         JSONArray errorMsgList = new JSONArray();
         PayCalendarEntries payCalEntry = tdaf.getTimesheetDocument().getPayCalendarEntry();
         java.sql.Date asOfDate = payCalEntry.getEndPeriodDate();
-        
+
         if(tdaf.getStartDate()==null){
             errorMsgList.add("The start date is blank.");
             tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
@@ -70,11 +67,12 @@ public class TimeDetailWSAction extends TimesheetAction {
             tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
             return mapping.findForward("ws");
         }
-        
+
+        // These methods use the UserTimeZone.
         Long startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime()).getTime();
         Long endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime()).getTime();
-        
-        
+
+
         if(StringUtils.isNotBlank(tdaf.getSelectedEarnCode())){
         	EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), asOfDate);
         	if(earnCode!=null && earnCode.getRecordTime()){
@@ -83,7 +81,7 @@ public class TimeDetailWSAction extends TimesheetAction {
                     tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
                     return mapping.findForward("ws");
                 }
-                
+
                 if(tdaf.getEndTime()==null){
                     errorMsgList.add("The end time is blank.");
                     tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
@@ -91,18 +89,25 @@ public class TimeDetailWSAction extends TimesheetAction {
                 }
 
 
-                Interval payInterval = new Interval(payCalEntry.getBeginPeriodDateTime().getTime(), payCalEntry.getEndPeriodDateTime().getTime());
+                LocalDateTime pcb_ldt = payCalEntry.getBeginLocalDateTime();
+                LocalDateTime pce_ldt = payCalEntry.getEndLocalDateTime();
+                DateTimeZone utz = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+                DateTime p_cal_b_dt = pcb_ldt.toDateTime(utz);
+                DateTime p_cal_e_dt = pce_ldt.toDateTime(utz);
+
+
+                Interval payInterval = new Interval(p_cal_b_dt, p_cal_e_dt);
                 if(!payInterval.contains(startTime)){
                 	errorMsgList.add("The start date/time is outside the pay period");
                     tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
                     return mapping.findForward("ws");
                 }
-                if(!payInterval.contains(endTime) && payCalEntry.getEndPeriodDateTime().getTime() != endTime){
+                if(!payInterval.contains(endTime) && p_cal_e_dt.getMillis() != endTime){
                 	errorMsgList.add("The end date/time is outside the pay period");
                     tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
                     return mapping.findForward("ws");
                 }
-                
+
                 if(startTime - endTime == 0){
                 	errorMsgList.add("Start time and end time cannot be equivalent");
                     tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
@@ -110,28 +115,28 @@ public class TimeDetailWSAction extends TimesheetAction {
                 }
         	}
         }
-        
+
         DateTime startTemp = new DateTime(startTime);
         DateTime endTemp = new DateTime(endTime);
-        
-        
-        
+
+
+
         if(StringUtils.equals(tdaf.getAcrossDays(),"n")){
         	Hours hrs = Hours.hoursBetween(startTemp, endTemp);
         	if(hrs.getHours() >= 24){
             	errorMsgList.add("One timeblock cannot exceed 24 hours");
                 tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-                return mapping.findForward("ws");        		
+                return mapping.findForward("ws");
         	}
         }
-        
+
         //Check that assignment is valid for both days
         AssignmentDescriptionKey assignKey = TkServiceLocator.getAssignmentService().getAssignmentDescriptionKey(tdaf.getSelectedAssignment());
         Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(assignKey, new Date(startTime));
         if(assign == null){
         	errorMsgList.add("Assignment is not valid for "+TKUtils.formatDate(new Date(startTime)));
             tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-            return mapping.findForward("ws");  
+            return mapping.findForward("ws");
         }
         assign = TkServiceLocator.getAssignmentService().getAssignment(assignKey, new Date(endTime));
         if(assign == null){
@@ -180,8 +185,8 @@ public class TimeDetailWSAction extends TimesheetAction {
                 return mapping.findForward("ws");
         	}
         }
-        
-        
+
+
         //------------------------
         // check if time blocks overlap with each other. Note that the tkTimeBlockId is used to
         // determine is it's updating an existing time block or adding a new one

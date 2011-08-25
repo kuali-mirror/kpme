@@ -49,7 +49,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
         for (Interval dayIn : dayInt) {
             if (dayIn.contains(beginDt)) {
-                if (dayIn.contains(endDt)) {
+                if (dayIn.contains(endDt) || dayIn.getEnd().equals(endDt)) {
                     firstTimeBlock = createTimeBlock(timesheetDocument, beginTimestamp, new Timestamp(endDt.getMillis()), assignment, earnCode, hours, amount, false);
                     lstTimeBlocks.add(firstTimeBlock);
                 } else {
@@ -263,7 +263,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
         return timeBlocks;
     }
-    
+
     public List<TimeBlock> getTimeBlocksForAssignment(Assignment assign) {
     	List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
     	if(assign != null) {
@@ -276,7 +276,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
          }
     	return timeBlocks;
     }
-    
+
 
 	@Override
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId) {
@@ -288,13 +288,13 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	public Boolean isTimeBlockEditable(TimeBlock tb) {
 		UserRoles ur = TKContext.getUser().getCurrentRoles();
 		String userId = TKContext.getUser().getPrincipalId();
-    	
+
     	if(userId != null && ur != null) {
 			if(tb.getClockLogCreated() && StringUtils.equals(userId, TKContext.getTargetPrincipalId())) {
 				return false;		// time block was created by clock in/out
 			}
 
-			if(ur.isSystemAdmin()) { 
+			if(ur.isSystemAdmin()) {
 				return true;
 			}
 
@@ -304,7 +304,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 				if(StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())){
 					return true;
 				}
-				
+
 				List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getTkSalGroup(), job.getLocation(), tb.getEndDate());
 				for(DepartmentEarnCode dec : deptEarnCodes){
 					if(dec.isApprover() && StringUtils.equals(dec.getEarnCode(), tb.getEarnCode())){
@@ -312,14 +312,14 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 					}
 				}
 			}
-			
+
 			if(userId.equals(TKContext.getTargetPrincipalId())) {
 				Job job = TkServiceLocator.getJobSerivce().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
 				PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), tb.getEndDate());
 				if(StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())){
 					return true;
 				}
-				
+
 				List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getTkSalGroup(), job.getLocation(), tb.getEndDate());
 				for(DepartmentEarnCode dec : deptEarnCodes){
 					if(dec.isEmployee() && StringUtils.equals(dec.getEarnCode(), tb.getEarnCode())){
@@ -328,8 +328,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 				}
 				// if the user is the creator of this time block
 			}
-			
-			
+
+
 		}
 		return false;
 	}
