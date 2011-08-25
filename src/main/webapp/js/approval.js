@@ -15,11 +15,16 @@ $(document).ready(function() {
             $("input[name=selectedEmpl]").attr("checked", false);
         }
     });
+
     
     // sort by the clicked column
     $('#approvals-table tr th').click(function() {
-
-        var field = $(this).text().replace(/ /, '');
+    	// replace all occurrence of white space, including space, tab, newline, etc
+        var field = $(this).text().replace(/\s/g, '');
+        //no sorting for notes and warnings pop-up
+        if(field == "Creator" || field == "CreatedDate" || field == "Content" || field == "Notes:" || field == "Warnings:") {
+        	return false;
+        }
         var rows = $('#approvals-table tbody tr').length;
         var isAscending = getParameterByName("ascending");
 
