@@ -13,7 +13,7 @@ public class MissedPunchDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imp
     	MissedPunchDocument mp = null;
 
         Criteria root = new Criteria();
-        root.addEqualTo("documentId", headerId);
+        root.addEqualTo("documentNumber", headerId);
         Query query = QueryFactory.newQuery(MissedPunchDocument.class, root);
         mp = (MissedPunchDocument)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 

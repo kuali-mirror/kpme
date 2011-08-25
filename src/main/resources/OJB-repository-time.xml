@@ -704,9 +704,10 @@
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.hr.time.missedpunch.MissedPunchDocument" table="tk_missed_punch_doc_t">
-        <field-descriptor name="documentId"      column="doc_hdr_id"        jdbc-type="VARCHAR" length="14" primarykey="true"/>
+        <field-descriptor name="documentNumber"      column="doc_hdr_id"        jdbc-type="VARCHAR" length="14" primarykey="true"/>
         <field-descriptor name="principalId"     column="principal_id"      jdbc-type="VARCHAR" length="40" nullable="false"/>
         <field-descriptor name="clockAction"     column="clock_action"      jdbc-type="VARCHAR" length="20" nullable="false"/>
+        <field-descriptor name="assignment"		column="assignment" jdbc-type="VARCHAR" length="20" nullable="false"/>
         <field-descriptor name="actionDate"   column="action_date" jdbc-type="TIMESTAMP" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
         <field-descriptor name="actionTime"   column="action_time" jdbc-type="TIME" nullable="false" />
         <field-descriptor name="timesheetDocumentId" column="timesheet_doc_id" jdbc-type="VARCHAR" length="14"/>

@@ -27,4 +27,6 @@ public interface ClockLogService {
 	public List<ClockLog> getOpenClockLogs(PayCalendarEntries payCalendarEntry);
 
     ClockLog processClockLog(Timestamp clockTimestamp, Assignment assignment, PayCalendarEntries pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId);
+    
+    public ClockLog getClockLog(Long tkClockLogId);
 }

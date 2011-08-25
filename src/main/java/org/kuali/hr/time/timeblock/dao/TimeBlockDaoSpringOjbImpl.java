@@ -67,4 +67,12 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 		this.getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(TimeBlock.class, crit));
 		
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TimeBlock> getTimeBlocksForClockLogId(Long tkClockLogId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("tkClockLogId", tkClockLogId);
+		return (List<TimeBlock>)this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, crit));
+	}
 }

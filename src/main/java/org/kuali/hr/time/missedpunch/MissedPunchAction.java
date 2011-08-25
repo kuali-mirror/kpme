@@ -1,5 +1,7 @@
 package org.kuali.hr.time.missedpunch;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,11 +26,39 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
 			String tdocId = request.getParameter("tdocid");
 			MissedPunchDocument mpDoc = (MissedPunchDocument)mpForm.getDocument();
 			TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdocId);
-			
+			mpForm.setDocNum(mpDoc.getDocumentNumber());
 			mpDoc.setPrincipalId(timesheetDocument.getPrincipalId());
 			mpDoc.setTimesheetDocumentId(tdocId);
 		}
 		return act;
 	}
 
+	@Override
+	public ActionForward route(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		MissedPunchForm mpForm = (MissedPunchForm)form;
+		mpForm.setEditingMode(new HashMap());
+		MissedPunchDocument mpDoc = (MissedPunchDocument)mpForm.getDocument();
+		mpDoc.setDocumentStatus("R");
+		ActionForward fwd =  super.route(mapping, mpForm, request, response);
+		TkServiceLocator.getMissedPunchService().addClockLogForMissedPunch(mpDoc);
+		return fwd;
+		
+	}
+
+	@Override
+	public ActionForward approve(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		MissedPunchForm mpForm = (MissedPunchForm)form;
+		MissedPunchDocument mpDoc = (MissedPunchDocument)mpForm.getDocument();
+		mpDoc.setDocumentStatus("A");
+		ActionForward fwd = super.approve(mapping, form, request, response); 
+		TkServiceLocator.getMissedPunchService().updateClockLogAndTimeBlockIfNecessary(mpDoc);
+		return fwd;
+	}
+
+	
+	
 }

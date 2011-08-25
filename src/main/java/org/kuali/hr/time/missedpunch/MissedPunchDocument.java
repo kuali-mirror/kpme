@@ -17,7 +17,6 @@ public class MissedPunchDocument extends TransactionalDocumentBase {
 	private java.util.Date actionDate;
 	private Time actionTime;
     private String timesheetDocumentId;
-	private String documentId;
 	private String documentStatus;
 	private Long tkClockLogId;
 	private Timestamp timestamp;
@@ -55,12 +54,6 @@ public class MissedPunchDocument extends TransactionalDocumentBase {
 	}
 	public void setTimesheetDocumentId(String timesheetDocumentId) {
 		this.timesheetDocumentId = timesheetDocumentId;
-	}
-	public String getDocumentId() {
-		return documentId;
-	}
-	public void setDocumentId(String documentId) {
-		this.documentId = documentId;
 	}
 	public String getDocumentStatus() {
 		return documentStatus;

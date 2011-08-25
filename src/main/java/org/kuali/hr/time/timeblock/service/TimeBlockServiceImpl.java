@@ -1,5 +1,10 @@
 package org.kuali.hr.time.timeblock.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -21,11 +26,6 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TimeBlockServiceImpl implements TimeBlockService {
 
@@ -332,6 +332,11 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			
 		}
 		return false;
+	}
+
+	@Override
+	public List<TimeBlock> getTimeBlocksForClockLog(Long tkClockLogId) {
+		return timeBlockDao.getTimeBlocksForClockLogId(tkClockLogId);
 	}
 
 }

@@ -20,5 +20,7 @@ public interface TimeBlockDao {
 	public List<TimeBlock> getTimeBlocksForAssignment(Assignment assign);
 	
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
+	
+	public List<TimeBlock> getTimeBlocksForClockLogId(Long tkClockLogId);
 
 }

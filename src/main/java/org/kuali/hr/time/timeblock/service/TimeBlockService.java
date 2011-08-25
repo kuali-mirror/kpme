@@ -99,4 +99,6 @@ public interface TimeBlockService {
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 
 	public Boolean isTimeBlockEditable(TimeBlock tb);
+	
+	public List<TimeBlock> getTimeBlocksForClockLog(Long tkClockLogId);
 }

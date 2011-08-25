@@ -156,4 +156,9 @@ public class ClockLogServiceImpl implements ClockLogService {
         return clockLogDao.getOpenClockLogs(payCalendarEntry);
     }
 
+	@Override
+	public ClockLog getClockLog(Long tkClockLogId) {
+		return clockLogDao.getClockLog(tkClockLogId);
+	}
+
 }

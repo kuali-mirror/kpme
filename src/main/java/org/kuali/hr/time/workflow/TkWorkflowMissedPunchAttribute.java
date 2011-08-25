@@ -1,16 +1,7 @@
 package org.kuali.hr.time.workflow;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
@@ -25,8 +16,6 @@ import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
 import org.kuali.rice.kew.rule.Role;
 import org.kuali.rice.kew.rule.RoleAttribute;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 
 public class TkWorkflowMissedPunchAttribute implements RoleAttribute {
 
@@ -68,30 +57,8 @@ public class TkWorkflowMissedPunchAttribute implements RoleAttribute {
 		TkRoleService roleService = TkServiceLocator.getTkRoleService();
         MissedPunchDocument missedPunch = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(routeHeaderId.toString());
 
-        DocumentContent dc = routeContext.getDocumentContent();
-        String assign_string = null;
-        String tsDocIdString = null;
-
-        // TODO : Perhaps use KNS Xml Serializer Service?
-        // KNSServiceLocator.getXmlObjectSerializerService().fromXml()
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setNamespaceAware(true);
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            InputStream is = new ByteArrayInputStream(dc.getDocContent().getBytes());
-            InputSource inputSource = new InputSource(is);
-            Document doc = builder.parse(inputSource);
-
-            XPathFactory xpf = XPathFactory.newInstance();
-            XPath xpath = xpf.newXPath();
-
-            XPathExpression xpr = xpath.compile(XP_BO_ROOT + XP_MD_A_ASSIGN);
-            assign_string = (String)xpr.evaluate(doc, XPathConstants.STRING);
-            xpr = xpath.compile(XP_BO_ROOT + XP_MD_A_TDOCID);
-            tsDocIdString = (String)xpr.evaluate(doc, XPathConstants.STRING);
-        } catch (Exception e) {
-            LOG.error(e);
-        }
+        String assign_string = missedPunch.getAssignment();
+        String tsDocIdString = missedPunch.getTimesheetDocumentId();
 
         if (tsDocIdString != null && assign_string != null) {
             TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsDocIdString);

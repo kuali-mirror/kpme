@@ -27,9 +27,7 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         boolean valid = true;
         Set<String> validActions = (lastClock != null) ? TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction()) : new HashSet<String>();
 
-        if (validActions.isEmpty()) {
-
-        } else if (!validActions.contains(mp.getClockAction())) {
+        if (!StringUtils.equals("R", mp.getDocumentStatus()) && !validActions.contains(mp.getClockAction())) {
             GlobalVariables.getMessageMap().putError("clockAction", "clock.mp.invalid.action");
             valid = false;
         }

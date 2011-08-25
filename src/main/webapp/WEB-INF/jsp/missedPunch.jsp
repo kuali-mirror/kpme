@@ -8,14 +8,15 @@
       htmlFormAction="missedPunch"
       renderMultipart="true"
       showTabButtons="true">
-
+<div class="tab-container" align=center>
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
-
 	<tk:missedPunchDoc editingMode="${KualiForm.editingMode}"/>
 
 	<kul:notes />
 
+	<kul:routeLog/>
 	<kul:panelFooter />
+	
 
 	<kul:documentControls transactionalDocument="true" />
 
