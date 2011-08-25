@@ -99,7 +99,7 @@
 		                                                <div id="${thdr.timeHourDetail.tkTimeHourDetailId}" class="event-content">
 		                                                        <c:choose>
 		                                                            <c:when test="${thdr.hours ne ''}">
-	                                                            		<c:if test="${thdr.title eq TkConstants.HOLIDAY_EARN_CODE}">
+	                                                            		<c:if test="${thdr.title eq TkConstants.HOLIDAY_EARN_CODE} ">
 	                                                            			<div><a id="holidayNameHelp" title="${thdr.holidayName}" style="color:white; cursor:pointer">${thdr.title} - ${thdr.hours} hours</a></div>
 	                                                            		</c:if>
 	                                                            		<c:if test="${thdr.title ne TkConstants.HOLIDAY_EARN_CODE}">
