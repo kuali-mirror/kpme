@@ -40,10 +40,13 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 				.getBusinessObject();
 		WorkArea waNew = (WorkArea) document.getNewMaintainableObject()
 				.getBusinessObject();
-
+		
+		List<TkRole> positionRoles = TkServiceLocator.getTkRoleService().getPositionRolesForWorkArea(waOld.getWorkArea(), waOld.getEffectiveDate());
 		TkServiceLocator.getWorkAreaService().populateWorkAreaRoles(waOld);
+		waOld.getRoles().addAll(positionRoles);
+		
 		TkServiceLocator.getWorkAreaService().populateWorkAreaRoles(waNew);
-
+		waNew.getRoles().addAll(positionRoles);
 		super.processAfterEdit(document, parameters);
 	}
 

@@ -61,4 +61,7 @@ public interface TkRoleDao {
 	public TkRole getRole(Long tkRoleId);
 	
 	public List<TkRole> getRolesByPosition(Long positionNumber);
+	
+	public List<TkRole> getPositionRolesForWorkArea(Long workArea, Date asOfDate);
+
 }
