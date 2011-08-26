@@ -38,7 +38,7 @@ public class TimeApprovalAction extends TkAction {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+    	ActionForward fwd = super.execute(mapping, form, request, response);
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         TKUser user = TKContext.getUser();
         Date currentDate;
@@ -122,7 +122,7 @@ public class TimeApprovalAction extends TkAction {
         taaf.setPayCalendarGroups(calGroups);
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
         taaf.setApprovalRows(getApprovalRows(taaf));
-        return super.execute(mapping, form, request, response);
+        return fwd;
     }
     
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
