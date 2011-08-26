@@ -142,7 +142,7 @@ public class WorkAreaMaintenanceDocumentRule extends
 			if (task != null && wa.getTasks() != null) {
 				valid = true;
 				valid &= this.validateTask(task, wa.getTasks());
-				valid &= this.validateTaskNumber(task, wa.getTasks()); // Jira870
+				//valid &= this.validateTaskNumber(task, wa.getTasks()); // Jira870
 			}
 		} else if ((pbo instanceof TkRole && pboWorkArea instanceof WorkArea)) {
 			TkRole tkRole = (TkRole)pbo;
