@@ -460,6 +460,7 @@ function addTimeBlockRow(form, tempArr) {
     el.id = idString;
     el.size = 10;
     var endDate = new Date(form.endTimestamp.value);
+    alert(endDate + " testing");
     var formatedDate = endDate.toString("MM/dd/yyyy");
     el.value = formatedDate;
     cellEndDate.appendChild(el);

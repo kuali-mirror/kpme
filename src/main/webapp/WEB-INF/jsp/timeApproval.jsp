@@ -250,11 +250,9 @@
                     </tr>
                     </tbody>
                 </table>
-                <a href="#" id="next">Load next X records </a> of total ${fn:length(Form.approvalRows)}
                 <div id="loader"></div>
             </c:when>
             <c:otherwise>
-                <span style="font-size: 1.5em;">Not an administrator for any active employees.</span>
             </c:otherwise>
         </c:choose>
     </div>
