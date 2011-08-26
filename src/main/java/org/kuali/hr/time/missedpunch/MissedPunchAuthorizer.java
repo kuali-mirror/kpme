@@ -38,11 +38,12 @@ public class MissedPunchAuthorizer extends TransactionalDocumentAuthorizerBase {
 			} catch (WorkflowException e) {
 				LOG.error(e.toString());
 			} 
-		} else {
+		} else if(!StringUtils.equals(mpDoc.getDocumentStatus(), "A")){
 			author.add(KNSConstants.KUALI_ACTION_CAN_EDIT);
 			author.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
 		}
 		author.remove(KNSConstants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS);
+		author.remove(KNSConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS);
 		return author;
 	}
 	

@@ -715,7 +715,11 @@
         <field-descriptor name="tkClockLogId"     column="tk_clock_log_id"      jdbc-type="BIGINT" length="20"/>
         <field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />        
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" /> 
+		
+    	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false" >
+        	<foreignkey field-ref="documentNumber" />
+    	</reference-descriptor>		       
     </class-descriptor>
 
 	<!-- override MaintenanceDocumentBase primarily for Work Area maintenance -->
