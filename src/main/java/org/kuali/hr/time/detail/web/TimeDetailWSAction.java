@@ -227,7 +227,7 @@ public class TimeDetailWSAction extends TimesheetAction {
             	if(StringUtils.equals(timeBlock.getEarnCodeType(), "TIME")) {
 	                Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
 	                for(Interval intv: dayInt) {
-		                if (timeBlockInterval.overlaps(intv)) {
+		                if (timeBlockInterval.overlaps(intv) && tdaf.getTkTimeBlockId().compareTo(timeBlock.getTkTimeBlockId()) != 0) {
 		                	errorMsgList.add("The time block you are trying to add overlaps with an existing time block.");
 		                	tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
 		                    return mapping.findForward("ws");
