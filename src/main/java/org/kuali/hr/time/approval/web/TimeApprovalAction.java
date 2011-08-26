@@ -172,7 +172,7 @@ public class TimeApprovalAction extends TkAction {
      */
     public ActionForward searchApprovalRows(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
-
+        taaf.setApprovalRows(getApprovalRows(taaf));
         List<String> results = new ArrayList<String>();
 
         for (ApprovalTimeSummaryRow row : taaf.getApprovalRows()) {
