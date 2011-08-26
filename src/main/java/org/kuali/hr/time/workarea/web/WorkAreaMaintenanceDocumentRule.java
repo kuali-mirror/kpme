@@ -89,18 +89,20 @@ public class WorkAreaMaintenanceDocumentRule extends
 	
 	boolean validateDefaultOTEarnCode(String earnCode, Date asOfDate) {
 		// defaultOvertimeEarnCode is a nullable field. 
-		boolean valid = true; 
-		if ( earnCode != null ){
-			valid = ValidationUtils.validateEarnCode(earnCode, true,
-					asOfDate);
-	
-			if (!valid) {
-				this.putFieldError("defaultOvertimeEarnCode",
-						"earncode.ovt.notfound", earnCode);
+		if (earnCode != null
+				&& !ValidationUtils.validateEarnCode(earnCode, asOfDate)) {
+			this.putFieldError("earnCode", "error.existence", "earnCode '"
+					+ earnCode + "'");
+			return false;
+		} else {
+			if (earnCode != null
+					&& !ValidationUtils.validateEarnCode(earnCode, true, asOfDate)) {
+				this.putFieldError("earnCode", "earncode.ovt.required",
+						earnCode);
+				return false;
 			}
+			return true;
 		}
-		
-		return valid;
 	}
 
 	@Override
