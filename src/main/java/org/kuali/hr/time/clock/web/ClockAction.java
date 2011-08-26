@@ -138,7 +138,7 @@ public class ClockAction extends TimesheetAction {
             return mapping.findForward("basic");
         }
         ClockLog previousClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId());
-        if(StringUtils.equals(caf.getCurrentClockAction(), previousClockLog.getClockAction())){
+        if(previousClockLog != null && StringUtils.equals(caf.getCurrentClockAction(), previousClockLog.getClockAction())){
         	caf.setErrorMessage("The operation is already performed.");
             return mapping.findForward("basic");
         }
@@ -187,7 +187,6 @@ public class ClockAction extends TimesheetAction {
         return new ActionForward(forward.getPath() + "?editTimeBlockId=" + tb.getTkTimeBlockId().toString());
 
     }
-
     public ActionForward addTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ClockActionForm caf = (ClockActionForm) form;
         TimeBlock currentTb = caf.getCurrentTimeBlock();
