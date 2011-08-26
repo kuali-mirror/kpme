@@ -1,8 +1,5 @@
 package org.kuali.hr.time.paycalendar.service;
 
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.paycalendar.PayCalendar;
@@ -11,6 +8,9 @@ import org.kuali.hr.time.paycalendar.dao.PayCalendarDao;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+
+import java.util.Date;
+import java.util.List;
 
 public class PayCalendarServiceImpl implements PayCalendarService {
 
@@ -21,14 +21,14 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 	}
 
 	@Override
-	public PayCalendar getPayCalendar(Long payCalendarId) {
-		return payCalendarDao.getPayCalendar(payCalendarId);
+	public PayCalendar getPayCalendar(Long hrPyCalendarId) {
+		return payCalendarDao.getPayCalendar(hrPyCalendarId);
 	}
 
 	@Override
 	@CacheResult
-	public PayCalendar getPayCalendarByGroup(String calendarGroup) {
-		return payCalendarDao.getPayCalendarByGroup(calendarGroup);
+	public PayCalendar getPayCalendarByGroup(String pyCalendarGroup) {
+		return payCalendarDao.getPayCalendarByGroup(pyCalendarGroup);
 	}
 
     @Override
@@ -37,7 +37,7 @@ public class PayCalendarServiceImpl implements PayCalendarService {
         PayCalendarEntries pcd = null;
 
         PayCalendar payCalendar = getPayCalendar(principalId, payEndDate);
-        pcd = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntriesByIdAndPeriodEndDate(payCalendar.getPayCalendarId(), payEndDate);
+        pcd = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntriesByIdAndPeriodEndDate(payCalendar.getHrPyCalendarId(), payEndDate);
         pcd.setPayCalendarObj(payCalendar);
 
         return pcd;
@@ -48,7 +48,7 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 	public PayCalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate) {
 		PayCalendarEntries pcd = null;
         PayCalendar payCalendar = getPayCalendar(principalId, currentDate);
-	    pcd = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(payCalendar.getPayCalendarId(), currentDate);
+	    pcd = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(payCalendar.getHrPyCalendarId(), currentDate);
         pcd.setPayCalendarObj(payCalendar);
 		return pcd;
 	}

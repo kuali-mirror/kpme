@@ -29,7 +29,7 @@
     <property name="title" value="Pay Calendar Maintenance"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="calendarGroup" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="pyCalendarGroup" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="flsaBeginDay" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="flsaBeginTime" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active"  p:defaultValue="true" p:required="true"/>                                

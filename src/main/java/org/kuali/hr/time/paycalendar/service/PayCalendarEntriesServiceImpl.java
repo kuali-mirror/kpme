@@ -1,10 +1,10 @@
 package org.kuali.hr.time.paycalendar.service;
 
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.paycalendar.dao.PayCalendarEntriesDao;
+
+import java.util.Date;
+import java.util.List;
 
 public class PayCalendarEntriesServiceImpl implements PayCalendarEntriesService {
 
@@ -14,30 +14,30 @@ public class PayCalendarEntriesServiceImpl implements PayCalendarEntriesService 
 		this.payCalendarEntriesDao = payCalendarEntriesDao;
 	}
 
-	public PayCalendarEntries getPayCalendarEntries(Long payCalendarEntriesId) {
+	public PayCalendarEntries getPayCalendarEntries(Long hrPyCalendarEntriesId) {
 
-		return payCalendarEntriesDao.getPayCalendarEntries(payCalendarEntriesId);
+		return payCalendarEntriesDao.getPayCalendarEntries(hrPyCalendarEntriesId);
 	}
 
     @Override
-    public PayCalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long payCalendarId, Date endPeriodDate) {
-        return payCalendarEntriesDao.getPayCalendarEntriesByIdAndPeriodEndDate(payCalendarId, endPeriodDate);
+    public PayCalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long hrPyCalendarId, Date endPeriodDate) {
+        return payCalendarEntriesDao.getPayCalendarEntriesByIdAndPeriodEndDate(hrPyCalendarId, endPeriodDate);
     }
 
 	@Override
 	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(
-			Long payCalendarId, Date currentDate) {
-		return payCalendarEntriesDao.getCurrentPayCalendarEntriesByPayCalendarId(payCalendarId, currentDate);
+			Long hrPyCalendarId, Date currentDate) {
+		return payCalendarEntriesDao.getCurrentPayCalendarEntriesByPayCalendarId(hrPyCalendarId, currentDate);
 	}
 
     @Override
-    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries pce) {
-        return payCalendarEntriesDao.getPreviousPayCalendarEntriesByPayCalendarId(payCalendarId, pce);
+    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, PayCalendarEntries pce) {
+        return payCalendarEntriesDao.getPreviousPayCalendarEntriesByPayCalendarId(hrPyCalendarId, pce);
     }
 
     @Override
-    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries pce) {
-        return payCalendarEntriesDao.getNextPayCalendarEntriesByPayCalendarId(payCalendarId, pce);
+    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, PayCalendarEntries pce) {
+        return payCalendarEntriesDao.getNextPayCalendarEntriesByPayCalendarId(hrPyCalendarId, pce);
     }
 
     public List<PayCalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate){

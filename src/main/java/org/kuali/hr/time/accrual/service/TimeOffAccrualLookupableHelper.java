@@ -1,14 +1,14 @@
 package org.kuali.hr.time.accrual.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimeOffAccrualLookupableHelper extends
 		KualiLookupableHelperServiceImpl {
@@ -31,15 +31,15 @@ public class TimeOffAccrualLookupableHelper extends
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
 			TimeOffAccrual timeOffAccrual = (TimeOffAccrual) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long laAccrualId = timeOffAccrual.getLaAccrualId();
+			final Long lmAccrualId = timeOffAccrual.getLmAccrualId();
 			HtmlData htmlData = new HtmlData() {
 
 				@Override
 				public String constructCompleteHtmlTag() {
 					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
 							+ className
-							+ "&methodToCall=start&laAccrualId="
-							+ laAccrualId + "\">view</a>";
+							+ "&methodToCall=start&lmAccrualId="
+							+ lmAccrualId + "\">view</a>";
 				}
 			};
 			overrideUrls.add(htmlData);

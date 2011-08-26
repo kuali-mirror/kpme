@@ -22,7 +22,7 @@
 			<column name="batch_job_status" type="VARCHAR(1)">
 				<constraints nullable="false" />
 			</column>
-			<column name="tk_pay_calendar_entry_id" type="BIGINT">
+			<column name="hr_pay_calendar_entry_id" type="BIGINT">
 				<constraints nullable="false" />
 			</column>
 			<column name="time_elapsed" type="BIGINT">

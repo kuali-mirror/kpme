@@ -1,13 +1,13 @@
 package org.kuali.hr.time.accrual.dao;
 
-import java.sql.Date;
-
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.accrual.AccrualCategory;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.sql.Date;
 
 public class AccrualCategoryDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements AccrualCategoryDao {
 
@@ -36,9 +36,9 @@ public class AccrualCategoryDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
     }
 
 	@Override
-	public AccrualCategory getAccrualCategory(Long laAccrualCategoryId) {
+	public AccrualCategory getAccrualCategory(Long lmAccrualCategoryId) {
 		Criteria crit = new Criteria();
-		crit.addEqualTo("laAccrualCategoryId", laAccrualCategoryId);
+		crit.addEqualTo("lmAccrualCategoryId", lmAccrualCategoryId);
 		
 		Query query = QueryFactory.newQuery(AccrualCategory.class, crit);
 		return (AccrualCategory)this.getPersistenceBrokerTemplate().getObjectByQuery(query);

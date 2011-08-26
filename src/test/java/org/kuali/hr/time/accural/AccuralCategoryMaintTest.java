@@ -1,9 +1,6 @@
 package org.kuali.hr.time.accural;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Calendar;
-
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Test;
 import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -11,7 +8,9 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 public class AccuralCategoryMaintTest extends TkTestCase {
 	//TODO - Sai confirm this test is working
@@ -47,7 +46,7 @@ public class AccuralCategoryMaintTest extends TkTestCase {
 		accrualCategory.setEffectiveDate(TEST_DATE);
 		accrualCategory.setTimestamp(TEST_TIMESTAMP);
 		KNSServiceLocator.getBusinessObjectService().save(accrualCategory);
-		accuralCategoryId = accrualCategory.getLaAccrualCategoryId();
+		accuralCategoryId = accrualCategory.getLmAccrualCategoryId();
 	}
 
 	@Override

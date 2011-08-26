@@ -1,8 +1,5 @@
 package org.kuali.hr.time.paycalendar.dao;
 
-import java.util.Date;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -10,6 +7,9 @@ import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.paytype.PayType;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.util.Date;
+import java.util.List;
 
 public class PayCalendarDaoSpringOjbImpl extends PersistenceBrokerDaoSupport  implements PayCalendarDao {
 
@@ -27,24 +27,24 @@ public class PayCalendarDaoSpringOjbImpl extends PersistenceBrokerDaoSupport  im
 		}
 	}
 
-	public PayCalendar getPayCalendar(Long payCalendarId) {
+	public PayCalendar getPayCalendar(Long hrPyCalendarId) {
 		Criteria currentRecordCriteria = new Criteria();
-		currentRecordCriteria.addEqualTo("payCalendarId", payCalendarId);
+		currentRecordCriteria.addEqualTo("hrPyCalendarId", hrPyCalendarId);
 
 		return (PayCalendar) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(PayCalendar.class, currentRecordCriteria));
 	}
 
 	// Is pay clendar groups alwasy unique?
-	public PayCalendar getPayCalendarByGroup(String calendarGroup) {
+	public PayCalendar getPayCalendarByGroup(String pyCalendarGroup) {
 		Criteria currentRecordCriteria = new Criteria();
-		currentRecordCriteria.addEqualTo("calendarGroup", calendarGroup);
+		currentRecordCriteria.addEqualTo("pyCalendarGroup", pyCalendarGroup);
 
 		return (PayCalendar) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(PayCalendar.class, currentRecordCriteria));
 	}
 	
 	public PayCalendarEntries getPreviousPayCalendarEntry(Long tkPayCalendarId, Date beginDateCurrentPayCalendar){
         Criteria payEndDateCriteria = new Criteria();
-        payEndDateCriteria.addEqualTo("tk_py_calendar_id", tkPayCalendarId);
+        payEndDateCriteria.addEqualTo("hr_py_calendar_id", tkPayCalendarId);
         payEndDateCriteria.addLessOrEqualThan("end_period_date", beginDateCurrentPayCalendar);
         
         return (PayCalendarEntries) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(PayCalendarEntries.class,payEndDateCriteria));

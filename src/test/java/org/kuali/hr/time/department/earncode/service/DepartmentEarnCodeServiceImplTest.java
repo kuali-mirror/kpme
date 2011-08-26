@@ -1,13 +1,14 @@
 package org.kuali.hr.time.department.earncode.service;
 
-import java.util.Calendar;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
+
+import java.util.Calendar;
+import java.util.List;
 
 public class DepartmentEarnCodeServiceImplTest extends TkTestCase {
 
@@ -39,7 +40,7 @@ public class DepartmentEarnCodeServiceImplTest extends TkTestCase {
 		
 		for (DepartmentEarnCode ec : departmentEarnCodes) {
 			assertTrue("Wrong department earn code.", ((ec.getDept()).equals("LORA-DEPT") || (ec.getDept()).equals("%")) );
-			assertTrue("Wrong SAL_GROUP.", (ec.getTkSalGroup()).equals(TEST_SAL_GROUP_A10) || (ec.getTkSalGroup()).equals("%") );
+			assertTrue("Wrong SAL_GROUP.", (ec.getHrSalGroup()).equals(TEST_SAL_GROUP_A10) || (ec.getHrSalGroup()).equals("%") );
 		}
 		
 		// Testing Wildcard on dept and salGroup.
@@ -48,7 +49,7 @@ public class DepartmentEarnCodeServiceImplTest extends TkTestCase {
 		
 		for (DepartmentEarnCode ec1 : departmentEarnCodes1) {
 			assertTrue("Wrong department earn code.", ((ec1.getDept()).equals(TEST_TEST_DEPT) || (ec1.getDept()).equals("%")) );
-			assertTrue("Wrong SAL_GROUP.", (ec1.getTkSalGroup()).equals(TEST_SAL_GROUP_A) || (ec1.getTkSalGroup()).equals("%") );
+			assertTrue("Wrong SAL_GROUP.", (ec1.getHrSalGroup()).equals(TEST_SAL_GROUP_A) || (ec1.getHrSalGroup()).equals("%") );
 		}
 	}
 

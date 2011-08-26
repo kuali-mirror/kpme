@@ -1,10 +1,10 @@
 package org.kuali.hr.time.accrual.service;
 
-import java.sql.Date;
-
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.accrual.dao.AccrualCategoryDao;
+
+import java.sql.Date;
 
 public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
@@ -33,8 +33,8 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 	}
 
 	@Override
-	public AccrualCategory getAccrualCategory(Long laAccrualCategoryId) {
-		return accrualCategoryDao.getAccrualCategory(laAccrualCategoryId);
+	public AccrualCategory getAccrualCategory(Long lmAccrualCategoryId) {
+		return accrualCategoryDao.getAccrualCategory(lmAccrualCategoryId);
 	}
 
 }

@@ -1,26 +1,24 @@
 package org.kuali.hr.time.collection.rule;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Random;
-
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.junit.Test;
-import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Random;
 
 public class TimeCollectionRuleMaintTest extends TkTestCase {
 
@@ -125,7 +123,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
 		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
 		KNSServiceLocator.getBusinessObjectService().save(department);
-		deptId = department.getTkDeptId();
+		deptId = department.getHrDeptId();
 		TimeCollectionRule timeCollectionRuleWIthInvalidDept = new TimeCollectionRule();
 		// setting deptId for which Department doesn't exist .
 		Random randomObj = new Random();

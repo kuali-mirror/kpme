@@ -1,18 +1,17 @@
 package org.kuali.hr.time.paycalendar.service;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.paycalendar.PayCalendar;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.job.Job;
-import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class PayCalendarLookupableHelper extends
 		KualiLookupableHelperServiceImpl {
@@ -29,14 +28,14 @@ public class PayCalendarLookupableHelper extends
 				businessObject, pkNames);
 		PayCalendar payCalendar = (PayCalendar) businessObject;
 		final String className = this.getBusinessObjectClass().getName();
-		final Long payCalendarId = payCalendar.getPayCalendarId();
+		final Long hrPyCalendarId = payCalendar.getHrPyCalendarId();
 		HtmlData htmlData = new HtmlData() {
 
 			@Override
 			public String constructCompleteHtmlTag() {
 				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-						+ className + "&methodToCall=start&payCalendarId=" + payCalendarId
-						+ "&calendarGroup=\">view</a>";
+						+ className + "&methodToCall=start&hrPyCalendarId=" + hrPyCalendarId
+						+ "&pyCalendarGroup=\">view</a>";
 			}
 		};
 		customActionUrls.add(htmlData);

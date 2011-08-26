@@ -1,13 +1,5 @@
 package org.kuali.hr.time.dept.earncode.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -15,6 +7,8 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.util.*;
 
 public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements DepartmentEarnCodeDao {
 
@@ -35,7 +29,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
-	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tkSalGroup, String location, Date asOfDate) {
+	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String hrSalGroup, String location, Date asOfDate) {
 		List<DepartmentEarnCode> decs = new LinkedList<DepartmentEarnCode>();
 
 		Criteria root = new Criteria();
@@ -47,7 +41,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		Criteria locationCrit = new Criteria();
 		
 		deptCrit.addEqualTo("dept", "%");
-		salGroupCrit.addEqualTo("tkSalGroup", "%");
+		salGroupCrit.addEqualTo("hrSalGroup", "%");
 		locationCrit.addEqualTo("location", "%");
 		
 		Criteria deptCrit2 = new Criteria();
@@ -56,7 +50,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		root.addAndCriteria(deptCrit2);
 		
 		Criteria salGroupCrit2 = new Criteria();
-		salGroupCrit2.addEqualTo("tkSalGroup", tkSalGroup);
+		salGroupCrit2.addEqualTo("hrSalGroup", hrSalGroup);
 		salGroupCrit2.addOrCriteria(salGroupCrit);
 		root.addAndCriteria(salGroupCrit2);
 		
@@ -73,7 +67,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		
 		// OJB's awesome sub query setup part 1
 		effdt.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
-		effdt.addEqualToField("tkSalGroup", Criteria.PARENT_QUERY_PREFIX + "tkSalGroup");
+		effdt.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
 		effdt.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 		if ( !location.trim().isEmpty() ){
@@ -86,7 +80,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 
 		// OJB's awesome sub query setup part 2
 		timestamp.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
-		timestamp.addEqualToField("tkSalGroup", Criteria.PARENT_QUERY_PREFIX + "tkSalGroup");
+		timestamp.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
 		timestamp.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
 		if ( !location.trim().isEmpty() ){
 			timestamp.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
@@ -122,9 +116,9 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 	}
 
 	@Override
-	public DepartmentEarnCode getDepartmentEarnCode(Long tkDeptEarnCodeId) {
+	public DepartmentEarnCode getDepartmentEarnCode(Long hrDeptEarnCodeId) {
 		Criteria crit = new Criteria();
-		crit.addEqualTo("tkDeptEarnCodeId", tkDeptEarnCodeId);
+		crit.addEqualTo("hrDeptEarnCodeId", hrDeptEarnCodeId);
 		
 		Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
 		return (DepartmentEarnCode)this.getPersistenceBrokerTemplate().getObjectByQuery(query);

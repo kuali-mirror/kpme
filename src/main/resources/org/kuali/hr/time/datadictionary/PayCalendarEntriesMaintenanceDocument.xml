@@ -21,7 +21,7 @@
     </property>
 	<property name="lockingKeys">
 			<list>
-				<value>payCalendarEntriesId</value>
+				<value>hrPyCalendarEntriesId</value>
 			</list>
 	</property>    
     <property name="documentTypeName" value="PayCalendarEntriesDocumentType"/>
@@ -34,7 +34,7 @@
     <property name="title" value="Pay Calendar Dates Maintenance"/>
     <property name="maintainableItems">
       <list>
-     	<bean parent="MaintainableFieldDefinition" p:name="calendarGroup" p:required="true"/>
+     	<bean parent="MaintainableFieldDefinition" p:name="pyCalendarGroup" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="beginPeriodDate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="beginPeriodTime" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="endPeriodDate"    p:required="true"/>

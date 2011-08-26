@@ -17,8 +17,8 @@
    		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="SalGroup-tkSalGroupId" />
-				<ref bean="SalGroup-tkSalGroup" />
+				<ref bean="SalGroup-hrSalGroupId" />
+				<ref bean="SalGroup-hrSalGroup" />
                 <ref bean="SalGroup-descr" />
 				<ref bean="SalGroup-effectiveDate" />
 				<ref bean="SalGroup-timestamp" />
@@ -28,8 +28,8 @@
 		</property>
 	</bean>
 
-	<bean id="SalGroup-tkSalGroupId" parent="SalGroup-tkSalGroupId-parentBean" />
-	<bean id="SalGroup-tkSalGroupId-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="SalGroup-hrSalGroupId" parent="SalGroup-hrSalGroupId-parentBean" />
+	<bean id="SalGroup-hrSalGroupId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Id" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
@@ -38,12 +38,12 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="tkSalGroupId" />
+		<property name="name" value="hrSalGroupId" />
 		<property name="label" value="Sal Group Id" />
 	</bean>
 
-	<bean id="SalGroup-tkSalGroup" parent="SalGroup-tkSalGroup-parentBean" />
-	<bean id="SalGroup-tkSalGroup-parentBean" abstract="true"
+	<bean id="SalGroup-hrSalGroup" parent="SalGroup-hrSalGroup-parentBean" />
+	<bean id="SalGroup-hrSalGroup-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Group" />
 		<property name="maxLength" value="10" />
@@ -55,7 +55,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="tkSalGroup" />
+		<property name="name" value="hrSalGroup" />
 		<property name="label" value="Sal Group" />
 	</bean>
 
@@ -140,7 +140,7 @@
 	          <property name="numberOfColumns" value="1" />
 	          <property name="inquiryFields" >
 	            <list>
-	              <bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
+	              <bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 	              <bean parent="FieldDefinition" p:attributeName="descr" />
 	              <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 	            </list>
@@ -162,7 +162,7 @@
 		<property name="lookupableID" value="salaryGroupLookupable"></property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
+				<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
                 <bean parent="FieldDefinition" p:attributeName="descr"/>
                 <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active"/>
@@ -171,7 +171,7 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
+				<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
                 <bean parent="FieldDefinition" p:attributeName="descr"/>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />

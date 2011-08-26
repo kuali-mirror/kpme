@@ -14,10 +14,10 @@
     <property name="lookupDefinition" >
       <ref bean="EarnCode-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="tkEarnCodeId" />
+    <property name="titleAttribute" value="hrEarnCodeId" />
     <property name="attributes" >
       <list>
-        <ref bean="EarnCode-tkEarnCodeId" />
+        <ref bean="EarnCode-hrEarnCodeId" />
         <ref bean="EarnCode-earnCode" />
         <ref bean="EarnCode-ovtEarnCode" />
         <ref bean="EarnCode-recordTime" />
@@ -51,8 +51,8 @@
   </bean>
 
 
-  <bean id="EarnCode-tkEarnCodeId" parent="EarnCode-tkEarnCodeId-parentBean"/>
-  <bean id="EarnCode-tkEarnCodeId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EarnCode-hrEarnCodeId" parent="EarnCode-hrEarnCodeId-parentBean"/>
+  <bean id="EarnCode-hrEarnCodeId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Earn Code Id"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
@@ -61,7 +61,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="name" value="tkEarnCodeId"/>
+    <property name="name" value="hrEarnCodeId"/>
     <property name="label" value="Earn Code Id"/>
   </bean>
 
@@ -250,7 +250,7 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="tkEarnCodeId" />
+              <bean parent="FieldDefinition" p:attributeName="hrEarnCodeId" />
               <bean parent="FieldDefinition" p:attributeName="earnCode" />
             </list>
           </property>

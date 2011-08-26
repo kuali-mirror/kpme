@@ -1,10 +1,5 @@
 package org.kuali.hr.time.paycalendar.dao;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -13,19 +8,24 @@ import org.joda.time.DateTime;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
 public class PayCalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupport  implements PayCalendarEntriesDao {
 
-	public PayCalendarEntries getPayCalendarEntries(Long payCalendarEntriesId) {
+	public PayCalendarEntries getPayCalendarEntries(Long hrPyCalendarEntriesId) {
 		Criteria currentRecordCriteria = new Criteria();
-		currentRecordCriteria.addEqualTo("payCalendarEntriesId", payCalendarEntriesId);
+		currentRecordCriteria.addEqualTo("hrPyCalendarEntriesId", hrPyCalendarEntriesId);
 
 		return (PayCalendarEntries) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(PayCalendarEntries.class, currentRecordCriteria));
 	}
 
     @Override
-    public PayCalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long payCalendarId, Date endPeriodDate) {
+    public PayCalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long hrPyCalendarId, Date endPeriodDate) {
         Criteria root = new Criteria();
-        root.addEqualTo("payCalendarId", payCalendarId);
+        root.addEqualTo("hrPyCalendarId", hrPyCalendarId);
 		root.addEqualTo("endPeriodDateTime", endPeriodDate);
 
         Query query = QueryFactory.newQuery(PayCalendarEntries.class, root);
@@ -35,22 +35,22 @@ public class PayCalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 
 	@Override
 	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(
-			Long payCalendarId, Date currentDate) {
+			Long hrPyCalendarId, Date currentDate) {
 		Criteria root = new Criteria();
 //		Criteria beginDate = new Criteria();
 //		Criteria endDate = new Criteria();
 
-//		beginDate.addEqualToField("payCalendarId", Criteria.PARENT_QUERY_PREFIX + "payCalendarId");
+//		beginDate.addEqualToField("hrPyCalendarId", Criteria.PARENT_QUERY_PREFIX + "hrPyCalendarId");
 //		beginDate.addLessOrEqualThan("beginPeriodDateTime", currentDate);
 //		ReportQueryByCriteria beginDateSubQuery = QueryFactory.newReportQuery(PayCalendarEntries.class, beginDate);
 //		beginDateSubQuery.setAttributes(new String[] { "max(beginPeriodDateTime)" });
 
-//		endDate.addEqualToField("payCalendarId", Criteria.PARENT_QUERY_PREFIX + "payCalendarId");
+//		endDate.addEqualToField("hrPyCalendarId", Criteria.PARENT_QUERY_PREFIX + "hrPyCalendarId");
 //		endDate.addGreaterOrEqualThan("endPeriodDateTime", currentDate);
 //		ReportQueryByCriteria endDateSubQuery = QueryFactory.newReportQuery(PayCalendarEntries.class, endDate);
 //		endDateSubQuery.setAttributes(new String[] { "min(endPeriodDateTime)" });
 
-		root.addEqualTo("payCalendarId", payCalendarId);
+		root.addEqualTo("hrPyCalendarId", hrPyCalendarId);
 		//root.addEqualTo("beginPeriodDateTime", beginDateSubQuery);
         root.addLessOrEqualThan("beginPeriodDateTime", currentDate);
         root.addGreaterThan("endPeriodDateTime", currentDate);
@@ -63,22 +63,22 @@ public class PayCalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 	}
 
     @Override
-    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries payCalendarEntries) {
+    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, PayCalendarEntries payCalendarEntries) {
         Criteria root = new Criteria();
         Criteria beginDate = new Criteria();
         Criteria endDate = new Criteria();
 
-        beginDate.addEqualToField("payCalendarId", Criteria.PARENT_QUERY_PREFIX + "payCalendarId");
+        beginDate.addEqualToField("hrPyCalendarId", Criteria.PARENT_QUERY_PREFIX + "hrPyCalendarId");
         beginDate.addGreaterThan("beginPeriodDateTime", payCalendarEntries.getBeginPeriodDateTime());
         ReportQueryByCriteria beginDateSubQuery = QueryFactory.newReportQuery(PayCalendarEntries.class, beginDate);
         beginDateSubQuery.setAttributes(new String[] { "min(beginPeriodDateTime)" });
 
-        endDate.addEqualToField("payCalendarId", Criteria.PARENT_QUERY_PREFIX + "payCalendarId");
+        endDate.addEqualToField("hrPyCalendarId", Criteria.PARENT_QUERY_PREFIX + "hrPyCalendarId");
         endDate.addGreaterThan("endPeriodDateTime", payCalendarEntries.getEndPeriodDateTime());
         ReportQueryByCriteria endDateSubQuery = QueryFactory.newReportQuery(PayCalendarEntries.class, endDate);
         endDateSubQuery.setAttributes(new String[] { "min(endPeriodDateTime)" });
 
-        root.addEqualTo("payCalendarId", payCalendarId);
+        root.addEqualTo("hrPyCalendarId", hrPyCalendarId);
         root.addEqualTo("beginPeriodDateTime", beginDateSubQuery);
         root.addEqualTo("endPeriodDateTime", endDateSubQuery);
 
@@ -89,22 +89,22 @@ public class PayCalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
     }
 
     @Override
-    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries payCalendarEntries) {
+    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, PayCalendarEntries payCalendarEntries) {
         Criteria root = new Criteria();
         Criteria beginDate = new Criteria();
         Criteria endDate = new Criteria();
 
-        beginDate.addEqualToField("payCalendarId", Criteria.PARENT_QUERY_PREFIX + "payCalendarId");
+        beginDate.addEqualToField("hrPyCalendarId", Criteria.PARENT_QUERY_PREFIX + "hrPyCalendarId");
         beginDate.addLessThan("beginPeriodDateTime", payCalendarEntries.getBeginPeriodDateTime());
         ReportQueryByCriteria beginDateSubQuery = QueryFactory.newReportQuery(PayCalendarEntries.class, beginDate);
         beginDateSubQuery.setAttributes(new String[] { "max(beginPeriodDateTime)" });
 
-        endDate.addEqualToField("payCalendarId", Criteria.PARENT_QUERY_PREFIX + "payCalendarId");
+        endDate.addEqualToField("hrPyCalendarId", Criteria.PARENT_QUERY_PREFIX + "hrPyCalendarId");
         endDate.addLessThan("endPeriodDateTime", payCalendarEntries.getEndPeriodDateTime());
         ReportQueryByCriteria endDateSubQuery = QueryFactory.newReportQuery(PayCalendarEntries.class, endDate);
         endDateSubQuery.setAttributes(new String[] { "max(endPeriodDateTime)" });
 
-        root.addEqualTo("payCalendarId", payCalendarId);
+        root.addEqualTo("hrPyCalendarId", hrPyCalendarId);
         root.addEqualTo("beginPeriodDateTime", beginDateSubQuery);
         root.addEqualTo("endPeriodDateTime", endDateSubQuery);
 

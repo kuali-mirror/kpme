@@ -1,9 +1,9 @@
 package org.kuali.hr.time.salgroup.service;
 
-import java.sql.Date;
-
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.salgroup.dao.SalGroupDao;
+
+import java.sql.Date;
 
 public class SalGroupServiceImpl implements SalGroupService {
 	
@@ -19,8 +19,8 @@ public class SalGroupServiceImpl implements SalGroupService {
 	}
 
 	@Override
-	public SalGroup getSalGroup(Long tkSalGroupId) {
-		return salGroupDao.getSalGroup(tkSalGroupId);
+	public SalGroup getSalGroup(Long hrSalGroupId) {
+		return salGroupDao.getSalGroup(hrSalGroupId);
 	}
 
 }

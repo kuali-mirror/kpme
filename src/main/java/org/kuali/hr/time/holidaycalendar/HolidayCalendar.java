@@ -1,10 +1,10 @@
 package org.kuali.hr.time.holidaycalendar;
 
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class HolidayCalendar extends PersistableBusinessObjectBase {
 
@@ -13,7 +13,7 @@ public class HolidayCalendar extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long holidayCalendarId;
+	private Long hrHolidayCalendarId;
 	private String holidayCalendarGroup;
 	private String descr;
 	private boolean active = true;
@@ -28,13 +28,13 @@ public class HolidayCalendar extends PersistableBusinessObjectBase {
 	}
 
 
-	public Long getHolidayCalendarId() {
-		return holidayCalendarId;
+	public Long getHrHolidayCalendarId() {
+		return hrHolidayCalendarId;
 	}
 
 
-	public void setHolidayCalendarId(Long holidayCalendarId) {
-		this.holidayCalendarId = holidayCalendarId;
+	public void setHrHolidayCalendarId(Long hrHolidayCalendarId) {
+		this.hrHolidayCalendarId = hrHolidayCalendarId;
 	}
 
 

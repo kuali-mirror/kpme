@@ -20,7 +20,7 @@
 		<property name="attributes">
 			<list>
 				<ref bean="ShiftDifferentialRule-location" />
-				<ref bean="ShiftDifferentialRule-tkSalGroup" />
+				<ref bean="ShiftDifferentialRule-hrSalGroup" />
 				<ref bean="ShiftDifferentialRule-payGrade" />
 				<ref bean="ShiftDifferentialRule-effectiveDate" />
 				<ref bean="ShiftDifferentialRule-earnCode" />
@@ -38,9 +38,9 @@
 				<ref bean="ShiftDifferentialRule-userPrincipalId" />
 				<ref bean="ShiftDifferentialRule-timestamp" />
 				<ref bean="ShiftDifferentialRule-active" />
-				<ref bean="ShiftDifferentialRule-calendarGroup" />
+				<ref bean="ShiftDifferentialRule-pyCalendarGroup" />
 				<ref bean="ShiftDifferentialRule-fromEarnGroup" />
-				<ref bean="ShiftDifferentialRule-tkSalGroupId" />
+				<ref bean="ShiftDifferentialRule-hrSalGroupId" />
 				<ref bean="ShiftDifferentialRule-hrLocationId" />
 				<ref bean="ShiftDifferentialRule-hrPayGradeId" />
 				<ref bean="ShiftDifferentialRule-history" />
@@ -52,10 +52,10 @@
 					<property name="objectAttributeName" value="salGroupObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkSalGroup"
-								p:targetName="tkSalGroup" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkSalGroupId"
-								p:targetName="tkSalGroupId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroup"
+								p:targetName="hrSalGroup" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroupId"
+								p:targetName="hrSalGroupId" />
 						</list>
 					</property>
 				</bean>
@@ -85,8 +85,8 @@
 					<property name="objectAttributeName" value="payCalendar" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarGroup"
-								p:targetName="calendarGroup" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="pyCalendarGroup"
+								p:targetName="pyCalendarGroup" />
 						</list>
 					</property>
 				</bean>
@@ -152,9 +152,9 @@
 		<property name="label" value="Show History" />
 	</bean>
 
-	<!-- tkSalGroup -->
-	<bean id="ShiftDifferentialRule-tkSalGroup" parent="ShiftDifferentialRule-tkSalGroup-parentBean" />
-	<bean id="ShiftDifferentialRule-tkSalGroup-parentBean" abstract="true"
+	<!-- hrSalGroup -->
+	<bean id="ShiftDifferentialRule-hrSalGroup" parent="ShiftDifferentialRule-hrSalGroup-parentBean" />
+	<bean id="ShiftDifferentialRule-hrSalGroup-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Sal. Group" />
 		<property name="maxLength" value="10" />
@@ -166,7 +166,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="tkSalGroup" />
+		<property name="name" value="hrSalGroup" />
 		<property name="label" value="Sal. Group" />
 	</bean>
 
@@ -433,9 +433,9 @@
 			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
 	</bean>
 
-	<!-- calendarGroup -->
-	<bean id="ShiftDifferentialRule-calendarGroup" parent="ShiftDifferentialRule-calendarGroup-parentBean" />
-	<bean id="ShiftDifferentialRule-calendarGroup-parentBean"
+	<!-- pyCalendarGroup -->
+	<bean id="ShiftDifferentialRule-pyCalendarGroup" parent="ShiftDifferentialRule-pyCalendarGroup-parentBean" />
+	<bean id="ShiftDifferentialRule-pyCalendarGroup-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Pay Calendar Group" />
 		<property name="maxLength" value="30" />
@@ -447,14 +447,14 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="30" />
 		</property>
-		<property name="name" value="calendarGroup" />
+		<property name="name" value="pyCalendarGroup" />
 		<property name="label" value="Pay Calendar Group" />
 	</bean>
 		
-	<bean id="ShiftDifferentialRule-tkSalGroupId" parent="ShiftDifferentialRule-tkSalGroupId-parentBean" />
-	<bean id="ShiftDifferentialRule-tkSalGroupId-parentBean" abstract="true"
+	<bean id="ShiftDifferentialRule-hrSalGroupId" parent="ShiftDifferentialRule-hrSalGroupId-parentBean" />
+	<bean id="ShiftDifferentialRule-hrSalGroupId-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="tkSalGroupId" />
+		<property name="name" value="hrSalGroupId" />
 		<property name="control">
 			<bean parent="HiddenControlDefinition" />
 		</property>
@@ -491,7 +491,7 @@
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="location" />
-							<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
+							<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 							<bean parent="FieldDefinition" p:attributeName="payGrade" />
 							<bean parent="FieldDefinition" p:attributeName="earnCode" />
 							<bean parent="FieldDefinition" p:attributeName="fromEarnGroup" />
@@ -507,7 +507,7 @@
 							<bean parent="FieldDefinition" p:attributeName="maxGap" />
 							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
-							<bean parent="FieldDefinition" p:attributeName="calendarGroup" />
+							<bean parent="FieldDefinition" p:attributeName="pyCalendarGroup" />
 						</list>
 					</property>
 					<property name="title" value="ShiftDifferentialRule" />
@@ -527,10 +527,10 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="location" />
-				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
+				<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-				<bean parent="FieldDefinition" p:attributeName="tkSalGroupId" />
+				<bean parent="FieldDefinition" p:attributeName="hrSalGroupId" />
 				<bean parent="FieldDefinition" p:attributeName="hrLocationId" />
 				<bean parent="FieldDefinition" p:attributeName="hrPayGradeId" />
 				<bean parent="FieldDefinition" p:attributeName="active"/>
@@ -540,7 +540,7 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="location" />
-				<bean parent="FieldDefinition" p:attributeName="tkSalGroup" />
+				<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
 				<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />

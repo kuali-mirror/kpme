@@ -29,8 +29,8 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="calendarGroup" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="payCalendarEntriesId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="pyCalendarGroup" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="hrPyCalendarEntriesId" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="beginAndEndDateTime" />
         <bean parent="MaintainableFieldDefinition" p:name="documentId" p:unconditionallyReadOnly="true" />
        

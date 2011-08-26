@@ -96,7 +96,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_USER_PREF_SERVICE = "userPrefService";
 	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
 	public static final String TK_TIME_OFF_ACCRUAL_SERVICE = "timeOffAccrualService";
-	public static final String TK_SAL_GROUP_SERVICE = "salGroupService";
+	public static final String hr_sal_group_SERVICE = "salGroupService";
 	public static final String TK_ACCRUAL_CATEGORY_SERVICE = "accrualCategoryService";
     public static final String TK_TASK_SERVICE = "taskService";
     public static final String TK_LOCATION_SERVICE = "locationService";
@@ -128,7 +128,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     }
 
 	public static SalGroupService getSalGroupService() {
-		return (SalGroupService) CONTEXT.getBean(TK_SAL_GROUP_SERVICE);
+		return (SalGroupService) CONTEXT.getBean(hr_sal_group_SERVICE);
 	}
 
 	public static DepartmentService getDepartmentService() {

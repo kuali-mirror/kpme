@@ -1,13 +1,12 @@
 package org.kuali.hr.time.paycalendar.validation;
 
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class PayCalendarEntriesMaintenaceTest extends TkTestCase {
 	@Override
@@ -30,7 +29,7 @@ public class PayCalendarEntriesMaintenaceTest extends TkTestCase {
 
 		HtmlTextInput text  = (HtmlTextInput) page.getHtmlElementById("document.documentHeader.documentDescription");
 		text.setValueAttribute("test");
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "calendarGroup");
+		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "pyCalendarGroup");
 		text.setValueAttribute("TTT");	// set an invalid pay calendar		
 		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "beginPeriodDate");
 		text.setValueAttribute("02/21/2011");		
@@ -62,7 +61,7 @@ public class PayCalendarEntriesMaintenaceTest extends TkTestCase {
 		// error for invalid pay calendar
         assertTrue("Maintenance Page contains error messages", page1.asText().contains("You must specify a valid Pay Calendar."));
 
-		text  = (HtmlTextInput) page1.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "calendarGroup");
+		text  = (HtmlTextInput) page1.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "pyCalendarGroup");
 		text.setValueAttribute("BW-CAL");	// set a valid pay calendar	
         
 		element = page1.getElementByName("methodToCall.route");

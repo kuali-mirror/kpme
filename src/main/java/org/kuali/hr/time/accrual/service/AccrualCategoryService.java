@@ -1,8 +1,8 @@
 package org.kuali.hr.time.accrual.service;
 
-import java.sql.Date;
-
 import org.kuali.hr.time.accrual.AccrualCategory;
+
+import java.sql.Date;
 
 public interface AccrualCategoryService {
 
@@ -19,5 +19,5 @@ public interface AccrualCategoryService {
      */
     public void saveOrUpdate(AccrualCategory accrualCategory);
     
-    public AccrualCategory getAccrualCategory(Long laAccrualCategoryId);
+    public AccrualCategory getAccrualCategory(Long lmAccrualCategoryId);
 }

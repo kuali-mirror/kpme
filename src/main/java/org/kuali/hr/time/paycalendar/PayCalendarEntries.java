@@ -38,9 +38,9 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = 1L;
 
-    private Long payCalendarEntriesId;
-    private Long payCalendarId;
-    private String calendarGroup;
+    private Long hrPyCalendarEntriesId;
+    private Long hrPyCalendarId;
+    private String pyCalendarGroup;
 
     private java.util.Date beginPeriodDateTime;
 
@@ -92,24 +92,24 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
         return (new DateTime(this.getEndPeriodDateTime())).toLocalDateTime();
     }
 
-    public Long getPayCalendarId() {
-        payCalendarObj = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(this.getCalendarGroup());
+    public Long getHrPyCalendarId() {
+        payCalendarObj = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(this.getPyCalendarGroup());
         if (payCalendarObj != null) {
-            this.setPayCalendarId(payCalendarObj.getPayCalendarId());
+            this.setHrPyCalendarId(payCalendarObj.getHrPyCalendarId());
         }
-        return payCalendarId;
+        return hrPyCalendarId;
     }
 
-    public void setPayCalendarId(Long payCalendarId) {
-        this.payCalendarId = payCalendarId;
+    public void setHrPyCalendarId(Long hrPyCalendarId) {
+        this.hrPyCalendarId = hrPyCalendarId;
     }
 
-    public String getCalendarGroup() {
-        return calendarGroup;
+    public String getPyCalendarGroup() {
+        return pyCalendarGroup;
     }
 
-    public void setCalendarGroup(String calendarGroup) {
-        this.calendarGroup = calendarGroup;
+    public void setPyCalendarGroup(String pyCalendarGroup) {
+        this.pyCalendarGroup = pyCalendarGroup;
     }
 
     @SuppressWarnings("unchecked")
@@ -123,12 +123,12 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
 
     }
 
-    public Long getPayCalendarEntriesId() {
-        return payCalendarEntriesId;
+    public Long getHrPyCalendarEntriesId() {
+        return hrPyCalendarEntriesId;
     }
 
-    public void setPayCalendarEntriesId(Long payCalendarEntriesId) {
-        this.payCalendarEntriesId = payCalendarEntriesId;
+    public void setHrPyCalendarEntriesId(Long hrPyCalendarEntriesId) {
+        this.hrPyCalendarEntriesId = hrPyCalendarEntriesId;
     }
 
 

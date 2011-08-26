@@ -37,7 +37,7 @@
 			<list>
 			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="tkSalGroup"  p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="hrSalGroup"  p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="payGrade" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="earnCode"  p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="fromEarnGroup" p:required="true" />
@@ -54,7 +54,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="maxGap" />
 				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" />
-				<bean parent="MaintainableFieldDefinition" p:name="calendarGroup"  p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="pyCalendarGroup"  p:required="true"/>
 			</list>
 		</property>
 	</bean>

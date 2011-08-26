@@ -1,1 +1,1 @@
-alter table tk_holiday_calendar_t drop column location;
+alter table hr_holiday_calendar_t drop column location;

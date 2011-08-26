@@ -1,24 +1,24 @@
 package org.kuali.hr.time.paycalendar.service;
 
-import java.util.Date;
-
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+
+import java.util.Date;
 
 public interface PayCalendarService {
 	/**
 	 * Fetch a pay calendar with the given id
-	 * @param payCalendarId
+	 * @param hrPyCalendarId
 	 * @return
 	 */
-	public PayCalendar getPayCalendar(Long payCalendarId);
+	public PayCalendar getPayCalendar(Long hrPyCalendarId);
 
 	/**
 	 * Fetch a pay calendar by group
-	 * @param calendarGroup
+	 * @param pyCalendarGroup
 	 * @return
 	 */
-	public PayCalendar getPayCalendarByGroup(String calendarGroup);
+	public PayCalendar getPayCalendarByGroup(String pyCalendarGroup);
 
 	/**
      * Use this method to get PayCalendarEntries if you are passing in a "current date"

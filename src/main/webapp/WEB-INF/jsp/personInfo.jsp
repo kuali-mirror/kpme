@@ -37,7 +37,7 @@
                         <tr>
                             <td>${job.jobNumber}</td>
                             <td>${job.dept }</td>
-                            <td>${job.tkSalGroup }</td>
+                            <td>${job.hrSalGroup }</td>
                             <td>${job.payGrade }</td>
                             <td>${job.standardHours }</td>
                             <td>${job.payTypeObj.descr}</td>
@@ -139,7 +139,7 @@
                     <ul>
                         <li>Network ID: ${assignment.principalId } </li>
                         <li>Department: ${assignment.job.dept }</li>
-                        <li>Salary Group: ${assignment.job.tkSalGroup }</li>
+                        <li>Salary Group: ${assignment.job.hrSalGroup }</li>
                         <li>Pay Grade: ${assignment.job.payGrade }</li>
                         <li>Standard Hours: ${assignment.job.standardHours }</li>
                         <li>Pay Type: ${assignment.job.payTypeObj.descr}</li>

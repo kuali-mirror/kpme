@@ -1,7 +1,7 @@
 package org.kuali.hr.time.department.earncode;
 
-import java.sql.Date;
-
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
@@ -11,15 +11,14 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
 
 public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	private static final java.sql.Date TEST_DATE = new Date((new DateTime(2009, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
 	private static final String EARN_CODE = "RGN";
 	private static final String DEPT = "TEST-DEPT";
 	private static final String SAL_GROUP = "SD1";
-	private static Long tkDeptEarnCodeId;
+	private static Long hrDeptEarnCodeId;
 	private static Long dupTkDeptEarnCodeId;
 
 	@Test
@@ -27,7 +26,7 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
 		assertTrue("Page contains test DepartmentEarnCode", deptEarnCodeLookup.asText().contains(DEPT.toString()));
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", tkDeptEarnCodeId.toString());
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", hrDeptEarnCodeId.toString());
 		assertTrue("Maintenance Page contains test DepartmentEarnCode",maintPage.asText().contains(DEPT));
 	}
 	
@@ -36,7 +35,7 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
 		assertTrue("Page contains test DepartmentEarnCode", deptEarnCodeLookup.asText().contains(DEPT.toString()));
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", tkDeptEarnCodeId.toString());
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", hrDeptEarnCodeId.toString());
 		
 		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(
 				maintPage, "* Document Description");
@@ -69,7 +68,7 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
 		assertTrue("Page contains TEST-DEPT", deptEarnCodeLookup.asText().contains(DEPT));
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", tkDeptEarnCodeId.toString());
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", hrDeptEarnCodeId.toString());
 		assertTrue("Maintenance Page contains Warnings",maintPage.asText().contains("Warnings for this Section:"));
 		assertTrue("Maintenance Page contains Warning message",maintPage.asText().contains("There is a newer version of this Department Earn Code."));
 		
@@ -88,13 +87,13 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		deptEarnCode.setEarnCode(EARN_CODE);
 		deptEarnCode.setEffectiveDate(TEST_DATE);
 		deptEarnCode.setDept(DEPT);
-		deptEarnCode.setTkSalGroup(SAL_GROUP);
+		deptEarnCode.setHrSalGroup(SAL_GROUP);
 		deptEarnCode.setEmployee(false);
 		deptEarnCode.setEffectiveDate(TEST_DATE);
 		deptEarnCode.setLocation("test");
 		
 		KNSServiceLocator.getBusinessObjectService().save(deptEarnCode);	
-		tkDeptEarnCodeId = deptEarnCode.getTkDeptEarnCodeId();	
+		hrDeptEarnCodeId = deptEarnCode.getHrDeptEarnCodeId();
 	}
 	
 	public void createDuplicateDeptEarnCode() {
@@ -103,18 +102,18 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		deptEarnCode.setEarnCode(EARN_CODE);
 		deptEarnCode.setEffectiveDate(TEST_DATE);
 		deptEarnCode.setDept(DEPT);
-		deptEarnCode.setTkSalGroup(SAL_GROUP);
+		deptEarnCode.setHrSalGroup(SAL_GROUP);
 		deptEarnCode.setEmployee(false);
 		deptEarnCode.setEffectiveDate(TEST_DATE);
 		deptEarnCode.setLocation("test");
 		
 		KNSServiceLocator.getBusinessObjectService().save(deptEarnCode);	
-		dupTkDeptEarnCodeId = deptEarnCode.getTkDeptEarnCodeId();	
+		dupTkDeptEarnCodeId = deptEarnCode.getHrDeptEarnCodeId();
 	}
 	
 	@Override
 	public void tearDown() throws Exception {
-		DepartmentEarnCode deptEarnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(DepartmentEarnCode.class, tkDeptEarnCodeId);			
+		DepartmentEarnCode deptEarnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(DepartmentEarnCode.class, hrDeptEarnCodeId);
 		KNSServiceLocator.getBusinessObjectService().delete(deptEarnCodeObj);
 		deptEarnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(DepartmentEarnCode.class, dupTkDeptEarnCodeId);			
 		KNSServiceLocator.getBusinessObjectService().delete(deptEarnCodeObj);

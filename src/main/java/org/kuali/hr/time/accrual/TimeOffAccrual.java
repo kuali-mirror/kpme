@@ -1,13 +1,12 @@
 package org.kuali.hr.time.accrual;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.LinkedHashMap;
 
 public class TimeOffAccrual extends HrBusinessObject {
 
@@ -15,7 +14,7 @@ public class TimeOffAccrual extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long laAccrualId;
+	private Long lmAccrualId;
 	private String principalId;
 	private String accrualCategory;
 	private Date effectiveDate;
@@ -23,7 +22,7 @@ public class TimeOffAccrual extends HrBusinessObject {
 	private BigDecimal hoursTaken = new BigDecimal("0");
 	private BigDecimal hoursAdjust = new BigDecimal("0");
 
-	private Long laAccrualCategoryId;
+	private Long lmAccrualCategoryId;
 	
 	private AccrualCategory accrualCategoryObj;
 
@@ -97,13 +96,13 @@ public class TimeOffAccrual extends HrBusinessObject {
 	}
 
 
-	public Long getLaAccrualId() {
-		return laAccrualId;
+	public Long getLmAccrualId() {
+		return lmAccrualId;
 	}
 
 
-	public void setLaAccrualId(Long laAccrualId) {
-		this.laAccrualId = laAccrualId;
+	public void setLmAccrualId(Long lmAccrualId) {
+		this.lmAccrualId = lmAccrualId;
 	}
 
 
@@ -112,13 +111,13 @@ public class TimeOffAccrual extends HrBusinessObject {
 	}
 
 
-	public Long getLaAccrualCategoryId() {
-		return laAccrualCategoryId;
+	public Long getLmAccrualCategoryId() {
+		return lmAccrualCategoryId;
 	}
 
 
-	public void setLaAccrualCategoryId(Long laAccrualCategoryId) {
-		this.laAccrualCategoryId = laAccrualCategoryId;
+	public void setLmAccrualCategoryId(Long lmAccrualCategoryId) {
+		this.lmAccrualCategoryId = lmAccrualCategoryId;
 	}
 
 
@@ -129,12 +128,12 @@ public class TimeOffAccrual extends HrBusinessObject {
 	
 	@Override
 	public Long getId() {
-		return getLaAccrualId();
+		return getLmAccrualId();
 	}
 
 	@Override
 	public void setId(Long id) {
-		setLaAccrualId(id);
+		setLmAccrualId(id);
 	}
 
 }

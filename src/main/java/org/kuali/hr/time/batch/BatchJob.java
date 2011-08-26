@@ -1,6 +1,5 @@
 package org.kuali.hr.time.batch;
 
-import java.sql.Timestamp;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -9,6 +8,8 @@ import org.kuali.rice.core.config.ConfigContext;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 
+import java.sql.Timestamp;
+
 public class BatchJob {
     private Logger LOG = Logger.getLogger(BatchJob.class);
 	int lastPlace = 0;
@@ -16,7 +17,7 @@ public class BatchJob {
 	private Long tkBatchJobId;
 	private String batchJobName;
 	private String batchJobStatus;
-	private Long payCalendarEntryId;
+	private Long hrPyCalendarEntryId;
 	private Long timeElapsed = 0L;
 	private Timestamp timestamp;
     long startTime;
@@ -31,7 +32,7 @@ public class BatchJob {
      * Setup logic goes here.
      */
     void doBeforeRun() {
-        LOG.info("Starting batch job: " + this.getBatchJobName() + " for pay calendar entry: " + this.payCalendarEntryId);
+        LOG.info("Starting batch job: " + this.getBatchJobName() + " for pay calendar entry: " + this.hrPyCalendarEntryId);
         startTime = System.currentTimeMillis();
         this.setBatchJobStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.RUNNING);
         TkServiceLocator.getBatchJobService().saveBatchJob(this);
@@ -106,11 +107,11 @@ public class BatchJob {
 	}
 
 	public Long getPayCalendarEntryId() {
-		return payCalendarEntryId;
+		return hrPyCalendarEntryId;
 	}
 
-	public void setPayCalendarEntryId(Long payCalendarEntryId) {
-		this.payCalendarEntryId = payCalendarEntryId;
+	public void setPayCalendarEntryId(Long hrPyCalendarEntryId) {
+		this.hrPyCalendarEntryId = hrPyCalendarEntryId;
 	}
 
 	public Long getTimeElapsed() {
@@ -135,7 +136,7 @@ public class BatchJob {
         entry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
         entry.setBatchJobName(batchJobName);
         entry.setIpAddress(ip);
-        entry.setPayCalendarId(this.getPayCalendarEntryId());
+        entry.setHrPyCalendarId(this.getPayCalendarEntryId());
         entry.setPrincipalId(principal);
         entry.setTkBatchJobId(this.getTkBatchJobId());
         entry.setDocumentId(documentId);

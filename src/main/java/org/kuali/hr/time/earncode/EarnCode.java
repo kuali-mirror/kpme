@@ -1,5 +1,10 @@
 package org.kuali.hr.time.earncode;
 
+import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.accrual.AccrualCategory;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -8,11 +13,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.accrual.AccrualCategory;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-
 public class EarnCode extends HrBusinessObject {
 
 	/**
@@ -20,7 +20,7 @@ public class EarnCode extends HrBusinessObject {
      */
 	private static final long serialVersionUID = 1L;
 
-	private Long tkEarnCodeId;
+	private Long hrEarnCodeId;
 	private String earnCode;
 	private String description;
 	//used for clock in and out
@@ -83,12 +83,12 @@ public class EarnCode extends HrBusinessObject {
 		this.active = active;
 	}
 
-	public Long getTkEarnCodeId() {
-		return tkEarnCodeId;
+	public Long getHrEarnCodeId() {
+		return hrEarnCodeId;
 	}
 
-	public void setTkEarnCodeId(Long tkEarnCodeId) {
-		this.tkEarnCodeId = tkEarnCodeId;
+	public void setHrEarnCodeId(Long hrEarnCodeId) {
+		this.hrEarnCodeId = hrEarnCodeId;
 	}
 
 	public Boolean getRecordHours() {
@@ -201,11 +201,11 @@ public class EarnCode extends HrBusinessObject {
 
 	@Override
 	public Long getId() {
-		return getTkEarnCodeId();
+		return getHrEarnCodeId();
 	}
 
 	@Override
 	public void setId(Long id) {
-		setTkEarnCodeId(id);
+		setHrEarnCodeId(id);
 	}
 }

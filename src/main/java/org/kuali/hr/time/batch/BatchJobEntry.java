@@ -9,7 +9,7 @@ public class BatchJobEntry {
 	private String batchJobException;
 	private String ipAddress;
 	private String batchJobName;
-	private Long payCalendarEntryId;
+	private Long hrPyCalendarEntryId;
 	private Long clockLogId;
 	
 	public Long getTkBatchJobEntryId() {
@@ -60,11 +60,11 @@ public class BatchJobEntry {
 	public void setBatchJobName(String batchJobName) {
 		this.batchJobName = batchJobName;
 	}
-	public void setPayCalendarId(Long payCalendarEntryId) {
-		this.payCalendarEntryId = payCalendarEntryId;
+	public void setHrPyCalendarId(Long hrPyCalendarEntryId) {
+		this.hrPyCalendarEntryId = hrPyCalendarEntryId;
 	}
 	public Long getPayCalendarEntryId() {
-		return payCalendarEntryId;
+		return hrPyCalendarEntryId;
 	}
 	public void setClockLogId(Long clockLogId) {
 		this.clockLogId = clockLogId;

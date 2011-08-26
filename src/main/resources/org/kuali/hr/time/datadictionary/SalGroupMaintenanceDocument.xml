@@ -19,7 +19,7 @@
 		</property>
 		<property name="lockingKeys">
 			<list>
-				<value>tkSalGroupId</value>
+				<value>hrSalGroupId</value>
 			</list>
 		</property>
 		<property name="documentTypeName" value="SalGroupDocumentType" />
@@ -35,7 +35,7 @@
 		<property name="maintainableItems">
 			<list>
 			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="tkSalGroup" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="hrSalGroup" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="descr" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
 			</list>

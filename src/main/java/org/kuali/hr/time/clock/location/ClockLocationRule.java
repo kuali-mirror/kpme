@@ -1,14 +1,14 @@
 package org.kuali.hr.time.clock.location;
 
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
+
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
@@ -18,7 +18,7 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	private Department department;
 	private String dept;
-	private Long tkDeptId;
+	private Long hrDeptId;
 	
 	private Long workArea;
 	private Long tkWorkAreaId;
@@ -147,12 +147,12 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 		this.principal = principal;
 	}
 
-	public Long getTkDeptId() {
-		return tkDeptId;
+	public Long getHrDeptId() {
+		return hrDeptId;
 	}
 
-	public void setTkDeptId(Long tkDeptId) {
-		this.tkDeptId = tkDeptId;
+	public void setHrDeptId(Long hrDeptId) {
+		this.hrDeptId = hrDeptId;
 	}
 
 	public Long getTkWorkAreaId() {

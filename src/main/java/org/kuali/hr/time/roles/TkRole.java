@@ -1,9 +1,5 @@
 package org.kuali.hr.time.roles;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.position.Position;
@@ -12,20 +8,24 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
 public class TkRole extends HrBusinessObject {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long tkRolesId;
+	private Long hrRolesId;
 	private String principalId;
 	private String roleName;
 	private String userPrincipalId;
 	private Long workArea;
 	private String department;
     private String chart;
-	private Long tkDeptId;
+	private Long hrDeptId;
 	private Long tkWorkAreaId;
 	private Long positionNumber;
 
@@ -63,11 +63,11 @@ public class TkRole extends HrBusinessObject {
         this.workAreaObj = workAreaObj;
     }
 
-    public Long getTkRolesId() {
-		return tkRolesId;
+    public Long getHrRolesId() {
+		return hrRolesId;
 	}
-	public void setTkRolesId(Long tkRolesId) {
-		this.tkRolesId = tkRolesId;
+	public void setHrRolesId(Long hrRolesId) {
+		this.hrRolesId = hrRolesId;
 	}
 	public String getPrincipalId() {
 		return principalId;
@@ -131,11 +131,11 @@ public class TkRole extends HrBusinessObject {
 		return null;
 	}
 
-	public Long getTkDeptId() {
-		return tkDeptId;
+	public Long getHrDeptId() {
+		return hrDeptId;
 	}
-	public void setTkDeptId(Long tkDeptId) {
-		this.tkDeptId = tkDeptId;
+	public void setHrDeptId(Long hrDeptId) {
+		this.hrDeptId = hrDeptId;
 	}
 	public Long getTkWorkAreaId() {
 		return tkWorkAreaId;
@@ -188,11 +188,11 @@ public class TkRole extends HrBusinessObject {
 
 	@Override
 	public Long getId() {
-		return getTkRolesId();
+		return getHrRolesId();
 	}
 
 	@Override
 	public void setId(Long id) {
-		setTkRolesId(id);
+		setHrRolesId(id);
 	}
 }

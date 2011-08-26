@@ -3,7 +3,7 @@
 DELETE FROM `hr_job_s`;
 INSERT INTO `hr_job_s` (`ID`)	VALUES	('1100');
 DELETE FROM `hr_job_t`;
-INSERT INTO `hr_job_t` (`HR_JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`active`,`dept`,`TK_SAL_GROUP`,`PAY_GRADE`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`,`location`,`std_hours`,`fte`,`hr_paytype`) VALUES
+INSERT INTO `hr_job_t` (`HR_JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`active`,`dept`,`hr_sal_group`,`PAY_GRADE`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`,`location`,`std_hours`,`fte`,`hr_paytype`) VALUES
 	('1012', 'admin', '1', '2010-08-01', 1, 'TEST-DEPT', 'A10', NULL, '2010-08-1 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW'),
 	('1013', 'admin', '2', '2010-08-01', 1, 'TEST-DEPT', 'A12', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW'),
 	('1014', 'admin', '2', '2010-08-11', 1, 'TEST-DEPT', 'A12', NULL, '2010-08-11 16:00:14', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', NULL, '40.00', NULL, 'BW'),
@@ -22,8 +22,8 @@ INSERT INTO `hr_job_t` (`HR_JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`active`
 # Departments
 DELETE FROM `tk_dept_s`;
 INSERT INTO `tk_dept_s` (`ID`) VALUES ('1000');
-DELETE FROM `tk_dept_t`;
-INSERT INTO `tk_dept_t` (`tk_dept_id`,`dept`,`DESCRIPTION`,`ORG`,`CHART`,`EFFDT`,`TIMESTAMP`,`ACTIVE`) VALUES
+DELETE FROM `hr_dept_t`;
+INSERT INTO `hr_dept_t` (`hr_dept_id`,`dept`,`DESCRIPTION`,`ORG`,`CHART`,`EFFDT`,`TIMESTAMP`,`ACTIVE`) VALUES
     (100 , 'TEST-DEPT'  , 'test department'  , 'TEST' , 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 'Y')  ,
     (101 , 'TEST-DEPT1' , 'test department1' , 'TEST' , 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 'Y')  ,
     (102 , 'TEST-DEPT2' , 'test department2' , 'TEST' , 'DEPT' , '2010-01-31' , '2010-07-27 10:25:13' , 'Y')  ,
@@ -81,9 +81,9 @@ INSERT INTO `tk_assignment_t` (`TK_ASSIGNMENT_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`E
 # dept earn code
 DELETE FROM `tk_dept_earn_code_s`;
 INSERT INTO `tk_dept_earn_code_s` VALUES('1000');
-DELETE FROM `tk_dept_earn_code_t`;
-INSERT INTO `TK_DEPT_EARN_CODE_T`
-    (`TK_DEPT_EARN_CODE_ID` , `DEPT`       , `TK_SAL_GROUP` , `EARN_CODE` , `EMPLOYEE` , `APPROVER` , `ORG_ADMIN` , `EFFDT`      , `TIMESTAMP`           , `ACTIVE`) VALUES
+DELETE FROM `hr_dept_earn_code_t`;
+INSERT INTO `hr_dept_earn_code_t`
+    (`hr_dept_earn_code_id` , `DEPT`       , `hr_sal_group` , `EARN_CODE` , `EMPLOYEE` , `APPROVER` , `ORG_ADMIN` , `EFFDT`      , `TIMESTAMP`           , `ACTIVE`) VALUES
     ('10'                   , 'TEST-DEPT'  , 'A10'          , 'RGH'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
     ('11'                   , 'TEST-DEPT'  , 'A10'          , 'SCK'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
     ('12'                   , 'TEST-DEPT'  , 'A10'          , 'VAC'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 1)               ,
@@ -103,8 +103,8 @@ INSERT INTO `TK_DEPT_EARN_CODE_T`
 # earn code
 DELETE FROM `tk_earn_code_s`;
 INSERT INTO `tk_earn_code_s` VALUES('1000');
-DELETE FROM `tk_earn_code_T`;
-INSERT INTO `TK_EARN_CODE_T` (`TK_EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `RECORD_TIME`,`RECORD_HOURS`,`RECORD_AMOUNT`,`EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
+DELETE FROM `hr_earn_code_t`;
+INSERT INTO `hr_earn_code_t` (`hr_earn_code_id`, `EARN_CODE`, `DESCR`, `RECORD_TIME`,`RECORD_HOURS`,`RECORD_AMOUNT`,`EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
 	('9'  , 'RGN' , 'REGULAR'           , 'y','n','n', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
 	('10' , 'RGH' , 'REGULAR HOURLY'    , 'y','n','n', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
 	('11' , 'SCK' , 'SICK'              , 'y','n','n', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
@@ -120,10 +120,10 @@ INSERT INTO `TK_EARN_CODE_T` (`TK_EARN_CODE_ID`, `EARN_CODE`, `DESCR`, `RECORD_T
 	('21' , 'XZZ' , 'XZZ'               , 'y','n','n', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ;
 
 # Sal Group
-DELETE FROM `tk_sal_group_s`;
-INSERT INTO `tk_sal_group_S` (`ID`) VALUES ('1000');
-DELETE FROM `tk_sal_group_t`;
-INSERT INTO `tk_sal_group_t` (`TK_SAL_GROUP_ID`, `TK_SAL_GROUP`, `EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
+DELETE FROM `hr_sal_group_s`;
+INSERT INTO `hr_sal_group_S` (`ID`) VALUES ('1000');
+DELETE FROM `hr_sal_group_t`;
+INSERT INTO `hr_sal_group_t` (`hr_sal_group_ID`, `hr_sal_group`, `EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
     ('10', 'A10', '2010-01-01', '2010-01-01 08:08:08' , 'Y'),
     ('11', 'S10', '2010-01-01', '2010-01-01 08:08:08' , 'Y'),
     ('12', 'A12', '2010-01-01', '2010-01-01 08:08:08' , 'Y'),
@@ -168,8 +168,8 @@ INSERT INTO `tk_hour_detail_t` (`TK_HOUR_DETAIL_ID`,`TK_TIME_BLOCK_ID`,`EARN_COD
 
 DELETE FROM `tk_earn_group_s`;
 INSERT INTO `tk_earn_group_s` VALUES ('1000');
-DELETE FROM `tk_earn_group_t`;
-INSERT INTO `tk_earn_group_t` (`tk_earn_group_id`,`earn_group`,`descr`,`effdt`,`active`,`OBJ_ID`,`VER_NBR`,`timestamp`) VALUES
+DELETE FROM `hr_earn_group_t`;
+INSERT INTO `hr_earn_group_t` (`hr_earn_group_id`,`earn_group`,`descr`,`effdt`,`active`,`OBJ_ID`,`VER_NBR`,`timestamp`) VALUES
 	(100,'REG','Regular', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' ),
 	(101,'OVT','Overtime', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' ),
 	(102,'TC1','Regular', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' ),
@@ -178,8 +178,8 @@ INSERT INTO `tk_earn_group_t` (`tk_earn_group_id`,`earn_group`,`descr`,`effdt`,`
 
 DELETE FROM `tk_earn_group_def_s`;
 INSERT INTO `tk_earn_group_def_s` VALUES ('1000');
-DELETE FROM `tk_earn_group_def_t`;
-INSERT INTO `tk_earn_group_def_t` (`tk_earn_group_def_id`, `tk_earn_group_id`,`earn_code`,`OBJ_ID`,`VER_NBR`) VALUES
+DELETE FROM `hr_earn_group_def_t`;
+INSERT INTO `hr_earn_group_def_t` (`hr_earn_group_def_id`, `hr_earn_group_id`,`earn_code`,`OBJ_ID`,`VER_NBR`) VALUES
 	(100,100,'REG','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
 	(101,100,'RGN','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
 	(102,100,'RGH','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
@@ -187,8 +187,8 @@ INSERT INTO `tk_earn_group_def_t` (`tk_earn_group_def_id`, `tk_earn_group_id`,`e
 
 DELETE FROM `tk_roles_s`;
 INSERT INTO `tk_roles_s` VALUES ('1000');
-DELETE FROM `tk_roles_t`;
-INSERT INTO `tk_roles_t` (`TK_ROLES_ID`, `PRINCIPAL_ID`, `ROLE_NAME`, `USER_PRINCIPAL_ID`, `WORK_AREA`, `DEPT`, `EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
+DELETE FROM `hr_roles_t`;
+INSERT INTO `hr_roles_t` (`TK_ROLES_ID`, `PRINCIPAL_ID`, `ROLE_NAME`, `USER_PRINCIPAL_ID`, `WORK_AREA`, `DEPT`, `EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
     ('1', 'admin', 'TK_APPROVER', 'admin', '999', NULL, '2010-08-01', '2010-08-01 15:10:57', 1),
     ('2', 'admin', 'TK_APPROVER', 'admin', '999', NULL, '2010-08-10', '2010-08-10 15:10:57', 1),
     ('3', 'admin', 'TK_APPROVER', 'admin', '999', NULL, '2010-08-20', '2010-08-20 15:10:57', 1),
@@ -216,8 +216,8 @@ INSERT INTO `tk_roles_t` (`TK_ROLES_ID`, `PRINCIPAL_ID`, `ROLE_NAME`, `USER_PRIN
 # Pay Calendar
 DELETE FROM `tk_py_calendar_s`;
 INSERT INTO `tk_py_calendar_s`	(`ID`)	VALUES	('30');
-DELETE FROM `tk_py_calendar_t`;
-INSERT INTO `tk_py_calendar_t`	(`tk_py_calendar_id`,	`calendar_group`,	`chart`,	`begin_date`,	`begin_time`,	`end_date`,	`end_time`)	VALUES
+DELETE FROM `hr_py_calendar_t`;
+INSERT INTO `hr_py_calendar_t`	(`hr_py_calendar_id`,	`py_calendar_group`,	`chart`,	`begin_date`,	`begin_time`,	`end_date`,	`end_time`)	VALUES
 	('1',  'TST-CAL', 'CHART1', '2010-01-01', '12:00:00', '2011-01-01', '12:00:00'),
 	('20', 'BW-CAL1', 'CHART1', '2010-01-01', '00:00:00', '2010-12-31', '23:59:59'),
 	('21', 'BW-CAL2', 'CHART2', '2010-01-01', '00:00:00', '2010-12-31', '23:59:59'),
@@ -228,7 +228,7 @@ INSERT INTO `tk_py_calendar_t`	(`tk_py_calendar_id`,	`calendar_group`,	`chart`,	
 DELETE FROM `tk_py_calendar_dates_s`;
 INSERT INTO `tk_py_calendar_dates_s`	(`ID`)	VALUES	('30');
 DELETE FROM `tk_py_calendar_dates_t`;
-INSERT INTO `tk_py_calendar_dates_t` (`tk_py_calendar_dates_id`,`tk_py_calendar_id`,`begin_period_date`,`end_period_date`,`initiate_date`,`initiate_time`,`end_pay_period_date`,`end_pay_period_time`,`employee_approval_date`,`employee_approval_time`,`supervisor_approval_date`,`supervisor_approval_time`) VALUES
+INSERT INTO `tk_py_calendar_dates_t` (`tk_py_calendar_dates_id`,`hr_py_calendar_id`,`begin_period_date`,`end_period_date`,`initiate_date`,`initiate_time`,`end_pay_period_date`,`end_pay_period_time`,`employee_approval_date`,`employee_approval_time`,`supervisor_approval_date`,`supervisor_approval_time`) VALUES
 	('1', '20', '2010-08-01 00:00:00', '2010-08-14 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('2', '20', '2010-08-15 00:00:00', '2010-08-31 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('3', '20', '2010-09-01 00:00:00', '2010-09-14 23:59:59', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),

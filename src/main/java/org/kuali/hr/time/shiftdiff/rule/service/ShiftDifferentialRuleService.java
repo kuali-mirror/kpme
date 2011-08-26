@@ -1,11 +1,11 @@
 package org.kuali.hr.time.shiftdiff.rule.service;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+
+import java.sql.Date;
+import java.util.List;
 
 public interface ShiftDifferentialRuleService {
 	/**
@@ -27,13 +27,13 @@ public interface ShiftDifferentialRuleService {
 	/**
 	 * Fetch a given ShiftDifferentialRule based on criteria passed in
 	 * @param location
-	 * @param tkSalGroup
+	 * @param hrSalGroup
 	 * @param payGrade
-	 * @param calendarGroup
+	 * @param pyCalendarGroup
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<ShiftDifferentialRule> getShiftDifferentalRules(String location, String tkSalGroup, String payGrade, String calendarGroup, Date asOfDate);
+	public List<ShiftDifferentialRule> getShiftDifferentalRules(String location, String hrSalGroup, String payGrade, String pyCalendarGroup, Date asOfDate);
 	/**
 	 * Process a given TkTimeBlockAggregate with appropriate shift differential rules
 	 * @param timesheetDocument

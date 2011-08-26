@@ -1,9 +1,5 @@
 package org.kuali.hr.time.dept.earncode;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.job.Job;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
@@ -11,24 +7,28 @@ import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.salgroup.SalGroup;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
 public class DepartmentEarnCode extends HrBusinessObject {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long tkDeptEarnCodeId;
+	private Long hrDeptEarnCodeId;
 	private String dept;
-	private String tkSalGroup;
+	private String hrSalGroup;
 	private String earnCode;
 	private boolean employee;
 	private boolean approver;
 	private boolean org_admin;
 	private String location;
 	
-	private Long tkDeptId;
-	private Long tkSalGroupId;
-	private Long tkEarnCodeId;
+	private Long hrDeptId;
+	private Long hrSalGroupId;
+	private Long hrEarnCodeId;
 	private Long hrLocationId;
 	
 	private SalGroup  salGroupObj;
@@ -101,11 +101,11 @@ public class DepartmentEarnCode extends HrBusinessObject {
 	public void setEarnCodeObj(EarnCode earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
-	public Long getTkDeptEarnCodeId() {
-		return tkDeptEarnCodeId;
+	public Long getHrDeptEarnCodeId() {
+		return hrDeptEarnCodeId;
 	}
-	public void setTkDeptEarnCodeId(Long tkDeptEarnCodeId) {
-		this.tkDeptEarnCodeId = tkDeptEarnCodeId;
+	public void setHrDeptEarnCodeId(Long hrDeptEarnCodeId) {
+		this.hrDeptEarnCodeId = hrDeptEarnCodeId;
 	}
 	public String getDept() {
 		return dept;
@@ -113,11 +113,11 @@ public class DepartmentEarnCode extends HrBusinessObject {
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	public String getTkSalGroup() {
-		return tkSalGroup;
+	public String getHrSalGroup() {
+		return hrSalGroup;
 	}
-	public void setTkSalGroup(String tkSalGroup) {
-		this.tkSalGroup = tkSalGroup;
+	public void setHrSalGroup(String hrSalGroup) {
+		this.hrSalGroup = hrSalGroup;
 	}
 	public String getEarnCode() {
 		return earnCode;
@@ -162,23 +162,23 @@ public class DepartmentEarnCode extends HrBusinessObject {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public Long getTkDeptId() {
-		return tkDeptId;
+	public Long getHrDeptId() {
+		return hrDeptId;
 	}
-	public void setTkDeptId(Long tkDeptId) {
-		this.tkDeptId = tkDeptId;
+	public void setHrDeptId(Long hrDeptId) {
+		this.hrDeptId = hrDeptId;
 	}
-	public Long getTkSalGroupId() {
-		return tkSalGroupId;
+	public Long getHrSalGroupId() {
+		return hrSalGroupId;
 	}
-	public void setTkSalGroupId(Long tkSalGroupId) {
-		this.tkSalGroupId = tkSalGroupId;
+	public void setHrSalGroupId(Long hrSalGroupId) {
+		this.hrSalGroupId = hrSalGroupId;
 	}
-	public Long getTkEarnCodeId() {
-		return tkEarnCodeId;
+	public Long getHrEarnCodeId() {
+		return hrEarnCodeId;
 	}
-	public void setTkEarnCodeId(Long tkEarnCodeId) {
-		this.tkEarnCodeId = tkEarnCodeId;
+	public void setHrEarnCodeId(Long hrEarnCodeId) {
+		this.hrEarnCodeId = hrEarnCodeId;
 	}
 	public Long getHrLocationId() {
 		return hrLocationId;
@@ -188,7 +188,7 @@ public class DepartmentEarnCode extends HrBusinessObject {
 	}
 	@Override
 	protected String getUniqueKey() {
-		return dept + "_" + tkSalGroup + "_" + earnCode;
+		return dept + "_" + hrSalGroup + "_" + earnCode;
 	}
 	public String getHistory() {
 		return history;
@@ -198,11 +198,11 @@ public class DepartmentEarnCode extends HrBusinessObject {
 	}
 	@Override
 	public Long getId() {
-		return getTkDeptEarnCodeId();
+		return getHrDeptEarnCodeId();
 	}
 	@Override
 	public void setId(Long id) {
-		setTkDeptEarnCodeId(id);
+		setHrDeptEarnCodeId(id);
 	}
 
 

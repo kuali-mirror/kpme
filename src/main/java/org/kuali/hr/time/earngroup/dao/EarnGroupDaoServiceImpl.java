@@ -1,7 +1,5 @@
 package org.kuali.hr.time.earngroup.dao;
 
-import java.sql.Date;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -9,6 +7,8 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.sql.Date;
 
 public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport implements EarnGroupDaoService {
 
@@ -64,12 +64,12 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnGroup.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 		
-		earnCodeJoin.addEqualToField("tkEarnGroupId", Criteria.PARENT_QUERY_PREFIX + "tkEarnGroupId");
+		earnCodeJoin.addEqualToField("hrEarnGroupId", Criteria.PARENT_QUERY_PREFIX + "hrEarnGroupId");
 		earnCodeJoin.addEqualTo("earnCode", earnCode);
 		ReportQueryByCriteria earnCodeSubQuery = QueryFactory.newReportQuery(EarnGroupDefinition.class, earnCodeJoin);
-		earnCodeSubQuery.setAttributes(new String[]{"tk_earn_group_id"});
+		earnCodeSubQuery.setAttributes(new String[]{"hr_earn_group_id"});
 		
-		root.addEqualTo("tkEarnGroupId",earnCodeSubQuery);
+		root.addEqualTo("hrEarnGroupId",earnCodeSubQuery);
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
 //		root.addEqualTo("active", true);
@@ -103,12 +103,12 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnGroup.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 		
-		earnCodeJoin.addEqualToField("tkEarnGroupId", Criteria.PARENT_QUERY_PREFIX + "tkEarnGroupId");
+		earnCodeJoin.addEqualToField("hrEarnGroupId", Criteria.PARENT_QUERY_PREFIX + "hrEarnGroupId");
 		earnCodeJoin.addEqualTo("earnCode", earnCode);
 		ReportQueryByCriteria earnCodeSubQuery = QueryFactory.newReportQuery(EarnGroupDefinition.class, earnCodeJoin);
-		earnCodeSubQuery.setAttributes(new String[]{"tk_earn_group_id"});
+		earnCodeSubQuery.setAttributes(new String[]{"hr_earn_group_id"});
 		
-		root.addEqualTo("tkEarnGroupId",earnCodeSubQuery);
+		root.addEqualTo("hrEarnGroupId",earnCodeSubQuery);
 		root.addEqualTo("effectiveDate", effdtSubQuery);
 		root.addEqualTo("timestamp", timestampSubQuery);
 //		root.addEqualTo("active", true);
@@ -123,9 +123,9 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 	}
 
 	@Override
-	public EarnGroup getEarnGroup(Long tkEarnGroupId) {
+	public EarnGroup getEarnGroup(Long hrEarnGroupId) {
 		Criteria crit = new Criteria();
-		crit.addEqualTo("tkEarnGroupId", tkEarnGroupId);
+		crit.addEqualTo("hrEarnGroupId", hrEarnGroupId);
 		
 		Query query = QueryFactory.newQuery(EarnGroup.class, crit);
 		return (EarnGroup)this.getPersistenceBrokerTemplate().getObjectByQuery(query);

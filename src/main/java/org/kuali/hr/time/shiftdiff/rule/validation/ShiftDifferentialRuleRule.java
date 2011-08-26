@@ -12,14 +12,14 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateSalGroup(ShiftDifferentialRule shiftDifferentialRule) {
-		if (shiftDifferentialRule.getTkSalGroup() != null
-				&& !StringUtils.equals(shiftDifferentialRule.getTkSalGroup(),
+		if (shiftDifferentialRule.getHrSalGroup() != null
+				&& !StringUtils.equals(shiftDifferentialRule.getHrSalGroup(),
 						TkConstants.WILDCARD_CHARACTER)
 				&& !ValidationUtils.validateSalGroup(shiftDifferentialRule
-						.getTkSalGroup(), shiftDifferentialRule
+						.getHrSalGroup(), shiftDifferentialRule
 						.getEffectiveDate())) {
-			this.putFieldError("tkSalGroup", "error.existence", "Salgroup '"
-					+ shiftDifferentialRule.getTkSalGroup() + "'");
+			this.putFieldError("hrSalGroup", "error.existence", "Salgroup '"
+					+ shiftDifferentialRule.getHrSalGroup() + "'");
 			return false;
 		} else {
 			return true;

@@ -1,10 +1,10 @@
 package org.kuali.hr.time.earngroup;
 
+import org.kuali.hr.time.HrBusinessObject;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import org.kuali.hr.time.HrBusinessObject;
 
 public class EarnGroup extends HrBusinessObject {
 
@@ -13,7 +13,7 @@ public class EarnGroup extends HrBusinessObject {
 	 */
 	private static final long serialVersionUID = -3034933572755800531L;
 
-	private Long tkEarnGroupId;
+	private Long hrEarnGroupId;
 
 	private String earnGroup;
 
@@ -65,12 +65,12 @@ public class EarnGroup extends HrBusinessObject {
 		return descr;
 	}
 
-	public Long getTkEarnGroupId() {
-		return tkEarnGroupId;
+	public Long getHrEarnGroupId() {
+		return hrEarnGroupId;
 	}
 
-	public void setTkEarnGroupId(Long tkEarnGroupId) {
-		this.tkEarnGroupId = tkEarnGroupId;
+	public void setHrEarnGroupId(Long hrEarnGroupId) {
+		this.hrEarnGroupId = hrEarnGroupId;
 	}
 	
 	public Boolean getShowSummary() {
@@ -88,12 +88,12 @@ public class EarnGroup extends HrBusinessObject {
 
 	@Override
 	public Long getId() {
-		return getTkEarnGroupId();
+		return getHrEarnGroupId();
 	}
 
 	@Override
 	public void setId(Long id) {
-		setTkEarnGroupId(id);
+		setHrEarnGroupId(id);
 	}
 
 }

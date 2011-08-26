@@ -52,7 +52,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
 	@Override
-	public Department getDepartment(Long tkDeptId) {
-		return departmentDao.getDepartment(tkDeptId);
+	public Department getDepartment(Long hrDeptId) {
+		return departmentDao.getDepartment(hrDeptId);
 	}
 }

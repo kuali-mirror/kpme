@@ -14,20 +14,20 @@ public interface BatchJobService {
 	public BatchJob getBatchJob(Long batchJobId);
 
     /**
-     * Provides a List of BatchJob objects that match the indicated payCalendarEntryId.
-     * @param payCalendarEntryId The id of PayCalendarEntries objects to match.
+     * Provides a List of BatchJob objects that match the indicated hrPyCalendarEntryId.
+     * @param hrPyCalendarEntryId The id of PayCalendarEntries objects to match.
      * @return List of BatchJob objects.
      */
-    public List<BatchJob> getBatchJobs(Long payCalendarEntryId);
+    public List<BatchJob> getBatchJobs(Long hrPyCalendarEntryId);
 
     /**
      * Get a List of BatchJob objects for the given parameters.
      *
-     * @param payCalendarEntryId The pay calendar entry we are looking for.
+     * @param hrPyCalendarEntryId The pay calendar entry we are looking for.
      * @param batchJobStatus Only jobs of this status will be returned.
      * @return List of BatchJob objects.
      */
-    public List<BatchJob> getBatchJobs(Long payCalendarEntryId, String batchJobStatus);
+    public List<BatchJob> getBatchJobs(Long hrPyCalendarEntryId, String batchJobStatus);
 
     /**
      * Saves or updates the provided BatchJob.

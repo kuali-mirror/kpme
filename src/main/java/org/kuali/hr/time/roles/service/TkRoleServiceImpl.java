@@ -1,11 +1,5 @@
 package org.kuali.hr.time.roles.service;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
@@ -13,6 +7,12 @@ import org.kuali.hr.time.roles.dao.TkRoleDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class TkRoleServiceImpl implements TkRoleService {
 
@@ -116,7 +116,7 @@ public class TkRoleServiceImpl implements TkRoleService {
             if (wa != null)
                 workAreas.add(wa);
             else
-                LOG.warn(TkConstants.ROLE_TK_APPROVER + " found without WorkArea number, ignoring roleId: " + role.getTkRolesId());
+                LOG.warn(TkConstants.ROLE_TK_APPROVER + " found without WorkArea number, ignoring roleId: " + role.getHrRolesId());
         }
 
         return workAreas;

@@ -1,10 +1,5 @@
 package org.kuali.hr.time.shiftdiff.rule;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Time;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -12,6 +7,11 @@ import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.salgroup.SalGroup;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.LinkedHashMap;
 
 public class ShiftDifferentialRule extends TkRule {
 
@@ -21,7 +21,7 @@ public class ShiftDifferentialRule extends TkRule {
 	private static final long serialVersionUID = 1L;
 	private Long tkShiftDiffRuleId;
 	private String location;
-	private String tkSalGroup;
+	private String hrSalGroup;
 	private String payGrade;
 	private String earnCode;
 	private Time beginTime;
@@ -35,11 +35,11 @@ public class ShiftDifferentialRule extends TkRule {
 	private boolean friday;
 	private boolean saturday;
 	private String fromEarnGroup;
-	private String calendarGroup;
+	private String pyCalendarGroup;
 	private BigDecimal maxGap; // Gap is in HOURS
 	private String userPrincipalId;
 
-	private Long tkSalGroupId;
+	private Long hrSalGroupId;
 	private Long hrLocationId;
 	private Long hrPayGradeId;	
 	
@@ -137,20 +137,20 @@ public class ShiftDifferentialRule extends TkRule {
 		this.active = active;
 	}
 
-	public String getTkSalGroup() {
-		return tkSalGroup;
+	public String getHrSalGroup() {
+		return hrSalGroup;
 	}
 
-	public void setTkSalGroup(String tkSalGroup) {
-		this.tkSalGroup = tkSalGroup;
+	public void setHrSalGroup(String hrSalGroup) {
+		this.hrSalGroup = hrSalGroup;
 	}
 
-	public String getCalendarGroup() {
-		return calendarGroup;
+	public String getPyCalendarGroup() {
+		return pyCalendarGroup;
 	}
 
-	public void setCalendarGroup(String calendarGroup) {
-		this.calendarGroup = calendarGroup;
+	public void setPyCalendarGroup(String pyCalendarGroup) {
+		this.pyCalendarGroup = pyCalendarGroup;
 	}
 
 	public Time getBeginTime() {
@@ -281,12 +281,12 @@ public class ShiftDifferentialRule extends TkRule {
 		this.payGradeObj = payGradeObj;
 	}
 
-	public Long getTkSalGroupId() {
-		return tkSalGroupId;
+	public Long getHrSalGroupId() {
+		return hrSalGroupId;
 	}
 
-	public void setTkSalGroupId(Long tkSalGroupId) {
-		this.tkSalGroupId = tkSalGroupId;
+	public void setHrSalGroupId(Long hrSalGroupId) {
+		this.hrSalGroupId = hrSalGroupId;
 	}
 
 	public Long getHrLocationId() {
@@ -307,7 +307,7 @@ public class ShiftDifferentialRule extends TkRule {
 
 	@Override
 	protected String getUniqueKey() {
-		return location + "_" + tkSalGroup + "_" + payGrade;
+		return location + "_" + hrSalGroup + "_" + payGrade;
 	}
 
 	@Override

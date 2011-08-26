@@ -12,8 +12,8 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateSalGroup(DepartmentEarnCode departmentEarnCode ) {
-		if (!ValidationUtils.validateSalGroup(departmentEarnCode.getTkSalGroup(), departmentEarnCode.getEffectiveDate())) {
-			this.putFieldError("tkSalGroup", "error.existence", "Salgroup '" + departmentEarnCode.getTkSalGroup()+ "'");
+		if (!ValidationUtils.validateSalGroup(departmentEarnCode.getHrSalGroup(), departmentEarnCode.getEffectiveDate())) {
+			this.putFieldError("hrSalGroup", "error.existence", "Salgroup '" + departmentEarnCode.getHrSalGroup()+ "'");
 			return false;
 		} else {
 			return true;

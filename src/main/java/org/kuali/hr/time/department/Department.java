@@ -1,16 +1,16 @@
 package org.kuali.hr.time.department;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Department extends HrBusinessObject {
 
@@ -19,7 +19,7 @@ public class Department extends HrBusinessObject {
      */
     private static final long serialVersionUID = 1L;
 
-    private Long tkDeptId;
+    private Long hrDeptId;
     private String dept;
     private String description;
     private String chart;
@@ -63,12 +63,12 @@ public class Department extends HrBusinessObject {
         this.org = org;
     }
 
-	public Long getTkDeptId() {
-		return tkDeptId;
+	public Long getHrDeptId() {
+		return hrDeptId;
 	}
 
-	public void setTkDeptId(Long tkDeptId) {
-		this.tkDeptId = tkDeptId;
+	public void setHrDeptId(Long hrDeptId) {
+		this.hrDeptId = hrDeptId;
 	}
 
 	public String getDept() {
@@ -134,12 +134,12 @@ public class Department extends HrBusinessObject {
 
 	@Override
 	public Long getId() {
-		return getTkDeptId();
+		return getHrDeptId();
 	}
 
 	@Override
 	public void setId(Long id) {
-		setTkDeptId(id);
+		setHrDeptId(id);
 	}
 
 	public String getLocation() {

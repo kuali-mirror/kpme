@@ -1,10 +1,10 @@
 package org.kuali.hr.time.accrual;
 
+import org.kuali.hr.time.HrBusinessObject;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
-
-import org.kuali.hr.time.HrBusinessObject;
 
 public class AccrualCategory extends HrBusinessObject {
 
@@ -12,7 +12,7 @@ public class AccrualCategory extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long laAccrualCategoryId;
+	private Long lmAccrualCategoryId;
 	private String accrualCategory;
 	private String descr;
 	private boolean history;
@@ -79,12 +79,12 @@ public class AccrualCategory extends HrBusinessObject {
 		this.effectiveDate = effectiveDate;
 	}
 
-	public Long getLaAccrualCategoryId() {
-		return laAccrualCategoryId;
+	public Long getLmAccrualCategoryId() {
+		return lmAccrualCategoryId;
 	}
 
-	public void setLaAccrualCategoryId(Long laAccrualCategoryId) {
-		this.laAccrualCategoryId = laAccrualCategoryId;
+	public void setLmAccrualCategoryId(Long lmAccrualCategoryId) {
+		this.lmAccrualCategoryId = lmAccrualCategoryId;
 	}
 
 	public Timestamp getTimestamp() {
@@ -102,12 +102,12 @@ public class AccrualCategory extends HrBusinessObject {
 
 	@Override
 	public Long getId() {
-		return getLaAccrualCategoryId();
+		return getLmAccrualCategoryId();
 	}
 
 	@Override
 	public void setId(Long id) {
-		setLaAccrualCategoryId(id);
+		setLmAccrualCategoryId(id);
 	}
 
 }

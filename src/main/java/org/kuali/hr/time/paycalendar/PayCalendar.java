@@ -1,13 +1,13 @@
 package org.kuali.hr.time.paycalendar;
 
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTimeConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTimeConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class PayCalendar extends PersistableBusinessObjectBase {
 
@@ -16,8 +16,8 @@ public class PayCalendar extends PersistableBusinessObjectBase {
      */
 	private static final long serialVersionUID = 1L;
 
-	private Long payCalendarId;
-	private String calendarGroup;
+	private Long hrPyCalendarId;
+	private String pyCalendarGroup;
 
 	private String flsaBeginDay;
 	private Time flsaBeginTime;
@@ -30,20 +30,20 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 
 	}
 
-	public Long getPayCalendarId() {
-		return payCalendarId;
+	public Long getHrPyCalendarId() {
+		return hrPyCalendarId;
 	}
 
-	public void setPayCalendarId(Long payCalendarId) {
-		this.payCalendarId = payCalendarId;
+	public void setHrPyCalendarId(Long hrPyCalendarId) {
+		this.hrPyCalendarId = hrPyCalendarId;
 	}
 
-	public String getCalendarGroup() {
-		return calendarGroup;
+	public String getPyCalendarGroup() {
+		return pyCalendarGroup;
 	}
 
-	public void setCalendarGroup(String calendarGroup) {
-		this.calendarGroup = calendarGroup;
+	public void setPyCalendarGroup(String pyCalendarGroup) {
+		this.pyCalendarGroup = pyCalendarGroup;
 	}
 
 	public List<PayCalendarEntries> getPayCalendarEntries() {
@@ -136,7 +136,7 @@ public class PayCalendar extends PersistableBusinessObjectBase {
     public boolean equals(Object o) {
         if (o instanceof PayCalendar) {
             PayCalendar pc = (PayCalendar)o;
-            return this.getPayCalendarId().compareTo(pc.getPayCalendarId()) == 0;
+            return this.getHrPyCalendarId().compareTo(pc.getHrPyCalendarId()) == 0;
         } else {
             return false;
         }

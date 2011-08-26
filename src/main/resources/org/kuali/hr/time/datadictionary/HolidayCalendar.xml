@@ -9,7 +9,7 @@
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
 			value="org.kuali.hr.time.holidaycalendar.HolidayCalendar" />
-		<property name="titleAttribute" value="holidayCalendarId" />
+		<property name="titleAttribute" value="hrHolidayCalendarId" />
 		<property name="objectLabel" value="holidayCalendar" />
 		<property name="inquiryDefinition">
 			<ref bean="HolidayCalendar-inquiryDefinition" />
@@ -19,7 +19,7 @@
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="HolidayCalendar-holidayCalendarId" />
+				<ref bean="HolidayCalendar-hrHolidayCalendarId" />
 				<ref bean="HolidayCalendar-holidayCalendarGroup" />
 				<ref bean="HolidayCalendar-descr" />
 				<ref bean="HolidayCalendar-active" />
@@ -36,8 +36,8 @@
 
 	<!-- Attribute Definitions -->
 
-	<bean id="HolidayCalendar-holidayCalendarId" parent="HolidayCalendar-holidayCalendarId-parentBean" />
-	<bean id="HolidayCalendar-holidayCalendarId-parentBean" abstract="true"
+	<bean id="HolidayCalendar-hrHolidayCalendarId" parent="HolidayCalendar-hrHolidayCalendarId-parentBean" />
+	<bean id="HolidayCalendar-hrHolidayCalendarId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Id" />
 		<property name="maxLength" value="20" />
@@ -47,7 +47,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="20" />
 		</property>
-		<property name="name" value="holidayCalendarId" />
+		<property name="name" value="hrHolidayCalendarId" />
 		<property name="label" value="Holiday Calendar Id" />
 	</bean>
 

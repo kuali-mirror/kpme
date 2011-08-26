@@ -34,16 +34,16 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 	static {
 		TABLES_TO_CLEAR.add("TK_PY_CALENDAR_T");
 		TABLES_TO_CLEAR.add("TK_PY_CALENDAR_ENTRIES_T");
-		TABLES_TO_CLEAR.add("TK_DEPT_T");
+		TABLES_TO_CLEAR.add("hr_dept_t");
 		TABLES_TO_CLEAR.add("TK_ASSIGN_ACCT_T");
 		TABLES_TO_CLEAR.add("TK_ASSIGNMENT_T");
 		TABLES_TO_CLEAR.add("TK_CLOCK_LOCATION_RL_T");
 		TABLES_TO_CLEAR.add("TK_CLOCK_LOG_T");
 		TABLES_TO_CLEAR.add("TK_DAILY_OVERTIME_RL_T");
-		TABLES_TO_CLEAR.add("TK_DEPT_EARN_CODE_T");
+		TABLES_TO_CLEAR.add("hr_dept_earn_code_t");
 		TABLES_TO_CLEAR.add("TK_DEPT_LUNCH_RL_T");
-		TABLES_TO_CLEAR.add("TK_EARN_CODE_T");
-		TABLES_TO_CLEAR.add("TK_EARN_GROUP_T");
+		TABLES_TO_CLEAR.add("hr_earn_code_t");
+		TABLES_TO_CLEAR.add("hr_earn_group_t");
 		TABLES_TO_CLEAR.add("TK_EARN_GROUP_DEF_T");
 		TABLES_TO_CLEAR.add("TK_GRACE_PERIOD_RL_T");
 		TABLES_TO_CLEAR.add("TK_HOLIDAY_CALENDAR_DATES_T");
@@ -51,7 +51,7 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 		TABLES_TO_CLEAR.add("TK_HOUR_DETAIL_HIST_T");
 		TABLES_TO_CLEAR.add("TK_HOUR_DETAIL_T");
 		TABLES_TO_CLEAR.add("TK_ROLES_T");
-		TABLES_TO_CLEAR.add("TK_SAL_GROUP_T");
+		TABLES_TO_CLEAR.add("hr_sal_group_T");
 		TABLES_TO_CLEAR.add("TK_SHIFT_DIFFERENTIAL_RL_T");
 		TABLES_TO_CLEAR.add("TK_SYSTEM_LUNCH_RL_T");
 		TABLES_TO_CLEAR.add("TK_TASK_T");

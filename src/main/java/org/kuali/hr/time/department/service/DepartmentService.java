@@ -34,5 +34,5 @@ public interface DepartmentService {
      */
     public void populateDepartmentRoles(Department department);
     
-    public Department getDepartment(Long tkDeptId);
+    public Department getDepartment(Long hrDeptId);
 }

@@ -1,10 +1,10 @@
 package org.kuali.hr.time.salgroup;
 
+import org.kuali.hr.time.HrBusinessObject;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
-
-import org.kuali.hr.time.HrBusinessObject;
 
 public class SalGroup extends HrBusinessObject {
 
@@ -12,8 +12,8 @@ public class SalGroup extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long tkSalGroupId;
-	private String tkSalGroup;
+	private Long hrSalGroupId;
+	private String hrSalGroup;
 	private String descr;
 	private boolean history;
 
@@ -55,20 +55,20 @@ public class SalGroup extends HrBusinessObject {
 		return timestamp;
 	}
 
-	public Long getTkSalGroupId() {
-		return tkSalGroupId;
+	public Long getHrSalGroupId() {
+		return hrSalGroupId;
 	}
 
-	public void setTkSalGroupId(Long tkSalGroupId) {
-		this.tkSalGroupId = tkSalGroupId;
+	public void setHrSalGroupId(Long hrSalGroupId) {
+		this.hrSalGroupId = hrSalGroupId;
 	}
 
-	public String getTkSalGroup() {
-		return tkSalGroup;
+	public String getHrSalGroup() {
+		return hrSalGroup;
 	}
 
-	public void setTkSalGroup(String tkSalGroup) {
-		this.tkSalGroup = tkSalGroup;
+	public void setHrSalGroup(String hrSalGroup) {
+		this.hrSalGroup = hrSalGroup;
 	}
 
 	public String getDescr() {
@@ -81,17 +81,17 @@ public class SalGroup extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		return tkSalGroup;
+		return hrSalGroup;
 	}
 
 	@Override
 	public Long getId() {
-		return getTkSalGroupId();
+		return getHrSalGroupId();
 	}
 
 	@Override
 	public void setId(Long id) {
-		setTkSalGroupId(id);
+		setHrSalGroupId(id);
 	}
 
 }

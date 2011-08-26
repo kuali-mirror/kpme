@@ -1,14 +1,14 @@
 package org.kuali.hr.time.holidaycalendar.service;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 public interface HolidayCalendarService {
 	/**
@@ -19,19 +19,19 @@ public interface HolidayCalendarService {
 	public HolidayCalendar getHolidayCalendarByGroup(String holidayCalendarGroup);
 	/**
 	 * Fetch List of HolidayCalendarDateEntry for a given pay periods start and end date
-	 * @param holidayCalendarId
+	 * @param hrHolidayCalendarId
 	 * @param startDate
 	 * @param endDate
 	 * @return
 	 */
-	public List<HolidayCalendarDateEntry> getHolidayCalendarDateEntriesForPayPeriod(Long holidayCalendarId, Date startDate, Date endDate);
+	public List<HolidayCalendarDateEntry> getHolidayCalendarDateEntriesForPayPeriod(Long hrHolidayCalendarId, Date startDate, Date endDate);
 	/**
-	 * Fetch a HolidayCalendarDateEntry for a given holidayCalendarId and date
-	 * @param holidayCalendarId
+	 * Fetch a HolidayCalendarDateEntry for a given hrHolidayCalendarId and date
+	 * @param hrHolidayCalendarId
 	 * @param date
 	 * @return
 	 */
-	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(Long holidayCalendarId, Date startDate);
+	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(Long hrHolidayCalendarId, Date startDate);
 	/**
 	 * Get Assignment to apply to holidays
 	 * @param timesheetDocument

@@ -339,7 +339,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 	 *
 	 * dayBooleans[] is a 7 element array of booleans, [0, 6] is [sun, sat]
 	 */
-	private void createShiftDifferentialRule(String calendarGroup, String fromEarnGroup, String premiumEarnCode, String location, String payGrade, String tkSalGroup, DateTime startTime, DateTime endTime, BigDecimal minHours, BigDecimal maxGap, boolean dayBooleans[]) {
+	private void createShiftDifferentialRule(String pyCalendarGroup, String fromEarnGroup, String premiumEarnCode, String location, String payGrade, String hrSalGroup, DateTime startTime, DateTime endTime, BigDecimal minHours, BigDecimal maxGap, boolean dayBooleans[]) {
 		assertTrue("Wrong number of day booleans", dayBooleans.length == 7);
 
 		ShiftDifferentialRuleService service = TkServiceLocator.getShiftDifferentialRuleService();
@@ -354,9 +354,9 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		sdr.setEffectiveDate(JAN_AS_OF_DATE);
 		sdr.setLocation(location);
 		sdr.setPayGrade(payGrade);
-		sdr.setTkSalGroup(tkSalGroup);
+		sdr.setHrSalGroup(hrSalGroup);
 		sdr.setFromEarnGroup(fromEarnGroup);
-		sdr.setCalendarGroup(calendarGroup);
+		sdr.setPyCalendarGroup(pyCalendarGroup);
 		sdr.setEarnCode(premiumEarnCode);
 
 		for (int i=0; i<dayBooleans.length; i++) {

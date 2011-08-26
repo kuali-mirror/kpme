@@ -78,8 +78,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
         // Grab the pay calendar entries + groups
         for (PayCalendar pc : payCals) {
-            PayCalendarEntries pce = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(pc.getPayCalendarId(), currentDate);
-            pceMap.put(pc.getCalendarGroup(), pce);
+            PayCalendarEntries pce = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(pc.getHrPyCalendarId(), currentDate);
+            pceMap.put(pc.getPyCalendarGroup(), pce);
         }
 
         return pceMap;
@@ -130,8 +130,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
         // Grab the pay calendar entries + groups
         for (PayCalendar pc : payCals) {
-            PayCalendarEntries pce = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(pc.getPayCalendarId(), currentDate);
-            pceMap.put(pc.getCalendarGroup(), pce);
+            PayCalendarEntries pce = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(pc.getHrPyCalendarId(), currentDate);
+            pceMap.put(pc.getPyCalendarGroup(), pce);
         }
 
         return pceMap;
@@ -154,8 +154,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 String principalId = assign.getPrincipalId();
                 TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
                 if (tdh != null) {
-                	String calendarGroup = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, payBeginDate).getCalendarGroup();
-                    pcg.add(calendarGroup);
+                	String pyCalendarGroup = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, payBeginDate).getPyCalendarGroup();
+                    pcg.add(pyCalendarGroup);
                 }
             }
         }
@@ -193,7 +193,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			for (Assignment assign : activeAssignments) {
 				PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(assign.getPrincipalId(), payEndDate);
 				//TODO remove this comparision sometiem
-				if (!userIds.contains(assign.getPrincipalId()) && StringUtils.equals(principalCalendar.getCalendarGroup(), calGroup)) {
+				if (!userIds.contains(assign.getPrincipalId()) && StringUtils.equals(principalCalendar.getPyCalendarGroup(), calGroup)) {
 					userIds.add(assign.getPrincipalId());
 				}
 			}
@@ -589,7 +589,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		
 			for(String principalId : principalIds){
 				PrincipalCalendar principalCal = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, asOfDate);
-				if(StringUtils.equals(principalCal.getCalendarGroup(), calGroup)){
+				if(StringUtils.equals(principalCal.getPyCalendarGroup(), calGroup)){
 					return true;
 				}
 			}

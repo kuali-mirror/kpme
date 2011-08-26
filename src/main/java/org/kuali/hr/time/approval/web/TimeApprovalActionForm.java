@@ -15,8 +15,8 @@ public class TimeApprovalActionForm extends TkForm {
 
     private static final long serialVersionUID = -173408280988754540L;
 
-    private Long payCalendarEntriesId;
-    private Long payCalendarId;
+    private Long hrPyCalendarEntriesId;
+    private Long hrPyCalendarId;
     private String name;
     private SortedSet<String> payCalendarGroups = new TreeSet<String>();
     private String selectedPayCalendarGroup;
@@ -58,20 +58,20 @@ public class TimeApprovalActionForm extends TkForm {
         this.calNav = calNav;
     }
 
-    public Long getPayCalendarEntriesId() {
-        return payCalendarEntriesId;
+    public Long getHrPyCalendarEntriesId() {
+        return hrPyCalendarEntriesId;
     }
 
-    public void setPayCalendarEntriesId(Long payCalendarEntriesId) {
-        this.payCalendarEntriesId = payCalendarEntriesId;
+    public void setHrPyCalendarEntriesId(Long hrPyCalendarEntriesId) {
+        this.hrPyCalendarEntriesId = hrPyCalendarEntriesId;
     }
 
-    public Long getPayCalendarId() {
-        return payCalendarId;
+    public Long getHrPyCalendarId() {
+        return hrPyCalendarId;
     }
 
-    public void setPayCalendarId(Long payCalendarId) {
-        this.payCalendarId = payCalendarId;
+    public void setHrPyCalendarId(Long hrPyCalendarId) {
+        this.hrPyCalendarId = hrPyCalendarId;
     }
 
     /**

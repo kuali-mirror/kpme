@@ -8,14 +8,14 @@
 	<bean id="HolidayCalendarDateEntry-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry" />
-		<property name="titleAttribute" value="holidayCalendarDateId" />
+		<property name="titleAttribute" value="hrHolidayCalendarDateId" />
 		<property name="objectLabel" value="holidayCalendarDateEntry" />
 		<property name="lookupDefinition">
 			<ref bean="HolidayCalendarDateEntry-lookupDefinition" />
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="HolidayCalendarDateEntry-holidayCalendarDateId" />
+				<ref bean="HolidayCalendarDateEntry-hrHolidayCalendarDateId" />
 				<ref bean="HolidayCalendarDateEntry-holidayDate" />
 				<ref bean="HolidayCalendarDateEntry-holidayDescr" />
 				<ref bean="HolidayCalendarDateEntry-holidayHours" />
@@ -23,8 +23,8 @@
 		</property>
 	</bean>
 
-	<bean id="HolidayCalendarDateEntry-holidayCalendarDateId" parent="HolidayCalendarDateEntry-holidayCalendarDateId-parentBean" />
-	<bean id="HolidayCalendarDateEntry-holidayCalendarDateId-parentBean" abstract="true"
+	<bean id="HolidayCalendarDateEntry-hrHolidayCalendarDateId" parent="HolidayCalendarDateEntry-hrHolidayCalendarDateId-parentBean" />
+	<bean id="HolidayCalendarDateEntry-hrHolidayCalendarDateId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Id" />
 		<property name="maxLength" value="10" />
@@ -34,7 +34,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="holidayCalendarDateId" />
+		<property name="name" value="hrHolidayCalendarDateId" />
 		<property name="label" value="Holiday Calendar Date Id" />
 	</bean>
 
@@ -94,12 +94,12 @@
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="holidayCalendarDateId" />
+				<bean parent="FieldDefinition" p:attributeName="hrHolidayCalendarDateId" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="holidayCalendarDateId" />
+				<bean parent="FieldDefinition" p:attributeName="hrHolidayCalendarDateId" />
 				<bean parent="FieldDefinition" p:attributeName="holidayDescr" />
 				<bean parent="FieldDefinition" p:attributeName="holidayDate" />
 			</list>

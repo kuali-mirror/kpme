@@ -14,11 +14,11 @@ public class EarnGroupDefinition extends PersistableBusinessObjectBase {
 	 */
 	private static final long serialVersionUID = -8463674251885306591L;
 
-	private Long tkEarnGroupDefId;
+	private Long hrEarnGroupDefId;
 
 	private String earnCode;
 
-	private Long tkEarnGroupId;
+	private Long hrEarnGroupId;
 
     private EarnCode earnCodeObj;
 
@@ -38,20 +38,20 @@ public class EarnGroupDefinition extends PersistableBusinessObjectBase {
 		return null;
 	}
 
-	public Long getTkEarnGroupDefId() {
-		return tkEarnGroupDefId;
+	public Long getHrEarnGroupDefId() {
+		return hrEarnGroupDefId;
 	}
 
-	public void setTkEarnGroupDefId(Long tkEarnGroupDefId) {
-		this.tkEarnGroupDefId = tkEarnGroupDefId;
+	public void setHrEarnGroupDefId(Long hrEarnGroupDefId) {
+		this.hrEarnGroupDefId = hrEarnGroupDefId;
 	}
 
-	public Long getTkEarnGroupId() {
-		return tkEarnGroupId;
+	public Long getHrEarnGroupId() {
+		return hrEarnGroupId;
 	}
 
-	public void setTkEarnGroupId(Long tkEarnGroupId) {
-		this.tkEarnGroupId = tkEarnGroupId;
+	public void setHrEarnGroupId(Long hrEarnGroupId) {
+		this.hrEarnGroupId = hrEarnGroupId;
 	}
 
 	public EarnCode getEarnCodeObj() {

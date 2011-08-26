@@ -1,7 +1,6 @@
 package org.kuali.hr.time.earngroup.service;
 
-import java.sql.Date;
-
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.kuali.hr.time.earngroup.EarnGroup;
@@ -10,14 +9,14 @@ import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
 
 public class EarnGroupServiceTest extends TkTestCase{
 	@Test
 	public void testEarnGroupFetch() throws Exception{
 		EarnGroup earnGroup = TkServiceLocator.getEarnGroupService().getEarnGroup("REG", new Date(System.currentTimeMillis()));
 		assertTrue("Test Earn Group fetch failed", earnGroup!=null && StringUtils.equals("REG", earnGroup.getEarnGroup()));
-		assertTrue("Test earn group def fetch failed", earnGroup.getEarnGroups()!=null && earnGroup.getEarnGroups().get(0).getTkEarnGroupId()==100);	
+		assertTrue("Test earn group def fetch failed", earnGroup.getEarnGroups()!=null && earnGroup.getEarnGroups().get(0).getHrEarnGroupId()==100);
 	}
 	
 	@Test
@@ -28,7 +27,7 @@ public class EarnGroupServiceTest extends TkTestCase{
 		assertTrue("Page contains REG entry", earnCodeLookUp.asText().contains("REG"));	
 		
 		EarnGroup earnGroup = TkServiceLocator.getEarnGroupService().getEarnGroup("REG", new Date(System.currentTimeMillis()));
-		String earnGroupId = earnGroup.getTkEarnGroupId().toString();
+		String earnGroupId = earnGroup.getHrEarnGroupId().toString();
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit", earnGroupId);		
 		HtmlUnitUtil.createTempFile(maintPage);
 		assertTrue("Maintenance Page contains REG entry",maintPage.asText().contains("REG"));		

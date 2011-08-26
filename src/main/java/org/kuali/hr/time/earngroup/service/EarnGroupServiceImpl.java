@@ -1,12 +1,12 @@
 package org.kuali.hr.time.earngroup.service;
 
-import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
 import org.kuali.hr.time.earngroup.dao.EarnGroupDaoService;
+
+import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class EarnGroupServiceImpl implements EarnGroupService {
 	private EarnGroupDaoService earnGroupDao;
@@ -46,8 +46,8 @@ public class EarnGroupServiceImpl implements EarnGroupService {
 	}
 
 	@Override
-	public EarnGroup getEarnGroup(Long tkEarnGroupId) {
-		return earnGroupDao.getEarnGroup(tkEarnGroupId);
+	public EarnGroup getEarnGroup(Long hrEarnGroupId) {
+		return earnGroupDao.getEarnGroup(hrEarnGroupId);
 	}
 
 }

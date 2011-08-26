@@ -1,9 +1,9 @@
 package org.kuali.hr.time.earngroup.service;
 
+import org.kuali.hr.time.earngroup.EarnGroup;
+
 import java.sql.Date;
 import java.util.Set;
-
-import org.kuali.hr.time.earngroup.EarnGroup;
 
 public interface EarnGroupService {
 	/**
@@ -33,5 +33,5 @@ public interface EarnGroupService {
 	 */
 	public EarnGroup getEarnGroupSummaryForEarnCode(String earnCode, Date asOfDate);
 	
-	public EarnGroup getEarnGroup(Long tkEarnGroupId);
+	public EarnGroup getEarnGroup(Long hrEarnGroupId);
 }

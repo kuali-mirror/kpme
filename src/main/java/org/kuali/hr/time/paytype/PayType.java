@@ -1,9 +1,9 @@
 package org.kuali.hr.time.paytype;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
+
+import java.util.LinkedHashMap;
 
 public class PayType extends HrBusinessObject {
 
@@ -16,7 +16,7 @@ public class PayType extends HrBusinessObject {
 	private String descr;
 	private String regEarnCode;
     /** Used for lookup */
-	private Long tkEarnCodeId;
+	private Long hrEarnCodeId;
     private EarnCode regEarnCodeObj;
     private String history;
     private Boolean ovtEarnCode;
@@ -69,12 +69,12 @@ public class PayType extends HrBusinessObject {
 
 
 
-	public Long getTkEarnCodeId() {
-		return tkEarnCodeId;
+	public Long getHrEarnCodeId() {
+		return hrEarnCodeId;
 	}
 
-	public void setTkEarnCodeId(Long tkEarnCodeId) {
-		this.tkEarnCodeId = tkEarnCodeId;
+	public void setHrEarnCodeId(Long hrEarnCodeId) {
+		this.hrEarnCodeId = hrEarnCodeId;
 	}
 
 	@Override

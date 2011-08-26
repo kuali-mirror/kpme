@@ -1,25 +1,15 @@
 package org.kuali.hr.time.shiftdiff.rule;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Calendar;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Test;
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.Calendar;
 
 public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 	private static final String TEST_CODE="_T";
@@ -53,7 +43,7 @@ public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 		shiftDifferentialRule.setMaxGap(new BigDecimal(2));
 		shiftDifferentialRule.setMinHours(TEST_NO);
 		shiftDifferentialRule.setPayGrade(TEST_CODE);	
-		shiftDifferentialRule.setCalendarGroup("BW-CAL1");
+		shiftDifferentialRule.setPyCalendarGroup("BW-CAL1");
 		shiftDifferentialRule.setSunday(true);	
 		shiftDifferentialRule.setMonday(true);
 		shiftDifferentialRule.setTuesday(true);
@@ -61,7 +51,7 @@ public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 		shiftDifferentialRule.setThursday(true);
 		shiftDifferentialRule.setFriday(true);
 		shiftDifferentialRule.setSaturday(true);
-		shiftDifferentialRule.setCalendarGroup("TEST");	
+		shiftDifferentialRule.setPyCalendarGroup("TEST");
 		
 		KNSServiceLocator.getBusinessObjectService().save(shiftDifferentialRule);
 		shiftDifferentialRuleId = shiftDifferentialRule.getTkShiftDiffRuleId();

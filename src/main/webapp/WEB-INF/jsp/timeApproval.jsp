@@ -6,8 +6,8 @@
 	<html:form action="/TimeApproval.do" method="POST">
     <html:hidden property="methodToCall" value=""/>
     <html:hidden styleId="rit"   property="rowsInTotal"              value="${fn:length(Form.approvalRows)}"/>
-    <html:hidden styleId="pcid"  property="payCalendarId"            value="${Form.payCalendarId}"/>
-    <html:hidden styleId="pceid" property="payCalendarEntriesId"     value="${Form.payCalendarEntriesId}"/>
+    <html:hidden styleId="pcid"  property="hrPyCalendarId"            value="${Form.hrPyCalendarId}"/>
+    <html:hidden styleId="pceid" property="hrPyCalendarEntriesId"     value="${Form.hrPyCalendarEntriesId}"/>
 
     <div class="approvals">
         <table id="approvals-filter">
@@ -47,13 +47,13 @@
                 </td>
                 <td class="center">
                 	<c:if test="${Form.prevPayCalendarId ne null}">
-                    	<input type="button" class="prev" value="Previous" name="Previous" onclick="this.form.payCalendarEntriesId.value='${Form.prevPayCalendarId}'; this.form.submit();"/>
+                    	<input type="button" class="prev" value="Previous" name="Previous" onclick="this.form.hrPyCalendarEntriesId.value='${Form.prevPayCalendarId}'; this.form.submit();"/>
                     </c:if>
                     <span style="font-size: 1.5em; vertical-align: middle;">
                     <fmt:formatDate value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/> -
                     <fmt:formatDate value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
                 	<c:if test="${Form.nextPayCalendarId ne null}">
-                    	<input type="button" class="next" value="Next" name="Next" onclick="this.form.payCalendarEntriesId.value='${Form.nextPayCalendarId}'; this.form.submit();"/>
+                    	<input type="button" class="next" value="Next" name="Next" onclick="this.form.hrPyCalendarEntriesId.value='${Form.nextPayCalendarId}'; this.form.submit();"/>
                     </c:if>
 
                 </td>

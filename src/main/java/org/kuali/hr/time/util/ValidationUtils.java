@@ -342,10 +342,10 @@ public class ValidationUtils {
 	/**
 	 * Checks for row presence of a pay calendar
 	 */
-	public static boolean validatePayCalendar(String calendarGroup) {
+	public static boolean validatePayCalendar(String pyCalendarGroup) {
 		boolean valid = false;
 		Criteria crit = new Criteria();
-        crit.addEqualTo("calendarGroup", calendarGroup);
+        crit.addEqualTo("pyCalendarGroup", pyCalendarGroup);
         Query query = QueryFactory.newQuery(PayCalendar.class, crit);
         int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
         valid = (count > 0);
@@ -372,7 +372,7 @@ public class ValidationUtils {
 	   boolean valid = false;
 	   Criteria crit = new Criteria();
        crit.addEqualTo("dept", deptEarnCode.getDept());
-       crit.addEqualTo("tkSalGroup", deptEarnCode.getTkSalGroup());
+       crit.addEqualTo("hrSalGroup", deptEarnCode.getHrSalGroup());
        crit.addEqualTo("earnCode", deptEarnCode.getEarnCode());
        crit.addEqualTo("employee", deptEarnCode.isEmployee() ? "1" : "0");
        crit.addEqualTo("approver", deptEarnCode.isApprover()? "1" : "0");
@@ -384,7 +384,7 @@ public class ValidationUtils {
        int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
        if(count == 1) {
     	   valid = true;
-    	   crit.addEqualTo("tk_dept_earn_code_id", deptEarnCode.getTkDeptEarnCodeId());
+    	   crit.addEqualTo("hr_dept_earn_code_id", deptEarnCode.getHrDeptEarnCodeId());
     	   count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
     	   if(count == 1) {
     		   valid = false;

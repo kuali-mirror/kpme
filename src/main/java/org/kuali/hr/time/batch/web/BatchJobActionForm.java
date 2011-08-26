@@ -1,12 +1,12 @@
 package org.kuali.hr.time.batch.web;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.kuali.hr.time.base.web.TkForm;
 import org.kuali.hr.time.batch.BatchJobEntry;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BatchJobActionForm extends TkForm {
     /**
@@ -19,7 +19,7 @@ public class BatchJobActionForm extends TkForm {
     private String batchJobId;
     private String documentId;
     private String principalId;
-    private String payCalendarEntryId;
+    private String hrPyCalendarEntryId;
     private String ipAddress;
     private String batchJobName;
     private String batchJobEntryStatus;
@@ -76,11 +76,11 @@ public class BatchJobActionForm extends TkForm {
     }
 
     public String getPayCalendarEntryId() {
-        return payCalendarEntryId;
+        return hrPyCalendarEntryId;
     }
 
-    public void setPayCalendarEntryId(String payCalendarEntryId) {
-        this.payCalendarEntryId = payCalendarEntryId;
+    public void setPayCalendarEntryId(String hrPyCalendarEntryId) {
+        this.hrPyCalendarEntryId = hrPyCalendarEntryId;
     }
 
     public String getIpAddress() {

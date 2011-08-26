@@ -62,7 +62,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         List<Boolean> dayArrangements = new ArrayList<Boolean>();
 
 		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getPayCalendarEntry(), dayArrangements));
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getPayCalendarEntry(), TkServiceLocator.getPayCalendarSerivce().getPayCalendar(timesheetDocument.getPayCalendarEntry().getPayCalendarId()), true);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getPayCalendarEntry(), TkServiceLocator.getPayCalendarSerivce().getPayCalendar(timesheetDocument.getPayCalendarEntry().getHrPyCalendarId()), true);
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
         List<EarnGroupSection> sections = buildSummarySections(dayArrangements, tkTimeBlockAggregate, timesheetDocument.getPayCalendarEntry().getEndPeriodDateTime(), timesheetDocument);
         timeSummary.setSections(sections);
@@ -188,7 +188,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         PayCalendar cal = null;
 
         if (calEntry != null) {
-            cal = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(calEntry.getPayCalendarId());
+            cal = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(calEntry.getHrPyCalendarId());
         }
 
         return cal;

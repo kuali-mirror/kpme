@@ -25,7 +25,7 @@
                 <ref bean="PayType-history"/>
                 <ref bean="PayType-active"/>
 				<ref bean="PayType-timestamp" />
-				<ref bean="PayType-tkEarnCodeId" />
+				<ref bean="PayType-hrEarnCodeId" />
 				<ref bean="PayType-ovtEarnCode" />
 			</list>
 		</property>
@@ -36,7 +36,7 @@
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="regEarnCode" p:targetName="earnCode"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="tkEarnCodeId" p:targetName="tkEarnCodeId"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrEarnCodeId" p:targetName="hrEarnCodeId"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="ovtEarnCode" p:targetName="ovtEarnCode"/>
                 </list>
               </property>
@@ -162,10 +162,10 @@
     <property name="label" value="Active?"/>
   </bean>
 	
-	<bean id="PayType-tkEarnCodeId" parent="PayType-tkEarnCodeId-parentBean" />
-	<bean id="PayType-tkEarnCodeId-parentBean" abstract="true"
+	<bean id="PayType-hrEarnCodeId" parent="PayType-hrEarnCodeId-parentBean" />
+	<bean id="PayType-hrEarnCodeId-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="tkEarnCodeId" />
+		<property name="name" value="hrEarnCodeId" />
 		<property name="control">
 			<bean parent="HiddenControlDefinition" />
 		</property>
@@ -222,7 +222,7 @@
                 <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
                 <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
                 <bean parent="FieldDefinition" p:attributeName="active" />
-                <bean parent="FieldDefinition" p:attributeName="tkEarnCodeId" />
+                <bean parent="FieldDefinition" p:attributeName="hrEarnCodeId" />
 			</list>
 		</property>
 		<property name="resultFields">

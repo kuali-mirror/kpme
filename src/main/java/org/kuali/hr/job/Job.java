@@ -1,10 +1,5 @@
 package org.kuali.hr.job;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.HrBusinessObject;
@@ -14,6 +9,11 @@ import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 /**
  * 
  * Job representation
@@ -37,13 +37,13 @@ public class Job extends HrBusinessObject {
 	private String principalName;
 	private Long jobNumber;
 	private String dept;
-	private String tkSalGroup;
+	private String hrSalGroup;
 	private Boolean primaryIndicator;
 	private Boolean history;
 	private BigDecimal compRate = new BigDecimal(0);
 	private Long positionNumber;
 	
-	private Long tkDeptId;
+	private Long hrDeptId;
 	private Long hrPayTypeId;
 	
 	private Person principal;
@@ -60,7 +60,7 @@ public class Job extends HrBusinessObject {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
 		toStringMap.put("jobId", hrJobId);
 		toStringMap.put("principalId", principalId);
-		toStringMap.put("tkSalGroup", tkSalGroup);
+		toStringMap.put("hrSalGroup", hrSalGroup);
 
 		return toStringMap;
 	}
@@ -196,12 +196,12 @@ public class Job extends HrBusinessObject {
 		this.dept = dept;
 	}
 
-	public String getTkSalGroup() {
-		return tkSalGroup;
+	public String getHrSalGroup() {
+		return hrSalGroup;
 	}
 
-	public void setTkSalGroup(String tkSalGroup) {
-		this.tkSalGroup = tkSalGroup;
+	public void setHrSalGroup(String hrSalGroup) {
+		this.hrSalGroup = hrSalGroup;
 	}
 
 
@@ -293,12 +293,12 @@ public class Job extends HrBusinessObject {
 		return positionObj;
 	}
 
-	public Long getTkDeptId() {
-		return tkDeptId;
+	public Long getHrDeptId() {
+		return hrDeptId;
 	}
 
-	public void setTkDeptId(Long tkDeptId) {
-		this.tkDeptId = tkDeptId;
+	public void setHrDeptId(Long hrDeptId) {
+		this.hrDeptId = hrDeptId;
 	}
 
 	public Long getHrPayTypeId() {

@@ -1,13 +1,11 @@
 package org.kuali.hr.time.collection.rule;
 
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.workarea.WorkArea;
+
+import java.util.LinkedHashMap;
 
 public class TimeCollectionRule extends HrBusinessObject implements DepartmentalRule {
 
@@ -21,7 +19,7 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 	private String userPrincipalId;
 
 	private Long tkWorkAreaId;
-	private Long tkDeptId;
+	private Long hrDeptId;
 
 	private Department departmentObj;
 	private WorkArea workAreaObj;
@@ -125,12 +123,12 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
 
-	public Long getTkDeptId() {
-		return tkDeptId;
+	public Long getHrDeptId() {
+		return hrDeptId;
 	}
 
-	public void setTkDeptId(Long tkDeptId) {
-		this.tkDeptId = tkDeptId;
+	public void setHrDeptId(Long hrDeptId) {
+		this.hrDeptId = hrDeptId;
 	}
 
 	@Override

@@ -32,9 +32,9 @@ public class BatchJobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
     }
 
     @Override
-    public List<BatchJob> getBatchJobs(Long payCalendarEntryId) {
+    public List<BatchJob> getBatchJobs(Long hrPyCalendarEntryId) {
         Criteria root = new Criteria();
-        root.addEqualTo("payCalendarEntryId", payCalendarEntryId);
+        root.addEqualTo("hrPyCalendarEntryId", hrPyCalendarEntryId);
         Query query = QueryFactory.newQuery(BatchJob.class, root);
 
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -45,9 +45,9 @@ public class BatchJobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
     }
 
     @Override
-    public List<BatchJob> getPayCalendarEntries(Long payCalendarEntryId, String batchJobStatus) {
+    public List<BatchJob> getPayCalendarEntries(Long hrPyCalendarEntryId, String batchJobStatus) {
         Criteria root = new Criteria();
-        root.addEqualTo("payCalendarEntryId", payCalendarEntryId);
+        root.addEqualTo("hrPyCalendarEntryId", hrPyCalendarEntryId);
         root.addEqualTo("batchJobStatus", batchJobStatus);
         Query query = QueryFactory.newQuery(BatchJob.class, root);
 

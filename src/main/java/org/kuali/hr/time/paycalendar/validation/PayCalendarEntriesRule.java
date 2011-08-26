@@ -12,14 +12,14 @@ public class PayCalendarEntriesRule extends MaintenanceDocumentRuleBase {
 
         PayCalendarEntries payCalendarEntries = (PayCalendarEntries) this.getNewBo();
 
-        valid = validateCalendarGroup(payCalendarEntries.getCalendarGroup());
+        valid = validateCalendarGroup(payCalendarEntries.getPyCalendarGroup());
         return valid;
     }
 
-    protected boolean validateCalendarGroup(String calendarGroup) {
-    	boolean valid = ValidationUtils.validatePayCalendar(calendarGroup);
+    protected boolean validateCalendarGroup(String pyCalendarGroup) {
+    	boolean valid = ValidationUtils.validatePayCalendar(pyCalendarGroup);
         if (!valid) {
-            this.putFieldError("calendarGroup", "payCalendar.notfound");
+            this.putFieldError("pyCalendarGroup", "payCalendar.notfound");
         }
         return valid;
     }

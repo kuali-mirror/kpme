@@ -37,7 +37,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		PrincipalCalendar principalCal = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(timesheetDocument.getPrincipalId(),timesheetDocument.getPayCalendarEntry().getEndPeriodDate());
 
 		for (Job job : timesheetDocument.getJobs()) {
-			List<ShiftDifferentialRule> shiftDifferentialRules = getShiftDifferentalRules(job.getLocation(),job.getTkSalGroup(),job.getPayGrade(),principalCal.getCalendarGroup(),
+			List<ShiftDifferentialRule> shiftDifferentialRules = getShiftDifferentalRules(job.getLocation(),job.getHrSalGroup(),job.getPayGrade(),principalCal.getPyCalendarGroup(),
 					TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
 			if (shiftDifferentialRules.size() > 0)
 				jobNumberToShifts.put(job.getJobNumber(), shiftDifferentialRules);
@@ -483,33 +483,33 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 	@Override
 	@CacheResult
-	public List<ShiftDifferentialRule> getShiftDifferentalRules(String location, String tkSalGroup, String payGrade, String calendarGroup, Date asOfDate) {
+	public List<ShiftDifferentialRule> getShiftDifferentalRules(String location, String hrSalGroup, String payGrade, String pyCalendarGroup, Date asOfDate) {
 		List<ShiftDifferentialRule> sdrs = new ArrayList<ShiftDifferentialRule>();
 
 		// location, sal group, pay grade
 
-	    sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules(location, tkSalGroup, payGrade, calendarGroup, asOfDate));
+	    sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules(location, hrSalGroup, payGrade, pyCalendarGroup, asOfDate));
 
 		// location, sal group, *
-		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules(location, tkSalGroup, "%", calendarGroup, asOfDate));
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules(location, hrSalGroup, "%", pyCalendarGroup, asOfDate));
 
 		// location, *, pay grade
-		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules(location, "%", payGrade, calendarGroup, asOfDate));
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules(location, "%", payGrade, pyCalendarGroup, asOfDate));
 
 		// location, *, *
-		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules(location, "%", "%", calendarGroup, asOfDate));
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules(location, "%", "%", pyCalendarGroup, asOfDate));
 
 		// *, sal group, pay grade
-		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules("%", tkSalGroup, payGrade, calendarGroup, asOfDate));
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules("%", hrSalGroup, payGrade, pyCalendarGroup, asOfDate));
 
 		// *, sal group, *
-		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules("%", tkSalGroup, "%", calendarGroup, asOfDate));
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules("%", hrSalGroup, "%", pyCalendarGroup, asOfDate));
 
 		// *, *, pay grade
-		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules("%", "%", payGrade, calendarGroup, asOfDate));
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules("%", "%", payGrade, pyCalendarGroup, asOfDate));
 
 		// *, *, *
-		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules("%", "%", "%", calendarGroup, asOfDate));
+		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules("%", "%", "%", pyCalendarGroup, asOfDate));
 
 		if (sdrs == null)
 			sdrs = Collections.emptyList();

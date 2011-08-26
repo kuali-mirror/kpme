@@ -5,7 +5,7 @@
   <bean id="PayCalendar" parent="PayCalendar-parentBean"/>
   <bean id="PayCalendar-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.hr.time.paycalendar.PayCalendar"/>
-    <property name="titleAttribute" value="payCalendarId"/>
+    <property name="titleAttribute" value="hrPyCalendarId"/>
     <property name="objectLabel" value="PayCalendar"/>
     <property name="lookupDefinition">
       <ref bean="PayCalendar-lookupDefinition"/>
@@ -15,7 +15,7 @@
 	</property>
     <property name="attributes">
       <list>
-        <ref bean="PayCalendar-calendarGroup"/>
+        <ref bean="PayCalendar-pyCalendarGroup"/>
 		<ref bean="PayCalendar-flsaBeginDay"/>
 		<ref bean="PayCalendar-flsaBeginTime"/>
 		<ref bean="PayCalendar-active"/>
@@ -30,14 +30,14 @@
 
   <!-- Attribute Definitions -->
 
-  <bean id="PayCalendar-calendarGroup" parent="PayCalendar-calendarGroup-parentBean"/>
-  <bean id="PayCalendar-calendarGroup-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PayCalendar-pyCalendarGroup" parent="PayCalendar-pyCalendarGroup-parentBean"/>
+  <bean id="PayCalendar-pyCalendarGroup-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Pay Calendar Group"/>
     <property name="maxLength" value="21"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="name" value="calendarGroup"/>
+    <property name="name" value="pyCalendarGroup"/>
     <property name="label" value="Pay Calendar Group"/>
   </bean>
 
@@ -85,7 +85,7 @@
     <property name="lookupableID" value="payCalendarLookupable" />
     <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
+        <bean parent="FieldDefinition" p:attributeName="pyCalendarGroup"/>
         <bean parent="FieldDefinition" p:attributeName="flsaBeginDay"/>
         <bean parent="FieldDefinition" p:attributeName="flsaBeginTime"/>
         <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
@@ -93,7 +93,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
+        <bean parent="FieldDefinition" p:attributeName="pyCalendarGroup"/>
         <bean parent="FieldDefinition" p:attributeName="flsaBeginDay"/>
         <bean parent="FieldDefinition" p:attributeName="flsaBeginTime"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
@@ -113,7 +113,7 @@
 			<bean parent="InquirySectionDefinition" p:title="Pay Calendar Details">
 				<property name="inquiryFields">
 					<list>
-						<bean parent="FieldDefinition" p:attributeName="calendarGroup"/>
+						<bean parent="FieldDefinition" p:attributeName="pyCalendarGroup"/>
 				        <bean parent="FieldDefinition" p:attributeName="flsaBeginDay"/>
 				        <bean parent="FieldDefinition" p:attributeName="flsaBeginTime"/>
 				        <bean parent="FieldDefinition" p:attributeName="active"/>

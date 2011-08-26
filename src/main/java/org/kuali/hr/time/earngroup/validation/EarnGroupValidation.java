@@ -1,12 +1,5 @@
 package org.kuali.hr.time.earngroup.validation;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
@@ -15,6 +8,8 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+
+import java.util.*;
 
 public class EarnGroupValidation  extends MaintenanceDocumentRuleBase{
 
@@ -53,9 +48,9 @@ public class EarnGroupValidation  extends MaintenanceDocumentRuleBase{
 		Iterator<EarnGroup> itr = aCol.iterator();
 		while (itr.hasNext()) {
 			EarnGroup earnGroup = itr.next();
-			if(!earnGroup.getTkEarnGroupId().equals(editedEarnGroup.getTkEarnGroupId())) {
+			if(!earnGroup.getHrEarnGroupId().equals(editedEarnGroup.getHrEarnGroupId())) {
 				criteria = new HashMap<String,Object>();
-				criteria.put("tkEarnGroupId", earnGroup.getTkEarnGroupId());
+				criteria.put("hrEarnGroupId", earnGroup.getHrEarnGroupId());
 
 				Collection earnGroupDefs = businessObjectService.findMatching(EarnGroupDefinition.class, criteria);
 				Iterator<EarnGroupDefinition> iterator = earnGroupDefs.iterator();

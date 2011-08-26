@@ -22,11 +22,11 @@
                     <tr>
                         <th><label>Pay calendar period : </label></th>
                         <td>
-                            <input type="text" name="payCalendarEntryId" id="payCalendarEntryId" value="${Form.payCalendarEntryId}"/>
+                            <input type="text" name="hrPyCalendarEntryId" id="hrPyCalendarEntryId" value="${Form.hrPyCalendarEntryId}"/>
                         </td>
                         <td>
                         	<kul:lookup boClassName="org.kuali.hr.time.paycalendar.PayCalendarEntries"
-                					fieldConversions="payCalendarEntriesId:payCalendarEntryId"
+                					fieldConversions="hrPyCalendarEntriesId:hrPyCalendarEntryId"
                 					lookupParameters="" />
                         </td>
                         <td><input type="submit" value="Run"/></td>
@@ -53,7 +53,7 @@
                     </tr>
                     <tr>
                         <th><label>Pay Calendar Id : </label></th>
-                        <td><input type="text" name="payCalendarEntryId"/></td>
+                        <td><input type="text" name="hrPyCalendarEntryId"/></td>
                     </tr>
                     <tr>
                         <th><label>IP Address : </label></th>
@@ -80,7 +80,7 @@
                         <display:column property="tkBatchJobEntryId" title="Job Entry Id"/>
                         <display:column property="batchJobName" title="Job Name"/>
                         <display:column property="tkBatchJobEntryId" title="Job Entry Status"/>
-                        <display:column property="payCalendarEntryId" title="Pay Calendar Id"/>
+                        <display:column property="hrPyCalendarEntryId" title="Pay Calendar Id"/>
                         <display:column title="IP Address">
                             <tk:ipAddress batchJobEntryId="${r.tkBatchJobEntryId}"
                                           selectedIpAdd="${r.ipAddress}"/>

@@ -47,7 +47,7 @@ public class TimeHourDetailRenderer {
 					HolidayCalendar holidayCalendar = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarByGroup(principalCalendar.getHolidayCalendarGroup());
 					
 					if ( holidayCalendar != null ){
-						holidayCalendarDateEntry = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarDateEntryByDate(holidayCalendar.getHolidayCalendarId(), timeBlock.getBeginDate());
+						holidayCalendarDateEntry = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarDateEntryByDate(holidayCalendar.getHrHolidayCalendarId(), timeBlock.getBeginDate());
 						
 						if(holidayCalendarDateEntry != null) {
 							holidayDesc = holidayCalendarDateEntry.getHolidayDescr();

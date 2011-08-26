@@ -1,9 +1,9 @@
 package org.kuali.hr.time.dept.earncode.dao;
 
+import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 
 public interface DepartmentEarnCodeDao {
 
@@ -11,7 +11,7 @@ public interface DepartmentEarnCodeDao {
 
 	public void saveOrUpdate(List<DepartmentEarnCode> deptErncdList);
 
-	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tk_sal_group, String location, Date asOfDate);
+	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String hr_sal_group, String location, Date asOfDate);
 
-	public DepartmentEarnCode getDepartmentEarnCode(Long tkDeptEarnCodeId);
+	public DepartmentEarnCode getDepartmentEarnCode(Long hrDeptEarnCodeId);
 }

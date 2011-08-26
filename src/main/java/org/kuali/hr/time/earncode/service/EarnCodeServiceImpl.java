@@ -1,10 +1,5 @@
 package org.kuali.hr.time.earncode.service;
 
-import java.sql.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
@@ -16,6 +11,11 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.workarea.WorkArea;
+
+import java.sql.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class EarnCodeServiceImpl implements EarnCodeService {
 
@@ -52,7 +52,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		if (regularEc == null)
 			throw new RuntimeException("No regular earn code defined.");
 		earnCodes.add(regularEc);
-		List<DepartmentEarnCode> decs = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getTkSalGroup(), job.getLocation(), asOfDate);
+		List<DepartmentEarnCode> decs = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
 		for (DepartmentEarnCode dec : decs) {
             boolean addEc = false;
 

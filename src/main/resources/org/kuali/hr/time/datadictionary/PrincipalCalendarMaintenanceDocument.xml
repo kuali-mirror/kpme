@@ -38,7 +38,7 @@
 			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="name" p:noLookup="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="calendarGroup" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="pyCalendarGroup" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="holidayCalendarGroup" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="timezone" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>

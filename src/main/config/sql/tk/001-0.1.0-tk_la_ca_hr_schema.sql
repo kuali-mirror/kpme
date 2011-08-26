@@ -188,7 +188,7 @@ CREATE TABLE `hr_job_t` (
   `JOB_NUMBER` bigint(20) DEFAULT NULL,
   `EFFDT` date NOT NULL DEFAULT '0000-00-00',
   `dept` varchar(21) COLLATE utf8_bin NOT NULL,
-  `TK_SAL_GROUP` varchar(10) COLLATE utf8_bin DEFAULT NULL,
+  `hr_sal_group` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `PAY_GRADE` varchar(3) COLLATE utf8_bin DEFAULT NULL,
   `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
@@ -319,14 +319,14 @@ CREATE TABLE `hr_work_schedule_s` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `la_accrual_categories_t`
+-- Table structure for table `lm_accrual_categories_t`
 --
 
-DROP TABLE IF EXISTS `la_accrual_categories_t`;
+DROP TABLE IF EXISTS `lm_accrual_categories_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `la_accrual_categories_t` (
-  `LA_ACCRUAL_CATEGORY_ID` bigint(20) NOT NULL,
+CREATE TABLE `lm_accrual_categories_t` (
+  `LM_ACCRUAL_CATEGORY_ID` bigint(20) NOT NULL,
   `ACCRUAL_CATEGORY` varchar(3) COLLATE utf8_bin NOT NULL,
   `DESCR` varchar(30) COLLATE utf8_bin NOT NULL,
   `EFFDT` date NOT NULL,
@@ -334,7 +334,7 @@ CREATE TABLE `la_accrual_categories_t` (
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
   `ACTIVE` bit(1) DEFAULT NULL,
   `TIMESTAMP` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`LA_ACCRUAL_CATEGORY_ID`)
+  PRIMARY KEY (`LM_ACCRUAL_CATEGORY_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -352,13 +352,13 @@ CREATE TABLE `la_accrual_categories_s` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `la_accruals_t`
+-- Table structure for table `lm_accruals_t`
 --
 
-DROP TABLE IF EXISTS `la_accruals_t`;
+DROP TABLE IF EXISTS `lm_accruals_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `la_accruals_t` (
+CREATE TABLE `lm_accruals_t` (
   `LA_ACCRUALS_ID` bigint(20) NOT NULL,
   `PRINCIPAL_ID` varchar(21) COLLATE utf8_bin NOT NULL,
   `ACCRUAL_CATEGORY` varchar(3) COLLATE utf8_bin NOT NULL,
@@ -574,16 +574,16 @@ CREATE TABLE `tk_daily_overtime_rl_s` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tk_dept_earn_code_t`
+-- Table structure for table `hr_dept_earn_code_t`
 --
 
-DROP TABLE IF EXISTS `tk_dept_earn_code_t`;
+DROP TABLE IF EXISTS `hr_dept_earn_code_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_dept_earn_code_t` (
-  `tk_dept_earn_code_id` bigint(20) NOT NULL,
+CREATE TABLE `hr_dept_earn_code_t` (
+  `hr_dept_earn_code_id` bigint(20) NOT NULL,
   `dept` varchar(21) COLLATE utf8_bin NOT NULL,
-  `tk_sal_group` varchar(10) COLLATE utf8_bin NOT NULL,
+  `hr_sal_group` varchar(10) COLLATE utf8_bin NOT NULL,
   `earn_code` varchar(3) COLLATE utf8_bin NOT NULL,
   `employee` bit(1) DEFAULT b'0',
   `approver` bit(1) DEFAULT b'0',
@@ -593,7 +593,7 @@ CREATE TABLE `tk_dept_earn_code_t` (
   `active` bit(1) DEFAULT NULL,
   `effdt` date DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`tk_dept_earn_code_id`)
+  PRIMARY KEY (`hr_dept_earn_code_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -649,14 +649,14 @@ CREATE TABLE `tk_dept_lunch_rl_s` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tk_dept_t`
+-- Table structure for table `hr_dept_t`
 --
 
-DROP TABLE IF EXISTS `tk_dept_t`;
+DROP TABLE IF EXISTS `hr_dept_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_dept_t` (
-  `tk_dept_id` bigint(20) NOT NULL,
+CREATE TABLE `hr_dept_t` (
+  `hr_dept_id` bigint(20) NOT NULL,
   `dept` varchar(21) COLLATE utf8_bin DEFAULT NULL,
   `DESCRIPTION` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `ORG` varchar(10) COLLATE utf8_bin DEFAULT NULL,
@@ -664,7 +664,7 @@ CREATE TABLE `tk_dept_t` (
   `effdt` date DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT NULL,
   `active` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`tk_dept_id`)
+  PRIMARY KEY (`hr_dept_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -682,14 +682,14 @@ CREATE TABLE `tk_dept_s` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tk_earn_code_t`
+-- Table structure for table `hr_earn_code_t`
 --
 
-DROP TABLE IF EXISTS `tk_earn_code_t`;
+DROP TABLE IF EXISTS `hr_earn_code_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_earn_code_t` (
-  `tk_earn_code_id` int(11) NOT NULL,
+CREATE TABLE `hr_earn_code_t` (
+  `hr_earn_code_id` int(11) NOT NULL,
   `earn_code` varchar(3) COLLATE utf8_bin NOT NULL,
   `descr` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `effdt` date DEFAULT NULL,
@@ -700,7 +700,7 @@ CREATE TABLE `tk_earn_code_t` (
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) DEFAULT '1',
   `timestamp` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`tk_earn_code_id`)
+  PRIMARY KEY (`hr_earn_code_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -718,19 +718,19 @@ CREATE TABLE `tk_earn_code_s` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tk_earn_group_def_t`
+-- Table structure for table `hr_earn_group_def_t`
 --
 
-DROP TABLE IF EXISTS `tk_earn_group_def_t`;
+DROP TABLE IF EXISTS `hr_earn_group_def_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_earn_group_def_t` (
-  `tk_earn_group_id` bigint(20) DEFAULT NULL,
+CREATE TABLE `hr_earn_group_def_t` (
+  `hr_earn_group_id` bigint(20) DEFAULT NULL,
   `earn_code` varchar(3) COLLATE utf8_bin DEFAULT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) DEFAULT '1',
-  `tk_earn_group_def_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`tk_earn_group_def_id`)
+  `hr_earn_group_def_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`hr_earn_group_def_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -748,14 +748,14 @@ CREATE TABLE `tk_earn_group_def_s` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tk_earn_group_t`
+-- Table structure for table `hr_earn_group_t`
 --
 
-DROP TABLE IF EXISTS `tk_earn_group_t`;
+DROP TABLE IF EXISTS `hr_earn_group_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_earn_group_t` (
-  `tk_earn_group_id` bigint(20) NOT NULL,
+CREATE TABLE `hr_earn_group_t` (
+  `hr_earn_group_id` bigint(20) NOT NULL,
   `earn_group` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `descr` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `effdt` date DEFAULT NULL,
@@ -763,7 +763,7 @@ CREATE TABLE `tk_earn_group_t` (
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) DEFAULT '1',
   `timestamp` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`tk_earn_group_id`)
+  PRIMARY KEY (`hr_earn_group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -814,13 +814,13 @@ CREATE TABLE `tk_grace_period_rl_s` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tk_holiday_calendar_dates_t`
+-- Table structure for table `hr_holiday_calendar_dates_t`
 --
 
-DROP TABLE IF EXISTS `tk_holiday_calendar_dates_t`;
+DROP TABLE IF EXISTS `hr_holiday_calendar_dates_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_holiday_calendar_dates_t` (
+CREATE TABLE `hr_holiday_calendar_dates_t` (
   `HOLIDAY_CALENDAR_DATES_ID` bigint(20) NOT NULL,
   `HOLIDAY_DATE` date NOT NULL,
   `HOLIDAY_DESC` varchar(30) COLLATE utf8_bin NOT NULL,
@@ -845,13 +845,13 @@ CREATE TABLE `tk_holiday_calendar_dates_s` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tk_holiday_calendar_t`
+-- Table structure for table `hr_holiday_calendar_t`
 --
 
-DROP TABLE IF EXISTS `tk_holiday_calendar_t`;
+DROP TABLE IF EXISTS `hr_holiday_calendar_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_holiday_calendar_t` (
+CREATE TABLE `hr_holiday_calendar_t` (
   `HOLIDAY_CALENDAR_ID` bigint(20) NOT NULL,
   `HOLIDAY_CALENDAR_GROUP` varchar(3) COLLATE utf8_bin NOT NULL,
   `DESCR` varchar(30) COLLATE utf8_bin DEFAULT NULL,
@@ -875,21 +875,21 @@ CREATE TABLE `tk_holiday_calendar_s` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tk_py_calendar_t`
+-- Table structure for table `hr_py_calendar_t`
 --
 
-DROP TABLE IF EXISTS `tk_py_calendar_t`;
+DROP TABLE IF EXISTS `hr_py_calendar_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_py_calendar_t` (
-  `tk_py_calendar_id` bigint(20) NOT NULL,
-  `calendar_group` varchar(45) COLLATE utf8_bin NOT NULL,
+CREATE TABLE `hr_py_calendar_t` (
+  `hr_py_calendar_id` bigint(20) NOT NULL,
+  `py_calendar_group` varchar(45) COLLATE utf8_bin NOT NULL,
   `chart` varchar(45) COLLATE utf8_bin NOT NULL,
   `begin_date` date NOT NULL,
   `begin_time` time NOT NULL DEFAULT '00:00:00',
   `end_date` date NOT NULL,
   `end_time` time NOT NULL DEFAULT '23:59:59',
-  PRIMARY KEY (`tk_py_calendar_id`)
+  PRIMARY KEY (`hr_py_calendar_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -915,7 +915,7 @@ DROP TABLE IF EXISTS `tk_py_calendar_dates_t`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tk_py_calendar_dates_t` (
   `tk_py_calendar_dates_id` bigint(20) NOT NULL,
-  `tk_py_calendar_id` bigint(20) NOT NULL,
+  `hr_py_calendar_id` bigint(20) NOT NULL,
   `begin_period_date` timestamp NOT NULL,
   `end_period_date` timestamp NOT NULL,
   `initiate_date` date DEFAULT NULL,
@@ -944,32 +944,32 @@ CREATE TABLE `tk_py_calendar_dates_s` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tk_sal_group_t`
+-- Table structure for table `hr_sal_group_t`
 --
 
-DROP TABLE IF EXISTS `tk_sal_group_t`;
+DROP TABLE IF EXISTS `hr_sal_group_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_sal_group_t` (
-  `TK_SAL_GROUP_ID` bigint(20) NOT NULL,
-  `TK_SAL_GROUP` varchar(10) COLLATE utf8_bin NOT NULL,
+CREATE TABLE `hr_sal_group_t` (
+  `hr_sal_group_ID` bigint(20) NOT NULL,
+  `hr_sal_group` varchar(10) COLLATE utf8_bin NOT NULL,
   `EFFDT` date NOT NULL,
   `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ACTIVE` bit(1) DEFAULT NULL,
   `OBJ_ID` varchar(36) COLLATE utf8_bin DEFAULT NULL,
   `VER_NBR` bigint(20) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`TK_SAL_GROUP_ID`)
+  PRIMARY KEY (`hr_sal_group_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tk_sal_group_s`
+-- Table structure for table `hr_sal_group_s`
 --
 
-DROP TABLE IF EXISTS `tk_sal_group_s`;
+DROP TABLE IF EXISTS `hr_sal_group_s`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_sal_group_s` (
+CREATE TABLE `hr_sal_group_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2085 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -985,7 +985,7 @@ DROP TABLE IF EXISTS `tk_shift_differential_rl_t`;
 CREATE TABLE `tk_shift_differential_rl_t` (
   `TK_SHIFT_DIFF_RL_ID` bigint(20) NOT NULL,
   `LOCATION` varchar(2) COLLATE utf8_bin DEFAULT NULL,
-  `TK_SAL_GROUP` varchar(10) COLLATE utf8_bin DEFAULT NULL,
+  `hr_sal_group` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `PAY_GRADE` varchar(3) COLLATE utf8_bin DEFAULT NULL,
   `EFFDT` date DEFAULT NULL,
   `EARN_CODE` varchar(3) COLLATE utf8_bin DEFAULT NULL,
@@ -1342,14 +1342,14 @@ CREATE TABLE `tk_roles_s` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tk_roles_t`
+-- Table structure for table `hr_roles_t`
 --
 
-DROP TABLE IF EXISTS `tk_roles_t`;
+DROP TABLE IF EXISTS `hr_roles_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tk_roles_t` (
-  `tk_roles_id` bigint(19) NOT NULL,
+CREATE TABLE `hr_roles_t` (
+  `hr_roles_id` bigint(19) NOT NULL,
   `principal_id` varchar(20) COLLATE utf8_bin NOT NULL,
   `role_name` varchar(20) COLLATE utf8_bin NOT NULL,
   `user_principal_id` varchar(40) COLLATE utf8_bin DEFAULT NULL,
@@ -1358,7 +1358,7 @@ CREATE TABLE `tk_roles_t` (
   `effdt` date NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `active` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`tk_roles_id`)
+  PRIMARY KEY (`hr_roles_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

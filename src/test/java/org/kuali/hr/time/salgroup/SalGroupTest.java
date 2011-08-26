@@ -1,11 +1,10 @@
 package org.kuali.hr.time.salgroup;
 
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class SalGroupTest extends TkTestCase {
 	
@@ -14,7 +13,7 @@ public class SalGroupTest extends TkTestCase {
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.SAL_GROUP_MAINT_URL);
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");
     	HtmlUnitUtil.createTempFile(page);
-    	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","tkSalGroupId=10");
+    	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","hrSalGroupId=10");
     	assertTrue("Test that maintenance screen rendered", page.asText().contains("A10"));
 	}
 	

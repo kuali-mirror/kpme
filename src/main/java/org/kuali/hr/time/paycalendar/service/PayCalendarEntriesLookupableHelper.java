@@ -1,13 +1,13 @@
 package org.kuali.hr.time.paycalendar.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PayCalendarEntriesLookupableHelper extends
 		KualiLookupableHelperServiceImpl {
@@ -29,14 +29,14 @@ public class PayCalendarEntriesLookupableHelper extends
 		}
 		PayCalendarEntries payCalendarEntries = (PayCalendarEntries) businessObject;
 		final String className = this.getBusinessObjectClass().getName();
-		final Long payCalendarEntriesId = payCalendarEntries.getPayCalendarEntriesId();
+		final Long hrPyCalendarEntriesId = payCalendarEntries.getHrPyCalendarEntriesId();
 		HtmlData htmlData = new HtmlData() {
 
 			@Override
 			public String constructCompleteHtmlTag() {
 				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-						+ className + "&methodToCall=start&payCalendarEntriesId=" + payCalendarEntriesId
-						+ "&calendarGroup=\">view</a>";
+						+ className + "&methodToCall=start&hrPyCalendarEntriesId=" + hrPyCalendarEntriesId
+						+ "&pyCalendarGroup=\">view</a>";
 			}
 		};
 		overrideUrls.add(htmlData);

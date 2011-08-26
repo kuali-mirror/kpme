@@ -37,14 +37,14 @@ public class PrincipalCalendarRule extends MaintenanceDocumentRuleBase {
 				valid = true;
 				valid &= this.validatePrincipalId(principalCal);
 
-				if (StringUtils.isNotEmpty(principalCal.getCalendarGroup())) {
+				if (StringUtils.isNotEmpty(principalCal.getPyCalendarGroup())) {
 					PayCalendar payCal = TkServiceLocator
 							.getPayCalendarSerivce().getPayCalendarByGroup(
-									principalCal.getCalendarGroup());
+									principalCal.getPyCalendarGroup());
 					if (payCal == null) {
-						this.putFieldError("calendarGroup",
+						this.putFieldError("pyCalendarGroup",
 								"principal.cal.pay.invalid", principalCal
-										.getCalendarGroup());
+										.getPyCalendarGroup());
 						valid = false;
 					}
 				}

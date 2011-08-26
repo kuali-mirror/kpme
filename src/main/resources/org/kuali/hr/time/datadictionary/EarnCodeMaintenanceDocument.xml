@@ -20,7 +20,7 @@
     </property>
     <property name="lockingKeys">
 			<list>
-				<value>tkEarnCodeId</value>
+				<value>hrEarnCodeId</value>
 			</list>
 		</property>
     <property name="documentTypeName" value="EarnCodeMaintenanceDocumentType"/>

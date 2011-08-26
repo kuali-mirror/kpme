@@ -1,12 +1,12 @@
 package org.kuali.hr.time.earncode.validation;
 
-import java.math.BigDecimal;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+
+import java.math.BigDecimal;
 
 public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 	
@@ -15,7 +15,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		EarnCode earnCode = (EarnCode)this.getNewBo();
 		//if earn code is not designated how to record then throw error
 
-		if (earnCode.getTkEarnCodeId() == null) {
+		if (earnCode.getHrEarnCodeId() == null) {
 			if (ValidationUtils.validateEarnCode(earnCode.getEarnCode(), null)) {
 				// If there IS an earn code, ie, it is valid, we need to report
 				// an error as earn codes must be unique.			

@@ -1,14 +1,14 @@
 package org.kuali.hr.time.dept.lunch;
 
-import java.math.BigDecimal;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
+
+import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 
 public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule {
 
@@ -24,7 +24,7 @@ public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule 
     private String userPrincipalId;
 
     private Long tkWorkAreaId;
-    private Long tkDeptId;
+    private Long hrDeptId;
     private Long hrJobId;
 
     WorkArea workAreaObj;
@@ -164,12 +164,12 @@ public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule 
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
 
-	public Long getTkDeptId() {
-		return tkDeptId;
+	public Long getHrDeptId() {
+		return hrDeptId;
 	}
 
-	public void setTkDeptId(Long tkDeptId) {
-		this.tkDeptId = tkDeptId;
+	public void setHrDeptId(Long hrDeptId) {
+		this.hrDeptId = hrDeptId;
 	}
 
 	public Long getHrJobId() {

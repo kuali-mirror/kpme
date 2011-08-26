@@ -1,10 +1,10 @@
 package org.kuali.hr.time.holidaycalendar;
 
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
-
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class HolidayCalendarDateEntry extends PersistableBusinessObjectBase {
 	
@@ -13,10 +13,10 @@ public class HolidayCalendarDateEntry extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long holidayCalendarDateId;
+	private Long hrHolidayCalendarDateId;
 	private Date holidayDate;
 	private String holidayDescr;
-	private Long holidayCalendarId;
+	private Long hrHolidayCalendarId;
 	private BigDecimal holidayHours;
 	
 	
@@ -27,13 +27,13 @@ public class HolidayCalendarDateEntry extends PersistableBusinessObjectBase {
 	}
 
 
-	public Long getHolidayCalendarDateId() {
-		return holidayCalendarDateId;
+	public Long getHrHolidayCalendarDateId() {
+		return hrHolidayCalendarDateId;
 	}
 
 
-	public void setHolidayCalendarDateId(Long holidayCalendarDateId) {
-		this.holidayCalendarDateId = holidayCalendarDateId;
+	public void setHrHolidayCalendarDateId(Long hrHolidayCalendarDateId) {
+		this.hrHolidayCalendarDateId = hrHolidayCalendarDateId;
 	}
 
 
@@ -57,13 +57,13 @@ public class HolidayCalendarDateEntry extends PersistableBusinessObjectBase {
 	}
 
 
-	public Long getHolidayCalendarId() {
-		return holidayCalendarId;
+	public Long getHrHolidayCalendarId() {
+		return hrHolidayCalendarId;
 	}
 
 
-	public void setHolidayCalendarId(Long holidayCalendarId) {
-		this.holidayCalendarId = holidayCalendarId;
+	public void setHrHolidayCalendarId(Long hrHolidayCalendarId) {
+		this.hrHolidayCalendarId = hrHolidayCalendarId;
 	}
 
 

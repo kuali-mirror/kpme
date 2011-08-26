@@ -22,7 +22,7 @@
 		</property>
 		<property name="lockingKeys">
 			<list>
-				<value>tkEarnGroupId</value>
+				<value>hrEarnGroupId</value>
 			</list>
 		</property>
 		<property name="documentTypeName" value="EarnGroupDocumentType" />

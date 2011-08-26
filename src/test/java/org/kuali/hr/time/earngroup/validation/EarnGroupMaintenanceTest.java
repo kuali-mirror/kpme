@@ -1,10 +1,9 @@
 package org.kuali.hr.time.earngroup.validation;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
+import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 import org.junit.Test;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
@@ -14,17 +13,17 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class EarnGroupMaintenanceTest extends TkTestCase {
 	private static final java.sql.Date TEST_DATE=new java.sql.Date(Calendar.getInstance().getTimeInMillis());
 	private static final String EARN_CODE = "RGN";
-	private static Long tkEarnGroupId;
-	private static Long tkEarnCodeId;
-	private static Long tkEarnGroupIdRGG;
+	private static Long hrEarnGroupId;
+	private static Long hrEarnCodeId;
+	private static Long hrEarnGroupIdRGG;
 	
 	@Override
 	public void setUp() throws Exception {
@@ -42,7 +41,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		earnGroup.setActive(true);
 		earnGroup.setEarnGroups(earnGroups);
 		KNSServiceLocator.getBusinessObjectService().save(earnGroup);	
-		tkEarnGroupId = earnGroup.getTkEarnGroupId();	
+		hrEarnGroupId = earnGroup.getHrEarnGroupId();
 		
 		// Set up earn code RGG in tk-earn_code_t
 		EarnCode earnCode = new EarnCode();
@@ -55,7 +54,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		earnCode.setInflateMinHours(BigDecimal.ZERO);
 		earnCode.setInflateFactor(BigDecimal.ZERO);		
 		KNSServiceLocator.getBusinessObjectService().save(earnCode);	
-		tkEarnCodeId = earnCode.getTkEarnCodeId();
+		hrEarnCodeId = earnCode.getHrEarnCodeId();
 		
 		// Set up earn group RGG in tk-earn_group_t
 		EarnGroup earnGroupRGG = new EarnGroup();
@@ -65,18 +64,18 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		earnGroupRGG.setShowSummary(true);
 		earnGroupRGG.setActive(true);
 		KNSServiceLocator.getBusinessObjectService().save(earnGroupRGG);	
-		tkEarnGroupIdRGG = earnGroupRGG.getTkEarnGroupId();
+		hrEarnGroupIdRGG = earnGroupRGG.getHrEarnGroupId();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		EarnGroup earnGroupObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnGroup.class, tkEarnGroupId);			
+		EarnGroup earnGroupObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnGroup.class, hrEarnGroupId);
 		KNSServiceLocator.getBusinessObjectService().delete(earnGroupObj);	
 		
-		EarnGroup earnGroupObjRGG = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnGroup.class, tkEarnGroupIdRGG);			
+		EarnGroup earnGroupObjRGG = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnGroup.class, hrEarnGroupIdRGG);
 		KNSServiceLocator.getBusinessObjectService().delete(earnGroupObjRGG);	
 		
-		EarnCode earnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, tkEarnCodeId);			
+		EarnCode earnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, hrEarnCodeId);
 		KNSServiceLocator.getBusinessObjectService().delete(earnCodeObj);	
 		
 		super.tearDown();
@@ -87,7 +86,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		HtmlPage earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_GROUP_MAINT_URL);
 		earnGroupLookUp = HtmlUnitUtil.clickInputContainingText(earnGroupLookUp, "search");
 		assertTrue("Page contains test Earn Group", earnGroupLookUp.asText().contains("test"));		
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnGroupLookUp, "edit", tkEarnGroupId.toString());		
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnGroupLookUp, "edit", hrEarnGroupId.toString());
 		assertTrue("Maintenance Page contains test ClockLog", maintPage.asText().contains("test"));
 		HtmlTextInput text  = (HtmlTextInput) maintPage.getHtmlElementById("document.documentHeader.documentDescription");
 		text.setValueAttribute("test1");
@@ -96,7 +95,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
 		earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_GROUP_MAINT_URL);
 		earnGroupLookUp = HtmlUnitUtil.clickInputContainingText(earnGroupLookUp, "search");
 		assertTrue("Page contains test Earn Group", earnGroupLookUp.asText().contains("test RGG"));		
-		HtmlPage testEditRGGPage = HtmlUnitUtil.clickAnchorContainingText(earnGroupLookUp, "edit", tkEarnGroupIdRGG.toString());		
+		HtmlPage testEditRGGPage = HtmlUnitUtil.clickAnchorContainingText(earnGroupLookUp, "edit", hrEarnGroupIdRGG.toString());
 		assertTrue("Maintenance Page contains test ClockLog", testEditRGGPage.asText().contains("test RGG"));
 		text  = (HtmlTextInput) testEditRGGPage.getHtmlElementById("document.documentHeader.documentDescription");
 		text.setValueAttribute("testEditRGG");

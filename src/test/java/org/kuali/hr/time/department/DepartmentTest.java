@@ -1,12 +1,11 @@
 package org.kuali.hr.time.department;
 
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class DepartmentTest extends TkTestCase {
 	@Test
@@ -25,7 +24,7 @@ public class DepartmentTest extends TkTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		Department dept = new Department();
-		dept.setTkDeptId(1001L);
+		dept.setHrDeptId(1001L);
 		dept.setDept("__TEST");
 		dept.setDescription("TESTING_DEPT");
 		dept.setActive(true);
@@ -36,7 +35,7 @@ public class DepartmentTest extends TkTestCase {
 	@Override
 	public void tearDown() throws Exception {
 		Department dept = new Department();
-		dept.setTkDeptId(1001L);
+		dept.setHrDeptId(1001L);
 		dept.setDept("__TEST");
 		dept.setDescription("TESTING_DEPT");
 		

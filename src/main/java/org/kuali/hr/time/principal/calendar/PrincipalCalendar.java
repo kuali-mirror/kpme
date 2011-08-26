@@ -1,14 +1,14 @@
 package org.kuali.hr.time.principal.calendar;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 public class PrincipalCalendar extends HrBusinessObject {
 
@@ -17,7 +17,7 @@ public class PrincipalCalendar extends HrBusinessObject {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String principalId;
-	private String calendarGroup;
+	private String pyCalendarGroup;
 	private String holidayCalendarGroup;
 	private String timezone;
 	
@@ -48,12 +48,12 @@ public class PrincipalCalendar extends HrBusinessObject {
 	    return (person != null) ? person.getName() : "";
 	}
 
-	public String getCalendarGroup() {
-		return calendarGroup;
+	public String getPyCalendarGroup() {
+		return pyCalendarGroup;
 	}
 
-	public void setCalendarGroup(String calendarGroup) {
-		this.calendarGroup = calendarGroup;
+	public void setPyCalendarGroup(String pyCalendarGroup) {
+		this.pyCalendarGroup = pyCalendarGroup;
 	}
 
 	public String getHolidayCalendarGroup() {
@@ -122,7 +122,7 @@ public class PrincipalCalendar extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		return principalId + "_" + calendarGroup + "_" + holidayCalendarGroup;
+		return principalId + "_" + pyCalendarGroup + "_" + holidayCalendarGroup;
 	}
 
 	@Override

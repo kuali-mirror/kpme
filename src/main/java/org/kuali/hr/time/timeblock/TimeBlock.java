@@ -12,8 +12,6 @@ import javax.persistence.Transient;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -51,6 +49,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 	private Boolean clockLogCreated;
 	private BigDecimal hours = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 	private BigDecimal amount = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+    private String principalId;
 	private String userPrincipalId;
 	private Timestamp timestamp;
 	private String beginTimestampTimezone;
@@ -528,4 +527,11 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     	return TkServiceLocator.getTimeBlockService().isTimeBlockEditable(this);
     }
 
+    public String getPrincipalId() {
+        return principalId;
+    }
+
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
+    }
 }

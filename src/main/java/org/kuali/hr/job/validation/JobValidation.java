@@ -51,10 +51,10 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 	}
 
 	boolean validateSalGroup(Job job) {
-		if (!ValidationUtils.validateSalGroup(job.getTkSalGroup(), job
+		if (!ValidationUtils.validateSalGroup(job.getHrSalGroup(), job
 				.getEffectiveDate())) {
-			this.putFieldError("tkSalGroup", "error.existence", "Salgroup '"
-					+ job.getTkSalGroup() + "'");
+			this.putFieldError("hrSalGroup", "error.existence", "Salgroup '"
+					+ job.getHrSalGroup() + "'");
 			return false;
 		} else {
 			return true;

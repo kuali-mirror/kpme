@@ -1,17 +1,16 @@
 package org.kuali.hr.time.dept.earncode.service;
 
+import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
-import org.kuali.hr.time.earncode.EarnCode;
-
 public interface DepartmentEarnCodeService {
 
-	/** This should handle wild cards on department and tk_sal_group. 
+	/** This should handle wild cards on department and hr_sal_group.
 	 * 
 	 */
-	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String tk_sal_group, String location, Date asOfDate);
+	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String hr_sal_group, String location, Date asOfDate);
 
-	public DepartmentEarnCode getDepartmentEarnCode(Long tkDeptEarnCodeId);
+	public DepartmentEarnCode getDepartmentEarnCode(Long hrDeptEarnCodeId);
 }

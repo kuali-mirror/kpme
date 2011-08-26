@@ -1,9 +1,5 @@
 package org.kuali.hr.time.holidaycalendar.service;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
@@ -11,8 +7,11 @@ import org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry;
 import org.kuali.hr.time.holidaycalendar.dao.HolidayCalendarDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 	private HolidayCalendarDao holidayCalendarDao;
@@ -36,13 +35,13 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 
 	@Override
 	public List<HolidayCalendarDateEntry> getHolidayCalendarDateEntriesForPayPeriod(
-			Long holidayCalendarId, Date startDate, Date endDate) {
-		return holidayCalendarDao.getHolidayCalendarDateEntriesForPayPeriod(holidayCalendarId, startDate, endDate);
+			Long hrHolidayCalendarId, Date startDate, Date endDate) {
+		return holidayCalendarDao.getHolidayCalendarDateEntriesForPayPeriod(hrHolidayCalendarId, startDate, endDate);
 	}
 
 	@Override
-	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(Long holidayCalendarId, Date startDate) {
-		return holidayCalendarDao.getHolidayCalendarDateEntryByDate(holidayCalendarId, startDate);
+	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(Long hrHolidayCalendarId, Date startDate) {
+		return holidayCalendarDao.getHolidayCalendarDateEntryByDate(hrHolidayCalendarId, startDate);
 	}
 
 	@Override

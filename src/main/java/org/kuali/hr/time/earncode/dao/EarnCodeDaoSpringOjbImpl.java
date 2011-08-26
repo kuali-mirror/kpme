@@ -1,16 +1,15 @@
 package org.kuali.hr.time.earncode.dao;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-
 import uk.ltd.getahead.dwr.util.Logger;
+
+import java.sql.Date;
+import java.util.List;
 
 public class EarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements EarnCodeDao {
 
@@ -31,7 +30,7 @@ public class EarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 
 	public EarnCode getEarnCodeById(Long earnCodeId) {
 		Criteria crit = new Criteria();
-		crit.addEqualTo("tkEarnCodeId", earnCodeId);
+		crit.addEqualTo("hrEarnCodeId", earnCodeId);
 		return (EarnCode) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(EarnCode.class, crit));
 	}
 

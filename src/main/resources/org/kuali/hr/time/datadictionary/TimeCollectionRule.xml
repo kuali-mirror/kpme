@@ -27,7 +27,7 @@
 				<ref bean="TimeCollectionRule-timestamp" />
                 <ref bean="TimeCollectionRule-active" />
                 <ref bean="TimeCollectionRule-tkWorkAreaId" />
-                <ref bean="TimeCollectionRule-tkDeptId" />
+                <ref bean="TimeCollectionRule-hrDeptId" />
 			</list>
 		</property>
 
@@ -49,7 +49,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"	p:targetName="dept" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkDeptId"	p:targetName="tkDeptId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrDeptId"	p:targetName="hrDeptId" />
 						</list>
 					</property>
 				</bean>
@@ -180,10 +180,10 @@
 		<property name="label" value="Timestamp" />
 	</bean>
 
-	<bean id="TimeCollectionRule-tkDeptId" parent="TimeCollectionRule-tkDeptId-parentBean" />
-	<bean id="TimeCollectionRule-tkDeptId-parentBean" abstract="true"
+	<bean id="TimeCollectionRule-hrDeptId" parent="TimeCollectionRule-hrDeptId-parentBean" />
+	<bean id="TimeCollectionRule-hrDeptId-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="tkDeptId" />
+		<property name="name" value="hrDeptId" />
 		<property name="control">
 			<bean parent="HiddenControlDefinition" />
 		</property>
@@ -236,7 +236,7 @@
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
                 <bean parent="FieldDefinition" p:attributeName="active"/>
                 <bean parent="FieldDefinition" p:attributeName="tkWorkAreaId"/>
-                <bean parent="FieldDefinition" p:attributeName="tkDeptId"/>
+                <bean parent="FieldDefinition" p:attributeName="hrDeptId"/>
 			</list>
 		</property>
 		<property name="resultFields">

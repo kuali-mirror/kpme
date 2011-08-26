@@ -1,6 +1,6 @@
 CREATE TABLE `tk_principal_calendar_t` (
   `principal_id` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `calendar_group` varchar(45) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `py_calendar_group` varchar(45) COLLATE utf8_bin NOT NULL DEFAULT '',
   `holiday_calendar_group` varchar(45) COLLATE utf8_bin NOT NULL DEFAULT '',
   `EFFDT` date NOT NULL DEFAULT '0000-00-00',
   `TIMESTAMP` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

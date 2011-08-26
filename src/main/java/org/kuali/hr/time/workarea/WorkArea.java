@@ -1,17 +1,17 @@
 package org.kuali.hr.time.workarea;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.task.Task;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 
@@ -30,7 +30,7 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     
 	private boolean history;
     
-    private Long tkDeptId;
+    private Long hrDeptId;
 
     private List<TkRole> roles = new ArrayList<TkRole>();
     private List<TkRole> inactiveRoles = new ArrayList<TkRole>();
@@ -226,12 +226,12 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 	}
 
 
-	public Long getTkDeptId() {
-		return tkDeptId;
+	public Long getHrDeptId() {
+		return hrDeptId;
 	}
 
-	public void setTkDeptId(Long tkDeptId) {
-		this.tkDeptId = tkDeptId;
+	public void setHrDeptId(Long hrDeptId) {
+		this.hrDeptId = hrDeptId;
 	}
 
 

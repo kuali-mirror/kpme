@@ -19,7 +19,7 @@
 		</property>
 		<property name="lockingKeys">
 			<list>
-				<value>holidayCalendarDateId</value>
+				<value>hrHolidayCalendarDateId</value>
 			</list>
 		</property>
 		<property name="documentTypeName" value="HolidayCalendarDateEntryDocumentType" />

@@ -1,32 +1,32 @@
 package org.kuali.hr.time.paycalendar.service;
 
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 
 public interface PayCalendarEntriesService {
 
     /**
      * Method to directly access the PayCalendarEntries object by ID.
      *
-     * @param payCalendarEntriesId The ID to retrieve.
+     * @param hrPyCalendarEntriesId The ID to retrieve.
      * @return a PayCalendarEntries object.
      */
-	public PayCalendarEntries getPayCalendarEntries(Long payCalendarEntriesId);
+	public PayCalendarEntries getPayCalendarEntries(Long hrPyCalendarEntriesId);
 
     /**
      * Method to obtain the current PayCalendarEntries object based on the
      * indicated calendar and asOfDate.
-     * @param payCalendarId The calendar to reference.
+     * @param hrPyCalendarId The calendar to reference.
      * @param asOfDate The date reference point.
      * @return the current PayCalendarEntries effective by the asOfDate.
      */
-	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(Long payCalendarId, Date asOfDate);
-    public PayCalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long payCalendarId, Date endPeriodDate);
+	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, Date asOfDate);
+    public PayCalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long hrPyCalendarId, Date endPeriodDate);
 
-    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries pce);
-    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long payCalendarId, PayCalendarEntries pce);
+    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, PayCalendarEntries pce);
+    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, PayCalendarEntries pce);
 
     /**
      * Provides a list of PayCalendarEntries that are in the indicated window

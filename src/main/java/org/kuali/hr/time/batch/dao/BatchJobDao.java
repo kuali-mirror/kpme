@@ -7,6 +7,6 @@ import java.util.List;
 public interface BatchJobDao {
     public void saveOrUpdate(BatchJob batchJob);
 	public BatchJob getBatchJob(Long batchJobId);
-    public List<BatchJob> getBatchJobs(Long payCalendarEntryId);
-    public List<BatchJob> getPayCalendarEntries(Long payCalendarEntryId, String batchJobStatus);
+    public List<BatchJob> getBatchJobs(Long hrPyCalendarEntryId);
+    public List<BatchJob> getPayCalendarEntries(Long hrPyCalendarEntryId, String batchJobStatus);
 }

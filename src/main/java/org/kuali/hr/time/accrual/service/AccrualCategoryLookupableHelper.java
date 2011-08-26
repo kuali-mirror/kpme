@@ -1,16 +1,16 @@
 package org.kuali.hr.time.accrual.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Used to override lookup functionality for the accrual category lookup
@@ -39,16 +39,16 @@ public class AccrualCategoryLookupableHelper extends
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
 			AccrualCategory accrualCategory = (AccrualCategory) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long laAccrualCategoryId = accrualCategory
-					.getLaAccrualCategoryId();
+			final Long lmAccrualCategoryId = accrualCategory
+					.getLmAccrualCategoryId();
 			HtmlData htmlData = new HtmlData() {
 
 				@Override
 				public String constructCompleteHtmlTag() {
 					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
 							+ className
-							+ "&methodToCall=start&laAccrualCategoryId="
-							+ laAccrualCategoryId + "\">view</a>";
+							+ "&methodToCall=start&lmAccrualCategoryId="
+							+ lmAccrualCategoryId + "\">view</a>";
 				}
 			};
 			overrideUrls.add(htmlData);
