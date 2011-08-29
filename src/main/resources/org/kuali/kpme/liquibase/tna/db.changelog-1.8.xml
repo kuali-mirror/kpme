@@ -37,7 +37,7 @@
             <column name="TK_BATCH_JOB_ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="HR_PY_CALENDAR_ENTRY_ID" type="BIGINT">
+            <column name="TK_PY_CALENDAR_ENTRY_ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="CLOCK_LOG_ID" type="BIGINT">
