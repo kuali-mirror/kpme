@@ -27,25 +27,15 @@ import java.util.*;
 
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
-    private DateTimeZone timeZone;
-
-    DateTimeZone getTimeZone() {
-        return (timeZone != null) ? timeZone : TkConstants.SYSTEM_DATE_TIME_ZONE;
-    }
 
     @Override
 	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument) {
-		return this.getTimeSummary(timesheetDocument, timesheetDocument.getTimeBlocks(), TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+		return this.getTimeSummary(timesheetDocument, timesheetDocument.getTimeBlocks());
 	}
 
     @Override
-    public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument, List<TimeBlock> timeBlocks) {
-        return this.getTimeSummary(timesheetDocument, timeBlocks, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
-    }
-
-	protected TimeSummary getTimeSummary(TimesheetDocument timesheetDocument, List<TimeBlock> timeBlocks, DateTimeZone timeZone) {
+	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument, List<TimeBlock> timeBlocks) {
 		TimeSummary timeSummary = new TimeSummary();
-        this.timeZone = timeZone;
 
 		if(timesheetDocument.getTimeBlocks() == null) {
 			return timeSummary;
@@ -84,7 +74,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         List<BigDecimal> hours = new ArrayList<BigDecimal>();
         BigDecimal periodTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 
-        for (FlsaWeek week : aggregate.getFlsaWeeks(getTimeZone())) {
+        for (FlsaWeek week : aggregate.getFlsaWeeks(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback())) {
             BigDecimal weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
             for (FlsaDay day : week.getFlsaDays()) {
                 BigDecimal totalForDay = TkConstants.BIG_DECIMAL_SCALED_ZERO;
@@ -263,7 +253,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
 				assignRow.setDescr(assign.getAssignmentDescription());
 				BigDecimal weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
-				
+
 
                 // this counter is used to know what position in the dayArrangements
                 // boolean list we should use.
@@ -286,7 +276,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 						assignRow.getTotal().add(weeklyTotal);
 						weeklyTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
                         daydaycount++; // bump to catch up. The map only contains time block info not period summaries.
-					} 
+					}
 
                     assignRow.getTotal().add(hrs);
                     weeklyTotal = weeklyTotal.add(hrs,TkConstants.MATH_CONTEXT);
