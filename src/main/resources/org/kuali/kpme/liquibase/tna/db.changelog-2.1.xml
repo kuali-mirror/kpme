@@ -115,19 +115,19 @@
             /* SQL changes from Tom */
             ALTER TABLE `hr_earn_group_def_t` CHANGE COLUMN `hr_earn_group_id` `hr_earn_group_id` BIGINT(22) NOT NULL ,
             CHANGE COLUMN `earn_code` `earn_code` VARCHAR(9) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL , CHANGE
-            COLUMN `OBJ_ID` `OBJ_ID` VARCHAR(36) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL , CHANGE COLUMN
+            COLUMN `OBJ_ID` `OBJ_ID` VARCHAR(38) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL , CHANGE COLUMN
             `VER_NBR` `VER_NBR` BIGINT(38) NOT NULL DEFAULT '1' , CHANGE COLUMN `hr_earn_group_def_id`
             `hr_earn_group_def_id` BIGINT(22) NOT NULL ;
 
             ALTER TABLE `hr_earn_group_t` CHANGE COLUMN `hr_earn_group_id` `hr_earn_group_id` BIGINT(38) NOT NULL ,
             CHANGE COLUMN `earn_group` `earn_group` VARCHAR(10) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL ,
             CHANGE COLUMN `effdt` `effdt` DATE NOT NULL , CHANGE COLUMN `active` `active` VARCHAR(1) CHARACTER SET
-            'utf8' COLLATE 'utf8_bin' NOT NULL , CHANGE COLUMN `OBJ_ID` `OBJ_ID` VARCHAR(36) CHARACTER SET 'utf8'
+            'utf8' COLLATE 'utf8_bin' NOT NULL , CHANGE COLUMN `OBJ_ID` `OBJ_ID` VARCHAR(38) CHARACTER SET 'utf8'
             COLLATE 'utf8_bin' NOT NULL , CHANGE COLUMN `VER_NBR` `VER_NBR` BIGINT(38) NOT NULL DEFAULT '1' ;
 
             ALTER TABLE `hr_sal_group_t` CHANGE COLUMN `HR_SAL_GROUP_ID` `HR_SAL_GROUP_ID` BIGINT(38) NOT NULL , CHANGE
             COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL , CHANGE COLUMN
-            `OBJ_ID` `OBJ_ID` VARCHAR(36) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL DEFAULT '1' , CHANGE COLUMN
+            `OBJ_ID` `OBJ_ID` VARCHAR(38) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL, CHANGE COLUMN
             `VER_NBR` `VER_NBR` BIGINT(38) NOT NULL DEFAULT '1' ;
         </sql>
     </changeSet>
