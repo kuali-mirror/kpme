@@ -32,26 +32,26 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 	private static List<String> TABLES_TO_CLEAR = new ArrayList<String>();
 
 	static {
-		TABLES_TO_CLEAR.add("TK_PY_CALENDAR_T");
-		TABLES_TO_CLEAR.add("TK_PY_CALENDAR_ENTRIES_T");
-		TABLES_TO_CLEAR.add("hr_dept_t");
+		TABLES_TO_CLEAR.add("HR_PY_CALENDAR_T");
+		TABLES_TO_CLEAR.add("HR_PY_CALENDAR_ENTRIES_T");
+		TABLES_TO_CLEAR.add("HR_DEPT_T");
 		TABLES_TO_CLEAR.add("TK_ASSIGN_ACCT_T");
 		TABLES_TO_CLEAR.add("TK_ASSIGNMENT_T");
 		TABLES_TO_CLEAR.add("TK_CLOCK_LOCATION_RL_T");
 		TABLES_TO_CLEAR.add("TK_CLOCK_LOG_T");
 		TABLES_TO_CLEAR.add("TK_DAILY_OVERTIME_RL_T");
-		TABLES_TO_CLEAR.add("hr_dept_earn_code_t");
+		TABLES_TO_CLEAR.add("HR_DEPT_EARN_CODE_T");
 		TABLES_TO_CLEAR.add("TK_DEPT_LUNCH_RL_T");
-		TABLES_TO_CLEAR.add("hr_earn_code_t");
-		TABLES_TO_CLEAR.add("hr_earn_group_t");
-		TABLES_TO_CLEAR.add("TK_EARN_GROUP_DEF_T");
+		TABLES_TO_CLEAR.add("HR_EARN_CODE_T");
+		TABLES_TO_CLEAR.add("HR_EARN_GROUP_T");
+		TABLES_TO_CLEAR.add("HR_EARN_GROUP_DEF_T");
 		TABLES_TO_CLEAR.add("TK_GRACE_PERIOD_RL_T");
-		TABLES_TO_CLEAR.add("TK_HOLIDAY_CALENDAR_DATES_T");
-		TABLES_TO_CLEAR.add("TK_HOLIDAY_CALENDAR_T");
+		TABLES_TO_CLEAR.add("HR_HOLIDAY_CALENDAR_DATES_T");
+		TABLES_TO_CLEAR.add("HR_HOLIDAY_CALENDAR_T");
 		TABLES_TO_CLEAR.add("TK_HOUR_DETAIL_HIST_T");
 		TABLES_TO_CLEAR.add("TK_HOUR_DETAIL_T");
-		TABLES_TO_CLEAR.add("TK_ROLES_T");
-		TABLES_TO_CLEAR.add("hr_sal_group_T");
+		TABLES_TO_CLEAR.add("HR_ROLES_T");
+		TABLES_TO_CLEAR.add("HR_SAL_GROUP_T");
 		TABLES_TO_CLEAR.add("TK_SHIFT_DIFFERENTIAL_RL_T");
 		TABLES_TO_CLEAR.add("TK_SYSTEM_LUNCH_RL_T");
 		TABLES_TO_CLEAR.add("TK_TASK_T");
@@ -71,11 +71,11 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 	static{
 		TABLE_TO_ID_MAP.put("TK_TIME_COLLECTION_RL_T", "TK_TIME_COLL_RULE_ID");
 		TABLE_TO_ID_MAP.put("TK_SHIFT_DIFFERENTIAL_RL_T", "TK_SHIFT_DIFF_RL_ID");
-		TABLE_TO_ID_MAP.put("TK_HOLIDAY_CALENDAR_T", "HOLIDAY_CALENDAR_ID");
-		TABLE_TO_ID_MAP.put("TK_HOLIDAY_CALENDAR_DATES_T", "HOLIDAY_CALENDAR_DATES_ID");
+		//TABLE_TO_ID_MAP.put("HR_HOLIDAY_CALENDAR_T", "HR_HOLIDAY_CALENDAR_ID");
+		//TABLE_TO_ID_MAP.put("HR_HOLIDAY_CALENDAR_DATES_T", "HR_HOLIDAY_CALENDAR_DATES_ID");
 		TABLE_TO_ID_MAP.put("TK_GRACE_PERIOD_RL_T", "TK_GRACE_PERIOD_RULE_ID");
 		TABLE_TO_ID_MAP.put("TK_CLOCK_LOCATION_RL_T", "TK_CLOCK_LOC_RULE_ID");
-		TABLE_TO_ID_MAP.put("TK_PY_CALENDAR_ENTRIES_T", "TK_PY_CALENDAR_ENTRY_ID");
+		TABLE_TO_ID_MAP.put("HR_PY_CALENDAR_ENTRIES_T", "HR_PY_CALENDAR_ENTRY_ID");
 		TABLE_TO_ID_MAP.put("TK_DOCUMENT_HEADER_T", "DOCUMENT_ID");
 	}
 
@@ -127,7 +127,7 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
                     			String idName = TABLE_TO_ID_MAP.get(tableName);
                     			String deleteStatement = null;
                     			if(idName == null){
-                    				deleteStatement = "DELETE FROM " + tableName +" WHERE "+StringUtils.removeEnd(tableName, "_T")+"_ID"+ " >= "+START_CLEAR_ID;
+                    				deleteStatement = "DELETE FROM " + tableName +" WHERE "+StringUtils.removeEnd(tableName,"_T")+"_ID"+ " >= "+START_CLEAR_ID;
                     			} else {
                     				deleteStatement = "DELETE FROM " + tableName +" WHERE "+ idName + " >= "+START_CLEAR_ID;
                     			}
