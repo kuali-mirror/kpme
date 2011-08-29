@@ -78,7 +78,7 @@
             NULL
             , DROP PRIMARY KEY
             , ADD PRIMARY KEY (`hr_py_calendar_entry_id`) , RENAME TO `hr_py_calendar_entries_t` ;
-            ALTER TABLE `tk_py_calendar_entries_t` RENAME TO `hr_py_calendar_entries_s` ;
+            ALTER TABLE `tk_py_calendar_entries_s` RENAME TO `hr_py_calendar_entries_s` ;
 
             ALTER TABLE `tk_batch_job_t` CHANGE COLUMN `TK_PAY_CALENDAR_ENTRY_ID` `HR_PY_CALENDAR_ENTRY_ID` BIGINT(20)
             NOT NULL ;
