@@ -601,6 +601,156 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="43"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-08-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-08-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="44"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-08-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-09-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="45"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-09-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-09-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="46"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-09-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-10-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="47"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-10-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-10-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="48"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-10-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-11-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="49"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-11-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-11-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="50"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-11-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-12-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="51"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-12-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-12-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="52"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-12-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2012-01-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
     </changeSet>
     <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-2">
         <insert tableName="tk_py_calendar_entries_s">
