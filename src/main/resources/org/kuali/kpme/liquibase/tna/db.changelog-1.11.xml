@@ -48,10 +48,10 @@
         </addColumn>
     </changeSet>
     <changeSet author="lee55" id="5">
-        <modifyDataType tableName="hr_roles_t" columnName="principal_id" newDataType="VARCHAR(40)"/>
+        <modifyDataType tableName="tk_roles_t" columnName="principal_id" newDataType="VARCHAR(40)"/>
     </changeSet>
     <changeSet author="lee55" id="6">
-        <addColumn tableName="hr_roles_t">
+        <addColumn tableName="tk_roles_t">
             <column name="position_nbr" type="BIGINT(20)">
                 <constraints nullable="true"/>
             </column>

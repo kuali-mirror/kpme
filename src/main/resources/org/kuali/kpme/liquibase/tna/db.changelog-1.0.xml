@@ -164,7 +164,7 @@
             <column name="dept" type="VARCHAR(21)">
                 <constraints nullable="false"/>
             </column>
-            <column name="hr_sal_group" type="VARCHAR(10)"/>
+            <column name="TK_SAL_GROUP" type="VARCHAR(10)"/>
             <column name="PAY_GRADE" type="VARCHAR(3)"/>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
                 <constraints nullable="false"/>
@@ -742,8 +742,8 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-46">
-        <createTable tableName="lm_accrual_categories_t">
-            <column name="LM_ACCRUAL_CATEGORY_ID" type="BIGINT">
+        <createTable tableName="la_accrual_categories_t">
+            <column name="LA_ACCRUAL_CATEGORY_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="ACCRUAL_CATEGORY" type="VARCHAR(3)">
@@ -773,7 +773,7 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-48">
-        <createTable tableName="lm_accruals_t">
+        <createTable tableName="la_accruals_t">
             <column name="LA_ACCRUALS_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -1166,14 +1166,14 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-72">
-        <createTable tableName="hr_dept_earn_code_t">
-            <column name="hr_dept_earn_code_id" type="BIGINT">
+        <createTable tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="dept" type="VARCHAR(21)">
                 <constraints nullable="false"/>
             </column>
-            <column name="hr_sal_group" type="VARCHAR(10)">
+            <column name="tk_sal_group" type="VARCHAR(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="earn_code" type="VARCHAR(3)">
@@ -1238,7 +1238,7 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-76">
-        <createTable tableName="hr_dept_t">
+        <createTable tableName="tk_dept_t">
             <column name="tk_dept_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -1275,8 +1275,8 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-79">
-        <createTable tableName="hr_earn_code_t">
-            <column name="hr_earn_code_id" type="INT">
+        <createTable tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="earn_code" type="VARCHAR(3)">
@@ -1313,12 +1313,12 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-81">
-        <createTable tableName="hr_earn_group_def_t">
-            <column name="hr_earn_group_id" type="BIGINT"/>
+        <createTable tableName="tk_earn_group_def_t">
+            <column name="tk_earn_group_id" type="BIGINT"/>
             <column name="earn_code" type="VARCHAR(3)"/>
             <column name="OBJ_ID" type="VARCHAR(36)"/>
             <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT"/>
-            <column name="hr_earn_group_def_id" type="BIGINT">
+            <column name="tk_earn_group_def_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
@@ -1331,8 +1331,8 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-83">
-        <createTable tableName="hr_earn_group_t">
-            <column name="hr_earn_group_id" type="BIGINT">
+        <createTable tableName="tk_earn_group_t">
+            <column name="tk_earn_group_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="earn_group" type="VARCHAR(10)"/>
@@ -1381,7 +1381,7 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-87">
-        <createTable tableName="hr_holiday_calendar_dates_t">
+        <createTable tableName="tk_holiday_calendar_dates_t">
             <column name="HOLIDAY_CALENDAR_DATES_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -1411,7 +1411,7 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-89">
-        <createTable tableName="hr_holiday_calendar_t">
+        <createTable tableName="tk_holiday_calendar_t">
             <column name="HOLIDAY_CALENDAR_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -1518,11 +1518,11 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-95">
-        <createTable tableName="hr_principal_calendar_t">
+        <createTable tableName="tk_principal_calendar_t">
             <column defaultValue="" name="principal_id" type="VARCHAR(40)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column defaultValue="" name="py_calendar_group" type="VARCHAR(45)">
+            <column defaultValue="" name="calendar_group" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
             <column name="holiday_calendar_group" type="VARCHAR(45)"/>
@@ -1552,12 +1552,12 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-97">
-        <createTable tableName="hr_py_calendar_entries_t">
-            <column name="hr_py_calendar_entry_id" type="BIGINT">
+        <createTable tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="hr_py_calendar_id" type="BIGINT"/>
-            <column name="py_calendar_group" type="VARCHAR(45)">
+            <column name="tk_py_calendar_id" type="BIGINT"/>
+            <column name="calendar_group" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="begin_period_date" type="TIMESTAMP">
@@ -1584,11 +1584,11 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-99">
-        <createTable tableName="hr_py_calendar_t">
-            <column name="hr_py_calendar_id" type="BIGINT">
+        <createTable tableName="tk_py_calendar_t">
+            <column name="tk_py_calendar_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="py_calendar_group" type="VARCHAR(45)">
+            <column name="calendar_group" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
             <column name="flsa_begin_day" type="VARCHAR(9)">
@@ -1603,7 +1603,7 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-100">
-        <createTable tableName="hr_roles_group_t">
+        <createTable tableName="tk_roles_group_t">
             <column name="principal_id" type="VARCHAR(20)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -1617,8 +1617,8 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-102">
-        <createTable tableName="hr_roles_t">
-            <column name="hr_roles_id" type="BIGINT">
+        <createTable tableName="tk_roles_t">
+            <column name="tk_roles_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="principal_id" type="VARCHAR(20)">
@@ -1642,18 +1642,18 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-103">
-        <createTable tableName="hr_sal_group_s">
+        <createTable tableName="tk_sal_group_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1298997987507-104">
-        <createTable tableName="hr_sal_group_t">
-            <column name="hr_sal_group_ID" type="BIGINT">
+        <createTable tableName="tk_sal_group_t">
+            <column name="TK_SAL_GROUP_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="hr_sal_group" type="VARCHAR(10)">
+            <column name="TK_SAL_GROUP" type="VARCHAR(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="EFFDT" type="DATE">
@@ -1683,7 +1683,7 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="LOCATION" type="VARCHAR(45)"/>
-            <column name="hr_sal_group" type="VARCHAR(10)"/>
+            <column name="TK_SAL_GROUP" type="VARCHAR(10)"/>
             <column name="PAY_GRADE" type="VARCHAR(3)"/>
             <column name="EFFDT" type="DATE"/>
             <column name="EARN_CODE" type="VARCHAR(3)"/>

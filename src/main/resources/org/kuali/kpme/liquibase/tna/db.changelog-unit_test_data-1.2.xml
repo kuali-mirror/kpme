@@ -6,8 +6,8 @@
 
     <!-- id needs only to be unique per class path file name and author name -->
     <changeSet context="unit_test_data" author="djunk" id="1">
-        <insert tableName="hr_earn_group_t">
-            <column name="hr_earn_group_id" valueNumeric="120"/>
+        <insert tableName="tk_earn_group_t">
+            <column name="tk_earn_group_id" valueNumeric="120"/>
             <column name="earn_group" value="WS1"/>
             <column name="descr" value="Test Work Schd"/>
             <column name="show_summary" value="N"/>
@@ -20,16 +20,16 @@
     </changeSet>
 
     <changeSet context="unit_test_data" author="djunk" id="2">
-        <insert tableName="hr_earn_group_def_t">
-            <column name="hr_earn_group_def_id" valueNumeric="50"/>
-            <column name="hr_earn_group_id" valueNumeric="120"/>
+        <insert tableName="tk_earn_group_def_t">
+            <column name="tk_earn_group_def_id" valueNumeric="50"/>
+            <column name="tk_earn_group_id" valueNumeric="120"/>
             <column name="earn_code" value="HOL"/>
             <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
             <column name="VER_NBR" valueNumeric="1"/>
         </insert>
-        <insert tableName="hr_earn_group_def_t">
-            <column name="hr_earn_group_def_id" valueNumeric="51"/>
-            <column name="hr_earn_group_id" valueNumeric="120"/>
+        <insert tableName="tk_earn_group_def_t">
+            <column name="tk_earn_group_def_id" valueNumeric="51"/>
+            <column name="tk_earn_group_id" valueNumeric="120"/>
             <column name="earn_code" value="VAC"/>
             <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
             <column name="VER_NBR" valueNumeric="1"/>

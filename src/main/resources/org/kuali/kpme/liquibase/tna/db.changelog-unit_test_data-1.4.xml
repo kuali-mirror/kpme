@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
 	<changeSet context="unit_test_data"  author="yingzhou" id="1">
-		<insert tableName="lm_accruals_t">
+		<insert tableName="la_accruals_t">
             <column name="LA_ACCRUALS_ID" valueNumeric="2"/>
             <column name="PRINCIPAL_ID" value="admin"/>
             <column name="ACCRUAL_CATEGORY" value="RGN"/>
@@ -16,7 +16,7 @@
     </changeSet>
     <changeSet context="unit_test_data" author="yingzhou" id="2">
 		<sql>
-			 UPDATE hr_earn_code_t SET accrual_category='RGN' WHERE earn_code = 'RGN';
+			 UPDATE tk_earn_code_t SET accrual_category='RGN' WHERE earn_code = 'RGN';
 		</sql>
 	</changeSet>
 </databaseChangeLog>
