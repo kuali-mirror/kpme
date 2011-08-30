@@ -52,7 +52,7 @@
 							<c:otherwise>
 								<c:forEach items="${assignRow.amount}" var="entry">
 									<c:choose>
-									<c:when test="${entry ne '0.00'}">
+									<c:when test="${entry ne '0.00' and entry != 0}">
 										<td class="${assignRow.cssClass}">$${entry}</td>
 									</c:when>
 									<c:otherwise>
