@@ -40,7 +40,7 @@
 							<c:when test="${!earnCodeSection.isAmountEarnCode}">
 								<c:forEach items="${assignRow.total}" var="entry">
 									<c:choose>
-									<c:when test="${entry ne '0.00' and entry%7 != 0}">
+									<c:when test="${entry ne '0.00' and entry != 0}">
 										<td class="${assignRow.cssClass}">${entry}</td>
 									</c:when>
 									<c:otherwise>
@@ -52,7 +52,7 @@
 							<c:otherwise>
 								<c:forEach items="${assignRow.amount}" var="entry">
 									<c:choose>
-									<c:when test="${entry ne '0.00' and entry%7 != 0}">
+									<c:when test="${entry ne '0.00'}">
 										<td class="${assignRow.cssClass}">$${entry}</td>
 									</c:when>
 									<c:otherwise>
