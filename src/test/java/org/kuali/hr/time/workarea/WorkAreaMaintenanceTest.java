@@ -1,7 +1,6 @@
 package org.kuali.hr.time.workarea;
 
-import java.sql.Date;
-
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Test;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -10,7 +9,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
 
 public class WorkAreaMaintenanceTest extends TkTestCase {
 
@@ -20,7 +19,6 @@ public class WorkAreaMaintenanceTest extends TkTestCase {
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");
     	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit");
-    	HtmlUnitUtil.createTempFile(page);
     	assertTrue("Test that maintenance screen rendered", page.asText().contains("30"));
 	}
 

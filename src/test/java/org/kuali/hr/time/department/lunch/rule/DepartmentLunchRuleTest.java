@@ -9,8 +9,11 @@ import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.math.BigDecimal;
@@ -54,7 +57,7 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		cal.set(2010, 1, 1);
 		deptLunchRule.setEffectiveDate(new java.sql.Date(cal.getTime().getTime()));
 		deptLunchRule.setJobNumber(1L);
-		deptLunchRule.setPrincipalId("admin");
+		deptLunchRule.setPrincipalId("edna");
 		deptLunchRule.setDeductionMins(new BigDecimal(30));
 		deptLunchRule.setShiftHours(new BigDecimal(6));
 		deptLunchRule.setTkDeptLunchRuleId(1001L);
@@ -62,9 +65,11 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
 		deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule("TEST-DEPT",
-											1234L, "admin", 1L, new Date(System.currentTimeMillis()));
+											1234L, "edna", 1L, new Date(System.currentTimeMillis()));
 		assertTrue("dept lunch rule fetched ", deptLunchRule!=null);
 
+        Person testUser = KIMServiceLocator.getPersonService().getPerson("edna");
+        TKContext.getUser().setTargetPerson(testUser);
 		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(TKUtils.getCurrentDate());
 		
 		for(TimeBlock tb : doc.getTimeBlocks()){

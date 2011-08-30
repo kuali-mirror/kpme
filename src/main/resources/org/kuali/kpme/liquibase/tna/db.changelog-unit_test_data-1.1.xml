@@ -1974,7 +1974,7 @@
             <column name="TK_WORK_AREA_ID" valueNumeric="1"/>
             <column name="TK_TASK_ID" valueNumeric="1"/>
             <column name="CLOCK_TS" valueDate="2010-01-01T08:08:08.0"/>
-            <column name="CLOCK_TS_TZ" value="TEST"/>
+            <column name="CLOCK_TS_TZ" value="America/Indianapolis"/>
             <column name="CLOCK_ACTION" value="CO"/>
             <column name="IP_ADDRESS" value="1.2.3.4"/>
             <column name="HR_JOB_ID" valueNumeric="1"/>

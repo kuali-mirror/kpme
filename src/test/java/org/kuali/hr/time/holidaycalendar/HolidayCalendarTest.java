@@ -1,14 +1,13 @@
 package org.kuali.hr.time.holidaycalendar;
 
-import org.junit.Test;
-import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
-import org.kuali.hr.time.test.TkTestConstants;
-
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.junit.Test;
+import org.kuali.hr.time.test.HtmlUnitUtil;
+import org.kuali.hr.time.test.TkTestCase;
+import org.kuali.hr.time.test.TkTestConstants;
 
 public class HolidayCalendarTest extends TkTestCase {
 	
@@ -35,7 +34,8 @@ public class HolidayCalendarTest extends TkTestCase {
     	setFieldValue(page, "document.documentHeader.documentDescription", "HolidayCalendar - test");
     	setFieldValue(page, "document.newMaintainableObject.holidayCalendarGroup", "TT");
     	HtmlElement element = page.getElementByName("methodToCall.route");
-    	assertTrue("Page was submitted successfully" , page.asText().contains("submitted"));
+        HtmlPage nextPage = element.click();
+        assertTrue("Page was submitted successfully", nextPage.asText().contains("submitted"));
         
 	}
 

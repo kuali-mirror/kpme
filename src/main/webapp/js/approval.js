@@ -18,45 +18,45 @@ $(document).ready(function() {
 
     
     // sort by the clicked column
-    $('#approvals-table tr th').click(function() {
-    	// replace all occurrence of white space, including space, tab, newline, etc
-        var field = $(this).text().replace(/\s/g, '');
-        //no sorting for notes and warnings pop-up
-        if(field == "Creator" || field == "CreatedDate" || field == "Content" || field == "Notes:" || field == "Warnings:") {
-        	return false;
-        }
-        var rows = $('#approvals-table tbody tr').length;
-        var isAscending = getParameterByName("ascending");
-
-        if (isAscending == null) {
-            isAscending = true;
-        } else if (isAscending == "true") {
-            isAscending = false;
-        } else {
-            isAscending = true;
-        }
-
-        // submit the page for sorting
-        if (field != 'Action' && field != 'Select') {
-            window.location = 'TimeApproval.do?sortField=' + field + '&ascending=' + isAscending + '&rowsToShow=' + rows + "&hrPyCalendarId=" + $("#pcid").val() + "&hrPyCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val();
-        }
-    });
+//    $('#approvals-table tr th').click(function() {
+//    	// replace all occurrence of white space, including space, tab, newline, etc
+//        var field = $(this).text().replace(/\s/g, '');
+//        //no sorting for notes and warnings pop-up
+//        if(field == "Creator" || field == "CreatedDate" || field == "Content" || field == "Notes:" || field == "Warnings:") {
+//        	return false;
+//        }
+//        var rows = $('#approvals-table tbody tr').length;
+//        var isAscending = getParameterByName("ascending");
+//
+//        if (isAscending == null) {
+//            isAscending = true;
+//        } else if (isAscending == "true") {
+//            isAscending = false;
+//        } else {
+//            isAscending = true;
+//        }
+//
+//        // submit the page for sorting
+//        if (field != 'Action' && field != 'Select') {
+//            window.location = 'TimeApproval.do?sortField=' + field + '&ascending=' + isAscending + '&rowsToShow=' + rows + "&hrPyCalendarId=" + $("#pcid").val() + "&hrPyCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val();
+//        }
+//    });
 
     // this is to determine which fields are sortable
-    $('#approvals-table tr th').filter(
-            function(index) {
-                return $(this).html().replace(/ /, '') == "DocumentId" || $(this).html().replace(/ /, '') == "PrincipalName" || $(this).html().replace(/ /, '') == "Status";
-            }).addClass("sort");
-
-    // add acs/desc icon to a sorted field
-    if (getParameterByName("ascending") != '') {
-        var klass = getParameterByName("ascending") == "true" ? 'headerSortDown' : 'headerSortUp';
-
-        $('#approvals-table tr th').filter(
-                function(index) {
-                    return $(this).html().replace(/ /, '') == getParameterByName("sortField");
-                }).addClass(klass);
-    }
+//    $('#approvals-table tr th').filter(
+//            function(index) {
+//                return $(this).html().replace(/ /, '') == "DocumentId" || $(this).html().replace(/ /, '') == "PrincipalName" || $(this).html().replace(/ /, '') == "Status";
+//            }).addClass("sort");
+//
+//    // add acs/desc icon to a sorted field
+//    if (getParameterByName("ascending") != '') {
+//        var klass = getParameterByName("ascending") == "true" ? 'headerSortDown' : 'headerSortUp';
+//
+//        $('#approvals-table tr th').filter(
+//                function(index) {
+//                    return $(this).html().replace(/ /, '') == getParameterByName("sortField");
+//                }).addClass(klass);
+//    }
 
 
     // fetch more document headers
