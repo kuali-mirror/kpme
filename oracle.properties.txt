@@ -1,0 +1,11 @@
+driver: com.mysql.jdbc.Driver
+url: jdbc:mysql://129.79.23.142:3306/tk-stg?sessionVariables=storage_engine=InnoDB
+username: tk
+password: tk_tk_tk
+referenceurl: jdbc:mysql://129.79.23.142:3306/tk-stg?sessionVariables=storage_engine=InnoDB
+referenceusername: tk
+referencepassword: tk_tk_tk
+driver: oracle.jdbc.driver.OracleDriver
+url: jdbc:oracle:thin:@esdbd04.uits.indiana.edu:1521:TK1DEV
+username: lfox
+password: fox08al

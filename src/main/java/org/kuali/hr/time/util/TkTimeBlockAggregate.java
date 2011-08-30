@@ -199,6 +199,7 @@ public class TkTimeBlockAggregate {
 			if (currentDate.getDayOfWeek() == flsaDayConstant) {
 				currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime, flsaBeginLocalTime);
 				flsaWeeks.add(currentWeek);
+				
 				currentWeek.addFlsaDay(flsaDay);
 			} else {
 				// add to existing week.

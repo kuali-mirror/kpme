@@ -1,5 +1,6 @@
 package org.kuali.hr.time.flsa;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.*;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -118,13 +119,14 @@ public class FlsaDay {
         // for the individual time block.
         Map<String,BigDecimal> localEarnCodeToHours = new HashMap<String,BigDecimal>();
 
-		if (overlapHours.compareTo(BigDecimal.ZERO) > 0) {
+		if (overlapHours.compareTo(BigDecimal.ZERO) > 0 || (flsaDateInterval.contains(beginDateTime) && StringUtils.equals(block.getEarnCodeType(),TkConstants.EARN_CODE_AMOUNT)))  {
 
             List<TimeHourDetail> details = block.getTimeHourDetails();
             for (TimeHourDetail thd : details) {
                 BigDecimal ecHours = earnCodeToHours.containsKey(thd.getEarnCode()) ? earnCodeToHours.get(thd.getEarnCode()) : BigDecimal.ZERO;
                 BigDecimal localEcHours = localEarnCodeToHours.containsKey(thd.getEarnCode()) ? localEarnCodeToHours.get(thd.getEarnCode()) : BigDecimal.ZERO;
-                if (overlapHours.compareTo(localEcHours) >= 0) {
+                //NOTE adding this in the last few hours before release.. remove if side effects are noticed
+                if (overlapHours.compareTo(localEcHours) >= 0 || thd.getAmount().compareTo(BigDecimal.ZERO) == 0) {
                     ecHours = ecHours.add(thd.getHours(), TkConstants.MATH_CONTEXT);
                     localEcHours = localEcHours.add(thd.getHours(), TkConstants.MATH_CONTEXT);
                     earnCodeToHours.put(thd.getEarnCode(), ecHours);

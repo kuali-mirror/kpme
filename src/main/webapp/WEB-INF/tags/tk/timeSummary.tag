@@ -29,29 +29,54 @@
 					</c:forEach>
 				</tr>
 				<c:forEach items="${timeSummary.sections}" var="section">
-				<tr>
-					<td>${section.earnGroup}</td>
-				</tr>
-					<c:forEach items="${section.assignmentRows}" var="assignRow">
+					<c:forEach items="${section.earnCodeSections}" var="earnCodeSection">
+						<tr>
+							<td>${earnCodeSection.earnCode}</td>
+						</tr>
+						<c:forEach items="${earnCodeSection.assignmentsRows}" var="assignRow">
 						<tr style="border-bottom-style: double; font-weight: bold;">
 							<td class="${assignRow.cssClass}">${assignRow.descr}</td>
-							<c:forEach items="${assignRow.total}" var="entry">
-								<c:choose>
+							<c:choose>
+							<c:when test="${!earnCodeSection.isAmountEarnCode}">
+								<c:forEach items="${assignRow.total}" var="entry">
+									<c:choose>
 									<c:when test="${entry ne '0.00' and entry%7 != 0}">
 										<td class="${assignRow.cssClass}">${entry}</td>
 									</c:when>
 									<c:otherwise>
-										<td></td>
+										<td/>
 									</c:otherwise>
-								</c:choose>								
-							</c:forEach>
+									</c:choose>								
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<c:forEach items="${assignRow.amount}" var="entry">
+									<c:choose>
+									<c:when test="${entry ne '0.00' and entry%7 != 0}">
+										<td class="${assignRow.cssClass}">$${entry}</td>
+									</c:when>
+									<c:otherwise>
+										<td/>
+									</c:otherwise>
+									</c:choose>								
+								</c:forEach>
+							</c:otherwise>
+							</c:choose>
 						</tr>
+						</c:forEach>	
 					</c:forEach>
-					<tr style="border-bottom-style: double; font-weight: bold;">
+					<tr>
 						<td>${section.earnGroup}</td>
-						<c:forEach items="${section.totals}" var="entry">
-							<td><c:if test="${entry ne '0.00' and entry%7 != 0}">${entry}</c:if></td>
-						</c:forEach>
+							<c:forEach items="${section.totals}" var="entry">
+								<c:choose>
+								<c:when test="${entry ne '0.00' and entry%7 != 0}">
+									<td>${entry}</td>
+								</c:when>
+								<c:otherwise>
+									<td/>
+								</c:otherwise>	
+								</c:choose>							
+							</c:forEach>
 					</tr>
 				</c:forEach>
 		   </tbody>

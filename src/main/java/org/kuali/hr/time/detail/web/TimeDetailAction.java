@@ -1,5 +1,13 @@
 package org.kuali.hr.time.detail.web;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -16,17 +24,15 @@ import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.timesummary.AssignmentRow;
+import org.kuali.hr.time.timesummary.EarnCodeSection;
 import org.kuali.hr.time.timesummary.EarnGroupSection;
 import org.kuali.hr.time.timesummary.TimeSummary;
-import org.kuali.hr.time.util.*;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.kns.exception.AuthorizationException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -62,13 +68,15 @@ public class TimeDetailAction extends TimesheetAction {
     	tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(TKContext.getCurrentTimesheetDoucment()));
         Map<String, String> aMap = tdaf.getAssignStyleClassMap();
         // set css classes for each assignment row
-        for(EarnGroupSection section: ts.getSections()) {
-        	for(AssignmentRow assignRow: section.getAssignmentRows()) {
-        		if(assignRow.getAssignmentKey() != null && aMap.containsKey(assignRow.getAssignmentKey())) {
-                	assignRow.setCssClass(aMap.get(assignRow.getAssignmentKey()));
-                } else {
-                	assignRow.setCssClass("");
-                }
+        for(EarnGroupSection earnGroupSection: ts.getSections()) {
+        	for(EarnCodeSection section : earnGroupSection.getEarnCodeSections()){
+        		for(AssignmentRow assignRow: section.getAssignmentsRows()) {
+        			if(assignRow.getAssignmentKey() != null && aMap.containsKey(assignRow.getAssignmentKey())) {
+        				assignRow.setCssClass(aMap.get(assignRow.getAssignmentKey()));
+        			} else {
+        				assignRow.setCssClass("");
+        			}
+        		}
         	}
 
         }
