@@ -1,9 +1,9 @@
 package org.kuali.hr.time.position;
 
+import org.kuali.hr.time.HrBusinessObject;
+
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
-
-import org.kuali.hr.time.HrBusinessObject;
 
 public class Position extends HrBusinessObject {
 
@@ -13,7 +13,7 @@ public class Position extends HrBusinessObject {
 	private static final long serialVersionUID = 1L;
 	
 	private Long hrPositionId;
-	private Long positionNumber;
+	private String positionNumber;
 	private String description;
 	private String history;
 
@@ -32,11 +32,11 @@ public class Position extends HrBusinessObject {
 		this.hrPositionId = hrPositionId;
 	}
 
-	public Long getPositionNumber() {
+	public String getPositionNumber() {
 		return positionNumber;
 	}
 
-	public void setPositionNumber(Long positionNumber) {
+	public void setPositionNumber(String positionNumber) {
 		this.positionNumber = positionNumber;
 	}
 

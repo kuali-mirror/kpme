@@ -1,10 +1,5 @@
 package org.kuali.hr.job.dao;
 
-import java.util.Date;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -12,6 +7,11 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.job.Job;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 /**
  * Represents an implementation of {@link JobDao}.
  * 
@@ -153,7 +153,7 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Job> getActiveJobsForPosition(Long positionNbr, Date asOfDate){
+	public List<Job> getActiveJobsForPosition(String positionNbr, Date asOfDate){
 		Criteria root = new Criteria();
 		Criteria effdt = new Criteria();
 		Criteria timestamp = new Criteria();

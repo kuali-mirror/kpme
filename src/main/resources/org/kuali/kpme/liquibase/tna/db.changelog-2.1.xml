@@ -115,7 +115,8 @@
             /* SQL changes from Tom */
             ALTER TABLE `hr_earn_group_def_t` CHANGE COLUMN `hr_earn_group_id` `hr_earn_group_id` BIGINT(22) NOT NULL ,
             CHANGE COLUMN `earn_code` `earn_code` VARCHAR(9) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL , CHANGE
-            COLUMN `OBJ_ID` `OBJ_ID` VARCHAR(38) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL DEFAULT '1', CHANGE COLUMN
+            COLUMN `OBJ_ID` `OBJ_ID` VARCHAR(38) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL DEFAULT '1', CHANGE
+            COLUMN
             `VER_NBR` `VER_NBR` BIGINT(38) NOT NULL DEFAULT '1' , CHANGE COLUMN `hr_earn_group_def_id`
             `hr_earn_group_def_id` BIGINT(22) NOT NULL ;
 
@@ -129,6 +130,20 @@
             COLUMN `ACTIVE` `ACTIVE` VARCHAR(1) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL , CHANGE COLUMN
             `OBJ_ID` `OBJ_ID` VARCHAR(38) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL DEFAULT '1', CHANGE COLUMN
             `VER_NBR` `VER_NBR` BIGINT(38) NOT NULL DEFAULT '1' ;
+
+            ALTER TABLE `hr_job_t` CHANGE COLUMN `dept` `dept` VARCHAR(90) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT
+            NULL , CHANGE COLUMN `comp_rate` `comp_rate` DECIMAL(18,6) NULL DEFAULT '0.00' , CHANGE COLUMN `location`
+            `location` VARCHAR(20) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL , CHANGE COLUMN
+            `position_nbr` `position_nbr` VARCHAR(20) NULL DEFAULT NULL ;
+
+            ALTER TABLE `tk`.`hr_paytype_t` CHANGE COLUMN `DESCR` `DESCR` VARCHAR(90) CHARACTER SET 'utf8' COLLATE
+            'utf8_bin' NULL DEFAULT NULL ;
+
+            ALTER TABLE `tk`.`hr_location_t` CHANGE COLUMN `description` `description` VARCHAR(60) CHARACTER SET 'utf8'
+            COLLATE 'utf8_bin' NOT NULL ;
+
+            ALTER TABLE `tk`.`hr_position_t` CHANGE COLUMN `POSITION_NBR` `POSITION_NBR` VARCHAR(20) NOT NULL ;
+
         </sql>
     </changeSet>
 </databaseChangeLog>

@@ -27,7 +27,7 @@ public class TkRole extends HrBusinessObject {
     private String chart;
 	private Long hrDeptId;
 	private Long tkWorkAreaId;
-	private Long positionNumber;
+	private String positionNumber;
 
     /**
      * These objects are used by Lookups to provide links on the maintenance
@@ -163,11 +163,11 @@ public class TkRole extends HrBusinessObject {
         return (person != null) ? person.getName() : "";
     }
 
-	public void setPositionNumber(Long positionNumber) {
+	public void setPositionNumber(String positionNumber) {
 		this.positionNumber = positionNumber;
 	}
 
-	public Long getPositionNumber() {
+	public String getPositionNumber() {
 		return positionNumber;
 	}
 

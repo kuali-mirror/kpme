@@ -30,7 +30,7 @@ public interface TkRoleDao {
 	 * @param chart
 	 * @return
 	 */
-	public List<TkRole> findPositionRoles(Long positionNumber, Date asOfDate, String roleName, Long workArea, String department, String chart);
+	public List<TkRole> findPositionRoles(String positionNumber, Date asOfDate, String roleName, Long workArea, String department, String chart);
 	/**
 	 * Returns a list of inactive roles matching the specified criteria. Nulls are valid
 	 * as parameters, see parameter comments.
@@ -60,7 +60,7 @@ public interface TkRoleDao {
 	
 	public TkRole getRole(Long tkRoleId);
 	
-	public List<TkRole> getRolesByPosition(Long positionNumber);
+	public List<TkRole> getRolesByPosition(String positionNumber);
 	
 	public List<TkRole> getPositionRolesForWorkArea(Long workArea, Date asOfDate);
 

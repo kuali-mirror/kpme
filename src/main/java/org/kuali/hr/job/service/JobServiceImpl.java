@@ -1,13 +1,13 @@
 package org.kuali.hr.job.service;
 
-import java.util.Date;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+
+import java.util.Date;
+import java.util.List;
 /**
  * Represents an implementation of {@link JobService}.
  * 
@@ -76,7 +76,7 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public List<Job> getActiveJobsForPosition(Long positionNbr, Date asOfDate) {
+	public List<Job> getActiveJobsForPosition(String positionNbr, Date asOfDate) {
 		return jobDao.getActiveJobsForPosition(positionNbr, asOfDate);
 	}
 

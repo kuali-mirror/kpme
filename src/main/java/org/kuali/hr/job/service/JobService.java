@@ -1,9 +1,9 @@
 package org.kuali.hr.job.service;
 
+import org.kuali.hr.job.Job;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.hr.job.Job;
 
 public interface JobService {
 
@@ -59,7 +59,7 @@ public interface JobService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<Job> getActiveJobsForPosition(Long positionNbr, Date asOfDate);
+	public List<Job> getActiveJobsForPosition(String positionNbr, Date asOfDate);
 	
 	public Job getJob(Long hrJobId);
 	

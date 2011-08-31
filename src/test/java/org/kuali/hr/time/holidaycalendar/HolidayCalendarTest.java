@@ -33,6 +33,10 @@ public class HolidayCalendarTest extends TkTestCase {
     	
     	setFieldValue(page, "document.documentHeader.documentDescription", "HolidayCalendar - test");
     	setFieldValue(page, "document.newMaintainableObject.holidayCalendarGroup", "TT");
+        setFieldValue(page, "document.newMaintainableObject.descr", "desc");
+        setFieldValue(page, "document.newMaintainableObject.add.dateEntries.holidayDescr", "desc");
+        setFieldValue(page, "document.newMaintainableObject.add.dateEntries.holidayDate", "7/4/2011");
+        setFieldValue(page, "document.newMaintainableObject.add.dateEntries.holidayHours", "8");
     	HtmlElement element = page.getElementByName("methodToCall.route");
         HtmlPage nextPage = element.click();
         assertTrue("Page was submitted successfully", nextPage.asText().contains("submitted"));

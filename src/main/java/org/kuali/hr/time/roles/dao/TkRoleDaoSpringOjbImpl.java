@@ -23,7 +23,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<TkRole> findPositionRoles(Long positionNumber, Date asOfDate, String roleName, Long workArea, String department, String chart) {
+    public List<TkRole> findPositionRoles(String positionNumber, Date asOfDate, String roleName, Long workArea, String department, String chart) {
         List<TkRole> roles = new ArrayList<TkRole>();
 
         Criteria root = new Criteria();
@@ -397,7 +397,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 	}
 	
 	@Override
-	public List<TkRole> getRolesByPosition(Long positionNumber) {
+	public List<TkRole> getRolesByPosition(String positionNumber) {
 		Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("positionNumber", positionNumber);
 		List<TkRole> tkRoles = new ArrayList<TkRole>();

@@ -41,7 +41,7 @@ public class Job extends HrBusinessObject {
 	private Boolean primaryIndicator;
 	private Boolean history;
 	private BigDecimal compRate = new BigDecimal(0);
-	private Long positionNumber;
+	private String positionNumber;
 	
 	private Long hrDeptId;
 	private Long hrPayTypeId;
@@ -277,11 +277,11 @@ public class Job extends HrBusinessObject {
 		this.salGroupObj = salGroupObj;
 	}
 
-	public void setPositionNumber(Long positionNumber) {
+	public void setPositionNumber(String positionNumber) {
 		this.positionNumber = positionNumber;
 	}
 
-	public Long getPositionNumber() {
+	public String getPositionNumber() {
 		return positionNumber;
 	}
 

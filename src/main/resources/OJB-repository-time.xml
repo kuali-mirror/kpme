@@ -253,12 +253,12 @@
 		<field-descriptor name="timestamp" 				column="timestamp" 			jdbc-type="TIMESTAMP"  nullable="false" primarykey="false" />
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="location" 				column="location" 			jdbc-type="VARCHAR" nullable="false" length="30"  />
+		<field-descriptor name="location" 				column="location" 			jdbc-type="VARCHAR" nullable="false" length="20"  />
 		<field-descriptor name="standardHours" 			column="std_hours" 			jdbc-type="NUMERIC" nullable="false" length="27" />
 		<field-descriptor name="compRate" 			column="comp_rate" 				jdbc-type="NUMERIC" nullable="false" length="27" />
 		<field-descriptor name="hrPayType" 			    column="hr_paytype"     	jdbc-type="VARCHAR" length="5" nullable="false" primaryKey="false" />
 		<field-descriptor name="payGrade" 				column="pay_grade" 			jdbc-type="VARCHAR" nullable="false" length="27" />
-		<field-descriptor name="positionNumber"			column="position_nbr"       jdbc-type="BIGINT" nullable="true" />
+		<field-descriptor name="positionNumber"			column="position_nbr"       jdbc-type="VARCHAR" nullable="true" length="20"/>
 		<field-descriptor name="primaryIndicator"       column="primary_indicator"	jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
@@ -403,7 +403,7 @@
 	<class-descriptor class="org.kuali.hr.time.paytype.PayType" table="hr_paytype_t">
 		<field-descriptor name="hrPayTypeId" column="hr_paytype_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_paytype_s"/>
 		<field-descriptor name="payType" column="paytype" jdbc-type="VARCHAR" length="5" nullable="false" primarykey="true"/>
-		<field-descriptor name="descr" column="descr" jdbc-type="VARCHAR" length="30"/>
+		<field-descriptor name="descr" column="descr" jdbc-type="VARCHAR" length="90"/>
 		<field-descriptor name="regEarnCode" column="reg_ern_code" jdbc-type="VARCHAR" length="3" nullable="false"/>
 		<field-descriptor name="effectiveDate" column="effdt" jdbc-type="DATE" nullable="false"/>
 		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false"/>
@@ -745,7 +745,7 @@
 		<field-descriptor name="hrLocationId"     column="hr_location_id" jdbc-type="BIGINT" length="20" nullable="false" autoincrement="true" primarykey="true" sequence-name="hr_location_s"/>
 		<field-descriptor name="location"   column="location" jdbc-type="VARCHAR" length="20"/>
 		<field-descriptor name="timezone"   column="timezone" jdbc-type="VARCHAR" length="10"/>
-		<field-descriptor name="description" column="description" jdbc-type="VARCHAR" length="40"/>
+		<field-descriptor name="description" column="description" jdbc-type="VARCHAR" length="60"/>
 		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" />
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
 		<field-descriptor name="active"          column="active"      jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
@@ -788,7 +788,7 @@
 
 	<class-descriptor class="org.kuali.hr.time.position.Position" table="hr_position_t">
 		<field-descriptor name="hrPositionId"  column="hr_position_id"       jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_position_id_s"/>
-		<field-descriptor name="positionNumber"        column="position_nbr" jdbc-type="BIGINT" sequence-name="hr_position_s" primarykey="false" autoincrement="true"/>
+		<field-descriptor name="positionNumber"        column="position_nbr" jdbc-type="VARCHAR" length="20"/>
 		<field-descriptor name="description"        column="description" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />

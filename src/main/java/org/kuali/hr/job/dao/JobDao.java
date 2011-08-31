@@ -1,9 +1,9 @@
 package org.kuali.hr.job.dao;
 
+import org.kuali.hr.job.Job;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.hr.job.Job;
 
 public interface JobDao {
 
@@ -50,7 +50,7 @@ public interface JobDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<Job> getActiveJobsForPosition(Long positionNbr, Date asOfDate);
+	public List<Job> getActiveJobsForPosition(String positionNbr, Date asOfDate);
 	
 	/**
 	 * Get job based on id

@@ -144,7 +144,7 @@ public class TkRoleServiceImpl implements TkRoleService {
 	}
 	
 	@Override
-	public List<TkRole> getRolesByPosition(Long positionNumber) {
+	public List<TkRole> getRolesByPosition(String positionNumber) {
 		return tkRoleDao.getRolesByPosition(positionNumber);
 	}
 
