@@ -136,13 +136,13 @@
             `location` VARCHAR(20) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL , CHANGE COLUMN
             `position_nbr` `position_nbr` VARCHAR(20) NULL DEFAULT NULL ;
 
-            ALTER TABLE `tk`.`hr_paytype_t` CHANGE COLUMN `DESCR` `DESCR` VARCHAR(90) CHARACTER SET 'utf8' COLLATE
+            ALTER TABLE `hr_paytype_t` CHANGE COLUMN `DESCR` `DESCR` VARCHAR(90) CHARACTER SET 'utf8' COLLATE
             'utf8_bin' NULL DEFAULT NULL ;
 
-            ALTER TABLE `tk`.`hr_location_t` CHANGE COLUMN `description` `description` VARCHAR(60) CHARACTER SET 'utf8'
+            ALTER TABLE `hr_location_t` CHANGE COLUMN `description` `description` VARCHAR(60) CHARACTER SET 'utf8'
             COLLATE 'utf8_bin' NOT NULL ;
 
-            ALTER TABLE `tk`.`hr_position_t` CHANGE COLUMN `POSITION_NBR` `POSITION_NBR` VARCHAR(20) NOT NULL ;
+            ALTER TABLE `hr_position_t` CHANGE COLUMN `POSITION_NBR` `POSITION_NBR` VARCHAR(20) NOT NULL ;
 
         </sql>
     </changeSet>
