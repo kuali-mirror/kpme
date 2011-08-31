@@ -654,7 +654,7 @@
 	<class-descriptor class="org.kuali.hr.time.roles.TkRole" table="hr_roles_t">
 		<field-descriptor name="hrRolesId"       column="hr_roles_id"       jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_roles_s"/>
 		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="true" primarykey="false" />
-		<field-descriptor name="positionNumber"     column="position_nbr"      jdbc-type="BIGINT" primarykey="false" nullable="true"/>
+		<field-descriptor name="positionNumber"     column="position_nbr"      jdbc-type="VARCHAR" length="20"/>
 		<field-descriptor name="userPrincipalId" column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />
 		<field-descriptor name="roleName"        column="role_name" jdbc-type="VARCHAR" length="20" primarykey="false"/>
 		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" primarykey="false" />
