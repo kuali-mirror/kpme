@@ -44,7 +44,7 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="name" 
 					p:noLookup="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="jobNumber"
+				<bean parent="MaintainableFieldDefinition" p:name="jobNumber"  p:webUILeaveFieldFunction="refreshPage"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="dept" 
 					p:noLookup="true"/>
@@ -79,7 +79,7 @@
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="finCoaCd" p:noLookup="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="accountNbr" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="earnCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="earnCode" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
 							<bean parent="MaintainableFieldDefinition" p:name="subAcctNbr" />
 							<bean parent="MaintainableFieldDefinition" p:name="finObjectCd" p:required="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="finSubObjCd"/>
