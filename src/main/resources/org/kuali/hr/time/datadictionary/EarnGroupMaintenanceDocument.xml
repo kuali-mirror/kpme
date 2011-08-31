@@ -13,7 +13,8 @@
 		parent="MaintenanceDocumentEntry" 
 		p:businessObjectClass="org.kuali.hr.time.earngroup.EarnGroup"
 		p:businessRulesClass="org.kuali.hr.time.earngroup.validation.EarnGroupValidation"
-		p:maintainableClass="org.kuali.hr.time.earngroup.service.EarnGroupMaintainableImpl">
+		p:maintainableClass="org.kuali.hr.time.earngroup.service.EarnGroupMaintainableImpl"
+		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="EarnGroupMaintenanceDocument-EarnGroupMaintenance" />

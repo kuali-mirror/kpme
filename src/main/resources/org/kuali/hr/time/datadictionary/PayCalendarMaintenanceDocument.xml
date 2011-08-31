@@ -12,7 +12,8 @@
 
   <bean id="PayCalendarMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.time.paycalendar.PayCalendar"
-   		p:maintainableClass="org.kuali.hr.time.paycalendar.PayCalendarMaintainableImpl">
+   		p:maintainableClass="org.kuali.hr.time.paycalendar.PayCalendarMaintainableImpl"
+   		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="PayCalendarMaintenanceDocument-PayCalendarMaintenance"/>

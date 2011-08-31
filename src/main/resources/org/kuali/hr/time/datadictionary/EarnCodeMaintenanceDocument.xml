@@ -12,7 +12,8 @@
   <bean id="EarnCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.time.earncode.EarnCode"
   		p:businessRulesClass="org.kuali.hr.time.earncode.validation.EarnCodeValidation"
-  		p:maintainableClass="org.kuali.hr.time.earncode.service.EarnCodeMaintainableServiceImpl">
+  		p:maintainableClass="org.kuali.hr.time.earncode.service.EarnCodeMaintainableServiceImpl"
+  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="EarnCodeMaintenanceDocument-EarnCodeMaintenance"/>

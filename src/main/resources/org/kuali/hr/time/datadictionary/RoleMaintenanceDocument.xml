@@ -12,7 +12,8 @@
 	<bean id="RoleMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.roles.TkRole"
 		p:businessRulesClass="org.kuali.hr.time.roles.validation.TkRoleValidation"
-		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"
+		p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="RoleMaintenanceDocument-RoleMaintenance" />

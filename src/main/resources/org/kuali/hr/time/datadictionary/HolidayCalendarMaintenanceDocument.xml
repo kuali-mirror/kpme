@@ -12,7 +12,8 @@
 	<bean id="HolidayCalendarMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.holidaycalendar.HolidayCalendar"
 		p:businessRulesClass="org.kuali.hr.time.holidaycalendar.validation.HolidayCalendarRule"
-		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"
+		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="HolidayCalendarMaintenanceDocument-HolidayCalendarMaintenance" />

@@ -1,5 +1,10 @@
 package org.kuali.hr.time.authorization;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
@@ -9,10 +14,6 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
-
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Base class for the implementation of Authorization in KPME Time and Attendance.
@@ -46,12 +47,12 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
 
     @Override
     public Map<String, String> getCollectionItemRoleQualifications(BusinessObject collectionItemBusinessObject) {
-        return null;
+        return new HashMap<String,String>();
     }
 
     @Override
     public Map<String, String> getCollectionItemPermissionDetails(BusinessObject collectionItemBusinessObject) {
-        return null;
+        return new HashMap<String,String>();
     }
 
     // Methods from MaintenanceDocumentAuthorizer

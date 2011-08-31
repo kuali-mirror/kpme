@@ -12,7 +12,8 @@
 	<bean id="PrincipalCalendarMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.principal.calendar.PrincipalCalendar"
 		p:businessRulesClass="org.kuali.hr.time.principal.calendar.validation.PrincipalCalendarRule"
-		p:maintainableClass="org.kuali.hr.time.principal.calendar.service.PrincipalCalendarMaintainableImpl">
+		p:maintainableClass="org.kuali.hr.time.principal.calendar.service.PrincipalCalendarMaintainableImpl"
+		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="PrincipalCalendarMaintenanceDocument-PrincipalCalendarMaintenance" />

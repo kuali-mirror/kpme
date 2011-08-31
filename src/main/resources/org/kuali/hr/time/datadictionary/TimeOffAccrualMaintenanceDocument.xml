@@ -12,7 +12,8 @@
 	<bean id="TimeOffAccrualMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.accrual.TimeOffAccrual"
 		p:businessRulesClass="org.kuali.hr.time.accrual.validation.TimeOffAccrualRule"
-		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"
+		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="TimeOffAccrualMaintenanceDocument-TimeOffAccrualMaintenance" />

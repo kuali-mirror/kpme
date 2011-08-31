@@ -13,7 +13,8 @@
   <bean id="AccrualCategoryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.time.accrual.AccrualCategory"
   		p:businessRulesClass="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"
-  		p:maintainableClass="org.kuali.hr.time.accrual.service.AccuralCategoryMaintainableImpl">
+  		p:maintainableClass="org.kuali.hr.time.accrual.service.AccuralCategoryMaintainableImpl"
+  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="AccrualCategoryMaintenanceDocument-AccrualCategoryMaintenance"/>

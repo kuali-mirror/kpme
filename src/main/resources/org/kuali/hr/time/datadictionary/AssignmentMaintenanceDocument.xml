@@ -13,7 +13,8 @@
 		parent="MaintenanceDocumentEntry" 
 		p:businessObjectClass="org.kuali.hr.time.assignment.Assignment"
 		p:businessRulesClass="org.kuali.hr.time.assignment.validation.AssignmentRule"
-		p:maintainableClass="org.kuali.hr.time.assignment.service.AssignmentMaintainableServiceImpl">
+		p:maintainableClass="org.kuali.hr.time.assignment.service.AssignmentMaintainableServiceImpl"
+		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="AssignmentMaintenanceDocument-AssignmentMaintenance" />

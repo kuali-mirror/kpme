@@ -12,7 +12,8 @@
   <bean id="TimeSheetInitiateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.time.timesheet.TimeSheetInitiate"
   		p:businessRulesClass="org.kuali.hr.time.timesheet.validation.TimeSheetInitiateValidation"
-   		p:maintainableClass="org.kuali.hr.time.timesheet.TimeSheetInitiateMaintainableImpl">
+   		p:maintainableClass="org.kuali.hr.time.timesheet.TimeSheetInitiateMaintainableImpl"
+   		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="TimeSheetInitiateMaintenanceDocument-TimeSheetInitiateMaintenance"/>

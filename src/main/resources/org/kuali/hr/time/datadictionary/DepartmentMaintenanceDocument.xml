@@ -13,7 +13,8 @@
   <bean id="DepartmentMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.time.department.Department"
   		p:businessRulesClass="org.kuali.hr.time.department.DepartmentRule"
-  		p:maintainableClass="org.kuali.hr.time.department.DepartmentMaintainableImpl">
+  		p:maintainableClass="org.kuali.hr.time.department.DepartmentMaintainableImpl"
+  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="DepartmentMaintenanceDocument-DepartmentMaintenance"/>
