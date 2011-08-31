@@ -18,6 +18,10 @@ public class EarnGroupValidation  extends MaintenanceDocumentRuleBase{
 		EarnGroup earnGroup = (EarnGroup)this.getNewBo();
 		Set<String> earnCodes = new HashSet<String>();
 		int index = 0;
+		if(earnGroup.getEarnGroups().size() < 1){
+			this.putGlobalError("earncode.required");
+			return false;
+		}
 		for(EarnGroupDefinition earnGroupDef : earnGroup.getEarnGroups()){
 			if(earnCodes.contains(earnGroupDef.getEarnCode())){
 				this.putFieldError("earnGroups["+index+"].earnCode", "earngroup.duplicate.earncode",earnGroupDef.getEarnCode());
