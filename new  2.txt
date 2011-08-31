@@ -1,8 +1,0 @@
-C:\java\projects\trojantime>liquibase --defaultsFile=oracle.properties --classpa
-th C:\Users\lfox\.m2\repository\com\oracle\ojdbc14\10.2.0.3.0\ojdbc14-10.2.0.3.
-0.jar;C:\java\projects\trojantime\src\main\resources --changeLogFile=C:/java/
-projects/trojantime/src/main/resources/org/kuali/kpme/liquibase/tna/db.changelog
--master.xml updateSQL > ora.sql
-
-
-http://localhost:8080/tk-dev/TimeDetail.do?documentId=17356

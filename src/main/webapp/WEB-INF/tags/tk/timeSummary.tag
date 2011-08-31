@@ -69,7 +69,7 @@
 						<td>${section.earnGroup}</td>
 							<c:forEach items="${section.totals}" var="entry">
 								<c:choose>
-								<c:when test="${entry ne '0.00' and entry%7 != 0}">
+								<c:when test="${entry ne '0.00' and entry != 0}">
 									<td>${entry}</td>
 								</c:when>
 								<c:otherwise>
