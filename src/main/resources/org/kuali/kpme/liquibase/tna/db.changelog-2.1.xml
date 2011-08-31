@@ -144,7 +144,7 @@
 
             ALTER TABLE `hr_position_t` CHANGE COLUMN `POSITION_NBR` `POSITION_NBR` VARCHAR(20) NOT NULL ;
 
-            ALTER TABLE `tk_roles_t` CHANGE COLUMN `position_nbr` `position_nbr` VARCHAR(20) NULL DEFAULT NULL  ;
+            ALTER TABLE `hr_roles_t` CHANGE COLUMN `position_nbr` `position_nbr` VARCHAR(20) NULL DEFAULT NULL  ;
 
         </sql>
     </changeSet>
