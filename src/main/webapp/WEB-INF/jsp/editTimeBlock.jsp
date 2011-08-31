@@ -16,13 +16,9 @@
 			<html:hidden property="assignmentList" value="${Form.assignDescriptionsList}"/>
 			<html:hidden property="distributeAssignList" value="${Form.distributeAssignList}" />
 			<html:hidden property="originalAssignment" value="${Form.currentAssignmentDescription}"/>
-			<html:hidden property="beginTimestamp" value="${Form.currentTimeBlock.beginTimestamp}"/>
-			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endTimestamp}"/>
+			<html:hidden property="beginTimestamp" value="${Form.currentTimeBlock.beginTimeDisplayDate}"/>
+			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endTimeDisplayDate}"/>
 			<html:hidden property="hours" value="${Form.currentTimeBlock.hours}"/>
-			<html:hidden property="beginDate" value="${Form.currentTimeBlock.beginDate}"/>
-			<html:hidden property="endDate" value="${Form.currentTimeBlock.endDate}"/>
-			<html:hidden property="beginTime" value="${Form.currentTimeBlock.beginTime}"/>
-			<html:hidden property="endTime" value="${Form.currentTimeBlock.endTime}"/>
 
 			<div id="clock" style="border-bottom: 1px solid gray;">
 				<table style="border-collapse:collapse;border: 1px solid #000;">
@@ -101,8 +97,6 @@
 							</td>
 							<td>
 								<input name="hrRow1" id="hrRow1" size="5" readonly="" value="${Form.currentTimeBlock.hours}">
-								<input type="button" style="width: 20px; height: 23px;" id="hourHelp1" value="?"
-									title="Supported formats:<br/>0.5, 0.50, 5, 5.0, 5.00">
 							</td>
 							<td>
 								<input class="button" value="Add" type="button" name="addTimeBlock" id="addTimeBlock"
