@@ -4,6 +4,36 @@
 <tk:tkHeader tabId="timeDistribute" >
 	<html:form action="/Clock.do">
     <div class="timeDistribute">
+    	<div style="text-align: center;">
+    		<c:if test="${Form.prevDocumentId ne null}">
+					<button 
+						id="pay_period_prev" 
+						role="button" 
+						title="Previous"
+						onclick="javascript:
+								var urlString= extractUrlBase()+'/Clock.do?methodToCall=distributeTimeBlocks&documentId=' + ${Form.prevDocumentId};
+								window.location=urlString;
+								return false;">Previous</button>
+        	 </c:if>
+             
+         <span class="header-title">
+          <fmt:formatDate value="${Form.timesheetDocument.payCalendarEntry.beginPeriodDate}" pattern="MM/dd/yyyy"/> -
+          <fmt:formatDate value="${Form.timesheetDocument.payCalendarEntry.endPeriodDate}" pattern="MM/dd/yyyy"/>
+         </span>
+             
+          <c:if test="${Form.nextDocumentId ne null}">
+          	<button 
+          		id="pay_period_next" 
+				role="button" 
+				title="Next"
+				onclick="javascript:
+						var urlString= extractUrlBase()+'/Clock.do?methodToCall=distributeTimeBlocks&documentId=' + ${Form.nextDocumentId};
+						window.location=urlString;
+						return false;">Next</button>
+          </c:if>
+	   	</div>
+	   
+   	 	</p>
    	 	<div style="clear:both; text-align:center; font-weight: bold; margin-bottom: 5px;">Time Blocks to Distribute</div>
    	 	<div id="clock">
 			<table style="border-collapse:collapse;border: 1px solid #000;">

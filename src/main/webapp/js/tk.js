@@ -313,8 +313,22 @@ $(document).ready(function() {
 
         window.location = "BatchJob.do?methodToCall=changeIpAddress&ipToChange=" + ipToChange + "&tkBatchJobEntryId=" + tkBatchJobEntryId;
     });
-
-
+    
+    
+    $('#pay_period_prev').button({
+        icons: {
+            primary: 'ui-icon-circle-triangle-w'
+        },
+        text: false
+    });
+    
+    $('#pay_period_next').button({
+        icons: {
+            primary: "ui-icon-circle-triangle-e"
+        },
+        text: false
+    });
+    
 });
 
 $.fn.parseTime = function() {
