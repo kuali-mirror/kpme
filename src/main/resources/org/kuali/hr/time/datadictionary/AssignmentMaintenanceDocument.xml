@@ -45,7 +45,7 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="name" 
 					p:noLookup="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="jobNumber"  p:webUILeaveFieldFunction="refreshPage"
+				<bean parent="MaintainableFieldDefinition" p:name="jobNumber"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="dept" 
 					p:noLookup="true"/>
