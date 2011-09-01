@@ -1414,11 +1414,11 @@
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-20">
-        <insert tableName="qrtz_scheduler_state">
-            <column name="INSTANCE_NAME" value="domU-12-31-39-10-44-321314800605439"/>
-            <column name="LAST_CHECKIN_TIME" valueNumeric="1314819236452"/>
-            <column name="CHECKIN_INTERVAL" valueNumeric="1000"/>
-        </insert>
+        <!--<insert tableName="qrtz_scheduler_state">-->
+            <!--<column name="INSTANCE_NAME" value="domU-12-31-39-10-44-321314800605439"/>-->
+            <!--<column name="LAST_CHECKIN_TIME" valueNumeric="1314819236452"/>-->
+            <!--<column name="CHECKIN_INTERVAL" valueNumeric="1000"/>-->
+        <!--</insert>-->
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-21">
         <insert tableName="hr_job_s">
