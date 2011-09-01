@@ -70,11 +70,14 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		effdt.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
 		effdt.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+		
 		if ( !location.trim().isEmpty() ){
 			effdt.addAndCriteria(locationCrit2);
 			effdt.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
 		}
-		effdt.addEqualTo("active", true);
+		
+		// KPME-856, commented out the following line, when geting max(effdt) for each earnCode, do not need to limit to active entries.
+		//effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
