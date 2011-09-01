@@ -168,7 +168,10 @@
 		<property name="shortLabel" value="Lunch Deduction Minutes" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="RegexValidationPattern">
+				<property name="pattern" value="(0?[0-9]{1,2}|1[0-7][0-9]|180)()"></property>
+ 		   		<property name="validationErrorMessageKey" value="dept.lunch.deductionmins.exceedsMax"></property>
+ 		   	</bean>
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="4" />
