@@ -1,5 +1,6 @@
 package org.kuali.hr.time.roles.dao;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -247,14 +248,20 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
             roles.addAll(c);
         }
         
-        List<Job> lstActiveJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, asOfDate);
-        for(Job job : lstActiveJobs){
-        	if(job.getPositionNumber()!=null){
-        		List<TkRole> lstRoles = findPositionRoles(job.getPositionNumber(), 
+        if(StringUtils.isNotBlank(principalId)){
+        	List<Job> lstActiveJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, asOfDate);
+        	for(Job job : lstActiveJobs){
+        		if(job.getPositionNumber()!=null){
+        			List<TkRole> lstRoles = findPositionRoles(job.getPositionNumber(), 
         								asOfDate, roleName, workArea, department, chart);
-        		roles.addAll(lstRoles);
+        			roles.addAll(lstRoles);
+        		}
         	}
-        	
+        } else if(workArea != null){
+        	List<TkRole> lstPosRoles = getPositionRolesForWorkArea(workArea, asOfDate);
+        	for(TkRole tkRole : lstPosRoles){
+        		roles.add(tkRole);
+        	}
         }
         return roles;
     }
