@@ -96,7 +96,9 @@ $(document).ready(function() {
     
     // tooltip
     // http://flowplayer.org/tools/tooltip/index.html
-    $("#beginTimeHelp, #endTimeHelp, #beginTimeHelp1, #endTimeHelp1, #hourHelp, #holidayNameHelp" ).tooltip({
+    $(" .holidayNameHelp").tooltip({ effect: 'slide'});
+
+    $("#beginTimeHelp, #endTimeHelp, #beginTimeHelp1, #endTimeHelp1, #hourHelp" ).tooltip({
 
                 // place tooltip on the right edge
                 position : "center right",

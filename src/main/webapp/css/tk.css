@@ -634,6 +634,15 @@ select {
     font-weight: bold;
 }
 
+.cal .cal-table .holidayNameHelp:hover{
+    background-color: #dadada;
+    cursor: pointer;
+}
+
+.cal .cal-table {
+    width: 100%;
+}
+
 .cal .cal-table {
     width: 100%;
 }
