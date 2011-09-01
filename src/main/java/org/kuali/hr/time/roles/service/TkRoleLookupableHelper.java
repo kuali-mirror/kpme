@@ -60,7 +60,10 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 		if(principalId!=""){
 			Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
 			if(isAuthorizedToEditUserRole(person)){
-				roleGroupList.add(getRoleGroupFromPerson(person));
+				TkRoleGroup tkRoleGroup = getRoleGroupFromPerson(person);
+				if(tkRoleGroup != null){
+					roleGroupList.add(getRoleGroupFromPerson(person));
+				}
 			}
 		} else{
 			List<Person> personList = KIMServiceLocator.getPersonService().findPeople(null);
@@ -111,7 +114,11 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 	}
 	
 	private TkRoleGroup getRoleGroupFromPerson(Person person){
+
 		TkRoleGroup tkRoleGroup = new TkRoleGroup();
+		if(person == null) {
+			return null;
+		}
 		tkRoleGroup.setPerson(person);
 		tkRoleGroup.setPrincipalId(person.getPrincipalId());
 		return tkRoleGroup;
