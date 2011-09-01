@@ -29,7 +29,7 @@
             ALTER TABLE `tk_dept_earn_code_t` CHANGE COLUMN `tk_sal_group` `hr_sal_group` VARCHAR(10) CHARACTER SET
             'utf8' COLLATE 'utf8_bin' NOT NULL ;
 
-            ALTER TABLE `tk_earn_code_t` CHANGE COLUMN `tk_earn_code_id` `hr_earn_code_id` INT(11) NOT NULL
+            ALTER TABLE `tk_earn_code_t` CHANGE COLUMN `tk_earn_code_id` `hr_earn_code_id` BIGINT(20) NOT NULL
             , DROP PRIMARY KEY
             , ADD PRIMARY KEY (`hr_earn_code_id`) , RENAME TO `hr_earn_code_t` ;
             ALTER TABLE `tk_earn_code_s` RENAME TO `hr_earn_code_s` ;
@@ -144,8 +144,9 @@
 
             ALTER TABLE `hr_position_t` CHANGE COLUMN `POSITION_NBR` `POSITION_NBR` VARCHAR(20) NOT NULL ;
 
-            ALTER TABLE `hr_roles_t` CHANGE COLUMN `position_nbr` `position_nbr` VARCHAR(20) NULL DEFAULT NULL  ;
+            ALTER TABLE `hr_roles_t` CHANGE COLUMN `position_nbr` `position_nbr` VARCHAR(20) NULL DEFAULT NULL ;
 
+            ALTER TABLE `tk_document_header_t` ADD COLUMN `LOCK_CNT` BIGINT(20) NULL AFTER `VER_NBR` ;
         </sql>
     </changeSet>
 </databaseChangeLog>
