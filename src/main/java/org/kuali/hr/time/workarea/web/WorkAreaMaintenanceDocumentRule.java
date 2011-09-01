@@ -2,8 +2,11 @@ package org.kuali.hr.time.workarea.web;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -91,13 +94,13 @@ public class WorkAreaMaintenanceDocumentRule extends
 		// defaultOvertimeEarnCode is a nullable field. 
 		if (earnCode != null
 				&& !ValidationUtils.validateEarnCode(earnCode, asOfDate)) {
-			this.putFieldError("earnCode", "error.existence", "earnCode '"
+			this.putFieldError("defaultOvertimeEarnCode", "error.existence", "earnCode '"
 					+ earnCode + "'");
 			return false;
 		} else {
 			if (earnCode != null
 					&& !ValidationUtils.validateEarnCode(earnCode, true, asOfDate)) {
-				this.putFieldError("earnCode", "earncode.ovt.required",
+				this.putFieldError("defaultOvertimeEarnCode", "earncode.ovt.required",
 						earnCode);
 				return false;
 			}
@@ -119,6 +122,29 @@ public class WorkAreaMaintenanceDocumentRule extends
 			if ( wa.getDefaultOvertimeEarnCode() != null ){
 				valid &= validateDefaultOTEarnCode(wa.getDefaultOvertimeEarnCode(),
 						wa.getEffectiveDate());
+			}
+			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(wa.getWorkArea(), TKUtils.getCurrentDate());
+			if(!wa.isActive()){
+				for(Assignment assignment: assignments){
+					if(assignment.getWorkArea().equals(wa.getWorkArea())){
+						this.putGlobalError("workarea.active.required");
+						valid = false;
+						break;
+					}
+				}
+			}else{
+				for(Assignment assignment: assignments){
+					System.out.println(assignment.getTaskObj());
+					Task taskObj = TkServiceLocator.getTaskService().getTask(assignment.getTask(), TKUtils.getCurrentDate());
+					if(wa.getTasks()!=null && wa.getTasks().contains(taskObj)){
+						for(Task task : wa.getTasks()){
+							if(task.getTask().equals(assignment.getTask()) && !task.isActive()){
+								this.putGlobalError("task.active.required",task.getTask().toString());
+								valid = false;
+							}
+						}
+					}
+				}
 			}
 		}
 
