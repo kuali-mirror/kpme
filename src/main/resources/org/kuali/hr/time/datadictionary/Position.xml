@@ -9,7 +9,7 @@
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="Position" />
 		<property name="inquiryDefinition">
-			<ref bean="Position-inquiryDefinition" />
+			<ref bean="Position-inquiryDefinition" />          
 		</property>
 		<property name="lookupDefinition">
 			<ref bean="Position-lookupDefinition" />
@@ -139,8 +139,7 @@
   
   	<bean id="Position-inquiryDefinition" parent="Position-inquiryDefinition-parentBean" />
 
-	<bean id="Position-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
+	<bean id="Position-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

@@ -138,8 +138,8 @@
               <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
               <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
               <bean parent="FieldDefinition" p:attributeName="financialSubObjectCodeName"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
               <bean parent="FieldDefinition" p:attributeName="financialSubObjectCdshortNm"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>

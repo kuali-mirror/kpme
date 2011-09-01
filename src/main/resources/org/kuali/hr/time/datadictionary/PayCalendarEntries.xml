@@ -332,8 +332,8 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="pyCalendarGroup"/>
-					        <bean parent="FieldDefinition" p:attributeName="beginPeriodDateTime"/>
-					        <bean parent="FieldDefinition" p:attributeName="endPeriodDateTime"/>
+					        <bean parent="FieldDefinition" p:attributeName="beginPeriodDateTime" p:useShortLabel="true"/>
+					        <bean parent="FieldDefinition" p:attributeName="endPeriodDateTime" p:useShortLabel="true"/>
 					        <bean parent="FieldDefinition" p:attributeName="batchInitiateDate" />
 					        <bean parent="FieldDefinition" p:attributeName="batchInitiateTime" />
 					        <bean parent="FieldDefinition" p:attributeName="batchEndPayPeriodDate" />

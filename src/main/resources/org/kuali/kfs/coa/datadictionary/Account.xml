@@ -149,11 +149,11 @@
         <bean parent="InquirySectionDefinition" p:title="Account Details">
           <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition" p:attributeName="chartOfAccounts.codeAndDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="accountEffectiveDate"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
               <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
               <bean parent="FieldDefinition" p:attributeName="accountName"/>
-              <bean parent="FieldDefinition" p:attributeName="organization.codeAndDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="accountEffectiveDate"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
               <bean parent="FieldDefinition" p:attributeName="accountCreateDate"/>
               <bean parent="FieldDefinition" p:attributeName="accountExpirationDate"/>
               <bean parent="FieldDefinition" p:attributeName="closed"/>

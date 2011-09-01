@@ -278,6 +278,7 @@
 							<bean parent="FieldDefinition" p:attributeName="principalId" />
 							<bean parent="FieldDefinition" p:attributeName="name" />
 							<bean parent="FieldDefinition" p:attributeName="jobNumber" />
+							<bean parent="FieldDefinition" p:attributeName="dept" />
 							<bean parent="FieldDefinition" p:attributeName="workArea" />
 							<bean parent="FieldDefinition" p:attributeName="task" />
 							<bean parent="FieldDefinition" p:attributeName="active" />

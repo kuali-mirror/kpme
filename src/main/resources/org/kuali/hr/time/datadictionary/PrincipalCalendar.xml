@@ -226,6 +226,7 @@
 				<bean parent="FieldDefinition" p:attributeName="timezone" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<property name="title" value="Principal Calendar Lookup" />
