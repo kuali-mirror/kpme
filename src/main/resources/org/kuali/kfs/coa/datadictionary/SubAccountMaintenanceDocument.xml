@@ -78,7 +78,6 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="updateICRAccount"/>
-        
         <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="subAccountName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>

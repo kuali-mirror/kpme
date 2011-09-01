@@ -196,7 +196,7 @@
 							<bean parent="FieldDefinition" p:attributeName="name" />
 							<bean parent="FieldDefinition" p:attributeName="pyCalendarGroup" />
 							<bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
+							<bean parent="FieldDefinition" p:attributeName="timezone" />
 						</list>
 					</property>
 					<property name="title" value="PrincipalCalendar" />

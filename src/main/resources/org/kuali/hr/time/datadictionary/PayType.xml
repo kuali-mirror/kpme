@@ -198,6 +198,7 @@
 							<bean parent="FieldDefinition" p:attributeName="descr" />
 							<bean parent="FieldDefinition" p:attributeName="regEarnCode" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
+							<bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
 						</list>
 					</property>
 					<property name="title" value="PayType" />

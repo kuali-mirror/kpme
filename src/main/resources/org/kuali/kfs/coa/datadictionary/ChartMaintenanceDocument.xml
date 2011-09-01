@@ -56,7 +56,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="finChartOfAccountDescription" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
       </list>
     </property>
   </bean>

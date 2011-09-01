@@ -180,9 +180,10 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="tkTimeSheetInitId"/>
 					        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+					        <bean parent="FieldDefinition" p:attributeName="pyCalendarGroup"/>
 					        <bean parent="FieldDefinition" p:attributeName="hrPyCalendarEntriesId"/>
+					        <bean parent="FieldDefinition" p:attributeName="beginAndEndDateTime"/>
 					        <bean parent="FieldDefinition" p:attributeName="documentId"/>
 						</list>
 					</property>

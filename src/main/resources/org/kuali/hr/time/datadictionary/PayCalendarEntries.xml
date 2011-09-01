@@ -334,6 +334,14 @@
 							<bean parent="FieldDefinition" p:attributeName="pyCalendarGroup"/>
 					        <bean parent="FieldDefinition" p:attributeName="beginPeriodDateTime"/>
 					        <bean parent="FieldDefinition" p:attributeName="endPeriodDateTime"/>
+					        <bean parent="FieldDefinition" p:attributeName="batchInitiateDate" />
+					        <bean parent="FieldDefinition" p:attributeName="batchInitiateTime" />
+					        <bean parent="FieldDefinition" p:attributeName="batchEndPayPeriodDate" />
+					        <bean parent="FieldDefinition" p:attributeName="batchEndPayPeriodTime" />
+					        <bean parent="FieldDefinition" p:attributeName="batchEmployeeApprovalDate" />
+					        <bean parent="FieldDefinition" p:attributeName="batchEmployeeApprovalTime" />
+					        <bean parent="FieldDefinition" p:attributeName="batchSupervisorApprovalDate" />
+					        <bean parent="FieldDefinition" p:attributeName="batchSupervisorApprovalTime" />  
 						</list>
 					</property>
 					<property name="title" value="Pay Calendar Entry" />
