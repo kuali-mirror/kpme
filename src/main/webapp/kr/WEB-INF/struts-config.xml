@@ -86,7 +86,7 @@
 	    <action path="/inquiry" name="InquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.rice.kns.web.struts.action.KualiInquiryAction">
 	        <forward name="basic" path="/WEB-INF/jsp/KualiInquiry.jsp" />
 	    </action>
-	    <action path="/maintenance" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction">
+	    <action path="/maintenance" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.hr.time.web.TimeMaintenanceDocumentAction">
 	        <forward name="basic" path="/WEB-INF/jsp/KualiMaintenanceDocument.jsp" />
 	    </action>
 	    <action path="/help" name="KualiHelpForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.rice.kns.web.struts.action.KualiHelpAction">
