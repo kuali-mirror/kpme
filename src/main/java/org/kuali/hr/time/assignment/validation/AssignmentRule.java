@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
@@ -17,6 +21,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.ValidationUtils;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
@@ -35,7 +40,18 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				this.putFieldError("workArea", "error.existence", "workArea '"
 						+ assignment.getWorkArea() + "'");
 				valid = false;
-			} 
+			} else {
+				Criteria crit = new Criteria();
+				crit.addEqualTo("dept", assignment.getDept());
+				crit.addEqualTo("workArea", assignment.getWorkArea());
+				Query query = QueryFactory.newQuery(WorkArea.class, crit);
+				int count = PersistenceBrokerFactory.defaultPersistenceBroker()
+						.getCount(query);
+				valid = (count > 0);
+				if (!valid) {
+					this.putFieldError("workArea", "dept.workarea.invalid.sync");
+				}
+			}
 		}
 		return valid;
 	}
