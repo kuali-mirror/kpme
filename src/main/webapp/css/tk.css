@@ -86,6 +86,10 @@
     background: #FFE79F;
 }
 
+.targetuser {
+    background: #FFFFCB;
+}
+
 select {
     font-family: "Trebuchet MS", Verdana, Arial, sans-serif !important;
     font-size: inherit !important;

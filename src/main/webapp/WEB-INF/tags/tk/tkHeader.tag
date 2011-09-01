@@ -25,10 +25,14 @@
         <c:set var="person" value="${form.user.actualPerson}"/>
     </c:otherwise>
 </c:choose>
+<c:if test="${form.user.targetPerson ne null}">
+	<c:set var="targetuser" value="targetuser"/>
+</c:if>
+
 <input type="hidden" id="tabId" value="${tabId}"/>
 
 <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-    <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ${highlight}">
+    <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ${highlight} ${targetuser}">
 			<span class="title ${backdoor}">
 	            <img src="images/kuali_base.png" style="width:4em;"/>
 	            TIME 
