@@ -5,6 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
+    <!-- Context: main -->
     <!-- Schema -->
     <!-- Base schema, no data, not bootable -->
     <!--<include file="org/kuali/kpme/liquibase/tna/db.changelog-1.0.xml"/>-->
