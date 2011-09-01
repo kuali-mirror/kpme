@@ -1,5 +1,6 @@
 package org.kuali.hr.time.task.service;
 
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.task.dao.TaskDao;
 
@@ -27,5 +28,10 @@ public class TaskServiceImpl implements TaskService {
 
     public void setTaskDao(TaskDao taskDao) {
         this.taskDao = taskDao;
-    }
+    } 
+
+	@Override
+	public Task getMaxTaskByWorkArea(Long workArea){
+		return taskDao.getMaxTaskByWorkArea(workArea);
+	}
 }

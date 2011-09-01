@@ -79,17 +79,6 @@ public class WorkAreaMaintenanceDocumentRule extends
 		return valid;
 	}
 	
-	boolean validateTaskNumber(Task task, List<Task> tasks) {
-		boolean valid = true;
-		
-		if (task.getTask().compareTo(100L) < 0){
-			this.putFieldError("add.tasks.task", "error.workArea.addTask.taskNumber" );
-			valid = false;
-		}
-		
-		return valid;
-	}
-	
 	boolean validateDefaultOTEarnCode(String earnCode, Date asOfDate) {
 		// defaultOvertimeEarnCode is a nullable field. 
 		if (earnCode != null
@@ -168,7 +157,10 @@ public class WorkAreaMaintenanceDocumentRule extends
 			if (task != null && wa.getTasks() != null) {
 				valid = true;
 				valid &= this.validateTask(task, wa.getTasks());
-				//valid &= this.validateTaskNumber(task, wa.getTasks()); // Jira870
+				// Jira870
+				if ( valid ){
+					task.setTask(setTaskNumber(wa));
+				}
 			}
 		} else if ((pbo instanceof TkRole && pboWorkArea instanceof WorkArea)) {
 			TkRole tkRole = (TkRole)pbo;
@@ -178,7 +170,20 @@ public class WorkAreaMaintenanceDocumentRule extends
 				valid = false;
 			}
 		}
+		
 		return valid;
 	}
 
+	public Long setTaskNumber(WorkArea workArea) {
+		Long task = new Long("0");
+		Task maxTask = TkServiceLocator.getTaskService().getMaxTaskByWorkArea(workArea.getWorkArea());
+		
+		if(maxTask != null) {
+			// get the max of task number of the collection
+			task = maxTask.getTask() +1;
+		} else {
+			task = new Long("100");
+		}
+		return task;
+	}
 }

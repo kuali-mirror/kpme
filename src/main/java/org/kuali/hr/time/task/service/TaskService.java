@@ -1,6 +1,7 @@
 package org.kuali.hr.time.task.service;
 
 
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.task.Task;
 
 import java.sql.Date;
@@ -24,4 +25,7 @@ public interface TaskService {
      * @param tasks
      */
     public void saveTasks(List<Task> tasks);
+    
+	public Task getMaxTaskByWorkArea(Long workArea);
+
 }

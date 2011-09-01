@@ -4,6 +4,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.task.Task;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
@@ -11,6 +12,21 @@ import java.sql.Date;
 import java.util.List;
 
 public class TaskDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements TaskDao {
+	
+	@Override
+	public Task getMaxTaskByWorkArea(Long workArea) {
+		Criteria root = new Criteria();
+		Criteria crit = new Criteria();
+		crit.addEqualTo("workArea", workArea);
+		ReportQueryByCriteria taskNumberSubQuery = QueryFactory.newReportQuery(Task.class, crit); 
+		taskNumberSubQuery.setAttributes(new String[]{"max(task)"});
+		
+		crit.addEqualTo("workArea", workArea);
+		root.addEqualTo("task", taskNumberSubQuery);
+		
+		Query query = QueryFactory.newQuery(Task.class, root);
+		return (Task)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
 
     @Override
     public Task getTask(Long task, Date asOfDate) {

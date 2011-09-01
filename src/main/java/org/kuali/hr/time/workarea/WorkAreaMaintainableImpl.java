@@ -29,6 +29,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 		} else if (arg1 instanceof Task) {
 			Task task = (Task) arg1;
 			task.setEffectiveDate(workArea.getEffectiveDate());
+			task.setWorkArea(workArea.getWorkArea()); // jira870
 		}
 		super.setNewCollectionLineDefaultValues(arg0, arg1);
 	}
@@ -104,5 +105,4 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 			}
 			super.processAfterNew(document, parameters);
 	}
-
 }
