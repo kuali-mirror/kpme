@@ -11,11 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
@@ -44,6 +47,9 @@ public class PersonInfoAction extends TkAction {
 		List<Assignment> lstAssign = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
 		Map<Long,List<Assignment>> jobNumberToListAssignments = new HashMap<Long,List<Assignment>>();
 		
+		Map<Long,List<TkRole>> workAreaToApprover = new HashMap<Long,List<TkRole>>();
+		Map<Long,List<Person>> workAreaToApproverPerson = new HashMap<Long, List<Person>>();
+		
 		Map<String,Person> principalIdToPerson = new HashMap<String,Person>();
 		for(Assignment assign : lstAssign){
 			List<Assignment> lstCurrJobAssign = jobNumberToListAssignments.get(assign.getJobNumber());
@@ -52,7 +58,12 @@ public class PersonInfoAction extends TkAction {
 			}
 			lstCurrJobAssign.add(assign);
 			jobNumberToListAssignments.put(assign.getJobNumber(), lstCurrJobAssign);
+
+			this.assignWorkAreaToApprover(assign.getWorkArea(), workAreaToApprover, workAreaToApproverPerson);
 		}
+		
+		personForm.setWorkAreaToApprover(workAreaToApprover);
+		personForm.setWorkAreaToApproverPerson(workAreaToApproverPerson);
 		personForm.setJobNumberToListAssignments(jobNumberToListAssignments);
 		personForm.setPrincipalIdToPerson(principalIdToPerson);
 		return actForw;
@@ -82,5 +93,36 @@ public class PersonInfoAction extends TkAction {
 		
 		paForm.setGlobalViewOnlyRoles(roles.isGlobalViewOnly());
 		paForm.setSystemAdmin(roles.isSystemAdmin());
+	}
+	
+	private void assignWorkAreaToApprover(Long workArea, Map<Long,List<TkRole>> workAreaToApprover, Map<Long,List<Person>> workAreaToApproverPerson ){
+		List<TkRole> lstApproverRoles = TkServiceLocator.getTkRoleService().getWorkAreaRoles(workArea, TkConstants.ROLE_TK_APPROVER,
+				TKUtils.getCurrentDate());
+		workAreaToApprover.put(workArea, lstApproverRoles);
+		for(TkRole role : lstApproverRoles){
+			if(role.getPositionNumber() != null){
+				List<Job> lstJobs = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(role.getPositionNumber(), TKUtils.getCurrentDate());
+				for(Job j : lstJobs){
+					Person approver = KIMServiceLocator.getPersonService().getPerson(j.getPrincipalId());
+					if(approver!=null){
+					addApproverPersonForWorkArea(workArea, approver, workAreaToApproverPerson);
+					}
+				}
+			} else{
+				Person approver = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
+				if(approver!=null){
+					addApproverPersonForWorkArea(workArea, approver, workAreaToApproverPerson);
+				}
+			}
+		}
+	}
+	
+	private void addApproverPersonForWorkArea(Long workArea, Person person, Map<Long,List<Person>> workAreaToApproverPerson){
+		List<Person> approvers = workAreaToApproverPerson.get(workArea);
+		if(approvers == null){
+			approvers = new ArrayList<Person>();
+		}
+		approvers.add(person);
+		workAreaToApproverPerson.put(workArea, approvers);
 	}
 }
