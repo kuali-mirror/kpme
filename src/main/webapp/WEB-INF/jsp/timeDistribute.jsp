@@ -57,7 +57,7 @@
 								<td>
 									<input type="button" class="button" value="Edit" name="editTimeBlock" id="editTimeBlock"
 									onclick="javascript:
-										var urlString= extractUrlBase()+'/Clock.do?methodToCall=editTimeBlock&editTimeBlockId='+ ${tb.tkTimeBlockId};
+										var urlString= extractUrlBase()+'/Clock.do?methodToCall=editTimeBlock&documentId=' + ${Form.documentId} + '&editTimeBlockId='+ ${tb.tkTimeBlockId};
 										window.location=urlString;"/>
 								</td>
 							</tr>
