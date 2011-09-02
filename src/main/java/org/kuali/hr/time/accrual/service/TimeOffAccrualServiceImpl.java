@@ -87,6 +87,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
      			accrualData.put(ACCRUAL_CATEGORY_KEY, accrualCategory.getAccrualCategory());
      			accrualData.put(HOURS_ACCRUED_KEY, new BigDecimal(0.00));
      			accrualData.put(HOURS_TAKEN_KEY, new BigDecimal(0.00));
+     			accrualData.put(HOURS_ADJUST_KEY, new BigDecimal(0.00));
      			calcList.add(accrualData);
         	 }
          }
@@ -94,7 +95,8 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
              String accrualCategory = (String) aMap.get(ACCRUAL_CATEGORY_KEY);
              List<TimeBlock> warningTbs = new ArrayList<TimeBlock>();
              BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList, warningTbs);
-             BigDecimal balanceHrs = ((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY));
+             BigDecimal balanceHrs = ((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY)).add((BigDecimal)aMap.get(HOURS_ADJUST_KEY));
+             
              if (totalForAccrCate.compareTo(balanceHrs) == 1) {
              	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category " + accrualCategory + " has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are:<br/>";
              	for(TimeBlock tb : warningTbs) {
