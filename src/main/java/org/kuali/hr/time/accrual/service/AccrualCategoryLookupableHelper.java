@@ -1,16 +1,14 @@
 package org.kuali.hr.time.accrual.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Used to override lookup functionality for the accrual category lookup
@@ -18,7 +16,7 @@ import java.util.Map;
  * 
  */
 public class AccrualCategoryLookupableHelper extends
-		KualiLookupableHelperServiceImpl {
+		HrEffectiveDateActiveLookupableHelper {
 	/**
 	 * 
 	 */
@@ -58,52 +56,4 @@ public class AccrualCategoryLookupableHelper extends
 		return overrideUrls;
 	}
 
-	@Override
-	public List<? extends BusinessObject> getSearchResults(
-			Map<String, String> fieldValues) {
-		String showHistory = null;
-		if (fieldValues.containsKey("history")) {
-			showHistory = fieldValues.get("history");
-			fieldValues.remove("history");
-		}
-		List<? extends BusinessObject> objectList = super
-				.getSearchResults(fieldValues);
-		if (!objectList.isEmpty() && showHistory != null
-				&& StringUtils.equals(showHistory, "N")) {
-			Map<String, BusinessObject> objectsWithoutHistory = new HashMap<String, BusinessObject>();
-			// Creating map for objects without history
-			for (BusinessObject bo : objectList) {
-				AccrualCategory accrualCategoryNew = (AccrualCategory) bo;
-				if (objectsWithoutHistory.containsKey(accrualCategoryNew
-						.getAccrualCategory())) {
-					// Comparing here for duplicates
-					AccrualCategory accrualCategoryOld = (AccrualCategory) objectsWithoutHistory
-							.get(accrualCategoryNew.getAccrualCategory());
-					int comparison = accrualCategoryNew.getEffectiveDate()
-							.compareTo(accrualCategoryOld.getEffectiveDate());
-					// Comparison for highest effective date object to put 
-					switch (comparison) {
-					case 0:
-						if (accrualCategoryNew.getTimestamp().after(
-								accrualCategoryOld.getTimestamp())) {
-							// Sorting here by timestamp value
-							objectsWithoutHistory.put(accrualCategoryNew
-									.getAccrualCategory(), accrualCategoryNew);
-						}
-						break;
-					case 1:
-						objectsWithoutHistory.put(accrualCategoryNew
-								.getAccrualCategory(), accrualCategoryNew);
-					}
-				} else {
-					objectsWithoutHistory.put(accrualCategoryNew
-							.getAccrualCategory(), accrualCategoryNew);
-				}
-			}
-			List<BusinessObject> objectListWithoutHistory = new ArrayList<BusinessObject>();
-			objectListWithoutHistory.addAll(objectsWithoutHistory.values());
-			return objectListWithoutHistory;
-		}
-		return objectList;
-	}
 }
