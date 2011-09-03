@@ -55,10 +55,10 @@
             </property>
             </bean>
               <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="chartObj" />
+              <property name="objectAttributeName" value="locationObj" />
               <property name="primitiveAttributes">
                   <list>
-                      <bean parent="PrimitiveAttributeDefinition" p:sourceName="chart" p:targetName="chartOfAccountsCode" />
+                      <bean parent="PrimitiveAttributeDefinition" p:sourceName="chart" p:targetName="location" />
                   </list>
               </property>
               </bean>

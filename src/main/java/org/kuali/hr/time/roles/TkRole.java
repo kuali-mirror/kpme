@@ -1,5 +1,6 @@
 package org.kuali.hr.time.roles;
 
+import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.position.Position;
@@ -38,6 +39,8 @@ public class TkRole extends HrBusinessObject {
     private WorkArea workAreaObj;
     private Chart chartObj;
     private Position positionObj;
+    
+    private Location locationObj;
 
     public Chart getChartObj() {
         return chartObj;
@@ -194,5 +197,13 @@ public class TkRole extends HrBusinessObject {
 	@Override
 	public void setId(Long id) {
 		setHrRolesId(id);
+	}
+
+	public Location getLocationObj() {
+		return locationObj;
+	}
+
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
 	}
 }
