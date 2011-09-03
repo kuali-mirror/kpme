@@ -13,9 +13,15 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.joda.time.*;
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Hours;
+import org.joda.time.Interval;
+import org.joda.time.LocalDateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -26,6 +32,7 @@ import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
 public class TimeDetailWSAction extends TimesheetAction {
 
@@ -227,7 +234,7 @@ public class TimeDetailWSAction extends TimesheetAction {
             	if(StringUtils.equals(timeBlock.getEarnCodeType(), "TIME")) {
 	                Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
 	                for(Interval intv: dayInt) {
-		                if (timeBlockInterval.overlaps(intv) && tdaf.getTkTimeBlockId().compareTo(timeBlock.getTkTimeBlockId()) != 0) {
+		                if (timeBlockInterval.overlaps(intv) && (tdaf.getTkTimeBlockId() == null || tdaf.getTkTimeBlockId().compareTo(timeBlock.getTkTimeBlockId()) != 0)) {
 		                	errorMsgList.add("The time block you are trying to add overlaps with an existing time block.");
 		                	tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
 		                    return mapping.findForward("ws");
@@ -241,6 +248,19 @@ public class TimeDetailWSAction extends TimesheetAction {
         tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
 
         return mapping.findForward("ws");
+    }
+    
+    //this is an ajax call for the assignment maintenance page
+    public ActionForward getDepartmentForJobNumber(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	KualiMaintenanceForm kualiForm = (KualiMaintenanceForm)form;
+    	
+    	String principalId = (String)request.getAttribute("principalId");
+    	Long jobNumber = (Long)request.getAttribute("jobNumber");
+    	
+    	Job job = TkServiceLocator.getJobSerivce().getJob(principalId, jobNumber, TKUtils.getCurrentDate());
+    	kualiForm.setAnnotation(job.getDept());
+    	
+    	return mapping.findForward("ws");
     }
 
     // this is an ajax call
