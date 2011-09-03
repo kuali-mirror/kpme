@@ -39,9 +39,6 @@
 									href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.coa.businessobject.Chart&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Chart</a>
 								</li>
 								<li><a
-									href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.department.Department&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Department</a>
-								</li>
-								<li><a
 									href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.dept.earncode.DepartmentEarnCode&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Department
 										Earn Code</a>
 								</li>
