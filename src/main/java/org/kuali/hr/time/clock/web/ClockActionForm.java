@@ -1,8 +1,17 @@
 package org.kuali.hr.time.clock.web;
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
@@ -10,6 +19,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
+import org.kuali.hr.time.util.TKUtils;
 
 public class ClockActionForm extends TimesheetActionForm {
 
@@ -97,6 +107,12 @@ public class ClockActionForm extends TimesheetActionForm {
 
 	public void setCurrentServerTime(String currentServerTime) {
 		this.currentServerTime = currentServerTime;
+	}
+	
+	public String getUserSystemOffsetServerTime(){
+		DateTimeZone dtz = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+		DateTime dt = new DateTime(System.currentTimeMillis(),dtz);
+		return String.valueOf(dt.getMillis());
 	}
 
     public String getCurrentClockAction() {

@@ -13,8 +13,8 @@
  delete from hr_work_schedule_assign_t;    
  delete from hr_work_schedule_entry_t;     
  delete from hr_work_schedule_t;           
- delete from tk_accrual_categories_t;      
- delete from tk_accruals_t;                
+ delete from lm_accrual_categories_t;      
+ delete from lm_accruals_t;                
  delete from tk_assign_acct_t;             
  delete from tk_assignment_t;              
  delete from tk_batch_job_entry_t;         

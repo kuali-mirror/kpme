@@ -7,6 +7,7 @@ import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.salgroup.SalGroup;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
@@ -211,7 +212,11 @@ public class Job extends HrBusinessObject {
 
 
 	public void setCompRate(BigDecimal compRate) {
-		this.compRate = compRate;
+		if(compRate != null){
+			this.compRate = compRate.setScale(TkConstants.BIG_DECIMAL_SCALE);
+		} else {
+			this.compRate = compRate;
+		}
 	}
 
 	public Department getDeptObj() {

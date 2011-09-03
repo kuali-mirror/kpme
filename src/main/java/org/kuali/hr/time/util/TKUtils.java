@@ -124,7 +124,7 @@ public class TKUtils {
 				|| assignment.getJobNumber() == null ) {
 			return ""; 	// getAssignment() of AssignmentService can return an empty assignment
 		}
-		return assignment.getWorkAreaObj().getDescription() + " : $" + assignment.getJob().getCompRate() + " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
+		return assignment.getWorkAreaObj().getDescription() + " : $" + assignment.getJob().getCompRate().setScale(TkConstants.BIG_DECIMAL_SCALE) + " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
 	}
 
     /**

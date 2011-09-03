@@ -62,6 +62,7 @@ public class ClockAction extends TimesheetAction {
         ActionForward forward = super.execute(mapping, form, request, response);
         ClockActionForm caf = (ClockActionForm) form;
         caf.setCurrentServerTime(String.valueOf(new Date().getTime()));
+        caf.getUserSystemOffsetServerTime();
         caf.setShowLunchButton(TkServiceLocator.getSystemLunchRuleService().isShowLunchButton());
         caf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(caf.getTimesheetDocument(), true));
         if (caf.isShowLunchButton()) {
