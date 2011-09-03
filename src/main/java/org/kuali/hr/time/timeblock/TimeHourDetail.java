@@ -39,7 +39,11 @@ public class TimeHourDetail extends PersistableBusinessObjectBase{
 	}
 
 	public void setHours(BigDecimal hours) {
-		this.hours = hours;
+		if(hours != null){
+			this.hours = hours.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
+		} else {
+			this.hours = hours;
+		}
 	}
 
 	public BigDecimal getAmount() {
@@ -47,7 +51,11 @@ public class TimeHourDetail extends PersistableBusinessObjectBase{
 	}
 
 	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
+		if(amount != null){
+			this.amount = amount.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
+		} else {
+			this.amount = amount;
+		}
 	}
 
 	public Long getTkTimeBlockId() {

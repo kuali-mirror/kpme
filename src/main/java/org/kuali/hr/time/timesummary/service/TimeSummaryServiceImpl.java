@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.time.assignment.Assignment;
@@ -95,6 +96,9 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 				for(String earnCode : earnCodeToTimeBlocks.keySet()){
 					for(TimeBlock timeBlock : earnCodeToTimeBlocks.get(earnCode)){
 						for(TimeHourDetail thd : timeBlock.getTimeHourDetails()){
+							if(StringUtils.equals(TkConstants.LUNCH_EARN_CODE, thd.getEarnCode())){
+								continue;
+							}
 							EarnCodeSection earnCodeSection = earnCodeToEarnCodeSection.get(thd.getEarnCode());
 							if(earnCodeSection == null){
 								earnCodeSection = new EarnCodeSection();

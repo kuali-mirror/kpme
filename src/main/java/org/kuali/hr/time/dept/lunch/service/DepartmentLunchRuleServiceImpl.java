@@ -66,14 +66,17 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
             TimeHourDetail detail = details.get(0);
 
             BigDecimal lunchHours = TKUtils.convertMinutesToHours(rule.getDeductionMins());
-            BigDecimal newHours = detail.getHours().subtract(lunchHours);
+            BigDecimal newHours = detail.getHours().subtract(lunchHours).setScale(TkConstants.BIG_DECIMAL_SCALE);
             detail.setHours(newHours);
 
             TimeHourDetail lunchDetail = new TimeHourDetail();
             lunchDetail.setHours(lunchHours.multiply(TkConstants.BIG_DECIMAL_NEGATIVE_ONE));
             lunchDetail.setEarnCode(TkConstants.LUNCH_EARN_CODE);
             lunchDetail.setTkTimeBlockId(block.getTkTimeBlockId());
-
+            
+            //Deduct from total for worked hours
+            block.setHours(block.getHours().subtract(lunchHours,TkConstants.MATH_CONTEXT));
+            
             details.add(lunchDetail);
         } else {
             // TODO : Determine what to do in this case.
