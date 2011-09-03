@@ -125,8 +125,6 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 									}
 									assignRow.setDescr(assignment.getAssignmentDescription());
 								}
-								
-								
 								for(int i = 0;i<(numEntries-1);i++){
 									assignRow.getTotal().add(BigDecimal.ZERO);
 									assignRow.getAmount().add(BigDecimal.ZERO);
@@ -160,7 +158,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			if(earnGroupObj == null){
 				earnGroup = OTHER_EARN_GROUP;
 			} else{
-				earnGroup = earnGroupObj.getEarnGroup();
+				earnGroup = earnGroupObj.getDescr();
 			}
 			
 			EarnGroupSection earnGroupSection = earnGroupToEarnGroupSection.get(earnGroup);

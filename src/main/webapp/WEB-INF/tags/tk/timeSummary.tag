@@ -31,7 +31,7 @@
 				<c:forEach items="${timeSummary.sections}" var="section">
 					<c:forEach items="${section.earnCodeSections}" var="earnCodeSection">
 						<tr>
-							<td>${earnCodeSection.earnCode}</td>
+							<td>${earnCodeSection.earnCode}: ${earnCodeSection.description}</td>
 						</tr>
 						<c:forEach items="${earnCodeSection.assignmentsRows}" var="assignRow">
 						<tr style="border-bottom-style: double; font-weight: bold;">

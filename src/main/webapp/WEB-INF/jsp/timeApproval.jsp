@@ -13,7 +13,7 @@
         <table id="approvals-filter">
         	<tr class="left">
         		Department:
-        			<select id="selectedDept" name="selectedDept" property="selectedDept" onchange="this.form.submit();">
+        			<select id="selectedDept" name="selectedDept" property="selectedDept" onchange="this.form.methodToCall.value='selectNewPayCalendarGroup'; this.form.submit();">
         				<option value="">-- Select a department -- </option>
         				<c:forEach var="dept" items="${Form.departments}">
         					<c:choose>
