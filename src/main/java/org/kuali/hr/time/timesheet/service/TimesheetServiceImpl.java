@@ -90,6 +90,10 @@ public class TimesheetServiceImpl implements TimesheetService {
 		TimesheetDocumentHeader header = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, begin, end);
 
 		if (header == null) {
+			List<Assignment> activeAssignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getTimelessDate(payCalendarDates.getEndPeriodDate()));
+			if(activeAssignments.size() == 0){
+				throw new RuntimeException("No active assignments for "+principalId + " for "+payCalendarDates.getEndPeriodDate());
+			}
 			timesheetDocument = this.initiateWorkflowDocument(principalId, begin, end, TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
 			timesheetDocument.setPayCalendarEntry(payCalendarDates);
 			this.loadTimesheetDocumentData(timesheetDocument, principalId, begin, end);

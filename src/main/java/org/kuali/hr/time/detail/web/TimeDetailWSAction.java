@@ -79,6 +79,25 @@ public class TimeDetailWSAction extends TimesheetAction {
         Long startTime = TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime()).getTime();
         Long endTime = TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime()).getTime();
 
+        
+        LocalDateTime pcb_ldt = payCalEntry.getBeginLocalDateTime();
+        LocalDateTime pce_ldt = payCalEntry.getEndLocalDateTime();
+        DateTimeZone utz = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTime p_cal_b_dt = pcb_ldt.toDateTime(utz);
+        DateTime p_cal_e_dt = pce_ldt.toDateTime(utz);
+
+
+        Interval payInterval = new Interval(p_cal_b_dt, p_cal_e_dt);
+        if(!payInterval.contains(startTime)){
+        	errorMsgList.add("The start date/time is outside the pay period");
+            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+            return mapping.findForward("ws");
+        }
+        if(!payInterval.contains(endTime) && p_cal_e_dt.getMillis() != endTime){
+        	errorMsgList.add("The end date/time is outside the pay period");
+            tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+            return mapping.findForward("ws");
+        }
 
         if(StringUtils.isNotBlank(tdaf.getSelectedEarnCode())){
         	EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), asOfDate);
@@ -95,25 +114,6 @@ public class TimeDetailWSAction extends TimesheetAction {
                     return mapping.findForward("ws");
                 }
 
-
-                LocalDateTime pcb_ldt = payCalEntry.getBeginLocalDateTime();
-                LocalDateTime pce_ldt = payCalEntry.getEndLocalDateTime();
-                DateTimeZone utz = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-                DateTime p_cal_b_dt = pcb_ldt.toDateTime(utz);
-                DateTime p_cal_e_dt = pce_ldt.toDateTime(utz);
-
-
-                Interval payInterval = new Interval(p_cal_b_dt, p_cal_e_dt);
-                if(!payInterval.contains(startTime)){
-                	errorMsgList.add("The start date/time is outside the pay period");
-                    tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-                    return mapping.findForward("ws");
-                }
-                if(!payInterval.contains(endTime) && p_cal_e_dt.getMillis() != endTime){
-                	errorMsgList.add("The end date/time is outside the pay period");
-                    tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
-                    return mapping.findForward("ws");
-                }
 
                 if(startTime - endTime == 0){
                 	errorMsgList.add("Start time and end time cannot be equivalent");
