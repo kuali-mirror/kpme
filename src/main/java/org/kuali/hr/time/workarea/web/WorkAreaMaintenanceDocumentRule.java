@@ -122,15 +122,13 @@ public class WorkAreaMaintenanceDocumentRule extends
 					}
 				}
 			}else{
-				for(Assignment assignment: assignments){
-					System.out.println(assignment.getTaskObj());
-					Task taskObj = TkServiceLocator.getTaskService().getTask(assignment.getTask(), TKUtils.getCurrentDate());
-					if(wa.getTasks()!=null && wa.getTasks().contains(taskObj)){
-						for(Task task : wa.getTasks()){
-							if(task.getTask().equals(assignment.getTask()) && !task.isActive()){
-								this.putGlobalError("task.active.required",task.getTask().toString());
-								valid = false;
-							}
+				for (Assignment assignment : assignments) {
+					for (Task task : wa.getTasks()) {
+						if (task.getTask().equals(assignment.getTask())
+								&& !task.isActive()) {
+							this.putGlobalError("task.active.required", task
+									.getTask().toString());
+							valid = false;
 						}
 					}
 				}
