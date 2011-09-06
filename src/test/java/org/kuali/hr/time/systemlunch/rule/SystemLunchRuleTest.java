@@ -1,28 +1,21 @@
 package org.kuali.hr.time.systemlunch.rule;
 
-import java.sql.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class SystemLunchRuleTest extends TkTestCase {
 	
@@ -44,8 +37,11 @@ public class SystemLunchRuleTest extends TkTestCase {
 		
 		systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(date);
 		assertTrue("System lunch rule is pulled back", systemLunchRule!=null);
-		
-    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CLOCK_URL, true);
+
+        String baseUrl = TkTestConstants.Urls.CLOCK_URL;
+    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+
+//    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CLOCK_URL);
     	assertNotNull(page);
     	
     	Map<String, Object> criteria = new LinkedHashMap<String, Object>();
@@ -58,11 +54,11 @@ public class SystemLunchRuleTest extends TkTestCase {
     	// clock in
     	page = TkTestUtils.clickButton(page, "clockAction");
     	HtmlUnitUtil.createTempFile(page);
-    	assertTrue("The lunch in button didn't appear", page.asXml().contains("lunchOut"));
+    	assertTrue("The take lunch button didn't appear", page.asXml().contains("lunchOut"));
     	
     	// the lunch in button should display after clocking in
     	page = TkTestUtils.clickButton(page, "lunchOut");
-    	assertTrue("The lunch in button didn't appear", page.asXml().contains("lunchIn"));
+    	assertTrue("The return from lunch button didn't appear", page.asXml().contains("lunchIn"));
     	assertEquals(TkConstants.LUNCH_OUT, TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getPrincipalId()).getClockAction());
     	
     	// the lunch out button should display after lunching in
