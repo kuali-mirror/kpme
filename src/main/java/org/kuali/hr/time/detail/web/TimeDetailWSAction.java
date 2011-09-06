@@ -190,6 +190,11 @@ public class TimeDetailWSAction extends TimesheetAction {
                 tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
                 return mapping.findForward("ws");
         	}
+        	if(tdaf.getAmount().scale() > 2) {
+        		errorMsgList.add("Amount cannot have more than two digits after decimal point.");
+                tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                return mapping.findForward("ws");
+        	}
         }
         
         //------------------------
@@ -199,6 +204,11 @@ public class TimeDetailWSAction extends TimesheetAction {
         if(tdaf.getHours() != null) {
         	if(tdaf.getHours().equals(BigDecimal.ZERO)) {
         		errorMsgList.add("Hours cannot be zero.");
+                tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                return mapping.findForward("ws");
+        	}
+        	if(tdaf.getHours().scale() > 2) {
+        		errorMsgList.add("Hours cannot have more than two digits after decimal point.");
                 tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
                 return mapping.findForward("ws");
         	}
