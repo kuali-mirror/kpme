@@ -966,6 +966,8 @@ public class FieldUtils {
                 field.setContainerRows(fixedRows);
             }
         }
+        field.setFieldDirectInquiryEnabled(false);
+        
         return field;
     }
 
@@ -1294,7 +1296,7 @@ public class FieldUtils {
             //quickFinder is synonymous with a field-based Lookup
             field = LookupUtils.setFieldQuickfinder(newBusinessObjectInstance, attributeName, field, lookupFieldAttributeList);
             field = LookupUtils.setFieldDirectInquiry(newBusinessObjectInstance, attributeName, field);
-
+            field.setFieldDirectInquiryEnabled(false);
             // overwrite maxLength to allow for wildcards and ranges in the select, but only if it's not a mulitselect box, because maxLength determines the # of entries
             if (!Field.MULTISELECT.equals(field.getFieldType())) {
             	field.setMaxLength(100);
