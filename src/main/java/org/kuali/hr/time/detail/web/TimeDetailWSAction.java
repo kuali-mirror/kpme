@@ -182,9 +182,26 @@ public class TimeDetailWSAction extends TimesheetAction {
 
         }
         //------------------------
+        // Amount cannot be zero
+        //------------------------
+        if(tdaf.getAmount() != null) {
+        	if(tdaf.getAmount().equals(BigDecimal.ZERO)) {
+        		errorMsgList.add("Amount cannot be zero.");
+                tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                return mapping.findForward("ws");
+        	}
+        }
+        
+        //------------------------
         // check if the hours entered for hourly earn code is greater than 24 hours per day
+        // Hours cannot be zero
         //------------------------
         if(tdaf.getHours() != null) {
+        	if(tdaf.getHours().equals(BigDecimal.ZERO)) {
+        		errorMsgList.add("Hours cannot be zero.");
+                tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
+                return mapping.findForward("ws");
+        	}
         	int dayDiff = endTemp.getDayOfYear() - startTemp.getDayOfYear() + 1;
         	if(tdaf.getHours().compareTo(new BigDecimal(dayDiff * 24)) == 1){
         		errorMsgList.add("Cannot enter more than 24 hours per day.");
