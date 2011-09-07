@@ -1,14 +1,14 @@
 package org.kuali.hr.time.base.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.rice.kim.bo.Person;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 
@@ -33,6 +33,8 @@ public class PersonInfoActionForm extends TkForm {
 	private Map<String,List<TkRole>> deptToOrgAdmin = new HashMap<String,List<TkRole>>();
 	private Map<String,Person> principalIdToPerson = new HashMap<String,Person>();
 	private Map<Long,List<Person>> workAreaToApproverPerson = new HashMap<Long, List<Person>>();
+    private Map<String,List<Person>> deptToDeptAdminPerson = new HashMap<String, List<Person>>();
+
 
 	public Map<Long, List<Assignment>> getJobNumberToListAssignments() {
 		return jobNumberToListAssignments;
@@ -155,5 +157,11 @@ public class PersonInfoActionForm extends TkForm {
 		this.deptViewOnlyDepts = deptViewOnlyDepts;
 	}
 
-   
+    public Map<String, List<Person>> getDeptToDeptAdminPerson() {
+        return deptToDeptAdminPerson;
+    }
+
+    public void setDeptToDeptAdminPerson(Map<String, List<Person>> deptToDeptAdminPerson) {
+        this.deptToDeptAdminPerson = deptToDeptAdminPerson;
+    }
 }

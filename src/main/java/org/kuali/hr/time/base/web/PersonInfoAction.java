@@ -1,13 +1,5 @@
 package org.kuali.hr.time.base.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -21,6 +13,13 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PersonInfoAction extends TkAction {
 
@@ -49,6 +48,7 @@ public class PersonInfoAction extends TkAction {
 		
 		Map<Long,List<TkRole>> workAreaToApprover = new HashMap<Long,List<TkRole>>();
 		Map<Long,List<Person>> workAreaToApproverPerson = new HashMap<Long, List<Person>>();
+        Map<String,List<Person>> deptToDeptAdminPerson = new HashMap<String,List<Person>>();
 		
 		Map<String,Person> principalIdToPerson = new HashMap<String,Person>();
 		for(Assignment assign : lstAssign){
@@ -60,10 +60,12 @@ public class PersonInfoAction extends TkAction {
 			jobNumberToListAssignments.put(assign.getJobNumber(), lstCurrJobAssign);
 
 			this.assignWorkAreaToApprover(assign.getWorkArea(), workAreaToApprover, workAreaToApproverPerson);
+            deptToDeptAdminPerson = assignDeptToDeptAdmin(assign.getDept());
 		}
 		
 		personForm.setWorkAreaToApprover(workAreaToApprover);
 		personForm.setWorkAreaToApproverPerson(workAreaToApproverPerson);
+        personForm.setDeptToDeptAdminPerson(deptToDeptAdminPerson);
 		personForm.setJobNumberToListAssignments(jobNumberToListAssignments);
 		personForm.setPrincipalIdToPerson(principalIdToPerson);
 		return actForw;
@@ -94,6 +96,21 @@ public class PersonInfoAction extends TkAction {
 		paForm.setGlobalViewOnlyRoles(roles.isGlobalViewOnly());
 		paForm.setSystemAdmin(roles.isSystemAdmin());
 	}
+
+    private Map<String,List<Person>> assignDeptToDeptAdmin(String dept) {
+        List<TkRole> deptAdminRoles = TkServiceLocator.getTkRoleService().getDepartmentRoles(dept, TkConstants.ROLE_TK_DEPT_ADMIN, TKUtils.getCurrentDate());
+        List<Person> deptAdminPeople = new ArrayList<Person>();
+        Map<String,List<Person>> deptAdmins = new HashMap<String, List<Person>>();
+
+        for(TkRole role : deptAdminRoles) {
+            Person person = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
+            deptAdminPeople.add(person);
+        }
+
+        deptAdmins.put(dept, deptAdminPeople);
+
+        return deptAdmins;
+    }
 	
 	private void assignWorkAreaToApprover(Long workArea, Map<Long,List<TkRole>> workAreaToApprover, Map<Long,List<Person>> workAreaToApproverPerson ){
 		List<TkRole> lstApproverRoles = TkServiceLocator.getTkRoleService().getWorkAreaRoles(workArea, TkConstants.ROLE_TK_APPROVER,

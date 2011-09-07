@@ -9,11 +9,11 @@
             <div>
                 <table>
                     <tr>
-                        <td>Principal Id:</td>
-                        <td>${Form.principalId}</td>
+                        <th >Principal Id</th>
+                        <th>Principal Name</th>
                     </tr>
                     <tr>
-                        <td>Principal Name:</td>
+                        <td>${Form.principalId}</td>
                         <td>${Form.principalName}</td>
                     </tr>
                 </table>
@@ -24,15 +24,15 @@
                 <table>
                     <c:forEach var="job" items="${Form.jobs}">
                         <tr>
-                            <td>Job Number</td>
-                            <td>Department</td>
-                            <td>Salary Group</td>
-                            <td>Pay Grade</td>
-                            <td>Standard Hours</td>
-                            <td>Pay Type</td>
-                            <td>Location</td>
-                            <td>Compensation Rate</td>
-                            <td>Effective Date</td>
+                            <th>Job Number</th>
+                            <th>Department</th>
+                            <th>Salary Group</th>
+                            <th>Pay Grade</th>
+                            <th>Standard Hours</th>
+                            <th>Pay Type</th>
+                            <th>Location</th>
+                            <th>Compensation Rate</th>
+                            <th>Effective Date</th>
                         </tr>
                         <tr>
                             <td>${job.jobNumber}</td>
@@ -42,7 +42,7 @@
                             <td>${job.standardHours }</td>
                             <td>${job.payTypeObj.descr}</td>
                             <td>${job.location }</td>
-                            <td>${job.compRate }</td>
+                            <td><fmt:formatNumber value="${job.compRate }" type="currency"/></td>
                             <td>${job.effectiveDate }</td>
                         </tr>
                         <c:if test="${fn:length(Form.jobNumberToListAssignments) > 0}">
@@ -51,21 +51,32 @@
                             </tr>
                             <c:forEach var="assignment" items="${Form.jobNumberToListAssignments[job.jobNumber]}">
                                 <tr>
-                                    <td colspan="9">Work Area / Task :
-                                            ${assignment.workArea} - ${assignment.workAreaObj.description}
-                                        / ${assignment.task}<br/>
-                                        Approver(s) :
-                                        <c:forEach var="approver"
-                                                   items="${Form.workAreaToApproverPerson[assignment.workArea]}">
-                                            Name: <a href="mailto:${approver.emailAddress }">${approver.name}</a> ;
-                                            Phone Number: ${approver.phoneNumber }<br/>
-                                        </c:forEach>
-                                        <br/>
-                                        Organization Admin(s) :
-                                        <c:forEach var="orgAdmin" items="${Form.deptToOrgAdmin[assignment.dept]}">
-                                            Name: <a href="mailto:${orgAdmin.emailAddress }">${orgAdmin.name}</a> ;
-                                            Phone Number: ${orgAdmin.phoneNumber }<br/>
-                                        </c:forEach>
+                                    <td colspan="9">
+                                        <p>
+                                            <strong>Work Area / Task</strong> :
+                                                ${assignment.workArea} - ${assignment.workAreaObj.description}
+                                            / ${assignment.task}
+                                        </p>
+
+                                        <p>
+                                            <strong>Approver(s)</strong> : <br/>
+                                            <c:forEach var="approver"
+                                                       items="${Form.workAreaToApproverPerson[assignment.workArea]}">
+                                                <a href="mailto:${approver.emailAddress }">${approver.name}</a>
+                                                <c:if test="${approver.phoneNumber ne ''}"> / ${approver.phoneNumber }</c:if>
+                                                <br/>
+                                            </c:forEach>
+                                        </p>
+
+                                        <p>
+                                            <strong>Department Admin(s)</strong> : <br/>
+                                            <c:forEach var="deptAdmin"
+                                                       items="${Form.deptToDeptAdminPerson[assignment.dept]}">
+                                                <a href="mailto:${deptAdmin.emailAddress }">${deptAdmin.name}</a>
+                                                <c:if test="${deptAdmin.phoneNumber ne ''}"> / ${deptAdmin.phoneNumber }</c:if>
+                                                <br/>
+                                            </c:forEach>
+                                        </p>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -76,9 +87,9 @@
             <h3><a href="#">Your Roles:</a></h3>
 
             <div>
-                <table>
+                <table class="roles">
                     <tr>
-                        <td>Approver for Work Area(s)</td>
+                        <th>Approver for Work Area(s) : </th>
                         <td>
                             <c:forEach var="workArea" items="${Form.approverWorkAreas}" varStatus="row">
                                 ${workArea}
@@ -87,7 +98,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Reviewer for Work Area(s)</td>
+                        <th>Reviewer for Work Area(s) : </th>
                         <td>
                             <c:forEach var="workArea" items="${Form.reviewerWorkAreas}" varStatus="row">
                                 ${workArea}
@@ -96,7 +107,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Admin for Department(s):</td>
+                        <th>Admin for Department(s) : </th>
                         <td>
                             <c:forEach var="dept" items="${Form.deptAdminDepts}" varStatus="row">
                                 ${dept}
@@ -105,7 +116,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Admin for Location(s):</td>
+                        <th>Admin for Location(s) : </th>
                         <td>
                             <c:forEach var="dept" items="${Form.locationAdminDepts}" varStatus="row">
                                 ${dept}
@@ -114,7 +125,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>View Only for Department(s):</td>
+                        <th>View Only for Department(s) : </th>
                         <td>
                             <c:forEach var="dept" items="${Form.deptViewOnlyDepts}" varStatus="row">
                                 ${dept}
@@ -126,59 +137,5 @@
 
             </div>
         </div>
-            <%-- end of person-detail-accordion --%>
     </div>
-    <%-- end of person-detail --%>
-    <%--
-    <c:forEach var="job" items="${Form.jobNumberToListAssignments}">
-        <c:forEach var="assignment" items="${job.value}">
-            <h3><a href="#">Job Number: ${assignment.jobNumber }</a></h3>
-            <div>
-                <p class="job">
-                <b>Job Details : </b>
-                    <ul>
-                        <li>Network ID: ${assignment.principalId } </li>
-                        <li>Department: ${assignment.job.dept }</li>
-                        <li>Salary Group: ${assignment.job.hrSalGroup }</li>
-                        <li>Pay Grade: ${assignment.job.payGrade }</li>
-                        <li>Standard Hours: ${assignment.job.standardHours }</li>
-                        <li>Pay Type: ${assignment.job.payTypeObj.descr}</li>
-                        <li>Location: ${assignment.job.location }</li>
-                        <li>Compensation Rate: ${assignment.job.compRate }</li>
-                        <li>Effective Date: ${assignment.job.effectiveDate }</li>
-                    </ul>
-                </p>
-                <p class="assignment">
-                    <b>Assignment : </b>
-                    <ul>
-                        <li>Work Area - Description: ${assignment.workArea} - ${assignment.workAreaObj.description } </li>
-                        <li>Task: ${assignment.task}</li>
-                    </ul>
-                </p>
-                <p class="approver">
-                    <b>Approvers : </b>
-                    <ul>
-                    <c:forEach var="workAreaToApprover" items="${Form.workAreaToApproverPerson }">
-                        <c:forEach var="approver" items="${workAreaToApprover.value}">
-                                <li>Name: <a href="mailto:${approver.emailAddress }">${approver.name}</a> ; Phone Number: ${approver.phoneNumber }</li>
-                        </c:forEach>
-                    </c:forEach>
-                    </ul>
-                </p>
-                <p class="orgAdmin">
-                    <b>Organization Admin : </b>
-                    <ul>
-                    <c:forEach var="deptToOrgAdmin" items="${Form.deptToOrgAdmin }">
-                        <c:forEach var="orgAdmin" items="${deptToOrgAdmin.value}">
-                            <c:set var="person" value="${Form.principalIdToPerson[orgAdmin.principalId]}"/>
-                                <li>Name: <a href="mailto:${person.emailAddress }">${person.name }</a> ; Phone Number: ${person.phoneNumber }</li>
-                        </c:forEach>
-                    </c:forEach>
-                    </ul>
-                </p>
-            </div>
-        </c:forEach>
-    </c:forEach>
-    --%>
-
 </tk:tkHeader>
