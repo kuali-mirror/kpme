@@ -360,6 +360,7 @@ $(document).ready(function() {
     buttons['Cancel'] = function() {
         $(this).dialog('close');
         $(this).resetState();
+        $(this).resetValue();
     };
     // ------------------- end of the buttons -------------------
 
@@ -568,7 +569,9 @@ $.fn.resetValue = function(field) {
     if (field != undefined) {
         field.val('');
     } else {
-        $('#timesheet-panel').find('input').val('');
+        $('#timesheet-panel').find('input').end().find('select').each(function(){
+        	$(this).val('');
+        });
     }
 }
 
