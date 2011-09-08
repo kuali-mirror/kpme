@@ -181,6 +181,7 @@ public class TkConstants {
         public static final String INITIATED = "I";
         public static final String ENROUTE = "R";
         public static final String FINAL = "F";
+        public static final String CANCEL = "X";
     }
 
     public static final class BATCH_JOB_ENTRY_STATUS
