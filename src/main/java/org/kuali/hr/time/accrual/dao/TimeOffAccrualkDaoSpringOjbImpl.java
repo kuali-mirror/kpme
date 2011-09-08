@@ -6,6 +6,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
+import org.kuali.hr.time.util.TKUtils;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 import java.util.Collection;
@@ -65,4 +66,24 @@ public class TimeOffAccrualkDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
 
 	}
 	
+	// KPME-1011
+	public List<TimeOffAccrual> getActiveTimeOffAccruals (String principalId, List<String> activeAccrualCategories) {
+			List<TimeOffAccrual> timeOffAccruals = new LinkedList<TimeOffAccrual>();
+			java.sql.Date currentDate = TKUtils.getTimelessDate(null);
+			
+			Criteria root = new Criteria();
+			root.addEqualTo("principalId", principalId);
+			root.addLessOrEqualThan("effectiveDate", currentDate);
+			root.addIn("accrualCategory", activeAccrualCategories);
+			
+			Query query = QueryFactory.newQuery(TimeOffAccrual.class, root);
+			Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+			
+			if (c != null) {
+				timeOffAccruals.addAll(c);
+			}
+			
+			return timeOffAccruals;
+		}
+
 }

@@ -1,6 +1,5 @@
 package org.kuali.hr.time.accrual.service;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
@@ -10,6 +9,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
@@ -39,7 +39,20 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 	@Override
 	@CacheResult
 	public List<TimeOffAccrual> getTimeOffAccruals(String principalId) {
-		return timeOffAccrualDao.getTimeOffAccruals(principalId);
+		//return timeOffAccrualDao.getTimeOffAccruals(principalId);
+		java.sql.Date currentDate = TKUtils.getTimelessDate(null);
+		List<AccrualCategory> activeAccrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategories(currentDate);
+		
+		List<String> accrualCategories = new ArrayList<String>();
+		if ( activeAccrualCategories != null){
+			for(AccrualCategory accrualCategory : activeAccrualCategories) {
+				accrualCategories.add(accrualCategory.getAccrualCategory());
+			}
+		}
+		
+		List<TimeOffAccrual> timeOffAccruals = timeOffAccrualDao.getActiveTimeOffAccruals(principalId, accrualCategories);
+		
+		return timeOffAccruals;
 	}
 
 	@Override

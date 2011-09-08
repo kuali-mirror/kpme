@@ -3,6 +3,7 @@ package org.kuali.hr.time.accrual.service;
 import org.kuali.hr.time.accrual.AccrualCategory;
 
 import java.sql.Date;
+import java.util.List;
 
 public interface AccrualCategoryService {
 
@@ -20,4 +21,6 @@ public interface AccrualCategoryService {
     public void saveOrUpdate(AccrualCategory accrualCategory);
     
     public AccrualCategory getAccrualCategory(Long lmAccrualCategoryId);
+    
+    public List <AccrualCategory> getActiveAccrualCategories(Date asOfDate);
 }

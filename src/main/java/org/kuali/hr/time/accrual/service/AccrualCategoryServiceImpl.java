@@ -5,6 +5,7 @@ import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.accrual.dao.AccrualCategoryDao;
 
 import java.sql.Date;
+import java.util.List;
 
 public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
@@ -37,4 +38,8 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 		return accrualCategoryDao.getAccrualCategory(lmAccrualCategoryId);
 	}
 
+	@Override	
+	public List <AccrualCategory> getActiveAccrualCategories(Date asOfDate){
+		return accrualCategoryDao.getActiveAccrualCategories(asOfDate);
+	}
 }
