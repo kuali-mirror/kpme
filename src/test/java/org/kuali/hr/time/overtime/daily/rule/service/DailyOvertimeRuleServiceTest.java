@@ -80,7 +80,7 @@ public class DailyOvertimeRuleServiceTest extends TkTestCase {
 		Long workArea = 30L;
 		Long task = 30L;
 		createDailyOvertimeRule("REG", "OVT", "SD1", "BW", "TEST-DEPT", workArea,
-				task, new BigDecimal(8), new BigDecimal("0.25"), null);
+				task, new BigDecimal(8), new BigDecimal("15.0"), null);
 
 		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours first block, 5 the next.
 		// Should end up with 2 hours total OVT.

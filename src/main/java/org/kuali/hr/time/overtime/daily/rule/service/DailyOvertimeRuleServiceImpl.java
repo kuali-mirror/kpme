@@ -184,7 +184,12 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 				Assignment assign = this.getIdentifyingKey(timeBlock, timesheetDocument.getAsOfDate(), timesheetDocument.getPrincipalId());
 				for(DailyOvertimeRule dr : mapDailyOvtRulesToAssignment.keySet()){
 					List<Assignment> lstAssign = mapDailyOvtRulesToAssignment.get(dr);
+
+                    // for this kind of operation to work, equals() and hashCode() need to
+                    // be over ridden for the object of comparison.
 					if(lstAssign.contains(assign)){
+                        // comparison here will always work, because we're comparing
+                        // against our existing instantiation of the object.
 						if(dailyOvtRuleToDayTotals.get(dr) != null){
 							List<TimeBlock> lstTimeBlock = dailyOvtRuleToDayTotals.get(dr);
 							lstTimeBlock.add(timeBlock);

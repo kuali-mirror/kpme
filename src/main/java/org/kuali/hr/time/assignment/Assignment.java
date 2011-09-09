@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
@@ -37,9 +39,9 @@ public class Assignment extends HrBusinessObject {
 	private DeptLunchRule deptLunchRule;
 	private WorkArea workAreaObj;
 	private Boolean history;
-	
+
 	private Person principal;
-	
+
 	private Task taskObj;
 
 	private List<AssignmentAccount> assignmentAccounts = new LinkedList<AssignmentAccount>();
@@ -51,7 +53,7 @@ public class Assignment extends HrBusinessObject {
 	public void setAssignmentAccounts(List<AssignmentAccount> assignmentAccounts) {
 		this.assignmentAccounts = assignmentAccounts;
 	}
-	
+
 	public Assignment(){}
 
 	public Assignment(String principalId, Long jobNumber, Date effectiveDate,
@@ -84,13 +86,13 @@ public class Assignment extends HrBusinessObject {
 		this.principalId = principalId;
 	}
 
-	public String getName() { 
+	public String getName() {
 		if (principal == null) {
         principal = KIMServiceLocator.getPersonService().getPerson(this.principalId);
 		}
 		return (principal != null) ? principal.getName() : "";
 	}
-	
+
 	public Job getJob() {
 		return job;
 	}
@@ -134,7 +136,7 @@ public class Assignment extends HrBusinessObject {
 	/**
 	 * Provides us with the text to display to the user for clock actions on
 	 * this assignment.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getClockText() {
@@ -166,7 +168,7 @@ public class Assignment extends HrBusinessObject {
 	public void setTask(Long task) {
 		this.task = task;
 	}
-	
+
 	public String getDept() {
 		if(this.getJobNumber()!= null) {
 			if(this.getJob() == null || !this.getJobNumber().equals(this.getJob().getJobNumber())) {
@@ -263,7 +265,7 @@ public class Assignment extends HrBusinessObject {
 		String jobKey = getPrincipalId()+"_"+getJobNumber()+"_"+getWorkArea()+"_"+
 			(getTask() != null ? getTask().toString() : "");
 		return jobKey;
-		
+
 	}
 
 	@Override
@@ -275,5 +277,23 @@ public class Assignment extends HrBusinessObject {
 	public void setId(Long id) {
 		setHrJobId(id);
 	}
-	
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj.getClass() != getClass())
+            return false;
+
+        Assignment rhs = (Assignment)obj;
+        return new EqualsBuilder().append(principalId, rhs.principalId).append(jobNumber, rhs.jobNumber)
+                .append(workArea, rhs.workArea).append(task, rhs.task).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 781).append(principalId).append(jobNumber).append(workArea).append(task).toHashCode();
+    }
 }
