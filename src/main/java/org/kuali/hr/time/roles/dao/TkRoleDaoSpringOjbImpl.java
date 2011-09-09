@@ -407,6 +407,11 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 	public List<TkRole> getRolesByPosition(String positionNumber) {
 		Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("positionNumber", positionNumber);
+		 // Filter for ACTIVE = 'Y'
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        currentRecordCriteria.addAndCriteria(activeFilter);
+        
 		List<TkRole> tkRoles = new ArrayList<TkRole>();
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TkRole.class, currentRecordCriteria));
 		if(c != null)
@@ -414,6 +419,22 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 		return tkRoles;
 	}
 
+	@Override
+	public List<TkRole> getInactiveRolesByPosition(String positionNumber) {
+		Criteria currentRecordCriteria = new Criteria();
+		currentRecordCriteria.addEqualTo("positionNumber", positionNumber);
+		 // Filter for ACTIVE = 'N'
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", false);
+        currentRecordCriteria.addAndCriteria(activeFilter);
+        
+		List<TkRole> tkRoles = new ArrayList<TkRole>();
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TkRole.class, currentRecordCriteria));
+		if(c != null)
+			tkRoles.addAll(c);
+		return tkRoles;
+	}
+	
 	@Override
 	public List<TkRole> getPositionRolesForWorkArea(Long workArea, Date asOfDate) {
         List<TkRole> roles = new ArrayList<TkRole>();

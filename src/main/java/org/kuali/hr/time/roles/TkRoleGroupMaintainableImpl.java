@@ -65,11 +65,16 @@ public class TkRoleGroupMaintainableImpl extends KualiMaintainableImpl {
 		TkRoleGroup tkRoleGroupOld = (TkRoleGroup)document.getOldMaintainableObject().getBusinessObject();
 		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
 		List<TkRole> positionRoles = new ArrayList<TkRole>();
+		List<TkRole> inactivePositionRoles = new ArrayList<TkRole>();
 		for(Job job : jobs){
 			positionRoles.addAll(TkServiceLocator.getTkRoleService().getRolesByPosition(job.getPositionNumber()));
+			inactivePositionRoles.addAll(TkServiceLocator.getTkRoleService().getInactiveRolesByPosition(job.getPositionNumber()));
 		}
+		tkRoleGroup.setInactivePositionRoles(inactivePositionRoles);
+		tkRoleGroupOld.setInactivePositionRoles(inactivePositionRoles);
 		tkRoleGroup.setPositionRoles(positionRoles);
 		tkRoleGroupOld.setPositionRoles(positionRoles);
+		
 		TkServiceLocator.getTkRoleGroupService().populateRoles(tkRoleGroupOld);
 		TkServiceLocator.getTkRoleGroupService().populateRoles(tkRoleGroup);
 		super.processAfterEdit(document, parameters);

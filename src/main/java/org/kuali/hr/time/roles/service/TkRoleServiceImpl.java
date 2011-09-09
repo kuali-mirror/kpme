@@ -147,6 +147,11 @@ public class TkRoleServiceImpl implements TkRoleService {
 	public List<TkRole> getRolesByPosition(String positionNumber) {
 		return tkRoleDao.getRolesByPosition(positionNumber);
 	}
+	
+	@Override
+	public List<TkRole> getInactiveRolesByPosition(String positionNumber) {
+		return tkRoleDao.getInactiveRolesByPosition(positionNumber);
+	}
 
 	@Override
 	public List<TkRole> getPositionRolesForWorkArea(Long workArea, Date asOfDate) {
