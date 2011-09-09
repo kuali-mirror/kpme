@@ -75,7 +75,7 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" name="bdRow1" id="bdRow1" size="10"
+								<input type="text" name="bdRow1" id="bdRow1" size="10" readonly="readonly"
                                        value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.beginTimeDisplayDate}" pattern="MM/dd/yyyy"/>"/>
 							</td>
 
@@ -86,7 +86,7 @@
 									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
 							</td>
 							<td>
-								<input type="text" name="edRow1" id="edRow1" size="10"
+								<input type="text" name="edRow1" id="edRow1" size="10" readonly="readonly"
                                        value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.endTimeDisplayDate}" pattern="MM/dd/yyyy"/>">
 							</td>
 							<td>

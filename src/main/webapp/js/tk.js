@@ -46,7 +46,7 @@ $(document).ready(function() {
             });
 
     // datepicker
-    $('#date-range-begin, #date-range-end, #bdRow1, #edRow1').datepicker({
+    $('#date-range-begin, #date-range-end').datepicker({
                 changeMonth : true,
                 changeYear : true,
                 showOn : 'button',
@@ -439,6 +439,7 @@ function addTimeBlockRow(form, tempArr) {
     var beginDate = new Date(form.beginTimestamp.value);
     var formatedDate = beginDate.toString("MM/dd/yyyy");
     el.value = formatedDate;
+    el.setAttribute('readonly', 'readonly');
     cellBeginDate.appendChild(el);
 
     var datePickerId = '#' + idString;
@@ -478,6 +479,7 @@ function addTimeBlockRow(form, tempArr) {
     var endDate = new Date(form.endTimestamp.value);
     var formatedDate = endDate.toString("MM/dd/yyyy");
     el.value = formatedDate;
+    el.setAttribute('readonly', 'readonly');
     cellEndDate.appendChild(el);
     datePickerId += ', #' + idString;
 
@@ -519,19 +521,19 @@ function addTimeBlockRow(form, tempArr) {
     recalculateTotal();
 
     // datepicker
-    $(datePickerId).datepicker({
-                changeMonth : true,
-                changeYear : true,
-                showOn : 'button',
-                showAnim : 'fadeIn',
-                buttonImage : 'kr/static/images/cal.gif',
-                buttonImageOnly : true,
-                buttonText : 'Select a date',
-                showButtonPanel : true,
-                constrainInput : true,
-                minDate : new Date($('#beginDate').val()),
-                maxDate : new Date($('#endDate').val())
-            });
+//    $(datePickerId).datepicker({
+//                changeMonth : true,
+//                changeYear : true,
+//                showOn : 'button',
+//                showAnim : 'fadeIn',
+//                buttonImage : 'kr/static/images/cal.gif',
+//                buttonImageOnly : true,
+//                buttonText : 'Select a date',
+//                showButtonPanel : true,
+//                constrainInput : true,
+//                minDate : new Date($('#beginDate').val()),
+//                maxDate : new Date($('#endDate').val())
+//            });
 
     //time format helper
     $(timeHelpId).tooltip({
