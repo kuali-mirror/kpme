@@ -111,6 +111,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		// shift rule on the first day of the currently-being-processed pay period.
 		//
         // Will be set to null if not applicable.
+        boolean previousPayPeriodPrevDay = true;
 		Map<Long, List<TimeBlock>> jobNumberToTimeBlocksPreviousDay =
                 getPreviousPayPeriodLastDayJobToTimeBlockMap(timesheetDocument, jobNumberToShifts);
 
@@ -220,7 +221,10 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 								}
 							}
 							// Only if we actually have at least one block.
-							if (firstBlockOfPreviousDay != null) {
+                            // Adding Assumption: We must have both a valid current and previous block. Max Gap can not be more than a virtual day.
+                            // If this assumption does not hold, additional logic will be needed to iteratively go back in time to figure out which
+                            // blocks are valid.
+							if ( (firstBlockOfPreviousDay != null) && (firstBlockOfCurrentDay != null)) {
 								Interval previousBlockInterval = new Interval(new DateTime(firstBlockOfPreviousDay.getEndTimestamp(), zone), new DateTime(firstBlockOfCurrentDay.getBeginTimestamp(), zone));
 								Duration blockGapDuration = previousBlockInterval.toDuration();
 								BigDecimal bgdHours = TKUtils.convertMillisToHours(blockGapDuration.getMillis());
@@ -281,8 +285,6 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 					// Iterate over sorted list, checking time boundaries vs Shift Intervals.
 					long accumulatedMillis = TKUtils.convertHoursToMillis(hoursBeforeVirtualDay);
 
-                    // TODO: It appears that the dayIsRuleActive isn't taken into consideration at all.
-
                     boolean previousDayOnly = false; // IF the rule is not active today, but was on the previous day, we need to still look at time blocks.
                     if (!dayIsRuleActive(currentDay, rule)) {
                         if (dayIsRuleActive(currentDay.minusDays(1), rule)) {
@@ -298,6 +300,15 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 					 * We will touch each time block and accumulate time blocks that are applicable to
 					 * the current rule we are on.
 					 */
+
+                    // These blocks are only used for detail application
+                    // We don't want to pass along the previous pay period,
+                    // because we don't want to modify the time blocks on that
+                    // period. If null is passed, time will be placed on the
+                    // first block of the first period if the previous period
+                    // block had influence.
+                    List<TimeBlock> previousBlocksFiltered = (previousPayPeriodPrevDay) ? null : filterBlocksByApplicableEarnGroup(fromEarnGroup, ruleTimeBlocksPrev);
+
 					for (TimeBlock current : ruleTimeBlocksCurr) {
 						if (!timeBlockHasEarnCode(fromEarnGroup, current)) {
                             // TODO: WorkSchedule considerations somewhere in here?
@@ -325,7 +336,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                                 // Need to apply this now, and move window forward
                                 // for current time block.
                                 BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
-                                this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule);
+                                this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, previousBlocksFiltered, hoursToApplyPrevious, hoursToApply, rule);
                                 accumulatedMillis = 0L; // reset accumulated hours..
                                 hoursToApply = BigDecimal.ZERO;
                                 hoursToApplyPrevious = BigDecimal.ZERO;
@@ -342,7 +353,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 							if (previous != null) {
 								if (exceedsMaxGap(previous, current, rule.getMaxGap())) {
 									BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
-                                    this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule);
+                                    this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, previousBlocksFiltered, hoursToApplyPrevious, hoursToApply, rule);
                                     accumulatedMillis = 0L; // reset accumulated hours..
 									hoursToApply = BigDecimal.ZERO;
 									hoursToApplyPrevious = BigDecimal.ZERO;
@@ -364,7 +375,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 							// No Overlap / Outside of Rule
 							if (previous != null) {
 								BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
-                                this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule);
+                                this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, previousBlocksFiltered, hoursToApplyPrevious, hoursToApply, rule);
 								accumulatedMillis = 0L; // reset accumulated hours..
 								hoursToApply = BigDecimal.ZERO;
 								hoursToApplyPrevious = BigDecimal.ZERO;
@@ -376,19 +387,36 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 					// All time blocks are iterated over, check for remainders.
 					// Check containers for time, and apply if needed.
 					BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
-                    this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule);
+                    this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, previousBlocksFiltered, hoursToApplyPrevious, hoursToApply, rule);
                 }
 			}
 			// 	Keep track of previous as we move day by day.
 			jobNumberToTimeBlocksPreviousDay = jobNumberToTimeBlocks;
+            previousPayPeriodPrevDay = false;
 		}
 
 	}
 
+    private List<TimeBlock> filterBlocksByApplicableEarnGroup(Set<String> fromEarnGroup, List<TimeBlock> blocks) {
+        List<TimeBlock> filtered;
 
-    private void applyAccumulatedWrapper(BigDecimal accumHours, Interval evalInterval, List<Interval>accumulatedBlockIntervals, List<TimeBlock>accumulatedBlocks, BigDecimal hoursToApplyPrevious, BigDecimal hoursToApply, ShiftDifferentialRule rule) {
+        if (blocks == null || blocks.size() == 0)
+            filtered = null;
+        else {
+            filtered = new ArrayList<TimeBlock>();
+            for (TimeBlock b : blocks) {
+                if (timeBlockHasEarnCode(fromEarnGroup, b))
+                    filtered.add(b);
+            }
+        }
+
+        return filtered;
+    }
+
+
+    private void applyAccumulatedWrapper(BigDecimal accumHours, Interval evalInterval, List<Interval>accumulatedBlockIntervals, List<TimeBlock>accumulatedBlocks, List<TimeBlock> previousBlocks, BigDecimal hoursToApplyPrevious, BigDecimal hoursToApply, ShiftDifferentialRule rule) {
         if (accumHours.compareTo(rule.getMinHours()) >= 0) {
-            this.applyPremium(evalInterval, accumulatedBlockIntervals, accumulatedBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
+            this.applyPremium(evalInterval, accumulatedBlockIntervals, accumulatedBlocks, previousBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
         }
         accumulatedBlocks.clear();
         accumulatedBlockIntervals.clear();
@@ -419,17 +447,31 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
      * @param shift The shift interval - need to examine the time block to determine how many hours are eligible per block.
      * @param blockIntervals Intervals for each block present in the blocks list. Passed here to avoid re computation.
      * @param blocks The blocks we are applying hours to.
+     * @param previousBlocks If present, this is the list of time blocks from a previous "day", on which the initial hours (from previous day) should be placed.
      * @param initialHours hours accumulated from a previous boundary that need to be applied here (NOT SUBJECT TO INTERVAL)
      * @param hours hours to apply
      * @param earnCode what earn code to create time hour detail entry for.
      */
-	void applyPremium(Interval shift, List<Interval> blockIntervals, List<TimeBlock> blocks, BigDecimal initialHours, BigDecimal hours, String earnCode) {
+	void applyPremium(Interval shift, List<Interval> blockIntervals, List<TimeBlock> blocks, List<TimeBlock> previousBlocks, BigDecimal initialHours, BigDecimal hours, String earnCode) {
 		for (int i=0; i<blocks.size(); i++) {
 			TimeBlock b = blocks.get(i);
 
             // Only apply initial hours to the first timeblock.
-			if (i == 0 && (initialHours.compareTo(BigDecimal.ZERO) > 0))
-				addPremiumTimeHourDetail(b, initialHours, earnCode);
+			if (i == 0 && (initialHours.compareTo(BigDecimal.ZERO) > 0)) {
+                // ONLY if they're on the same document ID, do we apply to previous,
+                // otherwise we dump all on the current document.
+                if (previousBlocks != null && previousBlocks.size() > 0) { // && previousBlocks.get(0).getDocumentId().equals(b.getDocumentId())) {
+                    for (TimeBlock pb : previousBlocks) {
+                        BigDecimal hoursToApply = initialHours.min(pb.getHours());
+                        addPremiumTimeHourDetail(pb, hoursToApply, earnCode);
+                        initialHours = initialHours.subtract(hoursToApply, TkConstants.MATH_CONTEXT);
+                        if (initialHours.compareTo(BigDecimal.ZERO) <= 0)
+                            break;
+                    }
+                } else {
+				    addPremiumTimeHourDetail(b, initialHours, earnCode);
+                }
+            }
 
 			if (hours.compareTo(BigDecimal.ZERO) > 0) {
                 Interval blockInterval = blockIntervals.get(i);

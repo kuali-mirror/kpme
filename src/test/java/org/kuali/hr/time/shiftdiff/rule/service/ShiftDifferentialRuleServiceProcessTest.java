@@ -140,7 +140,6 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
 		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust);
-
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 		TkTestUtils.verifyAggregateHourSumsFlatList("August Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(2));}},aggregate);
@@ -157,6 +156,8 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(22), 1, new BigDecimal("2"), "RGN", jobNumber, workArea));
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusDays(1), 1, new BigDecimal("1"), "RGN", jobNumber, workArea));
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusDays(1).plusHours(17), 1, new BigDecimal("6"), "RGN", jobNumber, workArea));
+        setDocumentIdOnBlocks(blocks, "2");
+        // set to arbitrary ID.
 		aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 		TkTestUtils.verifyAggregateHourSumsFlatList("September Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(20));}},aggregate);
 
@@ -164,6 +165,12 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 		TkTestUtils.verifyAggregateHourSumsFlatList("September Post-Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal("14.75"));put("RGN", new BigDecimal(20));}},aggregate);
 	}
+
+    private void setDocumentIdOnBlocks(List<TimeBlock> blocks, String id) {
+        for (TimeBlock b : blocks) {
+            b.setDocumentId(id);
+        }
+    }
 
 
 	/**
