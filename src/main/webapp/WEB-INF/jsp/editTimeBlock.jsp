@@ -16,8 +16,8 @@
 			<html:hidden property="assignmentList" value="${Form.assignDescriptionsList}"/>
 			<html:hidden property="distributeAssignList" value="${Form.distributeAssignList}" />
 			<html:hidden property="originalAssignment" value="${Form.currentAssignmentDescription}"/>
-			<html:hidden property="beginTimestamp" value="${Form.currentTimeBlock.beginTimeDisplayDate}"/>
-			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endTimeDisplayDate}"/>
+			<html:hidden property="beginTimestamp" value="${Form.currentTimeBlock.beginDistributeDate}"/>
+			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endDistributeDate}"/>
 			<html:hidden property="hours" value="${Form.currentTimeBlock.hours}"/>
 
 			<div id="clock" style="border-bottom: 1px solid gray;">
