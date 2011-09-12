@@ -450,8 +450,8 @@ function addTimeBlockRow(form, tempArr) {
     el.name = idString;
     el.id = idString;
     el.size = 10;
-    var beginTime = beginDate.toString("hh:mm tt");
-    el.value = beginTime;
+//    var beginTime = beginDate.toString("hh:mm tt");
+//    el.value = beginTime;
     cellBeginTime.appendChild(el);
     var timeChangeId = '#' + idString;
     var timeFormatMessage = "Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530";

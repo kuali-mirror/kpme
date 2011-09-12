@@ -58,7 +58,7 @@
 						</tr>
 						</thead>
 						<tbody>
-						<tr>
+						  <tr>
 							<td>1</td>
 							<td>
 								 <select name="assignmentRow1" id="assignmentRow1">
@@ -80,29 +80,73 @@
 							</td>
 
 							<td>
-								<input name="btRow1" id="btRow1"
+								<input name="btRow1" id="btRow1" readonly="readonly"
                                        size="10" value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.beginTimeDisplayDate}" pattern="hh:mm aa"/>">
-								<input type="button" style="width: 20px; height: 23px;" id="beginTimeHelp1" value="?"
-									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
-							</td>
+                            </td>
 							<td>
 								<input type="text" name="edRow1" id="edRow1" size="10" readonly="readonly"
                                        value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.endTimeDisplayDate}" pattern="MM/dd/yyyy"/>">
 							</td>
 							<td>
-								<input name="etRow1" id="etRow1" size="10"
+								<input name="etRow1" id="etRow1" size="10" >
+								<input type="button" style="width: 20px; height: 23px;" id="endTimeHelp1" value="?"
+									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
+									
+							</td>
+							<td>
+								<input name="hrRow1" id="hrRow1" size="5" readonly="" value="${Form.currentTimeBlock.hours}">
+							</td>
+							<td></td>
+					      </tr>
+							
+
+						  <tr>
+							<td>2</td>
+							<td>
+								 <select name="assignmentRow2" id="assignmentRow2">
+									<c:forEach var="assignment" items="${Form.desList}">
+										<c:choose>
+											<c:when test='${assignment.value == Form.currentAssignmentDescription}'>
+												<option value="${assignment.key}" selected>${assignment.value}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${assignment.key}" >${assignment.value}</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</select>
+							</td>
+							<td>
+								<input type="text" name="bdRow2" id="bdRow2" size="10" readonly="readonly"
+                                       value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.beginTimeDisplayDate}" pattern="MM/dd/yyyy"/>"/>
+							</td>
+
+							<td>
+								<input name="btRow2" id="btRow2" size="10">
+								<input type="button" style="width: 20px; height: 23px;" id="beginTimeHelp1" value="?"
+									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
+							</td>
+							<td>
+								<input type="text" name="edRow2" id="edRow2" size="10" readonly="readonly"
+                                       value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.endTimeDisplayDate}" pattern="MM/dd/yyyy"/>">
+							</td>
+							<td>
+								<input name="etRow2" id="etRow2" size="10"
                                        value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.endTimeDisplayDate}" pattern="hh:mm aa"/>">
 								<input type="button" style="width: 20px; height: 23px;" id="endTimeHelp1" value="?"
 									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
 							</td>
 							<td>
-								<input name="hrRow1" id="hrRow1" size="5" readonly="" value="${Form.currentTimeBlock.hours}">
+								<input name="hrRow2" id="hrRow2" size="5" readonly="" value="${Form.currentTimeBlock.hours}">
 							</td>
 							<td>
 								<input class="button" value="Add" type="button" name="addTimeBlock" id="addTimeBlock"
 									onclick="javascript: addTimeBlockRow(this.form);" />
 							</td>
-							</tr>
+						  </tr>
+							
+							
+							
 					</tbody>
 					<tfoot>
 						<tr>
