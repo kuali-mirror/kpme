@@ -97,6 +97,9 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		root.addEqualTo("timestamp", timestampSubQuery);
 		
 		root.addOrderBy("earnCode", true);
+		root.addOrderBy("dept",false);
+		root.addOrderBy("hrSalGroup",false);
+		
 		
 		Query query = QueryFactory.newQuery(DepartmentEarnCode.class, root);
 		

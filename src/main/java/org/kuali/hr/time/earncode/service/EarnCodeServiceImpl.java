@@ -71,7 +71,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
                 Set<Long> workAreas = user.getCurrentRoles().getApproverWorkAreas();
                 for (Long wa : workAreas) {
                     WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
-                    if (workArea!= null && StringUtils.equals(job.getDept(), workArea.getDept())) {
+                    if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
                         // TODO: All Good, and then Break
                         addEc = true;
                         break;
