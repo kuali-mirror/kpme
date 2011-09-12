@@ -103,10 +103,21 @@ public class PersonInfoAction extends TkAction {
         Map<String,List<Person>> deptAdmins = new HashMap<String, List<Person>>();
 
         for(TkRole role : deptAdminRoles) {
-            Person person = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
-            deptAdminPeople.add(person);
+        	if(role.getPositionNumber() != null){
+				List<Job> lstJobs = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(role.getPositionNumber(), TKUtils.getCurrentDate());
+				for(Job j : lstJobs){
+					Person person = KIMServiceLocator.getPersonService().getPerson(j.getPrincipalId());
+					if(person !=null){
+						deptAdminPeople.add(person);
+					}
+				}
+			} else{
+				Person person = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
+				if(person!=null){
+					deptAdminPeople.add(person);
+				}
+			}
         }
-
         deptAdmins.put(dept, deptAdminPeople);
 
         return deptAdmins;
