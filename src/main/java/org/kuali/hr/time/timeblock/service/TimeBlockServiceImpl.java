@@ -339,4 +339,11 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		return timeBlockDao.getTimeBlocksForClockLogId(tkClockLogId);
 	}
 
+	public List<TimeBlock> getTimeBlocks(){
+		return timeBlockDao.getTimeBlocks();
+	}
+	
+	public List<TimeBlock> getLatestEndTimestamp(){
+		return timeBlockDao.getLatestEndTimestamp();
+	}
 }

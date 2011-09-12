@@ -1,6 +1,8 @@
 package org.kuali.hr.time.timeblock.dao;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,7 +10,10 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
@@ -75,4 +80,39 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 		crit.addEqualTo("tkClockLogId", tkClockLogId);
 		return (List<TimeBlock>)this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, crit));
 	}
+	
+	public List<TimeBlock> getTimeBlocks() { //KPME937
+		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
+		Criteria crit = new Criteria();
+		
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, crit));
+	
+		if (c != null) {
+			timeBlocks.addAll(c);
+        }
+
+        return timeBlocks;
+	}
+	
+	@Override
+	public List<TimeBlock> getLatestEndTimestamp() { //KPME937
+		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
+		Criteria root = new Criteria();
+		Criteria crit = new Criteria();
+		
+		ReportQueryByCriteria endTimestampSubQuery = QueryFactory.newReportQuery(TimeBlock.class, crit); 
+		endTimestampSubQuery.setAttributes(new String[]{"max(endTimestamp)"});
+	
+		root.addEqualTo("endTimestamp", endTimestampSubQuery);
+		
+		Query query = QueryFactory.newQuery(TimeBlock.class, root);
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		
+		if (c != null) {
+			timeBlocks.addAll(c);
+        }
+
+        return timeBlocks;
+	}
+
 }

@@ -2,11 +2,15 @@ package org.kuali.hr.time.earncode.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 	
@@ -75,6 +79,19 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 			return false;
 		}
 		
+		// kpme-937 can not inactivation of a earn code if it used in active timeblocks
+		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestamp();
+		
+		if ( !earnCode.isActive() && earnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
+			List<TimeBlock> activeTimeBlocks = new ArrayList<TimeBlock>();
+			activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks();
+			for(TimeBlock activeTimeBlock : activeTimeBlocks){
+				if ( earnCode.getEarnCode().equals(activeTimeBlock.getEarnCode())){
+					this.putFieldError("earnCode", "earncode.earncode.inactive", earnCode.getEarnCode());
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 

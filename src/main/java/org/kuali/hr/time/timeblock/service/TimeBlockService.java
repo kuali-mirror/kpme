@@ -101,4 +101,7 @@ public interface TimeBlockService {
 	public Boolean isTimeBlockEditable(TimeBlock tb);
 	
 	public List<TimeBlock> getTimeBlocksForClockLog(Long tkClockLogId);
+	
+	public List<TimeBlock> getTimeBlocks();
+	public List<TimeBlock> getLatestEndTimestamp();
 }
