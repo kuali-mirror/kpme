@@ -56,8 +56,8 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
         DateTime boundaryMax = clockLogDateTime.plusDays(1);
 
-        if ( (!StringUtils.equals(lastClock.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax))
-                || actionDateTime.isBefore(clockLogDateTime)) {
+        if ( ((!StringUtils.equals(lastClock.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax))
+                || actionDateTime.isBefore(clockLogDateTime)) && !StringUtils.equals(mp.getDocumentStatus(),"R")) {
             // Error -
         	GlobalVariables.getMessageMap().putError("actionDate", "clock.mp.invalid.datetime");
         	GlobalVariables.getMessageMap().putError("actionTime", "clock.mp.invalid.datetime");
