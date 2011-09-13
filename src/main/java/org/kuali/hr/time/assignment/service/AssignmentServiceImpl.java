@@ -66,7 +66,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 			//if the user is not the same as the timesheet and does not have approver access for the assignment
 			//do not add to the display
 			if(!StringUtils.equals(TKContext.getTargetPrincipalId(), TKContext.getPrincipalId())){
-				if(TKContext.getUser().isSystemAdmin() || !TKContext.getUser().getReportingWorkAreas().contains(assignment.getWorkArea())){
+				if(!TKContext.getUser().isSystemAdmin() && !TKContext.getUser().getReportingWorkAreas().contains(assignment.getWorkArea())){
 					continue;
 				}
 			}
