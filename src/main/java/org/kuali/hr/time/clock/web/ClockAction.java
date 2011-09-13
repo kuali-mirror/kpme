@@ -86,6 +86,12 @@ public class ClockAction extends TimesheetAction {
         String tbIdString = caf.getEditTimeBlockId();
         if (tbIdString != null) {
             caf.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(Long.valueOf(caf.getEditTimeBlockId())));
+    		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
+    		if(sdf.format(caf.getCurrentTimeBlock().getEndTimeDisplayDate()).equals("0:00 AM")) {
+    			caf.setCellReadOnly(" ");
+    		} else {
+    			caf.setCellReadOnly("READONLY");
+    		}
         }
 
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);

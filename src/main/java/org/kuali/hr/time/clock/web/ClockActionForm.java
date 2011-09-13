@@ -19,7 +19,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
-import org.kuali.hr.time.util.TKUtils;
 
 public class ClockActionForm extends TimesheetActionForm {
 
@@ -52,6 +51,7 @@ public class ClockActionForm extends TimesheetActionForm {
     private String currentAssignmentDescription;
     private String currentAssignmentKey;
     private String tbId;
+    private String cellReadOnly;
 
     private String newAssignDesCol;
     private String newBDCol;
@@ -432,6 +432,14 @@ public class ClockActionForm extends TimesheetActionForm {
 
 	public void setDesList(LinkedHashMap<String, String> desList) {
 		this.desList = desList;
+	}
+	
+	public String getCellReadOnly() {
+		return cellReadOnly;
+	}
+
+	public void setCellReadOnly(String cellReadOnly) {
+		this.cellReadOnly = cellReadOnly;
 	}
 
 

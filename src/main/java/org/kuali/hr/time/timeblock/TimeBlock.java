@@ -544,14 +544,6 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.principalId = principalId;
     }
     
-    public Date getBeginDistributeDate() {
-    	return this.getBeginTimestamp() == null ? new Date() :  new DateTime(this.getBeginTimestamp()).toDate();
-    }
-    
-    public Date getEndDistributeDate() {
-    	return this.getEndTimestamp() == null ? new Date() : new DateTime(this.getEndTimestamp()).toDate();
-    }
-    
     public String getOvertimePref() {
         return overtimePref;
     }

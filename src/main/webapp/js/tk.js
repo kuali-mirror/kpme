@@ -46,7 +46,13 @@ $(document).ready(function() {
             });
 
     // datepicker
-    $('#date-range-begin, #date-range-end').datepicker({
+    var datePickerEls = '#date-range-begin, #date-range-end';
+
+    var cellReadonly = $("#cellReadonly").val();
+    if(cellReadonly != undefined && cellReadonly != 'READONLY') {
+    	datePickerEls += ', #bdRow1, #edRow1, #bdRow2, #edRow2';
+    }
+    $(datePickerEls).datepicker({
                 changeMonth : true,
                 changeYear : true,
                 showOn : 'button',
@@ -161,10 +167,21 @@ $(document).ready(function() {
         recalculateHrs(1);
     });
 
+    $("#bdRow2, #edRow2").change(function() {
+        $(this).removeClass('ui-state-error');
+        recalculateHrs(2);
+    });
+    
     $("#btRow1, #etRow1").change(function() {
         $(this).removeClass('ui-state-error');
         magicTime($(this));
         recalculateHrs(1);
+    });
+    
+    $("#btRow2, #etRow2").change(function() {
+        $(this).removeClass('ui-state-error');
+        magicTime($(this));
+        recalculateHrs(2);
     });
 
 
@@ -428,6 +445,10 @@ function addTimeBlockRow(form, tempArr) {
 
     cellAssignment.appendChild(sel);
 
+    var cellReadOnly = true;
+    if(form.cellReadonly.value != 'READONLY') {
+    	cellReadOnly = false;
+    }
     // begin date/time
     var cellBeginDate = row.insertCell(2);
     var el = document.createElement('input');
@@ -439,10 +460,13 @@ function addTimeBlockRow(form, tempArr) {
     var beginDate = new Date(form.beginTimestamp.value);
     var formatedDate = beginDate.toString("MM/dd/yyyy");
     el.value = formatedDate;
-    el.setAttribute('readonly', 'readonly');
+    var datePickerId = '';
+    if(cellReadOnly) {
+    	el.readOnly = true;
+    } else {
+    	datePickerId += '#' + idString;
+    }
     cellBeginDate.appendChild(el);
-
-    var datePickerId = '#' + idString;
 
     var cellBeginTime = row.insertCell(3);
     var el = document.createElement('input');
@@ -450,8 +474,6 @@ function addTimeBlockRow(form, tempArr) {
     el.name = idString;
     el.id = idString;
     el.size = 10;
-//    var beginTime = beginDate.toString("hh:mm tt");
-//    el.value = beginTime;
     cellBeginTime.appendChild(el);
     var timeChangeId = '#' + idString;
     var timeFormatMessage = "Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530";
@@ -460,8 +482,6 @@ function addTimeBlockRow(form, tempArr) {
     el.type = 'button';
     el.style.width = "20px";
     el.style.height = "23px";
-//	el.class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary ui-button-icon-only ui-state-hover";
-//	el.class ="ui-button-icon-primary ui-icon ui-icon-help";
     el.title = timeFormatMessage;
     el.id = "beginTimeHelp" + iteration;
     el.value = "?";
@@ -479,9 +499,13 @@ function addTimeBlockRow(form, tempArr) {
     var endDate = new Date(form.endTimestamp.value);
     var formatedDate = endDate.toString("MM/dd/yyyy");
     el.value = formatedDate;
-    el.setAttribute('readonly', 'readonly');
+    if(cellReadOnly) {
+    	el.readOnly = true;
+    } else {
+    	datePickerId += ', #' + idString;
+    }
     cellEndDate.appendChild(el);
-    datePickerId += ', #' + idString;
+    
 
     var cellEndTime = row.insertCell(5);
     var el = document.createElement('input');
@@ -512,7 +536,7 @@ function addTimeBlockRow(form, tempArr) {
     el.name = idString;
     el.id = idString;
     el.size = 5;
-    el.value = form.hours.value;
+//    el.value = form.hours.value;
     el.readOnly = true;
     cellHours.appendChild(el);
     var hrId = '#' + idString;
@@ -521,19 +545,19 @@ function addTimeBlockRow(form, tempArr) {
     recalculateTotal();
 
     // datepicker
-//    $(datePickerId).datepicker({
-//                changeMonth : true,
-//                changeYear : true,
-//                showOn : 'button',
-//                showAnim : 'fadeIn',
-//                buttonImage : 'kr/static/images/cal.gif',
-//                buttonImageOnly : true,
-//                buttonText : 'Select a date',
-//                showButtonPanel : true,
-//                constrainInput : true,
-//                minDate : new Date($('#beginDate').val()),
-//                maxDate : new Date($('#endDate').val())
-//            });
+    $(datePickerId).datepicker({
+                changeMonth : true,
+                changeYear : true,
+                showOn : 'button',
+                showAnim : 'fadeIn',
+                buttonImage : 'kr/static/images/cal.gif',
+                buttonImageOnly : true,
+                buttonText : 'Select a date',
+                showButtonPanel : true,
+                constrainInput : true,
+                minDate : new Date($('#beginDate').val()),
+                maxDate : new Date($('#endDate').val())
+            });
 
     //time format helper
     $(timeHelpId).tooltip({
@@ -605,7 +629,9 @@ function recalculateTotal() {
     var totalHrs = 0;
     for (var i = 1; i < rowLength - 1; i++) {
         var hrs = $("#hrRow" + i).val();
-        totalHrs += parseFloat(hrs);
+        if(hrs != undefined && hrs != "") {
+        	totalHrs += parseFloat(hrs);
+        }
     }
     $("#hrsTotal").val(totalHrs);
 }
