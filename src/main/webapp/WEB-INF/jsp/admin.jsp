@@ -142,11 +142,12 @@
             </tr>
         </table>
     </div>
-    <c:if test="${Form.user.systemAdmin}">
+    <c:if test="${Form.user.systemAdmin || Form.user.globalViewOnly}">
     	<div id="content">
 	   	<html:form action="/Admin" method="post">
 	   	<html:hidden property="methodToCall" value=""/>
 		   <table>
+		   		<c:if test="${Form.user.systemAdmin}">
 	            <tr class="header"><td><b>Backdoor</b></td></tr>
 	            <tr>
 	                <td>
@@ -156,6 +157,7 @@
 	                </td>
 	            </tr>
 	            <tr/>
+	            </c:if>
 	            <tr class="header"><td><b>Change Target Person</b></td></tr>
 	            <tr>
 	                <td>
@@ -165,6 +167,7 @@
 	                </td>
 	            </tr>	   
 	            <tr/>
+	            <c:if test="${Form.user.systemAdmin}">
 	            <tr class="header"><td><b>Delete Timesheet</b></td></tr>
 	            <tr>
 	                <td>
@@ -172,6 +175,7 @@
 						<input type="button" class="button" value="Submit" name="deleteTimesheet" onclick="this.form.methodToCall.value='deleteTimesheet'; this.form.submit();">
 	                </td>
 	            </tr>	                     
+	            </c:if>
 		  </table>
 	  </html:form>
     </div>
