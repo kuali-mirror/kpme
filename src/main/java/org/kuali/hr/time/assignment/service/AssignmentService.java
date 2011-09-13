@@ -2,6 +2,7 @@ package org.kuali.hr.time.assignment.service;
 
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 import java.sql.Date;
@@ -74,4 +75,6 @@ public interface AssignmentService {
     public Assignment getAssignment(Long tkAssignmentId);
     
     public Assignment getAssignment(String principalId, AssignmentDescriptionKey key, Date asOfDate);
+    
+    public List<Assignment> getAssignmentsByPayEntry(String principalId, PayCalendarEntries payCalendarEntry);
 }

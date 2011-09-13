@@ -1,6 +1,8 @@
 package org.kuali.hr.time.assignment.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
@@ -44,6 +47,28 @@ public class AssignmentServiceImpl implements AssignmentService {
 		}
 
 		return assignments;
+	}
+	
+	public List<Assignment> getAssignmentsByPayEntry(String principalId, PayCalendarEntries payCalendarEntry){
+		List<Assignment> beginPeriodAssign = getAssignments(principalId, payCalendarEntry.getBeginPeriodDate());
+		List<Assignment> endPeriodAssign = getAssignments(principalId, payCalendarEntry.getEndPeriodDate());
+		List<Assignment> finalAssignments = new ArrayList<Assignment>();
+		Map<String,Assignment> assignKeyToAssignmentMap = new HashMap<String,Assignment>();
+		for(Assignment assign : endPeriodAssign){
+			assignKeyToAssignmentMap.put(TKUtils.formatAssignmentKey(assign.getJobNumber(), assign.getWorkArea(), assign.getTask()), assign);
+			finalAssignments.add(assign);
+		}
+		
+		//Compare the begin and end and add any assignments to the end thats are not there
+		for(Assignment assign : beginPeriodAssign){
+			String assignKey = TKUtils.formatAssignmentKey(assign.getJobNumber(), assign.getWorkArea(), assign.getTask());
+			if(!assignKeyToAssignmentMap.containsKey(assignKey)){
+				finalAssignments.add(assign);
+			}
+		}
+		
+		return finalAssignments;
+	
 	}
 
 	@Override
