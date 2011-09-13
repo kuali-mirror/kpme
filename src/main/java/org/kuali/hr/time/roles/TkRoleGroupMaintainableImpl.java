@@ -1,8 +1,10 @@
 package org.kuali.hr.time.roles;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
@@ -66,9 +68,17 @@ public class TkRoleGroupMaintainableImpl extends KualiMaintainableImpl {
 		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
 		List<TkRole> positionRoles = new ArrayList<TkRole>();
 		List<TkRole> inactivePositionRoles = new ArrayList<TkRole>();
+		Set<String> positionNumbers = new HashSet<String>(); 
 		for(Job job : jobs){
-			positionRoles.addAll(TkServiceLocator.getTkRoleService().getRolesByPosition(job.getPositionNumber()));
-			inactivePositionRoles.addAll(TkServiceLocator.getTkRoleService().getInactiveRolesByPosition(job.getPositionNumber()));
+			positionNumbers.add(job.getPositionNumber());
+		}
+		for(String pNo : positionNumbers){
+			TkRole positionRole = TkServiceLocator.getTkRoleService().getRolesByPosition(pNo);
+			if(positionRole != null)
+				positionRoles.add(positionRole);
+			TkRole inactivePositionRole = TkServiceLocator.getTkRoleService().getInactiveRolesByPosition(pNo);
+			if(inactivePositionRole != null)
+				inactivePositionRoles.add(inactivePositionRole);
 		}
 		tkRoleGroup.setInactivePositionRoles(inactivePositionRoles);
 		tkRoleGroupOld.setInactivePositionRoles(inactivePositionRoles);

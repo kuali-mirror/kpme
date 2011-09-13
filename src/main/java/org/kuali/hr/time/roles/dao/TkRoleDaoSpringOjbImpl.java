@@ -6,8 +6,10 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.location.Location;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
@@ -404,36 +406,49 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 	}
 	
 	@Override
-	public List<TkRole> getRolesByPosition(String positionNumber) {
+	public TkRole getRolesByPosition(String positionNumber) {
 		Criteria currentRecordCriteria = new Criteria();
+		Criteria effdt = new Criteria();
 		currentRecordCriteria.addEqualTo("positionNumber", positionNumber);
+		
+		effdt.addEqualToField("positionNumber", Criteria.PARENT_QUERY_PREFIX + "positionNumber");
+		effdt.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(TkRole.class, effdt);
+		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
+		currentRecordCriteria.addEqualTo("effectiveDate", effdtSubQuery);
+		
 		 // Filter for ACTIVE = 'Y'
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         currentRecordCriteria.addAndCriteria(activeFilter);
         
-		List<TkRole> tkRoles = new ArrayList<TkRole>();
-		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TkRole.class, currentRecordCriteria));
-		if(c != null)
-			tkRoles.addAll(c);
-		return tkRoles;
+        
+		TkRole tkRole = (TkRole)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(TkRole.class, currentRecordCriteria));
+		return tkRole;
+	}
+	
+	@Override
+	public TkRole getInactiveRolesByPosition(String positionNumber) {
+		Criteria currentRecordCriteria = new Criteria();
+		Criteria effdt = new Criteria();
+		currentRecordCriteria.addEqualTo("positionNumber", positionNumber);
+		
+		effdt.addEqualToField("positionNumber", Criteria.PARENT_QUERY_PREFIX + "positionNumber");
+		effdt.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(TkRole.class, effdt);
+		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
+		currentRecordCriteria.addEqualTo("effectiveDate", effdtSubQuery);
+		
+		// Filter for ACTIVE = 'N'
+		Criteria activeFilter = new Criteria();
+		activeFilter.addEqualTo("active", false);
+		currentRecordCriteria.addAndCriteria(activeFilter);
+		
+		
+		TkRole tkRole = (TkRole)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(TkRole.class, currentRecordCriteria));
+		return tkRole;
 	}
 
-	@Override
-	public List<TkRole> getInactiveRolesByPosition(String positionNumber) {
-		Criteria currentRecordCriteria = new Criteria();
-		currentRecordCriteria.addEqualTo("positionNumber", positionNumber);
-		 // Filter for ACTIVE = 'N'
-        Criteria activeFilter = new Criteria();
-        activeFilter.addEqualTo("active", false);
-        currentRecordCriteria.addAndCriteria(activeFilter);
-        
-		List<TkRole> tkRoles = new ArrayList<TkRole>();
-		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TkRole.class, currentRecordCriteria));
-		if(c != null)
-			tkRoles.addAll(c);
-		return tkRoles;
-	}
 	
 	@Override
 	public List<TkRole> getPositionRolesForWorkArea(Long workArea, Date asOfDate) {

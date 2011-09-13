@@ -60,9 +60,9 @@ public interface TkRoleDao {
 	
 	public TkRole getRole(Long tkRoleId);
 	
-	public List<TkRole> getRolesByPosition(String positionNumber);
+	public TkRole getRolesByPosition(String positionNumber);
 	
-	public List<TkRole> getInactiveRolesByPosition(String positionNumber);
+	public TkRole getInactiveRolesByPosition(String positionNumber);
 	
 	public List<TkRole> getPositionRolesForWorkArea(Long workArea, Date asOfDate);
 
