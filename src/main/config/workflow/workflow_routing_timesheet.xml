@@ -41,6 +41,11 @@
       		<defaultExceptionWorkgroupName>TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
             <description>TK Timesheet</description>
             <label>TK Timesheet</label>
+            <attributes>
+              <attribute>
+                <name>WorkAreaSearchableAttribute</name>
+              </attribute>
+            </attributes>
             <postProcessorName>org.kuali.hr.time.workflow.postprocessor.TkPostProcessor</postProcessorName>
             <docHandler>${TK.DocHandlerPrefix}/Timesheet.do?methodToCall=docHandler</docHandler>
             <active>true</active>
