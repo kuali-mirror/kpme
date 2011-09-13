@@ -107,7 +107,7 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 		else if(StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)){
 			for(List<HrBusinessObject> lstHrBus : hrBusinessMap.values()){
 				for(HrBusinessObject hrBusinessObject : lstHrBus){
-					if(!hrBusinessObject.isActive()){
+					if(!hrBusinessObject.isActive() && hrBusinessObject.getEffectiveDate().before(currDate)){
 						break;
 					}
 					else {
@@ -115,7 +115,9 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 							finalBusinessObjectList.add(hrBusinessObject);
 							break;
 						} else {
-							finalBusinessObjectList.add(hrBusinessObject);
+							if(hrBusinessObject.isActive()){
+								finalBusinessObjectList.add(hrBusinessObject);
+							}
 						}
 					}
 				}
@@ -127,10 +129,10 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 		else if(StringUtils.equals(active, "Y") && StringUtils.equals("Y", showHistory)){
 			for(List<HrBusinessObject> lstHrBus : hrBusinessMap.values()){
 				for(HrBusinessObject hrBus : lstHrBus){
-					if(!hrBus.isActive()){
+					if(!hrBus.isActive() && hrBus.getEffectiveDate().before(currDate)){
 						break;
 					}
-					else {
+					else if(hrBus.isActive()){
 						finalBusinessObjectList.add(hrBus);			
 					}
 				}
