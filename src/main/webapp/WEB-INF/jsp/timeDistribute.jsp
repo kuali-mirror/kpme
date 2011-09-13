@@ -51,8 +51,8 @@
 						<c:forEach var="tb" items="${timeBlockMap.value}">
 							<tr>
 								<td><c:out value="${timeBlockMap.key}" /></td>
-								<td><c:out value="${tb.beginTimestamp}" /></td>
-								<td><c:out value="${tb.endTimestamp}" /></td>
+								<td><fmt:formatDate type="both" dateStyle="full" value="${tb.beginTimeDisplayDate}" pattern="MM/dd/yyyy hh:mm aa"/></td>
+								<td><fmt:formatDate type="both" dateStyle="full" value="${tb.endTimeDisplayDate}" pattern="MM/dd/yyyy hh:mm aa"/></td>
 								<td><c:out value="${tb.hours}" /></td>
 								<td>
 									<input type="button" class="button" value="Edit" name="editTimeBlock" id="editTimeBlock"

@@ -16,8 +16,8 @@
 			<html:hidden property="assignmentList" value="${Form.assignDescriptionsList}"/>
 			<html:hidden property="distributeAssignList" value="${Form.distributeAssignList}" />
 			<html:hidden property="originalAssignment" value="${Form.currentAssignmentDescription}"/>
-			<html:hidden property="beginTimestamp" value="${Form.currentTimeBlock.beginDistributeDate}"/>
-			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endDistributeDate}"/>
+			<html:hidden property="beginTimestamp" value="${Form.currentTimeBlock.beginTimeDisplayDate}"/>
+			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endTimeDisplayDate}"/>
 			<html:hidden property="hours" value="${Form.currentTimeBlock.hours}"/>
 
 			<div id="clock" style="border-bottom: 1px solid gray;">
@@ -33,8 +33,8 @@
 					<tbody>
 							<tr>
 								<td><c:out value="${Form.currentAssignmentDescription}" /></td>
-								<td><c:out value="${Form.currentTimeBlock.beginTimestamp}" /></td>
-								<td><c:out value="${Form.currentTimeBlock.endTimestamp}" /></td>
+								<td><fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.beginTimeDisplayDate}" pattern="MM/dd/yyyy hh:mm aa"/></td>
+								<td><fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.endTimeDisplayDate}" pattern="MM/dd/yyyy hh:mm aa"/></td>
 								<td><c:out value="${Form.currentTimeBlock.hours}" /></td>
 							</tr>
 					</tbody>
