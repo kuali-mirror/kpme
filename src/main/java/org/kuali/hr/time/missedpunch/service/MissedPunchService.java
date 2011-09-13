@@ -7,4 +7,5 @@ public interface MissedPunchService {
     public MissedPunchDocument getMissedPunchByRouteHeader(String headerId);
     public void addClockLogForMissedPunch(MissedPunchDocument missedPunch);
     public void updateClockLogAndTimeBlockIfNecessary(MissedPunchDocument missedPunch);
+    public MissedPunchDocument getMissedPunchByClockLogId(Long clockLogId);
 }

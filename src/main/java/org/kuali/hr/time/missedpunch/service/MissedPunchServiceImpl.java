@@ -127,5 +127,9 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
     }
+    
+    public MissedPunchDocument getMissedPunchByClockLogId(Long clockLogId){
+    	return missedPunchDao.getMissedPunchByClockLogId(clockLogId);
+    }
 
 }
