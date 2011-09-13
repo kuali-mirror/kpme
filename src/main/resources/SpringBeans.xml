@@ -492,6 +492,12 @@
             <bean class="org.kuali.hr.time.timeblock.service.TimeBlockLookupableHelperServiceImpl"/>
         </property>
     </bean>
+    
+    <bean id="timeBlockHistoryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"  scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.timeblock.service.TimeBlockHistoryLookupableHelperServiceImpl"/>
+        </property>
+    </bean>
 
     <bean id="jobService" class="org.kuali.hr.job.service.JobServiceImpl">
     	<property name="jobDao" ref="jobDao"/>
