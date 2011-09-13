@@ -19,4 +19,17 @@ public class MissedPunchDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imp
 
         return mp;
     }
+    
+    @Override
+    public MissedPunchDocument getMissedPunchByClockLogId(Long clockLogId) {
+    	MissedPunchDocument mp = null;
+
+        Criteria root = new Criteria();
+        root.addEqualTo("tkClockLogId", clockLogId);
+        Query query = QueryFactory.newQuery(MissedPunchDocument.class, root);
+        mp = (MissedPunchDocument)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+
+        return mp;
+    }
+    
 }

@@ -1,6 +1,7 @@
 package org.kuali.hr.time.clocklog;
 
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -31,6 +32,8 @@ public class ClockLog extends PersistableBusinessObjectBase {
     private String userPrincipalId;
     private Long hrJobId;
     private Timestamp timestamp;
+    
+    private String missedPunchDocumentId;
 
     private Job job;
     private WorkArea workAreaObj;
@@ -225,6 +228,14 @@ public class ClockLog extends PersistableBusinessObjectBase {
 
 	public void setPrincipal(Person principal) {
 		this.principal = principal;
+	}
+
+	public String getMissedPunchDocumentId() {
+		return missedPunchDocumentId;
+	}
+
+	public void setMissedPunchDocumentId(String missedPunchDocumentId) {
+		this.missedPunchDocumentId = missedPunchDocumentId;
 	}
 
 }

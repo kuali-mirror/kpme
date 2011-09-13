@@ -29,12 +29,12 @@
 				<ref bean="ClockLog-timestamp" />
 				<ref bean="ClockLog-tkTaskId" />
 				<ref bean="ClockLog-tkWorkAreaId" />
+				<ref bean="ClockLog-missedPunchDocumentId"/>
 			</list>
 		</property>
 		 
 		<property name="relationships">
 			<list>
-			
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="workAreaObj" />
 					<property name="primitiveAttributes">
@@ -265,6 +265,23 @@
 			<bean parent="HiddenControlDefinition" />
 		</property>
 	</bean>
+	
+	<bean id="ClockLog-missedPunchDocumentId" parent="ClockLog-missedPunchDocumentId-parentBean" />
+	<bean id="ClockLog-missedPunchDocumentId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Missed Punch Document Id" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+		<property name="name" value="missedPunchDocumentId" />
+		<property name="label" value="Missed Punch Document Id" />
+	</bean>
 	<!--  Inquiry Definitions  -->
   
   	<bean id="ClockLog-inquiryDefinition" parent="ClockLog-inquiryDefinition-parentBean" />
@@ -286,6 +303,7 @@
 							<bean parent="FieldDefinition" p:attributeName="ipAddress" />
 							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 							<bean parent="FieldDefinition" p:attributeName="timestamp" />
+							<bean parent="FieldDefinition" p:attributeName="missedPunchDocumentId" />
 						</list>
 					</property>
 					<property name="title" value="ClockLog" />
@@ -325,6 +343,7 @@
 				<bean parent="FieldDefinition" p:attributeName="clockTimestamp" />
 				<bean parent="FieldDefinition" p:attributeName="clockTimestampTimezone" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
+				<bean parent="FieldDefinition" p:attributeName="missedPunchDocumentId" />
 			</list>
 		</property>
 		<property name="title" value="Clock Log Lookup" />
