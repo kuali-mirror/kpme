@@ -19,12 +19,11 @@ public class TKUtils {
 
     private static final Logger LOG = Logger.getLogger(TKUtils.class);
 
-	public static java.sql.Date getCurrentDate() {
-		return getTimelessDate(null);
-	}
+    public static java.sql.Date getCurrentDate() {
+        return getTimelessDate(null);
+    }
 
     /**
-     *
      * @param dateString the format has to be mm/dd/yyyy
      * @return dayOfMonth
      */
@@ -33,99 +32,99 @@ public class TKUtils {
         return date[1];
     }
 
-	/**
-	 * Returns a enforced timeless version of the provided date, if the date is
-	 * null the current date is returned.
-	 *
-	 * @param date
-	 * @return A java.sql.Date version of the provided date, if provided date is
-	 *         null, the current date is returned.
-	 */
-	public static java.sql.Date getTimelessDate(java.util.Date date) {
-		java.sql.Date jsd = null;
-		if (date == null) {
-			jsd = new java.sql.Date(System.currentTimeMillis());
-		} else {
-			jsd = new java.sql.Date(date.getTime());
-		}
-		return jsd;
-	}
+    /**
+     * Returns a enforced timeless version of the provided date, if the date is
+     * null the current date is returned.
+     *
+     * @param date
+     * @return A java.sql.Date version of the provided date, if provided date is
+     *         null, the current date is returned.
+     */
+    public static java.sql.Date getTimelessDate(java.util.Date date) {
+        java.sql.Date jsd = null;
+        if (date == null) {
+            jsd = new java.sql.Date(System.currentTimeMillis());
+        } else {
+            jsd = new java.sql.Date(date.getTime());
+        }
+        return jsd;
+    }
 
-	public static long getDaysBetween(Calendar startDate, Calendar endDate) {
-		Calendar date = (Calendar) startDate.clone();
-		long daysBetween = 0;
-		while (date.before(endDate)) {
-			date.add(Calendar.DAY_OF_MONTH, 1);
-			daysBetween++;
-		}
-		return daysBetween;
-	}
+    public static long getDaysBetween(Calendar startDate, Calendar endDate) {
+        Calendar date = (Calendar) startDate.clone();
+        long daysBetween = 0;
+        while (date.before(endDate)) {
+            date.add(Calendar.DAY_OF_MONTH, 1);
+            daysBetween++;
+        }
+        return daysBetween;
+    }
 
-	public static long getDaysBetween(java.util.Date startDate, java.util.Date endDate) {
-		Calendar beginCal = GregorianCalendar.getInstance();
-		Calendar endCal = GregorianCalendar.getInstance();
-		beginCal.setTime(startDate);
-		endCal.setTime(endDate);
+    public static long getDaysBetween(java.util.Date startDate, java.util.Date endDate) {
+        Calendar beginCal = GregorianCalendar.getInstance();
+        Calendar endCal = GregorianCalendar.getInstance();
+        beginCal.setTime(startDate);
+        endCal.setTime(endDate);
 
-		return getDaysBetween(beginCal, endCal);
-	}
+        return getDaysBetween(beginCal, endCal);
+    }
 
-	public static BigDecimal getHoursBetween(long start, long end) {
-		long diff = end - start;
-		BigDecimal hrsReminder = new BigDecimal((diff/3600000.0) %24);
-		// if the hours is exact duplicate of 24 hours
-		if(hrsReminder.compareTo(BigDecimal.ZERO) == 0 && diff > 0) {
-			return new BigDecimal(diff / 3600000.0).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
-		}
-		return hrsReminder.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
-	}
+    public static BigDecimal getHoursBetween(long start, long end) {
+        long diff = end - start;
+        BigDecimal hrsReminder = new BigDecimal((diff / 3600000.0) % 24);
+        // if the hours is exact duplicate of 24 hours
+        if (hrsReminder.compareTo(BigDecimal.ZERO) == 0 && diff > 0) {
+            return new BigDecimal(diff / 3600000.0).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
+        }
+        return hrsReminder.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
+    }
 
 
 
-	public static int getNumberOfWeeks(java.util.Date beginDate, java.util.Date endDate) {
+    public static int getNumberOfWeeks(java.util.Date beginDate, java.util.Date endDate) {
 
-		DateTime beginTime = new DateTime(beginDate);
-		DateTime endTime = new DateTime(endDate);
+        DateTime beginTime = new DateTime(beginDate);
+        DateTime endTime = new DateTime(endDate);
 
-		int numOfDays = Days.daysBetween(beginTime, endTime).getDays();
-		int numOfWeeks = numOfDays / 7;
-		if (numOfDays % 7 != 0) {
-			numOfWeeks++;
-		}
-		return numOfWeeks;
-	}
+        int numOfDays = Days.daysBetween(beginTime, endTime).getDays();
+        int numOfWeeks = numOfDays / 7;
+        if (numOfDays % 7 != 0) {
+            numOfWeeks++;
+        }
+        return numOfWeeks;
+    }
 
-	public static String formatAssignmentKey(Long jobNumber, Long workArea, Long task) {
-		Long taskLong = task;
-		if(taskLong == null) {
-			taskLong = new Long("0");
-		}
-		return jobNumber + TkConstants.ASSIGNMENT_KEY_DELIMITER + workArea + TkConstants.ASSIGNMENT_KEY_DELIMITER + taskLong;
-	}
+    public static String formatAssignmentKey(Long jobNumber, Long workArea, Long task) {
+        Long taskLong = task;
+        if (taskLong == null) {
+            taskLong = new Long("0");
+        }
+        return jobNumber + TkConstants.ASSIGNMENT_KEY_DELIMITER + workArea + TkConstants.ASSIGNMENT_KEY_DELIMITER + taskLong;
+    }
 
-	public static Map<String,String> formatAssignmentDescription(Assignment assignment) {
-		Map<String,String> assignmentDescriptions = new LinkedHashMap<String,String>();
-		Long task = assignment.getTask();
-		if(task == null) {
-			task = new Long("0");
-		}
-		String assignmentDescKey  = formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), task);
-		String assignmentDescValue = getAssignmentString(assignment);
-		assignmentDescriptions.put(assignmentDescKey, assignmentDescValue);
+    public static Map<String, String> formatAssignmentDescription(Assignment assignment) {
+        Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
+        Long task = assignment.getTask();
+        if (task == null) {
+            task = new Long("0");
+        }
+        String assignmentDescKey = formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), task);
+        String assignmentDescValue = getAssignmentString(assignment);
+        assignmentDescriptions.put(assignmentDescKey, assignmentDescValue);
 
-		return assignmentDescriptions;
-	}
+        return assignmentDescriptions;
+    }
 
-	public static String getAssignmentString(Assignment assignment) {
-		
-		
-		if(assignment.getWorkAreaObj() == null
-				|| assignment.getJob() == null
-				|| assignment.getJobNumber() == null ) {
-			return ""; 	// getAssignment() of AssignmentService can return an empty assignment
-		}
-		return assignment.getWorkAreaObj().getDescription() + " : $" + assignment.getJob().getCompRate().setScale(TkConstants.BIG_DECIMAL_SCALE) + " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
-	}
+    public static String getAssignmentString(Assignment assignment) {
+
+
+        if (assignment.getWorkAreaObj() == null
+                || assignment.getJob() == null
+                || assignment.getJobNumber() == null) {
+            return "";     // getAssignment() of AssignmentService can return an empty assignment
+        }
+        return assignment.getWorkAreaObj().getDescription() + " : $" + assignment.getJob().getCompRate().setScale(TkConstants.BIG_DECIMAL_SCALE) + " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
+    }
 
     /**
      * Constructs a list of Day Spans for the pay calendar entry provided. You
@@ -135,125 +134,123 @@ public class TKUtils {
      * @param timeZone
      * @return
      */
-	public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry, DateTimeZone timeZone) {
-		DateTime beginDateTime = payCalendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
-		DateTime endDateTime = payCalendarEntry.getEndLocalDateTime().toDateTime(timeZone);
+    public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry, DateTimeZone timeZone) {
+        DateTime beginDateTime = payCalendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
+        DateTime endDateTime = payCalendarEntry.getEndLocalDateTime().toDateTime(timeZone);
 
-		List<Interval> dayIntervals = new ArrayList<Interval>();
+        List<Interval> dayIntervals = new ArrayList<Interval>();
 
-		DateTime currDateTime = beginDateTime;
-		while (currDateTime.isBefore(endDateTime)) {
-			DateTime prevDateTime = currDateTime;
-			currDateTime = currDateTime.plusDays(1);
-			Interval daySpan = new Interval(prevDateTime, currDateTime);
-			dayIntervals.add(daySpan);
-		}
+        DateTime currDateTime = beginDateTime;
+        while (currDateTime.isBefore(endDateTime)) {
+            DateTime prevDateTime = currDateTime;
+            currDateTime = currDateTime.plusDays(1);
+            Interval daySpan = new Interval(prevDateTime, currDateTime);
+            dayIntervals.add(daySpan);
+        }
 
-		return dayIntervals;
+        return dayIntervals;
     }
 
     public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
         return getDaySpanForPayCalendarEntry(payCalendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
-    
+
     public static List<Interval> getFullWeekDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
         return getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
-    
-	public static List<Interval> getFullWeekDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry, DateTimeZone timeZone) {
-		DateTime beginDateTime = payCalendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
-		DateTime endDateTime = payCalendarEntry.getEndLocalDateTime().toDateTime(timeZone);
 
-		List<Interval> dayIntervals = new ArrayList<Interval>();
-		
-		DateTime currDateTime = beginDateTime;
-		if(beginDateTime.getDayOfWeek() != 7 ) {
-			currDateTime = beginDateTime.plusDays(0 - beginDateTime.getDayOfWeek());
-		}
-		
-		int afterEndDate = 6 - endDateTime.getDayOfWeek();
-		if(endDateTime.getDayOfWeek() == 7 && endDateTime.getHourOfDay() != 0) {
-				afterEndDate = 6;
-		}
-		if(endDateTime.getHourOfDay() == 0) {
-			afterEndDate += 1 ;
-		}
-		DateTime aDate = endDateTime.plusDays(afterEndDate);
-		while (currDateTime.isBefore(aDate)) {
-			DateTime prevDateTime = currDateTime;
-			currDateTime = currDateTime.plusDays(1);
-			Interval daySpan = new Interval(prevDateTime, currDateTime);
-			dayIntervals.add(daySpan);
-		}
+    public static List<Interval> getFullWeekDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry, DateTimeZone timeZone) {
+        DateTime beginDateTime = payCalendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
+        DateTime endDateTime = payCalendarEntry.getEndLocalDateTime().toDateTime(timeZone);
 
-		return dayIntervals;
+        List<Interval> dayIntervals = new ArrayList<Interval>();
+
+        DateTime currDateTime = beginDateTime;
+        if (beginDateTime.getDayOfWeek() != 7) {
+            currDateTime = beginDateTime.plusDays(0 - beginDateTime.getDayOfWeek());
+        }
+
+        int afterEndDate = 6 - endDateTime.getDayOfWeek();
+        if (endDateTime.getDayOfWeek() == 7 && endDateTime.getHourOfDay() != 0) {
+            afterEndDate = 6;
+        }
+        if (endDateTime.getHourOfDay() == 0) {
+            afterEndDate += 1;
+        }
+        DateTime aDate = endDateTime.plusDays(afterEndDate);
+        while (currDateTime.isBefore(aDate)) {
+            DateTime prevDateTime = currDateTime;
+            currDateTime = currDateTime.plusDays(1);
+            Interval daySpan = new Interval(prevDateTime, currDateTime);
+            dayIntervals.add(daySpan);
+        }
+
+        return dayIntervals;
     }
 
-	/**
-	 * Includes partial weeks if the time range provided does not divide evenly
-	 * into 7 day spans.
-	 *
-	 * @param beginDate
-	 *               Starting Date/Time
-	 * @param endDate
-	 *            Ending Date/Time
-	 * @return A List of Intervals of 7 day spans. The last Interval in the list
-	 *         may be less than seven days.
-	 */
-	public static List<Interval> getWeekIntervals(java.util.Date beginDate, java.util.Date endDate) {
-		List<Interval> intervals = new ArrayList<Interval>();
-		DateTime beginTime = new DateTime(beginDate);
-		DateTime endTime = new DateTime(endDate);
+    /**
+     * Includes partial weeks if the time range provided does not divide evenly
+     * into 7 day spans.
+     *
+     * @param beginDate Starting Date/Time
+     * @param endDate   Ending Date/Time
+     * @return A List of Intervals of 7 day spans. The last Interval in the list
+     *         may be less than seven days.
+     */
+    public static List<Interval> getWeekIntervals(java.util.Date beginDate, java.util.Date endDate) {
+        List<Interval> intervals = new ArrayList<Interval>();
+        DateTime beginTime = new DateTime(beginDate);
+        DateTime endTime = new DateTime(endDate);
 
-		int dayIncrement = 7;
-		DateTime previous = beginTime;
-		DateTime nextTime = previous.plusDays(dayIncrement);
-		while (nextTime.isBefore(endTime)) {
-			Interval interval = new Interval(previous, nextTime);
-			intervals.add(interval);
-			previous = nextTime;
-			nextTime = previous.plusDays(dayIncrement);
-		}
+        int dayIncrement = 7;
+        DateTime previous = beginTime;
+        DateTime nextTime = previous.plusDays(dayIncrement);
+        while (nextTime.isBefore(endTime)) {
+            Interval interval = new Interval(previous, nextTime);
+            intervals.add(interval);
+            previous = nextTime;
+            nextTime = previous.plusDays(dayIncrement);
+        }
 
-		if (previous.isBefore(endTime)) {
-			// add a partial week.
-			Interval interval = new Interval(previous, endTime);
-			intervals.add(interval);
-		}
+        if (previous.isBefore(endTime)) {
+            // add a partial week.
+            Interval interval = new Interval(previous, endTime);
+            intervals.add(interval);
+        }
 
-		return intervals;
-	}
+        return intervals;
+    }
 
-	public static long convertHoursToMillis(BigDecimal hours) {
-		return hours.multiply(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT).longValue();
-	}
+    public static long convertHoursToMillis(BigDecimal hours) {
+        return hours.multiply(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT).longValue();
+    }
 
-	public static BigDecimal convertMillisToHours(long millis) {
-		return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT);
-	}
+    public static BigDecimal convertMillisToHours(long millis) {
+        return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT);
+    }
 
-	public static BigDecimal convertMillisToDays(long millis){
-		BigDecimal hrs = convertMillisToHours(millis);
-		return hrs.divide(TkConstants.BIG_DECIMAL_HRS_IN_DAY, TkConstants.MATH_CONTEXT);
-	}
+    public static BigDecimal convertMillisToDays(long millis) {
+        BigDecimal hrs = convertMillisToHours(millis);
+        return hrs.divide(TkConstants.BIG_DECIMAL_HRS_IN_DAY, TkConstants.MATH_CONTEXT);
+    }
 
-	public static BigDecimal convertMinutesToHours(BigDecimal minutes) {
-		return minutes.divide(TkConstants.BIG_DECIMAL_60, TkConstants.MATH_CONTEXT);
-	}
+    public static BigDecimal convertMinutesToHours(BigDecimal minutes) {
+        return minutes.divide(TkConstants.BIG_DECIMAL_60, TkConstants.MATH_CONTEXT);
+    }
 
-	public static int convertMillisToWholeDays(long millis){
-		BigDecimal days = convertMillisToDays(millis);
-		return Integer.parseInt(days.setScale(0, BigDecimal.ROUND_UP).toString());
-	}
+    public static int convertMillisToWholeDays(long millis) {
+        BigDecimal days = convertMillisToDays(millis);
+        return Integer.parseInt(days.setScale(0, BigDecimal.ROUND_UP).toString());
+    }
 
-	/*
-	 * Compares and confirms if the start of the day is at midnight or on a virtual day boundary
-	 * returns true if at midnight false otherwise(assuming 24 hr days)
-	 */
-	public static boolean isVirtualWorkDay(Calendar payCalendarStartTime){
-		return (payCalendarStartTime.get(Calendar.HOUR_OF_DAY) != 0 || payCalendarStartTime.get(Calendar.MINUTE) != 0
-				&& payCalendarStartTime.get(Calendar.AM_PM) != Calendar.AM);
-	}
+    /*
+      * Compares and confirms if the start of the day is at midnight or on a virtual day boundary
+      * returns true if at midnight false otherwise(assuming 24 hr days)
+      */
+    public static boolean isVirtualWorkDay(Calendar payCalendarStartTime) {
+        return (payCalendarStartTime.get(Calendar.HOUR_OF_DAY) != 0 || payCalendarStartTime.get(Calendar.MINUTE) != 0
+                && payCalendarStartTime.get(Calendar.AM_PM) != Calendar.AM);
+    }
 
     /**
      * Creates a Timestamp object using Jodatime as an intermediate data structure
@@ -264,27 +261,27 @@ public class TKUtils {
      * @param timeStr (the format is 8:0)
      * @return Timestamp
      */
-	public static Timestamp convertDateStringToTimestamp(String dateStr, String timeStr) {
-		// the date/time format is defined in tk.calendar.js. For now, the format is 11/17/2010 8:0
-		String[] date = dateStr.split("/");
-		String[] time = timeStr.split(":");
+    public static Timestamp convertDateStringToTimestamp(String dateStr, String timeStr) {
+        // the date/time format is defined in tk.calendar.js. For now, the format is 11/17/2010 8:0
+        String[] date = dateStr.split("/");
+        String[] time = timeStr.split(":");
 
-		DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone());
+        DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone());
 
-		// this is from the jodattime javadoc:
-		// DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
+        // this is from the jodattime javadoc:
+        // DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
         // Noted that the month value is the actual month which is different than the java date object where the month value is the current month minus 1.
         // I tried to use the actual month in the code as much as I can to reduce the convertions.
-		DateTime dateTime = new DateTime(
-				Integer.parseInt(date[2]),
-				Integer.parseInt(date[0]),
-				Integer.parseInt(date[1]),
-				Integer.parseInt(time[0]),
-				Integer.parseInt(time[1]),
-				0, 0, dtz);
+        DateTime dateTime = new DateTime(
+                Integer.parseInt(date[2]),
+                Integer.parseInt(date[0]),
+                Integer.parseInt(date[1]),
+                Integer.parseInt(time[0]),
+                Integer.parseInt(time[1]),
+                0, 0, dtz);
 
-		return new Timestamp(dateTime.getMillis());
-	}
+        return new Timestamp(dateTime.getMillis());
+    }
 
     public static String getIPAddressFromRequest(HttpServletRequest request) {
         // Check for IPv6 addresses - Not sure what to do with them at this point.
@@ -298,10 +295,10 @@ public class TKUtils {
         return ip;
     }
 
-	public static Date createDate(int month, int day, int year, int hours, int minutes, int seconds){
-		DateTime dt = new DateTime(year, month, day, hours, minutes, seconds, 0);
-		return new Date(dt.getMillis());
-	}
+    public static Date createDate(int month, int day, int year, int hours, int minutes, int seconds) {
+        DateTime dt = new DateTime(year, month, day, hours, minutes, seconds, 0);
+        return new Date(dt.getMillis());
+    }
 
     public static String getIPNumber() {
         try {
@@ -312,20 +309,20 @@ public class TKUtils {
     }
     //Used to preserve active row fetching based on max(timestamp)
     public static Timestamp subtractOneSecondFromTimestamp(Timestamp originalTimestamp) {
-    	DateTime dt = new DateTime(originalTimestamp);
-    	dt = dt.minusSeconds(1);
-    	return new Timestamp(dt.getMillis());
+        DateTime dt = new DateTime(originalTimestamp);
+        dt = dt.minusSeconds(1);
+        return new Timestamp(dt.getMillis());
     }
 
-    public static Date subtractOneMillisecondFromDate(java.util.Date date){
-    	DateTime dt = new DateTime(date);
-    	dt = dt.minusMillis(1);
-    	return new Date(dt.getMillis());
+    public static Date subtractOneMillisecondFromDate(java.util.Date date) {
+        DateTime dt = new DateTime(date);
+        dt = dt.minusMillis(1);
+        return new Date(dt.getMillis());
     }
 
-    public static String formatDate(Date dt){
-    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-    	return sdf.format(dt);
+    public static String formatDate(Date dt) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        return sdf.format(dt);
     }
 
     /**
@@ -348,10 +345,18 @@ public class TKUtils {
 
         Period period = new Period(offsetms);
         if (negative) o.append('-');
-        o.append(StringUtils.leftPad(period.getHours()+"", 2, '0'));
-        o.append(StringUtils.leftPad(period.getMinutes()+"", 2, '0'));
+        o.append(StringUtils.leftPad(period.getHours() + "", 2, '0'));
+        o.append(StringUtils.leftPad(period.getMinutes() + "", 2, '0'));
 
         return o.toString();
+    }
+
+    public static String arrayToString(String[] stringArray) {
+        StringBuilder str = new StringBuilder();
+        for (String string : stringArray) {
+            str.append(string);
+        }
+        return str.toString();
     }
 
 }

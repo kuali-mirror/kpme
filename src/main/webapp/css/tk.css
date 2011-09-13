@@ -81,6 +81,10 @@
 }
 
 /* end of full calendar override */
+.hide {
+    display: none;
+}
+
 .highlight {
     /*background: #FFD20F;*/
     background: #FFE79F;
@@ -670,6 +674,11 @@ select {
     text-align: center;
     padding: 3px 0 3px 0;
     line-height: 1.3em;
+}
+
+.cal .event .overtime {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .cal .event-title-true {

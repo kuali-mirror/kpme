@@ -9,10 +9,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
@@ -33,6 +30,8 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     private String timeBlockString;
     private TkCalendar calendar;
     private String docEditable;
+    private String[] overtimeEarnCodes;
+    private String overtimePref;
 
     public TkCalendar getTkCalendar() {
         return calendar;
@@ -119,4 +118,16 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 		this.docEditable = docEditable;
 	}
 
+    public String[] getOvertimeEarnCodes() {
+        Set<String> overtimeEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeListForOvertimeEarnGroup();
+        return overtimeEarnCodes.toArray(new String[overtimeEarnCodes.size()]);
+    }
+
+    public String getOvertimePref() {
+        return overtimePref;
+    }
+
+    public void setOvertimePref(String overtimePref) {
+        this.overtimePref = overtimePref;
+    }
 }

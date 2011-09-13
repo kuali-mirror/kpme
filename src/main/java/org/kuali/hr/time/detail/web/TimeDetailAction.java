@@ -1,13 +1,5 @@
 package org.kuali.hr.time.detail.web;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -27,12 +19,15 @@ import org.kuali.hr.time.timesummary.AssignmentRow;
 import org.kuali.hr.time.timesummary.EarnCodeSection;
 import org.kuali.hr.time.timesummary.EarnGroupSection;
 import org.kuali.hr.time.timesummary.TimeSummary;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.util.*;
 import org.kuali.rice.kns.exception.AuthorizationException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -162,11 +157,20 @@ public class TimeDetailAction extends TimesheetAction {
      */
     public ActionForward addTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+        Timestamp overtimeBeginTimestamp = null;
+        Timestamp overtimeEndTimestamp = null;
 
-        // This is for updating a timeblock
+        // This is for updating a timeblock or changing
         // If tkTimeBlockId is not null and the new timeblock is valid, delete the existing timeblock and a new one will be created after submitting the form.
         if (tdaf.getTkTimeBlockId() != null) {
             TimeBlock tb = TkServiceLocator.getTimeBlockService().getTimeBlock(tdaf.getTkTimeBlockId());
+
+
+            if(StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
+                overtimeBeginTimestamp =  tb.getBeginTimestamp();
+                overtimeEndTimestamp = tb.getEndTimestamp();
+            }
+
             TimeBlockHistory tbh = new TimeBlockHistory(tb);
             if (tb != null) {
                 TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
@@ -212,6 +216,13 @@ public class TimeDetailAction extends TimesheetAction {
         }
 
         TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTimeBlocks);
+
+        // apply overtime pref
+        for (TimeBlock tb : newTimeBlocks) {
+            if(tb.getBeginTimestamp().equals(overtimeBeginTimestamp) && tb.getEndTimestamp().equals(overtimeEndTimestamp) && StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
+                tb.setOvertimePref(tdaf.getOvertimePref());
+            }
+        }
 
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);

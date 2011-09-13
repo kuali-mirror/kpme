@@ -81,6 +81,7 @@
 		<field-descriptor name="hrJobId"                column="hr_job_id" 		    jdbc-type="BIGINT" nullable="false" primarykey="false" />
         <field-descriptor name="clockLogBeginId" 	    column="clock_log_begin_id" jdbc-type="BIGINT"/>
         <field-descriptor name="clockLogEndId" 	        column="clock_log_end_id" 	jdbc-type="BIGINT"/>
+        <field-descriptor name="overtimePref"           column="ovt_pref" 		    jdbc-type="VARCHAR" nullable="yes" />
 
 		<collection-descriptor
 			name="timeHourDetails"

@@ -15,6 +15,7 @@
         <html:hidden property="nextDocumentId" value="${Form.nextDocumentId}" styleId="nextDocumentId"/>
         <html:hidden property="warningJson" value="${Form.warnings}" styleId="warningJson"/>
         <html:hidden property="docEditable" value="${Form.docEditable}" styleId="docEditable"/>
+        <html:hidden property="overtimeEarnCodes" value="${fn:join(Form.overtimeEarnCodes,',')}" styleId="overtimeEarnCodes"/>
 
             <%--This is for visually impaired users --%>
         <!--
@@ -38,7 +39,7 @@
         <tk:calendar cal="${Form.tkCalendar}" docId="${Form.documentId}"/>
 
         <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;">
-            <div id="dialog-form" title="Add time blocks:" style="margin-left: auto; margin-right: auto;">
+            <div id="dialog-form" title="Add Time Blocks:" style="margin-left: auto; margin-right: auto; display:none;">
                 <p id="validation" class="validation" title="Validation">All form fields are required.</p>
                 <html:form action="/TimeDetail.do" styleId="time-detail">
                     <html:hidden property="methodToCall" value="" styleId="methodToCall"/>

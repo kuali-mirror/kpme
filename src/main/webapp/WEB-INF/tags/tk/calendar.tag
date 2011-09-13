@@ -2,6 +2,7 @@
 
 <%@ attribute name="cal" required="true" type="org.kuali.hr.time.calendar.TkCalendar" %>
 <%@ attribute name="docId" required="true" type="java.lang.String" %>
+<c:set var="overtimeEarnCodes" value="${fn:join(Form.overtimeEarnCodes,',')}" />
 
 <div id="tkCal" class="ui-widget cal" style="margin: 20px auto 20px auto; width:95%;">
     <%-- Add Paging Controls for moving between Calendars --%>
@@ -99,11 +100,16 @@
 		                                                <div id="${thdr.timeHourDetail.tkTimeHourDetailId}" class="event-content">
 		                                                        <c:choose>
 		                                                            <c:when test="${thdr.hours ne ''}">
+                                                                        <c:set var="title" value="${thdr.title}"/>
+                                                                        <c:if test="${fn:contains(overtimeEarnCodes, thdr.title)}">
+                                                                            <c:set var="title" value="<span id='overtime_${block.timeBlock.tkTimeBlockId}' class='overtime'>${thdr.title}</span>"/>
+                                                                        </c:if>
+
 	                                                            		<c:if test="${thdr.title eq TkConstants.HOLIDAY_EARN_CODE}">
-	                                                            			<div><a id="holidayNameHelp" title="${thdr.holidayName}" style="color:white; cursor:pointer;">${thdr.title} - ${thdr.hours} hours</a></div>
+	                                                            			<div><a id="holidayNameHelp" title="${thdr.holidayName}" style="color:white; cursor:pointer;">${title} - ${thdr.hours} hours</a></div>
 	                                                            		</c:if>
 	                                                            		<c:if test="${thdr.title ne TkConstants.HOLIDAY_EARN_CODE}">
-	                                                                		${thdr.title} - ${thdr.hours} hours
+	                                                                		${title} - ${thdr.hours} hours
 	                                                                	</c:if>
 	                                                                </c:when>
 		                                                            <c:otherwise>

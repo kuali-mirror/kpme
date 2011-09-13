@@ -62,6 +62,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 
     private String assignmentKey;
 
+    private String overtimePref;
 
 
 	// the two variables below are used to determine if a time block needs to be visually pushed forward / backward
@@ -549,5 +550,13 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     
     public Date getEndDistributeDate() {
     	return this.getEndTimestamp() == null ? new Date() : new DateTime(this.getEndTimestamp()).toDate();
+    }
+    
+    public String getOvertimePref() {
+        return overtimePref;
+    }
+
+    public void setOvertimePref(String overtimePref) {
+        this.overtimePref = overtimePref;
     }
 }

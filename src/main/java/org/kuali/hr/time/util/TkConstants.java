@@ -1,19 +1,13 @@
 package org.kuali.hr.time.util;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
-
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.*;
 
 public class TkConstants {
     public static final String TK_TARGET_USER_RETURN = "tkTargetReturn";
@@ -45,6 +39,12 @@ public class TkConstants {
     public static final String EARN_CODE_HOUR = "HOUR";
     public static final String EARN_CODE_TIME = "TIME";
     public static final String EARN_CODE_AMOUNT = "AMOUNT";
+
+    // earn group
+    public static final List<String> EARN_GROUP_OVERTIME = new ArrayList<String>();
+    static {
+        EARN_GROUP_OVERTIME.add("Overtime");
+    }
 
     public static final String   GMT_TIME_ZONE_ID = "Etc/GMT";
     public static final TimeZone GMT_TIME_ZONE    = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);

@@ -8,6 +8,19 @@
     <!-- Context: main -->
     <!-- Schema -->
     <!-- Base schema, no data, not bootable -->
+
+    <!-- 1 Sep 2011 -->
+    <include file="org/kuali/kpme/liquibase/tna/db.changelog-3.0.xml"/>
+    <!-- 12 Sep 2011 -->
+    <include file="org/kuali/kpme/liquibase/tna/db.changelog-3.1.xml"/>
+
+    <!-- Data section -->
+    <!-- Context: unit_test_data -->
+    <!-- Adds unit test table -->
+    <!-- 1 Sep 2011 -->
+    <include file="org/kuali/kpme/liquibase/tna/db.changelog-unit_test_data-2.0.xml"/>
+
+
     <!--<include file="org/kuali/kpme/liquibase/tna/db.changelog-1.0.xml"/>-->
     <!-- 15 Mar 2011 -->
 
@@ -19,13 +32,7 @@
     <!--<include file="org/kuali/kpme/liquibase/tna/db.changelog-1.7.xml"/>-->
     <!--<include file="org/kuali/kpme/liquibase/tna/db.changelog-1.8.xml"/>-->
 
-    <!-- 1 Sep 2011 -->
-    <include file="org/kuali/kpme/liquibase/tna/db.changelog-3.0.xml"/>
 
-    <!-- Data section -->
-
-    <!-- Context: unit_test_data -->
-    <!-- Adds unit test table -->
     <!--<include file="org/kuali/kpme/liquibase/tna/db.changelog-unit_test_data-1.0.xml"/>-->
     <!-- Unit test default data -->
     <!--<include file="org/kuali/kpme/liquibase/tna/db.changelog-unit_test_data-1.1.xml"/>-->
@@ -35,8 +42,6 @@
     <!--<include file="org/kuali/kpme/liquibase/tna/db.changelog-unit_test_data-1.3.xml"/>-->
     <!-- 19 April 2011 : Test data for TimeOffAccrualServiceTest -->
     <!--<include file="org/kuali/kpme/liquibase/tna/db.changelog-unit_test_data-1.4.xml"/>-->
-    <!-- 1 Sep 2011 -->
-    <include file="org/kuali/kpme/liquibase/tna/db.changelog-unit_test_data-2.0.xml"/>
 
     <!--<include file="org/kuali/kpme/liquibase/tna/db.changelog-1.9.xml"/>-->
     <!--<include file="org/kuali/kpme/liquibase/tna/db.changelog-1.10.xml"/>-->

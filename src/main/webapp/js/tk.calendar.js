@@ -20,7 +20,6 @@ $(document).ready(function() {
     var nextDocId = $('#nextDocumentId').val();
 
 
-    
     // create navigation buttons
     $('#nav_prev').button({
         icons: {
@@ -47,7 +46,6 @@ $(document).ready(function() {
     var selectedDays = [];
 
 
-    
     // When making a mouse selection, it creates a "lasso" effect which we want to get rid of.
     // In the future version of jQuery UI, lasso is going to one of the options where it can be enabled / disabled.
     // For now, the way to disable it is to modify the css.
@@ -61,7 +59,7 @@ $(document).ready(function() {
         distance: 1,
         selected: function(event, ui) {
             // add the event day to an array
-        		selectedDays.push(ui.selected.id);
+            selectedDays.push(ui.selected.id);
         },
         selecting: function(event, ui) {
 
@@ -72,14 +70,14 @@ $(document).ready(function() {
             });
 
             var beginSelecting = selectingDays[0];
-            var endSelecting = selectingDays[selectingDays.length-1];
+            var endSelecting = selectingDays[selectingDays.length - 1];
             // add css styles to all the days within the range
-            for(var i = beginSelecting; i < endSelecting; i++) {
+            for (var i = beginSelecting; i < endSelecting; i++) {
                 $("#day_" + i).addClass("ui-selecting");
             }
         },
         stop: function(event, ui) {
-        	var currentDay = new Date(beginPeriodDateTimeObj);
+            var currentDay = new Date(beginPeriodDateTimeObj);
             var beginDay = new Date(currentDay);
             var endDay = new Date(currentDay);
 
@@ -91,22 +89,30 @@ $(document).ready(function() {
         }
     });
 
-    if($('#docEditable').val() == 'false'){
-    	$(".cal-table").selectable( "destroy" );
+    if ($('#docEditable').val() == 'false') {
+        $(".cal-table").selectable("destroy");
     }
-    
-    
+
+
     var thing = $('#tkCal').click(function(event) {
+        // create a variable to cache the DOM
+        $timesheetFields = $('#timesheet-panel');
+        $timesheetFields.find("tr").removeClass("hide");
+
+        // remove the overtime earn code drop down row when the entry form shows up
+        if (!$("#overtimeEarnCodeRow").empty()) {
+            $timesheetFields.remove($("#overtimeEarnCodeRow"));
+        }
+
         if ($('#docEditable').val() == "false") {
             return false;
         }
         if (event.target.id.indexOf("_") > -1) {
+
             var actionA = event.target.id.split("_");
             if (actionA.length == 2) {
                 var action = actionA[0];
                 var actionVal = actionA[1];
-                //console.log(action);
-                //console.log(actionVal);
 
                 if (action == "delete") {
                     // Handle delete
@@ -121,7 +127,7 @@ $(document).ready(function() {
 
                     $(this).openTimeEntryDialog(currentDay, currentDay);
 
-                } else if (action == "block") {
+                } else if (action == "block" || action == "overtime") {
                     // Handle existing timeblocks
                     // Handle existing timeblocks
                     // Handle existing timeblocks
@@ -130,24 +136,22 @@ $(document).ready(function() {
                     var calEvent = tblocks[timeBlockId];
                     calEvent.start = Date.parse(calEvent.startNoTz);
                     calEvent.end = Date.parse(calEvent.endNoTz);
-                    
+
                     // if end date time is 12:00 AM, subtract 1 day from end date, it matches what we do in Add click function
-					var endDateString = calEvent.end.toString('MM/dd/yyyy');
-					if (calEvent.end.toString('hh:mm tt') == "12:00 AM") {
-					    var dateRangeField = endDateString.split("/");
-					    var dateString = parseInt(dateRangeField[1]) - 1;
-					    endDateString = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
-					}
-					
-                    //console.log(calEvent.start);
+                    var endDateString = calEvent.end.toString('MM/dd/yyyy');
+                    if (calEvent.end.toString('hh:mm tt') == "12:00 AM") {
+                        var dateRangeField = endDateString.split("/");
+                        var dateString = parseInt(dateRangeField[1]) - 1;
+                        endDateString = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
+                    }
 
                     $('#dialog-form').dialog('open');
                     $('#date-range-begin').val(calEvent.start.toString('MM/dd/yyyy'));
                     $('#date-range-end').val(endDateString);
-                    $("select#assignment option[value='" + calEvent.assignment + "']").attr("selected", "selected");
-                    $('#earnCode').loadEarnCode($('#assignment').val(), calEvent.earnCode + "_" + calEvent.earnCodeType);
                     $('#beginTimeField').val(calEvent.start.toString('hh:mm tt'));
                     $('#endTimeField').val(calEvent.end.toString('hh:mm tt'));
+                    $("select#assignment option[value='" + calEvent.assignment + "']").attr("selected", "selected");
+                    $('#earnCode').loadEarnCode($('#assignment').val(), calEvent.earnCode + "_" + calEvent.earnCodeType);
                     $('#tkTimeBlockId').val(calEvent.tkTimeBlockId);
                     $('#hoursField').val(calEvent.hours == '0' ? '' : calEvent.hours);
                     $('#amountField').val(calEvent.amount == '0' ? '' : calEvent.amount);
@@ -161,12 +165,54 @@ $(document).ready(function() {
                         'endDate' : $('#date-range-end').val(),
                         'selectedAssignment' : calEvent.assignment,
                         'selectedEarnCode' : calEvent.earnCode,
+                        'overtimePref' : $("#overtime_" + calEvent.tkTimeBlockId).html(),
                         'startTime' : $('#beginTimeField-messages').val(),
                         'endTime' : $('#endTimeField-messages').val(),
                         'hours' : $('#hoursField').val(),
                         'amount' : $('#amountField').val(),
                         'acrossDays' : $('#acrossDaysField').val()
                     };
+
+                    // handle the case where the overtime hour detail is clicked
+                    if (action == "overtime") {
+                        // hide all the fields except the overtime dropdown
+                        $timesheetFields.find("tr:not(#overtimeEarnCodeRow)").addClass("hide");
+                        // get the <tr> of the earn code row
+                        $earnCodeField = $timesheetFields.find("select#earnCode").parent().parent();
+                        // change the title of the entry form
+                        $('.ui-dialog-title').html("Modify Overtime Earn Code");
+
+                        var overTimeEarnCodes = $('#overtimeEarnCodes').val().split(",");
+                        var selectedOverTimeEarnCode = $("#overtime_" + calEvent.tkTimeBlockId).html();
+                        var overTimeEarnCodeHtml = "";
+
+                        $.ajax({
+                            url: "TimeDetailWS.do?methodToCall=getOvertimeEarnCodes",
+                            //data: params,
+                            cache: true,
+                            success: function(data) {
+                                overTimeEarnCodeHtml += "<tr id='overtimeEarnCodeRow'>";
+                                overTimeEarnCodeHtml += "<td>Overtime Earn Code</td>";
+                                overTimeEarnCodeHtml += "<td><select name='overtimePref' id='overtimePref'>";
+                                // build the html of the overtime earn code drop down
+                                overTimeEarnCodeHtml += data;
+                                overTimeEarnCodeHtml += "</select></td>";
+                                overTimeEarnCodeHtml += "</tr>";
+
+                                // append the overtime dropdown to the earn code dropdown
+                                $earnCodeField.after(overTimeEarnCodeHtml);
+
+                                $('#overtimeEarnCodeRow select option[value*="' + selectedOverTimeEarnCode + '"]').attr("selected", "selected");
+
+                            },
+                            error: function() {
+                                updateTips("Error: Can't save data.");
+                                return false;
+                            }
+                        })
+
+                        $(this).earnCodeAjaxAnimation();
+                    }
                 }
             }
         }
@@ -278,14 +324,14 @@ $(document).ready(function() {
 
             if (endTimeValue == "0:0") {
                 var dateRangeField = endDateValue.split("/");
-                if(dateRangeField[1].charAt(0) == '0'){
-                	dateRangeField[1] = dateRangeField[1].replace('0','');
+                if (dateRangeField[1].charAt(0) == '0') {
+                    dateRangeField[1] = dateRangeField[1].replace('0', '');
                 }
-                
+
                 var dateString = parseInt(dateRangeField[1]) + 1;
                 endDateValue = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
             }
-            
+
             // these are for the submitted form
             $('#methodToCall').val('addTimeBlock');
             $('#startDate').val($('#date-range-begin').val());
@@ -307,6 +353,9 @@ $(document).ready(function() {
             params['amount'] = $('#amountField').val();
             params['selectedEarnCode'] = $('#earnCode').getEarnCode();
             params['selectedAssignment'] = $('#assignment').val();
+            if ($("#overtimePref") != undefined ) {
+                params['overtimePref'] = $("#overtimePref").val();
+            }
             params['acrossDays'] = $('#acrossDaysField').is(':checked') ? 'y' : 'n';
             params['tkTimeBlockId'] = $('#tkTimeBlockId').val();
 
@@ -326,7 +375,7 @@ $(document).ready(function() {
 
             // validate timeblocks
             $.ajax({
-                url: "TimeDetailWS.do?methodToCall=validateTimeEntry&documentId="+docId,
+                url: "TimeDetailWS.do?methodToCall=validateTimeEntry&documentId=" + docId,
                 data: params,
                 cache: false,
                 success: function(data) {
@@ -468,6 +517,24 @@ $(document).ready(function() {
 // custom functions
 //-------------------
 
+$.fn.loadOvertimeEarnCode = function(selectedEarnCode) {
+    $.ajax({
+        url: "TimeDetailWS.do?methodToCall=getOvertimeEarnCodes",
+        cache: true,
+        success: function(data) {
+            $('#earnCode').html(data);
+            if (selectedEarnCode != undefined && selectedEarnCode != '') {
+                $("select#earnCode option[value='" + selectedEarnCode + "']").attr("selected", "selected");
+            }
+
+            $('#earnCode').loadFields();
+        },
+        error: function() {
+            $('#earnCode').html("Error: Can't get earn codes.");
+        }
+    });
+}
+
 $.fn.loadEarnCode = function(assignment, selectedEarnCode) {
     var params = {};
     params['selectedAssignment'] = assignment;
@@ -490,12 +557,7 @@ $.fn.loadEarnCode = function(assignment, selectedEarnCode) {
         }
     });
 
-    $('#loading-earnCodes').ajaxStart(function() {
-        $(this).show();
-    });
-    $('#loading-earnCodes').ajaxStop(function() {
-        $(this).hide();
-    });
+    $(this).earnCodeAjaxAnimation();
 }
 
 $.fn.loadFields = function() {
@@ -503,8 +565,11 @@ $.fn.loadFields = function() {
     // get the earn code type
     var fieldType = $(this).val().split("_")[1];
 
+    if ($('#overtimeEarnCodes').val().indexOf($(this).val().getEarnCode()) > 0) {
+
+    }
     // if the field type equals hour, hide the begin/end time field and set the time to 12a
-    if (fieldType == 'HOUR') {
+    else if (fieldType == 'HOUR') {
         $('#clockIn, #clockOut, #amountSection').hide();
         $('#beginTimeField-messages,#endTimeField-messages').val("23:59");
         $('#amountSection').val('');
@@ -566,11 +631,12 @@ $.fn.resetState = function() {
 
 // clear the value of the specific field. If the field is not provided, all the input values in the $('#timesheet-panel') will be reset.
 $.fn.resetValue = function(field) {
+    $('.ui-dialog-title').html("Add Time Blocks");
     if (field != undefined) {
         field.val('');
     } else {
-        $('#timesheet-panel').find('input').end().find('select').each(function(){
-        	$(this).val('');
+        $('#timesheet-panel').find('input').end().find('select').each(function() {
+            $(this).val('');
         });
     }
 }
@@ -609,4 +675,13 @@ $.fn.openTimeEntryDialog = function(beginDay, endDay) {
 
     $('#tkTimeBlockId').val('');
     $('#dialog-form').dialog('open');
+}
+
+$.fn.earnCodeAjaxAnimation = function () {
+    $('#loading-earnCodes').ajaxStart(function() {
+        $(this).show();
+    });
+    $('#loading-earnCodes').ajaxStop(function() {
+        $(this).hide();
+    });
 }

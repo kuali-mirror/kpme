@@ -1,13 +1,5 @@
 package org.kuali.hr.time.overtime.weekly.rule.service;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeZone;
 import org.kuali.hr.time.cache.CacheResult;
@@ -26,6 +18,10 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.*;
 
 public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService {
 
@@ -147,7 +143,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 
 	/**
 	 * If a WorkArea for this timeblock has an overtime preference use that
-	 * otherwise use the convert to on the rule
+	 * otherwise use the convert to on the rule.
 	 * @param principalId
 	 * @param block
 	 * @param wor
@@ -155,7 +151,11 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	 * @return
 	 */
 	private String getOvertimeEarnCode(String principalId, TimeBlock block, WeeklyOvertimeRule wor, Date asOfDate) {
-		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(block.getWorkArea(), asOfDate);
+        // if there is an overtime preference, use that ovt earncode
+        if(StringUtils.isNotEmpty(block.getOvertimePref())) {
+            return block.getOvertimePref();
+        }
+        WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(block.getWorkArea(), asOfDate);
 		if(StringUtils.isNotBlank(workArea.getDefaultOvertimeEarnCode())){
 			return workArea.getDefaultOvertimeEarnCode();
 		}
