@@ -270,7 +270,9 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 					BigDecimal hoursToApply = BigDecimal.ZERO;
 					BigDecimal hoursToApplyPrevious = BigDecimal.ZERO;
-					// How many un-applied hours from the previous day
+                    // If the hours before virtual day are less than or equal to
+                    // min hours, we have already applied the time, so we don't
+                    // set hoursToApplyPrevious
 					if (hoursBeforeVirtualDay.compareTo(rule.getMinHours()) <= 0) {
 						// we need to apply these hours.
 						hoursToApplyPrevious = hoursBeforeVirtualDay;
@@ -340,6 +342,14 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                                 accumulatedMillis = 0L; // reset accumulated hours..
                                 hoursToApply = BigDecimal.ZERO;
                                 hoursToApplyPrevious = BigDecimal.ZERO;
+                            }
+
+                            // Because of our position in the loop, when we are at this point,
+                            // we know we've passed any previous day shift intervals, so we can
+                            // determine if we should skip the current day based on the boolean
+                            // we set earlier.
+                            if (previousDayOnly) {
+                                continue;
                             }
 
 							overlap = shiftInterval.overlap(blockInterval);
