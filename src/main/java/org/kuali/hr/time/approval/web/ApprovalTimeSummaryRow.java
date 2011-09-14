@@ -39,6 +39,7 @@ public class ApprovalTimeSummaryRow {
     private String selected = "off";
     private TimeSummary timeSummary;
     private BigDecimal periodTotal = BigDecimal.ZERO;
+    private boolean clockFlag = false;
 
 
     public Map<String, String> getAssignmentDescriptions() {
@@ -213,4 +214,12 @@ public class ApprovalTimeSummaryRow {
     public void setPeriodTotal(BigDecimal periodTotal) {
         this.periodTotal = periodTotal;
     }
+
+	public boolean isClockFlag() {
+		return clockFlag;
+	}
+
+	public void setClockFlag(boolean clockFlag) {
+		this.clockFlag = clockFlag;
+	}
 }

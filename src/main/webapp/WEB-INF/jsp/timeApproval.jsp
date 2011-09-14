@@ -95,9 +95,11 @@
                     </thead>
                     <tbody>
                     <c:forEach var="approvalRow" items="${Form.approvalRows}" varStatus="row">
-
+						<c:if test="${approvalRow.clockFlag}">
+                    		<c:set var="nameStyle" value="background-color: #F08080;"/>
+                    	</c:if>
                         <tr>
-                            <td>
+                            <td style="${nameStyle}">
                                 <c:if test="${approvalRow.periodTotal > 0}">
                                 <div class="ui-state-default ui-corner-all" style="float:left;">
                                     <span id="showDetailButton_${row.count-1}" class="ui-icon ui-icon-plus rowInfo"></span>

@@ -269,6 +269,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                     }
 
                 }
+				// user that has clocked in for more than 12 hours
+				for(TimeBlock tb: timeBlocks) {
+					if(tb.getClockLogCreated() && tb.getHours().compareTo(new BigDecimal(12)) == 1) {
+						approvalSummaryRow.setClockFlag(true);
+					}
+				}
                 rows.add(approvalSummaryRow);
 
                 mappedRows.put(calGroup, rows);
