@@ -120,7 +120,7 @@ public class TimeApprovalAction extends TkAction {
         taaf.setName(user.getPrincipalName());
 
         taaf.setPayCalendarGroups(calGroups);
-        taaf.setPayCalendarLabels(TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate()));
+        taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(selectedPayCalendarEntries, new ArrayList<Boolean>()));
         taaf.setApprovalRows(getApprovalRows(taaf));
         return fwd;
     }
@@ -202,6 +202,7 @@ public class TimeApprovalAction extends TkAction {
     public ActionForward getApprovalRowsByWorkArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
 
+        // TODO: FIX THIS
         List<String> labels = TkServiceLocator.getTimeApproveService().getPayCalendarLabelsForApprovalTab(taaf.getPayBeginDate(), taaf.getPayEndDate());
         List<TimeBlock> lstTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(taaf.getDocumentId()));
         // work area(s) is a hidden comma-separated string which is generated when the approval table is rendered.
@@ -209,6 +210,7 @@ public class TimeApprovalAction extends TkAction {
         StringBuilder outputHtml = new StringBuilder();
 
         for (String workArea : workAreas) {
+            // TODO: FIX THIS
             Map<String, BigDecimal> hourstoPayDapMap = TkServiceLocator.getTimeApproveService().getHoursToPayDayMap(taaf.getPrincipalId(), taaf.getPayBeginDate(), labels, lstTimeBlocks, Long.parseLong(workArea));
             outputHtml.append("<tr class='hours-by-workArea'>");
             outputHtml.append("<td colspan='3'>Work Area: ").append(workArea).append("</td>");

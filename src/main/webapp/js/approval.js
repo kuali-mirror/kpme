@@ -16,7 +16,7 @@ $(document).ready(function() {
         }
     });
 
-    
+
     // sort by the clicked column
 //    $('#approvals-table tr th').click(function() {
 //    	// replace all occurrence of white space, including space, tab, newline, etc
@@ -159,11 +159,22 @@ $(document).ready(function() {
         $('.assignmentDetails_' + seq).find('td').css('background-color', '#F6F6F6');
 
         if ($(this).hasClass('ui-icon-plus')) {
-            $('.assignmentDetails_' + seq).show();
+            // $('.assignmentDetails_' + seq).show();
+            $("#approvals-table").find($('.timeSummaryRow')).show().css("font-size", "1.2em");
+
+            // figure out the tds in the approval table
+            var approvalTable = $("#approvals-table").clone();
+            var tds = $(approvalTable).children('tbody').children('tr').children('td').length;
+            // set the colspan dynicamically for the summary table
+            $(".rowCount").attr("colspan", tds-3);
+            // remove the header of the summary table
+            $('.summaryTitle').remove();
+
             $(this).removeClass('ui-icon-plus').addClass('ui-icon-minus');
         }
         else {
-            $('.assignmentDetails_' + seq).hide();
+            //$('.assignmentDetails_' + seq).hide();
+            $("#approvals-table").find($('.timeSummaryRow')).hide();
             $(this).removeClass('ui-icon-minus').addClass('ui-icon-plus');
         }
     });
@@ -180,28 +191,3 @@ $(document).ready(function() {
 //    	$.post("TimeApproval.do?methodToCall=selectNewPayCalendarGroup&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val());
 //    });
 });
-
-//function showHideRow(count) {
-//    var els = document.getElementsByTagName('*');
-//    var className = 'assignmentDetails' + count;
-//
-//    console.log(els.length);
-//
-//    for (i = 0; i < els.length; i++) {
-//        if (els[i].className == className) {
-//            if (els[i].style.display == "table-row") {
-//                els[i].style.display = "none";
-//            } else {
-//                els[i].style.display = "table-row";
-//            }
-//        }
-//    }
-//    var tempString = 'showDetailButton' + count;
-//    var ele = document.getElementById(tempString);
-//    if (ele.value == "Hide Assignments") {
-//        ele.value = "Show Assignments"
-//    } else {
-//        ele.value = "Hide Assignments"
-//    }
-//}
-

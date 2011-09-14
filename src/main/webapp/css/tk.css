@@ -587,6 +587,7 @@ select {
 
 }
 
+
 .approvals-note-details table tr td, .approvals-note-details table tr th,
 .approvals-warning-details table tr td, .approvals-warning-details table tr th {
     border: 1px solid gray;
@@ -619,6 +620,13 @@ select {
 
 #approvals-filter .right {
     text-align: right;
+}
+
+#approvals-approve-button {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
 .rowInfo:hover {

@@ -1,14 +1,5 @@
 package org.kuali.hr.time.timesummary.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDateTime;
@@ -31,6 +22,9 @@ import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
@@ -261,7 +255,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @return An in-order string of days for this period that properly accounts
      * for FLSA week boundaries in the pay period.
      */
-    private List<String> getHeaderForSummary(PayCalendarEntries cal, List<Boolean> dayArrangements) {
+    @Override
+    public List<String> getHeaderForSummary(PayCalendarEntries cal, List<Boolean> dayArrangements) {
         List<String> header = new ArrayList<String>();
 
         // Maps directly to joda time day of week constants.

@@ -1,19 +1,20 @@
 package org.kuali.hr.time.approval.web;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ApprovalTimeSummaryRow {
 	private String name;
@@ -36,6 +37,8 @@ public class ApprovalTimeSummaryRow {
     private String principalId;
     private Boolean clockedInOverThreshold = Boolean.FALSE;    
     private String selected = "off";
+    private TimeSummary timeSummary;
+    private BigDecimal periodTotal = BigDecimal.ZERO;
 
 
     public Map<String, String> getAssignmentDescriptions() {
@@ -194,4 +197,20 @@ public class ApprovalTimeSummaryRow {
 	public void setSelected(String selected) {
 		this.selected = selected;
 	}
+
+    public TimeSummary getTimeSummary() {
+        return timeSummary;
+    }
+
+    public void setTimeSummary(TimeSummary timeSummary) {
+        this.timeSummary = timeSummary;
+    }
+
+    public BigDecimal getPeriodTotal() {
+        return periodTotal;
+    }
+
+    public void setPeriodTotal(BigDecimal periodTotal) {
+        this.periodTotal = periodTotal;
+    }
 }

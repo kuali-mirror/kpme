@@ -1,10 +1,11 @@
 package org.kuali.hr.time.timesummary.service;
 
-import java.util.List;
-
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesummary.TimeSummary;
+
+import java.util.List;
 
 public interface TimeSummaryService {
 	/**
@@ -20,4 +21,6 @@ public interface TimeSummaryService {
 	 * @return
 	 */
 	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument, List<TimeBlock> timeBlocks);
+
+    List<String> getHeaderForSummary(PayCalendarEntries cal, List<Boolean> dayArrangements);
 }

@@ -6,7 +6,7 @@
 <c:set var="workedHoursLength" value="${fn:length(timeSummary.workedHours)}"/>  
 <c:set var="beginPosition" value="${workedHoursLength - headerLength}"/>  
 <div id="timesheet-summary">
-	<div style="clear:both; text-align:center; font-weight: bold; margin-bottom: 5px;">Summary <%--(<a href="#" id="basic">Basic</a> / <a href="#" id="advance">Advanced</a> ) --%></div>
+	<div class="summaryTitle" style="clear:both; text-align:center; font-weight: bold; margin-bottom: 5px;">Summary <%--(<a href="#" id="basic">Basic</a> / <a href="#" id="advance">Advanced</a> ) --%></div>
 	<div id="timesheet-table-basic">
 
 		<table>
