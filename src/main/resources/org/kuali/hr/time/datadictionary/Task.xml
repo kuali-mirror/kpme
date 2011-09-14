@@ -34,9 +34,10 @@
 			<property name="objectAttributeName" value="workAreaObj" />
 			<property name="primitiveAttributes">
 				<list>
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId"
+						p:targetName="tkWorkAreaId" />
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
 						p:targetName="workArea" />
-			
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="workAreaDescription"
 						p:targetName="description" />
 					
@@ -76,20 +77,14 @@
     <property name="label" value="Task"/>
   </bean>
 
-  <bean id="Task-tkWorkAreaId" parent="Task-tkWorkAreaId-parentBean"/>
-  <bean id="Task-tkWorkAreaId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Work Area Id"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
-    <property name="name" value="tkWorkAreaId"/>
-    <property name="label" value="Work Area Id"/>
-  </bean>
-
+  <bean id="Task-tkWorkAreaId" parent="Task-tkWorkAreaId-parentBean" />
+	<bean id="Task-tkWorkAreaId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="tkWorkAreaId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+ </bean>
 
  <bean id="Task-workArea" parent="Task-workArea-parentBean"/>
   <bean id="Task-workArea-parentBean" abstract="true" parent="AttributeDefinition">
@@ -119,7 +114,7 @@
     </property>
 
     <property name="name" value="description" />
-    <property name="label" value="Description" />
+    <property name="label" value="Task Description" />
     <property name="description" value="Description" />
   </bean>
 
@@ -240,6 +235,7 @@
       	<bean parent="FieldDefinition" p:attributeName="description" />      	
       	<bean parent="FieldDefinition" p:attributeName="workArea"/>
         <bean parent="FieldDefinition" p:attributeName="workAreaDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
       </list>
     </property>
     <property name="resultFields" >

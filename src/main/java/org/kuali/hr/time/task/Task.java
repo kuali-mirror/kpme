@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -84,6 +85,11 @@ public class Task extends HrBusinessObject {
 	}
 
 	public Long getWorkArea() {
+		if (this.getTkWorkAreaId() != null &&  workArea == null) {
+        	WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(this.getTkWorkAreaId());
+        	this.setWorkArea((wa != null) ? wa.getWorkArea() : null);
+		}
+		
 		return workArea;
 	}
 
@@ -124,10 +130,8 @@ public class Task extends HrBusinessObject {
     }
 
 	public String getWorkAreaDescription() { 
-		if(workAreaDescription == null)
-			this.setWorkAreaDescription("");
-		if (workArea != null && workAreaDescription.isEmpty()) {
-        	WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, this.getEffectiveDate());
+		if (this.getTkWorkAreaId() != null && StringUtils.isEmpty(workAreaDescription)) {
+        	WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(this.getTkWorkAreaId());
         	this.setWorkAreaDescription((wa != null) ? wa.getDescription() : "");
 		}
 		return workAreaDescription;
