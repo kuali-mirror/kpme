@@ -160,13 +160,13 @@ $(document).ready(function() {
 
         if ($(this).hasClass('ui-icon-plus')) {
             // $('.assignmentDetails_' + seq).show();
-            $("#approvals-table").find($('.timeSummaryRow')).show().css("font-size", "1.2em");
+            $("#approvals-table").find($('.timeSummaryRow_' + seq)).show().css("font-size", "1.2em");
 
             // figure out the tds in the approval table
             var approvalTable = $("#approvals-table").clone();
             var tds = $(approvalTable).children('tbody').children('tr').children('td').length;
             // set the colspan dynicamically for the summary table
-            $(".rowCount").attr("colspan", tds-3);
+            $("td.rowCount").attr("colspan", tds);
             // remove the header of the summary table
             $('.summaryTitle').remove();
 
@@ -174,7 +174,7 @@ $(document).ready(function() {
         }
         else {
             //$('.assignmentDetails_' + seq).hide();
-            $("#approvals-table").find($('.timeSummaryRow')).hide();
+            $("#approvals-table").find($('.timeSummaryRow_' + seq)).hide();
             $(this).removeClass('ui-icon-minus').addClass('ui-icon-plus');
         }
     });

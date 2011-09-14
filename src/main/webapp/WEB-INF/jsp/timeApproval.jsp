@@ -200,7 +200,7 @@
                         </tr>
 
                         <div class="hourDetails">
-                            <tr style="display:none;" class="timeSummaryRow">
+                            <tr style="display:none;" class="timeSummaryRow_${row.count-1}">
                                 <td class="rowCount"><tk:timeSummary timeSummary="${approvalRow.timeSummary}"/></td>
                             </tr>
 					    </div>
