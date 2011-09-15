@@ -20,7 +20,7 @@
     <c:if test="${tagSupport.displayingApprovalButtons}">
         <c:choose>
             <c:when test="${tagSupport.approvalButtonsEnabled}">
-                <input type="button" id="ts-approve-button" class="button" value="Approve" name="approve" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.approveAction}&methodToCall=approveTimesheet'"/>
+                <input type="button" id="ts-approve-button" class="button" value="Approve" name="approve" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.approveAction}&methodToCall=approveTimesheet&documentId=${tagSupport.documentId}'"/>
                 <!--<input type="button" id="ts-disapprove-button" class="button" value="Disapprove" name="disapprove" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.disapproveAction}&documentId=${tagSupport.documentId}'"/>-->
             </c:when>
             <c:otherwise>
