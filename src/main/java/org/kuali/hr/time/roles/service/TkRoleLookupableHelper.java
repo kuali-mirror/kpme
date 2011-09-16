@@ -1,6 +1,7 @@
 package org.kuali.hr.time.roles.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,6 +9,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.TkRoleGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -73,11 +75,40 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 				}
 			}
 		}
-		for(BusinessObject businessObject : roleGroupList){
-			TkRoleGroup roleGroup = (TkRoleGroup)businessObject;
+		Iterator<BusinessObject> itr = roleGroupList.iterator();
+		while(itr.hasNext()){
+			TkRoleGroup roleGroup = (TkRoleGroup)itr.next();
 			TkRoleGroup tkRoleGroup = TkServiceLocator.getTkRoleGroupService().getRoleGroup(roleGroup.getPrincipalId());
 			if(tkRoleGroup == null){
 				TkServiceLocator.getTkRoleGroupService().saveOrUpdate(roleGroup);
+			}
+			String workArea = fieldValues.get("workArea");
+			String department = fieldValues.get("department");
+			String userName = fieldValues.get("userName");
+			String roleName = fieldValues.get("roleName");
+			boolean isAllowed = false;
+			if (tkRoleGroup.getRoles().size() > 0) {
+				for(TkRole tkRole : tkRoleGroup.getRoles()){
+					if ((StringUtils.isEmpty(workArea) || (tkRole.getWorkArea() != null && StringUtils
+							.equals(workArea, tkRole.getWorkArea().toString())))
+							&& (StringUtils.isEmpty(department) || StringUtils
+									.equals(department, tkRole.getDepartment()))
+							&& (StringUtils.isEmpty(userName) || StringUtils
+									.equals(userName, tkRole.getUserName()))
+							&& (StringUtils.isEmpty(roleName) || StringUtils
+									.equals(roleName, tkRole.getRoleName()))) {
+						isAllowed = true;
+						break;
+					}
+				}
+			} else if (StringUtils.isEmpty(workArea)
+					&& StringUtils.isEmpty(department)
+					&& StringUtils.isEmpty(userName)
+					&& StringUtils.isEmpty(roleName)) {
+				isAllowed = true;
+			}
+			if(!isAllowed){
+				itr.remove();
 			}
 		}
 		return roleGroupList;
@@ -123,5 +154,8 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 		tkRoleGroup.setPrincipalId(person.getPrincipalId());
 		return tkRoleGroup;
 	}
+ 
+	
+	
 
 }

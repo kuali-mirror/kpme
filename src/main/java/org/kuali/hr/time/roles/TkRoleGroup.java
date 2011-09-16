@@ -26,8 +26,36 @@ public class TkRoleGroup extends PersistableBusinessObjectBase {
     private String principalId;
     @Transient
     private Person person;
+    
+	private String roleName;
+	private Long workArea;
+	private String department;
+	
+    public String getRoleName() {
+		return roleName;
+	}
 
-    public Person getPerson() {
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
+	public Long getWorkArea() {
+		return workArea;
+	}
+
+	public void setWorkArea(Long workArea) {
+		this.workArea = workArea;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
+	public Person getPerson() {
         return person;
     }
 
