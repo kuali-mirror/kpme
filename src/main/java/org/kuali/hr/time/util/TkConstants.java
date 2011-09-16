@@ -232,4 +232,12 @@ public class TkConstants {
 	public String getHOLIDAY_EARN_CODE() {
 		return HOLIDAY_EARN_CODE;
 	}
+
+    public static final Map<String, String> DOCUMENT_STATUS = new HashMap<String,String>();
+    static {
+        DOCUMENT_STATUS.put("I", "Initiate");
+        DOCUMENT_STATUS.put("R", "Routing");
+        DOCUMENT_STATUS.put("F", "Approved");
+    }
+
 }

@@ -122,6 +122,7 @@ public class TimeApprovalAction extends TkAction {
         taaf.setPayCalendarGroups(calGroups);
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(selectedPayCalendarEntries, new ArrayList<Boolean>()));
         taaf.setApprovalRows(getApprovalRows(taaf));
+        taaf.setWorkAreas(getWorkAreasFromApprovalRows(taaf.getApprovalRows()));
         return fwd;
     }
     
@@ -180,12 +181,12 @@ public class TimeApprovalAction extends TkAction {
                 results.add(row.getDocumentId());
             } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL) && row.getName().toLowerCase().contains(taaf.getSearchTerm().toLowerCase())) {
                 results.add(row.getName());
-            } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_WORKAREA)) {
-                for(String wa : row.getWorkAreas()) {
-                    if(StringUtils.equals(wa, taaf.getSearchTerm())) {
-                        results.add(wa);
-                    }
-                }
+//            } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_WORKAREA)) {
+//                for(String wa : row.getWorkAreas()) {
+//                    if(StringUtils.equals(wa, taaf.getSearchTerm())) {
+//                        results.add(wa);
+//                    }
+//                }
             }
         }
 
@@ -269,12 +270,12 @@ public class TimeApprovalAction extends TkAction {
                 filteredRows.add(row);
             } else if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_PRINCIPAL) && row.getName().toLowerCase().contains(searchTerm.toLowerCase())) {
                 filteredRows.add(row);
-            } else if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_WORKAREA)) {
-                for(String wa : row.getWorkAreas()) {
-                    if(StringUtils.equals(wa, searchTerm)) {
-                        filteredRows.add(row);
-                    }
-                }
+//            } else if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_WORKAREA)) {
+//                for(String wa : row.getWorkAreas()) {
+//                    if(StringUtils.equals(wa, searchTerm)) {
+//                        filteredRows.add(row);
+//                    }
+//                }
             }
         }
 
@@ -297,6 +298,15 @@ public class TimeApprovalAction extends TkAction {
 
     private ApprovalTimeSummaryRow[] convertToArray(List<ApprovalTimeSummaryRow> rows) {
         return rows.toArray(new ApprovalTimeSummaryRow[rows.size()]);
+    }
+
+    private Set<String> getWorkAreasFromApprovalRows(List<ApprovalTimeSummaryRow> rows) {
+        Set<String> workAreas = new HashSet<String>();
+        for (ApprovalTimeSummaryRow row : rows ) {
+            workAreas.addAll(row.getWorkAreas());
+        }
+
+        return workAreas;
     }
 
 }

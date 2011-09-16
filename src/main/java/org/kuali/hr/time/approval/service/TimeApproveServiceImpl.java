@@ -253,15 +253,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 approvalSummaryRow.setClockStatusMessage(createLabelForLastClockLog(userId));
                 approvalSummaryRow.setNotes(notes);
                 approvalSummaryRow.setWarnings(warnings);
-                // This is used to by the work area grouping. This creates a
-                // hidden field with a string of work areas separated by comma.
-                // The fn:join only supports string array. That's why we use a
-                // Set<String> instead of Set<Long>.
                 Set<String> workAreas = new LinkedHashSet<String>();
                 for (TimeBlock tb : timeBlocks) {
                     workAreas.add(tb.getWorkArea().toString());
                 }
-                approvalSummaryRow.setWorkAreas(workAreas.toArray(new String[workAreas.size()]));
+                approvalSummaryRow.setWorkAreas(workAreas);
 
                 // Compare last clock log versus now and if > threshold
                 // highlight entry

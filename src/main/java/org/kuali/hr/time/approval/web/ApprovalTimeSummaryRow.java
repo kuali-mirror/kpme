@@ -11,10 +11,7 @@ import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ApprovalTimeSummaryRow {
 	private String name;
@@ -34,7 +31,7 @@ public class ApprovalTimeSummaryRow {
     private String payCalendarGroup;
     private List notes = new ArrayList();
     private List<String> warnings = new ArrayList<String>();
-    private String[] workAreas;
+    private Set<String> workAreas;
     private String principalId;
     private Boolean clockedInOverThreshold = Boolean.FALSE;    
     private String selected = "off";
@@ -180,11 +177,11 @@ public class ApprovalTimeSummaryRow {
         this.warnings = warnings;
     }
 
-    public String[] getWorkAreas() {
+    public Set<String> getWorkAreas() {
         return workAreas;
     }
 
-    public void setWorkAreas(String[] workAreas) {
+    public void setWorkAreas(Set<String> workAreas) {
         this.workAreas = workAreas;
     }
 

@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class TagSupport {
 
@@ -17,5 +18,9 @@ public class TagSupport {
         ipAddresses.add("129.79.23.123");
 
         return ipAddresses;
+    }
+
+    public Map<String, String> getDocumentStatus() {
+        return TkConstants.DOCUMENT_STATUS;
     }
 }

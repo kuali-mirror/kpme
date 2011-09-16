@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
 <%@ attribute name="tabId" required="false" %>
-
+<jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport"/>
 <jsp:useBean id="form" class="org.kuali.hr.time.base.web.TkForm"/>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -74,9 +74,13 @@
                 </tr>
                 <c:if test="${form.documentIdFromContext ne null}">
                 	<tr>
-                		<td align="right">${prefix} <bean:message key="approval.documentId"/>:</td>
-                		<td>${form.documentIdFromContext}</td>
-                	</tr>
+                        <td align="right">${prefix} <bean:message key="approval.documentId"/>:</td>
+                        <td>${form.documentIdFromContext}</td>
+                    </tr>
+                    <tr>
+                        <td align="right">${prefix} <bean:message key="time.detail.documentStatus"/>:</td>
+                        <td>${tagSupport.documentStatus[form.documentStatus]}</td>
+                    </tr>
                 </c:if>
             </table>
         </div>

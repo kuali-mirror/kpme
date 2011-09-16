@@ -44,4 +44,8 @@ public class TkForm extends KualiForm {
 	public String getDocumentIdFromContext(){
 		return TKContext.getCurrentTimesheetDocumentId();
 	}
+
+    public String getDocumentStatus() {
+        return TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus();
+    }
 }

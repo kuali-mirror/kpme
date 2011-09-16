@@ -27,6 +27,7 @@ public class TimeApprovalActionForm extends TkForm {
     private Long workArea = null;
     private String documentId;
     private String employeeWorkArea;
+    private Set<String> workAreas;
 
     /** Used for ajax dynamic row updating */
     private String outputString;
@@ -267,4 +268,12 @@ public class TimeApprovalActionForm extends TkForm {
 	public void setDepartments(List<String> departments) {
 		this.departments = departments;
 	}
+
+    public Set<String> getWorkAreas() {
+        return workAreas;
+    }
+
+    public void setWorkAreas(Set<String> workAreas) {
+        this.workAreas = workAreas;
+    }
 }
