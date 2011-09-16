@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -17,8 +18,14 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		EarnCode earnCode = (EarnCode)this.getNewBo();
+		EarnCode oldEarnCode = (EarnCode)this.getOldBo();
+		if ((StringUtils.equals(oldEarnCode.getEarnCode(), TkConstants.LUNCH_EARN_CODE) 
+				|| StringUtils.equals(oldEarnCode.getEarnCode(), TkConstants.HOLIDAY_EARN_CODE))
+					&& !earnCode.isActive()) {
+			this.putFieldError("active", "earncode.inactivate.locked", earnCode
+					.getEarnCode());
+		}
 		//if earn code is not designated how to record then throw error
-
 		if (earnCode.getHrEarnCodeId() == null) {
 			if (ValidationUtils.validateEarnCode(earnCode.getEarnCode(), null)) {
 				// If there IS an earn code, ie, it is valid, we need to report
