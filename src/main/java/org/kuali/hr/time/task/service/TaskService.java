@@ -26,6 +26,6 @@ public interface TaskService {
      */
     public void saveTasks(List<Task> tasks);
     
-	public Task getMaxTaskByWorkArea(Long workArea);
+	public Task getMaxTaskByWorkArea(Long workAreaId);
 
 }

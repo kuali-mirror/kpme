@@ -14,14 +14,15 @@ import java.util.List;
 public class TaskDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements TaskDao {
 	
 	@Override
-	public Task getMaxTaskByWorkArea(Long workArea) {
+	public Task getMaxTaskByWorkArea(Long workAreaId) {
 		Criteria root = new Criteria();
 		Criteria crit = new Criteria();
-		crit.addEqualTo("workArea", workArea);
+		
+		crit.addEqualTo("tkWorkAreaId", workAreaId);
 		ReportQueryByCriteria taskNumberSubQuery = QueryFactory.newReportQuery(Task.class, crit); 
 		taskNumberSubQuery.setAttributes(new String[]{"max(task)"});
 		
-		crit.addEqualTo("workArea", workArea);
+		root.addEqualTo("tkWorkAreaId", workAreaId);
 		root.addEqualTo("task", taskNumberSubQuery);
 		
 		Query query = QueryFactory.newQuery(Task.class, root);

@@ -31,7 +31,7 @@ public class TaskServiceImpl implements TaskService {
     } 
 
 	@Override
-	public Task getMaxTaskByWorkArea(Long workArea){
-		return taskDao.getMaxTaskByWorkArea(workArea);
+	public Task getMaxTaskByWorkArea(Long workAreaId){
+		return taskDao.getMaxTaskByWorkArea(workAreaId);
 	}
 }
