@@ -182,8 +182,32 @@
                                     </c:if>
                                 </div>
                             </td>
-                            <td>${approvalRow.approvalStatus}</td>
-                            <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
+							<td>
+								<div><span id="approvals-status" class="approvals-status">${approvalRow.approvalStatus}</span>
+								</div>
+								<div id="approvals-status-details"
+									class="approvals-status-details"
+									style="display: none; float: right; width: 300px; margin-left: 100px;">
+									<table>
+										<thead>
+											<tr>
+												<th
+													style="font-size: 1.2em; font-weight: bold; text-align: left;">
+												Document Status:</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>
+												<div style="text-align: left; width: 150px;">
+												${approvalRow.approvalStatusMessage}</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</td>
+								<c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
                                 <c:choose>
                                     <c:when test="${fn:contains(payCalLabel,'Week')}">
                                         <td style="background-color: #E5E5E5;">

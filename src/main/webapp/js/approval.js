@@ -151,7 +151,7 @@ $(document).ready(function() {
     });
 
 
-    $(" .approvals-warning, .approvals-note").tooltip({ effect: 'slide'});
+    $(" .approvals-warning, .approvals-note, .approvals-status").tooltip({ effect: 'slide'});
 
     // toggle the button for the assigment details
     $('.rowInfo').click(function() {

@@ -233,6 +233,17 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
                 if (tdh != null) {
                     approvalSummaryRow.setApprovalStatus(tdh.getDocumentStatus());
+                    String approvalStatusMsg =  "";
+                    if(StringUtils.equals(tdh.getDocumentStatus(), TkConstants.ROUTE_STATUS.INITIATED)){
+                    	approvalStatusMsg = "Initiated";
+                    }else if(StringUtils.equals(tdh.getDocumentStatus(), TkConstants.ROUTE_STATUS.ENROUTE)){
+                    	approvalStatusMsg = "Enroute";
+                    }else if(StringUtils.equals(tdh.getDocumentStatus(), TkConstants.ROUTE_STATUS.FINAL)){
+                    	approvalStatusMsg = "Final";
+                    }else if(StringUtils.equals(tdh.getDocumentStatus(), TkConstants.ROUTE_STATUS.CANCEL)){
+                    	approvalStatusMsg = "Cancel";
+                    }
+                    approvalSummaryRow.setApprovalStatusMessage(approvalStatusMsg);
                     TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdh.getDocumentId());
                     TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(td);
                     approvalSummaryRow.setTimeSummary(ts);

@@ -27,6 +27,7 @@ public class ApprovalTimeSummaryRow {
     private Map<String,String> assignmentDescriptions; // could refactor out to action level call
 
 	private String approvalStatus;
+	private String approvalStatusMessage;
 	private String documentId;
 	private Map<String,BigDecimal> hoursToPayLabelMap = new HashMap<String,BigDecimal>();
 	private String clockStatusMessage;
@@ -42,7 +43,16 @@ public class ApprovalTimeSummaryRow {
     private boolean clockFlag = false;
 
 
-    public Map<String, String> getAssignmentDescriptions() {
+    
+    public String getApprovalStatusMessage() {
+		return approvalStatusMessage;
+	}
+
+	public void setApprovalStatusMessage(String approvalStatusMessage) {
+		this.approvalStatusMessage = approvalStatusMessage;
+	}
+
+	public Map<String, String> getAssignmentDescriptions() {
         return assignmentDescriptions;
     }
 

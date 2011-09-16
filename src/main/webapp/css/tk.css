@@ -571,16 +571,16 @@ select {
     background-color: #EEE5E5;
 }
 
-.approvals-table #approvals-warning:hover, .approvals-table #approvals-note:hover {
+.approvals-table #approvals-warning:hover, .approvals-table #approvals-note:hover, .approvals-table #approvals-status:hover {
     background-color: #dadada;
     cursor: pointer;
 }
 
-.approvals-note-details table, .approvals-warning-details table {
+.approvals-note-details table, .approvals-warning-details table, .approvals-status-details table {
     border-collapse: collapse !important;
 }
 
-.approvals-note-details th .title, .approvals-warning-details th .title {
+.approvals-note-details th .title, .approvals-warning-details th .title, .approvals-status-details th .title {
     font-size: 1em;
     font-weight: bold;
     text-align: left;
@@ -589,7 +589,8 @@ select {
 
 
 .approvals-note-details table tr td, .approvals-note-details table tr th,
-.approvals-warning-details table tr td, .approvals-warning-details table tr th {
+.approvals-warning-details table tr td, .approvals-warning-details table tr th,
+.approvals-status-details table tr td, .approvals-status-details table tr th  {
     border: 1px solid gray;
 }
 
