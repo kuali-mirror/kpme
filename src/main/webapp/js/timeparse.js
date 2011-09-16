@@ -176,6 +176,23 @@ var timeParsePatterns = [
             return d;
         }
     },
+	// hmm
+    {   re: /(\d{3})/,
+        example: new Array('900', '905'),
+        handler: function(bits) {
+            var d = new Date();
+            var h = bits[1].substring(0, 1);
+            var m = parseInt(bits[1].substring(1, 3), 10);
+            if (isNaN(m)) {
+                m = 0;
+            }
+           
+            d.setHours(parseInt(h, 10));
+            d.setMinutes(parseInt(m, 10));
+
+            return d;
+        }
+    },
     // hhmmss
     {   re: /(\d{1,6})/,
         example: new Array('9', '9a', '9am', '19', '1950', '195510', '0955'),
