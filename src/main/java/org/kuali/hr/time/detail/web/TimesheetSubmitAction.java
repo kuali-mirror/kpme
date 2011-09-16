@@ -12,6 +12,8 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kns.exception.AuthorizationException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +27,7 @@ public class TimesheetSubmitAction extends TkAction {
 
         String principal = TKContext.getPrincipalId();
         UserRoles roles = TKContext.getUser().getCurrentRoles();
-
+        
         TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsaf.getDocumentId());
         if (!roles.isDocumentWritable(document)) {
             throw new AuthorizationException(principal, "TimesheetSubmitAction", "");
@@ -39,6 +41,9 @@ public class TimesheetSubmitAction extends TkAction {
         TimesheetSubmitActionForm tsaf = (TimesheetSubmitActionForm)form;
         TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsaf.getDocumentId());
 
+        WorkflowDocument workflowDocument = new WorkflowDocument(TKContext.getTargetPrincipalId(), Long.parseLong(tsaf.getDocumentId()));
+        workflowDocument.setApplicationContent(TkServiceLocator.getTkSearchableAttributeService().createSearchableAttributeXml(document));
+        workflowDocument.saveDocument("");
         // Switched to grab the target (chain, resolution: target -> backdoor -> actual) user.
         // Approvals still using backdoor > actual
         if (StringUtils.equals(tsaf.getAction(), TkConstants.TIMESHEET_ACTIONS.ROUTE)) {

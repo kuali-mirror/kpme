@@ -12,6 +12,10 @@ public interface LocationService {
 	 * @return {@link Location}
 	 */
 	public Location getLocation(String location, Date asOfDate);
-	
+	/**
+	 * Get location by unique id
+	 * @param hrLocationId
+	 * @return
+	 */
 	public Location getLocation(Long hrLocationId);
 }

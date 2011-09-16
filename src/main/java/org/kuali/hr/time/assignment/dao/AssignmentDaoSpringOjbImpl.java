@@ -41,14 +41,6 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		}
 	}
 
-	@Override
-	public void deleteAllAssignments() {
-		Criteria crit = new Criteria();
-		Query query = QueryFactory.newQuery(Assignment.class, crit);
-		LOG.warn("Deleting all Assignments");
-		this.getPersistenceBrokerTemplate().deleteByQuery(query);
-	}
-	
 	public Assignment getAssignment(String principalId, Long jobNumber, Long workArea, Long task, Date asOfDate){
         Criteria root = new Criteria();
         Criteria effdt = new Criteria();

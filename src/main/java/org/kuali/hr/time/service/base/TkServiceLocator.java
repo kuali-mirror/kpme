@@ -16,6 +16,7 @@ import org.kuali.hr.time.clocklog.service.ClockLogService;
 import org.kuali.hr.time.department.service.DepartmentService;
 import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleService;
+import org.kuali.hr.time.docsearch.TkSearchableAttributeService;
 import org.kuali.hr.time.earncode.service.EarnCodeService;
 import org.kuali.hr.time.earngroup.service.EarnGroupService;
 import org.kuali.hr.time.graceperiod.service.GracePeriodService;
@@ -108,6 +109,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_BATCH_JOB_ENTRY_SERVICE = "batchJobEntryService";
     public static final String TK_WARNINGS_SERVICE = "tkWarningService";
     public static final String HR_POSITION_SERVICE = "positionService";
+    public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
 
 
 	public static void start() throws Exception {
@@ -316,6 +318,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	
 	public static PositionService getPositionService(){
 		return (PositionService) CONTEXT.getBean(HR_POSITION_SERVICE);
+	}
+	
+	public static TkSearchableAttributeService getTkSearchableAttributeService(){
+		return (TkSearchableAttributeService) CONTEXT.getBean(TK_SEARCH_ATTR_SERVICE);
 	}
 
 	public static PlatformTransactionManager getPlatformTransactionManager() {

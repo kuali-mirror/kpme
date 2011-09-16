@@ -114,7 +114,6 @@ public class Location extends HrBusinessObject {
 
 	@Override
 	public void setId(Long id) {
-		// TODO Auto-generated method stub
 		setHrLocationId(id);
 	}
 

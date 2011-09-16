@@ -23,6 +23,10 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 
 	@SuppressWarnings("unchecked")
 	@Override
+	/**
+	 * Core HR Effective dating lookup logic
+	 * alter at your own risk
+	 */
 	public List<? extends BusinessObject> getSearchResults(
 			Map<String, String> fieldValues) {
 		if (fieldValues.containsKey("workArea")

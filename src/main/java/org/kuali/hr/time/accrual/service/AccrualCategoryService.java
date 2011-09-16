@@ -20,7 +20,17 @@ public interface AccrualCategoryService {
      */
     public void saveOrUpdate(AccrualCategory accrualCategory);
     
+    /**
+     * Fetch accrual category by unique id
+     * @param lmAccrualCategoryId
+     * @return
+     */
     public AccrualCategory getAccrualCategory(Long lmAccrualCategoryId);
     
+    /**
+     * Fetch list of active accrual categories as of a particular date
+     * @param asOfDate
+     * @return
+     */
     public List <AccrualCategory> getActiveAccrualCategories(Date asOfDate);
 }

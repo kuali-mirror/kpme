@@ -28,5 +28,10 @@ public interface TimeOffAccrualService {
 	 */
 	public List<String> validateAccrualHoursLimit(TimesheetDocument timesheetDocument);
 	
+	/**
+	 * Fetch time off accrual as of a particular unique id
+	 * @param laTimeOffAccrualId
+	 * @return
+	 */
 	public TimeOffAccrual getTimeOffAccrual(Long laTimeOffAccrualId);
 }

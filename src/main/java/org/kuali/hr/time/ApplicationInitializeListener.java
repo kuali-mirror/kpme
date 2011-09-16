@@ -30,20 +30,6 @@ public class ApplicationInitializeListener extends ContextLoaderListener impleme
         }
         super.contextInitialized(servletContextEvent);
         Formatter.registerFormatter(java.util.Date.class, DateFormatter.class);
-//        ConfigContext.getCurrentContextConfig().setApplicationContext(WebApplicationContextUtils.getRequiredWebApplicationContext(servletContextEvent.getServletContext()));
-//        servletContextEvent.getServletContext().setAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE, Context.getApplicationContext());
-//        servletContextEvent.getServletContext().setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, Context.getLocaleResolver());
-//        servletContextEvent.getServletContext().setAttribute(Context.getLocalizationContextName(), Context.getLocalizationContext());
-//
-//        HredocServiceLocator.getInstance().setApplicationContext((ConfigurableApplicationContext)Context.getApplicationContext());
-//        IUServiceLocator.getInstance().overrideApplicationContext(Context.getApplicationContext());
-//        try{
-//        	TKServiceLocator.getConfigService().verifyDataSources();
-//        	TKServiceLocator.getConfigService().setupMessageFetcher();
-//        }
-//        catch(Exception e){
-//        	throw new RuntimeException(e);
-//        } 
         LOG.info("\n\n\n\n\nTimekeeping started.  Have a nice day :)\n\n\n\n\n\n");
     }
 

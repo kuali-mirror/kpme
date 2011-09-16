@@ -10,6 +10,7 @@ import java.math.RoundingMode;
 import java.util.*;
 
 public class TkConstants {
+	public static final int DEFAULT_CACHE_TIME = 3600;
     public static final String TK_TARGET_USER_RETURN = "tkTargetReturn";
     public static final String TK_TARGET_USER_PERSON = "tkTargetPerson";
 

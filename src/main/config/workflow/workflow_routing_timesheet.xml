@@ -10,15 +10,76 @@
 -->
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-    <ruleAttribute>
-        <name>TkWorkflowTimesheetAttribute</name>
-        <className>org.kuali.hr.time.workflow.TkWorkflowTimesheetAttribute</className>
-        <label>TkWorkflowTimesheetAttribute</label>
-        <description>TkWorkflowTimesheetAttribute</description>
-        <type>RuleAttribute</type>
+   <ruleAttribute>
+      <name>TimesheetWorkareaSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>TimesheetWorkareaSearchAttribute</label>
+      <description>TimesheetWorkareaSearchAttribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="workarea" title="Work Area">
+          <display>
+            <type>text</type>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//WORKAREA/@value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
     </ruleAttribute>
-  </ruleAttributes>
-
+   <ruleAttribute>
+      <name>TimesheetDepartmentSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>TimesheetDepartmentSearchAttribute</label>
+      <description>TimesheetDepartmentSearchAttribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="department" title="Department">
+          <display>
+            <type>text</type>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//DEPARTMENT/@value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>   
+    <ruleAttribute>
+      <name>TimesheetSalGroupSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>TimesheetSalGroupSearchAttribute</label>
+      <description>TimesheetSalGroupSearchAttribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="salGroup" title="Salary Group">
+          <display>
+            <type>text</type>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//SALGROUP/@value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>TimesheetPayCalEndSearchAttribute</name>
+      <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+      <label>TimesheetPayCalEndSearchAttribute</label>
+      <description>TimesheetPayCalEndSearchAttribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="payCalendarEnd" title="Pay Calendar End Date">
+          <display>
+            <type>text</type>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>//PAYENDDATE/@value</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>	
+	</ruleAttributes>
+	
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
         <ruleTemplate allowOverwrite="true">
             <name>TkWorkflowTimesheetTemplate</name>
@@ -43,7 +104,16 @@
             <label>TK Timesheet</label>
             <attributes>
               <attribute>
-                <name>WorkAreaSearchableAttribute</name>
+                <name>TimesheetWorkareaSearchAttribute</name>
+              </attribute>
+              <attribute>
+              	<name>TimesheetDepartmentSearchAttribute</name>
+              </attribute>
+              <attribute>
+              	<name>TimesheetSalGroupSearchAttribute</name>
+              </attribute>
+              <attribute>
+              	<name>TimesheetPayCalEndSearchAttribute</name>
               </attribute>
             </attributes>
             <postProcessorName>org.kuali.hr.time.workflow.postprocessor.TkPostProcessor</postProcessorName>

@@ -12,6 +12,10 @@ public interface PayGradeService {
 	 * @return
 	 */
 	public PayGrade getPayGrade(String payGrade, Date asOfDate);
-	
+	/**
+	 * Get pay grade by a unique id
+	 * @param hrPayGradeId
+	 * @return
+	 */
 	public PayGrade getPayGrade(Long hrPayGradeId);
 }

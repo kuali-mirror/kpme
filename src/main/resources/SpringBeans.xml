@@ -600,6 +600,8 @@
     </bean>
 
     <bean id="tkRuleControllerService" class="org.kuali.hr.time.rule.TkRuleControllerServiceImpl"/>
+    
+    <bean id="tkSearchableAttributeService" class="org.kuali.hr.time.docsearch.TkSearchableAttributeServiceImpl"/>
 
     <bean id="tkWarningService" class="org.kuali.hr.time.warning.TkWarningServiceImpl"/>
 

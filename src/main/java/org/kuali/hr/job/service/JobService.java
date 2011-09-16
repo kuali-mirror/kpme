@@ -61,8 +61,18 @@ public interface JobService {
 	 */
 	public List<Job> getActiveJobsForPosition(String positionNbr, Date asOfDate);
 	
+	/**
+	 * Get job by the unique id
+	 * @param hrJobId
+	 * @return
+	 */
 	public Job getJob(Long hrJobId);
 	
+	/**
+	 * Get the max jobnumber job for this principal
+	 * @param principalId
+	 * @return
+	 */
 	public Job getMaxJob(String principalId);
 	
 }

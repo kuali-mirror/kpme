@@ -1,9 +1,6 @@
 package org.kuali.hr.sys.util.constants;
 
 public enum SpringBeans {
-	
-	//todo this placeholder should be removed on first enumeration
-	//testing
 	PLACEHOLDER("placeholder"); 
 
 	private String description;
