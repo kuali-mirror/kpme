@@ -9,6 +9,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 
 import java.math.BigDecimal;
@@ -134,7 +135,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         clockLog.setClockAction(clockAction);
         clockLog.setIpAddress(ip);
         clockLog.setHrJobId(assignment.getJob().getHrJobId());
-        clockLog.setUserPrincipalId(principalId);
+        clockLog.setUserPrincipalId(TKContext.getUser().getPrincipalId());
         clockLog.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
         return clockLog;
