@@ -376,7 +376,6 @@ public class ValidationUtils {
        crit.addEqualTo("earnCode", deptEarnCode.getEarnCode());
        crit.addEqualTo("employee", deptEarnCode.isEmployee() ? "1" : "0");
        crit.addEqualTo("approver", deptEarnCode.isApprover()? "1" : "0");
-       crit.addEqualTo("org_admin", deptEarnCode.isOrg_admin()? "1" : "0");
        crit.addEqualTo("location", deptEarnCode.getLocation());
        crit.addEqualTo("active", deptEarnCode.getActive() ? "Y" : "N");
        crit.addEqualTo("effectiveDate", deptEarnCode.getEffectiveDate());

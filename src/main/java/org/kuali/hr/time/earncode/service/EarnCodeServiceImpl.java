@@ -1,6 +1,5 @@
 package org.kuali.hr.time.earncode.service;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.cache.CacheResult;
@@ -58,11 +57,6 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
             // Check employee flag
             if (dec.isEmployee() && user.getCurrentRoles().isActiveEmployee()) {
-                addEc = true;
-            }
-
-            // Check org admin flag
-            if (!addEc && dec.isOrg_admin() && user.getCurrentRoles().getOrgAdminDepartments().contains(job.getDept())) {
                 addEc = true;
             }
 

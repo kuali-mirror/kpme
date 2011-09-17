@@ -23,7 +23,6 @@ public class DepartmentEarnCode extends HrBusinessObject {
 	private String earnCode;
 	private boolean employee;
 	private boolean approver;
-	private boolean org_admin;
 	private String location;
 	
 	private Long hrDeptId;
@@ -80,16 +79,6 @@ public class DepartmentEarnCode extends HrBusinessObject {
 
 	public void setApprover(boolean approver) {
 		this.approver = approver;
-	}
-
-
-	public boolean isOrg_admin() {
-		return org_admin;
-	}
-
-
-	public void setOrg_admin(boolean orgAdmin) {
-		org_admin = orgAdmin;
 	}
 
 

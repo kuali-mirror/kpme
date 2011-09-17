@@ -27,7 +27,6 @@
 				<ref bean="DepartmentEarnCode-timestamp" />
 				<ref bean="DepartmentEarnCode-employee" />
 				<ref bean="DepartmentEarnCode-approver" />
-				<ref bean="DepartmentEarnCode-org_admin" />
 				<ref bean="DepartmentEarnCode-history" />
 				<ref bean="DepartmentEarnCode-active" />
 				<ref bean="DepartmentEarnCode-hrDeptId" />
@@ -202,17 +201,6 @@
 		<property name="label" value="Approver" />
 	</bean>
 
-	<!-- org_admin -->
-	<bean id="DepartmentEarnCode-org_admin" parent="DepartmentEarnCode-org_admin-parentBean" />
-	<bean id="DepartmentEarnCode-org_admin-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Org. admin" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="org_admin" />
-		<property name="label" value="Org. Admin" />
-	</bean>
 	<!-- timeStamp -->
 	<bean id="DepartmentEarnCode-timestamp" parent="DepartmentEarnCode-timestamp-parentBean" />
 	<bean id="DepartmentEarnCode-timestamp-parentBean" abstract="true"
@@ -343,7 +331,6 @@
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="employee" />
 				<bean parent="FieldDefinition" p:attributeName="approver" />
-				<bean parent="FieldDefinition" p:attributeName="org_admin" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="active" />

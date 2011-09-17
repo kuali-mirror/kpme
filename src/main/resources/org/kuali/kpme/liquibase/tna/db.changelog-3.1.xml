@@ -5,4 +5,7 @@
             <column name="ovt_pref" type="VARCHAR(5)" />
         </addColumn>
     </changeSet>
+    <changeSet author="npadharia" id="2">
+        <dropColumn columnName="org_admin" tableName="hr_dept_earn_code_t"/>
+    </changeSet>
 </databaseChangeLog>
