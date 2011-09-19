@@ -93,6 +93,30 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		return present;
 	}
 
+    /**
+     * Returns a BigDecimal representing the sum of all of the negative time
+     * hour detail types. In this case, only LUN is considered. This can be
+     * modified to add other considerations.
+     *
+     * @param block The Timeblock to inspect.
+     *
+     * @return A big decimal.
+     */
+    private BigDecimal negativeTimeHourDetailSum(TimeBlock block) {
+        BigDecimal sum = BigDecimal.ZERO;
+
+        if (block != null) {
+            List<TimeHourDetail> details = block.getTimeHourDetails();
+            for (TimeHourDetail detail : details) {
+                if (detail.getEarnCode().equals(TkConstants.LUNCH_EARN_CODE)) {
+                    sum = sum.add(detail.getHours());
+                }
+            }
+        }
+
+        return sum;
+    }
+
 	@Override
 	public void processShiftDifferentialRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate) {
         DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
@@ -470,9 +494,15 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 			if (i == 0 && (initialHours.compareTo(BigDecimal.ZERO) > 0)) {
                 // ONLY if they're on the same document ID, do we apply to previous,
                 // otherwise we dump all on the current document.
-                if (previousBlocks != null && previousBlocks.size() > 0) { // && previousBlocks.get(0).getDocumentId().equals(b.getDocumentId())) {
+                if (previousBlocks != null && previousBlocks.size() > 0 && previousBlocks.get(0).getDocumentId().equals(b.getDocumentId())) {
                     for (TimeBlock pb : previousBlocks) {
-                        BigDecimal hoursToApply = initialHours.min(pb.getHours());
+                        BigDecimal lunchSub = this.negativeTimeHourDetailSum(pb); // A negative number
+                        initialHours = BigDecimal.ZERO.max(initialHours.add(lunchSub)); // We don't want negative premium hours!
+                        if (initialHours.compareTo(BigDecimal.ZERO) <= 0) // check here now as well, we may not have anything at all to apply.
+                            break;
+
+                        // Adjust hours on the block by the lunch sub hours, so we're not over applying.
+                        BigDecimal hoursToApply = initialHours.min(pb.getHours().add(lunchSub));
                         addPremiumTimeHourDetail(pb, hoursToApply, earnCode);
                         initialHours = initialHours.subtract(hoursToApply, TkConstants.MATH_CONTEXT);
                         if (initialHours.compareTo(BigDecimal.ZERO) <= 0)
@@ -483,6 +513,9 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                 }
             }
 
+            BigDecimal lunchSub = this.negativeTimeHourDetailSum(b); // A negative number
+            hours = BigDecimal.ZERO.max(hours.add(lunchSub)); // We don't want negative premium hours!
+
 			if (hours.compareTo(BigDecimal.ZERO) > 0) {
                 Interval blockInterval = blockIntervals.get(i);
                 Interval overlapInterval = shift.overlap(blockInterval);
@@ -491,7 +524,9 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
                 long overlap = overlapInterval.toDurationMillis();
                 BigDecimal hoursMax = TKUtils.convertMillisToHours(overlap); // Maximum number of possible hours applicable for this time block and shift rule
-                BigDecimal hoursToApply = hours.min(hoursMax);
+                // Adjust this time block's hoursMax (below) by lunchSub to
+                // make sure the time applied is the correct amount per block.
+                BigDecimal hoursToApply = hours.min(hoursMax.add(lunchSub));
 
                 addPremiumTimeHourDetail(b, hoursToApply, earnCode);
 				hours = hours.subtract(hoursToApply, TkConstants.MATH_CONTEXT);
