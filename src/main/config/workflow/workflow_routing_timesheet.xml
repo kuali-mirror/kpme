@@ -78,6 +78,13 @@
         </fieldDef>
       </searchingConfig>
     </ruleAttribute>	
+    <ruleAttribute>
+        <name>TkWorkflowTimesheetAttribute</name>
+        <className>org.kuali.hr.time.workflow.TkWorkflowTimesheetAttribute</className>
+        <label>TkWorkflowTimesheetAttribute</label>
+        <description>TkWorkflowTimesheetAttribute</description>
+        <type>RuleAttribute</type>
+    </ruleAttribute>    
 	</ruleAttributes>
 	
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
