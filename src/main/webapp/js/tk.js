@@ -591,7 +591,12 @@ function recalculateHrs(itr) {
     var beginTime = $("#btRow" + itr).val();
     var endTime = $("#etRow" + itr).val();
     var validFlag = true;
-
+    var tbl = document.getElementById('tblNewTimeBlocks');
+    var rowLength = tbl.rows.length;
+    var form1 = document.forms[0];
+    var originalEndDateTime = new Date(form1.endTimestamp.value);
+    var originalBeginDateTime = new Date(form1.beginTimestamp.value);
+    
     validFlag &= checkLength($("#bdRow" + itr), "Date/Time", 10, 10);
     validFlag &= checkLength($("#edRow" + itr), "Date/Time", 10, 10);
     validFlag &= checkLength($("#btRow" + itr), "Date/Time", 8, 8);
@@ -600,13 +605,19 @@ function recalculateHrs(itr) {
     if (validFlag) {
         var dateString = beginDate + ' ' + beginTime;
         var beginTimeTemp = new Date(dateString);
-        var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes();
-
         dateString = endDate + ' ' + endTime;
         var endTimeTemp = new Date(dateString);
-        var eTimeFormated = endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes();
-
-        var hrsDifferent = endTimeTemp - beginTimeTemp;
+        
+	    if(itr == rowLength - 2) { // endTime of last row should include seconds of originalEndTime
+	    	var eTimeFormated = beginDate + ' ' + endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes() + ':' + originalEndDateTime.getSeconds();
+	    	var newEndDate = new Date(eTimeFormated);
+	    	var hrsDifferent = newEndDate - beginTimeTemp;
+	    } else if(itr == 1){ // beginTime of first row should use originalBeginTime which includes seconds 
+	    	var hrsDifferent = endTimeTemp - originalBeginDateTime;
+	    } else {
+	    	var hrsDifferent = endTimeTemp - beginTimeTemp;
+	    }
+	    
         if (hrsDifferent <= 0) {
             updateTips("Hours for item " + itr + "not valid");
             var hrs = hrsDifferent / 3600000;
