@@ -610,6 +610,7 @@ function recalculateHrs(itr) {
         if (hrsDifferent <= 0) {
             updateTips("Hours for item " + itr + "not valid");
             var hrs = hrsDifferent / 3600000;
+            hrs = Math.round(hrs*100)/100;
             $("#hrRow" + itr).val(hrs);
             return false;
         }
