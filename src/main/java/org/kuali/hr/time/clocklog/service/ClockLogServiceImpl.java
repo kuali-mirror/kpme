@@ -97,8 +97,9 @@ public class ClockLogServiceImpl implements ClockLogService {
         }
         newTimeBlocks.addAll(aList);
 
-        //reset time hour details
-        TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTimeBlocks);
+        //reset time block
+        TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks);
+ 
         //apply any rules for this action
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.CLOCK_OUT, newTimeBlocks, pe, td, principalId);
 

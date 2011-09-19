@@ -209,5 +209,5 @@ public class ClockAction extends TimesheetAction {
 
         return new ActionForward(forward.getPath() + "?editTimeBlockId=" + currentTb.getTkTimeBlockId().toString());
     }
-
+    
 }

@@ -202,5 +202,21 @@ public class TimesheetServiceImpl implements TimesheetService {
 		TkServiceLocator.getTimeBlockService().deleteTimeBlocksAssociatedWithDocumentId(documentId);
 		TkServiceLocator.getTimesheetDocumentHeaderService().deleteTimesheetHeader(documentId);
 	}
+	
+	public TimeBlock resetWorkedHours(TimeBlock timeBlock){
+		if(timeBlock.getBeginTime() != null && timeBlock.getEndTime() != null){
+			BigDecimal hours = TKUtils.getHoursBetween(timeBlock.getBeginTime().getTime(), timeBlock.getEndTime().getTime());
+			timeBlock.setHours(hours);
+		}
+        return timeBlock;
+	}
+
+	@Override
+	public void resetTimeBlock(List<TimeBlock> timeBlocks) {
+		for(TimeBlock tb : timeBlocks){
+			resetWorkedHours(tb);
+		}
+		TkServiceLocator.getTimeBlockService().resetTimeHourDetail(timeBlocks);
+	}
 
 }

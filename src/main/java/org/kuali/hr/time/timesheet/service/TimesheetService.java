@@ -62,4 +62,6 @@ public interface TimesheetService {
 	 * @param documentId
 	 */
 	public void deleteTimesheet(String documentId);
+	
+	public void resetTimeBlock(List<TimeBlock> timeBlock);
 }

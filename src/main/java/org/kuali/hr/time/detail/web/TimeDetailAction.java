@@ -142,7 +142,8 @@ public class TimeDetailAction extends TimesheetAction {
         TimeBlockHistory tbh = new TimeBlockHistory(deletedTimeBlock);
         tbh.setActionHistory(TkConstants.ACTIONS.DELETE_TIME_BLOCK);
         TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
-        TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTimeBlocks);
+        //reset time block
+        TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks);
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
 
@@ -215,7 +216,8 @@ public class TimeDetailAction extends TimesheetAction {
                     endTime, tdaf.getHours(), tdaf.getAmount(), false));
         }
 
-        TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTimeBlocks);
+        //reset time block
+        TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks);
 
         // apply overtime pref
         for (TimeBlock tb : newTimeBlocks) {

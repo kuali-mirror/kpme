@@ -116,8 +116,8 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
         newTimeBlocks.addAll(blocks);
 
-        //reset time hour details
-        TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTimeBlocks);
+        //reset time block
+        TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks);
         //apply any rules for this action
         TkServiceLocator.getTkRuleControllerService().applyRules(
                 TkConstants.ACTIONS.CLOCK_OUT, newTimeBlocks,
