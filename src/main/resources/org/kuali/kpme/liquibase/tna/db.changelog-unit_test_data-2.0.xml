@@ -2786,7 +2786,6 @@
             <column name="earn_code" value="RGH"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2801,7 +2800,6 @@
             <column name="earn_code" value="RGN"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2816,7 +2814,6 @@
             <column name="earn_code" value="INV"/>
             <column name="employee" value="0"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="0"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2831,7 +2828,6 @@
             <column name="earn_code" value="RGH"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2846,7 +2842,6 @@
             <column name="earn_code" value="SCK"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2861,7 +2856,6 @@
             <column name="earn_code" value="VAC"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2876,7 +2870,6 @@
             <column name="earn_code" value="WEP"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2891,7 +2884,6 @@
             <column name="earn_code" value="HAZ"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2906,7 +2898,6 @@
             <column name="earn_code" value="HIP"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2921,7 +2912,6 @@
             <column name="earn_code" value="OC1"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2936,7 +2926,6 @@
             <column name="earn_code" value="OC2"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2951,7 +2940,6 @@
             <column name="earn_code" value="XYZ"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2966,7 +2954,6 @@
             <column name="earn_code" value="XYY"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2981,7 +2968,6 @@
             <column name="earn_code" value="XZZ"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -2996,7 +2982,6 @@
             <column name="earn_code" value="RGH"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -3011,7 +2996,6 @@
             <column name="earn_code" value="SCK"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
@@ -3026,7 +3010,6 @@
             <column name="earn_code" value="VAC"/>
             <column name="employee" value="1"/>
             <column name="approver" value="1"/>
-            <column name="org_admin" value="1"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="location"/>
