@@ -1,9 +1,5 @@
 package org.kuali.hr.time.workarea;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -14,6 +10,10 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -34,7 +34,12 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 		super.setNewCollectionLineDefaultValues(arg0, arg1);
 	}
 
-	@Override
+    @Override
+    public PersistableBusinessObject getNewCollectionLine(String collectionName) {
+        return super.getNewCollectionLine(collectionName);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
 	public void processAfterEdit(MaintenanceDocument document,
 			Map<String, String[]> parameters) {
 		WorkArea waOld = (WorkArea) document.getOldMaintainableObject()

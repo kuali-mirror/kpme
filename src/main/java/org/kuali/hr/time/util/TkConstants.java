@@ -87,6 +87,7 @@ public class TkConstants {
     public static final String ROLE_TK_LOCATION_VO   = "TK_LOCATION_VO";
     public static final String ROLE_TK_REVIEWER  = "TK_REVIEWER";
     public static final String ROLE_TK_APPROVER  = "TK_APPROVER";
+    public static final String ROLE_TK_APPROVER_DELEGATE  = "TK_APPROVER_DELEGATE";
     public static final String ROLE_TK_EMPLOYEE  = "TK_EMPLOYEE";
     public static final String ROLE_TK_LOCATION_ADMIN = "TK_ORG_ADMIN";
     public static final String ROLE_TK_DEPT_ADMIN = "TK_DEPT_ADMIN";
@@ -104,12 +105,14 @@ public class TkConstants {
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_DEPT_ADMIN);
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_REVIEWER);
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_APPROVER);
+    	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_APPROVER_DELEGATE);
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_LOCATION_ADMIN);
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_LOCATION_VO);
     	ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_SYS_ADMIN);
 
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_EMPLOYEE);
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_APPROVER);
+        ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_APPROVER_DELEGATE);
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_DEPT_ADMIN);
 
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_REVIEWER,  "Reviewer"); // attach at 'work area' level, like approvers without departmental rules
@@ -117,6 +120,7 @@ public class TkConstants {
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_DEPT_VO,   "Department View Only"); // can only see objects belonging to a department
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_LOCATION_VO, "Location View Only");
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_APPROVER,  "Approver"); // attach at 'work area', view only departmental rules
+    	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_APPROVER_DELEGATE,  "Approver Delegate"); // attach at 'work area'
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_EMPLOYEE,  "Employee"); // only people with active assignments have this role.
     	ALL_ROLES_MAP.put(TkConstants.ROLE_TK_LOCATION_ADMIN, "Location Admin"); // location admin rename
         ALL_ROLES_MAP.put(TkConstants.ROLE_TK_DEPT_ADMIN, "Department Admin");

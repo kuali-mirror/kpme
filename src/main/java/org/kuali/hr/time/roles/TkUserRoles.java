@@ -1,11 +1,5 @@
 package org.kuali.hr.time.roles;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.department.Department;
@@ -14,6 +8,8 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.util.*;
 
 /**
  * TkUserRoles encapsulates the concept of roles for a single user and provides
@@ -28,6 +24,7 @@ public class TkUserRoles implements UserRoles {
 	private Map<String, TkRole> orgAdminRolesDept = new HashMap<String,TkRole>();
     private Map<String, TkRole> orgAdminRolesChart = new HashMap<String,TkRole>();
 	private Map<Long, TkRole> approverRoles = new HashMap<Long,TkRole>();
+    private Map<Long, TkRole> approverDelegateRoles = new HashMap<Long,TkRole>();
     private Map<Long, TkRole> reviewerRoles = new HashMap<Long,TkRole>();;
     private Map<String, TkRole> deptViewOnlyRoles = new HashMap<String, TkRole>();
 	private Set<Long> activeAssignmentIds = new HashSet<Long>();
@@ -77,7 +74,10 @@ public class TkUserRoles implements UserRoles {
 
     @Override
     public Set<Long> getApproverWorkAreas() {
-        return approverRoles.keySet();
+        Set<Long> workAreas = new HashSet<Long>();
+        workAreas.addAll(approverRoles.keySet());
+        workAreas.addAll(approverDelegateRoles.keySet());
+        return workAreas;
     }
 
     @Override
@@ -140,6 +140,8 @@ public class TkUserRoles implements UserRoles {
 		for (TkRole role : roles) {
 			if (role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER)) {
 				approverRoles.put(role.getWorkArea(), role);
+            } else if (role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER_DELEGATE)) {
+                approverDelegateRoles.put(role.getWorkArea(), role);
 			} else if (role.getRoleName().equals(TkConstants.ROLE_TK_LOCATION_ADMIN)) {
                 if (!StringUtils.isEmpty(role.getChart())) {
                     orgAdminRolesChart.put(role.getChart(), role);
@@ -187,12 +189,12 @@ public class TkUserRoles implements UserRoles {
 
     @Override
     public boolean isTimesheetApprover() {
-        return this.isSystemAdmin() || this.approverRoles.size() > 0 || this.orgAdminRolesDept.size() > 0;
+        return this.isSystemAdmin() || this.approverRoles.size() > 0 || this.approverDelegateRoles.size() > 0 || this.orgAdminRolesDept.size() > 0;
     }
 
     @Override
     public boolean isAnyApproverActive() {
-        return this.approverRoles.size() > 0;
+        return this.approverRoles.size() > 0 || this.approverDelegateRoles.size() > 0;
     }
 
 
@@ -206,7 +208,7 @@ public class TkUserRoles implements UserRoles {
 
         List<Assignment> assignments = doc.getAssignments();
         for (Assignment assignment : assignments) {
-            if (this.approverRoles.containsKey(assignment.getWorkArea())) {
+            if (this.approverRoles.containsKey(assignment.getWorkArea()) || this.approverDelegateRoles.containsKey(assignment.getWorkArea())) {
                 return true;
             }
         }
@@ -251,6 +253,7 @@ public class TkUserRoles implements UserRoles {
 
                 writable |= this.orgAdminRolesDept.containsKey(dept);
                 writable |= this.approverRoles.containsKey(wa);
+                writable |= this.approverDelegateRoles.containsKey(wa);
                 writable |= this.reviewerRoles.containsKey(wa);
             }
         }
@@ -293,6 +296,7 @@ public class TkUserRoles implements UserRoles {
 
                 readable |= this.orgAdminRolesDept.containsKey(dept);
                 readable |= this.approverRoles.containsKey(wa);
+                readable |= this.approverDelegateRoles.containsKey(wa);
                 readable |= this.reviewerRoles.containsKey(wa);
                 readable |= this.deptViewOnlyRoles.containsKey(dept);
             }
