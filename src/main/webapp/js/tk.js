@@ -315,11 +315,22 @@ $(document).ready(function() {
                     success: function(data) {
                         var json = jQuery.parseJSON(data);
                         // if there is no error message, submit the form and save the new time blocks
-                        if (json.length == 0) {
-                            $('#methodToCall').val('saveNewTimeBlocks');
-                            $('#editTimeBlockForm').submit();
-                            window.close();
-                            return false;
+        				if(json == null || json.length == 0) {
+	            			$.ajax({ 
+	            				url: "Clock.do?methodToCall=saveNewTimeBlocks",
+	                            data: params,
+	                            cache: false,
+	                            success: function(data) {
+	            					// save is successful, close the window
+	            					window.close();
+	            					return false;
+	            				},
+	            				error: function() {
+	            					updateTips("Cannot save the time blocks");
+	            		            return false;
+	            		        }
+	            				
+	            			});
                         } else {
                             // if there is any error, grab error messages (json) and put them in the error message
                             var json = jQuery.parseJSON(data);
@@ -331,9 +342,10 @@ $(document).ready(function() {
                         }
                     },
                     error: function() {
+              			updateTips("Validation failed");
                         return false;
                     }
-                });
+                })
 
     });
 
