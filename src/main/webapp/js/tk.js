@@ -227,6 +227,10 @@ $(document).ready(function() {
             updateTips("Please use Add button to add entries or click Cancel to close the window.");
             return false;
         }
+        var form1 = document.forms[0];
+        var originalEndDateTime = new Date(form1.endTimestamp.value);
+        var originalBeginDateTime = new Date(form1.beginTimestamp.value);
+        
         for (var i = 1; i < rowLength - 1; i++) {
             var assignValue = $("#assignmentRow" + i).val();
             var beginDate = $("#bdRow" + i).val();
@@ -256,7 +260,16 @@ $(document).ready(function() {
                 var eTimeFormated = endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes();
                 endTimeCol += eTimeFormated + valueSeperator;
 
-                var hrsDifferent = endTimeTemp - beginTimeTemp;
+                if(i == rowLength - 2) { // endTime of last row should include seconds of originalEndTime
+        	    	var eTimeFormated = endDate + ' ' + endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes() + ':' + originalEndDateTime.getSeconds();
+        	    	var newEndDate = new Date(eTimeFormated);
+        	    	var hrsDifferent = newEndDate - beginTimeTemp;
+        	    } else if(i == 1){ // beginTime of first row should use originalBeginTime which includes seconds 
+        	    	var hrsDifferent = endTimeTemp - originalBeginDateTime;
+        	    } else {
+        	    	var hrsDifferent = endTimeTemp - beginTimeTemp;
+        	    }
+                
                 if (hrsDifferent <= 0) {
                     updateTips("Hours for item " + i + "not valid");
                     var hrs = hrsDifferent / 3600000;
@@ -609,7 +622,7 @@ function recalculateHrs(itr) {
         var endTimeTemp = new Date(dateString);
         
 	    if(itr == rowLength - 2) { // endTime of last row should include seconds of originalEndTime
-	    	var eTimeFormated = beginDate + ' ' + endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes() + ':' + originalEndDateTime.getSeconds();
+	    	var eTimeFormated = endDate + ' ' + endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes() + ':' + originalEndDateTime.getSeconds();
 	    	var newEndDate = new Date(eTimeFormated);
 	    	var hrsDifferent = newEndDate - beginTimeTemp;
 	    } else if(itr == 1){ // beginTime of first row should use originalBeginTime which includes seconds 
