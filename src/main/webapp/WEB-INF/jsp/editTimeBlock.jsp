@@ -19,10 +19,7 @@
 			<html:hidden property="beginTimestamp" value="${Form.currentTimeBlock.beginTimeDisplayDate}"/>
 			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endTimeDisplayDate}"/>
 			<html:hidden property="hours" value="${Form.currentTimeBlock.hours}"/>
-			<html:hidden property="cellReadonly" value="${Form.cellReadOnly}" styleId="cellReadonly"/>
-
-			<c:set var="cellReadonly" value="${Form.cellReadOnly}" />
-
+			
 			<div id="clock" style="border-bottom: 1px solid gray;">
 				<table style="border-collapse:collapse;border: 1px solid #000;">
 					<thead>
@@ -78,7 +75,7 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" name="bdRow1" id="bdRow1" size="10" ${cellReadonly}
+								<input type="text" name="bdRow1" id="bdRow1" size="10"
                                        value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.beginTimeDisplayDate}" pattern="MM/dd/yyyy"/>"/>
 							</td>
 
@@ -87,7 +84,7 @@
                                        size="10" value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.beginTimeDisplayDate}" pattern="hh:mm aa"/>">
                             </td>
 							<td>
-								<input type="text" name="edRow1" id="edRow1" size="10" ${cellReadonly}
+								<input type="text" name="edRow1" id="edRow1" size="10"
                                        value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.endTimeDisplayDate}" pattern="MM/dd/yyyy"/>">
 							</td>
 							<td>
@@ -120,7 +117,7 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" name="bdRow2" id="bdRow2" size="10" ${cellReadonly}
+								<input type="text" name="bdRow2" id="bdRow2" size="10"
                                        value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.beginTimeDisplayDate}" pattern="MM/dd/yyyy"/>"/>
 							</td>
 
@@ -130,7 +127,7 @@
 									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
 							</td>
 							<td>
-								<input type="text" name="edRow2" id="edRow2" size="10" ${cellReadonly}
+								<input type="text" name="edRow2" id="edRow2" size="10"
                                        value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.endTimeDisplayDate}" pattern="MM/dd/yyyy"/>">
 							</td>
 							<td>

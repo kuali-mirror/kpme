@@ -51,7 +51,6 @@ public class ClockActionForm extends TimesheetActionForm {
     private String currentAssignmentDescription;
     private String currentAssignmentKey;
     private String tbId;
-    private String cellReadOnly;
 
     private String newAssignDesCol;
     private String newBDCol;
@@ -434,13 +433,4 @@ public class ClockActionForm extends TimesheetActionForm {
 		this.desList = desList;
 	}
 	
-	public String getCellReadOnly() {
-		return cellReadOnly;
-	}
-
-	public void setCellReadOnly(String cellReadOnly) {
-		this.cellReadOnly = cellReadOnly;
-	}
-
-
 }

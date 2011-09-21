@@ -46,13 +46,7 @@ $(document).ready(function() {
             });
 
     // datepicker
-    var datePickerEls = '#date-range-begin, #date-range-end';
-
-    var cellReadonly = $("#cellReadonly").val();
-    if(cellReadonly != undefined && cellReadonly != 'READONLY') {
-    	datePickerEls += ', #bdRow1, #edRow1, #bdRow2, #edRow2';
-    }
-    $(datePickerEls).datepicker({
+    $('#date-range-begin, #date-range-end, #bdRow1, #edRow1, #bdRow2, #edRow2').datepicker({
                 changeMonth : true,
                 changeYear : true,
                 showOn : 'button',
@@ -470,10 +464,6 @@ function addTimeBlockRow(form, tempArr) {
 
     cellAssignment.appendChild(sel);
 
-    var cellReadOnly = true;
-    if(form.cellReadonly.value != 'READONLY') {
-    	cellReadOnly = false;
-    }
     // begin date/time
     var cellBeginDate = row.insertCell(2);
     var el = document.createElement('input');
@@ -485,12 +475,7 @@ function addTimeBlockRow(form, tempArr) {
     var beginDate = new Date(form.beginTimestamp.value);
     var formatedDate = beginDate.toString("MM/dd/yyyy");
     el.value = formatedDate;
-    var datePickerId = '';
-    if(cellReadOnly) {
-    	el.readOnly = true;
-    } else {
-    	datePickerId += '#' + idString;
-    }
+    var datePickerId = '#' + idString;
     cellBeginDate.appendChild(el);
 
     var cellBeginTime = row.insertCell(3);
@@ -524,11 +509,7 @@ function addTimeBlockRow(form, tempArr) {
     var endDate = new Date(form.endTimestamp.value);
     var formatedDate = endDate.toString("MM/dd/yyyy");
     el.value = formatedDate;
-    if(cellReadOnly) {
-    	el.readOnly = true;
-    } else {
-    	datePickerId += ', #' + idString;
-    }
+    datePickerId += ', #' + idString;
     cellEndDate.appendChild(el);
     
 
