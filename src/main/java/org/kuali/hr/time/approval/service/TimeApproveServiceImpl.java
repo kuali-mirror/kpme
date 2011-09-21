@@ -25,6 +25,7 @@ import org.kuali.hr.time.util.*;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
@@ -232,18 +233,17 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 approvalSummaryRow.setLstTimeBlocks(timeBlocks);
 
                 if (tdh != null) {
+                	Map<String, String> docRouteStatus = new HashMap<String, String>();
+                	docRouteStatus.put(KEWConstants.ROUTE_HEADER_INITIATED_CD, KEWConstants.ROUTE_HEADER_INITIATED_LABEL);
+                	docRouteStatus.put(KEWConstants.ROUTE_HEADER_CANCEL_CD, KEWConstants.ROUTE_HEADER_CANCEL_LABEL);
+                	docRouteStatus.put(KEWConstants.ROUTE_HEADER_ENROUTE_CD, KEWConstants.ROUTE_HEADER_ENROUTE_LABEL);
+                	docRouteStatus.put(KEWConstants.ROUTE_HEADER_FINAL_CD, KEWConstants.ROUTE_HEADER_FINAL_LABEL);
+                	docRouteStatus.put(KEWConstants.ROUTE_HEADER_APPROVED_CD, KEWConstants.ROUTE_HEADER_APPROVED_LABEL);
+                	docRouteStatus.put(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD, KEWConstants.ROUTE_HEADER_DISAPPROVED_LABEL);
+                	docRouteStatus.put(KEWConstants.ROUTE_HEADER_EXCEPTION_CD, KEWConstants.ROUTE_HEADER_EXCEPTION_LABEL);
+                	docRouteStatus.put(KEWConstants.ROUTE_HEADER_SAVED_CD, KEWConstants.ROUTE_HEADER_SAVED_LABEL);
                     approvalSummaryRow.setApprovalStatus(tdh.getDocumentStatus());
-                    String approvalStatusMsg =  "";
-                    if(StringUtils.equals(tdh.getDocumentStatus(), TkConstants.ROUTE_STATUS.INITIATED)){
-                    	approvalStatusMsg = "Initiated";
-                    }else if(StringUtils.equals(tdh.getDocumentStatus(), TkConstants.ROUTE_STATUS.ENROUTE)){
-                    	approvalStatusMsg = "Enroute";
-                    }else if(StringUtils.equals(tdh.getDocumentStatus(), TkConstants.ROUTE_STATUS.FINAL)){
-                    	approvalStatusMsg = "Final";
-                    }else if(StringUtils.equals(tdh.getDocumentStatus(), TkConstants.ROUTE_STATUS.CANCEL)){
-                    	approvalStatusMsg = "Cancel";
-                    }
-                    approvalSummaryRow.setApprovalStatusMessage(approvalStatusMsg);
+                    approvalSummaryRow.setApprovalStatusMessage(docRouteStatus.get(tdh.getDocumentStatus()));
                     TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdh.getDocumentId());
                     TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(td);
                     approvalSummaryRow.setTimeSummary(ts);
