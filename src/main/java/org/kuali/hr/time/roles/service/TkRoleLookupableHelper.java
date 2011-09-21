@@ -59,15 +59,26 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 			Map<String, String> fieldValues) {
 		List<BusinessObject> roleGroupList = new ArrayList<BusinessObject>();
 		String principalId = fieldValues.get("principalId");
+		String principalName = fieldValues.get("principalName");
 		if(principalId!=""){
 			Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
-			if(isAuthorizedToEditUserRole(person)){
+			if (isAuthorizedToEditUserRole(person)
+					&& (StringUtils.isEmpty(principalName) || StringUtils.equals(
+							person.getPrincipalName(), principalName))) {
 				TkRoleGroup tkRoleGroup = getRoleGroupFromPerson(person);
-				if(tkRoleGroup != null){
+				if(tkRoleGroup != null ){
 					roleGroupList.add(getRoleGroupFromPerson(person));
 				}
 			}
-		} else{
+		} else if(principalName!=""){
+			Person person = KIMServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
+			if(isAuthorizedToEditUserRole(person)){
+				TkRoleGroup tkRoleGroup = getRoleGroupFromPerson(person);
+				if(tkRoleGroup != null ){
+					roleGroupList.add(getRoleGroupFromPerson(person));
+				}
+			}
+		}else{
 			List<Person> personList = KIMServiceLocator.getPersonService().findPeople(null);
 			for(Person person : personList){
 				if(isAuthorizedToEditUserRole(person)){
@@ -84,17 +95,14 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 			}
 			String workArea = fieldValues.get("workArea");
 			String department = fieldValues.get("department");
-			String userName = fieldValues.get("userName");
 			String roleName = fieldValues.get("roleName");
 			boolean isAllowed = false;
-			if (tkRoleGroup.getRoles().size() > 0) {
+			if (tkRoleGroup.getRoles()!= null && tkRoleGroup.getRoles().size() > 0) {
 				for(TkRole tkRole : tkRoleGroup.getRoles()){
 					if ((StringUtils.isEmpty(workArea) || (tkRole.getWorkArea() != null && StringUtils
 							.equals(workArea, tkRole.getWorkArea().toString())))
 							&& (StringUtils.isEmpty(department) || StringUtils
 									.equals(department, tkRole.getDepartment()))
-							&& (StringUtils.isEmpty(userName) || StringUtils
-									.equals(userName, tkRole.getUserName()))
 							&& (StringUtils.isEmpty(roleName) || StringUtils
 									.equals(roleName, tkRole.getRoleName()))) {
 						isAllowed = true;
@@ -103,7 +111,6 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 				}
 			} else if (StringUtils.isEmpty(workArea)
 					&& StringUtils.isEmpty(department)
-					&& StringUtils.isEmpty(userName)
 					&& StringUtils.isEmpty(roleName)) {
 				isAllowed = true;
 			}

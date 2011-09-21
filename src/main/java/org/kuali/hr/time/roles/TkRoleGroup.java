@@ -1,6 +1,8 @@
 package org.kuali.hr.time.roles;
 
 
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -27,16 +29,54 @@ public class TkRoleGroup extends PersistableBusinessObjectBase {
     @Transient
     private Person person;
     
+    private WorkArea workAreaObj;
+    private Department departmentObj;
+    private TkRole tkRoleObj;
+    
 	private String roleName;
+	private String principalName;
 	private Long workArea;
 	private String department;
 	
-    public String getRoleName() {
+	
+    public WorkArea getWorkAreaObj() {
+		return workAreaObj;
+	}
+
+	public void setWorkAreaObj(WorkArea workAreaObj) {
+		this.workAreaObj = workAreaObj;
+	}
+
+	public Department getDepartmentObj() {
+		return departmentObj;
+	}
+
+	public void setDepartmentObj(Department departmentObj) {
+		this.departmentObj = departmentObj;
+	}
+
+	public TkRole getTkRoleObj() {
+		return tkRoleObj;
+	}
+
+	public void setTkRoleObj(TkRole tkRoleObj) {
+		this.tkRoleObj = tkRoleObj;
+	}
+
+	public String getRoleName() {
 		return roleName;
 	}
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
+	}
+
+	public String getPrincipalName() {
+		return principalName;
+	}
+
+	public void setPrincipalName(String principalName) {
+		this.principalName = principalName;
 	}
 
 	public Long getWorkArea() {
