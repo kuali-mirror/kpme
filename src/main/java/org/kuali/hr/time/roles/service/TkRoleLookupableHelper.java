@@ -91,6 +91,8 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 			TkRoleGroup roleGroup = (TkRoleGroup)itr.next();
 			TkRoleGroup tkRoleGroup = TkServiceLocator.getTkRoleGroupService().getRoleGroup(roleGroup.getPrincipalId());
 			if(tkRoleGroup == null){
+				tkRoleGroup = new TkRoleGroup();
+				tkRoleGroup.setPrincipalId(roleGroup.getPrincipalId());
 				TkServiceLocator.getTkRoleGroupService().saveOrUpdate(roleGroup);
 			}
 			String workArea = fieldValues.get("workArea");
