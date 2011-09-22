@@ -43,7 +43,7 @@
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="timestamp" 				column="timestamp" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
+		<field-descriptor name="timestamp" 				column="timestamp" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 
 		<collection-descriptor
 			name="assignmentAccounts"
@@ -66,12 +66,12 @@
 		<field-descriptor name="earnCode" 				column="earn_code" 		    jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
 		<field-descriptor name="beginTimestamp" 		column="begin_ts" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
 		<field-descriptor name="endTimestamp" 			column="end_ts" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
-		<field-descriptor name="clockLogCreated" 		column="clock_log_created"	jdbc-type="BIT" 	length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
+		<field-descriptor name="clockLogCreated" 		column="clock_log_created"	jdbc-type="VARCHAR" 	length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="hours" 					column="hours" 				jdbc-type="NUMERIC" precision="5" scale="2" nullable="false" primarykey="false" />
 		<field-descriptor name="amount" 				column="amount" 			jdbc-type="NUMERIC" precision="6" scale="2" nullable="yes" primarykey="false" />
 		<field-descriptor name="principalId" 		    column="principal_id" 	    jdbc-type="VARCHAR" length="40" nullable="true" primarykey="false" />
 		<field-descriptor name="userPrincipalId" 		column="user_principal_id" 	jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
-		<field-descriptor name="timestamp" 				column="timestamp" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
+		<field-descriptor name="timestamp" 				column="timestamp" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false"  conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="beginTimestampTimezone" column="begin_ts_tz" 		jdbc-type="VARCHAR" length="50" nullable="false" primarykey="false" />
 		<field-descriptor name="endTimestampTimezone" 	column="end_ts_tz" 			jdbc-type="VARCHAR" length="50" nullable="false" primarykey="false" />
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
@@ -113,11 +113,11 @@
 		<field-descriptor name="earnCode" 				column="earn_code" 		    		jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
 		<field-descriptor name="beginTimestamp" 		column="begin_ts" 					jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
 		<field-descriptor name="endTimestamp" 			column="end_ts" 					jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
-		<field-descriptor name="clockLogCreated" 		column="clock_log_created"			jdbc-type="BIT" 	length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
+		<field-descriptor name="clockLogCreated" 		column="clock_log_created"			jdbc-type="VARCHAR" 	length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
 		<field-descriptor name="hours" 					column="hours" 						jdbc-type="NUMERIC" precision="5" scale="2" nullable="false" primarykey="false" />
 		<field-descriptor name="amount" 				column="amount" 					jdbc-type="NUMERIC" precision="6" scale="2" nullable="yes" primarykey="false" />
 		<field-descriptor name="userPrincipalId" 		column="user_principal_id" 			jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
-		<field-descriptor name="timestamp" 				column="timestamp" 					jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
+		<field-descriptor name="timestamp" 				column="timestamp" 					jdbc-type="TIMESTAMP" nullable="false" primarykey="false"  conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="beginTimestampTimezone" column="begin_ts_tz" 				jdbc-type="VARCHAR" length="50" nullable="false" primarykey="false" />
 		<field-descriptor name="endTimestampTimezone" 	column="end_ts_tz" 					jdbc-type="VARCHAR" length="50" nullable="false" primarykey="false" />
 		<field-descriptor name="objectId" 				column="obj_id" 					jdbc-type="VARCHAR" index="true" />
@@ -144,7 +144,7 @@
 		<field-descriptor name="ipAddress" column="IP_ADDRESS" jdbc-type="VARCHAR" length="15" />
 		<field-descriptor name="hrJobId" column="HR_JOB_ID" jdbc-type="BIGINT" nullable="false" primarykey="false" />
 		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="40" />
-		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
@@ -159,7 +159,7 @@
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="ipAddress"       column="ip_address"	jdbc-type="VARCHAR" length="15" nullable="false" primarykey="false" />
 		<field-descriptor name="userPrincipalId" column="user_principal_id"	jdbc-type="VARCHAR" length="10" nullable="false" />
-		<field-descriptor name="timestamp"       column="timestamp"         jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
+		<field-descriptor name="timestamp"       column="timestamp"         jdbc-type="TIMESTAMP" nullable="false" primarykey="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="objectId"        column="obj_id"            jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"   column="ver_nbr"           jdbc-type="BIGINT" locking="true" />
 
@@ -177,7 +177,7 @@
         <field-descriptor name="chart"          column="chart"       jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
 		<field-descriptor name="location"		column="location"    jdbc-type="VARCHAR" length="20" nullable="fales" primarykey="false" />
 		<field-descriptor name="effectiveDate"  column="effdt"       jdbc-type="DATE" primarykey="false" />
-		<field-descriptor name="timestamp"      column="timestamp"   jdbc-type="TIMESTAMP" nullable="false" primarykey="false"/>
+		<field-descriptor name="timestamp"      column="timestamp"   jdbc-type="TIMESTAMP" nullable="false" primarykey="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     </class-descriptor>    
 
@@ -188,7 +188,7 @@
  		<field-descriptor name="effectiveDate"     column="EFFDT"                jdbc-type="DATE" primarykey="false" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="userPrincipalId"   column="user_principal_id"    jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
-		<field-descriptor name="timestamp"         column="TIMESTAMP"            jdbc-type="TIMESTAMP" nullable="false" primarykey="false"/>
+		<field-descriptor name="timestamp"         column="TIMESTAMP"            jdbc-type="TIMESTAMP" nullable="false" primarykey="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="objectId"          column="obj_id"               jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"     column="ver_nbr"              jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
@@ -208,7 +208,7 @@
 		<field-descriptor name="deductionMins"   column="DEDUCTION_MINS"	jdbc-type="DECIMAL"/>
 		<field-descriptor name="shiftHours"   column="SHIFT_HOURS"	jdbc-type="DECIMAL"/>
 		<field-descriptor name="userPrincipalId" column="user_principal_id"	jdbc-type="VARCHAR" length="10"/>
-		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="objectId"        column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"   column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
@@ -227,7 +227,7 @@
 		<field-descriptor name="adminDescr"         column="admin_descr"	jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="userPrincipalId"    column="user_principal_id"	jdbc-type="VARCHAR" length="10" nullable="false" />
         <field-descriptor name="overtimeEditRole"   column="overtime_edit_role" jdbc-type="VARCHAR" length="20" primarykey="false"/>
-		<field-descriptor name="timestamp"          column="timestamp" jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
+		<field-descriptor name="timestamp"          column="timestamp" jdbc-type="TIMESTAMP" nullable="false" primarykey="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 
@@ -251,7 +251,7 @@
 		<field-descriptor name="effectiveDate" 			column="effdt" 				jdbc-type="DATE"    nullable="false" primarykey="false" />
 		<field-descriptor name="dept" 					column="dept" 				jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
 		<field-descriptor name="hrSalGroup" 			column="hr_sal_group" 	    jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
-		<field-descriptor name="timestamp" 				column="timestamp" 			jdbc-type="TIMESTAMP"  nullable="false" primarykey="false" />
+		<field-descriptor name="timestamp" 				column="timestamp" 			jdbc-type="TIMESTAMP"  nullable="false" primarykey="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="location" 				column="location" 			jdbc-type="VARCHAR" nullable="false" length="20"  />
@@ -267,9 +267,9 @@
 	<class-descriptor class="org.kuali.hr.time.workflow.TimesheetDocumentHeader" table="tk_document_header_t">
 		<field-descriptor name="documentId" 	column="document_id"     jdbc-type="VARCHAR" length="14" primarykey="true" />
 		<field-descriptor name="principalId"    column="principal_id"    jdbc-type="VARCHAR" length="40" primarykey="false" />
-		<field-descriptor name="payEndDate"     column="pay_end_dt"	     jdbc-type="TIMESTAMP"    primarykey="false" />
+		<field-descriptor name="payEndDate"     column="pay_end_dt"	     jdbc-type="TIMESTAMP"    primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
 		<field-descriptor name="documentStatus" column="document_status" jdbc-type="VARCHAR" length="1"  primarykey="false" />
-		<field-descriptor name="payBeginDate"   column="pay_begin_dt"	 jdbc-type="TIMESTAMP"    primarykey="false" />
+		<field-descriptor name="payBeginDate"   column="pay_begin_dt"	 jdbc-type="TIMESTAMP"    primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.timesheet.TimeSheetInitiate" table="tk_time_sheet_init_t">
@@ -288,14 +288,14 @@
 		<field-descriptor name="description"    column="descr"			 jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"  column="effdt"			 jdbc-type="DATE"    nullable="false" primarykey="false" />
         <field-descriptor name="ovtEarnCode"    column="ovt_earn_code"	 jdbc-type="CHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-		<field-descriptor name="recordHours" 	column="record_hours"	 jdbc-type="BIT"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
-		<field-descriptor name="recordTime" 	column="record_time"	 jdbc-type="BIT"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
-		<field-descriptor name="recordAmount" 	column="record_amount"	 jdbc-type="BIT"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="recordHours" 	column="record_hours"	 jdbc-type="VARCHAR"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="recordTime" 	column="record_time"	 jdbc-type="VARCHAR"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="recordAmount" 	column="record_amount"	 jdbc-type="VARCHAR"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
 		<field-descriptor name="accrualCategory" column="accrual_category"  jdbc-type="varchar" length="3" nullable="true" primarykey="false" />
 		<field-descriptor name="inflateMinHours" column="inflate_min_hours" jdbc-type="decimal" length="5" nullable="true" primarykey="false" />
 		<field-descriptor name="inflateFactor"   column="inflate_factor"    jdbc-type="decimal" length="5" nullable="true" primarykey="false" />
 
-		<field-descriptor name="timestamp"      column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp"      column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.earngroup.EarnGroup" table="hr_earn_group_t">
@@ -305,7 +305,7 @@
 		<field-descriptor name="descr"		    column="descr"			jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"  column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" />
 		<field-descriptor name="showSummary"    column="show_summary"	jdbc-type="VARCHAR" length="1" nullable="false" primarykey="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<collection-descriptor
 			name="earnGroups"
 			element-class-ref="org.kuali.hr.time.earngroup.EarnGroupDefinition"
@@ -336,7 +336,7 @@
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
         <field-descriptor name="effectiveDate"  column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" />
-        <field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP" nullable="false"/>
+        <field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 	</class-descriptor>
 
 	<!--  Pay Calendar -->
@@ -383,7 +383,7 @@
 		<field-descriptor name="accrualCategory" column="ACCRUAL_CATEGORY" jdbc-type="VARCHAR" length="3" nullable="false" />
 		<field-descriptor name="descr" column="DESCR" jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" nullable="false"/>
-		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
@@ -395,7 +395,7 @@
 		<field-descriptor name="hrSalGroup" column="hr_sal_group" jdbc-type="VARCHAR" length="10" nullable="false"/>
         <field-descriptor name="descr" column="DESCR" jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="effectiveDate" column="effdt" jdbc-type="DATE" nullable="false"/>
-		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
@@ -407,7 +407,7 @@
 		<field-descriptor name="descr" column="descr" jdbc-type="VARCHAR" length="90"/>
 		<field-descriptor name="regEarnCode" column="reg_ern_code" jdbc-type="VARCHAR" length="3" nullable="false"/>
 		<field-descriptor name="effectiveDate" column="effdt" jdbc-type="DATE" nullable="false"/>
-		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
@@ -493,10 +493,10 @@
 		<field-descriptor name="dept" column="DEPT" jdbc-type="VARCHAR" length="21" primarykey="true"/>
 	 	<field-descriptor name="workArea" column="WORK_AREA"  jdbc-type="BIGINT" nullable="false" primarykey="true" />
 		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" />
-		<field-descriptor name="clockUserFl" column="CLOCK_USERS_FL" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
-		<field-descriptor name="hrsDistributionF" column="HRS_DISTRIBUTION_FL" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
+		<field-descriptor name="clockUserFl" column="CLOCK_USERS_FL" jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="hrsDistributionF" column="HRS_DISTRIBUTION_FL" jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
-		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
 		<field-descriptor name="objectId" column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />
@@ -510,7 +510,7 @@
 		<field-descriptor name="workScheduleDesc" column="WORK_SCHEDULE_DESC" jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" nullable="false" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
@@ -545,7 +545,7 @@
 	 	<field-descriptor name="workArea" column="WORK_AREA"  jdbc-type="BIGINT" nullable="false" primarykey="true" />
 	 	<field-descriptor name="principalId" column="PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
 	 	<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-	 	<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
+	 	<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
 		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -558,7 +558,7 @@
 		<field-descriptor name="showLunchButton" column="show_lunch_button" jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR" length="10" />
-		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
@@ -574,18 +574,18 @@
 		<field-descriptor name="beginTime" column="BEGIN_TS" jdbc-type="TIME"/>
 		<field-descriptor name="endTime"   column="END_TS"   jdbc-type="TIME"/>
 		<field-descriptor name="minHours" column="MIN_HRS" jdbc-type="DECIMAL"  primarykey="false"  />
-		<field-descriptor name="sunday"    column="sun" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
-		<field-descriptor name="monday"    column="mon" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
-		<field-descriptor name="tuesday"   column="tue" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
-		<field-descriptor name="wednesday" column="wed" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
-		<field-descriptor name="thursday"  column="thu" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
-		<field-descriptor name="friday"    column="fri" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
-		<field-descriptor name="saturday"  column="sat" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="sunday"    column="sun" jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="monday"    column="mon" jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="tuesday"   column="tue" jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="wednesday" column="wed" jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="thursday"  column="thu" jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="friday"    column="fri" jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="saturday"  column="sat" jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="pyCalendarGroup" column="py_calendar_group" jdbc-type="VARCHAR" length="30"/>
         <field-descriptor name="fromEarnGroup" column="from_earn_group" jdbc-type="VARCHAR" length="10"/>
 		<field-descriptor name="maxGap" column="MAX_GAP" jdbc-type="DECIMAL"  primarykey="false"  />
 		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
-		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
 
@@ -599,7 +599,7 @@
 		<field-descriptor name="step" column="STEP"  jdbc-type="DECIMAL"  primarykey="false" />
 		<field-descriptor name="maxHours" column="MAX_HRS" jdbc-type="DECIMAL"  primarykey="false" />
 		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10"/>
-		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -612,13 +612,13 @@
 		<field-descriptor name="dept" column="dept" jdbc-type="VARCHAR" length="21"/>
 		<field-descriptor name="hrSalGroup" column="hr_sal_group" jdbc-type="VARCHAR" length="10" />
 		<field-descriptor name="earnCode" column="earn_code" jdbc-type="VARCHAR" length="3" />
-		<field-descriptor name="employee" column="employee" jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
-		<field-descriptor name="approver" column="approver"  jdbc-type="BIT" length="1" conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="employee" column="employee" jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="approver" column="approver"  jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
         <field-descriptor name="location" 				column="location" 			jdbc-type="VARCHAR" nullable="false" length="30"  />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" />
-		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
 
@@ -635,7 +635,7 @@
         <field-descriptor name="fromEarnGroup" column="from_earn_group" jdbc-type="VARCHAR" length="10"/>
 		<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" />
 		<field-descriptor name="userPrincipalId" column="USER_PRINCIPAL_ID" jdbc-type="VARCHAR" length="10" />
-		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
 
@@ -661,7 +661,7 @@
 		<field-descriptor name="department"      column="dept" jdbc-type="VARCHAR" length="21" primarykey="false"/>
         <field-descriptor name="chart"           column="chart" jdbc-type="VARCHAR" length="10" primarykey="false"/>
 		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" />
-		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
 
@@ -681,7 +681,7 @@
 		<field-descriptor name="holidayCalendarGroup" column="holiday_calendar_group" jdbc-type="VARCHAR" length="30"/>
 		<field-descriptor name="timezone" column="timezone" jdbc-type="VARCHAR" length="10"/>
 		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" />
-		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          column="active"      jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -714,7 +714,7 @@
         <field-descriptor name="timesheetDocumentId" column="timesheet_doc_id" jdbc-type="VARCHAR" length="14"/>
         <field-descriptor name="documentStatus" column="document_status" jdbc-type="VARCHAR" length="1" />
         <field-descriptor name="tkClockLogId"     column="tk_clock_log_id"      jdbc-type="BIGINT" length="20"/>
-        <field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+        <field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
@@ -747,7 +747,7 @@
 		<field-descriptor name="timezone"   column="timezone" jdbc-type="VARCHAR" length="10"/>
 		<field-descriptor name="description" column="description" jdbc-type="VARCHAR" length="60"/>
 		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" />
-		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          column="active"      jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="userPrincipalId" column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />
 	</class-descriptor>
@@ -758,7 +758,7 @@
 		<field-descriptor name="payGrade"   column="pay_grade" jdbc-type="VARCHAR" length="20"/>
 		<field-descriptor name="description" column="description" jdbc-type="VARCHAR" length="40"/>
 		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" />
-		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          column="active"      jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="userPrincipalId" column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />
 	</class-descriptor>
@@ -768,7 +768,7 @@
 		<field-descriptor name="batchJobName"   column="batch_job_name" jdbc-type="VARCHAR" length="40"/>
 		<field-descriptor name="batchJobStatus" column="batch_job_status" jdbc-type="VARCHAR" length="1"/>
 		<field-descriptor name="hrPyCalendarEntryId"   column="hr_py_calendar_entry_id" jdbc-type="BIGINT" />
-		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="timeElapsed"          column="time_elapsed"      jdbc-type="BIGINT" />
 	</class-descriptor>
 
@@ -794,7 +794,7 @@
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
         <field-descriptor name="effectiveDate"  column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" />
-        <field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP" nullable="false"/>
+        <field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.hr.time.position.PositionNumber" table="hr_position_s">

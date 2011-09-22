@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- Rice is the greatest framework of all time:
-
  Run these before re-ingesting changes to this document.
 
  delete from krew_rule_t where doc_typ_nm like 'TimesheetDocument';
