@@ -177,7 +177,7 @@ var timeParsePatterns = [
         }
     },
 	// hmm
-    {   re: /(\d{3})/,
+    {   re: /(^[0-9]{3}$)/,
         example: new Array('900', '905'),
         handler: function(bits) {
             var d = new Date();
