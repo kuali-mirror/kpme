@@ -1,7 +1,7 @@
 package org.kuali.hr.time.workflow.web;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.roles.UserRoles;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
@@ -39,7 +39,7 @@ public class WorkflowTagSupport {
     public boolean isDisplayingApprovalButtons() {
         UserRoles roles = TKContext.getUser().getCurrentTargetRoles();
         TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
-        return roles.isApproverForTimesheet(doc);
+        return roles.isApproverForTimesheet(doc) && !StringUtils.equals(doc.getDocumentHeader().getDocumentStatus(), TkConstants.ROUTE_STATUS.FINAL);
     }
 
     public boolean isApprovalButtonsEnabled() {
