@@ -276,12 +276,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                     }
 
                 }
-				// user that has clocked in for more than 12 hours
-				for(TimeBlock tb: timeBlocks) {
-					if(tb.getClockLogCreated() && tb.getHours().compareTo(new BigDecimal(12)) == 1) {
-						approvalSummaryRow.setClockFlag(true);
-					}
-				}
                 rows.add(approvalSummaryRow);
 
                 mappedRows.put(calGroup, rows);
@@ -290,7 +284,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
         return mappedRows;
     }
-
 
     /*
      * Right now this code is just calling our "Big" data retriever and only returning

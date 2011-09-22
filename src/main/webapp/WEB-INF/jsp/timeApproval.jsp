@@ -95,7 +95,8 @@
                     </thead>
                     <tbody>
                     <c:forEach var="approvalRow" items="${Form.approvalRows}" varStatus="row">
-						<c:if test="${approvalRow.clockFlag}">
+                    	<c:set var="nameStyle" value=""/>
+						<c:if test="${approvalRow.clockedInOverThreshold}">
                     		<c:set var="nameStyle" value="background-color: #F08080;"/>
                     	</c:if>
                         <tr>
