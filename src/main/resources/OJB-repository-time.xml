@@ -288,9 +288,9 @@
 		<field-descriptor name="description"    column="descr"			 jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"  column="effdt"			 jdbc-type="DATE"    nullable="false" primarykey="false" />
         <field-descriptor name="ovtEarnCode"    column="ovt_earn_code"	 jdbc-type="CHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-		<field-descriptor name="recordHours" 	column="record_hours"	 jdbc-type="VARCHAR"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
-		<field-descriptor name="recordTime" 	column="record_time"	 jdbc-type="VARCHAR"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
-		<field-descriptor name="recordAmount" 	column="record_amount"	 jdbc-type="VARCHAR"     length="1"  nullable="false" primarykey="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion"/>
+		<field-descriptor name="recordHours" 	column="record_hours"	 jdbc-type="VARCHAR"     length="1"  nullable="false" primarykey="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="recordTime" 	column="record_time"	 jdbc-type="VARCHAR"     length="1"  nullable="false" primarykey="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="recordAmount" 	column="record_amount"	 jdbc-type="VARCHAR"     length="1"  nullable="false" primarykey="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="accrualCategory" column="accrual_category"  jdbc-type="varchar" length="3" nullable="true" primarykey="false" />
 		<field-descriptor name="inflateMinHours" column="inflate_min_hours" jdbc-type="decimal" length="5" nullable="true" primarykey="false" />
 		<field-descriptor name="inflateFactor"   column="inflate_factor"    jdbc-type="decimal" length="5" nullable="true" primarykey="false" />
