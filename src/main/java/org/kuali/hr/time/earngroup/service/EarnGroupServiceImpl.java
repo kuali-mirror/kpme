@@ -44,9 +44,11 @@ public class EarnGroupServiceImpl implements EarnGroupService {
     public Set<String> getEarnCodeListForEarnGroup(String earnGroup, Date asOfDate) {
         Set<String> earnCodes = new HashSet<String>();
         EarnGroup earnGroupObj = earnGroupDao.getEarnGroup(earnGroup, asOfDate);
-        for (EarnGroupDefinition earnGroupDef : earnGroupObj.getEarnGroups()) {
-            if (!earnCodes.contains(earnGroupDef.getEarnCode())) {
-                earnCodes.add(earnGroupDef.getEarnCode());
+        if ( earnGroupObj != null ) {
+            for (EarnGroupDefinition earnGroupDef : earnGroupObj.getEarnGroups()) {
+                if (!earnCodes.contains(earnGroupDef.getEarnCode())) {
+                    earnCodes.add(earnGroupDef.getEarnCode());
+                }
             }
         }
         return earnCodes;

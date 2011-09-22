@@ -45,6 +45,7 @@ public class TkConstants {
     public static final List<String> EARN_GROUP_OVERTIME = new ArrayList<String>();
     static {
         EARN_GROUP_OVERTIME.add("Overtime");
+        EARN_GROUP_OVERTIME.add("OVT");
     }
 
     public static final String   GMT_TIME_ZONE_ID = "Etc/GMT";

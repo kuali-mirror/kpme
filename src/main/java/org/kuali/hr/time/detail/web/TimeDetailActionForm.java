@@ -120,7 +120,7 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
     public String[] getOvertimeEarnCodes() {
         Set<String> overtimeEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeListForOvertimeEarnGroup();
-        return overtimeEarnCodes.toArray(new String[overtimeEarnCodes.size()]);
+        return overtimeEarnCodes.size() > 0 ? overtimeEarnCodes.toArray(new String[overtimeEarnCodes.size()]) : new String[]{};
     }
 
     public String getOvertimePref() {
