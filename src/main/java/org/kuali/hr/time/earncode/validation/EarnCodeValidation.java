@@ -94,7 +94,8 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 			activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks();
 			for(TimeBlock activeTimeBlock : activeTimeBlocks){
 				if ( earnCode.getEarnCode().equals(activeTimeBlock.getEarnCode())){
-					this.putFieldError("earnCode", "earncode.earncode.inactive", earnCode.getEarnCode());
+					this.putFieldError("earnCode", "earncode.earncode.inactivate", earnCode.getEarnCode());
+					
 					return false;
 				}
 			}
