@@ -46,7 +46,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         timesheetAction(TkConstants.TIMESHEET_ACTIONS.DISAPPROVE, principalId, timesheetDocument);
     }
 
-    void timesheetAction(String action, String principalId, TimesheetDocument timesheetDocument) {
+    protected void timesheetAction(String action, String principalId, TimesheetDocument timesheetDocument) {
         WorkflowDocument wd = null;
         if (timesheetDocument != null) {
             try {
@@ -134,7 +134,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
 	}
 
-	private TimesheetDocument initiateWorkflowDocument(String principalId, Date payBeginDate, Date payEndDate, String documentType, String title) throws WorkflowException {
+	protected TimesheetDocument initiateWorkflowDocument(String principalId, Date payBeginDate, Date payEndDate, String documentType, String title) throws WorkflowException {
 		TimesheetDocument timesheetDocument = null;
 		WorkflowDocument workflowDocument = null;
 
@@ -178,7 +178,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		return timesheetDocument;
 	}
 
-	private void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, PayCalendarEntries payCalEntry) {
+	protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, PayCalendarEntries payCalEntry) {
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalEntry);
 		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(principalId, TKUtils.getTimelessDate(payCalEntry.getEndPeriodDate()));
 		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdoc.getDocumentHeader().getDocumentId()));
