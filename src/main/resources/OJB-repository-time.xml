@@ -66,7 +66,7 @@
 		<field-descriptor name="earnCode" 				column="earn_code" 		    jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
 		<field-descriptor name="beginTimestamp" 		column="begin_ts" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
 		<field-descriptor name="endTimestamp" 			column="end_ts" 			jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
-		<field-descriptor name="clockLogCreated" 		column="clock_log_created"	jdbc-type="VARCHAR" 	length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
+		<field-descriptor name="clockLogCreated" 		column="clock_log_created"	jdbc-type="VARCHAR" 	length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="hours" 					column="hours" 				jdbc-type="NUMERIC" precision="5" scale="2" nullable="false" primarykey="false" />
 		<field-descriptor name="amount" 				column="amount" 			jdbc-type="NUMERIC" precision="6" scale="2" nullable="yes" primarykey="false" />
 		<field-descriptor name="principalId" 		    column="principal_id" 	    jdbc-type="VARCHAR" length="40" nullable="true" primarykey="false" />
@@ -113,7 +113,7 @@
 		<field-descriptor name="earnCode" 				column="earn_code" 		    		jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
 		<field-descriptor name="beginTimestamp" 		column="begin_ts" 					jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
 		<field-descriptor name="endTimestamp" 			column="end_ts" 					jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
-		<field-descriptor name="clockLogCreated" 		column="clock_log_created"			jdbc-type="VARCHAR" 	length="1" nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.Boolean2IntFieldConversion" />
+		<field-descriptor name="clockLogCreated" 		column="clock_log_created"			jdbc-type="VARCHAR" 	length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="hours" 					column="hours" 						jdbc-type="NUMERIC" precision="5" scale="2" nullable="false" primarykey="false" />
 		<field-descriptor name="amount" 				column="amount" 					jdbc-type="NUMERIC" precision="6" scale="2" nullable="yes" primarykey="false" />
 		<field-descriptor name="userPrincipalId" 		column="user_principal_id" 			jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
