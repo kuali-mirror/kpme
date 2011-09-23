@@ -69,12 +69,6 @@ $(document).ready(function() {
                 selectingDays.push($(".cal-table td").index(this));
             });
 
-            var beginSelecting = selectingDays[0];
-            var endSelecting = selectingDays[selectingDays.length - 1];
-            // add css styles to all the days within the range
-            for (var i = beginSelecting; i < endSelecting; i++) {
-                $("#day_" + i).addClass("ui-selecting");
-            }
         },
         stop: function(event, ui) {
             var currentDay = new Date(beginPeriodDateTimeObj);

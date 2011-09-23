@@ -9,6 +9,7 @@ import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.identity.Id;
@@ -78,7 +79,13 @@ public class TkWorkflowTimesheetAttribute implements RoleAttribute {
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
 		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, timesheetDocument.getAsOfDate());
 
-		List<TkRole> roles = roleService.getWorkAreaRoles(workAreaNumber, roleName, TKUtils.getCurrentDate());
+        // KPME-1071
+        List<TkRole> approvers = roleService.getWorkAreaRoles(workAreaNumber, roleName, TKUtils.getCurrentDate());
+        List<TkRole> approverDelegates = roleService.getWorkAreaRoles(workAreaNumber, TkConstants.ROLE_TK_APPROVER_DELEGATE, TKUtils.getCurrentDate());
+		List<TkRole> roles = new ArrayList<TkRole>();
+        roles.addAll(approvers);
+        roles.addAll(approverDelegates);
+
 		for (TkRole role : roles) {
 			//Position routing
 			if(StringUtils.isEmpty(role.getPrincipalId())){

@@ -173,14 +173,8 @@
                 <actionRequested>A</actionRequested>
                 <priority>1</priority>
 				</responsibility>
-                <responsibility>
-                <role>org.kuali.hr.time.workflow.TkWorkflowTimesheetAttribute!TK_APPROVER_DELEGATE</role>
-                <approvePolicy>F</approvePolicy>
-                <actionRequested>A</actionRequested>
-                <priority>1</priority>
-				</responsibility>
 			</responsibilities>
-    </rule>
+        </rule>
  	</rules>
 
 </data>
