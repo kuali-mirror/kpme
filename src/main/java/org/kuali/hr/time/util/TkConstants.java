@@ -40,6 +40,7 @@ public class TkConstants {
     public static final String EARN_CODE_HOUR = "HOUR";
     public static final String EARN_CODE_TIME = "TIME";
     public static final String EARN_CODE_AMOUNT = "AMOUNT";
+    public static final String EARN_CODE_OVT = "OVT";
 
     // earn group
     public static final List<String> EARN_GROUP_OVERTIME = new ArrayList<String>();

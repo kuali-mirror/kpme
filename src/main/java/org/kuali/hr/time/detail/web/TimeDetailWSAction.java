@@ -304,8 +304,8 @@ public class TimeDetailWSAction extends TimesheetAction {
                         }
                         if (!(assignment.getTimeCollectionRule().isClockUserFl() &&
                                 StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(), earnCode.getEarnCode()) && StringUtils.equals(TKContext.getPrincipalId(), assignment.getPrincipalId()))) {
-                            earnCodeString.append("<option value='").append(earnCode.getEarnCode()).append("_").append(earnCode.getEarnCodeType());
-                            earnCodeString.append("'>").append(earnCode.getEarnCode()).append(" : ").append(earnCode.getDescription());
+                            earnCodeString.append("<option value='").append(earnCode.getEarnCode()).append("_").append(earnCode.getEarnCodeType()).append("'>");
+                            earnCodeString.append(earnCode.getEarnCode()).append(" : ").append(earnCode.getDescription());
                             earnCodeString.append("</option>");
                         }
                     }
@@ -323,7 +323,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         List<EarnCode> overtimeEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeMapForOvertimeEarnGroup();
 
         for (EarnCode earnCode : overtimeEarnCodes) {
-            earnCodeString.append("<option value='").append(earnCode.getEarnCode()).append("'>");
+            earnCodeString.append("<option value='").append(earnCode.getEarnCode()).append("_").append(TkConstants.EARN_CODE_OVT).append("'>");
             earnCodeString.append(earnCode.getEarnCode()).append(" : ").append(earnCode.getDescription());
             earnCodeString.append("</option>");
         }

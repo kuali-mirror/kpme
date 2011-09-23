@@ -145,7 +145,10 @@ $(document).ready(function() {
                     $('#beginTimeField').val(calEvent.start.toString('hh:mm tt'));
                     $('#endTimeField').val(calEvent.end.toString('hh:mm tt'));
                     $("select#assignment option[value='" + calEvent.assignment + "']").attr("selected", "selected");
-                    $('#earnCode').loadEarnCode($('#assignment').val(), calEvent.earnCode + "_" + calEvent.earnCodeType);
+
+                    var earnCodeType = action == "overtime" ? "OVT" : calEvent.earnCodeType;
+
+                    $('#earnCode').loadEarnCode($('#assignment').val(), calEvent.earnCode + "_" + earnCodeType);
                     $('#tkTimeBlockId').val(calEvent.tkTimeBlockId);
                     $('#hoursField').val(calEvent.hours == '0' ? '' : calEvent.hours);
                     $('#amountField').val(calEvent.amount == '0' ? '' : calEvent.amount);
@@ -181,6 +184,7 @@ $(document).ready(function() {
                         var overTimeEarnCodeHtml = "";
 
                         $.ajax({
+                            mode: 'queue',
                             url: "TimeDetailWS.do?methodToCall=getOvertimeEarnCodes",
                             //data: params,
                             cache: true,
@@ -197,6 +201,7 @@ $(document).ready(function() {
                                 $earnCodeField.after(overTimeEarnCodeHtml);
 
                                 $('#overtimeEarnCodeRow select option[value*="' + selectedOverTimeEarnCode + '"]').attr("selected", "selected");
+                                $('#overtimeEarnCodeRow').find(":selected").loadFields();
 
                             },
                             error: function() {
@@ -347,7 +352,7 @@ $(document).ready(function() {
             params['amount'] = $('#amountField').val();
             params['selectedEarnCode'] = $('#earnCode').getEarnCode();
             params['selectedAssignment'] = $('#assignment').val();
-            if ($("#overtimePref") != undefined ) {
+            if ($("#overtimePref") != undefined) {
                 params['overtimePref'] = $("#overtimePref").val();
             }
             params['acrossDays'] = $('#acrossDaysField').is(':checked') ? 'y' : 'n';
@@ -511,24 +516,6 @@ $(document).ready(function() {
 // custom functions
 //-------------------
 
-$.fn.loadOvertimeEarnCode = function(selectedEarnCode) {
-    $.ajax({
-        url: "TimeDetailWS.do?methodToCall=getOvertimeEarnCodes",
-        cache: true,
-        success: function(data) {
-            $('#earnCode').html(data);
-            if (selectedEarnCode != undefined && selectedEarnCode != '') {
-                $("select#earnCode option[value='" + selectedEarnCode + "']").attr("selected", "selected");
-            }
-
-            $('#earnCode').loadFields();
-        },
-        error: function() {
-            $('#earnCode').html("Error: Can't get earn codes.");
-        }
-    });
-}
-
 $.fn.loadEarnCode = function(assignment, selectedEarnCode) {
     var params = {};
     params['selectedAssignment'] = assignment;
@@ -558,9 +545,10 @@ $.fn.loadFields = function() {
 
     // get the earn code type
     var fieldType = $(this).val().split("_")[1];
+    //console.log($(this).find(":selected").val());
 
-    if ($('#overtimeEarnCodes').val().indexOf($(this).val().getEarnCode()) > 0) {
-
+    if (fieldType == 'OVT') {
+        $('#clockIn, #clockOut, #amountSection, #hoursSection').hide();
     }
     // if the field type equals hour, hide the begin/end time field and set the time to 12a
     else if (fieldType == 'HOUR') {
