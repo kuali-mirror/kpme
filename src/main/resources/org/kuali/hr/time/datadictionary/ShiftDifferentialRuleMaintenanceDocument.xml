@@ -52,7 +52,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="thursday" />
 				<bean parent="MaintainableFieldDefinition" p:name="friday" />
 				<bean parent="MaintainableFieldDefinition" p:name="saturday" />
-				<bean parent="MaintainableFieldDefinition" p:name="maxGap" />
+				<bean parent="MaintainableFieldDefinition" p:name="maxGap" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" />
 				<bean parent="MaintainableFieldDefinition" p:name="pyCalendarGroup"  p:required="true"/>
