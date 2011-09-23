@@ -41,9 +41,9 @@ public class TimesheetSubmitAction extends TkAction {
         TimesheetSubmitActionForm tsaf = (TimesheetSubmitActionForm)form;
         TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsaf.getDocumentId());
 
-        WorkflowDocument workflowDocument = new WorkflowDocument(TKContext.getTargetPrincipalId(), Long.parseLong(tsaf.getDocumentId()));
-        workflowDocument.setApplicationContent(TkServiceLocator.getTkSearchableAttributeService().createSearchableAttributeXml(document));
-        workflowDocument.saveDocument("");
+//        WorkflowDocument workflowDocument = new WorkflowDocument(TKContext.getTargetPrincipalId(), Long.parseLong(tsaf.getDocumentId()));
+//        workflowDocument.setApplicationContent(TkServiceLocator.getTkSearchableAttributeService().createSearchableAttributeXml(document));
+//        workflowDocument.saveDocument("");
         // Switched to grab the target (chain, resolution: target -> backdoor -> actual) user.
         // Approvals still using backdoor > actual
         if (StringUtils.equals(tsaf.getAction(), TkConstants.TIMESHEET_ACTIONS.ROUTE)) {
