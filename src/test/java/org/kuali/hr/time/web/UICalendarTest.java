@@ -9,8 +9,8 @@ import org.junit.Test;
 public class UICalendarTest extends SeleneseTestCase {
     @Before
     public void setUp() throws Exception {
-//        selenium = new DefaultSelenium("localhost", 4444, "*firefox /Applications/Firefox.app/Contents/MacOS/firefox-bin", "http://ci.kpme.kuali.org:9080/");
-        selenium = new DefaultSelenium("localhost", 4444, "*firefox /Applications/Firefox.app/Contents/MacOS/firefox-bin", "http://localhost:8080/");
+        selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://ci.kpme.kuali.org:9080/");
+//        selenium = new DefaultSelenium("localhost", 4444, "*firefox /Applications/Firefox.app/Contents/MacOS/firefox-bin", "http://localhost:8080/");
         // set speed to 1 sec between each action. this is mainly for the ajax call to get the earn code.
         selenium.setSpeed("1000");
         try {
