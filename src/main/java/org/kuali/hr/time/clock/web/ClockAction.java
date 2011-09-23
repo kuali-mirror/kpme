@@ -13,6 +13,7 @@ import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.clocklog.ClockLog;
+import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -87,6 +88,7 @@ public class ClockAction extends TimesheetAction {
             caf.setPrincipalId(principalId);
         }
         caf.isShowDistributeButton();
+        this.assignShowDistributeButton(caf);
 
         String tbIdString = caf.getEditTimeBlockId();
         if (tbIdString != null) {
@@ -133,6 +135,36 @@ public class ClockAction extends TimesheetAction {
         }
         return forward;
     }
+    
+    public void assignShowDistributeButton(ClockActionForm caf) {
+    	TimesheetDocument timesheetDocument = caf.getTimesheetDocument();
+    	if(timesheetDocument != null) {
+    		List<Assignment> assignments = timesheetDocument.getAssignments();
+    		if(assignments.size() <= 1) {
+    			caf.setShowDistrubuteButton(false);
+    			return;
+    		}
+    		List<TimeCollectionRule> ruleList = new ArrayList<TimeCollectionRule> ();
+    		for(Assignment assignment: assignments) {
+    			TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveDate());
+		    	if(rule != null) {
+		    		if(rule.isHrsDistributionF()) {
+		    			ruleList.add(rule);
+		    		}
+		    	}
+    		}
+    		// if there's only one eligible assignment, don't show the distribute button
+    		if(ruleList.size() <= 1) {
+    			caf.setShowDistrubuteButton(false);
+    			return;	
+    		} else {
+	    		caf.setShowDistrubuteButton(true);
+				return;
+    		}
+    	}
+    	caf.setShowDistrubuteButton(false);
+    }
+    
 
     public ActionForward clockAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ClockActionForm caf = (ClockActionForm) form;

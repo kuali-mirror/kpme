@@ -230,24 +230,6 @@ public class ClockActionForm extends TimesheetActionForm {
      * @return true if Distribute TimeBlock button should be displayed, false otherwise.
      */
     public boolean isShowDistributeButton() {
-    	TimesheetDocument timesheetDocument = this.getTimesheetDocument();
-    	if(timesheetDocument != null) {
-    		List<Assignment> assignments = timesheetDocument.getAssignments();
-    		if(assignments.size() <= 1) {
-    			setShowDistrubuteButton(false);
-    			return showDistributeButton;
-    		}
-    		for(Assignment assignment: assignments) {
-    			TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveDate());
-		    	if(rule != null) {
-		    		if(rule.isHrsDistributionF()) {
-		    			setShowDistrubuteButton(true);
-		    			return showDistributeButton;
-		    		}
-		    	}
-    		}
-
-    	}
     	return showDistributeButton;
     }
 
