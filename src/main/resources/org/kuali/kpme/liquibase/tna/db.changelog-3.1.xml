@@ -8,4 +8,9 @@
     <changeSet author="npadharia" id="2">
         <dropColumn columnName="org_admin" tableName="hr_dept_earn_code_t"/>
     </changeSet>
+	<changeSet author="lee55" id="3">
+		<modifyDataType tableName="tk_time_block_t" columnName="CLOCK_LOG_CREATED" newDataType="VARCHAR(1)"/>
+        <modifyDataType tableName="tk_time_block_hist_t" columnName="CLOCK_LOG_CREATED" newDataType="VARCHAR(1)"/>
+	</changeSet>
+
 </databaseChangeLog>
