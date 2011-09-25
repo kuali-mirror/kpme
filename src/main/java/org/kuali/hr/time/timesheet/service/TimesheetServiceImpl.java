@@ -204,7 +204,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 	}
 	
 	public TimeBlock resetWorkedHours(TimeBlock timeBlock){
-		if(timeBlock.getBeginTime() != null && timeBlock.getEndTime() != null){
+		if(timeBlock.getBeginTime() != null && timeBlock.getEndTime() != null && StringUtils.equals(timeBlock.getEarnCodeType(), TkConstants.EARN_CODE_TIME)){
 			BigDecimal hours = TKUtils.getHoursBetween(timeBlock.getBeginTime().getTime(), timeBlock.getEndTime().getTime());
 			timeBlock.setHours(hours);
 		}
