@@ -42,8 +42,8 @@
 				<bean parent="MaintainableFieldDefinition" p:name="payGrade" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="earnCode"  p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="fromEarnGroup" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="beginTime" />
-				<bean parent="MaintainableFieldDefinition" p:name="endTime" />
+				<bean parent="MaintainableFieldDefinition" p:name="beginTime" p:required="true" p:defaultValue="12:00 AM"/>
+				<bean parent="MaintainableFieldDefinition" p:name="endTime" p:required="true" p:defaultValue="12:00 AM"/>
 				<bean parent="MaintainableFieldDefinition" p:name="minHours" />
 				<bean parent="MaintainableFieldDefinition" p:name="sunday" />
 				<bean parent="MaintainableFieldDefinition" p:name="monday" />
@@ -52,7 +52,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="thursday" />
 				<bean parent="MaintainableFieldDefinition" p:name="friday" />
 				<bean parent="MaintainableFieldDefinition" p:name="saturday" />
-				<bean parent="MaintainableFieldDefinition" p:name="maxGap" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="maxGap" p:required="true" p:defaultValue="0"/>
 				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" />
 				<bean parent="MaintainableFieldDefinition" p:name="pyCalendarGroup"  p:required="true"/>
