@@ -1,5 +1,10 @@
 package org.kuali.hr.time.workarea;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -10,10 +15,6 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -92,6 +93,11 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 			}
 		}
 		List<Task> tasks = workArea.getTasks();
+		for(Task task : tasks){
+			task.setTkTaskId(null);
+			task.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		}
+		
 		workArea.setTasks(tasks);
 		workArea.setRoles(roles);
 		for (TkRole role : roles) {
