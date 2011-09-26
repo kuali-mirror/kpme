@@ -56,13 +56,15 @@ public class TimesheetServiceImpl implements TimesheetService {
                 if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.ROUTE)) {
                     wd.routeDocument("Routing for Approval");
                 } else if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.APPROVE)) {
-                    if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()) {
+                    if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin() &&
+                            !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument) ) {
                         wd.superUserApprove("Superuser approving timesheet.");
                     } else {
                         wd.approve("Approving timesheet.");
                     }
                 } else if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.DISAPPROVE)) {
-                    if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()) {
+                    if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()
+                            && !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument) ) {
                         wd.superUserDisapprove("Superuser disapproving timesheet.");
                     } else {
                         wd.disapprove("Disapproving timesheet.");
@@ -170,7 +172,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 			timesheetDocument = new TimesheetDocument(tdh);
 			PayCalendarEntries pce = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getPayEndDate());
 			loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), pce);
-            
+
             timesheetDocument.setPayCalendarEntry(pce);
 		} else {
 			throw new RuntimeException("Could not find TimesheetDocumentHeader for DocumentID: " + documentId);
@@ -202,7 +204,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		TkServiceLocator.getTimeBlockService().deleteTimeBlocksAssociatedWithDocumentId(documentId);
 		TkServiceLocator.getTimesheetDocumentHeaderService().deleteTimesheetHeader(documentId);
 	}
-	
+
 	public TimeBlock resetWorkedHours(TimeBlock timeBlock){
 		if(timeBlock.getBeginTime() != null && timeBlock.getEndTime() != null && StringUtils.equals(timeBlock.getEarnCodeType(), TkConstants.EARN_CODE_TIME)){
 			BigDecimal hours = TKUtils.getHoursBetween(timeBlock.getBeginTime().getTime(), timeBlock.getEndTime().getTime());
