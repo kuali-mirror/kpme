@@ -473,9 +473,7 @@ function addTimeBlockRow(form, tempArr) {
     el.name = idString;
     el.id = idString;
     el.size = 10;
-    var beginDate = new Date(form.beginTimestamp.value);
-    var formatedDate = beginDate.toString("MM/dd/yyyy");
-    el.value = formatedDate;
+    el.value = form.beginDateOnly.value;
     var datePickerId = '#' + idString;
     cellBeginDate.appendChild(el);
 
@@ -507,9 +505,7 @@ function addTimeBlockRow(form, tempArr) {
     el.name = idString;
     el.id = idString;
     el.size = 10;
-    var endDate = new Date(form.endTimestamp.value);
-    var formatedDate = endDate.toString("MM/dd/yyyy");
-    el.value = formatedDate;
+    el.value = form.endDateOnly.value;
     datePickerId += ', #' + idString;
     cellEndDate.appendChild(el);
     
@@ -520,8 +516,7 @@ function addTimeBlockRow(form, tempArr) {
     el.name = idString;
     el.id = idString;
     el.size = 10;
-    var endTime = endDate.toString("hh:mm tt");
-    el.value = endTime;
+    el.value = form.endTimeOnly.value;
     cellEndTime.appendChild(el);
     timeChangeId += ', #' + idString;
 
@@ -619,8 +614,10 @@ function recalculateHrs(itr) {
 	    	var eTimeFormated = endDate + ' ' + endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes() + ':' + originalEndDateTime.getSeconds();
 	    	var newEndDate = new Date(eTimeFormated);
 	    	var hrsDifferent = newEndDate - beginTimeTemp;
-	    } else if(itr == 1){ // beginTime of first row should use originalBeginTime which includes seconds 
-	    	var hrsDifferent = endTimeTemp - originalBeginDateTime;
+	    } else if(itr == 1){ // beginTime of first row should use begin time plus seconds from originalBeginTime 
+	    	var bTimeFormated = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
+	    	var newBeginDate = new Date(bTimeFormated);
+	    	var hrsDifferent = endTimeTemp - newBeginDate;
 	    } else {
 	    	var hrsDifferent = endTimeTemp - beginTimeTemp;
 	    }

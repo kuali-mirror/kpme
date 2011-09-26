@@ -365,6 +365,21 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     public Date getBeginTimeDisplayDate() {
         return getBeginTimeDisplay().toDate();
     }
+    /*
+     *   fix timezone issues caused by JScript, for GUI use only,
+     */
+    public String getBeginTimeDisplayDateOnlyString() {
+    	return this.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT);
+    }
+    public String getBeginTimeDisplayTimeOnlyString() {
+    	return this.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_TIME_FORMAT);
+    }
+    public String getEndTimeDisplayDateOnlyString() {
+    	return this.getEndTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT);
+    }
+    public String getEndTimeDisplayTimeOnlyString() {
+    	return this.getEndTimeDisplay().toString(TkConstants.DT_BASIC_TIME_FORMAT);
+    }
 
     /**
      * Set this value with a DateTime that is in the current users Timezone. This

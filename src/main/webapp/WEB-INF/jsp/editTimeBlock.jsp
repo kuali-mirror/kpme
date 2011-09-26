@@ -17,7 +17,11 @@
 			<html:hidden property="distributeAssignList" value="${Form.distributeAssignList}" />
 			<html:hidden property="originalAssignment" value="${Form.currentAssignmentDescription}"/>
 			<html:hidden property="beginTimestamp" value="${Form.currentTimeBlock.beginTimeDisplayDate}"/>
-			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endTimeDisplayDate}"/>
+			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endTimeDisplayDate}"/>			
+			<html:hidden property="beginDateOnly" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString}"/>
+			<html:hidden property="beginTimeOnly" value="${Form.currentTimeBlock.beginTimeDisplayTimeOnlyString}"/>
+			<html:hidden property="endDateOnly" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString}"/>
+			<html:hidden property="endTimeOnly" value="${Form.currentTimeBlock.endTimeDisplayTimeOnlyString}"/>			
 			<html:hidden property="hours" value="${Form.currentTimeBlock.hours}"/>
 			
 			<div id="clock" style="border-bottom: 1px solid gray;">
@@ -33,8 +37,8 @@
 					<tbody>
 							<tr>
 								<td><c:out value="${Form.currentAssignmentDescription}" /></td>
-								<td><fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.beginTimeDisplayDate}" pattern="MM/dd/yyyy hh:mm aa"/></td>
-								<td><fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.endTimeDisplayDate}" pattern="MM/dd/yyyy hh:mm aa"/></td>
+								<td><c:out value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString} ${Form.currentTimeBlock.beginTimeDisplayTimeOnlyString}" /></td>
+								<td><c:out value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString} ${Form.currentTimeBlock.endTimeDisplayTimeOnlyString}" /></td>
 								<td><c:out value="${Form.currentTimeBlock.hours}" /></td>
 							</tr>
 					</tbody>
@@ -75,17 +79,14 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" name="bdRow1" id="bdRow1" size="10"
-                                       value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.beginTimeDisplayDate}" pattern="MM/dd/yyyy"/>"/>
+								<input type="text" name="bdRow1" id="bdRow1" size="10" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString }" />
 							</td>
 
 							<td>
-								<input name="btRow1" id="btRow1" readonly="readonly"
-                                       size="10" value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.beginTimeDisplayDate}" pattern="hh:mm aa"/>">
+								<input name="btRow1" id="btRow1" readonly="readonly"  size="10" value="${Form.currentTimeBlock.beginTimeDisplayTimeOnlyString}" />
                             </td>
 							<td>
-								<input type="text" name="edRow1" id="edRow1" size="10"
-                                       value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.endTimeDisplayDate}" pattern="MM/dd/yyyy"/>">
+								<input type="text" name="edRow1" id="edRow1" size="10" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString }" />
 							</td>
 							<td>
 								<input name="etRow1" id="etRow1" size="10" >
@@ -117,8 +118,7 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" name="bdRow2" id="bdRow2" size="10"
-                                       value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.beginTimeDisplayDate}" pattern="MM/dd/yyyy"/>"/>
+								<input type="text" name="bdRow2" id="bdRow2" size="10" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString }" />
 							</td>
 
 							<td>
@@ -127,12 +127,10 @@
 									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
 							</td>
 							<td>
-								<input type="text" name="edRow2" id="edRow2" size="10"
-                                       value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.endTimeDisplayDate}" pattern="MM/dd/yyyy"/>">
+								<input type="text" name="edRow2" id="edRow2" size="10" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString }" />
 							</td>
 							<td>
-								<input name="etRow2" id="etRow2" size="10"
-                                       value="<fmt:formatDate type="both" dateStyle="full" value="${Form.currentTimeBlock.endTimeDisplayDate}" pattern="hh:mm aa"/>">
+								<input name="etRow2" id="etRow2" size="10" value="${Form.currentTimeBlock.endTimeDisplayTimeOnlyString}" />
 								<input type="button" style="width: 20px; height: 23px;" id="endTimeHelp1" value="?"
 									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
 							</td>
