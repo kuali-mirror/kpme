@@ -27,16 +27,16 @@ public class TimesheetSubmitAction extends TkAction {
 
         String principal = TKContext.getPrincipalId();
         UserRoles roles = TKContext.getUser().getCurrentRoles();
-        
+
         TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsaf.getDocumentId());
         if (!roles.isDocumentWritable(document)) {
             throw new AuthorizationException(principal, "TimesheetSubmitAction", "");
         }
     }
-    
-    
-    
-    
+
+
+
+
     public ActionForward approveTimesheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimesheetSubmitActionForm tsaf = (TimesheetSubmitActionForm)form;
         TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsaf.getDocumentId());
@@ -60,10 +60,12 @@ public class TimesheetSubmitAction extends TkAction {
             }
         }
 
-        return new ActionRedirect(mapping.findForward("timesheetRedirect"));
+        ActionRedirect rd = new ActionRedirect(mapping.findForward("timesheetRedirect"));
+        rd.addParameter("documentId", tsaf.getDocumentId());
 
+        return rd;
     }
-    
+
     public ActionForward approveApprovalTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	TimesheetSubmitActionForm tsaf = (TimesheetSubmitActionForm)form;
         TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsaf.getDocumentId());
@@ -86,6 +88,6 @@ public class TimesheetSubmitAction extends TkAction {
         TKContext.getUser().clearTargetUserFromSession();
         return new ActionRedirect(mapping.findForward("approverRedirect"));
 
-    	
+
     }
 }
