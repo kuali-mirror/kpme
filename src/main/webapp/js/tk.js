@@ -246,7 +246,6 @@ $(document).ready(function() {
             if (validFlag) {
                 var dateString = beginDate + ' ' + beginTime;
                 var beginTimeTemp = new Date(dateString);
-                var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes();
                 beginTimeCol += bTimeFormated + valueSeperator;
 
                 dateString = endDate + ' ' + endTime;
@@ -258,8 +257,10 @@ $(document).ready(function() {
         	    	var eTimeFormated = endDate + ' ' + endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes() + ':' + originalEndDateTime.getSeconds();
         	    	var newEndDate = new Date(eTimeFormated);
         	    	var hrsDifferent = newEndDate - beginTimeTemp;
-        	    } else if(i == 1){ // beginTime of first row should use originalBeginTime which includes seconds 
-        	    	var hrsDifferent = endTimeTemp - originalBeginDateTime;
+        	    } else if(i == 1){ // beginTime of first row should use begin time plus seconds from originalBeginTime 
+        	    	var bTimeFormated = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
+        	    	var newBeginDate = new Date(bTimeFormated);
+        	    	var hrsDifferent = endTimeTemp - newBeginDate;
         	    } else {
         	    	var hrsDifferent = endTimeTemp - beginTimeTemp;
         	    }
