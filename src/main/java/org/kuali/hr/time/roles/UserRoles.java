@@ -15,6 +15,8 @@ public interface UserRoles {
 
     public String getPrincipalId();
 
+    public boolean isTimesheetReviewer();
+    
     /**
      * Is the current user a system administrator?
      * @return true if yes, false otherwise

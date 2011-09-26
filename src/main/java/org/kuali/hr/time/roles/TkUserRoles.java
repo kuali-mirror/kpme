@@ -191,6 +191,10 @@ public class TkUserRoles implements UserRoles {
     public boolean isTimesheetApprover() {
         return this.isSystemAdmin() || this.approverRoles.size() > 0 || this.approverDelegateRoles.size() > 0 || this.orgAdminRolesDept.size() > 0;
     }
+    
+    public boolean isTimesheetReviewer(){
+    	return this.getReviewerWorkAreas().size() > 0;
+    }
 
     @Override
     public boolean isAnyApproverActive() {
@@ -299,6 +303,7 @@ public class TkUserRoles implements UserRoles {
                 readable |= this.approverDelegateRoles.containsKey(wa);
                 readable |= this.reviewerRoles.containsKey(wa);
                 readable |= this.deptViewOnlyRoles.containsKey(dept);
+                readable |= this.reviewerRoles.containsKey(wa);
             }
         }
 

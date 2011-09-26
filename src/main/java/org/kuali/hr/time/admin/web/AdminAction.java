@@ -31,7 +31,7 @@ public class AdminAction extends TkAction {
         TKUser user = TKContext.getUser();
         AdminActionForm adminForm = (AdminActionForm) form;
 
-        if (StringUtils.equals(methodToCall, "targetEmployee") || StringUtils.equals(methodToCall, "clearBackdoor") || StringUtils.equals(methodToCall, "clearChangeUser")) {
+        if (StringUtils.equals(methodToCall, "targetEmployee") || StringUtils.equals(methodToCall, "changeEmployee") || StringUtils.equals(methodToCall, "clearBackdoor") || StringUtils.equals(methodToCall, "clearChangeUser")) {
             // Handle security validation in targetEmployee action, we may need
             // to check the document for validity, since the user may not
             // necessarily be a system administrator.
@@ -91,6 +91,7 @@ public class AdminAction extends TkAction {
         	|| tkUser.getCurrentRoles().isDepartmentAdmin()
         	|| tkUser.getCurrentRoles().isDeptViewOnly()
         	|| tkUser.getCurrentRoles().isGlobalViewOnly()
+        	|| tkUser.getCurrentRoles().isTimesheetReviewer()
         	|| tkUser.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())) {
             if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalId())) {
 
