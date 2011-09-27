@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     <changeSet author="tomcat (generated)" id="1314888355339-1">
         <insert tableName="tk_time_block_hist_t">
             <column name="TK_TIME_BLOCK_HIST_ID" valueNumeric="1"/>
@@ -420,9 +422,9 @@
             <column name="descr" value="SICK"/>
             <column name="effdt" valueDate="2010-01-01"/>
             <column name="ovt_earn_code" value="N"/>
-            <column name="record_time" value="1"/>
+            <column name="record_time" value="0"/>
             <column name="record_amount" value="0"/>
-            <column name="record_hours" value="0"/>
+            <column name="record_hours" value="1"/>
             <column name="ACTIVE" value="Y"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
@@ -634,6 +636,23 @@
             <column name="ACCRUAL_CATEGORY"/>
             <column name="inflate_min_hours" valueNumeric="0.00"/>
             <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="hr_earn_code_t">
+            <column name="hr_earn_code_id" valueNumeric="24"/>
+            <column name="earn_code" value="TIP"/>
+            <column name="descr" value="Tips"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="0"/>
+            <column name="record_amount" value="1"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="0.00"/>
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-6">
@@ -1415,9 +1434,9 @@
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-20">
         <!--<insert tableName="qrtz_scheduler_state">-->
-            <!--<column name="INSTANCE_NAME" value="domU-12-31-39-10-44-321314800605439"/>-->
-            <!--<column name="LAST_CHECKIN_TIME" valueNumeric="1314819236452"/>-->
-            <!--<column name="CHECKIN_INTERVAL" valueNumeric="1000"/>-->
+        <!--<column name="INSTANCE_NAME" value="domU-12-31-39-10-44-321314800605439"/>-->
+        <!--<column name="LAST_CHECKIN_TIME" valueNumeric="1314819236452"/>-->
+        <!--<column name="CHECKIN_INTERVAL" valueNumeric="1000"/>-->
         <!--</insert>-->
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-21">
@@ -3017,6 +3036,20 @@
             <column name="effdt" valueDate="2010-08-01"/>
             <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
         </insert>
+        <insert tableName="hr_dept_earn_code_t">
+            <column name="hr_dept_earn_code_id" valueNumeric="24"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="hr_sal_group" value="A10"/>
+            <column name="earn_code" value="TIP"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-38">
         <insert tableName="tk_daily_overtime_rl_s">
@@ -3327,7 +3360,8 @@
             <column name="JOB_NAME" value="MessageProcessingJobDetail"/>
             <column name="JOB_GROUP" value="KCB-Delivery"/>
             <column name="IS_VOLATILE" value="0"/>
-            <column name="DESCRIPTION" value="&#10;                Trigger that periodically runs the KCB message processing job&#10;            "/>
+            <column name="DESCRIPTION"
+                    value="&#10;                Trigger that periodically runs the KCB message processing job&#10;            "/>
             <column name="NEXT_FIRE_TIME" valueNumeric="1221578432323"/>
             <column name="PREV_FIRE_TIME" valueNumeric="1221578402323"/>
             <column name="PRIORITY" valueNumeric="5"/>
@@ -3741,13 +3775,15 @@
             <column name="DOC_HDR_ID" value="52390"/>
             <column name="OBJ_ID" value="CCD3500C-31DD-B9DE-B54F-28A83FDF3EC5"/>
             <column name="VER_NBR" valueNumeric="5"/>
-            <column name="DOC_CNTNT" value="VkrOTz1bT27iSZqrC9ixl1Xmmj8ru58/gXmSzxXzTR1LO+DaxLzq99aZZ9wHs071OUT4nxpkkcq33fnphclUpoeY5PrqIOvzaPp8wVbEgLDcumd62q6Qop5/ldvcaqixrX1MpFIFoP4OdExOdsVKwEs74NrEvOr38YhREL+m6V82ijH6KpknfySei+uTKlWGUHX+glxb0uktVlMQTORY4cAQiQvaeeroW2G6EH5EyVgnyp2V+zEhCbX0ANtfhxCJD5YUTcjo4dms2RJu9FwdCvqh6x0Q4wqIco8gvP8YzyDOhJl7hITKkd6XUh+bbqxkVudlilDd7APOhJl7hITKketWDG5tPc+B394BJ63pIpg2BobHqgGXX5Eue3CbfmcYu18/bJqeIbcYgDXqQnMD/QrFH03Zq3g0TJRVVvVaWPXrM9n4417zYjgMMJL3ADYICLmYjTL98ECZKP2PT+nlbMaL89X18FjVGARev++N8HH6li41J/I97PfTPlEKsIHEju5jKVpHLTyOsa1clnd05qqS2fZD9j11UozuiPI1+DhOT4zJPvOoLBW6la/wZ/RhBd3sXV/dYNZl1uCyWiND1I4tsKxIzotR2RvsWXIbIooVPAkkY/N5ogUsB94c9Qc4xLdfGB8JdWu33fnphclUpoeY5PrqIOvzaPp8wVbEgLDcumd62q6QohxklceKR5JIrNkSbvRcHQr6oesdEOMKiDYGhseqAZdfT1jV4Gmlv67mZ8JHIPtgQkCEw+n8sy4cq63e6rvJ/K8OtaPqzRKqSTYGhseqAZdfq63e6rvJ/K8OtaPqzRKqSdWMO0zNmfXkql5UQpBIDgQdv4354Hv/HnEtqXdBxeMNNO6NAakJyEpRYOkOzb4wltpVRhrxaL1Xaau8exiYHfJ0iDxSHbWCETushM4MZGHl2Ocji7tNocihKnQyCDB6ST+jYLIsLCANheiTaTvSiKREPomHDZNcQlkP7kHbA5/QJevJTOVlx3fBcazfK43f2HG2sib0Fvv8s/PCWN7rq+QpVUNkOFf8OGxnlxf+/jEWSXc7yXLoH20zcXKl+TgLHN0uU+8T8weBbaKtaYPxWP6FrfH/rbofsSGfBf7sdQTSyhfdD6WFzDk68ZbCkSS3p0XP5wkGB/e/BRph6AngKJA9otS16gf2M7C3pwp1REjZ1k0Umn9tDrZxufjMKpEXSGglOWyANqwQZmzdMWMMyEuhvdmq+DLJ8LmxbvDWpvI5ROkgNFhegesP2NK4QgWwtELG1OL4EoYiQbklj6Vyg1Atb8liTTLaJ1I0ybUvQfyuEu07bDnzCImp6Umk4gtzMZGQDdmGRwcyKvRXvVm1kaQq9/i4RbWzW09Y1eBppb+u5mfCRyD7YEIZUP7IkWGlVTIaeVUoH6SPJ8qdlfsxIQka8uaQSS94TRxSUeU3+H92lZhhN+UKhIw3cSfmiQHmgzcDCijmXcVylZhhN+UKhIyEQh1famKxzW1R2Ste426+NO6NAakJyEo9pvv7l0HKIkPDrNeEHzOZ99teolE3ce7YI0YQjaISzol1UBG/LXftxr/cHPvEjI6FODEXlPouawV1k4XRsGnlfyJJhXLDdZnOyFvY257D1dxI//1VFHfuvcJkN0ZBRmsfgGC4fgWFc0L+sr9btzcy322Obwl8eo1IrzqyZ4uZXloTot1Q560VkYkUecxnGgfsALml88XBAJJKffn4k2pNcbdEw/eVsrp2BL65BtsSCUIpiYKtnjFBUUUk0RkfxEiYAfCRdihgUusz2fjjXvNiyu7CCw9GbRSSwfhYsIFF5W8Td4FMB7tNoH3T/J75tDeb5Lbz5upAKnoPdmbjmBjHgxAjoZQ4wGUMfkrTJzmqD0/ZAsl9ku0sOj39/v6bD2bio2fI53H5vVYnnMg6EE9HoROkshqM4jLQIlqcpyyX+6HkFv67KCIGNhFVKmPmZSrIhm0wy/rMsrwHC3QEpWEprg4TiZpsG2s="/>
+            <column name="DOC_CNTNT"
+                    value="VkrOTz1bT27iSZqrC9ixl1Xmmj8ru58/gXmSzxXzTR1LO+DaxLzq99aZZ9wHs071OUT4nxpkkcq33fnphclUpoeY5PrqIOvzaPp8wVbEgLDcumd62q6Qop5/ldvcaqixrX1MpFIFoP4OdExOdsVKwEs74NrEvOr38YhREL+m6V82ijH6KpknfySei+uTKlWGUHX+glxb0uktVlMQTORY4cAQiQvaeeroW2G6EH5EyVgnyp2V+zEhCbX0ANtfhxCJD5YUTcjo4dms2RJu9FwdCvqh6x0Q4wqIco8gvP8YzyDOhJl7hITKkd6XUh+bbqxkVudlilDd7APOhJl7hITKketWDG5tPc+B394BJ63pIpg2BobHqgGXX5Eue3CbfmcYu18/bJqeIbcYgDXqQnMD/QrFH03Zq3g0TJRVVvVaWPXrM9n4417zYjgMMJL3ADYICLmYjTL98ECZKP2PT+nlbMaL89X18FjVGARev++N8HH6li41J/I97PfTPlEKsIHEju5jKVpHLTyOsa1clnd05qqS2fZD9j11UozuiPI1+DhOT4zJPvOoLBW6la/wZ/RhBd3sXV/dYNZl1uCyWiND1I4tsKxIzotR2RvsWXIbIooVPAkkY/N5ogUsB94c9Qc4xLdfGB8JdWu33fnphclUpoeY5PrqIOvzaPp8wVbEgLDcumd62q6QohxklceKR5JIrNkSbvRcHQr6oesdEOMKiDYGhseqAZdfT1jV4Gmlv67mZ8JHIPtgQkCEw+n8sy4cq63e6rvJ/K8OtaPqzRKqSTYGhseqAZdfq63e6rvJ/K8OtaPqzRKqSdWMO0zNmfXkql5UQpBIDgQdv4354Hv/HnEtqXdBxeMNNO6NAakJyEpRYOkOzb4wltpVRhrxaL1Xaau8exiYHfJ0iDxSHbWCETushM4MZGHl2Ocji7tNocihKnQyCDB6ST+jYLIsLCANheiTaTvSiKREPomHDZNcQlkP7kHbA5/QJevJTOVlx3fBcazfK43f2HG2sib0Fvv8s/PCWN7rq+QpVUNkOFf8OGxnlxf+/jEWSXc7yXLoH20zcXKl+TgLHN0uU+8T8weBbaKtaYPxWP6FrfH/rbofsSGfBf7sdQTSyhfdD6WFzDk68ZbCkSS3p0XP5wkGB/e/BRph6AngKJA9otS16gf2M7C3pwp1REjZ1k0Umn9tDrZxufjMKpEXSGglOWyANqwQZmzdMWMMyEuhvdmq+DLJ8LmxbvDWpvI5ROkgNFhegesP2NK4QgWwtELG1OL4EoYiQbklj6Vyg1Atb8liTTLaJ1I0ybUvQfyuEu07bDnzCImp6Umk4gtzMZGQDdmGRwcyKvRXvVm1kaQq9/i4RbWzW09Y1eBppb+u5mfCRyD7YEIZUP7IkWGlVTIaeVUoH6SPJ8qdlfsxIQka8uaQSS94TRxSUeU3+H92lZhhN+UKhIw3cSfmiQHmgzcDCijmXcVylZhhN+UKhIyEQh1famKxzW1R2Ste426+NO6NAakJyEo9pvv7l0HKIkPDrNeEHzOZ99teolE3ce7YI0YQjaISzol1UBG/LXftxr/cHPvEjI6FODEXlPouawV1k4XRsGnlfyJJhXLDdZnOyFvY257D1dxI//1VFHfuvcJkN0ZBRmsfgGC4fgWFc0L+sr9btzcy322Obwl8eo1IrzqyZ4uZXloTot1Q560VkYkUecxnGgfsALml88XBAJJKffn4k2pNcbdEw/eVsrp2BL65BtsSCUIpiYKtnjFBUUUk0RkfxEiYAfCRdihgUusz2fjjXvNiyu7CCw9GbRSSwfhYsIFF5W8Td4FMB7tNoH3T/J75tDeb5Lbz5upAKnoPdmbjmBjHgxAjoZQ4wGUMfkrTJzmqD0/ZAsl9ku0sOj39/v6bD2bio2fI53H5vVYnnMg6EE9HoROkshqM4jLQIlqcpyyX+6HkFv67KCIGNhFVKmPmZSrIhm0wy/rMsrwHC3QEpWEprg4TiZpsG2s="/>
         </insert>
         <insert tableName="krns_maint_doc_t">
             <column name="DOC_HDR_ID" value="52395"/>
             <column name="OBJ_ID" value="2466A5A8-3E0D-B557-6346-1874BF9891D6"/>
             <column name="VER_NBR" valueNumeric="5"/>
-            <column name="DOC_CNTNT" value="VkrOTz1bT27iSZqrC9ixl1Xmmj8ru58/gXmSzxXzTR1LO+DaxLzq99aZZ9wHs071OUT4nxpkkcq33fnphclUppIiXa0U0SskqiWbcijD/qMqiFus0SnoqrfaflXvGfTp+ejiNRP2WorJ3T1bBQ8IDIyhJTLvnZwann+V29xqqLEFAfJ87UmT+vv3o/LLoe13by2SZWDoBu2x0/pJJiFr3rP7+JwtizJIj4oDtj9Efi+B9sJDH1qBpTCcluTcxkEofoA9C/xn50CAXUmaCnF/bnoNIH41pcrHqMjUvABTOfsz8iHrx5UvUbZeNi57S5Dcb3tCLnlvY5XEX8Ey0/mXMJTG5AOiHcKcb3tCLnlvY5WhVu1vr7CkvapKA+xBnMG44Lk5KotzRewinNJ18vKqi2Cg5cXoddXWxovz1fXwWNUYBF6/743wcfqWLjUn8j3sYq/kcxVXtzTLW0q3ZgUUCgkgaVB0rB7DKfd5DdxjzWkVhQpZTDtjffHJNLatVo7TVq68aDrEW2D3pVwGdmTAAONfehpe5bcRNhFVKmPmZSrFcJDi/qCEUZnHWkZySZzSVgoJ0FcFqMxlMx7qMB2zcTgm8GpUoPnboruruAhZxQADysxTx9GrRMOfa1y59iRlLLcYsJZuzf5KU+790xkmwajI1LwAUzn7CVCUg45ycCeKCMKJ6Tiir3WSat+eAEEnQb/KuCVsjZIx5LDLwmvcHRvPNb89ZR/wTqai07Zinelvl9S3fxmF7BvPNb89ZR/wU8TCqCInN+JdHacjhJKNW/1A/0XIWjAsaj4DIgzylV4OlNHTViB5vvbmT8HfzJLHiJPi4e7X+ZxxkYWUyRaiZqf42hT3rIxL73oF9v74lZEbEJeReUtDL7H7sqbPC9yanmKQeVxA7BSYWevZjxvAj/uv6MAPZ4Q15QsGgMgsRKmSxGWJUx7mzOLrVjIt3r2KtEBB3KW9Vot3SJ8R/T3UJGuMOBvmOpQjmpKuzUBtEP+kbGV7DA9X0IH48b39WuVFOCbwalSg+duiu6u4CFnFAAPKzFPH0atEw59rXLn2JGXiNsScFVe0GoC56AvVcjVvOMlHVZGGHbExXi9Qg6+41heZsoxDLXguK/NDOgHCrB16DSB+NaXKx6jI1LwAUzn7M/Ih68eVL1EdRu6N+5Z6qM6EmXuEhMqR3pdSH5turGRW52WKUN3sA86EmXuEhMqR61YMbm09z4Hvdg53nRfh+fnxsTJAn+BKum7aLlwJvPmg51huQ36WRHSxH7rIgWtYby2SZWDoBu2x0/pJJiFr3rP7+JwtizJIj4oDtj9Efi/sE/H6JcSx99nqp+6M1UB6kzqaHQx1guTacVdJUbUJHTgm8GpUoPnboruruAhZxQADysxTx9GrRMOfa1y59iRl/+/ikuiR0+GLUO9vrMkd1QIfvXm4uHRgie3FbDKw3YYp93kN3GPNaRFZT/qrbMj15bdBixPy53IMubgHPFQuf8cso1HDPVTLjdHN9muTrLSEwHI+e6J5ZDaLDAqPvIsp3wTA5iGYxUI="/>
+            <column name="DOC_CNTNT"
+                    value="VkrOTz1bT27iSZqrC9ixl1Xmmj8ru58/gXmSzxXzTR1LO+DaxLzq99aZZ9wHs071OUT4nxpkkcq33fnphclUppIiXa0U0SskqiWbcijD/qMqiFus0SnoqrfaflXvGfTp+ejiNRP2WorJ3T1bBQ8IDIyhJTLvnZwann+V29xqqLEFAfJ87UmT+vv3o/LLoe13by2SZWDoBu2x0/pJJiFr3rP7+JwtizJIj4oDtj9Efi+B9sJDH1qBpTCcluTcxkEofoA9C/xn50CAXUmaCnF/bnoNIH41pcrHqMjUvABTOfsz8iHrx5UvUbZeNi57S5Dcb3tCLnlvY5XEX8Ey0/mXMJTG5AOiHcKcb3tCLnlvY5WhVu1vr7CkvapKA+xBnMG44Lk5KotzRewinNJ18vKqi2Cg5cXoddXWxovz1fXwWNUYBF6/743wcfqWLjUn8j3sYq/kcxVXtzTLW0q3ZgUUCgkgaVB0rB7DKfd5DdxjzWkVhQpZTDtjffHJNLatVo7TVq68aDrEW2D3pVwGdmTAAONfehpe5bcRNhFVKmPmZSrFcJDi/qCEUZnHWkZySZzSVgoJ0FcFqMxlMx7qMB2zcTgm8GpUoPnboruruAhZxQADysxTx9GrRMOfa1y59iRlLLcYsJZuzf5KU+790xkmwajI1LwAUzn7CVCUg45ycCeKCMKJ6Tiir3WSat+eAEEnQb/KuCVsjZIx5LDLwmvcHRvPNb89ZR/wTqai07Zinelvl9S3fxmF7BvPNb89ZR/wU8TCqCInN+JdHacjhJKNW/1A/0XIWjAsaj4DIgzylV4OlNHTViB5vvbmT8HfzJLHiJPi4e7X+ZxxkYWUyRaiZqf42hT3rIxL73oF9v74lZEbEJeReUtDL7H7sqbPC9yanmKQeVxA7BSYWevZjxvAj/uv6MAPZ4Q15QsGgMgsRKmSxGWJUx7mzOLrVjIt3r2KtEBB3KW9Vot3SJ8R/T3UJGuMOBvmOpQjmpKuzUBtEP+kbGV7DA9X0IH48b39WuVFOCbwalSg+duiu6u4CFnFAAPKzFPH0atEw59rXLn2JGXiNsScFVe0GoC56AvVcjVvOMlHVZGGHbExXi9Qg6+41heZsoxDLXguK/NDOgHCrB16DSB+NaXKx6jI1LwAUzn7M/Ih68eVL1EdRu6N+5Z6qM6EmXuEhMqR3pdSH5turGRW52WKUN3sA86EmXuEhMqR61YMbm09z4Hvdg53nRfh+fnxsTJAn+BKum7aLlwJvPmg51huQ36WRHSxH7rIgWtYby2SZWDoBu2x0/pJJiFr3rP7+JwtizJIj4oDtj9Efi/sE/H6JcSx99nqp+6M1UB6kzqaHQx1guTacVdJUbUJHTgm8GpUoPnboruruAhZxQADysxTx9GrRMOfa1y59iRl/+/ikuiR0+GLUO9vrMkd1QIfvXm4uHRgie3FbDKw3YYp93kN3GPNaRFZT/qrbMj15bdBixPy53IMubgHPFQuf8cso1HDPVTLjdHN9muTrLSEwHI+e6J5ZDaLDAqPvIsp3wTA5iGYxUI="/>
         </insert>
     </changeSet>
 </databaseChangeLog>
