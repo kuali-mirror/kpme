@@ -36,6 +36,7 @@ public class UICalendarTest extends SeleneseTestCase {
         selenium.click("//button[@type='button']");
         selenium.waitForPageToLoad("3000");
         selenium.click("class=event-delete");
+        selenium.waitForPageToLoad("3000");
         verifyFalse(selenium.isTextPresent("08:00 AM"));
         verifyFalse(selenium.isTextPresent("05:00 PM"));
     }
