@@ -1,4 +1,4 @@
-package org.kuali.hr.time.web;
+package org.kuali.hr.time.util;
 
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.SeleneseTestCase;
