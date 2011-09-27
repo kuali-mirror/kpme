@@ -16,7 +16,7 @@ public class TimeOffAccrualAction extends TkAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		TimeOffAccrualActionForm toaaf = (TimeOffAccrualActionForm) form;
-		toaaf.setTimeOffAccrualsCalc(TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualsCalc(TKContext.getPrincipalId()));
+		toaaf.setTimeOffAccrualsCalc(TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualsCalc(TKContext.getTargetPrincipalId()));
 		
 		return super.execute(mapping, form, request, response);
 	}
