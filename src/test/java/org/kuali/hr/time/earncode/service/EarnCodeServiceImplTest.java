@@ -1,23 +1,21 @@
 package org.kuali.hr.time.earncode.service;
 
-import java.sql.Date;
-import java.util.List;
-
+import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 
-import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
+import java.util.List;
 
 public class EarnCodeServiceImplTest extends TkTestCase {
 
@@ -71,7 +69,7 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 
 		// Testing standard lookup.
 		List<EarnCode> earnCodes = earnCodeService.getEarnCodes(assignment1,asOfDate);
-		assertEquals("Wrong number of earn codes returned.", 8, earnCodes.size());
+		assertEquals("Wrong number of earn codes returned.", 9, earnCodes.size());
 
 		// Wildcard on SalGroup
 		earnCodes = earnCodeService.getEarnCodes(assignment2,asOfDate);
