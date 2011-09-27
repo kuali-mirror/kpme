@@ -20,7 +20,7 @@ public class WorkflowTagSupport {
       UserRoles roles = TKContext.getUser().getCurrentTargetRoles();
       TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
       TimesheetDocumentHeader tdh = doc.getDocumentHeader();
-      if(tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED)){
+      if(tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED) || tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED)){
     	  return roles.canSubmitTimesheet(doc);
       }
       return false;
@@ -33,7 +33,7 @@ public class WorkflowTagSupport {
     public boolean isRouteButtonEnabled() {
         TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
         TimesheetDocumentHeader tdh = doc.getDocumentHeader();
-        return (tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED));
+        return (tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED) || tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED));
     }
 
     public boolean isDisplayingApprovalButtons() {

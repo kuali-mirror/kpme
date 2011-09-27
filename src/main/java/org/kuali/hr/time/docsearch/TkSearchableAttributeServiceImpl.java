@@ -1,6 +1,6 @@
 package org.kuali.hr.time.docsearch;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,17 +10,42 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kew.service.WorkflowDocument;
 
 public class TkSearchableAttributeServiceImpl implements
 		TkSearchableAttributeService {
+	
+	public void updateSearchableAttribute(TimesheetDocument document, Date asOfDate){
+        WorkflowDocument workflowDocument = null;
+		try {
+			workflowDocument = new WorkflowDocument(TKContext.getTargetPrincipalId(), Long.parseLong(document.getDocumentId()));
+	        workflowDocument.setApplicationContent(createSearchableAttributeXml(document, asOfDate));
+	        workflowDocument.saveDocument("");
+			if (!"I".equals(workflowDocument.getRouteHeader().getDocRouteStatus())) {
+	        	//updateWorkflowTitle(document,workflowDocument);
+	           	if(workflowDocument.getRouteHeader().getInitiatorPrincipalId().equals(TKContext.getPrincipalId())){
+	        		workflowDocument.saveDocument("");
+	        	}else{
+	        		workflowDocument.saveRoutingData();
+	        	}	            
+	         }else{
+	        	workflowDocument.saveDocument("");
+	        }
+		
+		
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	@Override
-	public String createSearchableAttributeXml(TimesheetDocument document) {
+	public String createSearchableAttributeXml(TimesheetDocument document, Date asOfDate) {
 		List<Long> workAreas = new ArrayList<Long>();
 		Map<String,List<Long>> deptToListOfWorkAreas = new HashMap<String,List<Long>>();
 		List<String> salGroups = new ArrayList<String>();
-		Date asOfDate = document.getAsOfDate();
 		
 		for(Assignment assign: document.getAssignments()){
 			if(!workAreas.contains(assign.getWorkArea())){
@@ -34,7 +59,7 @@ public class TkSearchableAttributeServiceImpl implements
 		}
 		
 		for(Long workArea : workAreas){
-			WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, asOfDate);
+			WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, TKUtils.getTimelessDate(asOfDate));
 			if(deptToListOfWorkAreas.containsKey(workAreaObj.getDept())){
 				List<Long> deptWorkAreas = deptToListOfWorkAreas.get(workAreaObj.getDept());
 				deptWorkAreas.add(workArea);
@@ -60,7 +85,7 @@ public class TkSearchableAttributeServiceImpl implements
 			sb.append("<SALGROUP value=\""+salGroup+"\"/>");
 		}
 		
-		sb.append("<PAYENDDATE value=\""+document.getPayCalendarEntry().getEndPeriodDate()+"\"/>");
+		sb.append("<PAYENDDATE value=\""+asOfDate+"\"/>");
 		sb.append("</TimesheetDocument></applicationContent></documentContext>");
 		
 		return sb.toString();

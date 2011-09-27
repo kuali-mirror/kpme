@@ -151,6 +151,8 @@ public class TimesheetServiceImpl implements TimesheetService {
 
 		TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(documentHeader);
 		timesheetDocument = new TimesheetDocument(documentHeader);
+		
+		TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(timesheetDocument, payEndDate);
 
 		return timesheetDocument;
 	}

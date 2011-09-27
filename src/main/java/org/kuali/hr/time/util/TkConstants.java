@@ -189,6 +189,7 @@ public class TkConstants {
         public static final String ENROUTE = "R";
         public static final String FINAL = "F";
         public static final String CANCEL = "X";
+        public static final String SAVED = "S";
     }
 
     public static final class BATCH_JOB_ENTRY_STATUS
@@ -241,9 +242,10 @@ public class TkConstants {
 
     public static final Map<String, String> DOCUMENT_STATUS = new HashMap<String,String>();
     static {
-        DOCUMENT_STATUS.put("I", "Initiate");
-        DOCUMENT_STATUS.put("R", "Routing");
-        DOCUMENT_STATUS.put("F", "Approved");
+        DOCUMENT_STATUS.put("I", "Initiated");
+        DOCUMENT_STATUS.put("S", "Saved");
+        DOCUMENT_STATUS.put("R", "Enroute");
+        DOCUMENT_STATUS.put("F", "Final");
     }
 
 }
