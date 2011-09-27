@@ -150,12 +150,24 @@ public class WorkAreaMaintenanceDocumentRule extends
 			WorkArea wa = (WorkArea) pboWorkArea;
 			
 			Task task = (Task) pbo;
+			
 			if (task != null && wa.getTasks() != null) {
 				valid = true;
 				valid &= this.validateTask(task, wa.getTasks());
-				// Jira870
+				// KPME-870
 				if ( valid ){
-					task.setTask(setTaskNumber(wa));
+					if (task.getTask() == null){
+						Long maxTaskNumberInTable = this.getTaskNumber(wa);
+						Long maxTaskNumberOnPage = wa.getTasks().get((wa.getTasks().size()) -1 ).getTask();
+						
+						if ( maxTaskNumberOnPage.compareTo(maxTaskNumberInTable) >= 0){
+							task.setTask(maxTaskNumberOnPage + 1);
+						} else {
+							task.setTask(maxTaskNumberInTable);
+						}
+						task.setWorkArea(wa.getWorkArea());
+						task.setTkWorkAreaId(wa.getTkWorkAreaId());
+					}
 				}
 			}
 		} else if ((pbo instanceof TkRole && pboWorkArea instanceof WorkArea)) {
@@ -170,13 +182,13 @@ public class WorkAreaMaintenanceDocumentRule extends
 		return valid;
 	}
 
-	public Long setTaskNumber(WorkArea workArea) {
+	public Long getTaskNumber(WorkArea workArea) {
 		Long task = new Long("0");
 		
-		Task maxTask = TkServiceLocator.getTaskService().getMaxTaskByWorkArea(workArea.getTkWorkAreaId());
-		if(maxTask != null) {
+		Task maxTaskInTable = TkServiceLocator.getTaskService().getMaxTaskByWorkArea(workArea.getTkWorkAreaId());
+		if(maxTaskInTable != null) {
 			// get the max of task number of the collection
-			task = maxTask.getTask() +1;
+			task = maxTaskInTable.getTask() +1;
 		} else {
 			task = new Long("100");
 		}

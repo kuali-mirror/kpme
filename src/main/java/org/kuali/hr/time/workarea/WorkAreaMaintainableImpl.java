@@ -30,12 +30,11 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 		} else if (arg1 instanceof Task) {
 			Task task = (Task) arg1;
 			task.setEffectiveDate(workArea.getEffectiveDate());
-			task.setWorkArea(workArea.getWorkArea()); // jira870
 		}
 		super.setNewCollectionLineDefaultValues(arg0, arg1);
 	}
 
-    @Override
+	@Override
     public PersistableBusinessObject getNewCollectionLine(String collectionName) {
         return super.getNewCollectionLine(collectionName);    //To change body of overridden methods use File | Settings | File Templates.
     }
