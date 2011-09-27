@@ -35,7 +35,10 @@ public class TkWorkflowTimesheetAttribute implements RoleAttribute {
 		if (timesheetDocument != null) {
 			List<Assignment> assignments = timesheetDocument.getAssignments();
 			for (Assignment assignment : assignments) {
-				roles.add(roleName+"_"+assignment.getWorkArea());
+				String roleStr = roleName + "_" +assignment.getWorkArea();
+				if(!roles.contains(roleStr)){
+					roles.add(roleStr);
+				}
 			}
 		}
 		return roles;
