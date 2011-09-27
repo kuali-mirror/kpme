@@ -14,21 +14,22 @@
                    type="org.kuali.hr.time.cache.web.CacheAdministrationActionForm"/>
         <form-bean name="TimeOffAccrualActionForm" type="org.kuali.hr.time.accrual.web.TimeOffAccrualActionForm"/>
         <form-bean name="BatchJobActionForm" type="org.kuali.hr.time.batch.web.BatchJobActionForm"/>
-        <form-bean name="TimesheetSubmitActionForm" type="org.kuali.hr.time.detail.web.TimesheetSubmitActionForm" />
-        <form-bean name="MissedPunchForm" type="org.kuali.hr.time.missedpunch.MissedPunchForm" />
+        <form-bean name="TimesheetSubmitActionForm" type="org.kuali.hr.time.detail.web.TimesheetSubmitActionForm"/>
+        <form-bean name="MissedPunchForm" type="org.kuali.hr.time.missedpunch.MissedPunchForm"/>
+        <form-bean name="HelpActionForm" type="org.kuali.hr.time.help.web.HelpActionForm"/>
     </form-beans>
 
 
     <global-forwards type="org.apache.struts.action.ActionForward">
         <forward name="unauthorized" path="/WEB-INF/jsp/unauthorized.jsp"/>
-        <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" />
+        <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do"/>
     </global-forwards>
 
-	<global-exceptions>
-		<exception type="java.lang.Throwable"
-			handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
-			key="meaningless" />
-	</global-exceptions>
+    <global-exceptions>
+        <exception type="java.lang.Throwable"
+                   handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
+                   key="meaningless"/>
+    </global-exceptions>
 
     <action-mappings>
         <action path="/Clock" name="ClockActionForm" scope="request" input="/WEB-INF/jsp/clock.jsp"
@@ -39,11 +40,12 @@
             <forward name="ws" path="/WEB-INF/jsp/clockWebService.jsp"/>
         </action>
 
-        <action path="/TimesheetSubmit" name="TimesheetSubmitActionForm" scope="request" input="/WEB-INF/jsp/timeDetail.jsp"
+        <action path="/TimesheetSubmit" name="TimesheetSubmitActionForm" scope="request"
+                input="/WEB-INF/jsp/timeDetail.jsp"
                 type="org.kuali.hr.time.detail.web.TimesheetSubmitAction" parameter="methodToCall" validate="false">
             <forward name="timesheetRedirect" path="/TimeDetail.do"/>
             <forward name="approverRedirect" path="/TimeApproval.do"/>
-        </action> 
+        </action>
 
         <action path="/TimeDetail" name="TimeDetailActionForm" scope="request" input="/WEB-INF/jsp/timeDetail.jsp"
                 type="org.kuali.hr.time.detail.web.TimeDetailAction" parameter="methodToCall" validate="false">
@@ -94,11 +96,18 @@
                 parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/batchJob.jsp"/>
         </action>
-        
-		<action path="/missedPunch" name="MissedPunchForm" input="/WEB-INF/jsp/missedPunch.jsp" type="org.kuali.hr.time.missedpunch.MissedPunchAction"
-			scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
-			<forward name="basic" path="/WEB-INF/jsp/missedPunch.jsp"/>
-		</action>        
+
+        <action path="/missedPunch" name="MissedPunchForm" input="/WEB-INF/jsp/missedPunch.jsp"
+                type="org.kuali.hr.time.missedpunch.MissedPunchAction"
+                scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/missedPunch.jsp"/>
+        </action>
+
+        <action path="/Help" name="HelpActionForm" scope="request" input="/WEB-INF/jsp/help.jsp"
+                type="org.kuali.hr.time.help.web.HelpAction" parameter="methodToCall" validate="false">
+            <forward name="basic" path="/WEB-INF/jsp/help.jsp"/>
+        </action>
+
 
     </action-mappings>
 

@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
 <div id="tab-section">
+    <li id="help" class="ui-state-default ui-corner-top"><a href="Help.do">Help</a></li>
     <c:if test="${Form.user.currentTargetRoles.systemAdmin || Form.user.currentTargetRoles.locationAdmin || Form.user.currentTargetRoles.departmentAdmin
     			|| Form.user.currentTargetRoles.globalViewOnly}">
         <li id="admin" class="ui-state-default ui-corner-top"><a href="Admin.do">Admin</a></li>
