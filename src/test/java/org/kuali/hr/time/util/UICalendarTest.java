@@ -9,8 +9,8 @@ import org.junit.Test;
 public class UICalendarTest extends SeleneseTestCase {
     @Before
     public void setUp() throws Exception {
-        selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://ci.kpme.kuali.org:9080/");
-//        selenium = new DefaultSelenium("localhost", 4444, "*firefox /Applications/Firefox.app/Contents/MacOS/firefox-bin", "http://localhost:8080/");
+//        selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://ci.kpme.kuali.org:9080/");
+        selenium = new DefaultSelenium("localhost", 4444, "*firefox /Applications/Firefox.app/Contents/MacOS/firefox-bin", "http://ci.kpme.kuali.org:9080/");
         // set speed to 1 sec between each action. this is mainly for the ajax call to get the earn code.
         selenium.setSpeed("1000");
         try {
@@ -28,13 +28,13 @@ public class UICalendarTest extends SeleneseTestCase {
     @Test
     public void testAddAndDeleteTimeBlock() throws Exception {
         openPageAndLogin("/tk-dev/TimeDetail.do");
-        selenium.waitForPageToLoad("3000");
+        selenium.waitForPageToLoad("5000");
         selenium.click("id=day_9");
         selenium.select("id=assignment", "value=1_1234_1");
         selenium.type("id=beginTimeField", "08:00 AM");
         selenium.type("id=endTimeField", "05:00 PM");
         selenium.click("//button[@type='button']");
-        selenium.waitForPageToLoad("3000");
+        selenium.waitForPageToLoad("5000");
         selenium.click("class=event-delete");
         selenium.waitForPageToLoad("3000");
         verifyFalse(selenium.isTextPresent("08:00 AM"));

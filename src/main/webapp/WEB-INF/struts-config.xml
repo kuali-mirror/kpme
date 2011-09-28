@@ -17,6 +17,8 @@
         <form-bean name="TimesheetSubmitActionForm" type="org.kuali.hr.time.detail.web.TimesheetSubmitActionForm"/>
         <form-bean name="MissedPunchForm" type="org.kuali.hr.time.missedpunch.MissedPunchForm"/>
         <form-bean name="HelpActionForm" type="org.kuali.hr.time.help.web.HelpActionForm"/>
+        <form-bean name="SessionInvalidateForm" type="org.kuali.hr.time.web.SessionInvalidateForm" />
+
     </form-beans>
 
 
@@ -106,6 +108,12 @@
         <action path="/Help" name="HelpActionForm" scope="request" input="/WEB-INF/jsp/help.jsp"
                 type="org.kuali.hr.time.help.web.HelpAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/help.jsp"/>
+        </action>
+
+        <action path="/SessionInvalidateAction" name="SessionInvalidateForm" scope="request"
+                input="/WEB-INF/jsp/sessionInvalidate.jsp"
+                type="org.kuali.hr.time.web.SessionInvalidateAction" parameter="methodToCall" validate="true">
+            <forward name="basic" path="/WEB-INF/jsp/sessionInvalidate.jsp"/>
         </action>
 
 

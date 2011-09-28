@@ -32,7 +32,7 @@
 				<hr>
 				<center>
 				<h5> For security reasons, your session expires after 30 minutes of inactivity. <BR><BR> 
-				   Please <a href="https://onestart.iu.edu/my2-prd/portal/145">click</a> here to access the TIME system.
+				   Please <a href="#">click</a> here to access the TIME system.
 				</h5>
 				<c:if test="${not empty stacktrace }">
 					<hr />
