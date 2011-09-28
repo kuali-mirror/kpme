@@ -244,6 +244,7 @@ public class TkUserRoles implements UserRoles {
         // Owner (and not enroute/final)
         writable |= ( StringUtils.equals(this.principalId, document.getPrincipalId())
                 && (StringUtils.equals(TkConstants.ROUTE_STATUS.INITIATED, document.getDocumentHeader().getDocumentStatus()) ||
+                	StringUtils.equals(TkConstants.ROUTE_STATUS.SAVED, document.getDocumentHeader().getDocumentStatus()) || 
                 	(StringUtils.equals(TkConstants.ROUTE_STATUS.ENROUTE, document.getDocumentHeader().getDocumentStatus()))));
 
 
