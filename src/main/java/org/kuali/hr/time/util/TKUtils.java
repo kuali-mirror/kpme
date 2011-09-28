@@ -6,6 +6,7 @@ import org.joda.time.*;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.rice.core.config.ConfigContext;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -357,6 +358,15 @@ public class TKUtils {
             str.append(string);
         }
         return str.toString();
+    }
+
+    /**
+     * Get the session timeout time. If it's not defined in the (local) config file, give it a default time.
+     */
+    public static int getSessionTimeoutTime() {
+        return StringUtils.isBlank(ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.SESSION_TIMEOUT))
+                ? 2700 :
+                Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.SESSION_TIMEOUT));
     }
 
 }

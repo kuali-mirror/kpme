@@ -1,8 +1,7 @@
 package org.kuali.hr.time;
 
 import org.apache.log4j.Logger;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.hr.time.util.TKUtils;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
@@ -18,7 +17,7 @@ public class SessionListener implements HttpSessionListener {
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         HttpSession session = httpSessionEvent.getSession();
 
-        session.setMaxInactiveInterval(Integer.parseInt((ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.SESSION_TIMEOUT))));
+        session.setMaxInactiveInterval(TKUtils.getSessionTimeoutTime());
 
         synchronized (this) {
             sessionCount++;

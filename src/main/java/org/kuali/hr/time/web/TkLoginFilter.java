@@ -1,7 +1,7 @@
 package org.kuali.hr.time.web;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.config.ConfigContext;
 
 import javax.servlet.*;
@@ -65,9 +65,7 @@ public class TkLoginFilter implements Filter {
     protected void applyRedirectHeader(ServletRequest request, ServletResponse response) {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        int sessionExpiredTime = StringUtils.isBlank(ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.SESSION_TIMEOUT))
-                ? 2700 :
-                Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.SESSION_TIMEOUT));
+        int sessionExpiredTime = TKUtils.getSessionTimeoutTime();
 
         if (!StringUtils.contains(httpRequest.getRequestURI(), "/SessionInvalidateAction")) {
             if (sessionExpiredTime > 0) {
