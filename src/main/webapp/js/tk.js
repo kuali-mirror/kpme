@@ -246,7 +246,7 @@ $(document).ready(function() {
             if (validFlag) {
                 var dateString = beginDate + ' ' + beginTime;
                 var beginTimeTemp = new Date(dateString);
-                beginTimeCol += bTimeFormated + valueSeperator;
+                var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes();
 
                 dateString = endDate + ' ' + endTime;
                 var endTimeTemp = new Date(dateString);
@@ -258,12 +258,15 @@ $(document).ready(function() {
         	    	var newEndDate = new Date(eTimeFormated);
         	    	var hrsDifferent = newEndDate - beginTimeTemp;
         	    } else if(i == 1){ // beginTime of first row should use begin time plus seconds from originalBeginTime 
-        	    	var bTimeFormated = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
-        	    	var newBeginDate = new Date(bTimeFormated);
+        	    	var bTime = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
+        	    	var newBeginDate = new Date(bTime);
         	    	var hrsDifferent = endTimeTemp - newBeginDate;
+        	    	var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
         	    } else {
         	    	var hrsDifferent = endTimeTemp - beginTimeTemp;
         	    }
+                
+                beginTimeCol += bTimeFormated + valueSeperator;
                 
                 if (hrsDifferent <= 0) {
                     updateTips("Hours for item " + i + "not valid");
@@ -615,8 +618,8 @@ function recalculateHrs(itr) {
 	    	var newEndDate = new Date(eTimeFormated);
 	    	var hrsDifferent = newEndDate - beginTimeTemp;
 	    } else if(itr == 1){ // beginTime of first row should use begin time plus seconds from originalBeginTime 
-	    	var bTimeFormated = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
-	    	var newBeginDate = new Date(bTimeFormated);
+	    	var bTime = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
+	    	var newBeginDate = new Date(bTime);
 	    	var hrsDifferent = endTimeTemp - newBeginDate;
 	    } else {
 	    	var hrsDifferent = endTimeTemp - beginTimeTemp;
