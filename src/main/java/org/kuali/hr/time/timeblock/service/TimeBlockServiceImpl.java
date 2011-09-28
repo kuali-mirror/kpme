@@ -156,6 +156,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
         TimeBlock tb = new TimeBlock();
         tb.setDocumentId(timesheetDocument.getDocumentHeader().getDocumentId());
+        tb.setPrincipalId(timesheetDocument.getPrincipalId());
         tb.setJobNumber(assignment.getJobNumber());
         tb.setWorkArea(assignment.getWorkArea());
         tb.setTask(assignment.getTask());

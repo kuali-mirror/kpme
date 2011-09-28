@@ -53,6 +53,7 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 	@SuppressWarnings("unchecked")
 	public List<TimeBlock> getTimeBlocksForAssignment(Assignment assign) {
     	Criteria rootCriteria = new Criteria();
+    	rootCriteria.addEqualTo("principalId", assign.getPrincipalId());
     	rootCriteria.addEqualTo("jobNumber", assign.getJobNumber());
     	rootCriteria.addEqualTo("task", assign.getTask());
     	rootCriteria.addEqualTo("workArea", assign.getWorkArea());
