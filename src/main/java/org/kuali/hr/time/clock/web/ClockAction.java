@@ -257,8 +257,8 @@ public class ClockAction extends TimesheetAction {
 		for(int i = 0; i < hrs.length; i++) {
 			TimeBlock tb = new TimeBlock();
 			BigDecimal hours = new BigDecimal(hrs[i]);
-			Timestamp beginTS = TKUtils.convertDateStringToTimestampNoTimeZone(beginDates[i], beginTimes[i]);
-			Timestamp endTS = TKUtils.convertDateStringToTimestampNoTimeZone(endDates[i], endTimes[i]);
+			Timestamp beginTS = TKUtils.convertDateStringToTimestamp(beginDates[i], beginTimes[i]);
+			Timestamp endTS = TKUtils.convertDateStringToTimestamp(endDates[i], endTimes[i]);
 			String assignString = assignments[i];
 			Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(assignString);
 			tb = TkServiceLocator.getTimeBlockService().createTimeBlock(caf.getTimesheetDocument(), beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false);
@@ -307,8 +307,8 @@ public class ClockAction extends TimesheetAction {
 		    }
 
 		    // check if the begin / end time are valid
-		    Timestamp beginTS = TKUtils.convertDateStringToTimestampNoTimeZone(beginDates[i], beginTimes[i]);
-			Timestamp endTS = TKUtils.convertDateStringToTimestampNoTimeZone(endDates[i], endTimes[i]);
+		    Timestamp beginTS = TKUtils.convertDateStringToTimestamp(beginDates[i], beginTimes[i]);
+			Timestamp endTS = TKUtils.convertDateStringToTimestamp(endDates[i], endTimes[i]);
 		    if ((beginTS.compareTo(endTS) > 0 || endTS.compareTo(beginTS) < 0)) {
 		        errorMsgList.add("The time or date for entry " + index + " is not valid.");
 		        caf.setOutputString(JSONValue.toJSONString(errorMsgList));

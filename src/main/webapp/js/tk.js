@@ -283,6 +283,7 @@ $(document).ready(function() {
             }
 
         }// end of for loop
+        totalHrs = totalHrs.toFixed(2);
         if (totalHrs != originalHrs) {
             updateTips("Total Hours entered not equal to the hours of the original time block");
             return false;
@@ -652,6 +653,7 @@ function recalculateTotal() {
         	totalHrs += parseFloat(hrs);
         }
     }
+    totalHrs = totalHrs.toFixed(2);
     $("#hrsTotal").val(totalHrs);
 }
 
