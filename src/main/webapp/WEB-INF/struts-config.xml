@@ -2,7 +2,6 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
         "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
 <struts-config>
-
     <form-beans>
         <form-bean name="ClockActionForm" type="org.kuali.hr.time.clock.web.ClockActionForm"/>
         <form-bean name="TimeDetailActionForm" type="org.kuali.hr.time.detail.web.TimeDetailActionForm"/>
@@ -21,17 +20,17 @@
 
     </form-beans>
 
+    <global-exceptions>
+        <exception type="java.lang.Throwable"
+                   handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
+                   key="meaningless"/>
+    </global-exceptions>
 
     <global-forwards type="org.apache.struts.action.ActionForward">
         <forward name="unauthorized" path="/WEB-INF/jsp/unauthorized.jsp"/>
         <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do"/>
     </global-forwards>
 
-    <global-exceptions>
-        <exception type="java.lang.Throwable"
-                   handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
-                   key="meaningless"/>
-    </global-exceptions>
 
     <action-mappings>
         <action path="/Clock" name="ClockActionForm" scope="request" input="/WEB-INF/jsp/clock.jsp"
@@ -122,5 +121,4 @@
     <controller processorClass="org.kuali.hr.time.web.TKRequestProcessor"/>
     <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory"
                        parameter="KR-ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.messaging.ApplicationResources,KIM-ApplicationResources,ApplicationResources"/>
-
-</struts-config>
+</struts-config>                    
