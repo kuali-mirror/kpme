@@ -10,11 +10,11 @@ public class TkPostProcessor extends DefaultPostProcessor {
 
 	@Override
 	public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {		
-		ProcessDocReport pdr = super.doRouteStatusChange(statusChangeEvent);
-
+		ProcessDocReport pdr = null;
 		Long documentId = statusChangeEvent.getRouteHeaderId();
 		TimesheetDocumentHeader document = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId.toString());
 		if (document != null) {
+			pdr = super.doRouteStatusChange(statusChangeEvent);
 			// Only update the status if it's different.
 			if (!document.getDocumentStatus().equals(statusChangeEvent.getNewRouteStatus())) {
 				document.setDocumentStatus(statusChangeEvent.getNewRouteStatus());

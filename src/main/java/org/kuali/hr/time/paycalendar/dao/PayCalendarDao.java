@@ -1,17 +1,16 @@
 package org.kuali.hr.time.paycalendar.dao;
 
-import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
-import org.kuali.hr.time.paytype.PayType;
-
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.hr.time.paycalendar.PayCalendar;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+
 public interface PayCalendarDao {
 
-	public void saveOrUpdate(PayType payCalendarDates);
+	public void saveOrUpdate(PayCalendar payCalendarDates);
 
-	public void saveOrUpdate(List<PayType> payCalendarDatesList);
+	public void saveOrUpdate(List<PayCalendar> payCalendarDatesList);
 
 	public PayCalendar getPayCalendar(Long hrPyCalendarId);
 
