@@ -188,7 +188,7 @@ public class WorkAreaMaintenanceDocumentRule extends
 	public Long getTaskNumber(WorkArea workArea) {
 		Long task = new Long("0");
 		
-		Task maxTaskInTable = TkServiceLocator.getTaskService().getMaxTaskByWorkArea(workArea.getTkWorkAreaId());
+		Task maxTaskInTable = TkServiceLocator.getTaskService().getMaxTask();
 		if(maxTaskInTable != null) {
 			// get the max of task number of the collection
 			task = maxTaskInTable.getTask() +1;

@@ -1,11 +1,10 @@
 package org.kuali.hr.time.task.service;
 
-import org.kuali.hr.job.Job;
-import org.kuali.hr.time.task.Task;
-import org.kuali.hr.time.task.dao.TaskDao;
-
 import java.sql.Date;
 import java.util.List;
+
+import org.kuali.hr.time.task.Task;
+import org.kuali.hr.time.task.dao.TaskDao;
 
 public class TaskServiceImpl implements TaskService {
 
@@ -31,7 +30,9 @@ public class TaskServiceImpl implements TaskService {
     } 
 
 	@Override
-	public Task getMaxTaskByWorkArea(Long workAreaId){
-		return taskDao.getMaxTaskByWorkArea(workAreaId);
+	public Task getMaxTask(){
+		return taskDao.getMaxTask();
 	}
+	
+	
 }

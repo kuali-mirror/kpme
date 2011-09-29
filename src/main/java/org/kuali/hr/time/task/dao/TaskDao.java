@@ -11,5 +11,5 @@ public interface TaskDao {
 
     public void saveOrUpdate(Task task);
     public void saveOrUpdate(List<Task> tasks);
-    public Task getMaxTaskByWorkArea(Long workAreaId);
+    public Task getMaxTask();
 }
