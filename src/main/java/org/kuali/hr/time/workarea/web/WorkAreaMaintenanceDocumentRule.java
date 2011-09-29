@@ -158,7 +158,10 @@ public class WorkAreaMaintenanceDocumentRule extends
 				if ( valid ){
 					if (task.getTask() == null){
 						Long maxTaskNumberInTable = this.getTaskNumber(wa);
-						Long maxTaskNumberOnPage = wa.getTasks().get((wa.getTasks().size()) -1 ).getTask();
+						Long maxTaskNumberOnPage = 0L;
+						if(wa.getTasks().size() > 0){
+							maxTaskNumberOnPage = wa.getTasks().get((wa.getTasks().size()) -1 ).getTask();
+						}
 						
 						if ( maxTaskNumberOnPage.compareTo(maxTaskNumberInTable) >= 0){
 							task.setTask(maxTaskNumberOnPage + 1);
