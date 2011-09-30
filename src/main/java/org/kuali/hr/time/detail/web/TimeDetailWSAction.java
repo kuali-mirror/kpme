@@ -167,7 +167,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         if (StringUtils.equals(tdaf.getAcrossDays(), "y") && tdaf.getHours() == null && tdaf.getAmount() == null) {
             if (startTemp.getHourOfDay() >= endTemp.getHourOfDay()
                     && !(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1
-                    && endTemp.getHourOfDay() == 0)) {
+                    || endTemp.getHourOfDay() == 0)) {
                 errorMsgList.add("The \"apply to each day\" box should not be checked.");
                 tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
                 return mapping.findForward("ws");
