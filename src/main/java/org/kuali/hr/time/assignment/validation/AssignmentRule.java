@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -18,6 +19,7 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.ValidationUtils;
@@ -52,6 +54,24 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 					this.putFieldError("workArea", "dept.workarea.invalid.sync");
 				}
 			}
+		}
+		return valid;
+	}
+
+	protected boolean validateDepartment(Assignment assignment) {
+		boolean valid = true;
+		if (assignment.getDept() != null) {
+				Criteria crit = new Criteria();
+				crit.addEqualTo("dept", assignment.getDept());
+				crit.addEqualTo("jobNumber", assignment.getJobNumber());
+				Query query = QueryFactory.newQuery(Job.class, crit);
+				int count = PersistenceBrokerFactory.defaultPersistenceBroker()
+						.getCount(query);
+				valid = (count > 0);
+				if (!valid) {
+					this.putFieldError("dept", "dept.jobnumber.invalid.sync");
+				}
+			 
 		}
 		return valid;
 	}
@@ -132,6 +152,28 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		} else {
 			this.putGlobalError("error.existence", "earn code '"
 					+ assignmentAccount.getEarnCode() + "'");
+		}
+		return valid;
+	}
+	
+	protected boolean validateRegPayEarnCode(Assignment assignment) {
+		boolean valid = true;
+		int index = 0;
+		LOG.debug("Validating Regular pay EarnCodes: " + assignment.getAssignmentAccounts().size());
+		for(AssignmentAccount assignmentAccount : assignment.getAssignmentAccounts()){
+			if(assignment.getJobNumber()!=null && assignment.getPrincipalId()!=null){
+				Job job = TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate(), false);
+				if(job !=null){
+					PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), assignment.getEffectiveDate());
+					if(!StringUtils.equals(assignmentAccount.getEarnCode(), payType.getRegEarnCode())){
+						valid = false;
+						this.putFieldError("assignmentAccounts[" + index
+								+ "].earnCode","earncode.regular.pay.required", assignmentAccount.getEarnCode());
+					}
+					
+				}
+			}
+			index++;
 		}
 		return valid;
 	}
@@ -231,9 +273,11 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				valid = true;
 				valid &= this.validateWorkArea(assignment);
 				valid &= this.validateJob(assignment);
+				valid &= this.validateDepartment(assignment);
 				valid &= this.validatePercentagePerEarnCode(assignment);
 				valid &= this.validateHasAccounts(assignment);
 				valid &= this.validateActiveFlag(assignment);
+				valid &= this.validateRegPayEarnCode(assignment);
 			}
 		}
 
