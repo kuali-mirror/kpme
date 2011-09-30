@@ -194,6 +194,7 @@ $(document).ready(function() {
                     .css({'color':'red','font-weight':'bold'});
         }
 
+    //    cleanTips();
 //	   function checkLength(o, n, min, max) {
 //	         if (o.val().length > max || o.val().length < min) {
 //	             o.addClass('ui-state-error');
@@ -247,9 +248,21 @@ $(document).ready(function() {
                 var dateString = beginDate + ' ' + beginTime;
                 var beginTimeTemp = new Date(dateString);
                 var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes();
-
+                // new tbs should not go beyond the original begin and end Date/Time
+                var compareBeginString = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
+    	    	var compareBeginDate = new Date(compareBeginString);
+                if(compareBeginDate < originalBeginDateTime) {
+                	updateTips("Begin Date/Time for item " + i + " goes beyond the original Begin Date/Time");
+                	return false;
+                }
+                
                 dateString = endDate + ' ' + endTime;
                 var endTimeTemp = new Date(dateString);
+                if(endTimeTemp > originalEndDateTime ) {
+                	updateTips("End Date/Time for item " + i + " goes beyond the original End Date/Time");
+                	return false;
+                }
+                
                 var eTimeFormated = endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes();
                 endTimeCol += eTimeFormated + valueSeperator;
 
@@ -416,6 +429,12 @@ function updateTips(t) {
     $('#validation').text(t)
             .addClass('ui-state-error')
             .css({'color':'red','font-weight':'bold'});
+}
+
+function cleanTips() {
+	 $('#validation')
+	 	.text('')
+	 	.removeClass('ui-state-error');
 }
 
 function addTimeBlockRow(form, tempArr) {
