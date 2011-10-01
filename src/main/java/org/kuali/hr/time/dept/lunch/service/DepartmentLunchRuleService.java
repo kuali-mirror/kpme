@@ -23,5 +23,10 @@ public interface DepartmentLunchRuleService {
 	 */
 	public void applyDepartmentLunchRule(List<TimeBlock> timeblocks);
 	
+	/**
+	 * Fetch department lunch rule by id
+	 * @param tkDeptLunchRuleId
+	 * @return
+	 */
 	public DeptLunchRule getDepartmentLunchRule(Long tkDeptLunchRuleId);
 }

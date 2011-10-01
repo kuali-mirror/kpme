@@ -4,11 +4,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.TkRoleGroup;
 import org.kuali.hr.time.roles.dao.TkRoleGroupDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 
 public class TkRoleGroupServiceImpl implements TkRoleGroupService {
 
@@ -31,6 +33,7 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
 	}
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public TkRoleGroup getRoleGroup(String principalId) {
 		return tkRoleGroupDao.getRoleGroup(principalId);
 	}

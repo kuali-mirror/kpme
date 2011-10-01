@@ -11,6 +11,11 @@ public interface DepartmentEarnCodeService {
 	 * 
 	 */
 	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String hr_sal_group, String location, Date asOfDate);
-
+	
+	/**
+	 * Fetch department earn code by id
+	 * @param hrDeptEarnCodeId
+	 * @return
+	 */
 	public DepartmentEarnCode getDepartmentEarnCode(Long hrDeptEarnCodeId);
 }

@@ -8,6 +8,7 @@ import org.kuali.hr.time.paycalendar.dao.PayCalendarDao;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TkConstants;
 
 import java.util.Date;
 import java.util.List;
@@ -21,18 +22,19 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 	}
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public PayCalendar getPayCalendar(Long hrPyCalendarId) {
 		return payCalendarDao.getPayCalendar(hrPyCalendarId);
 	}
 
 	@Override
-	@CacheResult
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public PayCalendar getPayCalendarByGroup(String pyCalendarGroup) {
 		return payCalendarDao.getPayCalendarByGroup(pyCalendarGroup);
 	}
 
     @Override
-    @CacheResult
+    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     public PayCalendarEntries getPayCalendarDatesByPayEndDate(String principalId, Date payEndDate) {
         PayCalendarEntries pcd = null;
 
@@ -44,7 +46,7 @@ public class PayCalendarServiceImpl implements PayCalendarService {
     }
 
 	@Override
-	@CacheResult
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public PayCalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate) {
 		PayCalendarEntries pcd = null;
         PayCalendar payCalendar = getPayCalendar(principalId, currentDate);
@@ -59,6 +61,7 @@ public class PayCalendarServiceImpl implements PayCalendarService {
      * @param date A date, Principal Calendars are EffDt/Timestamped, so we can any current date.
      * @return A PayCalendar
      */
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     private PayCalendar getPayCalendar(String principalId, Date date) {
         PayCalendar pcal = null;
 
@@ -86,7 +89,7 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 
         return pcal;
     }
-
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public PayCalendarEntries getPreviousPayCalendarEntry(Long tkPayCalendarId, Date beginDateCurrentPayCalendar){
 		return payCalendarDao.getPreviousPayCalendarEntry(tkPayCalendarId, beginDateCurrentPayCalendar);
 	}

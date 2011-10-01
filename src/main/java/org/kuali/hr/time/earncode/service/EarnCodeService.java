@@ -14,6 +14,7 @@ public interface EarnCodeService {
 	 * @return
 	 */
 	public List<EarnCode> getEarnCodes(Assignment a, Date asOfDate);
+
 	/**
 	 * Fetch an EarnCode of a particular date
 	 * @param earnCode
@@ -30,5 +31,10 @@ public interface EarnCodeService {
      */
     String getEarnCodeType(String earnCode, Date asOfDate);
     
+    /**
+     * Fetch earn code by id
+     * @param earnCodeId
+     * @return
+     */
     public EarnCode getEarnCodeById(Long earnCodeId);
 }

@@ -1,6 +1,7 @@
 package org.kuali.hr.time.workarea.service;
 
 import org.apache.log4j.Logger;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -20,6 +21,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 	}
 
     @Override
+    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     public List<WorkArea> getWorkAreas(String department, Date asOfDate) {
         List<WorkArea> wa = workAreaDao.getWorkArea(department, asOfDate);
 
@@ -33,6 +35,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
     }
 
     @Override
+    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public WorkArea getWorkArea(Long workArea, Date asOfDate) {
         WorkArea w = workAreaDao.getWorkArea(workArea, asOfDate);
         populateWorkAreaRoles(w);
@@ -73,6 +76,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
     }
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public WorkArea getWorkArea(Long tkWorkAreaId) {
 		return workAreaDao.getWorkArea(tkWorkAreaId);
 	}

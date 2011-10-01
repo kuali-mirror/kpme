@@ -39,7 +39,7 @@ public interface ClockLogDao {
 	public List<ClockLog> getOpenClockLogs(PayCalendarEntries payCalendarEntry);
 	
 	/**
-	 * Fetch 
+	 * Fetch clock log by id
 	 * @param tkClockLogId
 	 * @return
 	 */

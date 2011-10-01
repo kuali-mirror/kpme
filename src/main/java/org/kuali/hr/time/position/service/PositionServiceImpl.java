@@ -1,14 +1,17 @@
 package org.kuali.hr.time.position.service;
 
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.position.PositionNumber;
 import org.kuali.hr.time.position.dao.PositionDao;
+import org.kuali.hr.time.util.TkConstants;
 
 public class PositionServiceImpl implements PositionService {
 
 	private PositionDao positionDao;
 	
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public Position getPosition(Long hrPositionId) {
 		return positionDao.getPosition(hrPositionId);
 	}
@@ -20,6 +23,7 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
+    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     public void updatePositionNumber(String currentPositionNumber) {
         PositionNumber positionNumber = new PositionNumber();
         long updatedPositionNumber = Long.parseLong(currentPositionNumber);

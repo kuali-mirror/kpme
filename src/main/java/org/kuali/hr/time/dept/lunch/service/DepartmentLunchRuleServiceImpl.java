@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.dept.lunch.dao.DepartmentLunchRuleDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -19,7 +20,7 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 	private static final Logger LOG = Logger.getLogger(DepartmentLunchRuleServiceImpl.class);
 
 	@Override
-	//@CacheResult // Removed while testing.
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea,
 			String principalId, Long jobNumber, Date asOfDate) {
 		DeptLunchRule deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule(dept, workArea, principalId, jobNumber, asOfDate);
@@ -94,6 +95,7 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 	}
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public DeptLunchRule getDepartmentLunchRule(Long tkDeptLunchRuleId) {
 		return deptLunchRuleDao.getDepartmentLunchRule(tkDeptLunchRuleId);
 	}

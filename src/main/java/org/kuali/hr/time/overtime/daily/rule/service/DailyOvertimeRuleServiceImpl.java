@@ -42,6 +42,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	 *
 	 * asOfDate is required.
 	 */
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public DailyOvertimeRule getDailyOvertimeRule(String location, String paytype, String dept, Long workArea, Date asOfDate) {
 		DailyOvertimeRule dailyOvertimeRule = null;
 
@@ -354,6 +355,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	}
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public DailyOvertimeRule getDailyOvertimeRule(Long tkDailyOvertimeRuleId) {
 		return dailyOvertimeRuleDao.getDailyOvertimeRule(tkDailyOvertimeRuleId);
 	}

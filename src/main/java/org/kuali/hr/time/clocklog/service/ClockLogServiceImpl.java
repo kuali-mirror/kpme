@@ -62,25 +62,12 @@ public class ClockLogServiceImpl implements ClockLogService {
         if (lastLog != null) {
             lastClockTimestamp = lastLog.getClockTimestamp();
             beginClockLogId = lastLog.getTkClockLogId();
-        } else {
-
-            //TODO: need to handle the exception
-            //caf.setErrorMessage("No Clock action found for " + principalId);
-            //return mapping.findForward("basic");
-
-        }
-        // TODO: Do we have to set clockLog on the form?
-        //caf.setClockLog(clockLog);
+        } 
         endClockLogId = clockLog.getTkClockLogId();
 
         long beginTime = lastClockTimestamp.getTime();
         Timestamp beginTimestamp = new Timestamp(beginTime);
         Timestamp endTimestamp = clockLog.getClockTimestamp();
-
-//        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(td, selectedAssignment);
-
-        // TODO: Is there any case where the user is not a sync employee and still needs to clock in/out?
-        // String earnCode = TKContext.getUser().getCurrentTargetRoles().isSynchronous() ? assignment.getJob().getPayTypeObj().getRegEarnCode() : caf.getSelectedEarnCode();
 
         // New Time Blocks, pointer reference
         List<TimeBlock> newTimeBlocks = td.getTimeBlocks();
@@ -105,8 +92,6 @@ public class ClockLogServiceImpl implements ClockLogService {
 
         //call persist method that only saves added/deleted/changed timeblocks
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
-        //TkServiceLocator.getTimeHourDetailService().saveTimeHourDetail(tb);
-        //TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(caf);
     }
 
     @Override

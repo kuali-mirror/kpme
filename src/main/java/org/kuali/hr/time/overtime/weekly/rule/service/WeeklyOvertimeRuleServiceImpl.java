@@ -220,7 +220,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	}
 
 	@Override
-	@CacheResult
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<WeeklyOvertimeRule> getWeeklyOvertimeRules(Date asOfDate) {
 		return weeklyOvertimeRuleDao.findWeeklyOvertimeRules(asOfDate);
 	}
@@ -241,6 +241,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public WeeklyOvertimeRule getWeeklyOvertimeRule(Long tkWeeklyOvertimeRuleId) {
 		return weeklyOvertimeRuleDao.getWeeklyOvertimeRule(tkWeeklyOvertimeRuleId);
 	}

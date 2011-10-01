@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.graceperiod.dao.GracePeriodDao;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
+import org.kuali.hr.time.util.TkConstants;
 
 public class GracePeriodServiceImpl implements GracePeriodService {
 	private GracePeriodDao gracePeriodDao;
@@ -19,7 +20,7 @@ public class GracePeriodServiceImpl implements GracePeriodService {
 		this.gracePeriodDao = gracePeriodDao;
 	}
 	
-	@CacheResult
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public GracePeriodRule getGracePeriodRule(Date asOfDate){
 		return gracePeriodDao.getGracePeriodRule(asOfDate);
 	}
@@ -52,6 +53,7 @@ public class GracePeriodServiceImpl implements GracePeriodService {
 	}
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public GracePeriodRule getGracePeriodRule(Long tkGracePeriodId) {
 		return gracePeriodDao.getGracePeriodRule(tkGracePeriodId);
 	}

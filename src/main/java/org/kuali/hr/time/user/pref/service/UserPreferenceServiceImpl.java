@@ -11,7 +11,7 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
 	
 	
 	@Override
-	@CacheResult
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public UserPreferences getUserPreferences(String principalId) {
 		UserPreferences userPref = userPrefDao.getUserPreferences(principalId);
 		if(userPref == null){

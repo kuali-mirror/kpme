@@ -34,5 +34,10 @@ public interface DepartmentService {
      */
     public void populateDepartmentRoles(Department department);
     
+    /**
+     * Fetch department by id
+     * @param hrDeptId
+     * @return
+     */
     public Department getDepartment(Long hrDeptId);
 }

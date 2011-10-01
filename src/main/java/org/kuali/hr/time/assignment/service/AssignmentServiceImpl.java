@@ -12,11 +12,13 @@ import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 
 public class AssignmentServiceImpl implements AssignmentService {
 
@@ -33,6 +35,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<Assignment> getAssignments(String principalId, Date asOfDate) {
 		List<Assignment> assignments;
 
@@ -144,15 +147,18 @@ public class AssignmentServiceImpl implements AssignmentService {
 	}
 
     @Override
+    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public Assignment getAssignment(String tkAssignmentId) {
 		return getAssignmentDao().getAssignment(tkAssignmentId);
 	}
     
+    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     public Assignment getAssignment(Long tkAssignmentId){
     	return getAssignmentDao().getAssignment(tkAssignmentId);
     }
 
     @Override
+    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<Assignment> getActiveAssignmentsForWorkArea(Long workArea, Date asOfDate){
 		List<Assignment> assignments = assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
 		for(Assignment assignment :assignments){
@@ -162,6 +168,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 	}
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<Assignment> getActiveAssignments(Date asOfDate) {
 		return assignmentDao.getActiveAssignments(asOfDate);
 	}

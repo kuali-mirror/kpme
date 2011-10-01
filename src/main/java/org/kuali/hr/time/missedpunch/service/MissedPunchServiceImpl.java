@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.missedpunch.dao.MissedPunchDao;
@@ -127,7 +128,6 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
     }
-    
     public MissedPunchDocument getMissedPunchByClockLogId(Long clockLogId){
     	return missedPunchDao.getMissedPunchByClockLogId(clockLogId);
     }

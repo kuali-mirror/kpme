@@ -20,5 +20,10 @@ public interface GracePeriodService {
 	 */
 	public Timestamp processGracePeriodRule(Timestamp actualTime, Date asOfDate);
 	
+	/**
+	 * Fetch Grace period rule by id
+	 * @param tkGracePeriodId
+	 * @return
+	 */
 	public GracePeriodRule getGracePeriodRule(Long tkGracePeriodId);
 }

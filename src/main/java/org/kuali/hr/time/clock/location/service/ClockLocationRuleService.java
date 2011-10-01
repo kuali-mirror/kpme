@@ -25,6 +25,15 @@ public interface ClockLocationRuleService {
 	 */
 	public void processClockLocationRule(ClockLog clockLog, Date asOfDate);
 	
+	/**
+	 * 
+	 * @param dept
+	 * @param workArea
+	 * @param principalId
+	 * @param jobNumber
+	 * @param asOfDate
+	 * @return
+	 */
 	public List<ClockLocationRule> getNewerVersionClockLocationRule(String dept, Long workArea, String principalId, 
 			Long jobNumber, Date asOfDate);
 	/**

@@ -5,6 +5,7 @@ import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.clock.location.dao.ClockLocationDao;
 import org.kuali.hr.time.clocklog.ClockLog;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 import java.sql.Date;
@@ -59,7 +60,7 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	}
 
 	@Override
-	@CacheResult
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea,String principalId, Long jobNumber, Date asOfDate) {
 
         // 1 : dept, wa, principal, job
@@ -110,6 +111,7 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	}
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<ClockLocationRule> getNewerVersionClockLocationRule(
 			String dept, Long workArea, String principalId, Long jobNumber,
 			Date asOfDate) {
@@ -118,6 +120,7 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	}
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public ClockLocationRule getClockLocationRule(Long tkClockLocationRuleId) {
 		return clockLocationDao.getClockLocationRule(tkClockLocationRuleId);
 	}

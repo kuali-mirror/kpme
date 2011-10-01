@@ -5,8 +5,28 @@ import org.kuali.hr.time.batch.BatchJob;
 import java.util.List;
 
 public interface BatchJobDao {
+	/**
+	 * Save or update a batch job
+	 * @param batchJob
+	 */
     public void saveOrUpdate(BatchJob batchJob);
+    /**
+     * Get batch job by id
+     * @param batchJobId
+     * @return
+     */
 	public BatchJob getBatchJob(Long batchJobId);
-    public List<BatchJob> getBatchJobs(Long hrPyCalendarEntryId);
-    public List<BatchJob> getPayCalendarEntries(Long hrPyCalendarEntryId, String batchJobStatus);
+    /**
+     * Get batch jobs by pay calendar id
+     * @param hrPyCalendarEntryId
+     * @return
+     */
+	public List<BatchJob> getBatchJobs(Long hrPyCalendarEntryId);
+    /**
+     * Get pay calendar entries by id and batch job status
+     * @param hrPyCalendarEntryId
+     * @param batchJobStatus
+     * @return
+     */
+	public List<BatchJob> getPayCalendarEntries(Long hrPyCalendarEntryId, String batchJobStatus);
 }

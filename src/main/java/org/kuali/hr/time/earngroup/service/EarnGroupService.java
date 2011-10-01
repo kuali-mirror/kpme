@@ -42,6 +42,10 @@ public interface EarnGroupService {
 	 * @return
 	 */
 	public Set<String> getEarnCodeListForOvertimeEarnGroup();
-
+	
+	/**
+	 * Get Earn Code map for overtime earn group
+	 * @return
+	 */
     List<EarnCode> getEarnCodeMapForOvertimeEarnGroup();
 }

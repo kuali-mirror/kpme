@@ -17,7 +17,15 @@ public interface ClockLocationDao {
 	 */
 	public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea, String principalId, 
 													Long jobNumber, Date asOfDate);
-	
+	/**
+	 * Get list of clock location rules based on criteria
+	 * @param dept
+	 * @param workArea
+	 * @param principalId
+	 * @param jobNumber
+	 * @param asOfDate
+	 * @return
+	 */
 	public List<ClockLocationRule> getNewerVersionClockLocationRule(String dept, Long workArea, String principalId, 
 			Long jobNumber, Date asOfDate);
 	/**

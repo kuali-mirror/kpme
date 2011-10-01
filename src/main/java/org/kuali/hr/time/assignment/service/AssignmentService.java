@@ -57,6 +57,13 @@ public interface AssignmentService {
 	 */
 	public List<Assignment> getActiveAssignmentsForWorkArea(Long workArea, Date asOfDate);
 
+	/**
+	 * Get active assignments for all users for the current date
+	 * CAUTION this method will return a lot of data in a normal production env
+	 * It is intended to only be used in a batch setting
+	 * @param asOfDate
+	 * @return
+	 */
 	public List<Assignment> getActiveAssignments(Date asOfDate);
 
 
@@ -68,13 +75,26 @@ public interface AssignmentService {
     public Assignment getAssignment(AssignmentDescriptionKey key, Date asOfDate);
     
     /**
-     * 
+     * Fetch assignment by id
      * @param tkAssignmentId
      * @return
      */
     public Assignment getAssignment(Long tkAssignmentId);
     
+    /**
+     * Fetch principal id and key as of a particular date
+     * @param principalId
+     * @param key
+     * @param asOfDate
+     * @return
+     */
     public Assignment getAssignment(String principalId, AssignmentDescriptionKey key, Date asOfDate);
     
+    /**
+     * Get assignments by pay calendar entry
+     * @param principalId
+     * @param payCalendarEntry
+     * @return
+     */
     public List<Assignment> getAssignmentsByPayEntry(String principalId, PayCalendarEntries payCalendarEntry);
 }

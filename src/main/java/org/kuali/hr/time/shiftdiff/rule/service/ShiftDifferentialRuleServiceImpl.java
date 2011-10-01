@@ -564,12 +564,13 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 	}
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public ShiftDifferentialRule getShiftDifferentialRule(long tkShiftDifferentialRuleId) {
 		return this.shiftDifferentialRuleDao.findShiftDifferentialRule(tkShiftDifferentialRuleId);
 	}
 
 	@Override
-	@CacheResult
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<ShiftDifferentialRule> getShiftDifferentalRules(String location, String hrSalGroup, String payGrade, String pyCalendarGroup, Date asOfDate) {
 		List<ShiftDifferentialRule> sdrs = new ArrayList<ShiftDifferentialRule>();
 

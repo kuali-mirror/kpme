@@ -2,6 +2,7 @@ package org.kuali.hr.time.holidaycalendar.service;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry;
 import org.kuali.hr.time.holidaycalendar.dao.HolidayCalendarDao;
@@ -34,12 +35,14 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<HolidayCalendarDateEntry> getHolidayCalendarDateEntriesForPayPeriod(
 			Long hrHolidayCalendarId, Date startDate, Date endDate) {
 		return holidayCalendarDao.getHolidayCalendarDateEntriesForPayPeriod(hrHolidayCalendarId, startDate, endDate);
 	}
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(Long hrHolidayCalendarId, Date startDate) {
 		return holidayCalendarDao.getHolidayCalendarDateEntryByDate(hrHolidayCalendarId, startDate);
 	}

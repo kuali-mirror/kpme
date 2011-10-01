@@ -35,6 +35,10 @@ public interface DailyOvertimeRuleService {
 	 * @param aggregate
 	 */
 	public void processDailyOvertimeRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate);
-
+	/**
+	 * Fetch Daily overtime rule by id
+	 * @param tkDailyOvertimeRuleId
+	 * @return
+	 */
 	public DailyOvertimeRule getDailyOvertimeRule(Long tkDailyOvertimeRuleId);
 }

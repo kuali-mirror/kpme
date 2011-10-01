@@ -9,6 +9,7 @@ import org.kuali.hr.time.earncode.dao.EarnCodeDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 
 import java.sql.Date;
@@ -93,13 +94,14 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	}
 
     @Override
-    @CacheResult
+    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     public String getEarnCodeType(String earnCode, Date asOfDate) {
         EarnCode earnCodeObj = getEarnCode(earnCode, asOfDate);
         return earnCodeObj.getEarnCodeType();
     }
 
 	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public EarnCode getEarnCodeById(Long earnCodeId) {
 		return earnCodeDao.getEarnCodeById(earnCodeId);
 	}
