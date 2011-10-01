@@ -15,7 +15,15 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     public Task getTask(Long task, Date asOfDate) {
-        return taskDao.getTask(task, asOfDate);
+        Task taskObj =  taskDao.getTask(task, asOfDate);
+        if(taskObj == null){
+        	taskObj = new Task();
+        	taskObj.setActive(true);
+        	taskObj.setEffectiveDate(asOfDate);
+        	taskObj.setTask(task);
+        	taskObj.setDescription("Default");
+        }
+        return taskObj;
     }
 
     @Override
