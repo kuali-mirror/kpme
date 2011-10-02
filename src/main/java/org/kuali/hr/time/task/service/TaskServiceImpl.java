@@ -22,6 +22,7 @@ public class TaskServiceImpl implements TaskService {
         	taskObj.setEffectiveDate(asOfDate);
         	taskObj.setTask(task);
         	taskObj.setDescription("Default");
+        	taskObj.setTkTaskId(0L);
         }
         return taskObj;
     }
