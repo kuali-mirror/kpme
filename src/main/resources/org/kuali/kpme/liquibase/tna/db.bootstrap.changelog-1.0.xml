@@ -558,7 +558,7 @@
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="begin_period_date" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="0000-00-00 00:00:00" name="end_period_date" type="TIMESTAMP">
+            <column defaultValue="CURRENT_TIMESTAMP" name="end_period_date" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="initiate_date" type="DATE"/>
@@ -730,7 +730,7 @@
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="begin_time" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="0000-00-00 00:00:00" name="end_time" type="TIMESTAMP">
+            <column defaultValue="CURRENT_TIMESTAMP" name="end_time" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -1608,7 +1608,7 @@
             <column name="TASK" type="BIGINT"/>
             <column name="TK_WORK_AREA_ID" type="BIGINT"/>
             <column name="TK_TASK_ID" type="BIGINT"/>
-            <column defaultValue="0000-00-00 00:00:00" name="CLOCK_TS" type="TIMESTAMP">
+            <column defaultValue="CURRENT_TIMESTAMP" name="CLOCK_TS" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="CLOCK_TS_TZ" type="VARCHAR(50)"/>
@@ -1765,7 +1765,7 @@
             </column>
             <column name="ACTION_HISTORY" type="VARCHAR(15)"/>
             <column name="MODIFIED_BY_PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column defaultValue="0000-00-00 00:00:00" name="TIMESTAMP_MODIFIED" type="TIMESTAMP"/>
+            <column defaultValue="CURRENT_TIMESTAMP" name="TIMESTAMP_MODIFIED" type="TIMESTAMP"/>
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1317396430027-113">
@@ -1999,11 +1999,11 @@
             <column name="TK_WORK_AREA_ID" type="BIGINT"/>
             <column name="TK_TASK_ID" type="BIGINT"/>
             <column name="EARN_CODE" type="VARCHAR(3)"/>
-            <column defaultValue="0000-00-00 00:00:00" name="BEGIN_TS" type="TIMESTAMP">
+            <column defaultValue="CURRENT_TIMESTAMP" name="BEGIN_TS" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="BEGIN_TS_TZ" type="VARCHAR(50)"/>
-            <column defaultValue="0000-00-00 00:00:00" name="END_TS" type="TIMESTAMP">
+            <column defaultValue="CURRENT_TIMESTAMP" name="END_TS" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="END_TS_TZ" type="VARCHAR(50)"/>
@@ -2015,7 +2015,7 @@
             </column>
             <column name="ACTION_HISTORY" type="VARCHAR(15)"/>
             <column name="MODIFIED_BY_PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column defaultValue="0000-00-00 00:00:00" name="TIMESTAMP_MODIFIED" type="TIMESTAMP"/>
+            <column defaultValue="CURRENT_TIMESTAMP" name="TIMESTAMP_MODIFIED" type="TIMESTAMP"/>
             <column name="OBJ_ID" type="VARCHAR(36)">
                 <constraints nullable="false"/>
             </column>
@@ -2047,12 +2047,12 @@
             <column name="HR_JOB_ID" type="BIGINT"/>
             <column name="TK_TASK_ID" type="BIGINT"/>
             <column name="EARN_CODE" type="VARCHAR(3)"/>
-            <column defaultValue="0000-00-00 00:00:00" name="BEGIN_TS" type="TIMESTAMP">
+            <column defaultValue="CURRENT_TIMESTAMP" name="BEGIN_TS" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="BEGIN_TS_TZ" type="VARCHAR(50)"/>
             <column name="clock_log_begin_id" type="BIGINT"/>
-            <column defaultValue="0000-00-00 00:00:00" name="END_TS" type="TIMESTAMP">
+            <column defaultValue="CURRENT_TIMESTAMP" name="END_TS" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="END_TS_TZ" type="VARCHAR(50)"/>
