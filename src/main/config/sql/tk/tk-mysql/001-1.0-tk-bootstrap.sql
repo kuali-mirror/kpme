@@ -641,7 +641,7 @@ CREATE TABLE `hr_job_t` (
   `comp_rate` decimal(18,6) DEFAULT '0.000000',
   `location` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `std_hours` decimal(5,2) DEFAULT NULL,
-  `fte` bit(1) DEFAULT NULL,
+  `fte` varchar(1) DEFAULT NULL,
   `hr_paytype` varchar(5) COLLATE utf8_bin DEFAULT NULL,
   `active` varchar(1) COLLATE utf8_bin DEFAULT 'N',
   `primary_indicator` varchar(1) COLLATE utf8_bin DEFAULT 'N',
