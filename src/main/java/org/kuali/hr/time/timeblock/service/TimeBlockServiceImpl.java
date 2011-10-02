@@ -162,7 +162,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         tb.setTask(assignment.getTask());
         tb.setTkWorkAreaId(assignment.getWorkAreaObj().getTkWorkAreaId());
         tb.setHrJobId(assignment.getJob().getHrJobId());
-        Long tkTaskId = null;
+        Long tkTaskId = 0L;
         for (Task task : assignment.getWorkAreaObj().getTasks()) {
             if (task.getTask().compareTo(assignment.getTask()) == 0) {
                 tkTaskId = task.getTkTaskId();
