@@ -1,7 +1,12 @@
 package org.kuali.hr.time.dept.earncode.validation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -58,6 +63,26 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 			return true;
 		}
 	}
+	
+	boolean isEarnCodeUsedByActiveTimeBlocks(DepartmentEarnCode departmentEarnCode){
+		// kpme-1106 can not inactivation of a department earn code if it used in active timeblocks
+		boolean valid = false;
+		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestamp();
+		
+		if ( !departmentEarnCode.isActive() && departmentEarnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
+			List<TimeBlock> activeTimeBlocks = new ArrayList<TimeBlock>();
+			activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks();
+			for(TimeBlock activeTimeBlock : activeTimeBlocks){
+				if ( departmentEarnCode.getEarnCode().equals(activeTimeBlock.getEarnCode())){
+					this.putFieldError("earnCode", "deptEarncode.deptEarncode.inactivate", departmentEarnCode.getEarnCode());
+					valid =  false;
+				}
+			}
+		} 
+		
+		return valid;
+		
+	}
 
 	/**
 	 * It looks like the method that calls this class doesn't actually care
@@ -80,6 +105,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateEarnCode(departmentEarnCode);
 				valid &= this.validateDuplication(departmentEarnCode);
 				valid &= this.validateLocation(departmentEarnCode);
+				valid &= this.isEarnCodeUsedByActiveTimeBlocks(departmentEarnCode);
 			}
 
 		}
