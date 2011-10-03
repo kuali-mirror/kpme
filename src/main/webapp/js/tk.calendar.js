@@ -102,7 +102,7 @@ $(document).ready(function() {
             return false;
         }
         if (event.target.id.indexOf("_") > -1) {
-
+            $(this).earnCodeAjaxAnimation();
             var actionA = event.target.id.split("_");
             if (actionA.length == 2) {
                 var action = actionA[0];
@@ -184,25 +184,33 @@ $(document).ready(function() {
                         var overTimeEarnCodeHtml = "";
 
                         $.ajax({
-                            mode: 'queue',
+                            async: false,
                             url: "TimeDetailWS.do?methodToCall=getOvertimeEarnCodes",
                             //data: params,
                             cache: true,
                             success: function(data) {
                                 overTimeEarnCodeHtml += "<tr id='overtimeEarnCodeRow'>";
-                                overTimeEarnCodeHtml += "<td>Overtime Earn Code</td>";
+                                overTimeEarnCodeHtml += "<td>Overtime Earn Code : </td>";
                                 overTimeEarnCodeHtml += "<td><select name='overtimePref' id='overtimePref'>";
                                 // build the html of the overtime earn code drop down
                                 overTimeEarnCodeHtml += data;
                                 overTimeEarnCodeHtml += "</select></td>";
                                 overTimeEarnCodeHtml += "</tr>";
 
+                                // the purpose of this block of code is to show the overtime hours
+                                var details = jQuery.parseJSON(calEvent.timeHourDetails);
+                                for (obj in details) {
+                                    if (details[obj].earnCode == "OVT") {
+                                        $earnCodeField.after('<span class="overtime-hours" style="margin-left: 5px;"> Overtime hours : ' + details[obj].hours + '</span>');
+                                    }
+                                }
+
                                 // append the overtime dropdown to the earn code dropdown
                                 $earnCodeField.after(overTimeEarnCodeHtml);
 
-                                $('#overtimeEarnCodeRow select option[value*="' + selectedOverTimeEarnCode + '"]').attr("selected", "selected");
-                                $('#overtimeEarnCodeRow').find(":selected").loadFields();
 
+                                $('#overtimeEarnCodeRow select option[value*="' + selectedOverTimeEarnCode + '"]').attr("selected", "selected");
+                                $('#overtimeEarnCodeRow select').find(":selected").val().loadFields();
                             },
                             error: function() {
                                 updateTips("Error: Can't save data.");
@@ -210,7 +218,11 @@ $(document).ready(function() {
                             }
                         })
 
-                        $(this).earnCodeAjaxAnimation();
+                        $(".ui-button-text").each(function() {
+                            if ($(this).html() == 'Add') {
+                                $(this).html("Save");
+                            }
+                        });
                     }
                 }
             }
@@ -374,6 +386,7 @@ $(document).ready(function() {
 
             // validate timeblocks
             $.ajax({
+                async: false,
                 url: "TimeDetailWS.do?methodToCall=validateTimeEntry&documentId=" + docId,
                 data: params,
                 cache: false,
@@ -521,6 +534,7 @@ $.fn.loadEarnCode = function(assignment, selectedEarnCode) {
     params['selectedAssignment'] = assignment;
 
     $.ajax({
+        async: false,
         url: "TimeDetailWS.do?methodToCall=getEarnCodes",
         data: params,
         cache: true,
@@ -545,7 +559,8 @@ $.fn.loadFields = function() {
 
     // get the earn code type
     var fieldType = $(this).val().split("_")[1];
-    //console.log($(this).find(":selected").val());
+//    console.log($(this));
+//    console.log($(this).find(":selected").val());
 
     if (fieldType == 'OVT') {
         $('#clockIn, #clockOut, #amountSection, #hoursSection').hide();
@@ -609,6 +624,8 @@ $.fn.resetState = function() {
     $('.error').html('');
     // remove the error message and error state
     $('#validation').html('').removeClass('ui-state-error');
+
+    $("#loading-earnCodes").hide();
 }
 
 // clear the value of the specific field. If the field is not provided, all the input values in the $('#timesheet-panel') will be reset.
@@ -621,6 +638,12 @@ $.fn.resetValue = function(field) {
             $(this).val('');
         });
     }
+
+    $(".ui-button-text").each(function() {
+        if ($(this).html() == 'Save') {
+            $(this).html("Add");
+        }
+    });
 }
 
 $.fn.validateNumeric = function() {
