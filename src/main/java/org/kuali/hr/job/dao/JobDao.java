@@ -53,6 +53,14 @@ public interface JobDao {
 	public List<Job> getActiveJobsForPosition(String positionNbr, Date asOfDate);
 	
 	/**
+	 * Fetch active jobs that are incumbents of the payType
+	 * @param hrPayType
+	 * @param asOfDate
+	 * @return
+	 */
+	public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate);
+	
+	/**
 	 * Get job based on id
 	 * @param hrJobId
 	 * @return
