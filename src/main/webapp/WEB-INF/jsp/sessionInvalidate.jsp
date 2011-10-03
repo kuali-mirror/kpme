@@ -31,7 +31,7 @@
 				<div class="portlet-content">
 				<hr>
 				<center>
-				<h5> For security reasons, your session expires after 30 minutes of inactivity. <BR><BR> 
+				<h5> For security reasons, your session expires after 45 minutes of inactivity. <BR><BR>
 				   Please <a href="#">click</a> here to access the TIME system.
 				</h5>
 				<c:if test="${not empty stacktrace }">

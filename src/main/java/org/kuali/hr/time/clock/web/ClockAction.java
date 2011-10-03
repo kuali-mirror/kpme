@@ -28,7 +28,6 @@ import org.kuali.rice.kns.exception.AuthorizationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -351,5 +350,9 @@ public class ClockAction extends TimesheetAction {
 	    caf.setOutputString(JSONValue.toJSONString(errorMsgList));
 		return mapping.findForward("ws");
  	}
+
+    public ActionForward closeMissedPunchDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
+        return mapping.findForward("closeMissedPunchDoc");
+    }
     
 }

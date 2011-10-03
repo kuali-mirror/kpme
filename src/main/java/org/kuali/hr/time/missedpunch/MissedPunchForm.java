@@ -9,4 +9,9 @@ public class MissedPunchForm extends KualiTransactionalDocumentFormBase {
 	 */
 	private static final long serialVersionUID = 1L;
 
+    @Override
+    public String getBackLocation() {
+        return "Clock.do?methodToCall=closeMissedPunchDoc";
+    }
+
 }

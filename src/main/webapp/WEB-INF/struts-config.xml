@@ -39,6 +39,7 @@
             <forward name="tb" path="/WEB-INF/jsp/timeDistribute.jsp"/>
             <forward name="et" path="/WEB-INF/jsp/editTimeBlock.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/clockWebService.jsp"/>
+            <forward name="closeMissedPunchDoc" path="/WEB-INF/jsp/closeMissedPunchDoc.jsp"/>
         </action>
 
         <action path="/TimesheetSubmit" name="TimesheetSubmitActionForm" scope="request"

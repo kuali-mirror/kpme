@@ -142,7 +142,7 @@ $(document).ready(function() {
     $('#missed-punch-iframe-button').click(function() {
 
         $('#missed-punch-dialog').empty();
-        $('#missed-punch-dialog').append('<iframe width="800" height="500" src="missedPunch.do?methodToCall=docHandler&command=initiate&docTypeName=MissedPunchDocumentType&tdocid=' + tdocid + '"></iframe>');
+        $('#missed-punch-dialog').append('<iframe width="1024" height="650" src="missedPunch.do?methodToCall=docHandler&command=initiate&docTypeName=MissedPunchDocumentType&tdocid=' + tdocid + '"></iframe>');
 
         $('#missed-punch-dialog').dialog({
                     autoOpen: true,
