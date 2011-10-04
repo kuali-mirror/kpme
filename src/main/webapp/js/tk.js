@@ -33,35 +33,35 @@ $(document).ready(function() {
     $('.button').button();
 
     $('button').button({
-                icons : {
-                    primary : 'ui-icon-help'
-                },
-                text : false
-            });
+        icons : {
+            primary : 'ui-icon-help'
+        },
+        text : false
+    });
 
     $('.expand').button({
-                icons: {
-                    primary: 'ui-icon-plus'
-                }
-            });
+        icons: {
+            primary: 'ui-icon-plus'
+        }
+    });
 
     // datepicker
     $('#date-range-begin, #date-range-end, #bdRow1, #edRow1, #bdRow2, #edRow2').datepicker({
-                changeMonth : true,
-                changeYear : true,
-                showOn : 'button',
-                showAnim : 'fadeIn',
-                buttonImage : 'kr/static/images/cal.gif',
-                buttonImageOnly : true,
-                buttonText : 'Select a date',
-                showButtonPanel : true,
-                //numberOfMonths : 2,
-                // set default month based on the current browsing month
-                // appendText : '<br/>format: mm/dd/yyyy',
-                constrainInput : true,
-                minDate : new Date($('#beginPeriodDate').val()),
-                maxDate : new Date($('#endPeriodDate').val())
-            });
+        changeMonth : true,
+        changeYear : true,
+        showOn : 'button',
+        showAnim : 'fadeIn',
+        buttonImage : 'kr/static/images/cal.gif',
+        buttonImageOnly : true,
+        buttonText : 'Select a date',
+        showButtonPanel : true,
+        //numberOfMonths : 2,
+        // set default month based on the current browsing month
+        // appendText : '<br/>format: mm/dd/yyyy',
+        constrainInput : true,
+        minDate : new Date($('#beginPeriodDate').val()),
+        maxDate : new Date($('#endPeriodDate').val())
+    });
 
     // hide the date picker by default
     // https://jira.kuali.org/browse/KPME-395
@@ -87,46 +87,46 @@ $(document).ready(function() {
     var startTime = clockAction == 'CO' ? new Date(lastClockedInTime) : new Date(currentServerTime);
 
     $('.elapsedTime').countdown({
-                since : startTime,
-                compact : true,
-                format : 'dHMS',
-                description : ''
-            })
+        since : startTime,
+        compact : true,
+        format : 'dHMS',
+        description : ''
+    })
 
-    
+
     // tooltip
     // http://flowplayer.org/tools/tooltip/index.html
     $(" .holidayNameHelp").tooltip({ effect: 'slide'});
 
-    $("#beginTimeHelp, #endTimeHelp, #beginTimeHelp1, #endTimeHelp1, #hourHelp" ).tooltip({
+    $("#beginTimeHelp, #endTimeHelp, #beginTimeHelp1, #endTimeHelp1, #hourHelp").tooltip({
 
-                // place tooltip on the right edge
-                position : "center right",
+        // place tooltip on the right edge
+        position : "center right",
 
-                // a little tweaking of the position
-                offset : [-2, 10],
+        // a little tweaking of the position
+        offset : [-2, 10],
 
-                // use the built-in fadeIn/fadeOut effect
-                effect : "fade",
+        // use the built-in fadeIn/fadeOut effect
+        effect : "fade",
 
-                // custom opacity setting
-                opacity : 0.7,
+        // custom opacity setting
+        opacity : 0.7,
 
-                fadeInSpeed : 500
-            });
+        fadeInSpeed : 500
+    });
 
     // note accordion
     $("#note, #routeLog").accordion({
-                collapsible : true,
-                active : 2
-            });
+        collapsible : true,
+        active : 2
+    });
 
     // person detail accordion
     $("#person-detail-accordion").accordion({
-                collapsible : true,
-                active : 0,
-                autoHeight: false
-            });
+        collapsible : true,
+        active : 0,
+        autoHeight: false
+    });
 
     // apply time entry widget to the tabular view
     $(".timesheet-table-week1 :input, .timesheet-table-week2 :input").blur(
@@ -145,15 +145,20 @@ $(document).ready(function() {
         $('#missed-punch-dialog').append('<iframe width="1024" height="650" src="missedPunch.do?methodToCall=docHandler&command=initiate&docTypeName=MissedPunchDocumentType&tdocid=' + tdocid + '"></iframe>');
 
         $('#missed-punch-dialog').dialog({
-                    autoOpen: true,
-                    height: 'auto',
-                    width: 'auto',
-                    modal: true,
-                    buttons: {
-                        //"test" : function() {
-                        //}
-                    }
-                });
+            autoOpen: true,
+            height: 'auto',
+            width: 'auto',
+            modal: true,
+            buttons: {
+                //"test" : function() {
+                //}
+            },
+            beforeClose: function(event, ui) {
+                var URL = unescape(window.parent.location.pathname);
+                window.parent.location.href = URL;
+                window.close();
+            }
+        });
     });
 
     $("#bdRow1, #edRow1").change(function() {
@@ -165,13 +170,13 @@ $(document).ready(function() {
         $(this).removeClass('ui-state-error');
         recalculateHrs(2);
     });
-    
+
     $("#btRow1, #etRow1").change(function() {
         $(this).removeClass('ui-state-error');
         magicTime($(this));
         recalculateHrs(1);
     });
-    
+
     $("#btRow2, #etRow2").change(function() {
         $(this).removeClass('ui-state-error');
         magicTime($(this));
@@ -194,7 +199,7 @@ $(document).ready(function() {
                     .css({'color':'red','font-weight':'bold'});
         }
 
-    //    cleanTips();
+        //    cleanTips();
 //	   function checkLength(o, n, min, max) {
 //	         if (o.val().length > max || o.val().length < min) {
 //	             o.addClass('ui-state-error');
@@ -225,7 +230,7 @@ $(document).ready(function() {
         var form1 = document.forms[0];
         var originalEndDateTime = new Date(form1.endTimestamp.value);
         var originalBeginDateTime = new Date(form1.beginTimestamp.value);
-        
+
         for (var i = 1; i < rowLength - 1; i++) {
             var assignValue = $("#assignmentRow" + i).val();
             var beginDate = $("#bdRow" + i).val();
@@ -250,37 +255,37 @@ $(document).ready(function() {
                 var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes();
                 // new tbs should not go beyond the original begin and end Date/Time
                 var compareBeginString = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
-    	    	var compareBeginDate = new Date(compareBeginString);
-                if(compareBeginDate < originalBeginDateTime) {
-                	updateTips("Begin Date/Time for item " + i + " goes beyond the original Begin Date/Time");
-                	return false;
+                var compareBeginDate = new Date(compareBeginString);
+                if (compareBeginDate < originalBeginDateTime) {
+                    updateTips("Begin Date/Time for item " + i + " goes beyond the original Begin Date/Time");
+                    return false;
                 }
-                
+
                 dateString = endDate + ' ' + endTime;
                 var endTimeTemp = new Date(dateString);
-                if(endTimeTemp > originalEndDateTime ) {
-                	updateTips("End Date/Time for item " + i + " goes beyond the original End Date/Time");
-                	return false;
+                if (endTimeTemp > originalEndDateTime) {
+                    updateTips("End Date/Time for item " + i + " goes beyond the original End Date/Time");
+                    return false;
                 }
-                
+
                 var eTimeFormated = endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes();
                 endTimeCol += eTimeFormated + valueSeperator;
 
-                if(i == rowLength - 2) { // endTime of last row should include seconds of originalEndTime
-        	    	var eTimeFormated = endDate + ' ' + endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes() + ':' + originalEndDateTime.getSeconds();
-        	    	var newEndDate = new Date(eTimeFormated);
-        	    	var hrsDifferent = newEndDate - beginTimeTemp;
-        	    } else if(i == 1){ // beginTime of first row should use begin time plus seconds from originalBeginTime 
-        	    	var bTime = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
-        	    	var newBeginDate = new Date(bTime);
-        	    	var hrsDifferent = endTimeTemp - newBeginDate;
-        	    	var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
-        	    } else {
-        	    	var hrsDifferent = endTimeTemp - beginTimeTemp;
-        	    }
-                
+                if (i == rowLength - 2) { // endTime of last row should include seconds of originalEndTime
+                    var eTimeFormated = endDate + ' ' + endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes() + ':' + originalEndDateTime.getSeconds();
+                    var newEndDate = new Date(eTimeFormated);
+                    var hrsDifferent = newEndDate - beginTimeTemp;
+                } else if (i == 1) { // beginTime of first row should use begin time plus seconds from originalBeginTime
+                    var bTime = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
+                    var newBeginDate = new Date(bTime);
+                    var hrsDifferent = endTimeTemp - newBeginDate;
+                    var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
+                } else {
+                    var hrsDifferent = endTimeTemp - beginTimeTemp;
+                }
+
                 beginTimeCol += bTimeFormated + valueSeperator;
-                
+
                 if (hrsDifferent <= 0) {
                     updateTips("Hours for item " + i + "not valid");
                     var hrs = hrsDifferent / 3600000;
@@ -321,43 +326,43 @@ $(document).ready(function() {
         params['tbId'] = timeBlockId;
 
         $.ajax({
-                    url: "Clock.do?methodToCall=validateNewTimeBlock",
-                    data: params,
-                    cache: false,
-                    success: function(data) {
-                        var json = jQuery.parseJSON(data);
-                        // if there is no error message, submit the form and save the new time blocks
-        				if(json == null || json.length == 0) {
-	            			$.ajax({ 
-	            				url: "Clock.do?methodToCall=saveNewTimeBlocks",
-	                            data: params,
-	                            cache: false,
-	                            success: function(data) {
-	            					// save is successful, close the window
-	            					window.close();
-	            					return false;
-	            				},
-	            				error: function() {
-	            					updateTips("Cannot save the time blocks");
-	            		            return false;
-	            		        }
-	            				
-	            			});
-                        } else {
-                            // if there is any error, grab error messages (json) and put them in the error message
-                            var json = jQuery.parseJSON(data);
-                            $.each(json, function (index) {
-                                errorMsgs += "Error : " + json[index] + "\n";
-                            });
-                            updateTips(errorMsgs);
+            url: "Clock.do?methodToCall=validateNewTimeBlock",
+            data: params,
+            cache: false,
+            success: function(data) {
+                var json = jQuery.parseJSON(data);
+                // if there is no error message, submit the form and save the new time blocks
+                if (json == null || json.length == 0) {
+                    $.ajax({
+                        url: "Clock.do?methodToCall=saveNewTimeBlocks",
+                        data: params,
+                        cache: false,
+                        success: function(data) {
+                            // save is successful, close the window
+                            window.close();
+                            return false;
+                        },
+                        error: function() {
+                            updateTips("Cannot save the time blocks");
                             return false;
                         }
-                    },
-                    error: function() {
-              			updateTips("Validation failed");
-                        return false;
-                    }
-                })
+
+                    });
+                } else {
+                    // if there is any error, grab error messages (json) and put them in the error message
+                    var json = jQuery.parseJSON(data);
+                    $.each(json, function (index) {
+                        errorMsgs += "Error : " + json[index] + "\n";
+                    });
+                    updateTips(errorMsgs);
+                    return false;
+                }
+            },
+            error: function() {
+                updateTips("Validation failed");
+                return false;
+            }
+        })
 
     });
 
@@ -369,22 +374,22 @@ $(document).ready(function() {
 
         window.location = "BatchJob.do?methodToCall=changeIpAddress&ipToChange=" + ipToChange + "&tkBatchJobEntryId=" + tkBatchJobEntryId;
     });
-    
-    
+
+
     $('#pay_period_prev').button({
         icons: {
             primary: 'ui-icon-circle-triangle-w'
         },
         text: false
     });
-    
+
     $('#pay_period_next').button({
         icons: {
             primary: "ui-icon-circle-triangle-e"
         },
         text: false
     });
-    
+
 });
 
 $.fn.parseTime = function() {
@@ -432,9 +437,9 @@ function updateTips(t) {
 }
 
 function cleanTips() {
-	 $('#validation')
-	 	.text('')
-	 	.removeClass('ui-state-error');
+    $('#validation')
+            .text('')
+            .removeClass('ui-state-error');
 }
 
 function addTimeBlockRow(form, tempArr) {
@@ -531,7 +536,7 @@ function addTimeBlockRow(form, tempArr) {
     el.value = form.endDateOnly.value;
     datePickerId += ', #' + idString;
     cellEndDate.appendChild(el);
-    
+
 
     var cellEndTime = row.insertCell(5);
     var el = document.createElement('input');
@@ -571,31 +576,31 @@ function addTimeBlockRow(form, tempArr) {
 
     // datepicker
     $(datePickerId).datepicker({
-                changeMonth : true,
-                changeYear : true,
-                showOn : 'button',
-                showAnim : 'fadeIn',
-                buttonImage : 'kr/static/images/cal.gif',
-                buttonImageOnly : true,
-                buttonText : 'Select a date',
-                showButtonPanel : true,
-                constrainInput : true,
-                minDate : new Date($('#beginDate').val()),
-                maxDate : new Date($('#endDate').val())
-            });
+        changeMonth : true,
+        changeYear : true,
+        showOn : 'button',
+        showAnim : 'fadeIn',
+        buttonImage : 'kr/static/images/cal.gif',
+        buttonImageOnly : true,
+        buttonText : 'Select a date',
+        showButtonPanel : true,
+        constrainInput : true,
+        minDate : new Date($('#beginDate').val()),
+        maxDate : new Date($('#endDate').val())
+    });
 
     //time format helper
     $(timeHelpId).tooltip({
-                // place tooltip on the right edge
-                position : "center right",
-                // a little tweaking of the position
-                offset : [-2, 10],
-                // use the built-in fadeIn/fadeOut effect
-                effect : "fade",
-                // custom opacity setting
-                opacity : 0.7,
-                fadeInSpeed : 100
-            });
+        // place tooltip on the right edge
+        position : "center right",
+        // a little tweaking of the position
+        offset : [-2, 10],
+        // use the built-in fadeIn/fadeOut effect
+        effect : "fade",
+        // custom opacity setting
+        opacity : 0.7,
+        fadeInSpeed : 100
+    });
 
     $(datePickerId).change(function() {
         $(this).removeClass('ui-state-error');
@@ -621,7 +626,7 @@ function recalculateHrs(itr) {
     var form1 = document.forms[0];
     var originalEndDateTime = new Date(form1.endTimestamp.value);
     var originalBeginDateTime = new Date(form1.beginTimestamp.value);
-    
+
     validFlag &= checkLength($("#bdRow" + itr), "Date/Time", 10, 10);
     validFlag &= checkLength($("#edRow" + itr), "Date/Time", 10, 10);
     validFlag &= checkLength($("#btRow" + itr), "Date/Time", 8, 8);
@@ -632,23 +637,23 @@ function recalculateHrs(itr) {
         var beginTimeTemp = new Date(dateString);
         dateString = endDate + ' ' + endTime;
         var endTimeTemp = new Date(dateString);
-        
-	    if(itr == rowLength - 2) { // endTime of last row should include seconds of originalEndTime
-	    	var eTimeFormated = endDate + ' ' + endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes() + ':' + originalEndDateTime.getSeconds();
-	    	var newEndDate = new Date(eTimeFormated);
-	    	var hrsDifferent = newEndDate - beginTimeTemp;
-	    } else if(itr == 1){ // beginTime of first row should use begin time plus seconds from originalBeginTime 
-	    	var bTime = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
-	    	var newBeginDate = new Date(bTime);
-	    	var hrsDifferent = endTimeTemp - newBeginDate;
-	    } else {
-	    	var hrsDifferent = endTimeTemp - beginTimeTemp;
-	    }
-	    
+
+        if (itr == rowLength - 2) { // endTime of last row should include seconds of originalEndTime
+            var eTimeFormated = endDate + ' ' + endTimeTemp.getHours() + ':' + endTimeTemp.getMinutes() + ':' + originalEndDateTime.getSeconds();
+            var newEndDate = new Date(eTimeFormated);
+            var hrsDifferent = newEndDate - beginTimeTemp;
+        } else if (itr == 1) { // beginTime of first row should use begin time plus seconds from originalBeginTime
+            var bTime = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
+            var newBeginDate = new Date(bTime);
+            var hrsDifferent = endTimeTemp - newBeginDate;
+        } else {
+            var hrsDifferent = endTimeTemp - beginTimeTemp;
+        }
+
         if (hrsDifferent <= 0) {
             updateTips("Hours for item " + itr + "not valid");
             var hrs = hrsDifferent / 3600000;
-            hrs = Math.round(hrs*100)/100;
+            hrs = Math.round(hrs * 100) / 100;
             $("#hrRow" + itr).val(hrs);
             return false;
         }
@@ -668,8 +673,8 @@ function recalculateTotal() {
     var totalHrs = 0;
     for (var i = 1; i < rowLength - 1; i++) {
         var hrs = $("#hrRow" + i).val();
-        if(hrs != undefined && hrs != "") {
-        	totalHrs += parseFloat(hrs);
+        if (hrs != undefined && hrs != "") {
+            totalHrs += parseFloat(hrs);
         }
     }
     totalHrs = totalHrs.toFixed(2);

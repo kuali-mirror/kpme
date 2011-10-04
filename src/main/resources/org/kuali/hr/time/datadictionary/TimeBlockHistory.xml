@@ -27,6 +27,7 @@
                 <ref bean="TimeBlockHistory-amount"/>
                 <ref bean="TimeBlockHistory-timeStamp"/>
                 <ref bean="TimeBlockHistory-userPrincipalId"/>
+                <ref bean="TimeBlockHistory-principalId"/>
                 <ref bean="TimeBlockHistory-actionHistory"/>
                 <ref bean="TimeBlockHistory-timesheetDocumentHeader.documentStatus"/>
                 <ref bean="TimeBlockHistory-timesheetDocumentHeader.payBeginDate"/>
@@ -209,6 +210,22 @@
         <property name="label" value="User Principal Id"/>
     </bean>
 
+    <bean id="TimeBlockHistory-principalId" parent="TimeBlockHistory-principalId-parentBean"/>
+    <bean id="TimeBlockHistory-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Principal Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false"/>
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="name" value="principalId"/>
+        <property name="label" value="Principal Id"/>
+    </bean>
+
     <bean id="TimeBlockHistory-actionHistory" parent="TimeBlockHistory-actionHistory-parentBean"/>
     <bean id="TimeBlockHistory-actionHistory-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Action History"/>
@@ -336,6 +353,7 @@
         <property name="lookupFields">
             <list>
                 <bean parent="FieldDefinition" p:attributeName="documentId"/>
+                <bean parent="FieldDefinition" p:attributeName="principalId"/>
                 <bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
                 <bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.documentStatus"/>
                 <bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.payBeginDate"/>
@@ -346,6 +364,7 @@
             <list>
                 <bean parent="FieldDefinition" p:attributeName="documentId"/>
                 <bean parent="FieldDefinition" p:attributeName="tkTimeBlockId"/>
+                <bean parent="FieldDefinition" p:attributeName="principalId"/>
                 <bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
                 <bean parent="FieldDefinition" p:attributeName="earnCode"/>
                 <bean parent="FieldDefinition" p:attributeName="actionHistory"/>
