@@ -504,6 +504,7 @@
 				<bean parent="FieldDefinition" p:attributeName="lastName" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 				<bean parent="FieldDefinition" p:attributeName="dept" />
+				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 				<bean parent="FieldDefinition" p:attributeName="hrPayType" />
 			    <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
@@ -520,6 +521,7 @@
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="location" />
+				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="primaryIndicator" />
