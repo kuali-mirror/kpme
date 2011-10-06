@@ -6,6 +6,7 @@ import org.joda.time.*;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.task.Task;
 import org.kuali.rice.core.config.ConfigContext;
 
 import javax.servlet.http.HttpServletRequest;
@@ -124,7 +125,28 @@ public class TKUtils {
                 || assignment.getJobNumber() == null) {
             return "";     // getAssignment() of AssignmentService can return an empty assignment
         }
-        return assignment.getWorkAreaObj().getDescription() + " : $" + assignment.getJob().getCompRate().setScale(TkConstants.BIG_DECIMAL_SCALE) + " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
+        
+       String stringTemp = assignment.getWorkAreaObj().getDescription() + " : $" 
+       				+ assignment.getJob().getCompRate().setScale(TkConstants.BIG_DECIMAL_SCALE) 
+       				+ " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
+       if(assignment.getTask()!= null) {
+	       	Task aTask = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
+	       	if(aTask != null) {
+	       		stringTemp += " " +  aTask.getDescription();
+	       	} 
+       }
+       return stringTemp;
+    }
+    
+    public static String getAssignmentStringWithTask(Assignment assignment) {
+    	String stringTemp = getAssignmentString(assignment);
+    	if(assignment.getTask()!= null) {
+        	Task aTask = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
+        	if(aTask != null) {
+        		stringTemp += " " +  aTask.getDescription();
+        	} 
+        }
+    	return stringTemp;
     }
 
     /**
