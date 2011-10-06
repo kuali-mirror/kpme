@@ -109,6 +109,27 @@ var timeParsePatterns = [
         }
 
     },
+    //  hmm p/pm
+    {  	re: /^([0-9]{3})(p$|pm$| p$| pm$)/i,
+        example: new Array('905p', '905 p', '905p', '905 pm'),
+        handler: function(bits) {
+            var d = new Date();
+            var h = parseInt(bits[1].substring(0, 1));
+            var m = parseInt(bits[1].substring(1, 3), 10);
+            if (isNaN(m)) {
+                m = 0;
+            }
+            if (h < 12) {
+                h += 12;
+            }
+            
+            d.setHours(h);
+            //d.setHours(parseInt(h, 10));
+            d.setMinutes(parseInt(m, 10));
+
+            return d;
+        }
+    },
     // p.m.
     {   re: /(\d{1,2}):(\d{1,2}):(\d{1,2})(?:p| p)/i,
         example: new Array('9:55:00 pm', '12:55:00 p.m.', '9:55:00 p', '11:5:10pm', '9:5:1p'),
@@ -176,7 +197,7 @@ var timeParsePatterns = [
             return d;
         }
     },
-	// hmm
+    // 9, hhmm
     {   re: /(^[0-9]{3}$)/,
         example: new Array('900', '905'),
         handler: function(bits) {
@@ -186,16 +207,31 @@ var timeParsePatterns = [
             if (isNaN(m)) {
                 m = 0;
             }
-           
             d.setHours(parseInt(h, 10));
             d.setMinutes(parseInt(m, 10));
 
             return d;
         }
     },
-    // hhmmss
+    // 10, hhmm a/am
+    {  	re: /^([0-9]{3})(a$|am$| a$| am$)/i,
+        example: new Array('905a', '905 a', '905am', '905 am'),
+        handler: function(bits) {
+            var d = new Date();
+            var h = bits[1].substring(0, 1);
+            var m = parseInt(bits[1].substring(1, 3), 10);
+            if (isNaN(m)) {
+                m = 0;
+            }
+            d.setHours(parseInt(h, 10));
+            d.setMinutes(parseInt(m, 10));
+
+            return d;
+        }
+    },
+    // 11, hhmmss
     {   re: /(\d{1,6})/,
-        example: new Array('9', '9a', '9am', '19', '1950', '195510', '0955'),
+    	example: new Array('9', '9a', '9am', '19', '1950', '195510', '0955'),
         handler: function(bits) {
             var d = new Date();
             var h = bits[1].substring(0, 2);
