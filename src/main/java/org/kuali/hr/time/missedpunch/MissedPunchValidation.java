@@ -50,9 +50,9 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         if (lastClock == null)
             return valid;
 
-        DateTime clockLogDateTime = new DateTime(lastClock.getClockTimestamp().getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-        LocalTime actionTimeLocal = new LocalTime(mp.getActionTime().getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-        DateTime actionDateTime = new DateTime(mp.getActionDate().getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+        DateTime clockLogDateTime = new DateTime(lastClock.getClockTimestamp().getTime());
+        LocalTime actionTimeLocal = new LocalTime(mp.getActionTime().getTime());
+        DateTime actionDateTime = new DateTime(mp.getActionDate().getTime());
         actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
         DateTime boundaryMax = clockLogDateTime.plusDays(1);
 

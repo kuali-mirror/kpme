@@ -9,7 +9,6 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.missedpunch.dao.MissedPunchDao;
@@ -37,8 +36,10 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     public void updateClockLogAndTimeBlockIfNecessary(MissedPunchDocument missedPunch){
         java.util.Date actionDate = missedPunch.getActionDate();
         java.sql.Time actionTime = missedPunch.getActionTime();
-        LocalTime actionTimeLocal = new LocalTime(actionTime.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-        DateTime actionDateTime = new DateTime(actionDate.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+        
+        LocalTime actionTimeLocal = new LocalTime(actionTime.getTime());
+        DateTime actionDateTime = new DateTime(actionDate.getTime());
+
         actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
         
         ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(missedPunch.getTkClockLogId());
@@ -57,8 +58,10 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     public void addClockLogForMissedPunch(MissedPunchDocument missedPunch){
         java.util.Date actionDate = missedPunch.getActionDate();
         java.sql.Time actionTime = missedPunch.getActionTime();
-        LocalTime actionTimeLocal = new LocalTime(actionTime.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-        DateTime actionDateTime = new DateTime(actionDate.getTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+        
+        LocalTime actionTimeLocal = new LocalTime(actionTime.getTime());
+        DateTime actionDateTime = new DateTime(actionDate.getTime());
+ 
         actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
         missedPunch.setActionDate(new java.util.Date(actionDateTime.getMillis()));
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
