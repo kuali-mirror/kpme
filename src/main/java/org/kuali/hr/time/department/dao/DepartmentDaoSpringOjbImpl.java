@@ -92,4 +92,18 @@ public class DepartmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		Query query = QueryFactory.newQuery(Department.class, crit);
 		return (Department)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
+	
+	@Override
+	public List<Department> getDepartmentByLocation(String location) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("location", location);
+		
+		Query query = QueryFactory.newQuery(Department.class, crit);
+
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		List<Department> d = new ArrayList<Department>(c.size());
+        d.addAll(c);
+
+		return d;		
+	}
 }

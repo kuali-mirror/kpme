@@ -59,4 +59,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 	public Department getDepartment(Long hrDeptId) {
 		return departmentDao.getDepartment(hrDeptId);
 	}
+	
+	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+	public List<Department> getDepartmentByLocation(String location) {
+		return departmentDao.getDepartmentByLocation(location);
+	}
 }

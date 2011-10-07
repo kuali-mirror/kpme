@@ -10,4 +10,5 @@ public interface DepartmentDao {
 	public Department getDepartment(String department,Date asOfDate);
     public List<Department> getDepartments(String location, Date asOfDate);
     public Department getDepartment(Long hrDeptId);
+    public List<Department> getDepartmentByLocation(String location);
 }

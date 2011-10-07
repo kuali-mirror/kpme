@@ -40,4 +40,10 @@ public interface DepartmentService {
      * @return
      */
     public Department getDepartment(Long hrDeptId);
+    /**
+     * Fetch department by location
+     * @param location
+     * @return
+     */
+    public List<Department> getDepartmentByLocation(String location);
 }

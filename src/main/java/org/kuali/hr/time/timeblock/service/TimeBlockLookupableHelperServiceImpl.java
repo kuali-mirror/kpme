@@ -9,7 +9,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.job.Job;
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -50,7 +57,38 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
         	Iterator itr = objectList.iterator();
 			while(itr.hasNext()){
 				TimeBlock tb = (TimeBlock)itr.next();
-				
+				List<TkRole> tkRoles = TkServiceLocator.getTkRoleService().getRoles(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
+				Job job = TkServiceLocator.getJobSerivce().getJob(tb.getUserPrincipalId(), tb.getJobNumber(), TKUtils.getCurrentDate(), false);
+				boolean valid = false;
+				for (TkRole tkRole : tkRoles) {
+					if (StringUtils.equals(tkRole.getRoleName(),
+							TkConstants.ROLE_TK_SYS_ADMIN)
+							|| (StringUtils.equals(tkRole.getRoleName(),
+									TkConstants.ROLE_TK_APPROVER) && tb
+									.getWorkArea().equals(tkRole.getWorkArea()))
+							|| (StringUtils.equals(tkRole.getRoleName(),
+									TkConstants.ROLE_TK_DEPT_ADMIN) && (job != null && (job
+									.getDept().equals(tkRole.getDepartment()))))) {
+						valid = true;
+						break;
+					}
+					if(StringUtils.equals(tkRole.getRoleName(), TkConstants.ROLE_TK_LOCATION_ADMIN) && job != null && tkRole.getLocationObj()!=null){
+						List<Department> departments = TkServiceLocator.getDepartmentService().getDepartmentByLocation(tkRole.getLocationObj().getLocation());
+						for(Department department : departments){
+							if(StringUtils.equals(job.getDept(), department.getDept())){
+								valid = true;
+								break;
+							}
+						}
+						if(valid){
+							break;
+						}
+					}
+				}
+				if (!valid) {
+					itr.remove();
+					continue;
+				}
 				if(StringUtils.isNotEmpty(docStatus)) {
 					if(tb.getTimesheetDocumentHeader() == null) {
 						itr.remove();
