@@ -24,7 +24,7 @@
 		<url>http://kuali.org</url>
 	</organization>
 
-   <version>1.0</version>
+   <version>1.1-SNAPSHOT</version>
 
     <licenses>
 		<license>
@@ -468,9 +468,9 @@
     </repositories>
 
     <scm>
-		<connection>scm:svn:http://svn.kuali.org/repos/kpme/tags/time-and-attendance-1.0</connection>
-		<developerConnection>scm:svn:https://svn.kuali.org/repos/kpme/tags/time-and-attendance-1.0</developerConnection>
-        <url>scm:svn:https://svn.kuali.org/repos/kpme/tags/time-and-attendance-1.0</url>
+		<connection>scm:svn:http://svn.kuali.org/repos/kpme/trunk</connection>
+		<developerConnection>scm:svn:https://svn.kuali.org/repos/kpme/trunk</developerConnection>
+        <url>http://fisheye.kuali.org/browse/kpme</url>
 	</scm>
 
 	<issueManagement>
