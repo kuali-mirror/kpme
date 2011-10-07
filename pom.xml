@@ -17,9 +17,23 @@
     <groupId>org.kuali.kpme</groupId>
     <artifactId>time-and-attendance</artifactId>
     <packaging>war</packaging>
-    <name>time-and-attendance</name>
+    <name>KPME Time and Attendance</name>
     <description>KPME Time and Attendance</description>
-    <version>0.1.0-SNAPSHOT</version>
+ 	<url>http://kuali.org/kpme</url>
+	<organization>
+		<name>The Kuali Foundation</name>
+		<url>http://kuali.org</url>
+	</organization>
+
+   <version>1.0-SNAPSHOT</version>
+
+    <licenses>
+		<license>
+			<name>The Kuali Foundation Educational Community License 2.0</name>
+			<url>http://www.opensource.org/licenses/ecl2.txt</url>
+			<distribution>manual</distribution>
+		</license>
+	</licenses>
 
     <properties>
         <!-- This can be overridden, as can the values contained in the file by the command line -->
@@ -28,6 +42,8 @@
         <!--                                                   -->
         <!-- mvn -Dtna.properties.file=/tmp/tna-dev.properties -->
         <tna.properties.file>liquibase_defaults.properties</tna.properties.file>
+    	<surefire.plugin.version>2.9</surefire.plugin.version>
+        <maven.compiler.version>2.3.2</maven.compiler.version>
     </properties>
 
     <profiles>
@@ -356,6 +372,7 @@
 
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
@@ -364,6 +381,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.plugin.version}</version>
                 <configuration>
                     <!--
                          <excludes>
@@ -425,10 +443,24 @@
 
     <repositories>
         <repository>
-            <id>kuali</id>
-            <name>Kuali Repository</name>
-            <url>https://test.kuali.org/maven</url>
+            <id>kuali.nexus</id>
+            <name>Nexus Repository Manager</name>
+            <url>http://nexus.kuali.org/content/groups/public</url>
+            <releases>
+                    <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                    <enabled>true</enabled>
+            </snapshots>
         </repository>
+		<repository>
+			<id>kuali</id>
+			<name>Kuali Repository</name>
+			<url>https://test.kuali.org/maven</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
         <repository>
             <id>nexus</id>
             <name>Nexus Repository</name>
@@ -437,8 +469,15 @@
     </repositories>
 
     <scm>
-		<connection>scm:svn:https://svn.kuali.org/repos/kpme/</connection>
-		<developerConnection>scm:svn:https://svn.kuali.org/repos/kpme/</developerConnection>
-		<url>https://svn.kuali.org/repos/kpme/</url>
+		<connection>scm:svn:http://svn.kuali.org/repos/kpme/trunk</connection>
+		<developerConnection>scm:svn:https://svn.kuali.org/repos/kpme/trunk</developerConnection>
+        <tag>HEAD</tag>
+        <url>http://fisheye.kuali.org/browse/kpme</url>
 	</scm>
+
+	<issueManagement>
+		<system>Jira</system>
+		<url>https://test.kuali.org/jira/</url>
+	</issueManagement>
+
 </project>
