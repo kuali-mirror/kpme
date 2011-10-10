@@ -228,6 +228,12 @@
             <artifactId>jetty</artifactId>
             <version>6.1.25</version>
         </dependency>
+    	<dependency>
+      		<groupId>com.google.code.gson</groupId>
+      		<artifactId>gson</artifactId>
+      		<version>1.7.1</version>
+      		<scope>compile</scope>
+    	</dependency>        
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-api</artifactId>
