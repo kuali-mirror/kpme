@@ -7,6 +7,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.paytype.PayType;
@@ -254,6 +255,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     // This method now translates time based on timezone settings.
     //
+    @CacheResult
     public List<TimeBlock> getTimeBlocks(Long documentId) {
     	List<TimeBlock> timeBlocks = timeBlockDao.getTimeBlocks(documentId);
         TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks);

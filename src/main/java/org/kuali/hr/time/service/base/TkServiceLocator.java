@@ -53,6 +53,7 @@ import org.kuali.hr.time.workschedule.service.WorkScheduleService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
@@ -334,5 +335,12 @@ public class TkServiceLocator implements ApplicationContextAware {
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;
+	}
+
+    /**
+     * This is for the approval only
+     */
+    public static JdbcTemplate getTkJdbcTemplate() {
+		return (JdbcTemplate) CONTEXT.getBean("tkJdbcTemplate");
 	}
 }

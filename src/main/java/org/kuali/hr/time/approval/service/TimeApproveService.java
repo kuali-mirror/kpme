@@ -5,10 +5,7 @@ import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
+import java.util.*;
 
 
 public interface TimeApproveService {
@@ -20,13 +17,11 @@ public interface TimeApproveService {
      * @param payBeginDate
      * @param payEndDate
      * @param calGroup Specify a calendar group to filter by.
-     * @param workarea Specify a work area to filter by, or 'null' if all
-     * work areas are desired.
      * @return A Map<String, List<ApprovalTimeSummaryRow>> container.
      */
-	public Map<String, List<ApprovalTimeSummaryRow>> getApprovalSummaryRowsMap(Date payBeginDate, Date payEndDate, String calGroup, List<Long> workAreas);
+	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds);
 
-	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<Long> deptWorkAreas);
+//	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds);
 
 	public List<String> getPayCalendarLabelsForApprovalTab(Date payBeginDate, Date payEndDate);
 
@@ -66,4 +61,10 @@ public interface TimeApproveService {
     public Map<String,PayCalendarEntries> getPayCalendarEntriesForApprover(String principalId, Date currentDate, String dept);
     public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate, String calGroup);
     public Map<String,PayCalendarEntries> getPayCalendarEntriesForDept(String dept, Date currentDate);
+
+    List<String> getUniquePayGroups();
+
+    List<String> getPrincipalIdsByAssignment(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup);
+
+    List<String> getPrincipalIdsByAssignment(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup, Integer start, Integer end);
 }

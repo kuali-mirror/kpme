@@ -1,16 +1,16 @@
 package org.kuali.hr.time.util;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This class houses the concept of a user in the Timekeeping system.  It
@@ -221,7 +221,7 @@ public class TKUser {
 		Set<Long> workAreas = new HashSet<Long>();
 		workAreas.addAll(userRoles.getApproverWorkAreas());
 		workAreas.addAll(userRoles.getReviewerWorkAreas());
-		
+
 		for(Long workArea : workAreas){
 			WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, TKUtils.getCurrentDate());
 			if(workAreaObj != null){

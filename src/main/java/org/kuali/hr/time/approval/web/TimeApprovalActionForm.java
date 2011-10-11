@@ -8,8 +8,8 @@ import java.util.*;
 
 public class TimeApprovalActionForm extends TkForm {
 
-    public static final String ORDER_BY_PRINCIPAL = "PrincipalName";
-    public static final String ORDER_BY_DOCID = "DocumentId";
+    public static final String ORDER_BY_PRINCIPAL = "principalName";
+    public static final String ORDER_BY_DOCID = "documentId";
     public static final String ORDER_BY_STATUS = "Status";
     public static final String ORDER_BY_WORKAREA = "WorkArea";
 
@@ -18,16 +18,19 @@ public class TimeApprovalActionForm extends TkForm {
     private Long hrPyCalendarEntriesId;
     private Long hrPyCalendarId;
     private String name;
-    private SortedSet<String> payCalendarGroups = new TreeSet<String>();
+    private List<String> payCalendarGroups = new LinkedList<String>();
     private String selectedPayCalendarGroup;
+    private String selectedDept;
+    private String selectedWorkArea;
     private Date payBeginDate;
     private Date payEndDate;
     private List<String> payCalendarLabels = new ArrayList<String>();
     private List<ApprovalTimeSummaryRow> approvalRows;
     private Long workArea = null;
+    private Set<Long> deptWorkareas = new HashSet<Long>();
     private String documentId;
     private String employeeWorkArea;
-    private Set<String> workAreas;
+    private List<String> assignmentPrincipalIds = new LinkedList<String>();
 
     /** Used for ajax dynamic row updating */
     private String outputString;
@@ -47,8 +50,8 @@ public class TimeApprovalActionForm extends TkForm {
     private Long nextPayCalendarId = null;
     
     private List<String> departments = new ArrayList<String>();
-    private String selectedDept;
-    
+    private Integer resultSize = 0;
+
     private String calNav = null;
 
     public String getCalNav() {
@@ -178,11 +181,11 @@ public class TimeApprovalActionForm extends TkForm {
         this.ajaxCall = ajaxCall;
     }
 
-    public SortedSet<String> getPayCalendarGroups() {
+    public List<String> getPayCalendarGroups() {
         return payCalendarGroups;
     }
 
-    public void setPayCalendarGroups(SortedSet<String> payCalendarGroups) {
+    public void setPayCalendarGroups(List<String> payCalendarGroups) {
         this.payCalendarGroups = payCalendarGroups;
     }
 
@@ -269,11 +272,35 @@ public class TimeApprovalActionForm extends TkForm {
 		this.departments = departments;
 	}
 
-    public Set<String> getWorkAreas() {
-        return workAreas;
+    public Set<Long> getDeptWorkareas() {
+        return deptWorkareas;
     }
 
-    public void setWorkAreas(Set<String> workAreas) {
-        this.workAreas = workAreas;
+    public void setDeptWorkareas(Set<Long> deptWorkareas) {
+        this.deptWorkareas = deptWorkareas;
+    }
+
+    public List<String> getAssignmentPrincipalIds() {
+        return assignmentPrincipalIds;
+    }
+
+    public void setAssignmentPrincipalIds(List<String> assignmentPrincipalIds) {
+        this.assignmentPrincipalIds = assignmentPrincipalIds;
+    }
+
+    public int getResultSize() {
+        return resultSize;
+    }
+
+    public void setResultSize(Integer resultSize) {
+        this.resultSize = resultSize;
+    }
+
+    public String getSelectedWorkArea() {
+        return selectedWorkArea;
+    }
+
+    public void setSelectedWorkArea(String selectedWorkArea) {
+        this.selectedWorkArea = selectedWorkArea;
     }
 }

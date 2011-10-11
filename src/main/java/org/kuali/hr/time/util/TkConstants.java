@@ -3,6 +3,7 @@ package org.kuali.hr.time.util;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.rice.kew.util.KEWConstants;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -199,6 +200,18 @@ public class TkConstants {
         public static final String SAVED = "S";
     }
 
+    public static final Map<String, String> DOC_ROUTE_STATUS = new HashMap<String, String>(8);
+    static {
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_INITIATED_CD,KEWConstants.ROUTE_HEADER_INITIATED_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_CANCEL_CD,KEWConstants.ROUTE_HEADER_CANCEL_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_ENROUTE_CD,KEWConstants.ROUTE_HEADER_ENROUTE_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_FINAL_CD,KEWConstants.ROUTE_HEADER_FINAL_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_APPROVED_CD,KEWConstants.ROUTE_HEADER_APPROVED_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD,KEWConstants.ROUTE_HEADER_DISAPPROVED_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_EXCEPTION_CD,KEWConstants.ROUTE_HEADER_EXCEPTION_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_SAVED_CD,KEWConstants.ROUTE_HEADER_SAVED_LABEL);
+    }
+
     public static final class BATCH_JOB_ENTRY_STATUS {
         public static final String SCHEDULED = "S";
         public static final String RUNNING = "R";
@@ -262,4 +275,6 @@ public class TkConstants {
         public static final String SESSION_TIMEOUT = "session.timeout";
     }
 
+    public static final Integer PAGE_SIZE = 2;
+    public static final String APPROVAL_TABLE_ID = "row";
 }
