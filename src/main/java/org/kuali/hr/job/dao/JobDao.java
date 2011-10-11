@@ -58,7 +58,7 @@ public interface JobDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate);
+	public List<Job> getActiveJobsForPayType(String hrPayType);
 	
 	/**
 	 * Get job based on id

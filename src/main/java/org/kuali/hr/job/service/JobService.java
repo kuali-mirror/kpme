@@ -67,7 +67,7 @@ public interface JobService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate);
+	public List<Job> getActiveJobsForPayType(String hrPayType);
 	
 	/**
 	 * Get job by the unique id

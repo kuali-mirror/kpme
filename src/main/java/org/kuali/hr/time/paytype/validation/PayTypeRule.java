@@ -30,11 +30,11 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	boolean validateActive(String hrPayType, Date asOfDate) {
+	boolean validateActive(String hrPayType) {
 		boolean valid = true;
 		List<Job> jobs = TkServiceLocator.getJobSerivce()
-				.getActiveJobsForPayType(hrPayType, asOfDate);
-		if (jobs == null || jobs.size() == 0) {
+				.getActiveJobsForPayType(hrPayType);
+		if (jobs != null && jobs.size() > 0) {
 			this.putFieldError("active", "paytype.inactivate.locked", hrPayType);
 			valid = false;
 		}
@@ -52,7 +52,7 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 
 			valid = validateEarnCode(pt.getRegEarnCode(), pt.getEffectiveDate());
 			if (document.isOldBusinessObjectInDocument() && !pt.isActive()) {
-				valid = validateActive(pt.getPayType(), pt.getEffectiveDate());
+				valid = validateActive(pt.getPayType());
 			}
 		}
 
