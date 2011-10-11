@@ -11,6 +11,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.util.TKContext;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements AssignmentDao {
@@ -93,7 +94,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
         effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
         effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
         effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-        //effdt.addEqualTo("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
         ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
         effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 
@@ -103,7 +104,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
         timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
         timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
         //timestamp.addEqualTo("active", true);
-        //timestamp.addEqualTo("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
         ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
         timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
@@ -112,6 +113,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
         root.addEqualTo("task", task);
         root.addEqualTo("effectiveDate", effdtSubQuery);
         root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("principalId", TKContext.getTargetPrincipalId());
         //root.addEqualTo("active", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
