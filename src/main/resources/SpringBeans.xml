@@ -235,7 +235,6 @@
         <property name="dataDictionaryPackages">
             <list>
                 <value>classpath:org/kuali/hr/time/datadictionary</value>
-                <value>classpath:org/kuali/hr/leave/datadictionary</value>
                 <value>classpath:org/kuali/kfs/coa/datadictionary</value>
             </list>
         </property>
