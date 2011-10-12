@@ -12,6 +12,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.assignment.Assignment;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.hr.time.util.TKContext;
 
 public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements AssignmentDao {
 
