@@ -42,7 +42,7 @@ public class AdminAction extends TkAction {
             			&& !user.isDepartmentAdmin()
             			&& !user.isGlobalViewOnly() 
             			&& !user.isDepartmentViewOnly()
-            			&& !user.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())
+            			&& (adminForm.getDocumentId() != null && !user.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId()))
             			) ) {
                 throw new AuthorizationException("", "AdminAction", "");
             }
