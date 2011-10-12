@@ -38,6 +38,7 @@
     		<list>
     			<value>OJB-repository-time.xml</value>
     			<value>OJB-repository-coa.xml</value>
+    			<value>OJB-repository-leave.xml</value>
     		</list>
     	</property>
     </bean>
@@ -235,6 +236,7 @@
         <property name="dataDictionaryPackages">
             <list>
                 <value>classpath:org/kuali/hr/time/datadictionary</value>
+                <value>classpath:org/kuali/hr/leave/datadictionary</value>
                 <value>classpath:org/kuali/kfs/coa/datadictionary</value>
             </list>
         </property>
