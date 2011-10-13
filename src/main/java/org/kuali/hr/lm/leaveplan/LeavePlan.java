@@ -14,6 +14,7 @@ public class LeavePlan extends HrBusinessObject {
 	private String leavePlan;
 	private String descr;
 	private String calendarYearStart;
+	private Boolean history;
 	
 	public Long getLmLeavePlanId() {
 		return lmLeavePlanId;
@@ -46,11 +47,19 @@ public class LeavePlan extends HrBusinessObject {
 	public void setCalendarYearStart(String calendarYearStart) {
 		this.calendarYearStart = calendarYearStart;
 	}
+	
+	public Boolean getHistory() {
+		return history;
+	}
+
+	public void setHistory(Boolean history) {
+		this.history = history;
+	}
 
 	@Override
 	protected String getUniqueKey() {
-		// TODO Auto-generated method stub
-		return null;
+		String leavePlanKey = getLeavePlan() +"_"+ getCalendarYearStart();
+		return leavePlanKey;
 	}
 
 	@Override

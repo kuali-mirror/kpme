@@ -246,13 +246,6 @@
     	<label>PositionMaintenanceDocument</label>
     </documentType>    
 	<documentType>
-		<name>LeavePlanDocumentType</name>
-		<parent>RiceDocument</parent>
-		<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler
-		</docHandler>
-		<label>LeavePlanDocument</label>
-	</documentType>
-	<documentType>
       <name>ACCT</name>
       <parent>RiceDocument</parent>
       <docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>

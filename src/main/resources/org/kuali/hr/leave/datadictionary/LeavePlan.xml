@@ -23,6 +23,7 @@
 				<ref bean="LeavePlan-calendarYearStart" />
 				<ref bean="LeavePlan-effectiveDate" />
 				<ref bean="LeavePlan-timestamp" />
+				<ref bean="LeavePlan-history" />
 				<ref bean="LeavePlan-active" />
 			</list>
 		</property>
@@ -115,6 +116,19 @@
 		<property name="label" value="Time Stamp" />
 	</bean>
 	
+	<!-- history -->
+	<bean id="LeavePlan-history" parent="LeavePlan-history-parentBean" />
+	<bean id="LeavePlan-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
+	
 	<!-- active -->
 	<bean id="LeavePlan-active" parent="LeavePlan-active-parentBean" />
 	<bean id="LeavePlan-active-parentBean" abstract="true"
@@ -162,6 +176,7 @@
 	<bean id="LeavePlan-lookupDefinition" parent="LeavePlan-lookupDefinition-parentBean" />
 	<bean id="LeavePlan-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
+		<property name="lookupableID" value="leavePlanLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
@@ -169,6 +184,7 @@
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active"/>
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 
 			</list>
 		</property>

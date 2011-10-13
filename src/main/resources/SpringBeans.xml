@@ -810,6 +810,11 @@
             <bean class="org.kuali.hr.time.task.service.TaskLookupableHelper"/>
         </property>
     </bean>
+    <bean id="leavePlanLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.lm.leaveplan.service.LeavePlanLookupableHelper"/>
+        </property>
+    </bean>
     
         <!-- Scheduler configuration -->
 	<!-- Serializer service -->
