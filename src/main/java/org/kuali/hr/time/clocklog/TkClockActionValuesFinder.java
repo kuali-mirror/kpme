@@ -19,7 +19,7 @@ public class TkClockActionValuesFinder extends KeyValuesBase {
 		List<KeyLabelPair> keyLabels = new LinkedList<KeyLabelPair>();
 
         TKUser user = TKContext.getUser();
-        if (user != null) {
+        if (user != null && user.getPrincipalId().equals(user.getTargetPrincipalId())) {
             ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(user.getTargetPrincipalId());
 
             Set<String> validEntries = lastClock != null ?
