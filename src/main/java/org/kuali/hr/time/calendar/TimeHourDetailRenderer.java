@@ -1,19 +1,25 @@
 package org.kuali.hr.time.calendar;
 
+import java.util.List;
+
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class TimeHourDetailRenderer {
     private TimeHourDetail timeHourDetail;
+    private boolean overtimeEarnCode;
     
     public TimeHourDetailRenderer(TimeHourDetail d) {
         this.timeHourDetail = d;
+        List<String> ovtEarnCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDoucment().getAsOfDate());
+        setOvertimeEarnCode(ovtEarnCodes.contains(d.getEarnCode()));
     }
 
     public TimeHourDetail getTimeHourDetail() {
@@ -58,6 +64,14 @@ public class TimeHourDetailRenderer {
 		}
 			
 		return holidayDesc;
+	}
+
+	public boolean isOvertimeEarnCode() {
+		return overtimeEarnCode;
+	}
+
+	public void setOvertimeEarnCode(boolean overtimeEarnCode) {
+		this.overtimeEarnCode = overtimeEarnCode;
 	}
 
 }

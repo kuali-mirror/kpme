@@ -10,7 +10,7 @@
     	<li id="batchJob" class="ui-state-default ui-corner-top"><a href="BatchJob.do">Batch Job</a></li>
     </c:if>
     <li id="personInfo" class="ui-state-default ui-corner-top"><a href="PersonInfo.do">Person Info</a></li>
-    <c:if test="${Form.user.currentTargetRoles.timesheetApprover ||  Form.user.currentTargetRoles.systemAdmin }">
+    <c:if test="${Form.user.currentTargetRoles.timesheetApprover ||  Form.user.currentTargetRoles.systemAdmin || Form.user.currentTargetRoles.timesheetReviewer }">
         <li id="approvals" class="ui-state-default ui-corner-top"><a href="TimeApproval.do">Approvals</a></li>
     </c:if>
     <c:if test="${Form.user.currentTargetRoles.activeEmployee}">

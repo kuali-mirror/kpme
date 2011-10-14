@@ -172,6 +172,7 @@ $(document).ready(function() {
 
                     // handle the case where the overtime hour detail is clicked
                     if (action == "overtime") {
+
                         // hide all the fields except the overtime dropdown
                         $timesheetFields.find("tr:not(#overtimeEarnCodeRow)").addClass("hide");
                         // get the <tr> of the earn code row
@@ -179,7 +180,6 @@ $(document).ready(function() {
                         // change the title of the entry form
                         $('.ui-dialog-title').html("Modify Overtime Earn Code");
 
-                        var overTimeEarnCodes = $('#overtimeEarnCodes').val().split(",");
                         var selectedOverTimeEarnCode = $("#overtime_" + calEvent.tkTimeBlockId).html();
                         var overTimeEarnCodeHtml = "";
 

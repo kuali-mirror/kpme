@@ -66,7 +66,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 	
 	boolean isEarnCodeUsedByActiveTimeBlocks(DepartmentEarnCode departmentEarnCode){
 		// kpme-1106 can not inactivation of a department earn code if it used in active timeblocks
-		boolean valid = false;
+		boolean valid = true;
 		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestamp();
 		
 		if ( !departmentEarnCode.isActive() && departmentEarnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){

@@ -140,6 +140,8 @@
                     	<li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.clocklog.ClockLog&returnLocation=${ConfigProperties.application.url}/Admin.do&hideReturnLink=true&docFormKey=88888888&active=Y">Clock Log</a></li>
                     	<li><a href="${Form.workflowUrl}/DocumentSearch.do?docTypeFullName=MissedPunchDocumentType">Missed Punch</a></li>
                     </ul>
+                    
+               
             </tr>
         </table>
     </div>

@@ -348,6 +348,13 @@ public class TKUtils {
         return sdf.format(dt);
     }
 
+    
+    public static String formatDateTime(Timestamp timestamp){
+    	Date dt = new Date(timestamp.getTime());
+    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        return sdf.format(dt);
+    }
+    
     /**
      * Method to obtain the timezone offset string for the specified date time.
      *

@@ -43,14 +43,6 @@ public class TkConstants {
     public static final String EARN_CODE_AMOUNT = "AMOUNT";
     public static final String EARN_CODE_OVT = "OVT";
 
-    // earn group
-    public static final List<String> EARN_GROUP_OVERTIME = new ArrayList<String>();
-
-    static {
-        EARN_GROUP_OVERTIME.add("Overtime");
-        EARN_GROUP_OVERTIME.add("OVT");
-    }
-
     public static final String GMT_TIME_ZONE_ID = "Etc/GMT";
     public static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
     public static final String SYSTEM_TIME_ZONE = "America/Indianapolis";

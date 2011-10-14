@@ -2,7 +2,6 @@
 
 <%@ attribute name="cal" required="true" type="org.kuali.hr.time.calendar.TkCalendar" %>
 <%@ attribute name="docId" required="true" type="java.lang.String" %>
-<c:set var="overtimeEarnCodes" value="${fn:join(Form.overtimeEarnCodes,',')}" />
 
 <div id="tkCal" class="ui-widget cal" style="margin: 20px auto 20px auto; width:95%;">
     <%-- Add Paging Controls for moving between Calendars --%>
@@ -101,7 +100,7 @@
 		                                                        <c:choose>
 		                                                            <c:when test="${thdr.hours ne ''}">
                                                                         <c:set var="title" value="${thdr.title}"/>
-                                                                        <c:if test="${fn:contains(overtimeEarnCodes, thdr.title)}">
+                                                                        <c:if test="${thdr.overtimeEarnCode}">
                                                                             <c:set var="title" value="<span id='overtime_${block.timeBlock.tkTimeBlockId}' class='overtime'>${thdr.title}</span>"/>
                                                                         </c:if>
 

@@ -320,10 +320,10 @@ public class TimeDetailWSAction extends TimesheetAction {
     public ActionForward getOvertimeEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
         StringBuilder earnCodeString = new StringBuilder();
-        List<EarnCode> overtimeEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeMapForOvertimeEarnGroup();
-
+        List<EarnCode> overtimeEarnCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodes(TKUtils.getCurrentDate());
+        
         for (EarnCode earnCode : overtimeEarnCodes) {
-            earnCodeString.append("<option value='").append(earnCode.getEarnCode()).append("_").append(TkConstants.EARN_CODE_OVT).append("'>");
+            earnCodeString.append("<option value='").append(earnCode.getEarnCode()).append("'>");
             earnCodeString.append(earnCode.getEarnCode()).append(" : ").append(earnCode.getDescription());
             earnCodeString.append("</option>");
         }
