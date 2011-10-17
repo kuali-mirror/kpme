@@ -185,9 +185,9 @@ public class ClockAction extends TimesheetAction {
         List<Assignment> lstAssingmentAsOfToday = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
         boolean foundValidAssignment = false;
         for(Assignment assign : lstAssingmentAsOfToday){
-        	if(assign.getJobNumber() == assignment.getJobNumber() &&
-        		assign.getWorkArea() == assignment.getWorkArea() &&
-        		assign.getTask() == assignment.getTask()){
+        	if((assign.getJobNumber().compareTo(assignment.getJobNumber()) ==0) &&
+        		(assign.getWorkArea().compareTo(assignment.getWorkArea()) == 0) &&
+        		(assign.getTask().compareTo(assignment.getTask()) == 0)){
         		foundValidAssignment = true;
         		break;
         	}
