@@ -604,11 +604,11 @@ select {
 
 #approvals-filter {
     margin-top: 10px;
-    width: 100%;
+    /*width: 100%;*/
 }
 
 #approvals-filter tr td {
-    width: 33%;
+    /*width: 33%;*/
 }
 
 #approvals-filter .left {
