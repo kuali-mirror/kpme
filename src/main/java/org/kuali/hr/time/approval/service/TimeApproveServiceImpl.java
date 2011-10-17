@@ -178,7 +178,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     @SuppressWarnings("rawtypes")
     @Override
     public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds) {
-        long beginTs = System.currentTimeMillis();
         List<ApprovalTimeSummaryRow> rows = new LinkedList<ApprovalTimeSummaryRow>();
         Map<String, TimesheetDocumentHeader> principalDocumentHeader = getPrincipalDocumehtHeader(principalIds, payBeginDate, payEndDate);
 
@@ -245,10 +244,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
             }
             rows.add(approvalSummaryRow);
         }
-
-        long endTs = System.currentTimeMillis();
-        BigDecimal diff = new BigDecimal((endTs - beginTs) / 1000.0).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
-        System.out.println("Processing approval rows : " + diff + " secs");
 
         return rows;
     }

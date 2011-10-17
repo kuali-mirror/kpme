@@ -25,7 +25,6 @@ import org.kuali.rice.kns.exception.AuthorizationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.*;
 
@@ -43,7 +42,6 @@ public class TimeApprovalAction extends TkAction {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        long beginTs = System.currentTimeMillis();
         ActionForward fwd = super.execute(mapping, form, request, response);
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         TKUser user = TKContext.getUser();
@@ -117,11 +115,6 @@ public class TimeApprovalAction extends TkAction {
         // taaf.setAssignmentPrincipalIds(principalIds);
         // taaf.setResultSize(taaf.getAssignmentPrincipalIds().size());
         taaf.setResultSize(principalIds.size());
-
-        long endTs = System.currentTimeMillis();
-        BigDecimal diff = new BigDecimal((endTs - beginTs) / 1000.0).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
-
-        System.out.println("Processing time before approval rows : " + diff + " secs");
 
         if (StringUtils.isNotBlank(getSortField(request))) {
             principalIds = getSortedPrincipalIdList(getSortField(request), isAscending(request), principalIds,
