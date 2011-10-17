@@ -1,5 +1,6 @@
 package org.kuali.hr.time.approval.web;
 
+import com.google.common.collect.Ordering;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -17,6 +18,9 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.exception.AuthorizationException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -106,18 +110,24 @@ public class TimeApprovalAction extends TkAction {
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(selectedPayCalendarEntries, new ArrayList<Boolean>()));
 
         // TODO:
-        // Getting principal ids from active assignments are a single sql query, which should run pretty fast.
+        // Getting principal ids from active assignments is a single sql query which runs pretty fast.
         // If the total number of work areas is large, some optimization needs to be done to reduce the db calls.
 
         List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByAssignment(workAreas, new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
-        taaf.setAssignmentPrincipalIds(principalIds);
-        taaf.setResultSize(taaf.getAssignmentPrincipalIds().size());
+        // taaf.setAssignmentPrincipalIds(principalIds);
+        // taaf.setResultSize(taaf.getAssignmentPrincipalIds().size());
+        taaf.setResultSize(principalIds.size());
 
         long endTs = System.currentTimeMillis();
         BigDecimal diff = new BigDecimal((endTs - beginTs) / 1000.0).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
+
         System.out.println("Processing time before approval rows : " + diff + " secs");
 
-        taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, taaf.getAssignmentPrincipalIds()), taaf.getSelectedPayCalendarGroup()));
+        if (StringUtils.isNotBlank(getSortField(request))) {
+            principalIds = getSortedPrincipalIdList(getSortField(request), isAscending(request), principalIds,
+                    new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()));
+        }
+        taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, principalIds), taaf.getSelectedPayCalendarGroup()));
 
 
         return fwd;
@@ -183,31 +193,10 @@ public class TimeApprovalAction extends TkAction {
      * @return
      */
     List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf, List<String> assignmentPrincipalIds, String calGroup) {
-        List<ApprovalTimeSummaryRow> rows = new ArrayList<ApprovalTimeSummaryRow>();
-
-        if (taaf.getPayCalendarGroups().size() > 0) {
-//            String calGroup = StringUtils.isNotEmpty(taaf.getSelectedPayCalendarGroup()) ? taaf.getSelectedPayCalendarGroup() : taaf.getPayCalendarGroups().get(0);
-//            List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayEndDate().getTime()));
-//            //TODO push this up
-//            List<Long> workAreas = new ArrayList<Long>();
-//            for (WorkArea wa : workAreaObjs) {
-//                workAreas.add(wa.getWorkArea());
-//            }
-            rows = TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup, assignmentPrincipalIds);
-
 //            if (StringUtils.isNotBlank(taaf.getSearchField()) && StringUtils.isNotBlank(taaf.getSearchTerm())) {
 //                rows = filterApprovalRows(rows, taaf.getSearchField(), taaf.getSearchTerm());
 //            }
-
-//            sortApprovalRows(rows, taaf.getSortField(), taaf.isAscending());
-
-            // Create a sublist view backed by the actual list.
-            //int limit = (taaf.getRowsToShow() > rows.size()) ? rows.size() : taaf.getRowsToShow();
-
-            //return rows.subList(0, limit);
-            return rows;
-        }
-        return rows;
+        return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup, assignmentPrincipalIds);
     }
 
     List<ApprovalTimeSummaryRow> filterApprovalRows(List<ApprovalTimeSummaryRow> rows, String searchField, String searchTerm) {
@@ -230,18 +219,7 @@ public class TimeApprovalAction extends TkAction {
         return filteredRows;
     }
 
-
-
-    void sortApprovalRows(List<ApprovalTimeSummaryRow> rows, String sortField, boolean ascending) {
-        if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
-            Collections.sort(rows, new ApprovalTimeSummaryRowPrincipalComparator(ascending));
-        } else if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_DOCID)) {
-            Collections.sort(rows, new ApprovalTimeSummaryRowDocIdComparator(ascending));
-        } else if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_STATUS)) {
-            Collections.sort(rows, new ApprovalTimeSummaryRowStatusComparator(ascending));
-        }
-    }
-
+    // move this to the service layer
     private SortedSet<Long> getWorkAreasFromUserRoles(UserRoles userRoles) {
         SortedSet<Long> workAreas = new TreeSet<Long>();
         workAreas.addAll(userRoles.getApproverWorkAreas());
@@ -250,22 +228,97 @@ public class TimeApprovalAction extends TkAction {
         return workAreas;
     }
 
-//    private List<String> sortedPrincipalIdList(HttpServletRequest request, List<String> assignmentPrincipalIds) {
-//        String sortField = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_SORT)));
-//        Boolean ascending = Boolean.parseBoolean(request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_SORTUSINGNAME))));
-//
-//        if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
-//            for(String principalId : assignmentPrincipalIds) {
-//
-//            }
-//        } else if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_DOCID)) {
-//
-//        }
-//    }
+    // move this to the service layer
+    private List<String> getSortedPrincipalIdList(String sortField, Boolean isAscending, List<String> assignmentPrincipalIds, java.sql.Date payBeginDate, java.sql.Date payEndDate) {
 
+        List<String> principalIds = new LinkedList<String>();
+
+        // order by principal name
+        if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
+            List<Person> people = new LinkedList<Person>();
+            for (String principalId : assignmentPrincipalIds) {
+                Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
+                people.add(person);
+            }
+
+            Comparator<Person> nameComparator = new Comparator<Person>() {
+                @Override
+                public int compare(Person person, Person person1) {
+                    return person.getName().compareToIgnoreCase(person1.getName());
+                }
+            };
+
+            // Ordering is an abstract class which implements java Comparator from google's common lib - guava
+            // More information could be found here: http://google-collections.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Ordering.html
+            // You can do fancy things, like chaining the ordering e.g.
+            //
+            // ordering.reverse().compound(firstNameComparator);
+            //
+            // the code above will sort by the lastname first and then the firstname
+
+            // Order by name ascending
+            Ordering<Person> ordering = Ordering.from(nameComparator);
+            if (!isAscending) {
+                // This is when guava comes in handy!
+                ordering = ordering.reverse();
+            }
+
+            // nullsFirst: "Returns an ordering that treats null as less than all other values and uses this to compare non-null values."
+            for (Person p : ordering.nullsFirst().sortedCopy(people)) {
+                principalIds.add(p.getPrincipalId());
+            }
+            // order by document id
+        } else if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_DOCID)) {
+            Map<String, TimesheetDocumentHeader> principalDocumentHeaders =
+                    TkServiceLocator.getTimeApproveService().getPrincipalDocumehtHeader(assignmentPrincipalIds, payBeginDate, payEndDate);
+
+            Comparator<TimesheetDocumentHeader> docIdComparator = new Comparator<TimesheetDocumentHeader>() {
+                @Override
+                public int compare(TimesheetDocumentHeader tdh, TimesheetDocumentHeader tdh1) {
+                    return Long.valueOf(tdh.getDocumentId()).compareTo(Long.valueOf(tdh1.getDocumentId()));
+                }
+            };
+
+            Ordering<TimesheetDocumentHeader> ordering = Ordering.from(docIdComparator);
+            if (!isAscending) {
+                // This is when guava comes in handy!
+                ordering = ordering.reverse();
+            }
+
+            for (TimesheetDocumentHeader tdh : ordering.nullsFirst().sortedCopy(principalDocumentHeaders.values())) {
+                principalIds.add(tdh.getPrincipalId());
+            }
+
+            // add the principal who doesn't have a current timesheet document back to the list
+            for (String id : assignmentPrincipalIds) {
+                if (principalIds.contains(id)) {
+                    continue;
+                } else {
+                    principalIds.add(id);
+                }
+
+            }
+        }
+
+            return principalIds;
+    }
+
+    private String getSortField(HttpServletRequest request) {
+        return request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_SORT)));
+    }
+
+    private Boolean isAscending(HttpServletRequest request) {
+        // returned value 1 = ascending; 2 = descending
+        String ascending = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_ORDER)));
+        return StringUtils.equals(ascending, "1") ? true : false;
+    }
+
+    // move this to the service layer
     private List<String> getSubListPrincipalIds(HttpServletRequest request, List<String> assignmentPrincipalIds) {
         String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
-        Integer beginIndex = StringUtils.isBlank(page) ? 0 : Integer.parseInt(page);
+        // The paging index begins from 1, but the sublist index begins from 0.
+        // So the logic below sets the sublist begin index to 0 if the page number is null or equals 1
+        Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : Integer.parseInt(page);
         Integer endIndex = beginIndex + TkConstants.PAGE_SIZE > assignmentPrincipalIds.size() ? assignmentPrincipalIds.size() : beginIndex + TkConstants.PAGE_SIZE;
 
         return assignmentPrincipalIds.subList(beginIndex, endIndex);

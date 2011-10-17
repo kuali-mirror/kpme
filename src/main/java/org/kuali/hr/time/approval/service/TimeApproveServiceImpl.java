@@ -2,8 +2,6 @@ package org.kuali.hr.time.approval.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.displaytag.pagination.PaginatedList;
-import org.displaytag.properties.SortOrderEnum;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
@@ -180,30 +178,29 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     @SuppressWarnings("rawtypes")
     @Override
     public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds) {
-
         long beginTs = System.currentTimeMillis();
-
         List<ApprovalTimeSummaryRow> rows = new LinkedList<ApprovalTimeSummaryRow>();
+        Map<String, TimesheetDocumentHeader> principalDocumentHeader = getPrincipalDocumehtHeader(principalIds, payBeginDate, payEndDate);
+
         for (String principalId : principalIds) {
+            TimesheetDocumentHeader tdh = new TimesheetDocumentHeader();
             String documentId = "";
+            if(principalDocumentHeader.containsKey(principalId)) {
+                tdh = principalDocumentHeader.get(principalId);
+                documentId = principalDocumentHeader.get(principalId).getDocumentId();
+            }
             List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
             List notes = new ArrayList();
             List<String> warnings = new ArrayList<String>();
 
-            TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
-            if (tdh != null) {
-                documentId = tdh.getDocumentId();
+//            TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
+            if (StringUtils.isNotBlank(documentId)) {
                 timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(documentId));
                 notes = this.getNotesForDocument(documentId);
                 warnings = TkServiceLocator.getWarningService().getWarnings(documentId);
-
             }
-            long begin = System.currentTimeMillis();
-            Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
-            long end = System.currentTimeMillis();
-            BigDecimal diff = new BigDecimal((end - begin) / 1000.0).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
-            System.out.println("Getting person : " + diff + " secs");
 
+            Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
             PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(principalId, TKUtils.getTimelessDate(payEndDate));
 
             List<String> pyCalendarLabels = TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntry, new ArrayList<Boolean>());
@@ -216,8 +213,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
             approvalSummaryRow.setPayCalendarGroup(calGroup);
             approvalSummaryRow.setDocumentId(documentId);
             approvalSummaryRow.setLstTimeBlocks(timeBlocks);
-
-            if (tdh != null) {
+            if(principalDocumentHeader.containsKey(principalId)) {
                 approvalSummaryRow.setApprovalStatus(tdh.getDocumentStatus());
                 approvalSummaryRow.setApprovalStatusMessage(TkConstants.DOC_ROUTE_STATUS.get(tdh.getDocumentStatus()));
                 TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdh.getDocumentId());
@@ -228,11 +224,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
             approvalSummaryRow.setPeriodTotal(hoursToPayLabelMap.get("Period Total"));
             approvalSummaryRow.setNotes(notes);
             approvalSummaryRow.setWarnings(warnings);
-//            Set<String> workAreas = new LinkedHashSet<String>();
-//            for (TimeBlock tb : timeBlocks) {
-//                workAreas.add(tb.getWorkArea().toString());
-//            }
-//            approvalSummaryRow.setWorkAreas(workAreas);
 
             // Compare last clock log versus now and if > threshold
             // highlight entry
@@ -262,25 +253,17 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         return rows;
     }
 
-    /*
-     * Right now this code is just calling our "Big" data retriever and only returning
-     * a subset of that data. It is obvious that some optimization should be done here,
-     * for now this is a "future" TODO, to get this going.
-     */
-//    public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds) {
-//        List<ApprovalTimeSummaryRow> rows;
-//
-//        // TODO: this should just return the rows with the specified calGroup
-//        Map<String, List<ApprovalTimeSummaryRow>> mrows = this.getApprovalSummaryRows(payBeginDate, payEndDate, calGroup, principalIds);
-//        rows = mrows.get(calGroup);
-//
-//        if (rows == null) {
-//            // Not sure if we want to return an empty list or null...
-//            rows = new ArrayList<ApprovalTimeSummaryRow>();
-//        }
-//
-//        return rows;
-//    }
+    public List<TimesheetDocumentHeader> getDocumentHeadersByPrincipalIds(Date payBeginDate, Date payEndDate, List<String> principalIds) {
+        List<TimesheetDocumentHeader> headers = new LinkedList<TimesheetDocumentHeader>();
+        for (String principalId : principalIds) {
+            TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
+            if (tdh != null) {
+                headers.add(tdh);
+            }
+        }
+
+        return headers;
+    }
 
     /**
      * Get pay calendar labels for approval tab
@@ -544,47 +527,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         return pyGroups;
     }
 
-    public PaginatedList getPaginatedList(final List<String> list) {
-        PaginatedList pl = new PaginatedList() {
-            @Override
-            public List<String> getList() {
-                return list;
-            }
-
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getObjectsPerPage() {
-                return 2;
-            }
-
-            @Override
-            public int getFullListSize() {
-                return list.size();
-            }
-
-            @Override
-            public String getSortCriterion() {
-                return null;
-            }
-
-            @Override
-            public SortOrderEnum getSortDirection() {
-                return null;
-            }
-
-            @Override
-            public String getSearchId() {
-                return null;
-            }
-        };
-
-        return pl;
-    }
-
     @Override
     public List<String> getPrincipalIdsByAssignment(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup, Integer start, Integer end) {
         List<String> list = getPrincipalIdsByAssignment(workAreas, payEndDate, calGroup);
@@ -628,8 +570,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         for (long workarea : approverWorkAres) {
             workAreas.append("work_area = " + workarea + " or ");
         }
-        String workAresForSQL = workAreas.substring(0, workAreas.length() - 3);
-        sql = sql.replaceAll("###", workAresForSQL);
+        String workAresForQuery = workAreas.substring(0, workAreas.length() - 3);
+        sql = sql.replaceAll("###", workAresForQuery);
 
         List<Assignment> assignments = new ArrayList<Assignment>();
         SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{effdt}, new int[]{Types.DATE});
@@ -645,5 +587,31 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         return assignments;
     }
 
+    @Override
+    public Map<String, TimesheetDocumentHeader> getPrincipalDocumehtHeader(List<String> principalIds, Date payBeginDate, Date payEndDate) {
+        String sql = "SELECT document_id, principal_id, document_status " +
+                "FROM tk_document_header_t " +
+                "WHERE (###) AND pay_begin_dt >= ? AND pay_end_dt <= ?";
+        StringBuilder ids = new StringBuilder();
+        for (String principalId : principalIds) {
+            ids.append("principal_id = '" + principalId + "' or ");
+        }
+        String idsForQuery = ids.substring(0, ids.length() - 4);
+        sql = sql.replaceAll("###", idsForQuery);
+        Map<String, TimesheetDocumentHeader> principalDocumentHeader = new LinkedHashMap<String, TimesheetDocumentHeader>();
+        SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql,
+                new Object[]{payBeginDate, payEndDate}, new int[]{Types.DATE, Types.DATE});
+        while (rs.next()) {
+            TimesheetDocumentHeader tdh = new TimesheetDocumentHeader();
+            tdh.setPrincipalId(rs.getString("principal_id"));
+            String docId = StringUtils.isBlank(rs.getString("document_id")) ? "" : rs.getString("document_id");
+            tdh.setDocumentId(docId);
+            tdh.setDocumentStatus(rs.getString("document_status"));
+
+            principalDocumentHeader.put(rs.getString("principal_id"), tdh);
+        }
+
+        return principalDocumentHeader;
+    }
 }
 

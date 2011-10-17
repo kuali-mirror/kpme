@@ -112,7 +112,7 @@
                     <%--<span id="showDetailButton_${row.count-1}" class="ui-icon ui-icon-plus rowInfo"></span>--%>
             </div>
         </c:if>
-        <a href="Admin.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a>
+        <a href="Admin.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a> (${row.principalId})
         <br/>${row.clockStatusMessage}
         <br/>
         <%--<c:set var="assignmentRowId" value="assignmentDetails_${row.count-1}"/>--%>
