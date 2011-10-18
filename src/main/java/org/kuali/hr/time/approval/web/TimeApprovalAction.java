@@ -157,22 +157,13 @@ public class TimeApprovalAction extends TkAction {
      */
     public ActionForward searchApprovalRows(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
-//        taaf.setApprovalRows(getApprovalRows(taaf));
         List<String> results = new ArrayList<String>();
 
-        for (ApprovalTimeSummaryRow row : taaf.getApprovalRows()) {
-            if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID) && row.getDocumentId().contains(taaf.getSearchTerm())) {
-                results.add(row.getDocumentId());
-            } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL) && row.getName().toLowerCase().contains(taaf.getSearchTerm().toLowerCase())) {
-                results.add(row.getName());
-//            } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_WORKAREA)) {
-//                for(String wa : row.getWorkAreas()) {
-//                    if(StringUtils.equals(wa, taaf.getSearchTerm())) {
-//                        results.add(wa);
-//                    }
-//                }
-            }
-        }
+//        if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID) && row.getDocumentId().contains(taaf.getSearchTerm())) {
+//            results.add(row.getDocumentId());
+//        } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL) && row.getName().toLowerCase().contains(taaf.getSearchTerm().toLowerCase())) {
+//            results.add(row.getName());
+//        }
 
         taaf.setOutputString(JSONValue.toJSONString(results));
 
@@ -293,7 +284,7 @@ public class TimeApprovalAction extends TkAction {
             }
         }
 
-            return principalIds;
+        return principalIds;
     }
 
     private String getSortField(HttpServletRequest request) {

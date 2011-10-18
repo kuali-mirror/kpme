@@ -68,7 +68,7 @@
         </td>
     </tr>
 </table>
-<table>
+<table class="navigation">
     <c:if test="${Form.selectedDept != null and Form.selectedPayCalendarGroup != null}">
         <tr>
             <td class="left">
@@ -76,9 +76,8 @@
                 <label for="search field">
                     <select id="searchField" name="searchField">
                         <option value="">-- Select a field --</option>
-                        <option value="DocumentId">Document Id</option>
-                        <option value="PrincipalName">Principal Name</option>
-                        <option value="WorkArea">Work Area</option>
+                        <option value="principalName">Principal Name</option>
+                        <option value="documentId">Document Id</option>
                     </select>
                 </label>
                 Value :
@@ -88,24 +87,27 @@
                 </label>
             </td>
             <td>
-                <c:if test="${Form.prevPayCalendarId ne null}">
-                    <input type="button" class="prev" value="Previous" name="Previous"
-                           onclick="this.form.hrPyCalendarEntriesId.value='${Form.prevPayCalendarId}'; this.form.submit();"/>
-                </c:if>
+                <div style="text-align: center">
+                    <c:if test="${Form.prevPayCalendarId ne null}">
+                        <input type="button" class="prev" value="Previous" name="Previous"
+                               onclick="this.form.hrPyCalendarEntriesId.value='${Form.prevPayCalendarId}'; this.form.submit();"/>
+                    </c:if>
                     <span style="font-size: 1.5em; vertical-align: middle;">
                     <fmt:formatDate value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/> -
                     <fmt:formatDate value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
-                <c:if test="${Form.nextPayCalendarId ne null}">
-                    <input type="button" class="next" value="Next" name="Next"
-                           onclick="this.form.hrPyCalendarEntriesId.value='${Form.nextPayCalendarId}'; this.form.submit();"/>
-                </c:if>
-
+                    <c:if test="${Form.nextPayCalendarId ne null}">
+                        <input type="button" class="next" value="Next" name="Next"
+                               onclick="this.form.hrPyCalendarEntriesId.value='${Form.nextPayCalendarId}'; this.form.submit();"/>
+                    </c:if>
+                </div>
             </td>
+            <td></td>
         </tr>
     </c:if>
 </table>
 
-<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do" excludedParams="*" pagesize="2" id="row" class="approvals-table" partialList="true" size="${Form.resultSize}" sort="external" defaultsort="1">
+<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do" excludedParams="*" pagesize="2" id="row"
+               class="approvals-table" partialList="true" size="${Form.resultSize}" sort="external" defaultsort="1">
     <display:column title="Principal Name" sortable="true" sortName="principalName">
         <c:if test="${row.periodTotal > 0}">
             <div class="ui-state-default ui-corner-all" style="float:left;">
@@ -119,67 +121,67 @@
     </display:column>
     <display:column title="Document ID" sortable="true" sortName="documentId">
         <a href="Admin.do?${row.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${row.documentId}&returnUrl=TimeApproval.do">${row.documentId}</a>
-            <c:if test="${fn:length(row.warnings) > 0 }">
-                <div class="ui-state-default ui-corner-all" style="float:right;">
-                    <span id="approvals-warning" class="ui-icon ui-icon-alert approvals-warning"></span>
-                </div>
-                <div id="approvals-warning-details" class="approvals-warning-details"
-                     style="display:none; float:right; width: 600px; margin-left: 200px;">
-                    <table>
-                        <thead>
+        <c:if test="${fn:length(row.warnings) > 0 }">
+            <div class="ui-state-default ui-corner-all" style="float:right;">
+                <span id="approvals-warning" class="ui-icon ui-icon-alert approvals-warning"></span>
+            </div>
+            <div id="approvals-warning-details" class="approvals-warning-details"
+                 style="display:none; float:right; width: 600px; margin-left: 200px;">
+                <table>
+                    <thead>
+                    <tr>
+                        <th style="font-size: 1.2em; font-weight: bold; text-align: left;">Warnings:</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="warning" items="${row.warnings}">
                         <tr>
-                            <th style="font-size: 1.2em; font-weight: bold; text-align: left;">Warnings:</th>
+                            <td>
+                                <div class="warning-note-message">
+                                        ${warning}
+                                </div>
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="warning" items="${row.warnings}">
-                            <tr>
-                                <td>
-                                    <div class="warning-note-message">
-                                            ${warning}
-                                    </div>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </c:if>
-            <c:if test="${fn:length(row.notes) > 0 }">
-                <div class="ui-state-default ui-corner-all" style="float:right;">
-                    <span id="approvals-note" class="ui-icon ui-icon-note approvals-note"></span>
-                </div>
-                <div id="approvals-note-details" class="approvals-note-details"
-                     style="display:none; float:right; margin-left: 150px;">
-                    <table>
-                        <thead>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </c:if>
+        <c:if test="${fn:length(row.notes) > 0 }">
+            <div class="ui-state-default ui-corner-all" style="float:right;">
+                <span id="approvals-note" class="ui-icon ui-icon-note approvals-note"></span>
+            </div>
+            <div id="approvals-note-details" class="approvals-note-details"
+                 style="display:none; float:right; margin-left: 150px;">
+                <table>
+                    <thead>
+                    <tr>
+                        <th colspan="3" style="font-size: 1.2em; font-weight: bold; text-align: left;">
+                            Notes :
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Creator</th>
+                        <th>Created Date</th>
+                        <th>Content</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="note" items="${row.notes}">
                         <tr>
-                            <th colspan="3" style="font-size: 1.2em; font-weight: bold; text-align: left;">
-                                Notes :
-                            </th>
+                            <td>${note.noteAuthorWorkflowId}</td>
+                            <td style="width: 30px;">${note.noteCreateDate}</td>
+                            <td>
+                                <div class="warning-note-message">
+                                        ${note.noteText}
+                                </div>
+                            </td>
                         </tr>
-                        <tr>
-                            <th>Creator</th>
-                            <th>Created Date</th>
-                            <th>Content</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="note" items="${row.notes}">
-                            <tr>
-                                <td>${note.noteAuthorWorkflowId}</td>
-                                <td style="width: 30px;">${note.noteCreateDate}</td>
-                                <td>
-                                    <div class="warning-note-message">
-                                            ${note.noteText}
-                                    </div>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </c:if>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </c:if>
     </display:column>
     <display:column title="Status">
         <div><span id="approvals-status" class="approvals-status">${row.approvalStatus}</span></div>

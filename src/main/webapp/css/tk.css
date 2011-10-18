@@ -635,6 +635,15 @@ select {
     cursor: pointer;
 }
 
+.approvals .navigation {
+    width:100%;
+    margin-top: 10px;
+}
+
+.approvals .navigation td {
+    width: 33%;
+}
+
 .hours-by-workArea tr {
     border: 1px double black !important;
 }

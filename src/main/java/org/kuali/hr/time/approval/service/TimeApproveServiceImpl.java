@@ -583,7 +583,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     }
 
     @Override
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public Map<String, TimesheetDocumentHeader> getPrincipalDocumehtHeader(List<String> principalIds, Date payBeginDate, Date payEndDate) {
+
+        if(principalIds.size() == 0) {
+            return new LinkedHashMap<String, TimesheetDocumentHeader>();
+        }
+
         String sql = "SELECT document_id, principal_id, document_status " +
                 "FROM tk_document_header_t " +
                 "WHERE (###) AND pay_begin_dt >= ? AND pay_end_dt <= ?";
