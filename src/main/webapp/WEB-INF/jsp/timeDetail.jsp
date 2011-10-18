@@ -124,7 +124,10 @@
                 </html:form>
             </div>
                 <%-- end of dialog-form --%>
-
+			<p align="center">
+				<input id="actual-time-button" type="button" class="button" value="Actual Time Inquiry" name="actualTimeInquiry" 
+   				 onclick="javascrpt: window.open(extractUrlBase()+'/TimeDetail.do?methodToCall=actualTimeInquiry&documentId=${Form.documentId}', 'actualTimeInquiry')"/>
+			</p>
             <tk:tkTimesheetRouting/>
 
                 <%--<tk:timeSummary timeSummary="${Form.timesheetDocument.timeSummary}" />  --%>

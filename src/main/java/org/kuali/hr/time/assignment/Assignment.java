@@ -94,6 +94,9 @@ public class Assignment extends HrBusinessObject {
 	}
 
 	public Job getJob() {
+		if(job == null && this.getJobNumber() != null) {
+			this.setJob(TkServiceLocator.getJobSerivce().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveDate()));
+		}
 		return job;
 	}
 
@@ -188,6 +191,9 @@ public class Assignment extends HrBusinessObject {
 	}
 
 	public WorkArea getWorkAreaObj() {
+		if(workAreaObj == null && workArea != null) {
+			this.setWorkAreaObj(TkServiceLocator.getWorkAreaService().getWorkArea(this.getWorkArea(), this.getEffectiveDate()));
+		}
 		return workAreaObj;
 	}
 

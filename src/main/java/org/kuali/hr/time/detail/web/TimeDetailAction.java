@@ -233,4 +233,9 @@ public class TimeDetailAction extends TimesheetAction {
         ActionFormUtils.validateHourLimit(tdaf);
         return mapping.findForward("basic");
     }
+    
+    public ActionForward actualTimeInquiry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+        return mapping.findForward("ati");
+    }
 }

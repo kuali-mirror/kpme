@@ -826,3 +826,47 @@ select {
     background-color: #8E8E38;
     color: white;
 }
+
+/**
+* actual time inquiry
+*/
+
+.actualtime {
+    font-size: .7em;
+}
+
+.actualtime-header {
+    font-size: 1.0em;
+    font-weight: bold;
+}
+
+.actualtime-table {
+    background-color: #CDCDCD;
+    margin: 10px 0 15px;
+    width: 100%;
+    text-align: center;
+}
+
+.actualtime-table thead tr th, .actualtime-table tfoot tr th {
+    background-color: #F0F0F6;
+    border: 1px solid #FFF;
+    padding: 4px;
+}
+
+.actualtime-table .sort {
+    background: #e6EEEE url(../images/sort.gif) no-repeat center right;
+    padding-right: 4px;
+    cursor: pointer;
+}
+
+.actualtime-table tbody td {
+    color: #3D3D3D;
+    padding: 4px;
+    background-color: #FFF;
+    vertical-align: top;
+}
+
+.actualtime-table tbody tr.even td {
+    background-color: #F0F0F6;
+}
+
