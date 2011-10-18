@@ -614,6 +614,21 @@
     <bean id="userService" class="org.kuali.hr.time.user.service.UserServiceImpl"/>
 
     <bean id="timeApproveService" class="org.kuali.hr.time.approval.service.TimeApproveServiceImpl"/>
+    
+    <bean name="tkMobileService" class="org.kuali.hr.time.mobile.service.TkMobileServiceImpl"/>
+    
+    <bean id="tkMobileServiceExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    	<property name="serviceDefinition">
+    		<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+    			<property name="service" ref="tkMobileService"/>
+    			<property name="serviceNameSpaceURI" value="tkMobileService"/>
+    			<property name="localServiceName" value="tkMobileService" />
+    			<property name="busSecurity" value="false"/>
+    			<property name="jaxWsService" value="true"/>
+    			<property name="serviceEndPoint" value="${application.url}/remoting/tkMobileService"/>
+    		</bean>
+    	</property>
+    </bean>
 
     <bean id="timeOffAccrualService" class="org.kuali.hr.time.accrual.service.TimeOffAccrualServiceImpl">
         <property name="timeOffAccrualDao" ref="timeOffAccrualDao"/>

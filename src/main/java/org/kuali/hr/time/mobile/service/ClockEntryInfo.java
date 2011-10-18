@@ -19,6 +19,7 @@ public class ClockEntryInfo implements Serializable{
 	private Map<String, String> assignKeyToAssignmentDescriptions = new HashMap<String,String>();
 	private String lastClockLogDescription;
 	private List<String> clockActions = new ArrayList<String>();
+	private Map<String,List<String>> errorWarningMessages = new HashMap<String,List<String>>();
 	
 	public Map<String, String> getAssignKeyToAssignmentDescriptions() {
 		return assignKeyToAssignmentDescriptions;
@@ -44,5 +45,11 @@ public class ClockEntryInfo implements Serializable{
 	}
 	public void setCurrentTime(Timestamp currentTime) {
 		this.currentTime = currentTime;
+	}
+	public Map<String,List<String>> getErrorWarningMessages() {
+		return errorWarningMessages;
+	}
+	public void setErrorWarningMessages(Map<String,List<String>> errorWarningMessages) {
+		this.errorWarningMessages = errorWarningMessages;
 	}
 }
