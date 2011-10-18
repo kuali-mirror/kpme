@@ -56,7 +56,7 @@ public class TimeApprovalAction extends TkAction {
         // Set department
         taaf.setDepartments(user.getReportingApprovalDepartments());
         if (taaf.getDepartments().size() == 1) {
-            taaf.setSelectedDept(taaf.getDepartments().get(0));
+            taaf.setSelectedPayCalendarGroup(calGroups.get(0));
         }
         if (StringUtils.isBlank(taaf.getSelectedDept())) {
             return super.execute(mapping, form, request, response);
