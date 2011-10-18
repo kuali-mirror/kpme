@@ -11,5 +11,11 @@
 			</docHandler>
 			<label>LeavePlanDocument</label>
 		</documentType>
+			<documentType>
+			<name>LeaveAccrualCategoryDocumentType</name>
+			<parent>RiceDocument</parent>
+			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<label>LeaveAccrualCategoryDocument</label>
+		</documentType>
 	</documentTypes>
 </data>

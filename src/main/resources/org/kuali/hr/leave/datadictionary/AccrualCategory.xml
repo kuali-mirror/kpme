@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="LeaveAccrualCategory" parent="LeaveAccrualCategory-parentBean" />
+
+	<bean id="LeaveAccrualCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.lm.accrual.LeaveAccrualCategory" />
+		<property name="titleAttribute" value="id" />
+		<property name="objectLabel" value="LeaveAccrualCategory" />
+		<property name="inquiryDefinition">
+			<ref bean="LeaveAccrualCategory-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="LeaveAccrualCategory-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="LeaveAccrualCategory-leavePlan" />
+				<ref bean="LeaveAccrualCategory-accrualCategory" />
+				<ref bean="LeaveAccrualCategory-descr" />
+				<ref bean="LeaveAccrualCategory-accrualEarnInterval" />
+				<ref bean="LeaveAccrualCategory-effectiveDate" />
+				<ref bean="LeaveAccrualCategory-timestamp" />
+				<ref bean="LeaveAccrualCategory-proration" />
+				<ref bean="LeaveAccrualCategory-donation" />
+				<ref bean="LeaveAccrualCategory-showOnGrid" />
+				<ref bean="LeaveAccrualCategory-unitOfTime" />
+				<ref bean="LeaveAccrualCategory-active" />
+				<ref bean="LeaveAccrualCategory-history" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="leavePlanObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan"
+								p:targetName="leavePlan" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="accrualCategoryRules"
+					p:label="LeaveAccrualCategoryRule Accounts" p:shortLabel="LeaveAccrualCategoryRule Accounts"
+					p:summary="LeaveAccrualCategoryRule Accounts" p:description="LeaveAccrualCategoryRule Accounts" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+<!-- 	leave plan -->
+	<bean id="LeaveAccrualCategory-leavePlan" parent="LeaveAccrualCategory-leavePlan-parentBean" />
+	<bean id="LeaveAccrualCategory-leavePlan-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Leave Plan" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="leavePlan" />
+		<property name="label" value="Leave Plan" />
+	</bean>
+
+<!-- accrual category -->
+	<bean id="LeaveAccrualCategory-accrualCategory" parent="LeaveAccrualCategory-accrualCategory-parentBean" />
+	<bean id="LeaveAccrualCategory-accrualCategory-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Accrual Category" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="accrualCategory" />
+		<property name="label" value="Accrual Category" />
+	</bean>
+
+
+<!-- description -->
+	<bean id="LeaveAccrualCategory-descr" parent="LeaveAccrualCategory-descr-parentBean" />
+	<bean id="LeaveAccrualCategory-descr-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Desc" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+		<property name="name" value="descr" />
+		<property name="label" value="Description" />
+	</bean>
+
+
+    <!-- accrualEarnInterval -->
+	<bean id="LeaveAccrualCategory-accrualEarnInterval" parent="LeaveAccrualCategory-accrualEarnInterval-parentBean" />
+	<bean id="LeaveAccrualCategory-accrualEarnInterval-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Accrual Earn Interval" />
+				<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.AccrualEarnIntervalKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="accrualEarnInterval" />
+		<property name="label" value="Accrual Earn Interval" />
+	</bean>
+
+    <!-- unitOfTime -->
+	<bean id="LeaveAccrualCategory-unitOfTime" parent="LeaveAccrualCategory-unitOfTime-parentBean" />
+	<bean id="LeaveAccrualCategory-unitOfTime-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Unit Of Time" />
+				<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.UnitOfTimeKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="unitOfTime" />
+		<property name="label" value="Unit Of Time" />
+	</bean>
+
+	<!-- effectiveDate -->
+	<bean id="LeaveAccrualCategory-effectiveDate" parent="LeaveAccrualCategory-effectiveDate-parentBean" />
+	<bean id="LeaveAccrualCategory-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+	
+	<!-- timeStamp -->
+	<bean id="LeaveAccrualCategory-timestamp" parent="LeaveAccrualCategory-timestamp-parentBean" />
+	<bean id="LeaveAccrualCategory-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+	
+	<!-- history -->
+	<bean id="LeaveAccrualCategory-history" parent="LeaveAccrualCategory-history-parentBean" />
+	<bean id="LeaveAccrualCategory-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
+	
+	<!-- active -->
+	<bean id="LeaveAccrualCategory-active" parent="LeaveAccrualCategory-active-parentBean" />
+	<bean id="LeaveAccrualCategory-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+	</bean>
+
+
+
+	<!-- proration -->
+	<bean id="LeaveAccrualCategory-proration" parent="LeaveAccrualCategory-proration-parentBean" />
+	<bean id="LeaveAccrualCategory-proration-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Proration" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.SwitchKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="proration" />
+		<property name="label" value="Proration" />
+	</bean>
+	
+	<!-- donation -->
+	<bean id="LeaveAccrualCategory-donation" parent="LeaveAccrualCategory-donation-parentBean" />
+	<bean id="LeaveAccrualCategory-donation-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Donation" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="donation" />
+		<property name="label" value="Donation" />
+	</bean>
+	
+	<!-- showOnGrid -->
+	<bean id="LeaveAccrualCategory-showOnGrid" parent="LeaveAccrualCategory-showOnGrid-parentBean" />
+	<bean id="LeaveAccrualCategory-showOnGrid-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show On Grid" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="showOnGrid" />
+		<property name="label" value="Show On Grid" />
+	</bean>
+
+
+	<!--  Inquiry Definitions  -->
+
+	<bean id="LeaveAccrualCategory-inquiryDefinition" parent="LeaveAccrualCategory-inquiryDefinition-parentBean" />
+
+	<bean id="LeaveAccrualCategory-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+							<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+							<bean parent="FieldDefinition" p:attributeName="descr" />
+							<bean parent="FieldDefinition" p:attributeName="accrualEarnInterval" />
+							<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
+							<bean parent="FieldDefinition" p:attributeName="proration" />
+							<bean parent="FieldDefinition" p:attributeName="donation" />
+							<bean parent="FieldDefinition" p:attributeName="showOnGrid" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="LeaveAccrualCategory" />
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false"/>
+		<property name="title" value="LeaveAccrualCategory Inquiry" />
+	</bean>
+
+	<!--  Look up Definitions  -->
+
+
+	<bean id="LeaveAccrualCategory-lookupDefinition" parent="LeaveAccrualCategory-lookupDefinition-parentBean" />
+	<bean id="LeaveAccrualCategory-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupableID" value="leaveAccrualCategoryLookupable"></property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="accrualEarnInterval"/>
+				<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+			</list>
+
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="accrualEarnInterval" />
+				<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+			</list>
+		</property>
+		<property name="title" value="LeaveAccrualCategory Lookup" />
+	</bean>
+
+</beans>

@@ -1,6 +1,7 @@
 package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.job.service.JobService;
+import org.kuali.hr.lm.accrual.service.LeaveAccrualCategoryService;
 import org.kuali.hr.location.service.LocationService;
 import org.kuali.hr.paygrade.service.PayGradeService;
 import org.kuali.hr.time.accrual.service.AccrualCategoryService;
@@ -110,6 +111,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_WARNINGS_SERVICE = "tkWarningService";
     public static final String HR_POSITION_SERVICE = "positionService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
+    public static final String LM_LEAVE_ACCRUAL_CATEGORY_SERVICE = "lmLeaveAccrualCategoryService";
 
 
 	public static void start() throws Exception {
@@ -330,6 +332,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static TransactionTemplate getTransactionTemplate() {
 		return new TransactionTemplate(getPlatformTransactionManager());
+	}
+	
+	public static LeaveAccrualCategoryService getLeaveAccrualCategoryService(){
+		return (LeaveAccrualCategoryService)CONTEXT.getBean(LM_LEAVE_ACCRUAL_CATEGORY_SERVICE);
 	}
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {

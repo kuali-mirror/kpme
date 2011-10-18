@@ -423,6 +423,10 @@
     <bean id="batchJobEntryDao" class="org.kuali.hr.time.batch.dao.BatchJobEntryDaoSpringOjbImpl">
 		<property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+    <bean id="leaveAccrualCategoryDao" class="org.kuali.hr.lm.accrual.dao.LeaveAccrualCategoryDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 
 	<!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
@@ -594,6 +598,10 @@
 
 	<bean id="batchJobEntryService" class="org.kuali.hr.time.batch.service.BatchJobEntryServiceImpl">
     	<property name="batchJobEntryDao" ref="batchJobEntryDao"/>
+    </bean>
+
+	<bean id="leaveAccrualCategoryService" class="org.kuali.hr.lm.accrual.service.LeaveAccrualCategoryServiceImpl">
+    	<property name="leaveAccrualCategoryDao" ref="leaveAccrualCategoryDao"/>
     </bean>
 
     <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>
@@ -828,6 +836,11 @@
     <bean id="leavePlanLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.lm.leaveplan.service.LeavePlanLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="leaveAccrualCategoryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.lm.accrual.service.LeaveAccrualCategoryLookupableHelper"/>
         </property>
     </bean>
     

@@ -2270,6 +2270,101 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet author="npadharia" id="1317396430027-221">
+        <createTable tableName="lm_accrual_category_s">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="npadharia" id="1317396430027-222">
+        <createTable tableName="lm_accrual_category_t">
+            <column name="LM_ACCRUAL_CATEGORY_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="ACCRUAL_CATEGORY" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LEAVE_PLAN" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCR" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACCRUAL_INTERVAL_EARN" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UNIT_OF_TIME" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="N" name="PRORATION" type="VARCHAR(1)"/>
+            <column defaultValue="N" name="DONATION" type="VARCHAR(1)"/>
+            <column defaultValue="N" name="SHOW_ON_GRID" type="VARCHAR(1)"/>
+            <column name="EFFDT" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBJ_ID" type="VARCHAR(36)"/>
+            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="npadharia" id="1317396430027-223">
+        <createTable tableName="lm_accrual_category_rules_s">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="npadharia" id="1317396430027-224">
+        <createTable tableName="lm_accrual_category_rules_t">
+            <column name="LM_ACCRUAL_CATEGORY_RULES_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="SERVICE_UNIT_OF_TIME" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="START_ACC" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_ACC" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACCRUAL_RATE" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MAX_BAL" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MAX_BAL_ACTION_FREQUENCY" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACTION_AT_MAX_BAL" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MAX_BAL_TRANS_ACC_CAT" type="VARCHAR(15)"></column>
+            <column name="MAX_BAL_TRANS_CONV_FACTOR" type="DECIMAL(10,2)"></column>
+            <column name="MAX_TRANS_AMOUNT" type="BIGINT"></column>
+            <column name="MAX_PAYOUT_AMOUNT" type="BIGINT"></column>
+            <column name="MAX_PAYOUT_LEAVE_CODE" type="VARCHAR(15)"></column>
+            <column name="MAX_USAGE" type="BIGINT"></column>
+            <column name="MAX_CARRY_OVER" type="BIGINT"></column>
+            <column name="LM_ACCRUAL_CATEGORY_ID" type="BIGINT"></column>
+            <column name="DESCR" type="VARCHAR(30)"></column>
+            <column name="OBJ_ID" type="VARCHAR(36)"/>
+            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
     <changeSet author="djunk (generated)" id="1317396430027-141">
         <addPrimaryKey columnNames="FIN_COA_CD, ACCOUNT_NBR" tableName="ca_account_t"/>
     </changeSet>

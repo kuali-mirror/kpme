@@ -54,4 +54,9 @@
  delete from tk_weekly_ovt_group_t;        
  delete from tk_work_area_document_t;      
  delete from tk_work_area_ovt_pref_t;      
- delete from tk_work_area_t;    
+ delete from tk_work_area_t;
+ delete from lm_leave_plan_t;
+ delete from lm_accrual_category_t;
+ delete from lm_accrual_category_rules_t;
+ 
+ 

@@ -23,14 +23,14 @@ public class LeavePlanMaintTest extends TkTestCase {
 
 	@Test
 	public void testAccuralCategoryMaint() throws Exception {
-		HtmlPage accuralCategoryLookup = HtmlUnitUtil
+		HtmlPage leavePlanLookup = HtmlUnitUtil
 				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_PLAN_MAINT_URL);
-		accuralCategoryLookup = HtmlUnitUtil.clickInputContainingText(
-				accuralCategoryLookup, "search");
-		assertTrue("Page contains test LeavePlan", accuralCategoryLookup
+		leavePlanLookup = HtmlUnitUtil.clickInputContainingText(
+				leavePlanLookup, "search");
+		assertTrue("Page contains test LeavePlan", leavePlanLookup
 				.asText().contains(TEST_CODE.toString()));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(
-				accuralCategoryLookup, "edit", leavePlanId.toString());
+				leavePlanLookup, "edit", leavePlanId.toString());
 		assertTrue("Maintenance Page contains test LeavePlan", maintPage
 				.asText().contains(TEST_CODE));
 	}
