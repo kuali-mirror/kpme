@@ -105,7 +105,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateEarnCode(departmentEarnCode);
 				valid &= this.validateDuplication(departmentEarnCode);
 				valid &= this.validateLocation(departmentEarnCode);
-				valid &= this.isEarnCodeUsedByActiveTimeBlocks(departmentEarnCode);
+				//valid &= this.isEarnCodeUsedByActiveTimeBlocks(departmentEarnCode);
 			}
 
 		}
