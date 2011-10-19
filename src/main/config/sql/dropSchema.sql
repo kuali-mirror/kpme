@@ -76,6 +76,7 @@ drop table TK_DEPT_LUNCH_RL_T;
  drop table LM_LEAVE_PLAN_T;
  drop table LM_ACCRUAL_CATEGORY_T;
  drop table LM_ACCRUAL_CATEGORY_RULES_T;
+ drop table LM_LEAVE_CODE_T;
 
  drop table HR_DEPT_EARN_CODE_S;         
  drop table HR_DEPT_S;                   
@@ -132,3 +133,4 @@ drop table TK_DEPT_LUNCH_RL_T;
  drop table LM_LEAVE_PLAN_S;               
  drop table LM_ACCRUAL_CATEGORY_S;
  drop table LM_ACCRUAL_CATEGORY_RULES_S;
+ drop table LM_LEAVE_CODE_S;

@@ -26,6 +26,7 @@ import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -394,6 +395,21 @@ public class ValidationUtils {
 
 	   return valid;
    }
+   
+   /**
+    * Checks for effective date not more than one year in the future or current date
+    * 
+    */
 
+   public static boolean validateEffectiveDate(Date effDate){
+	   Calendar startDate = Calendar.getInstance();
+	   startDate.add(Calendar.DATE, -1);
+	   startDate.set(Calendar.SECOND, 0);
+	   startDate.set(Calendar.MINUTE, 0);
+	   startDate.set(Calendar.HOUR_OF_DAY, 0);
+	   Calendar endDate = Calendar.getInstance();
+	   endDate.add(Calendar.YEAR, 1); // One year after the current date
+	   return effDate.compareTo(startDate.getTime()) * effDate.compareTo(endDate.getTime()) <= 0;
+   }
 
 }

@@ -58,5 +58,6 @@
  delete from lm_leave_plan_t;
  delete from lm_accrual_category_t;
  delete from lm_accrual_category_rules_t;
+ delete from lm_leave_code_t;
  
  

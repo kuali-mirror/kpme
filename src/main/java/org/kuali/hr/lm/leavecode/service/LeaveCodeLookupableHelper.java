@@ -1,10 +1,10 @@
-package org.kuali.hr.lm.accrual.service;
+package org.kuali.hr.lm.leavecode.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.lm.accrual.LeaveAccrualCategory;
+import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -15,7 +15,7 @@ import org.kuali.rice.kns.lookup.HtmlData;
  * 
  * 
  */
-public class LeaveAccrualCategoryLookupableHelper extends
+public class LeaveCodeLookupableHelper extends
 		HrEffectiveDateActiveLookupableHelper {
 	/**
 	 * 
@@ -35,18 +35,18 @@ public class LeaveAccrualCategoryLookupableHelper extends
 			}
 
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
-			LeaveAccrualCategory leaveAccrualCategory = (LeaveAccrualCategory) businessObject;
+			LeaveCode leaveCode = (LeaveCode) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long lmLeaveAccrualCategoryId = leaveAccrualCategory
-					.getLmAccrualCategoryId();
+			final Long lmLeaveCodeId = leaveCode
+					.getLmLeaveCodeId();
 			HtmlData htmlData = new HtmlData() {
 
 				@Override
 				public String constructCompleteHtmlTag() {
 					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
 							+ className
-							+ "&methodToCall=start&lmAccrualCategoryId="
-							+ lmLeaveAccrualCategoryId + "\">view</a>";
+							+ "&methodToCall=start&lmLeaveCodeId="
+							+ lmLeaveCodeId + "\">view</a>";
 				}
 			};
 			overrideUrls.add(htmlData);

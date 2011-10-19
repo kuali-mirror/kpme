@@ -843,6 +843,11 @@
             <bean class="org.kuali.hr.lm.accrual.service.LeaveAccrualCategoryLookupableHelper"/>
         </property>
     </bean>
+    <bean id="leaveCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.lm.leavecode.service.LeaveCodeLookupableHelper"/>
+        </property>
+    </bean>
     
         <!-- Scheduler configuration -->
 	<!-- Serializer service -->
