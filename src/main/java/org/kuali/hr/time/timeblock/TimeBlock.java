@@ -2,6 +2,7 @@ package org.kuali.hr.time.timeblock;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
@@ -470,6 +471,13 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 	public void setAssignmentKey(String assignmentDescription) {
 		this.assignmentKey = assignmentDescription;
 	}
+	
+	public String getAssignmentDescription() {
+		AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber().toString(), this.getWorkArea().toString(), this.getTask().toString());
+		Assignment anAssignment = TkServiceLocator.getAssignmentService().getAssignment(adk, this.getBeginDate());
+		return anAssignment == null ? this.getAssignmentKey() : anAssignment.getAssignmentDescription();
+	}
+	
 
 
 
@@ -566,4 +574,19 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     public void setOvertimePref(String overtimePref) {
         this.overtimePref = overtimePref;
     }
+    
+    /* apply grace period rule to times of time block
+     * These strings are for GUI of Actual time inquiry
+    */
+    public String getActualBeginTimeString() {
+    	Timestamp ats = new Timestamp(this.getBeginTimeDisplay().getMillis());
+    	Timestamp ts = TkServiceLocator.getGracePeriodService().processGracePeriodRule(ats, this.getBeginDate());
+    	return new DateTime(ts.getTime()).toString(TkConstants.DT_BASIC_TIME_FORMAT);
+	}
+    
+    public String getActualEndTimeString() {
+    	Timestamp ats = new Timestamp(this.getEndTimeDisplay().getMillis());
+    	Timestamp ts = TkServiceLocator.getGracePeriodService().processGracePeriodRule(ats, this.getEndDate());
+    	return new DateTime(ts.getTime()).toString(TkConstants.DT_BASIC_TIME_FORMAT);
+	}
 }
