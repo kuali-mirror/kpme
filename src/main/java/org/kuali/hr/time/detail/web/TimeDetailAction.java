@@ -177,8 +177,8 @@ public class TimeDetailAction extends TimesheetAction {
             if (tb != null) {
                 TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
 
-                // mark the original timeblock as updated in the history table
-                tbh.setActionHistory(TkConstants.ACTIONS.UPDATE_TIME_BLOCK);
+//                 mark the original timeblock as deleted in the history table
+                tbh.setActionHistory(TkConstants.ACTIONS.DELETE_TIME_BLOCK);
                 TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
 
                 // delete the timeblock from the memory
