@@ -427,6 +427,14 @@
     <bean id="leaveAccrualCategoryDao" class="org.kuali.hr.lm.accrual.dao.LeaveAccrualCategoryDaoSpringOjbImpl">
 		<property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+    <bean id="leaveCodeDao" class="org.kuali.hr.lm.leavecode.dao.LeaveCodeDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
+    <bean id="leavePlanDao" class="org.kuali.hr.lm.leaveplan.dao.LeavePlanDaoSpringOjbImpl">
+		<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 
 	<!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
@@ -602,6 +610,14 @@
 
 	<bean id="leaveAccrualCategoryService" class="org.kuali.hr.lm.accrual.service.LeaveAccrualCategoryServiceImpl">
     	<property name="leaveAccrualCategoryDao" ref="leaveAccrualCategoryDao"/>
+    </bean>
+
+	<bean id="leaveCodeService" class="org.kuali.hr.lm.leavecode.service.LeaveCodeServiceImpl">
+    	<property name="leaveCodeDao" ref="leaveCodeDao"/>
+    </bean>
+
+	<bean id="leavePlanService" class="org.kuali.hr.lm.leaveplan.service.LeavePlanServiceImpl">
+    	<property name="leavePlanDao" ref="leavePlanDao"/>
     </bean>
 
     <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>

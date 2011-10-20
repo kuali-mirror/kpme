@@ -5,8 +5,8 @@ import org.kuali.hr.lm.accrual.LeaveAccrualCategory;
 public interface LeaveAccrualCategoryService {
     
     /**
-     * Fetch assignment by id
-     * @param tkAssignmentId
+     * Fetch LeaveAccrualCategory by id
+     * @param lmAccrualCategoryId
      * @return
      */
     public LeaveAccrualCategory getLeaveAccrualCategory(Long lmAccrualCategoryId);

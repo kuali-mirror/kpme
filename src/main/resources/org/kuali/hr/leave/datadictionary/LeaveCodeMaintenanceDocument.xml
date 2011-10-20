@@ -13,7 +13,7 @@
   <bean id="LeaveCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.lm.leavecode.LeaveCode"
   		p:businessRulesClass="org.kuali.hr.lm.leavecode.validation.LeaveCodeValidation"
-  		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"
+  		p:maintainableClass="org.kuali.hr.lm.leavecode.service.LeaveCodeMaintainableServiceImpl"
   		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
     <property name="maintainableSections">
       <list>

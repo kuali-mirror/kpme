@@ -2,6 +2,8 @@ package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.job.service.JobService;
 import org.kuali.hr.lm.accrual.service.LeaveAccrualCategoryService;
+import org.kuali.hr.lm.leavecode.service.LeaveCodeService;
+import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
 import org.kuali.hr.location.service.LocationService;
 import org.kuali.hr.paygrade.service.PayGradeService;
 import org.kuali.hr.time.accrual.service.AccrualCategoryService;
@@ -112,6 +114,8 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String HR_POSITION_SERVICE = "positionService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
     public static final String LM_LEAVE_ACCRUAL_CATEGORY_SERVICE = "lmLeaveAccrualCategoryService";
+    public static final String LM_LEAVE_CODE_SERVICE = "lmLeaveCodeService";
+    public static final String LM_LEAVE_PLAN_SERVICE = "lmLeavePlanService";
 
 
 	public static void start() throws Exception {
@@ -336,6 +340,14 @@ public class TkServiceLocator implements ApplicationContextAware {
 	
 	public static LeaveAccrualCategoryService getLeaveAccrualCategoryService(){
 		return (LeaveAccrualCategoryService)CONTEXT.getBean(LM_LEAVE_ACCRUAL_CATEGORY_SERVICE);
+	}
+	
+	public static LeaveCodeService getLeaveCodeService(){
+		return (LeaveCodeService)CONTEXT.getBean(LM_LEAVE_CODE_SERVICE);
+	}
+	
+	public static LeavePlanService getLeavePlanService(){
+		return (LeavePlanService)CONTEXT.getBean(LM_LEAVE_PLAN_SERVICE);
 	}
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
