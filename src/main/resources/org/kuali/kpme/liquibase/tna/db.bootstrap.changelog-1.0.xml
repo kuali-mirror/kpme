@@ -2289,7 +2289,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="DESCR" type="VARCHAR(30)">
-                <constraints nullable="false"/>
             </column>
             <column name="ACCRUAL_INTERVAL_EARN" type="VARCHAR(5)">
                 <constraints nullable="false"/>

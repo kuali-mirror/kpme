@@ -49,7 +49,7 @@ CREATE TABLE `lm_accrual_category_t` (
   `LM_ACCRUAL_CATEGORY_ID` bigint(20) NOT NULL,
   `ACCRUAL_CATEGORY` varchar(15) COLLATE utf8_bin NOT NULL,
   `LEAVE_PLAN` varchar(15) COLLATE utf8_bin NOT NULL,
-  `DESCR` varchar(30) COLLATE utf8_bin NOT NULL,
+  `DESCR` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `ACCRUAL_INTERVAL_EARN` varchar(5) COLLATE utf8_bin NOT NULL,
   `UNIT_OF_TIME` varchar(5) COLLATE utf8_bin NOT NULL,
   `EFFDT` date NOT NULL,
