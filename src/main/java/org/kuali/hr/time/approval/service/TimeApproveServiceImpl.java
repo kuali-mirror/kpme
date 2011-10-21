@@ -184,7 +184,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         for (String principalId : principalIds) {
             TimesheetDocumentHeader tdh = new TimesheetDocumentHeader();
             String documentId = "";
-            if(principalDocumentHeader.containsKey(principalId)) {
+            if (principalDocumentHeader.containsKey(principalId)) {
                 tdh = principalDocumentHeader.get(principalId);
                 documentId = principalDocumentHeader.get(principalId).getDocumentId();
             }
@@ -212,7 +212,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
             approvalSummaryRow.setPayCalendarGroup(calGroup);
             approvalSummaryRow.setDocumentId(documentId);
             approvalSummaryRow.setLstTimeBlocks(timeBlocks);
-            if(principalDocumentHeader.containsKey(principalId)) {
+            if (principalDocumentHeader.containsKey(principalId)) {
                 approvalSummaryRow.setApprovalStatus(tdh.getDocumentStatus());
                 approvalSummaryRow.setApprovalStatusMessage(TkConstants.DOC_ROUTE_STATUS.get(tdh.getDocumentStatus()));
                 TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdh.getDocumentId());
@@ -552,6 +552,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
     @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     private List<Assignment> getActiveAssignmentsAndPrincipalCalendars(Set<Long> approverWorkAres, java.sql.Date effdt) {
+        // We didn't need to select the max effdt and max timestamp here,
+        // because we only need the list of the principal ids and it doesn't matter if we select the latest row or not
         String sql =
                 "SELECT DISTINCT " +
                         "A0.principal_id,A0.work_area,C0.py_calendar_group " +
@@ -586,7 +588,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public Map<String, TimesheetDocumentHeader> getPrincipalDocumehtHeader(List<String> principalIds, Date payBeginDate, Date payEndDate) {
 
-        if(principalIds.size() == 0) {
+        if (principalIds.size() == 0) {
             return new LinkedHashMap<String, TimesheetDocumentHeader>();
         }
 

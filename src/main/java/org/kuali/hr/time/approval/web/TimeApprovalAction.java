@@ -7,7 +7,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
-import org.json.simple.JSONValue;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
@@ -64,9 +63,10 @@ public class TimeApprovalAction extends TkAction {
         }
 
         // Set work areas
+        // If "show all" is selected, add all workareas to the list
         SortedSet<Long> workAreas = new TreeSet<Long>();
         if (StringUtils.isBlank(taaf.getSelectedWorkArea())) {
-            workAreas = getWorkAreasFromUserRoles(user.getCurrentRoles());
+            workAreas = user.getWorkAreasFromUserRoles();
             taaf.setDeptWorkareas(workAreas);
         } else {
             workAreas.add(Long.parseLong(taaf.getSelectedWorkArea()));
@@ -101,20 +101,18 @@ public class TimeApprovalAction extends TkAction {
             }
         }
 
+
         taaf.setHrPyCalendarId(selectedPayCalendarEntries.getHrPyCalendarId());
         taaf.setHrPyCalendarEntriesId(selectedPayCalendarEntries.getHrPyCalendarEntriesId());
         taaf.setPayBeginDate(selectedPayCalendarEntries.getBeginPeriodDateTime());
         taaf.setPayEndDate(selectedPayCalendarEntries.getEndPeriodDateTime());
         taaf.setName(user.getPrincipalName());
-        taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(selectedPayCalendarEntries, new ArrayList<Boolean>()));
 
         // TODO:
         // Getting principal ids from active assignments is a single sql query which runs pretty fast.
         // If the total number of work areas is large, some optimization needs to be done to reduce the db calls.
 
         List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByAssignment(workAreas, new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
-        // taaf.setAssignmentPrincipalIds(principalIds);
-        // taaf.setResultSize(taaf.getAssignmentPrincipalIds().size());
         taaf.setResultSize(principalIds.size());
 
         if (StringUtils.isNotBlank(getSortField(request))) {
@@ -122,6 +120,8 @@ public class TimeApprovalAction extends TkAction {
                     new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()));
         }
         taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, principalIds), taaf.getSelectedPayCalendarGroup()));
+        taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(selectedPayCalendarEntries, new ArrayList<Boolean>()));
+
 
 
         return fwd;
@@ -151,66 +151,25 @@ public class TimeApprovalAction extends TkAction {
     }
 
     /**
-     * Action called via AJAX. (ajaj really...)
-     * <p/>
-     * This search returns quick-results to the search box for the user to further
-     * refine upon. The end value can then be form submitted.
-     */
-    public ActionForward searchApprovalRows(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
-        List<String> results = new ArrayList<String>();
-
-//        if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID) && row.getDocumentId().contains(taaf.getSearchTerm())) {
-//            results.add(row.getDocumentId());
-//        } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL) && row.getName().toLowerCase().contains(taaf.getSearchTerm().toLowerCase())) {
-//            results.add(row.getName());
-//        }
-
-        taaf.setOutputString(JSONValue.toJSONString(results));
-
-        return mapping.findForward("ws");
-    }
-
-    /**
      * Helper method to modify / manage the list of records needed to display approval data to the user.
      *
      * @param taaf
      * @return
      */
     List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf, List<String> assignmentPrincipalIds, String calGroup) {
-//            if (StringUtils.isNotBlank(taaf.getSearchField()) && StringUtils.isNotBlank(taaf.getSearchTerm())) {
-//                rows = filterApprovalRows(rows, taaf.getSearchField(), taaf.getSearchTerm());
-//            }
-        return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup, assignmentPrincipalIds);
-    }
 
-    List<ApprovalTimeSummaryRow> filterApprovalRows(List<ApprovalTimeSummaryRow> rows, String searchField, String searchTerm) {
-        List<ApprovalTimeSummaryRow> filteredRows = new ArrayList<ApprovalTimeSummaryRow>();
-
-        for (ApprovalTimeSummaryRow row : rows) {
-            if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_DOCID) && row.getDocumentId().contains(searchTerm)) {
-                filteredRows.add(row);
-            } else if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_PRINCIPAL) && row.getName().toLowerCase().contains(searchTerm.toLowerCase())) {
-                filteredRows.add(row);
-//            } else if (StringUtils.equals(searchField, TimeApprovalActionForm.ORDER_BY_WORKAREA)) {
-//                for(String wa : row.getWorkAreas()) {
-//                    if(StringUtils.equals(wa, searchTerm)) {
-//                        filteredRows.add(row);
-//                    }
-//                }
-            }
+        if(assignmentPrincipalIds.size() == 0) {
+            return new ArrayList<ApprovalTimeSummaryRow>();
         }
 
-        return filteredRows;
-    }
+        if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
+            assignmentPrincipalIds = new ArrayList<String>();
+            assignmentPrincipalIds.add(taaf.getSearchTerm());
+        }
+        else if(StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID)) {
 
-    // move this to the service layer
-    private SortedSet<Long> getWorkAreasFromUserRoles(UserRoles userRoles) {
-        SortedSet<Long> workAreas = new TreeSet<Long>();
-        workAreas.addAll(userRoles.getApproverWorkAreas());
-        workAreas.addAll(userRoles.getReviewerWorkAreas());
-
-        return workAreas;
+        }
+        return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup, assignmentPrincipalIds);
     }
 
     // move this to the service layer

@@ -8,6 +8,8 @@
 <html:hidden styleId="rit" property="rowsInTotal" value="${fn:length(Form.approvalRows)}"/>
 <html:hidden styleId="pcid" property="hrPyCalendarId" value="${Form.hrPyCalendarId}"/>
 <html:hidden styleId="pceid" property="hrPyCalendarEntriesId" value="${Form.hrPyCalendarEntriesId}"/>
+<html:hidden styleId="payBeginDateForSearch" property="payBeginDateForSearch" value="${Form.payBeginDateForSearch}"/>
+<html:hidden styleId="payEndDateForSearch" property="payEndDateForSearch" value="${Form.payEndDateForSearch}"/>
 
 <div class="approvals">
 <table id="approvals-filter">
@@ -76,7 +78,7 @@
                 <label for="search field">
                     <select id="searchField" name="searchField">
                         <option value="">-- Select a field --</option>
-                        <option value="principalName">Principal Name</option>
+                        <option value="principalName">Principal Id</option>
                         <option value="documentId">Document Id</option>
                     </select>
                 </label>
@@ -92,9 +94,8 @@
                         <input type="button" class="prev" value="Previous" name="Previous"
                                onclick="this.form.hrPyCalendarEntriesId.value='${Form.prevPayCalendarId}'; this.form.submit();"/>
                     </c:if>
-                    <span style="font-size: 1.5em; vertical-align: middle;">
-                    <fmt:formatDate value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/> -
-                    <fmt:formatDate value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
+                    <span id="beginDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/></span> -
+                    <span id="endDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
                     <c:if test="${Form.nextPayCalendarId ne null}">
                         <input type="button" class="next" value="Next" name="Next"
                                onclick="this.form.hrPyCalendarEntriesId.value='${Form.nextPayCalendarId}'; this.form.submit();"/>

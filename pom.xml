@@ -160,7 +160,7 @@
                                 <goal>xvfb</goal>
                             </goals>
                             <configuration>
-                                <display>:20</display>
+                                <display>:99</display>
                             </configuration>
                         </execution>
                         <!--
