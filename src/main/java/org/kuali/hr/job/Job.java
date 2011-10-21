@@ -46,6 +46,7 @@ public class Job extends HrBusinessObject {
 	
 	private Long hrDeptId;
 	private Long hrPayTypeId;
+	private boolean eligibleForLeave;
 	
 	private Person principal;
 	private Department deptObj;
@@ -312,6 +313,14 @@ public class Job extends HrBusinessObject {
 
 	public void setHrPayTypeId(Long hrPayTypeId) {
 		this.hrPayTypeId = hrPayTypeId;
+	}
+
+	public boolean isEligibleForLeave() {
+		return eligibleForLeave;
+	}
+
+	public void setEligibleForLeave(boolean eligibleForLeave) {
+		this.eligibleForLeave = eligibleForLeave;
 	}
 
 	@Override

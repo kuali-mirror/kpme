@@ -376,6 +376,7 @@
             <column name="std_hours" type="DECIMAL(5,2)"/>
             <column name="fte" type="BIT"/>
             <column name="hr_paytype" type="VARCHAR(5)"/>
+            <column defaultValue="N" name="eligible_for_leave" type="VARCHAR(1)"/>
             <column defaultValue="N" name="active" type="VARCHAR(1)"/>
             <column defaultValue="N" name="primary_indicator" type="VARCHAR(1)"/>
             <column name="position_nbr" type="VARCHAR(20)"/>
