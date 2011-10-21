@@ -21,6 +21,7 @@ public class DepartmentLookupableHelper extends
 			List pkNames) {
 		Department department = (Department) businessObject;
 		final String dept = department.getDept();
+		final Long hrDeptId = department.getHrDeptId();
 		final String className = this.getBusinessObjectClass().getName();
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
@@ -37,9 +38,10 @@ public class DepartmentLookupableHelper extends
 				public String constructCompleteHtmlTag() {
 					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
 							+ className
-							+ "&methodToCall=start&dept="
-							+ dept
-							+ "&hrDeptId=\">view</a>";
+							+ "&methodToCall=start"
+							+ "&hrDeptId="
+							+ hrDeptId
+							+ "\">view</a>";
 				}
 			};
 			customActionUrls.add(htmlData);

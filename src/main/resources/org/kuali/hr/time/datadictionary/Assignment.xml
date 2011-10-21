@@ -53,8 +53,6 @@
 								p:targetName="workArea" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
 								p:targetName="dept" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId"
-								p:targetName="tkWorkAreaId" />
 						</list>
 					</property>
 				</bean>
@@ -76,7 +74,6 @@
 						</list>
 					</property>
 				</bean>
-
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="taskObj" />
 					<property name="primitiveAttributes">
@@ -151,7 +148,7 @@
 			<bean parent="HiddenControlDefinition" />
 		</property>
 	</bean>
-	
+
 	<bean id="Assignment-tkWorkAreaId" parent="Assignment-tkWorkAreaId-parentBean" />
 	<bean id="Assignment-tkWorkAreaId-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -160,7 +157,7 @@
 			<bean parent="HiddenControlDefinition" />
 		</property>
 	</bean>
-	
+
 	<!-- timestamp -->
 	<bean id="Assignment-timestamp" parent="Assignment-timestamp-parentBean" />
 	<bean id="Assignment-timestamp-parentBean" abstract="true"
@@ -175,7 +172,7 @@
 		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>
-	
+
 	<bean id="Assignment-effectiveDate" parent="Assignment-effectiveDate-parentBean" />
 	<bean id="Assignment-effectiveDate-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -242,14 +239,14 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Active" />
 		<property name="control">
-			<bean parent="CheckboxControlDefinition" p:script="setAssignAccountActiveState(this);"/>
+			<bean parent="CheckboxControlDefinition" p:script="setAssignAccountActiveState(this);" />
 		</property>
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="formatterClass"
 			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
 	</bean>
-	
+
 	<bean id="Assignment-history" parent="Assignment-history-parentBean" />
 	<bean id="Assignment-history-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -261,11 +258,20 @@
 		<property name="name" value="history" />
 		<property name="label" value="Show History" />
 	</bean>
+	<bean id="Assignment-assignmentAccounts" parent="Assignment-assignmentAccounts-parentBean" />
+	<bean id="Assignment-assignmentAccounts-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="assignmentAccounts" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+		<property name="name" value="assignmentAccounts" />
+		<property name="label" value="assignmentAccounts" />
+	</bean>
+	
 
-	<!--  Inquiry Definitions  -->
-
+	<!-- Inquiry Definitions -->
 	<bean id="Assignment-inquiryDefinition" parent="Assignment-inquiryDefinition-parentBean" />
-
 	<bean id="Assignment-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
 		<property name="inquirySections">
@@ -286,28 +292,51 @@
 					</property>
 					<property name="title" value="Assignment" />
 				</bean>
+				<bean parent="InquirySectionDefinition" p:title="AssignmentAccounts">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="assignmentAccounts"
+								p:businessObjectClass="org.kuali.hr.time.assignment.AssignmentAccount">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="finCoaCd" />
+										<bean parent="FieldDefinition" p:attributeName="accountNbr" />
+										<bean parent="FieldDefinition" p:attributeName="earnCode" />
+										<bean parent="FieldDefinition" p:attributeName="subAcctNbr" />
+										<bean parent="FieldDefinition" p:attributeName="finObjectCd" />
+										<bean parent="FieldDefinition" p:attributeName="projectCd" />
+										<bean parent="FieldDefinition" p:attributeName="orgRefId" />
+										<bean parent="FieldDefinition" p:attributeName="percent" />
+										<bean parent="FieldDefinition" p:attributeName="active" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
-		<property name="translateCodes" value="false"/>
+		<property name="translateCodes" value="false" />
 		<property name="title" value="Assignment Inquiry" />
 	</bean>
 
-	<!--  Look up Definitions  -->
-
-
+	<!-- Look up Definitions -->
 	<bean id="Assignment-lookupDefinition" parent="Assignment-lookupDefinition-parentBean" />
 	<bean id="Assignment-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="lookupableID" value="assignmentLookupable"></property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate"  p:noInquiry="true" p:noLookup="true"/>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate"
+					p:noInquiry="true" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
-				<bean parent="FieldDefinition" p:attributeName="dept"  p:noInquiry="true" p:noLookup="true"/>
+				<bean parent="FieldDefinition" p:attributeName="dept"
+					p:noInquiry="true" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+				<bean parent="FieldDefinition" p:attributeName="history"
+					p:defaultValue="N" />
 				<bean parent="FieldDefinition" p:attributeName="hrJobId" />
 				<bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
 			</list>

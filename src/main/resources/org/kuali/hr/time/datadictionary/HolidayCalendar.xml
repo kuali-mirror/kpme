@@ -108,6 +108,22 @@
 					</property>
 					<property name="title" value="HolidayCalendar" />
 				</bean>
+				<bean parent="InquirySectionDefinition" p:title="Holiday Calendar Dates">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="dateEntries"
+								p:businessObjectClass="org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="holidayDescr" />
+										<bean parent="FieldDefinition" p:attributeName="holidayDate" />
+										<bean parent="FieldDefinition" p:attributeName="holidayHours" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>	
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>

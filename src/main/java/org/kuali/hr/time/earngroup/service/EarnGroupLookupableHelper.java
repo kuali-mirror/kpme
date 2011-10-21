@@ -31,6 +31,7 @@ public class EarnGroupLookupableHelper extends HrEffectiveDateActiveLookupableHe
 			EarnGroup earnGroupObj = (EarnGroup) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String earnGroup = earnGroupObj.getEarnGroup();
+			final Long hrEarnGroupId = earnGroupObj.getHrEarnGroupId();
 			HtmlData htmlData = new HtmlData() {
 
 				/**
@@ -42,8 +43,8 @@ public class EarnGroupLookupableHelper extends HrEffectiveDateActiveLookupableHe
 				public String constructCompleteHtmlTag() {
 					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
 							+ className
-							+ "&methodToCall=start&earnGroup="
-							+ earnGroup + "&hrEarnGroupId=\">view</a>";
+							+ "&methodToCall=start&hrEarnGroupId="
+							+ hrEarnGroupId + "\">view</a>";
 				}
 			};
 			overrideUrls.add(htmlData);

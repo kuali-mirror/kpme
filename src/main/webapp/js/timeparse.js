@@ -130,7 +130,7 @@ var timeParsePatterns = [
             return d;
         }
     },
-    // 4, hmm p/pm
+    // 4, hhmm p/pm
     {  	re: /^([0-9]{4})(p$|pm$| p$| pm$)/i,
         example: new Array('1005p', '0905 p', '0905p', '0905 pm'),
         handler: function(bits) {
