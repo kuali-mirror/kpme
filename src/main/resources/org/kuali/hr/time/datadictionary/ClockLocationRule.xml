@@ -22,13 +22,20 @@
         <ref bean="ClockLocationRule-timestamp"/>
         <ref bean="ClockLocationRule-active"/>
         <ref bean="ClockLocationRule-history" />
-        <ref bean="ClockLocationRule-ipAddress"/>
+        <ref bean="ClockLocationRule-ipAddressesString"/>
         <ref bean="ClockLocationRule-userPrincipalId"/>
         <ref bean="ClockLocationRule-hrJobId"/>
         <ref bean="ClockLocationRule-hrDeptId"/>
         <ref bean="ClockLocationRule-tkWorkAreaId"/>
       </list>
     </property>
+    <property name="collections">
+      <list>
+        <bean parent="CollectionDefinition" p:name="ipAddresses" 
+        	p:label="IP Addresses" p:shortLabel="IP Addresses" 
+        	p:summary="IP Addresses" p:description="IP Addresses"/>
+      </list>
+    </property> 
     <property name="relationships">
   		<list>
   			<bean parent="RelationshipDefinition">
@@ -211,27 +218,15 @@
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
 
-  <!-- 
-  
-   -->
-  
-  <bean id="ClockLocationRule-ipAddress" parent="ClockLocationRule-ipAddress-parentBean"/>
-  <bean id="ClockLocationRule-ipAddress-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="IP Address"/>
-    <property name="maxLength" value="15"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern">
-      	<property name="allowWhitespace" value="false"/>
-      </bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="15"/>
-    </property>
-    <property name="name" value="ipAddress"/>
-    <property name="label" value="IP Address"/>
-  </bean>
-
-
+	<bean id="ClockLocationRule-ipAddressesString" parent="ClockLocationRule-ipAddressesString-parentBean" />
+	<bean id="ClockLocationRule-ipAddressesString-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="IP Addresses" />
+		<property name="control">
+			<bean parent="TextControlDefinition" />
+		</property>
+		<property name="name" value="ipAddressesString" />
+		<property name="label" value="IP Addresses" />
+	</bean>
 
   <!-- 
   
@@ -310,7 +305,7 @@
 							<bean parent="FieldDefinition" p:attributeName="principalId" />
 							<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
-							<bean parent="FieldDefinition" p:attributeName="ipAddress" />
+							<bean parent="FieldDefinition" p:attributeName="ipAddressesString" />
 						</list>
 					</property>
 					<property name="title" value="ClockLocationRule" />
@@ -349,7 +344,7 @@
         <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
         <bean parent="FieldDefinition" p:attributeName="timestamp" />
         <bean parent="FieldDefinition" p:attributeName="active"/>
-        <bean parent="FieldDefinition" p:attributeName="ipAddress"/>        
+        <bean parent="FieldDefinition" p:attributeName="ipAddressesString" />
       </list>
     </property>
     <property name="title" value="Clock Location Rule Lookup"/>

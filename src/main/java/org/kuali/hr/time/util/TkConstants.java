@@ -269,4 +269,7 @@ public class TkConstants {
 
     public static final Integer PAGE_SIZE = 2;
     public static final String APPROVAL_TABLE_ID = "row";
+    
+    public static final String IP_SEPERATOR = ".";
+    public static final String IP_WILDCARD_PATTERN = "(%|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))";
 }

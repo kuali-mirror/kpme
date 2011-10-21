@@ -18,6 +18,7 @@
     <property name="maintainableSections">
       <list>
         <ref bean="ClockLocationRuleMaintenanceDocument-ClockLocationRuleMaintenance"/>
+        <ref bean="ClockLocationRuleMaintenanceDocument-IPAddressMaintenance" />
       </list>
     </property>
     <property name="documentTypeName" value="ClockLocationRuleDocumentType"/>
@@ -37,9 +38,31 @@
         <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="jobNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="ipAddress" p:required="true"/>
       </list>
     </property>
   </bean>
+  
+  <bean id="ClockLocationRuleMaintenanceDocument-IPAddressMaintenance" parent="ClockLocationRuleMaintenanceDocument-IPAddressMaintenance-parentBean" />
+  
+  <bean id="ClockLocationRuleMaintenanceDocument-IPAddressMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="ipAddresses" />
+		<property name="title" value="IP Addresses" />
+		<property name="defaultOpen" value="true" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="name" value="ipAddresses" />
+					<property name="businessObjectClass" value="org.kuali.hr.time.clock.location.TKIPAddress" />
+					<property name="alwaysAllowCollectionDeletion" value="true" />
+					<property name="maintainableFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="ipAddress" p:required="true" p:readOnlyAfterAdd="true" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+ </bean>
+  
 
 </beans>

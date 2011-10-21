@@ -155,7 +155,6 @@
 		<field-descriptor name="jobNumber"       column="job_number"    jdbc-type="BIGINT" precision="3" scale="0" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"   column="effdt"         jdbc-type="DATE" nullable="false" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-		<field-descriptor name="ipAddress"       column="ip_address"	jdbc-type="VARCHAR" length="15" nullable="false" primarykey="false" />
 		<field-descriptor name="userPrincipalId" column="user_principal_id"	jdbc-type="VARCHAR" length="10" nullable="false" />
 		<field-descriptor name="timestamp"       column="timestamp"         jdbc-type="TIMESTAMP" nullable="false" primarykey="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="objectId"        column="obj_id"            jdbc-type="VARCHAR" index="true" />
@@ -167,6 +166,14 @@
 		</reference-descriptor>
 			 	-->
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.hr.time.clock.location.TKIPAddress" table="tk_ip_address_t">
+		<field-descriptor name="tkIPAddressId" column="TK_IP_Address_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_ip_address_s"/>
+		<field-descriptor name="tkClockLocationRuleId" column="TK_CLOCK_LOC_RULE_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="ipAddress"       column="ip_address"	jdbc-type="VARCHAR" length="15" nullable="false" primarykey="false" />
+	</class-descriptor>
+	
+	
     <class-descriptor class="org.kuali.hr.time.department.Department" table="hr_dept_t">
 		<field-descriptor name="hrDeptId"     	column="hr_dept_id"  jdbc-type="BIGINT" nullable="false" primarykey="true"  autoincrement="true" sequence-name="hr_dept_s"/>
         <field-descriptor name="dept"         	column="dept"        jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />

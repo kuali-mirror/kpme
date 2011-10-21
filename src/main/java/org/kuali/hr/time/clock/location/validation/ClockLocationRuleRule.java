@@ -1,5 +1,7 @@
 package org.kuali.hr.time.clock.location.validation;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
@@ -11,6 +13,7 @@ import org.kuali.hr.time.authorization.AuthorizationValidationUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
+import org.kuali.hr.time.clock.location.TKIPAddress;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -20,34 +23,39 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 
-	private static final String WILDCARD_CHARACTER = "%";
-	private static final String IP_SEPERATOR = ".";
-	private static final String WILDCARD_PATTERN = "(%|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))";
-
 	private static Logger LOG = Logger.getLogger(ClockLocationRuleRule.class);
 
-	boolean validateIpAddress(String ip) {
+	public static boolean validateIpAddress(String ip) {
 		LOG.debug("Validating IP address: " + ip);
 		if(ip == null) {
-			return this.flagError(ip);
+			return false;
 		}
-		if(ip.isEmpty() || ip.length() > 15 || ip.endsWith(IP_SEPERATOR) || ip.startsWith(IP_SEPERATOR)) {
-			return this.flagError(ip);
+		if(ip.isEmpty() || ip.length() > 15 || ip.endsWith(TkConstants.IP_SEPERATOR) || ip.startsWith(TkConstants.IP_SEPERATOR)) {
+			return false;
 		}
-		String[] lst =  StringUtils.split(ip, IP_SEPERATOR);
-		if(lst.length > 4 || (lst.length <4 && ip.indexOf(WILDCARD_CHARACTER)< 0)) {
-			return this.flagError(ip);
+		String[] lst =  StringUtils.split(ip, TkConstants.IP_SEPERATOR);
+		if(lst.length > 4 || (lst.length <4 && ip.indexOf(TkConstants.WILDCARD_CHARACTER)< 0)) {
+			return false;
 		}
 		for(String str : lst) {
-			if(!str.matches(WILDCARD_PATTERN)) {
-				return this.flagError(ip);
+			if(!str.matches(TkConstants.IP_WILDCARD_PATTERN)) {
+				return false;
 			}
 		}
 		return true;
 	}
-
-	boolean flagError(String ip) {
-		this.putFieldError("ipAddress", "ipaddress.invalid.format", ip);
+	
+	boolean validateIpAddresses(List<TKIPAddress> ipAddresses) {
+		for(TKIPAddress ip : ipAddresses) {
+			if(!validateIpAddress(ip.getIpAddress())) {
+				return this.flagIPAddressError(ip.getIpAddress());
+			}
+		}
+		return true;
+	}
+	
+	boolean flagIPAddressError(String ip) {
+		this.putFieldError("ipAddresses", "ipaddress.invalid.format", ip);
 		return false;
 	}
 
@@ -172,7 +180,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
             valid &= this.validateWildcards(clr);
             valid &= this.validatePrincipalId(clr);
             valid &= this.validateJobNumber(clr);
-            valid &= this.validateIpAddress(clr.getIpAddress());
+            valid &= this.validateIpAddresses(clr.getIpAddresses());
 		}
 
 		return valid;

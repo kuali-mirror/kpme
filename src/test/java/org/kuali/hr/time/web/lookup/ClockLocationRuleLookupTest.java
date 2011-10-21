@@ -35,7 +35,6 @@ public class ClockLocationRuleLookupTest extends TkTestCase {
     	ClockLocationRule clr = new ClockLocationRule();
     	clr.setActive(true);
     	clr.setDept("12345");
-    	clr.setIpAddress("ipaddress");
     	Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
     	clr.setEffectiveDate(asOfDate);
     	boService.save(clr);
