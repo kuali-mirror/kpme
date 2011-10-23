@@ -117,4 +117,7 @@ public interface UserRoles {
 
     public boolean isDocumentWritable(TimesheetDocument document);
     public boolean isDocumentWritable(String documentId);
+
+    public boolean isLeaveManagementCalendar();
+
 }

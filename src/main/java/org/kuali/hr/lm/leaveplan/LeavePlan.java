@@ -58,20 +58,17 @@ public class LeavePlan extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		String leavePlanKey = getLeavePlan() +"_"+ getCalendarYearStart();
-		return leavePlanKey;
+		return leavePlan;
 	}
 
 	@Override
 	public Long getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return getLmLeavePlanId();
 	}
 
 	@Override
 	public void setId(Long id) {
-		// TODO Auto-generated method stub
-		
+		setLmLeavePlanId(id);
 	}
 
 	@Override

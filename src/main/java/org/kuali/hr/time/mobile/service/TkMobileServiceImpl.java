@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.jws.WebService;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -21,9 +19,6 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 import com.google.gson.Gson;
-
-@WebService(endpointInterface = "org.kuali.hr.time.mobile.service.TkMobileService", 
-serviceName = "tkMobileService", portName = "tkMobileService", targetNamespace="http://kpme.kuali.org/wsdl/tkMobileService")
 
 public class TkMobileServiceImpl implements TkMobileService {
 
@@ -46,9 +41,9 @@ public class TkMobileServiceImpl implements TkMobileService {
 	}
 
 	@Override
-	public String addClockAction(String principalId, String assignmentKey,
+	public Map<String,List<String>> addClockAction(String principalId, String assignmentKey,
 			String clockAction) {
-		
+		Map<String,List<String>> errorWarningMap = new HashMap<String,List<String>>();
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), TKUtils.getCurrentDate());
         Date currentDate = TKUtils.getCurrentDate();
         PayCalendarEntries payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId,  currentDate);
@@ -61,7 +56,7 @@ public class TkMobileServiceImpl implements TkMobileService {
         String ip = TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest());
         TkServiceLocator.getClockLogService().buildClockLog(new Timestamp(System.currentTimeMillis()), assignment, 
 						td, clockAction, ip);
-        return getClockEntryInfo(principalId);
+		return errorWarningMap;
 	}
 	
 	private String getLastClockLogDescription(String principalId){

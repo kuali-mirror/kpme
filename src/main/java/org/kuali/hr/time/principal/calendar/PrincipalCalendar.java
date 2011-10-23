@@ -17,6 +17,7 @@ public class PrincipalCalendar extends HrBusinessObject {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String principalId;
+	private String leaveCalendar;
 	private String pyCalendarGroup;
 	private String holidayCalendarGroup;
 	private String timezone;
@@ -132,5 +133,13 @@ public class PrincipalCalendar extends HrBusinessObject {
 
 	@Override
 	public void setId(Long id) {
+	}
+
+	public String getLeaveCalendar() {
+		return leaveCalendar;
+	}
+
+	public void setLeaveCalendar(String leaveCalendar) {
+		this.leaveCalendar = leaveCalendar;
 	}
 }

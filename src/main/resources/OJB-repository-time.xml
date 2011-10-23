@@ -678,6 +678,7 @@
 
 	<class-descriptor class="org.kuali.hr.time.principal.calendar.PrincipalCalendar" table="hr_principal_calendar_t">
 		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="true" />
+		<field-descriptor name="leaveCalendar"   column="leave_calendar" jdbc-type="VARCHAR" length="30"/>
 		<field-descriptor name="pyCalendarGroup"   column="py_calendar_group" jdbc-type="VARCHAR" length="30"/>
 		<field-descriptor name="holidayCalendarGroup" column="holiday_calendar_group" jdbc-type="VARCHAR" length="30"/>
 		<field-descriptor name="timezone" column="timezone" jdbc-type="VARCHAR" length="10"/>

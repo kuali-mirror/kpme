@@ -3,11 +3,14 @@ package org.kuali.hr.time.roles;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+
+import com.ctc.wstx.util.StringUtil;
 
 import java.util.*;
 
@@ -348,5 +351,14 @@ public class TkUserRoles implements UserRoles {
 	public boolean canSubmitTimesheet(String docId) {
 		TimesheetDocument doc = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
 		return canSubmitTimesheet(doc);
+	}
+
+	@Override
+	public boolean isLeaveManagementCalendar() {
+		PrincipalCalendar principalCal = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(getPrincipalId(), TKUtils.getCurrentDate());
+		if(principalCal != null && StringUtils.isNotBlank(principalCal.getLeaveCalendar())){
+			return true;
+		}
+		return false;
 	}
 }
