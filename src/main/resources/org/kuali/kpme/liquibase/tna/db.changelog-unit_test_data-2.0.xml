@@ -667,7 +667,7 @@
             <column name="DESCRIPTION" value="test department"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location"  value=""/>
+            <column name="location"  value="BL"/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -678,7 +678,7 @@
             <column name="DESCRIPTION" value="test department1"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value=""/>
+            <column name="location" value="BL"/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -689,7 +689,7 @@
             <column name="DESCRIPTION" value="test department2"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value=""/>
+            <column name="location" value="BL"/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -700,7 +700,7 @@
             <column name="DESCRIPTION" value="test department3"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value=""/>
+            <column name="location" value="BL"/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -711,7 +711,7 @@
             <column name="DESCRIPTION" value="test department4"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value=""/>
+            <column name="location" value="BL"/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -722,7 +722,7 @@
             <column name="DESCRIPTION" value="test department5"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value=""/>
+            <column name="location" value="BL"/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -733,7 +733,7 @@
             <column name="DESCRIPTION" value="test department6"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value=""/>
+            <column name="location" value="BL"/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -744,7 +744,7 @@
             <column name="DESCRIPTION" value="test department7"/>
             <column name="ORG" value="NODEP"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value=""/>
+            <column name="location" value="BL"/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -755,7 +755,7 @@
             <column name="DESCRIPTION" value="test department7"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value=""/>
+            <column name="location" value="BL"/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -766,7 +766,7 @@
             <column name="DESCRIPTION" value="loras department"/>
             <column name="ORG" value="LORA"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value=""/>
+            <column name="location" value="BL"/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -777,7 +777,7 @@
             <column name="DESCRIPTION" value="shift department"/>
             <column name="ORG" value="SHFT"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value=""/>
+            <column name="location" value="BL"/>
             <column name="effdt" valueDate="2010-01-01"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
