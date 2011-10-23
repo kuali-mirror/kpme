@@ -550,6 +550,9 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
                 <constraints nullable="false"/>
             </column>
+            <column name="leave_calendar" type="VARCHAR(45)">
+                <constraints nullable="true"/>
+            </column>
             <column defaultValue="Y" name="active" type="VARCHAR(1)"/>
         </createTable>
     </changeSet>
