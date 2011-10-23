@@ -1833,6 +1833,7 @@
             <column name="OBJ_ID" value="6113aa9c-4423-11e0-a509-124832221506"/>
             <column name="timezone"/>
             <column name="VER_NBR" valueNumeric="1"/>
+            <column name="leave_calendar"/>
             <column name="active" value="Y"/>
         </insert>
         <insert tableName="hr_principal_calendar_t">
@@ -1843,6 +1844,7 @@
             <column name="TIMESTAMP" valueDate="2011-03-01T11:45:56.0"/>
             <column name="OBJ_ID" value="6113c900-4423-11e0-a509-124832221506"/>
             <column name="timezone"/>
+            <column name="leave_calendar"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="active" value="Y"/>
         </insert>
