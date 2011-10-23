@@ -70,14 +70,14 @@
 	
 	<bean id="EarnGroup-showSummary" parent="EarnGroup-showSummary-parentBean"/>
   	<bean id="EarnGroup-showSummary-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Show On Summary"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
-    <property name="name" value="showSummary"/>
-    <property name="label" value="Show On Summary"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
-  </bean>
+	    <property name="shortLabel" value="Show On Summary"/>
+	    <property name="control">
+	      <bean parent="CheckboxControlDefinition"/>
+	    </property>
+	    <property name="name" value="showSummary"/>
+	    <property name="label" value="Show On Summary"/>
+	    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  	</bean>
 	
 
 	<bean id="EarnGroup-descr" parent="EarnGroup-descr-parentBean" />
@@ -95,9 +95,6 @@
 		</property>
 		<property name="name" value="descr" />
 		<property name="label" value="Description" />
-		
-		
-		
 	</bean>
 
 	<bean id="EarnGroup-effectiveDate" parent="EarnGroup-effectiveDate-parentBean" />
@@ -172,6 +169,21 @@
 						</list>
 					</property>
 					<property name="title" value="EarnGroup" />
+				</bean>
+				<bean parent="InquirySectionDefinition" p:title="Earn Group Defintions">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="earnGroups"
+								p:businessObjectClass="org.kuali.hr.time.earngroup.EarnGroupDefinition">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="earnCode" />
+										<bean parent="FieldDefinition" p:attributeName="earnCodeDesc" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
 				</bean>
 			</list>
 		</property>

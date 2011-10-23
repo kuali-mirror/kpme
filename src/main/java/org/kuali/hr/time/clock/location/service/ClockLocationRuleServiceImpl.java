@@ -3,6 +3,7 @@ package org.kuali.hr.time.clock.location.service;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
+import org.kuali.hr.time.clock.location.TKIPAddress;
 import org.kuali.hr.time.clock.location.dao.ClockLocationDao;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.util.TkConstants;
@@ -29,11 +30,12 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 			return;
 		}
 		for(ClockLocationRule clockLocationRule : lstClockLocationRules){
-			String ipAddressRule = clockLocationRule.getIpAddress();
+			List<TKIPAddress> ruleIpAddresses = clockLocationRule.getIpAddresses();
 			String ipAddressClock = clockLog.getIpAddress();
-
-			if(compareIpAddresses(ipAddressRule, ipAddressClock)){
-				return;
+			for(TKIPAddress ruleIp : ruleIpAddresses) {
+				if(compareIpAddresses(ruleIp.getIpAddress(), ipAddressClock)){
+					return;
+				}
 			}
 		}
 		GlobalVariables.getMessageMap().putWarning("property", "ipaddress.invalid.format", clockLog.getIpAddress());
@@ -123,6 +125,10 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public ClockLocationRule getClockLocationRule(Long tkClockLocationRuleId) {
 		return clockLocationDao.getClockLocationRule(tkClockLocationRuleId);
+	}
+	
+	public void populateIPAddressesForCLR(ClockLocationRule clr){
+		clockLocationDao.populateIPAddressesForCLR(clr);
 	}
 
 }

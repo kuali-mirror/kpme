@@ -83,9 +83,8 @@ $(document).ready(function() {
 
     });
 
-
     $('#searchValue').autocomplete({
-        //source: "TimeApproval.do?methodToCall=searchDocumentHeaders" + $('#searchField').val(),
+//        source: 'TimeApprovalWS.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + $(this).val() + '&payBeginDate=' + payBeginDate + '&payEndDate=' + payEndDate,
         source: function(request, response) {
             $('#loading-value').ajaxStart(function() {
                 $(this).show();
@@ -93,24 +92,31 @@ $(document).ready(function() {
             $('#loading-value').ajaxStop(function() {
                 $(this).hide();
             });
-            $.post('TimeApproval.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term +
-                    '&selectedPayCalendarGroup=' + $('#selectedPayCalendarGroup').val() + "&hrPyCalendarId=" + $("#pcid").val() +
-                    "&hrPyCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val(),
-                    function(data) {
-                        response($.map(jQuery.parseJSON(data), function(item) {
-                            return {
-                                value: item
-                            }
-                        }));
-                    });
+            //var payBeginDate = $('#payBeginDateForSearch').val();
+            //var payEndDate = $('#payEndDateForSearch').val();
+            var hrPyCalendarEntriesId = $("#pceid").val();
+            var selectedPayCalendarGroup = $("#selectedPayCalendarGroup").val();
+
+            $.ajax({
+                url: 'TimeApprovalWS.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term + "&payBeginDateForSearch=" + $("#beginDate").html() + "&payEndDateForSearch=" + $("#endDate").html() +
+//                        '&hrPyCalendarEntriesId=' + hrPyCalendarEntriesId +
+                        '&selectedPayCalendarGroup=' + selectedPayCalendarGroup,
+                dataType: "json",
+                success: function(data) {
+                    response($.map(data, function(item) {
+                        return {
+                            value: item.id,
+                            id: item.result
+                        };
+                    }));
+                }
+            });
         },
         minLength: 3,
         select: function(event, data) {
             var rows = $('#approvals-table tbody tr').length;
             var isAscending = getParameterByName("ascending");
-
-            window.location = 'TimeApproval.do?searchField=' + $('#searchField').val() + '&searchTerm=' + data.item.value +
-                    '&sortField=' + $('#searchField').val() + '&ascending=' + isAscending + '&rowsToShow=' + rows + "&hrPyCalendarId=" + $("#pcid").val() + "&hrPyCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val();
+            window.location = 'TimeApproval.do?searchField=principalName&searchTerm=' + data.item.id;
         },
         open: function() {
             $(this).removeClass("ui-corner-all");

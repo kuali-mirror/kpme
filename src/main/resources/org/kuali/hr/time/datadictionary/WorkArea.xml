@@ -1,125 +1,131 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="WorkArea" parent="WorkArea-parentBean" />
+	<bean id="WorkArea" parent="WorkArea-parentBean" />
 
-  <bean id="WorkArea-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.hr.time.workarea.WorkArea" />
-    <property name="inquiryDefinition" >
-      <ref bean="WorkArea-inquiryDefinition" />
-    </property>
-    <property name="lookupDefinition" >
-      <ref bean="WorkArea-lookupDefinition" />
-    </property>
-    <property name="titleAttribute" value="tkWorkAreaId" />
-    <property name="attributes" >
-      <list>
-      	<ref bean="WorkArea-workArea" />
-        <ref bean="WorkArea-effectiveDate" />
-        <ref bean="WorkArea-active" />
-        <ref bean="WorkArea-description" />
-        <ref bean="WorkArea-dept" />
-        <ref bean="WorkArea-adminDescr" />
-        <ref bean="WorkArea-overtimeEditRole" />
-        <ref bean="WorkArea-defaultOvertimeEarnCode" />
-        <ref bean="WorkArea-userPrincipalId" />
-        <ref bean="WorkArea-timestamp" />
-        <ref bean="WorkArea-hrDeptId" />
-        <ref bean="WorkArea-history" />
-        <ref bean="WorkArea-ovtEarnCode" />
-       </list>
-    </property>
-    <property name="objectLabel" value="workAreaObj"/>
-     <property name="relationships">
-  		<list>
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="department"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrDeptId" p:targetName="hrDeptId"/>
-                </list>
-              </property>
-            </bean>
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="taskObj"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="task" p:targetName="task"/>
-                </list>
-              </property>
-            </bean>
-            <bean parent="RelationshipDefinition">
-                <property name="objectAttributeName" value="defaultOvertimeEarnCodeObj" />
-                <property name="primitiveAttributes">
-                    <list>
-                        <bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultOvertimeEarnCode" p:targetName="earnCode"/>
-                        <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
-                        <bean parent="PrimitiveAttributeDefinition" p:sourceName="ovtEarnCode" p:targetName="ovtEarnCode" />
-                    </list>
-                </property>
-            </bean>
-    	</list>
-    </property>
-    <property name="collections">
-      <list>
-        <bean parent="CollectionDefinition" p:name="tasks" p:label="Tasks" p:shortLabel="Tasks" p:summary="Tasks" p:description="Tasks"/>
-        <bean parent="CollectionDefinition" p:name="roles" p:label="Roles" p:shortLabel="Roles" p:summary="Roles" p:description="Roles"/>
-      </list>
-    </property>
-  </bean>
+	<bean id="WorkArea-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.time.workarea.WorkArea" />
+		<property name="inquiryDefinition">
+			<ref bean="WorkArea-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="WorkArea-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="tkWorkAreaId" />
+		<property name="attributes">
+			<list>
+				<ref bean="WorkArea-tkWorkAreaId" />
+				<ref bean="WorkArea-workArea" />
+				<ref bean="WorkArea-effectiveDate" />
+				<ref bean="WorkArea-active" />
+				<ref bean="WorkArea-description" />
+				<ref bean="WorkArea-dept" />
+				<ref bean="WorkArea-adminDescr" />
+				<ref bean="WorkArea-overtimeEditRole" />
+				<ref bean="WorkArea-defaultOvertimeEarnCode" />
+				<ref bean="WorkArea-userPrincipalId" />
+				<ref bean="WorkArea-timestamp" />
+				<ref bean="WorkArea-hrDeptId" />
+				<ref bean="WorkArea-history" />
+				<ref bean="WorkArea-ovtEarnCode" />
+			</list>
+		</property>
+		<property name="objectLabel" value="workAreaObj" />
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="department" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
+								p:targetName="dept" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrDeptId"
+								p:targetName="hrDeptId" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="taskObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="task"
+								p:targetName="task" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="defaultOvertimeEarnCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultOvertimeEarnCode"
+								p:targetName="earnCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
+								p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="ovtEarnCode"
+								p:targetName="ovtEarnCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="tasks" p:label="Tasks" p:shortLabel="Tasks" p:summary="Tasks" p:description="Tasks" />
+				<bean parent="CollectionDefinition" p:name="roles" p:label="Roles" p:shortLabel="Roles" p:summary="Roles" p:description="Roles" />
+				<bean parent="CollectionDefinition" p:name="inactiveRoles" p:label="Inactive Roles" p:shortLabel="Inactive Roles" p:summary="Inactive Roles" p:description="Inactive Roles" />
+			</list>
+		</property>
+	</bean>
 
-<!-- Attribute Definitions -->
+	<!-- Attribute Definitions -->
 
-  <bean id="WorkArea-tkWorkAreaId" parent="WorkArea-tkWorkAreaId-parentBean"/>
+	<bean id="WorkArea-tkWorkAreaId" parent="WorkArea-tkWorkAreaId-parentBean" />
+	<bean id="WorkArea-tkWorkAreaId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="WorkArea Id" />
+		<property name="maxLength" value="7" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="7" />
+		</property>
+		<property name="name" value="tkWorkAreaId" />
+		<property name="label" value="WorkArea Id" />
+	</bean>
 
-  <bean id="WorkArea-tkWorkAreaId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="TkWorkAreaId"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-        <bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
-    <property name="name" value="tkWorkAreaId"/>
-    <property name="label" value="TkWorkAreaId"/>
-  </bean>
+	<bean id="WorkArea-workArea" parent="WorkArea-workArea-parentBean" />
+	<bean id="WorkArea-workArea-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Work Area" />
+		<property name="maxLength" value="7" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="7" />
+		</property>
+		<property name="name" value="workArea" />
+		<property name="label" value="Work Area" />
+	</bean>
 
-  <bean id="WorkArea-workArea" parent="WorkArea-workArea-parentBean"/>
-
-  <bean id="WorkArea-workArea-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="WorkArea"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-        <bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
-    <property name="name" value="workArea"/>
-    <property name="label" value="WorkArea"/>
-  </bean>
-
-  <bean id="WorkArea-effectiveDate" parent="WorkArea-effectiveDate-parentBean"/>
-
-  <bean id="WorkArea-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Effective Date"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-        <bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
-    <property name="name" value="effectiveDate"/>
-    <property name="label" value="Effective Date"/>
-  </bean>
-
+	<bean id="WorkArea-effectiveDate" parent="WorkArea-effectiveDate-parentBean" />
+	<bean id="WorkArea-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
 
 	<bean id="WorkArea-history" parent="WorkArea-history-parentBean" />
 	<bean id="WorkArea-history-parentBean" abstract="true"
@@ -132,30 +138,31 @@
 		<property name="name" value="history" />
 		<property name="label" value="Show History" />
 	</bean>
-	
-  <bean id="WorkArea-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active"/>
-    <property name="label" value="Active?"/>
-  </bean>
 
- <bean id="WorkArea-description" parent="WorkArea-description-parentBean" />
+	<bean id="WorkArea-active" parent="WorkArea-active-parentBean" />
+	<bean id="WorkArea-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+		<property name="label" value="Active?" />
+	</bean>
 
-  <bean id="WorkArea-description-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="false" />
-
-    <property name="maxLength" value="30" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="30" />
-    </property>
-
-    <property name="name" value="description" />
-    <property name="label" value="Description" />
-    <property name="description" value="Description" />
-  </bean>
+	<bean id="WorkArea-description" parent="WorkArea-description-parentBean" />
+	<bean id="WorkArea-description-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="forceUppercase" value="false" />
+		<property name="maxLength" value="30" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+		<property name="name" value="description" />
+		<property name="label" value="Description" />
+		<property name="description" value="Description" />
+	</bean>
 
 	<bean id="WorkArea-overtimeEditRole" parent="WorkArea-overtimeEditRole-parentBean" />
-	<bean id="WorkArea-overtimeEditRole-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true"/>
+	<bean id="WorkArea-overtimeEditRole-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="forceUppercase" value="true" />
 		<property name="shortLabel" value="Overtime Edit Role" />
 		<property name="maxLength" value="20" />
 		<property name="validationPattern">
@@ -164,103 +171,99 @@
 			</bean>
 		</property>
 		<property name="control">
-		  <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.roles.TkRoleWorkAreaOtEditValuesFinder" p:includeKeyInLabel="false"/>
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.hr.time.roles.TkRoleWorkAreaOtEditValuesFinder"
+				p:includeKeyInLabel="false" />
 		</property>
 		<property name="name" value="overtimeEditRole" />
 		<property name="label" value="Overtime Edit Role" />
 	</bean>
 
-    <bean id="WorkArea-defaultOvertimeEarnCode" parent="WorkArea-defaultOvertimeEarnCode-parentBean" />
-    <bean id="WorkArea-defaultOvertimeEarnCode-parentBean" abstract="true" parent="AttributeDefinition">
-      <property name="forceUppercase" value="false" />
+	<bean id="WorkArea-defaultOvertimeEarnCode" parent="WorkArea-defaultOvertimeEarnCode-parentBean" />
+	<bean id="WorkArea-defaultOvertimeEarnCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="forceUppercase" value="false" />
+		<property name="maxLength" value="3" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+		<property name="name" value="defaultOvertimeEarnCode" />
+		<property name="label" value="Default Overtime Earn Code" />
+		<property name="description" value="Default Overtime Earn Code" />
+	</bean>
 
-      <property name="maxLength" value="3" />
-      <property name="control" >
-        <bean parent="TextControlDefinition" p:size="3" />
-      </property>
 
-      <property name="name" value="defaultOvertimeEarnCode" />
-      <property name="label" value="Default Overtime Earn Code" />
-      <property name="description" value="Default Overtime Earn Code" />
-    </bean>
+	<bean id="WorkArea-dept" parent="WorkArea-dept-parentBean" />
+	<bean id="WorkArea-dept-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="forceUppercase" value="true" />
+		<property name="maxLength" value="21" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="21" />
+		</property>
+		<property name="name" value="dept" />
+		<property name="label" value="Department" />
+		<property name="description" value="dept" />
+	</bean>
 
+	<bean id="WorkArea-task" parent="WorkArea-task-parentBean" />
+	<bean id="WorkArea-task-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Task" />
+		<property name="maxLength" value="7" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="7" />
+		</property>
+		<property name="name" value="task" />
+		<property name="label" value="Task" />
+	</bean>
 
-  <bean id="WorkArea-dept" parent="WorkArea-dept-parentBean" />
-  <bean id="WorkArea-dept-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true" />
+	<bean id="WorkArea-adminDescr" parent="WorkArea-adminDescr-parentBean" />
+	<bean id="WorkArea-adminDescr-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="forceUppercase" value="true" />
+		<property name="maxLength" value="30" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+		<property name="name" value="adminDescr" />
+		<property name="label" value="Admin Description" />
+		<property name="description" value="adminDescr" />
+	</bean>
 
-    <property name="maxLength" value="21" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="21" />
-    </property>
+	<bean id="WorkArea-userPrincipalId" parent="WorkArea-userPrincipalId-parentBean" />
+	<bean id="WorkArea-userPrincipalId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="User Principal Id" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+		<property name="name" value="userPrincipalId" />
+		<property name="label" value="User Principal Id" />
+	</bean>
 
-    <property name="name" value="dept" />
-    <property name="label" value="Department" />
-    <property name="description" value="dept" />
-  </bean>
+	<bean id="WorkArea-timestamp" parent="WorkArea-timestamp-parentBean" />
+	<bean id="WorkArea-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
 
-  <bean id="WorkArea-task" parent="WorkArea-task-parentBean"/>
-  <bean id="WorkArea-task-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Task"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-        <bean parent="AlphaNumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
-    <property name="name" value="task"/>
-    <property name="label" value="Task"/>
-  </bean>
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
 
-<bean id="WorkArea-adminDescr" parent="WorkArea-adminDescr-parentBean" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
 
-  <bean id="WorkArea-adminDescr-parentBean" abstract="true" parent="AttributeDefinition">
-      <property name="forceUppercase" value="true" />
-	  <property name="maxLength" value="30" />
-      <property name="control" >
-      <bean parent="TextControlDefinition" p:size="30" />
-      </property>
-    <property name="name" value="adminDescr" />
-    <property name="label" value="Admin Description" />
-    <property name="description" value="adminDescr" />
-  </bean>
-
-  <bean id="WorkArea-userPrincipalId" parent="WorkArea-userPrincipalId-parentBean"/>
-
-  <bean id="WorkArea-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="User Principal Id"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern">
-        <property name="allowWhitespace" value="false"/>
-      </bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
-    </property>
-    <property name="name" value="userPrincipalId"/>
-    <property name="label" value="User Principal Id"/>
-  </bean>
-
- <bean id="WorkArea-timestamp" parent="WorkArea-timestamp-parentBean"/>
-
-  <bean id="WorkArea-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Timestamp"/>
-    <property name="maxLength" value="15"/>
-
-    <property name="control">
-      <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
-    </property>
-
-    <property name="name" value="timestamp"/>
-    <property name="label" value="Time Stamp"/>
-  </bean>
-
-  <bean id="WorkArea-active" parent="WorkArea-active-parentBean"/>
-
-	
-	<bean id="WorkArea-hrDeptId" parent="WorkArea-hrDeptId-parentBean" />
+    <bean id="WorkArea-hrDeptId" parent="WorkArea-hrDeptId-parentBean" />
 	<bean id="WorkArea-hrDeptId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="hrDeptId" />
@@ -279,70 +282,127 @@
 		<property name="name" value="ovtEarnCode" />
 		<property name="label" value="ovtEarnCode" />
 	</bean>
-<!-- Business Object Inquiry Definition -->
 
+	<!-- Business Object Inquiry Definition -->
+	<bean id="WorkArea-inquiryDefinition" parent="WorkArea-inquiryDefinition-parentBean" />
 
-  <bean id="WorkArea-inquiryDefinition" parent="WorkArea-inquiryDefinition-parentBean" />
+	<bean id="WorkArea-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.time.workarea.web.WorkAreaInquirableImpl">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="workArea" />
+							<bean parent="FieldDefinition" p:attributeName="description" />
+							<bean parent="FieldDefinition" p:attributeName="overtimeEditRole" />
+							<bean parent="FieldDefinition" p:attributeName="defaultOvertimeEarnCode" />
+							<bean parent="FieldDefinition" p:attributeName="dept" />
+							<bean parent="FieldDefinition" p:attributeName="adminDescr" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+							<bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
+						</list>
+					</property>
+					<property name="title" value="WorkArea" />
+				</bean>
+				<bean parent="InquirySectionDefinition" p:title="Tasks">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="tasks"
+								p:businessObjectClass="org.kuali.hr.time.task.Task">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="task" />
+										<bean parent="FieldDefinition" p:attributeName="description" />
+										<bean parent="FieldDefinition" p:attributeName="administrativeDescription" />
+										<bean parent="FieldDefinition" p:attributeName="active" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition" p:title="Roles">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="roles"
+								p:businessObjectClass="org.kuali.hr.time.roles.TkRole">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="principalId" />
+										<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+										<bean parent="FieldDefinition" p:attributeName="userName" />
+										<bean parent="FieldDefinition" p:attributeName="roleName" />
+										<bean parent="FieldDefinition" p:attributeName="active" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition" p:title="Inactive Roles">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="inactiveRoles"
+								p:businessObjectClass="org.kuali.hr.time.roles.TkRole">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="principalId" />
+										<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+										<bean parent="FieldDefinition" p:attributeName="userName" />
+										<bean parent="FieldDefinition" p:attributeName="roleName" />
+										<bean parent="FieldDefinition" p:attributeName="active" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false" />
+		<property name="title" value="WorkArea Inquiry" />
+	</bean>
 
-  <bean id="WorkArea-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="inquirySections" >
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
-            <list>
-            	<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-              	<bean parent="FieldDefinition" p:attributeName="workArea" />
-              	<bean parent="FieldDefinition" p:attributeName="description" />
-              	<bean parent="FieldDefinition" p:attributeName="overtimeEditRole" />
-              	<bean parent="FieldDefinition" p:attributeName="defaultOvertimeEarnCode" />
-              	<bean parent="FieldDefinition" p:attributeName="dept" />
-              	<bean parent="FieldDefinition" p:attributeName="adminDescr" />
-              	<bean parent="FieldDefinition" p:attributeName="active" />
-              	<bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
-            </list>
-          </property>
-          <property name="title" value="WorkArea" />
-        </bean>
-      </list>
-    </property>
-    <property name="translateCodes" value="false"/>
-    <property name="title" value="WorkArea Inquiry" />
-  </bean>
+	<!-- Business Object Lookup Definition -->
+	<bean id="WorkArea-lookupDefinition" parent="WorkArea-lookupDefinition-parentBean" />
 
-<!-- Business Object Lookup Definition -->
-
-
-  <bean id="WorkArea-lookupDefinition" parent="WorkArea-lookupDefinition-parentBean" />
-
-  <bean id="WorkArea-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupableID" value="workAreaLookupable" />
-    <property name="lookupFields" >
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="dept" />
-      	<bean parent="FieldDefinition" p:attributeName="workArea" />
-        <bean parent="FieldDefinition" p:attributeName="description" />
-        <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-        <bean parent="FieldDefinition" p:attributeName="active" />
-        <bean parent="FieldDefinition" p:attributeName="hrDeptId" />
-		<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
-      </list>
-    </property>
-    <property name="resultFields" >
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="dept" p:forceInquiry="true" />
-      	<bean parent="FieldDefinition" p:attributeName="workArea"/>
-        <bean parent="FieldDefinition" p:attributeName="description" />
-        <bean parent="FieldDefinition" p:attributeName="defaultOvertimeEarnCode" />
-        <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-		<bean parent="FieldDefinition" p:attributeName="history"/>
-      </list>
-    </property>
-    <property name="title" value="WorkArea Lookup" />
-  </bean>
+	<bean id="WorkArea-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupableID" value="workAreaLookupable" />
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="dept" />
+				<bean parent="FieldDefinition" p:attributeName="workArea" />
+				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="hrDeptId" />
+				<bean parent="FieldDefinition" p:attributeName="history"
+					p:defaultValue="N" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="dept"
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="workArea" />
+				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="defaultOvertimeEarnCode" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="history" />
+			</list>
+		</property>
+		<property name="title" value="WorkArea Lookup" />
+	</bean>
 </beans>

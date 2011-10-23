@@ -37,4 +37,13 @@ public interface EarnCodeService {
      * @return
      */
     public EarnCode getEarnCodeById(Long earnCodeId);
+    
+    /**
+     * Fetch list of system defined overtime earn codes
+     * @param asOfDate
+     * @return
+     */
+    public List<EarnCode> getOvertimeEarnCodes(Date asOfDate);
+    
+    public List<String> getOvertimeEarnCodesStrs(Date asOfDate);
 }

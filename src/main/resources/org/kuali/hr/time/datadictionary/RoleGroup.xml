@@ -29,6 +29,9 @@
         <property name="collections">
             <list>
                 <bean parent="CollectionDefinition" p:name="roles" p:label="Roles" p:shortLabel="Roles" p:summary="Roles" p:description="Roles"/>
+          		<bean parent="CollectionDefinition" p:name="inactiveRoles" p:label="Inactive Roles" p:shortLabel="Inactive Roles" p:summary="Inactive Roles" p:description="Inactive Roles" />
+          		<bean parent="CollectionDefinition" p:name="positionRoles" p:label="Position Roles" p:shortLabel="Position Roles" p:summary="Position Roles" p:description="Position Roles" />
+          		<bean parent="CollectionDefinition" p:name="inactivePositionRoles" p:label="Inactive Position Roles" p:shortLabel="Inactive Position Roles" p:summary="Inactive Position Roles" p:description="Inactive Position Roles" />
           	</list>
        	</property>
         <property name="relationships">
@@ -155,8 +158,7 @@
   
   	<bean id="RoleGroup-inquiryDefinition" parent="RoleGroup-inquiryDefinition-parentBean" />
 
-	<bean id="RoleGroup-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
+	<bean id="RoleGroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.time.roles.TkRoleGroupInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -168,6 +170,84 @@
 						</list>
 					</property>
 					<property name="title" value="RoleGroup" />
+				</bean>
+				<bean parent="InquirySectionDefinition" p:title="Person Roles">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="roles"
+								p:businessObjectClass="org.kuali.hr.time.roles.TkRole">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="roleName" />
+										<bean parent="FieldDefinition" p:attributeName="workArea" />
+										<bean parent="FieldDefinition" p:attributeName="department" />
+										<bean parent="FieldDefinition" p:attributeName="chart" />
+										<bean parent="FieldDefinition" p:attributeName="active" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition" p:title="Inactive Person Roles">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="inactiveRoles"
+								p:businessObjectClass="org.kuali.hr.time.roles.TkRole">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="roleName" />
+										<bean parent="FieldDefinition" p:attributeName="workArea" />
+										<bean parent="FieldDefinition" p:attributeName="department" />
+										<bean parent="FieldDefinition" p:attributeName="chart" />
+										<bean parent="FieldDefinition" p:attributeName="active" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition" p:title="Position Roles">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="positionRoles"
+								p:businessObjectClass="org.kuali.hr.time.roles.TkRole">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="roleName" />
+										<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+										<bean parent="FieldDefinition" p:attributeName="workArea" />
+										<bean parent="FieldDefinition" p:attributeName="department" />
+										<bean parent="FieldDefinition" p:attributeName="chart" />
+										<bean parent="FieldDefinition" p:attributeName="active" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition" p:title="Inactive Position Roles">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="inactivePositionRoles"
+								p:businessObjectClass="org.kuali.hr.time.roles.TkRole">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="roleName" />
+										<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+										<bean parent="FieldDefinition" p:attributeName="workArea" />
+										<bean parent="FieldDefinition" p:attributeName="department" />
+										<bean parent="FieldDefinition" p:attributeName="chart" />
+										<bean parent="FieldDefinition" p:attributeName="active" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
 				</bean>
 			</list>
 		</property>

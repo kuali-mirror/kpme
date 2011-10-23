@@ -8,8 +8,8 @@ import java.util.*;
 
 public class TimeApprovalActionForm extends TkForm {
 
-    public static final String ORDER_BY_PRINCIPAL = "PrincipalName";
-    public static final String ORDER_BY_DOCID = "DocumentId";
+    public static final String ORDER_BY_PRINCIPAL = "principalName";
+    public static final String ORDER_BY_DOCID = "documentId";
     public static final String ORDER_BY_STATUS = "Status";
     public static final String ORDER_BY_WORKAREA = "WorkArea";
 
@@ -18,18 +18,26 @@ public class TimeApprovalActionForm extends TkForm {
     private Long hrPyCalendarEntriesId;
     private Long hrPyCalendarId;
     private String name;
-    private SortedSet<String> payCalendarGroups = new TreeSet<String>();
+    private List<String> payCalendarGroups = new LinkedList<String>();
     private String selectedPayCalendarGroup;
+    private String selectedDept;
+    private String selectedWorkArea;
     private Date payBeginDate;
     private Date payEndDate;
+    private String payBeginDateForSearch;
+    private String payEndDateForSearch;
+
     private List<String> payCalendarLabels = new ArrayList<String>();
     private List<ApprovalTimeSummaryRow> approvalRows;
     private Long workArea = null;
+    private Set<Long> deptWorkareas = new HashSet<Long>();
     private String documentId;
     private String employeeWorkArea;
-    private Set<String> workAreas;
+    private List<String> assignmentPrincipalIds = new LinkedList<String>();
 
-    /** Used for ajax dynamic row updating */
+    /**
+     * Used for ajax dynamic row updating
+     */
     private String outputString;
 
     private String searchField;
@@ -42,13 +50,14 @@ public class TimeApprovalActionForm extends TkForm {
     private boolean ajaxCall = false;
 
     private Boolean testSelected = Boolean.FALSE;
-    
+
     private Long prevPayCalendarId = null;
     private Long nextPayCalendarId = null;
-    
+
     private List<String> departments = new ArrayList<String>();
-    private String selectedDept;
-    
+    private Integer resultSize = 0;
+    private List<String> searchResultList = new LinkedList<String>();
+
     private String calNav = null;
 
     public String getCalNav() {
@@ -77,34 +86,40 @@ public class TimeApprovalActionForm extends TkForm {
 
     /**
      * Gets the name of the user that this row represents.
+     *
      * @return String representing the users name.
      */
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	public void setPayBeginDate(Date payBeginDate) {
-		this.payBeginDate = payBeginDate;
-	}
-	public Date getPayBeginDate() {
-		return payBeginDate;
-	}
-	public void setPayEndDate(Date payEndDate) {
-		this.payEndDate = payEndDate;
-	}
-	public Date getPayEndDate() {
-		return payEndDate;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setPayCalendarLabels(List<String> payCalendarLabels) {
-		this.payCalendarLabels = payCalendarLabels;
-	}
-	public List<String> getPayCalendarLabels() {
-		return payCalendarLabels;
-	}
+    public void setPayBeginDate(Date payBeginDate) {
+        this.payBeginDate = payBeginDate;
+    }
+
+    public Date getPayBeginDate() {
+        return payBeginDate;
+    }
+
+    public void setPayEndDate(Date payEndDate) {
+        this.payEndDate = payEndDate;
+    }
+
+    public Date getPayEndDate() {
+        return payEndDate;
+    }
+
+    public void setPayCalendarLabels(List<String> payCalendarLabels) {
+        this.payCalendarLabels = payCalendarLabels;
+    }
+
+    public List<String> getPayCalendarLabels() {
+        return payCalendarLabels;
+    }
 
     public String getDocumentId() {
         return documentId;
@@ -178,11 +193,11 @@ public class TimeApprovalActionForm extends TkForm {
         this.ajaxCall = ajaxCall;
     }
 
-    public SortedSet<String> getPayCalendarGroups() {
+    public List<String> getPayCalendarGroups() {
         return payCalendarGroups;
     }
 
-    public void setPayCalendarGroups(SortedSet<String> payCalendarGroups) {
+    public void setPayCalendarGroups(List<String> payCalendarGroups) {
         this.payCalendarGroups = payCalendarGroups;
     }
 
@@ -229,51 +244,99 @@ public class TimeApprovalActionForm extends TkForm {
         this.employeeWorkArea = employeeWorkArea;
     }
 
-	public Boolean getTestSelected() {
-		return testSelected;
-	}
-
-	public void setTestSelected(Boolean testSelected) {
-		this.testSelected = testSelected;
-	}
-
-	public Long getPrevPayCalendarId() {
-		return prevPayCalendarId;
-	}
-
-	public void setPrevPayCalendarId(Long prevPayCalendarId) {
-		this.prevPayCalendarId = prevPayCalendarId;
-	}
-
-	public Long getNextPayCalendarId() {
-		return nextPayCalendarId;
-	}
-
-	public void setNextPayCalendarId(Long nextPayCalendarId) {
-		this.nextPayCalendarId = nextPayCalendarId;
-	}
-
-	public String getSelectedDept() {
-		return selectedDept;
-	}
-
-	public void setSelectedDept(String selectedDept) {
-		this.selectedDept = selectedDept;
-	}
-
-	public List<String> getDepartments() {
-		return departments;
-	}
-
-	public void setDepartments(List<String> departments) {
-		this.departments = departments;
-	}
-
-    public Set<String> getWorkAreas() {
-        return workAreas;
+    public Boolean getTestSelected() {
+        return testSelected;
     }
 
-    public void setWorkAreas(Set<String> workAreas) {
-        this.workAreas = workAreas;
+    public void setTestSelected(Boolean testSelected) {
+        this.testSelected = testSelected;
+    }
+
+    public Long getPrevPayCalendarId() {
+        return prevPayCalendarId;
+    }
+
+    public void setPrevPayCalendarId(Long prevPayCalendarId) {
+        this.prevPayCalendarId = prevPayCalendarId;
+    }
+
+    public Long getNextPayCalendarId() {
+        return nextPayCalendarId;
+    }
+
+    public void setNextPayCalendarId(Long nextPayCalendarId) {
+        this.nextPayCalendarId = nextPayCalendarId;
+    }
+
+    public String getSelectedDept() {
+        return selectedDept;
+    }
+
+    public void setSelectedDept(String selectedDept) {
+        this.selectedDept = selectedDept;
+    }
+
+    public List<String> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(List<String> departments) {
+        this.departments = departments;
+    }
+
+    public Set<Long> getDeptWorkareas() {
+        return deptWorkareas;
+    }
+
+    public void setDeptWorkareas(Set<Long> deptWorkareas) {
+        this.deptWorkareas = deptWorkareas;
+    }
+
+    public List<String> getAssignmentPrincipalIds() {
+        return assignmentPrincipalIds;
+    }
+
+    public void setAssignmentPrincipalIds(List<String> assignmentPrincipalIds) {
+        this.assignmentPrincipalIds = assignmentPrincipalIds;
+    }
+
+    public int getResultSize() {
+        return resultSize;
+    }
+
+    public void setResultSize(Integer resultSize) {
+        this.resultSize = resultSize;
+    }
+
+    public String getSelectedWorkArea() {
+        return selectedWorkArea;
+    }
+
+    public void setSelectedWorkArea(String selectedWorkArea) {
+        this.selectedWorkArea = selectedWorkArea;
+    }
+
+    public List<String> getSearchResultList() {
+        return searchResultList;
+    }
+
+    public void setSearchResultList(List<String> searchResultList) {
+        this.searchResultList = searchResultList;
+    }
+
+    public String getPayBeginDateForSearch() {
+        return payBeginDateForSearch;
+    }
+
+    public void setPayBeginDateForSearch(String payBeginDateForSearch) {
+        this.payBeginDateForSearch = payBeginDateForSearch;
+    }
+
+    public String getPayEndDateForSearch() {
+        return payEndDateForSearch;
+    }
+
+    public void setPayEndDateForSearch(String payEndDateForSearch) {
+        this.payEndDateForSearch = payEndDateForSearch;
     }
 }

@@ -29,6 +29,7 @@ public class AssignmentLookupableHelper extends
 			Assignment assignment = (Assignment) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final Long tkAssignmentId = assignment.getTkAssignmentId();
+			
 			HtmlData htmlData = new HtmlData() {
 
 				/**
@@ -38,11 +39,13 @@ public class AssignmentLookupableHelper extends
 
 				@Override
 				public String constructCompleteHtmlTag() {
+					
 					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-							+ className
-							+ "&methodToCall=start&tkAssignmentId="
-							+ tkAssignmentId
-							+ "&principalId=&jobNumber=\">view</a>";
+					+ className
+					+ "&methodToCall=start&tkAssignmentId="
+					+ tkAssignmentId
+					+ "\">view</a>";
+					
 				}
 			};
 			customActionUrls.add(htmlData);

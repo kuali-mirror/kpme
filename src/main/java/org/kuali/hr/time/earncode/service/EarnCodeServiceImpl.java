@@ -1,5 +1,11 @@
 package org.kuali.hr.time.earncode.service;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.cache.CacheResult;
@@ -11,11 +17,6 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
-
-import java.sql.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 public class EarnCodeServiceImpl implements EarnCodeService {
 
@@ -105,5 +106,22 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	public EarnCode getEarnCodeById(Long earnCodeId) {
 		return earnCodeDao.getEarnCodeById(earnCodeId);
 	}
+	
+	public List<EarnCode> getOvertimeEarnCodes(Date asOfDate){
+		return earnCodeDao.getOvertimeEarnCodes(asOfDate);
+	}
+	
+	public List<String> getOvertimeEarnCodesStrs(Date asOfDate){
+		List<String> ovtEarnCodeStrs = new ArrayList<String>();
+		List<EarnCode> ovtEarnCodes = getOvertimeEarnCodes(asOfDate);
+		if(ovtEarnCodes != null){
+			for(EarnCode ovtEc : ovtEarnCodes){
+				ovtEarnCodeStrs.add(ovtEc.getEarnCode());
+			}
+		}
+		return ovtEarnCodeStrs;
+	}
+	
+	
 
 }

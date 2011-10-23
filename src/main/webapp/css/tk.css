@@ -604,11 +604,11 @@ select {
 
 #approvals-filter {
     margin-top: 10px;
-    width: 100%;
+    /*width: 100%;*/
 }
 
 #approvals-filter tr td {
-    width: 33%;
+    /*width: 33%;*/
 }
 
 #approvals-filter .left {
@@ -633,6 +633,15 @@ select {
 .rowInfo:hover {
     background-color: #dadada;
     cursor: pointer;
+}
+
+.approvals .navigation {
+    width:100%;
+    margin-top: 10px;
+}
+
+.approvals .navigation td {
+    width: 33%;
 }
 
 .hours-by-workArea tr {
@@ -869,4 +878,3 @@ select {
 .actualtime-table tbody tr.even td {
     background-color: #F0F0F6;
 }
-

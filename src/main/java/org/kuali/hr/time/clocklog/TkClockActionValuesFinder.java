@@ -19,7 +19,10 @@ public class TkClockActionValuesFinder extends KeyValuesBase {
 		List<KeyLabelPair> keyLabels = new LinkedList<KeyLabelPair>();
 
         TKUser user = TKContext.getUser();
-        if (user != null) {
+        
+        // if it is an approver that is working on an employee's document, clock action should return all options
+        if (user != null 
+        		&& !(user.isApprover() && !user.getPrincipalId().equals(user.getTargetPrincipalId()))) {
             ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(user.getTargetPrincipalId());
 
             Set<String> validEntries = lastClock != null ?

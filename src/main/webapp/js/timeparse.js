@@ -78,14 +78,14 @@ function formatDate(d) {
  *   once a regexp is added/modified.
  */
 var timeParsePatterns = [
-    // Now
+    // 0, Now
     {   re: /^now/i,
         example: new Array('now'),
         handler: function() {
             return new Date();
         }
     },
-    // 12a
+    // 1, 12a
     {
         re: /12(?:a| a)/i,
         example: new Array('12:00a'),
@@ -97,7 +97,7 @@ var timeParsePatterns = [
         }
 
     },
-    // 12:00am
+    // 2, 12:00am
     {
         re: /12:\d{1,2}(?:[a|am]| [a|am])/i,
         example: new Array('12:00a'),
@@ -109,7 +109,7 @@ var timeParsePatterns = [
         }
 
     },
-    //  hmm p/pm
+    //  3, hmm p/pm
     {  	re: /^([0-9]{3})(p$|pm$| p$| pm$)/i,
         example: new Array('905p', '905 p', '905p', '905 pm'),
         handler: function(bits) {
@@ -130,7 +130,33 @@ var timeParsePatterns = [
             return d;
         }
     },
-    // p.m.
+    // 4, hhmm p/pm
+    {  	re: /^([0-9]{4})(p$|pm$| p$| pm$)/i,
+        example: new Array('1005p', '0905 p', '0905p', '0905 pm'),
+        handler: function(bits) {
+            var d = new Date();
+            var h; 
+            if ( bits[1].substring(0, 1) == "0"){
+            	h = bits[1].substring(1, 2);
+            } else {
+            	h = bits[1].substring(0, 2);
+            }
+            var m = parseInt(bits[1].substring(2, 4), 10);
+            if (isNaN(m)) {
+                m = 0;
+            }
+            
+            if (parseInt(h) < 12) {
+                h = parseInt(h) + 12;
+            }
+            
+            d.setHours(parseInt(h,10));
+            d.setMinutes(parseInt(m, 10));
+
+            return d;
+        }
+    },
+    // 4, p.m.
     {   re: /(\d{1,2}):(\d{1,2}):(\d{1,2})(?:p| p)/i,
         example: new Array('9:55:00 pm', '12:55:00 p.m.', '9:55:00 p', '11:5:10pm', '9:5:1p'),
         handler: function(bits) {
@@ -145,7 +171,7 @@ var timeParsePatterns = [
             return d;
         }
     },
-    // p.m., no seconds
+    // 5, p.m., no seconds
     {   re: /(\d{1,2}):(\d{1,2})(?:p| p)/i,
         example: new Array('9:55 pm', '12:55 p.m.', '9:55 p', '11:5pm', '9:5p'),
         handler: function(bits) {
@@ -160,8 +186,9 @@ var timeParsePatterns = [
             return d;
         }
     },
-    // p.m., hour only
-    {   re: /(\d{1,2})(?:p| p)/i,
+    // 6, p.m., hour only
+    {   //re: /(\d{1,2})(?:p| p)/i,
+    	re: /(\d{1,2})(p| p)/i,
         example: new Array('9 pm', '12 p.m.', '9 p', '11pm', '9p'),
         handler: function(bits) {
             var d = new Date();

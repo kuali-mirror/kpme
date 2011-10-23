@@ -32,11 +32,13 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
             mpDoc.setPrincipalId(timesheetDocument.getPrincipalId());
             mpDoc.setTimesheetDocumentId(tdocId);
         }
-        if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")) {
+        if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
+        		|| StringUtils.equals(request.getParameter("command"), "displayActionListView") ) {
             Person p = KIMServiceLocator.getPersonService().getPerson(mpDoc.getPrincipalId());
             TKContext.getUser().setTargetPerson(p);
             mpDoc.setTimesheetDocumentId(mpDoc.getDocumentHeader().getDocumentNumber());
         }
+        
         return act;
     }
 

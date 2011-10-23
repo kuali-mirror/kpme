@@ -4,11 +4,14 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.rule.TkRule;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
@@ -26,7 +29,7 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 	private Long jobNumber;
 	private Long hrJobId;
 
-	private String ipAddress;
+	private List<TKIPAddress> ipAddresses = new ArrayList<TKIPAddress>();
 	private String userPrincipalId;
 	private Timestamp timestamp;
 	private Boolean history;
@@ -58,14 +61,6 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
-	}
-
-	public String getIpAddress() {
-		return ipAddress;
-	}
-
-	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
 	}
 
 	public Timestamp getTimestamp() {
@@ -173,7 +168,7 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	@Override
 	protected String getUniqueKey() {
-		String clockLocKey = getDept()+"_"+getIpAddress()+"_"+getPrincipalId()+"_"+
+		String clockLocKey = getDept()+"_"+getPrincipalId()+"_"+
 		(getJobNumber()!=null ? getJobNumber().toString(): "") +"_" + 
 		(getWorkArea() !=null ? getWorkArea().toString() : "");
 		
@@ -188,6 +183,25 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 	@Override
 	public void setId(Long id) {
 		setTkClockLocationRuleId(id);
+	}
+
+	public List<TKIPAddress> getIpAddresses() {
+		if(ipAddresses.isEmpty()) {
+			TkServiceLocator.getClockLocationRuleService().populateIPAddressesForCLR(this);
+		}
+		return ipAddresses;
+	}
+
+	public void setIpAddresses(List<TKIPAddress> ipAddresses) {
+		this.ipAddresses = ipAddresses;
+	}
+	// for lookup and inquiry display only
+	public String getIpAddressesString() {
+		String aString = "";
+		for(TKIPAddress ip : this.getIpAddresses()) {
+			aString += ip.getIpAddress() + ", ";
+		}
+		return aString;
 	}
 
 

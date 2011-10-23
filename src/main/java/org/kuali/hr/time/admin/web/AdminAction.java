@@ -36,14 +36,15 @@ public class AdminAction extends TkAction {
             // to check the document for validity, since the user may not
             // necessarily be a system administrator.
         } else {
-            if (user == null ||           		
-            		(!user.isSystemAdmin() 
+            if (user == null ||
+            		(!user.isSystemAdmin()
             			&& !user.isLocationAdmin()
             			&& !user.isDepartmentAdmin()
-            			&& !user.isGlobalViewOnly() 
+            			&& !user.isGlobalViewOnly()
             			&& !user.isDepartmentViewOnly()
             			&& (adminForm.getDocumentId() != null && !user.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId()))
-            			) ) {
+            			&& (adminForm.getDocumentId() != null && !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId()))
+            		))  {
                 throw new AuthorizationException("", "AdminAction", "");
             }
         }
@@ -61,15 +62,17 @@ public class AdminAction extends TkAction {
                 if (backdoorPerson != null && tkUser != null) {
                     UserSession userSession = UserLoginFilter.getUserSession(request);
 
-                    userSession.establishBackdoorWithPrincipalName(backdoorPerson.getPrincipalId());
-                    GlobalVariables.getUserSession().setBackdoorUser(backdoorPerson.getPrincipalId());
+                    if (userSession.establishBackdoorWithPrincipalName(backdoorPerson.getPrincipalName())) {
+                        GlobalVariables.getUserSession().setBackdoorUser(backdoorPerson.getPrincipalId());
 
-                    tkUser.setBackdoorPerson(backdoorPerson);
+                        tkUser.setBackdoorPerson(backdoorPerson);
 
-                    UserServiceImpl.loadRoles(tkUser);
-                    TKContext.setUser(tkUser);
-
-                    LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + backdoorPerson.getPrincipalName() + "\n\n");
+                        UserServiceImpl.loadRoles(tkUser);
+                        TKContext.setUser(tkUser);
+                        LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + backdoorPerson.getPrincipalName() + "\n\n");
+                    } else {
+                        LOG.warn("UserSession COULD NOT establish BackDoor for " + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + adminForm.getBackdoorPrincipalName());
+                    }
                 }
 
             }
@@ -86,8 +89,8 @@ public class AdminAction extends TkAction {
         TKUser tkUser = TKContext.getUser();
 
         if (tkUser.getCurrentRoles().isSystemAdmin()
-        	
-        	|| tkUser.getCurrentRoles().isLocationAdmin() 
+
+        	|| tkUser.getCurrentRoles().isLocationAdmin()
         	|| tkUser.getCurrentRoles().isDepartmentAdmin()
         	|| tkUser.getCurrentRoles().isDeptViewOnly()
         	|| tkUser.getCurrentRoles().isGlobalViewOnly()
@@ -95,7 +98,7 @@ public class AdminAction extends TkAction {
         	|| tkUser.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())) {
             if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalId())) {
 
-                Person changePerson = KIMServiceLocator.getPersonService().getPerson(adminForm.getChangeTargetPrincipalId());
+                Person changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalId());
                 if (changePerson != null && tkUser != null) {
                     UserSession userSession = UserLoginFilter.getUserSession(request);
                     userSession.getObjectMap().put(TkConstants.TK_TARGET_USER_PERSON, changePerson);

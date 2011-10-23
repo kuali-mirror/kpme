@@ -3,6 +3,7 @@ package org.kuali.hr.time.util;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.rice.kew.util.KEWConstants;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -257,6 +258,18 @@ public class TkConstants {
         DOCUMENT_STATUS.put("R", "Enroute");
         DOCUMENT_STATUS.put("F", "Final");
     }
+    
+    public static final Map<String, String> DOC_ROUTE_STATUS = new HashMap<String, String>(8);
+    static {
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_INITIATED_CD,KEWConstants.ROUTE_HEADER_INITIATED_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_CANCEL_CD,KEWConstants.ROUTE_HEADER_CANCEL_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_ENROUTE_CD,KEWConstants.ROUTE_HEADER_ENROUTE_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_FINAL_CD,KEWConstants.ROUTE_HEADER_FINAL_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_APPROVED_CD,KEWConstants.ROUTE_HEADER_APPROVED_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD,KEWConstants.ROUTE_HEADER_DISAPPROVED_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_EXCEPTION_CD,KEWConstants.ROUTE_HEADER_EXCEPTION_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_SAVED_CD,KEWConstants.ROUTE_HEADER_SAVED_LABEL);
+    }
 
     public static class ConfigSettings {
         public static final String SESSION_TIMEOUT = "session.timeout";
@@ -306,4 +319,10 @@ public class TkConstants {
     	ACTION_AT_MAX_BALANCE.put("NA", "Not Applicable");
     }
     
+   public static final Integer PAGE_SIZE = 2;
+    public static final String APPROVAL_TABLE_ID = "row";
+    
+    public static final String IP_SEPERATOR = ".";
+    public static final String IP_WILDCARD_PATTERN = "(%|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))";
+
 }

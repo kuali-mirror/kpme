@@ -15,7 +15,6 @@
         <html:hidden property="nextDocumentId" value="${Form.nextDocumentId}" styleId="nextDocumentId"/>
         <html:hidden property="warningJson" value="${Form.warnings}" styleId="warningJson"/>
         <html:hidden property="docEditable" value="${Form.docEditable}" styleId="docEditable"/>
-        <html:hidden property="overtimeEarnCodes" value="${fn:join(Form.overtimeEarnCodes,',')}" styleId="overtimeEarnCodes"/>
 
             <%--This is for visually impaired users --%>
         <!--

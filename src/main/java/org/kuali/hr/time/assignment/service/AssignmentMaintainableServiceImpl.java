@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
+import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -64,6 +66,21 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 						.getChartOfAccountsCode());
 			}
 		}
+		if ( !fieldValues.containsKey("assignmentAccounts.earnCode")
+				|| StringUtils.isEmpty(fieldValues.get("assignmentAccounts.earnCode"))) {
+			Assignment assignment = (Assignment) maintenanceDocument.getDocumentBusinessObject();
+			if(assignment != null 
+				&& assignment.getPrincipalId() != null 
+				&& assignment.getJobNumber() != null 
+				&& assignment.getEffectiveDate() != null) {
+			  Job job = TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate(), false);
+			  if(job != null) {
+					PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), assignment.getEffectiveDate());					
+					fieldValues.put("assignmentAccounts.earnCode", (payType != null) ? payType.getRegEarnCode() : "");
+				}
+			}
+		}
+
 		return super.populateNewCollectionLines(fieldValues,
 				maintenanceDocument, methodToCall);
 	}

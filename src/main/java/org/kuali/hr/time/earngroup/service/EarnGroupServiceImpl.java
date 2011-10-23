@@ -58,28 +58,4 @@ public class EarnGroupServiceImpl implements EarnGroupService {
     public EarnGroup getEarnGroup(Long hrEarnGroupId) {
         return earnGroupDao.getEarnGroup(hrEarnGroupId);
     }
-
-    @CacheResult
-    @Override
-    public Set<String> getEarnCodeListForOvertimeEarnGroup() {
-        Set<String> overtimeEarnCodes = new HashSet<String>();
-        List<String> overtimeEarnGroups = TkConstants.EARN_GROUP_OVERTIME;
-        for (String oeg : overtimeEarnGroups) {
-            for (String ec : getEarnCodeListForEarnGroup(oeg, TKUtils.getCurrentDate())) {
-                overtimeEarnCodes.add(ec);
-            }
-        }
-        return overtimeEarnCodes;
-    }
-
-    @Override
-    public List<EarnCode> getEarnCodeMapForOvertimeEarnGroup() {
-        List<EarnCode> overtimeEarnCodeMap = new ArrayList<EarnCode>();
-
-        for (String ec : getEarnCodeListForOvertimeEarnGroup()) {
-                EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(ec, TKUtils.getCurrentDate());
-                overtimeEarnCodeMap.add(earnCode);
-        }
-        return overtimeEarnCodeMap;
-    }
 }

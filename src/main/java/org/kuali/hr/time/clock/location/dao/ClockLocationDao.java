@@ -34,4 +34,10 @@ public interface ClockLocationDao {
 	 * @return
 	 */
 	public ClockLocationRule getClockLocationRule(Long tkClockLocationRuleId);
+	/**
+	 * populate ip addresses for given ClockLocationRule
+	 * @param ClockLocationRule
+	 * @return
+	 */
+	public void populateIPAddressesForCLR(ClockLocationRule clr);
 }

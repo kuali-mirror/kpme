@@ -7,6 +7,7 @@
         <form-bean name="TimeDetailActionForm" type="org.kuali.hr.time.detail.web.TimeDetailActionForm"/>
         <form-bean name="TimeDetailWSActionForm" type="org.kuali.hr.time.detail.web.TimeDetailWSActionForm"/>
         <form-bean name="TimeApprovalActionForm" type="org.kuali.hr.time.approval.web.TimeApprovalActionForm"/>
+        <form-bean name="TimeApprovalWSActionForm" type="org.kuali.hr.time.approval.web.TimeApprovalWSActionForm"/>
         <form-bean name="AdminActionForm" type="org.kuali.hr.time.admin.web.AdminActionForm"/>
         <form-bean name="PersonInfoActionForm" type="org.kuali.hr.time.base.web.PersonInfoActionForm"/>
         <form-bean name="CacheAdministrationActionForm"
@@ -16,7 +17,7 @@
         <form-bean name="TimesheetSubmitActionForm" type="org.kuali.hr.time.detail.web.TimesheetSubmitActionForm"/>
         <form-bean name="MissedPunchForm" type="org.kuali.hr.time.missedpunch.MissedPunchForm"/>
         <form-bean name="HelpActionForm" type="org.kuali.hr.time.help.web.HelpActionForm"/>
-        <form-bean name="SessionInvalidateForm" type="org.kuali.hr.time.web.SessionInvalidateForm" />
+        <form-bean name="SessionInvalidateForm" type="org.kuali.hr.time.web.SessionInvalidateForm"/>
 
 		<form-bean name="LeaveCalendarForm" type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm"/>
 		
@@ -67,6 +68,12 @@
         <action path="/TimeApproval" name="TimeApprovalActionForm" scope="session" input="/WEB-INF/jsp/timeApproval.jsp"
                 type="org.kuali.hr.time.approval.web.TimeApprovalAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/timeApproval.jsp"/>
+            <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
+        </action>
+
+        <action path="/TimeApprovalWS" name="TimeApprovalWSActionForm" scope="request" input="/WEB-INF/jsp/webService.jsp"
+                type="org.kuali.hr.time.approval.web.TimeApprovalWSAction" parameter="methodToCall" validate="false">
+            <forward name="basic" path="/WEB-INF/jsp/webService.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
 

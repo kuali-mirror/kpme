@@ -39,7 +39,8 @@ public class WorkflowTagSupport {
     public boolean isDisplayingApprovalButtons() {
         UserRoles roles = TKContext.getUser().getCurrentTargetRoles();
         TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
-        return roles.isApproverForTimesheet(doc) && !StringUtils.equals(doc.getDocumentHeader().getDocumentStatus(), TkConstants.ROUTE_STATUS.FINAL);
+        boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(TKContext.getPrincipalId(), Long.parseLong(doc.getDocumentId()));
+        return !tookActionAlready && roles.isApproverForTimesheet(doc) && !StringUtils.equals(doc.getDocumentHeader().getDocumentStatus(), TkConstants.ROUTE_STATUS.FINAL);
     }
 
     public boolean isApprovalButtonsEnabled() {
@@ -49,7 +50,8 @@ public class WorkflowTagSupport {
         if(isEnroute){
         	DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(Long.parseLong(doc.getDocumentId()));
         	boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(TKContext.getUserSession(), routeHeader, new SecuritySession(TKContext.getUserSession()));
-        	return authorized;
+        	boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(TKContext.getPrincipalId(), Long.parseLong(doc.getDocumentId()));
+        	return !tookActionAlready && authorized;
         }
         return false;
     }

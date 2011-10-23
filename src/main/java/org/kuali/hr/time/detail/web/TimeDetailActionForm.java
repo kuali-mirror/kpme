@@ -1,5 +1,12 @@
 package org.kuali.hr.time.detail.web;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.calendar.TkCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -7,9 +14,6 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
@@ -30,7 +34,7 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     private String timeBlockString;
     private TkCalendar calendar;
     private String docEditable;
-    private String[] overtimeEarnCodes;
+    private List<String> overtimeEarnCodes = new ArrayList<String>();
     private String overtimePref;
 
     public TkCalendar getTkCalendar() {
@@ -118,11 +122,6 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 		this.docEditable = docEditable;
 	}
 
-    public String[] getOvertimeEarnCodes() {
-        Set<String> overtimeEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeListForOvertimeEarnGroup();
-        return overtimeEarnCodes.size() > 0 ? overtimeEarnCodes.toArray(new String[overtimeEarnCodes.size()]) : new String[]{};
-    }
-
     public String getOvertimePref() {
         return overtimePref;
     }
@@ -130,4 +129,12 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     public void setOvertimePref(String overtimePref) {
         this.overtimePref = overtimePref;
     }
+
+	public List<String> getOvertimeEarnCodes() {
+		return overtimeEarnCodes;
+	}
+
+	public void setOvertimeEarnCodes(List<String> overtimeEarnCodes) {
+		this.overtimeEarnCodes = overtimeEarnCodes;
+	}
 }

@@ -167,7 +167,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         if (StringUtils.equals(tdaf.getAcrossDays(), "y") && tdaf.getHours() == null && tdaf.getAmount() == null) {
             if (startTemp.getHourOfDay() >= endTemp.getHourOfDay()
                     && !(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1
-                    || endTemp.getHourOfDay() == 0)) {
+                    && endTemp.getHourOfDay() == 0)) {
                 errorMsgList.add("The \"apply to each day\" box should not be checked.");
                 tdaf.setOutputString(JSONValue.toJSONString(errorMsgList));
                 return mapping.findForward("ws");
@@ -320,10 +320,10 @@ public class TimeDetailWSAction extends TimesheetAction {
     public ActionForward getOvertimeEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
         StringBuilder earnCodeString = new StringBuilder();
-        List<EarnCode> overtimeEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeMapForOvertimeEarnGroup();
-
+        List<EarnCode> overtimeEarnCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodes(TKUtils.getCurrentDate());
+        
         for (EarnCode earnCode : overtimeEarnCodes) {
-            earnCodeString.append("<option value='").append(earnCode.getEarnCode()).append("_").append(TkConstants.EARN_CODE_OVT).append("'>");
+            earnCodeString.append("<option value='").append(earnCode.getEarnCode()).append("'>");
             earnCodeString.append(earnCode.getEarnCode()).append(" : ").append(earnCode.getDescription());
             earnCodeString.append("</option>");
         }

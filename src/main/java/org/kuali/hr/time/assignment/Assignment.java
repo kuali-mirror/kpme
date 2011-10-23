@@ -1,11 +1,5 @@
 package org.kuali.hr.time.assignment;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.hr.job.Job;
@@ -18,6 +12,12 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Assignment extends HrBusinessObject {
 
@@ -43,6 +43,8 @@ public class Assignment extends HrBusinessObject {
 	private Person principal;
 
 	private Task taskObj;
+
+    private String calGroup;
 
 	private List<AssignmentAccount> assignmentAccounts = new LinkedList<AssignmentAccount>();
 
@@ -301,5 +303,13 @@ public class Assignment extends HrBusinessObject {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 781).append(principalId).append(jobNumber).append(workArea).append(task).toHashCode();
+    }
+
+    public String getCalGroup() {
+        return calGroup;
+    }
+
+    public void setCalGroup(String calGroup) {
+        this.calGroup = calGroup;
     }
 }
