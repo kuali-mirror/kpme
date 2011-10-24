@@ -90,7 +90,7 @@ public class JobServiceImpl implements JobService {
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate) {
-		return jobDao.getActiveJobsForPosition(hrPayType, asOfDate);
+		return jobDao.getActiveJobsForPayType(hrPayType, asOfDate);
 	}
 
 	@Override
