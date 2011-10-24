@@ -52,7 +52,7 @@
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="ipAddresses" />
-					<property name="businessObjectClass" value="org.kuali.hr.time.clock.location.TKIPAddress" />
+					<property name="businessObjectClass" value="org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress" />
 					<property name="alwaysAllowCollectionDeletion" value="true" />
 					<property name="maintainableFields">
 						<list>

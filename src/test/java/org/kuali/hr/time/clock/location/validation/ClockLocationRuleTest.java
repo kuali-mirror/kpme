@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
-import org.kuali.hr.time.clock.location.TKIPAddress;
+import org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
@@ -51,14 +51,14 @@ public class ClockLocationRuleTest extends TkTestCase {
     	clr.setActive(true);
     	clr.setTimestamp(ts_now);
     	clr.setEffectiveDate(date_now);
-    	TKIPAddress anIp = new TKIPAddress();
+    	ClockLocationRuleIpAddress anIp = new ClockLocationRuleIpAddress();
     	anIp.setIpAddress(ipAddress);
-    	List<TKIPAddress> aList = new ArrayList<TKIPAddress>();
+    	List<ClockLocationRuleIpAddress> aList = new ArrayList<ClockLocationRuleIpAddress>();
     	aList.add(anIp);
     	clr.setIpAddresses(aList);
 
     	boService.save(clr);
-    	for(TKIPAddress ip : clr.getIpAddresses()) {
+    	for(ClockLocationRuleIpAddress ip : clr.getIpAddresses()) {
     		ip.setTkClockLocationRuleId(clr.getTkClockLocationRuleId());
     		boService.save(ip);
     	}
@@ -67,7 +67,7 @@ public class ClockLocationRuleTest extends TkTestCase {
     
     public void deleteCLR(ClockLocationRule clr) {
     	boService.delete(clr);
-    	for(TKIPAddress ip : clr.getIpAddresses()) {
+    	for(ClockLocationRuleIpAddress ip : clr.getIpAddresses()) {
     		boService.delete(ip);
     	}
     }
@@ -83,9 +83,9 @@ public class ClockLocationRuleTest extends TkTestCase {
     	clr.setActive(true);
     	clr.setTimestamp(ts_now);
     	clr.setEffectiveDate(date_now);
-    	TKIPAddress anIp = new TKIPAddress();
+    	ClockLocationRuleIpAddress anIp = new ClockLocationRuleIpAddress();
     	anIp.setIpAddress(IP_ADDRESS_ONE);
-    	List<TKIPAddress> aList = new ArrayList<TKIPAddress>();
+    	List<ClockLocationRuleIpAddress> aList = new ArrayList<ClockLocationRuleIpAddress>();
     	aList.add(anIp);
     	clr.setIpAddresses(aList);
     	    	
@@ -93,7 +93,7 @@ public class ClockLocationRuleTest extends TkTestCase {
     	boService.save(clr);
     	assertNotNull("Should have ObjectId after persist.", clr.getObjectId());
     	
-    	for(TKIPAddress ip : clr.getIpAddresses()) {
+    	for(ClockLocationRuleIpAddress ip : clr.getIpAddresses()) {
     		ip.setTkClockLocationRuleId(clr.getTkClockLocationRuleId());
     		boService.save(ip);
     	}
@@ -115,7 +115,7 @@ public class ClockLocationRuleTest extends TkTestCase {
     	ClockLocationRule clr = this.createClr(IP_ADDRESS_ONE, 1234L, "1234", 0L);
     	
     	LOG.info("ID:"  + clr.getTkClockLocationRuleId() + " oID: "  + clr.getObjectId());
-    	for(TKIPAddress ip : clr.getIpAddresses()) {
+    	for(ClockLocationRuleIpAddress ip : clr.getIpAddresses()) {
     		ip.setTkClockLocationRuleId(clr.getTkClockLocationRuleId());
     		boService.save(ip);
     	}

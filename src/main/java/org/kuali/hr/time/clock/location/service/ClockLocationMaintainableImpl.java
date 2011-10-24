@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
-import org.kuali.hr.time.clock.location.TKIPAddress;
+import org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress;
 import org.kuali.hr.time.clock.location.validation.ClockLocationRuleRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
@@ -74,7 +74,7 @@ public class ClockLocationMaintainableImpl extends HrBusinessObjectMaintainableI
     public void addNewLineToCollection( String collectionName ) {
 		// need to validate each new ipAddress
         if (collectionName.equals("ipAddresses")) {
-        	TKIPAddress anIP = (TKIPAddress)newCollectionLines.get(collectionName );
+        	ClockLocationRuleIpAddress anIP = (ClockLocationRuleIpAddress)newCollectionLines.get(collectionName );
     		if(!ClockLocationRuleRule.validateIpAddress(anIP.getIpAddress())) {
     			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"ipAddresses", 
         				"ipaddress.invalid.format",anIP.getIpAddress());
@@ -87,10 +87,10 @@ public class ClockLocationMaintainableImpl extends HrBusinessObjectMaintainableI
 	@Override
 	public void saveBusinessObject() {
 		ClockLocationRule clr = (ClockLocationRule) this.getBusinessObject();
-		List<TKIPAddress> ips = clr.getIpAddresses();
+		List<ClockLocationRuleIpAddress> ips = clr.getIpAddresses();
 		super.saveBusinessObject();
 		if(!ips.isEmpty()) {
-			for(TKIPAddress ipAddress : ips) {
+			for(ClockLocationRuleIpAddress ipAddress : ips) {
 				ipAddress.setTkClockLocationRuleId(clr.getTkClockLocationRuleId());
 				KNSServiceLocator.getBusinessObjectService().save(ipAddress);
 			}

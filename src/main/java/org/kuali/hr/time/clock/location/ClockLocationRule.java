@@ -29,7 +29,7 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 	private Long jobNumber;
 	private Long hrJobId;
 
-	private List<TKIPAddress> ipAddresses = new ArrayList<TKIPAddress>();
+	private List<ClockLocationRuleIpAddress> ipAddresses = new ArrayList<ClockLocationRuleIpAddress>();
 	private String userPrincipalId;
 	private Timestamp timestamp;
 	private Boolean history;
@@ -185,20 +185,20 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 		setTkClockLocationRuleId(id);
 	}
 
-	public List<TKIPAddress> getIpAddresses() {
+	public List<ClockLocationRuleIpAddress> getIpAddresses() {
 		if(ipAddresses.isEmpty()) {
 			TkServiceLocator.getClockLocationRuleService().populateIPAddressesForCLR(this);
 		}
 		return ipAddresses;
 	}
 
-	public void setIpAddresses(List<TKIPAddress> ipAddresses) {
+	public void setIpAddresses(List<ClockLocationRuleIpAddress> ipAddresses) {
 		this.ipAddresses = ipAddresses;
 	}
 	// for lookup and inquiry display only
 	public String getIpAddressesString() {
 		String aString = "";
-		for(TKIPAddress ip : this.getIpAddresses()) {
+		for(ClockLocationRuleIpAddress ip : this.getIpAddresses()) {
 			aString += ip.getIpAddress() + ", ";
 		}
 		return aString;

@@ -4,25 +4,25 @@ import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.HrBusinessObject;
 
-public class TKIPAddress extends HrBusinessObject {
+public class ClockLocationRuleIpAddress extends HrBusinessObject {
 
 	private static final long serialVersionUID = 1L;
-	private Long tkIPAddressId;
+	private Long tkClockLocationRuleIpId;
 	private Long tkClockLocationRuleId;
 	private String ipAddress;
 	
 	@Override
 	public Long getId() {
-		return this.getTkIPAddressId();
+		return this.getTkClockLocationRuleIpId();
 	}
 
 	@Override
 	public void setId(Long id) {
-		this.setTkIPAddressId(id);
+		this.setTkClockLocationRuleIpId(id);
 	}
 	@Override
 	protected String getUniqueKey() {
-		String ipAddressKey = getTkIPAddressId().toString()
+		String ipAddressKey = getTkClockLocationRuleIpId().toString()
 			+"_"+ getTkClockLocationRuleId().toString() + "_" + getIpAddress();
 		return ipAddressKey;
 	}
@@ -31,7 +31,7 @@ public class TKIPAddress extends HrBusinessObject {
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
 
-		toStringMap.put("tkIPAddressId", tkIPAddressId);
+		toStringMap.put("tkClockLocationRuleIpId", tkClockLocationRuleIpId);
 		toStringMap.put("tkOwnerObjectId", tkClockLocationRuleId);
 		toStringMap.put("ipAddress", ipAddress);
 		return null;
@@ -46,12 +46,12 @@ public class TKIPAddress extends HrBusinessObject {
 		this.ipAddress = ipAddress;
 	}
 
-	public Long getTkIPAddressId() {
-		return tkIPAddressId;
+	public Long getTkClockLocationRuleIpId() {
+		return tkClockLocationRuleIpId;
 	}
 
-	public void setTkIPAddressId(Long tkIPAddressId) {
-		this.tkIPAddressId = tkIPAddressId;
+	public void setTkClockLocationRuleIpId(Long tkClockLocationRuleIpId) {
+		this.tkClockLocationRuleIpId = tkClockLocationRuleIpId;
 	}
 
 	public Long getTkClockLocationRuleId() {

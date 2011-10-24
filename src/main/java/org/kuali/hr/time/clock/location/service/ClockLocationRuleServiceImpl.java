@@ -3,7 +3,7 @@ package org.kuali.hr.time.clock.location.service;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
-import org.kuali.hr.time.clock.location.TKIPAddress;
+import org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress;
 import org.kuali.hr.time.clock.location.dao.ClockLocationDao;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.util.TkConstants;
@@ -30,9 +30,9 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 			return;
 		}
 		for(ClockLocationRule clockLocationRule : lstClockLocationRules){
-			List<TKIPAddress> ruleIpAddresses = clockLocationRule.getIpAddresses();
+			List<ClockLocationRuleIpAddress> ruleIpAddresses = clockLocationRule.getIpAddresses();
 			String ipAddressClock = clockLog.getIpAddress();
-			for(TKIPAddress ruleIp : ruleIpAddresses) {
+			for(ClockLocationRuleIpAddress ruleIp : ruleIpAddresses) {
 				if(compareIpAddresses(ruleIp.getIpAddress(), ipAddressClock)){
 					return;
 				}

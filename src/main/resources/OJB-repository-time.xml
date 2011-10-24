@@ -167,8 +167,8 @@
 			 	-->
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.hr.time.clock.location.TKIPAddress" table="tk_ip_address_t">
-		<field-descriptor name="tkIPAddressId" column="TK_IP_Address_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_ip_address_s"/>
+	<class-descriptor class="org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress" table="tk_clok_location_rl_ip_address_t">
+		<field-descriptor name="tkClockLocationRuleIpId" column="TK_CLOCK_LOC_RULE_IP_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_clock_location_rl_ip_address_s"/>
 		<field-descriptor name="tkClockLocationRuleId" column="TK_CLOCK_LOC_RULE_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="ipAddress"       column="ip_address"	jdbc-type="VARCHAR" length="15" nullable="false" primarykey="false" />
 	</class-descriptor>

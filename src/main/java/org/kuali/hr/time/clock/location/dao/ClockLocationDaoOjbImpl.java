@@ -9,7 +9,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
-import org.kuali.hr.time.clock.location.TKIPAddress;
+import org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class ClockLocationDaoOjbImpl extends PersistenceBrokerDaoSupport implements ClockLocationDao{	
@@ -106,8 +106,8 @@ public class ClockLocationDaoOjbImpl extends PersistenceBrokerDaoSupport impleme
 		}
 		Criteria root = new Criteria();
 		root.addEqualTo("tkClockLocationRuleId", clr.getTkClockLocationRuleId().toString());
-		Query query = QueryFactory.newQuery(TKIPAddress.class, root);
-		List<TKIPAddress> ipAddresses = (List<TKIPAddress>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		Query query = QueryFactory.newQuery(ClockLocationRuleIpAddress.class, root);
+		List<ClockLocationRuleIpAddress> ipAddresses = (List<ClockLocationRuleIpAddress>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		clr.setIpAddresses(ipAddresses);
 	}
 
