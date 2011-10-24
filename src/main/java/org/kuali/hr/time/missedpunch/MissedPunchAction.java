@@ -35,8 +35,7 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
         		|| StringUtils.equals(request.getParameter("command"), "displayActionListView") ) {
             Person p = KIMServiceLocator.getPersonService().getPerson(mpDoc.getPrincipalId());
-            TKContext.getUser().setTargetPerson(p);
-            mpDoc.setTimesheetDocumentId(mpDoc.getDocumentHeader().getDocumentNumber());
+            TKContext.getUser().setTargetPerson(p);            
         }
         
         return act;
