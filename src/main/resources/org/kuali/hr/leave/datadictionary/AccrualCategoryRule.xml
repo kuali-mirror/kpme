@@ -3,34 +3,34 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="LeaveLeaveAccrualCategoryRule" parent="LeaveLeaveAccrualCategoryRule-parentBean" />
+	<bean id="AccrualCategoryRule" parent="AccrualCategoryRule-parentBean" />
 
-	<bean id="LeaveLeaveAccrualCategoryRule-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.hr.lm.accrual.LeaveAccrualCategoryRule" />
+			value="org.kuali.hr.lm.accrual.AccrualCategoryRule" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="Assignment Account" />
 		<property name="lookupDefinition">
-			<ref bean="LeaveAccrualCategoryRule-lookupDefinition" />
+			<ref bean="AccrualCategoryRule-lookupDefinition" />
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="LeaveAccrualCategoryRule-serviceUnitOfTime" />
-				<ref bean="LeaveAccrualCategoryRule-start" />
-				<ref bean="LeaveAccrualCategoryRule-end" />
-				<ref bean="LeaveAccrualCategoryRule-accrualRate" />
-				<ref bean="LeaveAccrualCategoryRule-maxBalance" />
-				<ref bean="LeaveAccrualCategoryRule-maxBalanceActionFrequency" />
-				<ref bean="LeaveAccrualCategoryRule-actionAtMaxBalance" />
-				<ref bean="LeaveAccrualCategoryRule-maxBalanceTransferToAccrualCategory" />
-				<ref bean="LeaveAccrualCategoryRule-maxBalanceTransferConversionFactor" />
-				<ref bean="LeaveAccrualCategoryRule-maxTransferAmount" />
-				<ref bean="LeaveAccrualCategoryRule-maxPayoutAmount" />
-				<ref bean="LeaveAccrualCategoryRule-maxPayoutLeaveCode" />
-				<ref bean="LeaveAccrualCategoryRule-maxUsage" />
-				<ref bean="LeaveAccrualCategoryRule-maxCarryOver" />
-				<ref bean="LeaveAccrualCategoryRule-active" />
+				<ref bean="AccrualCategoryRule-serviceUnitOfTime" />
+				<ref bean="AccrualCategoryRule-start" />
+				<ref bean="AccrualCategoryRule-end" />
+				<ref bean="AccrualCategoryRule-accrualRate" />
+				<ref bean="AccrualCategoryRule-maxBalance" />
+				<ref bean="AccrualCategoryRule-maxBalanceActionFrequency" />
+				<ref bean="AccrualCategoryRule-actionAtMaxBalance" />
+				<ref bean="AccrualCategoryRule-maxBalanceTransferToAccrualCategory" />
+				<ref bean="AccrualCategoryRule-maxBalanceTransferConversionFactor" />
+				<ref bean="AccrualCategoryRule-maxTransferAmount" />
+				<ref bean="AccrualCategoryRule-maxPayoutAmount" />
+				<ref bean="AccrualCategoryRule-maxPayoutLeaveCode" />
+				<ref bean="AccrualCategoryRule-maxUsage" />
+				<ref bean="AccrualCategoryRule-maxCarryOver" />
+				<ref bean="AccrualCategoryRule-active" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -49,8 +49,8 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	<bean id="LeaveAccrualCategoryRule-serviceUnitOfTime" parent="LeaveAccrualCategoryRule-serviceUnitOfTime-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-serviceUnitOfTime-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-serviceUnitOfTime" parent="AccrualCategoryRule-serviceUnitOfTime-parentBean" />
+	<bean id="AccrualCategoryRule-serviceUnitOfTime-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Service Unit Of Time" />
 		<property name="control">
@@ -62,8 +62,8 @@
 	</bean>
 
 
-  <bean id="LeaveAccrualCategoryRule-start" parent="LeaveAccrualCategoryRule-start-parentBean"/>
-  <bean id="LeaveAccrualCategoryRule-start-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AccrualCategoryRule-start" parent="AccrualCategoryRule-start-parentBean"/>
+  <bean id="AccrualCategoryRule-start-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Start"/>
     <property name="maxLength" value="10"/>
    	<property name="validationPattern">
@@ -76,8 +76,8 @@
     <property name="label" value="Start"/>
   </bean>
   
-    <bean id="LeaveAccrualCategoryRule-end" parent="LeaveAccrualCategoryRule-end-parentBean"/>
-  <bean id="LeaveAccrualCategoryRule-end-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="AccrualCategoryRule-end" parent="AccrualCategoryRule-end-parentBean"/>
+  <bean id="AccrualCategoryRule-end-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="End"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
@@ -91,8 +91,8 @@
   </bean>
   
   
-	<bean id="LeaveAccrualCategoryRule-accrualRate" parent="LeaveAccrualCategoryRule-accrualRate-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-accrualRate-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-accrualRate" parent="AccrualCategoryRule-accrualRate-parentBean" />
+	<bean id="AccrualCategoryRule-accrualRate-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Accrual Rate" />
 		<property name="maxLength" value="10" />
@@ -109,8 +109,8 @@
 		<property name="label" value="Accrual Rate" />
 	</bean>
   
-	<bean id="LeaveAccrualCategoryRule-maxBalance" parent="LeaveAccrualCategoryRule-maxBalance-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-maxBalance-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-maxBalance" parent="AccrualCategoryRule-maxBalance-parentBean" />
+	<bean id="AccrualCategoryRule-maxBalance-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Max Balance" />
 		<property name="maxLength" value="10" />
@@ -127,8 +127,8 @@
 		<property name="label" value="Max Balance" />
 	</bean>
 
-	<bean id="LeaveAccrualCategoryRule-maxBalanceActionFrequency" parent="LeaveAccrualCategoryRule-maxBalanceActionFrequency-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-maxBalanceActionFrequency-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-maxBalanceActionFrequency" parent="AccrualCategoryRule-maxBalanceActionFrequency-parentBean" />
+	<bean id="AccrualCategoryRule-maxBalanceActionFrequency-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Max Balance Action Frequency" />
 		<property name="control">
@@ -139,8 +139,8 @@
 		<property name="label" value="Max Balance Action Frequency" />
 	</bean>
 
-	<bean id="LeaveAccrualCategoryRule-actionAtMaxBalance" parent="LeaveAccrualCategoryRule-actionAtMaxBalance-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-actionAtMaxBalance-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-actionAtMaxBalance" parent="AccrualCategoryRule-actionAtMaxBalance-parentBean" />
+	<bean id="AccrualCategoryRule-actionAtMaxBalance-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Action at Max Balance" />
 		<property name="control">
@@ -151,8 +151,8 @@
 		<property name="label" value="Action at Max Balance" />
 	</bean>
 
-	<bean id="LeaveAccrualCategoryRule-maxBalanceTransferToAccrualCategory" parent="LeaveAccrualCategoryRule-maxBalanceTransferToAccrualCategory-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-maxBalanceTransferToAccrualCategory-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-maxBalanceTransferToAccrualCategory" parent="AccrualCategoryRule-maxBalanceTransferToAccrualCategory-parentBean" />
+	<bean id="AccrualCategoryRule-maxBalanceTransferToAccrualCategory-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Max Balance Transfer to AccrualCategory" />
 		<property name="maxLength" value="15" />
@@ -168,8 +168,8 @@
 		<property name="label" value="Max Balance Transfer to AccrualCategory" />
 	</bean>
 
-	<bean id="LeaveAccrualCategoryRule-maxBalanceTransferConversionFactor" parent="LeaveAccrualCategoryRule-maxBalanceTransferConversionFactor-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-maxBalanceTransferConversionFactor-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-maxBalanceTransferConversionFactor" parent="AccrualCategoryRule-maxBalanceTransferConversionFactor-parentBean" />
+	<bean id="AccrualCategoryRule-maxBalanceTransferConversionFactor-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Max Balance Transfer ConversionFactor" />
 		<property name="maxLength" value="10" />
@@ -186,8 +186,8 @@
 		<property name="label" value="Max Balance Transfer ConversionFactor" />
 	</bean>
 
-	<bean id="LeaveAccrualCategoryRule-maxTransferAmount" parent="LeaveAccrualCategoryRule-maxTransferAmount-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-maxTransferAmount-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-maxTransferAmount" parent="AccrualCategoryRule-maxTransferAmount-parentBean" />
+	<bean id="AccrualCategoryRule-maxTransferAmount-parentBean" abstract="true"
 		parent="AttributeDefinition">
 
 		<property name="shortLabel" value="Max Transfer Amount" />
@@ -203,8 +203,8 @@
 	</bean>
 
 	<!--  Max Payout Amount -->
-	<bean id="LeaveAccrualCategoryRule-maxPayoutAmount" parent="LeaveAccrualCategoryRule-maxPayoutAmount-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-maxPayoutAmount-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-maxPayoutAmount" parent="AccrualCategoryRule-maxPayoutAmount-parentBean" />
+	<bean id="AccrualCategoryRule-maxPayoutAmount-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Max Payout Amount" />
 		<property name="maxLength" value="10" />
@@ -219,8 +219,8 @@
 	</bean>
 
 	<!--  Max Payout Leave Code -->
-	<bean id="LeaveAccrualCategoryRule-maxPayoutLeaveCode" parent="LeaveAccrualCategoryRule-maxPayoutLeaveCode-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-maxPayoutLeaveCode-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-maxPayoutLeaveCode" parent="AccrualCategoryRule-maxPayoutLeaveCode-parentBean" />
+	<bean id="AccrualCategoryRule-maxPayoutLeaveCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Max Payout LeaveCode" />
 		<property name="maxLength" value="15" />
@@ -237,8 +237,8 @@
 	</bean>
 
 	<!--  Max Usage -->
-	<bean id="LeaveAccrualCategoryRule-maxUsage" parent="LeaveAccrualCategoryRule-maxUsage-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-maxUsage-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-maxUsage" parent="AccrualCategoryRule-maxUsage-parentBean" />
+	<bean id="AccrualCategoryRule-maxUsage-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Max Usage" />
 		<property name="maxLength" value="10" />
@@ -253,8 +253,8 @@
 	</bean>
 	
 	<!--  Max Usage -->
-	<bean id="LeaveAccrualCategoryRule-maxCarryOver" parent="LeaveAccrualCategoryRule-maxCarryOver-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-maxCarryOver-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-maxCarryOver" parent="AccrualCategoryRule-maxCarryOver-parentBean" />
+	<bean id="AccrualCategoryRule-maxCarryOver-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Max CarryOver" />
 		<property name="maxLength" value="10" />
@@ -268,8 +268,8 @@
 		<property name="label" value="Max CarryOver" />
 	</bean>
 
-	<bean id="LeaveAccrualCategoryRule-active" parent="LeaveAccrualCategoryRule-active-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-active-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-active" parent="AccrualCategoryRule-active-parentBean" />
+	<bean id="AccrualCategoryRule-active-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Active" />
 		<property name="control">
@@ -280,8 +280,8 @@
 	</bean>
 
 	<!--  Inquiry Definitions  -->
-	<bean id="LeaveAccrualCategoryRule-lookupDefinition" parent="LeaveAccrualCategoryRule-lookupDefinition-parentBean" />
-	<bean id="LeaveAccrualCategoryRule-lookupDefinition-parentBean" abstract="true"
+	<bean id="AccrualCategoryRule-lookupDefinition" parent="AccrualCategoryRule-lookupDefinition-parentBean" />
+	<bean id="AccrualCategoryRule-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
@@ -301,7 +301,7 @@
 				<bean parent="FieldDefinition" p:attributeName="maxBalance" />
 			</list>
 		</property>
-		<property name="title" value="LeaveAccrualCategoryRule Lookup" />
+		<property name="title" value="AccrualCategoryRule Lookup" />
 	</bean>
 
 </beans>

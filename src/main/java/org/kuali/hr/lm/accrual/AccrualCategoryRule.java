@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.HrBusinessObject;
 
-public class LeaveAccrualCategoryRule extends HrBusinessObject {
+public class AccrualCategoryRule extends HrBusinessObject {
 
 	/**
 	 * 
@@ -28,13 +28,13 @@ public class LeaveAccrualCategoryRule extends HrBusinessObject {
 	private Long maxCarryOver;
 	private Long lmAccrualCategoryId;
 	
-	private LeaveAccrualCategory accrualCategoryObj;
+	private AccrualCategory accrualCategoryObj;
 	
-	public LeaveAccrualCategory getAccrualCategoryObj() {
+	public AccrualCategory getAccrualCategoryObj() {
 		return accrualCategoryObj;
 	}
 
-	public void setAccrualCategoryObj(LeaveAccrualCategory accrualCategoryObj) {
+	public void setAccrualCategoryObj(AccrualCategory accrualCategoryObj) {
 		this.accrualCategoryObj = accrualCategoryObj;
 	}
 

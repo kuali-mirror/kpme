@@ -1,17 +1,16 @@
-package org.kuali.hr.time.accrual.service;
-
-import org.apache.log4j.Logger;
-import org.kuali.hr.time.accrual.AccrualCategory;
-import org.kuali.hr.time.accrual.dao.AccrualCategoryDao;
-import org.kuali.hr.time.cache.CacheResult;
-import org.kuali.hr.time.util.TkConstants;
+package org.kuali.hr.lm.accrual.service;
 
 import java.sql.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.dao.AccrualCategoryDao;
+import org.kuali.hr.time.cache.CacheResult;
+import org.kuali.hr.time.util.TkConstants;
+
 public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
-	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(AccrualCategoryServiceImpl.class);
 	private AccrualCategoryDao accrualCategoryDao;
 	public AccrualCategoryServiceImpl() {
@@ -47,4 +46,6 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 	public List <AccrualCategory> getActiveAccrualCategories(Date asOfDate){
 		return accrualCategoryDao.getActiveAccrualCategories(asOfDate);
 	}
+   
+
 }

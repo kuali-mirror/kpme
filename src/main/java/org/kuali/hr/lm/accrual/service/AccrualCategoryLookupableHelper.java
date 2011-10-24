@@ -1,17 +1,17 @@
-package org.kuali.hr.time.accrual.service;
+package org.kuali.hr.lm.accrual.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
-import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 
 /**
- * Used to override lookup functionality for the accrual category lookup
+ * Used to override lookup functionality for the leave accrual category lookup
  * 
  * 
  */
@@ -35,9 +35,9 @@ public class AccrualCategoryLookupableHelper extends
 			}
 
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
-			AccrualCategory accrualCategory = (AccrualCategory) businessObject;
+			AccrualCategory leaveAccrualCategory = (AccrualCategory) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long lmAccrualCategoryId = accrualCategory
+			final Long lmLeaveAccrualCategoryId = leaveAccrualCategory
 					.getLmAccrualCategoryId();
 			HtmlData htmlData = new HtmlData() {
 
@@ -46,7 +46,7 @@ public class AccrualCategoryLookupableHelper extends
 					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
 							+ className
 							+ "&methodToCall=start&lmAccrualCategoryId="
-							+ lmAccrualCategoryId + "\">view</a>";
+							+ lmLeaveAccrualCategoryId + "\">view</a>";
 				}
 			};
 			overrideUrls.add(htmlData);

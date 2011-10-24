@@ -1,12 +1,11 @@
 package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.job.service.JobService;
-import org.kuali.hr.lm.accrual.service.LeaveAccrualCategoryService;
 import org.kuali.hr.lm.leavecode.service.LeaveCodeService;
 import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
 import org.kuali.hr.location.service.LocationService;
 import org.kuali.hr.paygrade.service.PayGradeService;
-import org.kuali.hr.time.accrual.service.AccrualCategoryService;
+import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
 import org.kuali.hr.time.accrual.service.TimeOffAccrualService;
 import org.kuali.hr.time.approval.service.TimeApproveService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
@@ -102,7 +101,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
 	public static final String TK_TIME_OFF_ACCRUAL_SERVICE = "timeOffAccrualService";
 	public static final String hr_sal_group_SERVICE = "salGroupService";
-	public static final String TK_ACCRUAL_CATEGORY_SERVICE = "accrualCategoryService";
     public static final String TK_TASK_SERVICE = "taskService";
     public static final String TK_LOCATION_SERVICE = "locationService";
     public static final String TK_PAY_GRADE_SERVICE = "payGradeService";
@@ -114,7 +112,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_WARNINGS_SERVICE = "tkWarningService";
     public static final String HR_POSITION_SERVICE = "positionService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
-    public static final String LM_LEAVE_ACCRUAL_CATEGORY_SERVICE = "lmLeaveAccrualCategoryService";
+    public static final String LM_ACCRUAL_CATEGORY_SERVICE = "accrualCategoryService";
     public static final String LM_LEAVE_CODE_SERVICE = "lmLeaveCodeService";
     public static final String LM_LEAVE_PLAN_SERVICE = "lmLeavePlanService";
 
@@ -292,7 +290,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	}
 
 	public static AccrualCategoryService getAccrualCategoryService() {
-	    return (AccrualCategoryService)CONTEXT.getBean(TK_ACCRUAL_CATEGORY_SERVICE);
+	    return (AccrualCategoryService)CONTEXT.getBean(LM_ACCRUAL_CATEGORY_SERVICE);
 	}
 
 	public static LocationService getLocationService() {
@@ -337,10 +335,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static TransactionTemplate getTransactionTemplate() {
 		return new TransactionTemplate(getPlatformTransactionManager());
-	}
-	
-	public static LeaveAccrualCategoryService getLeaveAccrualCategoryService(){
-		return (LeaveAccrualCategoryService)CONTEXT.getBean(LM_LEAVE_ACCRUAL_CATEGORY_SERVICE);
 	}
 	
 	public static LeaveCodeService getLeaveCodeService(){

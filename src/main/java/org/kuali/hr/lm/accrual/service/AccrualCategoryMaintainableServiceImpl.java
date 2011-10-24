@@ -1,7 +1,7 @@
 package org.kuali.hr.lm.accrual.service;
 
-import org.kuali.hr.lm.accrual.LeaveAccrualCategory;
-import org.kuali.hr.lm.accrual.LeaveAccrualCategoryRule;
+import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
@@ -12,7 +12,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
  * 
  * 
  */
-public class LeaveAccrualMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
+public class AccrualCategoryMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
 
 	/**
 	 * 
@@ -22,9 +22,9 @@ public class LeaveAccrualMaintainableServiceImpl extends HrBusinessObjectMaintai
     @Override
 	protected void setNewCollectionLineDefaultValues(String arg0,
 			PersistableBusinessObject arg1) {
-    	if(arg1 instanceof LeaveAccrualCategoryRule){
-    		LeaveAccrualCategoryRule leaveAccrualCategoryRule = (LeaveAccrualCategoryRule)arg1;
-    		LeaveAccrualCategory leaveAccrualCategory = (LeaveAccrualCategory) this.getBusinessObject();
+    	if(arg1 instanceof AccrualCategoryRule){
+    		AccrualCategoryRule leaveAccrualCategoryRule = (AccrualCategoryRule)arg1;
+    		AccrualCategory leaveAccrualCategory = (AccrualCategory) this.getBusinessObject();
     		leaveAccrualCategoryRule.setActive(leaveAccrualCategory.isActive());
     	}
 		super.setNewCollectionLineDefaultValues(arg0, arg1);
@@ -32,8 +32,8 @@ public class LeaveAccrualMaintainableServiceImpl extends HrBusinessObjectMaintai
 
 	@Override
 	public void customSaveLogic(HrBusinessObject hrObj) {
-		LeaveAccrualCategory leaveAccrualCategory = (LeaveAccrualCategory)hrObj;
-		for (LeaveAccrualCategoryRule accCatRule : leaveAccrualCategory.getAccrualCategoryRules()) {
+		AccrualCategory leaveAccrualCategory = (AccrualCategory)hrObj;
+		for (AccrualCategoryRule accCatRule : leaveAccrualCategory.getAccrualCategoryRules()) {
 			if(!isOldBusinessObjectInDocument()){ //prevents duplicate object on edit
 				accCatRule.setLmAccrualCategoryId(null);
 			}
@@ -43,7 +43,7 @@ public class LeaveAccrualMaintainableServiceImpl extends HrBusinessObjectMaintai
 
 	@Override
 	public HrBusinessObject getObjectById(Long id) {
-		return TkServiceLocator.getLeaveAccrualCategoryService().getLeaveAccrualCategory(id);
+		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(id);
 	}
 
 }

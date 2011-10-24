@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.lm.accrual.LeaveAccrualCategory;
-import org.kuali.hr.lm.accrual.LeaveAccrualCategoryRule;
+import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
-public class LeaveAccrualValidation extends MaintenanceDocumentRuleBase {
+public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 	private static final String ADD_LINE_LOCATION = "add.accrualCategoryRules.";
 	
 	boolean validateMaxBalAccCat(String maxBalanceTransferAccCat, String fieldPrefix) {
@@ -58,11 +58,11 @@ public class LeaveAccrualValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	boolean validateAccrualRulePresent(List<LeaveAccrualCategoryRule> accrualCategoryRules) {
+	boolean validateAccrualRulePresent(List<AccrualCategoryRule> accrualCategoryRules) {
 		boolean valid = false;
 
 		if (accrualCategoryRules != null && accrualCategoryRules.size() > 0) {
-			for (LeaveAccrualCategoryRule leaveAccrualCategoryRule : accrualCategoryRules) {
+			for (AccrualCategoryRule leaveAccrualCategoryRule : accrualCategoryRules) {
 				valid |= leaveAccrualCategoryRule.isActive();
 			}
 		}
@@ -80,8 +80,8 @@ public class LeaveAccrualValidation extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Leave Accrual");
 		PersistableBusinessObject pbo = this.getNewBo();
-		if (pbo instanceof LeaveAccrualCategory) {
-			LeaveAccrualCategory leaveAccrualCategory = (LeaveAccrualCategory) pbo;
+		if (pbo instanceof AccrualCategory) {
+			AccrualCategory leaveAccrualCategory = (AccrualCategory) pbo;
 			if (leaveAccrualCategory != null) {
 				valid = true;
 				valid &= this.validateAccrualRulePresent(leaveAccrualCategory.getAccrualCategoryRules());
@@ -97,8 +97,8 @@ public class LeaveAccrualValidation extends MaintenanceDocumentRuleBase {
 		boolean valid = true;
 		LOG.debug("entering custom validation for Leave Accrual Rules");
 		PersistableBusinessObject pbo = line;
-		if (pbo instanceof LeaveAccrualCategoryRule) {
-			LeaveAccrualCategoryRule leaveAccrualCategoryRule = (LeaveAccrualCategoryRule) pbo;
+		if (pbo instanceof AccrualCategoryRule) {
+			AccrualCategoryRule leaveAccrualCategoryRule = (AccrualCategoryRule) pbo;
 			if (leaveAccrualCategoryRule != null) {
 				valid = true;
 				if(StringUtils.equals("T", leaveAccrualCategoryRule.getActionAtMaxBalance())){

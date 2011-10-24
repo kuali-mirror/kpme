@@ -3,32 +3,32 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="LeaveAccrualCategory" parent="LeaveAccrualCategory-parentBean" />
+	<bean id="AccrualCategory" parent="AccrualCategory-parentBean" />
 
-	<bean id="LeaveAccrualCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.lm.accrual.LeaveAccrualCategory" />
+	<bean id="AccrualCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.lm.accrual.AccrualCategory" />
 		<property name="titleAttribute" value="id" />
-		<property name="objectLabel" value="LeaveAccrualCategory" />
+		<property name="objectLabel" value="AccrualCategory" />
 		<property name="inquiryDefinition">
-			<ref bean="LeaveAccrualCategory-inquiryDefinition" />
+			<ref bean="AccrualCategory-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition">
-			<ref bean="LeaveAccrualCategory-lookupDefinition" />
+			<ref bean="AccrualCategory-lookupDefinition" />
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="LeaveAccrualCategory-leavePlan" />
-				<ref bean="LeaveAccrualCategory-accrualCategory" />
-				<ref bean="LeaveAccrualCategory-descr" />
-				<ref bean="LeaveAccrualCategory-accrualEarnInterval" />
-				<ref bean="LeaveAccrualCategory-effectiveDate" />
-				<ref bean="LeaveAccrualCategory-timestamp" />
-				<ref bean="LeaveAccrualCategory-proration" />
-				<ref bean="LeaveAccrualCategory-donation" />
-				<ref bean="LeaveAccrualCategory-showOnGrid" />
-				<ref bean="LeaveAccrualCategory-unitOfTime" />
-				<ref bean="LeaveAccrualCategory-active" />
-				<ref bean="LeaveAccrualCategory-history" />
+				<ref bean="AccrualCategory-leavePlan" />
+				<ref bean="AccrualCategory-accrualCategory" />
+				<ref bean="AccrualCategory-descr" />
+				<ref bean="AccrualCategory-accrualEarnInterval" />
+				<ref bean="AccrualCategory-effectiveDate" />
+				<ref bean="AccrualCategory-timestamp" />
+				<ref bean="AccrualCategory-proration" />
+				<ref bean="AccrualCategory-donation" />
+				<ref bean="AccrualCategory-showOnGrid" />
+				<ref bean="AccrualCategory-unitOfTime" />
+				<ref bean="AccrualCategory-active" />
+				<ref bean="AccrualCategory-history" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -47,8 +47,8 @@
 		<property name="collections">
 			<list>
 				<bean parent="CollectionDefinition" p:name="accrualCategoryRules"
-					p:label="LeaveAccrualCategoryRule Accounts" p:shortLabel="LeaveAccrualCategoryRule Accounts"
-					p:summary="LeaveAccrualCategoryRule Accounts" p:description="LeaveAccrualCategoryRule Accounts" />
+					p:label="AccrualCategoryRule Accounts" p:shortLabel="AccrualCategoryRule Accounts"
+					p:summary="AccrualCategoryRule Accounts" p:description="AccrualCategoryRule Accounts" />
 			</list>
 		</property>
 	</bean>
@@ -56,8 +56,8 @@
 	<!-- Attribute Definitions -->
 	
 <!-- 	leave plan -->
-	<bean id="LeaveAccrualCategory-leavePlan" parent="LeaveAccrualCategory-leavePlan-parentBean" />
-	<bean id="LeaveAccrualCategory-leavePlan-parentBean" abstract="true"
+	<bean id="AccrualCategory-leavePlan" parent="AccrualCategory-leavePlan-parentBean" />
+	<bean id="AccrualCategory-leavePlan-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Leave Plan" />
 		<property name="maxLength" value="15" />
@@ -74,8 +74,8 @@
 	</bean>
 
 <!-- accrual category -->
-	<bean id="LeaveAccrualCategory-accrualCategory" parent="LeaveAccrualCategory-accrualCategory-parentBean" />
-	<bean id="LeaveAccrualCategory-accrualCategory-parentBean" abstract="true"
+	<bean id="AccrualCategory-accrualCategory" parent="AccrualCategory-accrualCategory-parentBean" />
+	<bean id="AccrualCategory-accrualCategory-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Accrual Category" />
 		<property name="maxLength" value="15" />
@@ -93,8 +93,8 @@
 
 
 <!-- description -->
-	<bean id="LeaveAccrualCategory-descr" parent="LeaveAccrualCategory-descr-parentBean" />
-	<bean id="LeaveAccrualCategory-descr-parentBean" abstract="true"
+	<bean id="AccrualCategory-descr" parent="AccrualCategory-descr-parentBean" />
+	<bean id="AccrualCategory-descr-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Desc" />
 		<property name="maxLength" value="30" />
@@ -112,8 +112,8 @@
 
 
     <!-- accrualEarnInterval -->
-	<bean id="LeaveAccrualCategory-accrualEarnInterval" parent="LeaveAccrualCategory-accrualEarnInterval-parentBean" />
-	<bean id="LeaveAccrualCategory-accrualEarnInterval-parentBean" abstract="true"
+	<bean id="AccrualCategory-accrualEarnInterval" parent="AccrualCategory-accrualEarnInterval-parentBean" />
+	<bean id="AccrualCategory-accrualEarnInterval-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Accrual Earn Interval" />
 				<property name="control">
@@ -125,8 +125,8 @@
 	</bean>
 
     <!-- unitOfTime -->
-	<bean id="LeaveAccrualCategory-unitOfTime" parent="LeaveAccrualCategory-unitOfTime-parentBean" />
-	<bean id="LeaveAccrualCategory-unitOfTime-parentBean" abstract="true"
+	<bean id="AccrualCategory-unitOfTime" parent="AccrualCategory-unitOfTime-parentBean" />
+	<bean id="AccrualCategory-unitOfTime-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Unit Of Time" />
 				<property name="control">
@@ -138,8 +138,8 @@
 	</bean>
 
 	<!-- effectiveDate -->
-	<bean id="LeaveAccrualCategory-effectiveDate" parent="LeaveAccrualCategory-effectiveDate-parentBean" />
-	<bean id="LeaveAccrualCategory-effectiveDate-parentBean" abstract="true"
+	<bean id="AccrualCategory-effectiveDate" parent="AccrualCategory-effectiveDate-parentBean" />
+	<bean id="AccrualCategory-effectiveDate-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Effective Date" />
 		<property name="maxLength" value="12" />
@@ -155,8 +155,8 @@
 	</bean>
 	
 	<!-- timeStamp -->
-	<bean id="LeaveAccrualCategory-timestamp" parent="LeaveAccrualCategory-timestamp-parentBean" />
-	<bean id="LeaveAccrualCategory-timestamp-parentBean" abstract="true"
+	<bean id="AccrualCategory-timestamp" parent="AccrualCategory-timestamp-parentBean" />
+	<bean id="AccrualCategory-timestamp-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Timestamp" />
 		<property name="maxLength" value="15" />
@@ -170,8 +170,8 @@
 	</bean>
 	
 	<!-- history -->
-	<bean id="LeaveAccrualCategory-history" parent="LeaveAccrualCategory-history-parentBean" />
-	<bean id="LeaveAccrualCategory-history-parentBean" abstract="true"
+	<bean id="AccrualCategory-history" parent="AccrualCategory-history-parentBean" />
+	<bean id="AccrualCategory-history-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
@@ -183,8 +183,8 @@
 	</bean>
 	
 	<!-- active -->
-	<bean id="LeaveAccrualCategory-active" parent="LeaveAccrualCategory-active-parentBean" />
-	<bean id="LeaveAccrualCategory-active-parentBean" abstract="true"
+	<bean id="AccrualCategory-active" parent="AccrualCategory-active-parentBean" />
+	<bean id="AccrualCategory-active-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Active" />
 		<property name="control">
@@ -198,8 +198,8 @@
 
 
 	<!-- proration -->
-	<bean id="LeaveAccrualCategory-proration" parent="LeaveAccrualCategory-proration-parentBean" />
-	<bean id="LeaveAccrualCategory-proration-parentBean" abstract="true"
+	<bean id="AccrualCategory-proration" parent="AccrualCategory-proration-parentBean" />
+	<bean id="AccrualCategory-proration-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Proration" />
 		<property name="control">
@@ -211,8 +211,8 @@
 	</bean>
 	
 	<!-- donation -->
-	<bean id="LeaveAccrualCategory-donation" parent="LeaveAccrualCategory-donation-parentBean" />
-	<bean id="LeaveAccrualCategory-donation-parentBean" abstract="true"
+	<bean id="AccrualCategory-donation" parent="AccrualCategory-donation-parentBean" />
+	<bean id="AccrualCategory-donation-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Donation" />
 		<property name="control">
@@ -224,8 +224,8 @@
 	</bean>
 	
 	<!-- showOnGrid -->
-	<bean id="LeaveAccrualCategory-showOnGrid" parent="LeaveAccrualCategory-showOnGrid-parentBean" />
-	<bean id="LeaveAccrualCategory-showOnGrid-parentBean" abstract="true"
+	<bean id="AccrualCategory-showOnGrid" parent="AccrualCategory-showOnGrid-parentBean" />
+	<bean id="AccrualCategory-showOnGrid-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show On Grid" />
 		<property name="control">
@@ -239,9 +239,9 @@
 
 	<!--  Inquiry Definitions  -->
 
-	<bean id="LeaveAccrualCategory-inquiryDefinition" parent="LeaveAccrualCategory-inquiryDefinition-parentBean" />
+	<bean id="AccrualCategory-inquiryDefinition" parent="AccrualCategory-inquiryDefinition-parentBean" />
 
-	<bean id="LeaveAccrualCategory-inquiryDefinition-parentBean" abstract="true"
+	<bean id="AccrualCategory-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
 		<property name="inquirySections">
 			<list>
@@ -261,21 +261,21 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
-					<property name="title" value="LeaveAccrualCategory" />
+					<property name="title" value="AccrualCategory" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="LeaveAccrualCategory Inquiry" />
+		<property name="title" value="AccrualCategory Inquiry" />
 	</bean>
 
 	<!--  Look up Definitions  -->
 
 
-	<bean id="LeaveAccrualCategory-lookupDefinition" parent="LeaveAccrualCategory-lookupDefinition-parentBean" />
-	<bean id="LeaveAccrualCategory-lookupDefinition-parentBean" abstract="true"
+	<bean id="AccrualCategory-lookupDefinition" parent="AccrualCategory-lookupDefinition-parentBean" />
+	<bean id="AccrualCategory-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="lookupableID" value="leaveAccrualCategoryLookupable"></property>
+		<property name="lookupableID" value="accrualCategoryLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
@@ -300,7 +300,7 @@
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 			</list>
 		</property>
-		<property name="title" value="LeaveAccrualCategory Lookup" />
+		<property name="title" value="AccrualCategory Lookup" />
 	</bean>
 
 </beans>

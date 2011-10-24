@@ -1,12 +1,12 @@
-package org.kuali.hr.time.accrual.service;
-
-import org.kuali.hr.time.accrual.AccrualCategory;
+package org.kuali.hr.lm.accrual.service;
 
 import java.sql.Date;
 import java.util.List;
 
-public interface AccrualCategoryService {
+import org.kuali.hr.lm.accrual.AccrualCategory;
 
+public interface AccrualCategoryService {
+    
 	/**
 	 * Get an AccrualCategory as of a particular date
 	 * @param accrualCategory
@@ -33,4 +33,5 @@ public interface AccrualCategoryService {
      * @return
      */
     public List <AccrualCategory> getActiveAccrualCategories(Date asOfDate);
+
 }

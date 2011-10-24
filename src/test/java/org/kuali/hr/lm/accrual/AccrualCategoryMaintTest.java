@@ -2,7 +2,7 @@ package org.kuali.hr.lm.accrual;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Test;
-import org.kuali.hr.lm.accrual.LeaveAccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
@@ -12,10 +12,10 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-public class LeaveAccrualCategoryMaintTest extends TkTestCase {
+public class AccrualCategoryMaintTest extends TkTestCase {
 	
 	private static final String TEST_CODE = "T";
-	private static Long leaveAccrualCategoryId;
+	private static Long accrualCategoryId;
 	private static final Date TEST_DATE = new Date(Calendar.getInstance()
 			.getTimeInMillis());
 	private static final Timestamp TEST_TIMESTAMP = new Timestamp(Calendar
@@ -24,13 +24,13 @@ public class LeaveAccrualCategoryMaintTest extends TkTestCase {
 	@Test
 	public void testAccuralCategoryMaint() throws Exception {
 		HtmlPage accuralCategoryLookup = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_ACCRUAL_CATEGORY_MAINT_URL);
+				.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		accuralCategoryLookup = HtmlUnitUtil.clickInputContainingText(
 				accuralCategoryLookup, "search");
 		assertTrue("Page contains test Leave accrual Category", accuralCategoryLookup
 				.asText().contains(TEST_CODE.toString()));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(
-				accuralCategoryLookup, "edit", leaveAccrualCategoryId.toString());
+				accuralCategoryLookup, "edit", accrualCategoryId.toString());
 		assertTrue("Maintenance Page contains test Leave accrual Category", maintPage
 				.asText().contains(TEST_CODE));
 	}
@@ -38,28 +38,28 @@ public class LeaveAccrualCategoryMaintTest extends TkTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		LeaveAccrualCategory leaveAccrualCategory = new LeaveAccrualCategory();
-		leaveAccrualCategory.setAccrualCategory(TEST_CODE);
-		leaveAccrualCategory.setLeavePlan(TEST_CODE);
-		leaveAccrualCategory.setAccrualEarnInterval(TEST_CODE);
-		leaveAccrualCategory.setProration(TEST_CODE);
-		leaveAccrualCategory.setDonation(TEST_CODE);
-		leaveAccrualCategory.setUnitOfTime(TEST_CODE);
-		leaveAccrualCategory.setShowOnGrid(TEST_CODE);
-		leaveAccrualCategory.setActive(true);
-		leaveAccrualCategory.setDescr(TEST_CODE);
-		leaveAccrualCategory.setEffectiveDate(TEST_DATE);
-		leaveAccrualCategory.setTimestamp(TEST_TIMESTAMP);
-		KNSServiceLocator.getBusinessObjectService().save(leaveAccrualCategory);
-		leaveAccrualCategoryId = leaveAccrualCategory.getLmAccrualCategoryId();
+		AccrualCategory accrualCategory = new AccrualCategory();
+		accrualCategory.setAccrualCategory(TEST_CODE);
+		accrualCategory.setLeavePlan(TEST_CODE);
+		accrualCategory.setAccrualEarnInterval(TEST_CODE);
+		accrualCategory.setProration(TEST_CODE);
+		accrualCategory.setDonation(TEST_CODE);
+		accrualCategory.setUnitOfTime(TEST_CODE);
+		accrualCategory.setShowOnGrid(TEST_CODE);
+		accrualCategory.setActive(true);
+		accrualCategory.setDescr(TEST_CODE);
+		accrualCategory.setEffectiveDate(TEST_DATE);
+		accrualCategory.setTimestamp(TEST_TIMESTAMP);
+		KNSServiceLocator.getBusinessObjectService().save(accrualCategory);
+		accrualCategoryId = accrualCategory.getLmAccrualCategoryId();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		LeaveAccrualCategory leaveAccrualCategory = KNSServiceLocator
+		AccrualCategory accrualCategory = KNSServiceLocator
 				.getBusinessObjectService().findBySinglePrimaryKey(
-						LeaveAccrualCategory.class, leaveAccrualCategoryId);
-		KNSServiceLocator.getBusinessObjectService().delete(leaveAccrualCategory);
+						AccrualCategory.class, accrualCategoryId);
+		KNSServiceLocator.getBusinessObjectService().delete(accrualCategory);
 		super.tearDown();
 	}
 

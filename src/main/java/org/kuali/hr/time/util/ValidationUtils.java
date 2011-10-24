@@ -7,7 +7,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
-import org.kuali.hr.time.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;

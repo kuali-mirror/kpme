@@ -1,7 +1,7 @@
 package org.kuali.hr.time.accrual.service;
 
 import org.apache.log4j.Logger;
-import org.kuali.hr.time.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.accrual.dao.TimeOffAccrualDao;
 import org.kuali.hr.time.cache.CacheResult;

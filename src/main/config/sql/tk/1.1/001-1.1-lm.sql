@@ -43,6 +43,7 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `lm_accrual_category_t`;
+DROP TABLE IF EXISTS `lm_accrual_categories_t`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lm_accrual_category_t` (

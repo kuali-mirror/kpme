@@ -7,7 +7,7 @@ import java.util.List;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
 
-public class LeaveAccrualCategory extends HrBusinessObject {
+public class AccrualCategory extends HrBusinessObject {
 
 	/**
 	 * 
@@ -25,7 +25,7 @@ public class LeaveAccrualCategory extends HrBusinessObject {
 	private Boolean history;
 
 	private LeavePlan leavePlanObj;
-	private List<LeaveAccrualCategoryRule> accrualCategoryRules = new LinkedList<LeaveAccrualCategoryRule>();
+	private List<AccrualCategoryRule> accrualCategoryRules = new LinkedList<AccrualCategoryRule>();
 
 	public LeavePlan getLeavePlanObj() {
 		return leavePlanObj;
@@ -35,12 +35,12 @@ public class LeaveAccrualCategory extends HrBusinessObject {
 		this.leavePlanObj = leavePlanObj;
 	}
 
-	public List<LeaveAccrualCategoryRule> getAccrualCategoryRules() {
+	public List<AccrualCategoryRule> getAccrualCategoryRules() {
 		return accrualCategoryRules;
 	}
 
 	public void setAccrualCategoryRules(
-			List<LeaveAccrualCategoryRule> accrualCategoryRules) {
+			List<AccrualCategoryRule> accrualCategoryRules) {
 		this.accrualCategoryRules = accrualCategoryRules;
 	}
 

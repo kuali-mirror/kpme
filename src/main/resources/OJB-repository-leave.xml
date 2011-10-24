@@ -27,8 +27,8 @@
 		<field-descriptor name="versionNumber" 	column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 	
-	<!-- Leave Accrual Category -->
-	<class-descriptor class="org.kuali.hr.lm.accrual.LeaveAccrualCategory" table="lm_accrual_category_t">
+	<!-- Accrual Category -->
+	<class-descriptor class="org.kuali.hr.lm.accrual.AccrualCategory" table="lm_accrual_category_t">
 		<field-descriptor name="lmAccrualCategoryId" column="LM_ACCRUAL_CATEGORY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="lm_accrual_category_s"/>
 		<field-descriptor name="accrualCategory" 	column="ACCRUAL_CATEGORY" jdbc-type="VARCHAR" length="15" nullable="false" />
 		<field-descriptor name="leavePlan" 			column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" nullable="false" />
@@ -45,7 +45,7 @@
 		<field-descriptor name="versionNumber" 		column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 		<collection-descriptor
 			name="accrualCategoryRules"
-			element-class-ref="org.kuali.hr.lm.accrual.LeaveAccrualCategoryRule"
+			element-class-ref="org.kuali.hr.lm.accrual.AccrualCategoryRule"
 			auto-retrieve="true"
 			auto-update="object"
 			auto-delete="object"
@@ -54,8 +54,8 @@
 		</collection-descriptor>
 	</class-descriptor>
 	
-	<!-- Leave Accrual Category Rules -->
-	<class-descriptor class="org.kuali.hr.lm.accrual.LeaveAccrualCategoryRule" table="lm_accrual_category_rules_t">
+	<!-- Accrual Category Rules -->
+	<class-descriptor class="org.kuali.hr.lm.accrual.AccrualCategoryRule" table="lm_accrual_category_rules_t">
 		<field-descriptor name="lmAccrualCategoryRuleId"	column="LM_ACCRUAL_CATEGORY_RULES_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="lm_accrual_category_rules_s"/>
 		<field-descriptor name="serviceUnitOfTime" 			column="SERVICE_UNIT_OF_TIME" jdbc-type="VARCHAR" length="15" nullable="false" />
 		<field-descriptor name="start" 						column="START_ACC" jdbc-type="BIGINT" length="5" nullable="false" />

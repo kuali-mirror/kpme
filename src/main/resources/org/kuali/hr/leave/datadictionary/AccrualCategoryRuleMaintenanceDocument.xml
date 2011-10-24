@@ -8,24 +8,24 @@
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="LeaveAccrualCategoryRuleMaintenanceDocument" parent="LeaveAccrualCategoryRuleMaintenanceDocument-parentBean"/>
+  <bean id="AccrualCategoryRuleMaintenanceDocument" parent="AccrualCategoryRuleMaintenanceDocument-parentBean"/>
 
-  <bean id="LeaveAccrualCategoryRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		p:businessObjectClass="org.kuali.hr.lm.accrual.LeaveAccrualCategoryRule"
+  <bean id="AccrualCategoryRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  		p:businessObjectClass="org.kuali.hr.lm.accrual.AccrualCategoryRule"
   		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
     <property name="maintainableSections">
       <list>
-        <ref bean="LeaveAccrualCategoryRuleMaintenanceDocument-LeaveAccrualCategoryRuleMaintenance"/>
+        <ref bean="AccrualCategoryRuleMaintenanceDocument-AccrualCategoryRuleMaintenance"/>
       </list>
     </property>    
-    <property name="documentTypeName" value="LeaveAccrualCategoryRuleDocumentType"/>
+    <property name="documentTypeName" value="AccrualCategoryRuleDocumentType"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->
 
-  <bean id="LeaveAccrualCategoryRuleMaintenanceDocument-LeaveAccrualCategoryRuleMaintenance" parent="LeaveAccrualCategoryRuleMaintenanceDocument-LeaveAccrualCategoryRuleMaintenance-parentBean"/>
+  <bean id="AccrualCategoryRuleMaintenanceDocument-AccrualCategoryRuleMaintenance" parent="AccrualCategoryRuleMaintenanceDocument-AccrualCategoryRuleMaintenance-parentBean"/>
 
-  <bean id="LeaveAccrualCategoryRuleMaintenanceDocument-LeaveAccrualCategoryRuleMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="AccrualCategoryRuleMaintenanceDocument-AccrualCategoryRuleMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="title" value="AccrualCategory Rule Maintenance"/>
     <property name="maintainableItems">
       <list>
