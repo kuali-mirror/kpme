@@ -1,5 +1,6 @@
 package org.kuali.hr.time.util;
 
+import com.google.common.collect.Multimap;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -212,30 +213,19 @@ public class TKUser {
 		return userRoles.getApproverWorkAreas().size() > 0;
 	}
 	
-	public List<String> getReportingApprovalDepartments(){
+	public Multimap<String, Long> getReportingApprovalDepartments(){
 		UserRoles userRoles = getCurrentRoles();
-		List<String> reportingApprovalDepartments = new ArrayList<String>();
-		Set<Long> workAreas = new HashSet<Long>();
-		workAreas.addAll(userRoles.getApproverWorkAreas());
-		workAreas.addAll(userRoles.getReviewerWorkAreas());
+        Set<Long> workAreas = new HashSet<Long>();
+        workAreas.addAll(userRoles.getApproverWorkAreas());
+        workAreas.addAll(userRoles.getReviewerWorkAreas());
+        // see the comment in the getDeptWorkAreasByWorkAreas() for the explanation of Multimap
+        Multimap<String, Long> reportingApprovalDepartments = TkServiceLocator.getTimeApproveService().getDeptWorkAreasByWorkAreas(workAreas);
 
-		for(Long workArea : workAreas){
-			WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, TKUtils.getCurrentDate());
-			if(workAreaObj != null){
-				if(!reportingApprovalDepartments.contains(workAreaObj.getDept())){
-					reportingApprovalDepartments.add(workAreaObj.getDept());
-				}
-			}
-		}
 		Set<String> depts = new HashSet<String>();
 		depts.addAll(userRoles.getDepartmentViewOnlyDepartments());
 		depts.addAll(userRoles.getOrgAdminDepartments());
+        reportingApprovalDepartments.putAll(TkServiceLocator.getTimeApproveService().getDeptWorkAreasByDepts(depts));
 		
-		for(String dept : depts){
-			if(!reportingApprovalDepartments.contains(dept)){
-				reportingApprovalDepartments.add(dept);
-			}
-		}
 		return reportingApprovalDepartments;
 	}
 	

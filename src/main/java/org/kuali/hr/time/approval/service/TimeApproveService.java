@@ -1,5 +1,6 @@
 package org.kuali.hr.time.approval.service;
 
+import com.google.common.collect.Multimap;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -63,11 +64,45 @@ public interface TimeApproveService {
     public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate, String calGroup);
     public Map<String,PayCalendarEntries> getPayCalendarEntriesForDept(String dept, Date currentDate);
 
+    /**
+     * Get a list of pay groups with unique values
+     * @return PayGroups
+     */
     List<String> getUniquePayGroups();
 
-    List<String> getPrincipalIdsByAssignment(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup);
+    /**
+     * Method to get a list of principal ids based on the work areas.
+     *
+     * @param workAreas
+     * @param payEndDate
+     * @param calGroup
+     * @return A list of the PrincipalIds
+     */
+    List<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup);
 
-    List<String> getPrincipalIdsByAssignment(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup, Integer start, Integer end);
-
+    /**
+     * Method to create a map that contains the principal's id and corresponding timesheet document header.
+     *
+     * @param principalIds
+     * @param payBeginDate
+     * @param payEndDate
+     * @return A PrincipalId to TimesheetDocumentHeader mapping.
+     */
     Map<String, TimesheetDocumentHeader> getPrincipalDocumehtHeader(List<String> principalIds, Date payBeginDate, Date payEndDate);
+
+    /**
+     * Method to create a map of the depts and their associated work areas based on the given approver work areas.
+     *
+     * @param approverWorkAres
+     * @return A Dept and Work Areas mapping.
+     */
+    Multimap<String, Long> getDeptWorkAreasByWorkAreas(Set<Long> approverWorkAres);
+
+    /**
+     * Method to create a map of the depts and their associated work areas based on the given depts.
+     *
+     * @param userDepts
+     * @return A Dept and Work Areas mapping.
+     */
+    Multimap<String, Long> getDeptWorkAreasByDepts(Set<String> userDepts);
 }

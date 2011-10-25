@@ -1,5 +1,7 @@
 package org.kuali.hr.time.approval.service;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
@@ -522,14 +524,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         return pyGroups;
     }
 
-    @Override
     public List<String> getPrincipalIdsByAssignment(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup, Integer start, Integer end) {
-        List<String> list = getPrincipalIdsByAssignment(workAreas, payEndDate, calGroup);
+        List<String> list = getPrincipalIdsByWorkAreas(workAreas, payEndDate, calGroup);
         return list.subList(start, end);
     }
 
     @Override
-    public List<String> getPrincipalIdsByAssignment(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup) {
+    public List<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup) {
         //        List<Assignment> activeAssignments = new ArrayList<Assignment>(); //getActiveAssignmentsAndPrincipalCalendars(workAreas, payEndDate);
         List<Assignment> activeAssignments = getActiveAssignmentsAndPrincipalCalendars(workAreas, payEndDate);
         List<String> principalIds = new LinkedList<String>();
@@ -567,8 +568,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         for (long workarea : approverWorkAres) {
             workAreas.append("work_area = " + workarea + " or ");
         }
-        String workAresForQuery = workAreas.substring(0, workAreas.length() - 3);
-        sql = sql.replaceAll("###", workAresForQuery);
+        String workAreasForQuery = workAreas.substring(0, workAreas.length() - 3);
+        sql = sql.replaceAll("###", workAreasForQuery);
 
         List<Assignment> assignments = new ArrayList<Assignment>();
         SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{effdt}, new int[]{Types.DATE});
@@ -615,6 +616,60 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         }
 
         return principalDocumentHeader;
+    }
+
+    @Override
+    public Multimap<String, Long> getDeptWorkAreasByWorkAreas(Set<Long> approverWorkAres) {
+        String sql = "SELECT DISTINCT work_area, dept FROM tk_work_area_t " +
+                "WHERE (###) AND effdt <= ?";
+
+        // prepare the OR statement for query
+        StringBuilder workAreas = new StringBuilder();
+        for (long workarea : approverWorkAres) {
+            workAreas.append("work_area = " + workarea + " or ");
+        }
+        String workAreasForQuery = workAreas.substring(0, workAreas.length() - 3);
+        sql = sql.replaceAll("###", workAreasForQuery);
+
+        /**
+         * Multimap is an interface from Google's java common library - Guava.
+         * HashMultimap allows us to create a map with duplicate keys which will then generate a data structure, i.e.
+         * [key] => [value1, value2, value3...]
+         *
+         * It save a good lines of code to do the same thing through the java map, e.g.
+         * Map<String, List<String>> map = new Hashmap<String, List<String>>();
+         *
+         * See the java doc for more information: http://google-collections.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Multimap.html
+         */
+        Multimap<String, Long> deptWorkAreas = HashMultimap.create();
+        SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{TKUtils.getCurrentDate()}, new int[]{Types.DATE});
+        while (rs.next()) {
+            deptWorkAreas.put(rs.getString("dept"), rs.getLong("work_area"));
+        }
+
+        return deptWorkAreas;
+    }
+
+    @Override
+    public Multimap<String, Long> getDeptWorkAreasByDepts(Set<String> userDepts) {
+        String sql = "SELECT DISTINCT work_area, dept FROM tk_work_area_t " +
+                "WHERE (###) AND effdt <= ?";
+
+        // prepare the OR statement for query
+        StringBuilder depts = new StringBuilder();
+        for (String dept : userDepts) {
+            depts.append("dept = '" + dept + "' or ");
+        }
+        String deptsForQuery = depts.substring(0, depts.length() - 4);
+        sql = sql.replaceAll("###", deptsForQuery);
+
+        Multimap<String, Long> deptWorkAreas = HashMultimap.create();
+        SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{TKUtils.getCurrentDate()}, new int[]{Types.DATE});
+        while (rs.next()) {
+            deptWorkAreas.put(rs.getString("dept"), rs.getLong("work_area"));
+        }
+
+        return deptWorkAreas;
     }
 }
 

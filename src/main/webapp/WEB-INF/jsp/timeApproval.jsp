@@ -11,6 +11,7 @@
 <html:hidden styleId="payBeginDateForSearch" property="payBeginDateForSearch" value="${Form.payBeginDateForSearch}"/>
 <html:hidden styleId="payEndDateForSearch" property="payEndDateForSearch" value="${Form.payEndDateForSearch}"/>
 
+
 <div class="approvals">
 <table id="approvals-filter">
     <tr>
@@ -54,6 +55,7 @@
             <label for="work areas">
                 <select id="selectedWorkArea" name="selectedWorkArea"
                         onchange="this.form.methodToCall.value='selectNewPayCalendarGroup'; this.form.submit();">
+                    <option value="">-- Select work area --</option>
                     <option value="">Show All</option>
                     <c:forEach var="deptWorkarea" items="${Form.deptWorkareas}">
                         <c:choose>
@@ -112,7 +114,7 @@
     <display:column title="Principal Name" sortable="true" sortName="principalName">
         <c:if test="${row.periodTotal > 0}">
             <div class="ui-state-default ui-corner-all" style="float:left;">
-                    <%--<span id="showDetailButton_${row.count-1}" class="ui-icon ui-icon-plus rowInfo"></span>--%>
+                <span id="showDetailButton_${row.rowNum-1}" class="ui-icon ui-icon-plus rowInfo"></span>
             </div>
         </c:if>
         <a href="Admin.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a> (${row.principalId})
@@ -223,7 +225,7 @@
         <tk:tkApprovalRowButtons appRow="${row}"/>
     </display:column>
     <display:column title="Select">
-        <%--<html:checkbox property="approvalRows[${row.count-1}].selected" disabled="${!row.approvable}"/>--%>
+        <html:checkbox property="approvalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}"/>
     </display:column>
 </display:table>
 

@@ -1,5 +1,6 @@
 package org.kuali.hr.time.approval.web;
 
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -53,23 +54,24 @@ public class TimeApprovalAction extends TkAction {
         taaf.setPayCalendarGroups(calGroups);
 
         // Set department
-        taaf.setDepartments(user.getReportingApprovalDepartments());
+        /**
+         * Multiset<K> | keys()
+         * Returns a collection, which may contain duplicates, of all keys.
+         *
+         * Set<K> | keySet()
+         * Returns the set of all keys, each appearing once in the returned set.
+         *
+         * http://google-collections.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Multimap.html
+         **/
+        List<String> depts = new ArrayList<String>(user.getReportingApprovalDepartments().keySet());
+        Collections.sort(depts);
+        taaf.setDepartments(depts);
         if (taaf.getDepartments().size() == 1) {
             taaf.setSelectedDept(taaf.getDepartments().get(0));
             taaf.setSelectedPayCalendarGroup(calGroups.get(0));
         }
         if (StringUtils.isBlank(taaf.getSelectedDept())) {
             return super.execute(mapping, form, request, response);
-        }
-
-        // Set work areas
-        // If "show all" is selected, add all workareas to the list
-        SortedSet<Long> workAreas = new TreeSet<Long>();
-        if (StringUtils.isBlank(taaf.getSelectedWorkArea())) {
-            workAreas = user.getWorkAreasFromUserRoles();
-            taaf.setDeptWorkareas(workAreas);
-        } else {
-            workAreas.add(Long.parseLong(taaf.getSelectedWorkArea()));
         }
 
         // Set current pay calendar entries if present.
@@ -112,7 +114,7 @@ public class TimeApprovalAction extends TkAction {
         // Getting principal ids from active assignments is a single sql query which runs pretty fast.
         // If the total number of work areas is large, some optimization needs to be done to reduce the db calls.
 
-        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByAssignment(workAreas, new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
+        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByWorkAreas(taaf.getDeptWorkareas(), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
         taaf.setResultSize(principalIds.size());
 
         if (StringUtils.isNotBlank(getSortField(request))) {
@@ -121,8 +123,6 @@ public class TimeApprovalAction extends TkAction {
         }
         taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, principalIds), taaf.getSelectedPayCalendarGroup()));
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(selectedPayCalendarEntries, new ArrayList<Boolean>()));
-
-
 
         return fwd;
     }
@@ -147,6 +147,20 @@ public class TimeApprovalAction extends TkAction {
         taaf.setHrPyCalendarId(null);
         taaf.setPayBeginDate(null);
         taaf.setPayEndDate(null);
+
+        String selectedDept = taaf.getSelectedDept();
+        Multimap<String,Long> deptWorkAreas = TKContext.getUser().getReportingApprovalDepartments();
+
+        // Set work areas
+        // If "show all" is selected, add all workareas to the list
+        SortedSet<Long> workAreas = new TreeSet<Long>();
+        if (StringUtils.isBlank(taaf.getSelectedWorkArea())) {
+            workAreas.addAll(deptWorkAreas.get(selectedDept));
+        } else {
+            workAreas.add(Long.parseLong(taaf.getSelectedWorkArea()));
+        }
+
+        taaf.setDeptWorkareas(workAreas);
         return mapping.findForward("basic");
     }
 
