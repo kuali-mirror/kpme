@@ -40,8 +40,8 @@
                     <property name="objectAttributeName" value="timesheetDocumentHeader"/>
                     <property name="primitiveAttributes">
                         <list>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="documentId"
-                                  p:targetName="documentId"/>
+                            <bean parent="PrimitiveAttributeDefinition" 
+                            	  p:sourceName="documentId" p:targetName="documentId"/>
                             <bean parent="PrimitiveAttributeDefinition"
                                   p:sourceName="timesheetDocumentHeader.documentStatus" p:targetName="documentStatus"/>
                             <bean parent="PrimitiveAttributeDefinition"
@@ -51,6 +51,24 @@
                         </list>
                     </property>
                 </bean>
+                <bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="principal" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
+								p:targetName="principalId" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="userPrincipal" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="userPrincipalId"
+								p:targetName="principalId" />
+						</list>
+					</property>
+				</bean>
             </list>
         </property>
 

@@ -2,6 +2,8 @@ package org.kuali.hr.time.timeblock;
 
 import java.sql.Timestamp;
 
+import org.kuali.rice.kim.bo.Person;
+
 public class TimeBlockHistory extends TimeBlock {
 
 	/**
@@ -13,6 +15,8 @@ public class TimeBlockHistory extends TimeBlock {
 	private String actionHistory;
 	private String modifiedByPrincipalId;
 	private Timestamp timestampModified;
+	private Person principal;
+	private Person userPrincipal;
 
 	public TimeBlockHistory() {
 	}
@@ -54,5 +58,21 @@ public class TimeBlockHistory extends TimeBlock {
 	}
 	public void setModifiedByPrincipalId(String modifiedByPrincipalId) {
 		this.modifiedByPrincipalId = modifiedByPrincipalId;
+	}
+
+	public Person getPrincipal() {
+		return principal;
+	}
+
+	public void setPrincipal(Person principal) {
+		this.principal = principal;
+	}
+
+	public Person getUserPrincipal() {
+		return userPrincipal;
+	}
+
+	public void setUserPrincipal(Person userPrincipal) {
+		this.userPrincipal = userPrincipal;
 	}
 }
