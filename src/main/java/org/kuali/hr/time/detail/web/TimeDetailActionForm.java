@@ -48,6 +48,17 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	public List<TimeBlock> getTimeBlockList() {
 		return this.getTimesheetDocument().getTimeBlocks();
 	}
+	
+	// for Actual Time Inquiry display only
+	public List<TimeBlock> getClockLogTimeBlockList() {
+		List<TimeBlock> clockList = new ArrayList<TimeBlock>();
+		for(TimeBlock tb : this.getTimeBlockList()){
+			if(tb.getClockLogCreated()) {
+				clockList.add(tb);
+			}
+		}
+		return clockList;
+	}
 
 	public TimeBlock getTimeBlock() {
 		return timeBlock;

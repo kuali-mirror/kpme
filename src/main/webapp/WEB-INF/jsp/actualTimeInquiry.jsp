@@ -7,7 +7,7 @@
 
 		<p class="actualtime-header">Acutal Time Inquiry</p>
    	 	<div id="actualTime" align="left" class="actualtime">
-   	 	    <display:table name="${Form.timeBlockList}" class="actualtime-table"
+   	 	    <display:table name="${Form.clockLogTimeBlockList}" class="actualtime-table"
 		   		requestURI="/TimeDetail.do?methodToCall=actualTimeInquiry&documentId=${Form.documentId}"
 		    	excludedParams="*" pagesize="10" style="border-collapse:collapse;border: 1px solid #000;" 
 		    	defaultsort="1" defaultorder="ascending">   
