@@ -36,6 +36,7 @@ public class TimeBlockHistory extends TimeBlock {
 		this.setClockLogCreated(tb.getClockLogCreated());
 		this.setHours(tb.getHours());
 		this.setUserPrincipalId(tb.getUserPrincipalId());
+		this.setPrincipalId(tb.getPrincipalId());
 		this.setTimestamp(tb.getTimestamp());
 		this.setBeginTimestampTimezone(tb.getBeginTimestampTimezone());
 		this.setEndTimestampTimezone(tb.getEndTimestampTimezone());

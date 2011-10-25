@@ -203,7 +203,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         tb.setEarnCodeType(earnCodeObj.getEarnCodeType());
         tb.setHours(hours);
         tb.setClockLogCreated(clockLogCreated);
-        tb.setUserPrincipalId(timesheetDocument.getPrincipalId());
+        tb.setUserPrincipalId(TKContext.getPrincipalId());
         tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
         tb.setTimeHourDetails(this.createTimeHourDetails(tb.getEarnCode(), tb.getHours(), tb.getAmount(), tb.getTkTimeBlockId()));

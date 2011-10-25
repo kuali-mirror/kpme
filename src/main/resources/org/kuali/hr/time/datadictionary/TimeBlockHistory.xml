@@ -382,6 +382,8 @@
             <list>
                  <bean parent="FieldDefinition" p:attributeName="tkTimeBlockId"/>
                  <bean parent="FieldDefinition" p:attributeName="documentId" p:noInquiry="true"/>
+                 <bean parent="FieldDefinition" p:attributeName="principalId"/>
+                 <bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
                  <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
                  <bean parent="FieldDefinition" p:attributeName="workArea"/>
                  <bean parent="FieldDefinition" p:attributeName="earnCode"/>
@@ -391,7 +393,6 @@
                  <bean parent="FieldDefinition" p:attributeName="amount"/>
                  <bean parent="FieldDefinition" p:attributeName="clockLogCreated"/>
                  <bean parent="FieldDefinition" p:attributeName="actionHistory"/>
-                 <bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
                  <bean parent="FieldDefinition" p:attributeName="timestamp"/>
             </list>
         </property>
