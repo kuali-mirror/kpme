@@ -14,7 +14,6 @@ public class WorkAreaInquirableImpl extends KualiInquirableImpl {
 
 		TkServiceLocator.getWorkAreaService().populateWorkAreaRoles(workArea);
 
-		System.out.println("\t\t workArea size:" + workArea.getInactiveRoles().size());
 		return workArea;
 	}
 }
