@@ -19,6 +19,7 @@
                 <ref bean="TimeBlockHistory-documentId"/>
                 <ref bean="TimeBlockHistory-jobNumber"/>
                 <ref bean="TimeBlockHistory-workArea"/>
+                <ref bean="TimeBlockHistory-task"/>
                 <ref bean="TimeBlockHistory-earnCode"/>
                 <ref bean="TimeBlockHistory-beginTimeStamp"/>
                 <ref bean="TimeBlockHistory-endTimeStamp"/>
@@ -128,6 +129,20 @@
         </property>
         <property name="name" value="workArea"/>
         <property name="label" value="Work Area"/>
+    </bean>
+    
+    <bean id="TimeBlockHistory-task" parent="TimeBlockHistory-task-parentBean"/>
+    <bean id="TimeBlockHistory-task-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Task"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="name" value="task"/>
+        <property name="label" value="Task"/>
     </bean>
 
     <bean id="TimeBlockHistory-jobNumber" parent="TimeBlockHistory-jobNumber-parentBean"/>
@@ -386,6 +401,7 @@
                  <bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
                  <bean parent="FieldDefinition" p:attributeName="jobNumber"/>
                  <bean parent="FieldDefinition" p:attributeName="workArea"/>
+                 <bean parent="FieldDefinition" p:attributeName="task"/>
                  <bean parent="FieldDefinition" p:attributeName="earnCode"/>
                  <bean parent="FieldDefinition" p:attributeName="beginTimestamp"/>
                  <bean parent="FieldDefinition" p:attributeName="endTimestamp"/>
