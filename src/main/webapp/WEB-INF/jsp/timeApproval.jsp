@@ -96,8 +96,10 @@
                         <input type="button" class="prev" value="Previous" name="Previous"
                                onclick="this.form.hrPyCalendarEntriesId.value='${Form.prevPayCalendarId}'; this.form.submit();"/>
                     </c:if>
-                    <span id="beginDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/></span> -
-                    <span id="endDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
+                    <span id="beginDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
+                            value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/></span> -
+                    <span id="endDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
+                            value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
                     <c:if test="${Form.nextPayCalendarId ne null}">
                         <input type="button" class="next" value="Next" name="Next"
                                onclick="this.form.hrPyCalendarEntriesId.value='${Form.nextPayCalendarId}'; this.form.submit();"/>
@@ -114,7 +116,7 @@
     <display:column title="Principal Name" sortable="true" sortName="principalName">
         <c:if test="${row.periodTotal > 0}">
             <div class="ui-state-default ui-corner-all" style="float:left;">
-                <span id="showDetailButton_${row.rowNum-1}" class="ui-icon ui-icon-plus rowInfo"></span>
+                <span id="showDetailButton_${row_rowNum-1}" class="ui-icon ui-icon-plus rowInfo"></span>
             </div>
         </c:if>
         <a href="Admin.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a> (${row.principalId})
@@ -224,9 +226,14 @@
     <display:column title="Action">
         <tk:tkApprovalRowButtons appRow="${row}"/>
     </display:column>
-    <display:column title="Select">
+    <display:column title="Select" class="last_column_${row_rowNum}">
         <html:checkbox property="approvalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}"/>
     </display:column>
+    <%--<div class="hourDetails">--%>
+        <%--<tr style="display:none;" class="timeSummaryRow_${row_rowNum-1}">--%>
+            <%--<td class="rowCount"><tk:timeSummary timeSummary="${row.timeSummary}"/></td>--%>
+        <%--</tr>--%>
+    <%--</div>--%>
 </display:table>
 
     <%--

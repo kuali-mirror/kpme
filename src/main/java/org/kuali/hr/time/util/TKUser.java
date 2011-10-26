@@ -224,7 +224,9 @@ public class TKUser {
 		Set<String> depts = new HashSet<String>();
 		depts.addAll(userRoles.getDepartmentViewOnlyDepartments());
 		depts.addAll(userRoles.getOrgAdminDepartments());
-        reportingApprovalDepartments.putAll(TkServiceLocator.getTimeApproveService().getDeptWorkAreasByDepts(depts));
+        if (depts.size() > 0) {
+            reportingApprovalDepartments.putAll(TkServiceLocator.getTimeApproveService().getDeptWorkAreasByDepts(depts));
+        }
 		
 		return reportingApprovalDepartments;
 	}
