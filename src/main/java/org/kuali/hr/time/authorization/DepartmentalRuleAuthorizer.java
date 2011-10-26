@@ -25,6 +25,7 @@ public class DepartmentalRuleAuthorizer extends TkMaintenanceDocumentAuthorizerB
     @Override
     public boolean rolesIndicateGeneralReadAccess() {
         return getRoles().isSystemAdmin() ||
+        		getRoles().isGlobalViewOnly() ||
                 getRoles().getOrgAdminCharts().size() > 0 ||
                 getRoles().getOrgAdminDepartments().size() > 0 ||
                 getRoles().getDepartmentViewOnlyDepartments().size() > 0 ||
