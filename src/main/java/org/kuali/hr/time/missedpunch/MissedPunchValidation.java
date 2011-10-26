@@ -28,7 +28,7 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         Set<String> validActions = (lastClock != null) ? TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction()) : new HashSet<String>();
 
         if (!StringUtils.equals("A", mp.getDocumentStatus()) && !validActions.contains(mp.getClockAction())) {
-            GlobalVariables.getMessageMap().putError("clockAction", "clock.mp.invalid.action");
+            GlobalVariables.getMessageMap().putError("document.clockAction", "clock.mp.invalid.action");
             valid = false;
         }
 
@@ -55,18 +55,24 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         DateTime actionDateTime = new DateTime(mp.getActionDate().getTime());
         actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
         DateTime boundaryMax = clockLogDateTime.plusDays(1);
+        DateTime nowTime = new DateTime(System.currentTimeMillis());
         
-        if(actionDateTime.isAfterNow()) {
-        	GlobalVariables.getMessageMap().putError("document.actionDate", "clock.mp.future.datetime");
-        	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.future.datetime");
-            valid = false;
+        // if date is a future date
+        if(actionDateTime.getDayOfYear() > nowTime.getDayOfYear()) {
+        	GlobalVariables.getMessageMap().putError("document.actionDate", "clock.mp.future.date");
+        	return false;
+        }
+        // if time is a future time
+        if(actionTimeLocal.getMillisOfDay() > nowTime.getMillisOfDay()) {
+        	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.future.time");
+        	return false;
         }
         
         if ( ((!StringUtils.equals(lastClock.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax)) 
         		|| actionDateTime.isBefore(clockLogDateTime)) && StringUtils.equals(mp.getDocumentStatus(),"R")) {
             // Error -
-        	GlobalVariables.getMessageMap().putError("actionDate", "clock.mp.invalid.datetime");
-        	GlobalVariables.getMessageMap().putError("actionTime", "clock.mp.invalid.datetime");
+//        	GlobalVariables.getMessageMap().putError("document.actionDate", "clock.mp.invalid.datetime");
+        	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
             valid = false;
         }
 
