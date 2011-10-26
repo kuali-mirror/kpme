@@ -63,6 +63,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 				for (TkRole tkRole : tkRoles) {
 					if (StringUtils.equals(tkRole.getRoleName(),
 							TkConstants.ROLE_TK_SYS_ADMIN)
+							|| (StringUtils.equals(tkRole.getRoleName(), TkConstants.ROLE_TK_GLOBAL_VO))
 							|| (StringUtils.equals(tkRole.getRoleName(),
 									TkConstants.ROLE_TK_APPROVER) && tb
 									.getWorkArea().equals(tkRole.getWorkArea()))
