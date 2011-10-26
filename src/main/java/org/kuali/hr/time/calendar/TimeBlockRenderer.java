@@ -2,6 +2,7 @@ package org.kuali.hr.time.calendar;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.util.TkConstants;
@@ -51,7 +52,10 @@ public class TimeBlockRenderer {
 
         WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getTkWorkAreaId());
         b.append(wa.getDescription());
-
+        Task task = TkServiceLocator.getTaskService().getTask(timeBlock.getTask(), timeBlock.getBeginDate());
+        if(task != null) {
+        	b.append("-" + task.getDescription());
+        }
         return b.toString();
     }
 
