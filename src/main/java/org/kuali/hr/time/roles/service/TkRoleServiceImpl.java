@@ -1,6 +1,14 @@
 package org.kuali.hr.time.roles.service;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.roles.TkRole;
@@ -8,12 +16,6 @@ import org.kuali.hr.time.roles.dao.TkRoleDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class TkRoleServiceImpl implements TkRoleService {
 
@@ -109,7 +111,15 @@ public class TkRoleServiceImpl implements TkRoleService {
 
         List<TkRole> roles = this.getWorkAreaRoles(a.getWorkArea(), roleName, asOfDate);
         for (TkRole role: roles) {
-            users.add(role.getPrincipalId());
+        	if(StringUtils.isNotBlank(role.getPrincipalId())){
+        		users.add(role.getPrincipalId());
+        	} else if(StringUtils.isNotBlank(role.getPositionNumber())){
+        		List<Job> lstJobs = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(role.getPositionNumber(), asOfDate);
+        		for(Job job : lstJobs){
+        			users.add(job.getPrincipalId());
+        		}
+        	
+        	}
         }
 
         return users;

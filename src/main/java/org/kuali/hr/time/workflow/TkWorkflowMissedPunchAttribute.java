@@ -66,6 +66,9 @@ public class TkWorkflowMissedPunchAttribute implements RoleAttribute {
                 Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdoc, assign_string);
                 if (assignment != null) {
                     List<String> users = roleService.getResponsibleParties(assignment, roleName, tdoc.getAsOfDate());
+                    if(users.isEmpty()){
+                    	throw new RuntimeException("No responsible people for work area" + assignment.getWorkArea());
+                    }
                     for (String user : users) {
                         PrincipalId pid = new PrincipalId(user);
                         if (!principals.contains(pid)) {
