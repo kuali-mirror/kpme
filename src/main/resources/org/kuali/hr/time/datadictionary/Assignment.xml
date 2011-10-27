@@ -82,6 +82,14 @@
 								p:targetName="task" />
 						</list>
 					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:sourceName="workArea"
+									p:targetName="workArea" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="effectiveDate"
+								p:targetName="effectiveDate" />
+						</list>
+					</property>
 				</bean>
 			</list>
 		</property>

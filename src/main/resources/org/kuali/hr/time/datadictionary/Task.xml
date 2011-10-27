@@ -235,6 +235,7 @@
       	<bean parent="FieldDefinition" p:attributeName="description" />      	
       	<bean parent="FieldDefinition" p:attributeName="workArea"/>
         <bean parent="FieldDefinition" p:attributeName="workAreaDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
         <bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
       </list>
     </property>

@@ -21,6 +21,7 @@ import org.kuali.hr.time.assignment.AssignmentAccount;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -53,6 +54,23 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				if (!valid) {
 					this.putFieldError("workArea", "dept.workarea.invalid.sync");
 				}
+			}
+		}
+		return valid;
+	}
+	
+	protected boolean validateTask(Assignment assignment) {
+		boolean valid = true;
+		if (assignment.getTask() != null) {
+			Task task = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
+			if(task != null) {
+				if(!task.getWorkArea().equals(assignment.getWorkArea())) {
+					this.putFieldError("task", "task.workarea.invalid.sync");
+					valid = false;
+				}
+			} else {
+				this.putFieldError("task", "error.existence", "task '"+ assignment.getTask() + "'");
+				valid = false;
 			}
 		}
 		return valid;
@@ -272,6 +290,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			if (assignment != null) {
 				valid = true;
 				valid &= this.validateWorkArea(assignment);
+				valid &= this.validateTask(assignment);
 				valid &= this.validateJob(assignment);
 				valid &= this.validateDepartment(assignment);
 				valid &= this.validatePercentagePerEarnCode(assignment);
