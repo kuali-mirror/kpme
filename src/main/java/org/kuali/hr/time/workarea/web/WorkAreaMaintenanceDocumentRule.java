@@ -3,9 +3,12 @@ package org.kuali.hr.time.workarea.web;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.authorization.DepartmentalRule;
+import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
@@ -106,6 +109,10 @@ public class WorkAreaMaintenanceDocumentRule extends
 		if (pbo instanceof WorkArea) {
 			WorkArea wa = (WorkArea) pbo;
 			valid = validateDepartment(wa.getDept(), wa.getEffectiveDate());
+			if(!DepartmentalRuleAuthorizer.hasAccessToWrite((DepartmentalRule)pbo)) {
+				String[] params = new String[]{TKContext.getUser().getPrincipalName(), wa.getDept()};
+				this.putFieldError("dept", "dept.user.unauthorized", params);
+			}
 			valid &= validateRoles(wa.getRoles());
 			// defaultOvertimeEarnCode is a nullable field. 
 			if ( wa.getDefaultOvertimeEarnCode() != null ){
