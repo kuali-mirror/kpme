@@ -39,7 +39,7 @@ public class TimeApprovalWSAction extends TkAction {
         // the dates come from the begin / end date on the form
         Date beginDate = new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayBeginDateForSearch());
         Date endDate = new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayEndDateForSearch());
-        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByWorkAreas(user.getWorkAreasFromUserRoles(), new java.sql.Date(endDate.getTime()), taaf.getSelectedPayCalendarGroup());
+        Set<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByWorkAreas(user.getWorkAreasFromUserRoles(), new java.sql.Date(endDate.getTime()), taaf.getSelectedPayCalendarGroup());
 
         if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
             for (String id : principalIds) {
@@ -53,7 +53,7 @@ public class TimeApprovalWSAction extends TkAction {
             }
         } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID)) {
             Map<String, TimesheetDocumentHeader> principalDocumentHeaders =
-                    TkServiceLocator.getTimeApproveService().getPrincipalDocumehtHeader(principalIds, beginDate, endDate);
+                    TkServiceLocator.getTimeApproveService().getPrincipalDocumehtHeader(new ArrayList<String>(principalIds), beginDate, endDate);
 
             for (Map.Entry<String,TimesheetDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
                 if (StringUtils.contains(entry.getValue().getDocumentId(), taaf.getSearchTerm())) {

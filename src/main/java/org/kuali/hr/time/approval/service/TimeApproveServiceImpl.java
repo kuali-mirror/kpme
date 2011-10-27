@@ -215,8 +215,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
             approvalSummaryRow.setDocumentId(documentId);
             approvalSummaryRow.setLstTimeBlocks(timeBlocks);
             if (principalDocumentHeader.containsKey(principalId)) {
-                approvalSummaryRow.setApprovalStatus(tdh.getDocumentStatus());
-                approvalSummaryRow.setApprovalStatusMessage(TkConstants.DOC_ROUTE_STATUS.get(tdh.getDocumentStatus()));
+                approvalSummaryRow.setApprovalStatus(TkConstants.DOC_ROUTE_STATUS.get(tdh.getDocumentStatus()));
                 TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdh.getDocumentId());
                 TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(td);
                 approvalSummaryRow.setTimeSummary(ts);
@@ -524,16 +523,16 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         return pyGroups;
     }
 
-    public List<String> getPrincipalIdsByAssignment(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup, Integer start, Integer end) {
-        List<String> list = getPrincipalIdsByWorkAreas(workAreas, payEndDate, calGroup);
-        return list.subList(start, end);
-    }
+//    public List<String> getPrincipalIdsByAssignment(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup, Integer start, Integer end) {
+//        Set<String> list = getPrincipalIdsByWorkAreas(workAreas, payEndDate, calGroup);
+//        return list.subList(start, end);
+//    }
 
     @Override
-    public List<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup) {
+    public Set<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup) {
         //        List<Assignment> activeAssignments = new ArrayList<Assignment>(); //getActiveAssignmentsAndPrincipalCalendars(workAreas, payEndDate);
         List<Assignment> activeAssignments = getActiveAssignmentsAndPrincipalCalendars(workAreas, payEndDate);
-        List<String> principalIds = new LinkedList<String>();
+        Set<String> principalIds = new LinkedHashSet<String>();
 
 //        for (Long aWorkArea : workAreas) {
 //            activeAssignments.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(aWorkArea, new java.sql.Date(payEndDate.getTime())));
@@ -542,7 +541,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
             for (Assignment assign : activeAssignments) {
                 PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(assign.getPrincipalId(), payEndDate);
                 //TODO remove this comparision sometiem
-                if (!principalIds.contains(assign.getPrincipalId()) && StringUtils.equals(principalCalendar.getPyCalendarGroup(), calGroup)) {
+                if (StringUtils.equals(principalCalendar.getPyCalendarGroup(), calGroup)) {
                     principalIds.add(assign.getPrincipalId());
                 }
             }
@@ -553,34 +552,36 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
     @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     private List<Assignment> getActiveAssignmentsAndPrincipalCalendars(Set<Long> approverWorkAres, java.sql.Date effdt) {
-        // We didn't need to select the max effdt and max timestamp here,
-        // because we only need the list of the principal ids and it doesn't matter if we select the latest row or not
-
-        // prepare the OR statement for query
-        StringBuilder workAreas = new StringBuilder();
-        for (long workarea : approverWorkAres) {
-            workAreas.append("work_area = " + workarea + " or ");
-        }
-        String workAreasForQuery = workAreas.substring(0, workAreas.length() - 3);
-        String sql =
-                "SELECT DISTINCT " +
-                        "A0.principal_id,A0.work_area,C0.py_calendar_group " +
-                        "FROM tk_assignment_t A0,hr_principal_calendar_t C0 " +
-                        "WHERE " + workAreasForQuery +
-                        "AND A0.effdt <= ? " +
-                        "AND C0.principal_id = A0.principal_id";
-
         List<Assignment> assignments = new ArrayList<Assignment>();
-        SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{effdt}, new int[]{Types.DATE});
-        while (rs.next()) {
-            Assignment assignment = new Assignment();
-            assignment.setPrincipalId(rs.getString("principal_id"));
-            assignment.setWorkArea(rs.getLong("work_area"));
-            assignment.setCalGroup(rs.getString("py_calendar_group"));
 
-            assignments.add(assignment);
+        if (approverWorkAres.size() > 0) {
+            // We didn't need to select the max effdt and max timestamp here,
+            // because we only need the list of the principal ids and it doesn't matter if we select the latest row or not
+
+            // prepare the OR statement for query
+            StringBuilder workAreas = new StringBuilder();
+            for (long workarea : approverWorkAres) {
+                workAreas.append("work_area = " + workarea + " or ");
+            }
+            String workAreasForQuery = workAreas.substring(0, workAreas.length() - 3);
+            String sql =
+                    "SELECT DISTINCT " +
+                            "A0.principal_id,A0.work_area,C0.py_calendar_group " +
+                            "FROM tk_assignment_t A0,hr_principal_calendar_t C0 " +
+                            "WHERE " + workAreasForQuery +
+                            "AND A0.effdt <= ? " +
+                            "AND C0.principal_id = A0.principal_id";
+
+            SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{effdt}, new int[]{Types.DATE});
+            while (rs.next()) {
+                Assignment assignment = new Assignment();
+                assignment.setPrincipalId(rs.getString("principal_id"));
+                assignment.setWorkArea(rs.getLong("work_area"));
+                assignment.setCalGroup(rs.getString("py_calendar_group"));
+
+                assignments.add(assignment);
+            }
         }
-
         return assignments;
     }
 
@@ -619,55 +620,62 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
     @Override
     public Multimap<String, Long> getDeptWorkAreasByWorkAreas(Set<Long> approverWorkAres) {
-
-        // prepare the OR statement for query
-        StringBuilder workAreas = new StringBuilder();
-        for (long workarea : approverWorkAres) {
-            workAreas.append("work_area = " + workarea + " or ");
-        }
-        String workAreasForQuery = workAreas.substring(0, workAreas.length() - 3);
-        String sql = "SELECT DISTINCT work_area, dept FROM tk_work_area_t " +
-                "WHERE " + workAreasForQuery + " AND effdt <= ?";
-
-        /**
-         * Multimap is an interface from Google's java common library - Guava.
-         * HashMultimap allows us to create a map with duplicate keys which will then generate a data structure, i.e.
-         * [key] => [value1, value2, value3...]
-         *
-         * It save a good lines of code to do the same thing through the java map, e.g.
-         * Map<String, List<String>> map = new Hashmap<String, List<String>>();
-         *
-         * See the java doc for more information: http://google-collections.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Multimap.html
-         */
         Multimap<String, Long> deptWorkAreas = HashMultimap.create();
-        SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{TKUtils.getCurrentDate()}, new int[]{Types.DATE});
-        while (rs.next()) {
-            deptWorkAreas.put(rs.getString("dept"), rs.getLong("work_area"));
-        }
 
+        if (approverWorkAres.size() > 0) {
+            // prepare the OR statement for query
+            StringBuilder workAreas = new StringBuilder();
+            for (long workarea : approverWorkAres) {
+                workAreas.append("work_area = " + workarea + " or ");
+            }
+            String workAreasForQuery = workAreas.substring(0, workAreas.length() - 3);
+            String sql = "SELECT DISTINCT work_area, dept FROM tk_work_area_t " +
+                    "WHERE " + workAreasForQuery + " AND effdt <= ?";
+
+            /**
+             * Multimap is an interface from Google's java common library - Guava.
+             * HashMultimap allows us to create a map with duplicate keys which will then generate a data structure, i.e.
+             * [key] => [value1, value2, value3...]
+             *
+             * It save a good lines of code to do the same thing through the java map, e.g.
+             * Map<String, List<String>> map = new Hashmap<String, List<String>>();
+             *
+             * See the java doc for more information: http://google-collections.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Multimap.html
+             */
+            SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{TKUtils.getCurrentDate()}, new int[]{Types.DATE});
+            while (rs.next()) {
+                deptWorkAreas.put(rs.getString("dept"), rs.getLong("work_area"));
+            }
+        }
         return deptWorkAreas;
     }
 
     @Override
     public Multimap<String, Long> getDeptWorkAreasByDepts(Set<String> userDepts) {
-
-
-        // prepare the OR statement for query
-        StringBuilder depts = new StringBuilder();
-        for (String dept : userDepts) {
-            depts.append("dept = '" + dept + "' or ");
-        }
-        String deptsForQuery = depts.substring(0, depts.length() - 4);
-        String sql = "SELECT DISTINCT work_area, dept FROM tk_work_area_t " +
-                "WHERE " + deptsForQuery + " AND effdt <= ?";
-
         Multimap<String, Long> deptWorkAreas = HashMultimap.create();
-        SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{TKUtils.getCurrentDate()}, new int[]{Types.DATE});
-        while (rs.next()) {
-            deptWorkAreas.put(rs.getString("dept"), rs.getLong("work_area"));
-        }
 
+        if (userDepts.size() > 0) {
+            // prepare the OR statement for query
+            StringBuilder depts = new StringBuilder();
+            for (String dept : userDepts) {
+                depts.append("dept = '" + dept + "' or ");
+            }
+            String deptsForQuery = depts.substring(0, depts.length() - 4);
+            String sql = "SELECT DISTINCT work_area, dept FROM tk_work_area_t " +
+                    "WHERE " + deptsForQuery + " AND effdt <= ?";
+
+            SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{TKUtils.getCurrentDate()}, new int[]{Types.DATE});
+            while (rs.next()) {
+                deptWorkAreas.put(rs.getString("dept"), rs.getLong("work_area"));
+            }
+        }
         return deptWorkAreas;
     }
+
+    // the reason to separate the sql is to be able to insert more conditions
+    private static final String SQL = "SELECT DISTINCT dept, work_area, py_calendar_group " +
+            "FROM tk_work_area_t, hr_principal_calendar_t C0" +
+            "WHERE ";
+
 }
 

@@ -78,7 +78,7 @@ public interface TimeApproveService {
      * @param calGroup
      * @return A list of the PrincipalIds
      */
-    List<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup);
+    Set<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup);
 
     /**
      * Method to create a map that contains the principal's id and corresponding timesheet document header.
@@ -105,4 +105,5 @@ public interface TimeApproveService {
      * @return A Dept and Work Areas mapping.
      */
     Multimap<String, Long> getDeptWorkAreasByDepts(Set<String> userDepts);
+
 }

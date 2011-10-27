@@ -156,31 +156,37 @@ $(document).ready(function() {
         text: false
     });
 
-
-    $(" .approvals-warning, .approvals-note, .approvals-status").tooltip({ effect: 'slide'});
+    // display warning and notes
+    $(" .approvals-warning, .approvals-note").tooltip({ effect: 'slide'});
 
     // toggle the button for the assigment details
     $('.rowInfo').click(function() {
-        var seq = $(this).closest("span").attr("id").split("_")[1];
-        $('.assignmentDetails_' + seq).find('td').css('background-color', '#F6F6F6');
+        // figure out the columns in the approval table
+        var columns = $(".approvals-table > tbody > tr.odd > td").length;
+        // get the row id
+        var seq = $(this).attr("id").split("_")[1];
 
         if ($(this).hasClass('ui-icon-plus')) {
-            // $('.assignmentDetails_' + seq).show();
-            $("#approvals-table").find($('.timeSummaryRow_' + seq)).show().css("font-size", "1.2em");
+            /**
+             * The code below is a DOM manipulation which grab the
+             * current time summary layout and
+             *
+             */
+            $timeSummaryRow = undefined;
+            // create a clone of the time summary row
+            $timeSummaryRow = $('.timeSummaryRow_' + seq).clone(true);
+            $(".ui-state-default, tbody tr:first", $timeSummaryRow).remove();
+            var parent = $('.timeSummaryRow_' + seq).closest("tr");
+            $trs = $("table tr", $timeSummaryRow);
+            $trs.attr("class", "timeHourDetail_" + seq);
+            $("td:nth-child(1)", $trs).attr("colspan", 3);
 
-            // figure out the tds in the approval table
-            var approvalTable = $("#approvals-table").clone();
-            var tds = $(approvalTable).children('tbody').children('tr').children('td').length;
-            // set the colspan dynicamically for the summary table
-            $("td.rowCount").attr("colspan", tds);
-            // remove the header of the summary table
-            $('.summaryTitle').remove();
+            parent.after($trs);
 
             $(this).removeClass('ui-icon-plus').addClass('ui-icon-minus');
         }
         else {
-            //$('.assignmentDetails_' + seq).hide();
-            $("#approvals-table").find($('.timeSummaryRow_' + seq)).hide();
+            $('.timeHourDetail_' + seq).remove();
             $(this).removeClass('ui-icon-minus').addClass('ui-icon-plus');
         }
     });

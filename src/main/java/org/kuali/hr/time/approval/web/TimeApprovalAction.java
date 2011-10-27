@@ -53,6 +53,10 @@ public class TimeApprovalAction extends TkAction {
         List<String> calGroups = TkServiceLocator.getTimeApproveService().getUniquePayGroups();
         taaf.setPayCalendarGroups(calGroups);
 
+        if (StringUtils.isBlank(taaf.getSelectedPayCalendarGroup())) {
+            taaf.setSelectedPayCalendarGroup(calGroups.get(0));
+        }
+
         // Set department
         /**
          * Multiset<K> | keys()
@@ -114,14 +118,14 @@ public class TimeApprovalAction extends TkAction {
         // Getting principal ids from active assignments is a single sql query which runs pretty fast.
         // If the total number of work areas is large, some optimization needs to be done to reduce the db calls.
 
-        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByWorkAreas(taaf.getDeptWorkareas(), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
+        Set<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByWorkAreas(taaf.getDeptWorkareas(), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
         taaf.setResultSize(principalIds.size());
 
         if (StringUtils.isNotBlank(getSortField(request))) {
-            principalIds = getSortedPrincipalIdList(getSortField(request), isAscending(request), principalIds,
+            principalIds = getSortedPrincipalIdList(getSortField(request), isAscending(request), new LinkedList<String>(principalIds),
                     new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()));
         }
-        taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, principalIds), taaf.getSelectedPayCalendarGroup()));
+        taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, new LinkedList<String>(principalIds)), taaf.getSelectedPayCalendarGroup()));
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(selectedPayCalendarEntries, new ArrayList<Boolean>()));
 
         return fwd;
@@ -149,17 +153,12 @@ public class TimeApprovalAction extends TkAction {
         taaf.setPayEndDate(null);
 
         String selectedDept = taaf.getSelectedDept();
-        Multimap<String,Long> deptWorkAreas = TKContext.getUser().getReportingApprovalDepartments();
+        Multimap<String, Long> deptWorkAreas = TKContext.getUser().getReportingApprovalDepartments();
 
         // Set work areas
         // If "show all" is selected, add all workareas to the list
         SortedSet<Long> workAreas = new TreeSet<Long>();
-        if (StringUtils.isBlank(taaf.getSelectedWorkArea())) {
-            workAreas.addAll(deptWorkAreas.get(selectedDept));
-        } else {
-            workAreas.add(Long.parseLong(taaf.getSelectedWorkArea()));
-        }
-
+        workAreas.addAll(deptWorkAreas.get(selectedDept));
         taaf.setDeptWorkareas(workAreas);
         return mapping.findForward("basic");
     }
@@ -172,24 +171,23 @@ public class TimeApprovalAction extends TkAction {
      */
     List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf, List<String> assignmentPrincipalIds, String calGroup) {
 
-        if(assignmentPrincipalIds.size() == 0) {
+        if (assignmentPrincipalIds.size() == 0) {
             return new ArrayList<ApprovalTimeSummaryRow>();
         }
 
         if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
-            assignmentPrincipalIds = new ArrayList<String>();
+            assignmentPrincipalIds = new LinkedList<String>();
             assignmentPrincipalIds.add(taaf.getSearchTerm());
-        }
-        else if(StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID)) {
+        } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID)) {
 
         }
         return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), calGroup, assignmentPrincipalIds);
     }
 
     // move this to the service layer
-    private List<String> getSortedPrincipalIdList(String sortField, Boolean isAscending, List<String> assignmentPrincipalIds, java.sql.Date payBeginDate, java.sql.Date payEndDate) {
+    private Set<String> getSortedPrincipalIdList(String sortField, Boolean isAscending, List<String> assignmentPrincipalIds, java.sql.Date payBeginDate, java.sql.Date payEndDate) {
 
-        List<String> principalIds = new LinkedList<String>();
+        Set<String> principalIds = new LinkedHashSet<String>();
 
         // order by principal name
         if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
@@ -228,7 +226,7 @@ public class TimeApprovalAction extends TkAction {
             // order by document id
         } else if (StringUtils.equals(sortField, TimeApprovalActionForm.ORDER_BY_DOCID)) {
             Map<String, TimesheetDocumentHeader> principalDocumentHeaders =
-                    TkServiceLocator.getTimeApproveService().getPrincipalDocumehtHeader(assignmentPrincipalIds, payBeginDate, payEndDate);
+                    TkServiceLocator.getTimeApproveService().getPrincipalDocumehtHeader(new LinkedList<String>(assignmentPrincipalIds), payBeginDate, payEndDate);
 
             Comparator<TimesheetDocumentHeader> docIdComparator = new Comparator<TimesheetDocumentHeader>() {
                 @Override

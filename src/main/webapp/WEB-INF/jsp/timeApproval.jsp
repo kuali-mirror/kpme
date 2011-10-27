@@ -55,7 +55,6 @@
             <label for="work areas">
                 <select id="selectedWorkArea" name="selectedWorkArea"
                         onchange="this.form.methodToCall.value='selectNewPayCalendarGroup'; this.form.submit();">
-                    <option value="">-- Select work area --</option>
                     <option value="">Show All</option>
                     <c:forEach var="deptWorkarea" items="${Form.deptWorkareas}">
                         <c:choose>
@@ -122,7 +121,6 @@
         <a href="Admin.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a> (${row.principalId})
         <br/>${row.clockStatusMessage}
         <br/>
-        <%--<c:set var="assignmentRowId" value="assignmentDetails_${row.count-1}"/>--%>
     </display:column>
     <display:column title="Document ID" sortable="true" sortName="documentId">
         <a href="Admin.do?${row.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${row.documentId}&returnUrl=TimeApproval.do">${row.documentId}</a>
@@ -228,11 +226,16 @@
     </display:column>
     <display:column title="Select" class="last_column_${row_rowNum}">
         <html:checkbox property="approvalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}"/>
+        <div class="hourDetails">
+            <tr style="display:none;" class="timeSummaryRow_${row_rowNum-1}">
+                <td class="rowCount"><tk:timeSummary timeSummary="${row.timeSummary}"/></td>
+            </tr>
+        </div>
     </display:column>
     <%--<div class="hourDetails">--%>
-        <%--<tr style="display:none;" class="timeSummaryRow_${row_rowNum-1}">--%>
-            <%--<td class="rowCount"><tk:timeSummary timeSummary="${row.timeSummary}"/></td>--%>
-        <%--</tr>--%>
+    <%--<tr style="display:none;" class="timeSummaryRow_${row_rowNum-1}">--%>
+    <%--<td class="rowCount"><tk:timeSummary timeSummary="${row.timeSummary}"/></td>--%>
+    <%--</tr>--%>
     <%--</div>--%>
 </display:table>
 
