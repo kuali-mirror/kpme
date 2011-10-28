@@ -46,7 +46,6 @@
               <property name="objectAttributeName" value="payCalendarEntriesObj"/>
               <property name="primitiveAttributes">
                 <list>
-                
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPyCalendarEntriesId" p:targetName="hrPyCalendarEntriesId"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="pyCalendarGroup" p:targetName="pyCalendarGroup"/>
                 </list>
@@ -150,6 +149,11 @@
 
   <bean id="TimeSheetInitiate-lookupDefinition" parent="TimeSheetInitiate-lookupDefinition-parentBean"/>
   <bean id="TimeSheetInitiate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  	<property name="lookupableID" value="timeSheetInitiateLookupable" />
+  	 <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
     <property name="lookupFields">
       <list>
      	<bean parent="FieldDefinition" p:attributeName="tkTimeSheetInitId"/>

@@ -1,16 +1,17 @@
-package org.kuali.hr.time.earncode.service;
+package org.kuali.hr.time.timesheet.service;
 
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
-import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.timesheet.TimeSheetInitiate;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 import java.util.List;
 
-public class EarnCodeLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+public class TimeSheetInitiateLookupableHelper extends KualiLookupableHelperServiceImpl {
 	/**
-	 * 
+	 * KualiLookupableHelperServiceImpl
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -21,25 +22,19 @@ public class EarnCodeLookupableHelper extends HrEffectiveDateActiveLookupableHel
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
-			EarnCode earnCodeObj = (EarnCode) businessObject;
+			TimeSheetInitiate timeSheetInitiateObj = (TimeSheetInitiate) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final String earnCode = earnCodeObj.getEarnCode();
-			final Long hrEarnCodeId = earnCodeObj.getHrEarnCodeId();
+			final Long tkTimeSheetInitId = timeSheetInitiateObj.getTkTimeSheetInitId();
 			HtmlData htmlData = new HtmlData() {
 
-				/**
-				 * 
-				 */
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public String constructCompleteHtmlTag() {
 					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
 							+ className
-							+ "&methodToCall=start&earnCode="
-							+ earnCode 
-							+ "&hrEarnCodeId=" 
-							+ hrEarnCodeId + "\">view</a>";
+							+ "&methodToCall=start&tkTimeSheetInitId="
+							+ tkTimeSheetInitId + "\">view</a>";
 				}
 			};
 			customActionUrls.add(htmlData);

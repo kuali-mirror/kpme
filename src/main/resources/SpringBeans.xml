@@ -827,7 +827,12 @@
             <bean class="org.kuali.hr.time.task.service.TaskLookupableHelper"/>
         </property>
     </bean>
-
+	<bean id="timeSheetInitiateLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.timesheet.service.TimeSheetInitiateLookupableHelper"/>
+        </property>
+    </bean>
+    
     <!-- Scheduler configuration -->
     <!-- Serializer service -->
     <bean id="timeBlockSerializerService" class="org.kuali.hr.time.scheduler.TimeBlockSerializerService"/>
