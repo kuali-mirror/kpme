@@ -278,12 +278,12 @@ public class Assignment extends HrBusinessObject {
 
 	@Override
 	public Long getId() {
-		return getHrJobId();
+		return getTkAssignmentId();
 	}
 
 	@Override
 	public void setId(Long id) {
-		setHrJobId(id);
+		setTkAssignmentId(id);
 	}
 
     @Override
