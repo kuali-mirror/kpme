@@ -1810,7 +1810,6 @@
             <column name="calendar_descriptions" value="BWN-CAL Description"/>
             <column name="flsa_begin_day" value="Sun"/>
             <column name="flsa_begin_time" valueDate="00:00:00"/>
-            <column name="active" value="Y"/>
         </insert>
         <insert tableName="hr_calendar_t">
             <column name="hr_calendar_id" valueNumeric="2"/>
