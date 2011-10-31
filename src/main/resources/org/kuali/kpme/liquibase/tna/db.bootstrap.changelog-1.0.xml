@@ -544,19 +544,19 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1317396430027-34">
-        <createTable tableName="hr_py_calendar_entries_s">
+        <createTable tableName="hr_calendar_entries_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1317396430027-35">
-        <createTable tableName="hr_py_calendar_entries_t">
-            <column name="hr_py_calendar_entry_id" type="BIGINT">
+        <createTable tableName="hr_calendar_entries_t">
+            <column name="hr_calendar_entry_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="hr_py_calendar_id" type="BIGINT"/>
-            <column name="py_calendar_group" type="VARCHAR(45)">
+            <column name="hr_calendar_id" type="BIGINT"/>
+            <column name="calendar_name" type="VARCHAR(15)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="begin_period_date" type="TIMESTAMP">
@@ -576,18 +576,21 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1317396430027-36">
-        <createTable tableName="hr_py_calendar_s">
+        <createTable tableName="hr_calendar_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1317396430027-37">
-        <createTable tableName="hr_py_calendar_t">
-            <column name="hr_py_calendar_id" type="BIGINT">
+        <createTable tableName="hr_calendar_t">
+            <column name="hr_calendar_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="py_calendar_group" type="VARCHAR(45)">
+            <column name="calendar_name" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="calendar_descriptions" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="flsa_begin_day" type="VARCHAR(9)">
@@ -596,8 +599,7 @@
             <column name="flsa_begin_time" type="TIME">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="active" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+            <column name="calendar_types" type="VARCHAR(9)">
             </column>
         </createTable>
     </changeSet>
