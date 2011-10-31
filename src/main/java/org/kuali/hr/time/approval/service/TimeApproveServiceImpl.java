@@ -509,14 +509,14 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         return notes;
     }
 
-    private static final String UNIQUE_PY_GROUP_SQL = "select distinct py_calendar_group from hr_py_calendar_t where active = 'Y'";
+    private static final String UNIQUE_PY_GROUP_SQL = "select distinct calendar_name from hr_calendar_t where active = 'Y'";
 
     @Override
     public List<String> getUniquePayGroups() {
         SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(UNIQUE_PY_GROUP_SQL);
         List<String> pyGroups = new LinkedList<String>();
         while (rs.next()) {
-            pyGroups.add(rs.getString("py_calendar_group"));
+            pyGroups.add(rs.getString("calendar_name"));
         }
 
         return pyGroups;
