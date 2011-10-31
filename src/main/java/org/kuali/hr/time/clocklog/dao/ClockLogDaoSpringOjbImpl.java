@@ -5,8 +5,8 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.clocklog.ClockLog;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.util.TkConstants;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
@@ -88,7 +88,7 @@ public class ClockLogDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
     }
     
     @SuppressWarnings("unchecked")
-	public List<ClockLog> getOpenClockLogs(PayCalendarEntries payCalendarEntry){
+	public List<ClockLog> getOpenClockLogs(CalendarEntries payCalendarEntry){
     	Criteria criteria = new Criteria();
     	criteria.addIn("clockAction", TkConstants.ON_THE_CLOCK_CODES);
 

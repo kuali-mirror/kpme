@@ -8,8 +8,8 @@ import org.apache.struts.action.ActionMapping;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.kuali.hr.time.base.web.TkAction;
-import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -45,8 +45,8 @@ public class TimeApprovalAction extends TkAction {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         TKUser user = TKContext.getUser();
         Date currentDate;
-        PayCalendarEntries selectedPayCalendarEntries = null;
-        PayCalendar currentPayCalendar = null;
+        CalendarEntries selectedPayCalendarEntries = null;
+        Calendar currentPayCalendar = null;
 
         // Set calendar groups
         List<String> calGroups = TkServiceLocator.getTimeApproveService().getUniquePayGroups();
@@ -83,27 +83,27 @@ public class TimeApprovalAction extends TkAction {
 
         if (taaf.getHrPyCalendarEntriesId() == null || selectedPayCalendarEntries == null) {
             currentPayCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(taaf.getSelectedPayCalendarGroup());
-            selectedPayCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(currentPayCalendar.getHrPyCalendarId(), currentDate);
+            selectedPayCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
         }
 
         if (selectedPayCalendarEntries != null) {
-            PayCalendarEntries tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getPreviousPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrPyCalendarId(), selectedPayCalendarEntries);
-            if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getPyCalendarGroup())) {
-                taaf.setPrevPayCalendarId(tpce.getHrPyCalendarEntriesId());
+            CalendarEntries tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getPreviousPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrCalendarId(), selectedPayCalendarEntries);
+            if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getCalendarName())) {
+                taaf.setPrevPayCalendarId(tpce.getHrCalendarEntriesId());
             } else {
                 taaf.setPrevPayCalendarId(null);
             }
-            tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getNextPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrPyCalendarId(), selectedPayCalendarEntries);
-            if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getPyCalendarGroup())) {
-                taaf.setNextPayCalendarId(tpce.getHrPyCalendarEntriesId());
+            tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getNextPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrCalendarId(), selectedPayCalendarEntries);
+            if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getCalendarName())) {
+                taaf.setNextPayCalendarId(tpce.getHrCalendarEntriesId());
             } else {
                 taaf.setNextPayCalendarId(null);
             }
         }
 
 
-        taaf.setHrPyCalendarId(selectedPayCalendarEntries.getHrPyCalendarId());
-        taaf.setHrPyCalendarEntriesId(selectedPayCalendarEntries.getHrPyCalendarEntriesId());
+        taaf.setHrPyCalendarId(selectedPayCalendarEntries.getHrCalendarId());
+        taaf.setHrPyCalendarEntriesId(selectedPayCalendarEntries.getHrCalendarEntriesId());
         taaf.setPayBeginDate(selectedPayCalendarEntries.getBeginPeriodDateTime());
         taaf.setPayEndDate(selectedPayCalendarEntries.getEndPeriodDateTime());
         taaf.setName(user.getPrincipalName());

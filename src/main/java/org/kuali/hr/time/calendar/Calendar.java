@@ -1,4 +1,4 @@
-package org.kuali.hr.time.paycalendar;
+package org.kuali.hr.time.calendar;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeConstants;
@@ -9,49 +9,86 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class PayCalendar extends PersistableBusinessObjectBase {
+public class Calendar extends PersistableBusinessObjectBase {
 
 	/**
      *
      */
 	private static final long serialVersionUID = 1L;
 
-	private Long hrPyCalendarId;
-	private String pyCalendarGroup;
+	private Long hrCalendarId;
+	private String calendarName;
+	private String calendarDescriptions;
 
 	private String flsaBeginDay;
 	private Time flsaBeginTime;
+	private String calendarTypes;
 	private int flsaBeginDayConstant = -1;
-    private boolean active = true;
 
-	private List<PayCalendarEntries> payCalendarEntries = new ArrayList<PayCalendarEntries>();
+	private List<CalendarEntries> calendarEntries = new ArrayList<CalendarEntries>();
 
-	public PayCalendar() {
+	public Calendar() {
 
 	}
-
-	public Long getHrPyCalendarId() {
-		return hrPyCalendarId;
+	
+	public Long getHrCalendarId() {
+		return hrCalendarId;
 	}
 
-	public void setHrPyCalendarId(Long hrPyCalendarId) {
-		this.hrPyCalendarId = hrPyCalendarId;
+
+
+	public void setHrCalendarId(Long hrCalendarId) {
+		this.hrCalendarId = hrCalendarId;
 	}
 
-	public String getPyCalendarGroup() {
-		return pyCalendarGroup;
+
+
+	public String getCalendarName() {
+		return calendarName;
 	}
 
-	public void setPyCalendarGroup(String pyCalendarGroup) {
-		this.pyCalendarGroup = pyCalendarGroup;
+
+
+	public void setCalendarName(String calendarName) {
+		this.calendarName = calendarName;
 	}
 
-	public List<PayCalendarEntries> getPayCalendarEntries() {
-		return payCalendarEntries;
+
+
+	public String getCalendarTypes() {
+		return calendarTypes;
 	}
 
-	public void setPayCalendarEntries(List<PayCalendarEntries> payCalendarEntries) {
-		this.payCalendarEntries = payCalendarEntries;
+
+
+	public void setCalendarTypes(String calendarTypes) {
+		this.calendarTypes = calendarTypes;
+	}
+
+
+
+	public List<CalendarEntries> getCalendarEntries() {
+		return calendarEntries;
+	}
+
+
+
+	public void setCalendarEntries(List<CalendarEntries> calendarEntries) {
+		this.calendarEntries = calendarEntries;
+	}
+
+
+
+	public void setFlsaBeginDayConstant(int flsaBeginDayConstant) {
+		this.flsaBeginDayConstant = flsaBeginDayConstant;
+	}
+
+	public String getCalendarDescriptions() {
+		return calendarDescriptions;
+	}
+
+	public void setCalendarDescriptions(String calendarDescriptions) {
+		this.calendarDescriptions = calendarDescriptions;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -67,6 +104,14 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 	public void setFlsaBeginDay(String flsaBeginDay) {
 		this.flsaBeginDay = flsaBeginDay;
 		this.setFlsaBeinDayConstant(flsaBeginDay);
+	}
+
+	public Time getFlsaBeginTime() {
+		return flsaBeginTime;
+	}
+
+	public void setFlsaBeginTime(Time flsaBeginTime) {
+		this.flsaBeginTime = flsaBeginTime;
 	}
 
 	/**
@@ -101,22 +146,6 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 		}
 	}
 
-	public Time getFlsaBeginTime() {
-		return flsaBeginTime;
-	}
-
-	public void setFlsaBeginTime(Time flsaBeginTime) {
-		this.flsaBeginTime = flsaBeginTime;
-	}
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
 	/**
 	 * org.joda.time.DateTimeConstants.MONDAY
 	 * ...
@@ -134,9 +163,9 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof PayCalendar) {
-            PayCalendar pc = (PayCalendar)o;
-            return this.getHrPyCalendarId().compareTo(pc.getHrPyCalendarId()) == 0;
+        if (o instanceof Calendar) {
+            Calendar pc = (Calendar)o;
+            return this.getHrCalendarId().compareTo(pc.getHrCalendarId()) == 0;
         } else {
             return false;
         }

@@ -1,7 +1,7 @@
 package org.kuali.hr.time.timesheet;
 
-import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -21,9 +21,9 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 	private String documentId;
 	
 	private Person principal;
-	private PayCalendar payCalendarObj;
+	private Calendar payCalendarObj;
 	
-	private PayCalendarEntries payCalendarEntriesObj;
+	private CalendarEntries payCalendarEntriesObj;
 	
 	public String getPrincipalId() {
 		return principalId;
@@ -58,14 +58,14 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
         this.hrPyCalendarEntriesId = hrPyCalendarEntriesId;
     }
 	
-	public PayCalendarEntries getPayCalendarEntriesObj() {
+	public CalendarEntries getPayCalendarEntriesObj() {
 		if(hrPyCalendarEntriesId != null) {
 			setPayCalendarEntriesObj(TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(hrPyCalendarEntriesId));
 		}
 		return payCalendarEntriesObj;
 	}
 
-	public void setPayCalendarEntriesObj(PayCalendarEntries payCalendarEntriesObj) {
+	public void setPayCalendarEntriesObj(CalendarEntries payCalendarEntriesObj) {
 		this.payCalendarEntriesObj = payCalendarEntriesObj;
 	}
 
@@ -94,11 +94,11 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 		this.documentId = documentId;
 	}
 
-	public PayCalendar getPayCalendarObj() {
+	public Calendar getPayCalendarObj() {
 		return payCalendarObj;
 	}
 
-	public void setPayCalendarObj(PayCalendar payCalendarObj) {
+	public void setPayCalendarObj(Calendar payCalendarObj) {
 		this.payCalendarObj = payCalendarObj;
 	}
 

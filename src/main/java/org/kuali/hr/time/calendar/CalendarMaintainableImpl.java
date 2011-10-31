@@ -1,4 +1,4 @@
-package org.kuali.hr.time.paycalendar;
+package org.kuali.hr.time.calendar;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -13,13 +13,13 @@ import java.util.Map;
  * @author djunk
  * 
  */
-public class PayCalendarMaintainableImpl extends KualiMaintainableImpl {
+public class CalendarMaintainableImpl extends KualiMaintainableImpl {
 
 	/**
      * 
      */
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger(PayCalendarMaintainableImpl.class);
+	private static final Logger LOG = Logger.getLogger(CalendarMaintainableImpl.class);
 
 	@Override
 	public void addNewLineToCollection(String collectionName) {
@@ -40,8 +40,8 @@ public class PayCalendarMaintainableImpl extends KualiMaintainableImpl {
 	@Override
 	public void saveBusinessObject() {
 		super.saveBusinessObject();
-		PayCalendar payCalendar = (PayCalendar) this.getBusinessObject();
-		LOG.info("Saved pay calendar: " + payCalendar.getHrPyCalendarId());
+		Calendar payCalendar = (Calendar) this.getBusinessObject();
+		LOG.info("Saved pay calendar: " + payCalendar.getHrCalendarId());
 	}
 
 }

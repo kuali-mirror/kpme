@@ -1,4 +1,4 @@
-package org.kuali.hr.time.paycalendar;
+package org.kuali.hr.time.calendar;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
@@ -6,7 +6,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 
-public class PayCalendarEntryMaintainableImpl extends KualiMaintainableImpl {
+public class CalendarEntryMaintainableImpl extends KualiMaintainableImpl {
 
 	/**
 	 *
@@ -16,7 +16,7 @@ public class PayCalendarEntryMaintainableImpl extends KualiMaintainableImpl {
 	@Override
 	public PersistableBusinessObject getBusinessObject() {
 		//used to setup the divided time/date fields
-		PayCalendarEntries payEntry = (PayCalendarEntries)super.getBusinessObject();
+		CalendarEntries payEntry = (CalendarEntries)super.getBusinessObject();
 		if(payEntry.getBeginPeriodTime()==null){
 			payEntry.setBeginPeriodDateTime(payEntry.getBeginPeriodDateTime());
 			payEntry.setEndPeriodDateTime(payEntry.getEndPeriodDateTime());
@@ -26,9 +26,9 @@ public class PayCalendarEntryMaintainableImpl extends KualiMaintainableImpl {
 
 	@Override
 	public void saveBusinessObject() {
-		PayCalendarEntries payEntry = (PayCalendarEntries)super.getBusinessObject();
-		PayCalendar pyCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(payEntry.getPyCalendarGroup());
-		payEntry.setHrPyCalendarId(pyCalendar.getHrPyCalendarId());
+		CalendarEntries payEntry = (CalendarEntries)super.getBusinessObject();
+		Calendar pyCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(payEntry.getCalendarName());
+		payEntry.setHrCalendarId(pyCalendar.getHrCalendarId());
 		
 		java.sql.Date beginDate = payEntry.getBeginPeriodDate();
 		java.sql.Time beginTime = payEntry.getBeginPeriodTime();

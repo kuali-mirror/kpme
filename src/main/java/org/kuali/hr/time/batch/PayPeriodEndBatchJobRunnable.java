@@ -5,8 +5,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.clocklog.ClockLog;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
@@ -30,7 +30,7 @@ public class PayPeriodEndBatchJobRunnable extends BatchJobEntryRunnable {
         BatchJobEntry payPeriodEndBatchEntry = TkServiceLocator.getBatchJobEntryService().getBatchJobEntry(getTkBatchJobEntryId());
         // get pay calendar entry object by using id
 //        TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId()
-        PayCalendarEntries pe = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(payPeriodEndBatchEntry.getPayCalendarEntryId());
+        CalendarEntries pe = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(payPeriodEndBatchEntry.getPayCalendarEntryId());
         // get open clock logs by pay calendar entry id
         List<ClockLog> openClockLogs = TkServiceLocator.getClockLogService().getOpenClockLogs(pe);
         // clock out at midnight based on user's timezone

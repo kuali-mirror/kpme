@@ -13,6 +13,8 @@ import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.batch.service.BatchJobEntryService;
 import org.kuali.hr.time.batch.service.BatchJobService;
 import org.kuali.hr.time.cache.CacheManagementService;
+import org.kuali.hr.time.calendar.service.CalendarEntriesService;
+import org.kuali.hr.time.calendar.service.CalendarService;
 import org.kuali.hr.time.clock.location.service.ClockLocationRuleService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
 import org.kuali.hr.time.department.service.DepartmentService;
@@ -26,8 +28,6 @@ import org.kuali.hr.time.holidaycalendar.service.HolidayCalendarService;
 import org.kuali.hr.time.missedpunch.service.MissedPunchService;
 import org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleService;
 import org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleService;
-import org.kuali.hr.time.paycalendar.service.PayCalendarEntriesService;
-import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
 import org.kuali.hr.time.position.service.PositionService;
 import org.kuali.hr.time.principal.calendar.service.PrincipalCalendarService;
@@ -210,11 +210,11 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (PayTypeService)CONTEXT.getBean(TK_PAY_TYPE_SERVICE);
 	}
 
-	public static PayCalendarService getPayCalendarSerivce() {
-		return (PayCalendarService)CONTEXT.getBean(TK_PAY_CALENDAR_SERVICE);
+	public static CalendarService getPayCalendarSerivce() {
+		return (CalendarService)CONTEXT.getBean(TK_PAY_CALENDAR_SERVICE);
 	}
-	public static PayCalendarEntriesService getPayCalendarEntriesSerivce() {
-		return (PayCalendarEntriesService)CONTEXT.getBean(TK_PAY_CALENDAR_ENTRIES_SERVICE);
+	public static CalendarEntriesService getPayCalendarEntriesSerivce() {
+		return (CalendarEntriesService)CONTEXT.getBean(TK_PAY_CALENDAR_ENTRIES_SERVICE);
 	}
 
 	public static PersistenceBrokerTemplate getTkPersistenceBrokerTemplate() {

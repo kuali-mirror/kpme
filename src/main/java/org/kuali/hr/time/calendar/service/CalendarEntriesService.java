@@ -1,11 +1,11 @@
-package org.kuali.hr.time.paycalendar.service;
+package org.kuali.hr.time.calendar.service;
 
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntries;
 
 import java.util.Date;
 import java.util.List;
 
-public interface PayCalendarEntriesService {
+public interface CalendarEntriesService {
 
     /**
      * Method to directly access the PayCalendarEntries object by ID.
@@ -13,7 +13,7 @@ public interface PayCalendarEntriesService {
      * @param hrPyCalendarEntriesId The ID to retrieve.
      * @return a PayCalendarEntries object.
      */
-	public PayCalendarEntries getPayCalendarEntries(Long hrPyCalendarEntriesId);
+	public CalendarEntries getPayCalendarEntries(Long hrCalendarEntriesId);
 
     /**
      * Method to obtain the current PayCalendarEntries object based on the
@@ -22,11 +22,11 @@ public interface PayCalendarEntriesService {
      * @param asOfDate The date reference point.
      * @return the current PayCalendarEntries effective by the asOfDate.
      */
-	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, Date asOfDate);
-    public PayCalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long hrPyCalendarId, Date endPeriodDate);
+	public CalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(Long hrCalendarId, Date asOfDate);
+    public CalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long hrCalendarId, Date endPeriodDate);
 
-    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, PayCalendarEntries pce);
-    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, PayCalendarEntries pce);
+    public CalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long hrCalendarId, CalendarEntries pce);
+    public CalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long hrCalendarId, CalendarEntries pce);
 
     /**
      * Provides a list of PayCalendarEntries that are in the indicated window
@@ -35,5 +35,5 @@ public interface PayCalendarEntriesService {
      * @param asOfDate The central date to query from.
      * @return A list of PayCalendarEntries.
      */
-	public List<PayCalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
+	public List<CalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
 }

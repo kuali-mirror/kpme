@@ -1,8 +1,8 @@
 package org.kuali.hr.time.principal.calendar.validation;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
@@ -38,7 +38,7 @@ public class PrincipalCalendarRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validatePrincipalId(principalCal);
 
 				if (StringUtils.isNotEmpty(principalCal.getPyCalendarGroup())) {
-					PayCalendar payCal = TkServiceLocator
+					Calendar payCal = TkServiceLocator
 							.getPayCalendarSerivce().getPayCalendarByGroup(
 									principalCal.getPyCalendarGroup());
 					if (payCal == null) {

@@ -308,11 +308,11 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <bean id="payCalendarDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDaoSpringOjbImpl">
+    <bean id="calendarDao" class="org.kuali.hr.time.calendar.dao.CalendarDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-     <bean id="payCalendarEntriesDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarEntriesDaoSpringOjbImpl">
+     <bean id="calendarEntriesDao" class="org.kuali.hr.time.calendar.dao.CalendarEntriesDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
@@ -529,12 +529,12 @@
     	<property name="tkRoleGroupDao" ref="tkRoleGroupDao"/>
     </bean>
 
-    <bean id="payCalendarService" class="org.kuali.hr.time.paycalendar.service.PayCalendarServiceImpl">
-    	<property name="payCalendarDao" ref="payCalendarDao"/>
+    <bean id="calendarService" class="org.kuali.hr.time.calendar.service.CalendarServiceImpl">
+    	<property name="calendarDao" ref="calendarDao"/>
     </bean>
 
-    <bean id="payCalendarEntriesService" class="org.kuali.hr.time.paycalendar.service.PayCalendarEntriesServiceImpl">
-    	<property name="payCalendarEntriesDao" ref="payCalendarEntriesDao"/>
+    <bean id="calendarEntriesService" class="org.kuali.hr.time.calendar.service.CalendarEntriesServiceImpl">
+    	<property name="calendarEntriesDao" ref="calendarEntriesDao"/>
     </bean>
 
     <bean id="timesheetDocumentHeaderService" class="org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderServiceImpl">
@@ -654,9 +654,9 @@
             <bean class="org.kuali.hr.time.TkLookupableHelper"/>
         </property>
     </bean>
-    <bean id="payCalendarLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+    <bean id="calendarLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.paycalendar.service.PayCalendarLookupableHelper"/>
+            <bean class="org.kuali.hr.time.calendar.service.CalendarLookupableHelper"/>
         </property>
     </bean>
     <bean id="jobLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
@@ -766,9 +766,9 @@
             <bean class="org.kuali.hr.location.service.LocationLookupableHelper"/>
         </property>
     </bean>
-    <bean id="payCalendarEntriesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+    <bean id="calendarEntriesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.paycalendar.service.PayCalendarEntriesLookupableHelper"/>
+            <bean class="org.kuali.hr.time.calendar.service.CalendarEntriesLookupableHelper"/>
         </property>
     </bean>
     <bean id="payGradeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">

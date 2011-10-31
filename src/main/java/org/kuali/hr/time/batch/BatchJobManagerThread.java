@@ -2,7 +2,7 @@ package org.kuali.hr.time.batch;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
@@ -36,20 +36,20 @@ public class BatchJobManagerThread extends Thread {
 
         while (true) {
             Date asOfDate = TKUtils.getCurrentDate();
-            List<PayCalendarEntries> payCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntryNeedsScheduled(numOfDaysToPoll, asOfDate);
+            List<CalendarEntries> payCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntryNeedsScheduled(numOfDaysToPoll, asOfDate);
 
             LOG.info("Scanning for batch jobs to run: ("+asOfDate.toString()+")");
 
             List<BatchJob> jobsToRun = new ArrayList<BatchJob>();
-            for(PayCalendarEntries payCalendarEntry: payCalendarEntries){
+            for(CalendarEntries payCalendarEntry: payCalendarEntries){
 
-                List<BatchJob> batchJobs = TkServiceLocator.getBatchJobService().getBatchJobs(payCalendarEntry.getHrPyCalendarEntriesId());
+                List<BatchJob> batchJobs = TkServiceLocator.getBatchJobService().getBatchJobs(payCalendarEntry.getHrCalendarEntriesId());
 
 //                batchJobs.clear();
 //                DumbJob dj = new DumbJob();
 //                jobsToRun.add(dj);
                 if ((payCalendarEntry.getBatchInitiateDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.INITIATE)) ) {
-                    BatchJob job = new InitiateBatchJob(payCalendarEntry.getHrPyCalendarEntriesId());
+                    BatchJob job = new InitiateBatchJob(payCalendarEntry.getHrCalendarEntriesId());
                     TkServiceLocator.getBatchJobService().saveBatchJob(job);
                     batchJobs.add(job);
                     jobsToRun.add(job);

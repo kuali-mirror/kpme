@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.*;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.rice.core.config.ConfigContext;
@@ -157,7 +157,7 @@ public class TKUtils {
      * @param timeZone
      * @return
      */
-    public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry, DateTimeZone timeZone) {
+    public static List<Interval> getDaySpanForPayCalendarEntry(CalendarEntries payCalendarEntry, DateTimeZone timeZone) {
         DateTime beginDateTime = payCalendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
         DateTime endDateTime = payCalendarEntry.getEndLocalDateTime().toDateTime(timeZone);
 
@@ -174,15 +174,15 @@ public class TKUtils {
         return dayIntervals;
     }
 
-    public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
+    public static List<Interval> getDaySpanForPayCalendarEntry(CalendarEntries payCalendarEntry) {
         return getDaySpanForPayCalendarEntry(payCalendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
 
-    public static List<Interval> getFullWeekDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
+    public static List<Interval> getFullWeekDaySpanForPayCalendarEntry(CalendarEntries payCalendarEntry) {
         return getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
 
-    public static List<Interval> getFullWeekDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry, DateTimeZone timeZone) {
+    public static List<Interval> getFullWeekDaySpanForPayCalendarEntry(CalendarEntries payCalendarEntry, DateTimeZone timeZone) {
         DateTime beginDateTime = payCalendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
         DateTime endDateTime = payCalendarEntry.getEndLocalDateTime().toDateTime(timeZone);
 

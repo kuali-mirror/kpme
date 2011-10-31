@@ -8,21 +8,21 @@
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PayCalendarEntriesMaintenanceDocument" parent="PayCalendarEntriesMaintenanceDocument-parentBean"/>
+  <bean id="CalendarEntriesMaintenanceDocument" parent="CalendarEntriesMaintenanceDocument-parentBean"/>
 
-  <bean id="PayCalendarEntriesMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		p:businessObjectClass="org.kuali.hr.time.paycalendar.PayCalendarEntries"
-  		p:businessRulesClass="org.kuali.hr.time.paycalendar.validation.PayCalendarEntriesRule"
-   		p:maintainableClass="org.kuali.hr.time.paycalendar.PayCalendarEntryMaintainableImpl"
+  <bean id="CalendarEntriesMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  		p:businessObjectClass="org.kuali.hr.time.calendar.CalendarEntries"
+  		p:businessRulesClass="org.kuali.hr.time.calendar.validation.CalendarEntriesRule"
+   		p:maintainableClass="org.kuali.hr.time.calendar.CalendarEntryMaintainableImpl"
    		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
     <property name="maintainableSections">
       <list>
-        <ref bean="PayCalendarEntriesMaintenanceDocument-PayCalendarEntriesMaintenance"/>
+        <ref bean="CalendarEntriesMaintenanceDocument-CalendarEntriesMaintenance"/>
       </list>
     </property>
 	<property name="lockingKeys">
 			<list>
-				<value>hrPyCalendarEntriesId</value>
+				<value>hrCalendarEntriesId</value>
 			</list>
 	</property>    
     <property name="documentTypeName" value="PayCalendarEntriesDocumentType"/>
@@ -30,12 +30,12 @@
 
   <!-- Maintenance Section Definitions -->
 
-  <bean id="PayCalendarEntriesMaintenanceDocument-PayCalendarEntriesMaintenance" parent="PayCalendarEntriesMaintenanceDocument-PayCalendarEntriesMaintenance-parentBean"/>
-  <bean id="PayCalendarEntriesMaintenanceDocument-PayCalendarEntriesMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Pay Calendar Dates Maintenance"/>
+  <bean id="CalendarEntriesMaintenanceDocument-CalendarEntriesMaintenance" parent="CalendarEntriesMaintenanceDocument-CalendarEntriesMaintenance-parentBean"/>
+  <bean id="CalendarEntriesMaintenanceDocument-CalendarEntriesMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Calendar Dates Maintenance"/>
     <property name="maintainableItems">
       <list>
-     	<bean parent="MaintainableFieldDefinition" p:name="pyCalendarGroup" p:required="true"/>
+     	<bean parent="MaintainableFieldDefinition" p:name="calendarName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="beginPeriodDate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="beginPeriodTime" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="endPeriodDate"    p:required="true"/>

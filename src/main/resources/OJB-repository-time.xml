@@ -363,12 +363,12 @@
         <field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 	</class-descriptor>
 
-	<!--  Pay Calendar -->
+	<!--  Calendar -->
 
-	<class-descriptor class="org.kuali.hr.time.paycalendar.PayCalendarEntries" table="hr_py_calendar_entries_t">
-		<field-descriptor name="hrPyCalendarEntriesId" column="hr_py_calendar_entry_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_py_calendar_entries_s"/>/>
-		<field-descriptor name="hrPyCalendarId"		column="hr_py_calendar_id"		jdbc-type="BIGINT"/>
-		<field-descriptor name="pyCalendarGroup"        column="py_calendar_group" jdbc-type="VARCHAR" length="30" nullable="true" primarykey="true" />
+	<class-descriptor class="org.kuali.hr.time.calendar.CalendarEntries" table="hr_calendar_entries_t">
+		<field-descriptor name="hrCalendarEntriesId" column="hr_calendar_entry_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_calendar_entries_s"/>/>
+		<field-descriptor name="hrCalendarId"		column="hr_calendar_id"		jdbc-type="BIGINT"/>
+		<field-descriptor name="calendarName"        column="calendar_name" jdbc-type="VARCHAR" length="30" nullable="true" primarykey="true" />
 		<field-descriptor name="beginPeriodDateTime"    column="begin_period_date"	jdbc-type="TIMESTAMP" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
 		<field-descriptor name="endPeriodDateTime"      column="end_period_date"	jdbc-type="TIMESTAMP" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
 		<field-descriptor name="batchInitiateDate"    	  column="initiate_date"	jdbc-type="DATE"/>
@@ -384,21 +384,21 @@
 		<field-descriptor name="batchSupervisorApprovalTime" column="supervisor_approval_time"	jdbc-type="TIME"/>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.paycalendar.PayCalendar" table="hr_py_calendar_t">
-		<field-descriptor name="hrPyCalendarId"        column="hr_py_calendar_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_py_calendar_s"/>
-		<field-descriptor name="pyCalendarGroup"        column="py_calendar_group" jdbc-type="VARCHAR" length="30" nullable="true" primarykey="false" />
+	<class-descriptor class="org.kuali.hr.time.calendar.Calendar" table="hr_calendar_t">
+		<field-descriptor name="hrCalendarId"        column="hr_calendar_id" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="hr_calendar_s"/>
+		<field-descriptor name="calendarName"        column="calendar_name" jdbc-type="VARCHAR" length="15" nullable="true" primarykey="false" />
+		<field-descriptor name="calendarDescriptions"        column="calendar_descriptions" jdbc-type="VARCHAR" length="50" nullable="true" primarykey="false" />
 		<field-descriptor name="flsaBeginDay"  column="flsa_begin_day" jdbc-type="VARCHAR" length="9"/>
 		<field-descriptor name="flsaBeginTime" column="flsa_begin_time" jdbc-type="TIME"/>
-		<field-descriptor name="active" column="active" jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-
+		<field-descriptor name="calendarTypes" column="calendar_types" jdbc-type="VARCHAR" length="9"/>
 		<collection-descriptor
-			name="payCalendarEntries"
-			element-class-ref="org.kuali.hr.time.paycalendar.PayCalendarEntries"
+			name="calendarEntries"
+			element-class-ref="org.kuali.hr.time.calendar.CalendarEntries"
 			auto-retrieve="true"
 			auto-update="object"
 			auto-delete="object"
 			>
-			<inverse-foreignkey field-ref="hrPyCalendarId"/>
+			<inverse-foreignkey field-ref="hrCalendarId"/>
 		</collection-descriptor>
 	</class-descriptor>
 

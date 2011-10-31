@@ -5,12 +5,12 @@ import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
-import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -45,7 +45,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         List<Boolean> dayArrangements = new ArrayList<Boolean>();
 
 		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getPayCalendarEntry(), dayArrangements));
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getPayCalendarEntry(), TkServiceLocator.getPayCalendarSerivce().getPayCalendar(timesheetDocument.getPayCalendarEntry().getHrPyCalendarId()), true);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getPayCalendarEntry(), TkServiceLocator.getPayCalendarSerivce().getPayCalendar(timesheetDocument.getPayCalendarEntry().getHrCalendarId()), true);
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
 
         List<EarnGroupSection> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getSummaryHeader().size()+1, dayArrangements, timesheetDocument.getAsOfDate());
@@ -182,7 +182,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 	 * @param payCalEntry
 	 * @return
 	 */
-	protected List<String> getSummaryHeader(PayCalendarEntries payCalEntry){
+	protected List<String> getSummaryHeader(CalendarEntries payCalEntry){
 		List<String> summaryHeader = new ArrayList<String>();
 		int dayCount = 0;
 		Date beginDateTime = payCalEntry.getBeginPeriodDateTime();
@@ -196,7 +196,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         }
 		
 		Date currDateTime = beginDateTime;
-		Calendar cal = GregorianCalendar.getInstance();
+		java.util.Calendar cal = GregorianCalendar.getInstance();
 		
 		while(currDateTime.before(endDateTime)){
 			LocalDateTime currDate = new LocalDateTime(currDateTime);
@@ -207,7 +207,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 				summaryHeader.add("Week "+ ((dayCount / 7)));
 			}
 			cal.setTime(currDateTime);
-			cal.add(Calendar.HOUR, 24);
+			cal.add(java.util.Calendar.HOUR, 24);
 			currDateTime = cal.getTime();
 		}
 		
@@ -256,7 +256,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * for FLSA week boundaries in the pay period.
      */
     @Override
-    public List<String> getHeaderForSummary(PayCalendarEntries cal, List<Boolean> dayArrangements) {
+    public List<String> getHeaderForSummary(CalendarEntries cal, List<Boolean> dayArrangements) {
         List<String> header = new ArrayList<String>();
 
         // Maps directly to joda time day of week constants.
@@ -328,11 +328,11 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @param calEntry Calendar entry we are using for lookup.
      * @return The PayCalendar that owns the provided entry.
      */
-    private PayCalendar getPayCalendarForEntry(PayCalendarEntries calEntry) {
-        PayCalendar cal = null;
+    private Calendar getPayCalendarForEntry(CalendarEntries calEntry) {
+        Calendar cal = null;
 
         if (calEntry != null) {
-            cal = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(calEntry.getHrPyCalendarId());
+            cal = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(calEntry.getHrCalendarId());
         }
 
         return cal;

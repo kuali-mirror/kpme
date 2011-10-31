@@ -1,8 +1,8 @@
 package org.kuali.hr.time.principal.calendar;
 
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
@@ -22,7 +22,7 @@ public class PrincipalCalendar extends HrBusinessObject {
 	private String holidayCalendarGroup;
 	private String timezone;
 	
-	private PayCalendar payCalendar;
+	private Calendar payCalendar;
 	private HolidayCalendar holidayCalendar;
 	private Person person;
 
@@ -89,11 +89,11 @@ public class PrincipalCalendar extends HrBusinessObject {
 		this.timestamp = timestamp;
 	}
 
-	public PayCalendar getPayCalendar() {
+	public Calendar getPayCalendar() {
 		return payCalendar;
 	}
 
-	public void setPayCalendar(PayCalendar payCalendar) {
+	public void setPayCalendar(Calendar payCalendar) {
 		this.payCalendar = payCalendar;
 	}
 

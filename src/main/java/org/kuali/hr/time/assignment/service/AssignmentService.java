@@ -2,7 +2,7 @@ package org.kuali.hr.time.assignment.service;
 
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 import java.sql.Date;
@@ -96,5 +96,5 @@ public interface AssignmentService {
      * @param payCalendarEntry
      * @return
      */
-    public List<Assignment> getAssignmentsByPayEntry(String principalId, PayCalendarEntries payCalendarEntry);
+    public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntries payCalendarEntry);
 }

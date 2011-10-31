@@ -11,8 +11,8 @@ import org.json.simple.JSONValue;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
@@ -54,7 +54,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         TimeDetailActionFormBase tdaf = (TimeDetailActionFormBase) form;
 
         JSONArray errorMsgList = new JSONArray();
-        PayCalendarEntries payCalEntry = tdaf.getTimesheetDocument().getPayCalendarEntry();
+        CalendarEntries payCalEntry = tdaf.getTimesheetDocument().getPayCalendarEntry();
         java.sql.Date asOfDate = payCalEntry.getEndPeriodDate();
 
         if (tdaf.getStartDate() == null) {

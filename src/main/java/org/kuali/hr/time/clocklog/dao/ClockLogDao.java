@@ -2,8 +2,8 @@ package org.kuali.hr.time.clocklog.dao;
 
 import java.util.List;
 
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.clocklog.ClockLog;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 
 public interface ClockLogDao {
 
@@ -36,7 +36,7 @@ public interface ClockLogDao {
 	 * @param payCalendarEntry
 	 * @return
 	 */
-	public List<ClockLog> getOpenClockLogs(PayCalendarEntries payCalendarEntry);
+	public List<ClockLog> getOpenClockLogs(CalendarEntries payCalendarEntry);
 	
 	/**
 	 * Fetch clock log by id

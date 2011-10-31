@@ -1,7 +1,7 @@
-package org.kuali.hr.time.paycalendar.service;
+package org.kuali.hr.time.calendar.service;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.paycalendar.PayCalendar;
+import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class PayCalendarLookupableHelper extends
+public class CalendarLookupableHelper extends
 		KualiLookupableHelperServiceImpl {
 
 	/**
@@ -26,16 +26,16 @@ public class PayCalendarLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		PayCalendar payCalendar = (PayCalendar) businessObject;
+		Calendar payCalendar = (Calendar) businessObject;
 		final String className = this.getBusinessObjectClass().getName();
-		final Long hrPyCalendarId = payCalendar.getHrPyCalendarId();
+		final Long hrCalendarId = payCalendar.getHrCalendarId();
 		HtmlData htmlData = new HtmlData() {
 
 			@Override
 			public String constructCompleteHtmlTag() {
 				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-						+ className + "&methodToCall=start&hrPyCalendarId=" + hrPyCalendarId
-						+ "&pyCalendarGroup=\">view</a>";
+						+ className + "&methodToCall=start&hrCalendarId=" + hrCalendarId
+						+ "&calendarName=\">view</a>";
 			}
 		};
 		customActionUrls.add(htmlData);
@@ -58,7 +58,7 @@ public class PayCalendarLookupableHelper extends
 				flsaBeginTime = new Time(sdFormat.parse(flsaTime).getTime());
 				Iterator itr = objectList.iterator();
 				while(itr.hasNext()){
-					PayCalendar pc = (PayCalendar)itr.next();
+					Calendar pc = (Calendar)itr.next();
 					if(pc.getFlsaBeginTime()!= null && !pc.getFlsaBeginTime().equals(flsaBeginTime)){
 						itr.remove();
 					}

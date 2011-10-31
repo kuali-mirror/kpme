@@ -8,9 +8,9 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
+import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.flsa.FlsaWeek;
-import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestUtils;
@@ -21,11 +21,11 @@ public class TkTimeBlockAggregateTest extends TkTestCase {
 
 	@Test
 	public void testGetFlsaWeeks() throws Exception {
-		PayCalendar cal = new PayCalendar();
+		Calendar cal = new Calendar();
 		cal.setFlsaBeginDay("mo");
 		cal.setFlsaBeginTime(new Time((new DateTime(2012, 3, 1, 0, 0, 0, 0, DateTimeZone.forID("EST")).getMillis())));
 
-		PayCalendarEntries pcd = new PayCalendarEntries();
+		CalendarEntries pcd = new CalendarEntries();
 		pcd.setBeginPeriodDateTime((new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("EST")).toDate()));
 		pcd.setEndPeriodDateTime((new DateTime(2010, 1, 6, 0, 0, 0, 0, DateTimeZone.forID("EST")).toDate()));
 

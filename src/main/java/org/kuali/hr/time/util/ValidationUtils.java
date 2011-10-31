@@ -9,12 +9,12 @@ import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.authorization.DepartmentalRule;
+import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
-import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -26,7 +26,6 @@ import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.sql.Date;
-import java.util.Calendar;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -343,11 +342,11 @@ public class ValidationUtils {
 	/**
 	 * Checks for row presence of a pay calendar
 	 */
-	public static boolean validatePayCalendar(String pyCalendarGroup) {
+	public static boolean validatePayCalendar(String calendarName) {
 		boolean valid = false;
 		Criteria crit = new Criteria();
-        crit.addEqualTo("pyCalendarGroup", pyCalendarGroup);
-        Query query = QueryFactory.newQuery(PayCalendar.class, crit);
+        crit.addEqualTo("calendarName", calendarName);
+        Query query = QueryFactory.newQuery(Calendar.class, crit);
         int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
         valid = (count > 0);
         return valid;
@@ -402,13 +401,13 @@ public class ValidationUtils {
     */
 
    public static boolean validateEffectiveDate(Date effDate){
-	   Calendar startDate = Calendar.getInstance();
-	   startDate.add(Calendar.DATE, -1);
-	   startDate.set(Calendar.SECOND, 0);
-	   startDate.set(Calendar.MINUTE, 0);
-	   startDate.set(Calendar.HOUR_OF_DAY, 0);
-	   Calendar endDate = Calendar.getInstance();
-	   endDate.add(Calendar.YEAR, 1); // One year after the current date
+	   java.util.Calendar startDate = java.util.Calendar.getInstance();
+	   startDate.add(java.util.Calendar.DATE, -1);
+	   startDate.set(java.util.Calendar.SECOND, 0);
+	   startDate.set(java.util.Calendar.MINUTE, 0);
+	   startDate.set(java.util.Calendar.HOUR_OF_DAY, 0);
+	   java.util.Calendar endDate = java.util.Calendar.getInstance();
+	   endDate.add(java.util.Calendar.YEAR, 1); // One year after the current date
 	   return effDate.compareTo(startDate.getTime()) * effDate.compareTo(endDate.getTime()) <= 0;
    }
 

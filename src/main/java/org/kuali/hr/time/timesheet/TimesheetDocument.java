@@ -2,7 +2,7 @@ package org.kuali.hr.time.timesheet;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -22,7 +22,7 @@ public class TimesheetDocument  {
 	private List<Assignment> assignments = new LinkedList<Assignment>();
 	private List<Job> jobs = new LinkedList<Job>();
 	private List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
-	private PayCalendarEntries payCalendarEntry = null; // Was a Hidden NPE, now more exposed // new PayCalendarEntries();
+	private CalendarEntries payCalendarEntry = null; // Was a Hidden NPE, now more exposed // new PayCalendarEntries();
 	private TimeSummary timeSummary = new TimeSummary();
 	private Map<Long, Job> jobNumberToJobMap = new HashMap<Long,Job>();
 
@@ -68,11 +68,11 @@ public class TimesheetDocument  {
 		this.timeBlocks = timeBlocks;
 	}
 
-	public PayCalendarEntries getPayCalendarEntry() {
+	public CalendarEntries getPayCalendarEntry() {
 		return payCalendarEntry;
 	}
 
-	public void setPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
+	public void setPayCalendarEntry(CalendarEntries payCalendarEntry) {
 		this.payCalendarEntry = payCalendarEntry;
 	}
 

@@ -1,24 +1,24 @@
-package org.kuali.hr.time.paycalendar.service;
+package org.kuali.hr.time.calendar.service;
 
-import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.calendar.CalendarEntries;
 
 import java.util.Date;
 
-public interface PayCalendarService {
+public interface CalendarService {
 	/**
 	 * Fetch a pay calendar with the given id
-	 * @param hrPyCalendarId
+	 * @param hrCalendarId
 	 * @return
 	 */
-	public PayCalendar getPayCalendar(Long hrPyCalendarId);
+	public Calendar getPayCalendar(Long hrCalendarId);
 
 	/**
 	 * Fetch a pay calendar by group
-	 * @param pyCalendarGroup
+	 * @param calendarName
 	 * @return
 	 */
-	public PayCalendar getPayCalendarByGroup(String pyCalendarGroup);
+	public Calendar getPayCalendarByGroup(String calendarName);
 
 	/**
      * Use this method to get PayCalendarEntries if you are passing in a "current date"
@@ -30,7 +30,7 @@ public interface PayCalendarService {
 	 * @param currentDate
 	 * @return
 	 */
-	public PayCalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate);
+	public CalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate);
 
     /**
      * A method to use specifically when you have a Timesheet Documents Pay Period
@@ -40,13 +40,13 @@ public interface PayCalendarService {
      * @param payEndDate
      * @return
      */
-    public PayCalendarEntries getPayCalendarDatesByPayEndDate(String principalId, Date payEndDate);
+    public CalendarEntries getPayCalendarDatesByPayEndDate(String principalId, Date payEndDate);
 
 	/**
 	 * Returns the Pay CalendarEntry for previous pay calendar
-	 * @param tkPayCalendarId
+	 * @param tkCalendarId
 	 * @param beginDateCurrentPayCalendar
 	 * @return
 	 */
-	public PayCalendarEntries getPreviousPayCalendarEntry(Long tkPayCalendarId, Date beginDateCurrentPayCalendar);
+	public CalendarEntries getPreviousPayCalendarEntry(Long tkCalendarId, Date beginDateCurrentPayCalendar);
 }

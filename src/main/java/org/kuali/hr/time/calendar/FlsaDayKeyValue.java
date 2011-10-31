@@ -1,4 +1,4 @@
-package org.kuali.hr.time.paycalendar;
+package org.kuali.hr.time.calendar;
 
 import java.util.ArrayList;
 import java.util.List;

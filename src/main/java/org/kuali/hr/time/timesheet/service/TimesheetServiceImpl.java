@@ -4,9 +4,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -83,7 +83,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     @Override
-	public TimesheetDocument openTimesheetDocument(String principalId, PayCalendarEntries payCalendarDates) throws WorkflowException {
+	public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntries payCalendarDates) throws WorkflowException {
 		TimesheetDocument timesheetDocument = null;
 
 		Date begin = payCalendarDates.getBeginPeriodDateTime();
@@ -172,7 +172,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
 		if (tdh != null) {
 			timesheetDocument = new TimesheetDocument(tdh);
-			PayCalendarEntries pce = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getPayEndDate());
+			CalendarEntries pce = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getPayEndDate());
 			loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), pce);
 
             timesheetDocument.setPayCalendarEntry(pce);
@@ -182,7 +182,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		return timesheetDocument;
 	}
 
-	protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, PayCalendarEntries payCalEntry) {
+	protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, CalendarEntries payCalEntry) {
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalEntry);
 		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(principalId, TKUtils.getTimelessDate(payCalEntry.getEndPeriodDate()));
 		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdoc.getDocumentHeader().getDocumentId()));

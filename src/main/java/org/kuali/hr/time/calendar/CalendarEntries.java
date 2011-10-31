@@ -1,4 +1,4 @@
-package org.kuali.hr.time.paycalendar;
+package org.kuali.hr.time.calendar;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
@@ -31,16 +31,16 @@ import java.util.LinkedHashMap;
  * java.util.Date : getBeginPeriodDateTime()
  *
  */
-public class PayCalendarEntries extends PersistableBusinessObjectBase {
+public class CalendarEntries extends PersistableBusinessObjectBase {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
 
-    private Long hrPyCalendarEntriesId;
-    private Long hrPyCalendarId;
-    private String pyCalendarGroup;
+    private Long hrCalendarEntriesId;
+    private Long hrCalendarId;
+    private String calendarName;
 
     private java.util.Date beginPeriodDateTime;
 
@@ -69,7 +69,7 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
     private Date batchSupervisorApprovalDate;
     private Time batchSupervisorApprovalTime;
 
-    private PayCalendar payCalendarObj;
+    private Calendar calendarObj;
 
 
     /**
@@ -92,24 +92,16 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
         return (new DateTime(this.getEndPeriodDateTime())).toLocalDateTime();
     }
 
-    public Long getHrPyCalendarId() {
-        payCalendarObj = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(this.getPyCalendarGroup());
-        if (payCalendarObj != null) {
-            this.setHrPyCalendarId(payCalendarObj.getHrPyCalendarId());
+    public Long getHrCalendarId() {
+        calendarObj = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(this.getCalendarName());
+        if (calendarObj != null) {
+            this.setHrCalendarId(calendarObj.getHrCalendarId());
         }
-        return hrPyCalendarId;
+        return hrCalendarId;
     }
 
-    public void setHrPyCalendarId(Long hrPyCalendarId) {
-        this.hrPyCalendarId = hrPyCalendarId;
-    }
-
-    public String getPyCalendarGroup() {
-        return pyCalendarGroup;
-    }
-
-    public void setPyCalendarGroup(String pyCalendarGroup) {
-        this.pyCalendarGroup = pyCalendarGroup;
+    public void setHrCalendarId(Long hrCalendarId) {
+        this.hrCalendarId = hrCalendarId;
     }
 
     @SuppressWarnings("unchecked")
@@ -123,16 +115,23 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
 
     }
 
-    public Long getHrPyCalendarEntriesId() {
-        return hrPyCalendarEntriesId;
-    }
+    public Long getHrCalendarEntriesId() {
+		return hrCalendarEntriesId;
+	}
 
-    public void setHrPyCalendarEntriesId(Long hrPyCalendarEntriesId) {
-        this.hrPyCalendarEntriesId = hrPyCalendarEntriesId;
-    }
+	public void setHrCalendarEntriesId(Long hrCalendarEntriesId) {
+		this.hrCalendarEntriesId = hrCalendarEntriesId;
+	}
 
+	public String getCalendarName() {
+		return calendarName;
+	}
 
-    public java.util.Date getBeginPeriodDateTime() {
+	public void setCalendarName(String calendarName) {
+		this.calendarName = calendarName;
+	}
+
+	public java.util.Date getBeginPeriodDateTime() {
         return beginPeriodDateTime;
     }
 
@@ -258,11 +257,12 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
         this.batchSupervisorApprovalTime = batchSupervisorApprovalTime;
     }
 
-    public PayCalendar getPayCalendarObj() {
-        return payCalendarObj;
-    }
+	public Calendar getCalendarObj() {
+		return calendarObj;
+	}
 
-    public void setPayCalendarObj(PayCalendar payCalendarObj) {
-        this.payCalendarObj = payCalendarObj;
-    }
+	public void setCalendarObj(Calendar calendarObj) {
+		this.calendarObj = calendarObj;
+	}
+
 }

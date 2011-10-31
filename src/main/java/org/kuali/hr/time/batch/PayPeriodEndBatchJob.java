@@ -2,8 +2,8 @@ package org.kuali.hr.time.batch;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.clocklog.ClockLog;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -21,7 +21,7 @@ public class PayPeriodEndBatchJob extends BatchJob {
 
     @Override
     public void doWork() {
-    	PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(getPayCalendarEntryId());
+    	CalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(getPayCalendarEntryId());
     	List<ClockLog> lstOpenClockLogs = TkServiceLocator.getClockLogService().getOpenClockLogs(payCalendarEntry);
     	for(ClockLog cl : lstOpenClockLogs){
     		populateBatchJobEntry(cl);
