@@ -1852,7 +1852,7 @@
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-29">
-        <insert tableName="hr_py_calendar_entries_s">
+        <insert tableName="hr_calendar_entries_s">
             <column name="ID" valueNumeric="1000"/>
         </insert>
     </changeSet>
