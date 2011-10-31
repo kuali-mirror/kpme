@@ -4,6 +4,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -579,14 +580,22 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
      * These strings are for GUI of Actual time inquiry
     */
     public String getActualBeginTimeString() {
-    	Timestamp ats = new Timestamp(this.getBeginTimeDisplay().getMillis());
-    	Timestamp ts = TkServiceLocator.getGracePeriodService().processGracePeriodRule(ats, this.getBeginDate());
-    	return new DateTime(ts.getTime()).toString(TkConstants.DT_BASIC_TIME_FORMAT);
+    	if(this.getClockLogBeginId() != null) {
+    		ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(this.getClockLogBeginId());
+    		if(cl != null) {
+    			return new DateTime(cl.getTimestamp()).toString(TkConstants.DT_BASIC_TIME_FORMAT);
+    		}
+    	}
+    	return "";
 	}
     
     public String getActualEndTimeString() {
-    	Timestamp ats = new Timestamp(this.getEndTimeDisplay().getMillis());
-    	Timestamp ts = TkServiceLocator.getGracePeriodService().processGracePeriodRule(ats, this.getEndDate());
-    	return new DateTime(ts.getTime()).toString(TkConstants.DT_BASIC_TIME_FORMAT);
+    	if(this.getClockLogEndId() != null) {
+    		ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(this.getClockLogEndId());
+    		if(cl != null) {
+    			return new DateTime(cl.getTimestamp()).toString(TkConstants.DT_BASIC_TIME_FORMAT);
+    		}
+    	}
+    	return "";
 	}
 }

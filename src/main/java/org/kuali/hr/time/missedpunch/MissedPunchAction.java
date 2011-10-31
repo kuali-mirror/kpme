@@ -24,6 +24,7 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         ActionForward act = super.docHandler(mapping, form, request, response);
         MissedPunchForm mpForm = (MissedPunchForm) form;
         MissedPunchDocument mpDoc = (MissedPunchDocument) mpForm.getDocument();
+        mpForm.setDocId(mpDoc.getTimesheetDocumentId());
 
         if (StringUtils.equals(request.getParameter("command"), "initiate")) {
             String tdocId = request.getParameter("tdocid");
@@ -35,7 +36,8 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
         		|| StringUtils.equals(request.getParameter("command"), "displayActionListView") ) {
             Person p = KIMServiceLocator.getPersonService().getPerson(mpDoc.getPrincipalId());
-            TKContext.getUser().setTargetPerson(p);            
+            TKContext.getUser().setTargetPerson(p);
+            mpForm.setDocId(mpDoc.getDocumentNumber());
         }
         
         return act;

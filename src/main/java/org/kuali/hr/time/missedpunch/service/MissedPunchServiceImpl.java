@@ -68,7 +68,8 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(tdoc, missedPunch.getAssignment());
         // Need to build a clock log entry.
         //Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction, String ip) {
-        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(new Timestamp(missedPunch.getActionDate().getTime()),
+        Timestamp ts = new Timestamp(missedPunch.getActionDate().getTime());
+        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(ts, ts,
                 assign,
                 tdoc,
                 missedPunch.getClockAction(),
