@@ -1712,7 +1712,7 @@
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-24">
-        <insert tableName="hr_py_calendar_s">
+        <insert tableName="hr_calendar_s">
             <column name="ID" valueNumeric="1000"/>
         </insert>
     </changeSet>
@@ -1803,19 +1803,22 @@
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-26">
-        <insert tableName="hr_py_calendar_t">
-            <column name="hr_py_calendar_id" valueNumeric="1"/>
-            <column name="py_calendar_group" value="BWN-CAL"/>
+        <insert tableName="hr_calendar_t">
+            <column name="hr_calendar_id" valueNumeric="1"/>
+            <column name="calendar_name" value="BWN-CAL"/>
+            <column name="calendar_types" value="BWN-CAL"/>
+            <column name="calendar_descriptions" value="BWN-CAL Description"/>
             <column name="flsa_begin_day" value="Sun"/>
             <column name="flsa_begin_time" valueDate="00:00:00"/>
             <column name="active" value="Y"/>
         </insert>
-        <insert tableName="hr_py_calendar_t">
-            <column name="hr_py_calendar_id" valueNumeric="2"/>
-            <column name="py_calendar_group" value="BWS-CAL"/>
+        <insert tableName="hr_calendar_t">
+            <column name="hr_calendar_id" valueNumeric="2"/>
+            <column name="calendar_name" value="BWS-CAL"/>
+            <column name="calendar_types" value="BWS-CAL"/>
+            <column name="calendar_descriptions" value="BWS-CAL Description"/>
             <column name="flsa_begin_day" value="Sun"/>
             <column name="flsa_begin_time" valueDate="00:00:00"/>
-            <column name="active" value="Y"/>
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-27">
