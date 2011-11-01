@@ -319,6 +319,14 @@ public class TkConstants {
     	ACTION_AT_MAX_BALANCE.put("NA", "Not Applicable");
     }
     
+    public static final Map<String, String> UNUSED_TIME = new LinkedHashMap<String, String>(3);
+    
+    static {
+    	UNUSED_TIME.put("NUTA", "No Unused Time Allowed");
+    	UNUSED_TIME.put("T", "Transfer");
+    	UNUSED_TIME.put("B", "Bank");
+    }
+    
    public static final Integer PAGE_SIZE = 2;
     public static final String APPROVAL_TABLE_ID = "row";
     

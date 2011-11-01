@@ -23,5 +23,11 @@
 			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<label>LeaveCodeDocumentType</label>
 		</documentType>
+		<documentType>
+			<name>SystemScheduledTimeOffDocumentType</name>
+			<parent>RiceDocument</parent>
+			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<label>SystemScheduledTimeOffDocumentType</label>
+		</documentType>
 	</documentTypes>
 </data>

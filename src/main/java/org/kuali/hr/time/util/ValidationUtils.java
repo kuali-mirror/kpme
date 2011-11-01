@@ -396,11 +396,11 @@ public class ValidationUtils {
    }
    
    /**
-    * Checks for effective date not more than one year in the future or current date
+    * Checks for date not more than one year in the future or current date
     * 
     */
 
-   public static boolean validateEffectiveDate(Date effDate){
+   public static boolean validateOneYearFutureDate(Date date){
 	   java.util.Calendar startDate = java.util.Calendar.getInstance();
 	   startDate.add(java.util.Calendar.DATE, -1);
 	   startDate.set(java.util.Calendar.SECOND, 0);
@@ -408,7 +408,21 @@ public class ValidationUtils {
 	   startDate.set(java.util.Calendar.HOUR_OF_DAY, 0);
 	   java.util.Calendar endDate = java.util.Calendar.getInstance();
 	   endDate.add(java.util.Calendar.YEAR, 1); // One year after the current date
-	   return effDate.compareTo(startDate.getTime()) * effDate.compareTo(endDate.getTime()) <= 0;
+	   return date.compareTo(startDate.getTime()) * date.compareTo(endDate.getTime()) <= 0;
+   }
+   
+   /**
+    * Checks for date in the future
+    * 
+    */
+   
+   public static boolean validateFutureDate(Date date){
+	   java.util.Calendar startDate = java.util.Calendar.getInstance();
+	   startDate.add(java.util.Calendar.DATE, 0);
+	   startDate.set(java.util.Calendar.SECOND, 0);
+	   startDate.set(java.util.Calendar.MINUTE, 0);
+	   startDate.set(java.util.Calendar.HOUR_OF_DAY, 0);
+	   return date.compareTo(startDate.getTime()) > 0;
    }
 
 }

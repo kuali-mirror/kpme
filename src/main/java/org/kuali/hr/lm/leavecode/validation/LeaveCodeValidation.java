@@ -10,8 +10,8 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {	 
 	boolean validateEffectiveDate(Date effectiveDate) {
 		boolean valid = true;
-		if (!ValidationUtils.validateEffectiveDate(effectiveDate)) {
-			this.putFieldError("effectiveDate", "error.effective.date.exceed.year");
+		if (!ValidationUtils.validateOneYearFutureDate(effectiveDate)) {
+			this.putFieldError("effectiveDate", "error.date.exceed.year");
 			valid = false;
 		}
 		return valid;

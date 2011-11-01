@@ -3,6 +3,7 @@ package org.kuali.hr.time.service.base;
 import org.kuali.hr.job.service.JobService;
 import org.kuali.hr.lm.leavecode.service.LeaveCodeService;
 import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
+import org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffService;
 import org.kuali.hr.location.service.LocationService;
 import org.kuali.hr.paygrade.service.PayGradeService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
@@ -70,8 +71,8 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIME_BLOCK_HISTORY_SERVICE = "timeBlockHistoryService";
 	public static final String TK_JOB_SERVICE = "jobService";
 	public static final String TK_PAY_TYPE_SERVICE = "payTypeService";
-	public static final String TK_PAY_CALENDAR_SERVICE = "payCalendarService";
-	public static final String TK_PAY_CALENDAR_ENTRIES_SERVICE = "payCalendarEntriesService";
+	public static final String TK_PAY_CALENDAR_SERVICE = "calendarService";
+	public static final String TK_PAY_CALENDAR_ENTRIES_SERVICE = "calendarEntriesService";
 	public static final String TK_PERSISTENCE_BROKER_TEMPLATE = "tkPersistenceBrokerTemplate";
 	public static final String TK_CACHE_MANAGER_SERVICE = "cacheManager";
 	public static final String TK_WORK_AREA_SERVICE = "workAreaService";
@@ -113,8 +114,9 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String HR_POSITION_SERVICE = "positionService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
     public static final String LM_ACCRUAL_CATEGORY_SERVICE = "accrualCategoryService";
-    public static final String LM_LEAVE_CODE_SERVICE = "lmLeaveCodeService";
-    public static final String LM_LEAVE_PLAN_SERVICE = "lmLeavePlanService";
+    public static final String LM_LEAVE_CODE_SERVICE = "leaveCodeService";
+    public static final String LM_LEAVE_PLAN_SERVICE = "leavePlanService";
+    public static final String LM_SYS_SCH_TIMEOFF_SERVICE = "systemScheduledTimeOffService";
 
 
 	public static void start() throws Exception {
@@ -343,6 +345,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	
 	public static LeavePlanService getLeavePlanService(){
 		return (LeavePlanService)CONTEXT.getBean(LM_LEAVE_PLAN_SERVICE);
+	}
+	
+	public static SystemScheduledTimeOffService getSysSchTimeOffService(){
+		return (SystemScheduledTimeOffService)CONTEXT.getBean(LM_SYS_SCH_TIMEOFF_SERVICE);
 	}
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {

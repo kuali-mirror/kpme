@@ -103,6 +103,29 @@
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
+
+	<!-- System Scheduled Time Off -->
+	<class-descriptor class="org.kuali.hr.lm.timeoff.SystemScheduledTimeOff" table="lm_sys_schd_timeoff_t">
+		<field-descriptor name="lmSystemScheduledTimeOffId"		column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="lm_sys_schd_timeoff_s"/>
+		<field-descriptor name="leavePlan" 			column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" nullable="false" />
+		<field-descriptor name="accrualCategory" 	column="ACCRUAL_CATEGORY" jdbc-type="VARCHAR" length="15" nullable="false"/>
+		<field-descriptor name="leaveCode" 			column="LEAVE_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
+		<field-descriptor name="accruedDate" 		column="ACCR_DT" jdbc-type="DATE" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
+		<field-descriptor name="scheduledTimeOffDate" column="SCH_TIME_OFF_DT" jdbc-type="DATE" nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
+		<field-descriptor name="location" 			column="LOCATION" jdbc-type="VARCHAR" length="15" nullable="false" />
+		<field-descriptor name="descr" 				column="DESCR" jdbc-type="VARCHAR" length="50" nullable="false" />
+		<field-descriptor name="amountofTime" column="AMOUNT_OF_TIME" jdbc-type="BIGINT" length="20" nullable="false" />
+		<field-descriptor name="unusedTime" 				column="UNUSED_TIME" jdbc-type="VARCHAR" length="5" nullable="false" />
+		<field-descriptor name="transferConversionFactor" 		column="TRANS_CONV_FACTOR" jdbc-type="DECIMAL" length="12" nullable="false" />
+		<field-descriptor name="transfertoLeaveCode" column="TRANSFER_TO_LEAVE_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
+		<field-descriptor name="expirationDate" 			column="EXP_DT" jdbc-type="DATE" nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
+		<field-descriptor name="premiumHoliday"			column="PREMIUM_HOLIDAY" jdbc-type="VARCHAR" length="5" nullable="false" />
+		<field-descriptor name="effectiveDate" 		column="EFFDT" jdbc-type="DATE" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
+		<field-descriptor name="timestamp" 			column="timestamp" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
+		<field-descriptor name="active"          	column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>
 	
 </descriptor-repository>
 
