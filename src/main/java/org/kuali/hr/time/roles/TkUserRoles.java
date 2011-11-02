@@ -3,7 +3,7 @@ package org.kuali.hr.time.roles;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
@@ -355,7 +355,7 @@ public class TkUserRoles implements UserRoles {
 
 	@Override
 	public boolean isLeaveManagementCalendar() {
-		PrincipalCalendar principalCal = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(getPrincipalId(), TKUtils.getCurrentDate());
+		PrincipalHRAttributes principalCal = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(getPrincipalId(), TKUtils.getCurrentDate());
 		if(principalCal != null && StringUtils.isNotBlank(principalCal.getLeaveCalendar())){
 			return true;
 		}

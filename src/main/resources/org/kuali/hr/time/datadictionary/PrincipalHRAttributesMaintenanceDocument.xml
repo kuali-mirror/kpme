@@ -7,16 +7,16 @@
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
 
-	<bean id="PrincipalCalendarMaintenanceDocument" parent="PrincipalCalendarMaintenanceDocument-parentBean" />
+	<bean id="PrincipalHRAttributesMaintenanceDocument" parent="PrincipalHRAttributesMaintenanceDocument-parentBean" />
 
-	<bean id="PrincipalCalendarMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.principal.calendar.PrincipalCalendar"
-		p:businessRulesClass="org.kuali.hr.time.principal.calendar.validation.PrincipalCalendarRule"
-		p:maintainableClass="org.kuali.hr.time.principal.calendar.service.PrincipalCalendarMaintainableImpl"
+	<bean id="PrincipalHRAttributesMaintenanceDocument-parentBean" abstract="true"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.principal.PrincipalHRAttributes"
+		p:businessRulesClass="org.kuali.hr.time.principal.validation.PrincipalHRAttributesRule"
+		p:maintainableClass="org.kuali.hr.time.principal.service.PrincipalHRAttributesMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
 		<property name="maintainableSections">
 			<list>
-				<ref bean="PrincipalCalendarMaintenanceDocument-PrincipalCalendarMaintenance" />
+				<ref bean="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance" />
 			</list>
 		</property>
 		<property name="lockingKeys">
@@ -24,14 +24,14 @@
 				<value>principalId</value>
 			</list>
 		</property>
-		<property name="documentTypeName" value="PrincipalCalendarMaintenanceDocumentType" />
+		<property name="documentTypeName" value="PrincipalHRAttributesMaintenanceDocumentType" />
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
 
-	<bean id="PrincipalCalendarMaintenanceDocument-PrincipalCalendarMaintenance" parent="PrincipalCalendarMaintenanceDocument-PrincipalCalendarMaintenance-parentBean" />
+	<bean id="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance" parent="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance-parentBean" />
 
-	<bean id="PrincipalCalendarMaintenanceDocument-PrincipalCalendarMaintenance-parentBean"
+	<bean id="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
 		<property name="title" value="Principal Calendar Maintenance" />
 		<property name="maintainableItems">
@@ -39,9 +39,14 @@
 			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="name" p:noLookup="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="pyCalendarGroup" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="calendarName"/>
+				<bean parent="MaintainableFieldDefinition" p:name="calendarTypes"  p:noLookup="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="serviceDate" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="holidayCalendarGroup" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="timezone" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="fmlaEligible" />
+				<bean parent="MaintainableFieldDefinition" p:name="workmansCompEligible" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
 			</list>
 		</property>

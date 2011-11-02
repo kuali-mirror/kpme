@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="PrincipalHRAttributes" parent="PrincipalHRAttributes-parentBean" />
+
+	<bean id="PrincipalHRAttributes-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.time.principal.PrincipalHRAttributes" />
+		<property name="titleAttribute" value="principalId" />
+		<property name="objectLabel" value="principalId" />
+		<property name="inquiryDefinition">
+			<ref bean="PrincipalHRAttributes-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="PrincipalHRAttributes-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>				
+				<ref bean="PrincipalHRAttributes-principalId" />
+				<ref bean="PrincipalHRAttributes-name" />
+				<ref bean="PrincipalHRAttributes-calendarName" />
+				<ref bean="PrincipalHRAttributes-calendarTypes" />
+				<ref bean="PrincipalHRAttributes-leavePlan" />
+				<ref bean="PrincipalHRAttributes-serviceDate" />
+				<ref bean="PrincipalHRAttributes-fmlaEligible" />
+				<ref bean="PrincipalHRAttributes-workmansCompEligible" />
+				<ref bean="PrincipalHRAttributes-holidayCalendarGroup" />
+				<ref bean="PrincipalHRAttributes-timezone" />
+				<ref bean="PrincipalHRAttributes-effectiveDate" />
+				<ref bean="PrincipalHRAttributes-timestamp" />
+				<ref bean="PrincipalHRAttributes-active"/>
+			</list>
+		</property>
+		<property name="relationships">
+  		<list>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="person"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
+                </list>
+              </property>
+            </bean>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="calendar"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarName" p:targetName="calendarName"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarTypes" p:targetName="calendarTypes"/>
+                </list>
+              </property>
+            </bean>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="holidayCalendar"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="holidayCalendarGroup" p:targetName="holidayCalendarGroup"/>
+                </list>
+              </property>
+            </bean>      
+            <bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="leavePlanObj" />
+				<property name="primitiveAttributes">
+					<list>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
+					</list>
+				</property>
+			</bean>
+        </list>
+    </property>  		
+	</bean>
+
+	<bean id="PrincipalHRAttributes-principalId" parent="PrincipalHRAttributes-principalId-parentBean" />
+	<bean id="PrincipalHRAttributes-principalId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Principal Id" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+		<property name="name" value="principalId" />
+		<property name="label" value="Principal Id" />
+	</bean>
+	
+ 	<bean id="PrincipalHRAttributes-name" parent="PrincipalHRAttributes-name-parentBean"/>
+ 	<bean id="PrincipalHRAttributes-name-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="shortLabel" value="Name"/>
+    	<property name="maxLength" value="30" />
+    	<property name="control">
+      		<bean parent="LookupReadonlyControlDefinition" p:size="30" />
+    	</property>
+    	<property name="name" value="name"/>
+    	<property name="label" value="Name"/>
+  	</bean>
+  
+	<bean id="PrincipalHRAttributes-calendarName" parent="PrincipalHRAttributes-calendarName-parentBean" />
+	<bean id="PrincipalHRAttributes-calendarName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Calendar Name" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+		<property name="name" value="calendarName" />
+		<property name="label" value="Calendar Name" />
+	</bean>
+	
+	<bean id="PrincipalHRAttributes-calendarTypes" parent="PrincipalHRAttributes-calendarTypes-parentBean"/>
+ 	<bean id="PrincipalHRAttributes-calendarTypes-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="shortLabel" value="Calendar Types"/>
+    	<property name="maxLength" value="20" />
+    	<property name="control">
+      		<bean parent="LookupReadonlyControlDefinition" p:size="20" />
+    	</property>
+    	<property name="name" value="calendarTypes"/>
+    	<property name="label" value="Calendar Types"/>
+  	</bean>
+  	
+  	<!-- 	leave plan -->
+	<bean id="PrincipalHRAttributes-leavePlan" parent="PrincipalHRAttributes-leavePlan-parentBean" />
+	<bean id="PrincipalHRAttributes-leavePlan-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Leave Plan" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="leavePlan" />
+		<property name="label" value="Leave Plan" />
+	</bean>
+		
+	<bean id="PrincipalHRAttributes-serviceDate" parent="PrincipalHRAttributes-serviceDate-parentBean" />
+	<bean id="PrincipalHRAttributes-serviceDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Service Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="serviceDate" />
+		<property name="label" value="Service Date" />
+	</bean>
+	
+	<bean id="PrincipalHRAttributes-holidayCalendarGroup" parent="PrincipalHRAttributes-holidayCalendarGroup-parentBean" />
+	<bean id="PrincipalHRAttributes-holidayCalendarGroup-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Holiday Calendar Group" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+		<property name="name" value="holidayCalendarGroup" />
+		<property name="label" value="Holiday Calendar Group" />
+	</bean>
+	
+	<bean id="PrincipalHRAttributes-timezone" parent="PrincipalHRAttributes-timezone-parentBean" />
+	<bean id="PrincipalHRAttributes-timezone-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timezone" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.timezone.service.TimeZoneKeyValue" p:includeKeyInLabel="false"/>
+		</property>
+		<property name="name" value="timezone" />
+		<property name="label" value="Timezone" />
+	</bean>
+	
+	<!-- timestamp -->
+	<bean id="PrincipalHRAttributes-timestamp" parent="PrincipalHRAttributes-timestamp-parentBean" />
+	<bean id="PrincipalHRAttributes-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+	
+	<bean id="PrincipalHRAttributes-effectiveDate" parent="PrincipalHRAttributes-effectiveDate-parentBean" />
+	<bean id="PrincipalHRAttributes-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+	
+ 	<bean id="PrincipalHRAttributes-active" parent="PrincipalHRAttributes-active-parentBean"/>
+  	<bean id="PrincipalHRAttributes-active-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="shortLabel" value="Active"/>
+    	<property name="control">
+      		<bean parent="CheckboxControlDefinition"/>
+    	</property>
+    	<property name="name" value="active"/>
+    	<property name="label" value="Active"/>
+    	<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  	</bean>
+	
+ 	<bean id="PrincipalHRAttributes-fmlaEligible" parent="PrincipalHRAttributes-fmlaEligible-parentBean"/>
+  	<bean id="PrincipalHRAttributes-fmlaEligible-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="shortLabel" value="FMLA Eligible"/>
+    	<property name="control">
+      		<bean parent="CheckboxControlDefinition"/>
+    	</property>
+    	<property name="name" value="fmlaEligible"/>
+    	<property name="label" value="FMLA Eligible"/>
+    	<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  	</bean>
+	
+ 	<bean id="PrincipalHRAttributes-workmansCompEligible" parent="PrincipalHRAttributes-workmansCompEligible-parentBean"/>
+  	<bean id="PrincipalHRAttributes-workmansCompEligible-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="shortLabel" value="Workman's Comp Eligible"/>
+    	<property name="control">
+      		<bean parent="CheckboxControlDefinition"/>
+    	</property>
+    	<property name="name" value="workmansCompEligible"/>
+    	<property name="label" value="Workman's Comp Eligible"/>
+    	<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  	</bean>
+	<!--  Inquiry Definitions  -->
+  
+  	<bean id="PrincipalHRAttributes-inquiryDefinition" parent="PrincipalHRAttributes-inquiryDefinition-parentBean" />
+
+	<bean id="PrincipalHRAttributes-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="principalId" />
+							<bean parent="FieldDefinition" p:attributeName="name" />
+							<bean parent="FieldDefinition" p:attributeName="calendarName" />
+							<bean parent="FieldDefinition" p:attributeName="calendarTypes" />
+							<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+							<bean parent="FieldDefinition" p:attributeName="serviceDate" />
+							<bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup" />
+							<bean parent="FieldDefinition" p:attributeName="timezone" />
+							<bean parent="FieldDefinition" p:attributeName="fmlaEligible" />
+							<bean parent="FieldDefinition" p:attributeName="workmansCompEligible" />
+						</list>
+					</property>
+					<property name="title" value="PrincipalHRAttributes" />
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false"/>
+		<property name="title" value="PrincipalHRAttributes Inquiry" />
+	</bean>
+
+	<!-- Look up Definitions  -->
+
+	<bean id="PrincipalHRAttributes-lookupDefinition" parent="PrincipalHRAttributes-lookupDefinition-parentBean" />
+	<bean id="PrincipalHRAttributes-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupableID" value="principalHRAttributesLookupable"></property>
+		<property name="lookupFields">
+			<list>				
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>				
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="calendarName" />
+				<bean parent="FieldDefinition" p:attributeName="holidayCalendarGroup" />
+				<bean parent="FieldDefinition" p:attributeName="timezone" />				
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="title" value="Principal HR Attributes Lookup" />
+	</bean>
+
+</beans>

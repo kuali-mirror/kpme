@@ -1,16 +1,16 @@
-package org.kuali.hr.time.principal.calendar.service;
+package org.kuali.hr.time.principal.service;
 
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-public class PrincipalCalendarMaintainableImpl extends KualiMaintainableImpl {
+public class PrincipalHRAttributesMaintainableImpl extends KualiMaintainableImpl {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("rawtypes")
@@ -33,9 +33,9 @@ public class PrincipalCalendarMaintainableImpl extends KualiMaintainableImpl {
 
 	@Override
 	public void saveBusinessObject() {
-		PrincipalCalendar prinCal = (PrincipalCalendar) this.getBusinessObject();
-		prinCal.setTimestamp(null);
-		KNSServiceLocator.getBusinessObjectService().save(prinCal);
+		PrincipalHRAttributes principalHRAttr = (PrincipalHRAttributes) this.getBusinessObject();
+		principalHRAttr.setTimestamp(null);
+		KNSServiceLocator.getBusinessObjectService().save(principalHRAttr);
 	}
 	
 	

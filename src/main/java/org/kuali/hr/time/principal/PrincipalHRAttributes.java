@@ -1,5 +1,6 @@
-package org.kuali.hr.time.principal.calendar;
+package org.kuali.hr.time.principal;
 
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
@@ -10,7 +11,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-public class PrincipalCalendar extends HrBusinessObject {
+public class PrincipalHRAttributes extends HrBusinessObject {
 
 	/**
 	 * 
@@ -18,13 +19,19 @@ public class PrincipalCalendar extends HrBusinessObject {
 	private static final long serialVersionUID = 1L;
 	private String principalId;
 	private String leaveCalendar;
-	private String pyCalendarGroup;
+	private String calendarName;
+	private String calendarTypes;
+	private String leavePlan;
+	private Date serviceDate;
+	private boolean fmlaEligible;
+	private boolean workmansCompEligible;
 	private String holidayCalendarGroup;
 	private String timezone;
 	
-	private Calendar payCalendar;
+	private Calendar calendar;
 	private HolidayCalendar holidayCalendar;
 	private Person person;
+	private LeavePlan leavePlanObj;
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -49,28 +56,52 @@ public class PrincipalCalendar extends HrBusinessObject {
 	    return (person != null) ? person.getName() : "";
 	}
 
-	public String getPyCalendarGroup() {
-		return pyCalendarGroup;
+	public String getCalendarName() {
+		return calendarName;
 	}
 
-	public void setPyCalendarGroup(String pyCalendarGroup) {
-		this.pyCalendarGroup = pyCalendarGroup;
+	public void setCalendarName(String calendarName) {
+		this.calendarName = calendarName;
 	}
 
-	public String getHolidayCalendarGroup() {
-		return holidayCalendarGroup;
+	public String getCalendarTypes() {
+		return calendarTypes;
 	}
 
-	public void setHolidayCalendarGroup(String holidayCalendarGroup) {
-		this.holidayCalendarGroup = holidayCalendarGroup;
+	public void setCalendarTypes(String calendarTypes) {
+		this.calendarTypes = calendarTypes;
 	}
 
-	public String getTimezone() {
-		return timezone;
+	public String getLeavePlan() {
+		return leavePlan;
 	}
 
-	public void setTimezone(String timezone) {
-		this.timezone = timezone;
+	public void setLeavePlan(String leavePlan) {
+		this.leavePlan = leavePlan;
+	}
+
+	public Date getServiceDate() {
+		return serviceDate;
+	}
+
+	public void setServiceDate(Date serviceDate) {
+		this.serviceDate = serviceDate;
+	}
+
+	public boolean isFmlaEligible() {
+		return fmlaEligible;
+	}
+
+	public void setFmlaEligible(boolean fmlaEligible) {
+		this.fmlaEligible = fmlaEligible;
+	}
+
+	public boolean isWorkmansCompEligible() {
+		return workmansCompEligible;
+	}
+
+	public void setWorkmansCompEligible(boolean workmansCompEligible) {
+		this.workmansCompEligible = workmansCompEligible;
 	}
 
 	public Date getEffectiveDate() {
@@ -88,13 +119,21 @@ public class PrincipalCalendar extends HrBusinessObject {
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
-
-	public Calendar getPayCalendar() {
-		return payCalendar;
+	
+	public String getHolidayCalendarGroup() {
+		return holidayCalendarGroup;
 	}
 
-	public void setPayCalendar(Calendar payCalendar) {
-		this.payCalendar = payCalendar;
+	public void setHolidayCalendarGroup(String holidayCalendarGroup) {
+		this.holidayCalendarGroup = holidayCalendarGroup;
+	}
+
+	public String getTimezone() {
+		return timezone;
+	}
+
+	public void setTimezone(String timezone) {
+		this.timezone = timezone;
 	}
 
 	public HolidayCalendar getHolidayCalendar() {
@@ -105,12 +144,28 @@ public class PrincipalCalendar extends HrBusinessObject {
 		this.holidayCalendar = holidayCalendar;
 	}
 
+	public Calendar getCalendar() {
+		return calendar;
+	}
+
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
+	}
+
 	public Person getPerson() {
 		return person;
 	}
 
 	public void setPerson(Person person) {
 		this.person = person;
+	}
+
+	public LeavePlan getLeavePlanObj() {
+		return leavePlanObj;
+	}
+
+	public void setLeavePlanObj(LeavePlan leavePlanObj) {
+		this.leavePlanObj = leavePlanObj;
 	}
 
 	public Boolean getActive() {
@@ -123,7 +178,7 @@ public class PrincipalCalendar extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		return principalId + "_" + pyCalendarGroup + "_" + holidayCalendarGroup;
+		return principalId + "_" + calendarName;
 	}
 
 	@Override

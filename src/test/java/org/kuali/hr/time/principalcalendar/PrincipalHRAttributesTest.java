@@ -7,7 +7,7 @@ import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class PrincipalCalendarTest extends TkTestCase {
+public class PrincipalHRAttributesTest extends TkTestCase {
 
 	@Test
 	public void testPrincipalCalendarTest() throws Exception{

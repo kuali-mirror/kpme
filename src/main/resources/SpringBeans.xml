@@ -381,7 +381,7 @@
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <bean id="principalCalendarDao" class="org.kuali.hr.time.principal.calendar.dao.PrincipalCalendarDaoImpl">
+    <bean id="principalHRAttributesDao" class="org.kuali.hr.time.principal.dao.PrincipalHRAttributesDaoImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
@@ -576,8 +576,8 @@
     	<property name="timeHourDetailDao" ref="timeHourDetailDao"/>
     </bean>
 
-    <bean id="principalCalendarService" class="org.kuali.hr.time.principal.calendar.service.PrincipalCalendarServiceImpl">
-    	<property name="principalCalendarDao" ref="principalCalendarDao"/>
+    <bean id="principalHRAttributesService" class="org.kuali.hr.time.principal.service.PrincipalHRAttributesServiceImpl">
+    	<property name="principalHRAttributesDao" ref="principalHRAttributesDao"/>
     </bean>
 
     <bean id="holidayCalendarService" class="org.kuali.hr.time.holidaycalendar.service.HolidayCalendarServiceImpl">
@@ -784,9 +784,9 @@
             <bean class="org.kuali.hr.paygrade.service.PayGradeLookupableHelper"/>
         </property>
     </bean>
-    <bean id="principalCalendarLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+    <bean id="principalHRAttributesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.principal.calendar.service.PrincipalCalendarLookupableHelper"/>
+            <bean class="org.kuali.hr.time.principal.service.PrincipalHRAttributesLookupableHelper"/>
         </property>
     </bean>
     <bean id="timeOffAccrualLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">

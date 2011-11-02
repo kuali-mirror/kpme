@@ -16,7 +16,7 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
-import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -71,12 +71,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         // Get the pay calendars
         Set<Calendar> payCals = new HashSet<Calendar>();
         for (String pid : principals) {
-            PrincipalCalendar pc = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(pid, currentDate);
+            PrincipalHRAttributes pc = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(pid, currentDate);
             if (pc == null)
-                pc = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(pid, windowDate);
+                pc = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(pid, windowDate);
 
             if (pc != null) {
-                payCals.add(pc.getPayCalendar());
+                payCals.add(pc.getCalendar());
             } else {
                 LOG.warn("PrincipalCalendar null for principal: '" + pid + "'");
             }
@@ -124,12 +124,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         // Get the pay calendars
         Set<Calendar> payCals = new HashSet<Calendar>();
         for (String pid : principals) {
-            PrincipalCalendar pc = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(pid, currentDate);
+            PrincipalHRAttributes pc = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(pid, currentDate);
             if (pc == null)
-                pc = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(pid, windowDate);
+                pc = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(pid, windowDate);
 
             if (pc != null) {
-                payCals.add(pc.getPayCalendar());
+                payCals.add(pc.getCalendar());
             } else {
                 LOG.warn("PrincipalCalendar null for principal: '" + pid + "'");
             }
@@ -161,7 +161,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 String principalId = assign.getPrincipalId();
                 TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
                 if (tdh != null) {
-                    String pyCalendarGroup = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, payBeginDate).getPyCalendarGroup();
+                    String pyCalendarGroup = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(principalId, payBeginDate).getCalendarName();
                     pcg.add(pyCalendarGroup);
                 }
             }
@@ -494,8 +494,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
             }
 
             for (String principalId : principalIds) {
-                PrincipalCalendar principalCal = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, asOfDate);
-                if (StringUtils.equals(principalCal.getPyCalendarGroup(), calGroup)) {
+                PrincipalHRAttributes principalCal = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+                if (StringUtils.equals(principalCal.getCalendarName(), calGroup)) {
                     return true;
                 }
             }
@@ -539,9 +539,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 //        }
         if (!activeAssignments.isEmpty()) {
             for (Assignment assign : activeAssignments) {
-                PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(assign.getPrincipalId(), payEndDate);
+                PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(assign.getPrincipalId(), payEndDate);
                 //TODO remove this comparision sometiem
-                if (!principalIds.contains(assign.getPrincipalId()) && StringUtils.equals(principalCalendar.getPyCalendarGroup(), calGroup)) {
+                if (!principalIds.contains(assign.getPrincipalId()) && StringUtils.equals(principalCalendar.getCalendarName(), calGroup)) {
                     principalIds.add(assign.getPrincipalId());
                 }
             }

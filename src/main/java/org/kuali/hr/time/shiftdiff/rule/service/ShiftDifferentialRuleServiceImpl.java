@@ -5,7 +5,7 @@ import org.joda.time.*;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.calendar.CalendarEntries;
-import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.shiftdiff.rule.dao.ShiftDifferentialRuleDao;
@@ -34,10 +34,10 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 	private Map<Long,List<ShiftDifferentialRule>> getJobNumberToShiftRuleMap(TimesheetDocument timesheetDocument) {
 		Map<Long,List<ShiftDifferentialRule>> jobNumberToShifts = new HashMap<Long,List<ShiftDifferentialRule>>();
-		PrincipalCalendar principalCal = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(timesheetDocument.getPrincipalId(),timesheetDocument.getPayCalendarEntry().getEndPeriodDate());
+		PrincipalHRAttributes principalCal = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(timesheetDocument.getPrincipalId(),timesheetDocument.getPayCalendarEntry().getEndPeriodDate());
 
 		for (Job job : timesheetDocument.getJobs()) {
-			List<ShiftDifferentialRule> shiftDifferentialRules = getShiftDifferentalRules(job.getLocation(),job.getHrSalGroup(),job.getPayGrade(),principalCal.getPyCalendarGroup(),
+			List<ShiftDifferentialRule> shiftDifferentialRules = getShiftDifferentalRules(job.getLocation(),job.getHrSalGroup(),job.getPayGrade(),principalCal.getCalendarName(),
 					TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime()));
 			if (shiftDifferentialRules.size() > 0)
 				jobNumberToShifts.put(job.getJobNumber(), shiftDifferentialRules);

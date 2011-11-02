@@ -1,14 +1,14 @@
-package org.kuali.hr.time.principal.calendar.service;
+package org.kuali.hr.time.principal.service;
 
 import java.util.List;
 
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
-import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 
-public class PrincipalCalendarLookupableHelper extends
+public class PrincipalHRAttributesLookupableHelper extends
 		HrEffectiveDateActiveLookupableHelper {
 	/**
 	 * 
@@ -22,9 +22,9 @@ public class PrincipalCalendarLookupableHelper extends
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
-			PrincipalCalendar principalCalendar = (PrincipalCalendar) businessObject;
+			PrincipalHRAttributes principalHRAttr = (PrincipalHRAttributes) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final String principalId = principalCalendar.getPrincipalId();
+			final String principalId = principalHRAttr.getPrincipalId();
 			HtmlData htmlData = new HtmlData() {
 
 				@Override

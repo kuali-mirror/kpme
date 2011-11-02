@@ -516,13 +516,21 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1317396430027-33">
-        <createTable tableName="hr_principal_calendar_t">
+        <createTable tableName="hr_principal_hr_attributes_t">
             <column defaultValue="" name="principal_id" type="VARCHAR(40)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column defaultValue="" name="py_calendar_group" type="VARCHAR(45)">
+            <column defaultValue="" name="calendar_name" type="VARCHAR(15)">
                 <constraints nullable="false"/>
             </column>
+            <column name="leave_plan" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueDate="0002-11-30" name="service_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="N" name="fmla_eligible" type="VARCHAR(1)"/>
+            <column defaultValue="N" name="worksman_eligible" type="VARCHAR(1)"/>
             <column name="holiday_calendar_group" type="VARCHAR(45)"/>
             <column name="timezone" type="VARCHAR(30)"/>
             <column defaultValueDate="0002-11-30" name="EFFDT" type="DATE">

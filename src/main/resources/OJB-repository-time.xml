@@ -686,15 +686,19 @@
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.principal.calendar.PrincipalCalendar" table="hr_principal_calendar_t">
+	<class-descriptor class="org.kuali.hr.time.principal.PrincipalHRAttributes" table="hr_principal_hr_attributes_t">
 		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="true" />
 		<field-descriptor name="leaveCalendar"   column="leave_calendar" jdbc-type="VARCHAR" length="30"/>
-		<field-descriptor name="pyCalendarGroup"   column="py_calendar_group" jdbc-type="VARCHAR" length="30"/>
+		<field-descriptor name="calendarName"   column="calendar_name" jdbc-type="VARCHAR" length="15"/>
+		<field-descriptor name="leavePlan"   column="leave_plan" jdbc-type="VARCHAR" length="15" nullable="false"/>
 		<field-descriptor name="holidayCalendarGroup" column="holiday_calendar_group" jdbc-type="VARCHAR" length="30"/>
 		<field-descriptor name="timezone" column="timezone" jdbc-type="VARCHAR" length="10"/>
 		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+		<field-descriptor name="serviceDate"   column="service_date" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" nullable="false"/>
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          column="active"      jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="fmlaEligible"    column="fmla_eligible"      jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="workmansCompEligible" column="worksman_eligible"      jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>

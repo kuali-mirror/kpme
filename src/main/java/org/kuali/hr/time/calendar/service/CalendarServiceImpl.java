@@ -6,7 +6,7 @@ import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.dao.CalendarDao;
 import org.kuali.hr.time.paytype.PayType;
-import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -77,11 +77,11 @@ public class CalendarServiceImpl implements CalendarService {
             PayType payType = job.getPayTypeObj();
             if (payType == null)
                 throw new RuntimeException("Null pay type on Job in getPayEndDate");
-            PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, date);
+            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(principalId, date);
             if(principalCalendar == null){
                 throw new RuntimeException("Null principal calendar for principalid "+principalId);
             }
-            pcal = principalCalendar.getPayCalendar();
+            pcal = principalCalendar.getCalendar();
             if (pcal == null)
                 throw new RuntimeException("Null pay calendar on principal calendar in getPayEndDate");
 

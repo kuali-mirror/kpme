@@ -1,4 +1,4 @@
-package org.kuali.hr.time.principal.calendar.dao;
+package org.kuali.hr.time.principal.dao;
 
 import java.util.Date;
 import java.util.List;
@@ -7,15 +7,15 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class PrincipalCalendarDaoImpl extends PersistenceBrokerDaoSupport implements PrincipalCalendarDao {
+public class PrincipalHRAttributesDaoImpl extends PersistenceBrokerDaoSupport implements PrincipalHRAttributesDao {
 
 	@Override
-	public PrincipalCalendar getPrincipalCalendar(String principalId,
+	public PrincipalHRAttributes getPrincipalCalendar(String principalId,
 			Date asOfDate) {
-		PrincipalCalendar pc = null;
+		PrincipalHRAttributes pc = null;
 
 		Criteria root = new Criteria();
 		Criteria effdt = new Criteria();
@@ -23,12 +23,12 @@ public class PrincipalCalendarDaoImpl extends PersistenceBrokerDaoSupport implem
 
 		effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(PrincipalCalendar.class, effdt);
+		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
 		timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(PrincipalCalendar.class, timestamp);
+		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 
 		root.addEqualTo("principalId", principalId);
@@ -39,26 +39,26 @@ public class PrincipalCalendarDaoImpl extends PersistenceBrokerDaoSupport implem
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
 		
-		Query query = QueryFactory.newQuery(PrincipalCalendar.class, root);
+		Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
 		Object obj = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 
 		if (obj != null) {
-			pc = (PrincipalCalendar) obj;
+			pc = (PrincipalHRAttributes) obj;
 		}
 
 		return pc;
 	}
 
 	@Override
-	public void saveOrUpdate(PrincipalCalendar principalCalendar) {
+	public void saveOrUpdate(PrincipalHRAttributes principalCalendar) {
 		this.getPersistenceBrokerTemplate().store(principalCalendar);
 		
 	}
 
 	@Override
-	public void saveOrUpdate(List<PrincipalCalendar> lstPrincipalCalendar) {
+	public void saveOrUpdate(List<PrincipalHRAttributes> lstPrincipalCalendar) {
 		if(lstPrincipalCalendar != null){
-			for(PrincipalCalendar principalCal : lstPrincipalCalendar){
+			for(PrincipalHRAttributes principalCal : lstPrincipalCalendar){
 				this.getPersistenceBrokerTemplate().store(principalCal);
 			}
 		}
