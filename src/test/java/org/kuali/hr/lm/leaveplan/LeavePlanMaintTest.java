@@ -22,7 +22,7 @@ public class LeavePlanMaintTest extends TkTestCase {
 			.getInstance().getTimeInMillis());
 
 	@Test
-	public void testAccuralCategoryMaint() throws Exception {
+	public void testLeavePlanMaint() throws Exception {
 		HtmlPage leavePlanLookup = HtmlUnitUtil
 				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_PLAN_MAINT_URL);
 		leavePlanLookup = HtmlUnitUtil.clickInputContainingText(
