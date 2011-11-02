@@ -1826,9 +1826,13 @@
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-28">
-        <insert tableName="hr_principal_calendar_t">
+        <insert tableName="hr_principal_hr_attributes_t">
             <column name="principal_id" value="admin"/>
-            <column name="py_calendar_group" value="BWS-CAL"/>
+            <column name="calendar_name" value="BWS-CAL"/>
+            <column name="service_date" valueDate="2010-01-01"/>
+            <column name="leave_plan" value="BWS-LP"/>
+            <column name="fmla_eligible" value="N"/>
+            <column name="worksman_eligible" value="N"/>
             <column name="holiday_calendar_group" value="HOL"/>
             <column name="EFFDT" valueDate="2010-01-01"/>
             <column name="TIMESTAMP" valueDate="2011-03-01T11:45:56.0"/>
@@ -1838,9 +1842,13 @@
             <column name="leave_calendar"/>
             <column name="active" value="Y"/>
         </insert>
-        <insert tableName="hr_principal_calendar_t">
+        <insert tableName="hr_principal_hr_attributes_t">
             <column name="principal_id" value="eric"/>
-            <column name="py_calendar_group" value="BW-CAL1"/>
+            <column name="calendar_name" value="BW-CAL1"/>
+            <column name="leave_plan" value="BW-LP1"/>
+            <column name="fmla_eligible" value="N"/>
+            <column name="worksman_eligible" value="N"/>
+            <column name="service_date" valueDate="2010-01-01"/>
             <column name="holiday_calendar_group" value="HOL"/>
             <column name="EFFDT" valueDate="2010-01-01"/>
             <column name="TIMESTAMP" valueDate="2011-03-01T11:45:56.0"/>
