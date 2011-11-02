@@ -37,7 +37,7 @@ public class JobTest extends TkTestCase {
 		Calendar payCalendar = new Calendar();
 		payCalendar.setHrCalendarId(1L);
 		payCalendar.setCalendarName(CALENDAR_NAME);
-
+		payCalendar.setCalendarDescriptions(CALENDAR_NAME);
 		payCalendar.setFlsaBeginDay("Sun");
 		payCalendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
 		KNSServiceLocator.getBusinessObjectService().save(payCalendar);

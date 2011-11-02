@@ -119,6 +119,7 @@ public class TkRoleServiceTest  extends TkTestCase {
 		pos.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		pos.setDescription("Advising");
 		pos.setEffectiveDate(new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		pos.setPositionNumber("1");
 		KNSServiceLocator.getBusinessObjectService().save(pos);
 		String posNumber = pos.getPositionNumber();
 		
