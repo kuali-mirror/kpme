@@ -216,6 +216,7 @@ public class TkConstants {
         public static final String APPROVE = "Approve";
         public static final String PAY_PERIOD_END = "Pay Period End";
         public static final String SUPERVISOR_APPROVAL = "Supervisor Approval";
+        public static final String BATCH_APPROVE_MISSED_PUNCH = "Batch Aprove Missed Punch";
     }
 
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";

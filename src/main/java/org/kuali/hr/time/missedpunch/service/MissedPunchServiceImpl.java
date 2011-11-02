@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.batch.BatchJobEntry;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.missedpunch.dao.MissedPunchDao;
@@ -18,6 +19,8 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class MissedPunchServiceImpl implements MissedPunchService {
@@ -134,6 +137,25 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     }
     public MissedPunchDocument getMissedPunchByClockLogId(Long clockLogId){
     	return missedPunchDao.getMissedPunchByClockLogId(clockLogId);
+    }
+
+    public void approveMissedPunch(MissedPunchDocument document) {
+    	
+		 try {
+			 String rhid = document.getDocumentNumber();
+			 WorkflowDocument wd = new WorkflowDocument(document.getPrincipalId(), Long.parseLong(rhid));
+	         wd.approve("Approving Missed Punch Document.");
+	         
+	         document.setDocumentStatus(TkConstants.ROUTE_STATUS.FINAL);
+	         KNSServiceLocator.getBusinessObjectService().save(document);
+
+		 } catch (WorkflowException e) {
+             throw new RuntimeException("Exception during route", e);
+         }
+    }
+    
+    public List<MissedPunchDocument> getMissedPunchDocsByBatchJobEntry(BatchJobEntry batchJobEntry) {
+    	return missedPunchDao.getMissedPunchDocsByBatchJobEntry(batchJobEntry);
     }
 
 }

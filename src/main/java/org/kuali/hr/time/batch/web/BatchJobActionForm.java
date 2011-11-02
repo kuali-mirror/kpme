@@ -31,6 +31,7 @@ public class BatchJobActionForm extends TkForm {
         batchJobNames.add(TkConstants.BATCH_JOB_NAMES.APPROVE);
         batchJobNames.add(TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END);
         batchJobNames.add(TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL);
+        batchJobNames.add(TkConstants.BATCH_JOB_NAMES.BATCH_APPROVE_MISSED_PUNCH);
 
         return batchJobNames;
     }

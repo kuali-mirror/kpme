@@ -67,6 +67,9 @@ public class BatchJobEntryPoller extends Thread  {
         } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.INITIATE)) {
             LOG.debug("Creating InitiateBatchJobRunnable.");
             bjer = new InitiateBatchJobRunnable(entry);
+        } else if(StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.BATCH_APPROVE_MISSED_PUNCH)) {
+        	LOG.debug("Creating BatchApproveMissedPunchJobRunnable.");
+            bjer = new BatchApproveMissedPunchJobRunnable(entry);
         } else {
             LOG.warn("Unknown BatchJobEntryRunnable found in BatchJobEntry table. Unable to create Runnable.");
         }
