@@ -50,7 +50,7 @@ public class TimeApprovalAction extends TkAction {
         PayCalendar currentPayCalendar = null;
 
         // Set calendar groups
-        List<String> calGroups = TkServiceLocator.getTimeApproveService().getUniquePayGroups();
+        List<String> calGroups = TkServiceLocator.getTimeApproveService().getUniquePayGroups(user.getReportingWorkAreas());
         taaf.setPayCalendarGroups(calGroups);
 
         if (StringUtils.isBlank(taaf.getSelectedPayCalendarGroup())) {
@@ -68,14 +68,13 @@ public class TimeApprovalAction extends TkAction {
          * http://google-collections.googlecode.com/svn/trunk/javadoc/com/google/common/collect/Multimap.html
          **/
         List<String> depts = new ArrayList<String>(user.getReportingApprovalDepartments().keySet());
+        if ( depts.size() == 0 ) {
+            return super.execute(mapping, form, request, response);
+        }
         Collections.sort(depts);
         taaf.setDepartments(depts);
         if (taaf.getDepartments().size() == 1) {
             taaf.setSelectedDept(taaf.getDepartments().get(0));
-            taaf.setSelectedPayCalendarGroup(calGroups.get(0));
-        }
-        if (StringUtils.isBlank(taaf.getSelectedDept())) {
-            return super.execute(mapping, form, request, response);
         }
 
         // Set current pay calendar entries if present.
@@ -92,21 +91,18 @@ public class TimeApprovalAction extends TkAction {
             selectedPayCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(currentPayCalendar.getHrPyCalendarId(), currentDate);
         }
 
-        if (selectedPayCalendarEntries != null) {
-            PayCalendarEntries tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getPreviousPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrPyCalendarId(), selectedPayCalendarEntries);
-            if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getPyCalendarGroup())) {
-                taaf.setPrevPayCalendarId(tpce.getHrPyCalendarEntriesId());
-            } else {
-                taaf.setPrevPayCalendarId(null);
-            }
-            tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getNextPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrPyCalendarId(), selectedPayCalendarEntries);
-            if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getPyCalendarGroup())) {
-                taaf.setNextPayCalendarId(tpce.getHrPyCalendarEntriesId());
-            } else {
-                taaf.setNextPayCalendarId(null);
-            }
+        PayCalendarEntries tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getPreviousPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrPyCalendarId(), selectedPayCalendarEntries);
+        if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getPyCalendarGroup())) {
+            taaf.setPrevPayCalendarId(tpce.getHrPyCalendarEntriesId());
+        } else {
+            taaf.setPrevPayCalendarId(null);
         }
-
+        tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getNextPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrPyCalendarId(), selectedPayCalendarEntries);
+        if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getPyCalendarGroup())) {
+            taaf.setNextPayCalendarId(tpce.getHrPyCalendarEntriesId());
+        } else {
+            taaf.setNextPayCalendarId(null);
+        }
 
         taaf.setHrPyCalendarId(selectedPayCalendarEntries.getHrPyCalendarId());
         taaf.setHrPyCalendarEntriesId(selectedPayCalendarEntries.getHrPyCalendarEntriesId());
@@ -117,8 +113,14 @@ public class TimeApprovalAction extends TkAction {
         // TODO:
         // Getting principal ids from active assignments is a single sql query which runs pretty fast.
         // If the total number of work areas is large, some optimization needs to be done to reduce the db calls.
+        Set<Long> workAreasForQuery = new HashSet<Long>();
+        if (StringUtils.isBlank(taaf.getSelectedWorkArea())) {
+            workAreasForQuery = taaf.getDeptWorkareas();
+        } else {
+            workAreasForQuery.add(Long.parseLong(taaf.getSelectedWorkArea()));
+        }
 
-        Set<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByWorkAreas(taaf.getDeptWorkareas(), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
+        Set<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByWorkAreas(workAreasForQuery, new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
         taaf.setResultSize(principalIds.size());
 
         if (StringUtils.isNotBlank(getSortField(request))) {

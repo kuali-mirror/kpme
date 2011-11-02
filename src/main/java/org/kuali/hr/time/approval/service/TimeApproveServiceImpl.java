@@ -510,11 +510,18 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         return notes;
     }
 
-    private static final String UNIQUE_PY_GROUP_SQL = "select distinct py_calendar_group from hr_py_calendar_t where active = 'Y'";
+//    private static final String UNIQUE_PY_GROUP_SQL = "select distinct py_calendar_group from hr_py_calendar_t where active = 'Y'";
+    private static final String UNIQUE_PY_GROUP_SQL = "SELECT DISTINCT P.py_calendar_group FROM tk_work_area_t W, hr_principal_calendar_t P WHERE P.active = 'Y' AND ";
 
     @Override
-    public List<String> getUniquePayGroups() {
-        SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(UNIQUE_PY_GROUP_SQL);
+    public List<String> getUniquePayGroups(Set<Long> approverWorkAreas) {
+        StringBuilder workAreas = new StringBuilder();
+        for (long workarea : approverWorkAreas) {
+            workAreas.append("W.work_area = " + workarea + " or ");
+        }
+        String workAreasForQuery = workAreas.substring(0, workAreas.length() - 3);
+        String sql = UNIQUE_PY_GROUP_SQL + workAreasForQuery;
+        SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql);
         List<String> pyGroups = new LinkedList<String>();
         while (rs.next()) {
             pyGroups.add(rs.getString("py_calendar_group"));
@@ -529,64 +536,67 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 //    }
 
     @Override
-    public Set<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup) {
+    public Set<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup) {
         //        List<Assignment> activeAssignments = new ArrayList<Assignment>(); //getActiveAssignmentsAndPrincipalCalendars(workAreas, payEndDate);
-        List<Assignment> activeAssignments = getActiveAssignmentsAndPrincipalCalendars(workAreas, payEndDate);
-        Set<String> principalIds = new LinkedHashSet<String>();
+//        List<Assignment> activeAssignments = getActiveAssignmentsAndPrincipalCalendars(workAreas, payEndDate);
 
+        Set<String> principalIds = getPrincipalIdsWithActiveAssignmentsForCalendarGroup(workAreas, calGroup, payEndDate, payBeginDate, payEndDate);
+//        getActiveAssignmentsForCalendarGroup(workAreas, payEndDate, payBeginDate, payEndDate);
 //        for (Long aWorkArea : workAreas) {
 //            activeAssignments.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(aWorkArea, new java.sql.Date(payEndDate.getTime())));
 //        }
-        if (!activeAssignments.isEmpty()) {
-            for (Assignment assign : activeAssignments) {
-                PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(assign.getPrincipalId(), payEndDate);
-                //TODO remove this comparision sometiem
-                if (StringUtils.equals(principalCalendar.getPyCalendarGroup(), calGroup)) {
-                    principalIds.add(assign.getPrincipalId());
-                }
-            }
+//        if (!activeAssignments.isEmpty()) {
+//            for (Assignment assign : activeAssignments) {
+//                PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(assign.getPrincipalId(), payEndDate);
+//                //TODO remove this comparision sometiem
+//                if (StringUtils.equals(principalCalendar.getPyCalendarGroup(), calGroup)) {
+//                    principalIds.add(assign.getPrincipalId());
+//                }
+//            }
+//        }
+
+        return principalIds;
+    }
+
+    private static final String GET_PRINCIPAL_ID_SQL_PRE = "SELECT DISTINCT P.principal_id FROM hr_principal_calendar_t P, tk_assignment_t T WHERE P.py_calendar_group = ? AND P.principal_id in (" +
+            "SELECT DISTINCT `A0`.`principal_id` " +
+            "FROM `tk_assignment_t` `A0` " +
+            "WHERE (((`A0`.`effdt` = " +
+            "(SELECT max(`effdt`) " +
+            "FROM `tk_assignment_t` `B0` " +
+            "WHERE ((((`B0`.`job_number` = `A0`.`job_number`) AND `B0`.`work_area` = `A0`.`work_area`) AND `B0`.`task` = `A0`.`task`)) AND `B0`.`principal_id` = `A0`.`principal_id`)) AND `A0`.`timestamp` = " +
+            "(SELECT max(`B0`.`timestamp`) " +
+            "FROM `tk_assignment_t` `B0` " +
+            "WHERE " +
+            "((((`B0`.`job_number` = `A0`.`job_number`) AND `B0`.`work_area` = `A0`.`work_area`) AND `B0`.`task` = `A0`.`task`) AND `B0`.`effdt` = `A0`.`effdt`) AND `B0`.`principal_id` = `A0`.`principal_id`))) AND ( ";
+
+    private static final String GET_PRINCIPAL_ID_SQL_POST =
+            " ) AND `A0`.`effdt` <= ? AND `A0`.`active` = 'Y' OR " +
+            "(`A0`.`active` = 'N' AND (`A0`.`effdt` >= ? AND `A0`.`effdt` <= ?))" +
+            ")";
+
+    private Set<String> getPrincipalIdsWithActiveAssignmentsForCalendarGroup(Set<Long> approverWorkAreas, String payCalendarGroup, java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate) {
+        if (approverWorkAreas.size() == 0) {
+            return new LinkedHashSet<String>();
+        }
+
+        Set<String> principalIds = new LinkedHashSet<String>();
+        StringBuilder workAreas = new StringBuilder();
+        for (long workarea : approverWorkAreas) {
+            workAreas.append("A0.work_area = " + workarea + " or ");
+        }
+        String workAreasForQuery = workAreas.substring(0, workAreas.length() - 3);
+        String sql = GET_PRINCIPAL_ID_SQL_PRE + workAreasForQuery + GET_PRINCIPAL_ID_SQL_POST;
+
+        SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{payCalendarGroup, effdt, beginDate, endDate});
+        while(rs.next()) {
+            principalIds.add(rs.getString("principal_id"));
         }
 
         return principalIds;
     }
 
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
-    private List<Assignment> getActiveAssignmentsAndPrincipalCalendars(Set<Long> approverWorkAres, java.sql.Date effdt) {
-        List<Assignment> assignments = new ArrayList<Assignment>();
-
-        if (approverWorkAres.size() > 0) {
-            // We didn't need to select the max effdt and max timestamp here,
-            // because we only need the list of the principal ids and it doesn't matter if we select the latest row or not
-
-            // prepare the OR statement for query
-            StringBuilder workAreas = new StringBuilder();
-            for (long workarea : approverWorkAres) {
-                workAreas.append("work_area = " + workarea + " or ");
-            }
-            String workAreasForQuery = workAreas.substring(0, workAreas.length() - 3);
-            String sql =
-                    "SELECT DISTINCT " +
-                            "A0.principal_id,A0.work_area,C0.py_calendar_group " +
-                            "FROM tk_assignment_t A0,hr_principal_calendar_t C0 " +
-                            "WHERE " + workAreasForQuery +
-                            "AND A0.effdt <= ? " +
-                            "AND C0.principal_id = A0.principal_id";
-
-            SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{effdt}, new int[]{Types.DATE});
-            while (rs.next()) {
-                Assignment assignment = new Assignment();
-                assignment.setPrincipalId(rs.getString("principal_id"));
-                assignment.setWorkArea(rs.getLong("work_area"));
-                assignment.setCalGroup(rs.getString("py_calendar_group"));
-
-                assignments.add(assignment);
-            }
-        }
-        return assignments;
-    }
-
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public Map<String, TimesheetDocumentHeader> getPrincipalDocumehtHeader(List<String> principalIds, Date payBeginDate, Date payEndDate) {
 
         if (principalIds.size() == 0) {
@@ -619,13 +629,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     }
 
     @Override
-    public Multimap<String, Long> getDeptWorkAreasByWorkAreas(Set<Long> approverWorkAres) {
+    public Multimap<String, Long> getDeptWorkAreasByWorkAreas(Set<Long> approverWorkAreas) {
         Multimap<String, Long> deptWorkAreas = HashMultimap.create();
 
-        if (approverWorkAres.size() > 0) {
+        if (approverWorkAreas.size() > 0) {
             // prepare the OR statement for query
             StringBuilder workAreas = new StringBuilder();
-            for (long workarea : approverWorkAres) {
+            for (long workarea : approverWorkAreas) {
                 workAreas.append("work_area = " + workarea + " or ");
             }
             String workAreasForQuery = workAreas.substring(0, workAreas.length() - 3);
@@ -671,11 +681,5 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         }
         return deptWorkAreas;
     }
-
-    // the reason to separate the sql is to be able to insert more conditions
-    private static final String SQL = "SELECT DISTINCT dept, work_area, py_calendar_group " +
-            "FROM tk_work_area_t, hr_principal_calendar_t C0" +
-            "WHERE ";
-
 }
 

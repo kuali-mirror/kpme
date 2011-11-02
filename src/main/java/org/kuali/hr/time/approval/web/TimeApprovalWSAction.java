@@ -39,7 +39,7 @@ public class TimeApprovalWSAction extends TkAction {
         // the dates come from the begin / end date on the form
         Date beginDate = new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayBeginDateForSearch());
         Date endDate = new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayEndDateForSearch());
-        Set<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByWorkAreas(user.getWorkAreasFromUserRoles(), new java.sql.Date(endDate.getTime()), taaf.getSelectedPayCalendarGroup());
+        Set<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByWorkAreas(user.getWorkAreasFromUserRoles(), new java.sql.Date(beginDate.getTime()),  new java.sql.Date(endDate.getTime()), taaf.getSelectedPayCalendarGroup());
 
         if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
             for (String id : principalIds) {

@@ -232,12 +232,14 @@
             </tr>
         </div>
     </display:column>
-    <%--<div class="hourDetails">--%>
-    <%--<tr style="display:none;" class="timeSummaryRow_${row_rowNum-1}">--%>
-    <%--<td class="rowCount"><tk:timeSummary timeSummary="${row.timeSummary}"/></td>--%>
-    <%--</tr>--%>
-    <%--</div>--%>
 </display:table>
+
+<c:if test="${Form.resultSize > 0}">
+    <div id="approvals-approve-button">
+        <input type="submit" class="approve" value="Approve" name="Approve"
+               onclick="this.form.methodToCall.value='approve'; this.form.submit();"/>
+    </div>
+</c:if>
 
     <%--
     <c:choose>

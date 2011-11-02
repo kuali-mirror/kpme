@@ -231,9 +231,9 @@ public class TKUser {
 		return reportingApprovalDepartments;
 	}
 	
-	public List<Long> getReportingWorkAreas(){
+	public Set<Long> getReportingWorkAreas(){
 		UserRoles userRoles = getCurrentRoles();
-		List<Long> reportingWorkAreas = new ArrayList<Long>();
+		Set<Long> reportingWorkAreas = new HashSet<Long>();
 		List<String> depts = new ArrayList<String>();
 		
 		reportingWorkAreas.addAll(userRoles.getApproverWorkAreas());

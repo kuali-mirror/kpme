@@ -65,10 +65,11 @@ public interface TimeApproveService {
     public Map<String,PayCalendarEntries> getPayCalendarEntriesForDept(String dept, Date currentDate);
 
     /**
-     * Get a list of pay groups with unique values
-     * @return PayGroups
+     * Get a list of unique pay groups
+     * @param approverWorkAreas
+     * @return
      */
-    List<String> getUniquePayGroups();
+    List<String> getUniquePayGroups(Set<Long> approverWorkAreas);
 
     /**
      * Method to get a list of principal ids based on the work areas.
@@ -78,7 +79,7 @@ public interface TimeApproveService {
      * @param calGroup
      * @return A list of the PrincipalIds
      */
-    Set<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payEndDate, String calGroup);
+    Set<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
 
     /**
      * Method to create a map that contains the principal's id and corresponding timesheet document header.
