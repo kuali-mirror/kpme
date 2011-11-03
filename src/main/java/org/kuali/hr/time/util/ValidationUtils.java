@@ -8,6 +8,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.department.Department;
@@ -107,7 +108,41 @@ public class ValidationUtils {
 
 		return valid;
 	}
+	
+	public static boolean validateLeavePlan(String leavePlan, Date asOfDate) {
+		boolean valid = false;
+		
+		if (asOfDate != null) {
+			LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
+			valid = (lp != null);
+		} else {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("leavePlan", leavePlan);
+			Query query = QueryFactory.newQuery(LeavePlan.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			valid = (count > 0);
+		}
+		
+		return valid;
+	}
 
+	public static boolean validateAccCategory(String accrualCategory, Date asOfDate) {
+		boolean valid = false;
+		
+		if (asOfDate != null) {
+			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
+			valid = (ac != null);
+		} else {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("accrualCategory", accrualCategory);
+			Query query = QueryFactory.newQuery(AccrualCategory.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			valid = (count > 0);
+		}
+		
+		return valid;
+	}
+	
 	public static boolean validateLocation(String location, Date asOfDate) {
 		boolean valid = false;
 

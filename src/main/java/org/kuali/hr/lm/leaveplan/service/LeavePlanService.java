@@ -1,5 +1,7 @@
 package org.kuali.hr.lm.leaveplan.service;
 
+import java.sql.Date;
+
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 
 public interface LeavePlanService {
@@ -10,4 +12,6 @@ public interface LeavePlanService {
      * @return
      */
     public LeavePlan getLeavePlan(Long lmLeavePlanId);
+    
+    public LeavePlan getLeavePlan(String leavePlan, Date asOfDate);
 }

@@ -2,7 +2,10 @@ package org.kuali.hr.lm.leavecode;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.earncode.EarnCode;
 
 public class LeaveCode extends HrBusinessObject {
 
@@ -30,6 +33,33 @@ public class LeaveCode extends HrBusinessObject {
 	
 	private Boolean history;
 	
+	private LeavePlan leavePlanObj;
+	private EarnCode earnCodeObj;
+	private AccrualCategory accrualCategoryObj;
+
+	public EarnCode getEarnCodeObj() {
+		return earnCodeObj;
+	}
+
+	public void setEarnCodeObj(EarnCode earnCodeObj) {
+		this.earnCodeObj = earnCodeObj;
+	}
+
+	public AccrualCategory getAccrualCategoryObj() {
+		return accrualCategoryObj;
+	}
+
+	public void setAccrualCategoryObj(AccrualCategory accrualCategoryObj) {
+		this.accrualCategoryObj = accrualCategoryObj;
+	}
+
+	public LeavePlan getLeavePlanObj() {
+		return leavePlanObj;
+	}
+
+	public void setLeavePlanObj(LeavePlan leavePlanObj) {
+		this.leavePlanObj = leavePlanObj;
+	}
 
 	public Long getLmLeaveCodeId() {
 		return lmLeaveCodeId;

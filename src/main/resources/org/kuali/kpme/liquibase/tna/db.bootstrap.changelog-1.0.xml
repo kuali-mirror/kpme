@@ -2242,10 +2242,8 @@
                 <constraints nullable="false"/>
             </column>
             <column name="DESCR" type="VARCHAR(30)">
-                <constraints nullable="false"/>
             </column>
             <column name="CAL_YEAR_START" type="VARCHAR(5)">
-                <constraints nullable="false"/>
             </column>
             <column name="EFFDT" type="DATE">
                 <constraints nullable="false"/>
@@ -2400,7 +2398,7 @@
             <column name="WORKMANS_COMP" type="VARCHAR(5)">
             	<constraints nullable="false"/>
             </column>
-            <column name="DEF_TIME" type="BIGINT"></column>
+            <column defaultValue="0" name="DEF_TIME" type="BIGINT"></column>
             <column defaultValue="N" name="EMPLOYEE" type="VARCHAR(1)"></column>
             <column defaultValue="N" name="APPROVER" type="VARCHAR(1)"></column>
             <column defaultValue="N" name="DEPT_ADMIN" type="VARCHAR(1)"></column>

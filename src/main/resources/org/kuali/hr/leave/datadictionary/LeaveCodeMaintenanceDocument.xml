@@ -34,10 +34,10 @@
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="eligibleForAccrual" p:defaultValue="Y" p:required="true"/>
-		<bean parent="MaintainableFieldDefinition" p:name="accrualCategory" />
+		<bean parent="MaintainableFieldDefinition" p:name="accrualCategory" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="earnCode" />
 		<bean parent="MaintainableFieldDefinition" p:name="leaveCode" p:required="true"/>
-		<bean parent="MaintainableFieldDefinition" p:name="displayName" />
+		<bean parent="MaintainableFieldDefinition" p:name="displayName" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="unitOfTime" p:defaultValue="H" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="fractionalTimeAllowed" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="roundingOption" p:defaultValue="T" p:required="true"/>

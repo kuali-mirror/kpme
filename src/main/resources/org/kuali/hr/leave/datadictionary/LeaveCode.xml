@@ -40,6 +40,37 @@
 				<ref bean="LeaveCode-active" />
 			</list>
 		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="leavePlanObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan"
+								p:targetName="leavePlan" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="accrualCategoryObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory"
+								p:targetName="accrualCategory" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="earnCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode"
+								p:targetName="earnCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
 	</bean>
 
 	<!-- leavePlan -->
@@ -201,13 +232,13 @@
 	<bean id="LeaveCode-workmansComp" parent="LeaveCode-workmansComp-parentBean" />
 	<bean id="LeaveCode-workmansComp-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Workman’s Comp" />
+		<property name="shortLabel" value="Workman's Comp" />
 		<property name="control">
 			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.SwitchKeyValueFinder">
 			</bean>
 		</property>
 		<property name="name" value="workmansComp" />
-		<property name="label" value="Workman’s Comp" />
+		<property name="label" value="Workman's Comp" />
 	</bean>
 	
 	<!-- Default Amount of Time -->

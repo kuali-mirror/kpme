@@ -1,5 +1,7 @@
 package org.kuali.hr.lm.leaveplan.dao;
 
+import java.sql.Date;
+
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 
 
@@ -12,4 +14,5 @@ public interface LeavePlanDao {
 	 */
 	public LeavePlan getLeavePlan(Long lmLeavePlanId);
 	
+	public LeavePlan getLeavePlan(String leavePlan, Date asOfDate);
 }

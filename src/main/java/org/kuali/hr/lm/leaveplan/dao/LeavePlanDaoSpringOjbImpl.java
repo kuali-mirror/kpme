@@ -1,10 +1,13 @@
 package org.kuali.hr.lm.leaveplan.dao;
 
 
+import java.sql.Date;
+
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
@@ -18,6 +21,45 @@ public class LeavePlanDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 		crit.addEqualTo("lmLeavePlanId", lmLeavePlanId);
 		Query query = QueryFactory.newQuery(LeavePlan.class, crit);
 		return (LeavePlan) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+	
+	@Override
+	public LeavePlan getLeavePlan(String leavePlan, Date asOfDate) {
+		LeavePlan lp = null;
+
+		Criteria root = new Criteria();
+		Criteria effdt = new Criteria();
+		Criteria timestamp = new Criteria();
+
+		// OJB's awesome sub query setup part 1
+		effdt.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
+		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(LeavePlan.class, effdt);
+		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
+
+		// OJB's awesome sub query setup part 2
+		timestamp.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
+		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(LeavePlan.class, timestamp);
+		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
+
+		root.addEqualTo("leavePlan", leavePlan);
+		root.addEqualTo("effectiveDate", effdtSubQuery);
+		root.addEqualTo("timestamp", timestampSubQuery);
+		
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+		
+		
+		Query query = QueryFactory.newQuery(LeavePlan.class, root);
+		Object obj = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+
+		if (obj != null) {
+			lp = (LeavePlan) obj;
+		}
+
+		return lp;
 	}
 
 
