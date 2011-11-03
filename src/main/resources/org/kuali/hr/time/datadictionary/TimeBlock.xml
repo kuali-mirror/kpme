@@ -27,6 +27,7 @@
         <ref bean="TimeBlock-amount" />
         <ref bean="TimeBlock-timeStamp" />
         <ref bean="TimeBlock-userPrincipalId"/>
+        <ref bean="TimeBlock-principalId"/>
         <ref bean="TimeBlock-timesheetDocumentHeader.documentStatus" />
         <ref bean="TimeBlock-timesheetDocumentHeader.payBeginDate" />
         <ref bean="TimeBlock-timesheetDocumentHeader.payEndDate" />
@@ -39,6 +40,7 @@
 				<property name="primitiveAttributes">
 				<list>
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentId" p:targetName="documentId" />
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId" />
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.documentStatus" p:targetName="documentStatus" />
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.payBeginDate" p:targetName="payBeginDate" />
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.payEndDate" p:targetName="payEndDate" />
@@ -204,6 +206,22 @@
     <property name="label" value="User Principal Id"/>
   </bean>  
   
+  <bean id="TimeBlock-principalId" parent="TimeBlock-principalId-parentBean"/>
+  <bean id="TimeBlock-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Principal Id"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern">
+      	<property name="allowWhitespace" value="false"/>
+      </bean>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+    <property name="name" value="principalId"/>
+    <property name="label" value="Principal Id"/>
+  </bean>  
+  
 	<bean id="TimeBlock-hours" parent="TimeBlock-hours-parentBean" />
  	 <bean id="TimeBlock-hours-parentBean" abstract="true" parent="AttributeDefinition">
       <property name="forceUppercase" value="true" />
@@ -275,6 +293,7 @@
         	  <bean parent="FieldDefinition" p:attributeName="amount" />
         	  <bean parent="FieldDefinition" p:attributeName="clockLogCreated" />
         	  <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+        	  <bean parent="FieldDefinition" p:attributeName="principalId" />
         	  <bean parent="FieldDefinition" p:attributeName="timestamp" />
             </list>
           </property>
@@ -323,6 +342,7 @@
     <property name="lookupFields" >
       <list>
       	<bean parent="FieldDefinition" p:attributeName="documentId" />
+      	<bean parent="FieldDefinition" p:attributeName="principalId" />
       	<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
       	<bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.documentStatus" />
       	<bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.payBeginDate" />
@@ -332,6 +352,7 @@
     <property name="resultFields" >
       <list>
       	<bean parent="FieldDefinition" p:attributeName="documentId" />
+      	<bean parent="FieldDefinition" p:attributeName="principalId" />
       	<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
       	<bean parent="FieldDefinition" p:attributeName="earnCode" />
       	<bean parent="FieldDefinition" p:attributeName="beginTimestamp"/>
