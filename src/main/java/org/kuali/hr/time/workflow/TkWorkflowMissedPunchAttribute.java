@@ -1,14 +1,19 @@
 package org.kuali.hr.time.workflow;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
+import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.identity.Id;
 import org.kuali.rice.kew.identity.PrincipalId;
@@ -66,6 +71,18 @@ public class TkWorkflowMissedPunchAttribute implements RoleAttribute {
                 Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdoc, assign_string);
                 if (assignment != null) {
                     List<String> users = roleService.getResponsibleParties(assignment, roleName, tdoc.getAsOfDate());
+                   
+                    // add approver delegates to users
+                    Long workAreaNumber = assignment.getWorkArea();
+                    List<TkRole> approvers = roleService.getWorkAreaRoles(workAreaNumber, roleName, TKUtils.getCurrentDate());
+                    List<TkRole> approverDelegates = roleService.getWorkAreaRoles(workAreaNumber, TkConstants.ROLE_TK_APPROVER_DELEGATE, TKUtils.getCurrentDate());
+                    Set<TkRole> roles = new HashSet<TkRole>();
+                    roles.addAll(approvers);
+                    roles.addAll(approverDelegates);
+                    for(TkRole aRole : roles) {
+                    	users.add(aRole.getPrincipalId());
+                    }
+                    
                     if(users.isEmpty()){
                     	throw new RuntimeException("No responsible people for work area" + assignment.getWorkArea());
                     }
