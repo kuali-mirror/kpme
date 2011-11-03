@@ -10,7 +10,7 @@
 		<property name="businessObjectClass"
 			value="org.kuali.hr.lm.accrual.AccrualCategoryRule" />
 		<property name="titleAttribute" value="id" />
-		<property name="objectLabel" value="Assignment Account" />
+		<property name="objectLabel" value="Accrual Category Rule" />
 		<property name="lookupDefinition">
 			<ref bean="AccrualCategoryRule-lookupDefinition" />
 		</property>
