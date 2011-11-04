@@ -135,6 +135,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
         for (TimeBlock tb : alteredTimeBlocks) {
             TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(tb.getTkTimeBlockId());
+            // xichen, 11/01/11. KPME-744. set userPrincipalId with id which is logging in the sys.
+            tb.setUserPrincipalId(TKContext.getUser().getPrincipalId() );
             timeBlockDao.saveOrUpdate(tb);
         }
 
