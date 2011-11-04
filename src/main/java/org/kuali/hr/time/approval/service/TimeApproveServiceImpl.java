@@ -556,8 +556,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         // because we only need the list of the principal ids and it doesn't matter if we select the latest row or not
         String sql =
                 "SELECT DISTINCT " +
-                        "A0.principal_id,A0.work_area,C0.py_calendar_group " +
-                        "FROM tk_assignment_t A0,hr_principal_calendar_t C0 " +
+                        "A0.principal_id,A0.work_area,C0.calendar_name " +
+                        "FROM tk_assignment_t A0,hr_principal_hr_attributes_t C0 " +
                         "WHERE (###) " +
                         "AND A0.effdt <= ? " +
                         "AND C0.principal_id = A0.principal_id";
