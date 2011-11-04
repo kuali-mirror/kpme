@@ -9,8 +9,12 @@ import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -39,9 +43,16 @@ public class TkMobileServiceImpl implements TkMobileService {
 	}
 
 	@Override
-	public HashMap<String,List<String>> addClockAction(String principalId, String assignmentKey,
-			String clockAction) {
+	public HashMap<String,List<String>> addClockAction(String principalId, String assignmentKey, String clockAction) {
 		HashMap<String,List<String>> errorWarningMap = new HashMap<String,List<String>>();
+
+        // Set person on the context
+        // This is primary for getting the assignment, since we get the assignment by using the target principal id on the context
+        TKUser user = new TKUser();
+        Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
+        user.setActualPerson(person);
+        TKContext.setUser(user);
+
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), TKUtils.getCurrentDate());
         Date currentDate = TKUtils.getCurrentDate();
         CalendarEntries payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId,  currentDate);
@@ -51,9 +62,21 @@ public class TkMobileServiceImpl implements TkMobileService {
 		} catch (WorkflowException e) {
 			throw new RuntimeException("Could not open timesheet");
 		}
-        String ip = TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest());
-        TkServiceLocator.getClockLogService().buildClockLog(new Timestamp(System.currentTimeMillis()), assignment, 
-						td, clockAction, ip);
+
+        // TODO: Since the web serivce call doesn't go through the request processor, the storage map and the reqeust are null,
+        // which means the following code to get the ip address won't work.
+//        TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest());
+
+        String ip = "127.0.0.1";
+        Timestamp currentTs = new Timestamp(System.currentTimeMillis());
+
+        // processClockLog is the correct method to use. It creates and persists a clock log and a time block if necessary.
+        // buildClockLog just creates a clock log object.
+        TkServiceLocator.getClockLogService().processClockLog(currentTs, assignment, td.getPayCalendarEntry(), ip,
+                new java.sql.Date(currentTs.getTime()), td, getCurrentClockAction(), principalId);
+
+        // TODO: not sure what we want to return for the errorWarningMap
+
 		return errorWarningMap;
 	}
 	
@@ -94,5 +117,22 @@ public class TkMobileServiceImpl implements TkMobileService {
 		}
 		return clockActions;
 	}
+
+    private String getCurrentClockAction() {
+        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getTargetPrincipalId());
+        String currentClockAction = "";
+        if(lastClockLog != null){
+			if(StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_IN)){
+				currentClockAction = TkConstants.CLOCK_OUT;
+			} else if(StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_OUT)){
+				currentClockAction = TkConstants.CLOCK_IN;
+			} else if(StringUtils.equals(lastClockLog.getClockAction(), TkConstants.LUNCH_IN)){
+				currentClockAction = TkConstants.LUNCH_OUT;
+			} else {
+				currentClockAction = TkConstants.LUNCH_IN;
+			}
+		}
+		return currentClockAction;
+    }
 
 }

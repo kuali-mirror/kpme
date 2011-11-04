@@ -11,5 +11,5 @@ import java.util.List;
 public interface TkMobileService {
     public String getClockEntryInfo(@WebParam(name = "principalId") String principalId);
 
-    public HashMap<String, List<String>> addClockAction(String principalId, String assignmentKey, String clockAction);
+    public HashMap<String, List<String>> addClockAction(@WebParam(name = "principalId") String principalId, @WebParam(name = "assignmentKey") String assignmentKey, @WebParam(name = "clockAction") String clockAction);
 }
