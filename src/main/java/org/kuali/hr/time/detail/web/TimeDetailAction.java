@@ -77,6 +77,7 @@ public class TimeDetailAction extends TimesheetAction {
         }
         tdaf.setTimeSummary(ts);
         ActionFormUtils.validateHourLimit(tdaf);
+        ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
 
         // Set calendar
         PayCalendarEntries payCalendarEntry = tdaf.getPayCalendarDates();
@@ -232,6 +233,7 @@ public class TimeDetailAction extends TimesheetAction {
         //call history service
 
         ActionFormUtils.validateHourLimit(tdaf);
+        ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
         return mapping.findForward("basic");
     }
     

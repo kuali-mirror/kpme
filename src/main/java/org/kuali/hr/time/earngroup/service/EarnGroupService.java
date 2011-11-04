@@ -1,9 +1,11 @@
 package org.kuali.hr.time.earngroup.service;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.kuali.hr.time.earngroup.EarnGroup;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 public interface EarnGroupService {
 	/**
@@ -34,4 +36,11 @@ public interface EarnGroupService {
 	public EarnGroup getEarnGroupSummaryForEarnCode(String earnCode, Date asOfDate);
 	
 	public EarnGroup getEarnGroup(Long hrEarnGroupId);
+	
+	/**
+	 * Returns list of warning text from earn group that is used by time blocks of the timesheetDocument
+	 * @param timesheetDocument
+	 * @return
+	 */
+	public List<String> warningTextFromEarnGroupsOfDocument(TimesheetDocument timesheetDocument);
 }

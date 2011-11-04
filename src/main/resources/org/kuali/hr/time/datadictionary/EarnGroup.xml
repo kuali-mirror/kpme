@@ -24,6 +24,7 @@
 				<ref bean="EarnGroup-timestamp" />
 				<ref bean="EarnGroup-showSummary" />
 				<ref bean="EarnGroup-history" />
+				<ref bean="EarnGroup-warningText" />
 				<ref bean="EarnGroup-active" />
 			</list>
 		</property>
@@ -138,6 +139,19 @@
 		<property name="name" value="history" />
 		<property name="label" value="Show History" />
 	</bean>
+	
+	<bean id="EarnGroup-warningText" parent="EarnGroup-warningText-parentBean" />
+	<bean id="EarnGroup-warningText-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Warning" />
+		<property name="maxLength" value="100" />
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:size="100" />
+		</property>
+		<property name="name" value="warningText" />
+		<property name="label" value="Warning Text" />
+	</bean>
+	
 	<bean id="EarnGroup-active" parent="EarnGroup-active-parentBean" />
 	<bean id="EarnGroup-active-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -166,6 +180,7 @@
 							<bean parent="FieldDefinition" p:attributeName="descr" />
 							<bean parent="FieldDefinition" p:attributeName="showSummary" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
+							<bean parent="FieldDefinition" p:attributeName="warningText" />
 						</list>
 					</property>
 					<property name="title" value="EarnGroup" />
@@ -214,6 +229,7 @@
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="warningText" />
 			</list>
 		</property>
 		<property name="title" value="Earn Group Lookup" />

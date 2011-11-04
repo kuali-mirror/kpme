@@ -17,8 +17,22 @@ public class ActionFormUtils {
 
     public static void validateHourLimit(TimeDetailActionFormBase tdaf) throws Exception {
         List<String> warningMessages = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(tdaf.getTimesheetDocument());
-        if (!warningMessages.isEmpty()) {
-        	tdaf.setWarnings(warningMessages);
+        addUniqueWarningsToForm(tdaf, warningMessages);
+    }
+    
+    public static void addWarningTextFromEarnGroup(TimeDetailActionFormBase tdaf) throws Exception {
+        List<String> warningMessages = TkServiceLocator.getEarnGroupService().warningTextFromEarnGroupsOfDocument(tdaf.getTimesheetDocument());
+        addUniqueWarningsToForm(tdaf, warningMessages);
+    }
+    
+    public static void addUniqueWarningsToForm(TimeDetailActionFormBase tdaf, List<String> warningMessages) {
+    	if (!warningMessages.isEmpty()) {
+        	Set<String> aSet = new HashSet<String>();
+	    	aSet.addAll(warningMessages);
+	    	aSet.addAll(tdaf.getWarnings());
+	    	List<String> aList = new ArrayList<String>();
+	    	aList.addAll(aSet);
+        	tdaf.setWarnings(aList);
         }
     }
 

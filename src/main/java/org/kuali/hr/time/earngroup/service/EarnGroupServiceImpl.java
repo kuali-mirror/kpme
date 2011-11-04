@@ -1,13 +1,11 @@
 package org.kuali.hr.time.earngroup.service;
 
-import org.kuali.hr.time.cache.CacheResult;
-import org.kuali.hr.time.earncode.EarnCode;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
 import org.kuali.hr.time.earngroup.dao.EarnGroupDaoService;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -57,5 +55,24 @@ public class EarnGroupServiceImpl implements EarnGroupService {
     @Override
     public EarnGroup getEarnGroup(Long hrEarnGroupId) {
         return earnGroupDao.getEarnGroup(hrEarnGroupId);
+    }
+    
+    @Override
+    public List<String> warningTextFromEarnGroupsOfDocument(TimesheetDocument timesheetDocument) {
+    	 List<String> warningMessages = new ArrayList<String>();
+	     List<TimeBlock> tbList = timesheetDocument.getTimeBlocks();
+	     if (tbList.isEmpty()) {
+	         return warningMessages;
+	     }
+	     
+	     Set<String> aSet = new HashSet<String>();
+	     for(TimeBlock tb : tbList) {
+	    	EarnGroup eg = this.getEarnGroupForEarnCode(tb.getEarnCode(), tb.getBeginDate());
+	    	if(eg != null && !StringUtils.isEmpty(eg.getWarningText())) {
+	    		aSet.add(eg.getWarningText());
+	    	}
+	     }
+	    warningMessages.addAll(aSet);
+		return warningMessages;
     }
 }

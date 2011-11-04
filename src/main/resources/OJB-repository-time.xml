@@ -320,6 +320,7 @@
 		<field-descriptor name="descr"		    column="descr"			jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"  column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
 		<field-descriptor name="showSummary"    column="show_summary"	jdbc-type="VARCHAR" length="1" nullable="false" primarykey="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="warningText"    column="warning_text"	jdbc-type="VARCHAR" length="100" nullable="true" primarykey="false" />
 		<field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<collection-descriptor
 			name="earnGroups"

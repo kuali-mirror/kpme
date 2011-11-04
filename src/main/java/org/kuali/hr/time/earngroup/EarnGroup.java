@@ -24,6 +24,8 @@ public class EarnGroup extends HrBusinessObject {
 	private Boolean showSummary;
 
 	private List<EarnGroupDefinition> earnGroups = new ArrayList<EarnGroupDefinition>();
+	
+	private String warningText;
 
 	public String getEarnGroup() {
 		return earnGroup;
@@ -94,6 +96,14 @@ public class EarnGroup extends HrBusinessObject {
 	@Override
 	public void setId(Long id) {
 		setHrEarnGroupId(id);
+	}
+
+	public String getWarningText() {
+		return warningText;
+	}
+
+	public void setWarningText(String warningText) {
+		this.warningText = warningText;
 	}
 
 }

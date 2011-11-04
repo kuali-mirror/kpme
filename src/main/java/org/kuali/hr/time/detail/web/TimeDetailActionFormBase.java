@@ -3,16 +3,18 @@ package org.kuali.hr.time.detail.web;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Base form for both WS and Regular TimeDetail action.
  */
+@SuppressWarnings("serial")
 public class TimeDetailActionFormBase extends TimesheetActionForm {
 
     private Long tkTimeBlockId;
     private String outputString;
-    private List<String> warnings;
+    private List<String> warnings = new ArrayList<String>();
     private String startTime;
     private String endTime;
     private String acrossDays;
