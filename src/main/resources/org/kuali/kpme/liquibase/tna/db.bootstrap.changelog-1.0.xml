@@ -2452,11 +2452,9 @@
             	<constraints nullable="false"/>
             </column>
             <column name="UNUSED_TIME" type="VARCHAR(5)">
-            	<constraints nullable="false"/>
             </column>
             <column name="TRANS_CONV_FACTOR" type="DECIMAL(10,2)"></column>
             <column name="TRANSFER_TO_LEAVE_CODE" type="VARCHAR(15)">
-                <constraints nullable="false"/>
             </column>
             <column name="EXP_DT" type="DATE">
             </column>
