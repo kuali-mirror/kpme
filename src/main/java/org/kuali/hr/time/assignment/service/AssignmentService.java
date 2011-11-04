@@ -44,7 +44,7 @@ public interface AssignmentService {
      */
     public Map<String,String> getAssignmentDescriptions(TimesheetDocument td, boolean clockOnlyAssignments);
     /**
-     * Get all assigment descriptions for an assignment
+     * Get all assignment descriptions for an assignment
      * @param assignment
      * @return
      */
@@ -97,4 +97,15 @@ public interface AssignmentService {
      * @return
      */
     public List<Assignment> getAssignmentsByPayEntry(String principalId, PayCalendarEntries payCalendarEntry);
+    
+    /**
+	 * KPME-1129 Kagata
+	 * Get a list of active assignments based on principalId and jobNumber as of a particular date 
+	 * @param principalId
+	 * @param jobNumber
+	 * @param asOfDate
+	 * @return
+	 */
+    public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, Date asOfDate);
+    
 }

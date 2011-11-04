@@ -201,5 +201,17 @@ public class AssignmentServiceImpl implements AssignmentService {
 
         return a;
     }
+    
+    /**
+     * KPME-1129 Kagata
+     * Get a list of active assignments based on principalId and jobNumber as of a particular date
+     */
+    @Override
+    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+    public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, Date asOfDate){
+		List<Assignment> assignments = assignmentDao.getActiveAssignmentsForJob(principalId, jobNumber, asOfDate);
+
+		return assignments;
+	}
 
 }

@@ -1,7 +1,12 @@
 package org.kuali.hr.job.validation;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -111,6 +116,24 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
+	
+	// KPME-1129 Kagata
+	// This method determines if the job can be inactivated or not
+	boolean validateInactivation(Job job){
+		
+		// Get a list of active assignments based on principalId, jobNumber and current date.
+		// If the list is not null, there are active assignments and the job can't be inactivated, so return false, otherwise true
+		if(!job.isActive()) {
+			List<Assignment> aList = TkServiceLocator.getAssignmentService().getActiveAssignmentsForJob(job.getPrincipalId(), job.getJobNumber(), TKUtils.getCurrentDate());
+			if (aList != null && aList.size() > 0) {
+				// error.job.inactivate=Can not inactivate job number {0}.  It is used in active assignments.
+				this.putFieldError("active", "error.job.inactivate", job.getJobNumber().toString());
+				return false;
+			} 
+		}
+
+		return true;
+	}
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
@@ -133,6 +156,8 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 				valid &= this.validatePayType(job);
 				valid &= this.validatePayGrade(job);
 				valid &= this.validatePrimaryIndicator(job, oldJob);
+				// KPME-1129 Kagata
+				valid &= this.validateInactivation(job);
 			}
 		}
 		return valid;

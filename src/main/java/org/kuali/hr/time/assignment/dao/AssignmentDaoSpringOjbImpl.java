@@ -11,6 +11,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.department.Department;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 import org.kuali.hr.time.util.TKContext;
 
@@ -266,6 +267,52 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		Query query = QueryFactory.newQuery(Assignment.class, crit);
 		return (Assignment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
+	
+	// KPME-1129 Kagata
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, Date asOfDate){
+		List<Assignment> assignments = new ArrayList<Assignment>();
+		Criteria root = new Criteria();
+		Criteria effdt = new Criteria();
+		Criteria timestamp = new Criteria();
+		
+		// subquery for effective date
+		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+		effdt.addEqualTo("principalId", principalId);
+		effdt.addEqualTo("jobNumber", jobNumber);
+		effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+		effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
+		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+		// subquery for timestamp
+		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+		timestamp.addEqualTo("principalId", principalId);
+		timestamp.addEqualTo("jobNumber", jobNumber);
+		timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+		timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
+		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+		root.addEqualTo("principalId", principalId);
+		root.addEqualTo("jobNumber", jobNumber);
+		root.addEqualTo("effectiveDate", effdtSubQuery);
+		root.addEqualTo("timestamp", timestampSubQuery);
+		root.addEqualTo("active", true);
+
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+
+		Query query = QueryFactory.newQuery(Assignment.class, root);
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+		if (c != null) {
+			assignments.addAll(c);
+		}
+
+		return assignments;
+	}	
 
 
 }
