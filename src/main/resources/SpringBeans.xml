@@ -893,5 +893,9 @@
 
     <!-- Starts thread pool and node managers for Batch Job Processing -->
     <bean name="TkBatchManager" class="org.kuali.hr.time.batch.TkBatchManager"></bean>
+    
+    <bean name="tkJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="tkDataSource"/>
+    </bean>
 
 </beans>
