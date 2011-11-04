@@ -509,7 +509,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         return notes;
     }
 
-    private static final String UNIQUE_PY_GROUP_SQL = "select distinct calendar_name from hr_calendar_t where active = 'Y'";
+    private static final String UNIQUE_PY_GROUP_SQL = "select distinct calendar_name from hr_calendar_t";
 
     @Override
     public List<String> getUniquePayGroups() {
