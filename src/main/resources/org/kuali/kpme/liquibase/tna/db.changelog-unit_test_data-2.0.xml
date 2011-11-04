@@ -3158,6 +3158,15 @@
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
         </insert>
+        <insert tableName="tk_document_header_t">
+            <column name="DOCUMENT_ID" value="2"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="PAY_END_DT" valueDate="2011-02-01T00:00:00.0"/>
+            <column name="DOCUMENT_STATUS" value="I"/>
+            <column name="PAY_BEGIN_DT" valueDate="2011-01-15T00:00:00.0"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+        </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-46">
         <insert tableName="krns_maint_lock_s">

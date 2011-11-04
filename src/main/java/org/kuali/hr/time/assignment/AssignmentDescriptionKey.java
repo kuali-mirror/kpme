@@ -17,7 +17,7 @@ public class AssignmentDescriptionKey {
 
     }
 
-    // djunk - added this constructor since we are esentially working on units
+    // djunk - added this constructor since we are essentially working on units
     // of assignments and their keys
     public AssignmentDescriptionKey(Assignment a) {
         if (a != null) {

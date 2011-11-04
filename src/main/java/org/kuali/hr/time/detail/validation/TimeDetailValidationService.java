@@ -36,6 +36,12 @@ public class TimeDetailValidationService {
 
     public static List<String> validateTimeEntryDetails(BigDecimal hours, BigDecimal amount, String startTimeS, String endTimeS, String startDateS, String endDateS, TimesheetDocument timesheetDocument, String selectedEarnCode, String selectedAssignment, boolean acrossDays, Long timeblockId) {
         List<String> errors = new ArrayList<String>();
+
+        if (timesheetDocument == null) {
+            errors.add("No timesheet document found.");
+        }
+        if (errors.size() > 0) return errors;
+
         PayCalendarEntries payCalEntry = timesheetDocument.getPayCalendarEntry();
         java.sql.Date asOfDate = payCalEntry.getEndPeriodDate();
 
