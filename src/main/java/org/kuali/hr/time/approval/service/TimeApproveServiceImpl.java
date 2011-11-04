@@ -576,7 +576,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
             Assignment assignment = new Assignment();
             assignment.setPrincipalId(rs.getString("principal_id"));
             assignment.setWorkArea(rs.getLong("work_area"));
-            assignment.setCalGroup(rs.getString("py_calendar_group"));
+            assignment.setCalGroup(rs.getString("calendar_name"));
 
             assignments.add(assignment);
         }
