@@ -1,12 +1,6 @@
 package org.kuali.hr.time.mobile.service;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -18,7 +12,11 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kew.exception.WorkflowException;
 
-import com.google.gson.Gson;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class TkMobileServiceImpl implements TkMobileService {
 
@@ -41,9 +39,9 @@ public class TkMobileServiceImpl implements TkMobileService {
 	}
 
 	@Override
-	public Map<String,List<String>> addClockAction(String principalId, String assignmentKey,
+	public HashMap<String,List<String>> addClockAction(String principalId, String assignmentKey,
 			String clockAction) {
-		Map<String,List<String>> errorWarningMap = new HashMap<String,List<String>>();
+		HashMap<String,List<String>> errorWarningMap = new HashMap<String,List<String>>();
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), TKUtils.getCurrentDate());
         Date currentDate = TKUtils.getCurrentDate();
         CalendarEntries payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId,  currentDate);
