@@ -3,6 +3,7 @@ package org.kuali.hr.time.timezone.service;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
@@ -10,9 +11,10 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.test.TkTestUtils;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
+@Ignore
 public class TimezoneTest extends TkTestCase {
 
+	
 	@Test
 	public void testClockInOutWithTimezone() throws Exception {
 		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CLOCK_URL,true);
