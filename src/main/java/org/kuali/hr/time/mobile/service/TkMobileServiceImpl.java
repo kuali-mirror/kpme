@@ -62,12 +62,8 @@ public class TkMobileServiceImpl implements TkMobileService {
 		} catch (WorkflowException e) {
 			throw new RuntimeException("Could not open timesheet");
 		}
-
-        // TODO: Since the web serivce call doesn't go through the request processor, the storage map and the reqeust are null,
-        // which means the following code to get the ip address won't work.
-//        TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest());
-
-        String ip = "127.0.0.1";
+        
+		String ip = TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest());
         Timestamp currentTs = new Timestamp(System.currentTimeMillis());
 
         // processClockLog is the correct method to use. It creates and persists a clock log and a time block if necessary.
