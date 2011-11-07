@@ -1,6 +1,9 @@
 package org.kuali.hr.lm.timeoff.dao;
 
 
+import java.util.Date;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -20,5 +23,21 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PersistenceBrokerDao
 		return (SystemScheduledTimeOff) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
+	@Override
+	public List<SystemScheduledTimeOff> getSystemScheduledTimeOffForPayPeriod(
+			String leavePlan, Date startDate, Date endDate) {
+		Criteria root = new Criteria();
+		root.addEqualTo("leavePlan", leavePlan);
+		root.addBetween("accruedDate", startDate, endDate);
+		return (List<SystemScheduledTimeOff>)this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(SystemScheduledTimeOff.class, root));
+	}
+
+	@Override
+	public SystemScheduledTimeOff getSystemScheduledTimeOffByDate(String leavePlan, Date startDate) {
+		Criteria root = new Criteria();
+		root.addEqualTo("leavePlan", leavePlan);
+		root.addEqualTo("accruedDate", startDate);
+		return (SystemScheduledTimeOff)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SystemScheduledTimeOff.class, root));
+	}
 
 }

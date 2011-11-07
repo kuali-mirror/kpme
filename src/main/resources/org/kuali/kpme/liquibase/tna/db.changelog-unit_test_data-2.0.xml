@@ -1833,7 +1833,6 @@
             <column name="leave_plan" value="BWS-LP"/>
             <column name="fmla_eligible" value="N"/>
             <column name="worksman_eligible" value="N"/>
-            <column name="holiday_calendar_group" value="HOL"/>
             <column name="EFFDT" valueDate="2010-01-01"/>
             <column name="TIMESTAMP" valueDate="2011-03-01T11:45:56.0"/>
             <column name="OBJ_ID" value="6113aa9c-4423-11e0-a509-124832221506"/>
@@ -1849,7 +1848,6 @@
             <column name="fmla_eligible" value="N"/>
             <column name="worksman_eligible" value="N"/>
             <column name="service_date" valueDate="2010-01-01"/>
-            <column name="holiday_calendar_group" value="HOL"/>
             <column name="EFFDT" valueDate="2010-01-01"/>
             <column name="TIMESTAMP" valueDate="2011-03-01T11:45:56.0"/>
             <column name="OBJ_ID" value="6113c900-4423-11e0-a509-124832221506"/>

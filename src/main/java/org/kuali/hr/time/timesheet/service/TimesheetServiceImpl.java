@@ -3,10 +3,9 @@ package org.kuali.hr.time.timesheet.service;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
-import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
-import org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -113,24 +112,20 @@ public class TimesheetServiceImpl implements TimesheetService {
 	public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, Date beginDate, Date endDate){
 		PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(principalId, new java.sql.Date(beginDate.getTime()));
 		if(principalCalendar != null) {
-			HolidayCalendar holidayCalendar = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarByGroup(principalCalendar.getHolidayCalendarGroup());
-			if (holidayCalendar != null) {
-				List<HolidayCalendarDateEntry> lstHolidays = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarDateEntriesForPayPeriod(holidayCalendar.getHrHolidayCalendarId(),
-																beginDate, endDate);
-				for(HolidayCalendarDateEntry holiday : lstHolidays){
-					Assignment holidayAssign = TkServiceLocator.getHolidayCalendarService().getAssignmentToApplyHolidays(timesheetDocument, TKUtils.getTimelessDate(endDate));
-					if(holidayAssign != null) {
-						BigDecimal holidayCalcHours = TkServiceLocator.getHolidayCalendarService().calculateHolidayHours(holidayAssign.getJob(), holiday.getHolidayHours());
-						TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, new Timestamp(holiday.getHolidayDate().getTime()),
-										new Timestamp(holiday.getHolidayDate().getTime()), holidayAssign, TkConstants.HOLIDAY_EARN_CODE, holidayCalcHours, BigDecimal.ZERO, false);
-						timesheetDocument.getTimeBlocks().add(timeBlock);
-					}
+			List<SystemScheduledTimeOff> lstSystemScheduledTimeOff = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffForPayPeriod(principalCalendar.getLeavePlan(), beginDate, endDate);
+			for(SystemScheduledTimeOff systemScheduledTimeOff : lstSystemScheduledTimeOff){
+				Assignment holidayAssign = TkServiceLocator.getSysSchTimeOffService().getAssignmentToApplyHolidays(timesheetDocument, TKUtils.getTimelessDate(endDate));
+				if(holidayAssign != null) {
+					BigDecimal holidayCalcHours = TkServiceLocator.getSysSchTimeOffService().calculateHolidayHours(holidayAssign.getJob(), systemScheduledTimeOff.getAmountofTime());
+					TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, new Timestamp(systemScheduledTimeOff.getAccruedDate().getTime()),
+									new Timestamp(systemScheduledTimeOff.getAccruedDate().getTime()), holidayAssign, TkConstants.HOLIDAY_EARN_CODE, holidayCalcHours, BigDecimal.ZERO, false);
+					timesheetDocument.getTimeBlocks().add(timeBlock);
 				}
+			}
 
-				//If holidays are loaded will need to save them to the database
-				if(!lstHolidays.isEmpty()){
-					TkServiceLocator.getTimeBlockService().saveTimeBlocks(new LinkedList<TimeBlock>(), timesheetDocument.getTimeBlocks());
-				}
+			//If holidays are loaded will need to save them to the database
+			if(!lstSystemScheduledTimeOff.isEmpty()){
+				TkServiceLocator.getTimeBlockService().saveTimeBlocks(new LinkedList<TimeBlock>(), timesheetDocument.getTimeBlocks());
 			}
 		}
 

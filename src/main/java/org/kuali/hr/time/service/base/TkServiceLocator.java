@@ -25,7 +25,6 @@ import org.kuali.hr.time.docsearch.TkSearchableAttributeService;
 import org.kuali.hr.time.earncode.service.EarnCodeService;
 import org.kuali.hr.time.earngroup.service.EarnGroupService;
 import org.kuali.hr.time.graceperiod.service.GracePeriodService;
-import org.kuali.hr.time.holidaycalendar.service.HolidayCalendarService;
 import org.kuali.hr.time.missedpunch.service.MissedPunchService;
 import org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleService;
 import org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleService;
@@ -97,7 +96,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_SYSTEM_LUNCH_RULE_SERVICE = "systemLunchRuleService";
 	public static final String TK_DEPT_LUNCH_RULE_SERVICE = "deptLunchRuleService";
 	public static final String TK_PRINCIPAL_HR_ATTRIBUTES_SERVICE = "principalHRAttributesService";
-	public static final String TK_HOLIDAY_CALENDAR_SERVICE = "holidayCalendarService";
 	public static final String TK_USER_PREF_SERVICE = "userPrefService";
 	public static final String TK_TIME_ZONE_SERVICE = "timezoneService";
 	public static final String TK_TIME_OFF_ACCRUAL_SERVICE = "timeOffAccrualService";
@@ -273,10 +271,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static PrincipalHRAttributesService getPrincipalHRAttributesService(){
 		return (PrincipalHRAttributesService) CONTEXT.getBean(TK_PRINCIPAL_HR_ATTRIBUTES_SERVICE);
-	}
-
-	public static HolidayCalendarService getHolidayCalendarService(){
-		return (HolidayCalendarService) CONTEXT.getBean(TK_HOLIDAY_CALENDAR_SERVICE);
 	}
 
 	public static UserPreferenceService getUserPreferenceService(){

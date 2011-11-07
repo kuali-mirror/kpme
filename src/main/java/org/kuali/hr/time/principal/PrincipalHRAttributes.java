@@ -3,7 +3,6 @@ package org.kuali.hr.time.principal;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
@@ -29,7 +28,6 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 	private String timezone;
 	
 	private Calendar calendar;
-	private HolidayCalendar holidayCalendar;
 	private Person person;
 	private LeavePlan leavePlanObj;
 
@@ -134,14 +132,6 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 
 	public void setTimezone(String timezone) {
 		this.timezone = timezone;
-	}
-
-	public HolidayCalendar getHolidayCalendar() {
-		return holidayCalendar;
-	}
-
-	public void setHolidayCalendar(HolidayCalendar holidayCalendar) {
-		this.holidayCalendar = holidayCalendar;
 	}
 
 	public Calendar getCalendar() {

@@ -2,7 +2,6 @@ package org.kuali.hr.time.principal.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
@@ -55,19 +54,6 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 						this.putFieldError("pyCalendarGroup",
 								"principal.cal.pay.invalid", principalHRAttr
 										.getCalendarName());
-						valid = false;
-					}
-				}
-				if (StringUtils.isNotEmpty(principalHRAttr
-						.getHolidayCalendarGroup())) {
-					HolidayCalendar holidayCal = TkServiceLocator
-							.getHolidayCalendarService()
-							.getHolidayCalendarByGroup(
-									principalHRAttr.getHolidayCalendarGroup());
-					if (holidayCal == null) {
-						this.putFieldError("holidayCalendarGroup",
-								"principal.cal.holiday.invalid", principalHRAttr
-										.getHolidayCalendarGroup());
 						valid = false;
 					}
 				}

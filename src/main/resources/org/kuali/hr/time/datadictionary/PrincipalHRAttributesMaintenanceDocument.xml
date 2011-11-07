@@ -43,7 +43,6 @@
 				<bean parent="MaintainableFieldDefinition" p:name="calendarTypes"  p:noLookup="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="serviceDate" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="holidayCalendarGroup" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="timezone" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="fmlaEligible" />
 				<bean parent="MaintainableFieldDefinition" p:name="workmansCompEligible" />

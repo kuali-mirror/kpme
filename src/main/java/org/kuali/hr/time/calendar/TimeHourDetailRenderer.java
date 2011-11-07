@@ -2,8 +2,7 @@ package org.kuali.hr.time.calendar;
 
 import java.util.List;
 
-import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
-import org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry;
+import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -39,7 +38,7 @@ public class TimeHourDetailRenderer {
     }
     
     public String getHolidayName() {
-		HolidayCalendarDateEntry holidayCalendarDateEntry = null;
+		SystemScheduledTimeOff systemScheduledTimeOff = null;
 		String holidayDesc = "";
 		TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().getTimeBlock(timeHourDetail.getTkTimeBlockId());
 		
@@ -47,17 +46,11 @@ public class TimeHourDetailRenderer {
 			if(timeBlock.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)) {
 				String documentId = timeBlock.getDocumentId();
 				TimesheetDocumentHeader docHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-				PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(docHeader.getPrincipalId(), new java.sql.Date(timeBlock.getBeginDate().getTime()));
-				
-				if ( principalCalendar.getHolidayCalendarGroup() != null ){
-					HolidayCalendar holidayCalendar = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarByGroup(principalCalendar.getHolidayCalendarGroup());
-					
-					if ( holidayCalendar != null ){
-						holidayCalendarDateEntry = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarDateEntryByDate(holidayCalendar.getHrHolidayCalendarId(), timeBlock.getBeginDate());
-						
-						if(holidayCalendarDateEntry != null) {
-							holidayDesc = holidayCalendarDateEntry.getHolidayDescr();
-						}
+				PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(docHeader.getPrincipalId(), new java.sql.Date(timeBlock.getBeginDate().getTime()));				
+				if ( principalCalendar.getLeavePlan() != null ){
+						systemScheduledTimeOff = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffByDate(principalCalendar.getLeavePlan(), timeBlock.getBeginDate());
+					if(systemScheduledTimeOff != null) {
+						holidayDesc = systemScheduledTimeOff.getDescr();
 					}
 				}
 			}
