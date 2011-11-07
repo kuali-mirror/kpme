@@ -572,8 +572,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
     private static final String GET_PRINCIPAL_ID_SQL_POST =
             " ) AND `A0`.`effdt` <= ? AND `A0`.`active` = 'Y' OR " +
-            "(`A0`.`active` = 'N' AND (`A0`.`effdt` >= ? AND `A0`.`effdt` <= ?))" +
-            ")";
+            "(`A0`.`active` = 'N' AND (`A0`.`effdt` >= ? AND `A0`.`effdt` <= ?)"+
+             " AND (select exists(select C0.principal_id from tk_assignment_t C0 where C0.principal_id = A0.principal_id and C0.job_number = A0.job_number "+
+             " AND C0.work_area = A0.work_area and C0.task = A0.task and C0.effdt <= ? and C0.active = 'Y'))))";
 
     private Set<String> getPrincipalIdsWithActiveAssignmentsForCalendarGroup(Set<Long> approverWorkAreas, String payCalendarGroup, java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate) {
         if (approverWorkAreas.size() == 0) {
@@ -588,7 +589,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         String workAreasForQuery = workAreas.substring(0, workAreas.length() - 3);
         String sql = GET_PRINCIPAL_ID_SQL_PRE + workAreasForQuery + GET_PRINCIPAL_ID_SQL_POST;
 
-        SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{payCalendarGroup, effdt, beginDate, endDate});
+        SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{payCalendarGroup, effdt, beginDate, endDate, endDate});
         while(rs.next()) {
             principalIds.add(rs.getString("principal_id"));
         }
