@@ -16,10 +16,16 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.springframework.web.util.HtmlUtils;
 
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * Test data should contain:
+ *
+ * insert into tk_document_header_t values ('2', 'admin', '2011-02-01 00:00:00', 'I', '2011-01-15 00:00:00', NULL, '1');
+ */
 public class SimpleTimeEntryValidationTest extends TkTestCase {
 
     public static final String USER_PRINCIPAL_ID = "admin";
@@ -64,15 +70,62 @@ public class SimpleTimeEntryValidationTest extends TkTestCase {
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
 
         // Check for errors
-        assertEquals("There should be no errors in this time detail submission", 1, errors.size());
+        assertEquals("There should be 1 error in this time detail submission", 1, errors.size());
         assertEquals("Error String Unexpected", "The start date/time is outside the pay period", errors.get(0));
-
-        // In other tests, when there are no errors:
-
-        // Click Submit
-        // TODO : Get the button from the form, and .click() it.
-
-        // Check That results appear on the Page
-        // TODO : Fill in this example.
     }
+
+
+    @Test
+    /**
+     * Example test to demonstrate adding time blocks to a time sheet using
+     * HTMLUnit rather than JS calls.
+     */
+    public void testExample2AddValidTimeBlock() throws Exception {
+        // Load document 2 -- an initiated document 1/15 - 2/01 // 2011
+        String tdocId = "2"; // The timesheet to open.
+        String baseUrl = TkTestConstants.Urls.TIME_DETAIL_URL + "?documentId=" + tdocId;
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+        assertNotNull(page);
+        //HtmlUnitUtil.createTempFile(page, "SimpleTimeEntry");
+        String pageAsText = page.asText();
+        assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
+        assertTrue("Login info not present.", pageAsText.contains("admin, admin"));
+
+        HtmlForm form = page.getFormByName("TimeDetailActionForm");
+        assertNotNull(form);
+
+        // 1. Obtain User Data
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(), JAN_AS_OF_DATE);
+        Assignment assignment = assignments.get(0);
+        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, JAN_AS_OF_DATE);
+        EarnCode earnCode = earnCodes.get(0);
+
+        TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdocId);
+
+        // 2. Set Timeblock Start and End time
+        // 1/18/2011 - 8a to 10a
+        DateTime start = new DateTime(2011, 1, 18, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        DateTime end = new DateTime(2011, 1, 18, 10, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+
+        // Build an action form - we're using it as a POJO, it ties into the
+        // existing TK validation setup
+        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(timesheetDocument, assignment, earnCode, start, end, null, false, null);
+        List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
+
+        // Check for errors
+        assertEquals("There should be no errors in this time detail submission", 0, errors.size());
+
+        // Submit the Form to the Page.
+        // Note - This currently uses a less than desirable method to accomplish this...
+        page = TimeDetailTestUtils.submitTimeDetails(baseUrl, tdaf);
+        assertNotNull(page);
+        //HtmlUnitUtil.createTempFile(page, "TimeBlockPresent");
+
+        // Verify block present on rendered page.
+        pageAsText = page.asText();
+        assertTrue("TimeBlock not Present.", pageAsText.contains("08:00 AM - 10:00 AM"));
+        assertTrue("TimeBlock not Present.", pageAsText.contains("RGN - 2.00 hours"));
+    }
+
+
 }

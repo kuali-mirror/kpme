@@ -1,6 +1,10 @@
 package org.kuali.hr.time.util;
 
+import com.gargoylesoftware.htmlunit.ScriptResult;
+import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.time.assignment.Assignment;
@@ -8,12 +12,16 @@ import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.detail.validation.TimeDetailValidationService;
 import org.kuali.hr.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.List;
 
 public class TimeDetailTestUtils {
+
+    private static final Logger LOG = Logger.getLogger(TimeDetailTestUtils.class);
 
     /**
      * From the provided set of parameters, build an action form suitable for
@@ -72,6 +80,7 @@ public class TimeDetailTestUtils {
         tdaf.setTimesheetDocument(timeshetDocument);
         tdaf.setSelectedAssignment(selectedAssignment);
         tdaf.setSelectedEarnCode(selectedEarnCode);
+        tdaf.setMethodToCall("addTimeBlock");
 
         return tdaf;
     }
@@ -108,8 +117,90 @@ public class TimeDetailTestUtils {
             form.setAttribute("selectedEarnCode", tdaf.getSelectedEarnCode());
             form.setAttribute("selectedAssignment", tdaf.getSelectedAssignment());
             form.setAttribute("acrossDays", tdaf.getAcrossDays());
+            form.setAttribute("methodToCall", tdaf.getMethodToCall());
         }
 
         return errors;
+    }
+
+    /**
+     * This is a 'hacker' method to get around the fact that in HtmlUnit you
+     * can no longer directly submit forms if there are no buttons. We
+     * simply add a button to the form, and click it!
+     *
+     * @param page The HtmlPage the form came from.
+     * @param form The HtmlForm you wish to submit.
+     * @return The return results from clicking .submit()
+     */
+    private static HtmlPage submitTimeDetailsDep(HtmlPage page, HtmlForm form) {
+        HtmlButton submitButton = null;
+
+        //ScriptResult sr = page.executeJavaScript("document.forms[\"TimeDetailActionForm\"].submit();");
+
+        if (submitButton == null) {
+            submitButton = (HtmlButton)page.createElement("button");
+            submitButton.setAttribute("type", "submit");
+            form.appendChild(submitButton);
+        }
+
+        HtmlPage newPage = null;
+        try {
+            submitButton.click();
+        } catch (Exception e) {
+            LOG.error("While submitting time detail form", e);
+        }
+
+        return newPage;
+    }
+
+
+    /**
+     * A method to wrap the submission of the time details.
+     * @param baseUrl
+     * @param tdaf
+     * @return
+     */
+    public static HtmlPage submitTimeDetails(String baseUrl, TimeDetailActionFormBase tdaf) {
+        // For now, until a more HtmlUnit based click method can be found
+        // workable, we're building a url-encoded string to directly
+        // post to the servlet.
+
+        String url = baseUrl + buildPostFromFormParams(tdaf);
+        HtmlPage page = null;
+
+        try {
+            page = HtmlUnitUtil.gotoPageAndLogin(url);
+        } catch (Exception e) {
+            LOG.error("Error while submitting form", e);
+        }
+
+        return page;
+    }
+
+    private static String buildPostFromFormParams(TimeDetailActionFormBase tdaf) {
+        StringBuilder builder = new StringBuilder();
+
+        try {
+            builder.append("&methodToCall=").append(URLEncoder.encode(tdaf.getMethodToCall(), "UTF-8"));
+            builder.append("&acrossDays=").append(URLEncoder.encode(tdaf.getAcrossDays(), "UTF-8"));
+            if (tdaf.getAmount() != null) {
+                builder.append("&amount=").append(URLEncoder.encode(tdaf.getAmount().toString(), "UTF-8"));
+            } else {
+                builder.append("&hours=").append(URLEncoder.encode(tdaf.getHours().toString(), "UTF-8"));
+                builder.append("&startTime=").append(URLEncoder.encode(tdaf.getStartTime(), "UTF-8"));
+                builder.append("&endTime=").append(URLEncoder.encode(tdaf.getEndTime(), "UTF-8"));
+            }
+            builder.append("&startDate=").append(URLEncoder.encode(tdaf.getStartDate(), "UTF-8"));
+            builder.append("&endDate=").append(URLEncoder.encode(tdaf.getEndDate(), "UTF-8"));
+            builder.append("&selectedAssignment=").append(URLEncoder.encode(tdaf.getSelectedAssignment(), "UTF-8"));
+            builder.append("&selectedEarnCode=").append(URLEncoder.encode(tdaf.getSelectedEarnCode(), "UTF-8"));
+            if (tdaf.getTkTimeBlockId() != null) {
+                builder.append("&tkTimeBlockId").append(URLEncoder.encode(tdaf.getTkTimeBlockId().toString(), "UTF-8"));
+            }
+        } catch (Exception e) {
+            LOG.error("Exception building Post String", e);
+        }
+
+        return builder.toString();
     }
 }
