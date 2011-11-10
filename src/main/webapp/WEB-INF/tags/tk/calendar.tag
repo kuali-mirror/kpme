@@ -18,6 +18,11 @@
                 </c:if>
             </td>
         </tr>
+		<tr>
+		        <tr>
+        <td align="right"><a href="javascript: window.open(extractUrlBase()+'/TimeDetail.do?methodToCall=actualTimeInquiry&documentId=${Form.documentId}', 'actualTimeInquiry')">Actual Time Inquiry</a></td>
+        </tr>
+		</tr>
         </tbody>
     </table>
 
