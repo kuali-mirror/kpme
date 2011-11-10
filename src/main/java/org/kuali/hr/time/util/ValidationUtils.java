@@ -8,6 +8,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.accrual.AccrualCategory;
+import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
@@ -392,6 +393,19 @@ public class ValidationUtils {
     	   valid = true;
        }
 
+	   return valid;
+   }
+   
+   public static boolean duplicateTimeOffAccrual (String accrual, Date effectiveDate) {
+	   boolean valid = false;
+	   Criteria crit = new Criteria();
+	   crit.addEqualTo("accrualCategory", accrual);
+	   crit.addEqualTo("effectiveDate", effectiveDate);
+	   Query query = QueryFactory.newQuery(TimeOffAccrual.class, crit);
+	   int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+	   if(count > 0) {
+		   valid = true;
+	   }
 	   return valid;
    }
 
