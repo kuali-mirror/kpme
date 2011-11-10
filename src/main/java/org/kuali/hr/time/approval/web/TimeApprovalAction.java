@@ -91,45 +91,46 @@ public class TimeApprovalAction extends TkAction {
             selectedPayCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(currentPayCalendar.getHrPyCalendarId(), currentDate);
         }
 
-        PayCalendarEntries tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getPreviousPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrPyCalendarId(), selectedPayCalendarEntries);
-        if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getPyCalendarGroup())) {
-            taaf.setPrevPayCalendarId(tpce.getHrPyCalendarEntriesId());
-        } else {
-            taaf.setPrevPayCalendarId(null);
+        if(selectedPayCalendarEntries != null){
+            PayCalendarEntries tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getPreviousPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrPyCalendarId(), selectedPayCalendarEntries);
+            if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getPyCalendarGroup())) {
+                taaf.setPrevPayCalendarId(tpce.getHrPyCalendarEntriesId());
+            } else {
+                taaf.setPrevPayCalendarId(null);
+            }
+            tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getNextPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrPyCalendarId(), selectedPayCalendarEntries);
+            if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getPyCalendarGroup())) {
+                taaf.setNextPayCalendarId(tpce.getHrPyCalendarEntriesId());
+            } else {
+                taaf.setNextPayCalendarId(null);
+            }
+
+            taaf.setHrPyCalendarId(selectedPayCalendarEntries.getHrPyCalendarId());
+            taaf.setHrPyCalendarEntriesId(selectedPayCalendarEntries.getHrPyCalendarEntriesId());
+            taaf.setPayBeginDate(selectedPayCalendarEntries.getBeginPeriodDateTime());
+            taaf.setPayEndDate(selectedPayCalendarEntries.getEndPeriodDateTime());
+            taaf.setName(user.getPrincipalName());
+
+            // TODO:
+            // Getting principal ids from active assignments is a single sql query which runs pretty fast.
+            // If the total number of work areas is large, some optimization needs to be done to reduce the db calls.
+            Set<Long> workAreasForQuery = new HashSet<Long>();
+            if (StringUtils.isBlank(taaf.getSelectedWorkArea())) {
+                workAreasForQuery = taaf.getDeptWorkareas();
+            } else {
+                workAreasForQuery.add(Long.parseLong(taaf.getSelectedWorkArea()));
+            }
+
+            Set<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByWorkAreas(workAreasForQuery, new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
+            taaf.setResultSize(principalIds.size());
+
+            if (StringUtils.isNotBlank(getSortField(request))) {
+                principalIds = getSortedPrincipalIdList(getSortField(request), isAscending(request), new LinkedList<String>(principalIds),
+                        new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()));
+            }
+            taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, new LinkedList<String>(principalIds)), taaf.getSelectedPayCalendarGroup()));
+            taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(selectedPayCalendarEntries, new ArrayList<Boolean>()));
         }
-        tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getNextPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrPyCalendarId(), selectedPayCalendarEntries);
-        if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getPyCalendarGroup())) {
-            taaf.setNextPayCalendarId(tpce.getHrPyCalendarEntriesId());
-        } else {
-            taaf.setNextPayCalendarId(null);
-        }
-
-        taaf.setHrPyCalendarId(selectedPayCalendarEntries.getHrPyCalendarId());
-        taaf.setHrPyCalendarEntriesId(selectedPayCalendarEntries.getHrPyCalendarEntriesId());
-        taaf.setPayBeginDate(selectedPayCalendarEntries.getBeginPeriodDateTime());
-        taaf.setPayEndDate(selectedPayCalendarEntries.getEndPeriodDateTime());
-        taaf.setName(user.getPrincipalName());
-
-        // TODO:
-        // Getting principal ids from active assignments is a single sql query which runs pretty fast.
-        // If the total number of work areas is large, some optimization needs to be done to reduce the db calls.
-        Set<Long> workAreasForQuery = new HashSet<Long>();
-        if (StringUtils.isBlank(taaf.getSelectedWorkArea())) {
-            workAreasForQuery = taaf.getDeptWorkareas();
-        } else {
-            workAreasForQuery.add(Long.parseLong(taaf.getSelectedWorkArea()));
-        }
-
-        Set<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByWorkAreas(workAreasForQuery, new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
-        taaf.setResultSize(principalIds.size());
-
-        if (StringUtils.isNotBlank(getSortField(request))) {
-            principalIds = getSortedPrincipalIdList(getSortField(request), isAscending(request), new LinkedList<String>(principalIds),
-                    new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()));
-        }
-        taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, new LinkedList<String>(principalIds)), taaf.getSelectedPayCalendarGroup()));
-        taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(selectedPayCalendarEntries, new ArrayList<Boolean>()));
-
         return fwd;
     }
 

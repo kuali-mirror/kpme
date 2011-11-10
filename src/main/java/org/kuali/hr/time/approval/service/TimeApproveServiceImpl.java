@@ -515,6 +515,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
     @Override
     public List<String> getUniquePayGroups(Set<Long> approverWorkAreas) {
+    	if(approverWorkAreas.isEmpty()){
+    		return new ArrayList<String>();
+    	}
+    	
+    	
         StringBuilder workAreas = new StringBuilder();
         for (long workarea : approverWorkAreas) {
             workAreas.append("W.work_area = " + workarea + " or ");
@@ -612,7 +617,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         String idsForQuery = ids.substring(0, ids.length() - 4);
         String sql = "SELECT document_id, principal_id, document_status " +
                 "FROM tk_document_header_t " +
-                "WHERE " + idsForQuery + " AND pay_begin_dt >= ? AND pay_end_dt <= ?";
+                "WHERE (" + idsForQuery + ") AND pay_begin_dt = ? AND pay_end_dt = ?";
         Map<String, TimesheetDocumentHeader> principalDocumentHeader = new LinkedHashMap<String, TimesheetDocumentHeader>();
         SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql,
                 new Object[]{payBeginDate, payEndDate}, new int[]{Types.DATE, Types.DATE});

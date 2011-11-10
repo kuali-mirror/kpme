@@ -268,7 +268,7 @@ public class TkConstants {
         public static final String SESSION_TIMEOUT = "session.timeout";
     }
 
-    public static final Integer PAGE_SIZE = 2;
+    public static final Integer PAGE_SIZE = 20;
     public static final String APPROVAL_TABLE_ID = "row";
     
     public static final String IP_SEPERATOR = ".";

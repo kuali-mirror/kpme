@@ -110,7 +110,7 @@
     </c:if>
 </table>
 
-<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do" excludedParams="*" pagesize="2" id="row"
+<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do" excludedParams="*" pagesize="20" id="row"
                class="approvals-table" partialList="true" size="${Form.resultSize}" sort="external" defaultsort="1">
     <display:column title="Principal Name" sortable="true" sortName="principalName">
         <c:if test="${row.periodTotal > 0}">
