@@ -669,11 +669,14 @@ $.fn.getEarnCodeType = function() {
 $.fn.openTimeEntryDialog = function(beginDay, endDay) {
     oriTimeDetail = {};
     $('#beginTimeField, #endTimeField, #hoursField, #acrossDaysField').val('');
-    $('#acrossDaysField').attr('checked', '');
-
+    if(endDay > beginDay){
+    	$('#acrossDaysField').attr('checked', 'checked');
+    } else {
+    	$('#acrossDaysField').attr('checked', '');
+    }
+    
     $('#date-range-begin').val($.datepicker.formatDate('mm/dd/yy', beginDay));
     $('#date-range-end').val($.datepicker.formatDate('mm/dd/yy', endDay));
-    $('#acrossDaysField').attr('checked', '');
     if ($('#assignment-value').html() != '') {
         $('#earnCode').loadEarnCode($('#assignment').val());
     }
