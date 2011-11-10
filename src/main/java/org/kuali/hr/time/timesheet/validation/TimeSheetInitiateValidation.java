@@ -14,13 +14,13 @@ public class TimeSheetInitiateValidation extends MaintenanceDocumentRuleBase {
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = true;
         TimeSheetInitiate timeInit = (TimeSheetInitiate)this.getNewBo();
-        Calendar pc = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(timeInit.getPyCalendarGroup());
+        Calendar pc = TkServiceLocator.getCalendarSerivce().getCalendarByGroup(timeInit.getPyCalendarGroup());
         if(pc == null) {
-        	this.putFieldError("pyCalendarGroup", "timeSheetInit.payCalendar.Invalid");
+        	this.putFieldError("pyCalendarGroup", "timeSheetInit.calendar.Invalid");
         	valid = false;
         }
         
-    	CalendarEntries pce = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(timeInit.getHrPyCalendarEntriesId());
+    	CalendarEntries pce = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(timeInit.getHrPyCalendarEntriesId());
     	if(pce == null) {
     		this.putFieldError("hrPyCalendarEntriesId", "timeSheetInit.payCalEntriesId.Invalid");
         	valid = false;

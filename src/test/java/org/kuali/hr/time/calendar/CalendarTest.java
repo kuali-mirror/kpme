@@ -1,4 +1,4 @@
-package org.kuali.hr.time.paycalendar;
+package org.kuali.hr.time.calendar;
 
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -6,11 +6,11 @@ import org.kuali.hr.time.test.TkTestCase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class PayCalendarTest extends TkTestCase {
+public class CalendarTest extends TkTestCase {
 	
 	@Test
-	public void testPayCalendar() throws Exception{
-    	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.paycalendar.PayCalendar&returnLocation=http://localhost:8080/tk-dev/portal.do&hideReturnLink=true&docFormKey=88888888";	
+	public void testCalendar() throws Exception{
+    	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.calendar.Calendar&returnLocation=http://localhost:8080/tk-dev/portal.do&hideReturnLink=true&docFormKey=88888888";	
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
     	HtmlUnitUtil.createTempFile(page);
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");

@@ -23,23 +23,23 @@ public class CalendarServiceImpl implements CalendarService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public Calendar getPayCalendar(Long hrCalendarId) {
-		return calendarDao.getPayCalendar(hrCalendarId);
+	public Calendar getCalendar(Long hrCalendarId) {
+		return calendarDao.getCalendar(hrCalendarId);
 	}
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public Calendar getPayCalendarByGroup(String calendarName) {
-		return calendarDao.getPayCalendarByGroup(calendarName);
+	public Calendar getCalendarByGroup(String calendarName) {
+		return calendarDao.getCalendarByGroup(calendarName);
 	}
 
     @Override
     @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-    public CalendarEntries getPayCalendarDatesByPayEndDate(String principalId, Date payEndDate) {
+    public CalendarEntries getCalendarDatesByPayEndDate(String principalId, Date payEndDate) {
         CalendarEntries pcd = null;
 
-        Calendar calendar = getPayCalendar(principalId, payEndDate);
-        pcd = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntriesByIdAndPeriodEndDate(calendar.getHrCalendarId(), payEndDate);
+        Calendar calendar = getCalendar(principalId, payEndDate);
+        pcd = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntriesByIdAndPeriodEndDate(calendar.getHrCalendarId(), payEndDate);
         pcd.setCalendarObj(calendar);
 
         return pcd;
@@ -47,22 +47,22 @@ public class CalendarServiceImpl implements CalendarService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public CalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate) {
+	public CalendarEntries getCurrentCalendarDates(String principalId, Date currentDate) {
 		CalendarEntries pcd = null;
-        Calendar payCalendar = getPayCalendar(principalId, currentDate);
-	    pcd = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(payCalendar.getHrCalendarId(), currentDate);
-        pcd.setCalendarObj(payCalendar);
+        Calendar calendar = getCalendar(principalId, currentDate);
+	    pcd = TkServiceLocator.getCalendarEntriesSerivce().getCurrentCalendarEntriesByCalendarId(calendar.getHrCalendarId(), currentDate);
+        pcd.setCalendarObj(calendar);
 		return pcd;
 	}
 
     /**
-     * Helper method common to the PayCalendarEntry search methods above.
+     * Helper method common to the CalendarEntry search methods above.
      * @param principalId Principal ID to lookup
      * @param date A date, Principal Calendars are EffDt/Timestamped, so we can any current date.
-     * @return A PayCalendar
+     * @return A Calendar
      */
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-    private Calendar getPayCalendar(String principalId, Date date) {
+    private Calendar getCalendar(String principalId, Date date) {
         Calendar pcal = null;
 
         List<Job> currentJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, date);
@@ -90,8 +90,8 @@ public class CalendarServiceImpl implements CalendarService {
         return pcal;
     }
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public CalendarEntries getPreviousPayCalendarEntry(Long tkCalendarId, Date beginDateCurrentPayCalendar){
-		return calendarDao.getPreviousPayCalendarEntry(tkCalendarId, beginDateCurrentPayCalendar);
+	public CalendarEntries getPreviousCalendarEntry(Long tkCalendarId, Date beginDateCurrentCalendar){
+		return calendarDao.getPreviousCalendarEntry(tkCalendarId, beginDateCurrentCalendar);
 	}
 
 

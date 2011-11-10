@@ -139,8 +139,8 @@ public class ClockLogServiceImpl implements ClockLogService {
         return clockLogDao.getLastClockLog(principalId, clockAction);
     }
 
-    public List<ClockLog> getOpenClockLogs(CalendarEntries payCalendarEntry) {
-        return clockLogDao.getOpenClockLogs(payCalendarEntry);
+    public List<ClockLog> getOpenClockLogs(CalendarEntries calendarEntry) {
+        return clockLogDao.getOpenClockLogs(calendarEntry);
     }
 
 	@Override

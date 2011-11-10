@@ -33,7 +33,7 @@ public class TkTestUtils {
 	public static TimesheetDocument populateBlankTimesheetDocument(Date calDate) {
 		try {
 			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
-							TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getUser().getTargetPrincipalId(),
+							TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
 							  calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
@@ -48,7 +48,7 @@ public class TkTestUtils {
 	public static TimesheetDocument populateTimesheetDocument(Date calDate) {
 		try {
 			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
-							TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getUser().getTargetPrincipalId(),
+							TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
 							  calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
@@ -56,7 +56,7 @@ public class TkTestUtils {
 
 			//refetch clean document
 			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
-					TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(TKContext.getUser().getTargetPrincipalId(),
+					TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
 					   calDate));
 			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			for(int i = 0;i<5;i++){
@@ -134,7 +134,7 @@ public class TkTestUtils {
 	public static TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, int dayInPeriod, int numHours){
 		TimeBlock timeBlock = new TimeBlock();
 		Calendar cal = GregorianCalendar.getInstance();
-		cal.setTimeInMillis(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime().getTime());
+		cal.setTimeInMillis(timesheetDocument.getCalendarEntry().getBeginPeriodDateTime().getTime());
 		for(int i = 1; i< dayInPeriod;i++){
 			cal.add(Calendar.DAY_OF_MONTH, 1);
 		}

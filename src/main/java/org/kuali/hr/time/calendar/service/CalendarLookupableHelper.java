@@ -26,9 +26,9 @@ public class CalendarLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		Calendar payCalendar = (Calendar) businessObject;
+		Calendar calendar = (Calendar) businessObject;
 		final String className = this.getBusinessObjectClass().getName();
-		final Long hrCalendarId = payCalendar.getHrCalendarId();
+		final Long hrCalendarId = calendar.getHrCalendarId();
 		HtmlData htmlData = new HtmlData() {
 
 			@Override

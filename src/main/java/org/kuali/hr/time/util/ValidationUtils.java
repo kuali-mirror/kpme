@@ -377,7 +377,7 @@ public class ValidationUtils {
 	/**
 	 * Checks for row presence of a pay calendar
 	 */
-	public static boolean validatePayCalendar(String calendarName) {
+	public static boolean validateCalendar(String calendarName) {
 		boolean valid = false;
 		Criteria crit = new Criteria();
         crit.addEqualTo("calendarName", calendarName);

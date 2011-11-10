@@ -82,27 +82,27 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     @Override
-	public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntries payCalendarDates) throws WorkflowException {
+	public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntries calendarDates) throws WorkflowException {
 		TimesheetDocument timesheetDocument = null;
 
-		Date begin = payCalendarDates.getBeginPeriodDateTime();
-		Date end = payCalendarDates.getEndPeriodDateTime();
+		Date begin = calendarDates.getBeginPeriodDateTime();
+		Date end = calendarDates.getEndPeriodDateTime();
 
 		TimesheetDocumentHeader header = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, begin, end);
 
 		if (header == null) {
-			List<Assignment> activeAssignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarDates);
-					//TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getTimelessDate(payCalendarDates.getEndPeriodDate()));
+			List<Assignment> activeAssignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, calendarDates);
+					//TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getTimelessDate(calendarDates.getEndPeriodDate()));
 			if(activeAssignments.size() == 0){
-				throw new RuntimeException("No active assignments for "+principalId + " for "+payCalendarDates.getEndPeriodDate());
+				throw new RuntimeException("No active assignments for "+principalId + " for "+calendarDates.getEndPeriodDate());
 			}
 			timesheetDocument = this.initiateWorkflowDocument(principalId, begin, end, TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
-			timesheetDocument.setPayCalendarEntry(payCalendarDates);
-			this.loadTimesheetDocumentData(timesheetDocument, principalId, payCalendarDates);
+			timesheetDocument.setCalendarEntry(calendarDates);
+			this.loadTimesheetDocumentData(timesheetDocument, principalId, calendarDates);
 			this.loadHolidaysOnTimesheet(timesheetDocument, principalId, begin, end);
 		} else {
 			timesheetDocument = this.getTimesheetDocument(header.getDocumentId());
-			timesheetDocument.setPayCalendarEntry(payCalendarDates);
+			timesheetDocument.setCalendarEntry(calendarDates);
 		}
 
 		timesheetDocument.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(timesheetDocument));
@@ -167,19 +167,19 @@ public class TimesheetServiceImpl implements TimesheetService {
 
 		if (tdh != null) {
 			timesheetDocument = new TimesheetDocument(tdh);
-			CalendarEntries pce = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getPayEndDate());
+			CalendarEntries pce = TkServiceLocator.getCalendarSerivce().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getPayEndDate());
 			loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), pce);
 
-            timesheetDocument.setPayCalendarEntry(pce);
+            timesheetDocument.setCalendarEntry(pce);
 		} else {
 			throw new RuntimeException("Could not find TimesheetDocumentHeader for DocumentID: " + documentId);
 		}
 		return timesheetDocument;
 	}
 
-	protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, CalendarEntries payCalEntry) {
-		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalEntry);
-		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(principalId, TKUtils.getTimelessDate(payCalEntry.getEndPeriodDate()));
+	protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, CalendarEntries calEntry) {
+		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, calEntry);
+		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(principalId, TKUtils.getTimelessDate(calEntry.getEndPeriodDate()));
 		List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdoc.getDocumentHeader().getDocumentId()));
 
 		tdoc.setAssignments(assignments);

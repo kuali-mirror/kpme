@@ -10,16 +10,16 @@ public class CalendarEntriesRule extends MaintenanceDocumentRuleBase {
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = false;
 
-        CalendarEntries payCalendarEntries = (CalendarEntries) this.getNewBo();
+        CalendarEntries calendarEntries = (CalendarEntries) this.getNewBo();
 
-        valid = validateCalendarGroup(payCalendarEntries.getCalendarName());
+        valid = validateCalendarGroup(calendarEntries.getCalendarName());
         return valid;
     }
 
     protected boolean validateCalendarGroup(String pyCalendarGroup) {
-    	boolean valid = ValidationUtils.validatePayCalendar(pyCalendarGroup);
+    	boolean valid = ValidationUtils.validateCalendar(pyCalendarGroup);
         if (!valid) {
-            this.putFieldError("calendarName", "payCalendar.notfound");
+            this.putFieldError("calendarName", "calendar.notfound");
         }
         return valid;
     }

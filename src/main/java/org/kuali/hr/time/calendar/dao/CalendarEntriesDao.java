@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface CalendarEntriesDao {
 
-	public CalendarEntries getPayCalendarEntries(Long hrPyCalendarEntriesId);
+	public CalendarEntries getCalendarEntries(Long hrPyCalendarEntriesId);
 
-    public CalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long hrPyCalendarId, Date endPeriodDate);
-	public CalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, Date currentDate);
-    public CalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, CalendarEntries payCalendarEntries);
-    public CalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, CalendarEntries payCalendarEntries);
+    public CalendarEntries getCalendarEntriesByIdAndPeriodEndDate(Long hrPyCalendarId, Date endPeriodDate);
+	public CalendarEntries getCurrentCalendarEntriesByCalendarId(Long hrPyCalendarId, Date currentDate);
+    public CalendarEntries getNextCalendarEntriesByCalendarId(Long hrPyCalendarId, CalendarEntries calendarEntries);
+    public CalendarEntries getPreviousCalendarEntriesByCalendarId(Long hrPyCalendarId, CalendarEntries calendarEntries);
 
 
-	public List<CalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
+	public List<CalendarEntries> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
 }

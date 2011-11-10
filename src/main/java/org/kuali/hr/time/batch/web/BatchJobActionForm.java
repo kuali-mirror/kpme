@@ -75,11 +75,11 @@ public class BatchJobActionForm extends TkForm {
         this.principalId = principalId;
     }
 
-    public String getPayCalendarEntryId() {
+    public String getCalendarEntryId() {
         return hrPyCalendarEntryId;
     }
 
-    public void setPayCalendarEntryId(String hrPyCalendarEntryId) {
+    public void setCalendarEntryId(String hrPyCalendarEntryId) {
         this.hrPyCalendarEntryId = hrPyCalendarEntryId;
     }
 

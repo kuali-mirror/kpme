@@ -13,16 +13,16 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class EmployeeApprovalBatchJob extends BatchJob {
 	private Logger LOG = Logger.getLogger(EmployeeApprovalBatchJob.class);
-    private CalendarEntries payCalendarEntry;
+    private CalendarEntries calendarEntry;
 
-    public EmployeeApprovalBatchJob(CalendarEntries payCalendarEntry) {
-        this.payCalendarEntry = payCalendarEntry;
+    public EmployeeApprovalBatchJob(CalendarEntries calendarEntry) {
+        this.calendarEntry = calendarEntry;
         setBatchJobName(TkConstants.BATCH_JOB_NAMES.APPROVE);
     }
 
 	@Override
 	public void doWork() {
-		Date payBeginDate = payCalendarEntry.getBatchEmployeeApprovalDate();
+		Date payBeginDate = calendarEntry.getBatchEmployeeApprovalDate();
 		//TODO populate pay begin date here
 		List<TimesheetDocumentHeader> documentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(payBeginDate);
 		for(TimesheetDocumentHeader timesheetDocumentHeader : documentHeaders){

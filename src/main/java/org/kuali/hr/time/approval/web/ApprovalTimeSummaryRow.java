@@ -28,7 +28,7 @@ public class ApprovalTimeSummaryRow {
 	private String documentId;
 	private Map<String,BigDecimal> hoursToPayLabelMap = new HashMap<String,BigDecimal>();
 	private String clockStatusMessage;
-    private String payCalendarGroup;
+    private String calendarGroup;
     private List notes = new ArrayList();
     private List<String> warnings = new ArrayList<String>();
     private Set<String> workAreas;
@@ -107,12 +107,12 @@ public class ApprovalTimeSummaryRow {
 		return clockStatusMessage;
 	}
 
-    public String getPayCalendarGroup() {
-        return payCalendarGroup;
+    public String getCalendarGroup() {
+        return calendarGroup;
     }
 
-    public void setPayCalendarGroup(String payCalendarGroup) {
-        this.payCalendarGroup = payCalendarGroup;
+    public void setCalendarGroup(String calendarGroup) {
+        this.calendarGroup = calendarGroup;
     }
 
     /**

@@ -16,7 +16,7 @@ public interface TimesheetService {
 	 * @param principalId
 	 * @return
 	 */
-	public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntries payCalendarDates) throws WorkflowException;
+	public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntries calendarDates) throws WorkflowException;
 	/**
 	 * Route the given timesheet
 	 * @param principalId

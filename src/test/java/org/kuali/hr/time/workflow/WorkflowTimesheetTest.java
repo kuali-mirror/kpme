@@ -37,8 +37,8 @@ public class WorkflowTimesheetTest extends TkTestCase {
 		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(user.getPrincipalId(), asOfDate);
 		assertNotNull("No jobs", jobs);
 		assertTrue("Should only be two Jobs.", jobs.size() == 2);
-		CalendarEntries pcd = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(user.getPrincipalId(), asOfDate);
-		assertNotNull("No PayCalendarDates", pcd);
+		CalendarEntries pcd = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(user.getPrincipalId(), asOfDate);
+		assertNotNull("No CalendarDates", pcd);
 		
 		TimesheetDocument tdoc = timesheetService.openTimesheetDocument(user.getPrincipalId(), pcd);
 		String kewSourceDocumentStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(Long.parseLong(tdoc.getDocumentHeader().getDocumentId()));

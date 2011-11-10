@@ -44,8 +44,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
         List<Boolean> dayArrangements = new ArrayList<Boolean>();
 
-		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getPayCalendarEntry(), dayArrangements));
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getPayCalendarEntry(), TkServiceLocator.getPayCalendarSerivce().getPayCalendar(timesheetDocument.getPayCalendarEntry().getHrCalendarId()), true);
+		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getCalendarEntry(), dayArrangements));
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getCalendarEntry(), TkServiceLocator.getCalendarSerivce().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
 
         List<EarnGroupSection> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getSummaryHeader().size()+1, dayArrangements, timesheetDocument.getAsOfDate());
@@ -249,7 +249,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     /**
      * Handles the generation of the display header for the time summary.
      *
-     * @param cal The PayCalendarEntries object we are using to derive information.
+     * @param cal The CalendarEntries object we are using to derive information.
      * @param dayArrangements Container passed in to store the position of week / period aggregate sums
      *
      * @return An in-order string of days for this period that properly accounts
@@ -260,7 +260,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         List<String> header = new ArrayList<String>();
 
         // Maps directly to joda time day of week constants.
-        int flsaBeginDay = this.getPayCalendarForEntry(cal).getFlsaBeginDayConstant();
+        int flsaBeginDay = this.getCalendarForEntry(cal).getFlsaBeginDayConstant();
         boolean virtualDays = false;
         LocalDateTime startDate = cal.getBeginLocalDateTime();
         LocalDateTime endDate = cal.getEndLocalDateTime();
@@ -326,13 +326,13 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
     /**
      * @param calEntry Calendar entry we are using for lookup.
-     * @return The PayCalendar that owns the provided entry.
+     * @return The Calendar that owns the provided entry.
      */
-    private Calendar getPayCalendarForEntry(CalendarEntries calEntry) {
+    private Calendar getCalendarForEntry(CalendarEntries calEntry) {
         Calendar cal = null;
 
         if (calEntry != null) {
-            cal = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(calEntry.getHrCalendarId());
+            cal = TkServiceLocator.getCalendarSerivce().getCalendar(calEntry.getHrCalendarId());
         }
 
         return cal;

@@ -210,10 +210,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (PayTypeService)CONTEXT.getBean(TK_PAY_TYPE_SERVICE);
 	}
 
-	public static CalendarService getPayCalendarSerivce() {
+	public static CalendarService getCalendarSerivce() {
 		return (CalendarService)CONTEXT.getBean(TK_PAY_CALENDAR_SERVICE);
 	}
-	public static CalendarEntriesService getPayCalendarEntriesSerivce() {
+	public static CalendarEntriesService getCalendarEntriesSerivce() {
 		return (CalendarEntriesService)CONTEXT.getBean(TK_PAY_CALENDAR_ENTRIES_SERVICE);
 	}
 

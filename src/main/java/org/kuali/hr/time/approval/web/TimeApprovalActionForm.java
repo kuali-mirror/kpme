@@ -18,8 +18,8 @@ public class TimeApprovalActionForm extends TkForm {
     private Long hrPyCalendarEntriesId;
     private Long hrPyCalendarId;
     private String name;
-    private List<String> payCalendarGroups = new LinkedList<String>();
-    private String selectedPayCalendarGroup;
+    private List<String> calendarGroups = new LinkedList<String>();
+    private String selectedCalendarGroup;
     private String selectedDept;
     private String selectedWorkArea;
     private Date payBeginDate;
@@ -27,7 +27,7 @@ public class TimeApprovalActionForm extends TkForm {
     private String payBeginDateForSearch;
     private String payEndDateForSearch;
 
-    private List<String> payCalendarLabels = new ArrayList<String>();
+    private List<String> calendarLabels = new ArrayList<String>();
     private List<ApprovalTimeSummaryRow> approvalRows;
     private Long workArea = null;
     private Set<Long> deptWorkareas = new HashSet<Long>();
@@ -51,8 +51,8 @@ public class TimeApprovalActionForm extends TkForm {
 
     private Boolean testSelected = Boolean.FALSE;
 
-    private Long prevPayCalendarId = null;
-    private Long nextPayCalendarId = null;
+    private Long prevCalendarId = null;
+    private Long nextCalendarId = null;
 
     private List<String> departments = new ArrayList<String>();
     private Integer resultSize = 0;
@@ -113,12 +113,12 @@ public class TimeApprovalActionForm extends TkForm {
         return payEndDate;
     }
 
-    public void setPayCalendarLabels(List<String> payCalendarLabels) {
-        this.payCalendarLabels = payCalendarLabels;
+    public void setCalendarLabels(List<String> calendarLabels) {
+        this.calendarLabels = calendarLabels;
     }
 
-    public List<String> getPayCalendarLabels() {
-        return payCalendarLabels;
+    public List<String> getCalendarLabels() {
+        return calendarLabels;
     }
 
     public String getDocumentId() {
@@ -193,12 +193,12 @@ public class TimeApprovalActionForm extends TkForm {
         this.ajaxCall = ajaxCall;
     }
 
-    public List<String> getPayCalendarGroups() {
-        return payCalendarGroups;
+    public List<String> getCalendarGroups() {
+        return calendarGroups;
     }
 
-    public void setPayCalendarGroups(List<String> payCalendarGroups) {
-        this.payCalendarGroups = payCalendarGroups;
+    public void setCalendarGroups(List<String> calendarGroups) {
+        this.calendarGroups = calendarGroups;
     }
 
     public int getRowsInTotal() {
@@ -228,12 +228,12 @@ public class TimeApprovalActionForm extends TkForm {
         this.workArea = workArea;
     }
 
-    public String getSelectedPayCalendarGroup() {
-        return selectedPayCalendarGroup;
+    public String getSelectedCalendarGroup() {
+        return selectedCalendarGroup;
     }
 
-    public void setSelectedPayCalendarGroup(String selectedPayCalendarGroup) {
-        this.selectedPayCalendarGroup = selectedPayCalendarGroup;
+    public void setSelectedCalendarGroup(String selectedCalendarGroup) {
+        this.selectedCalendarGroup = selectedCalendarGroup;
     }
 
     public String getEmployeeWorkArea() {
@@ -252,20 +252,20 @@ public class TimeApprovalActionForm extends TkForm {
         this.testSelected = testSelected;
     }
 
-    public Long getPrevPayCalendarId() {
-        return prevPayCalendarId;
+    public Long getPrevCalendarId() {
+        return prevCalendarId;
     }
 
-    public void setPrevPayCalendarId(Long prevPayCalendarId) {
-        this.prevPayCalendarId = prevPayCalendarId;
+    public void setPrevCalendarId(Long prevCalendarId) {
+        this.prevCalendarId = prevCalendarId;
     }
 
-    public Long getNextPayCalendarId() {
-        return nextPayCalendarId;
+    public Long getNextCalendarId() {
+        return nextCalendarId;
     }
 
-    public void setNextPayCalendarId(Long nextPayCalendarId) {
-        this.nextPayCalendarId = nextPayCalendarId;
+    public void setNextCalendarId(Long nextCalendarId) {
+        this.nextCalendarId = nextCalendarId;
     }
 
     public String getSelectedDept() {

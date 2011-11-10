@@ -45,18 +45,18 @@ public class TimeApprovalAction extends TkAction {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         TKUser user = TKContext.getUser();
         Date currentDate;
-        CalendarEntries selectedPayCalendarEntries = null;
-        Calendar currentPayCalendar = null;
+        CalendarEntries selectedCalendarEntries = null;
+        Calendar currentCalendar = null;
 
         // Set calendar groups
         List<String> calGroups = TkServiceLocator.getTimeApproveService().getUniquePayGroups();
-        taaf.setPayCalendarGroups(calGroups);
+        taaf.setCalendarGroups(calGroups);
 
         // Set department
         taaf.setDepartments(user.getReportingApprovalDepartments());
         if (taaf.getDepartments().size() == 1) {
             taaf.setSelectedDept(taaf.getDepartments().get(0));
-            taaf.setSelectedPayCalendarGroup(calGroups.get(0));
+            taaf.setSelectedCalendarGroup(calGroups.get(0));
         }
         if (StringUtils.isBlank(taaf.getSelectedDept())) {
             return super.execute(mapping, form, request, response);
@@ -75,52 +75,52 @@ public class TimeApprovalAction extends TkAction {
         // Set current pay calendar entries if present.
         // Decide if the current date should be today or the end period date
         if (taaf.getHrPyCalendarEntriesId() != null) {
-            selectedPayCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(taaf.getHrPyCalendarEntriesId());
-            currentDate = selectedPayCalendarEntries.getEndPeriodDate();
+            selectedCalendarEntries = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(taaf.getHrPyCalendarEntriesId());
+            currentDate = selectedCalendarEntries.getEndPeriodDate();
         } else {
             currentDate = TKUtils.getTimelessDate(null);
         }
 
-        if (taaf.getHrPyCalendarEntriesId() == null || selectedPayCalendarEntries == null) {
-            currentPayCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(taaf.getSelectedPayCalendarGroup());
-            selectedPayCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
+        if (taaf.getHrPyCalendarEntriesId() == null || selectedCalendarEntries == null) {
+            currentCalendar = TkServiceLocator.getCalendarSerivce().getCalendarByGroup(taaf.getSelectedCalendarGroup());
+            selectedCalendarEntries = TkServiceLocator.getCalendarEntriesSerivce().getCurrentCalendarEntriesByCalendarId(currentCalendar.getHrCalendarId(), currentDate);
         }
 
-        if (selectedPayCalendarEntries != null) {
-            CalendarEntries tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getPreviousPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrCalendarId(), selectedPayCalendarEntries);
+        if (selectedCalendarEntries != null) {
+            CalendarEntries tpce = TkServiceLocator.getCalendarEntriesSerivce().getPreviousCalendarEntriesByCalendarId(selectedCalendarEntries.getHrCalendarId(), selectedCalendarEntries);
             if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getCalendarName())) {
-                taaf.setPrevPayCalendarId(tpce.getHrCalendarEntriesId());
+                taaf.setPrevCalendarId(tpce.getHrCalendarEntriesId());
             } else {
-                taaf.setPrevPayCalendarId(null);
+                taaf.setPrevCalendarId(null);
             }
-            tpce = TkServiceLocator.getPayCalendarEntriesSerivce().getNextPayCalendarEntriesByPayCalendarId(selectedPayCalendarEntries.getHrCalendarId(), selectedPayCalendarEntries);
+            tpce = TkServiceLocator.getCalendarEntriesSerivce().getNextCalendarEntriesByCalendarId(selectedCalendarEntries.getHrCalendarId(), selectedCalendarEntries);
             if (tpce != null && TkServiceLocator.getTimeApproveService().doesApproverHavePrincipalsForCalendarGroup(tpce.getEndPeriodDateTime(), tpce.getCalendarName())) {
-                taaf.setNextPayCalendarId(tpce.getHrCalendarEntriesId());
+                taaf.setNextCalendarId(tpce.getHrCalendarEntriesId());
             } else {
-                taaf.setNextPayCalendarId(null);
+                taaf.setNextCalendarId(null);
             }
         }
 
 
-        taaf.setHrPyCalendarId(selectedPayCalendarEntries.getHrCalendarId());
-        taaf.setHrPyCalendarEntriesId(selectedPayCalendarEntries.getHrCalendarEntriesId());
-        taaf.setPayBeginDate(selectedPayCalendarEntries.getBeginPeriodDateTime());
-        taaf.setPayEndDate(selectedPayCalendarEntries.getEndPeriodDateTime());
+        taaf.setHrPyCalendarId(selectedCalendarEntries.getHrCalendarId());
+        taaf.setHrPyCalendarEntriesId(selectedCalendarEntries.getHrCalendarEntriesId());
+        taaf.setPayBeginDate(selectedCalendarEntries.getBeginPeriodDateTime());
+        taaf.setPayEndDate(selectedCalendarEntries.getEndPeriodDateTime());
         taaf.setName(user.getPrincipalName());
 
         // TODO:
         // Getting principal ids from active assignments is a single sql query which runs pretty fast.
         // If the total number of work areas is large, some optimization needs to be done to reduce the db calls.
 
-        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByAssignment(workAreas, new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
+        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByAssignment(workAreas, new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedCalendarGroup());
         taaf.setResultSize(principalIds.size());
 
         if (StringUtils.isNotBlank(getSortField(request))) {
             principalIds = getSortedPrincipalIdList(getSortField(request), isAscending(request), principalIds,
                     new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()));
         }
-        taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, principalIds), taaf.getSelectedPayCalendarGroup()));
-        taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(selectedPayCalendarEntries, new ArrayList<Boolean>()));
+        taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, principalIds), taaf.getSelectedCalendarGroup()));
+        taaf.setCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(selectedCalendarEntries, new ArrayList<Boolean>()));
 
 
 
@@ -141,7 +141,7 @@ public class TimeApprovalAction extends TkAction {
 
     }
 
-    public ActionForward selectNewPayCalendarGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward selectNewCalendarGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         taaf.setHrPyCalendarEntriesId(null);
         taaf.setHrPyCalendarId(null);

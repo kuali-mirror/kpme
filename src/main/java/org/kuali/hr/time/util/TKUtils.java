@@ -153,13 +153,13 @@ public class TKUtils {
      * Constructs a list of Day Spans for the pay calendar entry provided. You
      * must also provide a DateTimeZone so that we can create relative boundaries.
      *
-     * @param payCalendarEntry
+     * @param calendarEntry
      * @param timeZone
      * @return
      */
-    public static List<Interval> getDaySpanForPayCalendarEntry(CalendarEntries payCalendarEntry, DateTimeZone timeZone) {
-        DateTime beginDateTime = payCalendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
-        DateTime endDateTime = payCalendarEntry.getEndLocalDateTime().toDateTime(timeZone);
+    public static List<Interval> getDaySpanForCalendarEntry(CalendarEntries calendarEntry, DateTimeZone timeZone) {
+        DateTime beginDateTime = calendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
+        DateTime endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(timeZone);
 
         List<Interval> dayIntervals = new ArrayList<Interval>();
 
@@ -174,17 +174,17 @@ public class TKUtils {
         return dayIntervals;
     }
 
-    public static List<Interval> getDaySpanForPayCalendarEntry(CalendarEntries payCalendarEntry) {
-        return getDaySpanForPayCalendarEntry(payCalendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+    public static List<Interval> getDaySpanForCalendarEntry(CalendarEntries calendarEntry) {
+        return getDaySpanForCalendarEntry(calendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
 
-    public static List<Interval> getFullWeekDaySpanForPayCalendarEntry(CalendarEntries payCalendarEntry) {
-        return getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+    public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntries calendarEntry) {
+        return getFullWeekDaySpanForCalendarEntry(calendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
 
-    public static List<Interval> getFullWeekDaySpanForPayCalendarEntry(CalendarEntries payCalendarEntry, DateTimeZone timeZone) {
-        DateTime beginDateTime = payCalendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
-        DateTime endDateTime = payCalendarEntry.getEndLocalDateTime().toDateTime(timeZone);
+    public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntries calendarEntry, DateTimeZone timeZone) {
+        DateTime beginDateTime = calendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
+        DateTime endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(timeZone);
 
         List<Interval> dayIntervals = new ArrayList<Interval>();
 
@@ -270,9 +270,9 @@ public class TKUtils {
       * Compares and confirms if the start of the day is at midnight or on a virtual day boundary
       * returns true if at midnight false otherwise(assuming 24 hr days)
       */
-    public static boolean isVirtualWorkDay(Calendar payCalendarStartTime) {
-        return (payCalendarStartTime.get(Calendar.HOUR_OF_DAY) != 0 || payCalendarStartTime.get(Calendar.MINUTE) != 0
-                && payCalendarStartTime.get(Calendar.AM_PM) != Calendar.AM);
+    public static boolean isVirtualWorkDay(Calendar calendarStartTime) {
+        return (calendarStartTime.get(Calendar.HOUR_OF_DAY) != 0 || calendarStartTime.get(Calendar.MINUTE) != 0
+                && calendarStartTime.get(Calendar.AM_PM) != Calendar.AM);
     }
 
     /**

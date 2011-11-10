@@ -15,7 +15,7 @@ public interface BatchJobService {
 
     /**
      * Provides a List of BatchJob objects that match the indicated hrPyCalendarEntryId.
-     * @param hrPyCalendarEntryId The id of PayCalendarEntries objects to match.
+     * @param hrPyCalendarEntryId The id of CalendarEntries objects to match.
      * @return List of BatchJob objects.
      */
     public List<BatchJob> getBatchJobs(Long hrPyCalendarEntryId);

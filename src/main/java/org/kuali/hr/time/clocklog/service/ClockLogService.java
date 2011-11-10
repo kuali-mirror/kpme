@@ -41,10 +41,10 @@ public interface ClockLogService {
 	
 	/**
 	 * Fetch open clock logs by pay calendar entry
-	 * @param payCalendarEntry
+	 * @param calendarEntry
 	 * @return
 	 */
-	public List<ClockLog> getOpenClockLogs(CalendarEntries payCalendarEntry);
+	public List<ClockLog> getOpenClockLogs(CalendarEntries calendarEntry);
 
 	/**
 	 * Process clock log created

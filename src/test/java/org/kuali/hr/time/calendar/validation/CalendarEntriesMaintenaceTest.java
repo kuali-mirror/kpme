@@ -1,4 +1,4 @@
-package org.kuali.hr.time.paycalendar.validation;
+package org.kuali.hr.time.calendar.validation;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -8,7 +8,7 @@ import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
-public class PayCalendarEntriesMaintenaceTest extends TkTestCase {
+public class CalendarEntriesMaintenaceTest extends TkTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -20,9 +20,9 @@ public class PayCalendarEntriesMaintenaceTest extends TkTestCase {
 	}
 	
 	@Test
-	//tests PayCalendarEntriesRule
-	public void testSubmitPayCalendarEntriesMaint() throws Exception {
-    	//String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.paycalendar.PayCalendarEntries&methodToCall=start";
+	//tests CalendarEntriesRule
+	public void testSubmitCalendarEntriesMaint() throws Exception {
+    	//String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.paycalendar.CalendarEntries&methodToCall=start";
 		String baseUrl = TkTestConstants.Urls.PAY_CALENDAR_ENTRIES_MAINT_NEW_URL;
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
     	assertNotNull(page);

@@ -14,19 +14,19 @@ public class CalendarDaoSpringOjbImpl extends PersistenceBrokerDaoSupport  imple
 
 	private static final Logger LOG = Logger.getLogger(CalendarDaoSpringOjbImpl.class);
 
-	public void saveOrUpdate(Calendar payCalendar) {
-		this.getPersistenceBrokerTemplate().store(payCalendar);
+	public void saveOrUpdate(Calendar calendar) {
+		this.getPersistenceBrokerTemplate().store(calendar);
 	}
 
-	public void saveOrUpdate(List<Calendar> payCalendarList) {
-		if (payCalendarList != null) {
-			for (Calendar payCalendar : payCalendarList) {
-				this.getPersistenceBrokerTemplate().store(payCalendar);
+	public void saveOrUpdate(List<Calendar> calendarList) {
+		if (calendarList != null) {
+			for (Calendar calendar : calendarList) {
+				this.getPersistenceBrokerTemplate().store(calendar);
 			}
 		}
 	}
 
-	public Calendar getPayCalendar(Long hrPyCalendarId) {
+	public Calendar getCalendar(Long hrPyCalendarId) {
 		Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("hrCalendarId", hrPyCalendarId);
 
@@ -34,17 +34,17 @@ public class CalendarDaoSpringOjbImpl extends PersistenceBrokerDaoSupport  imple
 	}
 
 	// Is pay clendar groups alwasy unique?
-	public Calendar getPayCalendarByGroup(String pyCalendarGroup) {
+	public Calendar getCalendarByGroup(String pyCalendarGroup) {
 		Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("calendarName", pyCalendarGroup);
 
 		return (Calendar) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Calendar.class, currentRecordCriteria));
 	}
 	
-	public CalendarEntries getPreviousPayCalendarEntry(Long tkPayCalendarId, Date beginDateCurrentPayCalendar){
+	public CalendarEntries getPreviousCalendarEntry(Long tkCalendarId, Date beginDateCurrentCalendar){
         Criteria payEndDateCriteria = new Criteria();
-        payEndDateCriteria.addEqualTo("hr_py_calendar_id", tkPayCalendarId);
-        payEndDateCriteria.addLessOrEqualThan("end_period_date", beginDateCurrentPayCalendar);
+        payEndDateCriteria.addEqualTo("hr_py_calendar_id", tkCalendarId);
+        payEndDateCriteria.addLessOrEqualThan("end_period_date", beginDateCurrentCalendar);
         
         return (CalendarEntries) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(CalendarEntries.class,payEndDateCriteria));
         

@@ -21,7 +21,7 @@ public class TimesheetActionForm extends TkForm {
 	private Map<Long,String> earnCodeDescriptions;
 	/** String (concat(job number, work_area, task)) -> Formatted Assignment Descriptions */
 	private Map<String,String>  assignmentDescriptions;
-	private CalendarEntries payCalendarDates;
+	private CalendarEntries calendarDates;
 	private String selectedAssignment;
 	private String selectedEarnCode;
 
@@ -80,12 +80,12 @@ public class TimesheetActionForm extends TkForm {
 		this.selectedEarnCode = selectedEarnCode;
 	}
 
-	public CalendarEntries getPayCalendarDates() {
-		return payCalendarDates;
+	public CalendarEntries getCalendarDates() {
+		return calendarDates;
 	}
 
-	public void setPayCalendarDates(CalendarEntries payCalendarDates) {
-		this.payCalendarDates = payCalendarDates;
+	public void setCalendarDates(CalendarEntries calendarDates) {
+		this.calendarDates = calendarDates;
 	}
 
 	public String getCalNav() {
@@ -97,11 +97,11 @@ public class TimesheetActionForm extends TkForm {
 	}
 
 	public java.util.Date getBeginPeriodDateTime() {
-		return getPayCalendarDates().getBeginPeriodDateTime();
+		return getCalendarDates().getBeginPeriodDateTime();
 	}
 
 	public java.util.Date getEndPeriodDateTime() {
-		return getPayCalendarDates().getEndPeriodDateTime();
+		return getCalendarDates().getEndPeriodDateTime();
 	}
 
 	public String getDocumentId() {

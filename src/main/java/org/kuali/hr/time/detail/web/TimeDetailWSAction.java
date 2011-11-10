@@ -54,7 +54,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         TimeDetailActionFormBase tdaf = (TimeDetailActionFormBase) form;
 
         JSONArray errorMsgList = new JSONArray();
-        CalendarEntries payCalEntry = tdaf.getTimesheetDocument().getPayCalendarEntry();
+        CalendarEntries payCalEntry = tdaf.getTimesheetDocument().getCalendarEntry();
         java.sql.Date asOfDate = payCalEntry.getEndPeriodDate();
 
         if (tdaf.getStartDate() == null) {

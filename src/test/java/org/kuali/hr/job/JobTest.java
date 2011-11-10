@@ -33,36 +33,36 @@ public class JobTest extends TkTestCase {
 
 	
 	@Test
-	public void testInsertPayCalendar() throws Exception {
-		Calendar payCalendar = new Calendar();
-		payCalendar.setHrCalendarId(1L);
-		payCalendar.setCalendarName(CALENDAR_NAME);
-		payCalendar.setCalendarDescriptions(CALENDAR_NAME);
-		payCalendar.setFlsaBeginDay("Sun");
-		payCalendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
-		KNSServiceLocator.getBusinessObjectService().save(payCalendar);
-		assertTrue(TkServiceLocator.getPayCalendarSerivce().getPayCalendar(payCalendar.getHrCalendarId()) != null);
+	public void testInsertCalendar() throws Exception {
+		Calendar calendar = new Calendar();
+		calendar.setHrCalendarId(1L);
+		calendar.setCalendarName(CALENDAR_NAME);
+		calendar.setCalendarDescriptions(CALENDAR_NAME);
+		calendar.setFlsaBeginDay("Sun");
+		calendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
+		KNSServiceLocator.getBusinessObjectService().save(calendar);
+		assertTrue(TkServiceLocator.getCalendarSerivce().getCalendar(calendar.getHrCalendarId()) != null);
 
 	}
 
 	@Test
-	public void testInsertPayCalendarDates() throws Exception {
-		CalendarEntries payCalendarDates = new CalendarEntries();
-		payCalendarDates.setHrCalendarEntriesId(1001L);
-		payCalendarDates.setHrCalendarId(1001L);
+	public void testInsertCalendarDates() throws Exception {
+		CalendarEntries calendarDates = new CalendarEntries();
+		calendarDates.setHrCalendarEntriesId(1001L);
+		calendarDates.setHrCalendarId(1001L);
 
 		java.util.Calendar cal = java.util.Calendar.getInstance();
 		cal.set(java.util.Calendar.MONTH, 7);
 		cal.set(java.util.Calendar.DATE, 1);
 		cal.set(java.util.Calendar.YEAR, 2010);
 
-		payCalendarDates.setBeginPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
-		payCalendarDates.setCalendarName(CALENDAR_NAME);
+		calendarDates.setBeginPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
+		calendarDates.setCalendarName(CALENDAR_NAME);
 		cal.set(java.util.Calendar.DATE, 14);
-		payCalendarDates.setEndPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
+		calendarDates.setEndPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
 
-		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);
-		assertTrue(TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(payCalendarDates.getHrCalendarEntriesId()) != null);
+		KNSServiceLocator.getBusinessObjectService().save(calendarDates);
+		assertTrue(TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(calendarDates.getHrCalendarEntriesId()) != null);
 
 	}
 

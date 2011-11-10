@@ -93,8 +93,8 @@ public interface AssignmentService {
     /**
      * Get assignments by pay calendar entry
      * @param principalId
-     * @param payCalendarEntry
+     * @param calendarEntry
      * @return
      */
-    public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntries payCalendarEntry);
+    public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntries calendarEntry);
 }

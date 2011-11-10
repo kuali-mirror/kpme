@@ -48,7 +48,7 @@ public class ShiftDifferentialRule extends TkRule {
 	private EarnCode earnCodeObj;
 	private SalGroup salGroupObj;
     private EarnGroup fromEarnGroupObj;
-    private Calendar payCalendar;
+    private Calendar calendar;
     private Location locationObj;
     private PayGrade payGradeObj;
 
@@ -257,12 +257,12 @@ public class ShiftDifferentialRule extends TkRule {
         this.fromEarnGroupObj = fromEarnGroupObj;
     }
 
-    public Calendar getPayCalendar() {
-        return payCalendar;
+    public Calendar getCalendar() {
+        return calendar;
     }
 
-    public void setPayCalendar(Calendar payCalendar) {
-        this.payCalendar = payCalendar;
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
     }
 
 	public Location getLocationObj() {

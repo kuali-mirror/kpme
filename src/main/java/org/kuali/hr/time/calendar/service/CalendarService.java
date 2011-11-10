@@ -11,17 +11,17 @@ public interface CalendarService {
 	 * @param hrCalendarId
 	 * @return
 	 */
-	public Calendar getPayCalendar(Long hrCalendarId);
+	public Calendar getCalendar(Long hrCalendarId);
 
 	/**
 	 * Fetch a pay calendar by group
 	 * @param calendarName
 	 * @return
 	 */
-	public Calendar getPayCalendarByGroup(String calendarName);
+	public Calendar getCalendarByGroup(String calendarName);
 
 	/**
-     * Use this method to get PayCalendarEntries if you are passing in a "current date"
+     * Use this method to get CalendarEntries if you are passing in a "current date"
      * style of date, ie todays date. If you are in a logic situation where you would
      * pass EITHER todays date or a pay calendar date, pass the Pay period BEGIN date,
      * so that the retrieval logic will correctly place the date in the window.
@@ -30,7 +30,7 @@ public interface CalendarService {
 	 * @param currentDate
 	 * @return
 	 */
-	public CalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate);
+	public CalendarEntries getCurrentCalendarDates(String principalId, Date currentDate);
 
     /**
      * A method to use specifically when you have a Timesheet Documents Pay Period
@@ -40,13 +40,13 @@ public interface CalendarService {
      * @param payEndDate
      * @return
      */
-    public CalendarEntries getPayCalendarDatesByPayEndDate(String principalId, Date payEndDate);
+    public CalendarEntries getCalendarDatesByPayEndDate(String principalId, Date payEndDate);
 
 	/**
 	 * Returns the Pay CalendarEntry for previous pay calendar
 	 * @param tkCalendarId
-	 * @param beginDateCurrentPayCalendar
+	 * @param beginDateCurrentCalendar
 	 * @return
 	 */
-	public CalendarEntries getPreviousPayCalendarEntry(Long tkCalendarId, Date beginDateCurrentPayCalendar);
+	public CalendarEntries getPreviousCalendarEntry(Long tkCalendarId, Date beginDateCurrentCalendar);
 }

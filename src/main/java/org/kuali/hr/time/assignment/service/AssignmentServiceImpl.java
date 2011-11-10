@@ -52,9 +52,9 @@ public class AssignmentServiceImpl implements AssignmentService {
 		return assignments;
 	}
 	
-	public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntries payCalendarEntry){
-		List<Assignment> beginPeriodAssign = getAssignments(principalId, payCalendarEntry.getBeginPeriodDate());
-		List<Assignment> endPeriodAssign = getAssignments(principalId, payCalendarEntry.getEndPeriodDate());
+	public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntries calendarEntry){
+		List<Assignment> beginPeriodAssign = getAssignments(principalId, calendarEntry.getBeginPeriodDate());
+		List<Assignment> endPeriodAssign = getAssignments(principalId, calendarEntry.getEndPeriodDate());
 		List<Assignment> finalAssignments = new ArrayList<Assignment>();
 		Map<String,Assignment> assignKeyToAssignmentMap = new HashMap<String,Assignment>();
 		for(Assignment assign : endPeriodAssign){
@@ -136,7 +136,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 		}
 		
 		//No assignment found so fetch the inactive ones for this payBeginDate
-		Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(desc, timesheetDocument.getPayCalendarEntry().getBeginPeriodDate());
+		Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(desc, timesheetDocument.getCalendarEntry().getBeginPeriodDate());
 		if(assign != null){
 			return assign;
 		}

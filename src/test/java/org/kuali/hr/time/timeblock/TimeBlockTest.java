@@ -57,7 +57,7 @@ public class TimeBlockTest extends TkTestCase {
 		calendarEntry.setBeginPeriodDateTime(beginDateTime);
 		calendarEntry.setEndPeriodDateTime(endDateTime);
 		
-		List<Interval> dayInterval = TKUtils.getDaySpanForPayCalendarEntry(calendarEntry);
+		List<Interval> dayInterval = TKUtils.getDaySpanForCalendarEntry(calendarEntry);
 		Timestamp beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		Timestamp endTimeStamp = new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		
@@ -133,16 +133,16 @@ public class TimeBlockTest extends TkTestCase {
 		DateTime beginTime = new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"));
 		DateTime endTime = new DateTime(2010, 1, 16, 12, 0, 0, 0, DateTimeZone.forID("EST"));
 		
-		Calendar payCalendar = new Calendar();
+		Calendar calendar = new Calendar();
 		
-		CalendarEntries payCalendarEntry = new CalendarEntries();
+		CalendarEntries calendarEntry = new CalendarEntries();
 		java.util.Date beginDateTime = new java.util.Date(beginTime.getMillis());
 		java.util.Date endDateTime = new java.util.Date(endTime.getMillis());
-		payCalendarEntry.setBeginPeriodDateTime(beginDateTime);
-		payCalendarEntry.setEndPeriodDateTime(endDateTime);
+		calendarEntry.setBeginPeriodDateTime(beginDateTime);
+		calendarEntry.setEndPeriodDateTime(endDateTime);
 		
-		List<TimeBlock> lstTimeBlocks = setupTimeBlocks(beginTime, endTime, payCalendarEntry);
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, payCalendarEntry, payCalendar);
+		List<TimeBlock> lstTimeBlocks = setupTimeBlocks(beginTime, endTime, calendarEntry);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, calendarEntry, calendar);
 		assertTrue("Aggregate built correctly ", tkTimeBlockAggregate!= null && tkTimeBlockAggregate.getWeekTimeBlocks(0).size() == 7);
 		assertTrue("Total number of days is correct",tkTimeBlockAggregate.getDayTimeBlockList().size()==15);
 	}
@@ -168,8 +168,8 @@ public class TimeBlockTest extends TkTestCase {
 		assertTrue(tbList.get(0) == tb2);
 		assertTrue(tbList.get(1) == tb1);
 	}
-	private List<TimeBlock> setupTimeBlocks(DateTime startTime, DateTime endTime, CalendarEntries payCalendarEntry){
-		List<Interval> dayInterval = TKUtils.getDaySpanForPayCalendarEntry(payCalendarEntry);
+	private List<TimeBlock> setupTimeBlocks(DateTime startTime, DateTime endTime, CalendarEntries calendarEntry){
+		List<Interval> dayInterval = TKUtils.getDaySpanForCalendarEntry(calendarEntry);
 		Timestamp beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		Timestamp endTimeStamp = new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		

@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * Leverage this class to implement hooks when maintenance is done on a
- * PayCalendar.
+ * Calendar.
  * 
  * @author djunk
  * 
@@ -40,8 +40,8 @@ public class CalendarMaintainableImpl extends KualiMaintainableImpl {
 	@Override
 	public void saveBusinessObject() {
 		super.saveBusinessObject();
-		Calendar payCalendar = (Calendar) this.getBusinessObject();
-		LOG.info("Saved pay calendar: " + payCalendar.getHrCalendarId());
+		Calendar calendar = (Calendar) this.getBusinessObject();
+		LOG.info("Saved pay calendar: " + calendar.getHrCalendarId());
 	}
 
 }

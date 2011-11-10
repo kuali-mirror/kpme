@@ -93,7 +93,7 @@ public class TkWorkflowTimesheetAttribute implements RoleAttribute {
 			//Position routing
 			if(StringUtils.isEmpty(role.getPrincipalId())){
 				String positionNumber = role.getPositionNumber();
-				List<Job> lstJobsForPosition = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(positionNumber, timesheetDocument.getPayCalendarEntry().getEndPeriodDateTime());
+				List<Job> lstJobsForPosition = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(positionNumber, timesheetDocument.getCalendarEntry().getEndPeriodDateTime());
 				for(Job job : lstJobsForPosition){
 					PrincipalId pid = new PrincipalId(job.getPrincipalId());
 					if (!principals.contains(pid)) {

@@ -82,7 +82,7 @@
 				</bean>
 
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="payCalendar" />
+					<property name="objectAttributeName" value="calendar" />
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="pyCalendarGroup"

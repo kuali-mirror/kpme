@@ -49,7 +49,7 @@ public class TimesheetAction extends TkAction {
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
         String viewPrincipal = user.getTargetPrincipalId();
-		CalendarEntries payCalendarEntries;
+		CalendarEntries calendarEntries;
 		TimesheetDocument td;
 		TimesheetDocumentHeader tsdh;
 
@@ -62,8 +62,8 @@ public class TimesheetAction extends TkAction {
         } else {
             // Default to whatever is active for "today".
             Date currentDate = TKUtils.getTimelessDate(null);
-            payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(viewPrincipal,  currentDate);
-            td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntries);
+            calendarEntries = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(viewPrincipal,  currentDate);
+            td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, calendarEntries);
         }
 
         // Set the TKContext for the current timesheet document id.
@@ -92,7 +92,7 @@ public class TimesheetAction extends TkAction {
         if( nextTdh != null) {
             taForm.setNextDocumentId(nextTdh.getDocumentId());
         }
-        taForm.setPayCalendarDates(td.getPayCalendarEntry());
+        taForm.setCalendarDates(td.getCalendarEntry());
     }
 
 }

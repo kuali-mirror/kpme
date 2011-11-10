@@ -48,7 +48,7 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 
 				if (StringUtils.isNotEmpty(principalHRAttr.getCalendarName())) {
 					Calendar payCal = TkServiceLocator
-							.getPayCalendarSerivce().getPayCalendarByGroup(
+							.getCalendarSerivce().getCalendarByGroup(
 									principalHRAttr.getCalendarName());
 					if (payCal == null) {
 						this.putFieldError("pyCalendarGroup",

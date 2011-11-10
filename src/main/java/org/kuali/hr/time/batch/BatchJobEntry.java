@@ -63,7 +63,7 @@ public class BatchJobEntry {
 	public void setHrPyCalendarId(Long hrPyCalendarEntryId) {
 		this.hrPyCalendarEntryId = hrPyCalendarEntryId;
 	}
-	public Long getPayCalendarEntryId() {
+	public Long getCalendarEntryId() {
 		return hrPyCalendarEntryId;
 	}
 	public void setClockLogId(Long clockLogId) {

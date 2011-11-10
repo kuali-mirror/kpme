@@ -19,13 +19,13 @@
             <label for="pay calendar groups">
                 <select id="selectedPayCalendarGroup" name="selectedPayCalendarGroup"
                         onchange="this.form.methodToCall.value='selectNewPayCalendarGroup'; this.form.submit();">
-                    <c:forEach var="payCalendarGroup" items="${Form.payCalendarGroups}">
+                    <c:forEach var="calendarGroup" items="${Form.calendarGroups}">
                         <c:choose>
-                            <c:when test="${Form.selectedPayCalendarGroup eq payCalendarGroup}">
-                                <option value="${payCalendarGroup}" selected="selected">${payCalendarGroup}</option>
+                            <c:when test="${Form.selectedPayCalendarGroup eq calendarGroup}">
+                                <option value="${calendarGroup}" selected="selected">${calendarGroup}</option>
                             </c:when>
                             <c:otherwise>
-                                <option value="${payCalendarGroup}">${payCalendarGroup}</option>
+                                <option value="${calendarGroup}">${calendarGroup}</option>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
@@ -207,7 +207,7 @@
         </div>
     </display:column>
 
-    <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
+    <c:forEach var="payCalLabel" items="${Form.calendarLabels}">
         <display:column title="${payCalLabel}">
             <c:choose>
                 <c:when test="${fn:contains(payCalLabel,'Week')}">
@@ -236,7 +236,7 @@
                     <th><bean:message key="approval.principalName"/></th>
                     <th><bean:message key="approval.documentId"/></th>
                     <th><bean:message key="approval.status"/></th>
-                    <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
+                    <c:forEach var="payCalLabel" items="${Form.calendarLabels}">
                         <th>${payCalLabel}</th>
                     </c:forEach>
                     <th>Action</th>
@@ -361,7 +361,7 @@
                                 </table>
                             </div>
                         </td>
-                        <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
+                        <c:forEach var="payCalLabel" items="${Form.calendarLabels}">
                             <c:choose>
                                 <c:when test="${fn:contains(payCalLabel,'Week')}">
                                     <td style="background-color: #E5E5E5;">

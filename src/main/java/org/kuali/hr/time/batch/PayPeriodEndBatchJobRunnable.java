@@ -29,8 +29,8 @@ public class PayPeriodEndBatchJobRunnable extends BatchJobEntryRunnable {
         // For each batch job entry, grab the pay calendar entry id
         BatchJobEntry payPeriodEndBatchEntry = TkServiceLocator.getBatchJobEntryService().getBatchJobEntry(getTkBatchJobEntryId());
         // get pay calendar entry object by using id
-//        TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId()
-        CalendarEntries pe = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(payPeriodEndBatchEntry.getPayCalendarEntryId());
+//        TkServiceLocator.getCalendarEntriesSerivce().getCurrentCalendarEntriesByCalendarId()
+        CalendarEntries pe = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(payPeriodEndBatchEntry.getCalendarEntryId());
         // get open clock logs by pay calendar entry id
         List<ClockLog> openClockLogs = TkServiceLocator.getClockLogService().getOpenClockLogs(pe);
         // clock out at midnight based on user's timezone

@@ -33,10 +33,10 @@ public interface ClockLogDao {
 	
 	/**
 	 * Return a list of all open clock logs
-	 * @param payCalendarEntry
+	 * @param calendarEntry
 	 * @return
 	 */
-	public List<ClockLog> getOpenClockLogs(CalendarEntries payCalendarEntry);
+	public List<ClockLog> getOpenClockLogs(CalendarEntries calendarEntry);
 	
 	/**
 	 * Fetch clock log by id

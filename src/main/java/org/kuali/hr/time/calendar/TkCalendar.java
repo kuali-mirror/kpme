@@ -22,7 +22,7 @@ public class TkCalendar {
 
         if (aggregate != null) {
             List<TkCalendarWeek> weeks = new ArrayList<TkCalendarWeek>();
-            tc.setPayCalEntry(aggregate.getPayCalendarEntry());
+            tc.setPayCalEntry(aggregate.getCalendarEntry());
 
             int firstDay = 0;   
             if(tc.getBeginDateTime().getDayOfWeek() != 7 ) {

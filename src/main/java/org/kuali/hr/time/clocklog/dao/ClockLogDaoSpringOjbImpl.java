@@ -88,12 +88,12 @@ public class ClockLogDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
     }
     
     @SuppressWarnings("unchecked")
-	public List<ClockLog> getOpenClockLogs(CalendarEntries payCalendarEntry){
+	public List<ClockLog> getOpenClockLogs(CalendarEntries calendarEntry){
     	Criteria criteria = new Criteria();
     	criteria.addIn("clockAction", TkConstants.ON_THE_CLOCK_CODES);
 
     	Criteria clockTimeJoinCriteria = new Criteria();
-        clockTimeJoinCriteria.addBetween("clockTimestamp", payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate());
+        clockTimeJoinCriteria.addBetween("clockTimestamp", calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
     	clockTimeJoinCriteria.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
     	ReportQueryByCriteria clockTimeSubQuery = QueryFactory.newReportQuery(ClockLog.class, clockTimeJoinCriteria);
     	clockTimeSubQuery.setAttributes(new String[] {new StringBuffer("max(").append("clockTimestamp").append(")").toString() });
@@ -101,7 +101,7 @@ public class ClockLogDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
     	criteria.addEqualTo("clockTimestamp", clockTimeSubQuery);
     	
     	Criteria clockTimestampJoinCriteria = new Criteria();
-        clockTimestampJoinCriteria.addBetween("clockTimestamp", payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate());
+        clockTimestampJoinCriteria.addBetween("clockTimestamp", calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
     	clockTimestampJoinCriteria.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
     	ReportQueryByCriteria clockTimestampSubQuery = QueryFactory.newReportQuery(ClockLog.class, clockTimestampJoinCriteria);
     	clockTimestampSubQuery.setAttributes(new String[] { new StringBuffer("max(").append("timestamp").append(")").toString()});

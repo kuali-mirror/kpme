@@ -27,9 +27,9 @@ public class CalendarEntriesLookupableHelper extends
 				overrideUrls.add(actionUrl);
 			}
 		}
-		CalendarEntries payCalendarEntries = (CalendarEntries) businessObject;
+		CalendarEntries calendarEntries = (CalendarEntries) businessObject;
 		final String className = this.getBusinessObjectClass().getName();
-		final Long hrCalendarEntriesId = payCalendarEntries.getHrCalendarEntriesId();
+		final Long hrCalendarEntriesId = calendarEntries.getHrCalendarEntriesId();
 		HtmlData htmlData = new HtmlData() {
 
 			@Override

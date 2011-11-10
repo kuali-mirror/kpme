@@ -205,7 +205,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 			}
 
 			for(DailyOvertimeRule dr : mapDailyOvtRulesToAssignment.keySet() ){
-				Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(dr.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getEndPeriodDateTime()));
+				Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(dr.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getCalendarEntry().getEndPeriodDateTime()));
 				List<TimeBlock> blocksForRule = dailyOvtRuleToDayTotals.get(dr);
 				if (blocksForRule == null || blocksForRule.size() == 0)
 					continue; // skip to next rule and check for valid blocks.

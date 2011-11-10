@@ -55,10 +55,10 @@ public class TkMobileServiceImpl implements TkMobileService {
 
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), TKUtils.getCurrentDate());
         Date currentDate = TKUtils.getCurrentDate();
-        CalendarEntries payCalendarEntries = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(principalId,  currentDate);
+        CalendarEntries calendarEntries = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(principalId,  currentDate);
         TimesheetDocument td;
 		try {
-			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, payCalendarEntries);
+			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntries);
 		} catch (WorkflowException e) {
 			throw new RuntimeException("Could not open timesheet");
 		}
@@ -68,7 +68,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 
         // processClockLog is the correct method to use. It creates and persists a clock log and a time block if necessary.
         // buildClockLog just creates a clock log object.
-        TkServiceLocator.getClockLogService().processClockLog(currentTs, assignment, td.getPayCalendarEntry(), ip,
+        TkServiceLocator.getClockLogService().processClockLog(currentTs, assignment, td.getCalendarEntry(), ip,
                 new java.sql.Date(currentTs.getTime()), td, getCurrentClockAction(), principalId);
 
         // TODO: not sure what we want to return for the errorWarningMap

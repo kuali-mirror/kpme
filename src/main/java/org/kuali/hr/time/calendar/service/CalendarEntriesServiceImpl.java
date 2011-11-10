@@ -16,36 +16,36 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
 		this.calendarEntriesDao = calendarEntriesDao;
 	}
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public CalendarEntries getPayCalendarEntries(Long hrCalendarEntriesId) {
+	public CalendarEntries getCalendarEntries(Long hrCalendarEntriesId) {
 
-		return calendarEntriesDao.getPayCalendarEntries(hrCalendarEntriesId);
+		return calendarEntriesDao.getCalendarEntries(hrCalendarEntriesId);
 	}
 
     @Override
     @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-    public CalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long hrCalendarId, Date endPeriodDate) {
-        return calendarEntriesDao.getPayCalendarEntriesByIdAndPeriodEndDate(hrCalendarId, endPeriodDate);
+    public CalendarEntries getCalendarEntriesByIdAndPeriodEndDate(Long hrCalendarId, Date endPeriodDate) {
+        return calendarEntriesDao.getCalendarEntriesByIdAndPeriodEndDate(hrCalendarId, endPeriodDate);
     }
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public CalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(
+	public CalendarEntries getCurrentCalendarEntriesByCalendarId(
 			Long hrCalendarId, Date currentDate) {
-		return calendarEntriesDao.getCurrentPayCalendarEntriesByPayCalendarId(hrCalendarId, currentDate);
+		return calendarEntriesDao.getCurrentCalendarEntriesByCalendarId(hrCalendarId, currentDate);
 	}
 
     @Override
-    public CalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long hrCalendarId, CalendarEntries pce) {
-        return calendarEntriesDao.getPreviousPayCalendarEntriesByPayCalendarId(hrCalendarId, pce);
+    public CalendarEntries getPreviousCalendarEntriesByCalendarId(Long hrCalendarId, CalendarEntries pce) {
+        return calendarEntriesDao.getPreviousCalendarEntriesByCalendarId(hrCalendarId, pce);
     }
 
     @Override
-    public CalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long hrCalendarId, CalendarEntries pce) {
-        return calendarEntriesDao.getNextPayCalendarEntriesByPayCalendarId(hrCalendarId, pce);
+    public CalendarEntries getNextCalendarEntriesByCalendarId(Long hrCalendarId, CalendarEntries pce) {
+        return calendarEntriesDao.getNextCalendarEntriesByCalendarId(hrCalendarId, pce);
     }
     @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-    public List<CalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate){
-		return calendarEntriesDao.getCurrentPayCalendarEntryNeedsScheduled(thresholdDays, asOfDate);
+    public List<CalendarEntries> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate){
+		return calendarEntriesDao.getCurrentCalendarEntryNeedsScheduled(thresholdDays, asOfDate);
 	}
 
 }

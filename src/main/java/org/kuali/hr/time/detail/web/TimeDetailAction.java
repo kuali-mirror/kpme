@@ -79,10 +79,10 @@ public class TimeDetailAction extends TimesheetAction {
         ActionFormUtils.validateHourLimit(tdaf);
 
         // Set calendar
-        CalendarEntries payCalendarEntry = tdaf.getPayCalendarDates();
-        Calendar payCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(payCalendarEntry.getHrCalendarId());
-        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true, 
-        		TKUtils.getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry));
+        CalendarEntries calendarEntry = tdaf.getCalendarDates();
+        Calendar calendar = TkServiceLocator.getCalendarSerivce().getCalendar(calendarEntry.getHrCalendarId());
+        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, calendar, true, 
+        		TKUtils.getFullWeekDaySpanForCalendarEntry(calendarEntry));
         TkCalendar cal = TkCalendar.getCalendar(aggregate);
         cal.assignAssignmentStyle(aMap);
         tdaf.setTkCalendar(cal);
@@ -145,7 +145,7 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
         //reset time block
         TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks);
-        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
+        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
 
         return mapping.findForward("basic");
@@ -227,7 +227,7 @@ public class TimeDetailAction extends TimesheetAction {
             }
         }
 
-        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
+        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
         //call history service
 

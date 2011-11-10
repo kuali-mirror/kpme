@@ -45,7 +45,7 @@ public class BatchJobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
     }
 
     @Override
-    public List<BatchJob> getPayCalendarEntries(Long hrPyCalendarEntryId, String batchJobStatus) {
+    public List<BatchJob> getCalendarEntries(Long hrPyCalendarEntryId, String batchJobStatus) {
         Criteria root = new Criteria();
         root.addEqualTo("hrPyCalendarEntryId", hrPyCalendarEntryId);
         root.addEqualTo("batchJobStatus", batchJobStatus);

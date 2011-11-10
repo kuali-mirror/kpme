@@ -8,14 +8,14 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 
 public interface CalendarDao {
 
-	public void saveOrUpdate(Calendar payCalendarDates);
+	public void saveOrUpdate(Calendar calendarDates);
 
-	public void saveOrUpdate(List<Calendar> payCalendarDatesList);
+	public void saveOrUpdate(List<Calendar> calendarDatesList);
 
-	public Calendar getPayCalendar(Long hrPyCalendarId);
+	public Calendar getCalendar(Long hrPyCalendarId);
 
-	public Calendar getPayCalendarByGroup(String pyCalendarGroup);
+	public Calendar getCalendarByGroup(String pyCalendarGroup);
 	
-	public CalendarEntries getPreviousPayCalendarEntry(Long tkPayCalendarId, Date beginDateCurrentPayCalendar);
+	public CalendarEntries getPreviousCalendarEntry(Long tkCalendarId, Date beginDateCurrentCalendar);
 
 }

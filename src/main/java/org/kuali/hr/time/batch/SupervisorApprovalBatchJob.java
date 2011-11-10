@@ -12,18 +12,18 @@ import java.util.List;
 
 public class SupervisorApprovalBatchJob extends BatchJob {
     private Logger LOG = Logger.getLogger(PayPeriodEndBatchJob.class);
-    private CalendarEntries payCalendarEntry;
+    private CalendarEntries calendarEntry;
 
     public SupervisorApprovalBatchJob(Long hrPyCalendarEntryId) {
         super();
         this.setBatchJobName(TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL);
-        this.setPayCalendarEntryId(hrPyCalendarEntryId);
-        this.payCalendarEntry = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(hrPyCalendarEntryId);
+        this.setCalendarEntryId(hrPyCalendarEntryId);
+        this.calendarEntry = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(hrPyCalendarEntryId);
     }
 
     @Override
     public void doWork() {
-		Date payBeginDate = payCalendarEntry.getBatchEmployeeApprovalDate();
+		Date payBeginDate = calendarEntry.getBatchEmployeeApprovalDate();
 		List<TimesheetDocumentHeader> documentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(payBeginDate);
 		for(TimesheetDocumentHeader timesheetDocumentHeader : documentHeaders){
 			populateBatchJobEntry(timesheetDocumentHeader);

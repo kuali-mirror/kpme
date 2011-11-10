@@ -50,8 +50,8 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 			 if (prevBlocks.size() > 0) {
 				TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getPayBeginDate());
 				if (prevTdh != null) {
-					CalendarEntries prevPayCalendarEntry = TkServiceLocator.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(principalId, prevTdh.getPayEndDate());
-					TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry, prevPayCalendarEntry.getCalendarObj(), true);
+					CalendarEntries prevCalendarEntry = TkServiceLocator.getCalendarSerivce().getCalendarDatesByPayEndDate(principalId, prevTdh.getPayEndDate());
+					TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevCalendarEntry, prevCalendarEntry.getCalendarObj(), true);
 					previousWeeks = prevTimeAggregate.getFlsaWeeks(zone);
 					if (previousWeeks.size() == 0) {
 						previousWeeks = null;

@@ -15,10 +15,10 @@ public class InitiateBatchJobRunnable extends BatchJobEntryRunnable {
 	public void doWork() throws Exception {
 		BatchJobEntry initiateBatchJobEntry = TkServiceLocator.getBatchJobEntryService().getBatchJobEntry(getTkBatchJobEntryId());
 		String principalId = initiateBatchJobEntry.getPrincipalId();
-		Long hrPyCalendarId = initiateBatchJobEntry.getPayCalendarEntryId();
-		CalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(hrPyCalendarId);
+		Long hrPyCalendarId = initiateBatchJobEntry.getCalendarEntryId();
+		CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(hrPyCalendarId);
 		try {
-			TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, payCalendarEntry);
+			TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntry);
 		} catch (WorkflowException e) {
 			Log.info("Workflow error found"+ e);
             throw e;

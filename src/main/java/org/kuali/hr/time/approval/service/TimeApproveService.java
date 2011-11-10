@@ -13,7 +13,7 @@ public interface TimeApproveService {
 
     /**
      * Obtains a Map of Lists of ApprovalTimeSummaryRows. The Key to the map is
-     * the PayCalendar Group name.
+     * the Calendar Group name.
      *
      * @param payBeginDate
      * @param payEndDate
@@ -24,7 +24,7 @@ public interface TimeApproveService {
 
 //	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds);
 
-	public List<String> getPayCalendarLabelsForApprovalTab(Date payBeginDate, Date payEndDate);
+	public List<String> getCalendarLabelsForApprovalTab(Date payBeginDate, Date payEndDate);
 
     /**
      * Method to obtain all of the active Pay Calendar Group names for the current
@@ -37,7 +37,7 @@ public interface TimeApproveService {
      * @param payEndDate
      * @return
      */
-    public SortedSet<String> getApproverPayCalendarGroups(Date payBeginDate, Date payEndDate);
+    public SortedSet<String> getApproverCalendarGroups(Date payBeginDate, Date payEndDate);
 
     /**
      * Used to determine if there are notes on a document
@@ -47,21 +47,21 @@ public interface TimeApproveService {
     @SuppressWarnings("rawtypes")
 	public List getNotesForDocument(String documentNumber);
 
-    Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea);
+    Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date payEndDate, List<String> calendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea);
 
     /**
-     * Method to provide a mapping of PayCalendarGroupNames to PayCalendarEntries to
+     * Method to provide a mapping of CalendarGroupNames to CalendarEntries to
      * allow for various starting points in Approval Tab Navigation.
      *
      * @param currentDate The current date. This method will search for active
      * assignments for this approver active as of this date, and 31 days prior
-     * to pull back PayCalendarEntries.
+     * to pull back CalendarEntries.
      *
-     * @return A CalendarGroup Name to PayCalendarEntries mapping.
+     * @return A CalendarGroup Name to CalendarEntries mapping.
      */
-    public Map<String,CalendarEntries> getPayCalendarEntriesForApprover(String principalId, Date currentDate, String dept);
+    public Map<String,CalendarEntries> getCalendarEntriesForApprover(String principalId, Date currentDate, String dept);
     public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate, String calGroup);
-    public Map<String,CalendarEntries> getPayCalendarEntriesForDept(String dept, Date currentDate);
+    public Map<String,CalendarEntries> getCalendarEntriesForDept(String dept, Date currentDate);
 
     List<String> getUniquePayGroups();
 
