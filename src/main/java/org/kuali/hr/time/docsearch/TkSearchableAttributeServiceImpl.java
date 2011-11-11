@@ -21,7 +21,7 @@ public class TkSearchableAttributeServiceImpl implements
 	public void updateSearchableAttribute(TimesheetDocument document, Date asOfDate){
         WorkflowDocument workflowDocument = null;
 		try {
-			workflowDocument = new WorkflowDocument(TKContext.getTargetPrincipalId(), Long.parseLong(document.getDocumentId()));
+			workflowDocument = new WorkflowDocument(document.getPrincipalId(), Long.parseLong(document.getDocumentId()));
 	        workflowDocument.setApplicationContent(createSearchableAttributeXml(document, asOfDate));
 	        workflowDocument.saveDocument("");
 			if (!"I".equals(workflowDocument.getRouteHeader().getDocRouteStatus())) {
