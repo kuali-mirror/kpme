@@ -17,10 +17,10 @@ public class WorkflowTagSupport {
     }
 
     public boolean isDisplayingRouteButton() {
-      UserRoles roles = TKContext.getUser().getCurrentTargetRoles();
+      UserRoles roles = TKContext.getUser().getActualPersonRoles();
       TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
       TimesheetDocumentHeader tdh = doc.getDocumentHeader();
-      if(tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED) || tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED)){
+      if(tdh.getDocumentStatus().equals("S") || tdh.getDocumentStatus().equals("I")){
     	  return roles.canSubmitTimesheet(doc);
       }
       return false;
@@ -33,14 +33,14 @@ public class WorkflowTagSupport {
     public boolean isRouteButtonEnabled() {
         TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
         TimesheetDocumentHeader tdh = doc.getDocumentHeader();
-        return (tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED) || tdh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED));
+        return (tdh.getDocumentStatus().equals("I") || tdh.getDocumentStatus().equals("S"));
     }
 
     public boolean isDisplayingApprovalButtons() {
-        UserRoles roles = TKContext.getUser().getCurrentTargetRoles();
+        UserRoles roles = TKContext.getUser().getCurrentRoles();
         TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
         boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(TKContext.getPrincipalId(), Long.parseLong(doc.getDocumentId()));
-        return !tookActionAlready && roles.isApproverForTimesheet(doc) && !StringUtils.equals(doc.getDocumentHeader().getDocumentStatus(), TkConstants.ROUTE_STATUS.FINAL);
+        return !tookActionAlready && roles.isApproverForTimesheet(doc) && !StringUtils.equals(doc.getDocumentHeader().getDocumentStatus(), "F");
     }
 
     public boolean isApprovalButtonsEnabled() {
