@@ -521,7 +521,7 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column defaultValue="" name="pay_calendar" type="VARCHAR(15)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="leave_plan" type="VARCHAR(15)">
                 <constraints nullable="false"/>
