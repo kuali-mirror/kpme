@@ -56,12 +56,12 @@ public class TimeOffAccrualRule extends MaintenanceDocumentRuleBase {
 	}
 
 	private boolean validateDuplication(TimeOffAccrual tof) {
-		if(ValidationUtils.duplicateTimeOffAccrual(tof.getAccrualCategory(), tof.getEffectiveDate())) {
-			this.putFieldError("effectiveDate", "timeoffaccrual.duplicate.exists");
-			return false;
-		} else {
+//		if(ValidationUtils.duplicateTimeOffAccrual(tof.getAccrualCategory(), tof.getEffectiveDate())) {
+//			this.putFieldError("effectiveDate", "timeoffaccrual.duplicate.exists");
+//			return false;
+//		} else {
 			return true;
-		}
+//		}
 	}
 
 }
