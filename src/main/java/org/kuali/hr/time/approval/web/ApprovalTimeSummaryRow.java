@@ -128,7 +128,7 @@ public class ApprovalTimeSummaryRow {
      * @return true if a valid TK_APPROVER / TK_PROCESSOR can approve, false otherwise.
      */
     public boolean isApprovable() {
-    	boolean isEnroute =  StringUtils.equals(getApprovalStatus(), TkConstants.ROUTE_STATUS.ENROUTE) ;
+    	boolean isEnroute =  StringUtils.equals(getApprovalStatus(), "ENROUTE") ;
         if(isEnroute){
         	DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(Long.parseLong(this.getDocumentId()));
         	boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(TKContext.getUserSession(), routeHeader, new SecuritySession(TKContext.getUserSession()));
