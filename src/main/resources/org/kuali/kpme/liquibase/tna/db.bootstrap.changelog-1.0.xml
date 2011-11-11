@@ -520,7 +520,7 @@
             <column defaultValue="" name="principal_id" type="VARCHAR(40)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column defaultValue="" name="calendar_name" type="VARCHAR(15)">
+            <column defaultValue="" name="pay_calendar" type="VARCHAR(15)">
                 <constraints nullable="false"/>
             </column>
             <column name="leave_plan" type="VARCHAR(15)">

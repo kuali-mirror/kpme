@@ -21,9 +21,9 @@
 			<list>				
 				<ref bean="PrincipalHRAttributes-principalId" />
 				<ref bean="PrincipalHRAttributes-name" />
-				<ref bean="PrincipalHRAttributes-calendarName" />
-				<ref bean="PrincipalHRAttributes-calendarTypes" />
+				<ref bean="PrincipalHRAttributes-payCalendar" />
 				<ref bean="PrincipalHRAttributes-leavePlan" />
+				<ref bean="PrincipalHRAttributes-leaveCalendar" />
 				<ref bean="PrincipalHRAttributes-serviceDate" />
 				<ref bean="PrincipalHRAttributes-fmlaEligible" />
 				<ref bean="PrincipalHRAttributes-workmansCompEligible" />
@@ -47,8 +47,15 @@
               <property name="objectAttributeName" value="calendar"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarName" p:targetName="calendarName"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarTypes" p:targetName="calendarTypes"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="leaveCalendar" p:targetName="calendarName"/>
+                </list>
+              </property>
+            </bean>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="calendar"/>
+              <property name="primitiveAttributes">
+                <list>
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="payCalendar" p:targetName="calendarName"/>
                 </list>
               </property>
             </bean>
@@ -91,33 +98,37 @@
     	<property name="name" value="name"/>
     	<property name="label" value="Name"/>
   	</bean>
-  
-	<bean id="PrincipalHRAttributes-calendarName" parent="PrincipalHRAttributes-calendarName-parentBean" />
-	<bean id="PrincipalHRAttributes-calendarName-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Calendar Name" />
-		<property name="maxLength" value="30" />
+  	
+	<bean id="PrincipalHRAttributes-payCalendar" parent="PrincipalHRAttributes-payCalendar-parentBean"/>
+ 	<bean id="PrincipalHRAttributes-payCalendar-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="shortLabel" value="Pay Calendar"/>
+    	<property name="maxLength" value="15" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="calendarName" />
-		<property name="label" value="Calendar Name" />
-	</bean>
+    	<property name="name" value="payCalendar"/>
+    	<property name="label" value="Pay Calendar"/>
+  	</bean>
 	
-	<bean id="PrincipalHRAttributes-calendarTypes" parent="PrincipalHRAttributes-calendarTypes-parentBean"/>
- 	<bean id="PrincipalHRAttributes-calendarTypes-parentBean" abstract="true" parent="AttributeDefinition">
-    	<property name="shortLabel" value="Calendar Types"/>
-    	<property name="maxLength" value="20" />
-    	<property name="control">
-      		<bean parent="LookupReadonlyControlDefinition" p:size="20" />
-    	</property>
-    	<property name="name" value="calendarTypes"/>
-    	<property name="label" value="Calendar Types"/>
+	<bean id="PrincipalHRAttributes-leaveCalendar" parent="PrincipalHRAttributes-leaveCalendar-parentBean"/>
+ 	<bean id="PrincipalHRAttributes-leaveCalendar-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="shortLabel" value="Leave Calendar"/>
+    	<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+    	<property name="name" value="leaveCalendar"/>
+    	<property name="label" value="Leave Calendar"/>
   	</bean>
   	
   	<!-- 	leave plan -->
@@ -249,9 +260,9 @@
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="principalId" />
 							<bean parent="FieldDefinition" p:attributeName="name" />
-							<bean parent="FieldDefinition" p:attributeName="calendarName" />
-							<bean parent="FieldDefinition" p:attributeName="calendarTypes" />
+							<bean parent="FieldDefinition" p:attributeName="payCalendar" />
 							<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+							<bean parent="FieldDefinition" p:attributeName="leaveCalendar" />
 							<bean parent="FieldDefinition" p:attributeName="serviceDate" />
 							<bean parent="FieldDefinition" p:attributeName="timezone" />
 							<bean parent="FieldDefinition" p:attributeName="fmlaEligible" />
@@ -280,7 +291,7 @@
 		<property name="resultFields">
 			<list>				
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
-				<bean parent="FieldDefinition" p:attributeName="calendarName" />
+				<bean parent="FieldDefinition" p:attributeName="name" />
 				<bean parent="FieldDefinition" p:attributeName="timezone" />				
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />

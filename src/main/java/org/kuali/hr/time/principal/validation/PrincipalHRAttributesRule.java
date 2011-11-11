@@ -1,9 +1,6 @@
 package org.kuali.hr.time.principal.validation;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -17,6 +14,40 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 						.getPrincipalId())) {
 			this.putFieldError("principalId", "error.existence",
 					"principalId '" + principalHRAttr.getPrincipalId() + "'");
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private boolean validatePayCalendar(PrincipalHRAttributes principalHRAttr) {
+		if (principalHRAttr.getPayCalendar() != null
+				&& !ValidationUtils.validateCalendarByType(principalHRAttr.getPayCalendar(), "Pay")) {
+			this.putFieldError("payCalendar", "error.existence",
+					"Pay Calendar '" + principalHRAttr.getPayCalendar() + "'");
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private boolean validateLeaveCalendar(PrincipalHRAttributes principalHRAttr) {
+		if (principalHRAttr.getLeaveCalendar() != null
+				&& !ValidationUtils.validateCalendarByType(principalHRAttr.getLeaveCalendar(), "Leave")) {
+			this.putFieldError("leaveCalendar", "error.existence",
+					"Leave Calendar '" + principalHRAttr.getLeaveCalendar() + "'");
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	
+	private boolean validateLeavePlan(PrincipalHRAttributes principalHRAttr) {
+		if (principalHRAttr.getLeavePlan() != null
+				&& !ValidationUtils.validateLeavePlan(principalHRAttr.getLeavePlan(), null)) {
+			this.putFieldError("leavePlan", "error.existence",
+					"leavePlan '" + principalHRAttr.getLeavePlan() + "'");
 			return false;
 		} else {
 			return true;
@@ -45,18 +76,9 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 				valid = true;
 				valid &= this.validatePrincipalId(principalHRAttr);
 				valid &= this.validateEffectiveDate(principalHRAttr);
-
-				if (StringUtils.isNotEmpty(principalHRAttr.getCalendarName())) {
-					Calendar payCal = TkServiceLocator
-							.getCalendarSerivce().getCalendarByGroup(
-									principalHRAttr.getCalendarName());
-					if (payCal == null) {
-						this.putFieldError("pyCalendarGroup",
-								"principal.cal.pay.invalid", principalHRAttr
-										.getCalendarName());
-						valid = false;
-					}
-				}
+				valid &= this.validatePayCalendar(principalHRAttr);
+				valid &= this.validateLeaveCalendar(principalHRAttr);
+				valid &= this.validateLeavePlan(principalHRAttr);
 			}
 		}
 		return valid;

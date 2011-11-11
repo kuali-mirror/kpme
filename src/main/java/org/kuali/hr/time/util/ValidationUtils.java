@@ -386,6 +386,24 @@ public class ValidationUtils {
         valid = (count > 0);
         return valid;
 	}
+	
+	/**
+	 * Checks for row presence of a pay calendar by calendar type
+	 */
+	public static boolean validateCalendarByType(String calendarName, String calendarType) {
+		boolean valid = false;
+		Criteria crit = new Criteria();
+		crit.addEqualTo("calendarName", calendarName);
+		if(StringUtils.equalsIgnoreCase(calendarType, "Pay")){
+			crit.addNotEqualTo("calendarTypes", "Leave");	
+		}else if(StringUtils.equalsIgnoreCase(calendarType, "Leave")){
+			crit.addNotEqualTo("calendarTypes", "Pay");
+		}
+		Query query = QueryFactory.newQuery(Calendar.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+		valid = (count > 0);
+		return valid;
+	}
 
    /**
     * Checks for existence of newer versions of a class object based on fieldValue

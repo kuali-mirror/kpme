@@ -18,8 +18,7 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 	private static final long serialVersionUID = 1L;
 	private String principalId;
 	private String leaveCalendar;
-	private String calendarName;
-	private String calendarTypes;
+	private String payCalendar;
 	private String leavePlan;
 	private Date serviceDate;
 	private boolean fmlaEligible;
@@ -54,20 +53,12 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 	    return (person != null) ? person.getName() : "";
 	}
 
-	public String getCalendarName() {
-		return calendarName;
+	public String getPayCalendar() {
+		return payCalendar;
 	}
 
-	public void setCalendarName(String calendarName) {
-		this.calendarName = calendarName;
-	}
-
-	public String getCalendarTypes() {
-		return calendarTypes;
-	}
-
-	public void setCalendarTypes(String calendarTypes) {
-		this.calendarTypes = calendarTypes;
+	public void setPayCalendar(String payCalendar) {
+		this.payCalendar = payCalendar;
 	}
 
 	public String getLeavePlan() {
@@ -168,7 +159,8 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		return principalId + "_" + calendarName;
+		return principalId + "_" + payCalendar == null ? "" : payCalendar + "_"
+				+ leaveCalendar == null ? "" : leaveCalendar;
 	}
 
 	@Override
