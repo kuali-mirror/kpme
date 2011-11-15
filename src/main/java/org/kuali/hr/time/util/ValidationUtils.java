@@ -396,16 +396,24 @@ public class ValidationUtils {
 	   return valid;
    }
    
-   public static boolean duplicateTimeOffAccrual (String accrual, Date effectiveDate) {
+   public static boolean duplicateTimeOffAccrual (TimeOffAccrual timeOffAccrual) {
 	   boolean valid = false;
 	   Criteria crit = new Criteria();
-	   crit.addEqualTo("accrualCategory", accrual);
-	   crit.addEqualTo("effectiveDate", effectiveDate);
+	   crit.addEqualTo("accrualCategory", timeOffAccrual.getAccrualCategory());
+	   crit.addEqualTo("effectiveDate", timeOffAccrual.getEffectiveDate());
+	   crit.addEqualTo("principalId", timeOffAccrual.getPrincipalId());
 	   Query query = QueryFactory.newQuery(TimeOffAccrual.class, crit);
 	   int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-	   if(count > 0) {
-		   valid = true;
-	   }
+	   if(count == 1) {
+    	   valid = true;
+    	   crit.addEqualTo("lmAccrualId", timeOffAccrual.getLmAccrualId());
+    	   count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+    	   if(count == 1) {
+    		   valid = false;
+    	   }
+       } else if(count > 1) {
+    	   valid = true;
+       }
 	   return valid;
    }
 
