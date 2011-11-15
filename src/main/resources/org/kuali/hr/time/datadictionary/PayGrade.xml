@@ -18,13 +18,26 @@
 			<list>
 				<ref bean="PayGrade-hrPayGradeId" />
 				<ref bean="PayGrade-payGrade" />
+				<ref bean="PayGrade-salGroup" />
 				<ref bean="PayGrade-description" />
 				<ref bean="PayGrade-effectiveDate" />
 				<ref bean="PayGrade-active" />
 				<ref bean="PayGrade-userPrincipalId" />
 				<ref bean="PayGrade-timestamp" />
 			</list>
-		</property>	 
+		</property>
+		<property name="relationships">
+	  		<list>
+	            <bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="salGroupObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="salGroup" p:targetName="hrSalGroup" />
+						</list>
+					</property>
+				</bean>
+	        </list>
+   		 </property>  		 
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -59,6 +72,23 @@
 		</property>
 		<property name="name" value="payGrade" />
 		<property name="label" value="PayGrade" />
+	</bean>
+
+	<bean id="PayGrade-salGroup" parent="PayGrade-salGroup-parentBean" />
+	<bean id="PayGrade-salGroup-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Salary Group" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+		<property name="name" value="salGroup" />
+		<property name="label" value="Salary Group" />
 	</bean>
 
 	<bean id="PayGrade-description" parent="PayGrade-description-parentBean" />
@@ -153,6 +183,7 @@
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="payGrade" />
+							<bean parent="FieldDefinition" p:attributeName="salGroup" />
 							<bean parent="FieldDefinition" p:attributeName="description" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
@@ -174,6 +205,7 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
+				<bean parent="FieldDefinition" p:attributeName="salGroup" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
 				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
@@ -181,6 +213,7 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
+				<bean parent="FieldDefinition" p:attributeName="salGroup" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />

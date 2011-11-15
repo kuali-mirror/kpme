@@ -742,6 +742,7 @@
 	<class-descriptor class="org.kuali.hr.paygrade.PayGrade" table="hr_pay_grade_t">
 		<field-descriptor name="hrPayGradeId"     column="hr_pay_grade_id" jdbc-type="BIGINT" length="20" nullable="false" autoincrement="true" primarykey="true" sequence-name="hr_pay_grade_s"/>
 		<field-descriptor name="payGrade"   column="pay_grade" jdbc-type="VARCHAR" length="20"/>
+		<field-descriptor name="salGroup"   column="sal_group" jdbc-type="VARCHAR" length="20"/>
 		<field-descriptor name="description" column="description" jdbc-type="VARCHAR" length="40"/>
 		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>

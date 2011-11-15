@@ -430,6 +430,9 @@
             <column name="pay_grade" type="VARCHAR(20)">
                 <constraints nullable="false"/>
             </column>
+            <column name="sal_group" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
             <column name="description" type="VARCHAR(40)">
                 <constraints nullable="false"/>
             </column>
