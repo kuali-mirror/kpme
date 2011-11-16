@@ -17,11 +17,11 @@
         <td>
             Pay Calendar Group:
             <label for="pay calendar groups">
-                <select id="selectedPayCalendarGroup" name="selectedPayCalendarGroup"
-                        onchange="this.form.methodToCall.value='selectNewPayCalendarGroup'; this.form.submit();">
+                <select id="selectedCalendarGroup" name="selectedCalendarGroup"
+                        onchange="this.form.methodToCall.value='selectNewCalendarGroup'; this.form.submit();">
                     <c:forEach var="calendarGroup" items="${Form.calendarGroups}">
                         <c:choose>
-                            <c:when test="${Form.selectedPayCalendarGroup eq calendarGroup}">
+                            <c:when test="${Form.selectedCalendarGroup eq calendarGroup}">
                                 <option value="${calendarGroup}" selected="selected">${calendarGroup}</option>
                             </c:when>
                             <c:otherwise>
@@ -35,7 +35,7 @@
         <td>
             Department:
             <select id="selectedDept" name="selectedDept"
-                    onchange="this.form.methodToCall.value='selectNewPayCalendarGroup'; this.form.submit();">
+                    onchange="this.form.methodToCall.value='selectNewCalendarGroup'; this.form.submit();">
                 <option value="">-- Select a department --</option>
                 <c:forEach var="dept" items="${Form.departments}">
                     <c:choose>
@@ -53,7 +53,7 @@
             Work Area:
             <label for="work areas">
                 <select id="selectedWorkArea" name="selectedWorkArea"
-                        onchange="this.form.methodToCall.value='selectNewPayCalendarGroup'; this.form.submit();">
+                        onchange="this.form.methodToCall.value='selectNewCalendarGroup'; this.form.submit();">
                     <option value="">Show All</option>
                     <c:forEach var="deptWorkarea" items="${Form.deptWorkareas}">
                         <c:choose>
@@ -71,7 +71,7 @@
     </tr>
 </table>
 <table class="navigation">
-    <c:if test="${Form.selectedDept != null and Form.selectedPayCalendarGroup != null}">
+    <c:if test="${Form.selectedDept != null and Form.selectedCalendarGroup != null}">
         <tr>
             <td class="left">
                 Search By :

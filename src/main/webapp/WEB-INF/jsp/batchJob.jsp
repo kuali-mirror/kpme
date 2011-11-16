@@ -25,8 +25,8 @@
                             <input type="text" name="hrPyCalendarEntryId" id="hrPyCalendarEntryId" value="${Form.hrPyCalendarEntryId}"/>
                         </td>
                         <td>
-                        	<kul:lookup boClassName="org.kuali.hr.time.paycalendar.PayCalendarEntries"
-                					fieldConversions="hrPyCalendarEntriesId:hrPyCalendarEntryId"
+                        	<kul:lookup boClassName="org.kuali.hr.time.calendar.CalendarEntries"
+                					fieldConversions="hrCalendarEntriesId:hrPyCalendarEntryId"
                 					lookupParameters="" />
                         </td>
                         <td><input type="submit" value="Run"/></td>

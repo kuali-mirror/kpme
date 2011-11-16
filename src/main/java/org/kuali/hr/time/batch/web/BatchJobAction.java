@@ -20,7 +20,7 @@ public class BatchJobAction extends TkAction {
         searchCrit.put("tkBatchJobId", bjaf.getBatchJobId());
         searchCrit.put("batchJobName", bjaf.getBatchJobName());
         searchCrit.put("batchJobEntryStatus", bjaf.getBatchJobEntryStatus());
-        searchCrit.put("hrPyCalendarEntryId", bjaf.getCalendarEntryId());
+        searchCrit.put("hrPyCalendarEntryId", bjaf.getHrPyCalendarEntryId());
         searchCrit.put("ipAddress", bjaf.getIpAddress());
         searchCrit.put("documentId", bjaf.getDocumentId());
         searchCrit.put("principalId", bjaf.getPrincipalId());

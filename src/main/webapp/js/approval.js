@@ -38,7 +38,7 @@ $(document).ready(function() {
 //
 //        // submit the page for sorting
 //        if (field != 'Action' && field != 'Select') {
-//            window.location = 'TimeApproval.do?sortField=' + field + '&ascending=' + isAscending + '&rowsToShow=' + rows + "&hrPyCalendarId=" + $("#pcid").val() + "&hrPyCalendarEntriesId=" + $("#pceid").val() + "&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val();
+//            window.location = 'TimeApproval.do?sortField=' + field + '&ascending=' + isAscending + '&rowsToShow=' + rows + "&hrPyCalendarId=" + $("#pcid").val() + "&hrPyCalendarEntriesId=" + $("#pceid").val() + "&selectedCalendarGroup=" + $("#selectedCalendarGroup").val();
 //        }
 //    });
 
@@ -95,12 +95,12 @@ $(document).ready(function() {
             //var payBeginDate = $('#payBeginDateForSearch').val();
             //var payEndDate = $('#payEndDateForSearch').val();
             var hrPyCalendarEntriesId = $("#pceid").val();
-            var selectedPayCalendarGroup = $("#selectedPayCalendarGroup").val();
+            var selectedCalendarGroup = $("#selectedCalendarGroup").val();
 
             $.ajax({
                 url: 'TimeApprovalWS.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term + "&payBeginDateForSearch=" + $("#beginDate").html() + "&payEndDateForSearch=" + $("#endDate").html() +
 //                        '&hrPyCalendarEntriesId=' + hrPyCalendarEntriesId +
-                        '&selectedPayCalendarGroup=' + selectedPayCalendarGroup,
+                        '&selectedCalendarGroup=' + selectedCalendarGroup,
                 dataType: "json",
                 success: function(data) {
                     response($.map(data, function(item) {
@@ -193,7 +193,7 @@ $(document).ready(function() {
 //    });
 
 
-//    $("#selectedPayCalendarGroup").change(function() {
-//    	$.post("TimeApproval.do?methodToCall=selectNewPayCalendarGroup&selectedPayCalendarGroup=" + $("#selectedPayCalendarGroup").val());
+//    $("#selectedCalendarGroup").change(function() {
+//    	$.post("TimeApproval.do?methodToCall=selectNewCalendarGroup&selectedCalendarGroup=" + $("#selectedCalendarGroup").val());
 //    });
 });
