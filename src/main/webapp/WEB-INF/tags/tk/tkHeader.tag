@@ -10,7 +10,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Kuali Time</title>
     <tk:tkInclude/>
-    <tk:tkJsInclude/>
 </head>
 <body>
 
@@ -95,5 +94,6 @@
     <jsp:doBody/>
 </div>
 <tk:tkFooter/>
+<tk:tkJsInclude/>
 </body>
 </html>
