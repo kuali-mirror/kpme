@@ -524,7 +524,8 @@ $(document).ready(function() {
 
     // ------------------- end of the misc. section -------------------
 
-    $.scrollTo('body',0);
+    window.scrollTo(0, 0);
+
 });
 
 //-------------------
