@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     // calendar
     var date = new Date();
     var d = date.getDate();
@@ -523,6 +524,7 @@ $(document).ready(function() {
 
     // ------------------- end of the misc. section -------------------
 
+    $.scrollTo('body',0);
 });
 
 //-------------------
