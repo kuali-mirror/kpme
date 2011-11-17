@@ -130,6 +130,6 @@
             <tk:timeSummary timeSummary="${Form.timeSummary}"/>
         </div>
     </div>
-</tk:tkHeader>
 <tk:routeLog/>
 <tk:note/>
+</tk:tkHeader>
