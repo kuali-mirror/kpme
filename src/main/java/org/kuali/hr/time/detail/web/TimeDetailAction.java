@@ -88,7 +88,7 @@ public class TimeDetailAction extends TimesheetAction {
         cal.assignAssignmentStyle(aMap);
         tdaf.setTkCalendar(cal);
 
-        tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(TKContext.getCurrentTimesheetDoucment(), aggregate.getFlattenedTimeBlockList()));
+//        tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(TKContext.getCurrentTimesheetDoucment(), aggregate.getFlattenedTimeBlockList()));
 
         tdaf.setOvertimeEarnCodes(TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDoucment().getAsOfDate()));
         if(TKContext.getUser().isSystemAdmin()){
