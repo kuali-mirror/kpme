@@ -4,6 +4,7 @@ import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.dao.CalendarEntriesDao;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kns.util.DateUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -47,5 +48,18 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
     public List<CalendarEntries> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate){
 		return calendarEntriesDao.getCurrentCalendarEntryNeedsScheduled(thresholdDays, asOfDate);
 	}
+    
+    @Override
+    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+    public void createNextCalendarEntry(CalendarEntries calendarEntries){
+		calendarEntries.setHrCalendarEntriesId(null);
+		calendarEntries.setBeginPeriodDateTime(DateUtils.addDays(calendarEntries.getBeginPeriodDateTime(), 14));
+		calendarEntries.setEndPeriodDateTime(DateUtils.addDays(calendarEntries.getEndPeriodDateTime(), 14));
+		calendarEntries.setBatchInitiateDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchInitiateDate(), 14).getTime()));
+		calendarEntries.setBatchEndPayPeriodDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchEndPayPeriodDate(), 14).getTime()));
+		calendarEntries.setBatchEmployeeApprovalDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchEmployeeApprovalDate(), 14).getTime()));
+		calendarEntries.setBatchSupervisorApprovalDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchSupervisorApprovalDate(), 14).getTime()));
+		calendarEntriesDao.saveOrUpdate(calendarEntries);
+    }
 
 }

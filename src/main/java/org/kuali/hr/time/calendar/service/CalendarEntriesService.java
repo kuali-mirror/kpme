@@ -36,4 +36,6 @@ public interface CalendarEntriesService {
      * @return A list of CalendarEntries.
      */
 	public List<CalendarEntries> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
+	
+	public void createNextCalendarEntry(CalendarEntries calendarEntries);
 }

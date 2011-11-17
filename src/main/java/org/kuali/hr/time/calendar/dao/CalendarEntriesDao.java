@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CalendarEntriesDao {
 
+	public void saveOrUpdate(CalendarEntries calendarEntries);
 	public CalendarEntries getCalendarEntries(Long hrPyCalendarEntriesId);
 
     public CalendarEntries getCalendarEntriesByIdAndPeriodEndDate(Long hrPyCalendarId, Date endPeriodDate);

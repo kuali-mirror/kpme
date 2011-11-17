@@ -15,6 +15,11 @@ import java.util.List;
 
 public class CalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupport  implements CalendarEntriesDao {
 
+
+	public void saveOrUpdate(CalendarEntries calendarEntries) {
+		this.getPersistenceBrokerTemplate().store(calendarEntries);
+	}
+	
 	public CalendarEntries getCalendarEntries(Long hrCalendarEntriesId) {
 		Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("hrCalendarEntriesId", hrCalendarEntriesId);
