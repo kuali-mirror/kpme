@@ -117,7 +117,8 @@ $(document).ready(function() {
 
     // note accordion
     $("#note, #routeLog").accordion({
-        collapsible : true
+        collapsible : true,
+        active : 0
      });
 
     // person detail accordion
