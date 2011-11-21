@@ -46,6 +46,7 @@ public class AccrualCategoryMaintTest extends TkTestCase {
 		accrualCategory.setDonation(TEST_CODE);
 		accrualCategory.setUnitOfTime(TEST_CODE);
 		accrualCategory.setShowOnGrid(TEST_CODE);
+		accrualCategory.setPlanningMonths(1l);
 		accrualCategory.setActive(true);
 		accrualCategory.setDescr(TEST_CODE);
 		accrualCategory.setEffectiveDate(TEST_DATE);
