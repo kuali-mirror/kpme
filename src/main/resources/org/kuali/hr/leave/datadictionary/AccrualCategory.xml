@@ -27,6 +27,7 @@
 				<ref bean="AccrualCategory-donation" />
 				<ref bean="AccrualCategory-showOnGrid" />
 				<ref bean="AccrualCategory-unitOfTime" />
+				<ref bean="AccrualCategory-planningMonths" />
 				<ref bean="AccrualCategory-active" />
 				<ref bean="AccrualCategory-history" />
 			</list>
@@ -235,7 +236,25 @@
 		<property name="name" value="showOnGrid" />
 		<property name="label" value="Show On Grid" />
 	</bean>
-
+	
+<!-- Planning Months -->
+	<bean id="AccrualCategory-planningMonths" parent="AccrualCategory-planningMonths-parentBean" />
+	<bean id="AccrualCategory-planningMonths-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Planning Months" />
+		<property name="maxLength" value="5" />
+		<property name="validationPattern">
+			<bean parent="RegexValidationPattern">
+ 		   		<property name="pattern" value="([1-9]|1[0-9]|2[0-3])()"></property>
+ 		   		<property name="validationErrorMessageKey" value="error.planning.months"></property>
+ 			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+		<property name="name" value="planningMonths" />
+		<property name="label" value="Planning Months" />
+	</bean>
 
 	<!--  Inquiry Definitions  -->
 
@@ -258,6 +277,7 @@
 							<bean parent="FieldDefinition" p:attributeName="proration" />
 							<bean parent="FieldDefinition" p:attributeName="donation" />
 							<bean parent="FieldDefinition" p:attributeName="showOnGrid" />
+							<bean parent="FieldDefinition" p:attributeName="planningMonths" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
@@ -296,6 +316,7 @@
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="accrualEarnInterval" />
 				<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
+				<bean parent="FieldDefinition" p:attributeName="planningMonths" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 			</list>
