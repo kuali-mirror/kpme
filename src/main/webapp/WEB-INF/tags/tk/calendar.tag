@@ -25,8 +25,11 @@
             </td>
         </tr>
 		<tr>
-		        <tr>
-        <td align="right"><a href="javascript: window.open(extractUrlBase()+'/TimeDetail.do?methodToCall=actualTimeInquiry&documentId=${Form.documentId}', 'actualTimeInquiry')">Actual Time Inquiry</a></td>
+		<tr>
+        <td align="right">
+        	<a href="${KualiForm.backLocation}?methodToCall=actualTimeInquiry&documentId=${Form.documentId}" target="_blank">Actual Time Inquiry</a>
+        </td>
+        	
         </tr>
 		</tr>
         </tbody>
