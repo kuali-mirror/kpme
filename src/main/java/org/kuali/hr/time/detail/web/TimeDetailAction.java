@@ -83,7 +83,7 @@ public class TimeDetailAction extends TimesheetAction {
         Calendar calendar = TkServiceLocator.getCalendarSerivce().getCalendar(calendarEntry.getHrCalendarId());
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, calendar, true, 
         		TKUtils.getFullWeekDaySpanForCalendarEntry(calendarEntry));
-        TkCalendar cal = TkCalendar.getCalendar(aggregate);
+        TkCalendar cal = new TkCalendar(aggregate);
         cal.assignAssignmentStyle(aMap);
         tdaf.setTkCalendar(cal);
 

@@ -1,15 +1,13 @@
 package org.kuali.hr.time.util;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.web.session.UserSession;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TKContext {
 

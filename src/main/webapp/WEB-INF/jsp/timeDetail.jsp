@@ -33,9 +33,9 @@
          -->
 
         <%-- this is used by the javascript to fetch the time block json --%>
-        <html:textarea property="timeBlockString" styleId="timeBlockString" value="${Form.timeBlockString}"/>
+        <%--<html:textarea property="timeBlockString" styleId="timeBlockString" value="${Form.timeBlockString}"/>--%>
 
-        <tk:calendar cal="${Form.tkCalendar}" docId="${Form.documentId}"/>
+        <tk:calendar cal="${Form.tkCalendar}" docId="${Form.documentId}" calType="payCalendar"/>
 
         <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;">
             <div id="dialog-form" title="Add Time Blocks:" style="margin-left: auto; margin-right: auto; display:none;">

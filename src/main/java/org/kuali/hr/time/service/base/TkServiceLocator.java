@@ -1,12 +1,15 @@
 package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.job.service.JobService;
+import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
+import org.kuali.hr.lm.leavecalendar.service.LeaveCalendarService;
 import org.kuali.hr.lm.leavecode.service.LeaveCodeService;
 import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
+import org.kuali.hr.lm.ledger.service.LedgerService;
 import org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffService;
+import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.location.service.LocationService;
 import org.kuali.hr.paygrade.service.PayGradeService;
-import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
 import org.kuali.hr.time.accrual.service.TimeOffAccrualService;
 import org.kuali.hr.time.approval.service.TimeApproveService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
@@ -115,6 +118,10 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String LM_LEAVE_CODE_SERVICE = "leaveCodeService";
     public static final String LM_LEAVE_PLAN_SERVICE = "leavePlanService";
     public static final String LM_SYS_SCH_TIMEOFF_SERVICE = "systemScheduledTimeOffService";
+    public static final String LM_LEDGER_SERVICE = "ledgerService";
+    public static final String LM_LEAVE_CALENDAR_SERVICE = "leaveCalendarService";
+    public static final String LM_LEAVE_CALENDAR_DOCUMENT_HEADER_SERVICE = "leaveCalendarDocumentHeaderService";
+
 
 
 	public static void start() throws Exception {
@@ -344,6 +351,19 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static SystemScheduledTimeOffService getSysSchTimeOffService(){
 		return (SystemScheduledTimeOffService)CONTEXT.getBean(LM_SYS_SCH_TIMEOFF_SERVICE);
 	}
+
+    public static LedgerService getLedgerService(){
+		return (LedgerService)CONTEXT.getBean(LM_LEDGER_SERVICE);
+	}
+
+    public static LeaveCalendarService getLeaveCalendarService(){
+		return (LeaveCalendarService)CONTEXT.getBean(LM_LEAVE_CALENDAR_SERVICE);
+	}
+
+    public static LeaveCalendarDocumentHeaderService getLeaveCalendarDocumentHeaderService(){
+		return (LeaveCalendarDocumentHeaderService)CONTEXT.getBean(LM_LEAVE_CALENDAR_DOCUMENT_HEADER_SERVICE);
+	}
+
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;

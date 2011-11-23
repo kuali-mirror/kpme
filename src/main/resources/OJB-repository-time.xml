@@ -166,14 +166,14 @@
 		</reference-descriptor>
 			 	-->
 	</class-descriptor>
-	
+
 	<class-descriptor class="org.kuali.hr.time.clock.location.TKIPAddress" table="tk_ip_address_t">
 		<field-descriptor name="tkIPAddressId" column="TK_IP_Address_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_ip_address_s"/>
 		<field-descriptor name="tkClockLocationRuleId" column="TK_CLOCK_LOC_RULE_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="ipAddress"       column="ip_address"	jdbc-type="VARCHAR" length="15" nullable="false" primarykey="false" />
 	</class-descriptor>
-	
-	
+
+
     <class-descriptor class="org.kuali.hr.time.department.Department" table="hr_dept_t">
 		<field-descriptor name="hrDeptId"     	column="hr_dept_id"  jdbc-type="BIGINT" nullable="false" primarykey="true"  autoincrement="true" sequence-name="hr_dept_s"/>
         <field-descriptor name="dept"         	column="dept"        jdbc-type="VARCHAR" length="21" nullable="false" primarykey="false" />
@@ -192,7 +192,7 @@
 			auto-update="object"
 			auto-delete="object">
 			<inverse-foreignkey field-ref="department"/>
-		</collection-descriptor>  
+		</collection-descriptor> 
 	</class-descriptor>    
 
 		<!-- add grace period rule -->
@@ -671,6 +671,7 @@
 		<field-descriptor name="workmansCompEligible" column="worksman_eligible"      jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.user.pref.UserPreferences" table="tk_user_pref_t">

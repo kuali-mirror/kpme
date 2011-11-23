@@ -663,9 +663,12 @@ select {
     margin-bottom: 5px;
 }
 
-.cal .cal-header .header-title {
-    font-size: 1.5em;
+.cal-header-title {
+    font-size: 1.3em;
     font-weight: bold;
+    margin-left: 45%;
+    margin-right: 45%;
+    text-align: center;
 }
 
 .cal .cal-table .holidayNameHelp:hover{
