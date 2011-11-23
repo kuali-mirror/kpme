@@ -9,7 +9,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="cache-control" content="public">
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <%--<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />--%>
     <title>Kuali Time</title>
     <tk:tkInclude/>
     <tk:tkJsInclude/>
