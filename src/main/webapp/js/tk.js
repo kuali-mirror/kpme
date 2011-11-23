@@ -116,10 +116,10 @@ $(document).ready(function() {
     });
 
     // note accordion
-//    $("#note, #routeLog").accordion({
-//    	active: false,
-//        collapsible : true
-//     });
+    $("#note, #routeLog").accordion({
+        collapsible : true,
+        active : 2
+    });
 
     // person detail accordion
     $("#person-detail-accordion").accordion({
