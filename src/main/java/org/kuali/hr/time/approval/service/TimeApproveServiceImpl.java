@@ -1,7 +1,21 @@
 package org.kuali.hr.time.approval.service;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import java.math.BigDecimal;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
@@ -23,7 +37,11 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesummary.TimeSummary;
-import org.kuali.hr.time.util.*;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -31,10 +49,8 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-import java.math.BigDecimal;
-import java.sql.Types;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 
@@ -539,27 +555,39 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 //        Set<String> list = getPrincipalIdsByWorkAreas(workAreas, payEndDate, calGroup);
 //        return list.subList(start, end);
 //    }
+    
+    @CacheResult
+    /**
+     * This method is cacheable unlike the method that does the work as it can only be cached with primitive types
+     * workAreasAsString must be comma delimited
+     * @param workAreasAsString 
+     * @param payBeginDate
+     * @param payEndDate
+     * @param calGroup
+     * @return
+     */
+    public Set<String> getPrincipalIdsByWorkAreas(String workAreasAsString, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup) {
+    	Set<String> principalIds = new HashSet<String>();
+    	Set<Long> workAreas = new HashSet<Long>();
+    	if(StringUtils.isNotBlank(workAreasAsString)){ 
+    		String[] was = workAreasAsString.split(",");
+    		for(String wa : was){
+    			if(StringUtils.isNotBlank(wa)){
+    				workAreas.add(Long.parseLong(wa));
+    			}
+    		}
+    		if(!workAreas.isEmpty()){
+    			getPrincipalIdsByWorkAreas(workAreas, payBeginDate, payEndDate, calGroup);
+    		}
+    	}
+    	
+    	
+    	return principalIds;
+    }
 
     @Override
     public Set<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup) {
-        //        List<Assignment> activeAssignments = new ArrayList<Assignment>(); //getActiveAssignmentsAndPrincipalCalendars(workAreas, payEndDate);
-//        List<Assignment> activeAssignments = getActiveAssignmentsAndPrincipalCalendars(workAreas, payEndDate);
-
         Set<String> principalIds = getPrincipalIdsWithActiveAssignmentsForCalendarGroup(workAreas, calGroup, payEndDate, payBeginDate, payEndDate);
-//        getActiveAssignmentsForCalendarGroup(workAreas, payEndDate, payBeginDate, payEndDate);
-//        for (Long aWorkArea : workAreas) {
-//            activeAssignments.addAll(TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(aWorkArea, new java.sql.Date(payEndDate.getTime())));
-//        }
-//        if (!activeAssignments.isEmpty()) {
-//            for (Assignment assign : activeAssignments) {
-//                PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(assign.getPrincipalId(), payEndDate);
-//                //TODO remove this comparision sometiem
-//                if (StringUtils.equals(principalCalendar.getPyCalendarGroup(), calGroup)) {
-//                    principalIds.add(assign.getPrincipalId());
-//                }
-//            }
-//        }
-
         return principalIds;
     }
 

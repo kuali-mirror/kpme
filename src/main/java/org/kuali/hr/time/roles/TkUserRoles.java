@@ -28,7 +28,7 @@ public class TkUserRoles implements UserRoles {
     private Map<Long, TkRole> reviewerRoles = new HashMap<Long,TkRole>();;
     private Map<String, TkRole> deptViewOnlyRoles = new HashMap<String, TkRole>();
 	private Set<Long> activeAssignmentIds = new HashSet<Long>();
-
+	
 	/**
 	 * Constructor that takes a list of all roles that will be encapsulated
 	 * by this object.

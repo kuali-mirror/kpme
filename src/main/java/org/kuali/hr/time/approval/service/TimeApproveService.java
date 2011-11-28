@@ -106,5 +106,7 @@ public interface TimeApproveService {
      * @return A Dept and Work Areas mapping.
      */
     Multimap<String, Long> getDeptWorkAreasByDepts(Set<String> userDepts);
+    
+    public Set<String> getPrincipalIdsByWorkAreas(String workAreasAsString, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
 
 }

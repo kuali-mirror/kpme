@@ -397,5 +397,6 @@ public class TKUtils {
                 ? 2700 :
                 Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.SESSION_TIMEOUT));
     }
+    
 
 }

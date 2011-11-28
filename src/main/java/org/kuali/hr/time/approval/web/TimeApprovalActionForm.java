@@ -34,8 +34,12 @@ public class TimeApprovalActionForm extends TkForm {
     private String documentId;
     private String employeeWorkArea;
     private List<String> assignmentPrincipalIds = new LinkedList<String>();
+    
+    private Set<String> principalIds = new HashSet<String>();
 
-    /**
+
+
+	/**
      * Used for ajax dynamic row updating
      */
     private String outputString;
@@ -339,4 +343,12 @@ public class TimeApprovalActionForm extends TkForm {
     public void setPayEndDateForSearch(String payEndDateForSearch) {
         this.payEndDateForSearch = payEndDateForSearch;
     }
+
+    public Set<String> getPrincipalIds() {
+		return principalIds;
+	}
+
+	public void setPrincipalIds(Set<String> principalIds) {
+		this.principalIds = principalIds;
+	}
 }

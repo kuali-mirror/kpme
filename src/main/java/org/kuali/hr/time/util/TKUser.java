@@ -305,6 +305,16 @@ public class TKUser {
         SortedSet<Long> workAreas = new TreeSet<Long>();
         workAreas.addAll(this.getCurrentRoles().getApproverWorkAreas());
         workAreas.addAll(this.getCurrentRoles().getReviewerWorkAreas());
+        
+        if(this.getCurrentRoles().isDepartmentAdmin()){
+        	Set<String> deptAdminDepts = this.getCurrentRoles().getOrgAdminDepartments();
+        	for(String dept : deptAdminDepts){
+        		List<WorkArea> was = TkServiceLocator.getWorkAreaService().getWorkAreas(dept, TKUtils.getCurrentDate());
+        		for(WorkArea wa : was){
+        			workAreas.add(wa.getWorkArea());
+        		}
+        	}
+        }
 
         return workAreas;
     }

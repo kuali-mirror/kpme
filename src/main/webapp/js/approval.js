@@ -116,7 +116,7 @@ $(document).ready(function() {
         select: function(event, data) {
             var rows = $('#approvals-table tbody tr').length;
             var isAscending = getParameterByName("ascending");
-            window.location = 'TimeApproval.do?searchField=principalName&searchTerm=' + data.item.id;
+            window.location = 'TimeApproval.do?methodToCall=searchResult&searchField=principalName&searchTerm=' + data.item.id;
         },
         open: function() {
             $(this).removeClass("ui-corner-all");
