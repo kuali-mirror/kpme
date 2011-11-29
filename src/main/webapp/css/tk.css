@@ -47,10 +47,6 @@
     /*text-decoration: underline;*/
 }
 
-#dialog-form {
-    font-size: .8em !important;
-}
-
 .ui-dialog-buttonpane {
     font-size: .9em !important;
     /*margin-left: auto !important;*/
@@ -217,9 +213,6 @@ select {
 
 #timesheet-panel {
     border: 1px solid #ccc;
-    float: left;
-    width: 100%;
-    /*margin: 20px 10px 0 1%;*/
     background-color: #FBF9EE;
 }
 
@@ -335,7 +328,7 @@ select {
 }
 
 #dialog-form form {
-    font-size: .9em !important;
+    font-size: .8em !important;
 }
 
 .validation {

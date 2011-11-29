@@ -429,7 +429,7 @@ $(document).ready(function() {
     $('#dialog-form').dialog({
         autoOpen: false,
         height: 'auto',
-        width: 'auto',
+        width: '450',
         modal: true,
         beforeClose: function(event, ui) {
             // restore the earn code value to the default
