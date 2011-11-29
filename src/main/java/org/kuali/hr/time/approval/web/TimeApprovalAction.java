@@ -242,6 +242,8 @@ public class TimeApprovalAction extends TkAction{
 		TimeApprovalActionForm taaf = (TimeApprovalActionForm)form;
 		taaf.setSearchField(null);
 		taaf.setSearchTerm(null);
+		taaf.setSelectedWorkArea(null);
+		taaf.setSelectedDept(null);
 		
 		return loadApprovalTab(mapping, form, request, response);
 	}
