@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
 <c:set var="Form" value="${AdminActionForm}" scope="request"/>
+<c:set var="KualiForm" value="${AdminActionForm}" scope="request"/>
 
 <tk:tkHeader tabId="admin">
 <div id="admin-page">
@@ -166,6 +167,10 @@
 	            <tr>
 	                <td>
 						<html:text property="changeTargetPrincipalId" size="20" />
+						<kul:lookup boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
+                			fieldConversions="principalId:changeTargetPrincipalId"
+                			lookupParameters="" 
+                			baseLookupUrl="./kr/"/>
 						<input type="button" class="button" value="Submit" name="changeEmployee" onclick="this.form.methodToCall.value='changeEmployee'; this.form.submit();">
 						<input type="button" class="button" value="Clear" name="clearChangeEmployee" onclick="this.form.methodToCall.value='clearChangeEmployee'; this.form.submit();">
 	                </td>
