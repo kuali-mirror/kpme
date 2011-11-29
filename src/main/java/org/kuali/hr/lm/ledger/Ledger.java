@@ -12,7 +12,11 @@ import java.util.LinkedHashMap;
 
 public class Ledger extends HrBusinessObject {
 
-    // use java sql date for now
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// use java sql date for now
     private Long lmLedgerId;
     private Date ledger_date;
     private String description;

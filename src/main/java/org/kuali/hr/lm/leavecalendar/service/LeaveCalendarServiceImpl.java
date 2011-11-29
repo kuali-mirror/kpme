@@ -1,15 +1,17 @@
 package org.kuali.hr.lm.leavecalendar.service;
 
 
+import java.util.Date;
+import java.util.List;
+
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDao;
+import org.kuali.hr.lm.ledger.Ledger;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
-
-import java.util.Date;
 
 public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
@@ -27,6 +29,9 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         } else {
             throw new RuntimeException("Could not find LeaveCalendarDocumentHeader for DocumentID: " + documentId);
         }
+        
+        List<Ledger> ledgers = TkServiceLocator.getLedgerService().getLedgersForDocumentId(documentId);
+        lcd.setLedgers(ledgers);
         
         return lcd;
     }
