@@ -148,7 +148,7 @@ public class TimeDetailValidationService {
         if (errors.size() > 0) return errors;
 
         // Accrual Hour Limits Validation
-        errors.addAll(TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(timesheetDocument));
+        errors.addAll(TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimitByEarnCode(timesheetDocument, selectedEarnCode));
 
         return errors;
     }

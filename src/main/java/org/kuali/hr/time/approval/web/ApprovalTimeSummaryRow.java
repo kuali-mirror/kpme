@@ -129,12 +129,13 @@ public class ApprovalTimeSummaryRow {
      */
     public boolean isApprovable() {
     	boolean isEnroute =  StringUtils.equals(getApprovalStatus(), "ENROUTE") ;
+
         if(isEnroute){
         	DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(Long.parseLong(this.getDocumentId()));
         	boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(TKContext.getUserSession(), routeHeader, new SecuritySession(TKContext.getUserSession()));
         	if(authorized){
         		List<String> principalsToApprove = KEWServiceLocator.getActionRequestService().getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId(KEWConstants.ACTION_REQUEST_APPROVE_REQ, routeHeader.getRouteHeaderId());
-        		if(principalsToApprove != null && principalsToApprove.contains(TKContext.getPrincipalId())){
+        		if(principalsToApprove.isEmpty() && principalsToApprove.contains(TKContext.getPrincipalId())){
             		return true;
             	}
         	}

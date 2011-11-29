@@ -10,7 +10,6 @@
 <html:hidden styleId="pceid" property="hrPyCalendarEntriesId" value="${Form.hrPyCalendarEntriesId}"/>
 <html:hidden styleId="payBeginDateForSearch" property="payBeginDateForSearch" value="${Form.payBeginDateForSearch}"/>
 <html:hidden styleId="payEndDateForSearch" property="payEndDateForSearch" value="${Form.payEndDateForSearch}"/>
-<html:hidden styleId="principalIds" property="principalIds" />
 
 
 <div class="approvals">
@@ -20,7 +19,7 @@
             Pay Calendar Group:
             <label for="pay calendar groups">
                 <select id="selectedPayCalendarGroup" name="selectedPayCalendarGroup"
-                        onchange="this.form.methodToCall.value='selectNewPayCalendar'; this.form.submit();">
+                        onchange="this.form.methodToCall.value='selectNewPayCalendarGroup'; this.form.submit();">
                     <c:forEach var="payCalendarGroup" items="${Form.payCalendarGroups}">
                         <c:choose>
                             <c:when test="${Form.selectedPayCalendarGroup eq payCalendarGroup}">
@@ -37,7 +36,7 @@
         <td>
             Department:
             <select id="selectedDept" name="selectedDept"
-                    onchange="this.form.methodToCall.value='selectNewDept'; this.form.submit();">
+                    onchange="this.form.methodToCall.value='selectNewPayCalendarGroup'; this.form.submit();">
                 <option value="">-- Select a department --</option>
                 <c:forEach var="dept" items="${Form.departments}">
                     <c:choose>
@@ -55,7 +54,7 @@
             Work Area:
             <label for="work areas">
                 <select id="selectedWorkArea" name="selectedWorkArea"
-                        onchange="this.form.methodToCall.value='selectNewWorkArea'; this.form.submit();">
+                        onchange="this.form.methodToCall.value='selectNewPayCalendarGroup'; this.form.submit();">
                     <option value="">Show All</option>
                     <c:forEach var="deptWorkarea" items="${Form.deptWorkareas}">
                         <c:choose>
@@ -94,7 +93,7 @@
                 <div style="text-align: center">
                     <c:if test="${Form.prevPayCalendarId ne null}">
                         <input type="button" class="prev" value="Previous" name="Previous"
-                               onclick="this.form.hrPyCalendarEntriesId.value='${Form.prevPayCalendarId}'; this.form.methodToCall.value='loadApprovalTab'; this.form.submit();"/>
+                               onclick="this.form.hrPyCalendarEntriesId.value='${Form.prevPayCalendarId}'; this.form.submit();"/>
                     </c:if>
                     <span id="beginDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
                             value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/></span> -
@@ -102,7 +101,7 @@
                             value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
                     <c:if test="${Form.nextPayCalendarId ne null}">
                         <input type="button" class="next" value="Next" name="Next"
-                               onclick="this.form.hrPyCalendarEntriesId.value='${Form.nextPayCalendarId}'; this.form.methodToCall.value='loadApprovalTab'; this.form.submit();"/>
+                               onclick="this.form.hrPyCalendarEntriesId.value='${Form.nextPayCalendarId}'; this.form.submit();"/>
                     </c:if>
                 </div>
             </td>
@@ -110,6 +109,7 @@
         </tr>
     </c:if>
 </table>
+
 
 <display:table name="${Form.approvalRows}" requestURI="TimeApproval.do" excludedParams="*" pagesize="20" id="row"
                class="approvals-table" partialList="true" size="${Form.resultSize}" sort="external" defaultsort="1">
@@ -225,8 +225,8 @@
     <display:column title="Action">
         <tk:tkApprovalRowButtons appRow="${row}"/>
     </display:column>
-    <display:column title="Select" class="last_column_${row_rowNum}">
-        <html:checkbox property="approvalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}"/>
+    <display:column title="Select All <input type='checkbox' name='Select' id='checkAllAuto'></input>" class="last_column_${row_rowNum}">
+        <html:checkbox property="approvalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}" styleClass="selectedEmpl"/>
         <div class="hourDetails">
             <tr style="display:none;" class="timeSummaryRow_${row_rowNum-1}">
                 <td class="rowCount"><tk:timeSummary timeSummary="${row.timeSummary}"/></td>

@@ -28,31 +28,16 @@ public class TkUserRoles implements UserRoles {
     private Map<Long, TkRole> reviewerRoles = new HashMap<Long,TkRole>();;
     private Map<String, TkRole> deptViewOnlyRoles = new HashMap<String, TkRole>();
 	private Set<Long> activeAssignmentIds = new HashSet<Long>();
-	
+
 	/**
 	 * Constructor that takes a list of all roles that will be encapsulated
 	 * by this object.
 	 *
 	 * @param roles
 	 */
-	public TkUserRoles(String principalId, List<TkRole> roles) {
-        this.principalId = principalId;
-		setRoles(roles);
+	public TkUserRoles() {
 	}
 
-	/**
-	 * Does not keep reference to the assignment objects.  We just need the IDs,
-	 * so in future refactoring, if we have a lighter weight call to obtain
-	 * assignments, we could use that and modify this code.
-	 *
-	 * @param roles
-	 * @param assignments
-	 */
-	public TkUserRoles(String principalId, List<TkRole> roles, List<Assignment> assignments) {
-        this.principalId = principalId;
-		setRoles(roles);
-		setAssignments(assignments);
-	}
 
     @Override
     public boolean isLocationAdmin() {
@@ -224,9 +209,12 @@ public class TkUserRoles implements UserRoles {
     public boolean isApproverForTimesheet(String docId) {
         boolean approver = false;
 
-        TimesheetDocument doc =  TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
-        if (doc != null)
-            approver = isApproverForTimesheet(doc);
+        if (docId != null) {
+        	TimesheetDocument doc =  TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
+        	
+        	if (doc != null)
+        		approver = isApproverForTimesheet(doc);
+        }
 
         return approver;
     }
@@ -273,7 +261,14 @@ public class TkUserRoles implements UserRoles {
 
     @Override
     public boolean isDocumentReadable(String documentId) {
-        return isDocumentReadable(TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId));
+    	
+    	boolean readable = false;
+
+         if (documentId != null)
+        	 readable =  isDocumentReadable(TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId));
+         
+         return readable;
+        		 
     }
 
     @Override

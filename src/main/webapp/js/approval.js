@@ -116,7 +116,7 @@ $(document).ready(function() {
         select: function(event, data) {
             var rows = $('#approvals-table tbody tr').length;
             var isAscending = getParameterByName("ascending");
-            window.location = 'TimeApproval.do?methodToCall=searchResult&searchField=principalName&searchTerm=' + data.item.id;
+            window.location = 'TimeApproval.do?searchField=principalName&searchTerm=' + data.item.id;
         },
         open: function() {
             $(this).removeClass("ui-corner-all");
@@ -136,6 +136,13 @@ $(document).ready(function() {
     $('.selectedEmpl').click(function() {
         $(this).parent().parent().find("td").toggleClass("highlight")
     });
+    
+    $('#checkAllAuto').click(
+    	    function()
+    	    {
+    	       $("INPUT[type='checkbox']:enabled").attr('checked', $('#checkAllAuto').is(':checked'));  
+    	    }
+    	 )
 
     // buttons for prev / next pay calendar entries
     $('.prev').button({

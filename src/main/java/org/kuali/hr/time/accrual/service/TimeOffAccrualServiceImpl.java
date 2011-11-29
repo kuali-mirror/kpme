@@ -120,6 +120,56 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
          }
          return warningMessages;
     }
+	
+	public List<String> validateAccrualHoursLimitByEarnCode(TimesheetDocument timesheetDocument, String earnCode) {
+		 List<String> warningMessages = new ArrayList<String>();
+   	 String pId = "";
+        if (timesheetDocument != null) {
+            pId = timesheetDocument.getPrincipalId();
+        }
+        List<Map<String, Object>> calcList = this.getTimeOffAccrualsCalc(pId);
+
+        List<TimeBlock> tbList = timesheetDocument.getTimeBlocks();
+        if (tbList.isEmpty()) {
+            return warningMessages;
+        }
+        List<String> accruals = new ArrayList<String>();
+        for (Map<String, Object> aMap : calcList) {
+   		accruals.add((String) aMap.get(ACCRUAL_CATEGORY_KEY));
+   	 }
+        
+        List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategories(timesheetDocument.getAsOfDate());
+    
+        for(AccrualCategory accrualCategory : accrualCategories){
+       	 if(!accruals.contains(accrualCategory.getAccrualCategory())){
+       		Map<String, Object> accrualData = new LinkedHashMap<String, Object>();
+    			accrualData.put(ACCRUAL_CATEGORY_KEY, accrualCategory.getAccrualCategory());
+    			accrualData.put(HOURS_ACCRUED_KEY, new BigDecimal(0.00));
+    			accrualData.put(HOURS_TAKEN_KEY, new BigDecimal(0.00));
+    			accrualData.put(HOURS_ADJUST_KEY, new BigDecimal(0.00));
+    			calcList.add(accrualData);
+       	 }
+        }
+        for (Map<String, Object> aMap : calcList) {
+            String accrualCategory = (String) aMap.get(ACCRUAL_CATEGORY_KEY);
+            List<TimeBlock> warningTbs = new ArrayList<TimeBlock>();
+            BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList, warningTbs);
+            BigDecimal balanceHrs = ((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY)).add((BigDecimal)aMap.get(HOURS_ADJUST_KEY));
+            
+            if (totalForAccrCate.compareTo(balanceHrs) == 1) {
+            	if (accrualCategory.equals(earnCode)) {
+	            	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category " + accrualCategory + " has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are: ";
+	            	for(TimeBlock tb : warningTbs) {
+	            		msg += "Earn code: " + tb.getEarnCode()+ " Hours: " + tb.getHours().toString() + " on Date " + (tb.getBeginTimeDisplay() != null ? tb.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT) : "") + " ";
+	            	}
+	            	
+	               warningMessages.add(msg);
+            	}
+
+            }
+        }
+        return warningMessages;
+   }
 
     public BigDecimal totalForAccrCate(String accrualCategory, List<TimeBlock> tbList, List<TimeBlock> warningTbs) {
         BigDecimal total = BigDecimal.ZERO;

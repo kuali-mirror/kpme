@@ -29,6 +29,14 @@ public interface TimeOffAccrualService {
 	public List<String> validateAccrualHoursLimit(TimesheetDocument timesheetDocument);
 	
 	/**
+	 * Validate the accrual hours for the time blocks by earncode of the given TimesheetDocument
+	 * and returns a JSONArray of warning messages
+	 * @param timesheetDocument
+	 * @return JSONArray
+	 */
+	public List<String> validateAccrualHoursLimitByEarnCode(TimesheetDocument timesheetDocument, String selectEarnCode);
+	
+	/**
 	 * Fetch time off accrual as of a particular unique id
 	 * @param laTimeOffAccrualId
 	 * @return

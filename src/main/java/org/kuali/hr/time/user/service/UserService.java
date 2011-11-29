@@ -8,4 +8,5 @@ import org.kuali.rice.kim.bo.Person;
 public interface UserService {
     public TKUser buildTkUser(String actualPrincipalId, Date asOfDate);
     public TKUser buildTkUser(Person actual, Person backdoor, Person target, Date asOfDate);
+    public void loadRoles(TKUser tkUser);
 }

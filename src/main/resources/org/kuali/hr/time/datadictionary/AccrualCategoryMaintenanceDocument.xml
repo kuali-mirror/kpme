@@ -28,7 +28,7 @@
   <bean id="AccrualCategoryMaintenanceDocument-AccrualCategoryMaintenance" parent="AccrualCategoryMaintenanceDocument-AccrualCategoryMaintenance-parentBean"/>
 
   <bean id="AccrualCategoryMaintenanceDocument-AccrualCategoryMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Clock Location Rule Maintenance"/>
+    <property name="title" value="Accrual Category Maintenance"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>

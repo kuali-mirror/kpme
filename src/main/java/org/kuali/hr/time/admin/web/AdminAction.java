@@ -42,8 +42,8 @@ public class AdminAction extends TkAction {
             			&& !user.isDepartmentAdmin()
             			&& !user.isGlobalViewOnly()
             			&& !user.isDepartmentViewOnly()
-            			&& (adminForm.getDocumentId() != null && !user.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId()))
-            			&& (adminForm.getDocumentId() != null && !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId()))
+            			&& !user.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())
+            			&& !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId())
             		))  {
                 throw new AuthorizationException("", "AdminAction", "");
             }
@@ -67,7 +67,7 @@ public class AdminAction extends TkAction {
 
                         tkUser.setBackdoorPerson(backdoorPerson);
 
-                        UserServiceImpl.loadRoles(tkUser);
+                        TkServiceLocator.getUserService().loadRoles(tkUser);
                         TKContext.setUser(tkUser);
                         LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + backdoorPerson.getPrincipalName() + "\n\n");
                     } else {
@@ -108,7 +108,7 @@ public class AdminAction extends TkAction {
                     }
 
                     tkUser.setTargetPerson(changePerson);
-                    UserServiceImpl.loadRoles(tkUser);
+                    TkServiceLocator.getUserService().loadRoles(tkUser);
                     TKContext.setUser(tkUser);
 
                     LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " change employee as : " + changePerson.getPrincipalName() + "\n\n");

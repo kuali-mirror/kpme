@@ -628,7 +628,15 @@
 
     <bean id="timezoneService" class="org.kuali.hr.time.timezone.service.TimezoneServiceImpl"/>
 
-    <bean id="userService" class="org.kuali.hr.time.user.service.UserServiceImpl"/>
+    <bean id="userService" class="org.kuali.hr.time.user.service.UserServiceImpl">
+    	    <property name="tkUser" ref="tkUser"/>
+    	    <property name="tkActualPersonRoles" ref="tkUserRoles"/>
+    	    <property name="tkTargetPersonRoles" ref="tkUserRoles"/>
+    	    <property name="tkBackdoorPersonRoles" ref="tkUserRoles"/>
+    </bean>
+    
+    <bean id="tkUser" class="org.kuali.hr.time.util.TKUser"/>
+    <bean id="tkUserRoles" class="org.kuali.hr.time.roles.TkUserRoles"/>
 
     <bean id="timeApproveService" class="org.kuali.hr.time.approval.service.TimeApproveServiceImpl"/>
 
