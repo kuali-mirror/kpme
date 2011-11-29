@@ -9,9 +9,6 @@
     <c:if test="${Form.user.currentTargetRoles.systemAdmin}">
     	<li id="batchJob" class="ui-state-default ui-corner-top"><a href="BatchJob.do">Batch Job</a></li>
     </c:if>
-    <c:if test="${Form.user.currentTargetRoles.systemAdmin}">
-    	<li id="calendarEntry" class="ui-state-default ui-corner-top"><a href="CalendarEntry.do">Calendar Entry</a></li>
-    </c:if>
     <c:if test="${Form.user.currentTargetRoles.leaveManagementCalendar}">
     	<li id="leaveCalendar" class="ui-state-default ui-corner-top"><a href="LeaveCalendar.do">Leave Calendar</a></li>
     </c:if>    

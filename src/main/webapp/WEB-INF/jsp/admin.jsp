@@ -182,7 +182,12 @@
                         </a>
                     </li>
                 </ul>
-        </tr>
+				 <c:if test="${Form.user.systemAdmin}">
+					<strong>Utility</strong>
+					<ul>
+						<li><a href="CalendarEntry.do">Calendar Entry</a></li>
+					</ul>
+				</c:if></tr>
     </table>
 </div>
 
