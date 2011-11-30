@@ -2,7 +2,6 @@ package org.kuali.hr.time.timeblock.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,8 +11,6 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.roles.TkRole;
-import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 

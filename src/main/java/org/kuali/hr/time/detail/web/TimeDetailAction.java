@@ -88,7 +88,7 @@ public class TimeDetailAction extends TimesheetAction {
         cal.assignAssignmentStyle(aMap);
         tdaf.setTkCalendar(cal);
 
-//        tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(TKContext.getCurrentTimesheetDoucment(), aggregate.getFlattenedTimeBlockList()));
+        tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(TKContext.getCurrentTimesheetDoucment(), aggregate.getFlattenedTimeBlockList()));
 
         tdaf.setOvertimeEarnCodes(TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDoucment().getAsOfDate()));
         if(TKContext.getUser().isSystemAdmin()){
@@ -178,7 +178,7 @@ public class TimeDetailAction extends TimesheetAction {
             if (tb != null) {
                 TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
 
-//                 mark the original timeblock as deleted in the history table
+                // mark the original timeblock as deleted in the history table
                 tbh.setActionHistory(TkConstants.ACTIONS.DELETE_TIME_BLOCK);
                 TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
 

@@ -14,4 +14,6 @@ public interface TimeHourDetailDao{
 	public void saveOrUpdate(TimeHourDetail timeHourDetail);
 
     public void remove(Long timeBlockId);
+    
+    public List<TimeHourDetail> getTimeHourDetailsForTimeBlock(Long timeBlockId);
 }

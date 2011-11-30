@@ -36,6 +36,7 @@ import org.kuali.hr.time.salgroup.service.SalGroupService;
 import org.kuali.hr.time.shiftdiff.rule.service.ShiftDifferentialRuleService;
 import org.kuali.hr.time.syslunch.service.SystemLunchRuleService;
 import org.kuali.hr.time.task.service.TaskService;
+import org.kuali.hr.time.timeblock.service.TimeBlockHistoryDetailService;
 import org.kuali.hr.time.timeblock.service.TimeBlockHistoryService;
 import org.kuali.hr.time.timeblock.service.TimeBlockService;
 import org.kuali.hr.time.timecollection.rule.service.TimeCollectionRuleService;
@@ -66,6 +67,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_ASSIGNMENT_DAO     = "assignmentDao";
 	public static final String TK_TIME_BLOCK_SERVICE = "timeBlockService";
 	public static final String TK_TIME_BLOCK_HISTORY_SERVICE = "timeBlockHistoryService";
+	public static final String TK_TIME_BLOCK_HISTORY_DETAIL_SERVICE = "timeBlockHistoryDetailService";
 	public static final String TK_JOB_SERVICE = "jobService";
 	public static final String TK_PAY_TYPE_SERVICE = "payTypeService";
 	public static final String TK_PAY_CALENDAR_SERVICE = "payCalendarService";
@@ -192,6 +194,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static TimeBlockHistoryService getTimeBlockHistoryService(){
 		return (TimeBlockHistoryService)CONTEXT.getBean(TK_TIME_BLOCK_HISTORY_SERVICE);
+	}
+	
+	public static TimeBlockHistoryDetailService getTimeBlockHistoryDetailService(){
+		return (TimeBlockHistoryDetailService)CONTEXT.getBean(TK_TIME_BLOCK_HISTORY_DETAIL_SERVICE);
 	}
 
 	public static AssignmentDao getAssignmentDao() {

@@ -308,6 +308,10 @@
     <bean id="timeBlockHistoryDao" class="org.kuali.hr.time.timeblock.dao.TimeBlockHistoryDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+    <bean id="timeBlockHistoryDetailDao" class="org.kuali.hr.time.timeblock.dao.TimeBlockHistoryDetailDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 
     <bean id="jobDao" class="org.kuali.hr.job.dao.JobDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
@@ -501,6 +505,10 @@
 
     <bean id="timeBlockHistoryService" class="org.kuali.hr.time.timeblock.service.TimeBlockHistoryServiceImpl">
         <property name="timeBlockHistoryDao" ref="timeBlockHistoryDao"/>
+    </bean>
+    
+    <bean id="timeBlockHistoryDetailService" class="org.kuali.hr.time.timeblock.service.TimeBlockHistoryDetailServiceImpl">
+        <property name="timeBlockHistoryDetailDao" ref="timeBlockHistoryDetailDao"/>
     </bean>
 
     <bean id="timeBlockLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">

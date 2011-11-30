@@ -127,6 +127,25 @@
 		<field-descriptor name="actionHistory"         	column="action_history"				jdbc-type="VARCHAR" nullable="false" primarykey="false" />
 		<field-descriptor name="modifiedByPrincipalId" 	column="modified_by_principal_id"   jdbc-type="VARCHAR" nullable="false" primarykey="false" />
 		<field-descriptor name="timestampModified"    	column="timestamp_modified" 		jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
+		<collection-descriptor
+			name="timeBlockHistoryDetails"
+			element-class-ref="org.kuali.hr.time.timeblock.TimeBlockHistoryDetail"
+			auto-retrieve="true"
+			auto-update="object"
+			auto-delete="object"
+			>
+			<inverse-foreignkey field-ref="tkTimeBlockHistoryId"/>
+		</collection-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.hr.time.timeblock.TimeBlockHistoryDetail" table="tk_time_block_hist_detail_t">
+	    <field-descriptor name="tkTimeBlockHistoryDetailId" 	column="tk_time_block_hist_detail_id"   jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="tk_time_block_hist_detail_s" />
+		<field-descriptor name="tkTimeBlockHistoryId" 			column="tk_time_block_hist_id"   jdbc-type="BIGINT" primarykey="false" />
+		<field-descriptor name="earnCode" 				column="earn_code" 		        jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
+		<field-descriptor name="hours" 					column="hours" 				jdbc-type="NUMERIC" precision="5" scale="2" nullable="false" primarykey="false" />
+		<field-descriptor name="amount" 				column="amount" 			jdbc-type="NUMERIC" precision="6" scale="2" nullable="yes" primarykey="false" />
+		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.hr.time.clocklog.ClockLog" table="tk_clock_log_t">

@@ -227,6 +227,10 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     public void resetTimeHourDetail(List<TimeBlock> origTimeBlocks) {
         for (TimeBlock tb : origTimeBlocks) {
             tb.setTimeHourDetails(createTimeHourDetails(tb.getEarnCode(), tb.getHours(), tb.getAmount(), tb.getTkTimeBlockId()));
+            //reset time block history details
+            for(TimeBlockHistory tbh : tb.getTimeBlockHistories()) {
+            	TkServiceLocator.getTimeBlockHistoryService().addTimeBlockHistoryDetails(tbh,tb);
+            }
         }
     }
 
@@ -248,12 +252,14 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
         TimeBlockHistory tbh = new TimeBlockHistory(tb);
         tbh.setActionHistory(actionHistory);
-
+        // add time block history details to this time block history
+        TkServiceLocator.getTimeBlockHistoryService().addTimeBlockHistoryDetails(tbh, tb);
+        
         tbhs.add(tbh);
 
         return tbhs;
     }
-
+    
     // This method now translates time based on timezone settings.
     //
     public List<TimeBlock> getTimeBlocks(Long documentId) {

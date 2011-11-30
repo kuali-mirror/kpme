@@ -19,6 +19,7 @@
 	<include file="org/kuali/kpme/liquibase/tna/release-1.1/db.changelog-release1.1-1.0.xml"/>
 	<include file="org/kuali/kpme/liquibase/tna/release-1.1/db.changelog-release1.1-1.10.xml"/>
 	<include file="org/kuali/kpme/liquibase/tna/release-1.1/db.changelog-release1.1-1.2.xml"/>
+	<include file="org/kuali/kpme/liquibase/tna/release-1.1/db.changelog-release1.1-1.3.xml"/>
 
     <!-- Data section -->
     <!-- Context: unit_test_data -->

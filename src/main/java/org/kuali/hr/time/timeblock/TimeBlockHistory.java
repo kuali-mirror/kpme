@@ -1,7 +1,10 @@
 package org.kuali.hr.time.timeblock;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 
 public class TimeBlockHistory extends TimeBlock {
@@ -17,6 +20,7 @@ public class TimeBlockHistory extends TimeBlock {
 	private Timestamp timestampModified;
 	private Person principal;
 	private Person userPrincipal;
+	private List<TimeBlockHistoryDetail> timeBlockHistoryDetails = new ArrayList<TimeBlockHistoryDetail>();
 
 	public TimeBlockHistory() {
 	}
@@ -40,7 +44,10 @@ public class TimeBlockHistory extends TimeBlock {
 		this.setTimestamp(tb.getTimestamp());
 		this.setBeginTimestampTimezone(tb.getBeginTimestampTimezone());
 		this.setEndTimestampTimezone(tb.getEndTimestampTimezone());
+		// add time block history details for this time block history
+		TkServiceLocator.getTimeBlockHistoryService().addTimeBlockHistoryDetails(this, tb);
 	}
+	
 
 	public Long getTkTimeBlockHistoryId() {
 		return tkTimeBlockHistoryId;
@@ -75,5 +82,13 @@ public class TimeBlockHistory extends TimeBlock {
 
 	public void setUserPrincipal(Person userPrincipal) {
 		this.userPrincipal = userPrincipal;
+	}
+
+	public List<TimeBlockHistoryDetail> getTimeBlockHistoryDetails() {
+		return timeBlockHistoryDetails;
+	}
+
+	public void setTimeBlockHistoryDetails(List<TimeBlockHistoryDetail> timeBlockHistoryDetails) {
+		this.timeBlockHistoryDetails = timeBlockHistoryDetails;
 	}
 }
