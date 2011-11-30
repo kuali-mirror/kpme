@@ -1,6 +1,7 @@
 package org.kuali.hr.time.calendar;
 
 import org.joda.time.DateTime;
+import org.kuali.hr.time.util.TkConstants;
 
 public class LeaveCalendar extends CalendarParent {
 
@@ -26,9 +27,15 @@ public class LeaveCalendar extends CalendarParent {
         while (currDateTime.isBefore(endDateTime)) {
             //Create weeks
             LeaveCalendarDay leaveCalendarDay = new LeaveCalendarDay();
+
             // If the day is not within the current pay period, mark them as read only (setGray)
             if (currDateTime.isBefore(getBeginDateTime()) || currDateTime.isAfter(getEndDateTime())) {
                 leaveCalendarDay.setGray(true);
+            } else {
+                // This is for the div id of the days on the calendar.
+                // It creates a day id like day_11/01/2011 which will make day parsing easier in the javascript.
+                leaveCalendarDay.setDayNumberDelta(currDateTime.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+//                leaveCalendarDay.setLedgers()
             }
             leaveCalendarWeek.getDays().add(leaveCalendarDay);
 

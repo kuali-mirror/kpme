@@ -10,7 +10,7 @@ import java.util.List;
 public class LeaveCalendarDocument {
 
     public static final String LEAVE_CALENDAR_DOCUMENT_TYPE = "LeaveCalendarDocument";
-	public static final String LEAVE_CALENDAR_DOCUMENT_TITLE = "LeaveCalendarDocument";
+    public static final String LEAVE_CALENDAR_DOCUMENT_TITLE = "LeaveCalendarDocument";
 
     LeaveCalendarDocumentHeader leaveCalendarDocumentHeader;
     List<Ledger> ledgers = new ArrayList<Ledger>();
@@ -42,5 +42,13 @@ public class LeaveCalendarDocument {
 
     public void setCalendarEntry(CalendarEntries calendarEntry) {
         CalendarEntry = calendarEntry;
+    }
+
+    public String getPrincipalId() {
+        return getLeaveCalendarDocumentHeader().getPrincipalId();
+    }
+
+    public String getDocumentId() {
+        return getLeaveCalendarDocumentHeader().getDocumentId();
     }
 }

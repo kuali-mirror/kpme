@@ -54,7 +54,7 @@ $(document).ready(function() {
     //
     // This discussion thread on stackoverflow was helpful:
     // http://bit.ly/fvRW4X
-    $(".cal-table").selectable({
+    $(".payCalendar-table").selectable({
         filter: "td",
         distance: 1,
         selected: function(event, ui) {
@@ -88,7 +88,7 @@ $(document).ready(function() {
     }
 
 
-    var thing = $('#tkCal').click(function(event) {
+    var thing = $('.payCalendar').click(function(event) {
         // create a variable to cache the DOM
         $timesheetFields = $('#timesheet-panel');
         $timesheetFields.find("tr").removeClass("hide");

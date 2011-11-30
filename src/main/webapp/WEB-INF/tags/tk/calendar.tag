@@ -5,7 +5,8 @@
 <%@ attribute name="calType" required="true" type="java.lang.String" %>
 
 <span class="cal-header-title">${cal.calendarTitle}</span>
-<div id="tkCal" class="ui-widget cal" style="margin: 20px auto 20px auto; width:95%;">
+
+<div id="tkCal" class="ui-widget cal ${calType}" style="margin: 20px auto 20px auto; width:95%;">
     <%-- Add Paging Controls for moving between Calendars --%>
     <%--<table class="cal-header">--%>
     <%--<tbody>--%>
@@ -30,7 +31,7 @@
     </div>
 
     <div id="tkCalContent">
-        <table class="cal-table">
+        <table class="cal-table ${calType}-table">
             <thead>
             <%-- Render Day Labels, starting at FLSA Start day --%>
             <tr>
@@ -64,7 +65,7 @@
                                         <tk:payCalendar day="${day}"/>
                                     </c:when>
                                     <c:when test="${calType eq 'leaveCalendar'}">
-                                        <tk:leaveCalendar/>
+                                        <tk:leaveCalendar day="${day}"/>
                                     </c:when>
                                     <c:otherwise>
 

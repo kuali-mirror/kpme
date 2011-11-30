@@ -780,20 +780,23 @@ select {
 }
 
 .assignment1 {
-    border-color: #384C7A;
-    background-color: #384C7A;
+    /*border-color: #384C7A;*/
+    /*background-color: #384C7A;*/
+    background-color: #4986E7;
     color: white;
 }
 
 .assignment2 {
-    border-color: #8B2323;
-    background-color: #8B2323;
+    /*border-color: #8B2323;*/
+    /*background-color: #8B2323;*/
+    background-color: #C50012;
     color: white;
 }
 
 .assignment3 {
-    border-color: #731D87;
-    background-color: #731D87;
+    /*border-color: #731D87;*/
+    /*background-color: #731D87;*/
+    background-color: #8F81FE;
     color: white;
 }
 

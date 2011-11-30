@@ -42,6 +42,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime beginDt = new DateTime(beginTimestamp.getTime(), zone);
         DateTime endDt = beginDt.toLocalDate().toDateTime((new DateTime(endTimestamp.getTime(), zone)).toLocalTime(), zone);
+        // what the logic below is for?
+        // when will the end date go before the begin date after the validation is triggered before entering here?
         if (endDt.isBefore(beginDt)) endDt = endDt.plusDays(1);
 
         List<Interval> dayInt = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getCalendarEntry());

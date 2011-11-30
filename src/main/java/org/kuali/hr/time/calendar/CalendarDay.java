@@ -3,14 +3,14 @@ package org.kuali.hr.time.calendar;
 public abstract class CalendarDay {
 
     private String dayNumberString;
-    private int dayNumberDelta;
+    private String dayNumberDelta;
     private Boolean gray;
 
-    public int getDayNumberDelta() {
+    public String getDayNumberDelta() {
         return dayNumberDelta;
     }
 
-    public void setDayNumberDelta(int dayNumberDelta) {
+    public void setDayNumberDelta(String dayNumberDelta) {
         this.dayNumberDelta = dayNumberDelta;
     }
 

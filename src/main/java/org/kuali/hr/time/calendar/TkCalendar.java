@@ -36,7 +36,7 @@ public class TkCalendar extends CalendarParent {
                 TkCalendarDay day = new TkCalendarDay();
                 day.setTimeblocks(dayBlocks);
                 day.setDayNumberString(getDayNumberString(i * 7 + j + firstDay));
-                day.setDayNumberDelta(i * 7 + j + firstDay);
+                day.setDayNumberDelta(Integer.toString(i * 7 + j + firstDay));
                 assignDayLunchLabel(day);
                 int dayIndex = i * 7 + j + firstDay;
                 DateTime beginDateTemp = getBeginDateTime().plusDays(dayIndex);

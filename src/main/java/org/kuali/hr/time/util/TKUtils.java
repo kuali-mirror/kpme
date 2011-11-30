@@ -82,7 +82,6 @@ public class TKUtils {
     }
 
 
-
     public static int getNumberOfWeeks(java.util.Date beginDate, java.util.Date endDate) {
 
         DateTime beginTime = new DateTime(beginDate);
@@ -125,28 +124,28 @@ public class TKUtils {
                 || assignment.getJobNumber() == null) {
             return "";     // getAssignment() of AssignmentService can return an empty assignment
         }
-        
-       String stringTemp = assignment.getWorkAreaObj().getDescription() + " : $" 
-       				+ assignment.getJob().getCompRate().setScale(TkConstants.BIG_DECIMAL_SCALE) 
-       				+ " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
-       if(assignment.getTask()!= null) {
-	       	Task aTask = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
-	       	if(aTask != null) {
-	       		stringTemp += " " +  aTask.getDescription();
-	       	} 
-       }
-       return stringTemp;
-    }
-    
-    public static String getAssignmentStringWithTask(Assignment assignment) {
-    	String stringTemp = getAssignmentString(assignment);
-    	if(assignment.getTask()!= null) {
-        	Task aTask = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
-        	if(aTask != null) {
-        		stringTemp += " " +  aTask.getDescription();
-        	} 
+
+        String stringTemp = assignment.getWorkAreaObj().getDescription() + " : $"
+                + assignment.getJob().getCompRate().setScale(TkConstants.BIG_DECIMAL_SCALE)
+                + " Rcd " + assignment.getJobNumber() + " " + assignment.getJob().getDept();
+        if (assignment.getTask() != null) {
+            Task aTask = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
+            if (aTask != null) {
+                stringTemp += " " + aTask.getDescription();
+            }
         }
-    	return stringTemp;
+        return stringTemp;
+    }
+
+    public static String getAssignmentStringWithTask(Assignment assignment) {
+        String stringTemp = getAssignmentString(assignment);
+        if (assignment.getTask() != null) {
+            Task aTask = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
+            if (aTask != null) {
+                stringTemp += " " + aTask.getDescription();
+            }
+        }
+        return stringTemp;
     }
 
     /**
@@ -305,8 +304,35 @@ public class TKUtils {
 
         return new Timestamp(dateTime.getMillis());
     }
-    
-   public static String getIPAddressFromRequest(HttpServletRequest request) {
+
+    /**
+     * Creates a Timestamp object using Jodatime as an intermediate data structure
+     * from the provided date and time string. (From the form POST and javascript
+     * formats)
+     *
+     * @param dateStr (the format is 01/01/2011)
+     * @return Timestamp
+     */
+    public static Timestamp convertDateStringToTimestamp(String dateStr) {
+        // the date/time format is defined in tk.calendar.js. the format is 11/17/2010
+        String[] date = dateStr.split("/");
+
+        DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone());
+
+        // this is from the jodattime javadoc:
+        // DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
+        // Noted that the month value is the actual month which is different than the java date object where the month value is the current month minus 1.
+        // I tried to use the actual month in the code as much as I can to reduce the convertions.
+        DateTime dateTime = new DateTime(
+                Integer.parseInt(date[2]),
+                Integer.parseInt(date[0]),
+                Integer.parseInt(date[1]),
+                0, 0, 0, 0, dtz);
+
+        return new Timestamp(dateTime.getMillis());
+    }
+
+    public static String getIPAddressFromRequest(HttpServletRequest request) {
         // Check for IPv6 addresses - Not sure what to do with them at this point.
         // TODO: IPv6 - I see these on my local machine.
         String ip = request.getRemoteAddr();
@@ -330,6 +356,7 @@ public class TKUtils {
             return "unknown";
         }
     }
+
     //Used to preserve active row fetching based on max(timestamp)
     public static Timestamp subtractOneSecondFromTimestamp(Timestamp originalTimestamp) {
         DateTime dt = new DateTime(originalTimestamp);
@@ -348,18 +375,18 @@ public class TKUtils {
         return sdf.format(dt);
     }
 
-    
-    public static String formatDateTime(Timestamp timestamp){
-    	Date dt = new Date(timestamp.getTime());
-    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
+    public static String formatDateTime(Timestamp timestamp) {
+        Date dt = new Date(timestamp.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         return sdf.format(dt);
     }
-    
+
     /**
      * Method to obtain the timezone offset string for the specified date time.
-     *
+     * <p/>
      * Examples:
-     *
+     * <p/>
      * -0500
      * -0800
      *

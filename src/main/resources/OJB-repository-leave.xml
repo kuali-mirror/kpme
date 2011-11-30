@@ -140,12 +140,12 @@
         <field-descriptor name="hours"                  column="hours" jdbc-type="NUMERIC" nullable="false"/>
         <field-descriptor name="applyToYtdUsed"         column="apply_to_ytd_used" jdbc-type="VARCHAR"/>
         <field-descriptor name="documentId"             column="document_id" jdbc-type="VARCHAR" length="40" />
-        <field-descriptor name="principalActivated"     column="principal_activated"		jdbc-type="VARCHAR" length="40" nullable="false" />
-        <field-descriptor name="principalInactivated"   column="principal_inactivated"		jdbc-type="VARCHAR" length="40" nullable="false" />
-        <field-descriptor name="timestampActivated"     column="timestamp_activated" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
-        <field-descriptor name="timestampInactivaed"    column="timestamp_inactivated" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
+        <field-descriptor name="principalActivated"     column="principal_activated"		jdbc-type="VARCHAR" length="40" nullable="true" />
+        <field-descriptor name="principalInactivated"   column="principal_inactivated"		jdbc-type="VARCHAR" length="40" nullable="true" />
+        <field-descriptor name="timestampActivated"     column="timestamp_activated" jdbc-type="TIMESTAMP" nullable="true" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
+        <field-descriptor name="timestampInactivaed"    column="timestamp_inactivated" jdbc-type="TIMESTAMP" nullable="true" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
         <field-descriptor name="accrualGenerated"       column="accrual_generated"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-        <field-descriptor name="blockId"                column="block_id" jdbc-type="BIGINT" nullable="false" />
+        <field-descriptor name="blockId"                column="block_id" jdbc-type="BIGINT" nullable="true" />
 	</class-descriptor>
 
      <class-descriptor class="org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader" table="lm_leave_document_header_t">

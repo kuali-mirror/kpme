@@ -9,6 +9,7 @@
 <script type="text/javascript" src="js/jquery.tools.tooltip.min.js"></script>
 <script type="text/javascript" src="js/tk.js"></script>
 <script type="text/javascript" src="js/tk.calendar.js"></script>
+<script type="text/javascript" src="js/tk.leave.calendar.js"></script>
 <script type="text/javascript" src="js/approval.js"></script>
 <script type="text/javascript" src="js/date.js"></script>
 <%-- End of javascript --%>

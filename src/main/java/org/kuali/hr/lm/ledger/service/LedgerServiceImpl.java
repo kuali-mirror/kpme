@@ -1,13 +1,14 @@
 package org.kuali.hr.lm.ledger.service;
 
-import java.util.Date;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.kuali.hr.lm.ledger.Ledger;
 import org.kuali.hr.lm.ledger.dao.LedgerDao;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 public class LedgerServiceImpl implements LedgerService {
 
@@ -38,16 +39,18 @@ public class LedgerServiceImpl implements LedgerService {
 		return ledgerDao.getLedgers(principalId, beginDate, endDate);
 	}
 	
-	public void saveLedgers(List<Ledger> ledgers){
+	@Override
+    public void saveLedgers(List<Ledger> ledgers){
 		for(Ledger ledger : ledgers){
-			saveLedger(ledger);
+            ledgerDao.saveOrUpdate(ledger);
 		}
 	}
 	
-	public void saveLedger(Ledger ledger){
+	@Override
+    public void saveLedger(Ledger ledger){
 		//Existing one becomes inactivated
 		ledger.setActive(false);
-		ledger.setTimestamp(null);
+		ledger.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		ledger.setPrincipalInactivated(TKContext.getPrincipalId());
 		KNSServiceLocator.getBusinessObjectService().save(ledger);
 		//now save new entry with same data
@@ -55,7 +58,7 @@ public class LedgerServiceImpl implements LedgerService {
 		ledger.setLmLedgerId(null);
 		ledger.setPrincipalActivated(TKContext.getPrincipalId());
 		ledger.setPrincipalInactivated(null);
-		ledger.setTimestamp(null);
+		ledger.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		
 		KNSServiceLocator.getBusinessObjectService().save(ledger);
 		

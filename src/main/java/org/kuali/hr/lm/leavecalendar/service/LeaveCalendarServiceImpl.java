@@ -1,9 +1,6 @@
 package org.kuali.hr.lm.leavecalendar.service;
 
 
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDao;
 import org.kuali.hr.lm.ledger.Ledger;
@@ -13,6 +10,9 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
 
+import java.util.Date;
+import java.util.List;
+
 public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
     private LeaveCalendarDao leaveCalendarDao;
@@ -21,7 +21,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     public LeaveCalendarDocument getLeaveCalendarDocument(String documentId) {
         LeaveCalendarDocument lcd = null;
         LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
-        
+
         if (lcdh != null) {
             lcd = new LeaveCalendarDocument(lcdh);
             CalendarEntries pce = TkServiceLocator.getCalendarSerivce().getCalendarDatesByPayEndDate(lcdh.getPrincipalId(), lcdh.getEndDate());
@@ -29,15 +29,15 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         } else {
             throw new RuntimeException("Could not find LeaveCalendarDocumentHeader for DocumentID: " + documentId);
         }
-        
+
         List<Ledger> ledgers = TkServiceLocator.getLedgerService().getLedgersForDocumentId(documentId);
         lcd.setLedgers(ledgers);
-        
+
         return lcd;
     }
 
     @Override
-    public LeaveCalendarDocument openLeaveCalendarDocument(String principalId, CalendarEntries calEntry) throws WorkflowException{
+    public LeaveCalendarDocument openLeaveCalendarDocument(String principalId, CalendarEntries calEntry) throws WorkflowException {
         LeaveCalendarDocument doc;
 
         Date begin = calEntry.getBeginPeriodDateTime();
@@ -46,7 +46,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         LeaveCalendarDocumentHeader header = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, begin, end);
         if (header == null) {
             doc = initiateWorkflowDocument(principalId, begin, end, LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE, LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TITLE);
-            //this.loadTimesheetDocumentData(timesheetDocument, principalId, calendarDates);
+            // This will preload the document data.
+            loadLeaveCalendarDocumentData(doc, principalId, calEntry);
         } else {
             doc = getLeaveCalendarDocument(header.getDocumentId());
         }
@@ -75,6 +76,18 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         //TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(leaveCalendarDocument, payEndDate);
 
         return leaveCalendarDocument;
+    }
+
+    /**
+     * Preload the document data. It preloads:
+     * - Ledgers on the document.
+     * @param ldoc
+     * @param principalId
+     * @param calEntry
+     */
+    protected void loadLeaveCalendarDocumentData(LeaveCalendarDocument ldoc, String principalId, CalendarEntries calEntry) {
+        List<Ledger> ledgers = TkServiceLocator.getLedgerService().getLedgersForDocumentId(ldoc.getDocumentId());
+        ldoc.setLedgers(ledgers);
     }
 
     public LeaveCalendarDao getLeaveCalendarDao() {

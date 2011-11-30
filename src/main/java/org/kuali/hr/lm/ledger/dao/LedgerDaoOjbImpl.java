@@ -1,16 +1,16 @@
 package org.kuali.hr.lm.ledger.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.ledger.Ledger;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 public class LedgerDaoOjbImpl extends PersistenceBrokerDaoSupport implements LedgerDao {
 
@@ -21,7 +21,8 @@ public class LedgerDaoOjbImpl extends PersistenceBrokerDaoSupport implements Led
         return null;
     }
 
-    private void saveOrUpdate(Ledger ledger) {
+    @Override
+    public void saveOrUpdate(Ledger ledger) {
         this.getPersistenceBrokerTemplate().store(ledger);
     }
 

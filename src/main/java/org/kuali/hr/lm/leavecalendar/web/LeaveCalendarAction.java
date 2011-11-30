@@ -5,7 +5,10 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.lm.ledger.Ledger;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -18,7 +21,10 @@ import org.kuali.hr.time.util.TKUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
 
 public class LeaveCalendarAction extends TkAction {
     
@@ -56,7 +62,7 @@ public class LeaveCalendarAction extends TkAction {
         }
         
         if (lcd != null) {
-            // TODO: set document on the context
+            setupDocumentOnFormContext(lcf, lcd);
         } else {
             LOG.error("Null leave calendar document in LeaveCalendarAction.");
         }
@@ -69,12 +75,57 @@ public class LeaveCalendarAction extends TkAction {
         return super.execute(mapping, form, request, response);
     }
 
-//    protected void setupDocumentOnFormContext(LeaveCalendarForm leaveForm, LeaveCalendarDocument lcd){
-//    	String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
-//    	TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
-//        TKContext.setCurrentTimesheetDocument(td);
-//	    taForm.setTimesheetDocument(td);
-//	    taForm.setDocumentId(td.getDocumentId());
+    public ActionForward addLedger(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LeaveCalendarForm lcf = (LeaveCalendarForm) form;
+        LeaveCalendarDocument leaveCalendarDocument = TKContext.getCurrentLeaveCalendarDocument();
+
+        //TODO: move this to service
+        List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(leaveCalendarDocument.getCalendarEntry());
+        String princpalId = TKContext.getTargetPrincipalId();
+        DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getBeginDate()));
+        DateTime endDate = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getEndDate()));
+        //TODO: construct the format of the leave code as id_leavecode,
+        // so it will save one trip to the db to get either leave code id or leave code
+        String leaveCode = lcf.getLeaveCode();
+        BigDecimal hours = lcf.getHours();
+        Timestamp currentTs = new Timestamp(System.currentTimeMillis());
+        List<Ledger> currentledgers = leaveCalendarDocument.getLedgers();
+        String docId = leaveCalendarDocument.getDocumentId();
+
+        for (Interval dayInt :dayIntervals) {
+            if (dayInt.contains(beginDate) ||
+                    (dayInt.contains(endDate) || dayInt.getEnd().equals(endDate))) {
+
+                Ledger ledger = new Ledger.Builder(beginDate, docId, princpalId, "test", new BigDecimal("8.00"))
+                        .description(lcf.getDescription())
+                        .principalActivated(princpalId)
+                        .timestampActivated(currentTs)
+                        .leaveCodeId(0L)
+                        .scheduleTimeOffId(0L)
+                        .accrualCategoryId(0L)
+                        .build();
+                currentledgers.add(ledger);
+
+            }
+        }
+
+        TkServiceLocator.getLedgerService().saveLedgers(currentledgers);
+
+
+//        currentledgers.addAll()
+
+//        String docId = TKContext.getCurrentLeaveCalendarDocumentId();
+//        TkServiceLocator.getLedgerService().saveLedgers();
+
+        return mapping.findForward("basic");
+    }
+
+    protected void setupDocumentOnFormContext(LeaveCalendarForm leaveForm, LeaveCalendarDocument lcd){
+    	String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+        TKContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
+        TKContext.setCurrentLeaveCalendarDocument(lcd);
+        leaveForm.setLeaveCalendarDocument(lcd);
+        leaveForm.setDocumentId(lcd.getDocumentId());
 //        TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, viewPrincipal);
 //        TimesheetDocumentHeader nextTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, viewPrincipal);
 //        if( prevTdh != null ) {
@@ -83,6 +134,6 @@ public class LeaveCalendarAction extends TkAction {
 //        if( nextTdh != null) {
 //            taForm.setNextDocumentId(nextTdh.getDocumentId());
 //        }
-//        taForm.setCalendarDates(td.getCalendarEntry());
-//    }
+        leaveForm.setCalendarEntry(lcd.getCalendarEntry());
+    }
 }
