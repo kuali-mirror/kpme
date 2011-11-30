@@ -257,6 +257,9 @@ public class TimeApprovalAction extends TkAction{
 		taaf.setSearchTerm(null);
 		taaf.setSelectedWorkArea(null);
 		taaf.setSelectedDept(null);
+		taaf.setPayBeginDate(null);
+		taaf.setPayEndDate(null);
+		taaf.setHrPyCalendarEntriesId(null);
 		
 		return loadApprovalTab(mapping, form, request, response);
 	}

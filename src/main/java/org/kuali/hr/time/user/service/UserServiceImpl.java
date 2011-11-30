@@ -16,46 +16,7 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-	private TKUser tkUser;
-	private TkUserRoles tkBackdoorPersonRoles;
-	private TkUserRoles tkTargetPersonRoles;
-	private TkUserRoles tkActualPersonRoles;
-	
-	public TkUserRoles getTkBackdoorPersonRoles() {
-		return tkBackdoorPersonRoles;
-	}
-
-	public void setTkBackdoorPersonRoles(TkUserRoles tkBackdoorPersonRoles) {
-		this.tkBackdoorPersonRoles = tkBackdoorPersonRoles;
-	}
-
-	public TkUserRoles getTkActualPersonRoles() {
-		return tkActualPersonRoles;
-	}
-
-	public void setTkActualPersonRoles(TkUserRoles tkActualPersonRoles) {
-		this.tkActualPersonRoles = tkActualPersonRoles;
-	}
-
-	public TkUserRoles getTkTargetPersonRoles() {
-		return tkTargetPersonRoles;
-	}
-
-	public void setTkTargetPersonRoles(TkUserRoles tkTargetPersonRoles) {
-		this.tkTargetPersonRoles = tkTargetPersonRoles;
-	}
-
-	public TKUser getTkUser() {
-		return tkUser;
-	}
-
-	public void setTkUser(TKUser tkUser) {
-		this.tkUser = tkUser;
-	}
-
-
-
-	@Override
+    @Override
     public TKUser buildTkUser(String actualPrincipalId, Date asOfDate) {
         Person person = KIMServiceLocator.getPersonService().getPerson(actualPrincipalId);
         return buildTkUser(person, null, null, asOfDate);
@@ -63,6 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public TKUser buildTkUser(Person actual, Person backdoor, Person target, Date asOfDate) {
+        TKUser tkUser = new TKUser();
 
         if (actual == null) {
             throw new RuntimeException("Can not create user with empty principal id.");
@@ -77,7 +39,6 @@ public class UserServiceImpl implements UserService {
         return tkUser;
     }
 
-  
     /**
 	 * Helper method to load roles.
 	 *
@@ -86,8 +47,7 @@ public class UserServiceImpl implements UserService {
 	 *
 	 * @param user
 	 */
-    @Override
-	public void loadRoles(TKUser user) {
+	public static void loadRoles(TKUser user) {
 		TkRoleService roleService = TkServiceLocator.getTkRoleService();
 		AssignmentService assignmentService = TkServiceLocator.getAssignmentService();
 
@@ -97,34 +57,18 @@ public class UserServiceImpl implements UserService {
 		if (user.getBackdoorPerson() != null) {
 			List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(user.getBackdoorPerson().getPrincipalId(), asOfDate);
 			List<Assignment> assignments = assignmentService.getAssignments(user.getBackdoorPerson().getPrincipalId(), payPeriodBeginDate);
-			
-			tkBackdoorPersonRoles.setPrincipalId(user.getBackdoorPerson().getPrincipalId());
-			tkBackdoorPersonRoles.setRoles(roles);
-			tkBackdoorPersonRoles.setAssignments(assignments);
-			
-			user.setBackdoorPersonRoles(tkBackdoorPersonRoles);
+			user.setBackdoorPersonRoles(new TkUserRoles(user.getBackdoorPerson().getPrincipalId(), roles,assignments));
 		}
 
         if (user.getTargetPerson() != null) {
             List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(user.getTargetPerson().getPrincipalId(), asOfDate);
             List<Assignment> assignments = assignmentService.getAssignments(user.getTargetPerson().getPrincipalId(), payPeriodBeginDate);
-            
-            tkTargetPersonRoles.setPrincipalId(user.getTargetPerson().getPrincipalId());
-            tkTargetPersonRoles.setRoles(roles);
-            tkTargetPersonRoles.setAssignments(assignments);
-        	
-    		user.setTargetPersonRoles(tkTargetPersonRoles);
+            user.setTargetPersonRoles(new TkUserRoles(user.getTargetPerson().getPrincipalId(), roles,assignments));
         }
 
 		List<TkRole> roles = roleService.getRoles(user.getActualPerson().getPrincipalId(), asOfDate);
 		List<Assignment> assignments = assignmentService.getAssignments(user.getActualPerson().getPrincipalId(), payPeriodBeginDate);
-		
-		tkActualPersonRoles.setPrincipalId(user.getActualPerson().getPrincipalId());
-		tkActualPersonRoles.setRoles(roles);
-		tkActualPersonRoles.setAssignments(assignments);
-      	
-  		user.setActualPersonRoles(tkActualPersonRoles);
-
+		user.setActualPersonRoles(new TkUserRoles(user.getActualPerson().getPrincipalId(), roles, assignments));
 	}
 
 }
