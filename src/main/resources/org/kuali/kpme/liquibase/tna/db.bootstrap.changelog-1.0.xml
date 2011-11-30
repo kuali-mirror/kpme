@@ -519,7 +519,7 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1317396430027-33">
-        <createTable tableName="hr_principal_hr_attributes_t">
+        <createTable tableName="hr_principal_attributes_t">
             <column defaultValue="" name="principal_id" type="VARCHAR(40)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>

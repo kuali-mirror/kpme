@@ -557,7 +557,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         String sql =
                 "SELECT DISTINCT " +
                         "A0.principal_id,A0.work_area,C0.calendar_name " +
-                        "FROM tk_assignment_t A0,hr_principal_hr_attributes_t C0 " +
+                        "FROM tk_assignment_t A0,hr_principal_attributes_t C0 " +
                         "WHERE (###) " +
                         "AND A0.effdt <= ? " +
                         "AND C0.principal_id = A0.principal_id";

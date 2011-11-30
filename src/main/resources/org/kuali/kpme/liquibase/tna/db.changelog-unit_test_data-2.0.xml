@@ -1826,7 +1826,7 @@
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-28">
-        <insert tableName="hr_principal_hr_attributes_t">
+        <insert tableName="hr_principal_attributes_t">
             <column name="principal_id" value="admin"/>
             <column name="pay_calendar" value="BWS-CAL"/>
             <column name="service_date" valueDate="2010-01-01"/>
@@ -1841,7 +1841,7 @@
             <column name="leave_calendar"/>
             <column name="active" value="Y"/>
         </insert>
-        <insert tableName="hr_principal_hr_attributes_t">
+        <insert tableName="hr_principal_attributes_t">
             <column name="principal_id" value="eric"/>
             <column name="pay_calendar" value="BW-CAL1"/>
             <column name="leave_plan" value="BW-LP1"/>
