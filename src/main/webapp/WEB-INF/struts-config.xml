@@ -79,7 +79,12 @@
                 type="org.kuali.hr.time.admin.web.AdminAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/admin.jsp"/>
         </action>
-
+        
+        <action path="/Time" name="TkForm" scope="request" input="/WEB-INF/jsp/dummy_login.jsp"
+                type="org.kuali.hr.time.web.TimeAction" parameter="methodToCall" validate="false">
+            <forward name="basic" path="/WEB-INF/jsp/dummy_login.jsp"/>
+        </action>
+        
         <action path="/PersonInfo" name="PersonInfoActionForm" scope="request" input="/WEB-INF/jsp/personInfo.jsp"
                 type="org.kuali.hr.time.base.web.PersonInfoAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/personInfo.jsp"/>
