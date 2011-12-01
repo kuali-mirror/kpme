@@ -63,7 +63,7 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         	return false;
         }
         // if time is a future time
-        if(actionTimeLocal.getMillisOfDay() > nowTime.getMillisOfDay()) {
+        if(actionDateTime.getMillis() > nowTime.getMillis()) {
         	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.future.time");
         	return false;
         }
