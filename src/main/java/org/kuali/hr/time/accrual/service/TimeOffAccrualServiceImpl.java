@@ -40,6 +40,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<TimeOffAccrual> getTimeOffAccruals(String principalId) {
 		java.sql.Date currentDate = TKUtils.getTimelessDate(null);
+		//TODO this needs to change to use leave plan on principal hr attribute
 		List<AccrualCategory> activeAccrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategories(currentDate);
 		List<TimeOffAccrual> timeOffAccruals = new ArrayList<TimeOffAccrual>();
 		List<String> accrualCategories = new ArrayList<String>();

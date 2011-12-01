@@ -45,7 +45,7 @@ public class LeaveCodeServiceImpl implements LeaveCodeService {
 		PrincipalHRAttributes hrAttribute = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		String leavePlan = hrAttribute.getLeavePlan();
 		if(StringUtils.isBlank(leavePlan)){
-			throw new RuntimeException("No leave plan defined for "+principalId + " in princpal hr attributes");
+			throw new RuntimeException("No leave plan defined for "+principalId + " in principal hr attributes");
 		}
 		
 		List<LeaveCode> unfilteredLeaveCodes = leaveCodeDao.getLeaveCodes(principalId, leavePlan, asOfDate);
@@ -60,7 +60,6 @@ public class LeaveCodeServiceImpl implements LeaveCodeService {
 			} 	
 		}        
 		return leaveCodes;
-		
 	}
 	
    

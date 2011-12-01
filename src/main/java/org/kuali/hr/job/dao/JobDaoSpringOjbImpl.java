@@ -210,4 +210,10 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 		Query query = QueryFactory.newQuery(Job.class, root);
 		return (Job)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
+
+	@Override
+	public List<Job> getLeaveEligibleJobs(String principalId, Date asOfDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

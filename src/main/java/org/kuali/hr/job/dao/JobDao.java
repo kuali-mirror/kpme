@@ -73,4 +73,6 @@ public interface JobDao {
 	 * @return
 	 */
 	public Job getMaxJob(String principalId);
+	
+	public List<Job> getLeaveEligibleJobs(String principalId, Date asOfDate);
 }
