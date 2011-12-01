@@ -54,7 +54,11 @@ public class TimeBlockRenderer {
         b.append(wa.getDescription());
         Task task = TkServiceLocator.getTaskService().getTask(timeBlock.getTask(), timeBlock.getBeginDate());
         if(task != null) {
-        	b.append("-" + task.getDescription());
+        	// do not display task description if the task is the default one
+        	// default task is created in getTask() of TaskService
+        	if(!task.getDescription().equals(TkConstants.TASK_DEFAULT_DESP)) {
+        		b.append("-" + task.getDescription());
+        	}
         }
         return b.toString();
     }

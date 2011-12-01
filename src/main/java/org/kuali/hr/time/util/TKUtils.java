@@ -132,21 +132,14 @@ public class TKUtils {
        if(assignment.getTask()!= null) {
 	       	Task aTask = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
 	       	if(aTask != null) {
-	       		stringTemp += " " +  aTask.getDescription();
+	       		// do not display task description if the task is the default one
+	        	// default task is created in getTask() of TaskService
+	        	if(!aTask.getDescription().equals(TkConstants.TASK_DEFAULT_DESP)) {
+	        		stringTemp += " " +  aTask.getDescription();
+	        	}
 	       	} 
        }
        return stringTemp;
-    }
-    
-    public static String getAssignmentStringWithTask(Assignment assignment) {
-    	String stringTemp = getAssignmentString(assignment);
-    	if(assignment.getTask()!= null) {
-        	Task aTask = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
-        	if(aTask != null) {
-        		stringTemp += " " +  aTask.getDescription();
-        	} 
-        }
-    	return stringTemp;
     }
 
     /**
