@@ -46,9 +46,15 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 		if(timeCollectionRule!=null){
 			return timeCollectionRule;
 		}
-		throw new RuntimeException("No valid TimeCollection rule matching for the following.  " +
-									"Dept: "+dept+" work area: "+workArea+" asOfDate: "+asOfDate);
+		
+		//Return default time collection rule
+		timeCollectionRule = new TimeCollectionRule();
+		timeCollectionRule.setActive(true);
+		timeCollectionRule.setClockUserFl(true);
+		timeCollectionRule.setDept(dept);
+		timeCollectionRule.setWorkArea(workArea);
 
+		return timeCollectionRule;
 	}
 
 	private TimeCollectionRule getTimeCollectionRuleWildCarded(String dept, Long workArea, Date asOfDate){
