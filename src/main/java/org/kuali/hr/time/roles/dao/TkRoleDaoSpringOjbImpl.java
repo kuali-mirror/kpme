@@ -251,6 +251,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         }
         
         if(StringUtils.isNotBlank(principalId)){ 
+        	//Fetch all the jobs and grab any position roles for this persons jobs
         	List<Job> lstActiveJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, asOfDate);
         	for(Job job : lstActiveJobs){
         		if(job.getPositionNumber()!=null){
