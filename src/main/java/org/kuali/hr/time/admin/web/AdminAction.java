@@ -42,8 +42,8 @@ public class AdminAction extends TkAction {
             			&& !user.isDepartmentAdmin()
             			&& !user.isGlobalViewOnly()
             			&& !user.isDepartmentViewOnly()
-            			&& (adminForm.getDocumentId() != null && !user.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId()))
-            			&& (adminForm.getDocumentId() != null && !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId()))
+            			&& !user.getCurrentRoles().isApproverForPerson(adminForm.getChangeTargetPrincipalId())
+            			&& !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId())
             		))  {
                 throw new AuthorizationException("", "AdminAction", "");
             }
