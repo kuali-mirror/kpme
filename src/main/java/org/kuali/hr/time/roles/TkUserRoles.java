@@ -1,5 +1,11 @@
 package org.kuali.hr.time.roles;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.department.Department;
@@ -8,8 +14,6 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.util.*;
 
 /**
  * TkUserRoles encapsulates the concept of roles for a single user and provides
@@ -348,5 +352,19 @@ public class TkUserRoles implements UserRoles {
 	public boolean canSubmitTimesheet(String docId) {
 		TimesheetDocument doc = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
 		return canSubmitTimesheet(doc);
+	}
+	
+	@Override
+	public boolean isApproverForPerson(String principalId) {
+		List<Assignment> lstAssignment = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
+		
+		for (Assignment assignment : lstAssignment) {
+			if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(assignment.getWorkArea())) {
+				return true;
+			}
+		}
+		
+		return false;
+
 	}
 }

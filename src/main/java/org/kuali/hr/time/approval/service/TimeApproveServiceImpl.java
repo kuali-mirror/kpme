@@ -592,23 +592,23 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     }
 
     private static final String GET_PRINCIPAL_ID_SQL_PRE = "SELECT DISTINCT P.principal_id FROM hr_principal_calendar_t P, tk_assignment_t T WHERE P.py_calendar_group = ? AND P.principal_id in (" +
-            "SELECT DISTINCT `A0`.`principal_id` " +
-            "FROM `tk_assignment_t` `A0` " +
-            "WHERE (((`A0`.`effdt` = " +
-            "(SELECT max(`effdt`) " +
-            "FROM `tk_assignment_t` `B0` " +
-            "WHERE ((((`B0`.`job_number` = `A0`.`job_number`) AND `B0`.`work_area` = `A0`.`work_area`) AND `B0`.`task` = `A0`.`task`)) AND `B0`.`principal_id` = `A0`.`principal_id`)) AND `A0`.`timestamp` = " +
-            "(SELECT max(`B0`.`timestamp`) " +
-            "FROM `tk_assignment_t` `B0` " +
+            "SELECT DISTINCT A0.principal_id " +
+            "FROM tk_assignment_t A0 " +
+            "WHERE (((A0.effdt = " +
+            "(SELECT max(effdt) " +
+            "FROM tk_assignment_t B0 " +
+            "WHERE ((((B0.job_number = A0.job_number) AND B0.work_area = A0.work_area) AND B0.task = A0.task)) AND B0.principal_id = A0.principal_id)) AND A0.timestamp = " +
+            "(SELECT max(B0.timestamp) " +
+            "FROM tk_assignment_t B0 " +
             "WHERE " +
-            "((((`B0`.`job_number` = `A0`.`job_number`) AND `B0`.`work_area` = `A0`.`work_area`) AND `B0`.`task` = `A0`.`task`) AND `B0`.`effdt` = `A0`.`effdt`) AND `B0`.`principal_id` = `A0`.`principal_id`))) AND ( ";
+            "((((B0.job_number = A0.job_number) AND B0.work_area = A0.work_area) AND B0.task = A0.task) AND B0.effdt = A0.effdt) AND B0.principal_id = A0.principal_id))) AND ( ";
 
     private static final String GET_PRINCIPAL_ID_SQL_POST =
-            " ) AND `A0`.`effdt` <= ? AND `A0`.`active` = 'Y' OR " +
-            "(`A0`.`active` = 'N' AND (`A0`.`effdt` >= ? AND `A0`.`effdt` <= ?)"+
-             " AND (select exists(select C0.principal_id from tk_assignment_t C0 where C0.principal_id = A0.principal_id and C0.job_number = A0.job_number "+
-             " AND C0.work_area = A0.work_area and C0.task = A0.task and C0.effdt <= ? and C0.active = 'Y'))))";
-
+            " ) AND ((A0.effdt <= ? AND A0.active = 'Y') OR " +
+            "(A0.active = 'N' AND (A0.effdt >= ? AND A0.effdt <= ?))"+
+             " AND exists (select C0.principal_id from tk_assignment_t C0 where C0.principal_id = A0.principal_id and C0.job_number = A0.job_number "+
+             " AND C0.work_area = A0.work_area and C0.task = A0.task and C0.effdt <= ? and C0.active = 'Y')))";
+    
     private Set<String> getPrincipalIdsWithActiveAssignmentsForCalendarGroup(Set<Long> approverWorkAreas, String payCalendarGroup, java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate) {
         if (approverWorkAreas.size() == 0) {
             return new LinkedHashSet<String>();
@@ -622,7 +622,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         String workAreasForQuery = workAreas.substring(0, workAreas.length() - 3);
         String sql = GET_PRINCIPAL_ID_SQL_PRE + workAreasForQuery + GET_PRINCIPAL_ID_SQL_POST;
 
-        SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{payCalendarGroup, effdt, beginDate, endDate, endDate});
+        SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql, new Object[]{payCalendarGroup, effdt, beginDate, endDate, endDate},new int[]{java.sql.Types.VARCHAR, java.sql.Types.DATE, java.sql.Types.DATE, java.sql.Types.DATE, java.sql.Types.DATE});
         while(rs.next()) {
             principalIds.add(rs.getString("principal_id"));
         }

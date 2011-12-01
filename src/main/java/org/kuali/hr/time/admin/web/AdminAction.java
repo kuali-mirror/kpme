@@ -95,7 +95,8 @@ public class AdminAction extends TkAction {
         	|| tkUser.getCurrentRoles().isDeptViewOnly()
         	|| tkUser.getCurrentRoles().isGlobalViewOnly()
         	|| tkUser.getCurrentRoles().isTimesheetReviewer()
-        	|| tkUser.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())) {
+        	|| tkUser.getCurrentRoles().isApproverForPerson(adminForm.getChangeTargetPrincipalId())) {
+        	
             if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalId())) {
 
                 Person changePerson = KIMServiceLocator.getPersonService().getPerson(adminForm.getChangeTargetPrincipalId());
