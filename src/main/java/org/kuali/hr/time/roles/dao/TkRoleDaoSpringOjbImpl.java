@@ -250,16 +250,15 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
             roles.addAll(c);
         }
         
-        if(StringUtils.isNotBlank(principalId)){
-        	// Chen, KPME-938, 10/28/11. If principalId is provided, do not need to get roles based on positionNum, because other employee could have same position number. 
-        	/*List<Job> lstActiveJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, asOfDate);
+        if(StringUtils.isNotBlank(principalId)){ 
+        	List<Job> lstActiveJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, asOfDate);
         	for(Job job : lstActiveJobs){
         		if(job.getPositionNumber()!=null){
         			List<TkRole> lstRoles = findPositionRoles(job.getPositionNumber(), 
         								asOfDate, roleName, workArea, department, chart);
         			roles.addAll(lstRoles);
         		}
-        	}*/
+        	}
         } else if(workArea != null){
         	List<TkRole> lstPosRoles = getPositionRolesForWorkArea(workArea, asOfDate);
         	for(TkRole tkRole : lstPosRoles){
