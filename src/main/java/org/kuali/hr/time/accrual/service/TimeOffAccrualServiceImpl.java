@@ -38,28 +38,18 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public List<TimeOffAccrual> getTimeOffAccruals(String principalId) {
+	public List<TimeOffAccrual> getTimeOffAccruals(String principalId, Date asOfDate) {
 		java.sql.Date currentDate = TKUtils.getTimelessDate(null);
-		List<AccrualCategory> activeAccrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategories(currentDate);
-		List<TimeOffAccrual> timeOffAccruals = new ArrayList<TimeOffAccrual>();
-		List<String> accrualCategories = new ArrayList<String>();
-		if ( activeAccrualCategories.size() > 0 ){
-			for(AccrualCategory accrualCategory : activeAccrualCategories) {
-				accrualCategories.add(accrualCategory.getAccrualCategory());
-			}
-            timeOffAccruals = timeOffAccrualDao.getActiveTimeOffAccruals(principalId, accrualCategories);
-        }
-
-		return timeOffAccruals;
+		return timeOffAccrualDao.getActiveTimeOffAccruals(principalId, asOfDate);
 	}
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public List<Map<String, Object>> getTimeOffAccrualsCalc(String principalId) {
+	public List<Map<String, Object>> getTimeOffAccrualsCalc(String principalId, Date asOfDate) {
 
 		List<Map<String, Object>> timeOffAccrualsCalc = new ArrayList<Map<String, Object>>();
 
-		for(TimeOffAccrual timeOffAccrual : getTimeOffAccruals(principalId)) {
+		for(TimeOffAccrual timeOffAccrual : getTimeOffAccruals(principalId, asOfDate)) {
 			Map<String, Object> output = new LinkedHashMap<String, Object>();
 			output.put(ACCRUAL_CATEGORY_KEY, timeOffAccrual.getAccrualCategory());
 			output.put(HOURS_ACCRUED_KEY, timeOffAccrual.getHoursAccrued());
@@ -82,7 +72,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
          if (timesheetDocument != null) {
              pId = timesheetDocument.getPrincipalId();
          }
-         List<Map<String, Object>> calcList = this.getTimeOffAccrualsCalc(pId);
+         List<Map<String, Object>> calcList = this.getTimeOffAccrualsCalc(pId, timesheetDocument.getAsOfDate());
 
          List<TimeBlock> tbList = timesheetDocument.getTimeBlocks();
          if (tbList.isEmpty()) {
@@ -127,7 +117,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
         if (timesheetDocument != null) {
             pId = timesheetDocument.getPrincipalId();
         }
-        List<Map<String, Object>> calcList = this.getTimeOffAccrualsCalc(pId);
+        List<Map<String, Object>> calcList = this.getTimeOffAccrualsCalc(pId, timesheetDocument.getAsOfDate());
 
         List<TimeBlock> tbList = timesheetDocument.getTimeBlocks();
         if (tbList.isEmpty()) {
