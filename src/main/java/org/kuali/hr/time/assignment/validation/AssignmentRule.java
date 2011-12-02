@@ -61,17 +61,15 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	
 	protected boolean validateTask(Assignment assignment) {
 		boolean valid = true;
-		if (assignment.getTask() != null) {
+		//task by default is zero so if non zero validate against existing taskss
+		if (assignment.getTask() != null && !assignment.getTask().equals(0L)) {
 			Task task = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
 			if(task != null) {
 				if(!task.getWorkArea().equals(assignment.getWorkArea())) {
 					this.putFieldError("task", "task.workarea.invalid.sync");
 					valid = false;
 				}
-			} else {
-				this.putFieldError("task", "error.existence", "task '"+ assignment.getTask() + "'");
-				valid = false;
-			}
+			} 
 		}
 		return valid;
 	}
