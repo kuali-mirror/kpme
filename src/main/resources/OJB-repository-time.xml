@@ -271,8 +271,8 @@
 			element-class-ref="org.kuali.hr.time.roles.TkRole"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
 			auto-retrieve="true"
-			auto-update="object"
-			auto-delete="object"
+			auto-update="false"
+			auto-delete="false"
 			proxy="false">
 			<inverse-foreignkey field-ref="workArea"/>
 		</collection-descriptor>
