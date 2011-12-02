@@ -187,9 +187,7 @@ public class TimeApprovalAction extends TkAction{
         }
         Collections.sort(depts);
         taaf.setDepartments(depts);
-        if (taaf.getDepartments().size() == 1) {
-            taaf.setSelectedDept(taaf.getDepartments().get(0));
-        }
+
         
         // Set current pay calendar entries if present.
         // Decide if the current date should be today or the end period date
@@ -226,6 +224,15 @@ public class TimeApprovalAction extends TkAction{
             taaf.setPayEndDate(selectedPayCalendarEntries.getEndPeriodDateTime());
             taaf.setName(user.getPrincipalName());
 
+            if (taaf.getDepartments().size() == 1) {
+                taaf.setSelectedDept(taaf.getDepartments().get(0));
+            	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
+                for(WorkArea wa : workAreas){
+                	if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(wa.getWorkArea()))
+                		taaf.getDeptWorkareas().add(wa.getWorkArea());
+                }
+            }
+            
             Set<Long> workAreasForQuery = new HashSet<Long>();
             if (StringUtils.isBlank(taaf.getSelectedWorkArea())) {
                 workAreasForQuery = taaf.getDeptWorkareas();
