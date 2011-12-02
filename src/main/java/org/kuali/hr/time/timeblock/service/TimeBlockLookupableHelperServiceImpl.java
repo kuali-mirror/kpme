@@ -108,16 +108,36 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 				}
 					
 				if(StringUtils.isNotEmpty(beginDateString)) {
-					if(!this.checkDate(tb, tb.getTimesheetDocumentHeader().getPayBeginDate(), beginDateString)) {
+					if(tb.getTimesheetDocumentHeader() == null) {
 						itr.remove();
 						continue;
+					} else {
+						if(tb.getTimesheetDocumentHeader().getPayBeginDate() != null) {
+							if(!this.checkDate(tb, tb.getTimesheetDocumentHeader().getPayBeginDate(), beginDateString)) {
+								itr.remove();
+								continue;
+							} 
+						} else {
+							itr.remove();
+							continue;
+						}
 					}
 				}
 					
 				if(StringUtils.isNotEmpty(endDateString)) {
-					if(!this.checkDate(tb,tb.getTimesheetDocumentHeader().getPayEndDate(), endDateString)) {
+					if(tb.getTimesheetDocumentHeader() == null) {
 						itr.remove();
 						continue;
+					} else {
+						if(tb.getTimesheetDocumentHeader().getPayEndDate() != null) {
+							if(!this.checkDate(tb,tb.getTimesheetDocumentHeader().getPayEndDate(), endDateString)) {
+								itr.remove();
+								continue;
+							}
+						} else {
+							itr.remove();
+							continue;
+						}
 					}
 				}
 				
