@@ -17,6 +17,10 @@ public class SystemAdminAuthorizer implements MaintenanceDocumentAuthorizer {
 	public boolean isSystemAdmin(){
 		return TKContext.getUser().getCurrentRoles().isSystemAdmin();
 	}
+	
+	public boolean isGlobalViewOnly(){
+		return TKContext.getUser().getCurrentRoles().isGlobalViewOnly();
+	}
 
 	@Override
 	public Set<String> getDocumentActions(Document document, Person user,
@@ -119,7 +123,7 @@ public class SystemAdminAuthorizer implements MaintenanceDocumentAuthorizer {
 
 	@Override
 	public boolean canMaintain(BusinessObject businessObject, Person user) {
-		return isSystemAdmin();
+		return isSystemAdmin() || isGlobalViewOnly();
 	}
 
 	@Override

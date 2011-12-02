@@ -22,10 +22,10 @@ public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainable
 				//if the effective dates are the same do not create a new row just inactivate the old one
 				if(hrObj.getEffectiveDate().equals(oldHrObj.getEffectiveDate())){
 					oldHrObj.setActive(false);
-					oldHrObj.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis()))); 
+					oldHrObj.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(TKUtils.getCurrentDate().getTime()))); 
 				} else{
 					//if effective dates not the same add a new row that inactivates the old entry based on the new effective date
-					oldHrObj.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
+					oldHrObj.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(TKUtils.getCurrentDate().getTime())));
 					oldHrObj.setEffectiveDate(hrObj.getEffectiveDate());
 					oldHrObj.setActive(false);
 					oldHrObj.setId(null);

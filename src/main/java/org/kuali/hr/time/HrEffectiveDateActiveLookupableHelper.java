@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -198,6 +199,7 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 			if(!StringUtils.equals(actionUrl.getMethodToCall(), "copy")){
 				overrideUrls.add(actionUrl);
 			}
+
 		}
 		return overrideUrls;
 	}

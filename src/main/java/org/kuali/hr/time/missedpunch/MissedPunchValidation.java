@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
@@ -55,13 +56,14 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         DateTime actionDateTime = new DateTime(mp.getActionDate().getTime());
         actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
         DateTime boundaryMax = clockLogDateTime.plusDays(1);
-        DateTime nowTime = new DateTime(System.currentTimeMillis());
+        DateTime nowTime = new DateTime(TKUtils.getCurrentDate());
         
         // if date is a future date
         if(actionDateTime.getDayOfYear() > nowTime.getDayOfYear()) {
         	GlobalVariables.getMessageMap().putError("document.actionDate", "clock.mp.future.date");
         	return false;
         }
+
         // if time is a future time
         if(actionDateTime.getMillis() > nowTime.getMillis()) {
         	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.future.time");

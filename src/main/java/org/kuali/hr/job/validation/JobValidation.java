@@ -124,7 +124,8 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 		// Get a list of active assignments based on principalId, jobNumber and current date.
 		// If the list is not null, there are active assignments and the job can't be inactivated, so return false, otherwise true
 		if(!job.isActive()) {
-			List<Assignment> aList = TkServiceLocator.getAssignmentService().getActiveAssignmentsForJob(job.getPrincipalId(), job.getJobNumber(), TKUtils.getCurrentDate());
+			//this has to use the effective date of the job passed in
+			List<Assignment> aList = TkServiceLocator.getAssignmentService().getActiveAssignmentsForJob(job.getPrincipalId(), job.getJobNumber(), job.getEffectiveDate());
 			if (aList != null && aList.size() > 0) {
 				// error.job.inactivate=Can not inactivate job number {0}.  It is used in active assignments.
 				this.putFieldError("active", "error.job.inactivate", job.getJobNumber().toString());

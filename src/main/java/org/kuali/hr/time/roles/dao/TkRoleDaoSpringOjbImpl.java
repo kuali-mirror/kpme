@@ -11,6 +11,7 @@ import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 import java.sql.Date;
@@ -386,7 +387,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 
 	@Override
 	public void saveOrUpdateRole(TkRole role) {
-		this.getPersistenceBrokerTemplate().store(role);
+		KNSServiceLocator.getBusinessObjectService().save(role);
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class AssignmentLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			Assignment assignment = (Assignment) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final Long tkAssignmentId = assignment.getTkAssignmentId();

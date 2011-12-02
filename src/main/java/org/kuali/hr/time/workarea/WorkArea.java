@@ -44,7 +44,7 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     @Override
     protected LinkedHashMap toStringMapper() {
 	LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
-	toStringMap.put("workAreaId", tkWorkAreaId);
+	toStringMap.put("workArea", workArea);
 	return toStringMap;
     }
 
