@@ -8,6 +8,8 @@ public class LedgerRenderer {
     private Ledger ledger;
     private String leaveCode;
     private BigDecimal hours;
+    private long ledgerId;
+    private String documentId;
 
     public  LedgerRenderer(Ledger ledger) {
         this.ledger = ledger;
@@ -24,4 +26,13 @@ public class LedgerRenderer {
     public String getLeaveCode() {
         return ledger.getLeaveCode();
     }
+
+    public long getLedgerId() {
+        return ledger.getLedgerId();
+    }
+
+    public String getDocumentId() {
+        return ledger.getDocumentId();
+    }
+  
 }

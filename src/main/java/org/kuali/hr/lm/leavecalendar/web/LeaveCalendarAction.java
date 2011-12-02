@@ -6,14 +6,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
-import org.kuali.hr.lm.ledger.Ledger;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
-import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
@@ -23,17 +20,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.List;
 
 public class LeaveCalendarAction extends TkAction {
-    
+
     private static final Logger LOG = Logger.getLogger(LeaveCalendarAction.class);
-    
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ActionForward forward = super.execute(mapping, form, request, response);
-
         LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 
         TKUser user = TKContext.getUser();
@@ -60,68 +53,53 @@ public class LeaveCalendarAction extends TkAction {
             calendarEntry = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(viewPrincipal, currentDate);
             lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
         }
-        
+
         if (lcd != null) {
             setupDocumentOnFormContext(lcf, lcd);
         } else {
             LOG.error("Null leave calendar document in LeaveCalendarAction.");
         }
 
-        PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(user.getPrincipalId(), TKUtils.getCurrentDate());
+//        PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(user.getPrincipalId(), TKUtils.getCurrentDate());
 
-        LeaveCalendar calendar = new LeaveCalendar(calendarEntry);
+        ActionForward forward = super.execute(mapping, form, request, response);
+        if (forward.getRedirect()) {
+            return forward;
+        }
+        LeaveCalendar calendar = new LeaveCalendar(calendarEntry, lcd.getDocumentId());
         lcf.setLeaveCalendar(calendar);
 
-        return super.execute(mapping, form, request, response);
+        return forward;
     }
 
     public ActionForward addLedger(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LeaveCalendarForm lcf = (LeaveCalendarForm) form;
-        LeaveCalendarDocument leaveCalendarDocument = TKContext.getCurrentLeaveCalendarDocument();
-
-        //TODO: move this to service
-        List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(leaveCalendarDocument.getCalendarEntry());
-        String princpalId = TKContext.getTargetPrincipalId();
+        LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
         DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getBeginDate()));
         DateTime endDate = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getEndDate()));
         //TODO: construct the format of the leave code as id_leavecode,
         // so it will save one trip to the db to get either leave code id or leave code
-        String leaveCode = lcf.getLeaveCode();
+        String leaveCode = lcf.getSelectedLeaveCode();
         BigDecimal hours = lcf.getHours();
-        Timestamp currentTs = new Timestamp(System.currentTimeMillis());
-        List<Ledger> currentledgers = leaveCalendarDocument.getLedgers();
-        String docId = leaveCalendarDocument.getDocumentId();
+        String desc = lcf.getDescription();
 
-        for (Interval dayInt :dayIntervals) {
-            if (dayInt.contains(beginDate) ||
-                    (dayInt.contains(endDate) || dayInt.getEnd().equals(endDate))) {
-
-                Ledger ledger = new Ledger.Builder(beginDate, docId, princpalId, "test", new BigDecimal("8.00"))
-                        .description(lcf.getDescription())
-                        .principalActivated(princpalId)
-                        .timestampActivated(currentTs)
-                        .leaveCodeId(0L)
-                        .scheduleTimeOffId(0L)
-                        .accrualCategoryId(0L)
-                        .build();
-                currentledgers.add(ledger);
-
-            }
-        }
-
-        TkServiceLocator.getLedgerService().saveLedgers(currentledgers);
-
-
-//        currentledgers.addAll()
-
-//        String docId = TKContext.getCurrentLeaveCalendarDocumentId();
-//        TkServiceLocator.getLedgerService().saveLedgers();
+        TkServiceLocator.getLedgerService().addLedgers(beginDate, endDate, lcd, leaveCode, hours, desc);
 
         return mapping.findForward("basic");
     }
 
-    protected void setupDocumentOnFormContext(LeaveCalendarForm leaveForm, LeaveCalendarDocument lcd){
-    	String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+    public ActionForward deleteLedger(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LeaveCalendarForm lcf = (LeaveCalendarForm) form;
+        String ledgerId = lcf.getLedgerId();
+
+        //TODO: need security check
+        TkServiceLocator.getLedgerService().deleteLedger(Long.parseLong(ledgerId));
+
+        return mapping.findForward("basic");
+    }
+
+    protected void setupDocumentOnFormContext(LeaveCalendarForm leaveForm, LeaveCalendarDocument lcd) {
+        String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
         TKContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
         TKContext.setCurrentLeaveCalendarDocument(lcd);
         leaveForm.setLeaveCalendarDocument(lcd);

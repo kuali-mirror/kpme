@@ -14,7 +14,7 @@ $(document).ready(function () {
             },
             buttons:{
                 "Add":function () {
-                    $("#leave-calendar").submit();
+                    $("#ledger-entry-form").submit();
                 },
                 Cancel:function () {
                     $(this).dialog('close');
@@ -29,4 +29,15 @@ $(document).ready(function () {
         // open the dialog
         $("#dialog-form").dialog('open');
     });
+
+    // disable the entry form when the delete button is clicked
+    $(".ledger-delete").click(function (event) {
+        var ledgerId = $(this).attr('id').split("_")[1];
+
+        if (confirm('You are about to delete a ledger entry. Click OK to confirm the delete.')) {
+            window.location = "LeaveCalendar.do?methodToCall=deleteLedger&ledgerId=" + ledgerId;
+        }
+        event.stopPropagation();
+    });
+
 });

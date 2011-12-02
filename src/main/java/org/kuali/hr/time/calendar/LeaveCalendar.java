@@ -1,11 +1,20 @@
 package org.kuali.hr.time.calendar;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import org.joda.time.DateTime;
+import org.kuali.hr.lm.ledger.Ledger;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LeaveCalendar extends CalendarParent {
 
-    public LeaveCalendar(CalendarEntries calendarEntry) {
+    public LeaveCalendar(CalendarEntries calendarEntry, String documentId) {
         super(calendarEntry);
 
         DateTime currDateTime = getBeginDateTime();
@@ -35,17 +44,19 @@ public class LeaveCalendar extends CalendarParent {
                 // This is for the div id of the days on the calendar.
                 // It creates a day id like day_11/01/2011 which will make day parsing easier in the javascript.
                 leaveCalendarDay.setDayNumberDelta(currDateTime.toString(TkConstants.DT_BASIC_DATE_FORMAT));
-//                leaveCalendarDay.setLedgers()
+                Multimap<Date, Ledger> ledgersForDay = ledgerAggregator(documentId);
+                // convert DateTime to sql date, since the ledger_date on the ledger is a timeless date
+                java.sql.Date ledgerDate = TKUtils.getTimelessDate(currDateTime.toDate());
+                leaveCalendarDay.setLedgers(new ArrayList<Ledger>(ledgersForDay.get(ledgerDate)));
             }
-            leaveCalendarWeek.getDays().add(leaveCalendarDay);
+            leaveCalendarDay.setDayNumberString(currDateTime.dayOfMonth().getAsShortText());
 
+            leaveCalendarWeek.getDays().add(leaveCalendarDay);
             // cut a week on Sat.
             if (currDateTime.getDayOfWeek() == 6 && currDateTime != firstDay) {
                 getWeeks().add(leaveCalendarWeek);
                 leaveCalendarWeek = new LeaveCalendarWeek();
             }
-
-            leaveCalendarDay.setDayNumberString(currDateTime.dayOfMonth().getAsShortText());
 
             currDateTime = currDateTime.plusDays(1);
         }
@@ -53,5 +64,15 @@ public class LeaveCalendar extends CalendarParent {
         if (!leaveCalendarWeek.getDays().isEmpty()) {
             getWeeks().add(leaveCalendarWeek);
         }
+    }
+
+    private Multimap<Date, Ledger> ledgerAggregator(String documentId) {
+        List<Ledger> ledgers = TkServiceLocator.getLedgerService().getLedgersForDocumentId(documentId);
+        Multimap<Date, Ledger> ledgerAggregrate = HashMultimap.create();
+        for (Ledger ledger : ledgers) {
+            ledgerAggregrate.put(ledger.getLedgerDate(), ledger);
+        }
+
+        return ledgerAggregrate;
     }
 }

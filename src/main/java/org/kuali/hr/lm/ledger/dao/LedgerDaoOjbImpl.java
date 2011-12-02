@@ -18,7 +18,13 @@ public class LedgerDaoOjbImpl extends PersistenceBrokerDaoSupport implements Led
 
     @Override
     public Ledger getLedger(Long ledgerId) {
-        return null;
+        Criteria root = new Criteria();
+        root.addEqualTo("ledgerId", ledgerId);
+        root.addEqualTo("active", true);
+
+        Query query = QueryFactory.newQuery(Ledger.class, root);
+
+        return (Ledger) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
     @Override
@@ -26,41 +32,41 @@ public class LedgerDaoOjbImpl extends PersistenceBrokerDaoSupport implements Led
         this.getPersistenceBrokerTemplate().store(ledger);
     }
 
-	@Override
-	public List<Ledger> getLedgersForDocumentId(String documentId) {
-		List<Ledger> ledgers = new ArrayList<Ledger>();
-		Criteria root = new Criteria();
-		root.addEqualTo("documentId", documentId);
-		
-		Query query = QueryFactory.newQuery(Ledger.class, root);
-		@SuppressWarnings("rawtypes")
-		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-		
-		if (c != null) {
-			ledgers.addAll(c);
-		}
-		return ledgers;
-	}
+    @Override
+    public List<Ledger> getLedgersForDocumentId(String documentId) {
+        List<Ledger> ledgers = new ArrayList<Ledger>();
+        Criteria root = new Criteria();
+        root.addEqualTo("documentId", documentId);
+        root.addEqualTo("active", true);
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	public List<Ledger> getLedgers(String principalId, Date beginDate,
-			Date endDate) {
-		List<Ledger> ledgers = new ArrayList<Ledger>();
-		Criteria root = new Criteria();
-		root.addEqualTo("principalId", principalId);
-		root.addGreaterOrEqualThan("ledgerDate", beginDate);
-		root.addLessOrEqualThan("ledgerDate", endDate);
-		
-		Query query = QueryFactory.newQuery(Ledger.class, root);
-		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-		
-		if(c!= null){
-			ledgers.addAll(c);
-		}
-		
-		return ledgers;
-	}
-	
-	
+        Query query = QueryFactory.newQuery(Ledger.class, root);
+        @SuppressWarnings("rawtypes")
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+            ledgers.addAll(c);
+        }
+        return ledgers;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Override
+    public List<Ledger> getLedgers(String principalId, Date beginDate, Date endDate) {
+        List<Ledger> ledgers = new ArrayList<Ledger>();
+        Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        root.addGreaterOrEqualThan("ledgerDate", beginDate);
+        root.addLessOrEqualThan("ledgerDate", endDate);
+        root.addEqualTo("active", true);
+
+        Query query = QueryFactory.newQuery(Ledger.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+            ledgers.addAll(c);
+        }
+
+        return ledgers;
+    }
+
 }

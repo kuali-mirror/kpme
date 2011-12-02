@@ -8,21 +8,24 @@ import org.kuali.hr.time.calendar.LeaveCalendar;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LeaveCalendarForm extends TkForm {
 
     private String documentId;
-    // TODO: do we need this?
     private LeaveCalendar leaveCalendar;
+    private LeaveCalendarDocument leaveCalendarDocument;
     private List<String> warnings;
     CalendarEntries calendarEntry;
-    private LeaveCalendarDocument leaveCalendarDocument;
     private String beginDate;
     private String endDate;
-    private String leaveCode;
-    private BigDecimal hours = BigDecimal.ZERO;
+    private String selectedLeaveCode;
+    private Map<String, String> leaveCodeLsit = new LinkedHashMap<String, String>();
+    private BigDecimal hours;
     private String description;
+    private String ledgerId;
 
     @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
@@ -85,12 +88,12 @@ public class LeaveCalendarForm extends TkForm {
         this.endDate = endDate;
     }
 
-    public String getLeaveCode() {
-        return leaveCode;
+    public String getSelectedLeaveCode() {
+        return selectedLeaveCode;
     }
 
-    public void setLeaveCode(String leaveCode) {
-        this.leaveCode = leaveCode;
+    public void setSelectedLeaveCode(String selectedLeaveCode) {
+        this.selectedLeaveCode = selectedLeaveCode;
     }
 
     public BigDecimal getHours() {
@@ -107,5 +110,21 @@ public class LeaveCalendarForm extends TkForm {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Map<String, String> getLeaveCodeLsit() {
+        return leaveCodeLsit;
+    }
+
+    public void setLeaveCodeLsit(Map<String, String> leaveCodeLsit) {
+        this.leaveCodeLsit = leaveCodeLsit;
+    }
+
+    public String getLedgerId() {
+        return ledgerId;
+    }
+
+    public void setLedgerId(String ledgerId) {
+        this.ledgerId = ledgerId;
     }
 }

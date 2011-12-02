@@ -7,8 +7,8 @@ import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.HrBusinessObject;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.LinkedHashMap;
 
 public class Ledger extends HrBusinessObject {
@@ -18,7 +18,7 @@ public class Ledger extends HrBusinessObject {
      */
     private static final long serialVersionUID = 1L;
     // use java sql date for now
-    private Long lmLedgerId;
+    private Long ledgerId;
     private Date ledgerDate;
     private String description;
     private String principalId;
@@ -26,7 +26,7 @@ public class Ledger extends HrBusinessObject {
     private Long leaveCodeId;
     private Long scheduleTimeOffId;
     private Long accrualCategoryId;
-    private Boolean active;
+//    private Boolean active;
     private BigDecimal hours = new BigDecimal("0.0");
     private String applyToYtdUsed;
     private String documentId;
@@ -66,7 +66,7 @@ public class Ledger extends HrBusinessObject {
 
 
         public Builder(DateTime ledgerDate, String documentId, String principalId, String leaveCode, BigDecimal hours) {
-            this.ledgerDate = ledgerDate.toDate();
+            this.ledgerDate = new java.sql.Date(ledgerDate.toDate().getTime());
             this.documentId = documentId;
             this.principalId = principalId;
             this.leaveCode = leaveCode;
@@ -175,12 +175,12 @@ public class Ledger extends HrBusinessObject {
 
     @Override
     public Long getId() {
-        return lmLedgerId;
+        return ledgerId;
     }
 
     @Override
     public void setId(Long id) {
-        this.lmLedgerId = id;
+        this.ledgerId = id;
     }
 
     @Override
@@ -204,13 +204,13 @@ public class Ledger extends HrBusinessObject {
         this.accrualGenerated = accrualGenerated;
     }
 
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
+//    public Boolean getActive() {
+//        return active;
+//    }
+//
+//    public void setActive(Boolean active) {
+//        this.active = active;
+//    }
 
     public String getApplyToYtdUsed() {
         return applyToYtdUsed;
@@ -276,12 +276,12 @@ public class Ledger extends HrBusinessObject {
         this.ledgerDate = ledgerDate;
     }
 
-    public Long getLmLedgerId() {
-        return lmLedgerId;
+    public Long getLedgerId() {
+        return ledgerId;
     }
 
-    public void setLmLedgerId(Long lmLedgerId) {
-        this.lmLedgerId = lmLedgerId;
+    public void setLedgerId(Long ledgerId) {
+        this.ledgerId = ledgerId;
     }
 
     public String getPrincipalActivated() {

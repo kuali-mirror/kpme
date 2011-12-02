@@ -425,4 +425,7 @@ public class TKUtils {
                 Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.SESSION_TIMEOUT));
     }
 
+    public static Timestamp getCurrentTimestamp() {
+        return new Timestamp(System.currentTimeMillis());
+    }
 }

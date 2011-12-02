@@ -14,10 +14,6 @@ public class LeaveCalendarDay extends CalendarDay {
         return ledgerRenderers;
     }
 
-    public void setLedgerRenderers(List<LedgerRenderer> ledgerRenderers) {
-        this.ledgerRenderers = ledgerRenderers;
-    }
-
     public List<Ledger> getLedgers() {
         return ledgers;
     }
