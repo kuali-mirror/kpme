@@ -122,6 +122,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		department.setChart(TEST_CODE_DEPARTMENT_VALID);
 		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
 		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
+		department.setLocation("TST");
 		KNSServiceLocator.getBusinessObjectService().save(department);
 		deptId = department.getHrDeptId();
 		TimeCollectionRule timeCollectionRuleWIthInvalidDept = new TimeCollectionRule();
