@@ -6,4 +6,5 @@
     <div class="ledger">
         ${ledger.leaveCode} (${ledger.hours})
         <img id="delete_${ledger.ledgerId}" src='images/delete.png' class="ledger-delete"/>
+    </div>
 </c:forEach>

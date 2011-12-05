@@ -5,14 +5,18 @@ import com.google.common.collect.Multimap;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.ledger.Ledger;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class LeaveCalendar extends CalendarParent {
+
+    private Map<String, String> leaveCodeList;
 
     public LeaveCalendar(CalendarEntries calendarEntry, String documentId) {
         super(calendarEntry);
@@ -64,6 +68,9 @@ public class LeaveCalendar extends CalendarParent {
         if (!leaveCalendarWeek.getDays().isEmpty()) {
             getWeeks().add(leaveCalendarWeek);
         }
+
+        Map<String, String> leaveCodes = TkServiceLocator.getLeaveCodeService().getLeaveCodesForDisplay(TKContext.getTargetPrincipalId());
+        setLeaveCodeList(leaveCodes);
     }
 
     private Multimap<Date, Ledger> ledgerAggregator(String documentId) {
@@ -74,5 +81,13 @@ public class LeaveCalendar extends CalendarParent {
         }
 
         return ledgerAggregrate;
+    }
+
+    public Map<String, String> getLeaveCodeList() {
+        return leaveCodeList;
+    }
+
+    public void setLeaveCodeList(Map<String, String> leaveCodeList) {
+        this.leaveCodeList = leaveCodeList;
     }
 }

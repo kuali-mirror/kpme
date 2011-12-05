@@ -1,11 +1,11 @@
 package org.kuali.hr.lm.leavecode;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
+
+import java.util.LinkedHashMap;
 
 public class LeaveCode extends HrBusinessObject {
 
@@ -228,5 +228,13 @@ public class LeaveCode extends HrBusinessObject {
 		// TODO Auto-generated method stub
 		return null;
 	}
+    
+    public String getLeaveCodeKeyForDisplay() {
+        return lmLeaveCodeId + "_" + leaveCode;
+    }
+    
+    public String getLeaveCodeValueForDisplay() {
+        return leaveCode + " : " + displayName;
+    }
 
 }

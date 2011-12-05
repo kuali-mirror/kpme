@@ -22,7 +22,7 @@ public class LeaveCalendarForm extends TkForm {
     private String beginDate;
     private String endDate;
     private String selectedLeaveCode;
-    private Map<String, String> leaveCodeLsit = new LinkedHashMap<String, String>();
+    private Map<String, String> leaveCodeList = new LinkedHashMap<String, String>();
     private BigDecimal hours;
     private String description;
     private String ledgerId;
@@ -112,12 +112,12 @@ public class LeaveCalendarForm extends TkForm {
         this.description = description;
     }
 
-    public Map<String, String> getLeaveCodeLsit() {
-        return leaveCodeLsit;
+    public Map<String, String> getLeaveCodeList() {
+        return leaveCodeList;
     }
 
-    public void setLeaveCodeLsit(Map<String, String> leaveCodeLsit) {
-        this.leaveCodeLsit = leaveCodeLsit;
+    public void setLeaveCodeList(Map<String, String> leaveCodeList) {
+        this.leaveCodeList = leaveCodeList;
     }
 
     public String getLedgerId() {

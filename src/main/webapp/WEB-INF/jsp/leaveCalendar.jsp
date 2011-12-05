@@ -19,10 +19,12 @@
                         <tr>
                             <td><label for="leave-code">* Leave Code:</label></td>
                             <td>
-                                <html:text property="selectedLeaveCode"/>
-                                    <%--<html:select property="leaveCode">--%>
-                                    <%--<html:options collection=""/>--%>
-                                    <%--</html:select>--%>
+                                    <%--<html:text property="selectedLeaveCode"/>--%>
+                                <html:select property="selectedLeaveCode">
+                                    <c:forEach var="leaveCode" items="${Form.leaveCalendar.leaveCodeList}">
+                                        <option value="${leaveCode.key}">${leaveCode.value}</option>
+                                    </c:forEach>
+                                </html:select>
                             </td>
                         </tr>
                         <tr>

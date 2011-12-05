@@ -172,6 +172,22 @@ public class TKUtils {
 
         return dayIntervals;
     }
+    
+    public static List<Interval> createDaySpan(DateTime beginDateTime, DateTime endDateTime, DateTimeZone zone) {
+        beginDateTime = beginDateTime.toDateTime(zone);
+        endDateTime = endDateTime.toDateTime(zone);
+        List<Interval> dayIntervals = new ArrayList<Interval>();
+
+        DateTime currDateTime = beginDateTime;
+        while (currDateTime.isBefore(endDateTime)) {
+            DateTime prevDateTime = currDateTime;
+            currDateTime = currDateTime.plusDays(1);
+            Interval daySpan = new Interval(prevDateTime, currDateTime);
+            dayIntervals.add(daySpan);
+        }
+
+        return dayIntervals;
+    }
 
     public static List<Interval> getDaySpanForCalendarEntry(CalendarEntries calendarEntry) {
         return getDaySpanForCalendarEntry(calendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
