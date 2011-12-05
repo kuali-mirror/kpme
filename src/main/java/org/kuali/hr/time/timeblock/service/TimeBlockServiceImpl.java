@@ -307,7 +307,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 				return true;
 			}
 
-			if(ur.isTimesheetApprover() && ur.getApproverWorkAreas().contains(tb.getWorkArea())) {
+			if(ur.isTimesheetApprover() && ur.getApproverWorkAreas().contains(tb.getWorkArea()) || ur.isTimesheetReviewer() && ur.getReviewerWorkAreas().contains(tb.getWorkArea())) {
 				Job job = TkServiceLocator.getJobSerivce().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
 				PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), tb.getEndDate());
 				if(StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())){
