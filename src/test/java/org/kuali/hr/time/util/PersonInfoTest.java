@@ -39,7 +39,7 @@ public class PersonInfoTest extends TkTestCase {
 		HtmlPage clockPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.PERSON_INFO_URL);
 		HtmlUnitUtil.createTempFile(clockPage);
 		assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Job Number"));
-		assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Organization Admin"));
+		assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Department Admin"));
 	}
  
 }
