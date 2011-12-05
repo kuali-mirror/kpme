@@ -21,11 +21,9 @@
         </createTable>
    </changeSet>
    <changeSet author="yingzhou" id="3">
-        <dropTable tableName="tk_ip_address_s">
-        </dropTable>
+        <dropTable tableName="tk_ip_address_s"/>
     </changeSet>
   	<changeSet author="yingzhou" id="4">
-        <dropTable tableName="tk_ip_address_t">
-        </dropTable>
+        <dropTable tableName="tk_ip_address_t"/>
     </changeSet>
 </databaseChangeLog>
