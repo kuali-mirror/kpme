@@ -1,0 +1,1 @@
+insert into hr_position_t values(4000,1,'Test position insert','2011-01-01',now(),uuid(),1,'Y');

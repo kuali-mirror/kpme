@@ -65,6 +65,7 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_ENTRY_T");
 		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_T");
 		TABLES_TO_CLEAR.add("TK_DOCUMENT_HEADER_T");
+		TABLES_TO_CLEAR.add("HR_POSITION_T");
 	}
 
 	private static final Map<String,String> TABLE_TO_ID_MAP = new HashMap<String,String>();

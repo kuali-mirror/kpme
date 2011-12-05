@@ -184,7 +184,6 @@ public class TimeApprovalAction extends TkAction{
         if (StringUtils.isBlank(taaf.getSelectedPayCalendarGroup())) {
             taaf.setSelectedPayCalendarGroup(calGroups.get(0));
         }
-        
         List<String> depts = new ArrayList<String>(user.getReportingApprovalDepartments().keySet());
         if ( depts.isEmpty() ) {
         	return fwd;

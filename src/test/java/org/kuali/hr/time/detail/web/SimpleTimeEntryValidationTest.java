@@ -43,6 +43,7 @@ public class SimpleTimeEntryValidationTest extends TkTestCase {
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
         assertNotNull(page);
         String pageAsText = page.asText();
+        
         assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
         assertTrue("Login info not present.", pageAsText.contains("admin, admin"));
 
