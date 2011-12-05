@@ -1,1 +1,1 @@
-insert into hr_position_t values(4000,1,'Test position insert','2011-01-01',now(),uuid(),1,'Y');
+update hr_principal_calendar_t set timezone = 'America/Chicago' where principal_id = 'admin';
