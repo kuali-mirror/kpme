@@ -277,7 +277,13 @@ public class TkUserRoles implements UserRoles {
 
     @Override
     public boolean isDocumentReadable(String documentId) {
-        return isDocumentReadable(TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId));
+    	boolean readable = false;
+    	
+    	if (documentId != null) {
+    		return isDocumentReadable(TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId));
+    	}
+    	
+    	return readable;
     }
 
     @Override
