@@ -19,6 +19,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
+import org.kuali.hr.time.util.TKUtils;
 
 public class ClockActionForm extends TimesheetActionForm {
 
@@ -109,9 +110,13 @@ public class ClockActionForm extends TimesheetActionForm {
 	}
 	
 	public String getUserSystemOffsetServerTime(){
-		DateTimeZone dtz = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-		DateTime dt = new DateTime(System.currentTimeMillis(),dtz);
+		DateTime dt = new DateTime(TKUtils.getCurrentDate().getTime()+getUserTimezoneOffset());
 		return String.valueOf(dt.getMillis());
+	}
+	
+	public Long getUserTimezoneOffset(){
+		DateTimeZone dtz = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+		return TkServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(dtz);
 	}
 
     public String getCurrentClockAction() {

@@ -9,6 +9,7 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKContext;
@@ -87,6 +88,13 @@ public class TimezoneServiceImpl implements TimezoneService {
 			return StringUtils.equals(TkConstants.SYSTEM_TIME_ZONE, userTimezone);
 		}
 		return true;
+	}
+	
+	
+	public long getTimezoneOffsetFromServerTime(DateTimeZone dtz){
+		long systemOffsetUTC = TkConstants.SYSTEM_DATE_TIME_ZONE.getOffset(null);
+		long tzOffsetUTC = dtz.getOffset(null);
+		return tzOffsetUTC - systemOffsetUTC;
 	}
 
 
