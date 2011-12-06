@@ -80,7 +80,7 @@ public class LedgerServiceImpl implements LedgerService {
     }
 
     @Override
-    public void addLedgers(DateTime beginDate, DateTime endDate, LeaveCalendarDocument lcd, String leaveCode, BigDecimal hours, String description) {
+    public void addLedgers(DateTime beginDate, DateTime endDate, LeaveCalendarDocument lcd, String leaveCode, Long leaveCodeId, BigDecimal hours, String description) {
         String docId = lcd.getDocumentId();
         String princpalId = TKContext.getTargetPrincipalId();
         DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
@@ -88,6 +88,7 @@ public class LedgerServiceImpl implements LedgerService {
         DateTime calBeginDateTime = lcd.getCalendarEntry().getBeginLocalDateTime().toDateTime(zone);
         DateTime calEndDateTime = lcd.getCalendarEntry().getEndLocalDateTime().toDateTime(zone);
         Interval calendarInterval = new Interval(calBeginDateTime, calEndDateTime);
+        // The leave code format on the form is id_leaveCode. This will save a db trip to grab the leavecode id.
 
         // To create the correct interval by the given begin and end dates,
         // we need to plus one day on the end date to include the end date
@@ -101,7 +102,7 @@ public class LedgerServiceImpl implements LedgerService {
                         .description(description)
                         .principalActivated(princpalId)
                         .timestampActivated(TKUtils.getCurrentTimestamp())
-                        .leaveCodeId(0L)
+                        .leaveCodeId(leaveCodeId)
                         .scheduleTimeOffId(0L)
                         .accrualCategoryId(0L)
                         .build();

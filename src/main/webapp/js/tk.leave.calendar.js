@@ -18,6 +18,8 @@ $(document).ready(function () {
                 },
                 Cancel:function () {
                     $(this).dialog('close');
+                    event.stopPropagation();
+                    event.preventDefault();
                 }
             }
         });
@@ -38,6 +40,7 @@ $(document).ready(function () {
             window.location = "LeaveCalendar.do?methodToCall=deleteLedger&ledgerId=" + ledgerId;
         }
         event.stopPropagation();
+        event.preventDefault();
     });
 
 });

@@ -4,7 +4,7 @@
 
 <c:forEach var="ledger" items="${day.ledgerRenderers}" varStatus="status">
     <div class="ledger">
-        ${ledger.leaveCode} (${ledger.hours})
         <img id="delete_${ledger.ledgerId}" src='images/delete.png' class="ledger-delete"/>
+        ${ledger.leaveCode} (${ledger.hours})
     </div>
 </c:forEach>

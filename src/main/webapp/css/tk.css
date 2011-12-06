@@ -776,35 +776,32 @@ select {
 ------------------------------------------------------------------------*/
 
 .assignment0 {
-    border-color: #006400;
-    background-color: #006400;
+    border-color: #669C2F;
+    background-color: #669C2F;
     color: white;
 }
 
 .assignment1 {
-    /*border-color: #384C7A;*/
-    /*background-color: #384C7A;*/
+    border-color: #4986E7;
     background-color: #4986E7;
     color: white;
 }
 
 .assignment2 {
-    /*border-color: #8B2323;*/
-    /*background-color: #8B2323;*/
-    background-color: #C50012;
+    border-color: #F88A8F;
+    background-color: #F88A8F;
     color: white;
 }
 
 .assignment3 {
-    /*border-color: #731D87;*/
-    /*background-color: #731D87;*/
+    border-color: #8F81FE;
     background-color: #8F81FE;
     color: white;
 }
 
 .assignment4 {
-    border-color: #085D60;
-    background-color: #085D60;
+    border-color: #577EBB;
+    background-color: #577EBB;
     color: white;
 }
 
@@ -815,14 +812,14 @@ select {
 }
 
 .assignment6 {
-    border-color: #0F157A;
-    background-color: #0F157A;
+    border-color: #5D6885;
+    background-color: #5D6885;
     color: white;
 }
 
 .assignment7 {
-    border-color: #8470FF;
-    background-color: #8470FF;
+    border-color: #5415A2;
+    background-color: #5415A2;
     color: white;
 }
 
@@ -833,14 +830,14 @@ select {
 }
 
 .assignment9 {
-    border-color: #51193D;
-    background-color: #51193D;
+    border-color: #D6BF1B;
+    background-color: #D6BF1B;
     color: white;
 }
 
 .assignment10 {
-    border-color: #8E8E38;
-    background-color: #8E8E38;
+    border-color: #626431;
+    background-color: #626431;
     color: white;
 }
 

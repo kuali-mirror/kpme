@@ -23,5 +23,5 @@ public interface LedgerService {
      */
     void deleteLedger(long ledgerId);
 
-    void addLedgers(DateTime beginDate, DateTime endDate, LeaveCalendarDocument lcd, String leaveCode, BigDecimal hours, String description);
+    void addLedgers(DateTime beginDate, DateTime endDate, LeaveCalendarDocument lcd, String leaveCode, Long leaveCodeId, BigDecimal hours, String description);
 }
