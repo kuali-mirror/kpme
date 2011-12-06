@@ -775,71 +775,11 @@ select {
 /*	assignment background colors
 ------------------------------------------------------------------------*/
 
-.assignment0 {
-    border-color: #669C2F;
-    background-color: #669C2F;
-    color: white;
-}
-
-.assignment1 {
-    border-color: #4986E7;
-    background-color: #4986E7;
-    color: white;
-}
-
-.assignment2 {
-    border-color: #F88A8F;
-    background-color: #F88A8F;
-    color: white;
-}
-
-.assignment3 {
-    border-color: #8F81FE;
-    background-color: #8F81FE;
-    color: white;
-}
-
-.assignment4 {
-    border-color: #577EBB;
-    background-color: #577EBB;
-    color: white;
-}
-
-.assignment5 {
-    border-color: #EE7621;
-    background-color: #EE7621;
-    color: white;
-}
-
-.assignment6 {
-    border-color: #5D6885;
-    background-color: #5D6885;
-    color: white;
-}
-
-.assignment7 {
-    border-color: #5415A2;
-    background-color: #5415A2;
-    color: white;
-}
-
-.assignment8 {
-    border-color: #8B5A2B;
-    background-color: #8B5A2B;
-    color: white;
-}
-
-.assignment9 {
-    border-color: #D6BF1B;
-    background-color: #D6BF1B;
-    color: white;
-}
-
-.assignment10 {
-    border-color: #626431;
-    background-color: #626431;
-    color: white;
-}
+.assignment0 { background-color: #737373; color: white;}
+.assignment1 { background-color: #D8770C; color: white;}
+.assignment2 { background-color: #7E9991; color: white;}
+.assignment3 { background-color: #A69682; color: white;}
+.assignment4 { background-color: #000000; color: white;}
 
 /**
 * actual time inquiry

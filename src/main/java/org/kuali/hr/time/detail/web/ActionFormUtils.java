@@ -18,15 +18,15 @@ public class ActionFormUtils {
     public static void validateHourLimit(TimeDetailActionFormBase tdaf) throws Exception {
         List<String> warningMessages = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(tdaf.getTimesheetDocument());
         if (!warningMessages.isEmpty()) {
-        	tdaf.setWarnings(warningMessages);
+            tdaf.setWarnings(warningMessages);
         }
     }
 
     public static String getTimeBlockJSONMap(TimesheetDocument tsd, List<TimeBlock> blocks) {
         List<Map<String, Object>> jsonList = getTimeBlocksJson(blocks, null);
         Map<String, Map<String, Object>> jsonMappedList = new HashMap<String, Map<String, Object>>();
-        for (Map<String,Object> tbm : jsonList) {
-            String id = (String)tbm.get("id");
+        for (Map<String, Object> tbm : jsonList) {
+            String id = (String) tbm.get("id");
             jsonMappedList.put(id, tbm);
         }
         return JSONValue.toJSONString(jsonMappedList);
@@ -37,21 +37,22 @@ public class ActionFormUtils {
     }
 
     public static Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd) {
-          Map<String, String> aMap = new HashMap<String, String>();
-          List<String> assignmentKeys = new ArrayList<String>();
+        Map<String, String> aMap = new HashMap<String, String>();
+        List<String> assignmentKeys = new ArrayList<String>();
 
-          for(Assignment assignment: tsd.getAssignments()) {
-              AssignmentDescriptionKey aKey = new AssignmentDescriptionKey(assignment.getJobNumber(),
-                      assignment.getWorkArea(), assignment.getTask());
-              assignmentKeys.add(aKey.toAssignmentKeyString());
-          }
-          Collections.sort(assignmentKeys);
+        for (Assignment assignment : tsd.getAssignments()) {
+            AssignmentDescriptionKey aKey = new AssignmentDescriptionKey(assignment.getJobNumber(),
+                    assignment.getWorkArea(), assignment.getTask());
+            assignmentKeys.add(aKey.toAssignmentKeyString());
+        }
+        Collections.sort(assignmentKeys);
 
-          for(int i = 0; i< assignmentKeys.size(); i++) {
-              aMap.put(assignmentKeys.get(i), "assignment"+ Integer.toString(i));
-          }
+        for (int i = 0; i < assignmentKeys.size(); i++) {
+            // pick a color from a five color palette
+            aMap.put(assignmentKeys.get(i), "assignment" + Integer.toString(i % 5));
+        }
 
-          return aMap;
+        return aMap;
     }
 
     /**
@@ -79,11 +80,11 @@ public class ActionFormUtils {
             String workAreaDesc = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), new java.sql.Date(timeBlock.getEndTimestamp().getTime())).getDescription();
 
             String cssClass = "";
-            if(assignmentStyleClassMap != null && assignmentStyleClassMap.containsKey(timeBlock.getAssignmentKey())) {
-            	cssClass = assignmentStyleClassMap.get(timeBlock.getAssignmentKey());
+            if (assignmentStyleClassMap != null && assignmentStyleClassMap.containsKey(timeBlock.getAssignmentKey())) {
+                cssClass = assignmentStyleClassMap.get(timeBlock.getAssignmentKey());
             }
             timeBlockMap.put("assignmentCss", cssClass);
-            timeBlockMap.put("editable",  TkServiceLocator.getTimeBlockService().isTimeBlockEditable(timeBlock).toString());
+            timeBlockMap.put("editable", TkServiceLocator.getTimeBlockService().isTimeBlockEditable(timeBlock).toString());
 
             //    tracking any kind of 'mutating' state with this object, it's just a one off modification under a specific circumstance.
             DateTime start = timeBlock.getBeginTimeDisplay();
@@ -124,7 +125,7 @@ public class ActionFormUtils {
                 timeHourDetailMap.put("amount", timeHourDetail.getAmount());
 
                 // if there is a lunch hour deduction, add a flag to the timeBlockMap
-                if(StringUtils.equals(timeHourDetail.getEarnCode(), "LUN")) {
+                if (StringUtils.equals(timeHourDetail.getEarnCode(), "LUN")) {
                     timeBlockMap.put("lunchDeduction", true);
                 }
 
