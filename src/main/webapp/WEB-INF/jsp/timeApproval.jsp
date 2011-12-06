@@ -12,7 +12,6 @@
 <html:hidden styleId="payEndDateForSearch" property="payEndDateForSearch" value="${Form.payEndDateForSearch}"/>
 <html:hidden styleId="principalIds" property="principalIds" />
 
-
 <div class="approvals">
 <table id="approvals-filter">
     <tr>
@@ -72,8 +71,9 @@
         </td>
     </tr>
 </table>
+
 <table class="navigation">
-    <c:if test="${Form.selectedDept != null and Form.selectedPayCalendarGroup != null}">
+    <c:if test="${fn:length(Form.approvalRows) != 0}">
         <tr>
             <td class="left">
                 Search By :

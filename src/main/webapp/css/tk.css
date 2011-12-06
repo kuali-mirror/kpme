@@ -466,10 +466,9 @@ select {
 
 .lunch {
     color: black;
-    background-color: yellow;
+    background-color: #FFB40F;
     padding: 0 1px 0 1px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin: 5px;
 }
 
 #batch-content legend {
@@ -542,6 +541,7 @@ select {
     padding: 4px;
     background-color: #FFF;
     vertical-align: top;
+    border-color: #666666;
 }
 
 .approvals-table tbody tr.odd td {
@@ -763,71 +763,11 @@ select {
 /*	assignment background colors
 ------------------------------------------------------------------------*/
 
-.assignment0 {
-    border-color: #006400;
-    background-color: #006400;
-    color: white;
-}
-
-.assignment1 {
-    border-color: #384C7A;
-    background-color: #384C7A;
-    color: white;
-}
-
-.assignment2 {
-    border-color: #8B2323;
-    background-color: #8B2323;
-    color: white;
-}
-
-.assignment3 {
-    border-color: #731D87;
-    background-color: #731D87;
-    color: white;
-}
-
-.assignment4 {
-    border-color: #085D60;
-    background-color: #085D60;
-    color: white;
-}
-
-.assignment5 {
-    border-color: #EE7621;
-    background-color: #EE7621;
-    color: white;
-}
-
-.assignment6 {
-    border-color: #0F157A;
-    background-color: #0F157A;
-    color: white;
-}
-
-.assignment7 {
-    border-color: #8470FF;
-    background-color: #8470FF;
-    color: white;
-}
-
-.assignment8 {
-    border-color: #8B5A2B;
-    background-color: #8B5A2B;
-    color: white;
-}
-
-.assignment9 {
-    border-color: #51193D;
-    background-color: #51193D;
-    color: white;
-}
-
-.assignment10 {
-    border-color: #8E8E38;
-    background-color: #8E8E38;
-    color: white;
-}
+.assignment0 { background-color: #737373; color: white;}
+.assignment1 { background-color: #D8770C; color: white;}
+.assignment2 { background-color: #7E9991; color: white;}
+.assignment3 { background-color: #A69682; color: white;}
+.assignment4 { background-color: #000000; color: white;}
 
 /**
 * actual time inquiry

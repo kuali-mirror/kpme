@@ -62,7 +62,7 @@
 	                   	<c:set var="dayStyle" value="width:14%;"/>
 	                   	<c:set var="dayId" value = "day_${day.dayNumberDelta}" />
 	                	<c:if test="${day.gray}">
-	                		<c:set var="dayStyle" value="width:14%; background: gray;"/>
+	                		<c:set var="dayStyle" value="width:14%; background: rgb(224, 235, 225);"/>
 	                		<c:set var="dayId" value = "gray_day" />
 	                	</c:if>
                    	

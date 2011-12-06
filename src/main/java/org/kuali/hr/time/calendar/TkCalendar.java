@@ -73,7 +73,7 @@ public class TkCalendar {
 				if(thdr.getTitle().equals(TkConstants.LUNCH_EARN_CODE)) {
 					ec = TkServiceLocator.getEarnCodeService().getEarnCode(thdr.getTitle(), tbr.getTimeBlock().getBeginDate());
 					if(ec != null) {
-						label = ec.getDescription() + "-" + thdr.getHours();
+						label = ec.getDescription() + " : " + thdr.getHours();
 					}
 				}
 			}
