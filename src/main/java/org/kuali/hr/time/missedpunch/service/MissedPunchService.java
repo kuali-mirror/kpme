@@ -16,6 +16,13 @@ public interface MissedPunchService {
     /**
      * Add clock log for missed punch
      * @param missedPunch
+     * @param logEndId
+     * @param logBeginId
+     */
+    public void addClockLogForMissedPunch(MissedPunchDocument missedPunch, Long logEndId, Long logBeginId);
+    /**
+     * Add clock log for missed punch
+     * @param missedPunch
      */
     public void addClockLogForMissedPunch(MissedPunchDocument missedPunch);
     /**

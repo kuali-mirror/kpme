@@ -21,7 +21,18 @@ public interface TimeBlockDao {
 	
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 	
-	public List<TimeBlock> getTimeBlocksForClockLogId(Long tkClockLogId);
+	/*
+	 * Get all the time blocks with the given Clock Log id as the clockLogEndId
+	 * @param tkClockLogId
+	 * @return List<TimeBlock>	 * 
+	 */
+	public List<TimeBlock> getTimeBlocksForClockLogEndId(Long tkClockLogId);
+	/*
+	 * Get all the time blocks with the given Clock Log id as the clockLogBeginId
+	 * @param tkClockLogId
+	 * @return List<TimeBlock>	 * 
+	 */
+	public List<TimeBlock> getTimeBlocksForClockLogBeginId(Long tkClockLogId);
 	
 	public List<TimeBlock> getTimeBlocks();
 	public List<TimeBlock> getLatestEndTimestamp();

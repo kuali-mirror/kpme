@@ -49,12 +49,27 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         if(cl.getClockTimestamp().compareTo(new Timestamp(actionDateTime.getMillis())) != 0){
         	//change occurred between the initial save and the approver
         	//inactivate all the previous timeblocks and delete clock logs
-        	List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksForClockLog(cl.getTkClockLogId());
+        	Long logEndId = null;
+        	Long logBeginId = null;
+        	List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksForClockLogEndId(cl.getTkClockLogId());
+        	if(timeBlocks.isEmpty()) {
+        		// get timeBlock with the Clock Log as the clock_log_begin_id
+        		timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksForClockLogBeginId(cl.getTkClockLogId());
+        		if(!timeBlocks.isEmpty()) {
+        			logEndId = timeBlocks.get(0).getClockLogEndId();
+        		}
+        	} else {
+        		logBeginId = timeBlocks.get(0).getClockLogBeginId();
+        	}
+        	
+        	//delete existing time blocks
         	for(TimeBlock tb : timeBlocks){
         		TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
         	}
         	KNSServiceLocator.getBusinessObjectService().delete(cl);
-        	addClockLogForMissedPunch(missedPunch);
+        	// delete the existing clock log and add new time blocks
+        	addClockLogForMissedPunch(missedPunch, logEndId, logBeginId);
+        	
         }
     }
     
@@ -77,19 +92,60 @@ public class MissedPunchServiceImpl implements MissedPunchService {
                 tdoc,
                 missedPunch.getClockAction(),
                 TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest()));
-
+        
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
         TkServiceLocator.getClockLogService().saveClockLog(clockLog);
         missedPunch.setTkClockLogId(clockLog.getTkClockLogId());
 
         if (StringUtils.equals(clockLog.getClockAction(), TkConstants.CLOCK_OUT) ||
                 StringUtils.equals(clockLog.getClockAction(), TkConstants.LUNCH_OUT)) {
-
-
             String earnCode = assign.getJob().getPayTypeObj().getRegEarnCode();
-
             this.buildTimeBlockRunRules(lastClockLog, clockLog, tdoc, assign, earnCode, lastClockLog.getClockTimestamp(), clockLog.getClockTimestamp());
         }
+        
+        MissedPunchDocument doc = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(missedPunch.getDocumentNumber());
+        doc.setTkClockLogId(clockLog.getTkClockLogId());
+        KNSServiceLocator.getBusinessObjectService().save(doc);
+    }
+    
+    // is called by updateClockLogAndTimeBlockIfNecessary when approver changes time on approving an existing missed punch doc
+    public void addClockLogForMissedPunch(MissedPunchDocument missedPunch, Long logEndId, Long logBeginId){
+        java.util.Date actionDate = missedPunch.getActionDate();
+        java.sql.Time actionTime = missedPunch.getActionTime();
+        
+        LocalTime actionTimeLocal = new LocalTime(actionTime.getTime());
+        DateTime actionDateTime = new DateTime(actionDate.getTime());
+ 
+        actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
+        missedPunch.setActionDate(new java.util.Date(actionDateTime.getMillis()));
+        TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
+        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(tdoc, missedPunch.getAssignment());
+        // Need to build a clock log entry.
+        Timestamp ts = new Timestamp(missedPunch.getActionDate().getTime());
+        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(ts, ts,
+                assign,
+                tdoc,
+                missedPunch.getClockAction(),
+                TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest()));
+        ClockLog endLog = null;
+        ClockLog beginLog = null;
+        if(logEndId != null) {
+        	endLog = TkServiceLocator.getClockLogService().getClockLog(logEndId);
+        	beginLog = clockLog;
+        } else if(logBeginId != null) {
+        	beginLog = TkServiceLocator.getClockLogService().getClockLog(logBeginId);
+        	endLog = clockLog;
+        } else {
+        	ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
+        	endLog = lastClockLog;
+        	beginLog = clockLog;
+        }
+        TkServiceLocator.getClockLogService().saveClockLog(clockLog);
+        missedPunch.setTkClockLogId(clockLog.getTkClockLogId());
+
+        String earnCode = assign.getJob().getPayTypeObj().getRegEarnCode();
+        this.buildTimeBlockRunRules(beginLog, endLog, tdoc, assign, earnCode, beginLog.getClockTimestamp(), endLog.getClockTimestamp());
+       
         
         MissedPunchDocument doc = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(missedPunch.getDocumentNumber());
         doc.setTkClockLogId(clockLog.getTkClockLogId());

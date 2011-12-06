@@ -344,8 +344,12 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	}
 
 	@Override
-	public List<TimeBlock> getTimeBlocksForClockLog(Long tkClockLogId) {
-		return timeBlockDao.getTimeBlocksForClockLogId(tkClockLogId);
+	public List<TimeBlock> getTimeBlocksForClockLogEndId(Long tkClockLogId) {
+		return timeBlockDao.getTimeBlocksForClockLogEndId(tkClockLogId);
+	}
+	@Override
+	public List<TimeBlock> getTimeBlocksForClockLogBeginId(Long tkClockLogId) {
+		return timeBlockDao.getTimeBlocksForClockLogBeginId(tkClockLogId);
 	}
 
 	public List<TimeBlock> getTimeBlocks(){
