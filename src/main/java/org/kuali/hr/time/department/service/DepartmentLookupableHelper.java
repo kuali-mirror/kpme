@@ -26,7 +26,7 @@ public class DepartmentLookupableHelper extends
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
 		if (TKContext.getUser().isSystemAdmin() ||
-				TKContext.getUser().isLocationAdmin()) {
+				TKContext.getUser().isLocationAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			HtmlData htmlData = new HtmlData() {
 
 				/**

@@ -21,7 +21,7 @@ public class PrincipalCalendarLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			PrincipalCalendar principalCalendar = (PrincipalCalendar) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String principalId = principalCalendar.getPrincipalId();

@@ -24,7 +24,7 @@ public class PayTypeLookupableHelper extends HrEffectiveDateActiveLookupableHelp
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			PayType payType = (PayType) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final Long hrPayTypeId = payType.getHrPayTypeId();

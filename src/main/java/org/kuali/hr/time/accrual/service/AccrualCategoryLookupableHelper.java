@@ -34,7 +34,7 @@ public class AccrualCategoryLookupableHelper extends
 				}
 			}
 
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			AccrualCategory accrualCategory = (AccrualCategory) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final Long lmAccrualCategoryId = accrualCategory

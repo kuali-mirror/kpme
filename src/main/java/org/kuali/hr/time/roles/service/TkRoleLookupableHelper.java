@@ -33,7 +33,8 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 				businessObject, pkNames);
 		if (TKContext.getUser().isSystemAdmin() || 
 			TKContext.getUser().isLocationAdmin() ||
-			TKContext.getUser().isDepartmentAdmin()) {
+			TKContext.getUser().isDepartmentAdmin() || 
+			TKContext.getUser().isGlobalViewOnly()) {
 			TkRoleGroup tkRoleGroup = (TkRoleGroup) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String principalId = tkRoleGroup.getPrincipalId();
