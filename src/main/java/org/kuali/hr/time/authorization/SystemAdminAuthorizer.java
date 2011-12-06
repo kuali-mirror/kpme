@@ -31,7 +31,7 @@ public class SystemAdminAuthorizer implements MaintenanceDocumentAuthorizer {
 
 	@Override
 	public boolean canInitiate(String documentTypeName, Person user) {
-		return isSystemAdmin();
+		return isSystemAdmin() || isGlobalViewOnly();
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class SystemAdminAuthorizer implements MaintenanceDocumentAuthorizer {
 
 	@Override
 	public boolean canMaintain(BusinessObject businessObject, Person user) {
-		return isSystemAdmin() || isGlobalViewOnly();
+		return isSystemAdmin();
 	}
 
 	@Override
