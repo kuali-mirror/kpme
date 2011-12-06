@@ -300,7 +300,7 @@ public class TimeApprovalAction extends TkAction{
     }
 
     // move this to the service layer
-    private Set<String> getSortedPrincipalIdList(String sortField, Boolean isAscending, List<String> assignmentPrincipalIds, java.sql.Date payBeginDate, java.sql.Date payEndDate) {
+    protected Set<String> getSortedPrincipalIdList(String sortField, Boolean isAscending, List<String> assignmentPrincipalIds, java.sql.Date payBeginDate, java.sql.Date payEndDate) {
 
         Set<String> principalIds = new LinkedHashSet<String>();
 
@@ -385,18 +385,18 @@ public class TimeApprovalAction extends TkAction{
         }
     }
     
-    private String getSortField(HttpServletRequest request) {
+    protected String getSortField(HttpServletRequest request) {
         return request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_SORT)));
     }
 
-    private Boolean isAscending(HttpServletRequest request) {
+    protected Boolean isAscending(HttpServletRequest request) {
         // returned value 1 = ascending; 2 = descending
         String ascending = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_ORDER)));
         return StringUtils.equals(ascending, "1") ? true : false;
     }
 
     // move this to the service layer
-    private List<String> getSubListPrincipalIds(HttpServletRequest request, List<String> assignmentPrincipalIds) {
+    protected List<String> getSubListPrincipalIds(HttpServletRequest request, List<String> assignmentPrincipalIds) {
         String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
         // The paging index begins from 1, but the sublist index begins from 0.
         // So the logic below sets the sublist begin index to 0 if the page number is null or equals 1
