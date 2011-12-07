@@ -336,9 +336,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         String dateTime = sdf.format(new java.sql.Date(cl.getClockTimestamp().getTime()));
         if (StringUtils.equals(cl.getClockAction(), TkConstants.CLOCK_IN)) {
             return "Clocked in since: " + dateTime;
-        } else if (StringUtils.equals(cl.getClockAction(), TkConstants.LUNCH_IN)) {
-            return "At Lunch since: " + dateTime;
         } else if (StringUtils.equals(cl.getClockAction(), TkConstants.LUNCH_OUT)) {
+            return "At Lunch since: " + dateTime;
+        } else if (StringUtils.equals(cl.getClockAction(), TkConstants.LUNCH_IN)) {
             return "Returned from Lunch : " + dateTime;
         } else if (StringUtils.equals(cl.getClockAction(), TkConstants.CLOCK_OUT)) {
             return "Clocked out since: " + dateTime;
