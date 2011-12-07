@@ -7,8 +7,13 @@ import java.util.Map;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 public class TaskLookupableHelper extends KualiLookupableHelperServiceImpl {
 	/**
@@ -49,4 +54,43 @@ public class TaskLookupableHelper extends KualiLookupableHelperServiceImpl {
 		
 		return finalList;
 	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public HtmlData getReturnUrl(BusinessObject businessObject,
+			LookupForm lookupForm, List returnKeys,
+			BusinessObjectRestrictions businessObjectRestrictions) {
+		if (lookupForm.getFieldConversions().containsKey("effectiveDate")) {
+			lookupForm.getFieldConversions().remove("effectiveDate");
+		}
+		if (returnKeys.contains("effectiveDate")) {
+			returnKeys.remove("effectiveDate");
+		}
+		if (lookupForm.getFieldConversions().containsKey("workArea")) {
+			lookupForm.getFieldConversions().remove("workArea");
+		}
+		if (returnKeys.contains("workArea")) {
+			returnKeys.remove("workArea");
+		}
+		
+		return super.getReturnUrl(businessObject, lookupForm, returnKeys,
+				businessObjectRestrictions);
+	}
+	
+	@Override
+	// remove the default value for Task for lookup
+	 public List<Row> getRows() {
+		 List<Row> rowList = super.getRows();
+		 for(Row aRow : rowList) {
+			 List<Field> fields = aRow.getFields();
+			 for(Field aField : fields) {
+				 if(aField.getFieldLabel() != null && aField.getFieldLabel().equals("Task")) {
+					 if(aField.getPropertyValue() != null && aField.getPropertyValue().equals("0")) {
+						 aField.setPropertyValue("");
+					 }
+				 }
+			 }
+		 }
+		 return rowList;
+	 }
 }
