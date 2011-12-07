@@ -87,10 +87,12 @@ public class TkWorkflowMissedPunchAttribute implements RoleAttribute {
                     	throw new RuntimeException("No responsible people for work area" + assignment.getWorkArea());
                     }
                     for (String user : users) {
-                        PrincipalId pid = new PrincipalId(user);
-                        if (!principals.contains(pid)) {
-                            principals.add(pid);
-                        }
+                    	if(user != null) {
+	                        PrincipalId pid = new PrincipalId(user);
+	                        if (!principals.contains(pid)) {
+	                            principals.add(pid);
+	                        }
+                    	}
                     }
                 } else {
                     throw new RuntimeException("Could not obtain Assignment.");
