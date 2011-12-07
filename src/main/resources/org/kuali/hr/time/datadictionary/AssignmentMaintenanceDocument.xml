@@ -87,7 +87,6 @@
 							<bean parent="MaintainableFieldDefinition" p:name="projectCd" />
 							<bean parent="MaintainableFieldDefinition" p:name="orgRefId" />
 							<bean parent="MaintainableFieldDefinition" p:name="percent" p:required="true"/>							
-							<bean parent="MaintainableFieldDefinition" p:name="active"/>
 						</list>
 					</property>
 				</bean>

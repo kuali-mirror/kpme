@@ -25,7 +25,6 @@
 				<ref bean="AssignmentAccount-orgRefId" />
 				<ref bean="AssignmentAccount-percent" />
 				<ref bean="AssignmentAccount-tkAssignmentId" />
-				<ref bean="AssignmentAccount-active" />
 				<ref bean="AssignmentAccount-earnCode" />
 			</list>
 		</property>
@@ -229,17 +228,6 @@
 		</property>
 		<property name="name" value="percent" />
 		<property name="label" value="Percent" />
-	</bean>
-
-	<bean id="AssignmentAccount-active" parent="AssignmentAccount-active-parentBean" />
-	<bean id="AssignmentAccount-active-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Active" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
 	</bean>
 
 	<bean id="AssignmentAccount-tkAssignmentId" parent="AssignmentAccount-tkAssignmentId-parentBean" />
