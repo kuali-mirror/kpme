@@ -1,5 +1,14 @@
 package org.kuali.hr.time.accrual.service;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
@@ -12,13 +21,6 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 
@@ -48,10 +50,20 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 	public List<Map<String, Object>> getTimeOffAccrualsCalc(String principalId, Date asOfDate) {
 
 		List<Map<String, Object>> timeOffAccrualsCalc = new ArrayList<Map<String, Object>>();
+		Map<String,String> accrualCatToDescr = new HashMap<String, String>();
 
 		for(TimeOffAccrual timeOffAccrual : getTimeOffAccruals(principalId, asOfDate)) {
+			String accrualCatDescr = accrualCatToDescr.get(timeOffAccrual.getAccrualCategory());
+			//if no accrual cat description found look up accrual category and find one
+			if(StringUtils.isBlank(accrualCatDescr)){
+				AccrualCategory accrualCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(timeOffAccrual.getAccrualCategory(), asOfDate);
+				if(accrualCat != null){
+					accrualCatDescr = accrualCat.getDescr();
+					accrualCatToDescr.put(accrualCat.getAccrualCategory(), accrualCatDescr);
+				}
+			}
 			Map<String, Object> output = new LinkedHashMap<String, Object>();
-			output.put(ACCRUAL_CATEGORY_KEY, timeOffAccrual.getAccrualCategory());
+			output.put(ACCRUAL_CATEGORY_KEY, accrualCatDescr + "("+timeOffAccrual.getAccrualCategory()+")");
 			output.put(HOURS_ACCRUED_KEY, timeOffAccrual.getHoursAccrued());
 			output.put(HOURS_TAKEN_KEY, timeOffAccrual.getHoursTaken());
 			output.put(HOURS_ADJUST_KEY, timeOffAccrual.getHoursAdjust());
