@@ -71,7 +71,7 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 	 *
 	 * @return true if there is a role, false otherwise.
 	 */
-	boolean validateRolePresent(List<TkRole> roles) {
+	protected boolean validateRolePresent(List<TkRole> roles) {
 		boolean valid = false;
 
 		if (roles != null && roles.size() > 0) {
