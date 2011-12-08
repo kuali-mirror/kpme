@@ -284,7 +284,7 @@ public class TimeApprovalAction extends TkAction{
      * @param taaf
      * @return
      */
-    List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf, List<String> assignmentPrincipalIds, String calGroup) {
+    protected List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf, List<String> assignmentPrincipalIds, String calGroup) {
 
         if (assignmentPrincipalIds.size() == 0) {
             return new ArrayList<ApprovalTimeSummaryRow>();
