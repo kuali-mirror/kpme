@@ -43,7 +43,7 @@ public class TkRoleValuesFinder extends KeyValuesBase {
 		
 		//Safe to assume these roles are ok to assign as you cant get to this page without this level of access
 
-		if(kualiForm == null || (kualiForm.getDocTypeName().equals("WorkAreaMaintenanceDocumentType") || kualiForm.getDocTypeName().equals("DepartmentMaintenanceDocumentType"))){
+		if(kualiForm == null || (kualiForm.getDocTypeName().equals("WorkAreaMaintenanceDocumentType") || kualiForm.getDocTypeName().equals("DepartmentMaintenanceDocumentType") || kualiForm.getDocTypeName().equals("RoleGroupMaintenanceDocumentType"))){
 			filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_DEPT_VO, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_DEPT_VO)));
 			filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_DEPT_ADMIN, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_DEPT_ADMIN)));
 			filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_REVIEWER, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_REVIEWER)));
