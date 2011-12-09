@@ -13,6 +13,7 @@
             p:businessObjectClass="org.kuali.hr.time.roles.TkRoleGroup"
             p:maintainableClass="org.kuali.hr.time.roles.TkRoleGroupMaintainableImpl"
 		    p:businessRulesClass="org.kuali.hr.time.roles.validation.TkRoleValidation"
+		    p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer"
 		    p:allowsNewOrCopy="false">
 		<property name="maintainableSections">
 			<list>

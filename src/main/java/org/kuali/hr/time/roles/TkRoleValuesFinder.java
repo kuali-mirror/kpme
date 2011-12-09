@@ -7,10 +7,19 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
 public class TkRoleValuesFinder extends KeyValuesBase {
+
+	private KualiMaintenanceForm kualiForm = null;
+	
+	public KualiMaintenanceForm getKualiForm() {
+		return kualiForm;
+	}
+
+	public void setKualiForm(KualiMaintenanceForm kualiForm) {
+		this.kualiForm = kualiForm;
+	}
 
 	@Override
 	public List<KeyLabelPair> getKeyValues() {
@@ -19,6 +28,7 @@ public class TkRoleValuesFinder extends KeyValuesBase {
 		KualiMaintenanceForm kualiForm = null;
 		if(TKContext.getHttpServletRequest().getAttribute("KualiForm") instanceof KualiMaintenanceForm){
 			kualiForm = (KualiMaintenanceForm)TKContext.getHttpServletRequest().getAttribute("KualiForm");
+			setKualiForm(kualiForm);
 		}
         
 		if(TKContext.getUser().isSystemAdmin()){
