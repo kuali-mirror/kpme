@@ -230,7 +230,7 @@ public class LeaveCode extends HrBusinessObject {
 	}
     
     public String getLeaveCodeKeyForDisplay() {
-        return lmLeaveCodeId + "_" + leaveCode;
+        return Long.toString(lmLeaveCodeId);
     }
     
     public String getLeaveCodeValueForDisplay() {

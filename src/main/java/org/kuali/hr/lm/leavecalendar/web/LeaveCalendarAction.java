@@ -77,12 +77,11 @@ public class LeaveCalendarAction extends TkAction {
         LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
         DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getBeginDate()));
         DateTime endDate = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getEndDate()));
-        Long leaveCodeId = Long.parseLong(lcf.getSelectedLeaveCode().split("_")[0]);
-        String leaveCode = lcf.getSelectedLeaveCode().split("_")[1];
+        String selectedLeaveCode = lcf.getSelectedLeaveCode();
         BigDecimal hours = lcf.getHours();
         String desc = lcf.getDescription();
 
-        TkServiceLocator.getLedgerService().addLedgers(beginDate, endDate, lcd, leaveCode, leaveCodeId, hours, desc);
+        TkServiceLocator.getLedgerService().addLedgers(beginDate, endDate, lcd, selectedLeaveCode, hours, desc);
 
         return mapping.findForward("basic");
     }
