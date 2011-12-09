@@ -71,7 +71,7 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
         return valid;
     }
 
-    boolean validateTkRole(TkRole role, String fieldPrefix) {
+    protected boolean validateTkRole(TkRole role, String fieldPrefix) {
         boolean valid = true;
 
         if (fieldPrefix == null)
