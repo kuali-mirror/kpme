@@ -1,10 +1,12 @@
 package org.kuali.hr.time.missedpunch;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -57,6 +59,13 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
         DateTime boundaryMax = clockLogDateTime.plusDays(1);
         DateTime nowTime = new DateTime(TKUtils.getCurrentDate());
+
+        // convert the action time to the system zone 
+        Timestamp ts = new Timestamp(actionDateTime.getMillis());
+        ClockLog lastLog = TkServiceLocator.getClockLogService().getLastClockLog(mp.getPrincipalId());
+        Long zoneOffset = TkServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastLog.getClockTimestampTimezone()));
+        Timestamp actionTime = new Timestamp(ts.getTime()-zoneOffset);
+        DateTime newDateTime = new DateTime(actionTime.getTime());
         
         // if date is a future date
         if(actionDateTime.getDayOfYear() > nowTime.getDayOfYear()) {
@@ -70,10 +79,9 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         	return false;
         }
         
+        
         if ( ((!StringUtils.equals(lastClock.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax)) 
-        		|| actionDateTime.isBefore(clockLogDateTime)) && StringUtils.equals(mp.getDocumentStatus(),"R")) {
-            // Error -
-//        	GlobalVariables.getMessageMap().putError("document.actionDate", "clock.mp.invalid.datetime");
+        		|| newDateTime.isBefore(clockLogDateTime)) && StringUtils.equals(mp.getDocumentStatus(),"R")) {
         	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
             valid = false;
         }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.batch.BatchJobEntry;
@@ -87,13 +88,16 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         // Need to build a clock log entry.
         //Timestamp clockTimestamp, String selectedAssign, TimesheetDocument timesheetDocument, String clockAction, String ip) {
         Timestamp ts = new Timestamp(missedPunch.getActionDate().getTime());
-        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(ts, ts,
+        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
+        Long zoneOffset = TkServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastClockLog.getClockTimestampTimezone()));
+        Timestamp clockLogTime = new Timestamp(ts.getTime()-zoneOffset); // convert the action time to the system zone time
+        
+        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockLogTime, clockLogTime,
                 assign,
                 tdoc,
                 missedPunch.getClockAction(),
                 TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest()));
         
-        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
         TkServiceLocator.getClockLogService().saveClockLog(clockLog);
         missedPunch.setTkClockLogId(clockLog.getTkClockLogId());
 
@@ -122,7 +126,11 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(tdoc, missedPunch.getAssignment());
         // Need to build a clock log entry.
         Timestamp ts = new Timestamp(missedPunch.getActionDate().getTime());
-        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(ts, ts,
+        ClockLog lastLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
+        Long zoneOffset = TkServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastLog.getClockTimestampTimezone()));
+        Timestamp clockLogTime = new Timestamp(ts.getTime()-zoneOffset); // convert the action time to the system zone time
+        
+        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockLogTime, clockLogTime,
                 assign,
                 tdoc,
                 missedPunch.getClockAction(),
