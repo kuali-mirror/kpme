@@ -27,9 +27,9 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 
         // Load Roles
         // TODO: We may not need to do this, as this method is currently only grabbing WorkArea objects to build role structures for users.
-        for (WorkArea w : wa) {
-            populateWorkAreaRoles(w);
-        }
+        //for (WorkArea w : wa) {
+           // populateWorkAreaRoles(w);
+      //  }
 
         return wa;
     }

@@ -705,6 +705,16 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return principalIds;
 	}
 
+	@Override
+	public Set<String> getPrincipalIdsByDeptAndWorkArea(String department,
+			String workArea, java.sql.Date payBeginDate,
+			java.sql.Date payEndDate, String calGroup) {
+		Set<String> principalIds = getPrincipalIdsWithActiveAssignmentsForCalendarGroupByDeptAndWorkArea(
+				department, workArea, calGroup, payEndDate, payBeginDate,
+				payEndDate);
+		return principalIds;
+	}
+
 	private static final String GET_PRINCIPAL_ID_SQL_PRE = "SELECT DISTINCT P.principal_id FROM hr_principal_calendar_t P, tk_assignment_t T WHERE P.py_calendar_group = ? AND P.principal_id in ("
 			+ "SELECT DISTINCT A0.principal_id "
 			+ "FROM tk_assignment_t A0 "
@@ -751,6 +761,75 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		}
 
 		return principalIds;
+	}
+
+	private Set<String> getPrincipalIdsWithActiveAssignmentsForCalendarGroupByDeptAndWorkArea(
+			String department, String workArea, String payCalendarGroup,
+			java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate) {
+		String sql = "SELECT "
+				+ "    PRINCIPAL_ID "
+				+ " FROM"
+				+ "  	 HR_PRINCIPAL_CALENDAR_T "
+				+ " WHERE "
+				+ " 	PY_CALENDAR_GROUP = ? AND "
+				+ " 	PRINCIPAL_ID IN ( "
+				+ " 		SELECT "
+				+ "    		DISTINCT AO.PRINCIPAL_ID "
+				+ " 		FROM "
+				+ "  			TK_ASSIGNMENT_T AO, "
+				+ "  			TK_TASK_T BO, "
+				+ "  			TK_WORK_AREA_T CO, "
+				+ "  			HR_DEPT_T DO, "
+				+ "  			HR_PRINCIPAL_CALENDAR_T PO "
+				+ " 		WHERE"
+				+ "  			PO.PRINCIPAL_ID = AO.PRINCIPAL_ID AND "
+				+ "  			BO.TASK = AO.TASK AND "
+				+ "  			BO.WORK_AREA = AO.WORK_AREA AND "
+				+ "  			BO.WORK_AREA = CO.WORK_AREA AND "
+				+ "  			CO.DEPT = DO.DEPT AND "
+				+ "  			((AO.ACTIVE = 'Y' AND AO.EFFDT <= ?) OR (AO.ACTIVE = 'N' AND AO.EFFDT >= ? AND AO.EFFDT <= ?)) AND "
+				+ " 			DO.DEPT = ? ";
+
+		if (department == null || department.isEmpty()) {
+			return new LinkedHashSet<String>();
+		} else {
+
+			Set<String> principalIds = new LinkedHashSet<String>();
+
+			SqlRowSet rs = null;
+			if (workArea != null) {
+				sql += " AND AO.WORK_AREA = ? ";
+
+				rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(
+						sql,
+						new Object[] { payCalendarGroup, effdt, beginDate,
+								endDate, endDate },
+						new int[] { java.sql.Types.VARCHAR,
+								java.sql.Types.DATE, java.sql.Types.DATE,
+								java.sql.Types.DATE, java.sql.Types.DATE,
+								java.sql.Types.VARCHAR });
+			} else {
+				rs = TkServiceLocator
+						.getTkJdbcTemplate()
+						.queryForRowSet(
+								sql,
+								new Object[] { payCalendarGroup, effdt,
+										beginDate, endDate, endDate, workArea },
+								new int[] { java.sql.Types.VARCHAR,
+										java.sql.Types.DATE,
+										java.sql.Types.DATE,
+										java.sql.Types.DATE,
+										java.sql.Types.DATE,
+										java.sql.Types.VARCHAR,
+										java.sql.Types.VARCHAR });
+			}
+
+			while (rs.next()) {
+				principalIds.add(rs.getString("principal_id"));
+			}
+
+			return principalIds;
+		}
 	}
 
 	@Override

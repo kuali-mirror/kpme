@@ -80,6 +80,16 @@ public interface TimeApproveService {
      * @return A list of the PrincipalIds
      */
     Set<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
+    
+    /**
+     * Method to get a list of principal ids based on the work areas.
+     *
+     * @param department
+     * @param payEndDate
+     * @param calGroup
+     * @return A list of the PrincipalIds
+     */
+    Set<String> getPrincipalIdsByDeptAndWorkArea(String department, String WorkArea, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
 
     /**
      * Method to create a map that contains the principal's id and corresponding timesheet document header.
