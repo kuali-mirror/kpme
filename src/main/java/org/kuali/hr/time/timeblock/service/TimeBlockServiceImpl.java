@@ -359,4 +359,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	public List<TimeBlock> getLatestEndTimestamp(){
 		return timeBlockDao.getLatestEndTimestamp();
 	}
+
+    @Override
+    public List<TimeBlock> getOvernightTimeBlocks(Long clockLogEndId) {
+        return timeBlockDao.getOvernightTimeBlocks(clockLogEndId);
+    }
 }

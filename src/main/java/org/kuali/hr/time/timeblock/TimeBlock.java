@@ -19,25 +19,25 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class TimeBlock extends PersistableBusinessObjectBase implements Comparable{
+public class TimeBlock extends PersistableBusinessObjectBase implements Comparable {
 
-	/**
+    /**
      *
      */
-	private static final long serialVersionUID = -4164042707879641855L;
+    private static final long serialVersionUID = -4164042707879641855L;
 
-	private Long tkTimeBlockId;
-	private String documentId;
-	private Long jobNumber;
-	private Long workArea;
-	private Long task;
-	private Long hrJobId;
-	private Long tkWorkAreaId;
-	private Long tkTaskId;
-	private String earnCode;
-	private String earnCodeType;
-	private Timestamp beginTimestamp;
-	private Timestamp endTimestamp;
+    private Long tkTimeBlockId;
+    private String documentId;
+    private Long jobNumber;
+    private Long workArea;
+    private Long task;
+    private Long hrJobId;
+    private Long tkWorkAreaId;
+    private Long tkTaskId;
+    private String earnCode;
+    private String earnCodeType;
+    private Timestamp beginTimestamp;
+    private Timestamp endTimestamp;
 
     @Transient
     private java.sql.Date beginDate;
@@ -48,16 +48,16 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     @Transient
     private Time endTime;
 
-	private Boolean clockLogCreated;
-	private BigDecimal hours = TkConstants.BIG_DECIMAL_SCALED_ZERO;
-	private BigDecimal amount = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+    private Boolean clockLogCreated;
+    private BigDecimal hours = TkConstants.BIG_DECIMAL_SCALED_ZERO;
+    private BigDecimal amount = TkConstants.BIG_DECIMAL_SCALED_ZERO;
     private String principalId;
-	private String userPrincipalId;
-	private Timestamp timestamp;
-	private String beginTimestampTimezone;
-	private String endTimestampTimezone;
-	private DateTime beginTimeDisplay;
-	private DateTime endTimeDisplay;
+    private String userPrincipalId;
+    private Timestamp timestamp;
+    private String beginTimestampTimezone;
+    private String endTimestampTimezone;
+    private DateTime beginTimeDisplay;
+    private DateTime endTimeDisplay;
 
     private Long clockLogBeginId;
     private Long clockLogEndId;
@@ -67,286 +67,286 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private String overtimePref;
 
 
-	// the two variables below are used to determine if a time block needs to be visually pushed forward / backward
-	@Transient
-	private Boolean pushBackward = false;
+    // the two variables below are used to determine if a time block needs to be visually pushed forward / backward
+    @Transient
+    private Boolean pushBackward = false;
 
-	private TimesheetDocumentHeader timesheetDocumentHeader;
+    private TimesheetDocumentHeader timesheetDocumentHeader;
 
-	private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
-	private List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
+    private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
+    private List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
 
     public TimeBlock() {
     }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-		toStringMap.put("tkTimeBlockId", tkTimeBlockId);
-		toStringMap.put("earnCode", earnCode);
-		toStringMap.put("hours", hours);
+    @SuppressWarnings("unchecked")
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
+        toStringMap.put("tkTimeBlockId", tkTimeBlockId);
+        toStringMap.put("earnCode", earnCode);
+        toStringMap.put("hours", hours);
         toStringMap.put("beginTimestamp", beginTimestamp);
         toStringMap.put("endTimestamp", endTimestamp);
-		for (TimeHourDetail thd : timeHourDetails) {
-			toStringMap.put("thd:earnCode:"+thd.getEarnCode(), thd.getHours());
-			toStringMap.put("thd:earnCode:"+thd.getEarnCode(), thd.getHours());
-		}
-		return toStringMap;
-	}
+        for (TimeHourDetail thd : timeHourDetails) {
+            toStringMap.put("thd:earnCode:" + thd.getEarnCode(), thd.getHours());
+            toStringMap.put("thd:earnCode:" + thd.getEarnCode(), thd.getHours());
+        }
+        return toStringMap;
+    }
 
-	public String getDocumentId() {
-		return documentId;
-	}
+    public String getDocumentId() {
+        return documentId;
+    }
 
-	public void setDocumentId(String documentId) {
-		this.documentId = documentId;
-	}
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
 
-	public Long getJobNumber() {
-		return jobNumber;
-	}
+    public Long getJobNumber() {
+        return jobNumber;
+    }
 
-	public void setJobNumber(Long jobNumber) {
-		this.jobNumber = jobNumber;
-	}
+    public void setJobNumber(Long jobNumber) {
+        this.jobNumber = jobNumber;
+    }
 
-	public String getEarnCode() {
-		return earnCode;
-	}
+    public String getEarnCode() {
+        return earnCode;
+    }
 
-	public void setEarnCode(String earnCode) {
-		this.earnCode = earnCode;
-	}
+    public void setEarnCode(String earnCode) {
+        this.earnCode = earnCode;
+    }
 
-	public Timestamp getBeginTimestamp() {
-		return beginTimestamp;
-	}
+    public Timestamp getBeginTimestamp() {
+        return beginTimestamp;
+    }
 
-	public void setBeginTimestamp(Timestamp beginTimestamp) {
-		this.beginTimestamp = beginTimestamp;
-	}
+    public void setBeginTimestamp(Timestamp beginTimestamp) {
+        this.beginTimestamp = beginTimestamp;
+    }
 
-	public Timestamp getEndTimestamp() {
-		return endTimestamp;
-	}
+    public Timestamp getEndTimestamp() {
+        return endTimestamp;
+    }
 
-	public void setEndTimestamp(Timestamp endTimestamp) {
-		this.endTimestamp = endTimestamp;
-	}
+    public void setEndTimestamp(Timestamp endTimestamp) {
+        this.endTimestamp = endTimestamp;
+    }
 
-	public java.sql.Date getBeginDate() {
-		if(beginDate == null && this.getBeginTimestamp() != null) {
-			 setBeginDate(new java.sql.Date(this.getBeginTimestamp().getTime()));
-		}
-		return beginDate;
-	}
+    public java.sql.Date getBeginDate() {
+        if (beginDate == null && this.getBeginTimestamp() != null) {
+            setBeginDate(new java.sql.Date(this.getBeginTimestamp().getTime()));
+        }
+        return beginDate;
+    }
 
-	public void setBeginDate(java.sql.Date beginDate) {
-		this.beginDate = beginDate;
-	}
+    public void setBeginDate(java.sql.Date beginDate) {
+        this.beginDate = beginDate;
+    }
 
-	public java.sql.Date getEndDate() {
-		if(endDate == null && this.getEndTimestamp() != null) {
-			 setEndDate(new java.sql.Date(this.getEndTimestamp().getTime()));
-		}
-		return endDate;
-	}
+    public java.sql.Date getEndDate() {
+        if (endDate == null && this.getEndTimestamp() != null) {
+            setEndDate(new java.sql.Date(this.getEndTimestamp().getTime()));
+        }
+        return endDate;
+    }
 
-	public void setEndDate(java.sql.Date endDate) {
-		this.endDate = endDate;
-	}
+    public void setEndDate(java.sql.Date endDate) {
+        this.endDate = endDate;
+    }
 
-	public Time getBeginTime() {
-		if(beginTime == null && this.getBeginTimestamp() != null) {
-			 setBeginTime(new java.sql.Time(this.getBeginTimestamp().getTime()));
-		}
-		return beginTime;
-	}
+    public Time getBeginTime() {
+        if (beginTime == null && this.getBeginTimestamp() != null) {
+            setBeginTime(new java.sql.Time(this.getBeginTimestamp().getTime()));
+        }
+        return beginTime;
+    }
 
-	public void setBeginTime(Time beginTime) {
-		this.beginTime = beginTime;
-	}
+    public void setBeginTime(Time beginTime) {
+        this.beginTime = beginTime;
+    }
 
-	public Time getEndTime() {
-		if(endTime == null && this.getEndTimestamp() != null) {
-			 setEndTime(new java.sql.Time(this.getEndTimestamp().getTime()));
-		}
-		return endTime;
-	}
+    public Time getEndTime() {
+        if (endTime == null && this.getEndTimestamp() != null) {
+            setEndTime(new java.sql.Time(this.getEndTimestamp().getTime()));
+        }
+        return endTime;
+    }
 
-	public void setEndTime(Time endTime) {
-		this.endTime = endTime;
-	}
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
+    }
 
 
+    public Boolean getClockLogCreated() {
+        return clockLogCreated;
+    }
 
-	public Boolean getClockLogCreated() {
-		return clockLogCreated;
-	}
+    public void setClockLogCreated(Boolean clockLogCreated) {
+        this.clockLogCreated = clockLogCreated;
+    }
 
-	public void setClockLogCreated(Boolean clockLogCreated) {
-		this.clockLogCreated = clockLogCreated;
-	}
+    public BigDecimal getHours() {
+        return hours;
+    }
 
-	public BigDecimal getHours() {
-		return hours;
-	}
+    public void setHours(BigDecimal hours) {
+        if (hours != null) {
+            this.hours = hours.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
+        } else {
+            this.hours = hours;
+        }
+    }
 
-	public void setHours(BigDecimal hours) {
-		if(hours != null){
-			this.hours = hours.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
-		} else {
-			this.hours = hours;
-		}
-	}
+    public BigDecimal getAmount() {
+        return amount;
+    }
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
+    public void setAmount(BigDecimal amount) {
+        if (amount != null) {
+            this.amount = amount.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
+        } else {
+            this.amount = amount;
+        }
+    }
 
-	public void setAmount(BigDecimal amount) {
-		if(amount != null){
-			this.amount = amount.setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
-		} else {
-			this.amount = amount;
-		}
-	}
+    public String getUserPrincipalId() {
+        return userPrincipalId;
+    }
 
-	public String getUserPrincipalId() {
-		return userPrincipalId;
-	}
+    public void setUserPrincipalId(String userPrincipalId) {
+        this.userPrincipalId = userPrincipalId;
+    }
 
-	public void setUserPrincipalId(String userPrincipalId) {
-		this.userPrincipalId = userPrincipalId;
-	}
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
 
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
 
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
+    public String getBeginTimestampTimezone() {
+        return beginTimestampTimezone;
+    }
 
-	public String getBeginTimestampTimezone() {
-		return beginTimestampTimezone;
-	}
+    public void setBeginTimestampTimezone(String beginTimestampTimezone) {
+        this.beginTimestampTimezone = beginTimestampTimezone;
+    }
 
-	public void setBeginTimestampTimezone(String beginTimestampTimezone) {
-		this.beginTimestampTimezone = beginTimestampTimezone;
-	}
+    public String getEndTimestampTimezone() {
+        return endTimestampTimezone;
+    }
 
-	public String getEndTimestampTimezone() {
-		return endTimestampTimezone;
-	}
+    public void setEndTimestampTimezone(String endTimestampTimezone) {
+        this.endTimestampTimezone = endTimestampTimezone;
+    }
 
-	public void setEndTimestampTimezone(String endTimestampTimezone) {
-		this.endTimestampTimezone = endTimestampTimezone;
-	}
-	public String toCSVString(){
-		StringBuffer sb = new StringBuffer();
-		sb.append(this.beginTimestampTimezone+",");
-		sb.append(this.earnCode+",");
-		sb.append(this.endTimestampTimezone+",");
-		sb.append(this.userPrincipalId+",");
-		sb.append(this.amount+",");
-		sb.append(this.beginTimestamp+",");
-		sb.append(this.clockLogCreated+",");
-		sb.append(this.endTimestamp+",");
-		sb.append(this.hours+",");
-		sb.append(this.jobNumber+",");
-		sb.append(this.task+",");
-		sb.append(this.tkTimeBlockId+",");
-		sb.append(this.timestamp+",");
-		sb.append(this.workArea+ System.getProperty("line.separator") );
-		return sb.toString();
-	}
+    public String toCSVString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(this.beginTimestampTimezone + ",");
+        sb.append(this.earnCode + ",");
+        sb.append(this.endTimestampTimezone + ",");
+        sb.append(this.userPrincipalId + ",");
+        sb.append(this.amount + ",");
+        sb.append(this.beginTimestamp + ",");
+        sb.append(this.clockLogCreated + ",");
+        sb.append(this.endTimestamp + ",");
+        sb.append(this.hours + ",");
+        sb.append(this.jobNumber + ",");
+        sb.append(this.task + ",");
+        sb.append(this.tkTimeBlockId + ",");
+        sb.append(this.timestamp + ",");
+        sb.append(this.workArea + System.getProperty("line.separator"));
+        return sb.toString();
+    }
 
-	public Long getTkTimeBlockId() {
-		return tkTimeBlockId;
-	}
+    public Long getTkTimeBlockId() {
+        return tkTimeBlockId;
+    }
 
-	public void setTkTimeBlockId(Long tkTimeBlockId) {
-		this.tkTimeBlockId = tkTimeBlockId;
-	}
+    public void setTkTimeBlockId(Long tkTimeBlockId) {
+        this.tkTimeBlockId = tkTimeBlockId;
+    }
 
-	public Long getWorkArea() {
-		return workArea;
-	}
+    public Long getWorkArea() {
+        return workArea;
+    }
 
-	public void setWorkArea(Long workArea) {
-		this.workArea = workArea;
-	}
+    public void setWorkArea(Long workArea) {
+        this.workArea = workArea;
+    }
 
-	public Long getTask() {
-		return task;
-	}
+    public Long getTask() {
+        return task;
+    }
 
-	public void setTask(Long task) {
-		this.task = task;
-	}
+    public void setTask(Long task) {
+        this.task = task;
+    }
 
-	public Long getHrJobId() {
-		return hrJobId;
-	}
+    public Long getHrJobId() {
+        return hrJobId;
+    }
 
-	public void setHrJobId(Long hrJobId) {
-		this.hrJobId = hrJobId;
-	}
+    public void setHrJobId(Long hrJobId) {
+        this.hrJobId = hrJobId;
+    }
 
-	public Long getTkWorkAreaId() {
-		return tkWorkAreaId;
-	}
+    public Long getTkWorkAreaId() {
+        return tkWorkAreaId;
+    }
 
-	public void setTkWorkAreaId(Long tkWorkAreaId) {
-		this.tkWorkAreaId = tkWorkAreaId;
-	}
+    public void setTkWorkAreaId(Long tkWorkAreaId) {
+        this.tkWorkAreaId = tkWorkAreaId;
+    }
 
-	public Long getTkTaskId() {
-		return tkTaskId;
-	}
+    public Long getTkTaskId() {
+        return tkTaskId;
+    }
 
-	public void setTkTaskId(Long tkTaskId) {
-		this.tkTaskId = tkTaskId;
-	}
+    public void setTkTaskId(Long tkTaskId) {
+        this.tkTaskId = tkTaskId;
+    }
 
-	public List<TimeHourDetail> getTimeHourDetails() {
-		return timeHourDetails;
-	}
+    public List<TimeHourDetail> getTimeHourDetails() {
+        return timeHourDetails;
+    }
 
-	public void setTimeHourDetails(List<TimeHourDetail> timeHourDetails) {
-		this.timeHourDetails = timeHourDetails;
-	}
+    public void setTimeHourDetails(List<TimeHourDetail> timeHourDetails) {
+        this.timeHourDetails = timeHourDetails;
+    }
 
-	public String getAssignString(){
-		return this.jobNumber + "_" + this.workArea + "_" + this.task;
-	}
+    public String getAssignString() {
+        return this.jobNumber + "_" + this.workArea + "_" + this.task;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if(hashCode() == obj.hashCode()){
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (hashCode() == obj.hashCode()) {
+            return true;
+        }
+        return false;
+    }
 
-	@Override
-	public int hashCode() {
-		StringBuilder key = new StringBuilder(getAssignString()+"_"+getEarnCode()+"_"+"_"+getBeginTimestamp()+"_"+getEndTimestamp()+"_"+getHours());
-		for(TimeHourDetail timeHourDetail : getTimeHourDetails()){
-			key.append(timeHourDetail.getEarnCode()+"_"+timeHourDetail.getAmount()+"_"+timeHourDetail.getHours());
-		}
-		return HashCodeBuilder.reflectionHashCode(key);
-	}
+    @Override
+    public int hashCode() {
+        StringBuilder key = new StringBuilder(getAssignString() + "_" + getEarnCode() + "_" + "_" + getBeginTimestamp() + "_" + getEndTimestamp() + "_" + getHours());
+        for (TimeHourDetail timeHourDetail : getTimeHourDetails()) {
+            key.append(timeHourDetail.getEarnCode() + "_" + timeHourDetail.getAmount() + "_" + timeHourDetail.getHours());
+        }
+        return HashCodeBuilder.reflectionHashCode(key);
+    }
 
-	public Boolean isPushBackward() {
-		return pushBackward;
-	}
+    public Boolean isPushBackward() {
+        return pushBackward;
+    }
 
-	public void setPushBackward(Boolean pushBackward) {
-		this.pushBackward = pushBackward;
-	}
+    public void setPushBackward(Boolean pushBackward) {
+        this.pushBackward = pushBackward;
+    }
 
     /**
      * Use this call for all GUI/Display related rendering of the BEGIN
@@ -354,33 +354,38 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
      * before there will be a non-null return value here.
      *
      * @return The Timeblock Begin time to display, with the Users Timezone
-     * taken into account and applied to this DateTime object.
+     *         taken into account and applied to this DateTime object.
      */
-	public DateTime getBeginTimeDisplay() {
-		return beginTimeDisplay;
-	}
+    public DateTime getBeginTimeDisplay() {
+        return beginTimeDisplay;
+    }
 
     /**
      * Helper to call DateTime.toDate().
+     *
      * @return a java.util.Date representing the getBeginTimeDisplay() DateTime.
      */
     public Date getBeginTimeDisplayDate() {
         return getBeginTimeDisplay().toDate();
     }
+
     /*
-     *   fix timezone issues caused by JScript, for GUI use only,
-     */
+    *   fix timezone issues caused by JScript, for GUI use only,
+    */
     public String getBeginTimeDisplayDateOnlyString() {
-    	return this.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT);
+        return this.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT);
     }
+
     public String getBeginTimeDisplayTimeOnlyString() {
-    	return this.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_TIME_FORMAT);
+        return this.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_TIME_FORMAT);
     }
+
     public String getEndTimeDisplayDateOnlyString() {
-    	return this.getEndTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT);
+        return this.getEndTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT);
     }
+
     public String getEndTimeDisplayTimeOnlyString() {
-    	return this.getEndTimeDisplay().toString(TkConstants.DT_BASIC_TIME_FORMAT);
+        return this.getEndTimeDisplay().toString(TkConstants.DT_BASIC_TIME_FORMAT);
     }
 
     /**
@@ -390,9 +395,9 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
      *
      * @param beginTimeDisplay
      */
-	public void setBeginTimeDisplay(DateTime beginTimeDisplay) {
-		this.beginTimeDisplay = beginTimeDisplay;
-	}
+    public void setBeginTimeDisplay(DateTime beginTimeDisplay) {
+        this.beginTimeDisplay = beginTimeDisplay;
+    }
 
     /**
      * Use this call for all GUI/Display related rendering of the END
@@ -400,14 +405,15 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
      * before there will be a non-null return value here.
      *
      * @return The Timeblock end time to display, with the Users Timezone
-     * taken into account and applied to this DateTime object.
+     *         taken into account and applied to this DateTime object.
      */
-	public DateTime getEndTimeDisplay() {
-		return endTimeDisplay;
-	}
+    public DateTime getEndTimeDisplay() {
+        return endTimeDisplay;
+    }
 
     /**
      * Helper to call DateTime.toDate().
+     *
      * @return a java.util.Date representing the getEndTimeDisplay() DateTime.
      */
     public Date getEndTimeDisplayDate() {
@@ -421,29 +427,29 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
      *
      * @param endTimeDisplay
      */
-	public void setEndTimeDisplay(DateTime endTimeDisplay) {
-		this.endTimeDisplay = endTimeDisplay;
-	}
+    public void setEndTimeDisplay(DateTime endTimeDisplay) {
+        this.endTimeDisplay = endTimeDisplay;
+    }
 
-	public TimesheetDocumentHeader getTimesheetDocumentHeader() {
-		if(timesheetDocumentHeader == null && this.getDocumentId() != null) {
-			setTimesheetDocumentHeader(TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(this.getDocumentId()));
-		}
-		return timesheetDocumentHeader;
-	}
+    public TimesheetDocumentHeader getTimesheetDocumentHeader() {
+        if (timesheetDocumentHeader == null && this.getDocumentId() != null) {
+            setTimesheetDocumentHeader(TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(this.getDocumentId()));
+        }
+        return timesheetDocumentHeader;
+    }
 
-	public void setTimesheetDocumentHeader(
-			TimesheetDocumentHeader timesheetDocumentHeader) {
-		this.timesheetDocumentHeader = timesheetDocumentHeader;
-	}
+    public void setTimesheetDocumentHeader(
+            TimesheetDocumentHeader timesheetDocumentHeader) {
+        this.timesheetDocumentHeader = timesheetDocumentHeader;
+    }
 
-	public List<TimeBlockHistory> getTimeBlockHistories() {
-		return timeBlockHistories;
-	}
+    public List<TimeBlockHistory> getTimeBlockHistories() {
+        return timeBlockHistories;
+    }
 
-	public void setTimeBlockHistories(List<TimeBlockHistory> timeBlockHistories) {
-		this.timeBlockHistories = timeBlockHistories;
-	}
+    public void setTimeBlockHistories(List<TimeBlockHistory> timeBlockHistories) {
+        this.timeBlockHistories = timeBlockHistories;
+    }
 
     public Long getClockLogBeginId() {
         return clockLogBeginId;
@@ -461,32 +467,30 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.clockLogEndId = clockLogEndId;
     }
 
-	public String getAssignmentKey() {
-		if(assignmentKey == null) {
-			AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber().toString(), this.getWorkArea().toString(), this.getTask().toString());
-			this.setAssignmentKey(adk.toAssignmentKeyString());
-		}
-		return assignmentKey;
-	}
+    public String getAssignmentKey() {
+        if (assignmentKey == null) {
+            AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber().toString(), this.getWorkArea().toString(), this.getTask().toString());
+            this.setAssignmentKey(adk.toAssignmentKeyString());
+        }
+        return assignmentKey;
+    }
 
-	public void setAssignmentKey(String assignmentDescription) {
-		this.assignmentKey = assignmentDescription;
-	}
-	
-	public String getAssignmentDescription() {
-		AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber().toString(), this.getWorkArea().toString(), this.getTask().toString());
-		Assignment anAssignment = TkServiceLocator.getAssignmentService().getAssignment(adk, this.getBeginDate());
-		return anAssignment == null ? this.getAssignmentKey() : anAssignment.getAssignmentDescription();
-	}
-	
+    public void setAssignmentKey(String assignmentDescription) {
+        this.assignmentKey = assignmentDescription;
+    }
 
+    public String getAssignmentDescription() {
+        AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber().toString(), this.getWorkArea().toString(), this.getTask().toString());
+        Assignment anAssignment = TkServiceLocator.getAssignmentService().getAssignment(adk, this.getBeginDate());
+        return anAssignment == null ? this.getAssignmentKey() : anAssignment.getAssignmentDescription();
+    }
 
 
     /**
      * Word on the street is that Object.clone() is a POS. We only need some
      * basics for comparison, so we'll implement a simple copy constructor
      * instead.
-     *
+     * <p/>
      * TODO: Check whether or not it matters if the History is copied, this
      * operation needs to be as inexpensive as possible.
      *
@@ -536,16 +540,17 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         return new TimeBlock(this);
     }
 
-	public String getEarnCodeType() {
-		return earnCodeType;
-	}
+    public String getEarnCodeType() {
+        return earnCodeType;
+    }
 
-	public void setEarnCodeType(String earnCodeType) {
-		this.earnCodeType = earnCodeType;
-	}
+    public void setEarnCodeType(String earnCodeType) {
+        this.earnCodeType = earnCodeType;
+    }
 
-	/**
+    /**
      * This is for distribute time block page to sort it by begin date/time
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(Object o) {
@@ -557,7 +562,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     }
 
     public Boolean getEditable() {
-    	return TkServiceLocator.getTimeBlockService().isTimeBlockEditable(this);
+        return TkServiceLocator.getTimeBlockService().isTimeBlockEditable(this);
     }
 
     public String getPrincipalId() {
@@ -567,7 +572,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
     }
-    
+
     public String getOvertimePref() {
         return overtimePref;
     }
@@ -575,27 +580,47 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     public void setOvertimePref(String overtimePref) {
         this.overtimePref = overtimePref;
     }
-    
+
     /* apply grace period rule to times of time block
      * These strings are for GUI of Actual time inquiry
     */
     public String getActualBeginTimeString() {
-    	if(this.getClockLogBeginId() != null) {
-    		ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(this.getClockLogBeginId());
-    		if(cl != null) {
-    			return new DateTime(cl.getTimestamp()).toString(TkConstants.DT_BASIC_TIME_FORMAT);
-    		}
-    	}
-    	return "";
-	}
-    
+        if (this.getClockLogBeginId() != null) {
+            if (isOvernightTimeClockLog(clockLogEndId)) {
+                return new DateTime(beginTimestamp).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
+            } else {
+                ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(this.getClockLogBeginId());
+                if (cl != null) {
+                    return new DateTime(cl.getTimestamp()).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
+                }
+            }
+
+        }
+        return "";
+    }
+
     public String getActualEndTimeString() {
-    	if(this.getClockLogEndId() != null) {
-    		ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(this.getClockLogEndId());
-    		if(cl != null) {
-    			return new DateTime(cl.getTimestamp()).toString(TkConstants.DT_BASIC_TIME_FORMAT);
-    		}
-    	}
-    	return "";
-	}
+        if (this.getClockLogEndId() != null) {
+            if (isOvernightTimeClockLog(clockLogEndId)) {
+                return new DateTime(endTimestamp).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
+            } else {
+                ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(this.getClockLogEndId());
+                if (cl != null) {
+                    return new DateTime(cl.getTimestamp()).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
+                }
+            }
+
+        }
+        return "";
+    }
+
+    private Boolean isOvernightTimeClockLog(Long clockLogId) {
+        // https://jira.kuali.org/browse/KPME-1179
+        Integer overnightTimeBlocks = TkServiceLocator.getTimeBlockService().getOvernightTimeBlocks(clockLogEndId).size();
+        if (overnightTimeBlocks >= 2) {
+            return true;
+        }
+
+        return false;
+    }
 }

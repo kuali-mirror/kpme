@@ -1,9 +1,9 @@
 package org.kuali.hr.time.timeblock.dao;
 
-import java.util.List;
-
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.timeblock.TimeBlock;
+
+import java.util.List;
 
 public interface TimeBlockDao {
 
@@ -36,4 +36,6 @@ public interface TimeBlockDao {
 	
 	public List<TimeBlock> getTimeBlocks();
 	public List<TimeBlock> getLatestEndTimestamp();
+
+    List<TimeBlock> getOvernightTimeBlocks(Long clockLogEndId);
 }

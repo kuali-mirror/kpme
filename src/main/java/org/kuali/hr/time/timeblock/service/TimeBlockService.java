@@ -1,14 +1,12 @@
 package org.kuali.hr.time.timeblock.service;
 
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.detail.web.TimeDetailActionForm;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
 
 public interface TimeBlockService {
 	/**
@@ -115,4 +113,11 @@ public interface TimeBlockService {
 	
 	public List<TimeBlock> getTimeBlocks();
 	public List<TimeBlock> getLatestEndTimestamp();
+
+    /**
+     * Get overnight timeblocks by the clock log begin id
+     * @param clockLogBeginId
+     * @return
+     */
+    public List<TimeBlock> getOvernightTimeBlocks(Long clockLogEndId);
 }
