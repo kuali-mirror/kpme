@@ -26,7 +26,7 @@ public class MissedPunchAssignmentFinder extends KeyValuesBase {
     public List getKeyValues() {
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         String tdocId = "";
-        String mpDocId = (String)TKContext.getHttpServletRequest().getParameter("docId");
+        String mpDocId = (String)TKContext.getHttpServletRequest().getParameter(TkConstants.DOCUMENT_ID_REQUEST_NAME);
         if(StringUtils.isBlank(mpDocId)){
         	KualiForm kualiForm = (KualiForm)TKContext.getHttpServletRequest().getAttribute("KualiForm");
         	if(kualiForm instanceof KualiTransactionalDocumentFormBase){
@@ -40,9 +40,15 @@ public class MissedPunchAssignmentFinder extends KeyValuesBase {
         
         if(StringUtils.isNotBlank(mpDocId)){
         	MissedPunchDocument mp = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(mpDocId);
-        	tdocId = mp.getTimesheetDocumentId();
+        	if(mp != null) {
+        		tdocId = mp.getTimesheetDocumentId();
+        	}
         }
-        	
+        
+        if(StringUtils.isBlank(tdocId)) {
+        	tdocId = (String) TKContext.getHttpServletRequest().getAttribute(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);   
+        }
+        
         if (tdocId != null) {
             TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdocId);
             Map<String,String> adMap = TkServiceLocator.getAssignmentService().getAssignmentDescriptions(tdoc, true); // Grab clock only assignments

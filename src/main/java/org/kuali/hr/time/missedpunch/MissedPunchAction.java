@@ -7,6 +7,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
@@ -53,6 +54,9 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         mpDoc.setDocumentStatus("R");
         ActionForward fwd = super.route(mapping, mpForm, request, response);
         TkServiceLocator.getMissedPunchService().addClockLogForMissedPunch(mpDoc);
+        mpForm.setDocId(mpDoc.getDocumentNumber());
+        request.setAttribute(TkConstants.DOCUMENT_ID_REQUEST_NAME, mpDoc.getDocumentNumber());
+        request.setAttribute(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME, mpDoc.getTimesheetDocumentId());
         return fwd;
 
     }
