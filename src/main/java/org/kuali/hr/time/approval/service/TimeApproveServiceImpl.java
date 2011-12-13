@@ -779,8 +779,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				+ "			  TK_ASSIGNMENT_T A0 "		  
 				+ "				INNER JOIN HR_PRINCIPAL_CALENDAR_T P0 "  		
 				+ "					ON (A0.PRINCIPAL_ID = P0.PRINCIPAL_ID) "
-				+ "				INNER JOIN TK_TASK_T K0 " 		 
-				+ "				    ON (A0.TASK = K0.TASK AND A0.WORK_AREA = K0.WORK_AREA) "
 				+ "				INNER JOIN TK_WORK_AREA_T W0 " 		 
 				+ "				    ON (A0.WORK_AREA = W0.WORK_AREA) " 	 
 				+ "				LEFT OUTER JOIN HR_ROLES_T R0 " 	
