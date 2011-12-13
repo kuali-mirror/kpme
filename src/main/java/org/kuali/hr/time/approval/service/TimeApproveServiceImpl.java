@@ -767,59 +767,67 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			String department, String workArea, String payCalendarGroup,
 			java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate) {
 		String sql = "SELECT "
-				+ "    PRINCIPAL_ID "
+				+ "    DISTINCT PRINCIPAL_ID "
 				+ " FROM"
 				+ "  	 HR_PRINCIPAL_CALENDAR_T "
 				+ " WHERE "
 				+ " 	PY_CALENDAR_GROUP = ? AND "
 				+ " 	PRINCIPAL_ID IN ( "
 				+ " 		SELECT "
-				+ "    		DISTINCT AO.PRINCIPAL_ID "
+				+ "    		DISTINCT A0.PRINCIPAL_ID "
 				+ " 		FROM "
-				+ "  			TK_ASSIGNMENT_T AO, "
-				+ "  			TK_TASK_T BO, "
-				+ "  			TK_WORK_AREA_T CO, "
-				+ "  			HR_DEPT_T DO, "
-				+ "  			HR_PRINCIPAL_CALENDAR_T PO "
-				+ " 		WHERE"
-				+ "  			PO.PRINCIPAL_ID = AO.PRINCIPAL_ID AND "
-				+ "  			BO.TASK = AO.TASK AND "
-				+ "  			BO.WORK_AREA = AO.WORK_AREA AND "
-				+ "  			BO.WORK_AREA = CO.WORK_AREA AND "
-				+ "  			CO.DEPT = DO.DEPT AND "
-				+ "  			((AO.ACTIVE = 'Y' AND AO.EFFDT <= ?) OR (AO.ACTIVE = 'N' AND AO.EFFDT >= ? AND AO.EFFDT <= ?)) AND "
-				+ " 			DO.DEPT = ? ";
+				+ "			  TK_ASSIGNMENT_T A0 "		  
+				+ "				INNER JOIN HR_PRINCIPAL_CALENDAR_T P0 "  		
+				+ "					ON (A0.PRINCIPAL_ID = P0.PRINCIPAL_ID) "
+				+ "				INNER JOIN TK_TASK_T K0 " 		 
+				+ "				    ON (A0.TASK = K0.TASK AND A0.WORK_AREA = K0.WORK_AREA) "
+				+ "				INNER JOIN TK_WORK_AREA_T W0 " 		 
+				+ "				    ON (A0.WORK_AREA = W0.WORK_AREA) " 	 
+				+ "				LEFT OUTER JOIN HR_ROLES_T R0 " 	
+				+ "				    ON (W0.WORK_AREA = R0.WORK_AREA) " 		 
+				+ " 		WHERE "
+                + " 			((A0.ACTIVE='Y'AND A0.EFFDT<= ?) OR (A0.ACTIVE='N' AND A0.EFFDT>=? AND A0.EFFDT<=?)) AND "
+				+ "				W0.DEPT=? AND "
+                + "				R0.PRINCIPAL_ID=? AND "
+                + "				R0.ACTIVE='Y' AND "
+                + " 			(R0.DEPT IS NULL OR R0.DEPT = ?) AND "
+                + "				A0.ACTIVE = 'Y' ";
 
 		if (department == null || department.isEmpty()) {
 			return new LinkedHashSet<String>();
 		} else {
 
 			Set<String> principalIds = new LinkedHashSet<String>();
-
+			
 			SqlRowSet rs = null;
 			if (workArea != null) {
-				sql += " AND AO.WORK_AREA = ? ";
-
+				sql += " AND A0.WORK_AREA = ?) ";
+				
 				rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(
 						sql,
 						new Object[] { payCalendarGroup, effdt, beginDate,
-								endDate, endDate },
+								endDate, department, TKContext.getUser().getPrincipalId(), department, workArea},
 						new int[] { java.sql.Types.VARCHAR,
-								java.sql.Types.DATE, java.sql.Types.DATE,
-								java.sql.Types.DATE, java.sql.Types.DATE,
-								java.sql.Types.VARCHAR });
+								java.sql.Types.DATE,
+								java.sql.Types.DATE,
+								java.sql.Types.DATE, 
+								java.sql.Types.VARCHAR, 
+								java.sql.Types.VARCHAR,
+								java.sql.Types.VARCHAR,
+								java.sql.Types.INTEGER});
 			} else {
+				sql += ") ";
 				rs = TkServiceLocator
 						.getTkJdbcTemplate()
 						.queryForRowSet(
 								sql,
 								new Object[] { payCalendarGroup, effdt,
-										beginDate, endDate, endDate, workArea },
+										beginDate, endDate, department, TKContext.getUser().getPrincipalId(), department},
 								new int[] { java.sql.Types.VARCHAR,
 										java.sql.Types.DATE,
 										java.sql.Types.DATE,
 										java.sql.Types.DATE,
-										java.sql.Types.DATE,
+										java.sql.Types.VARCHAR,
 										java.sql.Types.VARCHAR,
 										java.sql.Types.VARCHAR });
 			}
