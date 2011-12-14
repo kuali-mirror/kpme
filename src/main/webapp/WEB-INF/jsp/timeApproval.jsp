@@ -10,7 +10,7 @@
 <html:hidden styleId="pceid" property="hrPyCalendarEntriesId" value="${Form.hrPyCalendarEntriesId}"/>
 <html:hidden styleId="payBeginDateForSearch" property="payBeginDateForSearch" value="${Form.payBeginDateForSearch}"/>
 <html:hidden styleId="payEndDateForSearch" property="payEndDateForSearch" value="${Form.payEndDateForSearch}"/>
-<html:hidden styleId="principalIds" property="principalIds" />
+<html:hidden styleId="principalIds" property="principalIds"/>
 
 <div class="approvals">
 <table id="approvals-filter">
@@ -79,7 +79,6 @@
                 Search By :
                 <label for="search field">
                     <select id="searchField" name="searchField">
-                        <option value="">-- Select a field --</option>
                         <option value="principalName">Principal Id</option>
                         <option value="documentId">Document Id</option>
                     </select>
@@ -88,6 +87,8 @@
                 <label for="search value">
                     <input id="searchValue" name="searchValue" type="text" placeholder="enter at least 3 chars"/>
                     <span id='loading-value' style="display:none;"><img src='images/ajax-loader.gif'></span>
+                    <input type="button" id='search' value="Search"
+                           class="ui-button ui-widget ui-state-default ui-corner-all"/>
                 </label>
             </td>
             <td>
@@ -114,7 +115,7 @@
 <display:table name="${Form.approvalRows}" requestURI="TimeApproval.do" excludedParams="*" pagesize="20" id="row"
                class="approvals-table" partialList="true" size="${Form.resultSize}" sort="external" defaultsort="1">
     <c:set var="nameStyle" value=""/>
-	<c:if test="${row.clockedInOverThreshold}">
+    <c:if test="${row.clockedInOverThreshold}">
         <c:set var="nameStyle" value="background-color: #F08080;"/>
     </c:if>
     <display:column title="Principal Name" sortable="true" sortName="principalName" style="${nameStyle}">
@@ -192,25 +193,13 @@
         </c:if>
     </display:column>
     <display:column title="Status">
-        <div><span id="approvals-status" class="approvals-status">${row.approvalStatus}</span></div>
-        <div id="approvals-status-details" class="approvals-status-details"
-             style="display: none; float: right; width: 300px; margin-left: 100px;">
-            <table>
-                <thead>
-                <tr>
-                    <th style="font-size: 1.2em; font-weight: bold; text-align: left;">
-                        Document Status:
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <div style="text-align: left; width: 150px;">${row.approvalStatusMessage}</div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <div>
+            <span id="approvals-status" class="approvals-status">${row.approvalStatus}</span>
+            <c:if test="${row.approvalStatus ne null}">
+                <div class="ui-state-default ui-corner-all" style="float:right;">
+                    <span id="" class="ui-icon ui-icon-refresh refresh"></span>
+                </div>
+            </c:if>
         </div>
     </display:column>
 
@@ -229,8 +218,10 @@
     <display:column title="Action">
         <tk:tkApprovalRowButtons appRow="${row}"/>
     </display:column>
-    <display:column title="Select All <input type='checkbox' name='Select' id='checkAllAuto'></input>" class="last_column_${row_rowNum}">
-        <html:checkbox property="approvalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}" styleClass="selectedEmpl"/>
+    <display:column title="Select All <input type='checkbox' name='Select' id='checkAllAuto'></input>"
+                    class="last_column_${row_rowNum}">
+        <html:checkbox property="approvalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}"
+                       styleClass="selectedEmpl"/>
         <div class="hourDetails">
             <tr style="display:none;" class="timeSummaryRow_${row_rowNum-1}">
                 <td class="rowCount"><tk:timeSummary timeSummary="${row.timeSummary}"/></td>
@@ -246,177 +237,6 @@
     </div>
 </c:if>
 
-    <%--
-    <c:choose>
-        <c:when test="${fn:length(Form.approvalRows) > 0}">
-            <table id="approvals-table" class="approvals-table">
-                <thead>
-                <tr>
-                    <th><bean:message key="approval.principalName"/></th>
-                    <th><bean:message key="approval.documentId"/></th>
-                    <th><bean:message key="approval.status"/></th>
-                    <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
-                        <th>${payCalLabel}</th>
-                    </c:forEach>
-                    <th>Action</th>
-                    <th>Select <input type="checkbox" name="selectAll" id="selectAll"/></th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="approvalRow" items="${Form.approvalRows}" varStatus="row">
-                    <c:set var="nameStyle" value=""/>
-                    <c:if test="${approvalRow.clockedInOverThreshold}">
-                        <c:set var="nameStyle" value="background-color: #F08080;"/>
-                    </c:if>
-                    <tr>
-                        <td style="${nameStyle}">
-                            <c:if test="${approvalRow.periodTotal > 0}">
-                                <div class="ui-state-default ui-corner-all" style="float:left;">
-                                    <span id="showDetailButton_${row.count-1}" class="ui-icon ui-icon-plus rowInfo"></span>
-                                </div>
-                            </c:if>
-                            <a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${approvalRow.name}</a>
-                            <br/>${approvalRow.clockStatusMessage}
-                            <br/>
-                            <c:set var="assignmentRowId" value="assignmentDetails_${row.count-1}"/>
-
-                        </td>
-                        <td>
-                            <a href="Admin.do?${approvalRow.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${approvalRow.documentId}&returnUrl=TimeApproval.do">${approvalRow.documentId}</a>
-
-                            <div style="float:right;">
-                                <c:if test="${fn:length(approvalRow.warnings) > 0 }">
-                                    <div class="ui-state-default ui-corner-all" style="float:right;">
-                                                <span id="approvals-warning"
-                                                      class="ui-icon ui-icon-alert approvals-warning"></span>
-                                    </div>
-                                    <div id="approvals-warning-details" class="approvals-warning-details"
-                                         style="display:none; float:right; width: 600px; margin-left: 200px;">
-                                        <table>
-                                            <thead>
-                                            <tr>
-                                                <th style="font-size: 1.2em; font-weight: bold; text-align: left;">
-                                                    Warnings:
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <c:forEach var="warning" items="${approvalRow.warnings}">
-                                                <tr>
-                                                    <td>
-                                                        <div class="warning-note-message">
-                                                                ${warning}
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </c:if>
-                                <c:if test="${fn:length(approvalRow.notes) > 0 }">
-                                    <div class="ui-state-default ui-corner-all"
-                                         style="float:right; margin-right: 2px;">
-                                                <span id="approvals-note"
-                                                      class="ui-icon ui-icon-note approvals-note"></span>
-                                    </div>
-                                    <div id="approvals-note-details" class="approvals-note-details"
-                                         style="display:none; float:right; margin-left: 150px;">
-                                        <table>
-                                            <thead>
-                                            <tr>
-                                                <th colspan="3"
-                                                    style="font-size: 1.2em; font-weight: bold; text-align: left;">
-                                                    Notes :
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Creator</th>
-                                                <th>Created Date</th>
-                                                <th>Content</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <c:forEach var="note" items="${approvalRow.notes}">
-                                                <tr>
-                                                    <td>${note.noteAuthorWorkflowId}</td>
-                                                    <td style="width: 30px;">${note.noteCreateDate}</td>
-                                                    <td>
-                                                        <div class="warning-note-message">
-                                                                ${note.noteText}
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </c:if>
-                            </div>
-                        </td>
-                        <td>
-                            <div><span id="approvals-status" class="approvals-status">${approvalRow.approvalStatus}</span>
-                            </div>
-                            <div id="approvals-status-details"
-                                 class="approvals-status-details"
-                                 style="display: none; float: right; width: 300px; margin-left: 100px;">
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th
-                                                style="font-size: 1.2em; font-weight: bold; text-align: left;">
-                                            Document Status:
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <div style="text-align: left; width: 150px;">
-                                                    ${approvalRow.approvalStatusMessage}</div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </td>
-                        <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
-                            <c:choose>
-                                <c:when test="${fn:contains(payCalLabel,'Week')}">
-                                    <td style="background-color: #E5E5E5;">
-                                        <span style="font-weight: bold;">${approvalRow.hoursToPayLabelMap[payCalLabel]}</span>
-                                    </td>
-                                </c:when>
-                                <c:otherwise>
-                                    <td>${approvalRow.hoursToPayLabelMap[payCalLabel]}</td>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                        <td>
-                            <tk:tkApprovalRowButtons appRow="${approvalRow}"/>
-                        </td>
-                        <td align="center"><html:checkbox property="approvalRows[${row.count-1}].selected"
-                                                          disabled="${!approvalRow.approvable}"/></td>
-                    </tr>
-
-                    <div class="hourDetails">
-                        <tr style="display:none;" class="timeSummaryRow_${row.count-1}">
-                            <td class="rowCount"><tk:timeSummary timeSummary="${approvalRow.timeSummary}"/></td>
-                        </tr>
-                    </div>
-                </c:forEach>
-                </tbody>
-            </table>
-            <div id="approvals-approve-button">
-                <input type="submit" class="approve" value="Approve" name="Approve"
-                       onclick="this.form.methodToCall.value='approve'; this.form.submit();"/>
-            </div>
-            <div id="loader"></div>
-        </c:when>
-        <c:otherwise>
-        </c:otherwise>
-    </c:choose>
-    --%>
 </div>
 </html:form>
 

@@ -623,7 +623,7 @@ select {
     text-align: center;
 }
 
-.rowInfo:hover {
+.rowInfo:hover, .refresh:hover {
     background-color: #dadada;
     cursor: pointer;
 }
