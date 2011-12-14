@@ -1,19 +1,6 @@
 package org.kuali.hr.time.approval.web;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.google.common.collect.Ordering;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -38,7 +25,10 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.exception.AuthorizationException;
 
-import com.google.common.collect.Ordering;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.util.*;
 
 public class TimeApprovalAction extends TkAction{
 	
@@ -253,6 +243,8 @@ public class TimeApprovalAction extends TkAction{
 		taaf.setPayBeginDate(null);
 		taaf.setPayEndDate(null);
 		taaf.setHrPyCalendarEntriesId(null);
+        // KPME-909
+        taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
 		
 		return loadApprovalTab(mapping, form, request, response);
 	}
