@@ -195,11 +195,6 @@
     <display:column title="Status">
         <div>
             <span id="approvals-status" class="approvals-status">${row.approvalStatus}</span>
-            <c:if test="${row.approvalStatus ne null}">
-                <div class="ui-state-default ui-corner-all" style="float:right;">
-                    <span id="" class="ui-icon ui-icon-refresh refresh"></span>
-                </div>
-            </c:if>
         </div>
     </display:column>
 
@@ -234,7 +229,9 @@
     <div id="approvals-approve-button">
         <input type="submit" class="approve" value="Approve" name="Approve"
                onclick="this.form.methodToCall.value='approve'; this.form.submit();"/>
+        <input type="button" id='refresh' value="Refresh Status" class="ui-button ui-widget ui-state-default ui-corner-all"/>
     </div>
+
 </c:if>
 
 </div>
