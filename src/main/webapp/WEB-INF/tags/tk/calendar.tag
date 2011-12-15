@@ -91,20 +91,13 @@
 	                                   	   </c:if>
 	                                   	   
 	                                        <div id="block_${block.timeBlock.tkTimeBlockId}" class="${editableClass}">
-	                                    		<c:choose>
-		                                           <c:when test="${Form.docEditable && block.timeBlock.editable}">
+		                                            <c:if test="${Form.docEditable && block.timeBlock.editable && ! block.timeBlock.clockLogCreated}">
 			                                           	<div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='event-delete'
 			                                                     src='images/delete.png'/>
 			                                            </div>
-			                                            ${block.title}
-		                                           </c:when>
-		                                           <c:otherwise>
-		                                           		<div class="event-content">
-			                                            	${block.title}
-			                                            </div>
-		                                           </c:otherwise>
-		                                        </c:choose>
-		                                     </div>
+			                                        </c:if>
+			                                        ${block.title}
+			                                     </div>
 	                                       ${block.timeRange}
 	                                       <div>
 	                                        <c:if test="${block.earnCodeType ne TkConstants.EARN_CODE_AMOUNT}">

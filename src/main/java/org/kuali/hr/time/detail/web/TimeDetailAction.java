@@ -11,6 +11,7 @@ import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -236,6 +237,44 @@ public class TimeDetailAction extends TimesheetAction {
         ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
         return mapping.findForward("basic");
     }
+    
+    public ActionForward updateTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	 
+    	 TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+    	 Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());
+    	 
+         //Grab timeblock to be updated from form
+         List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+         TimeBlock updatedTimeBlock = null;
+         for (TimeBlock tb : timeBlocks) {
+             if (tb.getTkTimeBlockId().compareTo(tdaf.getTkTimeBlockId()) == 0) {
+            	  updatedTimeBlock = tb;
+            	  tb.setJobNumber(assignment.getJobNumber());
+            	  tb.setWorkArea(assignment.getWorkArea());
+            	  tb.setTask(assignment.getTask());
+            	  tb.setTkWorkAreaId(assignment.getWorkAreaObj().getTkWorkAreaId());
+                  tb.setHrJobId(assignment.getJob().getHrJobId());
+                  Long tkTaskId = 0L;
+                  for (Task task : assignment.getWorkAreaObj().getTasks()) {
+                      if (task.getTask().compareTo(assignment.getTask()) == 0) {
+                          tkTaskId = task.getTkTaskId();
+                          break;
+                      }
+                  }
+                  tb.setTkTaskId(tkTaskId);
+                 break;
+             }
+         }
+    
+         TkServiceLocator.getTimeBlockService().updateTimeBlock(updatedTimeBlock);
+         
+         TimeBlockHistory tbh = new TimeBlockHistory(updatedTimeBlock);
+         tbh.setActionHistory(TkConstants.ACTIONS.UPDATE_TIME_BLOCK);
+         TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
+         tdaf.setMethodToCall("addTimeBlock");
+         return mapping.findForward("basic");
+    }
+    
     
     public ActionForward actualTimeInquiry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	TimeDetailActionForm tdaf = (TimeDetailActionForm) form;

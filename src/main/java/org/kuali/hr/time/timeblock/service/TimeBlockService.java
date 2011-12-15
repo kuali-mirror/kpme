@@ -120,4 +120,7 @@ public interface TimeBlockService {
      * @return
      */
     public List<TimeBlock> getOvernightTimeBlocks(Long clockLogEndId);
+
+	public void updateTimeBlock(TimeBlock tb);
+
 }

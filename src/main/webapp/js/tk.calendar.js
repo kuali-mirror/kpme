@@ -120,6 +120,18 @@ $(document).ready(function() {
                     var currentDay = new Date(beginPeriodDateTimeObj);
                     currentDay.setDate(currentDay.getDate() + parseInt(actionVal));
 
+                    $("#date-range-begin").removeAttr("disabled"); 
+                    $("#date-range-end").removeAttr("disabled"); 
+                    $('#date-range-begin').datepicker('enable'); 
+                    $("#date-range-end").datepicker("enable"); 
+                    $("#earnCode").removeAttr("disabled"); 
+                    $("#beginTimeField").removeAttr("disabled"); 
+                    $("#endTimeField").removeAttr("disabled"); 
+                    $("#hoursField").removeAttr("disabled"); 
+                    $("#amountSection").removeAttr("disabled"); 
+                    $("#acrossDaysField").removeAttr("disabled"); 
+                    $('#methodToCall').val('addTimeBlock');
+                    
                     $(this).openTimeEntryDialog(currentDay, currentDay);
 
                 } else if (action == "block" || action == "overtime") {
@@ -146,6 +158,22 @@ $(document).ready(function() {
                     $('#beginTimeField').val(calEvent.start.toString('hh:mm tt'));
                     $('#endTimeField').val(calEvent.end.toString('hh:mm tt'));
                     $("select#assignment option[value='" + calEvent.assignment + "']").attr("selected", "selected");
+                    
+                    //Disable Controls if Sync User
+                    if(calEvent.synchronous) { 
+                        $("#date-range-begin").removeAttr("disabled", "disabled"); 
+                        $("#date-range-end").removeAttr("disabled", "disabled"); 
+                        $('#date-range-begin').datepicker('disable'); 
+                        $("#date-range-end").datepicker("disable"); 
+                        $("#earnCode").attr("disabled", true); 
+                        $("#beginTimeField").attr("disabled", "disabled"); 
+                        $("#endTimeField").attr("disabled", "disabled"); 
+                        $("#hoursField").attr("disabled", "disabled"); 
+                        $("#amountSection").attr("disabled", "disabled"); 
+                        $("#acrossDaysField").attr("disabled", true); 
+                        $('#methodToCall').val('updateTimeBlock');
+                    }
+
 
                     var earnCodeType = action == "overtime" ? "OVT" : calEvent.earnCodeType;
 
@@ -345,7 +373,9 @@ $(document).ready(function() {
             }
 
             // these are for the submitted form
-            $('#methodToCall').val('addTimeBlock');
+            if (!$('#methodToCall').val() == 'updateTimeBlock') {
+            	  $('#methodToCall').val('addTimeBlock');
+            }
             $('#startDate').val($('#date-range-begin').val());
             $('#endDate').val(endDateValue);
             $('#startTime').val($('#beginTimeField-messages').val());

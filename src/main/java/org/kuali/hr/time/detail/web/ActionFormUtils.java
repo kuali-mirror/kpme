@@ -99,6 +99,7 @@ public class ActionFormUtils {
             }
             timeBlockMap.put("assignmentCss", cssClass);
             timeBlockMap.put("editable",  TkServiceLocator.getTimeBlockService().isTimeBlockEditable(timeBlock).toString());
+            timeBlockMap.put("synchronous", timeBlock.getClockLogCreated());
 
             //    tracking any kind of 'mutating' state with this object, it's just a one off modification under a specific circumstance.
             DateTime start = timeBlock.getBeginTimeDisplay();

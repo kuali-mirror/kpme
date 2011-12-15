@@ -142,14 +142,16 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     }
 
-
     public void saveTimeBlocks(List<TimeBlock> tbList) {
 		 for (TimeBlock tb : tbList) {
 	         TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(tb.getTkTimeBlockId());
 	         timeBlockDao.saveOrUpdate(tb);
 	     }
     }
-
+    
+    public void updateTimeBlock(TimeBlock tb) {
+	         timeBlockDao.saveOrUpdate(tb);
+   }
 
 
     public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean clockLogCreated) {
@@ -299,9 +301,6 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		String userId = TKContext.getUser().getPrincipalId();
 
     	if(userId != null && ur != null) {
-			if(tb.getClockLogCreated() && StringUtils.equals(userId, TKContext.getTargetPrincipalId())) {
-				return false;		// time block was created by clock in/out
-			}
 
 			if(ur.isSystemAdmin()) {
 				return true;
