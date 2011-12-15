@@ -22,6 +22,7 @@
         <ref bean="TimeBlock-earnCode" />
         <ref bean="TimeBlock-beginTimeStamp" />
         <ref bean="TimeBlock-endTimeStamp" />
+        <ref bean="TimeBlock-beginDate" />
         <ref bean="TimeBlock-clockLogCreated" />
         <ref bean="TimeBlock-hours" />
         <ref bean="TimeBlock-amount" />
@@ -29,8 +30,6 @@
         <ref bean="TimeBlock-userPrincipalId"/>
         <ref bean="TimeBlock-principalId"/>
         <ref bean="TimeBlock-timesheetDocumentHeader.documentStatus" />
-        <ref bean="TimeBlock-timesheetDocumentHeader.payBeginDate" />
-        <ref bean="TimeBlock-timesheetDocumentHeader.payEndDate" />
        </list>
     </property>
  	<property name="relationships">
@@ -42,8 +41,6 @@
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentId" p:targetName="documentId" />
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId" />
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.documentStatus" p:targetName="documentStatus" />
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.payBeginDate" p:targetName="payBeginDate" />
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="timesheetDocumentHeader.payEndDate" p:targetName="payEndDate" />
 				</list>
 				</property>
 			</bean>
@@ -176,7 +173,22 @@
 			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
 		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
-	</bean>   
+	</bean>  
+	
+	<bean id="TimeBlock-beginDate" parent="TimeBlock-beginDate-parentBean" />
+	<bean id="TimeBlock-beginDate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Date" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="beginDate" />
+		<property name="label" value="Date" />
+	</bean> 
 	
 	<bean id="TimeBlock-clockLogCreated" parent="TimeBlock-clockLogCreated-parentBean" />
 	<bean id="TimeBlock-clockLogCreated-parentBean" abstract="true"
@@ -256,20 +268,6 @@
 		<property name="label" value="Document Status"/>
 		<property name="required" value="false"/>
 	</bean> 
-	
-	<bean id="TimeBlock-timesheetDocumentHeader.payBeginDate" parent="TimeBlock-timesheetDocumentHeader.payBeginDate-parentBean" />
-	<bean id="TimeBlock-timesheetDocumentHeader.payBeginDate-parentBean" abstract="true" parent="TimesheetDocumentHeader-payBeginDate">
-		<property name="name" value="timesheetDocumentHeader.payBeginDate" />
-		<property name="label" value="Pay Begin Date"/>
-		<property name="required" value="false"/>
-	</bean> 
-	
-		<bean id="TimeBlock-timesheetDocumentHeader.payEndDate" parent="TimeBlock-timesheetDocumentHeader.payEndDate-parentBean" />
-	<bean id="TimeBlock-timesheetDocumentHeader.payEndDate-parentBean" abstract="true" parent="TimesheetDocumentHeader-payEndDate">
-		<property name="name" value="timesheetDocumentHeader.payEndDate" />
-		<property name="label" value="Pay End Date"/>
-		<property name="required" value="false"/>
-	</bean> 
   
 <!-- Business Object Inquiry Definition -->
 
@@ -345,8 +343,7 @@
       	<bean parent="FieldDefinition" p:attributeName="principalId" />
       	<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
       	<bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.documentStatus" />
-      	<bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.payBeginDate" />
-      	<bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.payEndDate" />
+      	<bean parent="FieldDefinition" p:attributeName="beginDate"/>
       </list>
     </property>
     <property name="resultFields" >

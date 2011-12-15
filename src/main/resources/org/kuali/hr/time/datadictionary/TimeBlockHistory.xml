@@ -23,6 +23,7 @@
                 <ref bean="TimeBlockHistory-earnCode"/>
                 <ref bean="TimeBlockHistory-beginTimeStamp"/>
                 <ref bean="TimeBlockHistory-endTimeStamp"/>
+                <ref bean="TimeBlockHistory-beginDate" />
                 <ref bean="TimeBlockHistory-clockLogCreated"/>
                 <ref bean="TimeBlockHistory-hours"/>
                 <ref bean="TimeBlockHistory-amount"/>
@@ -31,8 +32,6 @@
                 <ref bean="TimeBlockHistory-principalId"/>
                 <ref bean="TimeBlockHistory-actionHistory"/>
                 <ref bean="TimeBlockHistory-timesheetDocumentHeader.documentStatus"/>
-                <ref bean="TimeBlockHistory-timesheetDocumentHeader.payBeginDate"/>
-                <ref bean="TimeBlockHistory-timesheetDocumentHeader.payEndDate"/>
             </list>
         </property>
         <property name="relationships">
@@ -47,10 +46,6 @@
                                   p:targetName="principalId"/>
                             <bean parent="PrimitiveAttributeDefinition"
                                   p:sourceName="timesheetDocumentHeader.documentStatus" p:targetName="documentStatus"/>
-                            <bean parent="PrimitiveAttributeDefinition"
-                                  p:sourceName="timesheetDocumentHeader.payBeginDate" p:targetName="payBeginDate"/>
-                            <bean parent="PrimitiveAttributeDefinition"
-                                  p:sourceName="timesheetDocumentHeader.payEndDate" p:targetName="payEndDate"/>
                         </list>
                     </property>
                 </bean>
@@ -202,6 +197,21 @@
         <property name="name" value="endTimestamp"/>
         <property name="label" value="End Time"/>
     </bean>
+    
+    <bean id="TimeBlockHistory-beginDate" parent="TimeBlockHistory-beginDate-parentBean" />
+	<bean id="TimeBlockHistory-beginDate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Date" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="beginDate" />
+		<property name="label" value="Date" />
+	</bean> 
 
     <bean id="TimeBlockHistory-timeStamp" parent="TimeBlockHistory-timeStamp-parentBean"/>
     <bean id="TimeBlockHistory-timeStamp-parentBean" abstract="true"
@@ -314,25 +324,7 @@
         <property name="label" value="Document Status"/>
         <property name="required" value="false"/>
     </bean>
-
-    <bean id="TimeBlockHistory-timesheetDocumentHeader.payBeginDate"
-          parent="TimeBlockHistory-timesheetDocumentHeader.payBeginDate-parentBean"/>
-    <bean id="TimeBlockHistory-timesheetDocumentHeader.payBeginDate-parentBean" abstract="true"
-          parent="TimesheetDocumentHeader-payBeginDate">
-        <property name="name" value="timesheetDocumentHeader.payBeginDate"/>
-        <property name="label" value="Pay Begin Date"/>
-        <property name="required" value="false"/>
-    </bean>
-
-    <bean id="TimeBlockHistory-timesheetDocumentHeader.payEndDate"
-          parent="TimeBlockHistory-timesheetDocumentHeader.payEndDate-parentBean"/>
-    <bean id="TimeBlockHistory-timesheetDocumentHeader.payEndDate-parentBean" abstract="true"
-          parent="TimesheetDocumentHeader-payEndDate">
-        <property name="name" value="timesheetDocumentHeader.payEndDate"/>
-        <property name="label" value="Pay End Date"/>
-        <property name="required" value="false"/>
-    </bean>
-
+    
     <!-- Business Object Inquiry Definition -->
 
 
@@ -390,9 +382,8 @@
                 <bean parent="FieldDefinition" p:attributeName="documentId"/>
                 <bean parent="FieldDefinition" p:attributeName="principalId"/>
                 <bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
-                <bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.documentStatus"/>
-                <bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.payBeginDate"/>
-                <bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.payEndDate"/>
+                <bean parent="FieldDefinition" p:attributeName="timesheetDocumentHeader.documentStatus" />
+                <bean parent="FieldDefinition" p:attributeName="beginDate"/>
             </list>
         </property>
         <property name="resultFields">

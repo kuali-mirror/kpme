@@ -30,13 +30,12 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 	
 	static final String DOC_ID = "documentId";
 	static final String DOC_STATUS_ID = "timesheetDocumentHeader.documentStatus";
-	static final String BEGIN_DATE_ID = "timesheetDocumentHeader.payBeginDate";
-	static final String END_DATE_ID = "timesheetDocumentHeader.payEndDate";
+	static final String BEGIN_DATE_ID = "beginDate";
 		
 	 @Override
     public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
 	 
-		 String docStatus = "", beginDateString="", endDateString="";
+		 String docStatus = "", beginDateString="";
 
 		 if(fieldValues.containsKey(DOC_STATUS_ID)){
 				docStatus = fieldValues.get(DOC_STATUS_ID);
@@ -46,15 +45,11 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 			 	beginDateString = fieldValues.get(BEGIN_DATE_ID);
 				fieldValues.remove(BEGIN_DATE_ID);
 			}
-		 if(fieldValues.containsKey(END_DATE_ID)){
-			 	endDateString = fieldValues.get(END_DATE_ID);
-				fieldValues.remove(END_DATE_ID);
-			}
         
         List<? extends BusinessObject> objectList = super.getSearchResults(fieldValues);
       
         if(!objectList.isEmpty()) {
-        	Iterator itr = objectList.iterator();
+        	Iterator<? extends BusinessObject> itr = objectList.iterator();
 			while(itr.hasNext()){
 				TimeBlock tb = (TimeBlock)itr.next();
 				List<TkRole> tkRoles = TkServiceLocator.getTkRoleService().getRoles(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
@@ -106,47 +101,24 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 						}
 					}
 				}
-					
+								
 				if(StringUtils.isNotEmpty(beginDateString)) {
-					if(tb.getTimesheetDocumentHeader() == null) {
-						itr.remove();
-						continue;
-					} else {
-						if(tb.getTimesheetDocumentHeader().getPayBeginDate() != null) {
-							if(!this.checkDate(tb, tb.getTimesheetDocumentHeader().getPayBeginDate(), beginDateString)) {
-								itr.remove();
-								continue;
-							} 
-						} else {
+					if(tb.getBeginDate() != null) {
+						if(!this.checkDate(tb, tb.getBeginDate(), beginDateString)) {
 							itr.remove();
 							continue;
-						}
-					}
-				}
-					
-				if(StringUtils.isNotEmpty(endDateString)) {
-					if(tb.getTimesheetDocumentHeader() == null) {
+						} 
+					} else {
 						itr.remove();
 						continue;
-					} else {
-						if(tb.getTimesheetDocumentHeader().getPayEndDate() != null) {
-							if(!this.checkDate(tb,tb.getTimesheetDocumentHeader().getPayEndDate(), endDateString)) {
-								itr.remove();
-								continue;
-							}
-						} else {
-							itr.remove();
-							continue;
-						}
 					}
-				}
-				
+				}				
 			}
         }
         return objectList;
 	 }
 	 
-	 private boolean checkDate(TimeBlock tb, Date asOfDate, String dateString) {
+	 public boolean checkDate(TimeBlock tb, Date asOfDate, String dateString) {
 		 if(tb.getTimesheetDocumentHeader() == null) {
 				return false;
 		 }
@@ -184,16 +156,17 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 		}
 	  return true;
 	 }
-		@Override
-		public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
-				@SuppressWarnings("rawtypes") List pkNames) {
-			List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-			List<HtmlData> overrideUrls = new ArrayList<HtmlData>();
-			for(HtmlData actionUrl : customActionUrls){
-				if(!StringUtils.equals(actionUrl.getMethodToCall(), "copy")){
-					overrideUrls.add(actionUrl);
-				}
+	 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+		List<HtmlData> overrideUrls = new ArrayList<HtmlData>();
+		for(HtmlData actionUrl : customActionUrls){
+			if(!StringUtils.equals(actionUrl.getMethodToCall(), "copy")){
+				overrideUrls.add(actionUrl);
 			}
-			return overrideUrls;
 		}
+		return overrideUrls;
+	}
 }
