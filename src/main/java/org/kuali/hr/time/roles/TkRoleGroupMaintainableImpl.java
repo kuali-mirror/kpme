@@ -1,5 +1,6 @@
 package org.kuali.hr.time.roles;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -8,7 +9,9 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
@@ -16,11 +19,11 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.Section;
 
-public class TkRoleGroupMaintainableImpl extends KualiMaintainableImpl {
+public class TkRoleGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
     /**
 	 * 
@@ -54,7 +57,28 @@ public class TkRoleGroupMaintainableImpl extends KualiMaintainableImpl {
                 }
                 role.setPrincipalId(trg.getPrincipalId());
                 role.setUserPrincipalId(TKContext.getUser().getPrincipalId());
+                
+                HrBusinessObject oldHrObj = this.getObjectById(role.getId());
+                
+    			if(oldHrObj!= null){
+    				//if the effective dates are the same do not create a new row just inactivate the old one
+    				if(role.getEffectiveDate().equals(oldHrObj.getEffectiveDate())){
+    					oldHrObj.setActive(false);
+    					oldHrObj.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(TKUtils.getCurrentDate().getTime()))); 
+    				} else{
+    					//if effective dates not the same add a new row that inactivates the old entry based on the new effective date
+    					oldHrObj.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(TKUtils.getCurrentDate().getTime())));
+    					oldHrObj.setEffectiveDate(role.getEffectiveDate());
+    					oldHrObj.setActive(false);
+    					oldHrObj.setId(null);
+    				}
+    				KNSServiceLocator.getBusinessObjectService().save(oldHrObj);
+    				
+    				role.setTimestamp(new Timestamp(System.currentTimeMillis()));
+    				role.setId(null);
+    			}
             }
+     
             TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
             trg.setRoles(rolesCopy);
         }
@@ -107,5 +131,9 @@ public class TkRoleGroupMaintainableImpl extends KualiMaintainableImpl {
 		return sections;
 	}
 
+	@Override
+	public HrBusinessObject getObjectById(Long id) {
+		return (HrBusinessObject)TkServiceLocator.getTkRoleService().getRole(id);
+	}
 
 }
