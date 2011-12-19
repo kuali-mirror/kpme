@@ -110,6 +110,10 @@
                                                                         <c:if test="${thdr.overtimeEarnCode}">
                                                                             <c:set var="title" value="<span id='overtime_${block.timeBlock.tkTimeBlockId}' class='overtime'>${thdr.title}</span>"/>
                                                                         </c:if>
+                                                                        <%-- Some of the overtime earn codes are not allowed to be modified --%>
+                                                                        <c:if test="${thdr.overtimeEarnCode and (thdr.title eq 'DOT')}">
+                                                                            <c:set var="title" value="<span id='overtime_${block.timeBlock.tkTimeBlockId}' class='overtime_readonly'>${thdr.title}</span>"/>
+                                                                        </c:if>
 
 	                                                            		<c:if test="${thdr.title eq TkConstants.HOLIDAY_EARN_CODE}">
 	                                                            			<div><a id="holidayNameHelp" title="${thdr.holidayName}" style="color:white; cursor:pointer;">${title} - ${thdr.hours} hours</a></div>

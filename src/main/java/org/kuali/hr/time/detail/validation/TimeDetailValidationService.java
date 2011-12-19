@@ -11,6 +11,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -30,11 +31,11 @@ public class TimeDetailValidationService {
                 tdaf.getHours(), tdaf.getAmount(), tdaf.getStartTime(), tdaf.getEndTime(),
                 tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getTimesheetDocument(),
                 tdaf.getSelectedEarnCode(), tdaf.getSelectedAssignment(),
-                tdaf.getAcrossDays().equalsIgnoreCase("y"), tdaf.getTkTimeBlockId()
+                tdaf.getAcrossDays().equalsIgnoreCase("y"), tdaf.getTkTimeBlockId(), tdaf.getOvertimePref()
         );
     }
 
-    public static List<String> validateTimeEntryDetails(BigDecimal hours, BigDecimal amount, String startTimeS, String endTimeS, String startDateS, String endDateS, TimesheetDocument timesheetDocument, String selectedEarnCode, String selectedAssignment, boolean acrossDays, Long timeblockId) {
+    public static List<String> validateTimeEntryDetails(BigDecimal hours, BigDecimal amount, String startTimeS, String endTimeS, String startDateS, String endDateS, TimesheetDocument timesheetDocument, String selectedEarnCode, String selectedAssignment, boolean acrossDays, Long timeblockId, String overtimePref) {
         List<String> errors = new ArrayList<String>();
 
         if (timesheetDocument == null) {
@@ -68,7 +69,7 @@ public class TimeDetailValidationService {
         DateTime startTemp = new DateTime(startTime);
         DateTime endTemp = new DateTime(endTime);
 
-        if (errors.size() == 0 && !acrossDays) {
+        if (errors.size() == 0 && !acrossDays && !StringUtils.equals(TkConstants.EARN_CODE_CPE, overtimePref)) {
             Hours hrs = Hours.hoursBetween(startTemp, endTemp);
             if (hrs.getHours() >= 24) errors.add("One timeblock cannot exceed 24 hours");
         }

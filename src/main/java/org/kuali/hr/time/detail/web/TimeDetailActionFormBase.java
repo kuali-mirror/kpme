@@ -22,6 +22,7 @@ public class TimeDetailActionFormBase extends TimesheetActionForm {
     private String endDate;
     private BigDecimal hours;
     private BigDecimal amount;
+    private String overtimePref;
 
     public Long getTkTimeBlockId() {
         return tkTimeBlockId;
@@ -101,5 +102,13 @@ public class TimeDetailActionFormBase extends TimesheetActionForm {
 
     public void setWarnings(List<String> warnings) {
         this.warnings = warnings;
+    }
+
+    public String getOvertimePref() {
+        return overtimePref;
+    }
+
+    public void setOvertimePref(String overtimePref) {
+        this.overtimePref = overtimePref;
     }
 }

@@ -199,9 +199,10 @@ $(document).ready(function() {
                         'acrossDays' : $('#acrossDaysField').val()
                     };
 
-                    // handle the case where the overtime hour detail is clicked
-                    if (action == "overtime") {
+                    var selectedOverTimeEarnCode = $("#overtime_" + calEvent.tkTimeBlockId).html();
 
+                    // handle the case where the overtime hour detail is clicked
+                    if (action == "overtime" && selectedOverTimeEarnCode != CONSTANTS.DAILY_OVERTIME_EARNCODE) {
                         // hide all the fields except the overtime dropdown
                         $timesheetFields.find("tr:not(#overtimeEarnCodeRow)").addClass("hide");
                         // get the <tr> of the earn code row
@@ -209,7 +210,6 @@ $(document).ready(function() {
                         // change the title of the entry form
                         $('.ui-dialog-title').html("Modify Overtime Earn Code");
 
-                        var selectedOverTimeEarnCode = $("#overtime_" + calEvent.tkTimeBlockId).html();
                         var overTimeEarnCodeHtml = "";
 
                         $.ajax({
@@ -218,7 +218,7 @@ $(document).ready(function() {
                             //data: params,
                             cache: true,
                             success: function(data) {
-                                overTimeEarnCodeHtml += "<tr id='overtimeEarnCodeRow'>";
+                                overTimeEarnCodeHtml = "<tr id='overtimeEarnCodeRow'>";
                                 overTimeEarnCodeHtml += "<td>Overtime Earn Code : </td>";
                                 overTimeEarnCodeHtml += "<td><select name='overtimePref' id='overtimePref'>";
                                 // build the html of the overtime earn code drop down
@@ -228,9 +228,12 @@ $(document).ready(function() {
 
                                 // the purpose of this block of code is to show the overtime hours
                                 var details = jQuery.parseJSON(calEvent.timeHourDetails);
+                                var hourDetailHtml = "";
                                 for (obj in details) {
+                                    hourDetailHtml = '<span class="overtime-hours" style="margin-left: 5px;"> Overtime hours : ' + details[obj].hours + '</span>';
                                     if (details[obj].earnCode == "OVT") {
-                                        $earnCodeField.after('<span class="overtime-hours" style="margin-left: 5px;"> Overtime hours : ' + details[obj].hours + '</span>');
+                                        //$earnCodeField.after(hourDetailHtml);
+                                        $("#overtimeEarnCodeRow").after(hourDetailHtml);
                                     }
                                 }
 
@@ -677,6 +680,9 @@ $.fn.resetValue = function(field) {
             $(this).html("Add");
         }
     });
+
+    // remove the overtime hour details when the entry form is closed
+    $(".overtime-hours").remove();
 }
 
 $.fn.validateNumeric = function() {

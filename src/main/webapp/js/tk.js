@@ -2,8 +2,12 @@
  * If you need to change the theme base, the css file is: jquery-ui-1.8.1.custom.css
  */
 
-$(document).ready(function() {
+// CONSTANTS
+var CONSTANTS = {
+  DAILY_OVERTIME_EARNCODE: "DOT"
+}
 
+$(document).ready(function() {
     // tabs
     /**
      * This is the default tab function provided by jQuery
