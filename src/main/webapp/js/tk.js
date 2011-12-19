@@ -116,10 +116,10 @@ $(document).ready(function() {
     });
 
     // note accordion
-    $("#note, #routeLog").accordion({
-        collapsible : true,
-        active : 2
-    });
+//    $("#note, #routeLog").accordion({
+//        collapsible : true,
+//        active : 2
+//    });
 
     // person detail accordion
     $("#person-detail-accordion").accordion({
@@ -703,6 +703,16 @@ function toCamelCase(str) {
     return str.replace(/^.?/g, function(match) {
         return match.toLowerCase();
     });
+}
+
+function toggle(eleId) {
+	var ele = document.getElementById(eleId);
+	if(ele.style.display == "block") {
+    	ele.style.display = "none";
+  	}
+	else {
+		ele.style.display = "block";
+	}
 }
 
 
