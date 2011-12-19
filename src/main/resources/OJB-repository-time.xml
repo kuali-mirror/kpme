@@ -783,6 +783,7 @@
         <field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
         <field-descriptor name="effectiveDate"  column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
+        <field-descriptor name="workArea"      column="WORK_AREA"      jdbc-type="BIGINT" length="10"/>
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.hr.time.position.PositionNumber" table="hr_position_s">

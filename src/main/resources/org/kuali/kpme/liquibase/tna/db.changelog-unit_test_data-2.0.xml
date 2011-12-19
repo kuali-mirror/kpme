@@ -3795,4 +3795,32 @@
                     value="VkrOTz1bT27iSZqrC9ixl1Xmmj8ru58/gXmSzxXzTR1LO+DaxLzq99aZZ9wHs071OUT4nxpkkcq33fnphclUppIiXa0U0SskqiWbcijD/qMqiFus0SnoqrfaflXvGfTp+ejiNRP2WorJ3T1bBQ8IDIyhJTLvnZwann+V29xqqLEFAfJ87UmT+vv3o/LLoe13by2SZWDoBu2x0/pJJiFr3rP7+JwtizJIj4oDtj9Efi+B9sJDH1qBpTCcluTcxkEofoA9C/xn50CAXUmaCnF/bnoNIH41pcrHqMjUvABTOfsz8iHrx5UvUbZeNi57S5Dcb3tCLnlvY5XEX8Ey0/mXMJTG5AOiHcKcb3tCLnlvY5WhVu1vr7CkvapKA+xBnMG44Lk5KotzRewinNJ18vKqi2Cg5cXoddXWxovz1fXwWNUYBF6/743wcfqWLjUn8j3sYq/kcxVXtzTLW0q3ZgUUCgkgaVB0rB7DKfd5DdxjzWkVhQpZTDtjffHJNLatVo7TVq68aDrEW2D3pVwGdmTAAONfehpe5bcRNhFVKmPmZSrFcJDi/qCEUZnHWkZySZzSVgoJ0FcFqMxlMx7qMB2zcTgm8GpUoPnboruruAhZxQADysxTx9GrRMOfa1y59iRlLLcYsJZuzf5KU+790xkmwajI1LwAUzn7CVCUg45ycCeKCMKJ6Tiir3WSat+eAEEnQb/KuCVsjZIx5LDLwmvcHRvPNb89ZR/wTqai07Zinelvl9S3fxmF7BvPNb89ZR/wU8TCqCInN+JdHacjhJKNW/1A/0XIWjAsaj4DIgzylV4OlNHTViB5vvbmT8HfzJLHiJPi4e7X+ZxxkYWUyRaiZqf42hT3rIxL73oF9v74lZEbEJeReUtDL7H7sqbPC9yanmKQeVxA7BSYWevZjxvAj/uv6MAPZ4Q15QsGgMgsRKmSxGWJUx7mzOLrVjIt3r2KtEBB3KW9Vot3SJ8R/T3UJGuMOBvmOpQjmpKuzUBtEP+kbGV7DA9X0IH48b39WuVFOCbwalSg+duiu6u4CFnFAAPKzFPH0atEw59rXLn2JGXiNsScFVe0GoC56AvVcjVvOMlHVZGGHbExXi9Qg6+41heZsoxDLXguK/NDOgHCrB16DSB+NaXKx6jI1LwAUzn7M/Ih68eVL1EdRu6N+5Z6qM6EmXuEhMqR3pdSH5turGRW52WKUN3sA86EmXuEhMqR61YMbm09z4Hvdg53nRfh+fnxsTJAn+BKum7aLlwJvPmg51huQ36WRHSxH7rIgWtYby2SZWDoBu2x0/pJJiFr3rP7+JwtizJIj4oDtj9Efi/sE/H6JcSx99nqp+6M1UB6kzqaHQx1guTacVdJUbUJHTgm8GpUoPnboruruAhZxQADysxTx9GrRMOfa1y59iRl/+/ikuiR0+GLUO9vrMkd1QIfvXm4uHRgie3FbDKw3YYp93kN3GPNaRFZT/qrbMj15bdBixPy53IMubgHPFQuf8cso1HDPVTLjdHN9muTrLSEwHI+e6J5ZDaLDAqPvIsp3wTA5iGYxUI="/>
         </insert>
     </changeSet>
+    <changeSet author="tomcat (generated)" id="1314888355339-63">
+            <insert tableName="tk_work_area_t">
+            <column name="TK_WORK_AREA_ID" valueNumeric="107"/>
+            <column name="work_area" valueNumeric="7777"/>
+            <column name="DEPT" value="TEST-DEPT7"/>
+            <column name="EFFDT" valueDate="2011-01-05"/>
+            <column name="ACTIVE" value="N"/>
+            <column name="DESCR" value="inactive work area"/>
+            <column name="default_overtime_earncode" value="OT1"/>
+            <column name="ADMIN_DESCR" value="work area admin description2"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2011-11-27T10:25:13.0"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="OVERTIME_EDIT_ROLE" value=""/>
+        </insert>
+            <insert tableName="hr_position_t">
+            <column name="HR_POSITION_ID" valueNumeric="1"/>
+            <column name="POSITION_NBR" value="111"/>
+            <column name="DESCRIPTION" value="Test Position with inactive workarea"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <!-- column name="CURRENT_TIMESTAMP" valueDate="2010-01-01T00:00:00.0"/ -->
+            <column name="OBJ_ID" value="3b67491c-6aa5-11e0-b182-4356e57dbf45"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="WORK_AREA" valueNumeric="7777"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

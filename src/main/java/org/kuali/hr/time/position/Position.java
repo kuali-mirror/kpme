@@ -1,6 +1,7 @@
 package org.kuali.hr.time.position;
 
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.workarea.WorkArea;
 
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
@@ -11,11 +12,13 @@ public class Position extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long hrPositionId;
 	private String positionNumber;
 	private String description;
 	private String history;
+	private Long workArea;
+	private WorkArea workAreaObj;
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -86,5 +89,22 @@ public class Position extends HrBusinessObject {
 	public void setId(Long id) {
 		setHrPositionId(id);
 	}
+
+	public WorkArea getWorkAreaObj() {
+		return workAreaObj;
+	}
+
+	public void setWorkAreaObj(WorkArea workAreaObj) {
+		this.workAreaObj = workAreaObj;
+	}
+
+	public Long getWorkArea() {
+		return workArea;
+	}
+
+	public void setWorkArea(Long workArea) {
+		this.workArea = workArea;
+	}
+
 
 }
