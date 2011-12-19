@@ -4,7 +4,19 @@
 
 // CONSTANTS
 var CONSTANTS = {
-  DAILY_OVERTIME_EARNCODE: "DOT"
+    OVERTIME_EARNCODE :{
+        DAILY : "DOT",
+        OVERTIME : "OVT"
+    },
+    EARNCODE_TYPE : {
+        HOUR: "HOUR",
+        TIME: "TIME",
+        AMOUNT: "AMOUNT"
+    },
+    ACTIONS : {
+        UPDATE_TIME_BLOCK : "updateTimeBlock",
+        ADD_TIME_BLOCK: "addTimeBlock"
+    }
 }
 
 $(document).ready(function() {

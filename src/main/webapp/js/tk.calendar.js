@@ -120,20 +120,19 @@ $(document).ready(function() {
                     var currentDay = new Date(beginPeriodDateTimeObj);
                     currentDay.setDate(currentDay.getDate() + parseInt(actionVal));
 
-                    $("#date-range-begin").removeAttr("disabled"); 
-                    $("#date-range-end").removeAttr("disabled"); 
-                    $('#date-range-begin').datepicker('enable'); 
-                    $("#date-range-end").datepicker("enable"); 
-                    $("#earnCode").removeAttr("disabled"); 
-                    $("#beginTimeField").removeAttr("disabled"); 
-                    $("#endTimeField").removeAttr("disabled"); 
-                    $("#hoursField").removeAttr("disabled"); 
-                    $("#amountSection").removeAttr("disabled"); 
-                    $("#acrossDaysField").removeAttr("disabled"); 
-                    $('#methodToCall').val('addTimeBlock');
-                    
-                    $(this).openTimeEntryDialog(currentDay, currentDay);
+                    $("#date-range-begin").removeAttr("disabled");
+                    $("#date-range-end").removeAttr("disabled");
+                    $('#date-range-begin').datepicker('enable');
+                    $("#date-range-end").datepicker("enable");
+                    $("#earnCode").removeAttr("disabled");
+                    $("#beginTimeField").removeAttr("disabled");
+                    $("#endTimeField").removeAttr("disabled");
+                    $("#hoursField").removeAttr("disabled");
+                    $("#amountSection").removeAttr("disabled");
+                    $("#acrossDaysField").removeAttr("disabled");
+                    $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
 
+                    $(this).openTimeEntryDialog(currentDay, currentDay);
                 } else if (action == "block" || action == "overtime") {
                     // Handle existing timeblocks
                     // Handle existing timeblocks
@@ -158,24 +157,24 @@ $(document).ready(function() {
                     $('#beginTimeField').val(calEvent.start.toString('hh:mm tt'));
                     $('#endTimeField').val(calEvent.end.toString('hh:mm tt'));
                     $("select#assignment option[value='" + calEvent.assignment + "']").attr("selected", "selected");
-                    
+                    $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
+
                     //Disable Controls if Sync User
-                    if(calEvent.synchronous) { 
-                        $("#date-range-begin").removeAttr("disabled", "disabled"); 
-                        $("#date-range-end").removeAttr("disabled", "disabled"); 
-                        $('#date-range-begin').datepicker('disable'); 
-                        $("#date-range-end").datepicker("disable"); 
-                        $("#earnCode").attr("disabled", true); 
-                        $("#beginTimeField").attr("disabled", "disabled"); 
-                        $("#endTimeField").attr("disabled", "disabled"); 
-                        $("#hoursField").attr("disabled", "disabled"); 
-                        $("#amountSection").attr("disabled", "disabled"); 
-                        $("#acrossDaysField").attr("disabled", true); 
-                        $('#methodToCall').val('updateTimeBlock');
+                    if(calEvent.synchronous) {
+                        $("#date-range-begin").removeAttr("disabled", "disabled");
+                        $("#date-range-end").removeAttr("disabled", "disabled");
+                        $('#date-range-begin').datepicker('disable');
+                        $("#date-range-end").datepicker("disable");
+                        $("#earnCode").attr("disabled", true);
+                        $("#beginTimeField").attr("disabled", "disabled");
+                        $("#endTimeField").attr("disabled", "disabled");
+                        $("#hoursField").attr("disabled", "disabled");
+                        $("#amountSection").attr("disabled", "disabled");
+                        $("#acrossDaysField").attr("disabled", true);
                     }
 
 
-                    var earnCodeType = action == "overtime" ? "OVT" : calEvent.earnCodeType;
+                    var earnCodeType = action == "overtime" ? CONSTANTS.OVERTIME_EARNCODE.OVERTIME : calEvent.earnCodeType;
 
                     $('#earnCode').loadEarnCode($('#assignment').val(), calEvent.earnCode + "_" + earnCodeType);
                     $('#tkTimeBlockId').val(calEvent.tkTimeBlockId);
@@ -202,7 +201,7 @@ $(document).ready(function() {
                     var selectedOverTimeEarnCode = $("#overtime_" + calEvent.tkTimeBlockId).html();
 
                     // handle the case where the overtime hour detail is clicked
-                    if (action == "overtime" && selectedOverTimeEarnCode != CONSTANTS.DAILY_OVERTIME_EARNCODE) {
+                    if (action == "overtime" && selectedOverTimeEarnCode != CONSTANTS.OVERTIME_EARNCODE.DAILY) {
                         // hide all the fields except the overtime dropdown
                         $timesheetFields.find("tr:not(#overtimeEarnCodeRow)").addClass("hide");
                         // get the <tr> of the earn code row
@@ -231,7 +230,7 @@ $(document).ready(function() {
                                 var hourDetailHtml = "";
                                 for (obj in details) {
                                     hourDetailHtml = '<span class="overtime-hours" style="margin-left: 5px;"> Overtime hours : ' + details[obj].hours + '</span>';
-                                    if (details[obj].earnCode == "OVT") {
+                                    if (details[obj].earnCode == CONSTANTS.OVERTIME_EARNCODE.OVERTIME) {
                                         //$earnCodeField.after(hourDetailHtml);
                                         $("#overtimeEarnCodeRow").after(hourDetailHtml);
                                     }
@@ -339,12 +338,12 @@ $(document).ready(function() {
          * Entry field validation
          */
         // if the hour field is empty, there has to be values in the time fields and vice versa
-        if ($('#earnCode').getEarnCodeType() === 'TIME') {
+        if ($('#earnCode').getEarnCodeType() === CONSTANTS.EARNCODE_TYPE.TIME) {
             // the format has to be like "12:00 AM"
             bValid &= checkLength(startTime, "Time entry", 8, 8);
             bValid &= checkLength(endTime, "Time entry", 8, 8);
         }
-        else if ($('#earnCode').getEarnCodeType() === 'HOUR') {
+        else if ($('#earnCode').getEarnCodeType() === CONSTANTS.EARNCODE_TYPE.HOUR) {
             var hours = $('#hoursField');
             bValid &= checkEmptyField(hours, "Hour") && checkMinLength(hours, "Hour", 1) && checkRegexp(hours, '/0/', 'Hours cannot be zero');
         }
@@ -376,8 +375,8 @@ $(document).ready(function() {
             }
 
             // these are for the submitted form
-            if (!$('#methodToCall').val() == 'updateTimeBlock') {
-            	  $('#methodToCall').val('addTimeBlock');
+            if (!$('#methodToCall').val() == CONSTANTS.ACTIONS.UPDATE_TIME_BLOCK) {
+            	  $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
             }
             $('#startDate').val($('#date-range-begin').val());
             $('#endDate').val(endDateValue);
@@ -429,7 +428,6 @@ $(document).ready(function() {
                     var json = jQuery.parseJSON(data);
                     // if there is no error message, submit the form to add the time block
                     if (json.length == 0) {
-                        //console.log($('#documentId'));
                         $('#time-detail').submit();
                     }
                     else {
@@ -713,7 +711,7 @@ $.fn.openTimeEntryDialog = function(beginDay, endDay) {
     } else {
     	$('#acrossDaysField').attr('checked', '');
     }
-    
+
     $('#date-range-begin').val($.datepicker.formatDate('mm/dd/yy', beginDay));
     $('#date-range-end').val($.datepicker.formatDate('mm/dd/yy', endDay));
     if ($('#assignment-value').html() != '') {
