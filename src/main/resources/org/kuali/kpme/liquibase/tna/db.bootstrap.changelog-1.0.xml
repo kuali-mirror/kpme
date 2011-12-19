@@ -527,10 +527,8 @@
                 <constraints nullable="true"/>
             </column>
             <column name="leave_plan" type="VARCHAR(15)">
-                <constraints nullable="false"/>
             </column>
             <column defaultValueDate="0002-11-30" name="service_date" type="DATE">
-                <constraints nullable="false"/>
             </column>
             <column defaultValue="N" name="fmla_eligible" type="VARCHAR(1)"/>
             <column defaultValue="N" name="worksman_eligible" type="VARCHAR(1)"/>
