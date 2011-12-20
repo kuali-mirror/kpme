@@ -35,5 +35,11 @@
             <docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
             <label>LeaveCalendarDocument</label>
         </documentType>
+        <documentType>
+            <name>LeaveDonationDocument</name>
+            <parent>RiceDocument</parent>
+            <docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+            <label>LeaveDonationDocument</label>
+        </documentType>
     </documentTypes>
 </data>

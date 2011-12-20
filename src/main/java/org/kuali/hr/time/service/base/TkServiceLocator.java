@@ -4,6 +4,7 @@ import org.kuali.hr.job.service.JobService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
 import org.kuali.hr.lm.leavecalendar.service.LeaveCalendarService;
 import org.kuali.hr.lm.leavecode.service.LeaveCodeService;
+import org.kuali.hr.lm.leavedonation.service.LeaveDonationService;
 import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
 import org.kuali.hr.lm.ledger.service.LedgerService;
 import org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffService;
@@ -117,6 +118,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String LM_ACCRUAL_CATEGORY_SERVICE = "accrualCategoryService";
     public static final String LM_LEAVE_CODE_SERVICE = "leaveCodeService";
     public static final String LM_LEAVE_PLAN_SERVICE = "leavePlanService";
+    public static final String LM_LEAVE_DONATION_SERVICE = "leaveDonationService";
     public static final String LM_SYS_SCH_TIMEOFF_SERVICE = "systemScheduledTimeOffService";
     public static final String LM_LEDGER_SERVICE = "ledgerService";
     public static final String LM_LEAVE_CALENDAR_SERVICE = "leaveCalendarService";
@@ -346,6 +348,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	
 	public static LeavePlanService getLeavePlanService(){
 		return (LeavePlanService)CONTEXT.getBean(LM_LEAVE_PLAN_SERVICE);
+	}
+	
+	public static LeaveDonationService getLeaveDonationService(){
+		return (LeaveDonationService)CONTEXT.getBean(LM_LEAVE_DONATION_SERVICE);
 	}
 	
 	public static SystemScheduledTimeOffService getSysSchTimeOffService(){

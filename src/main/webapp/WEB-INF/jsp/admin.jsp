@@ -181,6 +181,11 @@
                             System Scheduled Time Off
                         </a>
                     </li>
+                    <li>
+                        <a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.lm.leavedonation.LeaveDonation&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">
+                            Leave Donation
+                        </a>
+                    </li>
                 </ul>
 				 <c:if test="${Form.user.systemAdmin}">
 					<strong>Utility</strong>

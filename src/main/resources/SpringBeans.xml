@@ -438,6 +438,10 @@
     <bean id="leavePlanDao" class="org.kuali.hr.lm.leaveplan.dao.LeavePlanDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+    <bean id="leaveDonationDao" class="org.kuali.hr.lm.leavedonation.dao.LeaveDonationDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 
     <bean id="systemScheduledTimeOffDao" class="org.kuali.hr.lm.timeoff.dao.SystemScheduledTimeOffDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
@@ -636,6 +640,10 @@
 
     <bean id="leavePlanService" class="org.kuali.hr.lm.leaveplan.service.LeavePlanServiceImpl">
         <property name="leavePlanDao" ref="leavePlanDao"/>
+    </bean>
+
+    <bean id="leaveDonationService" class="org.kuali.hr.lm.leavedonation.service.LeaveDonationServiceImpl">
+        <property name="leaveDonationDao" ref="leaveDonationDao"/>
     </bean>
 
     <bean id="systemScheduledTimeOffService" class="org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffServiceImpl">
@@ -892,6 +900,11 @@
     <bean id="leaveCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.lm.leavecode.service.LeaveCodeLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="leaveDonationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.lm.leavedonation.service.LeaveDonationLookupableHelper"/>
         </property>
     </bean>
 
