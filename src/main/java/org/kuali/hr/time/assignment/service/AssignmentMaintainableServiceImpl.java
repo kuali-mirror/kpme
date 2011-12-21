@@ -1,10 +1,7 @@
 package org.kuali.hr.time.assignment.service;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.assignment.Assignment;
@@ -12,12 +9,17 @@ import org.kuali.hr.time.assignment.AssignmentAccount;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Override the Maintenance page behavior for Assignment object
@@ -44,6 +46,11 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 				fieldValues.put("name", "");
 			}
 		}
+
+        // KPME-1139
+        if (!fieldValues.containsKey("effectiveDate")) {
+            fieldValues.put("effectiveDate", new DateTime().toString(TkConstants.DT_BASIC_DATE_FORMAT));
+        }
 		return super.populateBusinessObject(fieldValues, maintenanceDocument,
 				methodToCall);
 	}
