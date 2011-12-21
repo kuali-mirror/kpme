@@ -65,7 +65,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		if (assignment.getTask() != null && !assignment.getTask().equals(0L)) {
 			Task task = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
 			if(task != null) {
-				if(!task.getWorkArea().equals(assignment.getWorkArea())) {
+				if(task.getWorkArea() == null || !task.getWorkArea().equals(assignment.getWorkArea())) {
 					this.putFieldError("task", "task.workarea.invalid.sync");
 					valid = false;
 				}
