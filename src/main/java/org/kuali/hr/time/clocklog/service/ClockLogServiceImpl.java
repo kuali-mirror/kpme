@@ -9,7 +9,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 
 import java.math.BigDecimal;
@@ -32,9 +31,9 @@ public class ClockLogServiceImpl implements ClockLogService {
     public ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment, PayCalendarEntries pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId) {
 
         // process rules
-        Timestamp clockTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockTimeStamp, new java.sql.Date(pe.getBeginPeriodDateTime().getTime()));
+        Timestamp roundedClockTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockTimeStamp, new java.sql.Date(pe.getBeginPeriodDateTime().getTime()));
 
-        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(clockTimestamp, clockTimeStamp, assignment, td, clockAction, ip);
+        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(roundedClockTimestamp, clockTimeStamp, assignment, td, clockAction, ip);
         TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, asOfDate);
 
         // If the clock action is clock out or lunch out, create a time block besides the clock log
@@ -123,7 +122,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         clockLog.setClockAction(clockAction);
         clockLog.setIpAddress(ip);
         clockLog.setHrJobId(assignment.getJob().getHrJobId());
-        clockLog.setUserPrincipalId(TKContext.getUser().getPrincipalId());
+        clockLog.setUserPrincipalId(principalId);
         // timestamp should be the original time without Grace Period rule applied
         clockLog.setTimestamp(originalTimestamp);
 
