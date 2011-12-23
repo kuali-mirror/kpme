@@ -159,6 +159,11 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
             StringBuffer prefix = new StringBuffer("roles[");
             prefix.append(pos).append("].");
             validateTkRole(role, prefix.toString());
+            if(role.getEffectiveDate().compareTo(role.getExpirationDate())>=0){
+				this.putFieldError(prefix + "expirationDate",
+						"error.role.expiration");
+				valid = false;
+			}
             pos++;
         }
 

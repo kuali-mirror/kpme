@@ -34,14 +34,24 @@ public class WorkAreaMaintenanceDocumentRule extends
 		return valid;
 	}
 
-	boolean validateRoles(List<TkRole> roles) {
+	boolean validateRoles(List<TkRole> roles, Date effectiveDate) {
 		boolean valid = false;
 
 		if (roles != null && roles.size() > 0) {
+			int pos = 0;
 			for (TkRole role : roles) {
 				valid |= role.isActive()
 						&& StringUtils.equals(role.getRoleName(),
 								TkConstants.ROLE_TK_APPROVER);
+				if (effectiveDate.compareTo(role.getExpirationDate()) >= 0
+						|| role.getEffectiveDate().compareTo(
+								role.getExpirationDate()) >= 0) {
+					StringBuffer prefix = new StringBuffer("roles[");
+		            prefix.append(pos).append("].");
+					this.putFieldError(prefix + "expirationDate",
+							"error.role.expiration");
+				}
+				pos++;
 			}
 		}
 
@@ -113,7 +123,7 @@ public class WorkAreaMaintenanceDocumentRule extends
 				String[] params = new String[]{TKContext.getUser().getPrincipalName(), wa.getDept()};
 				this.putFieldError("dept", "dept.user.unauthorized", params);
 			}
-			valid &= validateRoles(wa.getRoles());
+			valid &= validateRoles(wa.getRoles(), wa.getEffectiveDate());
 			// defaultOvertimeEarnCode is a nullable field. 
 			if ( wa.getDefaultOvertimeEarnCode() != null ){
 				valid &= validateDefaultOTEarnCode(wa.getDefaultOvertimeEarnCode(),

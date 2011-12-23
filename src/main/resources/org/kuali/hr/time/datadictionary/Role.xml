@@ -22,6 +22,7 @@
 				<ref bean="Role-workArea" />
 				<ref bean="Role-department" />
 				<ref bean="Role-chart" />
+				<ref bean="Role-expirationDate" />
 				<ref bean="Role-effectiveDate" />
 				<ref bean="Role-userPrincipalId" />
 				<ref bean="Role-active" />
@@ -146,6 +147,22 @@
 		<property name="label" value="Effective Date" />
 	</bean>
 
+	<bean id="Role-expirationDate" parent="Role-expirationDate-parentBean" />
+	<bean id="Role-expirationDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Expiration Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="expirationDate" />
+		<property name="label" value="Expiration Date" />
+	</bean>
+
 	<bean id="Role-workArea" parent="Role-workArea-parentBean" />
 	<bean id="Role-workArea-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Work Area" />
@@ -248,6 +265,7 @@
 				<bean parent="FieldDefinition" p:attributeName="userName" />
 				<bean parent="FieldDefinition" p:attributeName="roleName" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="expirationDate" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="department" />
 				<bean parent="FieldDefinition" p:attributeName="chart" />

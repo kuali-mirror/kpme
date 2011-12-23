@@ -627,6 +627,8 @@
             <column name="effdt" type="DATE">
                 <constraints nullable="false"/>
             </column>
+            <column name="expdt" type="DATE">
+            </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>

@@ -10,6 +10,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,14 +72,24 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 	 *
 	 * @return true if there is a role, false otherwise.
 	 */
-	protected boolean validateRolePresent(List<TkRole> roles) {
+	protected boolean validateRolePresent(List<TkRole> roles, Date effectiveDate) {
 		boolean valid = false;
 
 		if (roles != null && roles.size() > 0) {
+			int pos = 0;
 			for (TkRole role : roles) {
 				valid |= role.isActive()
 						&& StringUtils.equals(role.getRoleName(),
 								TkConstants.ROLE_TK_DEPT_ADMIN);
+				if (effectiveDate.compareTo(role.getExpirationDate()) >= 0
+						|| role.getEffectiveDate().compareTo(
+								role.getExpirationDate()) >= 0) {
+					StringBuffer prefix = new StringBuffer("roles[");
+		            prefix.append(pos).append("].");
+					this.putFieldError(prefix + "expirationDate",
+							"error.role.expiration");
+				}
+				pos++;
 			}
 		}
 
@@ -103,7 +114,7 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 			valid = validateChart(clr.getChart());
 			valid &= validateOrg(clr.getOrg());
 			valid &= validateChartAndOrg(clr.getChart(), clr.getOrg());
-			valid &= validateRolePresent(clr.getRoles());
+			valid &= validateRolePresent(clr.getRoles(), clr.getEffectiveDate());
 		}
 
 		return valid;

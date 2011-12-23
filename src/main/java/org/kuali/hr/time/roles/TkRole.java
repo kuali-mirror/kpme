@@ -29,6 +29,7 @@ public class TkRole extends HrBusinessObject {
 	private Long hrDeptId;
 	private Long tkWorkAreaId;
 	private String positionNumber;
+	private Date expirationDate;
 
     /**
      * These objects are used by Lookups to provide links on the maintenance
@@ -172,6 +173,14 @@ public class TkRole extends HrBusinessObject {
 
 	public String getPositionNumber() {
 		return positionNumber;
+	}
+
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 
 	public void setPositionObj(Position positionObj) {
