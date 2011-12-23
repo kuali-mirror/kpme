@@ -64,4 +64,6 @@ public interface TimesheetService {
 	public void deleteTimesheet(String documentId);
 	
 	public void resetTimeBlock(List<TimeBlock> timeBlock);
+
+    void approveTimesheet(String principalId, TimesheetDocument timesheetDocument, String action);
 }

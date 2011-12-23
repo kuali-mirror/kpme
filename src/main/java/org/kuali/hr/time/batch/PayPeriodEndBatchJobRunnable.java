@@ -38,6 +38,7 @@ public class PayPeriodEndBatchJobRunnable extends BatchJobEntryRunnable {
             for (ClockLog cl : openClockLogs) {
                 // clock out for each open clock log:
                 // create a end period DateTime object at midnight based on user's timezone
+
                 DateTime endPeriodDateTime = new DateTime(pe.getEndPeriodDateTime().getTime(), DateTimeZone.forID(cl.getClockTimestampTimezone()));
                 TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(cl.getPrincipalId(), pe.getBeginPeriodDate(), pe.getEndPeriodDate());
                 TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdh.getDocumentId());
@@ -45,11 +46,11 @@ public class PayPeriodEndBatchJobRunnable extends BatchJobEntryRunnable {
                 Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(td, assignmentKey);
 
                 TkServiceLocator.getClockLogService().processClockLog(new Timestamp(endPeriodDateTime.getMillis()), assignment, pe, cl.getIpAddress(),
-                        new java.sql.Date(endPeriodDateTime.getMillis()), td, TkConstants.CLOCK_OUT, cl.getPrincipalId());
+                        new java.sql.Date(endPeriodDateTime.getMillis()), td, TkConstants.CLOCK_OUT, cl.getPrincipalId(), TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
 
                 // clock in
                 TkServiceLocator.getClockLogService().processClockLog(new Timestamp(endPeriodDateTime.getMillis()), assignment, pe, cl.getIpAddress(),
-                        new java.sql.Date(endPeriodDateTime.getMillis()), td, TkConstants.CLOCK_IN, cl.getPrincipalId());
+                        new java.sql.Date(endPeriodDateTime.getMillis()), td, TkConstants.CLOCK_IN, cl.getPrincipalId(), TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
             }
 
         }

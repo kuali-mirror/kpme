@@ -184,6 +184,7 @@ public class TkConstants {
         public static final String ROUTE = "R";
         public static final String APPROVE = "A";
         public static final String DISAPPROVE = "D";
+        public static final String BATCH_JOB = "B";
     }
 
     public static final class ROUTE_STATUS {
@@ -220,6 +221,8 @@ public class TkConstants {
         public static final String SUPERVISOR_APPROVAL = "Supervisor Approval";
         public static final String BATCH_APPROVE_MISSED_PUNCH = "Batch Aprove Missed Punch";
     }
+    
+    public static final String BATCH_JOB_USER_PRINCIPAL_ID = "admin";
 
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";
     public static final String HOLIDAY_EARN_CODE = "HOL";

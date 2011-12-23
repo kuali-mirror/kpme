@@ -67,4 +67,8 @@ public interface ClockLogService {
      * @return
      */
     public ClockLog getClockLog(Long tkClockLogId);
+
+    ClockLog buildClockLog(Timestamp clockTimestamp, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId);
+
+    ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment, PayCalendarEntries pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
 }
