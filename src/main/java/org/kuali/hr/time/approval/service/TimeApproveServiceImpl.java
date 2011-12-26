@@ -556,7 +556,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         // because we only need the list of the principal ids and it doesn't matter if we select the latest row or not
         String sql =
                 "SELECT DISTINCT " +
-                        "A0.principal_id,A0.work_area,C0.calendar_name " +
+                        "A0.principal_id,A0.work_area,C0.pay_calendar " +
                         "FROM tk_assignment_t A0,hr_principal_attributes_t C0 " +
                         "WHERE (###) " +
                         "AND A0.effdt <= ? " +
@@ -576,7 +576,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
             Assignment assignment = new Assignment();
             assignment.setPrincipalId(rs.getString("principal_id"));
             assignment.setWorkArea(rs.getLong("work_area"));
-            assignment.setCalGroup(rs.getString("calendar_name"));
+            assignment.setCalGroup(rs.getString("pay_calendar"));
 
             assignments.add(assignment);
         }
