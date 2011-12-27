@@ -26,7 +26,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<TkRole> findPositionRoles(String positionNumber, Date asOfDate, String roleName, Long workArea, String department, String chart) {
+    public List<TkRole> findPositionRoles(String positionNumber, Date asOfDate, String roleName, Long workArea, String hrDeptId, String chart) {
         List<TkRole> roles = new ArrayList<TkRole>();
 
         Criteria root = new Criteria();
@@ -51,11 +51,11 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         // Inner AND to allow for all null chart/dept/work area
         Criteria nullAndWrapper = new Criteria();
         nullAndWrapper.addIsNull("workArea");
-        nullAndWrapper.addIsNull("department");
+        nullAndWrapper.addIsNull("hrDeptId");
         nullAndWrapper.addIsNull("chart");
 
         nstWaEd.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea"); // OR
-        nstDptEd.addEqualToField("department", Criteria.PARENT_QUERY_PREFIX + "department"); // OR
+        nstDptEd.addEqualToField("hrDeptId", Criteria.PARENT_QUERY_PREFIX + "hrDeptId"); // OR
         nstChrEd.addEqualToField("chart", Criteria.PARENT_QUERY_PREFIX + "chart"); // OR
         orWrapperEd.addOrCriteria(nstWaEd);
         orWrapperEd.addOrCriteria(nstDptEd);
@@ -88,11 +88,11 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         // Inner AND to allow for all null chart/dept/work area
         nullAndWrapper = new Criteria();
         nullAndWrapper.addIsNull("workArea");
-        nullAndWrapper.addIsNull("department");
+        nullAndWrapper.addIsNull("hrDeptId");
         nullAndWrapper.addIsNull("chart");
 
         nstWaEd.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea"); // OR
-        nstDptEd.addEqualToField("department", Criteria.PARENT_QUERY_PREFIX + "department"); // OR
+        nstDptEd.addEqualToField("hrDeptId", Criteria.PARENT_QUERY_PREFIX + "hrDeptId"); // OR
         nstChrEd.addEqualToField("chart", Criteria.PARENT_QUERY_PREFIX + "chart"); // OR
         orWrapperEd.addOrCriteria(nstWaEd);
         orWrapperEd.addOrCriteria(nstDptEd);
@@ -115,8 +115,8 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         // Optional ROOT criteria added :
         if (workArea != null)
             root.addEqualTo("workArea", workArea);
-        if (department != null)
-            root.addEqualTo("department", department);
+        if (hrDeptId != null)
+            root.addEqualTo("hrDeptId", hrDeptId);
         if (chart != null)
             root.addEqualTo("chart", chart);
         if (roleName != null)
@@ -165,11 +165,11 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         // Inner AND to allow for all null chart/dept/work area
         Criteria nullAndWrapper = new Criteria();
         nullAndWrapper.addIsNull("workArea");
-        nullAndWrapper.addIsNull("department");
+        nullAndWrapper.addIsNull("hrDeptId");
         nullAndWrapper.addIsNull("chart");
 
         nstWaEd.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea"); // OR
-        nstDptEd.addEqualToField("department", Criteria.PARENT_QUERY_PREFIX + "department"); // OR
+        nstDptEd.addEqualToField("hrDeptId", Criteria.PARENT_QUERY_PREFIX + "hrDeptId"); // OR
         nstChrEd.addEqualToField("chart", Criteria.PARENT_QUERY_PREFIX + "chart"); // OR
         orWrapperEd.addOrCriteria(nstWaEd);
         orWrapperEd.addOrCriteria(nstDptEd);
@@ -202,11 +202,11 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         // Inner AND to allow for all null chart/dept/work area
         nullAndWrapper = new Criteria();
         nullAndWrapper.addIsNull("workArea");
-        nullAndWrapper.addIsNull("department");
+        nullAndWrapper.addIsNull("hrDeptId");
         nullAndWrapper.addIsNull("chart");
 
         nstWaEd.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea"); // OR
-        nstDptEd.addEqualToField("department", Criteria.PARENT_QUERY_PREFIX + "department"); // OR
+        nstDptEd.addEqualToField("hrDeptId", Criteria.PARENT_QUERY_PREFIX + "hrDeptId"); // OR
         nstChrEd.addEqualToField("chart", Criteria.PARENT_QUERY_PREFIX + "chart"); // OR
         orWrapperEd.addOrCriteria(nstWaEd);
         orWrapperEd.addOrCriteria(nstDptEd);
@@ -230,7 +230,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         if (workArea != null)
             root.addEqualTo("workArea", workArea);
         if (department != null)
-            root.addEqualTo("department", department);
+            root.addEqualTo("hrDeptId", department);
         if (chart != null)
             root.addEqualTo("chart", chart);
         if (roleName != null)
@@ -270,7 +270,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
     
     @SuppressWarnings("unchecked")
     @Override
-    public List<TkRole> findInActiveRoles(String principalId, Date asOfDate, String roleName, Long workArea, String department, String chart) {
+    public List<TkRole> findInActiveRoles(String principalId, Date asOfDate, String roleName, Long workArea, String hrDeptId, String chart) {
     	List<TkRole> roles = new ArrayList<TkRole>();
     	
     	Criteria root = new Criteria();
@@ -295,11 +295,11 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
     	// Inner AND to allow for all null chart/dept/work area
     	Criteria nullAndWrapper = new Criteria();
     	nullAndWrapper.addIsNull("workArea");
-    	nullAndWrapper.addIsNull("department");
+    	nullAndWrapper.addIsNull("hrDeptId");
     	nullAndWrapper.addIsNull("chart");
     	
     	nstWaEd.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea"); // OR
-    	nstDptEd.addEqualToField("department", Criteria.PARENT_QUERY_PREFIX + "department"); // OR
+    	nstDptEd.addEqualToField("hrDeptId", Criteria.PARENT_QUERY_PREFIX + "hrDeptId"); // OR
     	nstChrEd.addEqualToField("chart", Criteria.PARENT_QUERY_PREFIX + "chart"); // OR
     	orWrapperEd.addOrCriteria(nstWaEd);
     	orWrapperEd.addOrCriteria(nstDptEd);
@@ -332,11 +332,11 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
     	// Inner AND to allow for all null chart/dept/work area
     	nullAndWrapper = new Criteria();
     	nullAndWrapper.addIsNull("workArea");
-    	nullAndWrapper.addIsNull("department");
+    	nullAndWrapper.addIsNull("hrDeptId");
     	nullAndWrapper.addIsNull("chart");
     	
     	nstWaEd.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea"); // OR
-    	nstDptEd.addEqualToField("department", Criteria.PARENT_QUERY_PREFIX + "department"); // OR
+    	nstDptEd.addEqualToField("hrDeptId", Criteria.PARENT_QUERY_PREFIX + "hrDeptId"); // OR
     	nstChrEd.addEqualToField("chart", Criteria.PARENT_QUERY_PREFIX + "chart"); // OR
     	orWrapperEd.addOrCriteria(nstWaEd);
     	orWrapperEd.addOrCriteria(nstDptEd);
@@ -359,8 +359,8 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
     	// Optional ROOT criteria added :
     	if (workArea != null)
     		root.addEqualTo("workArea", workArea);
-    	if (department != null)
-    		root.addEqualTo("department", department);
+    	if (hrDeptId != null)
+    		root.addEqualTo("hrDeptId", hrDeptId);
     	if (chart != null)
     		root.addEqualTo("chart", chart);
     	if (roleName != null)
@@ -475,11 +475,11 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 
         // Inner AND to allow for all null chart/dept/work area
         Criteria nullAndWrapper = new Criteria();
-        nullAndWrapper.addIsNull("department");
+        nullAndWrapper.addIsNull("hrDeptId");
         nullAndWrapper.addIsNull("chart");
 
         nstWaEd.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea"); // OR
-        nstDptEd.addEqualToField("department", Criteria.PARENT_QUERY_PREFIX + "department"); // OR
+        nstDptEd.addEqualToField("hrDeptId", Criteria.PARENT_QUERY_PREFIX + "hrDeptId"); // OR
         nstChrEd.addEqualToField("chart", Criteria.PARENT_QUERY_PREFIX + "chart"); // OR
         orWrapperEd.addOrCriteria(nstWaEd);
         orWrapperEd.addOrCriteria(nstDptEd);
@@ -511,11 +511,11 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 
         // Inner AND to allow for all null chart/dept/work area
         nullAndWrapper = new Criteria();
-        nullAndWrapper.addIsNull("department");
+        nullAndWrapper.addIsNull("hrDeptId");
         nullAndWrapper.addIsNull("chart");
 
         nstWaEd.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea"); // OR
-        nstDptEd.addEqualToField("department", Criteria.PARENT_QUERY_PREFIX + "department"); // OR
+        nstDptEd.addEqualToField("hrDeptId", Criteria.PARENT_QUERY_PREFIX + "hrDeptId"); // OR
         nstChrEd.addEqualToField("chart", Criteria.PARENT_QUERY_PREFIX + "chart"); // OR
         orWrapperEd.addOrCriteria(nstWaEd);
         orWrapperEd.addOrCriteria(nstDptEd);

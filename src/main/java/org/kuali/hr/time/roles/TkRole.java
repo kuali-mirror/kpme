@@ -1,9 +1,11 @@
 package org.kuali.hr.time.roles;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.position.Position;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.bo.Person;
@@ -98,6 +100,13 @@ public class TkRole extends HrBusinessObject {
 		this.workArea = workArea;
 	}
 	public String getDepartment() {
+		if (StringUtils.isNotBlank(department) && getHrDeptId() != null) {
+			Department departmentObject = TkServiceLocator
+					.getDepartmentService().getDepartment(getHrDeptId());
+			department = departmentObject != null ?
+							departmentObject.getDept()
+								: "";
+		}
 		return department;
 	}
 	public void setDepartment(String department) {

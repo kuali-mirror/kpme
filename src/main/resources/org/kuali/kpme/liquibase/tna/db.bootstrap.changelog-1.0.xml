@@ -636,7 +636,7 @@
             </column>
             <column name="user_principal_id" type="VARCHAR(40)"/>
             <column name="work_area" type="BIGINT"/>
-            <column name="dept" type="VARCHAR(21)"/>
+            <column name="dept" type="BIGINT"/>
             <column name="chart" type="VARCHAR(10)"/>
             <column name="effdt" type="DATE">
                 <constraints nullable="false"/>

@@ -191,7 +191,7 @@
 			auto-retrieve="true"
 			auto-update="object"
 			auto-delete="object">
-			<inverse-foreignkey field-ref="department"/>
+			<inverse-foreignkey field-ref="hrDeptId"/>
 		</collection-descriptor> 
 	</class-descriptor>    
 
@@ -640,7 +640,7 @@
 		<field-descriptor name="userPrincipalId" column="user_principal_id" jdbc-type="VARCHAR" length="27" nullable="false" />
 		<field-descriptor name="roleName"        column="role_name" jdbc-type="VARCHAR" length="20" primarykey="false"/>
 		<field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" primarykey="false" />
-		<field-descriptor name="department"      column="dept" jdbc-type="VARCHAR" length="21" primarykey="false"/>
+		<field-descriptor name="hrDeptId"      	 column="dept" jdbc-type="BIGINT" primarykey="false"/>
         <field-descriptor name="chart"           column="chart" jdbc-type="VARCHAR" length="10" primarykey="false"/>
 		<field-descriptor name="effectiveDate"   column="EFFDT" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
