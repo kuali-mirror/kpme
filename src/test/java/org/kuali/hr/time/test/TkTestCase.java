@@ -47,7 +47,7 @@ public class TkTestCase extends KNSTestCase{
 		//this clears the cache that was loaded from the above call.  Do not comment
 		TKContext.setHttpServletRequest(new MockHttpServletRequest());
 		new ClearDatabaseLifecycle().start();
-		new LoadDatabaseDataLifeCycle().start();
+		new LoadDatabaseDataLifeCycle(this.getClass()).start();
 	}
 
 	@Override

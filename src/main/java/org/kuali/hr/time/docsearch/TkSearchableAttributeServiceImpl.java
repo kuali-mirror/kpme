@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -17,28 +18,38 @@ import org.kuali.rice.kew.service.WorkflowDocument;
 
 public class TkSearchableAttributeServiceImpl implements
 		TkSearchableAttributeService {
-	
+
+    private static final Logger LOG = Logger.getLogger(TkSearchableAttributeServiceImpl.class);
+
 	public void updateSearchableAttribute(TimesheetDocument document, Date asOfDate){
         WorkflowDocument workflowDocument = null;
-		try {
-			workflowDocument = new WorkflowDocument(document.getPrincipalId(), Long.parseLong(document.getDocumentId()));
-	        workflowDocument.setApplicationContent(createSearchableAttributeXml(document, asOfDate));
-	        workflowDocument.saveDocument("");
-			if (!"I".equals(workflowDocument.getRouteHeader().getDocRouteStatus())) {
-	        	//updateWorkflowTitle(document,workflowDocument);
-	           	if(workflowDocument.getRouteHeader().getInitiatorPrincipalId().equals(TKContext.getPrincipalId())){
-	        		workflowDocument.saveDocument("");
-	        	}else{
-	        		workflowDocument.saveRoutingData();
-	        	}	            
-	         }else{
-	        	workflowDocument.saveDocument("");
-	        }
-		
-		
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+        //
+        // djunk - Need to actually look at why this call is here for every
+        //         document submission. Rice does not allow save events for
+        //         documents in final status. We may add more skips.
+        //
+        if (!document.getDocumentHeader().getDocumentStatus().equals("F")) {
+            try {
+                workflowDocument = new WorkflowDocument(document.getPrincipalId(), Long.parseLong(document.getDocumentId()));
+                workflowDocument.setApplicationContent(createSearchableAttributeXml(document, asOfDate));
+                workflowDocument.saveDocument("");
+                if (!"I".equals(workflowDocument.getRouteHeader().getDocRouteStatus())) {
+                    //updateWorkflowTitle(document,workflowDocument);
+                    if(workflowDocument.getRouteHeader().getInitiatorPrincipalId().equals(TKContext.getPrincipalId())){
+                        workflowDocument.saveDocument("");
+                    }else{
+                        workflowDocument.saveRoutingData();
+                    }
+                }else{
+                    workflowDocument.saveDocument("");
+                }
+
+
+            } catch (Exception e) {
+                LOG.warn("Exception during searchable attribute update.");
+                throw new RuntimeException(e);
+            }
+        }
 	}
 
 	@Override
@@ -46,18 +57,18 @@ public class TkSearchableAttributeServiceImpl implements
 		List<Long> workAreas = new ArrayList<Long>();
 		Map<String,List<Long>> deptToListOfWorkAreas = new HashMap<String,List<Long>>();
 		List<String> salGroups = new ArrayList<String>();
-		
+
 		for(Assignment assign: document.getAssignments()){
 			if(!workAreas.contains(assign.getWorkArea())){
 				workAreas.add(assign.getWorkArea());
 			}
 			Job job = TkServiceLocator.getJobSerivce().getJob(assign.getPrincipalId(), assign.getJobNumber(), document.getAsOfDate());
-			
+
 			if(!salGroups.contains(job.getHrSalGroup())){
 				salGroups.add(job.getHrSalGroup());
 			}
 		}
-		
+
 		for(Long workArea : workAreas){
 			WorkArea workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, TKUtils.getTimelessDate(asOfDate));
 			if(deptToListOfWorkAreas.containsKey(workAreaObj.getDept())){
@@ -84,10 +95,10 @@ public class TkSearchableAttributeServiceImpl implements
 		for(String salGroup : salGroups){
 			sb.append("<SALGROUP value=\""+salGroup+"\"/>");
 		}
-		
+
 		sb.append("<PAYENDDATE value=\""+asOfDate+"\"/>");
 		sb.append("</TimesheetDocument></applicationContent></documentContext>");
-		
+
 		return sb.toString();
 	}
 

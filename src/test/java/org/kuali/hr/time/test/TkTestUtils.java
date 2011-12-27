@@ -1,16 +1,22 @@
 package org.kuali.hr.time.test;
 
 import com.gargoylesoftware.htmlunit.html.*;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.Duration;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.junit.Assert;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
+import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -20,6 +26,8 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -379,5 +387,22 @@ public class TkTestUtils {
 		DateTime dt = new DateTime(year, month, day, hours, minutes, seconds, 0);
 		return new Date(dt.getMillis());
 	}
+
+
+    /**
+     * Method to obtain the HREF onclick='' value from the button when
+     * the client side typically processes the request.
+     * @param button
+     */
+    public static String getOnClickHref(HtmlElement button) {
+        NamedNodeMap attributes = button.getAttributes();
+        Node node = attributes.getNamedItem("onclick");
+
+        //location.href='TimesheetSubmit.do?action=R&documentId=2000&methodToCall=approveTimesheet'
+        String hrefRaw = node.getNodeValue();
+        int sidx = hrefRaw.indexOf("='");
+
+        return hrefRaw.substring(sidx+2, hrefRaw.length() - 1);
+    }
 
 }

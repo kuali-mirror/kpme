@@ -28,10 +28,19 @@ import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
 public class LoadDatabaseDataLifeCycle extends BaseLifecycle{
-	protected static final Logger LOG = Logger.getLogger(ClearDatabaseLifecycle.class);
+	protected static final Logger LOG = Logger.getLogger(LoadDatabaseDataLifeCycle.class);
 
 	public static final String TEST_TABLE_NAME = "KR_UNITTEST_T";
-	
+
+    private Class callingTestClass = null;
+
+    public LoadDatabaseDataLifeCycle() {
+    }
+
+    public LoadDatabaseDataLifeCycle(Class caller) {
+        this.callingTestClass = caller;
+    }
+
 	public void start() throws Exception {
 		final StandardXAPoolDataSource dataSource = (StandardXAPoolDataSource) TkServiceLocator.CONTEXT.getBean("tkDataSource");
 		final PlatformTransactionManager transactionManager = (PlatformTransactionManager) TkServiceLocator.CONTEXT.getBean("transactionManager");
@@ -39,7 +48,7 @@ public class LoadDatabaseDataLifeCycle extends BaseLifecycle{
 		loadData(transactionManager, dataSource, schemaName);
 		super.start();
 	}
-	
+
 	public void loadData(final PlatformTransactionManager transactionManager, final DataSource dataSource, final String schemaName) {
 		LOG.info("Clearing tables for schema " + schemaName);
 		Assert.assertNotNull("DataSource could not be located.", dataSource);
@@ -52,9 +61,19 @@ public class LoadDatabaseDataLifeCycle extends BaseLifecycle{
             	verifyTestEnvironment(dataSource);
             	return new JdbcTemplate(dataSource).execute(new StatementCallback() {
                 	public Object doInStatement(Statement statement) throws SQLException {
-                		List<String> sqlStatements = getTestDataSQLStatements();
+                        List<String> sqlStatements = getTestDataSQLStatements("src/test/config/sql/tk-test-data.sql");
+                        //
+                        // djunk - add a per-class special test data loader,
+                        // loads <testclassname>.sql from the same directory
+                        // as the other SQL loaded.
+                        if (callingTestClass != null) {
+                            sqlStatements.addAll(getTestDataSQLStatements("src/test/config/sql/" + callingTestClass.getSimpleName() + ".sql"));
+                        }
                 		for(String sql : sqlStatements){
-                			statement.addBatch(sql);
+                            if (!sql.startsWith("#") && !sql.startsWith("//")) {
+                                // ignore comment lines in our sql reader.
+                			    statement.addBatch(sql);
+                            }
                 		}
                 		statement.executeBatch();
                 		return null;
@@ -63,12 +82,12 @@ public class LoadDatabaseDataLifeCycle extends BaseLifecycle{
             }
         });
 	}
-	
+
 	protected void verifyTestEnvironment(final DataSource dataSource) {
 		Assert.assertTrue("No table named '" + TEST_TABLE_NAME + "' was found in the configured database.  " + "You are attempting to run tests against a non-test database!!!",
 		isTestTableInSchema(dataSource));
 	}
-	
+
 	protected Boolean isTestTableInSchema(final DataSource dataSource) {
 	Assert.assertNotNull("DataSource could not be located.", dataSource);
 	return (Boolean) new JdbcTemplate(dataSource).execute(new ConnectionCallback() {
@@ -78,17 +97,17 @@ public class LoadDatabaseDataLifeCycle extends BaseLifecycle{
 			}
 		});
 	}
-	
-	private List<String> getTestDataSQLStatements(){
+
+	private List<String> getTestDataSQLStatements(String fname){
 		List<String> testDataSqlStatements = new ArrayList<String>();
 		try {
-			BufferedReader in = new BufferedReader(new FileReader("src/test/config/sql/tk-test-data.sql"));
+			BufferedReader in = new BufferedReader(new FileReader(fname));
 			String str;
 			while ((str = in.readLine()) != null) {
 				testDataSqlStatements.add(str);
 			}
 		} catch (FileNotFoundException e) {
-			LOG.error("No file found for tk-test-data.sql");
+			LOG.warn("No file found for " + fname);
 		} catch (IOException e) {
 			LOG.error("IO exception in test data loading");
 		}
