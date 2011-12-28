@@ -216,7 +216,7 @@ $(document).ready(function () {
     // display warning and notes
     $(" .approvals-warning, .approvals-note").tooltip({ effect:'slide'});
 
-    // toggle the button for the assigment details
+    // toggle the button for the assignment details
     $('.rowInfo').click(function () {
         // figure out the columns in the approval table
         var columns = $(".approvals-table > tbody > tr.odd > td").length;
@@ -225,25 +225,38 @@ $(document).ready(function () {
 
         if ($(this).hasClass('ui-icon-plus')) {
             /**
-             * The code below is a DOM manipulation which grab the
-             * current time summary layout and
+             * The code below is a DOM manipulation which grabs the
+             * current time summary layout and rerender it to match
+             * with the layout / styles of the approval table.
              *
+             * The original layout comes from the same code that
+             * renders the time summary table on the time detail
+             * page.
              */
             $timeSummaryRow = undefined;
             // create a clone of the time summary row
             $timeSummaryRow = $('.timeSummaryRow_' + seq).clone(true);
+            // remove the date header
             $(".ui-state-default, tbody tr:first", $timeSummaryRow).remove();
+            // find the time summary table
             var parent = $('.timeSummaryRow_' + seq).closest("tr");
+            // grab all the TRs from the summary table
             $trs = $("table tr", $timeSummaryRow);
+            // add a unique id in order to show / hide the new summary table
             $trs.attr("class", "timeHourDetail_" + seq);
+            // merge columns
             $("td:nth-child(1)", $trs).attr("colspan", 3);
 
+            // append the new summary table after the total row
             parent.after($trs);
 
+            // change the icon from - to +
             $(this).removeClass('ui-icon-plus').addClass('ui-icon-minus');
         }
         else {
+            // remove the summary when - button is clicked
             $('.timeHourDetail_' + seq).remove();
+            // change the icon from + to -
             $(this).removeClass('ui-icon-minus').addClass('ui-icon-plus');
         }
     });

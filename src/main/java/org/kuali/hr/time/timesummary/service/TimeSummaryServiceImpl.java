@@ -112,7 +112,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 								assignRow = new AssignmentRow();
 								assignRow.setAssignmentKey(assignKey);
 								AssignmentDescriptionKey assignmentKey = TkServiceLocator.getAssignmentService().getAssignmentDescriptionKey(assignKey);
-								Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(assignmentKey, TKUtils.getTimelessDate(asOfDate));
+								Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, TKUtils.getTimelessDate(asOfDate));
 								//TODO push this up to the assignment fetch/fully populated instead of like this
 								if(assignment != null){
 									if(assignment.getJob() == null){
