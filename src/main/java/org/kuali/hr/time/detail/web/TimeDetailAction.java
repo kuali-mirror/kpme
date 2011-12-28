@@ -179,8 +179,10 @@ public class TimeDetailAction extends TimesheetAction {
                 overtimeEndTimestamp = tb.getEndTimestamp();
             }
 
-            TimeBlockHistory tbh = new TimeBlockHistory(tb);
+            
+            
             if (tb != null) {
+            	TimeBlockHistory tbh = new TimeBlockHistory(tb);
                 TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
 
                 // mark the original timeblock as deleted in the history table
@@ -189,7 +191,7 @@ public class TimeDetailAction extends TimesheetAction {
 
                 // delete the timeblock from the memory
                 tdaf.getTimesheetDocument().getTimeBlocks().remove(tb);
-            }
+            } 
         }
 
         Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());
@@ -239,6 +241,7 @@ public class TimeDetailAction extends TimesheetAction {
 
         ActionFormUtils.validateHourLimit(tdaf);
         ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
+  
         return mapping.findForward("basic");
     }
     
