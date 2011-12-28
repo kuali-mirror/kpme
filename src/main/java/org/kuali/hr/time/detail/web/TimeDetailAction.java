@@ -45,7 +45,7 @@ public class TimeDetailAction extends TimesheetAction {
         TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
 
         // Check for write access to Timeblock.
-        if (StringUtils.equals(methodToCall, "addTimeBlock") || StringUtils.equals(methodToCall, "deleteTimeBlock")) {
+        if (StringUtils.equals(methodToCall, "addTimeBlock") || StringUtils.equals(methodToCall, "deleteTimeBlock") || StringUtils.equals(methodToCall, "updateTimeBlock")) {
             if (!roles.isDocumentWritable(doc)) {
                 throw new AuthorizationException(roles.getPrincipalId(), "TimeDetailAction", "");
             }
@@ -97,19 +97,18 @@ public class TimeDetailAction extends TimesheetAction {
         tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(TKContext.getCurrentTimesheetDoucment(), aggregate.getFlattenedTimeBlockList()));
 
         tdaf.setOvertimeEarnCodes(TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDoucment().getAsOfDate()));
+        
+    	tdaf.setDocEditable("false");
+    	
         if(TKContext.getUser().isSystemAdmin()){
         	tdaf.setDocEditable("true");
-        } else if(TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL)) {
-        	tdaf.setDocEditable("false");
-        } else if(StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())){
-        	tdaf.setDocEditable("true");
         } else {
-        	if(TKContext.getUser().isSystemAdmin() || TKContext.getUser().isLocationAdmin() || TKContext.getUser().isDepartmentAdmin() ||
-        			TKContext.getUser().isReviewer() || TKContext.getUser().isApprover()){
-        		tdaf.setDocEditable("true");
-        	}
-        	if(TKContext.getUser().isGlobalViewOnly() || TKContext.getUser().isDepartmentViewOnly()){
-        		tdaf.setDocEditable("false");
+        	boolean docFinal = TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL);
+        	if(!docFinal) { 
+            	if(StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId()) || TKContext.getUser().isSystemAdmin() || TKContext.getUser().isLocationAdmin() || TKContext.getUser().isDepartmentAdmin() ||
+            			TKContext.getUser().isReviewer() || TKContext.getUser().isApprover()){
+            		tdaf.setDocEditable("true");
+            	}
         	}
         }
 
