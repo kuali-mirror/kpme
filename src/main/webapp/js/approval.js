@@ -249,7 +249,8 @@ $(document).ready(function () {
     });
 
     $("#refresh").click(function(){
-       location.reload();
+       // location.reload();
+        location.replace('TimeApproval.do?methodToCall=loadApprovalTab');
     });
 
     // add css styles to the note and warning buttons
