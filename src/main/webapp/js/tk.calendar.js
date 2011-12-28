@@ -100,7 +100,10 @@ $(document).ready(function() {
         }
 
         if ($('#docEditable').val() == "false") {
-            return false;
+        	// only make Actual Time Inquiry link clickable if doc is not editable
+        	if(event.target.id != "atiLink") {
+        		return false;
+        	}
         }else {
         	$("#date-range-begin").removeAttr("disabled");
             $("#date-range-end").removeAttr("disabled");

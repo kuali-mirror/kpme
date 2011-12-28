@@ -27,7 +27,7 @@
 		<tr>
 		<tr>
         <td align="right">
-        	<a href="${KualiForm.backLocation}?methodToCall=actualTimeInquiry&documentId=${Form.documentId}" target="_blank">Actual Time Inquiry</a>
+        	<a href="${KualiForm.backLocation}?methodToCall=actualTimeInquiry&documentId=${Form.documentId}" target="_blank" id="atiLink">Actual Time Inquiry</a>
         </td>
         	
         </tr>
