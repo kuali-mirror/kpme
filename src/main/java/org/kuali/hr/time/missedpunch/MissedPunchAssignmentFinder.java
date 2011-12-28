@@ -45,6 +45,14 @@ public class MissedPunchAssignmentFinder extends KeyValuesBase {
         	}
         }
         
+        mpDocId = (String)TKContext.getHttpServletRequest().getParameter("docId");
+        if(StringUtils.isNotBlank(mpDocId)){
+        	MissedPunchDocument mp = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(mpDocId);
+        	if(mp != null) {
+        		tdocId = mp.getTimesheetDocumentId();
+        	}
+        }
+        
         if(StringUtils.isBlank(tdocId)) {
         	tdocId = (String) TKContext.getHttpServletRequest().getAttribute(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME);   
         }
