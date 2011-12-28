@@ -85,6 +85,7 @@ alter table tk_time_block_hist_t modify column tk_time_block_id varchar(60) NOT 
 alter table tk_time_block_hist_detail_t modify column tk_time_block_hist_detail_id varchar(60) NOT NULL;
 alter table tk_time_block_hist_detail_t modify column tk_time_block_hist_id varchar(60) NOT NULL;
 
+alter table tk_missed_punch_doc_t modify column tk_clock_log_id varchar(60) NOT NULL;
 
 
 
