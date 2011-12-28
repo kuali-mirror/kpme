@@ -58,11 +58,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
         Assignment assignment = assignments.get(0);
         List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, JAN_AS_OF_DATE);
         EarnCode earnCode = earnCodes.get(0);
-
-        TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdocId);
-        assertNotNull(timesheetDocument);
-
-        assertEquals("There should be no existing time blocks.", 0, timesheetDocument.getTimeBlocks().size());
+        assertEquals("There should be no existing time blocks.", 0, tdoc.getTimeBlocks().size());
 
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 6:00pm
@@ -72,7 +68,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
 
         // Build an action form - we're using it as a POJO, it ties into the
         // existing TK validation setup
-        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(timesheetDocument, assignment, earnCode, start, end, null, true, null);
+        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, true, null);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         // Check for errors
         assertEquals("There should be no errors in this time detail submission", 0, errors.size());
@@ -83,7 +79,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
 
         // Verify block present on rendered page.
         String pageAsText = page.asText();
-        HtmlUnitUtil.createTempFile(page, "Hours");
+        //HtmlUnitUtil.createTempFile(page, "Hours");
         // JSON
         //
         //
