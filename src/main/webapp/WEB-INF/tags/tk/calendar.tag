@@ -86,7 +86,7 @@
 									
 	                                   <div class="event ${last} ${block.assignmentClass}">
 	                                   	   <c:set var="editableClass" value="event-title-false"/>
-	                                   	   <c:if test="${Form.docEditable && block.timeBlock.editable}">
+	                                   	   <c:if test="${Form.docEditable}">
 	                                   	   		<c:set var="editableClass" value="event-title-true"/>
 	                                   	   </c:if>
 	                                   	   
