@@ -24,7 +24,7 @@ public class TimeSheetInitiateLookupableHelper extends KualiLookupableHelperServ
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			TimeSheetInitiate timeSheetInitiateObj = (TimeSheetInitiate) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long tkTimeSheetInitId = timeSheetInitiateObj.getTkTimeSheetInitId();
+			final String tkTimeSheetInitId = timeSheetInitiateObj.getTkTimeSheetInitId();
 			HtmlData htmlData = new HtmlData() {
 
 				private static final long serialVersionUID = 1L;

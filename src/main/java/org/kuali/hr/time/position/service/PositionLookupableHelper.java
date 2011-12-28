@@ -21,7 +21,7 @@ public class PositionLookupableHelper extends HrEffectiveDateActiveLookupableHel
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
 			List pkNames) {
 		Position position = (Position) businessObject;
-		final Long hrPositionId = position.getHrPositionId();
+		final String hrPositionId = position.getHrPositionId();
 		final String className = this.getBusinessObjectClass().getName();
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);

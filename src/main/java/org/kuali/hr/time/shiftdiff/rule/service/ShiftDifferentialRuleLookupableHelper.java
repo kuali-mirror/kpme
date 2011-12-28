@@ -24,7 +24,7 @@ public class ShiftDifferentialRuleLookupableHelper extends
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			ShiftDifferentialRule shiftDifferentialRule = (ShiftDifferentialRule) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long tkShiftDiffRuleId = shiftDifferentialRule
+			final String tkShiftDiffRuleId = shiftDifferentialRule
 					.getTkShiftDiffRuleId();
 			HtmlData htmlData = new HtmlData() {
 

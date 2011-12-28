@@ -34,7 +34,7 @@ public class TimeCollectionRuleLookupableHelper extends
 				businessObject, pkNames);
 		TimeCollectionRule timeCollectionRule = (TimeCollectionRule) businessObject;
 		final String className = this.getBusinessObjectClass().getName();
-		final Long tkTimeCollectionRuleId = timeCollectionRule.getTkTimeCollectionRuleId();
+		final String tkTimeCollectionRuleId = timeCollectionRule.getTkTimeCollectionRuleId();
 		HtmlData htmlData = new HtmlData() {
 
 			@Override

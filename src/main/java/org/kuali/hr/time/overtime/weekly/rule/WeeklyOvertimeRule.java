@@ -14,7 +14,7 @@ public class WeeklyOvertimeRule extends TkRule {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long tkWeeklyOvertimeRuleId;
+	private String tkWeeklyOvertimeRuleId;
 	private String maxHoursEarnGroup;
 	private String convertFromEarnGroup;
 	private String convertToEarnCode;
@@ -37,11 +37,11 @@ public class WeeklyOvertimeRule extends TkRule {
 		return null;
 	}
 
-	public Long getTkWeeklyOvertimeRuleId() {
+	public String getTkWeeklyOvertimeRuleId() {
 		return tkWeeklyOvertimeRuleId;
 	}
 
-	public void setTkWeeklyOvertimeRuleId(Long tkWeeklyOvertimeRuleId) {
+	public void setTkWeeklyOvertimeRuleId(String tkWeeklyOvertimeRuleId) {
 		this.tkWeeklyOvertimeRuleId = tkWeeklyOvertimeRuleId;
 	}
 
@@ -150,12 +150,12 @@ public class WeeklyOvertimeRule extends TkRule {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getTkWeeklyOvertimeRuleId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setTkWeeklyOvertimeRuleId(id);
 	}
 }

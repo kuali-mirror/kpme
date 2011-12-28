@@ -59,7 +59,7 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
 	}
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getDepartmentService().getDepartment(id);
 	}
 

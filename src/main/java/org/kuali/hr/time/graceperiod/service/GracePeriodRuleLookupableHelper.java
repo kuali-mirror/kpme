@@ -23,7 +23,7 @@ public class GracePeriodRuleLookupableHelper extends
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			GracePeriodRule gracePeriodRule = (GracePeriodRule) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long tkGracePeriodRuleId = gracePeriodRule
+			final String tkGracePeriodRuleId = gracePeriodRule
 					.getTkGracePeriodRuleId();
 			HtmlData htmlData = new HtmlData() {
 

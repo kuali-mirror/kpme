@@ -39,7 +39,7 @@ public class SystemLunchRuleDaoImpl  extends PersistenceBrokerDaoSupport impleme
 	}
 
 	@Override
-	public SystemLunchRule getSystemLunchRule(Long tkSystemLunchRuleId) {
+	public SystemLunchRule getSystemLunchRule(String tkSystemLunchRuleId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("tkSystemLunchRuleId", tkSystemLunchRuleId);
 		

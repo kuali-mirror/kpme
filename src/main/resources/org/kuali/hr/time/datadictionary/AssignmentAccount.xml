@@ -234,12 +234,14 @@
 	<bean id="AssignmentAccount-tkAssignmentId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Assignment" />
-		<property name="maxLength" value="19" />
+		<property name="maxLength" value="60" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="19" />
+			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
 		<property name="name" value="tkAssignmentId" />
 		<property name="label" value="Assignment" />

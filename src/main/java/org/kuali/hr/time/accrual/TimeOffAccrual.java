@@ -14,7 +14,7 @@ public class TimeOffAccrual extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long lmAccrualId;
+	private String lmAccrualId;
 	private String principalId;
 	private String accrualCategory;
 	private Date effectiveDate;
@@ -22,7 +22,7 @@ public class TimeOffAccrual extends HrBusinessObject {
 	private BigDecimal hoursTaken = new BigDecimal("0");
 	private BigDecimal hoursAdjust = new BigDecimal("0");
 
-	private Long lmAccrualCategoryId;
+	private String lmAccrualCategoryId;
 	
 	private AccrualCategory accrualCategoryObj;
 
@@ -96,12 +96,12 @@ public class TimeOffAccrual extends HrBusinessObject {
 	}
 
 
-	public Long getLmAccrualId() {
+	public String getLmAccrualId() {
 		return lmAccrualId;
 	}
 
 
-	public void setLmAccrualId(Long lmAccrualId) {
+	public void setLmAccrualId(String lmAccrualId) {
 		this.lmAccrualId = lmAccrualId;
 	}
 
@@ -111,12 +111,12 @@ public class TimeOffAccrual extends HrBusinessObject {
 	}
 
 
-	public Long getLmAccrualCategoryId() {
+	public String getLmAccrualCategoryId() {
 		return lmAccrualCategoryId;
 	}
 
 
-	public void setLmAccrualCategoryId(Long lmAccrualCategoryId) {
+	public void setLmAccrualCategoryId(String lmAccrualCategoryId) {
 		this.lmAccrualCategoryId = lmAccrualCategoryId;
 	}
 
@@ -127,12 +127,12 @@ public class TimeOffAccrual extends HrBusinessObject {
 	}
 	
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getLmAccrualId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setLmAccrualId(id);
 	}
 

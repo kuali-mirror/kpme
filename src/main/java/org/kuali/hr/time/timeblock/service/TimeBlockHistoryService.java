@@ -22,7 +22,7 @@ public interface TimeBlockHistoryService {
 	 * @param tkTimeBlockId
 	 * @return
 	 */
-    public TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(Long tkTimeBlockId);
+    public TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(String tkTimeBlockId);
     /**
 	 * Add Time Block history Details to Time Block History using timeHourDetails
 	 * of given time block

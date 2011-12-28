@@ -20,7 +20,7 @@ public class DailyOvertimeRule extends TkRule {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long tkDailyOvertimeRuleId;
+	private String tkDailyOvertimeRuleId;
 
 	private String fromEarnGroup;
 	private String earnCode;
@@ -36,9 +36,9 @@ public class DailyOvertimeRule extends TkRule {
 	private boolean history;
 	private Boolean ovtEarnCode;
 
-	private Long tkWorkAreaId;
-	private Long hrDeptId;
-	private Long hrLocationId;
+	private String tkWorkAreaId;
+	private String hrDeptId;
+	private String hrLocationId;
 	
 	private Task taskObj;
 	private WorkArea workAreaObj;
@@ -56,11 +56,11 @@ public class DailyOvertimeRule extends TkRule {
 		return null;
 	}
 
-	public Long getTkDailyOvertimeRuleId() {
+	public String getTkDailyOvertimeRuleId() {
 		return tkDailyOvertimeRuleId;
 	}
 
-	public void setTkDailyOvertimeRuleId(Long tkDailyOvertimeRuleId) {
+	public void setTkDailyOvertimeRuleId(String tkDailyOvertimeRuleId) {
 		this.tkDailyOvertimeRuleId = tkDailyOvertimeRuleId;
 	}
 
@@ -224,27 +224,27 @@ public class DailyOvertimeRule extends TkRule {
 		this.ovtEarnCode = ovtEarnCode;
 	}
 
-	public Long getTkWorkAreaId() {
+	public String getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}
 
-	public void setTkWorkAreaId(Long tkWorkAreaId) {
+	public void setTkWorkAreaId(String tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
 
-	public Long getHrDeptId() {
+	public String getHrDeptId() {
 		return hrDeptId;
 	}
 
-	public void setHrDeptId(Long hrDeptId) {
+	public void setHrDeptId(String hrDeptId) {
 		this.hrDeptId = hrDeptId;
 	}
 
-	public Long getHrLocationId() {
+	public String getHrLocationId() {
 		return hrLocationId;
 	}
 
-	public void setHrLocationId(Long hrLocationId) {
+	public void setHrLocationId(String hrLocationId) {
 		this.hrLocationId = hrLocationId;
 	}
 
@@ -254,12 +254,12 @@ public class DailyOvertimeRule extends TkRule {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getTkDailyOvertimeRuleId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setTkDailyOvertimeRuleId(id);
 	}
 

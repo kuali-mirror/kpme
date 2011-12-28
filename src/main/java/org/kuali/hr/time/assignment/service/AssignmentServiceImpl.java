@@ -151,11 +151,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 	public Assignment getAssignment(String tkAssignmentId) {
 		return getAssignmentDao().getAssignment(tkAssignmentId);
 	}
-    
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-    public Assignment getAssignment(Long tkAssignmentId){
-    	return getAssignmentDao().getAssignment(tkAssignmentId);
-    }
+
 
     @Override
     @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)

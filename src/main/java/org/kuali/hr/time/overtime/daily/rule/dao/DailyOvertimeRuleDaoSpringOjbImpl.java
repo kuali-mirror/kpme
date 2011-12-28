@@ -72,7 +72,7 @@ public class DailyOvertimeRuleDaoSpringOjbImpl extends PersistenceBrokerDaoSuppo
 	}
 
 	@Override
-	public DailyOvertimeRule getDailyOvertimeRule(Long tkDailyOvertimeRuleId) {
+	public DailyOvertimeRule getDailyOvertimeRule(String tkDailyOvertimeRuleId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("tkDailyOvertimeRuleId", tkDailyOvertimeRuleId);
 		

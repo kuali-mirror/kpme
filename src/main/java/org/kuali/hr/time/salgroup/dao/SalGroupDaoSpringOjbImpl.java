@@ -46,7 +46,7 @@ public class SalGroupDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 	}
 
 	@Override
-	public SalGroup getSalGroup(Long hrSalGroupId) {
+	public SalGroup getSalGroup(String hrSalGroupId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrSalGroupId", hrSalGroupId);
 		

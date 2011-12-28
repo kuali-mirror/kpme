@@ -206,7 +206,7 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 	}
 
 	@Override
-	public Job getJob(Long hrJobId) {
+	public Job getJob(String hrJobId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrJobId", hrJobId);
 		

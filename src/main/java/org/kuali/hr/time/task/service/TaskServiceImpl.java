@@ -22,7 +22,7 @@ public class TaskServiceImpl implements TaskService {
         	taskObj.setEffectiveDate(asOfDate);
         	taskObj.setTask(task);
         	taskObj.setDescription(TkConstants.TASK_DEFAULT_DESP);
-        	taskObj.setTkTaskId(0L);
+        	taskObj.setTkTaskId("0");
         }
         return taskObj;
     }

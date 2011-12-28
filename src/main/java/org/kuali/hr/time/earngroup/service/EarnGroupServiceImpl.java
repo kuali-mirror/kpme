@@ -53,7 +53,7 @@ public class EarnGroupServiceImpl implements EarnGroupService {
     }
 
     @Override
-    public EarnGroup getEarnGroup(Long hrEarnGroupId) {
+    public EarnGroup getEarnGroup(String hrEarnGroupId) {
         return earnGroupDao.getEarnGroup(hrEarnGroupId);
     }
     

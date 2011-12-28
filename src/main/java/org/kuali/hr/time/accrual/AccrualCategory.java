@@ -12,7 +12,7 @@ public class AccrualCategory extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long lmAccrualCategoryId;
+	private String lmAccrualCategoryId;
 	private String accrualCategory;
 	private String descr;
 	private boolean history;
@@ -22,8 +22,9 @@ public class AccrualCategory extends HrBusinessObject {
 	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedHashMap<String,String> lhm = new LinkedHashMap<String, String>();
+		lhm.put(accrualCategory, accrualCategory);
+		return lhm;
 	}
 
 	public String getAccrualCategory() {
@@ -79,11 +80,11 @@ public class AccrualCategory extends HrBusinessObject {
 		this.effectiveDate = effectiveDate;
 	}
 
-	public Long getLmAccrualCategoryId() {
+	public String getLmAccrualCategoryId() {
 		return lmAccrualCategoryId;
 	}
 
-	public void setLmAccrualCategoryId(Long lmAccrualCategoryId) {
+	public void setLmAccrualCategoryId(String lmAccrualCategoryId) {
 		this.lmAccrualCategoryId = lmAccrualCategoryId;
 	}
 
@@ -101,12 +102,12 @@ public class AccrualCategory extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getLmAccrualCategoryId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setLmAccrualCategoryId(id);
 	}
 

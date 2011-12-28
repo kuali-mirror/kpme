@@ -10,7 +10,7 @@ public class SystemLunchRule extends TkRule {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long tkSystemLunchRuleId;
+	private String tkSystemLunchRuleId;
 	private Boolean showLunchButton = false;
 	private boolean history;
 	private String userPrincipalId;
@@ -22,11 +22,11 @@ public class SystemLunchRule extends TkRule {
 		return null;
 	}
 
-	public Long getTkSystemLunchRuleId() {
+	public String getTkSystemLunchRuleId() {
 		return tkSystemLunchRuleId;
 	}
 
-	public void setTkSystemLunchRuleId(Long tkSystemLunchRuleId) {
+	public void setTkSystemLunchRuleId(String tkSystemLunchRuleId) {
 		this.tkSystemLunchRuleId = tkSystemLunchRuleId;
 	}
 
@@ -64,12 +64,12 @@ public class SystemLunchRule extends TkRule {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getTkSystemLunchRuleId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setTkSystemLunchRuleId(id);
 	}
 

@@ -40,7 +40,7 @@ public class AccrualCategoryDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
     }
 
 	@Override
-	public AccrualCategory getAccrualCategory(Long lmAccrualCategoryId) {
+	public AccrualCategory getAccrualCategory(String lmAccrualCategoryId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("lmAccrualCategoryId", lmAccrualCategoryId);
 		

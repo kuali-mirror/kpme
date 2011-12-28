@@ -24,7 +24,7 @@ public class EarnCodeLookupableHelper extends HrEffectiveDateActiveLookupableHel
 			EarnCode earnCodeObj = (EarnCode) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String earnCode = earnCodeObj.getEarnCode();
-			final Long hrEarnCodeId = earnCodeObj.getHrEarnCodeId();
+			final String hrEarnCodeId = earnCodeObj.getHrEarnCodeId();
 			HtmlData htmlData = new HtmlData() {
 
 				/**

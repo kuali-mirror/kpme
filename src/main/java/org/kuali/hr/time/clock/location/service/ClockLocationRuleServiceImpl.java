@@ -123,7 +123,7 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public ClockLocationRule getClockLocationRule(Long tkClockLocationRuleId) {
+	public ClockLocationRule getClockLocationRule(String tkClockLocationRuleId) {
 		return clockLocationDao.getClockLocationRule(tkClockLocationRuleId);
 	}
 	

@@ -160,7 +160,7 @@ public class TkRoleServiceImpl implements TkRoleService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public TkRole getRole(Long tkRoleId) {
+	public TkRole getRole(String tkRoleId) {
 		return tkRoleDao.getRole(tkRoleId);
 	}
 	

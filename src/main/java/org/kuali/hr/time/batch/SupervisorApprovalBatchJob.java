@@ -14,7 +14,7 @@ public class SupervisorApprovalBatchJob extends BatchJob {
     private Logger LOG = Logger.getLogger(PayPeriodEndBatchJob.class);
     private PayCalendarEntries payCalendarEntry;
 
-    public SupervisorApprovalBatchJob(Long hrPyCalendarEntryId) {
+    public SupervisorApprovalBatchJob(String hrPyCalendarEntryId) {
         super();
         this.setBatchJobName(TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL);
         this.setPayCalendarEntryId(hrPyCalendarEntryId);

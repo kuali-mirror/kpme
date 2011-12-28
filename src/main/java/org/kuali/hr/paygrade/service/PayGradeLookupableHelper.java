@@ -23,7 +23,7 @@ public class PayGradeLookupableHelper extends HrEffectiveDateActiveLookupableHel
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			PayGrade payGrade = (PayGrade) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long hrPayGradeId = payGrade.getHrPayGradeId();
+			final String hrPayGradeId = payGrade.getHrPayGradeId();
 			HtmlData htmlData = new HtmlData() {
 
 				@Override

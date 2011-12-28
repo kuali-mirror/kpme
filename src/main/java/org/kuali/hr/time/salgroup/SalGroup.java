@@ -12,7 +12,7 @@ public class SalGroup extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long hrSalGroupId;
+	private String hrSalGroupId;
 	private String hrSalGroup;
 	private String descr;
 	private boolean history;
@@ -20,7 +20,9 @@ public class SalGroup extends HrBusinessObject {
 	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected LinkedHashMap toStringMapper() {
-		return null;
+		LinkedHashMap<String,String> lhm = new LinkedHashMap<String, String>();
+		lhm.put(hrSalGroup, hrSalGroup);
+		return lhm;
 	}
 
 	public Date getEffectiveDate() {
@@ -55,11 +57,11 @@ public class SalGroup extends HrBusinessObject {
 		return timestamp;
 	}
 
-	public Long getHrSalGroupId() {
+	public String getHrSalGroupId() {
 		return hrSalGroupId;
 	}
 
-	public void setHrSalGroupId(Long hrSalGroupId) {
+	public void setHrSalGroupId(String hrSalGroupId) {
 		this.hrSalGroupId = hrSalGroupId;
 	}
 
@@ -85,12 +87,12 @@ public class SalGroup extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getHrSalGroupId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setHrSalGroupId(id);
 	}
 

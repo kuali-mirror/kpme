@@ -4,7 +4,7 @@ import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.position.PositionNumber;
 
 public interface PositionDao {
-	public Position getPosition(Long hrPositionId);
+	public Position getPosition(String hrPositionId);
 
     public PositionNumber getNextUniquePositionNumber();
 

@@ -27,9 +27,9 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 			.getInstance().getTimeInMillis());
 	private static final String TEST_CODE_DEPARTMENT_VALID = "_test";
 
-	private static Long timeCollectionRuleIdWithInvalidDept;
-	private static Long timeCollectionRuleIdWithInvalidWorkArea;
-	private static Long deptId;
+	private static String timeCollectionRuleIdWithInvalidDept;
+	private static String timeCollectionRuleIdWithInvalidWorkArea;
+	private static String deptId;
 
 
 	private static String TEST_CODE_INVALID_DEPT_ID = "0";

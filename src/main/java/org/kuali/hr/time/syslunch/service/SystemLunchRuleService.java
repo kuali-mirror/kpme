@@ -17,5 +17,5 @@ public interface SystemLunchRuleService {
 	 */
 	public boolean isShowLunchButton();
 	
-	public SystemLunchRule getSystemLunchRule(Long tkSystemLunchRuleId);
+	public SystemLunchRule getSystemLunchRule(String tkSystemLunchRuleId);
 }

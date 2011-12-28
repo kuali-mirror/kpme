@@ -14,9 +14,9 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long tkTimeSheetInitId;
+	private String tkTimeSheetInitId;
 	private String principalId;
-	private Long hrPyCalendarEntriesId;
+	private String hrPyCalendarEntriesId;
 	private String pyCalendarGroup;
 	private String documentId;
 	
@@ -42,19 +42,19 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 	}
 
 	
-	public Long getTkTimeSheetInitId() {
+	public String getTkTimeSheetInitId() {
 		return tkTimeSheetInitId;
 	}
 
-	public void setTkTimeSheetInitId(Long tkTimeSheetInitId) {
+	public void setTkTimeSheetInitId(String tkTimeSheetInitId) {
 		this.tkTimeSheetInitId = tkTimeSheetInitId;
 	}
 	
-    public Long getHrPyCalendarEntriesId() {
+    public String getHrPyCalendarEntriesId() {
         return hrPyCalendarEntriesId;
     }
 
-    public void setHrPyCalendarEntriesId(Long hrPyCalendarEntriesId) {
+    public void setHrPyCalendarEntriesId(String hrPyCalendarEntriesId) {
         this.hrPyCalendarEntriesId = hrPyCalendarEntriesId;
     }
 	

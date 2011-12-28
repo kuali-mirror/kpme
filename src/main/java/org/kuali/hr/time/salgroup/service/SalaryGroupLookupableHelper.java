@@ -24,7 +24,7 @@ public class SalaryGroupLookupableHelper extends
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			SalGroup salGroup = (SalGroup) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long hrSalGroupId = salGroup.getHrSalGroupId();
+			final String hrSalGroupId = salGroup.getHrSalGroupId();
 			HtmlData htmlData = new HtmlData() {
 
 				@Override

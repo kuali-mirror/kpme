@@ -19,7 +19,7 @@ public interface MissedPunchService {
      * @param logEndId
      * @param logBeginId
      */
-    public void addClockLogForMissedPunch(MissedPunchDocument missedPunch, Long logEndId, Long logBeginId);
+    public void addClockLogForMissedPunch(MissedPunchDocument missedPunch, String logEndId, String logBeginId);
     /**
      * Add clock log for missed punch
      * @param missedPunch
@@ -35,7 +35,7 @@ public interface MissedPunchService {
      * @param clockLogId
      * @return
      */
-    public MissedPunchDocument getMissedPunchByClockLogId(Long clockLogId);
+    public MissedPunchDocument getMissedPunchByClockLogId(String clockLogId);
     /**
      * Approve missed punch document
      * @param document

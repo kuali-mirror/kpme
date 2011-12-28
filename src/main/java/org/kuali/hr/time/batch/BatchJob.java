@@ -17,7 +17,7 @@ public class BatchJob {
 	private Long tkBatchJobId;
 	private String batchJobName;
 	private String batchJobStatus;
-	private Long hrPyCalendarEntryId;
+	private String hrPyCalendarEntryId;
 	private Long timeElapsed = 0L;
 	private Timestamp timestamp;
     long startTime;
@@ -106,11 +106,11 @@ public class BatchJob {
 		this.batchJobStatus = batchJobStatus;
 	}
 
-	public Long getPayCalendarEntryId() {
+	public String getPayCalendarEntryId() {
 		return hrPyCalendarEntryId;
 	}
 
-	public void setPayCalendarEntryId(Long hrPyCalendarEntryId) {
+	public void setPayCalendarEntryId(String hrPyCalendarEntryId) {
 		this.hrPyCalendarEntryId = hrPyCalendarEntryId;
 	}
 
@@ -130,7 +130,7 @@ public class BatchJob {
 		this.timestamp = timestamp;
 	}
 
-    BatchJobEntry createBatchJobEntry(String batchJobName, String ip, String principal, String documentId, Long clockLogId) {
+    BatchJobEntry createBatchJobEntry(String batchJobName, String ip, String principal, String documentId, String clockLogId) {
         BatchJobEntry entry = new BatchJobEntry();
 
         entry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);

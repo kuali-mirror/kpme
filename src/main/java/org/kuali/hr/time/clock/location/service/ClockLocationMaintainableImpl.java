@@ -66,7 +66,7 @@ public class ClockLocationMaintainableImpl extends HrBusinessObjectMaintainableI
 	}
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getClockLocationRuleService().getClockLocationRule(id);
 	}
 	

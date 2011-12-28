@@ -40,7 +40,7 @@ public interface WorkAreaService {
      */
     public void populateWorkAreaRoles(WorkArea workArea);
     
-    public WorkArea getWorkArea(Long tkWorkAreaId);
+    public WorkArea getWorkArea(String tkWorkAreaId);
     
     public Long getNextWorkAreaKey();
 }

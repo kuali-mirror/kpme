@@ -35,7 +35,7 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 				businessObject, pkNames);
 		WorkArea workArea = (WorkArea) businessObject;
 		final String className = this.getBusinessObjectClass().getName();
-		final Long tkWorkAreaId = workArea.getTkWorkAreaId();
+		final String tkWorkAreaId = workArea.getTkWorkAreaId();
 		HtmlData htmlData = new HtmlData() {
 
 			@Override

@@ -38,8 +38,8 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = 1L;
 
-    private Long hrPyCalendarEntriesId;
-    private Long hrPyCalendarId;
+    private String hrPyCalendarEntriesId;
+    private String hrPyCalendarId;
     private String pyCalendarGroup;
 
     private java.util.Date beginPeriodDateTime;
@@ -92,7 +92,7 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
         return (new DateTime(this.getEndPeriodDateTime())).toLocalDateTime();
     }
 
-    public Long getHrPyCalendarId() {
+    public String getHrPyCalendarId() {
         payCalendarObj = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(this.getPyCalendarGroup());
         if (payCalendarObj != null) {
             this.setHrPyCalendarId(payCalendarObj.getHrPyCalendarId());
@@ -100,7 +100,7 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
         return hrPyCalendarId;
     }
 
-    public void setHrPyCalendarId(Long hrPyCalendarId) {
+    public void setHrPyCalendarId(String hrPyCalendarId) {
         this.hrPyCalendarId = hrPyCalendarId;
     }
 
@@ -123,11 +123,11 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
 
     }
 
-    public Long getHrPyCalendarEntriesId() {
+    public String getHrPyCalendarEntriesId() {
         return hrPyCalendarEntriesId;
     }
 
-    public void setHrPyCalendarEntriesId(Long hrPyCalendarEntriesId) {
+    public void setHrPyCalendarEntriesId(String hrPyCalendarEntriesId) {
         this.hrPyCalendarEntriesId = hrPyCalendarEntriesId;
     }
 

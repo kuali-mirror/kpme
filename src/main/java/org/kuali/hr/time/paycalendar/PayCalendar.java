@@ -16,7 +16,7 @@ public class PayCalendar extends PersistableBusinessObjectBase {
      */
 	private static final long serialVersionUID = 1L;
 
-	private Long hrPyCalendarId;
+	private String hrPyCalendarId;
 	private String pyCalendarGroup;
 
 	private String flsaBeginDay;
@@ -30,11 +30,11 @@ public class PayCalendar extends PersistableBusinessObjectBase {
 
 	}
 
-	public Long getHrPyCalendarId() {
+	public String getHrPyCalendarId() {
 		return hrPyCalendarId;
 	}
 
-	public void setHrPyCalendarId(Long hrPyCalendarId) {
+	public void setHrPyCalendarId(String hrPyCalendarId) {
 		this.hrPyCalendarId = hrPyCalendarId;
 	}
 

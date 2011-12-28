@@ -16,31 +16,31 @@ public class PayCalendarEntriesServiceImpl implements PayCalendarEntriesService 
 		this.payCalendarEntriesDao = payCalendarEntriesDao;
 	}
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public PayCalendarEntries getPayCalendarEntries(Long hrPyCalendarEntriesId) {
+	public PayCalendarEntries getPayCalendarEntries(String hrPyCalendarEntriesId) {
 
 		return payCalendarEntriesDao.getPayCalendarEntries(hrPyCalendarEntriesId);
 	}
 
     @Override
     @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-    public PayCalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long hrPyCalendarId, Date endPeriodDate) {
+    public PayCalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(String hrPyCalendarId, Date endPeriodDate) {
         return payCalendarEntriesDao.getPayCalendarEntriesByIdAndPeriodEndDate(hrPyCalendarId, endPeriodDate);
     }
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(
-			Long hrPyCalendarId, Date currentDate) {
+			String hrPyCalendarId, Date currentDate) {
 		return payCalendarEntriesDao.getCurrentPayCalendarEntriesByPayCalendarId(hrPyCalendarId, currentDate);
 	}
 
     @Override
-    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, PayCalendarEntries pce) {
+    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(String hrPyCalendarId, PayCalendarEntries pce) {
         return payCalendarEntriesDao.getPreviousPayCalendarEntriesByPayCalendarId(hrPyCalendarId, pce);
     }
 
     @Override
-    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, PayCalendarEntries pce) {
+    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(String hrPyCalendarId, PayCalendarEntries pce) {
         return payCalendarEntriesDao.getNextPayCalendarEntriesByPayCalendarId(hrPyCalendarId, pce);
     }
     @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)

@@ -47,8 +47,6 @@ public interface AssignmentDao {
 
 	public List<Assignment> getActiveAssignments(Date asOfDate);
 	
-	public Assignment getAssignment(Long tkAssignmentId);
-	
 	public Assignment getAssignment(String principalId, Long jobNumber, Long workArea, Long task, Date asOfDate);
 	
 	/**

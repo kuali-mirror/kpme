@@ -20,7 +20,7 @@ public class EarnCode extends HrBusinessObject {
      */
 	private static final long serialVersionUID = 1L;
 
-	private Long hrEarnCodeId;
+	private String hrEarnCodeId;
 	private String earnCode;
 	private String description;
 	//used for clock in and out
@@ -83,11 +83,11 @@ public class EarnCode extends HrBusinessObject {
 		this.active = active;
 	}
 
-	public Long getHrEarnCodeId() {
+	public String getHrEarnCodeId() {
 		return hrEarnCodeId;
 	}
 
-	public void setHrEarnCodeId(Long hrEarnCodeId) {
+	public void setHrEarnCodeId(String hrEarnCodeId) {
 		this.hrEarnCodeId = hrEarnCodeId;
 	}
 
@@ -200,12 +200,12 @@ public class EarnCode extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getHrEarnCodeId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setHrEarnCodeId(id);
 	}
 }

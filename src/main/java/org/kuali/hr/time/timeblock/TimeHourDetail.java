@@ -12,8 +12,8 @@ public class TimeHourDetail extends PersistableBusinessObjectBase{
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long tkTimeHourDetailId;
-	private Long tkTimeBlockId;
+	private String tkTimeHourDetailId;
+	private String tkTimeBlockId;
 	private String earnCode;
 	private BigDecimal hours = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 	private BigDecimal amount = TkConstants.BIG_DECIMAL_SCALED_ZERO;
@@ -58,18 +58,18 @@ public class TimeHourDetail extends PersistableBusinessObjectBase{
 		}
 	}
 
-	public Long getTkTimeBlockId() {
+	public String getTkTimeBlockId() {
 		return tkTimeBlockId;
 	}
 
-	public void setTkTimeBlockId(Long tkTimeBlockId) {
+	public void setTkTimeBlockId(String tkTimeBlockId) {
 		this.tkTimeBlockId = tkTimeBlockId;
 	}
-	public void setTkTimeHourDetailId(Long tkTimeHourDetailId) {
+	public void setTkTimeHourDetailId(String tkTimeHourDetailId) {
 		this.tkTimeHourDetailId = tkTimeHourDetailId;
 	}
 
-	public Long getTkTimeHourDetailId() {
+	public String getTkTimeHourDetailId() {
 		return tkTimeHourDetailId;
 	}
 

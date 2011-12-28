@@ -66,7 +66,7 @@ public interface ClockLogService {
      * @param tkClockLogId
      * @return
      */
-    public ClockLog getClockLog(Long tkClockLogId);
+    public ClockLog getClockLog(String tkClockLogId);
 
     ClockLog buildClockLog(Timestamp clockTimestamp, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId);
 

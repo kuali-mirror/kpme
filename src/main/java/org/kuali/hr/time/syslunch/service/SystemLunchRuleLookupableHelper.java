@@ -24,7 +24,7 @@ public class SystemLunchRuleLookupableHelper extends
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			SystemLunchRule systemLunchRule = (SystemLunchRule) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long tkSystemLunchRuleId = systemLunchRule
+			final String tkSystemLunchRuleId = systemLunchRule
 					.getTkSystemLunchRuleId();
 			HtmlData htmlData = new HtmlData() {
 

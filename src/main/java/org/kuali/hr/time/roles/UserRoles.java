@@ -76,7 +76,7 @@ public interface UserRoles {
      * Provides a Set of Assignment ids that this user is active under.
      * @return a Set<Long> of assignment object ids.
      */
-    public Set<Long> getActiveAssignmentIds();
+    public Set<String> getActiveAssignmentIds();
 
     /**
      * Provides a Set<String> of Department names that this user is a

@@ -132,7 +132,7 @@ public class TkRoleGroupMaintainableImpl extends HrBusinessObjectMaintainableImp
 	}
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return (HrBusinessObject)TkServiceLocator.getTkRoleService().getRole(id);
 	}
 

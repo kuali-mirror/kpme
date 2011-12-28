@@ -40,7 +40,7 @@ public class SystemLunchRuleServiceImpl implements SystemLunchRuleService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public SystemLunchRule getSystemLunchRule(Long tkSystemLunchRuleId) {
+	public SystemLunchRule getSystemLunchRule(String tkSystemLunchRuleId) {
 		return systemLunchRuleDao.getSystemLunchRule(tkSystemLunchRuleId);
 	}
 

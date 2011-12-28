@@ -29,7 +29,7 @@ public class MissedPunchDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imp
     }
     
     @Override
-    public MissedPunchDocument getMissedPunchByClockLogId(Long clockLogId) {
+    public MissedPunchDocument getMissedPunchByClockLogId(String clockLogId) {
     	MissedPunchDocument mp = null;
 
         Criteria root = new Criteria();
@@ -50,8 +50,8 @@ public class MissedPunchDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imp
 	    Query query = QueryFactory.newQuery(MissedPunchDocument.class, root);
 	    List<MissedPunchDocument> aList = (List<MissedPunchDocument>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 	    
-	    Long pcdId = batchJobEntry.getPayCalendarEntryId();
-	    PayCalendarEntries pcd = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(pcdId);
+	    String pcdId = batchJobEntry.getPayCalendarEntryId();
+	    PayCalendarEntries pcd = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(pcdId.toString());
 	    if(pcd != null) {
 		    for(MissedPunchDocument aDoc : aList) {
 		    	String tscId = aDoc.getTimesheetDocumentId();

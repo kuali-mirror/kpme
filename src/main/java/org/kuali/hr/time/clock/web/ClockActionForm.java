@@ -177,7 +177,7 @@ public class ClockActionForm extends TimesheetActionForm {
 
 	public TimeBlock getCurrentTimeBlock() {
 		if(currentTimeBlock == null && this.getEditTimeBlockId() != null) {
-			this.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(Long.valueOf(this.getEditTimeBlockId())));
+			this.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(this.getEditTimeBlockId()));
 		}
 		return currentTimeBlock;
 	}

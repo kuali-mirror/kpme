@@ -54,7 +54,7 @@ public class GracePeriodServiceImpl implements GracePeriodService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public GracePeriodRule getGracePeriodRule(Long tkGracePeriodId) {
+	public GracePeriodRule getGracePeriodRule(String tkGracePeriodId) {
 		return gracePeriodDao.getGracePeriodRule(tkGracePeriodId);
 	}
 }

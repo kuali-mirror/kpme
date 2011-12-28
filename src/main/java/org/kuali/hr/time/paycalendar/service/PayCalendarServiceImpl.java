@@ -23,7 +23,7 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public PayCalendar getPayCalendar(Long hrPyCalendarId) {
+	public PayCalendar getPayCalendar(String hrPyCalendarId) {
 		return payCalendarDao.getPayCalendar(hrPyCalendarId);
 	}
 
@@ -90,7 +90,7 @@ public class PayCalendarServiceImpl implements PayCalendarService {
         return pcal;
     }
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public PayCalendarEntries getPreviousPayCalendarEntry(Long tkPayCalendarId, Date beginDateCurrentPayCalendar){
+	public PayCalendarEntries getPreviousPayCalendarEntry(String tkPayCalendarId, Date beginDateCurrentPayCalendar){
 		return payCalendarDao.getPreviousPayCalendarEntry(tkPayCalendarId, beginDateCurrentPayCalendar);
 	}
 

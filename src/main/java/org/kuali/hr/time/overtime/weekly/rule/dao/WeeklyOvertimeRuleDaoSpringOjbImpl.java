@@ -74,7 +74,7 @@ public class WeeklyOvertimeRuleDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 	}
 
 	@Override
-	public WeeklyOvertimeRule getWeeklyOvertimeRule(Long tkWeeklyOvertimeRuleId) {
+	public WeeklyOvertimeRule getWeeklyOvertimeRule(String tkWeeklyOvertimeRuleId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("tkWeeklyOvertimeRuleId", tkWeeklyOvertimeRuleId);
 		

@@ -73,13 +73,7 @@ public interface AssignmentService {
      * @return
      */
     public Assignment getAssignment(AssignmentDescriptionKey key, Date asOfDate);
-    
-    /**
-     * Fetch assignment by id
-     * @param tkAssignmentId
-     * @return
-     */
-    public Assignment getAssignment(Long tkAssignmentId);
+
     
     /**
      * Fetch principal id and key as of a particular date

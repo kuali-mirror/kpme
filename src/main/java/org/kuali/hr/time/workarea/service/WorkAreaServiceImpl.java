@@ -77,7 +77,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public WorkArea getWorkArea(Long tkWorkAreaId) {
+	public WorkArea getWorkArea(String tkWorkAreaId) {
 		return workAreaDao.getWorkArea(tkWorkAreaId);
 	}
 

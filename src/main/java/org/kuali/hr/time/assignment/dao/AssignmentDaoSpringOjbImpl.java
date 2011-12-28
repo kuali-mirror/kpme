@@ -259,14 +259,6 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 		Query query = QueryFactory.newQuery(Assignment.class, crit);
 		return (Assignment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
-
-	@Override
-	public Assignment getAssignment(Long tkAssignmentId) {
-		Criteria crit = new Criteria();
-		crit.addEqualTo("tkAssignmentId", tkAssignmentId);
-		Query query = QueryFactory.newQuery(Assignment.class, crit);
-		return (Assignment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-	}
 	
 	// KPME-1129 Kagata
 	@SuppressWarnings({ "rawtypes", "unchecked" })

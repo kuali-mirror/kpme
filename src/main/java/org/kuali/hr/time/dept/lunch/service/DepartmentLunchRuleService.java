@@ -28,5 +28,5 @@ public interface DepartmentLunchRuleService {
 	 * @param tkDeptLunchRuleId
 	 * @return
 	 */
-	public DeptLunchRule getDepartmentLunchRule(Long tkDeptLunchRuleId);
+	public DeptLunchRule getDepartmentLunchRule(String tkDeptLunchRuleId);
 }

@@ -26,7 +26,7 @@ public class TimeBlockHistoryServiceImpl implements TimeBlockHistoryService {
 		this.timeBlockHistoryDao = timeBlockHistoryDao;
 	}
 
-    public TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(Long tkTimeBlockId) {
+    public TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(String tkTimeBlockId) {
         return timeBlockHistoryDao.getTimeBlockHistoryByTkTimeBlockId(tkTimeBlockId);
     }
     

@@ -17,12 +17,12 @@ public class BatchJobServiceImpl implements BatchJobService {
     }
 
     @Override
-    public List<BatchJob> getBatchJobs(Long hrPyCalendarEntryId) {
+    public List<BatchJob> getBatchJobs(String hrPyCalendarEntryId) {
         return batchJobDao.getBatchJobs(hrPyCalendarEntryId);
     }
 
     @Override
-    public List<BatchJob> getBatchJobs(Long hrPyCalendarEntryId, String batchJobStatus) {
+    public List<BatchJob> getBatchJobs(String hrPyCalendarEntryId, String batchJobStatus) {
         return batchJobDao.getPayCalendarEntries(hrPyCalendarEntryId, batchJobStatus);
     }
     

@@ -14,7 +14,7 @@ public interface TimeBlockService {
 	 * @param timeBlockId
 	 * @return
 	 */
-	public TimeBlock getTimeBlock(Long timeBlockId);
+	public TimeBlock getTimeBlock(String timeBlockId);
 
 	/**
 	 * Delete a given TimeBlock
@@ -103,13 +103,13 @@ public interface TimeBlockService {
 	 * @param tkClockLogId
 	 * @return List<TimeBlock>	 * 
 	 */
-	public List<TimeBlock> getTimeBlocksForClockLogEndId(Long tkClockLogId);
+	public List<TimeBlock> getTimeBlocksForClockLogEndId(String tkClockLogId);
 	/*
 	 * Get all the time blocks with the given Clock Log id as the clockLogBeginId
 	 * @param tkClockLogId
 	 * @return List<TimeBlock>	 * 
 	 */
-	public List<TimeBlock> getTimeBlocksForClockLogBeginId(Long tkClockLogId);
+	public List<TimeBlock> getTimeBlocksForClockLogBeginId(String tkClockLogId);
 	
 	public List<TimeBlock> getTimeBlocks();
 	public List<TimeBlock> getLatestEndTimestamp();
@@ -119,7 +119,7 @@ public interface TimeBlockService {
      * @param clockLogBeginId
      * @return
      */
-    public List<TimeBlock> getOvernightTimeBlocks(Long clockLogEndId);
+    public List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId);
 
 	public void updateTimeBlock(TimeBlock tb);
 

@@ -16,7 +16,7 @@ public class Location extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long hrLocationId;
+	private String hrLocationId;
 	private String location;
 	private String timezone;
 	private String description;
@@ -30,11 +30,11 @@ public class Location extends HrBusinessObject {
 		return null;
 	}
 
-	public Long getHrLocationId() {
+	public String getHrLocationId() {
 		return hrLocationId;
 	}
 
-	public void setHrLocationId(Long hrLocationId) {
+	public void setHrLocationId(String hrLocationId) {
 		this.hrLocationId = hrLocationId;
 	}
 
@@ -108,12 +108,12 @@ public class Location extends HrBusinessObject {
 	}
 	
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getHrLocationId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setHrLocationId(id);
 	}
 

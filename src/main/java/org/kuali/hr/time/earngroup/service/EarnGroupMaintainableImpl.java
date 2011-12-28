@@ -55,7 +55,7 @@ public class EarnGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl{
 	}
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getEarnGroupService().getEarnGroup(id);
 	} 
 	

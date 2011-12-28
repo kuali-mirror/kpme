@@ -65,7 +65,7 @@ public interface JobDao {
 	 * @param hrJobId
 	 * @return
 	 */
-	public Job getJob(Long hrJobId);
+	public Job getJob(String hrJobId);
 	
 	/**
 	 * Get job with max(jobNumber) for a certain principalId

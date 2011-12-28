@@ -13,10 +13,10 @@ public class HolidayCalendarDateEntry extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long hrHolidayCalendarDateId;
+	private String hrHolidayCalendarDateId;
 	private Date holidayDate;
 	private String holidayDescr;
-	private Long hrHolidayCalendarId;
+	private String hrHolidayCalendarId;
 	private BigDecimal holidayHours;
 	
 	
@@ -27,12 +27,12 @@ public class HolidayCalendarDateEntry extends PersistableBusinessObjectBase {
 	}
 
 
-	public Long getHrHolidayCalendarDateId() {
+	public String getHrHolidayCalendarDateId() {
 		return hrHolidayCalendarDateId;
 	}
 
 
-	public void setHrHolidayCalendarDateId(Long hrHolidayCalendarDateId) {
+	public void setHrHolidayCalendarDateId(String hrHolidayCalendarDateId) {
 		this.hrHolidayCalendarDateId = hrHolidayCalendarDateId;
 	}
 
@@ -57,12 +57,12 @@ public class HolidayCalendarDateEntry extends PersistableBusinessObjectBase {
 	}
 
 
-	public Long getHrHolidayCalendarId() {
+	public String getHrHolidayCalendarId() {
 		return hrHolidayCalendarId;
 	}
 
 
-	public void setHrHolidayCalendarId(Long hrHolidayCalendarId) {
+	public void setHrHolidayCalendarId(String hrHolidayCalendarId) {
 		this.hrHolidayCalendarId = hrHolidayCalendarId;
 	}
 

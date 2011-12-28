@@ -13,7 +13,7 @@ public class BatchApproveMissedPunchJobRunnable extends BatchJobEntryRunnable {
 
 	@Override
 	public void doWork() throws Exception {
-		Long clockLogId = batchJobEntry.getClockLogId();
+		String clockLogId = batchJobEntry.getClockLogId();
 		if(clockLogId != null) {	// if clock log id is provided, just approve the specified missed punch document
 			MissedPunchDocument document = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(clockLogId);
 			if(document != null) {

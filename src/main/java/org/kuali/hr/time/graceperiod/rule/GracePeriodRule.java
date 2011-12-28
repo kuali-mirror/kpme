@@ -12,7 +12,7 @@ public class GracePeriodRule extends HrBusinessObject {
     
 	private static final long serialVersionUID = 1L;
 
-	private Long tkGracePeriodRuleId;
+	private String tkGracePeriodRuleId;
 	private BigDecimal hourFactor;
 	private String userPrincipalId;
 	
@@ -59,12 +59,12 @@ public class GracePeriodRule extends HrBusinessObject {
 	}
 
 
-	public Long getTkGracePeriodRuleId() {
+	public String getTkGracePeriodRuleId() {
 		return tkGracePeriodRuleId;
 	}
 
 
-	public void setTkGracePeriodRuleId(Long tkGracePeriodRuleId) {
+	public void setTkGracePeriodRuleId(String tkGracePeriodRuleId) {
 		this.tkGracePeriodRuleId = tkGracePeriodRuleId;
 	}
 
@@ -75,12 +75,12 @@ public class GracePeriodRule extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getTkGracePeriodRuleId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setTkGracePeriodRuleId(id);
 	}
 

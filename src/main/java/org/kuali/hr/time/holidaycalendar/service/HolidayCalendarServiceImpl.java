@@ -37,13 +37,13 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<HolidayCalendarDateEntry> getHolidayCalendarDateEntriesForPayPeriod(
-			Long hrHolidayCalendarId, Date startDate, Date endDate) {
+			String hrHolidayCalendarId, Date startDate, Date endDate) {
 		return holidayCalendarDao.getHolidayCalendarDateEntriesForPayPeriod(hrHolidayCalendarId, startDate, endDate);
 	}
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(Long hrHolidayCalendarId, Date startDate) {
+	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(String hrHolidayCalendarId, Date startDate) {
 		return holidayCalendarDao.getHolidayCalendarDateEntryByDate(hrHolidayCalendarId, startDate);
 	}
 

@@ -54,13 +54,15 @@
   <bean id="EarnCode-hrEarnCodeId" parent="EarnCode-hrEarnCodeId-parentBean"/>
   <bean id="EarnCode-hrEarnCodeId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Earn Code Id"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
+    <property name="maxLength" value="60"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
     <property name="name" value="hrEarnCodeId"/>
     <property name="label" value="Earn Code Id"/>
   </bean>

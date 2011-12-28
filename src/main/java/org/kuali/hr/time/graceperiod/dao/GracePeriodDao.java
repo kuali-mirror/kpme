@@ -6,5 +6,5 @@ import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 
 public interface GracePeriodDao {
 	public GracePeriodRule getGracePeriodRule(Date asOfDate);
-	public GracePeriodRule getGracePeriodRule(Long tkGracePeriodId);
+	public GracePeriodRule getGracePeriodRule(String tkGracePeriodId);
 }

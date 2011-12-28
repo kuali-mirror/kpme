@@ -18,8 +18,8 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	private static final String EARN_CODE = "RGN";
 	private static final String DEPT = "TEST-DEPT";
 	private static final String SAL_GROUP = "SD1";
-	private static Long hrDeptEarnCodeId;
-	private static Long dupTkDeptEarnCodeId;
+	private static String hrDeptEarnCodeId;
+	private static String dupTkDeptEarnCodeId;
 
 	@Test
 	public void testDepartmentEarnCodeMaint() throws Exception {

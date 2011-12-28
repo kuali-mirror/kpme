@@ -32,7 +32,7 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		deptLunchRule.setPrincipalId("admin");
 		deptLunchRule.setDeductionMins(new BigDecimal(30));
 		deptLunchRule.setShiftHours(new BigDecimal(6));
-		deptLunchRule.setTkDeptLunchRuleId(1001L);
+		deptLunchRule.setTkDeptLunchRuleId("1001");
 		
 		KNSServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
@@ -60,7 +60,7 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		deptLunchRule.setPrincipalId("edna");
 		deptLunchRule.setDeductionMins(new BigDecimal(30));
 		deptLunchRule.setShiftHours(new BigDecimal(6));
-		deptLunchRule.setTkDeptLunchRuleId(1001L);
+		deptLunchRule.setTkDeptLunchRuleId("1001");
 
 		KNSServiceLocator.getBusinessObjectService().save(deptLunchRule);
 

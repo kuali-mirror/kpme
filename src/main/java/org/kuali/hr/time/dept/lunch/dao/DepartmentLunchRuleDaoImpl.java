@@ -56,7 +56,7 @@ public class DepartmentLunchRuleDaoImpl  extends PersistenceBrokerDaoSupport imp
 	}
 
 	@Override
-	public DeptLunchRule getDepartmentLunchRule(Long tkDeptLunchRuleId) {
+	public DeptLunchRule getDepartmentLunchRule(String tkDeptLunchRuleId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("tkDeptLunchRuleId", tkDeptLunchRuleId);
 		

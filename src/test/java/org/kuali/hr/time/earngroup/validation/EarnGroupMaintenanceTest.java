@@ -18,9 +18,9 @@ import java.util.List;
 public class EarnGroupMaintenanceTest extends TkTestCase {
     private static final java.sql.Date TEST_DATE = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
     private static final String EARN_CODE = "RGN";
-    private static Long hrEarnGroupId;
-    private static Long hrEarnCodeId;
-    private static Long hrEarnGroupIdRGG;
+    private static String hrEarnGroupId;
+    private static String hrEarnCodeId;
+    private static String hrEarnGroupIdRGG;
 
     @Override
     public void setUp() throws Exception {

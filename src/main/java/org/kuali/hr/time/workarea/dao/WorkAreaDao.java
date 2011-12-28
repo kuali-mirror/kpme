@@ -10,6 +10,6 @@ public interface WorkAreaDao {
     public WorkArea getWorkArea(Long workArea, Date asOfDate);
     public List<WorkArea> getWorkArea(String department, Date asOfDate);
     public void saveOrUpdate(WorkArea workArea);
-    public WorkArea getWorkArea(Long tkWorkAreaId);
+    public WorkArea getWorkArea(String tkWorkAreaId);
     public Long getNextWorkAreaKey();
 }

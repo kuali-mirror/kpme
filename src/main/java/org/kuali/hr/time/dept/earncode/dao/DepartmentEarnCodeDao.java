@@ -13,5 +13,5 @@ public interface DepartmentEarnCodeDao {
 
 	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String hr_sal_group, String location, Date asOfDate);
 
-	public DepartmentEarnCode getDepartmentEarnCode(Long hrDeptEarnCodeId);
+	public DepartmentEarnCode getDepartmentEarnCode(String hrDeptEarnCodeId);
 }

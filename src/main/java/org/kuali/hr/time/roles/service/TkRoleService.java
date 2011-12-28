@@ -111,7 +111,7 @@ public interface TkRoleService {
     /**
      * Fetches Role by primary key
      */
-    public TkRole getRole(Long tkRoleId);
+    public TkRole getRole(String tkRoleId);
     
     /**
      * Fetches Role by primary key

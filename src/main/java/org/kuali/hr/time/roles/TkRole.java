@@ -19,7 +19,7 @@ public class TkRole extends HrBusinessObject {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long hrRolesId;
+	private String hrRolesId;
 	private String principalId;
 	private String roleName;
 	private String userPrincipalId;
@@ -67,10 +67,10 @@ public class TkRole extends HrBusinessObject {
         this.workAreaObj = workAreaObj;
     }
 
-    public Long getHrRolesId() {
+    public String getHrRolesId() {
 		return hrRolesId;
 	}
-	public void setHrRolesId(Long hrRolesId) {
+	public void setHrRolesId(String hrRolesId) {
 		this.hrRolesId = hrRolesId;
 	}
 	public String getPrincipalId() {
@@ -199,12 +199,12 @@ public class TkRole extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getHrRolesId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setHrRolesId(id);
 	}
 

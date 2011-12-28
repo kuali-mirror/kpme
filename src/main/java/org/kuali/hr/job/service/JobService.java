@@ -74,7 +74,7 @@ public interface JobService {
 	 * @param hrJobId
 	 * @return
 	 */
-	public Job getJob(Long hrJobId);
+	public Job getJob(String hrJobId);
 	
 	/**
 	 * Get the max jobnumber job for this principal

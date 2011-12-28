@@ -23,7 +23,7 @@ public interface ShiftDifferentialRuleService {
 	 * @param tkShiftDifferentialRuleId
 	 * @return
 	 */
-	public ShiftDifferentialRule getShiftDifferentialRule(long tkShiftDifferentialRuleId);
+	public ShiftDifferentialRule getShiftDifferentialRule(String tkShiftDifferentialRuleId);
 	/**
 	 * Fetch a given ShiftDifferentialRule based on criteria passed in
 	 * @param location

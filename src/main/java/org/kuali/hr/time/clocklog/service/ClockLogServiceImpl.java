@@ -55,8 +55,8 @@ public class ClockLogServiceImpl implements ClockLogService {
     private void processTimeBlock(ClockLog clockLog, Assignment assignment, PayCalendarEntries pe, TimesheetDocument td, String clockAction, String principalId) {
         ClockLog lastLog = null;
         Timestamp lastClockTimestamp = null;
-        Long beginClockLogId = null;
-        Long endClockLogId = null;
+        String beginClockLogId = null;
+        String endClockLogId = null;
 
         if (StringUtils.equals(clockAction, TkConstants.LUNCH_OUT)) {
             lastLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId, TkConstants.CLOCK_IN);
@@ -118,7 +118,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         clockLog.setWorkArea(assignment.getWorkArea());
         clockLog.setTkWorkAreaId(assignment.getWorkAreaObj().getTkWorkAreaId());
 
-        Long tkTaskId = null;
+        String tkTaskId = null;
         for (Task task : assignment.getWorkAreaObj().getTasks()) {
             if (task.getTask().compareTo(assignment.getTask()) == 0) {
                 tkTaskId = task.getTkTaskId();
@@ -156,7 +156,7 @@ public class ClockLogServiceImpl implements ClockLogService {
     }
 
     @Override
-    public ClockLog getClockLog(Long tkClockLogId) {
+    public ClockLog getClockLog(String tkClockLogId) {
         return clockLogDao.getClockLog(tkClockLogId);
     }
 

@@ -5,8 +5,8 @@ import java.util.LinkedHashMap;
 public class TimeBlockHistoryDetail extends TimeHourDetail{
 
 	private static final long serialVersionUID = 1L;
-	private Long tkTimeBlockHistoryDetailId;
-	private Long tkTimeBlockHistoryId;
+	private String tkTimeBlockHistoryDetailId;
+	private String tkTimeBlockHistoryId;
 	
 	@Override
 	@SuppressWarnings("unchecked")
@@ -14,19 +14,19 @@ public class TimeBlockHistoryDetail extends TimeHourDetail{
 		return null;
 	}
 
-	public Long getTkTimeBlockHistoryDetailId() {
+	public String getTkTimeBlockHistoryDetailId() {
 		return tkTimeBlockHistoryDetailId;
 	}
 
-	public void setTkTimeBlockHistoryDetailId(Long tkTimeBlockHistoryDetailId) {
+	public void setTkTimeBlockHistoryDetailId(String tkTimeBlockHistoryDetailId) {
 		this.tkTimeBlockHistoryDetailId = tkTimeBlockHistoryDetailId;
 	}
 
-	public Long getTkTimeBlockHistoryId() {
+	public String getTkTimeBlockHistoryId() {
 		return tkTimeBlockHistoryId;
 	}
 
-	public void setTkTimeBlockHistoryId(Long tkTimeBlockHistoryId) {
+	public void setTkTimeBlockHistoryId(String tkTimeBlockHistoryId) {
 		this.tkTimeBlockHistoryId = tkTimeBlockHistoryId;
 	}
 

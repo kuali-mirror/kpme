@@ -31,7 +31,7 @@ public class HolidayCalendarLookupableHelper extends
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			HolidayCalendar holidayCalendar = (HolidayCalendar) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long hrHolidayCalendarId = holidayCalendar
+			final String hrHolidayCalendarId = holidayCalendar
 					.getHrHolidayCalendarId();
 			HtmlData htmlData = new HtmlData() {
 

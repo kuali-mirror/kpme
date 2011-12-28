@@ -35,7 +35,7 @@ public class DepartmentLunchRuleLookupableHelper extends
 		final String className = this.getBusinessObjectClass().getName();
 		final String dept = deptLunchRule.getDept();
 		final Long workArea = deptLunchRule.getWorkArea();
-		final Long tkDeptLunchRuleId = deptLunchRule.getTkDeptLunchRuleId();
+		final String tkDeptLunchRuleId = deptLunchRule.getTkDeptLunchRuleId();
 		HtmlData htmlData = new HtmlData() {
 
 			/**

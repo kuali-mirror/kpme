@@ -56,7 +56,7 @@ public class PayTypeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impleme
 
 
 	@Override
-	public PayType getPayType(Long hrPayTypeId) {
+	public PayType getPayType(String hrPayTypeId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrPayTypeId", hrPayTypeId);
 		

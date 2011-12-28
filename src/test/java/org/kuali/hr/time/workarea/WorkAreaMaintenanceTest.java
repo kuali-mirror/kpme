@@ -27,7 +27,7 @@ public class WorkAreaMaintenanceTest extends TkTestCase {
 		super.setUp();
 		
 		WorkArea workArea = new WorkArea();
-		workArea.setTkWorkAreaId(1111L);
+		workArea.setTkWorkAreaId("1111");
 		workArea.setWorkArea(4444L);
 		workArea.setOvertimeEditRole(TkConstants.ROLE_TK_EMPLOYEE);
 		workArea.setEffectiveDate(new Date(System.currentTimeMillis()));

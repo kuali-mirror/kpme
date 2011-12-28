@@ -10,7 +10,6 @@
 <html:hidden styleId="pceid" property="hrPyCalendarEntriesId" value="${Form.hrPyCalendarEntriesId}"/>
 <html:hidden styleId="payBeginDateForSearch" property="payBeginDateForSearch" value="${Form.payBeginDateForSearch}"/>
 <html:hidden styleId="payEndDateForSearch" property="payEndDateForSearch" value="${Form.payEndDateForSearch}"/>
-<html:hidden styleId="principalIds" property="principalIds"/>
 
 <div class="approvals">
 <table id="approvals-filter">

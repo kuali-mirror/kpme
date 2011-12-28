@@ -35,7 +35,7 @@ public class DepartmentEarnCodeMaintainableImpl extends HrBusinessObjectMaintain
     }
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCode(id);
 	}
 }

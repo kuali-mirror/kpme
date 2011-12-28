@@ -14,7 +14,7 @@ public class TimeBlockHistory extends TimeBlock {
 	 */
 	private static final long serialVersionUID = 3943771766084238699L;
 
-	private Long tkTimeBlockHistoryId = null;
+	private String tkTimeBlockHistoryId = null;
 	private String actionHistory;
 	private String modifiedByPrincipalId;
 	private Timestamp timestampModified;
@@ -49,10 +49,10 @@ public class TimeBlockHistory extends TimeBlock {
 	}
 	
 
-	public Long getTkTimeBlockHistoryId() {
+	public String getTkTimeBlockHistoryId() {
 		return tkTimeBlockHistoryId;
 	}
-	public void setTkTimeBlockHistoryId(Long tkTimeBlockHistoryId) {
+	public void setTkTimeBlockHistoryId(String tkTimeBlockHistoryId) {
 		this.tkTimeBlockHistoryId = tkTimeBlockHistoryId;
 	}
 	public String getActionHistory() {

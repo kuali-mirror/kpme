@@ -9,5 +9,5 @@ public interface TimeBlockHistoryDao {
 	public void saveOrUpdate(TimeBlockHistory timeBlockHistory);
 	public void saveOrUpdate(List<TimeBlockHistory> timeBlockHistoryList);
 
-    TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(Long tkTimeBlockId);
+    TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(String tkTimeBlockId);
 }

@@ -50,7 +50,7 @@ public class DailyOvertimeRuleMaintainableImpl extends HrBusinessObjectMaintaina
 	}
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRule(id);
 	}
     

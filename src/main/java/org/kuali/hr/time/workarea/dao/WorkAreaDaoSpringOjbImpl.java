@@ -85,7 +85,7 @@ public class WorkAreaDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
     }
 
 	@Override
-	public WorkArea getWorkArea(Long tkWorkAreaId) {
+	public WorkArea getWorkArea(String tkWorkAreaId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("tkWorkAreaId", tkWorkAreaId);
 		

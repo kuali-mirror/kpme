@@ -12,7 +12,7 @@ public class PayTypeMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getPayTypeSerivce().getPayType(id);
 	}
 

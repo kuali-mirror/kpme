@@ -356,7 +356,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public DailyOvertimeRule getDailyOvertimeRule(Long tkDailyOvertimeRuleId) {
+	public DailyOvertimeRule getDailyOvertimeRule(String tkDailyOvertimeRuleId) {
 		return dailyOvertimeRuleDao.getDailyOvertimeRule(tkDailyOvertimeRuleId);
 	}
 }

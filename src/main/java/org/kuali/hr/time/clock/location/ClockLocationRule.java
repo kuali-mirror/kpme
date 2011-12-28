@@ -17,17 +17,17 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long tkClockLocationRuleId;
+	private String tkClockLocationRuleId;
 
 	private Department department;
 	private String dept;
-	private Long hrDeptId;
+	private String hrDeptId;
 	
 	private Long workArea;
-	private Long tkWorkAreaId;
+	private String tkWorkAreaId;
 	private String principalId;
 	private Long jobNumber;
-	private Long hrJobId;
+	private String hrJobId;
 
 	private List<ClockLocationRuleIpAddress> ipAddresses = new ArrayList<ClockLocationRuleIpAddress>();
 	private String userPrincipalId;
@@ -110,11 +110,11 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 	    this.job = job;
 	}
 
-	public Long getTkClockLocationRuleId() {
+	public String getTkClockLocationRuleId() {
 		return tkClockLocationRuleId;
 	}
 
-	public void setTkClockLocationRuleId(Long tkClockLocationRuleId) {
+	public void setTkClockLocationRuleId(String tkClockLocationRuleId) {
 		this.tkClockLocationRuleId = tkClockLocationRuleId;
 	}
 
@@ -142,27 +142,27 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 		this.principal = principal;
 	}
 
-	public Long getHrDeptId() {
+	public String getHrDeptId() {
 		return hrDeptId;
 	}
 
-	public void setHrDeptId(Long hrDeptId) {
+	public void setHrDeptId(String hrDeptId) {
 		this.hrDeptId = hrDeptId;
 	}
 
-	public Long getTkWorkAreaId() {
+	public String getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}
 
-	public void setTkWorkAreaId(Long tkWorkAreaId) {
+	public void setTkWorkAreaId(String tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
 
-	public Long getHrJobId() {
+	public String getHrJobId() {
 		return hrJobId;
 	}
 
-	public void setHrJobId(Long hrJobId) {
+	public void setHrJobId(String hrJobId) {
 		this.hrJobId = hrJobId;
 	}
 
@@ -176,12 +176,12 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getTkClockLocationRuleId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setTkClockLocationRuleId(id);
 	}
 

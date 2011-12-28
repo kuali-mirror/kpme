@@ -31,7 +31,7 @@ public class EarnGroupLookupableHelper extends HrEffectiveDateActiveLookupableHe
 			EarnGroup earnGroupObj = (EarnGroup) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String earnGroup = earnGroupObj.getEarnGroup();
-			final Long hrEarnGroupId = earnGroupObj.getHrEarnGroupId();
+			final String hrEarnGroupId = earnGroupObj.getHrEarnGroupId();
 			HtmlData htmlData = new HtmlData() {
 
 				/**

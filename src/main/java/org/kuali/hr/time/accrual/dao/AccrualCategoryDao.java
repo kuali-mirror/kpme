@@ -20,7 +20,7 @@ public interface AccrualCategoryDao {
      * @param lmAccrualCategoryId
      * @return
      */
-    public AccrualCategory getAccrualCategory(Long lmAccrualCategoryId);
+    public AccrualCategory getAccrualCategory(String lmAccrualCategoryId);
     /**
      * Fetch list of active accrual categories
      * @param asOfDate

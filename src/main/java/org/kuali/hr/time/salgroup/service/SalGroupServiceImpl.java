@@ -23,7 +23,7 @@ public class SalGroupServiceImpl implements SalGroupService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public SalGroup getSalGroup(Long hrSalGroupId) {
+	public SalGroup getSalGroup(String hrSalGroupId) {
 		return salGroupDao.getSalGroup(hrSalGroupId);
 	}
 

@@ -21,12 +21,12 @@ public interface BatchJobDao {
      * @param hrPyCalendarEntryId
      * @return
      */
-	public List<BatchJob> getBatchJobs(Long hrPyCalendarEntryId);
+	public List<BatchJob> getBatchJobs(String hrPyCalendarEntryId);
     /**
      * Get pay calendar entries by id and batch job status
      * @param hrPyCalendarEntryId
      * @param batchJobStatus
      * @return
      */
-	public List<BatchJob> getPayCalendarEntries(Long hrPyCalendarEntryId, String batchJobStatus);
+	public List<BatchJob> getPayCalendarEntries(String hrPyCalendarEntryId, String batchJobStatus);
 }

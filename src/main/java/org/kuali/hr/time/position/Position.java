@@ -12,7 +12,7 @@ public class Position extends HrBusinessObject {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Long hrPositionId;
+	private String hrPositionId;
 	private String positionNumber;
 	private String description;
 	private String history;
@@ -24,11 +24,11 @@ public class Position extends HrBusinessObject {
 		return null;
 	}
 
-	public Long getHrPositionId() {
+	public String getHrPositionId() {
 		return hrPositionId;
 	}
 
-	public void setHrPositionId(Long hrPositionId) {
+	public void setHrPositionId(String hrPositionId) {
 		this.hrPositionId = hrPositionId;
 	}
 
@@ -78,12 +78,12 @@ public class Position extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getHrPositionId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setHrPositionId(id);
 	}
 

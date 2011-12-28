@@ -25,5 +25,5 @@ public interface GracePeriodService {
 	 * @param tkGracePeriodId
 	 * @return
 	 */
-	public GracePeriodRule getGracePeriodRule(Long tkGracePeriodId);
+	public GracePeriodRule getGracePeriodRule(String tkGracePeriodId);
 }

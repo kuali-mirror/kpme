@@ -17,5 +17,5 @@ public interface PayGradeDao {
 	 * @param hrPayGradeId
 	 * @return
 	 */
-	public PayGrade getPayGrade(Long hrPayGradeId);
+	public PayGrade getPayGrade(String hrPayGradeId);
 }

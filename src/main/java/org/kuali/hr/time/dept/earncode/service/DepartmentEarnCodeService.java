@@ -17,5 +17,5 @@ public interface DepartmentEarnCodeService {
 	 * @param hrDeptEarnCodeId
 	 * @return
 	 */
-	public DepartmentEarnCode getDepartmentEarnCode(Long hrDeptEarnCodeId);
+	public DepartmentEarnCode getDepartmentEarnCode(String hrDeptEarnCodeId);
 }

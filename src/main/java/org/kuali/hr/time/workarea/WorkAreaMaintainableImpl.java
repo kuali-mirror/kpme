@@ -75,7 +75,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	}
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getWorkAreaService().getWorkArea(id);
 	}
 

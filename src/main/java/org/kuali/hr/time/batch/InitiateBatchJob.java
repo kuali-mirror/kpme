@@ -17,7 +17,7 @@ public class InitiateBatchJob extends BatchJob {
 	private Logger LOG = Logger.getLogger(InitiateBatchJob.class);
 
 
-    public InitiateBatchJob(Long hrPyCalendarEntryId) {
+    public InitiateBatchJob(String hrPyCalendarEntryId) {
         super();
         this.setBatchJobName(TkConstants.BATCH_JOB_NAMES.INITIATE);
         this.setPayCalendarEntryId(hrPyCalendarEntryId);

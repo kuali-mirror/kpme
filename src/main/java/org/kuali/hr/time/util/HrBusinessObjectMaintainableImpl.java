@@ -40,6 +40,6 @@ public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainable
 		KNSServiceLocator.getBusinessObjectService().save(hrObj);
 	}
 	
-	public abstract HrBusinessObject getObjectById(Long id);
+	public abstract HrBusinessObject getObjectById(String id);
 	public void customSaveLogic(HrBusinessObject hrObj){};
 }

@@ -28,7 +28,7 @@ public class ClockLogDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 	}
     }
     
-    public ClockLog getClockLog(Long tkClockLogId){
+    public ClockLog getClockLog(String tkClockLogId){
     	Criteria crit = new Criteria();
     	crit.addEqualTo("tkClockLogId", tkClockLogId);
     	Query query = QueryFactory.newQuery(ClockLog.class, crit);

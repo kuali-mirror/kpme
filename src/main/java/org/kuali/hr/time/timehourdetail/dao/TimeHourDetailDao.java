@@ -13,7 +13,7 @@ public interface TimeHourDetailDao{
 
 	public void saveOrUpdate(TimeHourDetail timeHourDetail);
 
-    public void remove(Long timeBlockId);
+    public void remove(String timeBlockId);
     
-    public List<TimeHourDetail> getTimeHourDetailsForTimeBlock(Long timeBlockId);
+    public List<TimeHourDetail> getTimeHourDetailsForTimeBlock(String timeBlockId);
 }

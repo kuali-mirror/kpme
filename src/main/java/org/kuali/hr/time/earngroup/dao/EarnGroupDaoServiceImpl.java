@@ -123,7 +123,7 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 	}
 
 	@Override
-	public EarnGroup getEarnGroup(Long hrEarnGroupId) {
+	public EarnGroup getEarnGroup(String hrEarnGroupId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrEarnGroupId", hrEarnGroupId);
 		

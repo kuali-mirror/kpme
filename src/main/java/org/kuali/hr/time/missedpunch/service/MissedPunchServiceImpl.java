@@ -48,30 +48,30 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
 
         ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(missedPunch.getTkClockLogId());
-        if (cl.getClockTimestamp().compareTo(new Timestamp(actionDateTime.getMillis())) != 0) {
-            //change occurred between the initial save and the approver
-            //inactivate all the previous timeblocks and delete clock logs
-            Long logEndId = null;
-            Long logBeginId = null;
-            List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksForClockLogEndId(cl.getTkClockLogId());
-            if (timeBlocks.isEmpty()) {
-                // get timeBlock with the Clock Log as the clock_log_begin_id
-                timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksForClockLogBeginId(cl.getTkClockLogId());
-                if (!timeBlocks.isEmpty()) {
-                    logEndId = timeBlocks.get(0).getClockLogEndId();
-                }
-            } else {
-                logBeginId = timeBlocks.get(0).getClockLogBeginId();
-            }
 
-            //delete existing time blocks
-            for (TimeBlock tb : timeBlocks) {
-                TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
-            }
-            KNSServiceLocator.getBusinessObjectService().delete(cl);
-            // delete the existing clock log and add new time blocks
-            addClockLogForMissedPunch(missedPunch, logEndId, logBeginId);
-
+        if(cl.getClockTimestamp().compareTo(new Timestamp(actionDateTime.getMillis())) != 0){
+        	//change occurred between the initial save and the approver
+        	//inactivate all the previous timeblocks and delete clock logs
+        	String logEndId = null;
+        	String logBeginId = null;
+        	List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksForClockLogEndId(cl.getTkClockLogId());
+        	if(timeBlocks.isEmpty()) {
+        		// get timeBlock with the Clock Log as the clock_log_begin_id
+        		timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksForClockLogBeginId(cl.getTkClockLogId());
+        		if(!timeBlocks.isEmpty()) {
+        			logEndId = timeBlocks.get(0).getClockLogEndId();
+        		}
+        	} else {
+        		logBeginId = timeBlocks.get(0).getClockLogBeginId();
+        	}
+        	
+        	//delete existing time blocks
+        	for(TimeBlock tb : timeBlocks){
+        		TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
+        	}
+        	KNSServiceLocator.getBusinessObjectService().delete(cl);
+        	// delete the existing clock log and add new time blocks
+        	addClockLogForMissedPunch(missedPunch, logEndId, logBeginId);
         }
     }
 
@@ -116,7 +116,8 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
     @Override
     // is called by updateClockLogAndTimeBlockIfNecessary when approver changes time on approving an existing missed punch doc
-    public void addClockLogForMissedPunch(MissedPunchDocument missedPunch, Long logEndId, Long logBeginId) {
+
+    public void addClockLogForMissedPunch(MissedPunchDocument missedPunch, String logEndId, String logBeginId) {
         java.util.Date actionDate = missedPunch.getActionDate();
         java.sql.Time actionTime = missedPunch.getActionTime();
 
@@ -200,10 +201,9 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
     }
+    public MissedPunchDocument getMissedPunchByClockLogId(String clockLogId){
+    	return missedPunchDao.getMissedPunchByClockLogId(clockLogId);
 
-    @Override
-    public MissedPunchDocument getMissedPunchByClockLogId(Long clockLogId) {
-        return missedPunchDao.getMissedPunchByClockLogId(clockLogId);
     }
 
     @Override

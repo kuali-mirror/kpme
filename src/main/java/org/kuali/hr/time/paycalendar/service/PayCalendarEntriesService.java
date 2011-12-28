@@ -13,7 +13,7 @@ public interface PayCalendarEntriesService {
      * @param hrPyCalendarEntriesId The ID to retrieve.
      * @return a PayCalendarEntries object.
      */
-	public PayCalendarEntries getPayCalendarEntries(Long hrPyCalendarEntriesId);
+	public PayCalendarEntries getPayCalendarEntries(String hrPyCalendarEntriesId);
 
     /**
      * Method to obtain the current PayCalendarEntries object based on the
@@ -22,11 +22,11 @@ public interface PayCalendarEntriesService {
      * @param asOfDate The date reference point.
      * @return the current PayCalendarEntries effective by the asOfDate.
      */
-	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, Date asOfDate);
-    public PayCalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(Long hrPyCalendarId, Date endPeriodDate);
+	public PayCalendarEntries getCurrentPayCalendarEntriesByPayCalendarId(String hrPyCalendarId, Date asOfDate);
+    public PayCalendarEntries getPayCalendarEntriesByIdAndPeriodEndDate(String hrPyCalendarId, Date endPeriodDate);
 
-    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, PayCalendarEntries pce);
-    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(Long hrPyCalendarId, PayCalendarEntries pce);
+    public PayCalendarEntries getPreviousPayCalendarEntriesByPayCalendarId(String hrPyCalendarId, PayCalendarEntries pce);
+    public PayCalendarEntries getNextPayCalendarEntriesByPayCalendarId(String hrPyCalendarId, PayCalendarEntries pce);
 
     /**
      * Provides a list of PayCalendarEntries that are in the indicated window

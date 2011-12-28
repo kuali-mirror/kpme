@@ -165,8 +165,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         tb.setWorkArea(assignment.getWorkArea());
         tb.setTask(assignment.getTask());
         tb.setTkWorkAreaId(assignment.getWorkAreaObj().getTkWorkAreaId());
-        tb.setHrJobId(assignment.getJob().getHrJobId());
-        Long tkTaskId = 0L;
+        tb.setHrJobId(Long.parseLong(assignment.getJob().getHrJobId()));
+        String tkTaskId = "0";
         for (Task task : assignment.getWorkAreaObj().getTasks()) {
             if (task.getTask().compareTo(assignment.getTask()) == 0) {
                 tkTaskId = task.getTkTaskId();
@@ -216,7 +216,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         return tb;
     }
 
-    public TimeBlock getTimeBlock(Long tkTimeBlockId) {
+    public TimeBlock getTimeBlock(String tkTimeBlockId) {
         return timeBlockDao.getTimeBlock(tkTimeBlockId);
     }
 
@@ -236,7 +236,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
     }
 
-    private List<TimeHourDetail> createTimeHourDetails(String earnCode, BigDecimal hours, BigDecimal amount, Long timeBlockId) {
+    private List<TimeHourDetail> createTimeHourDetails(String earnCode, BigDecimal hours, BigDecimal amount, String timeBlockId) {
         List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
 
         TimeHourDetail timeHourDetail = new TimeHourDetail();
@@ -343,11 +343,11 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	}
 
 	@Override
-	public List<TimeBlock> getTimeBlocksForClockLogEndId(Long tkClockLogId) {
+	public List<TimeBlock> getTimeBlocksForClockLogEndId(String tkClockLogId) {
 		return timeBlockDao.getTimeBlocksForClockLogEndId(tkClockLogId);
 	}
 	@Override
-	public List<TimeBlock> getTimeBlocksForClockLogBeginId(Long tkClockLogId) {
+	public List<TimeBlock> getTimeBlocksForClockLogBeginId(String tkClockLogId) {
 		return timeBlockDao.getTimeBlocksForClockLogBeginId(tkClockLogId);
 	}
 
@@ -360,7 +360,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	}
 
     @Override
-    public List<TimeBlock> getOvernightTimeBlocks(Long clockLogEndId) {
+    public List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId) {
         return timeBlockDao.getOvernightTimeBlocks(clockLogEndId);
     }
 }

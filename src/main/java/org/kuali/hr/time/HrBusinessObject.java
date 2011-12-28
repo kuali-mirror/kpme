@@ -18,9 +18,9 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase{
 	protected boolean active;
 	protected Timestamp timestamp;
 	
-	public abstract Long getId();
+	public abstract String getId();
 	
-	public abstract void setId(Long id);
+	public abstract void setId(String id);
 	
 	public Date getEffectiveDate() {
 		return effectiveDate;

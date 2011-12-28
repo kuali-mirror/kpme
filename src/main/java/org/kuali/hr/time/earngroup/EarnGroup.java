@@ -13,7 +13,7 @@ public class EarnGroup extends HrBusinessObject {
 	 */
 	private static final long serialVersionUID = -3034933572755800531L;
 
-	private Long hrEarnGroupId;
+	private String hrEarnGroupId;
 
 	private String earnGroup;
 
@@ -67,11 +67,11 @@ public class EarnGroup extends HrBusinessObject {
 		return descr;
 	}
 
-	public Long getHrEarnGroupId() {
+	public String getHrEarnGroupId() {
 		return hrEarnGroupId;
 	}
 
-	public void setHrEarnGroupId(Long hrEarnGroupId) {
+	public void setHrEarnGroupId(String hrEarnGroupId) {
 		this.hrEarnGroupId = hrEarnGroupId;
 	}
 	
@@ -89,12 +89,12 @@ public class EarnGroup extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getHrEarnGroupId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setHrEarnGroupId(id);
 	}
 

@@ -17,7 +17,7 @@ public class DepartmentEarnCode extends HrBusinessObject {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long hrDeptEarnCodeId;
+	private String hrDeptEarnCodeId;
 	private String dept;
 	private String hrSalGroup;
 	private String earnCode;
@@ -25,10 +25,10 @@ public class DepartmentEarnCode extends HrBusinessObject {
 	private boolean approver;
 	private String location;
 	
-	private Long hrDeptId;
-	private Long hrSalGroupId;
-	private Long hrEarnCodeId;
-	private Long hrLocationId;
+	private String hrDeptId;
+	private String hrSalGroupId;
+	private String hrEarnCodeId;
+	private String hrLocationId;
 	
 	private SalGroup  salGroupObj;
 	private Department departmentObj;
@@ -90,10 +90,10 @@ public class DepartmentEarnCode extends HrBusinessObject {
 	public void setEarnCodeObj(EarnCode earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
-	public Long getHrDeptEarnCodeId() {
+	public String getHrDeptEarnCodeId() {
 		return hrDeptEarnCodeId;
 	}
-	public void setHrDeptEarnCodeId(Long hrDeptEarnCodeId) {
+	public void setHrDeptEarnCodeId(String hrDeptEarnCodeId) {
 		this.hrDeptEarnCodeId = hrDeptEarnCodeId;
 	}
 	public String getDept() {
@@ -151,28 +151,28 @@ public class DepartmentEarnCode extends HrBusinessObject {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public Long getHrDeptId() {
+	public String getHrDeptId() {
 		return hrDeptId;
 	}
-	public void setHrDeptId(Long hrDeptId) {
+	public void setHrDeptId(String hrDeptId) {
 		this.hrDeptId = hrDeptId;
 	}
-	public Long getHrSalGroupId() {
+	public String getHrSalGroupId() {
 		return hrSalGroupId;
 	}
-	public void setHrSalGroupId(Long hrSalGroupId) {
+	public void setHrSalGroupId(String hrSalGroupId) {
 		this.hrSalGroupId = hrSalGroupId;
 	}
-	public Long getHrEarnCodeId() {
+	public String getHrEarnCodeId() {
 		return hrEarnCodeId;
 	}
-	public void setHrEarnCodeId(Long hrEarnCodeId) {
+	public void setHrEarnCodeId(String hrEarnCodeId) {
 		this.hrEarnCodeId = hrEarnCodeId;
 	}
-	public Long getHrLocationId() {
+	public String getHrLocationId() {
 		return hrLocationId;
 	}
-	public void setHrLocationId(Long hrLocationId) {
+	public void setHrLocationId(String hrLocationId) {
 		this.hrLocationId = hrLocationId;
 	}
 	@Override
@@ -186,11 +186,11 @@ public class DepartmentEarnCode extends HrBusinessObject {
 		this.history = history;
 	}
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getHrDeptEarnCodeId();
 	}
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setHrDeptEarnCodeId(id);
 	}
 

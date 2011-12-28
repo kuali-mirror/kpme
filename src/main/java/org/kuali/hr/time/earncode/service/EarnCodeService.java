@@ -36,7 +36,7 @@ public interface EarnCodeService {
      * @param earnCodeId
      * @return
      */
-    public EarnCode getEarnCodeById(Long earnCodeId);
+    public EarnCode getEarnCodeById(String earnCodeId);
     
     /**
      * Fetch list of system defined overtime earn codes

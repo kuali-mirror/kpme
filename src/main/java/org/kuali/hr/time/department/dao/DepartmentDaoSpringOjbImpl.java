@@ -85,7 +85,7 @@ public class DepartmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
     }
 
 	@Override
-	public Department getDepartment(Long hrDeptId) {
+	public Department getDepartment(String hrDeptId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrDeptId", hrDeptId);
 		

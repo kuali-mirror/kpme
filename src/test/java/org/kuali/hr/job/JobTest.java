@@ -36,7 +36,7 @@ public class JobTest extends TkTestCase {
 	@Test
 	public void testInsertPayCalendar() throws Exception {
 		PayCalendar payCalendar = new PayCalendar();
-		payCalendar.setHrPyCalendarId(1L);
+		payCalendar.setHrPyCalendarId("1");
 		payCalendar.setPyCalendarGroup(CALENDAR_GROUP);
 
 		payCalendar.setFlsaBeginDay("Sun");
@@ -49,8 +49,8 @@ public class JobTest extends TkTestCase {
 	@Test
 	public void testInsertPayCalendarDates() throws Exception {
 		PayCalendarEntries payCalendarDates = new PayCalendarEntries();
-		payCalendarDates.setHrPyCalendarEntriesId(1001L);
-		payCalendarDates.setHrPyCalendarId(1001L);
+		payCalendarDates.setHrPyCalendarEntriesId("1001");
+		payCalendarDates.setHrPyCalendarId("1001");
 
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.MONTH, 7);
@@ -73,7 +73,7 @@ public class JobTest extends TkTestCase {
 		long currentTimestamp = Calendar.getInstance().getTime().getTime();
 
 		PayType payType = new PayType();
-		payType.setHrPayTypeId(1001L);
+		payType.setHrPayTypeId("1001");
 		payType.setPayType("BW");
 		payType.setRegEarnCode("RGN");
 		payType.setEffectiveDate(new java.sql.Date(currentTimestamp));

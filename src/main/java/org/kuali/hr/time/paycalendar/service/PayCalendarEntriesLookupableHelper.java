@@ -29,7 +29,7 @@ public class PayCalendarEntriesLookupableHelper extends
 		}
 		PayCalendarEntries payCalendarEntries = (PayCalendarEntries) businessObject;
 		final String className = this.getBusinessObjectClass().getName();
-		final Long hrPyCalendarEntriesId = payCalendarEntries.getHrPyCalendarEntriesId();
+		final String hrPyCalendarEntriesId = payCalendarEntries.getHrPyCalendarEntriesId();
 		HtmlData htmlData = new HtmlData() {
 
 			@Override

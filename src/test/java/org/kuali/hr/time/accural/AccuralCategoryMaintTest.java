@@ -13,10 +13,9 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 public class AccuralCategoryMaintTest extends TkTestCase {
-	//TODO - Sai confirm this test is working
-	
+
 	private static final String TEST_CODE = "_T";
-	private static Long accuralCategoryId;
+	private static String accuralCategoryId;
 	private static final Date TEST_DATE = new Date(Calendar.getInstance()
 			.getTimeInMillis());
 	private static final Timestamp TEST_TIMESTAMP = new Timestamp(Calendar

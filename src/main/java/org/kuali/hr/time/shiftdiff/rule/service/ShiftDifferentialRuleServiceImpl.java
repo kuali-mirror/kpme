@@ -565,7 +565,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public ShiftDifferentialRule getShiftDifferentialRule(long tkShiftDifferentialRuleId) {
+	public ShiftDifferentialRule getShiftDifferentialRule(String tkShiftDifferentialRuleId) {
 		return this.shiftDifferentialRuleDao.findShiftDifferentialRule(tkShiftDifferentialRuleId);
 	}
 

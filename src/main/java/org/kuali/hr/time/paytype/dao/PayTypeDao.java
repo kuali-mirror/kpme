@@ -13,6 +13,6 @@ public interface PayTypeDao {
 
 	public PayType getPayType(String payType, Date effectiveDate);
 	
-	public PayType getPayType(Long hrPayTypeId);
+	public PayType getPayType(String hrPayTypeId);
 
 }

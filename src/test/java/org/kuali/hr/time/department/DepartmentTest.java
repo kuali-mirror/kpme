@@ -24,7 +24,7 @@ public class DepartmentTest extends TkTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		Department dept = new Department();
-		dept.setHrDeptId(1001L);
+		dept.setHrDeptId("1001");
 		dept.setDept("__TEST");
 		dept.setDescription("TESTING_DEPT");
 		dept.setActive(true);
@@ -35,7 +35,7 @@ public class DepartmentTest extends TkTestCase {
 	@Override
 	public void tearDown() throws Exception {
 		Department dept = new Department();
-		dept.setHrDeptId(1001L);
+		dept.setHrDeptId("1001");
 		dept.setDept("__TEST");
 		dept.setDescription("TESTING_DEPT");
 		

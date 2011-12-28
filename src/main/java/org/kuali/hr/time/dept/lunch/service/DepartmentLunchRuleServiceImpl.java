@@ -96,7 +96,7 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public DeptLunchRule getDepartmentLunchRule(Long tkDeptLunchRuleId) {
+	public DeptLunchRule getDepartmentLunchRule(String tkDeptLunchRuleId) {
 		return deptLunchRuleDao.getDepartmentLunchRule(tkDeptLunchRuleId);
 	}
 

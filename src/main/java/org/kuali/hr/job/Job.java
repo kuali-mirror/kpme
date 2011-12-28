@@ -31,7 +31,7 @@ public class Job extends HrBusinessObject {
 	private String hrPayType;
 	private String payGrade;
 	private BigDecimal standardHours;
-	private Long hrJobId;
+	private String hrJobId;
 	private String principalId;
 	private String firstName;
 	private String lastName;
@@ -44,8 +44,8 @@ public class Job extends HrBusinessObject {
 	private BigDecimal compRate = new BigDecimal(0);
 	private String positionNumber;
 	
-	private Long hrDeptId;
-	private Long hrPayTypeId;
+	private String hrDeptId;
+	private String hrPayTypeId;
 	
 	private Person principal;
 	private Department deptObj;
@@ -181,11 +181,11 @@ public class Job extends HrBusinessObject {
 		this.hrPayType = hrPayType;
 	}
 
-	public Long getHrJobId() {
+	public String getHrJobId() {
 		return hrJobId;
 	}
 
-	public void setHrJobId(Long hrJobId) {
+	public void setHrJobId(String hrJobId) {
 		this.hrJobId = hrJobId;
 	}
 
@@ -298,19 +298,19 @@ public class Job extends HrBusinessObject {
 		return positionObj;
 	}
 
-	public Long getHrDeptId() {
+	public String getHrDeptId() {
 		return hrDeptId;
 	}
 
-	public void setHrDeptId(Long hrDeptId) {
+	public void setHrDeptId(String hrDeptId) {
 		this.hrDeptId = hrDeptId;
 	}
 
-	public Long getHrPayTypeId() {
+	public String getHrPayTypeId() {
 		return hrPayTypeId;
 	}
 
-	public void setHrPayTypeId(Long hrPayTypeId) {
+	public void setHrPayTypeId(String hrPayTypeId) {
 		this.hrPayTypeId = hrPayTypeId;
 	}
 
@@ -320,13 +320,12 @@ public class Job extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getHrJobId();
 	}
 
 	@Override
-	public void setId(Long id) {
-		// TODO Auto-generated method stub
+	public void setId(String id) {
 		setHrJobId(id);
 	}
 

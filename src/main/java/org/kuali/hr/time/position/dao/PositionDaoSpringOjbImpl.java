@@ -11,7 +11,7 @@ import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 public class PositionDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements PositionDao {
 
     @Override
-    public Position getPosition(Long hrPositionId) {
+    public Position getPosition(String hrPositionId) {
         Criteria crit = new Criteria();
         crit.addEqualTo("hrPositionId", hrPositionId);
 

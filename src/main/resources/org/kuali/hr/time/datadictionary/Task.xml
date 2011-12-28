@@ -52,13 +52,15 @@
   <bean id="Task-tkTaskId" parent="Task-tkTaskId-parentBean"/>
   <bean id="Task-tkTaskId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Task Id"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
+    <property name="maxLength" value="60"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
     <property name="name" value="tkTaskId"/>
     <property name="label" value="Task Id"/>
   </bean>

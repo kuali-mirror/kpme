@@ -1,5 +1,11 @@
 package org.kuali.hr.time.workarea;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
@@ -7,17 +13,11 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.task.Task;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 
     private static final long serialVersionUID = 1L;
 
-    private Long tkWorkAreaId;
+    private String tkWorkAreaId;
     private Long workArea;
     private String description;
     private String dept;
@@ -30,7 +30,7 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     
 	private boolean history;
     
-    private Long hrDeptId;
+    private String hrDeptId;
 
     private List<TkRole> roles = new ArrayList<TkRole>();
     private List<TkRole> inactiveRoles = new ArrayList<TkRole>();
@@ -115,12 +115,12 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 	}
 
 
-	public Long getTkWorkAreaId() {
+	public String getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}
 
 
-	public void setTkWorkAreaId(Long tkWorkAreaId) {
+	public void setTkWorkAreaId(String tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
 
@@ -226,11 +226,11 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 	}
 
 
-	public Long getHrDeptId() {
+	public String getHrDeptId() {
 		return hrDeptId;
 	}
 
-	public void setHrDeptId(Long hrDeptId) {
+	public void setHrDeptId(String hrDeptId) {
 		this.hrDeptId = hrDeptId;
 	}
 
@@ -242,13 +242,13 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getTkWorkAreaId();
 	}
 
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setTkWorkAreaId(id);
 	}
 

@@ -46,7 +46,7 @@ public class WeeklyOvertimeRuleMaintainableImpl extends HrBusinessObjectMaintain
 	}
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getWeeklyOvertimeRuleService().getWeeklyOvertimeRule(id);
 	}
 

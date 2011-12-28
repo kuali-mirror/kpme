@@ -31,7 +31,7 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
         }
     }
 
-    public TimeBlock getTimeBlock(Long tkTimeBlockId) {
+    public TimeBlock getTimeBlock(String tkTimeBlockId) {
         Criteria currentRecordCriteria = new Criteria();
         currentRecordCriteria.addEqualTo("tkTimeBlockId", tkTimeBlockId);
 
@@ -73,7 +73,7 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<TimeBlock> getTimeBlocksForClockLogEndId(Long tkClockLogId) {
+    public List<TimeBlock> getTimeBlocksForClockLogEndId(String tkClockLogId) {
         Criteria crit = new Criteria();
         crit.addEqualTo("clockLogEndId", tkClockLogId);
         return (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, crit));
@@ -81,7 +81,7 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<TimeBlock> getTimeBlocksForClockLogBeginId(Long tkClockLogId) {
+    public List<TimeBlock> getTimeBlocksForClockLogBeginId(String tkClockLogId) {
         Criteria crit = new Criteria();
         crit.addEqualTo("clockLogBeginId", tkClockLogId);
         return (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, crit));
@@ -122,7 +122,7 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
     }
 
     @Override
-    public List<TimeBlock> getOvernightTimeBlocks(Long clockLogEndId) {
+    public List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId) {
         List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
         Criteria root = new Criteria();
 

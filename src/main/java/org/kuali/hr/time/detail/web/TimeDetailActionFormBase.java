@@ -12,7 +12,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class TimeDetailActionFormBase extends TimesheetActionForm {
 
-    private Long tkTimeBlockId;
+    private String tkTimeBlockId;
     private String outputString;
     private List<String> warnings = new ArrayList<String>();
     private String startTime;
@@ -24,11 +24,11 @@ public class TimeDetailActionFormBase extends TimesheetActionForm {
     private BigDecimal amount;
     private String overtimePref;
 
-    public Long getTkTimeBlockId() {
+    public String getTkTimeBlockId() {
         return tkTimeBlockId;
     }
 
-    public void setTkTimeBlockId(Long tkTimeBlockId) {
+    public void setTkTimeBlockId(String tkTimeBlockId) {
         this.tkTimeBlockId = tkTimeBlockId;
     }
 

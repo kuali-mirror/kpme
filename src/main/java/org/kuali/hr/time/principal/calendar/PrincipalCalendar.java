@@ -126,11 +126,11 @@ public class PrincipalCalendar extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
-		return 1L;
+	public String getId() {
+		return "1";
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 	}
 }

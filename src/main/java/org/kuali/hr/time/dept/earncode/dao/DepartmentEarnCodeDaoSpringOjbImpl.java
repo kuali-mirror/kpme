@@ -122,7 +122,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 	}
 
 	@Override
-	public DepartmentEarnCode getDepartmentEarnCode(Long hrDeptEarnCodeId) {
+	public DepartmentEarnCode getDepartmentEarnCode(String hrDeptEarnCodeId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrDeptEarnCodeId", hrDeptEarnCodeId);
 		

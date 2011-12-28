@@ -11,12 +11,12 @@ public class PayType extends HrBusinessObject {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long hrPayTypeId;
+	private String hrPayTypeId;
 	private String payType;
 	private String descr;
 	private String regEarnCode;
     /** Used for lookup */
-	private Long hrEarnCodeId;
+	private String hrEarnCodeId;
     private EarnCode regEarnCodeObj;
     private String history;
     private Boolean ovtEarnCode;
@@ -58,22 +58,22 @@ public class PayType extends HrBusinessObject {
 	public void setRegEarnCode(String regEarnCode) {
 		this.regEarnCode = regEarnCode;
 	}
-	public Long getHrPayTypeId() {
+	public String getHrPayTypeId() {
 		return hrPayTypeId;
 	}
 
 
-	public void setHrPayTypeId(Long hrPayTypeId) {
+	public void setHrPayTypeId(String hrPayTypeId) {
 		this.hrPayTypeId = hrPayTypeId;
 	}
 
 
 
-	public Long getHrEarnCodeId() {
+	public String getHrEarnCodeId() {
 		return hrEarnCodeId;
 	}
 
-	public void setHrEarnCodeId(Long hrEarnCodeId) {
+	public void setHrEarnCodeId(String hrEarnCodeId) {
 		this.hrEarnCodeId = hrEarnCodeId;
 	}
 
@@ -99,12 +99,12 @@ public class PayType extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getHrPayTypeId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setHrPayTypeId(id);
 	}
 	

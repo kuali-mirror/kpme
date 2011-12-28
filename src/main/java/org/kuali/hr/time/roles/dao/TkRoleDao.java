@@ -58,7 +58,7 @@ public interface TkRoleDao {
 	 */
 	public void saveOrUpdateRoles(List<TkRole> roles);
 	
-	public TkRole getRole(Long tkRoleId);
+	public TkRole getRole(String tkRoleId);
 	
 	public TkRole getRolesByPosition(String positionNumber);
 	

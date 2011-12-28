@@ -6,5 +6,5 @@ import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 
 public interface DepartmentLunchRuleDao {
 	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea, String principalId, Long jobNumber, Date asOfDate);
-	public DeptLunchRule getDepartmentLunchRule(Long tkDeptLunchRuleId);
+	public DeptLunchRule getDepartmentLunchRule(String tkDeptLunchRuleId);
 }

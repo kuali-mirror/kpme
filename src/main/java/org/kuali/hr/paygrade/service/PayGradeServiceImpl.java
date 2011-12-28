@@ -22,7 +22,7 @@ public class PayGradeServiceImpl implements PayGradeService{
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public PayGrade getPayGrade(Long hrPayGradeId) {
+	public PayGrade getPayGrade(String hrPayGradeId) {
 		return payGradeDao.getPayGrade(hrPayGradeId);
 	}
 	

@@ -35,7 +35,7 @@ public class ClockLocationRuleLookupableHelper extends
 				businessObject, pkNames);
 		ClockLocationRule clockLocationRule = (ClockLocationRule) businessObject;
 		final String className = this.getBusinessObjectClass().getName();
-		final Long tkClockLocationRuleId = clockLocationRule.getTkClockLocationRuleId();
+		final String tkClockLocationRuleId = clockLocationRule.getTkClockLocationRuleId();
 		HtmlData htmlData = new HtmlData() {
 
 			@Override

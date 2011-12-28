@@ -15,7 +15,7 @@ import java.util.List;
 public class ShiftDifferentialRuleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements ShiftDifferentialRuleDao {
 	
 	@Override
-	public ShiftDifferentialRule findShiftDifferentialRule(long id) {
+	public ShiftDifferentialRule findShiftDifferentialRule(String id) {
 		Object o = this.getPersistenceBrokerTemplate().getObjectById(ShiftDifferentialRule.class, id);
 		
 		return (ShiftDifferentialRule)o;

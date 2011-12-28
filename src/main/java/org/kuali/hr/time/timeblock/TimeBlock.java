@@ -26,14 +26,14 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
      */
     private static final long serialVersionUID = -4164042707879641855L;
 
-    private Long tkTimeBlockId;
+    private String tkTimeBlockId;
     private String documentId;
     private Long jobNumber;
     private Long workArea;
     private Long task;
-    private Long hrJobId;
-    private Long tkWorkAreaId;
-    private Long tkTaskId;
+    private String hrJobId;
+    private String tkWorkAreaId;
+    private String tkTaskId;
     private String earnCode;
     private String earnCodeType;
     private Timestamp beginTimestamp;
@@ -59,8 +59,8 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private DateTime beginTimeDisplay;
     private DateTime endTimeDisplay;
 
-    private Long clockLogBeginId;
-    private Long clockLogEndId;
+    private String clockLogBeginId;
+    private String clockLogEndId;
 
     private String assignmentKey;
 
@@ -263,11 +263,11 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         return sb.toString();
     }
 
-    public Long getTkTimeBlockId() {
+    public String getTkTimeBlockId() {
         return tkTimeBlockId;
     }
 
-    public void setTkTimeBlockId(Long tkTimeBlockId) {
+    public void setTkTimeBlockId(String tkTimeBlockId) {
         this.tkTimeBlockId = tkTimeBlockId;
     }
 
@@ -288,26 +288,26 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     }
 
     public Long getHrJobId() {
-        return hrJobId;
+        return Long.parseLong(hrJobId);
     }
 
     public void setHrJobId(Long hrJobId) {
-        this.hrJobId = hrJobId;
+        this.hrJobId = hrJobId.toString();
     }
 
-    public Long getTkWorkAreaId() {
+    public String getTkWorkAreaId() {
         return tkWorkAreaId;
     }
 
-    public void setTkWorkAreaId(Long tkWorkAreaId) {
+    public void setTkWorkAreaId(String tkWorkAreaId) {
         this.tkWorkAreaId = tkWorkAreaId;
     }
 
-    public Long getTkTaskId() {
+    public String getTkTaskId() {
         return tkTaskId;
     }
 
-    public void setTkTaskId(Long tkTaskId) {
+    public void setTkTaskId(String tkTaskId) {
         this.tkTaskId = tkTaskId;
     }
 
@@ -451,19 +451,19 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.timeBlockHistories = timeBlockHistories;
     }
 
-    public Long getClockLogBeginId() {
+    public String getClockLogBeginId() {
         return clockLogBeginId;
     }
 
-    public void setClockLogBeginId(Long clockLogBeginId) {
+    public void setClockLogBeginId(String clockLogBeginId) {
         this.clockLogBeginId = clockLogBeginId;
     }
 
-    public Long getClockLogEndId() {
+    public String getClockLogEndId() {
         return clockLogEndId;
     }
 
-    public void setClockLogEndId(Long clockLogEndId) {
+    public void setClockLogEndId(String clockLogEndId) {
         this.clockLogEndId = clockLogEndId;
     }
 
@@ -614,7 +614,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         return "";
     }
 
-    private Boolean isOvernightTimeClockLog(Long clockLogId) {
+    private Boolean isOvernightTimeClockLog(String clockLogId) {
         // https://jira.kuali.org/browse/KPME-1179
         Integer overnightTimeBlocks = TkServiceLocator.getTimeBlockService().getOvernightTimeBlocks(clockLogEndId).size();
         if (overnightTimeBlocks >= 2) {

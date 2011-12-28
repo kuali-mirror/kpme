@@ -11,15 +11,15 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 
 	private static final long serialVersionUID = 1L;
 
-	private Long tkTimeCollectionRuleId;
+	private String tkTimeCollectionRuleId;
 	private String dept;
 	private Long workArea;
 	private boolean clockUserFl;
 	private boolean hrsDistributionF;
 	private String userPrincipalId;
 
-	private Long tkWorkAreaId;
-	private Long hrDeptId;
+	private String tkWorkAreaId;
+	private String hrDeptId;
 
 	private Department departmentObj;
 	private WorkArea workAreaObj;
@@ -99,11 +99,11 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 		return toStringMap;
 	}
 
-	public Long getTkTimeCollectionRuleId() {
+	public String getTkTimeCollectionRuleId() {
 		return tkTimeCollectionRuleId;
 	}
 
-	public void setTkTimeCollectionRuleId(Long tkTimeCollectionRuleId) {
+	public void setTkTimeCollectionRuleId(String tkTimeCollectionRuleId) {
 		this.tkTimeCollectionRuleId = tkTimeCollectionRuleId;
 	}
 
@@ -115,19 +115,19 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 		this.dept = dept;
 	}
 
-	public Long getTkWorkAreaId() {
+	public String getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}
 
-	public void setTkWorkAreaId(Long tkWorkAreaId) {
+	public void setTkWorkAreaId(String tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
 
-	public Long getHrDeptId() {
+	public String getHrDeptId() {
 		return hrDeptId;
 	}
 
-	public void setHrDeptId(Long hrDeptId) {
+	public void setHrDeptId(String hrDeptId) {
 		this.hrDeptId = hrDeptId;
 	}
 
@@ -140,12 +140,12 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getTkTimeCollectionRuleId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setTkTimeCollectionRuleId(id);
 	}
 

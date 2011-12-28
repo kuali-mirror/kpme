@@ -85,12 +85,14 @@
 	<bean id="WorkArea-tkWorkAreaId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="WorkArea Id" />
-		<property name="maxLength" value="7" />
+		<property name="maxLength" value="60" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
+			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
 		<property name="name" value="tkWorkAreaId" />
 		<property name="label" value="WorkArea Id" />

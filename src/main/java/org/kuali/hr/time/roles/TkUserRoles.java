@@ -31,7 +31,7 @@ public class TkUserRoles implements UserRoles {
     private Map<Long, TkRole> approverDelegateRoles = new HashMap<Long,TkRole>();
     private Map<Long, TkRole> reviewerRoles = new HashMap<Long,TkRole>();;
     private Map<String, TkRole> deptViewOnlyRoles = new HashMap<String, TkRole>();
-	private Set<Long> activeAssignmentIds = new HashSet<Long>();
+	private Set<String> activeAssignmentIds = new HashSet<String>();
 	
 	/**
 	 * Constructor that takes a list of all roles that will be encapsulated
@@ -111,7 +111,7 @@ public class TkUserRoles implements UserRoles {
      * @return a Set of active assignment IDs
      */
     @Override
-	public Set<Long> getActiveAssignmentIds() {
+	public Set<String> getActiveAssignmentIds() {
 		return activeAssignmentIds;
 	}
 

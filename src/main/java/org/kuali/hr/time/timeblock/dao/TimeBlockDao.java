@@ -13,7 +13,7 @@ public interface TimeBlockDao {
 
 	public void deleteTimeBlock(TimeBlock timeBlock);
 
-	public TimeBlock getTimeBlock(Long timeBlockId);
+	public TimeBlock getTimeBlock(String timeBlockId);
 	
 	public List<TimeBlock> getTimeBlocks(Long documentId);
 	
@@ -26,16 +26,16 @@ public interface TimeBlockDao {
 	 * @param tkClockLogId
 	 * @return List<TimeBlock>	 * 
 	 */
-	public List<TimeBlock> getTimeBlocksForClockLogEndId(Long tkClockLogId);
+	public List<TimeBlock> getTimeBlocksForClockLogEndId(String tkClockLogId);
 	/*
 	 * Get all the time blocks with the given Clock Log id as the clockLogBeginId
 	 * @param tkClockLogId
 	 * @return List<TimeBlock>	 * 
 	 */
-	public List<TimeBlock> getTimeBlocksForClockLogBeginId(Long tkClockLogId);
+	public List<TimeBlock> getTimeBlocksForClockLogBeginId(String tkClockLogId);
 	
 	public List<TimeBlock> getTimeBlocks();
 	public List<TimeBlock> getLatestEndTimestamp();
 
-    List<TimeBlock> getOvernightTimeBlocks(Long clockLogEndId);
+    List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId);
 }

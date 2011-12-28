@@ -19,7 +19,7 @@ public class ShiftDifferentialRule extends TkRule {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long tkShiftDiffRuleId;
+	private String tkShiftDiffRuleId;
 	private String location;
 	private String hrSalGroup;
 	private String payGrade;
@@ -39,9 +39,9 @@ public class ShiftDifferentialRule extends TkRule {
 	private BigDecimal maxGap; // Gap is in HOURS
 	private String userPrincipalId;
 
-	private Long hrSalGroupId;
-	private Long hrLocationId;
-	private Long hrPayGradeId;	
+	private String hrSalGroupId;
+	private String hrLocationId;
+	private String hrPayGradeId;	
 	
 	private boolean history;
 	
@@ -58,11 +58,11 @@ public class ShiftDifferentialRule extends TkRule {
 		return null;
 	}
 
-	public Long getTkShiftDiffRuleId() {
+	public String getTkShiftDiffRuleId() {
 		return tkShiftDiffRuleId;
 	}
 
-	public void setTkShiftDiffRuleId(Long tkShiftDiffRuleId) {
+	public void setTkShiftDiffRuleId(String tkShiftDiffRuleId) {
 		this.tkShiftDiffRuleId = tkShiftDiffRuleId;
 	}
 
@@ -281,27 +281,27 @@ public class ShiftDifferentialRule extends TkRule {
 		this.payGradeObj = payGradeObj;
 	}
 
-	public Long getHrSalGroupId() {
+	public String getHrSalGroupId() {
 		return hrSalGroupId;
 	}
 
-	public void setHrSalGroupId(Long hrSalGroupId) {
+	public void setHrSalGroupId(String hrSalGroupId) {
 		this.hrSalGroupId = hrSalGroupId;
 	}
 
-	public Long getHrLocationId() {
+	public String getHrLocationId() {
 		return hrLocationId;
 	}
 
-	public void setHrLocationId(Long hrLocationId) {
+	public void setHrLocationId(String hrLocationId) {
 		this.hrLocationId = hrLocationId;
 	}
 
-	public Long getHrPayGradeId() {
+	public String getHrPayGradeId() {
 		return hrPayGradeId;
 	}
 
-	public void setHrPayGradeId(Long hrPayGradeId) {
+	public void setHrPayGradeId(String hrPayGradeId) {
 		this.hrPayGradeId = hrPayGradeId;
 	}
 
@@ -311,12 +311,12 @@ public class ShiftDifferentialRule extends TkRule {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getTkShiftDiffRuleId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setTkShiftDiffRuleId(id);
 	}
 

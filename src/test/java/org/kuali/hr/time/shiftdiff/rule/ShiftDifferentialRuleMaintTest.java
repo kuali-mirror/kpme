@@ -15,7 +15,7 @@ public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 	private static final String TEST_CODE="_T";
 		
 	private static final BigDecimal TEST_NO=new BigDecimal(2);
-	private static Long shiftDifferentialRuleId;
+	private static String shiftDifferentialRuleId;
 	private static final String TEST_TIME= "11:00 PM";
 	private static final Date TEST_DATE= new Date(Calendar.getInstance().getTimeInMillis());
 	

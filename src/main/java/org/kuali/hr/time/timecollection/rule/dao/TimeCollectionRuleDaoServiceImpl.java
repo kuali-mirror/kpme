@@ -93,7 +93,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PersistenceBrokerDaoSuppor
 	}
 
 	@Override
-	public TimeCollectionRule getTimeCollectionRule(Long tkTimeCollectionRuleId) {
+	public TimeCollectionRule getTimeCollectionRule(String tkTimeCollectionRuleId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("tkTimeCollectionRuleId", tkTimeCollectionRuleId);
 		

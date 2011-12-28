@@ -34,7 +34,7 @@ public class PayTypeServiceImpl implements PayTypeService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public PayType getPayType(Long hrPayTypeId) {
+	public PayType getPayType(String hrPayTypeId) {
 		return payTypeDao.getPayType(hrPayTypeId);
 	}
 

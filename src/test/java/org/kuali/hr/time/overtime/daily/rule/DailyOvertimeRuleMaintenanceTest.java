@@ -20,7 +20,7 @@ public class DailyOvertimeRuleMaintenanceTest extends TkTestCase{
 	private static String TEST_CODE_INVALID_DEPT_ID ="INVALID";
 	private static Long TEST_CODE_INVALID_TASK_ID =-1L;
 	private static Long TEST_CODE_INVALID_WORK_AREA_ID =-1L;	
-	private static Long dailyOvertimeRuleId = 5L;
+	private static String dailyOvertimeRuleId = "5";
 	
 	@Test
 	public void testDailyOvertimeRuleMaint() throws Exception {

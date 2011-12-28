@@ -14,5 +14,5 @@ public interface TimeCollectionRuleService {
 	 */
 	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea,Date asOfDate);
 	
-	public TimeCollectionRule getTimeCollectionRule(Long tkTimeCollectionRuleId);
+	public TimeCollectionRule getTimeCollectionRule(String tkTimeCollectionRuleId);
 }

@@ -19,8 +19,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class AssignmentAccountMaintTest extends TkTestCase{
 	private static final String TEST_CODE="CD";
 	private static final String TEST_ID="1";
-	private static final Long TEST_ASSIGN_ID=23L;
-	private static Long assignmentAccountId;
+	private static final String TEST_ASSIGN_ID="23";
+	private static String assignmentAccountId;
 	private BigDecimal TEST_PERCENT =  new BigDecimal(1);
 	
 	@Test

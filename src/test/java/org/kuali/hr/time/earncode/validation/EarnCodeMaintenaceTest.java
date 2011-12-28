@@ -20,7 +20,7 @@ import java.util.List;
 public class EarnCodeMaintenaceTest extends TkTestCase {
 	private static final java.sql.Date TEST_DATE = new Date((new DateTime(2009, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
 	private static final String EARN_CODE = "RGN";
-	private static Long hrEarnCodeId;
+	private static String hrEarnCodeId;
 	
 	@Override
 	public void setUp() throws Exception {

@@ -5,7 +5,7 @@ public class DumbJob extends BatchJob{
 	public DumbJob(){
 		super();
 		this.setBatchJobName("DumbJob");
-		this.setPayCalendarEntryId(1L);
+		this.setPayCalendarEntryId("1");
 	}
 	
 	@Override

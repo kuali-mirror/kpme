@@ -56,7 +56,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public Department getDepartment(Long hrDeptId) {
+	public Department getDepartment(String hrDeptId) {
 		return departmentDao.getDepartment(hrDeptId);
 	}
 	

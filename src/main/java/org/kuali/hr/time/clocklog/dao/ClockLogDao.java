@@ -43,5 +43,5 @@ public interface ClockLogDao {
 	 * @param tkClockLogId
 	 * @return
 	 */
-	public ClockLog getClockLog(Long tkClockLogId);
+	public ClockLog getClockLog(String tkClockLogId);
 }

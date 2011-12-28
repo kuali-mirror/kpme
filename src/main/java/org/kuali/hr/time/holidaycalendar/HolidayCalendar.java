@@ -13,7 +13,7 @@ public class HolidayCalendar extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long hrHolidayCalendarId;
+	private String hrHolidayCalendarId;
 	private String holidayCalendarGroup;
 	private String descr;
 	private boolean active = true;
@@ -28,12 +28,12 @@ public class HolidayCalendar extends PersistableBusinessObjectBase {
 	}
 
 
-	public Long getHrHolidayCalendarId() {
+	public String getHrHolidayCalendarId() {
 		return hrHolidayCalendarId;
 	}
 
 
-	public void setHrHolidayCalendarId(Long hrHolidayCalendarId) {
+	public void setHrHolidayCalendarId(String hrHolidayCalendarId) {
 		this.hrHolidayCalendarId = hrHolidayCalendarId;
 	}
 

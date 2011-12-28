@@ -19,11 +19,11 @@ public class BatchJobTest extends TkTestCase {
     	bjService = TkServiceLocator.getBatchJobService();
     }
 	private void creatAndSaveBatchJob(){
-		InitiateBatchJob ibj = new InitiateBatchJob(5L);
+		InitiateBatchJob ibj = new InitiateBatchJob("5");
 		ibj.setBatchJobName(BATCH_JOB_NAME);
 		ibj.setBatchJobStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
 		ibj.setTimeElapsed(new Long(123));
-		ibj.setPayCalendarEntryId(new Long(1234));
+		ibj.setPayCalendarEntryId("1234");
 
 		bjService.saveBatchJob(ibj);
 

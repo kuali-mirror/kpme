@@ -209,7 +209,7 @@
       <label>RoleAssignDocument</label>
     </documentType>     
     <documentType>
-      <name>WorkAreaMaintenanceDocument</name>
+      <name>WorkAreaMaintenanceDocumentType</name>
       <parent>RiceDocument</parent>
       <docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
       <label>WorkAreaMaintenanceDocument</label>

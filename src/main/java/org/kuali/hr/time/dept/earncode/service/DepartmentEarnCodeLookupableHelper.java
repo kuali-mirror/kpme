@@ -23,7 +23,7 @@ public class DepartmentEarnCodeLookupableHelper extends
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			DepartmentEarnCode departmentEarnCode = (DepartmentEarnCode) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long hrDeptEarnCodeId = departmentEarnCode
+			final String hrDeptEarnCodeId = departmentEarnCode
 					.getHrDeptEarnCodeId();
 			HtmlData htmlData = new HtmlData() {
 

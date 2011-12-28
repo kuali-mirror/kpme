@@ -38,7 +38,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public AccrualCategory getAccrualCategory(Long lmAccrualCategoryId) {
+	public AccrualCategory getAccrualCategory(String lmAccrualCategoryId) {
 		return accrualCategoryDao.getAccrualCategory(lmAccrualCategoryId);
 	}
 

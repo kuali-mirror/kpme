@@ -11,7 +11,7 @@ public interface PayCalendarService {
 	 * @param hrPyCalendarId
 	 * @return
 	 */
-	public PayCalendar getPayCalendar(Long hrPyCalendarId);
+	public PayCalendar getPayCalendar(String hrPyCalendarId);
 
 	/**
 	 * Fetch a pay calendar by group
@@ -48,5 +48,5 @@ public interface PayCalendarService {
 	 * @param beginDateCurrentPayCalendar
 	 * @return
 	 */
-	public PayCalendarEntries getPreviousPayCalendarEntry(Long tkPayCalendarId, Date beginDateCurrentPayCalendar);
+	public PayCalendarEntries getPreviousPayCalendarEntry(String tkPayCalendarId, Date beginDateCurrentPayCalendar);
 }

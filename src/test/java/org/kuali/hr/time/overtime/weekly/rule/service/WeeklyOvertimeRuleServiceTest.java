@@ -81,7 +81,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 		DateTime start = new DateTime(2010, 3, 29, 5, 0, 0, 0, DateTimeZone.forID("EST"));
 		// ID 16 in the test data is the end of march
-		PayCalendarEntries endOfMarch = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(16L);
+		PayCalendarEntries endOfMarch = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries("16");
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfMarch);
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 3, BigDecimal.TEN, BigDecimal.ZERO);
@@ -129,7 +129,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 		DateTime start = new DateTime(2010, 6, 27, 5, 0, 0, 0, DateTimeZone.forID("EST"));
 		// ID 22 is end of June
-		PayCalendarEntries endOfJune = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(22L);
+		PayCalendarEntries endOfJune = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries("22");
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 4, new BigDecimal(11), BigDecimal.ZERO);
@@ -208,7 +208,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 		DateTime start = new DateTime(2010, 6, 27, 5, 0, 0, 0, DateTimeZone.forID("EST"));
 		// ID 22 is end of June
-		PayCalendarEntries endOfJune = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(22L);
+		PayCalendarEntries endOfJune = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries("22");
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
 		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
 		

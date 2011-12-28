@@ -7,17 +7,17 @@ import org.kuali.hr.time.HrBusinessObject;
 public class ClockLocationRuleIpAddress extends HrBusinessObject {
 
 	private static final long serialVersionUID = 1L;
-	private Long tkClockLocationRuleIpId;
-	private Long tkClockLocationRuleId;
+	private String tkClockLocationRuleIpId;
+	private String tkClockLocationRuleId;
 	private String ipAddress;
 	
 	@Override
-	public Long getId() {
+	public String getId() {
 		return this.getTkClockLocationRuleIpId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.setTkClockLocationRuleIpId(id);
 	}
 	@Override
@@ -46,19 +46,19 @@ public class ClockLocationRuleIpAddress extends HrBusinessObject {
 		this.ipAddress = ipAddress;
 	}
 
-	public Long getTkClockLocationRuleIpId() {
+	public String getTkClockLocationRuleIpId() {
 		return tkClockLocationRuleIpId;
 	}
 
-	public void setTkClockLocationRuleIpId(Long tkClockLocationRuleIpId) {
+	public void setTkClockLocationRuleIpId(String tkClockLocationRuleIpId) {
 		this.tkClockLocationRuleIpId = tkClockLocationRuleIpId;
 	}
 
-	public Long getTkClockLocationRuleId() {
+	public String getTkClockLocationRuleId() {
 		return tkClockLocationRuleId;
 	}
 
-	public void setTkClockLocationRuleId(Long tkClockLocationRuleId) {
+	public void setTkClockLocationRuleId(String tkClockLocationRuleId) {
 		this.tkClockLocationRuleId = tkClockLocationRuleId;
 	}
 

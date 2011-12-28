@@ -25,7 +25,7 @@ public class DailyOvertimeRuleLookupableHelper extends
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long tkDailyOvertimeRuleId = dailyOvertimeRule
+			final String tkDailyOvertimeRuleId = dailyOvertimeRule
 					.getTkDailyOvertimeRuleId();
 			@SuppressWarnings("serial")
 			HtmlData htmlData = new HtmlData() {

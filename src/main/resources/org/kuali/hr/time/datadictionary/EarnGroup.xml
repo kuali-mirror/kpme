@@ -43,12 +43,14 @@
 	<bean id="EarnGroup-hrEarnGroupId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Id" />
-		<property name="maxLength" value="20" />
+		<property name="maxLength" value="60" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
+			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
 		<property name="name" value="hrEarnGroupId" />
 		<property name="label" value="Earn Group Id" />

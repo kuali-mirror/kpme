@@ -24,7 +24,7 @@ public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService{
 	}
 
 	@Override
-	public TimeCollectionRule getTimeCollectionRule(Long tkTimeCollectionRuleId) {
+	public TimeCollectionRule getTimeCollectionRule(String tkTimeCollectionRuleId) {
 		return timeCollectRuleDao.getTimeCollectionRule(tkTimeCollectionRuleId);
 	}
 }

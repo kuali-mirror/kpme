@@ -91,7 +91,7 @@ public class ClockAction extends TimesheetAction {
 
         String tbIdString = caf.getEditTimeBlockId();
         if (tbIdString != null) {
-            caf.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(Long.valueOf(caf.getEditTimeBlockId())));
+            caf.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(caf.getEditTimeBlockId()));
         }
 
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
@@ -242,7 +242,7 @@ public class ClockAction extends TimesheetAction {
     
     public ActionForward saveNewTimeBlocks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
 		ClockActionForm caf = (ClockActionForm)form;
-		Long tbId = new Long(caf.getTbId());
+		String tbId = caf.getTbId();
 
 		String[] assignments = caf.getNewAssignDesCol().split(SEPERATOR);
 		String[] beginDates = caf.getNewBDCol().split(SEPERATOR);

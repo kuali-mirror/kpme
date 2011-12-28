@@ -15,8 +15,8 @@ public class TimeApprovalActionForm extends TkForm {
 
     private static final long serialVersionUID = -173408280988754540L;
 
-    private Long hrPyCalendarEntriesId;
-    private Long hrPyCalendarId;
+    private String hrPyCalendarEntriesId;
+    private String hrPyCalendarId;
     private String name;
     private List<String> payCalendarGroups = new LinkedList<String>();
     private String selectedPayCalendarGroup;
@@ -55,8 +55,8 @@ public class TimeApprovalActionForm extends TkForm {
 
     private Boolean testSelected = Boolean.FALSE;
 
-    private Long prevPayCalendarId = null;
-    private Long nextPayCalendarId = null;
+    private String prevPayCalendarId = null;
+    private String nextPayCalendarId = null;
 
     private List<String> departments = new ArrayList<String>();
     private Integer resultSize = 0;
@@ -72,19 +72,19 @@ public class TimeApprovalActionForm extends TkForm {
         this.calNav = calNav;
     }
 
-    public Long getHrPyCalendarEntriesId() {
+    public String getHrPyCalendarEntriesId() {
         return hrPyCalendarEntriesId;
     }
 
-    public void setHrPyCalendarEntriesId(Long hrPyCalendarEntriesId) {
+    public void setHrPyCalendarEntriesId(String hrPyCalendarEntriesId) {
         this.hrPyCalendarEntriesId = hrPyCalendarEntriesId;
     }
 
-    public Long getHrPyCalendarId() {
+    public String getHrPyCalendarId() {
         return hrPyCalendarId;
     }
 
-    public void setHrPyCalendarId(Long hrPyCalendarId) {
+    public void setHrPyCalendarId(String hrPyCalendarId) {
         this.hrPyCalendarId = hrPyCalendarId;
     }
 
@@ -256,19 +256,19 @@ public class TimeApprovalActionForm extends TkForm {
         this.testSelected = testSelected;
     }
 
-    public Long getPrevPayCalendarId() {
+    public String getPrevPayCalendarId() {
         return prevPayCalendarId;
     }
 
-    public void setPrevPayCalendarId(Long prevPayCalendarId) {
+    public void setPrevPayCalendarId(String prevPayCalendarId) {
         this.prevPayCalendarId = prevPayCalendarId;
     }
 
-    public Long getNextPayCalendarId() {
+    public String getNextPayCalendarId() {
         return nextPayCalendarId;
     }
 
-    public void setNextPayCalendarId(Long nextPayCalendarId) {
+    public void setNextPayCalendarId(String nextPayCalendarId) {
         this.nextPayCalendarId = nextPayCalendarId;
     }
 

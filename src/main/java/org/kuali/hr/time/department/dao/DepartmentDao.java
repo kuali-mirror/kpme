@@ -9,6 +9,6 @@ public interface DepartmentDao {
 	public void saveOrUpdate(Department dept);
 	public Department getDepartment(String department,Date asOfDate);
     public List<Department> getDepartments(String location, Date asOfDate);
-    public Department getDepartment(Long hrDeptId);
+    public Department getDepartment(String hrDeptId);
     public List<Department> getDepartmentByLocation(String location);
 }

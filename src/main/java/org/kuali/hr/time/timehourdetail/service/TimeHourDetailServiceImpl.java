@@ -34,11 +34,11 @@ public class TimeHourDetailServiceImpl implements TimeHourDetailService {
 		this.timeHourDetailDao = timeHourDetailDao;
 	}
 	@Override
-	public List<TimeHourDetail> getTimeHourDetailsForTimeBlock(Long timeBlockId) {
+	public List<TimeHourDetail> getTimeHourDetailsForTimeBlock(String timeBlockId) {
 		return this.timeHourDetailDao.getTimeHourDetailsForTimeBlock(timeBlockId);
 	}
 
-    public void removeTimeHourDetails(Long timeBlockId) {
+    public void removeTimeHourDetails(String timeBlockId) {
         this.timeHourDetailDao.remove(timeBlockId);
     }
 }

@@ -35,7 +35,7 @@ public interface EarnGroupService {
 	 */
 	public EarnGroup getEarnGroupSummaryForEarnCode(String earnCode, Date asOfDate);
 	
-	public EarnGroup getEarnGroup(Long hrEarnGroupId);
+	public EarnGroup getEarnGroup(String hrEarnGroupId);
 	
 	/**
 	 * Returns list of warning text from earn group that is used by time blocks of the timesheetDocument

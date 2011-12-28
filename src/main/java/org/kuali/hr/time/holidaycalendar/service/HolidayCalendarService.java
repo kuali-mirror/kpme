@@ -24,14 +24,14 @@ public interface HolidayCalendarService {
 	 * @param endDate
 	 * @return
 	 */
-	public List<HolidayCalendarDateEntry> getHolidayCalendarDateEntriesForPayPeriod(Long hrHolidayCalendarId, Date startDate, Date endDate);
+	public List<HolidayCalendarDateEntry> getHolidayCalendarDateEntriesForPayPeriod(String hrHolidayCalendarId, Date startDate, Date endDate);
 	/**
 	 * Fetch a HolidayCalendarDateEntry for a given hrHolidayCalendarId and date
 	 * @param hrHolidayCalendarId
 	 * @param date
 	 * @return
 	 */
-	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(Long hrHolidayCalendarId, Date startDate);
+	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(String hrHolidayCalendarId, Date startDate);
 	/**
 	 * Get Assignment to apply to holidays
 	 * @param timesheetDocument

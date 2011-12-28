@@ -31,7 +31,7 @@ public class TimeOffAccrualLookupableHelper extends
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			TimeOffAccrual timeOffAccrual = (TimeOffAccrual) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long lmAccrualId = timeOffAccrual.getLmAccrualId();
+			final String lmAccrualId = timeOffAccrual.getLmAccrualId();
 			HtmlData htmlData = new HtmlData() {
 
 				@Override

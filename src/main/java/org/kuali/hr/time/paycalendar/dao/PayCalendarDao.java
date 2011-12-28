@@ -12,10 +12,10 @@ public interface PayCalendarDao {
 
 	public void saveOrUpdate(List<PayCalendar> payCalendarDatesList);
 
-	public PayCalendar getPayCalendar(Long hrPyCalendarId);
+	public PayCalendar getPayCalendar(String hrPyCalendarId);
 
 	public PayCalendar getPayCalendarByGroup(String pyCalendarGroup);
 	
-	public PayCalendarEntries getPreviousPayCalendarEntry(Long tkPayCalendarId, Date beginDateCurrentPayCalendar);
+	public PayCalendarEntries getPreviousPayCalendarEntry(String tkPayCalendarId, Date beginDateCurrentPayCalendar);
 
 }

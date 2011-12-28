@@ -40,5 +40,5 @@ public interface DailyOvertimeRuleService {
 	 * @param tkDailyOvertimeRuleId
 	 * @return
 	 */
-	public DailyOvertimeRule getDailyOvertimeRule(Long tkDailyOvertimeRuleId);
+	public DailyOvertimeRule getDailyOvertimeRule(String tkDailyOvertimeRuleId);
 }

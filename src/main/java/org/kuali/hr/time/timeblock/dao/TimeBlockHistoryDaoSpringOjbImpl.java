@@ -26,7 +26,7 @@ public class TimeBlockHistoryDaoSpringOjbImpl extends PersistenceBrokerDaoSuppor
 	}
 
     @Override
-    public TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(Long tkTimeBlockId) {
+    public TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(String tkTimeBlockId) {
         Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("tkTimeBlockId", tkTimeBlockId);
 		Query query = QueryFactory.newQuery(TimeBlockHistory.class, currentRecordCriteria);

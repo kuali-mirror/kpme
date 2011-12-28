@@ -15,7 +15,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 
 
     @Override
-    public HrBusinessObject getObjectById(Long id) {
+    public HrBusinessObject getObjectById(String id) {
         return TkServiceLocator.getPositionService().getPosition(id);
     }
 

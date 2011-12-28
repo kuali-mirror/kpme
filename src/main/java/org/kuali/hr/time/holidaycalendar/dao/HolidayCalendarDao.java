@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface HolidayCalendarDao {
 	public HolidayCalendar getHolidayCalendarByGroup(String holidayCalendarGroup);
-	public List<HolidayCalendarDateEntry> getHolidayCalendarDateEntriesForPayPeriod(Long hrHolidayCalendarId,
+	public List<HolidayCalendarDateEntry> getHolidayCalendarDateEntriesForPayPeriod(String hrHolidayCalendarId,
 				Date startDate, Date endDate);
-	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(Long hrHolidayCalendarId, Date startDate);
+	public HolidayCalendarDateEntry getHolidayCalendarDateEntryByDate(String hrHolidayCalendarId, Date startDate);
 }

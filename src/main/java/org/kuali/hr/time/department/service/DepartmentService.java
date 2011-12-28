@@ -39,7 +39,7 @@ public interface DepartmentService {
      * @param hrDeptId
      * @return
      */
-    public Department getDepartment(Long hrDeptId);
+    public Department getDepartment(String hrDeptId);
     /**
      * Fetch department by location
      * @param location

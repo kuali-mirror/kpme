@@ -17,7 +17,7 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long tkAssignAcctId;
+	private String tkAssignAcctId;
 	private String finCoaCd;
 	private String accountNbr;
 	private String subAcctNbr;
@@ -28,7 +28,7 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 	private BigDecimal percent;
 	private boolean active;
 	private String earnCode;
-	private Long tkAssignmentId;
+	private String tkAssignmentId;
 	private Assignment assignmentObj;
 	
 	private Account accountObj;
@@ -173,25 +173,25 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 
 
 
-	public Long getTkAssignAcctId() {
+	public String getTkAssignAcctId() {
 		return tkAssignAcctId;
 	}
 
 
 
-	public void setTkAssignAcctId(Long tkAssignAcctId) {
+	public void setTkAssignAcctId(String tkAssignAcctId) {
 		this.tkAssignAcctId = tkAssignAcctId;
 	}
 
 
 
-	public Long getTkAssignmentId() {
+	public String getTkAssignmentId() {
 		return tkAssignmentId;
 	}
 
 
 
-	public void setTkAssignmentId(Long tkAssignmentId) {
+	public void setTkAssignmentId(String tkAssignmentId) {
 		this.tkAssignmentId = tkAssignmentId;
 	}
 

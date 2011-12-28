@@ -400,7 +400,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
 	}
 
 	@Override
-	public TkRole getRole(Long tkRoleId) {
+	public TkRole getRole(String tkRoleId) {
 		Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("hrRolesId", tkRoleId);
 

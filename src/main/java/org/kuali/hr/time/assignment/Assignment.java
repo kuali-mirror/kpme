@@ -26,10 +26,10 @@ public class Assignment extends HrBusinessObject {
      */
 	private static final long serialVersionUID = -3408305833805778653L;
 	//database id
-	private Long tkAssignmentId;
+	private String tkAssignmentId;
 	private String principalId;
 	private Long jobNumber;
-	private Long hrJobId;
+	private String hrJobId;
 	private Job job;
 	private Long workArea;
 	private Long tkWorkAreaId;
@@ -114,11 +114,11 @@ public class Assignment extends HrBusinessObject {
 		this.jobNumber = jobNumber;
 	}
 
-	public Long getHrJobId() {
+	public String getHrJobId() {
 		return hrJobId;
 	}
 
-	public void setHrJobId(Long hrJobId) {
+	public void setHrJobId(String hrJobId) {
 		this.hrJobId = hrJobId;
 	}
 
@@ -150,11 +150,11 @@ public class Assignment extends HrBusinessObject {
 		return sb.toString();
 	}
 
-	public Long getTkAssignmentId() {
+	public String getTkAssignmentId() {
 		return tkAssignmentId;
 	}
 
-	public void setTkAssignmentId(Long tkAssignmentId) {
+	public void setTkAssignmentId(String tkAssignmentId) {
 		this.tkAssignmentId = tkAssignmentId;
 	}
 
@@ -277,12 +277,12 @@ public class Assignment extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getTkAssignmentId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setTkAssignmentId(id);
 	}
 

@@ -14,7 +14,7 @@ public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule 
 
     private static final long serialVersionUID = 1L;
 
-    private Long tkDeptLunchRuleId;
+    private String tkDeptLunchRuleId;
     private String dept;
     private Long workArea;
     private String principalId;
@@ -23,9 +23,9 @@ public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule 
     private BigDecimal shiftHours;
     private String userPrincipalId;
 
-    private Long tkWorkAreaId;
-    private Long hrDeptId;
-    private Long hrJobId;
+    private String tkWorkAreaId;
+    private String hrDeptId;
+    private String hrJobId;
 
     WorkArea workAreaObj;
     Department departmentObj;
@@ -117,12 +117,12 @@ public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule 
         this.userPrincipalId = userPrincipalId;
     }
 
-	public Long getTkDeptLunchRuleId() {
+	public String getTkDeptLunchRuleId() {
 		return tkDeptLunchRuleId;
 	}
 
 
-	public void setTkDeptLunchRuleId(Long tkDeptLunchRuleId) {
+	public void setTkDeptLunchRuleId(String tkDeptLunchRuleId) {
 		this.tkDeptLunchRuleId = tkDeptLunchRuleId;
 	}
 
@@ -156,27 +156,27 @@ public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule 
 		this.shiftHours = shiftHours;
 	}
 
-	public Long getTkWorkAreaId() {
+	public String getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}
 
-	public void setTkWorkAreaId(Long tkWorkAreaId) {
+	public void setTkWorkAreaId(String tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
 
-	public Long getHrDeptId() {
+	public String getHrDeptId() {
 		return hrDeptId;
 	}
 
-	public void setHrDeptId(Long hrDeptId) {
+	public void setHrDeptId(String hrDeptId) {
 		this.hrDeptId = hrDeptId;
 	}
 
-	public Long getHrJobId() {
+	public String getHrJobId() {
 		return hrJobId;
 	}
 
-	public void setHrJobId(Long hrJobId) {
+	public void setHrJobId(String hrJobId) {
 		this.hrJobId = hrJobId;
 	}
 
@@ -187,12 +187,12 @@ public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule 
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getTkDeptLunchRuleId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setTkDeptLunchRuleId(id);
 	}
 }

@@ -27,12 +27,14 @@
 	<bean id="HolidayCalendarDateEntry-hrHolidayCalendarDateId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Id" />
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="60" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
 		<property name="name" value="hrHolidayCalendarDateId" />
 		<property name="label" value="Holiday Calendar Date Id" />

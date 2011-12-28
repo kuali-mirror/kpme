@@ -26,7 +26,7 @@ public class LocationServiceImpl implements LocationService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public Location getLocation(Long hrLocationId) {
+	public Location getLocation(String hrLocationId) {
 		return locationDao.getLocation(hrLocationId);
 	}
 

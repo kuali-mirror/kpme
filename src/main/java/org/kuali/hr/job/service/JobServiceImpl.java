@@ -95,7 +95,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public Job getJob(Long hrJobId) {
+	public Job getJob(String hrJobId) {
 		return jobDao.getJob(hrJobId);
 	}
 	
