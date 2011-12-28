@@ -91,7 +91,7 @@
 	                                   	   </c:if>
 	                                   	   
 	                                        <div id="block_${block.timeBlock.tkTimeBlockId}" class="${editableClass}">
-		                                            <c:if test="${Form.docEditable && block.timeBlock.editable && ! block.timeBlock.clockLogCreated}">
+		                                            <c:if test="${(Form.docEditable && ! block.timeBlock.clockLogCreated) || (Form.docEditable && block.timeBlock.editable)}">
 			                                           	<div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='event-delete'
 			                                                     src='images/delete.png'/>
 			                                            </div>
