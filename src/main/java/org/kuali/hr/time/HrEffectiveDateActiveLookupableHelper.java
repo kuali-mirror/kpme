@@ -9,11 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
 
 public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupableHelperServiceImpl{
 
@@ -173,7 +174,18 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 			}
 		}
 		
-		return finalBusinessObjectList;
+		Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(businessObjectClass);
+
+		Long matchingResultsCount = Long.valueOf(finalBusinessObjectList.size());
+
+		if (matchingResultsCount.intValue() <= searchResultsLimit.intValue()) {
+
+		matchingResultsCount = new Long(0);
+
+		}
+
+		return new CollectionIncomplete(finalBusinessObjectList, matchingResultsCount);
+
 	}
 	@SuppressWarnings("rawtypes")
 	public class EffectiveDateTimestampCompare implements Comparator{
