@@ -85,9 +85,9 @@ public class AssignmentServiceImpl implements AssignmentService {
 			throw new RuntimeException("timesheet document is null.");
 		}
 		List<Assignment> assignments = td.getAssignments();
-		if(assignments.size() < 1) {
-			throw new RuntimeException("No assignment on the timesheet document.");
-		}
+//		if(assignments.size() < 1) {
+//			throw new RuntimeException("No assignment on the timesheet document.");
+//		}
 
 		Map<String,String> assignmentDescriptions = new LinkedHashMap<String,String>();
 		for(Assignment assignment : assignments) {
