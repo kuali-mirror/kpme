@@ -86,6 +86,7 @@ public class Assignment extends HrBusinessObject {
 
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
+		this.setPrincipal(KIMServiceLocator.getPersonService().getPerson(this.principalId));
 	}
 
 	public String getName() {
