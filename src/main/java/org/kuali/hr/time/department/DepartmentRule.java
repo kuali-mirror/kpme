@@ -81,13 +81,15 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 				valid |= role.isActive()
 						&& StringUtils.equals(role.getRoleName(),
 								TkConstants.ROLE_TK_DEPT_ADMIN);
-				if (effectiveDate.compareTo(role.getExpirationDate()) >= 0
+				if(role.getExpirationDate() != null){
+					if (effectiveDate.compareTo(role.getExpirationDate()) >= 0
 						|| role.getEffectiveDate().compareTo(
 								role.getExpirationDate()) >= 0) {
-					StringBuffer prefix = new StringBuffer("roles[");
-		            prefix.append(pos).append("].");
-					this.putFieldError(prefix + "expirationDate",
+						StringBuffer prefix = new StringBuffer("roles[");
+						prefix.append(pos).append("].");
+						this.putFieldError(prefix + "expirationDate",
 							"error.role.expiration");
+					}
 				}
 				pos++;
 			}
