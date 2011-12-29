@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -321,7 +322,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			}
 			rows.add(approvalSummaryRow);
 		}
-
+		Collections.sort(rows);
 		return rows;
 	}
 
