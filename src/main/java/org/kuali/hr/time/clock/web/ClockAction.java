@@ -272,7 +272,7 @@ public class ClockAction extends TimesheetAction {
 	
 	public ActionForward validateNewTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
 		ClockActionForm caf = (ClockActionForm)form;
-		Long tbId = new Long(caf.getTbId());
+		String tbId = caf.getTbId();
 		String[] assignments = caf.getNewAssignDesCol().split(SEPERATOR);
 		String[] beginDates = caf.getNewBDCol().split(SEPERATOR);
 		String[] beginTimes = caf.getNewBTCol().split(SEPERATOR);

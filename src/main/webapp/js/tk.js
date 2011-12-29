@@ -270,16 +270,24 @@ $(document).ready(function() {
                 var beginTimeTemp = new Date(dateString);
                 var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes();
                 // new tbs should not go beyond the original begin and end Date/Time
-                var compareBeginString = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
-                var compareBeginDate = new Date(compareBeginString);
-                if (compareBeginDate < originalBeginDateTime) {
-                    updateTips("Begin Date/Time for item " + i + " goes beyond the original Begin Date/Time");
-                    return false;
+			    beginTimeTemp.setSeconds(beginTimeTemp.getSeconds() + originalBeginDateTime.getSeconds());
+			      
+			    aString = form1.beginDateOnly.value + ' ' + form1.beginTimeOnly.value;
+			    var formBeginDate = new Date(aString);
+	            
+	//                if (compareBeginDate < originalBeginDateTime) {
+	    		if (beginTimeTemp < formBeginDate) {
+	              updateTips("Begin Date/Time for item " + i + " goes beyond the original Begin Date/Time");
+	              return false;
                 }
 
                 dateString = endDate + ' ' + endTime;
                 var endTimeTemp = new Date(dateString);
-                if (endTimeTemp > originalEndDateTime) {
+                
+                dateString = form1.endDateOnly.value + ' ' + form1.endTimeOnly.value;
+                var formEndDate = new Date(dateString);
+//                if (endTimeTemp > originalEndDateTime) {
+                if (endTimeTemp > formEndDate) {
                     updateTips("End Date/Time for item " + i + " goes beyond the original End Date/Time");
                     return false;
                 }
