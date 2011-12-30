@@ -173,7 +173,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	}
 	
 	protected boolean validateRegPayEarnCode(Assignment assignment) {
-		boolean valid = true;
+		boolean valid = false;
 		int index = 0;
 		LOG.debug("Validating Regular pay EarnCodes: " + assignment.getAssignmentAccounts().size());
 		for(AssignmentAccount assignmentAccount : assignment.getAssignmentAccounts()){
@@ -181,15 +181,17 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				Job job = TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate(), false);
 				if(job !=null){
 					PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), assignment.getEffectiveDate());
-					if(!StringUtils.equals(assignmentAccount.getEarnCode(), payType.getRegEarnCode())){
-						valid = false;
-						this.putFieldError("assignmentAccounts[" + index
-								+ "].earnCode","earncode.regular.pay.required", assignmentAccount.getEarnCode());
+					if(StringUtils.equals(assignmentAccount.getEarnCode(), payType.getRegEarnCode())){
+						valid = true;
+						break;
 					}
 					
 				}
 			}
 			index++;
+		}
+		if(!valid) {
+			this.putFieldError("assignmentAccounts", "earncode.regular.pay.required");
 		}
 		return valid;
 	}
@@ -294,7 +296,10 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validatePercentagePerEarnCode(assignment);
 				valid &= this.validateHasAccounts(assignment);
 				valid &= this.validateActiveFlag(assignment);
-				valid &= this.validateRegPayEarnCode(assignment);
+				if(!assignment.getAssignmentAccounts().isEmpty()) {
+					valid &= this.validateRegPayEarnCode(assignment);	
+				}
+				
 			}
 		}
 
