@@ -146,6 +146,9 @@
 		<field-descriptor name="amount" 				column="amount" 			jdbc-type="NUMERIC" precision="6" scale="2" nullable="yes" primarykey="false" />
 		<field-descriptor name="objectId" 				column="obj_id" 			jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
+		<reference-descriptor name="timeBlockHistory" class-ref="org.kuali.hr.time.timeblock.TimeBlockHistory" auto-retrieve="true" auto-delete="false" auto-update="false">
+			<foreignkey field-ref="tkTimeBlockHistoryId"/>
+		</reference-descriptor>	
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.hr.time.clocklog.ClockLog" table="tk_clock_log_t">

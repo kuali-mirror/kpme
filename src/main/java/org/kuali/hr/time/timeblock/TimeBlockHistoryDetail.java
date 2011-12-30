@@ -2,16 +2,25 @@ package org.kuali.hr.time.timeblock;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kim.bo.Person;
+
 public class TimeBlockHistoryDetail extends TimeHourDetail{
 
 	private static final long serialVersionUID = 1L;
 	private String tkTimeBlockHistoryDetailId;
 	private String tkTimeBlockHistoryId;
 	
+	private TimeBlockHistory timeBlockHistory;
+	
+	private Person principal;
+	private Person userPrincipal;
+	
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	protected LinkedHashMap toStringMapper() {
-		return null;
+		LinkedHashMap<String,String> lhm = new LinkedHashMap<String,String>();
+		lhm.put(getEarnCode(), getEarnCode());
+		return lhm;
 	}
 
 	public String getTkTimeBlockHistoryDetailId() {
@@ -50,5 +59,35 @@ public class TimeBlockHistoryDetail extends TimeHourDetail{
     }
     public TimeBlockHistoryDetail() {
     }
+
+	public TimeBlockHistory getTimeBlockHistory() {
+		return timeBlockHistory;
+	}
+
+	public void setTimeBlockHistory(TimeBlockHistory timeBlockHistory) {
+		this.timeBlockHistory = timeBlockHistory;
+	}
+
+	public Person getPrincipal() {
+		return principal;
+	}
+
+	public void setPrincipal(Person principal) {
+		this.principal = principal;
+	}
+
+	public Person getUserPrincipal() {
+		return userPrincipal;
+	}
+
+	public void setUserPrincipal(Person userPrincipal) {
+		this.userPrincipal = userPrincipal;
+	}
+
+	public java.sql.Date getBeginDate() {
+		return timeBlockHistory.getBeginDate();
+	}
+
+
 
 }

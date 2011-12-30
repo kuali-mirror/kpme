@@ -137,7 +137,7 @@
                     <b>Inquiries</b>
                     <ul>
                     	<li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.timeblock.TimeBlock&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Time Block Inquiry</a></li>
-                    	<li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.timeblock.TimeBlockHistory&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Time Block History Inquiry</a></li>
+                    	<li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.timeblock.TimeBlockHistoryDetail&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Time Block History Inquiry</a></li>
                     	<li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.clocklog.ClockLog&returnLocation=${ConfigProperties.application.url}/Admin.do&hideReturnLink=true&docFormKey=88888888&active=Y">Clock Log</a></li>
                     	<li><a href="${Form.workflowUrl}/DocumentSearch.do?docTypeFullName=MissedPunchDocumentType">Missed Punch</a></li>
                     </ul>

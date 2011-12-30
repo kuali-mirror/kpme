@@ -519,10 +519,15 @@
 
     <bean id="timeBlockHistoryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.timeblock.service.TimeBlockHistoryLookupableHelperServiceImpl"/>
+            <bean class="org.kuali.hr.time.timeblock.service.TimeBlockHistoryDetailLookupableHelperServiceImpl"/>
         </property>
     </bean>
 
+    <bean id="timeBlockHistoryDetailLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.timeblock.service.TimeBlockHistoryDetailLookupableHelperServiceImpl"/>
+        </property>
+    </bean>
     <bean id="jobService" class="org.kuali.hr.job.service.JobServiceImpl">
         <property name="jobDao" ref="jobDao"/>
     </bean>
