@@ -55,13 +55,13 @@
                 <select id="selectedWorkArea" name="selectedWorkArea"
                         onchange="this.form.methodToCall.value='selectNewWorkArea'; this.form.submit();">
                     <option value="">Show All</option>
-                    <c:forEach var="deptWorkarea" items="${Form.deptWorkareas}">
+                    <c:forEach var="deptWorkarea" items="${Form.workAreaDescr}">
                         <c:choose>
-                            <c:when test="${Form.selectedWorkArea eq deptWorkarea}">
-                                <option value="${deptWorkarea}" selected="selected">${deptWorkarea}</option>
+                            <c:when test="${Form.selectedWorkArea eq deptWorkarea.key}">
+                                <option value="${deptWorkarea.key}" selected="selected">${deptWorkarea.value}</option>
                             </c:when>
                             <c:otherwise>
-                                <option value="${deptWorkarea}">${deptWorkarea}</option>
+                                <option value="${deptWorkarea.key}">${deptWorkarea.value}</option>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>

@@ -104,6 +104,7 @@ public class TimeApprovalAction extends TkAction{
         	if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(wa.getWorkArea())
         			|| TKContext.getUser().getCurrentRoles().getReviewerWorkAreas().contains(wa.getWorkArea())) {
         		taaf.getDeptWorkareas().add(wa.getWorkArea());
+        		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
         	}
         }
         
@@ -154,6 +155,7 @@ public class TimeApprovalAction extends TkAction{
             for(WorkArea wa : workAreas){
             	if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(wa.getWorkArea()) ||
             		TKContext.getUser().getCurrentRoles().getReviewerWorkAreas().contains(wa.getWorkArea())){
+            		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
             		taaf.getDeptWorkareas().add(wa.getWorkArea());
             	}
             }
@@ -249,6 +251,7 @@ public class TimeApprovalAction extends TkAction{
                 	if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(wa.getWorkArea())
                 			|| TKContext.getUser().getCurrentRoles().getReviewerWorkAreas().contains(wa.getWorkArea())) {
                 		taaf.getDeptWorkareas().add(wa.getWorkArea());
+                		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
                 	}
                 }
                 

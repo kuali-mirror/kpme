@@ -36,6 +36,8 @@ public class TimeApprovalActionForm extends TkForm {
     private List<String> assignmentPrincipalIds = new LinkedList<String>();
     
     private Set<String> principalIds = new HashSet<String>();
+    
+    private Map<Long,String> workAreaDescr = new HashMap<Long,String>();
 
 
 
@@ -351,4 +353,13 @@ public class TimeApprovalActionForm extends TkForm {
 	public void setPrincipalIds(Set<String> principalIds) {
 		this.principalIds = principalIds;
 	}
+
+	public Map<Long,String> getWorkAreaDescr() {
+		return workAreaDescr;
+	}
+
+	public void setWorkAreaDescr(Map<Long,String> workAreaDescr) {
+		this.workAreaDescr = workAreaDescr;
+	}
+
 }
