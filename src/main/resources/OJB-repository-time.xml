@@ -509,6 +509,7 @@
 		<field-descriptor name="objectId" column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="earnCode" column="earn_code" jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
+		<field-descriptor name="active" column="active" jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
 	<!-- Time Collection Rule -->
 	<class-descriptor class="org.kuali.hr.time.collection.rule.TimeCollectionRule" table="TK_TIME_COLLECTION_RL_T">

@@ -3,6 +3,7 @@ package org.kuali.hr.time.assignment;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -11,7 +12,7 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class AssignmentAccount extends PersistableBusinessObjectBase {
+public class AssignmentAccount extends HrBusinessObject {
 	
 	/**
 	 * 
@@ -26,7 +27,6 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 	private String projectCd;
 	private String orgRefId;
 	private BigDecimal percent;
-	private boolean active;
 	private String earnCode;
 	private String tkAssignmentId;
 	private Assignment assignmentObj;
@@ -277,6 +277,27 @@ public class AssignmentAccount extends PersistableBusinessObjectBase {
 
 	public void setEarnCodeObj(EarnCode earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
+	}
+
+
+
+	@Override
+	protected String getUniqueKey() {
+		return earnCode +"_"+accountNbr+"_"+subAcctNbr;
+	}
+
+
+
+	@Override
+	public String getId() {
+		return tkAssignAcctId;
+	}
+
+
+
+	@Override
+	public void setId(String id) {
+		setTkAssignAcctId(id);
 	}
 	
 }
