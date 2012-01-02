@@ -66,7 +66,7 @@ public class TimeDetailAction extends TimesheetAction {
 
         // Handle User preference / timezone information (pushed up from TkCalendar to avoid duplication)
         TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(TKContext.getCurrentTimesheetDoucment());
-    	tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(TKContext.getCurrentTimesheetDoucment()));
+    	tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(TKContext.getCurrentTimesheetDoucment().getTimeBlocks()));
         Map<String, String> aMap = tdaf.getAssignStyleClassMap();
         // set css classes for each assignment row
         for(EarnGroupSection earnGroupSection: ts.getSections()) {

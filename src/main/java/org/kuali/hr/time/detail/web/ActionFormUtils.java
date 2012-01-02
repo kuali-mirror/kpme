@@ -48,18 +48,19 @@ public class ActionFormUtils {
     }
 
     public static String getTimeBlocksForOutput(TimesheetDocument tsd, List<TimeBlock> timeBlocks) {
-        return JSONValue.toJSONString(getTimeBlocksJson(timeBlocks, buildAssignmentStyleClassMap(tsd)));
+        return JSONValue.toJSONString(getTimeBlocksJson(timeBlocks, buildAssignmentStyleClassMap(timeBlocks)));
     }
 
-    public static Map<String, String> buildAssignmentStyleClassMap(TimesheetDocument tsd) {
+    public static Map<String, String> buildAssignmentStyleClassMap(List<TimeBlock> timeBlocks) {
           Map<String, String> aMap = new HashMap<String, String>();
           List<String> assignmentKeys = new ArrayList<String>();
-
-          for(Assignment assignment: tsd.getAssignments()) {
-              AssignmentDescriptionKey aKey = new AssignmentDescriptionKey(assignment.getJobNumber(),
-                      assignment.getWorkArea(), assignment.getTask());
-              assignmentKeys.add(aKey.toAssignmentKeyString());
+          
+          for(TimeBlock tb : timeBlocks){
+        	  if(!assignmentKeys.contains(tb.getAssignmentKey())){
+        		  assignmentKeys.add(tb.getAssignmentKey());
+        	  }
           }
+
           Collections.sort(assignmentKeys);
 
           for(int i = 0; i< assignmentKeys.size(); i++) {
