@@ -763,11 +763,11 @@ select {
 /*	assignment background colors
 ------------------------------------------------------------------------*/
 
-.assignment0 { background-color: #737373; color: white;}
-.assignment1 { background-color: #D8770C; color: white;}
-.assignment2 { background-color: #7E9991; color: white;}
-.assignment3 { background-color: #A69682; color: white;}
-.assignment4 { background-color: #000000; color: white;}
+.assignment0 { background-color: #99FFCC; color: white;}
+.assignment1 { background-color: #CCCC99; color: white;}
+.assignment2 { background-color: #CCCCCC; color: white;}
+.assignment3 { background-color: #CCFF99; color: white;}
+.assignment4 { background-color: #FFFFCC; color: white;}
 
 /**
 * actual time inquiry
