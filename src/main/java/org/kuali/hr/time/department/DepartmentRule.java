@@ -90,7 +90,7 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 								role.getExpirationDate()) >= 0) {
 						this.putFieldError(prefix + "expirationDate",
 							"error.role.expiration");
-					} else if (TKUtils.getDaysBetween(role.getExpirationDate(), role.getEffectiveDate()) > 180) {
+					} else if (TKUtils.getDaysBetween(role.getEffectiveDate(), role.getExpirationDate()) > 180) {
 		        		   this.putFieldError(prefix + "expirationDate",
 		     						"error.role.expiration.duration");
 		     				valid = false;
