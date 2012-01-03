@@ -5,6 +5,7 @@ import java.sql.Date;
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.TkRoleGroup;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -169,9 +170,13 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
         		   this.putFieldError(prefix + "expirationDate",
       						"error.role.expiration");
       				valid = false;
+        	   } else if (TKUtils.getDaysBetween(role.getExpirationDate(), role.getEffectiveDate()) > 180) {
+        		   this.putFieldError(prefix + "expirationDate",
+     						"error.role.expiration.duration");
+     				valid = false;
         	   }
    			}
-           
+          
             pos++;
         }
 

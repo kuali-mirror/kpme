@@ -50,7 +50,11 @@ public class WorkAreaMaintenanceDocumentRule extends
 					} else if (role.getEffectiveDate().compareTo(role.getExpirationDate()) >= 0) {
 						this.putFieldError(prefix + "expirationDate",
 								"error.role.expiration");
-					}
+					} else if (TKUtils.getDaysBetween(role.getExpirationDate(), role.getEffectiveDate()) > 180) {
+		        		   this.putFieldError(prefix + "expirationDate",
+		     						"error.role.expiration.duration");
+		     				valid = false;
+		        	}
 				}
 				pos++;
 			}

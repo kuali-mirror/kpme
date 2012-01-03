@@ -2,6 +2,7 @@ package org.kuali.hr.time.department;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
@@ -82,14 +83,18 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 						&& StringUtils.equals(role.getRoleName(),
 								TkConstants.ROLE_TK_DEPT_ADMIN);
 				if(role.getExpirationDate() != null){
+					StringBuffer prefix = new StringBuffer("roles[");
+					prefix.append(pos).append("].");
 					if (effectiveDate.compareTo(role.getExpirationDate()) >= 0
 						|| role.getEffectiveDate().compareTo(
 								role.getExpirationDate()) >= 0) {
-						StringBuffer prefix = new StringBuffer("roles[");
-						prefix.append(pos).append("].");
 						this.putFieldError(prefix + "expirationDate",
 							"error.role.expiration");
-					}
+					} else if (TKUtils.getDaysBetween(role.getExpirationDate(), role.getEffectiveDate()) > 180) {
+		        		   this.putFieldError(prefix + "expirationDate",
+		     						"error.role.expiration.duration");
+		     				valid = false;
+		        	}
 				}
 				pos++;
 			}
