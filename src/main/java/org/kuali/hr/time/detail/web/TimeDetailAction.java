@@ -281,6 +281,7 @@ public class TimeDetailAction extends TimesheetAction {
          tdaf.setMethodToCall("addTimeBlock");
          return mapping.findForward("basic");
     }
+
     
     
     public ActionForward actualTimeInquiry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
