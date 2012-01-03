@@ -14,6 +14,9 @@
 		<property name="lookupDefinition">
 			<ref bean="WeeklyOvertimeRule-lookupDefinition" />
 		</property>
+		<property name="inquiryDefinition">
+			<ref bean="WeeklyOvertimeRule-inquiryDefinition" />
+		</property>
 		<property name="attributes">
 			<list>
 				<ref bean="WeeklyOvertimeRule-maxHoursEarnGroup" />
@@ -241,4 +244,27 @@
 		<property name="title" value="Weekly OverTime Rule Lookup" />
 	</bean>
 
+	<bean id="WeeklyOvertimeRule-inquiryDefinition" parent="WeeklyOvertimeRule-inquiryDefinition-parentBean" />
+	<bean id="WeeklyOvertimeRule-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" />
+							<bean parent="FieldDefinition" p:attributeName="convertFromEarnGroup" />
+							<bean parent="FieldDefinition" p:attributeName="convertToEarnCode" />
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="step" />
+							<bean parent="FieldDefinition" p:attributeName="maxHours" />
+						</list>
+					</property>
+					<property name="title" value="Weekly OverTime Rule Inquiry" />
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false"/>
+		<property name="title" value="Weekly OverTime Rule Inquiry" />
+	</bean>
 </beans>
