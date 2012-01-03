@@ -36,20 +36,21 @@ public class WorkAreaMaintenanceDocumentRule extends
 
 	boolean validateRoles(List<TkRole> roles, Date effectiveDate) {
 		boolean valid = false;
-
+		
 		if (roles != null && roles.size() > 0) {
 			int pos = 0;
 			for (TkRole role : roles) {
-				valid |= role.isActive()
-						&& StringUtils.equals(role.getRoleName(),
-								TkConstants.ROLE_TK_APPROVER);
-				if (effectiveDate.compareTo(role.getExpirationDate()) >= 0
-						|| role.getEffectiveDate().compareTo(
-								role.getExpirationDate()) >= 0) {
+				valid |= role.isActive();
+				if(role.getRoleName().equalsIgnoreCase(TkConstants.ROLE_TK_APPROVER_DELEGATE)){
 					StringBuffer prefix = new StringBuffer("roles[");
 		            prefix.append(pos).append("].");
-					this.putFieldError(prefix + "expirationDate",
-							"error.role.expiration");
+					if (role.getExpirationDate() == null) {
+						this.putFieldError(prefix + "expirationDate",
+								"error.role.expiration.required");
+					} else if (role.getEffectiveDate().compareTo(role.getExpirationDate()) >= 0) {
+						this.putFieldError(prefix + "expirationDate",
+								"error.role.expiration");
+					}
 				}
 				pos++;
 			}
