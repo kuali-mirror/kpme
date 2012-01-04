@@ -274,10 +274,10 @@
 			element-class-ref="org.kuali.hr.time.roles.TkRole"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
 			auto-retrieve="true"
-			auto-update="false"
-			auto-delete="false"
+			auto-update="object"
+			auto-delete="object"
 			proxy="false">
-			<inverse-foreignkey field-ref="workArea"/>
+			<inverse-foreignkey field-ref="tkWorkAreaId"/>
 		</collection-descriptor>
 	</class-descriptor>
 
@@ -640,6 +640,7 @@
 		<field-descriptor name="expirationDate"   column="EXPDT" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
 		<field-descriptor name="timestamp"       column="TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="tkWorkAreaId"    column="tk_work_area_id" jdbc-type="VARCHAR" length="40" nullable="true" />
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.timeblock.TimeHourDetail" table="tk_hour_detail_t">

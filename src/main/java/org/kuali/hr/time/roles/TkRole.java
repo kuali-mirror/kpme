@@ -27,7 +27,7 @@ public class TkRole extends HrBusinessObject {
 	private String department;
     private String chart;
 	private Long hrDeptId;
-	private Long tkWorkAreaId;
+	private String tkWorkAreaId;
 	private String positionNumber;
 	private Date expirationDate;
 
@@ -141,10 +141,10 @@ public class TkRole extends HrBusinessObject {
 	public void setHrDeptId(Long hrDeptId) {
 		this.hrDeptId = hrDeptId;
 	}
-	public Long getTkWorkAreaId() {
+	public String getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}
-	public void setTkWorkAreaId(Long tkWorkAreaId) {
+	public void setTkWorkAreaId(String tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
 
