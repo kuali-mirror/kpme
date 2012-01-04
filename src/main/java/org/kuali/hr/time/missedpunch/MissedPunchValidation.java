@@ -66,9 +66,10 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         Long zoneOffset = TkServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastLog.getClockTimestampTimezone()));
         Timestamp actionTime = new Timestamp(ts.getTime()-zoneOffset);
         DateTime newDateTime = new DateTime(actionTime.getTime());
-        
+
         // if date is a future date
-        if(actionDateTime.getDayOfYear() > nowTime.getDayOfYear()) {
+        if(actionDateTime.getYear()> nowTime.getYear()
+        		|| (actionDateTime.getYear()==nowTime.getYear() && actionDateTime.getDayOfYear() > nowTime.getDayOfYear())) {
         	GlobalVariables.getMessageMap().putError("document.actionDate", "clock.mp.future.date");
         	return false;
         }
