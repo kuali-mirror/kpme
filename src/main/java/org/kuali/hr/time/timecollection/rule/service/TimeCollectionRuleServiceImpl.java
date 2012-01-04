@@ -9,6 +9,12 @@ import org.kuali.hr.time.util.TkConstants;
 
 public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService{
 	private TimeCollectionRuleDaoService timeCollectRuleDao;
+	
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, Date asOfDate){
+		return timeCollectRuleDao.getTimeCollectionRule(dept, workArea, payType, asOfDate);
+	}
+	
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea,Date asOfDate){
 		return timeCollectRuleDao.getTimeCollectionRule(dept, workArea, asOfDate);

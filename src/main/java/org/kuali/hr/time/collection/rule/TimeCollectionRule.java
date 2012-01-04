@@ -3,6 +3,7 @@ package org.kuali.hr.time.collection.rule;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.workarea.WorkArea;
 
 import java.util.LinkedHashMap;
@@ -23,9 +24,40 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 
 	private Department departmentObj;
 	private WorkArea workAreaObj;
+	
+	// chen, 11/07/11, KPME-1152
+	private String payType; 
+	private String hrPayTypeId; 
+	private PayType payTypeObj;
+	// KPME-1152
 
+	
 	public Department getDepartmentObj() {
 		return departmentObj;
+	}
+
+	public String getPayType() {
+		return payType;
+	}
+
+	public void setPayType(String payType) {
+		this.payType = payType;
+	}
+
+	public String getHrPayTypeId() {
+		return hrPayTypeId;
+	}
+
+	public void setHrPayTypeId(String hrPayTypeId) {
+		this.hrPayTypeId = hrPayTypeId;
+	}
+
+	public PayType getPayTypeObj() {
+		return payTypeObj;
+	}
+
+	public void setPayTypeObj(PayType payTypeObj) {
+		this.payTypeObj = payTypeObj;
 	}
 
 	public void setDepartmentObj(Department departmentObj) {
@@ -90,6 +122,8 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 		toStringMap.put("dept", dept);
 		toStringMap.put("workAreaObj", workAreaObj);
 		toStringMap.put("workArea", workArea);
+		toStringMap.put("payType", payTypeObj);
+		toStringMap.put("payType", payType);
 		toStringMap.put("effDate", effectiveDate);
 		toStringMap.put("clockUserFl", clockUserFl);
 		toStringMap.put("hrsDistributionF", hrsDistributionF);

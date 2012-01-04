@@ -13,6 +13,6 @@ public interface TimeCollectionRuleService {
 	 * @return
 	 */
 	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea,Date asOfDate);
-	
+	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, Date asOfDate);
 	public TimeCollectionRule getTimeCollectionRule(String tkTimeCollectionRuleId);
 }

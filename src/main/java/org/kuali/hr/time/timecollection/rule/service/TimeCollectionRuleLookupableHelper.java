@@ -41,7 +41,7 @@ public class TimeCollectionRuleLookupableHelper extends
 			public String constructCompleteHtmlTag() {
 				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
 						+ className + "&methodToCall=start&tkTimeCollectionRuleId=" + tkTimeCollectionRuleId
-						+ "&dept=&workArea=\">view</a>";
+						+ "&dept=&workArea=&payType=\">view</a>";
 			}
 		};
 		customActionUrls.add(htmlData);
@@ -58,6 +58,10 @@ public class TimeCollectionRuleLookupableHelper extends
 		if (fieldValues.containsKey("dept")
 				&& StringUtils.equals(fieldValues.get("dept"), "%")) {
 			fieldValues.put("dept", "");
+		}
+		if (fieldValues.containsKey("payType")
+				&& StringUtils.equals(fieldValues.get("payType"), "%")) {
+			fieldValues.put("payType", "");
 		}
 		return super.getSearchResults(fieldValues);
 	}
