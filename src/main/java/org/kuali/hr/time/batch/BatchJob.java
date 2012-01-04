@@ -136,7 +136,7 @@ public class BatchJob {
         entry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
         entry.setBatchJobName(batchJobName);
         entry.setIpAddress(ip);
-        entry.setHrPyCalendarId(this.getPayCalendarEntryId());
+        entry.setHrPyCalendarEntryId(this.getPayCalendarEntryId());
         entry.setPrincipalId(principal);
         entry.setTkBatchJobId(this.getTkBatchJobId());
         entry.setDocumentId(documentId);

@@ -6,13 +6,15 @@
 
     <div id="batch-content">
         <html:form action="/BatchJob.do" styleId="batch-job">
+            <html:hidden property="methodToCall" value=""/>
+
             <fieldset id="batch-run">
                 <legend>Run Batch Job</legend>
                 <table>
                     <tr>
                         <th><label>Batch Job :</label></th>
                         <td>
-                            <select name="batchJobNames" id="batchJobNames">
+                            <select name="selectedBatchJob" id="selectedBatchJob">
                                 <c:forEach var="job" items="${Form.batchJobNames}">
                                     <option value="${job}">${job}</option>
                                 </c:forEach>
@@ -29,13 +31,14 @@
                 					fieldConversions="hrPyCalendarEntriesId:hrPyCalendarEntryId"
                 					lookupParameters="" />
                         </td>
-                        <td><input type="submit" value="Run"/></td>
+                        <td><input type="submit" value="Run" onclick="this.form.methodToCall.value='runBatchJob'; this.form.submit();"/></td>
                     </tr>
                 </table>
                 <br/>
             </fieldset>
         </html:form>
-        <html:form action="/BatchJob.do?methodToCall=getBatchJobEntryStatus" styleId="batch-job">
+        <html:form action="/BatchJob.do" styleId="batch-job">
+            <html:hidden property="methodToCall" value=""/>
             <fieldset id="batch-status">
                 <legend>Batch Job Entry Status</legend>
                 <table>
@@ -66,7 +69,7 @@
                     <tr>
                         <th><label>Principal Id : </label></th>
                         <td><input type="text" name="principalId"/></td>
-                        <td><input type="submit" value="Search"/></td>
+                        <td><input type="submit" value="Seach" onclick="this.form.methodToCall.value='getBatchJobEntryStatus'; this.form.submit();"/></td>
                     </tr>
                 </table>
             </fieldset>
@@ -79,13 +82,14 @@
                                    requestURIcontext="false" id="r">
                         <display:column property="tkBatchJobEntryId" title="Job Entry Id"/>
                         <display:column property="batchJobName" title="Job Name"/>
-                        <display:column property="tkBatchJobEntryId" title="Job Entry Status"/>
+                        <display:column property="batchJobEntryStatus" title="Job Entry Status"/>
                         <display:column property="hrPyCalendarEntryId" title="Pay Calendar Id"/>
                         <display:column title="IP Address">
                             <tk:ipAddress batchJobEntryId="${r.tkBatchJobEntryId}"
                                           selectedIpAdd="${r.ipAddress}"/>
                         </display:column>
                         <display:column property="documentId" title="Document Id"/>
+                        <display:column property="clockLogId" title="Clock Log Id"/>
                         <display:column property="principalId" title="Principal Id"/>
                     </display:table>
                 </div>

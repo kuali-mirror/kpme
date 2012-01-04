@@ -734,14 +734,14 @@
 	<class-descriptor class="org.kuali.hr.time.batch.BatchJobEntry" table="tk_batch_job_entry_t">
 		<field-descriptor name="tkBatchJobEntryId"     column="tk_batch_job_entry_id" jdbc-type="BIGINT" length="20" nullable="false" autoincrement="true" primarykey="true" sequence-name="tk_batch_job_entry_s"/>
 		<field-descriptor name="tkBatchJobId"   column="tk_batch_job_id" jdbc-type="BIGINT" />
-		<field-descriptor name="hrPyCalendarEntryId"   column="hr_py_calendar_entry_id" jdbc-type="BIGINT" />
+		<field-descriptor name="hrPyCalendarEntryId"   column="hr_py_calendar_entry_id" jdbc-type="VARCHAR" />
 		<field-descriptor name="documentId"   column="document_id" jdbc-type="VARCHAR" length="40" />
 		<field-descriptor name="principalId"   column="principal_id" jdbc-type="VARCHAR" length="40" nullable="false" />
 		<field-descriptor name="batchJobEntryStatus" column="batch_job_entry_status" jdbc-type="VARCHAR" length="1"/>
 		<field-descriptor name="batchJobException" column="batch_job_exception" jdbc-type="VARCHAR" length="100"/>
 		<field-descriptor name="ipAddress" column="ip_address" jdbc-type="VARCHAR" length="20"/>
 		<field-descriptor name="batchJobName" column="batch_job_name" jdbc-type="VARCHAR" length="40"/>
-		<field-descriptor name="clockLogId" column="clock_log_id" jdbc-type="BIGINT" length="20"/>
+		<field-descriptor name="clockLogId" column="clock_log_id" jdbc-type="VARCHAR" length="20"/>
 
 	</class-descriptor>
 

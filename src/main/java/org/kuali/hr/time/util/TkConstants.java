@@ -184,7 +184,12 @@ public class TkConstants {
         public static final String ROUTE = "R";
         public static final String APPROVE = "A";
         public static final String DISAPPROVE = "D";
-        public static final String BATCH_JOB = "B";
+    }
+
+    public static final class BATCH_JOB_ACTIONS {
+        public static final String BATCH_JOB_INITIATE = "BI";
+        public static final String BATCH_JOB_ROUTE = "BR";
+        public static final String BATCH_JOB_APPROVE = "BA";
     }
 
     public static final class ROUTE_STATUS {
@@ -196,15 +201,16 @@ public class TkConstants {
     }
 
     public static final Map<String, String> DOC_ROUTE_STATUS = new HashMap<String, String>(8);
+
     static {
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_INITIATED_CD,KEWConstants.ROUTE_HEADER_INITIATED_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_CANCEL_CD,KEWConstants.ROUTE_HEADER_CANCEL_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_ENROUTE_CD,KEWConstants.ROUTE_HEADER_ENROUTE_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_FINAL_CD,KEWConstants.ROUTE_HEADER_FINAL_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_APPROVED_CD,KEWConstants.ROUTE_HEADER_APPROVED_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD,KEWConstants.ROUTE_HEADER_DISAPPROVED_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_EXCEPTION_CD,KEWConstants.ROUTE_HEADER_EXCEPTION_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_SAVED_CD,KEWConstants.ROUTE_HEADER_SAVED_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_INITIATED_CD, KEWConstants.ROUTE_HEADER_INITIATED_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_CANCEL_CD, KEWConstants.ROUTE_HEADER_CANCEL_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_ENROUTE_CD, KEWConstants.ROUTE_HEADER_ENROUTE_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_FINAL_CD, KEWConstants.ROUTE_HEADER_FINAL_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_APPROVED_CD, KEWConstants.ROUTE_HEADER_APPROVED_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD, KEWConstants.ROUTE_HEADER_DISAPPROVED_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_EXCEPTION_CD, KEWConstants.ROUTE_HEADER_EXCEPTION_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_SAVED_CD, KEWConstants.ROUTE_HEADER_SAVED_LABEL);
     }
 
     public static final class BATCH_JOB_ENTRY_STATUS {
@@ -219,9 +225,9 @@ public class TkConstants {
         public static final String APPROVE = "Approve";
         public static final String PAY_PERIOD_END = "Pay Period End";
         public static final String SUPERVISOR_APPROVAL = "Supervisor Approval";
-        public static final String BATCH_APPROVE_MISSED_PUNCH = "Batch Aprove Missed Punch";
+        public static final String BATCH_APPROVE_MISSED_PUNCH = "Batch Approve Missed Punch";
     }
-    
+
     public static final String BATCH_JOB_USER_PRINCIPAL_ID = "admin";
 
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";
@@ -277,9 +283,9 @@ public class TkConstants {
 
     public static final Integer PAGE_SIZE = 20;
     public static final String APPROVAL_TABLE_ID = "row";
-    
+
     public static final String IP_SEPERATOR = ".";
     public static final String IP_WILDCARD_PATTERN = "(%|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))";
-    
+
     public static final String TASK_DEFAULT_DESP = "Default";
 }

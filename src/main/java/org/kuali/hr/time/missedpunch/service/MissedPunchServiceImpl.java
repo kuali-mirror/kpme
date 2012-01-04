@@ -211,7 +211,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         try {
             String rhid = document.getDocumentNumber();
             WorkflowDocument wd = new WorkflowDocument(TkConstants.BATCH_JOB_USER_PRINCIPAL_ID, Long.parseLong(rhid));
-            wd.superUserApprove("Superuser approving missed punch document.");
+            wd.superUserApprove("Batch job superuser approving missed punch document.");
 
             document.setDocumentStatus(TkConstants.ROUTE_STATUS.FINAL);
             KNSServiceLocator.getBusinessObjectService().save(document);

@@ -25,6 +25,7 @@ public class BatchJobActionForm extends TkForm {
     private String batchJobEntryStatus;
     private String tkBatchJobEntryId;
     private String ipToChange;
+    private String selectedBatchJob;
 
     public List<String> getBatchJobNames() {
         batchJobNames.add(TkConstants.BATCH_JOB_NAMES.INITIATE);
@@ -130,5 +131,13 @@ public class BatchJobActionForm extends TkForm {
 
     public void setIpToChange(String ipToChange) {
         this.ipToChange = ipToChange;
+    }
+
+    public String getSelectedBatchJob() {
+        return selectedBatchJob;
+    }
+
+    public void setSelectedBatchJob(String selectedBatchJob) {
+        this.selectedBatchJob = selectedBatchJob;
     }
 }

@@ -378,6 +378,7 @@ select {
 
 #admin-page tr td {
     border: 1px solid #999999;
+    padding: 5px;
 }
 
 #admin-page table ul li {
@@ -438,10 +439,6 @@ select {
     color: red;
 }
 
-.left-errmsg div div {
-    display: inline !important;
-}
-
 .timeblock #timeblock-edit {
     text-decoration: underline;
     font-size: .7em;
@@ -449,6 +446,10 @@ select {
     cursor: pointer;
     /*margin: 0 auto 0 auto;*/
     text-align: center;
+}
+
+.left-errmsg div div {
+    display: inline !important;
 }
 
 .timeblock #timeblock-readOnly {
@@ -811,5 +812,4 @@ select {
 .actualtime-table tbody tr.even td {
     background-color: #F0F0F6;
 }
-
 

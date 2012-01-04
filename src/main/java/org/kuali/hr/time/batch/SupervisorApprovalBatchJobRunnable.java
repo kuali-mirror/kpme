@@ -18,6 +18,6 @@ public class SupervisorApprovalBatchJobRunnable extends BatchJobEntryRunnable  {
 		String principalId = TkConstants.BATCH_JOB_USER_PRINCIPAL_ID;
 		String documentId = batchJobEntry.getDocumentId();
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
-		TkServiceLocator.getTimesheetService().approveTimesheet(principalId, timesheetDocument, TkConstants.TIMESHEET_ACTIONS.BATCH_JOB);
+		TkServiceLocator.getTimesheetService().approveTimesheet(principalId, timesheetDocument, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
     }
 }

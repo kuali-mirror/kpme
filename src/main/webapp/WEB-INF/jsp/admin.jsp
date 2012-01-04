@@ -44,10 +44,10 @@
 								<li><a
 									href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.coa.businessobject.Chart&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Chart</a>
 								</li>
-							
+
 								<li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.department.Department&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Department</a>
 								</li>
-							
+
 								<li><a
 									href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.dept.earncode.DepartmentEarnCode&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Department
 										Earn Code</a>
@@ -146,8 +146,13 @@
                     	<li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.clocklog.ClockLog&returnLocation=${ConfigProperties.application.url}/Admin.do&hideReturnLink=true&docFormKey=88888888&active=Y">Clock Log</a></li>
                     	<li><a href="${Form.workflowUrl}/DocumentSearch.do?docTypeFullName=MissedPunchDocumentType">Missed Punch</a></li>
                     </ul>
-                    
-               
+
+                    <b>Batch Jobs</b>
+                    <ul>
+                        <li><a href="BatchJob.do">BatchJob</a></li>
+                    </ul>
+
+
             </tr>
         </table>
     </div>
@@ -174,12 +179,12 @@
 						<html:text property="changeTargetPrincipalId" size="20" />
 						<kul:lookup boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
                 			fieldConversions="principalId:changeTargetPrincipalId"
-                			lookupParameters="" 
+                			lookupParameters=""
                 			baseLookupUrl="./kr/"/>
 						<input type="button" class="button" value="Submit" name="changeEmployee" onclick="this.form.methodToCall.value='changeEmployee'; this.form.submit();">
 						<input type="button" class="button" value="Clear" name="clearChangeEmployee" onclick="this.form.methodToCall.value='clearChangeEmployee'; this.form.submit();">
 	                </td>
-	            </tr>	   
+	            </tr>
 	            <tr/>
 	            <c:if test="${Form.user.systemAdmin}">
 	            <tr class="header"><td><b>Delete Timesheet</b></td></tr>
@@ -188,7 +193,7 @@
 						<html:text property="deleteDocumentId" size="20" />
 						<input type="button" class="button" value="Submit" name="deleteTimesheet" onclick="this.form.methodToCall.value='deleteTimesheet'; this.form.submit();">
 	                </td>
-	            </tr>	                     
+	            </tr>
 	            </c:if>
 		  </table>
 	  </html:form>

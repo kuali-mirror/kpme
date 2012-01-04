@@ -15,7 +15,7 @@ public class InitiateBatchJobRunnable extends BatchJobEntryRunnable {
 	public void doWork() throws Exception {
 		BatchJobEntry initiateBatchJobEntry = TkServiceLocator.getBatchJobEntryService().getBatchJobEntry(getTkBatchJobEntryId());
 		String principalId = initiateBatchJobEntry.getPrincipalId();
-		String hrPyCalendarId = initiateBatchJobEntry.getPayCalendarEntryId();
+		String hrPyCalendarId = initiateBatchJobEntry.getHrPyCalendarEntryId();
 		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(hrPyCalendarId);
 		try {
 			TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, payCalendarEntry);

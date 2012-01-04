@@ -33,7 +33,12 @@ public class TimesheetServiceImpl implements TimesheetService {
 
     @Override
     public void routeTimesheet(String principalId, TimesheetDocument timesheetDocument) {
-        timesheetAction(TkConstants.TIMESHEET_ACTIONS.ROUTE, principalId, timesheetDocument);
+        routeTimesheet(TkConstants.TIMESHEET_ACTIONS.ROUTE, principalId, timesheetDocument);
+    }
+
+    @Override
+    public void routeTimesheet(String action, String principalId, TimesheetDocument timesheetDocument) {
+        timesheetAction(action, principalId, timesheetDocument);
     }
 
     @Override
@@ -60,6 +65,8 @@ public class TimesheetServiceImpl implements TimesheetService {
 
                 if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.ROUTE)) {
                     wd.routeDocument("Routing for Approval");
+                } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE)) {
+                    wd.routeDocument("Batch job routing for Approval");
                 } else if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.APPROVE)) {
                     if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin() &&
                             !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
@@ -67,8 +74,8 @@ public class TimesheetServiceImpl implements TimesheetService {
                     } else {
                         wd.approve("Approving timesheet.");
                     }
-                } else if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.BATCH_JOB)) {
-                    wd.superUserApprove("Superuser approving timesheet.");
+                } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE)) {
+                    wd.superUserApprove("Batch job superuser approving timesheet.");
                 } else if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.DISAPPROVE)) {
                     if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()
                             && !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {

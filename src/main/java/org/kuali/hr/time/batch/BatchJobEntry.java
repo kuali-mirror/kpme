@@ -60,10 +60,10 @@ public class BatchJobEntry {
 	public void setBatchJobName(String batchJobName) {
 		this.batchJobName = batchJobName;
 	}
-	public void setHrPyCalendarId(String hrPyCalendarEntryId) {
+	public void setHrPyCalendarEntryId(String hrPyCalendarEntryId) {
 		this.hrPyCalendarEntryId = hrPyCalendarEntryId;
 	}
-	public String getPayCalendarEntryId() {
+	public String getHrPyCalendarEntryId() {
 		return hrPyCalendarEntryId;
 	}
 	public void setClockLogId(String clockLogId) {
