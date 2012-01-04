@@ -78,9 +78,9 @@ public class TimeDetailValidationService {
         //Check that assignment is valid for both days
         AssignmentDescriptionKey assignKey = TkServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssignment);
         Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(assignKey, new Date(startTime));
-        if (assign == null) errors.add("Assignment is not valid for " + TKUtils.formatDate(new Date(startTime)));
+        if (assign == null) errors.add("Assignment is not valid for start date " + TKUtils.formatDate(new Date(startTime)));
         assign = TkServiceLocator.getAssignmentService().getAssignment(assignKey, new Date(endTime));
-        if (assign == null) errors.add("Assignment is not valid for " + TKUtils.formatDate(new Date(endTime)));
+        if (assign == null) errors.add("Assignment is not valid for end date " + TKUtils.formatDate(new Date(endTime)));
         if (errors.size() > 0) return errors;
 
         //------------------------
