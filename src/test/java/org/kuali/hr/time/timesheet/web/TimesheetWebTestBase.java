@@ -32,17 +32,13 @@ public class TimesheetWebTestBase extends TkTestCase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        // Data is loaded as part of database loading lifecycle
-        // See: tk-test-data.sql
-        // See: <ClassName>.sql
-        //
-        // See: TkTestCase.java
         BASE_DETAIL_URL = TkTestConstants.Urls.TIME_DETAIL_URL + "?documentId=";
     }
 
     @Override
     public void tearDown() throws Exception {
         super.tearDown();
+        TkLoginFilter.TEST_ID = "admin";
     }
 
     public static String getTimesheetDocumentUrl(String tdocId) {

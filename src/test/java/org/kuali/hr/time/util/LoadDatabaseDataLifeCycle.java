@@ -1,25 +1,7 @@
 package org.kuali.hr.time.util;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.sql.DataSource;
-
 import junit.framework.Assert;
-
-import org.apache.log4j.Logger;
-import org.enhydra.jdbc.pool.StandardXAPoolDataSource;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.rice.core.lifecycle.BaseLifecycle;
-import org.springframework.jdbc.core.ConnectionCallback;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.StatementCallback;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -27,27 +9,18 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-public class LoadDatabaseDataLifeCycle extends BaseLifecycle{
-	protected static final Logger LOG = Logger.getLogger(LoadDatabaseDataLifeCycle.class);
+import javax.sql.DataSource;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
-	public static final String TEST_TABLE_NAME = "KR_UNITTEST_T";
-
-    private Class callingTestClass = null;
-
+public class LoadDatabaseDataLifeCycle extends SQLDataLifeCycle {
     public LoadDatabaseDataLifeCycle() {
     }
 
     public LoadDatabaseDataLifeCycle(Class caller) {
-        this.callingTestClass = caller;
+        super(caller);
     }
-
-	public void start() throws Exception {
-		final StandardXAPoolDataSource dataSource = (StandardXAPoolDataSource) TkServiceLocator.CONTEXT.getBean("tkDataSource");
-		final PlatformTransactionManager transactionManager = (PlatformTransactionManager) TkServiceLocator.CONTEXT.getBean("transactionManager");
-		final String schemaName = dataSource.getUser().toUpperCase();
-		loadData(transactionManager, dataSource, schemaName);
-		super.start();
-	}
 
 	public void loadData(final PlatformTransactionManager transactionManager, final DataSource dataSource, final String schemaName) {
 		LOG.info("Clearing tables for schema " + schemaName);
@@ -70,7 +43,7 @@ public class LoadDatabaseDataLifeCycle extends BaseLifecycle{
                             sqlStatements.addAll(getTestDataSQLStatements("src/test/config/sql/" + callingTestClass.getSimpleName() + ".sql"));
                         }
                 		for(String sql : sqlStatements){
-                            if (!sql.startsWith("#") && !sql.startsWith("//")) {
+                            if (!sql.startsWith("#") && !sql.startsWith("//") && !StringUtils.isEmpty(sql.trim())) {
                                 // ignore comment lines in our sql reader.
                 			    statement.addBatch(sql);
                             }
@@ -81,36 +54,5 @@ public class LoadDatabaseDataLifeCycle extends BaseLifecycle{
             	});
             }
         });
-	}
-
-	protected void verifyTestEnvironment(final DataSource dataSource) {
-		Assert.assertTrue("No table named '" + TEST_TABLE_NAME + "' was found in the configured database.  " + "You are attempting to run tests against a non-test database!!!",
-		isTestTableInSchema(dataSource));
-	}
-
-	protected Boolean isTestTableInSchema(final DataSource dataSource) {
-	Assert.assertNotNull("DataSource could not be located.", dataSource);
-	return (Boolean) new JdbcTemplate(dataSource).execute(new ConnectionCallback() {
-			public Object doInConnection(final Connection connection) throws SQLException {
-				final ResultSet resultSet = connection.getMetaData().getTables(null, null, TEST_TABLE_NAME, null);
-				return new Boolean(resultSet.next());
-			}
-		});
-	}
-
-	private List<String> getTestDataSQLStatements(String fname){
-		List<String> testDataSqlStatements = new ArrayList<String>();
-		try {
-			BufferedReader in = new BufferedReader(new FileReader(fname));
-			String str;
-			while ((str = in.readLine()) != null) {
-				testDataSqlStatements.add(str);
-			}
-		} catch (FileNotFoundException e) {
-			LOG.warn("No file found for " + fname);
-		} catch (IOException e) {
-			LOG.error("IO exception in test data loading");
-		}
-		return testDataSqlStatements;
 	}
 }
