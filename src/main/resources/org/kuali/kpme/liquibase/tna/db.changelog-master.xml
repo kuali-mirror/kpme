@@ -26,5 +26,5 @@
     <!-- Context: unit_test_data -->
     <!-- Adds unit test table -->
     <!-- 1 Sep 2011 -->
-    <include file="org/kuali/kpme/liquibase/tna/db.changelog-unit_test_data-2.0.xml"/>
+    <!-- <include file="org/kuali/kpme/liquibase/tna/db.changelog-unit_test_data-2.0.xml"/> -->
 </databaseChangeLog>
