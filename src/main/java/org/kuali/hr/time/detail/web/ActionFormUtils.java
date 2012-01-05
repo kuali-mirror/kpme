@@ -4,13 +4,15 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
-import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workarea.WorkArea;
 
 import java.util.*;
 
@@ -20,28 +22,28 @@ public class ActionFormUtils {
         List<String> warningMessages = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(tdaf.getTimesheetDocument());
         addUniqueWarningsToForm(tdaf, warningMessages);
     }
-    
+
     public static void addWarningTextFromEarnGroup(TimeDetailActionFormBase tdaf) throws Exception {
         List<String> warningMessages = TkServiceLocator.getEarnGroupService().warningTextFromEarnGroupsOfDocument(tdaf.getTimesheetDocument());
         addUniqueWarningsToForm(tdaf, warningMessages);
     }
-    
+
     public static void addUniqueWarningsToForm(TimeDetailActionFormBase tdaf, List<String> warningMessages) {
-    	if (!warningMessages.isEmpty()) {
-        	Set<String> aSet = new HashSet<String>();
-	    	aSet.addAll(warningMessages);
-	    	aSet.addAll(tdaf.getWarnings());
-	    	List<String> aList = new ArrayList<String>();
-	    	aList.addAll(aSet);
-        	tdaf.setWarnings(aList);
+        if (!warningMessages.isEmpty()) {
+            Set<String> aSet = new HashSet<String>();
+            aSet.addAll(warningMessages);
+            aSet.addAll(tdaf.getWarnings());
+            List<String> aList = new ArrayList<String>();
+            aList.addAll(aSet);
+            tdaf.setWarnings(aList);
         }
     }
 
     public static String getTimeBlockJSONMap(TimesheetDocument tsd, List<TimeBlock> blocks) {
         List<Map<String, Object>> jsonList = getTimeBlocksJson(blocks, null);
         Map<String, Map<String, Object>> jsonMappedList = new HashMap<String, Map<String, Object>>();
-        for (Map<String,Object> tbm : jsonList) {
-            String id = (String)tbm.get("id");
+        for (Map<String, Object> tbm : jsonList) {
+            String id = (String) tbm.get("id");
             jsonMappedList.put(id, tbm);
         }
         return JSONValue.toJSONString(jsonMappedList);
@@ -52,23 +54,23 @@ public class ActionFormUtils {
     }
 
     public static Map<String, String> buildAssignmentStyleClassMap(List<TimeBlock> timeBlocks) {
-          Map<String, String> aMap = new HashMap<String, String>();
-          List<String> assignmentKeys = new ArrayList<String>();
-          
-          for(TimeBlock tb : timeBlocks){
-        	  if(!assignmentKeys.contains(tb.getAssignmentKey())){
-        		  assignmentKeys.add(tb.getAssignmentKey());
-        	  }
-          }
+        Map<String, String> aMap = new HashMap<String, String>();
+        List<String> assignmentKeys = new ArrayList<String>();
 
-          Collections.sort(assignmentKeys);
+        for (TimeBlock tb : timeBlocks) {
+            if (!assignmentKeys.contains(tb.getAssignmentKey())) {
+                assignmentKeys.add(tb.getAssignmentKey());
+            }
+        }
 
-          for(int i = 0; i< assignmentKeys.size(); i++) {
-              // pick a color from a five color palette
-              aMap.put(assignmentKeys.get(i), "assignment"+ Integer.toString(i % 5));
-          }
+        Collections.sort(assignmentKeys);
 
-          return aMap;
+        for (int i = 0; i < assignmentKeys.size(); i++) {
+            // pick a color from a five color palette
+            aMap.put(assignmentKeys.get(i), "assignment" + Integer.toString(i % 5));
+        }
+
+        return aMap;
     }
 
     /**
@@ -93,14 +95,24 @@ public class ActionFormUtils {
         for (TimeBlock timeBlock : timeBlocks) {
             Map<String, Object> timeBlockMap = new LinkedHashMap<String, Object>();
 
-            String workAreaDesc = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), new java.sql.Date(timeBlock.getEndTimestamp().getTime())).getDescription();
+            WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), new java.sql.Date(timeBlock.getEndTimestamp().getTime()));
+            String workAreaDesc = workArea.getDescription();
+
+            // KPME-1216
+            Boolean isActiveEmployee = TKContext.getUser().getCurrentRoles().isActiveEmployee();
+            Boolean isAnyApprover = TKContext.getUser().getCurrentRoles().isAnyApproverActive();
+            if (StringUtils.equals(workArea.getOvertimeEditRole(), TkConstants.ROLE_TK_EMPLOYEE)) {
+                timeBlockMap.put("overtimeEditable", isActiveEmployee);
+            } else if (StringUtils.equals(workArea.getOvertimeEditRole(), TkConstants.ROLE_TK_APPROVER)) {
+                timeBlockMap.put("overtimeEditable", isAnyApprover);
+            }
 
             String cssClass = "";
-            if(assignmentStyleClassMap != null && assignmentStyleClassMap.containsKey(timeBlock.getAssignmentKey())) {
-            	cssClass = assignmentStyleClassMap.get(timeBlock.getAssignmentKey());
+            if (assignmentStyleClassMap != null && assignmentStyleClassMap.containsKey(timeBlock.getAssignmentKey())) {
+                cssClass = assignmentStyleClassMap.get(timeBlock.getAssignmentKey());
             }
             timeBlockMap.put("assignmentCss", cssClass);
-            timeBlockMap.put("editable",  TkServiceLocator.getTimeBlockService().isTimeBlockEditable(timeBlock).toString());
+            timeBlockMap.put("editable", TkServiceLocator.getTimeBlockService().isTimeBlockEditable(timeBlock).toString());
             timeBlockMap.put("synchronous", timeBlock.getClockLogCreated());
 
             //    tracking any kind of 'mutating' state with this object, it's just a one off modification under a specific circumstance.
@@ -143,7 +155,7 @@ public class ActionFormUtils {
                 timeHourDetailMap.put("amount", timeHourDetail.getAmount());
 
                 // if there is a lunch hour deduction, add a flag to the timeBlockMap
-                if(StringUtils.equals(timeHourDetail.getEarnCode(), "LUN")) {
+                if (StringUtils.equals(timeHourDetail.getEarnCode(), "LUN")) {
                     timeBlockMap.put("lunchDeduction", true);
                 }
 

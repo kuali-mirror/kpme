@@ -164,7 +164,7 @@ $(document).ready(function() {
                         var dateString = parseInt(dateRangeField[1]) - 1;
                         endDateString = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
                     }
-                    
+
                     $('#date-range-begin').val(calEvent.start.toString('MM/dd/yyyy'));
                     $('#date-range-end').val(endDateString);
                     $('#beginTimeField').val(calEvent.start.toString('hh:mm tt'));
@@ -224,7 +224,7 @@ $(document).ready(function() {
                     var selectedOverTimeEarnCode = $("#overtime_" + calEvent.tkTimeBlockId).html();
 
                     // handle the case where the overtime hour detail is clicked
-                    if (action == "overtime" && selectedOverTimeEarnCode != CONSTANTS.OVERTIME_EARNCODE.DAILY) {
+                    if (action == "overtime" && selectedOverTimeEarnCode != CONSTANTS.OVERTIME_EARNCODE.DAILY && calEvent.overtimeEditable) {
                         // hide all the fields except the overtime dropdown
                         $timesheetFields.find("tr:not(#overtimeEarnCodeRow)").addClass("hide");
                         // get the <tr> of the earn code row
