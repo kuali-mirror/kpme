@@ -29,15 +29,4 @@ insert into hr_principal_calendar_t values('fran', 'BWS-CAL', 'HOL', null, '2010
 insert into hr_principal_calendar_t values('frank', 'BWS-CAL', 'HOL', null, '2010-01-01', '2011-03-01 11:45:56', '6113aa9c-4423-11e0-a509-124832221506', '1', 'Y');
 insert into hr_principal_calendar_t values('edna', 'BWS-CAL', 'HOL', null, '2010-01-01', '2011-03-01 11:45:56', '6113aa9c-4423-11e0-a509-124832221506', '1', 'Y');
 insert into hr_principal_calendar_t values('fred', 'BWS-CAL', 'HOL', null, '2010-01-01', '2011-03-01 11:45:56', '6113aa9c-4423-11e0-a509-124832221506', '1', 'Y');
-insert into hr_principal_hr_attributes_t values ('testuser1', 'BWS-CAL', 'BWS-LP', '2010-01-01', 'N', 'N', 'HOL', NULL, '2010-01-01', '2011-03-01 11:45:56', '6113aa9c-4423-11e0-a509-124832221506', '1', NULL, 'Y');
-insert into hr_principal_hr_attributes_t values ('testuser2', 'BWS-CAL', 'BWS-LP', '2010-01-01', 'N', 'N', 'HOL', NULL, '2010-01-01', '2011-03-01 11:45:56', '6113aa9c-4423-11e0-a509-124832221506', '1', NULL, 'Y');
-insert into hr_principal_hr_attributes_t values ('testuser3', 'BWS-CAL', 'BWS-LP', '2010-01-01', 'N', 'N', 'HOL', NULL, '2010-01-01', '2011-03-01 11:45:56', '6113aa9c-4423-11e0-a509-124832221506', '1', NULL, 'Y');
-insert into hr_principal_hr_attributes_t values ('testuser4', 'BWS-CAL', 'BWS-LP', '2010-01-01', 'N', 'N', 'HOL', NULL, '2010-01-01', '2011-03-01 11:45:56', '6113aa9c-4423-11e0-a509-124832221506', '1', NULL, 'Y');
-insert into hr_principal_hr_attributes_t values ('testuser5', 'BWS-CAL', 'BWS-LP', '2010-01-01', 'N', 'N', 'HOL', NULL, '2010-01-01', '2011-03-01 11:45:56', '6113aa9c-4423-11e0-a509-124832221506', '1', NULL, 'Y');
-insert into hr_principal_hr_attributes_t values ('testuser6', 'BWS-CAL', 'BWS-LP', '2010-01-01', 'N', 'N', 'HOL', NULL, '2010-01-01', '2011-03-01 11:45:56', '6113aa9c-4423-11e0-a509-124832221506', '1', NULL, 'Y');
-insert into hr_principal_hr_attributes_t values ('fran', 'BWS-CAL', 'BWS-LP', '2010-01-01', 'N', 'N', 'HOL', NULL, '2010-01-01', '2011-03-01 11:45:56', '6113aa9c-4423-11e0-a509-124832221506', '1', NULL, 'Y');
-insert into hr_principal_hr_attributes_t values ('frank', 'BWS-CAL', 'BWS-LP', '2010-01-01', 'N', 'N', 'HOL', NULL, '2010-01-01', '2011-03-01 11:45:56', '6113aa9c-4423-11e0-a509-124832221506', '1', NULL, 'Y');
-insert into hr_principal_hr_attributes_t values ('edna', 'BWS-CAL', 'BWS-LP', '2010-01-01', 'N', 'N', 'HOL', NULL, '2010-01-01', '2011-03-01 11:45:56', '6113aa9c-4423-11e0-a509-124832221506', '1', NULL, 'Y');
-insert into hr_principal_hr_attributes_t values ('fred', 'BWS-CAL', 'BWS-LP', '2010-01-01', 'N', 'N', 'HOL', NULL, '2010-01-01', '2011-03-01 11:45:56', '6113aa9c-4423-11e0-a509-124832221506', '1', NULL, 'Y');
-
 
