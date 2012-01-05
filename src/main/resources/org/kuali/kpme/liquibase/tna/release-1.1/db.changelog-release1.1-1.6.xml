@@ -5,4 +5,9 @@
             <column name="tk_work_area_id" type="VARCHAR(60)" />
         </addColumn>
     </changeSet>
+    <changeSet author="lfox" id="2">
+        <addColumn tableName="tk_assign_acct_t">
+            <column name="active" type="VARCHAR(1)" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
