@@ -1,4 +1,0 @@
-ALTER TABLE `hr_roles_t` ADD COLUMN `hr_dept_id` BIGINT(20) NULL  AFTER `active`;
-ALTER TABLE `hr_roles_t` ADD COLUMN `tk_work_area_id` BIGINT(20) NULL  AFTER `hr_dept_id`;
-
-ALTER TABLE `hr_dept_t` CHANGE COLUMN `DESCRIPTION` `DESCRIPTION` VARCHAR(75) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL  ;

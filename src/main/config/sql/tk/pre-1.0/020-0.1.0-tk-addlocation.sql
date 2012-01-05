@@ -1,1 +1,0 @@
-ALTER TABLE hr_earn_code_t ADD COLUMN `location` VARCHAR(10) NULL AFTER `VER_NBR` ;

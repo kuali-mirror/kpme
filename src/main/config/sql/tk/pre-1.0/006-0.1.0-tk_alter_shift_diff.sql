@@ -1,1 +1,0 @@
-ALTER TABLE tk_shift_differential_rl_t ADD COLUMN `from_earn_group` VARCHAR(10) NULL DEFAULT NULL  AFTER `ACTIVE` ;

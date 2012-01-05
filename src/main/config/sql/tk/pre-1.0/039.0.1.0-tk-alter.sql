@@ -1,1 +1,0 @@
-alter table tk_dept_lunch_rl_t modify SHIFT_HOURS decimal(3,1) NULL;
