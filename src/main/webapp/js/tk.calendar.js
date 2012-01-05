@@ -179,7 +179,7 @@ $(document).ready(function() {
                     
                     //Disable Controls if Sync User
                     if(calEvent.synchronous) {
-                    	$("#earnCode").append(new Option(calEvent.earnCode + " : " + calEvent.earnCodeDesc, calEvent.earnCode));
+                    	$("<option>").attr("value", calEvent.earnCode).text(calEvent.earnCode + " : " + calEvent.earnCodeDesc, calEvent.earnCode).appendTo("#earnCode");  
                     	$("select#earnCode option[value='" + calEvent.earnCode + "']").attr("selected", "selected");
                         $("#date-range-begin").removeAttr("disabled", "disabled");
                         $("#date-range-end").removeAttr("disabled", "disabled");
