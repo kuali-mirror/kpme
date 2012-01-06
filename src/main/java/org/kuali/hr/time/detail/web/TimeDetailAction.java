@@ -232,7 +232,8 @@ public class TimeDetailAction extends TimesheetAction {
         for (TimeBlock tb : newTimeBlocks) {
             if(tb.getBeginTimestamp().equals(overtimeBeginTimestamp) && tb.getEndTimestamp().equals(overtimeEndTimestamp) && StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
                 tb.setOvertimePref(tdaf.getOvertimePref());
-            }
+            }                  
+
         }
 
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());

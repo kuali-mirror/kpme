@@ -139,6 +139,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
             tb.setUserPrincipalId(TKContext.getUser().getPrincipalId() );
 
             timeBlockDao.saveOrUpdate(tb);
+            tb.setTimeBlockHistories(TkServiceLocator.getTimeBlockService().createTimeBlockHistories(tb, TkConstants.ACTIONS.ADD_TIME_BLOCK));
 	         for(TimeBlockHistory tbh : tb.getTimeBlockHistories()){
 	        	 TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
 	         }
@@ -219,7 +220,6 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
         tb.setTimeHourDetails(this.createTimeHourDetails(tb.getEarnCode(), tb.getHours(), tb.getAmount(), tb.getTkTimeBlockId()));
-        tb.setTimeBlockHistories(this.createTimeBlockHistories(tb, TkConstants.ACTIONS.ADD_TIME_BLOCK));
 
         return tb;
     }
@@ -257,7 +257,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         return timeHourDetails;
     }
 
-    private List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory) {
+    public List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory) {
         List<TimeBlockHistory> tbhs = new ArrayList<TimeBlockHistory>();
 
         TimeBlockHistory tbh = new TimeBlockHistory(tb);

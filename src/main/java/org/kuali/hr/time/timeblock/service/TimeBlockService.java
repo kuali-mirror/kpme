@@ -2,6 +2,7 @@ package org.kuali.hr.time.timeblock.service;
 
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 import java.math.BigDecimal;
@@ -122,5 +123,7 @@ public interface TimeBlockService {
     public List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId);
 
 	public void updateTimeBlock(TimeBlock tb);
+	
+	public List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory);
 
 }
