@@ -9,7 +9,7 @@ CREATE TABLE `tk_clock_loc_rl_ip_addr_s` (
 
 DROP TABLE IF EXISTS `tk_ip_address_t`;
 DROP TABLE IF EXISTS `tk_clock_loc_rl_ip_addr_t`;
-CREATE TABLE `tk_clok_loc_rl_ip_addr_t` (
+CREATE TABLE `tk_clock_loc_rl_ip_addr_t` (
   `tk_clock_loc_rule_ip_id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
   `tk_clock_loc_rule_id` VARCHAR(20) NOT NULL,
   `ip_address` VARCHAR(15) NOT NULL,
