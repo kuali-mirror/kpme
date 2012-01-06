@@ -120,6 +120,9 @@ $(document).ready(function() {
             $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
             $("#btnAddProfile").attr('value', 'Save');
             
+            $('#clockIn, #clockOut').show();
+            $('#hoursSection').hide();
+            $('#amountSection').hide();
             
             $(".ui-button-text").each(function() {
                 if ($(this).html() == 'Update') {
