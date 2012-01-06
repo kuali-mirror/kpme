@@ -101,12 +101,6 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 				.getBusinessObject();
 		Assignment aNew = (Assignment) document.getNewMaintainableObject()
 				.getBusinessObject();
-		for (AssignmentAccount aAccount : aOld.getAssignmentAccounts()) {
-			aAccount.setActive(aOld.isActive());
-		}
-		for (AssignmentAccount aAccount : aNew.getAssignmentAccounts()) {
-			aAccount.setActive(aOld.isActive());
-		}
 		super.processAfterEdit(document, parameters);
 	}
 
