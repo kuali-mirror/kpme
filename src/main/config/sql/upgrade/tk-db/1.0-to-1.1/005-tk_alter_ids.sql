@@ -15,8 +15,8 @@ alter table tk_time_block_t modify column tk_task_id varchar(60) NOT NULL;
 alter table tk_assignment_t modify column tk_assignment_id varchar(60) NOT NULL;
 alter table tk_assign_acct_t modify column tk_assignment_id varchar(60) NOT NULL;
 
-alter table tk_clok_location_rl_ip_address_t modify column TK_CLOCK_LOC_RULE_IP_ID varchar(60) NOT NULL;
-alter table tk_clok_location_rl_ip_address_t modify column TK_CLOCK_LOC_RULE_ID varchar(60) NOT NULL;
+alter table tk_clock_loc_rl_ip_addr_t modify column TK_CLOCK_LOC_RULE_IP_ID varchar(60) NOT NULL;
+alter table tk_clock_loc_rl_ip_addr_t modify column TK_CLOCK_LOC_RULE_ID varchar(60) NOT NULL;
 alter table tk_clock_location_rl_t modify column TK_CLOCK_LOC_RULE_ID varchar(60) NOT NULL;
 
 alter table hr_dept_t modify column hr_dept_id varchar(60) NOT NULL;
