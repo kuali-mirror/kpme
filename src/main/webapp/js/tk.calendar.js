@@ -93,7 +93,7 @@ $(document).ready(function() {
         // create a variable to cache the DOM
         $timesheetFields = $('#timesheet-panel');
         $timesheetFields.find("tr").removeClass("hide");
-        $(this).loadFields();
+        //$(this).loadFields();
         
         // remove the overtime earn code drop down row when the entry form shows up
         if (!$("#overtimeEarnCodeRow").empty()) {
