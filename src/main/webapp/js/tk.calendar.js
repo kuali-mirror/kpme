@@ -93,7 +93,8 @@ $(document).ready(function() {
         // create a variable to cache the DOM
         $timesheetFields = $('#timesheet-panel');
         $timesheetFields.find("tr").removeClass("hide");
-
+        $('#earnCode').loadEarnCode($('#assignment').val());
+        
         // remove the overtime earn code drop down row when the entry form shows up
         if (!$("#overtimeEarnCodeRow").empty()) {
             $timesheetFields.remove($("#overtimeEarnCodeRow"));
@@ -623,8 +624,8 @@ $.fn.loadFields = function() {
 
     // get the earn code type
     var fieldType = $(this).val().split("_")[1];
-//    console.log($(this));
-//    console.log($(this).find(":selected").val());
+    console.log($(this));
+    console.log($(this).find(":selected").val());
 
     if (fieldType == 'OVT') {
         $('#clockIn, #clockOut, #amountSection, #hoursSection').hide();
