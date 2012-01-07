@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="SystemScheduledTimeOff" parent="SystemScheduledTimeOff-parentBean" />
+
+	<bean id="SystemScheduledTimeOff-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.lm.timeoff.SystemScheduledTimeOff" />
+		<property name="titleAttribute" value="id" />
+		<property name="objectLabel" value="SystemScheduledTimeOff" />
+		<property name="inquiryDefinition">
+			<ref bean="SystemScheduledTimeOff-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="SystemScheduledTimeOff-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="SystemScheduledTimeOff-leavePlan" />
+				<ref bean="SystemScheduledTimeOff-accrualCategory" />
+				<ref bean="SystemScheduledTimeOff-leaveCode" />
+				<ref bean="SystemScheduledTimeOff-accruedDate" />
+				<ref bean="SystemScheduledTimeOff-scheduledTimeOffDate" />
+				<ref bean="SystemScheduledTimeOff-location" />
+				<ref bean="SystemScheduledTimeOff-descr" />
+				<ref bean="SystemScheduledTimeOff-amountofTime" />
+				<ref bean="SystemScheduledTimeOff-unusedTime" />
+				<ref bean="SystemScheduledTimeOff-transferConversionFactor" />
+				<ref bean="SystemScheduledTimeOff-transfertoLeaveCode" />
+				<ref bean="SystemScheduledTimeOff-expirationDate" />
+				<ref bean="SystemScheduledTimeOff-premiumHoliday" />
+				<ref bean="SystemScheduledTimeOff-effectiveDate" />
+				<ref bean="SystemScheduledTimeOff-timestamp" />
+				<ref bean="SystemScheduledTimeOff-active" />
+				<ref bean="SystemScheduledTimeOff-history" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="leavePlanObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan"
+								p:targetName="leavePlan" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="accrualCategoryObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory"
+								p:targetName="accrualCategory" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="leaveCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leaveCode"
+								p:targetName="leaveCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="leaveCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="transfertoLeaveCode"
+								p:targetName="leaveCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="locationObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
+								p:targetName="location" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+<!-- 	leave plan -->
+	<bean id="SystemScheduledTimeOff-leavePlan" parent="SystemScheduledTimeOff-leavePlan-parentBean" />
+	<bean id="SystemScheduledTimeOff-leavePlan-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Leave Plan" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="leavePlan" />
+		<property name="label" value="Leave Plan" />
+	</bean>
+
+<!-- accrual category -->
+	<bean id="SystemScheduledTimeOff-accrualCategory" parent="SystemScheduledTimeOff-accrualCategory-parentBean" />
+	<bean id="SystemScheduledTimeOff-accrualCategory-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Accrual Category" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="accrualCategory" />
+		<property name="label" value="Accrual Category" />
+	</bean>
+
+<!-- Leave code -->
+	<bean id="SystemScheduledTimeOff-leaveCode" parent="SystemScheduledTimeOff-leaveCode-parentBean" />
+	<bean id="SystemScheduledTimeOff-leaveCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Leave Code" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="leaveCode" />
+		<property name="label" value="Leave Code" />
+	</bean>
+
+<!-- Accrued Date -->
+	<bean id="SystemScheduledTimeOff-accruedDate" parent="SystemScheduledTimeOff-accruedDate-parentBean" />
+	<bean id="SystemScheduledTimeOff-accruedDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Accrued Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="accruedDate" />
+		<property name="label" value="Accrued Date" />
+	</bean>
+
+<!-- Scheduled Time Off Date -->
+	<bean id="SystemScheduledTimeOff-scheduledTimeOffDate" parent="SystemScheduledTimeOff-scheduledTimeOffDate-parentBean" />
+	<bean id="SystemScheduledTimeOff-scheduledTimeOffDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Scheduled Time Off Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="scheduledTimeOffDate" />
+		<property name="label" value="Scheduled Time Off Date" />
+	</bean>
+
+<!-- Location -->
+	<bean id="SystemScheduledTimeOff-location" parent="SystemScheduledTimeOff-location-parentBean" />
+	<bean id="SystemScheduledTimeOff-location-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Location" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="location" />
+		<property name="label" value="Location" />
+	</bean>
+
+
+<!-- description -->
+	<bean id="SystemScheduledTimeOff-descr" parent="SystemScheduledTimeOff-descr-parentBean" />
+	<bean id="SystemScheduledTimeOff-descr-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Desc" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+		<property name="name" value="descr" />
+		<property name="label" value="Description" />
+	</bean>
+
+<!-- Amount of Time -->
+	<bean id="SystemScheduledTimeOff-amountofTime" parent="SystemScheduledTimeOff-amountofTime-parentBean" />
+	<bean id="SystemScheduledTimeOff-amountofTime-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Amount of Time" />
+		<property name="maxLength" value="20" />
+	   	<property name="validationPattern">
+				<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="amountofTime" />
+		<property name="label" value="Amount of Time" />
+	</bean>
+
+<!-- Unused Time -->
+	<bean id="SystemScheduledTimeOff-unusedTime" parent="SystemScheduledTimeOff-unusedTime-parentBean" />
+	<bean id="SystemScheduledTimeOff-unusedTime-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Unused Time" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.UnusedTimeKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="unusedTime" />
+		<property name="label" value="Unused Time" />
+	</bean>
+
+<!-- Transfer Conversion Factor -->
+	<bean id="SystemScheduledTimeOff-transferConversionFactor" parent="SystemScheduledTimeOff-transferConversionFactor-parentBean" />
+	<bean id="SystemScheduledTimeOff-transferConversionFactor-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Transfer Conversion Factor" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="RegexValidationPattern">
+ 		   		<property name="pattern" value="((\+|-)?([0-9]{1,6}(\.[0-9]{1,2})?))()"></property>
+ 		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
+ 			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="transferConversionFactor" />
+		<property name="label" value="Transfer Conversion Factor" />
+	</bean>
+
+<!-- Transfer to Leave Code -->
+	<bean id="SystemScheduledTimeOff-transfertoLeaveCode" parent="SystemScheduledTimeOff-transfertoLeaveCode-parentBean" />
+	<bean id="SystemScheduledTimeOff-transfertoLeaveCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Transfer to Leave Code" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="transfertoLeaveCode" />
+		<property name="label" value="Transfer to Leave Code" />
+	</bean>
+
+<!-- ExpirationDate -->
+	<bean id="SystemScheduledTimeOff-expirationDate" parent="SystemScheduledTimeOff-expirationDate-parentBean" />
+	<bean id="SystemScheduledTimeOff-expirationDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Expiration Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="expirationDate" />
+		<property name="label" value="Expiration Date" />
+	</bean>
+
+
+    <!-- Premium Holiday -->
+	<bean id="SystemScheduledTimeOff-premiumHoliday" parent="SystemScheduledTimeOff-premiumHoliday-parentBean" />
+	<bean id="SystemScheduledTimeOff-premiumHoliday-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Premium Holiday" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="premiumHoliday" />
+		<property name="label" value="Premium Holiday" />
+	</bean>
+
+	<!-- effectiveDate -->
+	<bean id="SystemScheduledTimeOff-effectiveDate" parent="SystemScheduledTimeOff-effectiveDate-parentBean" />
+	<bean id="SystemScheduledTimeOff-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+	
+	<!-- timeStamp -->
+	<bean id="SystemScheduledTimeOff-timestamp" parent="SystemScheduledTimeOff-timestamp-parentBean" />
+	<bean id="SystemScheduledTimeOff-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+	
+	<!-- history -->
+	<bean id="SystemScheduledTimeOff-history" parent="SystemScheduledTimeOff-history-parentBean" />
+	<bean id="SystemScheduledTimeOff-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
+	
+	<!-- active -->
+	<bean id="SystemScheduledTimeOff-active" parent="SystemScheduledTimeOff-active-parentBean" />
+	<bean id="SystemScheduledTimeOff-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+	</bean>
+
+
+
+	<!--  Inquiry Definitions  -->
+
+	<bean id="SystemScheduledTimeOff-inquiryDefinition" parent="SystemScheduledTimeOff-inquiryDefinition-parentBean" />
+
+	<bean id="SystemScheduledTimeOff-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+							<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+							<bean parent="FieldDefinition" p:attributeName="leaveCode" />
+							<bean parent="FieldDefinition" p:attributeName="accruedDate" />
+							<bean parent="FieldDefinition" p:attributeName="scheduledTimeOffDate" />
+							<bean parent="FieldDefinition" p:attributeName="location" />
+							<bean parent="FieldDefinition" p:attributeName="descr" />
+							<bean parent="FieldDefinition" p:attributeName="amountofTime" />
+							<bean parent="FieldDefinition" p:attributeName="unusedTime" />
+							<bean parent="FieldDefinition" p:attributeName="transferConversionFactor" />
+							<bean parent="FieldDefinition" p:attributeName="transfertoLeaveCode" />
+							<bean parent="FieldDefinition" p:attributeName="expirationDate" />
+							<bean parent="FieldDefinition" p:attributeName="premiumHoliday" />
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="SystemScheduledTimeOff" />
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false"/>
+		<property name="title" value="SystemScheduledTimeOff Inquiry" />
+	</bean>
+
+	<!--  Look up Definitions  -->
+
+
+	<bean id="SystemScheduledTimeOff-lookupDefinition" parent="SystemScheduledTimeOff-lookupDefinition-parentBean" />
+	<bean id="SystemScheduledTimeOff-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupableID" value="systemScheduledTimeOffLookupable"></property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
+				<bean parent="FieldDefinition" p:attributeName="accruedDate" />
+				<bean parent="FieldDefinition" p:attributeName="scheduledTimeOffDate" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+			</list>
+
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
+				<bean parent="FieldDefinition" p:attributeName="accruedDate" />
+				<bean parent="FieldDefinition" p:attributeName="scheduledTimeOffDate" />
+				<bean parent="FieldDefinition" p:attributeName="location" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+			</list>
+		</property>
+		<property name="title" value="SystemScheduledTimeOff Lookup" />
+	</bean>
+
+</beans>

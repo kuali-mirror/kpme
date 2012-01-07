@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="LeavePlan" parent="LeavePlan-parentBean" />
+
+	<bean id="LeavePlan-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.lm.leaveplan.LeavePlan" />
+		<property name="titleAttribute" value="id" />
+		<property name="objectLabel" value="leavePlan" />
+		<property name="inquiryDefinition">
+			<ref bean="LeavePlan-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="LeavePlan-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="LeavePlan-leavePlan" />
+				<ref bean="LeavePlan-descr" />
+				<ref bean="LeavePlan-calendarYearStart" />
+				<ref bean="LeavePlan-effectiveDate" />
+				<ref bean="LeavePlan-timestamp" />
+				<ref bean="LeavePlan-history" />
+				<ref bean="LeavePlan-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- leavePlan -->
+	<bean id="LeavePlan-leavePlan" parent="LeavePlan-leavePlan-parentBean" />
+	<bean id="LeavePlan-leavePlan-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Leave Plan" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="leavePlan" />
+		<property name="label" value="Leave Plan" />
+	</bean>
+	
+	<!-- description -->
+	<bean id="LeavePlan-descr" parent="LeavePlan-descr-parentBean" />
+	<bean id="LeavePlan-descr-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Desc" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+		<property name="name" value="descr" />
+		<property name="label" value="Description" />
+	</bean>
+	
+	<!-- calendarYearStart -->
+	<bean id="LeavePlan-calendarYearStart" parent="LeavePlan-calendarYearStart-parentBean" />
+	<bean id="LeavePlan-calendarYearStart-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Calendar Year Start (MM/DD)" />
+		<property name="maxLength" value="5" />
+		<property name="validationPattern">
+			 		<bean parent="RegexValidationPattern">
+ 		   <property name="pattern" value="(0[1-9]|1[0-2])\/(0[1-9]|[1-2]\d|3[01])()"></property>
+ 		   <property name="validationErrorMessageKey" value="error.calendar.year.start"></property>
+ 		</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+		<property name="name" value="calendarYearStart" />
+		<property name="label" value="Calendar Year Start (MM/DD)" />
+	</bean>
+
+	<!-- effectiveDate -->
+	<bean id="LeavePlan-effectiveDate" parent="LeavePlan-effectiveDate-parentBean" />
+	<bean id="LeavePlan-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+	
+	<!-- timeStamp -->
+	<bean id="LeavePlan-timestamp" parent="LeavePlan-timestamp-parentBean" />
+	<bean id="LeavePlan-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+	
+	<!-- history -->
+	<bean id="LeavePlan-history" parent="LeavePlan-history-parentBean" />
+	<bean id="LeavePlan-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
+	
+	<!-- active -->
+	<bean id="LeavePlan-active" parent="LeavePlan-active-parentBean" />
+	<bean id="LeavePlan-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+	</bean>
+
+
+	
+	<!--  Inquiry Definitions  -->
+  
+  	<bean id="LeavePlan-inquiryDefinition" parent="LeavePlan-inquiryDefinition-parentBean" />
+
+	<bean id="LeavePlan-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+							<bean parent="FieldDefinition" p:attributeName="calendarYearStart" />
+							<bean parent="FieldDefinition" p:attributeName="descr" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="LeavePlan" />
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false"/>
+		<property name="title" value="LeavePlan Inquiry" />
+	</bean>
+
+	<!--  Look up Definitions  -->
+
+	<bean id="LeavePlan-lookupDefinition" parent="LeavePlan-lookupDefinition-parentBean" />
+	<bean id="LeavePlan-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupableID" value="leavePlanLookupable"></property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+				<bean parent="FieldDefinition" p:attributeName="calendarYearStart" />
+				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+				<bean parent="FieldDefinition" p:attributeName="calendarYearStart" />
+				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="title" value="Leave Plan Lookup" />
+	</bean>
+
+</beans>

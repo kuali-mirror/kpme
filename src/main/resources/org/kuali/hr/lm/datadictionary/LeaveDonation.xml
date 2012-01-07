@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="LeaveDonation" parent="LeaveDonation-parentBean" />
+
+	<bean id="LeaveDonation-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.lm.leavedonation.LeaveDonation" />
+		<property name="titleAttribute" value="id" />
+		<property name="objectLabel" value="leaveDonation" />
+		<property name="inquiryDefinition">
+			<ref bean="LeaveDonation-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="LeaveDonation-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="LeaveDonation-donatedAccrualCategory" />
+				<ref bean="LeaveDonation-recipientsAccrualCategory" />
+				<ref bean="LeaveDonation-amountDonated" />
+				<ref bean="LeaveDonation-amountReceived" />
+				<ref bean="LeaveDonation-donorsPrincipalID" />
+				<ref bean="LeaveDonation-recipientsPrincipalID" />
+				<ref bean="LeaveDonation-description" />
+				<ref bean="LeaveDonation-effectiveDate" />
+				<ref bean="LeaveDonation-timestamp" />
+				<ref bean="LeaveDonation-history" />
+				<ref bean="LeaveDonation-active" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="personObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="donorsPrincipalID"
+								p:targetName="principalId" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="personObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="recipientsPrincipalID"
+								p:targetName="principalId" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="accrualCategoryObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="donatedAccrualCategory"
+								p:targetName="accrualCategory" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="accrualCategoryObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="recipientsAccrualCategory"
+								p:targetName="accrualCategory" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- leaveDonation -->
+	<bean id="LeaveDonation-leaveDonation" parent="LeaveDonation-leaveDonation-parentBean" />
+	<bean id="LeaveDonation-leaveDonation-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Leave Plan" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="leaveDonation" />
+		<property name="label" value="Leave Plan" />
+	</bean>
+	
+	<!-- donatedAccrualCategory	 -->
+	<bean id="LeaveDonation-donatedAccrualCategory" parent="LeaveDonation-donatedAccrualCategory-parentBean" />
+	<bean id="LeaveDonation-donatedAccrualCategory-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Donated Accrual Category" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="donatedAccrualCategory" />
+		<property name="label" value="Donated Accrual Category" />
+	</bean>
+	
+	<!-- recipientsAccrualCategory -->
+	<bean id="LeaveDonation-recipientsAccrualCategory" parent="LeaveDonation-recipientsAccrualCategory-parentBean" />
+	<bean id="LeaveDonation-recipientsAccrualCategory-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Recipients Accrual Category" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="recipientsAccrualCategory" />
+		<property name="label" value="Recipients Accrual Category" />
+	</bean>
+	
+	<!-- amountDonated -->
+	<bean id="LeaveDonation-amountDonated" parent="LeaveDonation-amountDonated-parentBean" />
+	<bean id="LeaveDonation-amountDonated-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Amount Donated" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="RegexValidationPattern">
+ 		   		<property name="pattern" value="((\+|-)?([0-9]{1,9}(\.[0-9]{1,2})?))()"></property>
+ 		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
+ 			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="amountDonated" />
+		<property name="label" value="Amount Donated" />
+	</bean>
+	
+	<!-- amountReceived -->
+	<bean id="LeaveDonation-amountReceived" parent="LeaveDonation-amountReceived-parentBean" />
+	<bean id="LeaveDonation-amountReceived-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Amount Received" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="RegexValidationPattern">
+ 		   		<property name="pattern" value="((\+|-)?([0-9]{1,9}(\.[0-9]{1,2})?))()"></property>
+ 		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
+ 			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="amountReceived" />
+		<property name="label" value="Amount Received" />
+	</bean>
+	
+	<!-- donorsPrincipalID -->
+	<bean id="LeaveDonation-donorsPrincipalID" parent="LeaveDonation-donorsPrincipalID-parentBean" />
+	<bean id="LeaveDonation-donorsPrincipalID-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Donor's PrincipalID" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="donorsPrincipalID" />
+		<property name="label" value="Donor's PrincipalID" />
+	</bean>
+	
+	<!-- recipientsPrincipalID -->
+	<bean id="LeaveDonation-recipientsPrincipalID" parent="LeaveDonation-recipientsPrincipalID-parentBean" />
+	<bean id="LeaveDonation-recipientsPrincipalID-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Recipient's PrincipalID" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="recipientsPrincipalID" />
+		<property name="label" value="Recipient's PrincipalID" />
+	</bean>
+	
+	<!-- description -->
+	<bean id="LeaveDonation-description" parent="LeaveDonation-description-parentBean" />
+	<bean id="LeaveDonation-description-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+		<property name="name" value="description" />
+		<property name="label" value="Description" />
+	</bean>
+	
+	<!-- effectiveDate -->
+	<bean id="LeaveDonation-effectiveDate" parent="LeaveDonation-effectiveDate-parentBean" />
+	<bean id="LeaveDonation-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+	
+	<!-- timeStamp -->
+	<bean id="LeaveDonation-timestamp" parent="LeaveDonation-timestamp-parentBean" />
+	<bean id="LeaveDonation-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+	
+	<!-- history -->
+	<bean id="LeaveDonation-history" parent="LeaveDonation-history-parentBean" />
+	<bean id="LeaveDonation-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
+	
+	<!-- active -->
+	<bean id="LeaveDonation-active" parent="LeaveDonation-active-parentBean" />
+	<bean id="LeaveDonation-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+	</bean>
+
+
+	
+	<!--  Inquiry Definitions  -->
+  
+  	<bean id="LeaveDonation-inquiryDefinition" parent="LeaveDonation-inquiryDefinition-parentBean" />
+
+	<bean id="LeaveDonation-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="donorsPrincipalID" />
+							<bean parent="FieldDefinition" p:attributeName="donatedAccrualCategory" />
+							<bean parent="FieldDefinition" p:attributeName="amountDonated" />
+							<bean parent="FieldDefinition" p:attributeName="recipientsPrincipalID" />
+							<bean parent="FieldDefinition" p:attributeName="recipientsAccrualCategory" />
+							<bean parent="FieldDefinition" p:attributeName="amountReceived" />
+							<bean parent="FieldDefinition" p:attributeName="description" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="LeaveDonation" />
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false"/>
+		<property name="title" value="LeaveDonation Inquiry" />
+	</bean>
+
+	<!--  Look up Definitions  -->
+
+	<bean id="LeaveDonation-lookupDefinition" parent="LeaveDonation-lookupDefinition-parentBean" />
+	<bean id="LeaveDonation-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupableID" value="leaveDonationLookupable"></property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="donorsPrincipalID" />
+				<bean parent="FieldDefinition" p:attributeName="donatedAccrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="amountDonated" />
+				<bean parent="FieldDefinition" p:attributeName="recipientsPrincipalID" />
+				<bean parent="FieldDefinition" p:attributeName="recipientsAccrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="amountReceived" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="donorsPrincipalID" />
+				<bean parent="FieldDefinition" p:attributeName="donatedAccrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="amountDonated" />
+				<bean parent="FieldDefinition" p:attributeName="recipientsPrincipalID" />
+				<bean parent="FieldDefinition" p:attributeName="recipientsAccrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="amountReceived" />
+				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
+			</list>
+		</property>
+		<property name="title" value="Leave Donation Lookup" />
+	</bean>
+
+</beans>

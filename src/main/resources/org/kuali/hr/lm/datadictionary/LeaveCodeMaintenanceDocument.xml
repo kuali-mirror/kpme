@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="LeaveCodeMaintenanceDocument" parent="LeaveCodeMaintenanceDocument-parentBean"/>
+
+  <bean id="LeaveCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+  		p:businessObjectClass="org.kuali.hr.lm.leavecode.LeaveCode"
+  		p:businessRulesClass="org.kuali.hr.lm.leavecode.validation.LeaveCodeValidation"
+  		p:maintainableClass="org.kuali.hr.lm.leavecode.service.LeaveCodeMaintainableServiceImpl"
+  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
+    <property name="maintainableSections">
+      <list>
+        <ref bean="LeaveCodeMaintenanceDocument-LeaveCodeMaintenance"/>
+      </list>
+    </property>
+    <property name="documentTypeName" value="LeaveCodeDocumentType"/>
+  </bean>
+
+  <!-- Maintenance Section Definitions -->
+
+  <bean id="LeaveCodeMaintenanceDocument-LeaveCodeMaintenance" parent="LeaveCodeMaintenanceDocument-LeaveCodeMaintenance-parentBean"/>
+
+  <bean id="LeaveCodeMaintenanceDocument-LeaveCodeMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Leave Plan Maintenance"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="eligibleForAccrual" p:defaultValue="Y" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="accrualCategory" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="earnCode" />
+		<bean parent="MaintainableFieldDefinition" p:name="leaveCode" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="displayName" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="unitOfTime" p:defaultValue="H" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="fractionalTimeAllowed" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="roundingOption" p:defaultValue="T" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="allowScheduledLeave" p:defaultValue="Y" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="fmla" p:defaultValue="N" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="workmansComp" p:defaultValue="N" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="defaultAmountofTime" />
+		<bean parent="MaintainableFieldDefinition" p:name="employee" />
+		<bean parent="MaintainableFieldDefinition" p:name="approver" />
+		<bean parent="MaintainableFieldDefinition" p:name="departmentAdmin" />
+      	<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
+      </list>
+    </property>
+  </bean>
+
+</beans>
