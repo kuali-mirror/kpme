@@ -656,7 +656,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql);
 		List<String> pyGroups = new LinkedList<String>();
 		while (rs.next()) {
-			pyGroups.add(rs.getString("py_calendar_group"));
+			pyGroups.add(rs.getString("pay_calendar"));
 		}
 
 		return pyGroups;
@@ -775,7 +775,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				+ " FROM"
 				+ "  	 HR_PRINCIPAL_CALENDAR_T "
 				+ " WHERE "
-				+ " 	PY_CALENDAR_GROUP = ? AND "
+				+ " 	PAY_CALENDAR = ? AND "
 				+ " 	PRINCIPAL_ID IN ( "
 				+ " 		SELECT "
 				+ "    		DISTINCT A0.PRINCIPAL_ID "
