@@ -638,7 +638,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 	// private static final String UNIQUE_PY_GROUP_SQL =
 	// "select distinct py_calendar_group from hr_py_calendar_t where active = 'Y'";
-	private static final String UNIQUE_PY_GROUP_SQL = "SELECT DISTINCT P.py_calendar_group FROM tk_work_area_t W, hr_principal_calendar_t P WHERE P.active = 'Y' AND ";
+	private static final String UNIQUE_PY_GROUP_SQL = "SELECT DISTINCT P.pay_calendar FROM tk_work_area_t W, hr_principal_attributes_t P WHERE P.active = 'Y' AND ";
 
 	@Override
 	public List<String> getUniquePayGroups(Set<Long> approverWorkAreas) {
@@ -719,7 +719,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return principalIds;
 	}
 
-	private static final String GET_PRINCIPAL_ID_SQL_PRE = "SELECT DISTINCT P.principal_id FROM hr_principal_calendar_t P, tk_assignment_t T WHERE P.py_calendar_group = ? AND P.principal_id in ("
+	private static final String GET_PRINCIPAL_ID_SQL_PRE = "SELECT DISTINCT P.principal_id FROM hr_principal_attributes_t P, tk_assignment_t T WHERE P.pay_calendar = ? AND P.principal_id in ("
 			+ "SELECT DISTINCT A0.principal_id "
 			+ "FROM tk_assignment_t A0 "
 			+ "WHERE (((A0.effdt = "
