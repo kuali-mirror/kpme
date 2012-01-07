@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="TaskMaintenanceDocument" parent="TaskMaintenanceDocument-parentBean" />
+
+	<bean id="TaskMaintenanceDocument-parentBean" abstract="true"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.task.Task"
+		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"
+		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
+		<property name="maintainableSections">
+			<list>
+				<ref bean="TaskMaintenanceDocument-TaskMaintenance" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>tkTaskId</value>
+			</list>
+		</property>
+		<property name="documentTypeName" value="TaskDocumentType" />
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+
+	<bean id="TaskMaintenanceDocument-TaskMaintenance" parent="TaskMaintenanceDocument-TaskMaintenance-parentBean" />
+
+	<bean id="TaskMaintenanceDocument-TaskMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="title" value="Work Area Maintenance" />
+		<property name="maintainableItems">
+			<list>
+			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"  p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="tkTaskId" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="administrativeDescription" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="tkWorkAreaId" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="active"  p:defaultValue="true" p:required="true"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>

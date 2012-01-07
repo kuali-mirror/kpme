@@ -1,0 +1,1 @@
+alter table tk_missed_punch_doc_t modify column tk_clock_log_id varchar(60) DEFAULT NULL;

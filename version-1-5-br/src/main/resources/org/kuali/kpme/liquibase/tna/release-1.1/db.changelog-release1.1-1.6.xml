@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="lfox" id="1">
+        <addColumn tableName="hr_roles_t">
+            <column name="tk_work_area_id" type="VARCHAR(60)" />
+        </addColumn>
+    </changeSet>
+    <changeSet author="lfox" id="2">
+        <addColumn tableName="tk_assign_acct_t">
+            <column name="active" type="VARCHAR(1)" />
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

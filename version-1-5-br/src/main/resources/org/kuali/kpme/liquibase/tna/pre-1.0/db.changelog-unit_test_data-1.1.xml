@@ -1,0 +1,2913 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-1">
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="1"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-08-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-08-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="2"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-08-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-09-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="3"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-09-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-09-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="4"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-09-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-10-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="5"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-10-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-10-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="8"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-10-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-11-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="9"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-11-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-11-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="10"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-11-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-12-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="11"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-01-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-01-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="12"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-01-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-02-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="13"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-02-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-02-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="14"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-02-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-03-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="15"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-03-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-03-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="16"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-03-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-04-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="17"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-04-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-04-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="18"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-04-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-05-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="19"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-05-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-05-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="20"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-05-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-06-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="21"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-06-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-06-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="22"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-06-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-07-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="23"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-07-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-07-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="24"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-07-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-08-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="25"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-12-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-12-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="26"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2010-12-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-01-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="27"/>
+            <column name="tk_py_calendar_id" valueNumeric="1"/>
+            <column name="calendar_group" value="BW-CAL"/>
+            <column name="begin_period_date" valueDate="2010-01-01T12:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-01-16T12:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="28"/>
+            <column name="tk_py_calendar_id" valueNumeric="1"/>
+            <column name="calendar_group" value="BW-CAL"/>
+            <column name="begin_period_date" valueDate="2010-01-16T12:00:00.0"/>
+            <column name="end_period_date" valueDate="2010-02-01T12:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="29"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-01-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-01-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="30"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-01-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-02-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="31"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-02-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-02-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="32"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-02-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-03-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="33"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-03-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-03-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="34"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-03-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-04-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="35"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-04-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-04-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="36"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-04-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-05-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="37"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-05-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-05-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="38"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-05-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-06-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="39"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-06-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-06-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="40"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-06-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-07-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="41"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-07-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-07-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="42"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-07-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-08-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="43"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-08-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-08-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="44"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-08-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-09-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="45"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-09-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-09-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="46"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-09-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-10-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="47"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-10-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-10-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="48"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-10-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-11-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="49"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-11-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-11-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="50"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-11-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-12-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="51"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-12-01T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2011-12-15T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+        <insert tableName="tk_py_calendar_entries_t">
+            <column name="tk_py_calendar_entry_id" valueNumeric="52"/>
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="begin_period_date" valueDate="2011-12-15T00:00:00.0"/>
+            <column name="end_period_date" valueDate="2012-01-01T00:00:00.0"/>
+            <column name="initiate_date"/>
+            <column name="initiate_time"/>
+            <column name="end_pay_period_date"/>
+            <column name="end_pay_period_time"/>
+            <column name="employee_approval_date"/>
+            <column name="employee_approval_time"/>
+            <column name="supervisor_approval_date"/>
+            <column name="supervisor_approval_time"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-2">
+        <insert tableName="tk_py_calendar_entries_s">
+            <column name="ID" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-3">
+        <insert tableName="tk_holiday_calendar_t">
+            <column name="HOLIDAY_CALENDAR_ID" valueNumeric="1"/>
+            <column name="HOLIDAY_CALENDAR_GROUP" value="REG"/>
+            <column name="DESCR" value="Regular"/>
+            <column name="location"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-4">
+        <insert tableName="tk_sal_group_t">
+            <column name="TK_SAL_GROUP_ID" valueNumeric="1"/>
+            <column name="TK_SAL_GROUP" value="SD1"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T01:01:01.0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="descr"/>
+        </insert>
+        <insert tableName="tk_sal_group_t">
+            <column name="TK_SAL_GROUP_ID" valueNumeric="10"/>
+            <column name="TK_SAL_GROUP" value="A10"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="descr"/>
+        </insert>
+        <insert tableName="tk_sal_group_t">
+            <column name="TK_SAL_GROUP_ID" valueNumeric="11"/>
+            <column name="TK_SAL_GROUP" value="S10"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="descr"/>
+        </insert>
+        <insert tableName="tk_sal_group_t">
+            <column name="TK_SAL_GROUP_ID" valueNumeric="12"/>
+            <column name="TK_SAL_GROUP" value="A12"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="descr"/>
+        </insert>
+        <insert tableName="tk_sal_group_t">
+            <column name="TK_SAL_GROUP_ID" valueNumeric="13"/>
+            <column name="TK_SAL_GROUP" value="S12"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="descr"/>
+        </insert>
+        <insert tableName="tk_sal_group_t">
+            <column name="TK_SAL_GROUP_ID" valueNumeric="14"/>
+            <column name="TK_SAL_GROUP" value="NOP"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="descr"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-5">
+        <insert tableName="tk_sal_group_s">
+            <column name="id" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-6">
+        <insert tableName="hr_work_schedule_entry_s">
+            <column name="ID" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-7">
+        <insert tableName="tk_principal_calendar_t">
+            <column name="principal_id" value="admin"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="holiday_calendar_group" value="HOL"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="TIMESTAMP" valueDate="2011-03-01T11:45:56.0"/>
+            <column name="OBJ_ID" value="6113aa9c-4423-11e0-a509-124832221506"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_principal_calendar_t">
+            <column name="principal_id" value="eric"/>
+            <column name="calendar_group" value="BW-CAL1"/>
+            <column name="holiday_calendar_group" value="HOL"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="TIMESTAMP" valueDate="2011-03-01T11:45:56.0"/>
+            <column name="OBJ_ID" value="6113c900-4423-11e0-a509-124832221506"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-8">
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="1"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="tk_sal_group" value="SD1"/>
+            <column name="earn_code" value="RGH"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="2"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="tk_sal_group" value="SD1"/>
+            <column name="earn_code" value="RGN"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="3"/>
+            <column name="dept" value="INVALID"/>
+            <column name="tk_sal_group" value="INVALID"/>
+            <column name="earn_code" value="INV"/>
+            <column name="employee" value="0"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="0"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="10"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="tk_sal_group" value="A10"/>
+            <column name="earn_code" value="RGH"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="11"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="tk_sal_group" value="A10"/>
+            <column name="earn_code" value="SCK"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="12"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="tk_sal_group" value="A10"/>
+            <column name="earn_code" value="VAC"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="13"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="tk_sal_group" value="A10"/>
+            <column name="earn_code" value="WEP"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="14"/>
+            <column name="dept" value="TEST-DEPT2"/>
+            <column name="tk_sal_group" value="A10"/>
+            <column name="earn_code" value="HAZ"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="15"/>
+            <column name="dept" value="TEST-DEPT2"/>
+            <column name="tk_sal_group" value="A10"/>
+            <column name="earn_code" value="HIP"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="16"/>
+            <column name="dept" value="TEST-DEPT2"/>
+            <column name="tk_sal_group" value="A10"/>
+            <column name="earn_code" value="OC1"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="17"/>
+            <column name="dept" value="TEST-DEPT2"/>
+            <column name="tk_sal_group" value="A10"/>
+            <column name="earn_code" value="OC2"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="18"/>
+            <column name="dept" value="%"/>
+            <column name="tk_sal_group" value="A10"/>
+            <column name="earn_code" value="XYZ"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="19"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="tk_sal_group" value="%"/>
+            <column name="earn_code" value="XYY"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="20"/>
+            <column name="dept" value="%"/>
+            <column name="tk_sal_group" value="%"/>
+            <column name="earn_code" value="XZZ"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="21"/>
+            <column name="dept" value="LORA-DEPT"/>
+            <column name="tk_sal_group" value="A10"/>
+            <column name="earn_code" value="RGH"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="22"/>
+            <column name="dept" value="LORA-DEPT"/>
+            <column name="tk_sal_group" value="A10"/>
+            <column name="earn_code" value="SCK"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+        <insert tableName="tk_dept_earn_code_t">
+            <column name="tk_dept_earn_code_id" valueNumeric="23"/>
+            <column name="dept" value="LORA-DEPT"/>
+            <column name="tk_sal_group" value="A10"/>
+            <column name="earn_code" value="VAC"/>
+            <column name="employee" value="1"/>
+            <column name="approver" value="1"/>
+            <column name="org_admin" value="1"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="location"/>
+            <column name="active" value="Y"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-9">
+        <insert tableName="tk_dept_earn_code_s">
+            <column name="id" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-10">
+        <insert tableName="krns_nte_typ_t">
+            <column name="NTE_TYP_CD" value="BO"/>
+            <column name="OBJ_ID" value="53680C68F5A9AD9BE0404F8189D80A6C"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="TYP_DESC_TXT" value="DOCUMENT BUSINESS OBJECT"/>
+            <column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="krns_nte_typ_t">
+            <column name="NTE_TYP_CD" value="DH"/>
+            <column name="OBJ_ID" value="53680C68F5AAAD9BE0404F8189D80A6C"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="TYP_DESC_TXT" value="DOCUMENT HEADER"/>
+            <column name="ACTV_IND" value="Y"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-11">
+        <insert tableName="tk_work_area_t">
+            <column name="TK_WORK_AREA_ID" valueNumeric="1"/>
+            <column name="work_area" valueNumeric="30"/>
+            <column name="DEPT" value="TEST-DEPT"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="DESCR" value="SDR1 Work Area"/>
+            <column name="DEFAULT_OVERTIME_EARNCODE"/>
+            <column name="ADMIN_DESCR" value="work area admin description"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="OVERTIME_EDIT_ROLE" value=""/>
+        </insert>
+        <insert tableName="tk_work_area_t">
+            <column name="TK_WORK_AREA_ID" valueNumeric="104"/>
+            <column name="work_area" valueNumeric="1000"/>
+            <column name="DEPT" value="LORA-DEPT"/>
+            <column name="EFFDT" valueDate="2010-01-05"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="DESCR" value="loras work area"/>
+            <column name="DEFAULT_OVERTIME_EARNCODE" value="OT1"/>
+            <column name="ADMIN_DESCR" value="work area admin description2"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="OVERTIME_EDIT_ROLE" value=""/>
+        </insert>
+        <insert tableName="tk_work_area_t">
+            <column name="TK_WORK_AREA_ID" valueNumeric="105"/>
+            <column name="work_area" valueNumeric="1100"/>
+            <column name="DEPT" value="SHFT-DEPT"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="DESCR" value="shift-workarea"/>
+            <column name="DEFAULT_OVERTIME_EARNCODE" value="OT1"/>
+            <column name="ADMIN_DESCR" value="work area admin description2"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="OVERTIME_EDIT_ROLE" value=""/>
+        </insert>
+        <insert tableName="tk_work_area_t">
+            <column name="TK_WORK_AREA_ID" valueNumeric="100"/>
+            <column name="work_area" valueNumeric="1234"/>
+            <column name="DEPT" value="TEST-DEPT"/>
+            <column name="EFFDT" valueDate="2010-01-05"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="DESCR" value="work area description"/>
+            <column name="DEFAULT_OVERTIME_EARNCODE" value="OT1"/>
+            <column name="ADMIN_DESCR" value="work area admin description"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="OVERTIME_EDIT_ROLE" value=""/>
+        </insert>
+        <insert tableName="tk_work_area_t">
+            <column name="TK_WORK_AREA_ID" valueNumeric="101"/>
+            <column name="work_area" valueNumeric="2345"/>
+            <column name="DEPT" value="TEST-DEPT2"/>
+            <column name="EFFDT" valueDate="2010-01-05"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="DESCR" value="work area description2"/>
+            <column name="DEFAULT_OVERTIME_EARNCODE" value="OT1"/>
+            <column name="ADMIN_DESCR" value="work area admin description2"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="OVERTIME_EDIT_ROLE" value=""/>
+        </insert>
+        <insert tableName="tk_work_area_t">
+            <column name="TK_WORK_AREA_ID" valueNumeric="102"/>
+            <column name="work_area" valueNumeric="3456"/>
+            <column name="DEPT" value="TEST-DEPT3"/>
+            <column name="EFFDT" valueDate="2010-01-05"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="DESCR" value="work area description3"/>
+            <column name="DEFAULT_OVERTIME_EARNCODE" value="OT1"/>
+            <column name="ADMIN_DESCR" value="work area admin description2"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="OVERTIME_EDIT_ROLE" value=""/>
+        </insert>
+        <insert tableName="tk_work_area_t">
+            <column name="TK_WORK_AREA_ID" valueNumeric="103"/>
+            <column name="work_area" valueNumeric="4567"/>
+            <column name="DEPT" value="TEST-DEPT4"/>
+            <column name="EFFDT" valueDate="2010-01-05"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="DESCR" value="work area description4"/>
+            <column name="DEFAULT_OVERTIME_EARNCODE" value="OT1"/>
+            <column name="ADMIN_DESCR" value="work area admin description2"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="OVERTIME_EDIT_ROLE" value=""/>
+        </insert>
+        <insert tableName="tk_work_area_t">
+            <column name="TK_WORK_AREA_ID" valueNumeric="106"/>
+            <column name="work_area" valueNumeric="5555"/>
+            <column name="DEPT" value="TEST-DEPT5"/>
+            <column name="EFFDT" valueDate="2010-01-05"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="DESCR" value="work area description5"/>
+            <column name="DEFAULT_OVERTIME_EARNCODE" value="OT1"/>
+            <column name="ADMIN_DESCR" value="work area admin description2"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="OVERTIME_EDIT_ROLE" value=""/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-12">
+        <insert tableName="tk_dept_lunch_rl_t">
+            <column name="TK_DEPT_LUNCH_RL_ID" valueNumeric="1"/>
+            <column name="DEPT" value="INVALID"/>
+            <column name="WORK_AREA" valueNumeric="1234"/>
+            <column name="principal_id" value="admin"/>
+            <column name="job_number" valueNumeric="20"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="REQUIRED_CLOCK_FL" value="TST"/>
+            <column name="MAX_MINS" valueNumeric="30"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="SHIFT_HOURS" valueNumeric="2.0"/>
+            <column name="DEDUCTION_MINS" valueNumeric="30"/>
+        </insert>
+        <insert tableName="tk_dept_lunch_rl_t">
+            <column name="TK_DEPT_LUNCH_RL_ID" valueNumeric="2"/>
+            <column name="DEPT" value="TEST-DEPT"/>
+            <column name="WORK_AREA" valueNumeric="1234"/>
+            <column name="principal_id" value="admin"/>
+            <column name="job_number" valueNumeric="20"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="REQUIRED_CLOCK_FL" value="TST"/>
+            <column name="MAX_MINS" valueNumeric="30"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="SHIFT_HOURS" valueNumeric="2.0"/>
+            <column name="DEDUCTION_MINS" valueNumeric="30"/>
+        </insert>
+        <insert tableName="tk_dept_lunch_rl_t">
+            <column name="TK_DEPT_LUNCH_RL_ID" valueNumeric="3"/>
+            <column name="DEPT" value="TEST-DEPT"/>
+            <column name="WORK_AREA" valueNumeric="9999"/>
+            <column name="principal_id" value="admin"/>
+            <column name="job_number" valueNumeric="20"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="REQUIRED_CLOCK_FL" value="TST"/>
+            <column name="MAX_MINS" valueNumeric="30"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="SHIFT_HOURS" valueNumeric="2.0"/>
+            <column name="DEDUCTION_MINS" valueNumeric="30"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-13">
+        <insert tableName="tk_work_area_s">
+            <column name="ID" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-14">
+        <insert tableName="tk_time_block_s">
+            <column name="ID" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-15">
+        <insert tableName="hr_job_s">
+            <column name="ID" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-16">
+        <insert tableName="hr_job_t">
+            <column name="HR_JOB_ID" valueNumeric="1"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="30"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="TK_SAL_GROUP" value="SD1"/>
+            <column name="PAY_GRADE" value="SD1"/>
+            <column name="TIMESTAMP" valueDate="2010-08-01T16:00:13.0"/>
+            <column name="OBJ_ID" value="A9225D4A-4871-4277-5638-4C7880A57621"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="comp_rate" valueNumeric="0.00"/>
+            <column name="location" value="SD1"/>
+            <column name="std_hours" valueNumeric="40.00"/>
+            <column name="fte"/>
+            <column name="hr_paytype" value="BW"/>
+            <column name="active" value="Y"/>
+            <column name="primary_indicator" value="N"/>
+        </insert>
+        <insert tableName="hr_job_t">
+            <column name="HR_JOB_ID" valueNumeric="12"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="1"/>
+            <column name="EFFDT" valueDate="2010-08-01"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="TK_SAL_GROUP" value="A10"/>
+            <column name="PAY_GRADE"/>
+            <column name="TIMESTAMP" valueDate="2010-08-01T16:00:13.0"/>
+            <column name="OBJ_ID" value="A9225D4A-4871-4277-5638-4C7880A57621"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="comp_rate" valueNumeric="0.00"/>
+            <column name="location" value=""/>
+            <column name="std_hours" valueNumeric="40.00"/>
+            <column name="fte"/>
+            <column name="hr_paytype" value="BW"/>
+            <column name="active" value="Y"/>
+            <column name="primary_indicator" value="N"/>
+        </insert>
+        <insert tableName="hr_job_t">
+            <column name="HR_JOB_ID" valueNumeric="13"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="2"/>
+            <column name="EFFDT" valueDate="2010-08-01"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="TK_SAL_GROUP" value="A12"/>
+            <column name="PAY_GRADE"/>
+            <column name="TIMESTAMP" valueDate="2010-08-10T16:00:13.0"/>
+            <column name="OBJ_ID" value="A9225D4A-4871-4277-5638-4C7880A57621"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="comp_rate" valueNumeric="0.00"/>
+            <column name="location" value=""/>
+            <column name="std_hours" valueNumeric="40.00"/>
+            <column name="fte"/>
+            <column name="hr_paytype" value="BW"/>
+            <column name="active" value="Y"/>
+            <column name="primary_indicator" value="N"/>
+        </insert>
+        <insert tableName="hr_job_t">
+            <column name="HR_JOB_ID" valueNumeric="14"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="2"/>
+            <column name="EFFDT" valueDate="2010-08-11"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="TK_SAL_GROUP" value="A12"/>
+            <column name="PAY_GRADE"/>
+            <column name="TIMESTAMP" valueDate="2010-08-11T16:00:14.0"/>
+            <column name="OBJ_ID" value="A9225D4A-4871-4277-5638-4C7880A57621"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="comp_rate" valueNumeric="0.00"/>
+            <column name="location" value=""/>
+            <column name="std_hours" valueNumeric="40.00"/>
+            <column name="fte"/>
+            <column name="hr_paytype" value="BW"/>
+            <column name="active" value="Y"/>
+            <column name="primary_indicator" value="N"/>
+        </insert>
+        <insert tableName="hr_job_t">
+            <column name="HR_JOB_ID" valueNumeric="16"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="2"/>
+            <column name="EFFDT" valueDate="2010-08-12"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="TK_SAL_GROUP" value="A12"/>
+            <column name="PAY_GRADE"/>
+            <column name="TIMESTAMP" valueDate="2010-08-12T16:00:13.0"/>
+            <column name="OBJ_ID" value="A9225D4A-4871-4277-5638-4C7880A57621"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="comp_rate" valueNumeric="0.00"/>
+            <column name="location" value=""/>
+            <column name="std_hours" valueNumeric="40.00"/>
+            <column name="fte"/>
+            <column name="hr_paytype" value="BW"/>
+            <column name="active" value="Y"/>
+            <column name="primary_indicator" value="N"/>
+        </insert>
+        <insert tableName="hr_job_t">
+            <column name="HR_JOB_ID" valueNumeric="17"/>
+            <column name="PRINCIPAL_ID" value="eric"/>
+            <column name="JOB_NUMBER" valueNumeric="1"/>
+            <column name="EFFDT" valueDate="2010-08-12"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="TK_SAL_GROUP" value="10"/>
+            <column name="PAY_GRADE"/>
+            <column name="TIMESTAMP" valueDate="2010-08-12T16:00:13.0"/>
+            <column name="OBJ_ID" value="A9225D4A-4871-4277-5638-4C7880A57621"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="comp_rate" valueNumeric="0.00"/>
+            <column name="location" value=""/>
+            <column name="std_hours" valueNumeric="40.00"/>
+            <column name="fte"/>
+            <column name="hr_paytype" value="BW"/>
+            <column name="active" value="Y"/>
+            <column name="primary_indicator" value="N"/>
+        </insert>
+        <insert tableName="hr_job_t">
+            <column name="HR_JOB_ID" valueNumeric="18"/>
+            <column name="PRINCIPAL_ID" value="eric"/>
+            <column name="JOB_NUMBER" valueNumeric="1"/>
+            <column name="EFFDT" valueDate="2010-08-12"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="TK_SAL_GROUP" value="10"/>
+            <column name="PAY_GRADE"/>
+            <column name="TIMESTAMP" valueDate="2010-08-12T16:00:13.0"/>
+            <column name="OBJ_ID" value="A9225D4A-4871-4277-5638-4C7880A57621"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="comp_rate" valueNumeric="0.00"/>
+            <column name="location" value=""/>
+            <column name="std_hours" valueNumeric="40.00"/>
+            <column name="fte"/>
+            <column name="hr_paytype" value="BW"/>
+            <column name="active" value="Y"/>
+            <column name="primary_indicator" value="N"/>
+        </insert>
+        <insert tableName="hr_job_t">
+            <column name="HR_JOB_ID" valueNumeric="19"/>
+            <column name="PRINCIPAL_ID" value="eric"/>
+            <column name="JOB_NUMBER" valueNumeric="2"/>
+            <column name="EFFDT" valueDate="2010-08-10"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="TK_SAL_GROUP" value="10"/>
+            <column name="PAY_GRADE"/>
+            <column name="TIMESTAMP" valueDate="2010-08-10T16:22:13.0"/>
+            <column name="OBJ_ID" value="A9225D4A-4871-4277-5638-4C7880A57621"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="comp_rate" valueNumeric="0.00"/>
+            <column name="location" value=""/>
+            <column name="std_hours" valueNumeric="40.00"/>
+            <column name="fte"/>
+            <column name="hr_paytype" value="BW"/>
+            <column name="active" value="Y"/>
+            <column name="primary_indicator" value="N"/>
+        </insert>
+        <insert tableName="hr_job_t">
+            <column name="HR_JOB_ID" valueNumeric="20"/>
+            <column name="PRINCIPAL_ID" value="eric"/>
+            <column name="JOB_NUMBER" valueNumeric="2"/>
+            <column name="EFFDT" valueDate="2010-08-13"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="TK_SAL_GROUP" value="11"/>
+            <column name="PAY_GRADE"/>
+            <column name="TIMESTAMP" valueDate="2010-08-13T16:22:22.0"/>
+            <column name="OBJ_ID" value="A9225D4A-4871-4277-5638-4C7880A57621"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="comp_rate" valueNumeric="0.00"/>
+            <column name="location" value=""/>
+            <column name="std_hours" valueNumeric="40.00"/>
+            <column name="fte"/>
+            <column name="hr_paytype" value="BW"/>
+            <column name="active" value="Y"/>
+            <column name="primary_indicator" value="N"/>
+        </insert>
+        <insert tableName="hr_job_t">
+            <column name="HR_JOB_ID" valueNumeric="21"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="3"/>
+            <column name="EFFDT" valueDate="2010-08-15"/>
+            <column name="dept" value="NODEP"/>
+            <column name="TK_SAL_GROUP" value="NOP"/>
+            <column name="PAY_GRADE"/>
+            <column name="TIMESTAMP" valueDate="2010-08-12T16:00:13.0"/>
+            <column name="OBJ_ID" value="A9225D4A-4871-4277-5638-4C7880A57621"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="comp_rate" valueNumeric="0.00"/>
+            <column name="location" value=""/>
+            <column name="std_hours" valueNumeric="40.00"/>
+            <column name="fte"/>
+            <column name="hr_paytype" value="BW"/>
+            <column name="active" value="Y"/>
+            <column name="primary_indicator" value="N"/>
+        </insert>
+        <insert tableName="hr_job_t">
+            <column name="HR_JOB_ID" valueNumeric="22"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="4"/>
+            <column name="EFFDT" valueDate="2010-08-15"/>
+            <column name="dept" value="NODEP"/>
+            <column name="TK_SAL_GROUP" value="A10"/>
+            <column name="PAY_GRADE"/>
+            <column name="TIMESTAMP" valueDate="2010-08-12T16:00:13.0"/>
+            <column name="OBJ_ID" value="A9225D4A-4871-4277-5638-4C7880A57621"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="comp_rate" valueNumeric="0.00"/>
+            <column name="location" value=""/>
+            <column name="std_hours" valueNumeric="40.00"/>
+            <column name="fte"/>
+            <column name="hr_paytype" value="BW"/>
+            <column name="active" value="Y"/>
+            <column name="primary_indicator" value="N"/>
+        </insert>
+        <insert tableName="hr_job_t">
+            <column name="HR_JOB_ID" valueNumeric="23"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="5"/>
+            <column name="EFFDT" valueDate="2010-08-15"/>
+            <column name="dept" value="LORA-DEPT"/>
+            <column name="TK_SAL_GROUP" value="A10"/>
+            <column name="PAY_GRADE"/>
+            <column name="TIMESTAMP" valueDate="2010-08-12T16:00:13.0"/>
+            <column name="OBJ_ID" value="A9225D4A-4871-4277-5638-4C7880A57621"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="comp_rate" valueNumeric="0.00"/>
+            <column name="location" value=""/>
+            <column name="std_hours" valueNumeric="40.00"/>
+            <column name="fte"/>
+            <column name="hr_paytype" value="BW"/>
+            <column name="active" value="Y"/>
+            <column name="primary_indicator" value="N"/>
+        </insert>
+        <insert tableName="hr_job_t">
+            <column name="HR_JOB_ID" valueNumeric="24"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="6"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="dept" value="SHFT-DEPT"/>
+            <column name="TK_SAL_GROUP" value="A10"/>
+            <column name="PAY_GRADE"/>
+            <column name="TIMESTAMP" valueDate="2010-08-12T16:00:13.0"/>
+            <column name="OBJ_ID" value="A9225D4A-4871-4277-5638-4C7880A57621"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="comp_rate" valueNumeric="0.00"/>
+            <column name="location" value=""/>
+            <column name="std_hours" valueNumeric="40.00"/>
+            <column name="fte"/>
+            <column name="hr_paytype" value="BW"/>
+            <column name="active" value="Y"/>
+            <column name="primary_indicator" value="N"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-17">
+        <insert tableName="tk_task_s">
+            <column name="ID" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-18">
+        <insert tableName="tk_task_t">
+            <column name="tk_task_id" valueNumeric="1"/>
+            <column name="task" valueNumeric="30"/>
+            <column name="work_area" valueNumeric="30"/>
+            <column name="tk_work_area_id" valueNumeric="1"/>
+            <column name="descr" value="SDR1 task"/>
+            <column name="admin_descr" value="admin description 1"/>
+            <column name="obj_id" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="ver_nbr" valueNumeric="1"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2011-03-01T11:45:56.0"/>
+        </insert>
+        <insert tableName="tk_task_t">
+            <column name="tk_task_id" valueNumeric="100"/>
+            <column name="task" valueNumeric="1"/>
+            <column name="work_area" valueNumeric="1234"/>
+            <column name="tk_work_area_id" valueNumeric="100"/>
+            <column name="descr" value="description 1"/>
+            <column name="admin_descr" value="admin description 1"/>
+            <column name="obj_id" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="ver_nbr" valueNumeric="1"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2011-03-01T11:45:56.0"/>
+        </insert>
+        <insert tableName="tk_task_t">
+            <column name="tk_task_id" valueNumeric="101"/>
+            <column name="task" valueNumeric="2"/>
+            <column name="work_area" valueNumeric="1234"/>
+            <column name="tk_work_area_id" valueNumeric="100"/>
+            <column name="descr" value="description 2"/>
+            <column name="admin_descr" value="admin description 2"/>
+            <column name="obj_id" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="ver_nbr" valueNumeric="1"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2011-03-01T11:45:56.0"/>
+        </insert>
+        <insert tableName="tk_task_t">
+            <column name="tk_task_id" valueNumeric="102"/>
+            <column name="task" valueNumeric="3"/>
+            <column name="work_area" valueNumeric="1234"/>
+            <column name="tk_work_area_id" valueNumeric="100"/>
+            <column name="descr" value="description 3"/>
+            <column name="admin_descr" value="admin description 3"/>
+            <column name="obj_id" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="ver_nbr" valueNumeric="1"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2011-03-01T11:45:56.0"/>
+        </insert>
+        <insert tableName="tk_task_t">
+            <column name="tk_task_id" valueNumeric="103"/>
+            <column name="task" valueNumeric="4"/>
+            <column name="work_area" valueNumeric="1000"/>
+            <column name="tk_work_area_id" valueNumeric="104"/>
+            <column name="descr" value="task 4"/>
+            <column name="admin_descr" value="admin description 4"/>
+            <column name="obj_id" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="ver_nbr" valueNumeric="1"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2011-03-01T11:45:56.0"/>
+        </insert>
+        <insert tableName="tk_task_t">
+            <column name="tk_task_id" valueNumeric="104"/>
+            <column name="task" valueNumeric="5"/>
+            <column name="work_area" valueNumeric="1100"/>
+            <column name="tk_work_area_id" valueNumeric="105"/>
+            <column name="descr" value="task 5"/>
+            <column name="admin_descr" value="admin description 4"/>
+            <column name="obj_id" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="ver_nbr" valueNumeric="1"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2011-03-01T11:45:56.0"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-20">
+        <insert tableName="hr_work_schedule_s">
+            <column name="ID" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-21">
+        <insert tableName="qrtz_locks">
+            <column name="LOCK_NAME" value="CALENDAR_ACCESS"/>
+        </insert>
+        <insert tableName="qrtz_locks">
+            <column name="LOCK_NAME" value="JOB_ACCESS"/>
+        </insert>
+        <insert tableName="qrtz_locks">
+            <column name="LOCK_NAME" value="MISFIRE_ACCESS"/>
+        </insert>
+        <insert tableName="qrtz_locks">
+            <column name="LOCK_NAME" value="STATE_ACCESS"/>
+        </insert>
+        <insert tableName="qrtz_locks">
+            <column name="LOCK_NAME" value="TRIGGER_ACCESS"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-22">
+        <insert tableName="tk_assignment_t">
+            <column name="TK_ASSIGNMENT_ID" valueNumeric="1"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="30"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="WORK_AREA" valueNumeric="30"/>
+            <column name="TASK" valueNumeric="30"/>
+            <column name="OBJ_ID" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_assignment_t">
+            <column name="TK_ASSIGNMENT_ID" valueNumeric="2"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="30"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="WORK_AREA" valueNumeric="5555"/>
+            <column name="TASK" valueNumeric="30"/>
+            <column name="OBJ_ID" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_assignment_t">
+            <column name="TK_ASSIGNMENT_ID" valueNumeric="10"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="1"/>
+            <column name="EFFDT" valueDate="2010-08-01"/>
+            <column name="WORK_AREA" valueNumeric="1234"/>
+            <column name="TASK" valueNumeric="1"/>
+            <column name="OBJ_ID" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_assignment_t">
+            <column name="TK_ASSIGNMENT_ID" valueNumeric="11"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="2"/>
+            <column name="EFFDT" valueDate="2010-08-01"/>
+            <column name="WORK_AREA" valueNumeric="1234"/>
+            <column name="TASK" valueNumeric="2"/>
+            <column name="OBJ_ID" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_assignment_t">
+            <column name="TK_ASSIGNMENT_ID" valueNumeric="12"/>
+            <column name="PRINCIPAL_ID" value="eric"/>
+            <column name="JOB_NUMBER" valueNumeric="1"/>
+            <column name="EFFDT" valueDate="2010-08-01"/>
+            <column name="WORK_AREA" valueNumeric="2345"/>
+            <column name="TASK" valueNumeric="1"/>
+            <column name="OBJ_ID" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_assignment_t">
+            <column name="TK_ASSIGNMENT_ID" valueNumeric="13"/>
+            <column name="PRINCIPAL_ID" value="eric"/>
+            <column name="JOB_NUMBER" valueNumeric="2"/>
+            <column name="EFFDT" valueDate="2010-08-01"/>
+            <column name="WORK_AREA" valueNumeric="3456"/>
+            <column name="TASK" valueNumeric="1"/>
+            <column name="OBJ_ID" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_assignment_t">
+            <column name="TK_ASSIGNMENT_ID" valueNumeric="14"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="3"/>
+            <column name="EFFDT" valueDate="2010-08-15"/>
+            <column name="WORK_AREA" valueNumeric="1234"/>
+            <column name="TASK" valueNumeric="1"/>
+            <column name="OBJ_ID" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2010-08-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_assignment_t">
+            <column name="TK_ASSIGNMENT_ID" valueNumeric="15"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="1"/>
+            <column name="EFFDT" valueDate="2010-08-04"/>
+            <column name="WORK_AREA" valueNumeric="1234"/>
+            <column name="TASK" valueNumeric="1"/>
+            <column name="OBJ_ID" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2010-08-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_assignment_t">
+            <column name="TK_ASSIGNMENT_ID" valueNumeric="16"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="4"/>
+            <column name="EFFDT" valueDate="2010-08-15"/>
+            <column name="WORK_AREA" valueNumeric="1234"/>
+            <column name="TASK" valueNumeric="1"/>
+            <column name="OBJ_ID" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2010-08-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_assignment_t">
+            <column name="TK_ASSIGNMENT_ID" valueNumeric="17"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="5"/>
+            <column name="EFFDT" valueDate="2010-08-15"/>
+            <column name="WORK_AREA" valueNumeric="1000"/>
+            <column name="TASK" valueNumeric="4"/>
+            <column name="OBJ_ID" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2010-08-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_assignment_t">
+            <column name="TK_ASSIGNMENT_ID" valueNumeric="18"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="6"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="WORK_AREA" valueNumeric="1100"/>
+            <column name="TASK" valueNumeric="5"/>
+            <column name="OBJ_ID" value="8421CD29-E1F4-4B9A-AE33-F3F4752505CE"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="active" value="Y"/>
+            <column name="timestamp" valueDate="2010-08-27T10:25:13.0"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-23">
+        <insert tableName="tk_assignment_s">
+            <column name="id" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-24">
+        <insert tableName="tk_daily_overtime_rl_s">
+            <column name="id" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-25">
+        <insert tableName="tk_py_calendar_t">
+            <column name="tk_py_calendar_id" valueNumeric="1"/>
+            <column name="calendar_group" value="BWN-CAL"/>
+            <column name="flsa_begin_day" value="Sun"/>
+            <column name="flsa_begin_time" valueDate="00:00:00"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_py_calendar_t">
+            <column name="tk_py_calendar_id" valueNumeric="2"/>
+            <column name="calendar_group" value="BWS-CAL"/>
+            <column name="flsa_begin_day" value="Sun"/>
+            <column name="flsa_begin_time" valueDate="00:00:00"/>
+            <column name="active" value="Y"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-26">
+        <insert tableName="tk_earn_group_s">
+            <column name="id" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-27">
+        <insert tableName="tk_py_calendar_s">
+            <column name="ID" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-28">
+        <insert tableName="tk_earn_group_t">
+            <column name="tk_earn_group_id" valueNumeric="1"/>
+            <column name="earn_group" value="SD1"/>
+            <column name="descr" value="Test SD1"/>
+            <column name="show_summary" value="N"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="OBJ_ID" value=""/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T01:01:01.0"/>
+        </insert>
+        <insert tableName="tk_earn_group_t">
+            <column name="tk_earn_group_id" valueNumeric="2"/>
+            <column name="earn_group" value="SD2"/>
+            <column name="descr" value="Test SD2"/>
+            <column name="show_summary" value="N"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="OBJ_ID" value=""/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T01:01:01.0"/>
+        </insert>
+        <insert tableName="tk_earn_group_t">
+            <column name="tk_earn_group_id" valueNumeric="3"/>
+            <column name="earn_group" value="SD3"/>
+            <column name="descr" value="Test SD3"/>
+            <column name="show_summary" value="N"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="OBJ_ID" value=""/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T01:01:01.0"/>
+        </insert>
+        <insert tableName="tk_earn_group_t">
+            <column name="tk_earn_group_id" valueNumeric="100"/>
+            <column name="earn_group" value="REG"/>
+            <column name="descr" value="Regular"/>
+            <column name="show_summary" value="N"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_earn_group_t">
+            <column name="tk_earn_group_id" valueNumeric="101"/>
+            <column name="earn_group" value="OVT"/>
+            <column name="descr" value="Overtime"/>
+            <column name="show_summary" value="N"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_earn_group_t">
+            <column name="tk_earn_group_id" valueNumeric="102"/>
+            <column name="earn_group" value="TC1"/>
+            <column name="descr" value="Regular"/>
+            <column name="show_summary" value="N"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_earn_group_t">
+            <column name="tk_earn_group_id" valueNumeric="103"/>
+            <column name="earn_group" value="TC2"/>
+            <column name="descr" value="Regular"/>
+            <column name="show_summary" value="N"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+        </insert>
+        <insert tableName="tk_earn_group_t">
+            <column name="tk_earn_group_id" valueNumeric="104"/>
+            <column name="earn_group" value="TC3"/>
+            <column name="descr" value="Regular"/>
+            <column name="show_summary" value="N"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="active" value="Y"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="20"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-29">
+        <insert tableName="tk_system_lunch_rl_t">
+            <column name="TK_SYSTEM_LUNCH_RL_ID" valueNumeric="1"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="TIMESTAMP" valueDate="2011-03-01T11:45:56.0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="SHOW_LUNCH_BUTTON" value="Y"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-30">
+        <insert tableName="tk_clock_log_t">
+            <column name="TK_CLOCK_LOG_ID" valueNumeric="1"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="JOB_NUMBER" valueNumeric="30"/>
+            <column name="WORK_AREA" valueNumeric="9999"/>
+            <column name="TASK" valueNumeric="9999"/>
+            <column name="TK_WORK_AREA_ID" valueNumeric="1"/>
+            <column name="TK_TASK_ID" valueNumeric="1"/>
+            <column name="CLOCK_TS" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="CLOCK_TS_TZ" value="America/Indianapolis"/>
+            <column name="CLOCK_ACTION" value="CO"/>
+            <column name="IP_ADDRESS" value="1.2.3.4"/>
+            <column name="HR_JOB_ID" valueNumeric="1"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-31">
+        <insert tableName="tk_user_pref_t">
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="TIME_ZONE" value="America/Chicago"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-32">
+        <insert tableName="krns_nte_s">
+            <column name="id" valueNumeric="2020"/>
+        </insert>
+        <insert tableName="krns_nte_s">
+            <column name="id" valueNumeric="2021"/>
+        </insert>
+        <insert tableName="krns_nte_s">
+            <column name="id" valueNumeric="2022"/>
+        </insert>
+        <insert tableName="krns_nte_s">
+            <column name="id" valueNumeric="2023"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-33">
+        <insert tableName="tk_document_header_t">
+            <column name="DOCUMENT_ID" value="1"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="PAY_END_DT"/>
+            <column name="DOCUMENT_STATUS" value="I"/>
+            <column name="PAY_BEGIN_DT"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+        </insert>
+        <insert tableName="tk_document_header_t">
+            <column name="DOCUMENT_ID" value="1001"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="PAY_END_DT" valueDate="2011-01-15"/>
+            <column name="DOCUMENT_STATUS" value="I"/>
+            <column name="PAY_BEGIN_DT" valueDate="2010-01-01"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+        </insert>
+        <insert tableName="tk_document_header_t">
+            <column name="DOCUMENT_ID" value="1002"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="PAY_END_DT" valueDate="2011-02-01"/>
+            <column name="DOCUMENT_STATUS" value="I"/>
+            <column name="PAY_BEGIN_DT" valueDate="2011-01-15"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-34">
+        <insert tableName="la_accruals_t">
+            <column name="LA_ACCRUALS_ID" valueNumeric="1"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="ACCRUAL_CATEGORY" value="TEX"/>
+            <column name="EFFDT" valueDate="2010-01-01T00:00:00.0"/>
+            <column name="HOURS_ACCRUED" valueNumeric="0.00"/>
+            <column name="HOURS_TAKEN" valueNumeric="0.00"/>
+            <column name="HOURS_ADJUST" valueNumeric="0.00"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-35">
+        <insert tableName="tk_clock_log_s">
+            <column name="id" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-36">
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="1"/>
+            <column name="principal_id" value="admin"/>
+            <column name="role_name" value="TK_APPROVER"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-08-01T15:10:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="2"/>
+            <column name="principal_id" value="admin"/>
+            <column name="role_name" value="TK_APPROVER"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-10"/>
+            <column name="timestamp" valueDate="2010-08-10T15:10:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="3"/>
+            <column name="principal_id" value="admin"/>
+            <column name="role_name" value="TK_APPROVER"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-20"/>
+            <column name="timestamp" valueDate="2010-08-20T15:10:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="4"/>
+            <column name="principal_id" value="admin"/>
+            <column name="role_name" value="TK_APPROVER"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-20"/>
+            <column name="timestamp" valueDate="2010-08-20T15:11:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="5"/>
+            <column name="principal_id" value="admin"/>
+            <column name="role_name" value="TK_APPROVER"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-20"/>
+            <column name="timestamp" valueDate="2010-08-20T15:12:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="6"/>
+            <column name="principal_id" value="eric"/>
+            <column name="role_name" value="TK_APPROVER"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-08-01T16:10:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="7"/>
+            <column name="principal_id" value="eric"/>
+            <column name="role_name" value="TK_APPROVER"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-10"/>
+            <column name="timestamp" valueDate="2010-08-10T16:10:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="8"/>
+            <column name="principal_id" value="eric"/>
+            <column name="role_name" value="TK_APPROVER"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-20"/>
+            <column name="timestamp" valueDate="2010-08-20T16:10:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="9"/>
+            <column name="principal_id" value="eric"/>
+            <column name="role_name" value="TK_APPROVER"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-20"/>
+            <column name="timestamp" valueDate="2010-08-20T16:11:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="10"/>
+            <column name="principal_id" value="eric"/>
+            <column name="role_name" value="TK_APPROVER"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-20"/>
+            <column name="timestamp" valueDate="2010-08-20T16:12:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="11"/>
+            <column name="principal_id" value="admin"/>
+            <column name="role_name" value="TK_ORG_ADMIN"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-08-01T15:10:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="12"/>
+            <column name="principal_id" value="admin"/>
+            <column name="role_name" value="TK_ORG_ADMIN"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-10"/>
+            <column name="timestamp" valueDate="2010-08-10T15:10:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="13"/>
+            <column name="principal_id" value="admin"/>
+            <column name="role_name" value="TK_ORG_ADMIN"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-20"/>
+            <column name="timestamp" valueDate="2010-08-20T15:10:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="14"/>
+            <column name="principal_id" value="admin"/>
+            <column name="role_name" value="TK_ORG_ADMIN"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-20"/>
+            <column name="timestamp" valueDate="2010-08-20T15:11:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="15"/>
+            <column name="principal_id" value="admin"/>
+            <column name="role_name" value="TK_ORG_ADMIN"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-20"/>
+            <column name="timestamp" valueDate="2010-08-20T15:12:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="16"/>
+            <column name="principal_id" value="eric"/>
+            <column name="role_name" value="TK_ORG_ADMIN"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-01"/>
+            <column name="timestamp" valueDate="2010-08-01T16:10:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="17"/>
+            <column name="principal_id" value="eric"/>
+            <column name="role_name" value="TK_ORG_ADMIN"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-10"/>
+            <column name="timestamp" valueDate="2010-08-10T16:10:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="18"/>
+            <column name="principal_id" value="eric"/>
+            <column name="role_name" value="TK_ORG_ADMIN"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-20"/>
+            <column name="timestamp" valueDate="2010-08-20T16:10:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="19"/>
+            <column name="principal_id" value="eric"/>
+            <column name="role_name" value="TK_ORG_ADMIN"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-20"/>
+            <column name="timestamp" valueDate="2010-08-20T16:11:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="20"/>
+            <column name="principal_id" value="eric"/>
+            <column name="role_name" value="TK_ORG_ADMIN"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-20"/>
+            <column name="timestamp" valueDate="2010-08-20T16:12:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="21"/>
+            <column name="principal_id" value="eric"/>
+            <column name="role_name" value="TK_APPROVER"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-08-20"/>
+            <column name="timestamp" valueDate="2010-08-20T16:13:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="22"/>
+            <column name="principal_id" value="admin"/>
+            <column name="role_name" value="TK_APPROVER"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="1234"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-01-05"/>
+            <column name="timestamp" valueDate="2010-01-05T15:12:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_roles_t">
+            <column name="tk_roles_id" valueNumeric="23"/>
+            <column name="principal_id" value="admin"/>
+            <column name="role_name" value="TK_SYS_ADMIN"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="work_area" valueNumeric="999"/>
+            <column name="dept"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="timestamp" valueDate="2010-01-05T15:12:57.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-37">
+        <insert tableName="tk_roles_s">
+            <column name="id" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-38">
+        <insert tableName="hr_paytype_s">
+            <column name="id" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-39">
+        <insert tableName="hr_paytype_t">
+            <column name="HR_PAYTYPE_ID" valueNumeric="1"/>
+            <column name="PAYTYPE" value="BW"/>
+            <column name="DESCR" value="description"/>
+            <column name="REG_ERN_CODE" value="RGN"/>
+            <column name="EFFDT" valueDate="2010-08-01"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T16:01:07.0"/>
+            <column name="OBJ_ID" value="47326FEA-46E7-7D89-0B13-85DFA45EA8C1"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="ACTIVE" value="Y"/>
+        </insert>
+        <insert tableName="hr_paytype_t">
+            <column name="HR_PAYTYPE_ID" valueNumeric="2"/>
+            <column name="PAYTYPE" value="BW"/>
+            <column name="DESCR" value="description"/>
+            <column name="REG_ERN_CODE" value="RGN"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T16:01:07.0"/>
+            <column name="OBJ_ID" value="47326FEA-46E7-7D89-0B13-85DFA45EA8C1"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="ACTIVE" value="Y"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-40">
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="1"/>
+            <column name="earn_code" value="SDR"/>
+            <column name="descr" value="SHIFT DIFF"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="2"/>
+            <column name="earn_code" value="LUN"/>
+            <column name="descr" value="LUNCH"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="0"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="1"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="9"/>
+            <column name="earn_code" value="RGN"/>
+            <column name="descr" value="REGULAR"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="10"/>
+            <column name="earn_code" value="RGH"/>
+            <column name="descr" value="REGULAR HOURLY"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="11"/>
+            <column name="earn_code" value="SCK"/>
+            <column name="descr" value="SICK"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="12"/>
+            <column name="earn_code" value="VAC"/>
+            <column name="descr" value="VACATION"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="0"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="1"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="13"/>
+            <column name="earn_code" value="WEP"/>
+            <column name="descr" value="EMERGENCY"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="14"/>
+            <column name="earn_code" value="HAZ"/>
+            <column name="descr" value="HAZARD DAY"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="15"/>
+            <column name="earn_code" value="HIP"/>
+            <column name="descr" value="HOLIDAY INCENTIVE"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="16"/>
+            <column name="earn_code" value="OC1"/>
+            <column name="descr" value="ON CALL - 1.50"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="17"/>
+            <column name="earn_code" value="OC2"/>
+            <column name="descr" value="ON CALL - 2.00"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="18"/>
+            <column name="earn_code" value="PRM"/>
+            <column name="descr" value="PREMIUM"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="19"/>
+            <column name="earn_code" value="XYZ"/>
+            <column name="descr" value="XYZ"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="20"/>
+            <column name="earn_code" value="XYY"/>
+            <column name="descr" value="XYY"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="21"/>
+            <column name="earn_code" value="XZZ"/>
+            <column name="descr" value="XZZ"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="22"/>
+            <column name="earn_code" value="OVT"/>
+            <column name="descr" value="Overtime"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="Y"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+        <insert tableName="tk_earn_code_t">
+            <column name="tk_earn_code_id" valueNumeric="23"/>
+            <column name="earn_code" value="ABC"/>
+            <column name="descr" value="ABC"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="ovt_earn_code" value="N"/>
+            <column name="record_time" value="1"/>
+            <column name="record_amount" value="0"/>
+            <column name="record_hours" value="0"/>
+            <column name="ACTIVE" value="Y"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="timestamp" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="inflate_min_hours" valueNumeric="0.00"/>
+            <column name="inflate_factor" valueNumeric="1.00"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-41">
+        <insert tableName="tk_roles_group_t">
+            <column name="principal_id" value="admin"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-42">
+        <insert tableName="tk_earn_code_s">
+            <column name="ID" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-43">
+        <insert tableName="tk_hour_detail_s">
+            <column name="ID" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-44">
+        <insert tableName="qrtz_triggers">
+            <column name="TRIGGER_NAME" value="PeriodicMessageProcessingTrigger"/>
+            <column name="TRIGGER_GROUP" value="KCB-Delivery"/>
+            <column name="JOB_NAME" value="MessageProcessingJobDetail"/>
+            <column name="JOB_GROUP" value="KCB-Delivery"/>
+            <column name="IS_VOLATILE" value="0"/>
+            <column name="DESCRIPTION" value="&#10;                Trigger that periodically runs the KCB message processing job&#10;            "/>
+            <column name="NEXT_FIRE_TIME" valueNumeric="1221578432323"/>
+            <column name="PREV_FIRE_TIME" valueNumeric="1221578402323"/>
+            <column name="PRIORITY" valueNumeric="5"/>
+            <column name="TRIGGER_STATE" value="WAITING"/>
+            <column name="TRIGGER_TYPE" value="BLOB"/>
+            <column name="START_TIME" valueNumeric="1221577052323"/>
+            <column name="END_TIME" valueNumeric="0"/>
+            <column name="CALENDAR_NAME"/>
+            <column name="MISFIRE_INSTR" valueNumeric="0"/>
+            <column name="JOB_DATA"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-45">
+        <insert tableName="tk_earn_group_def_t">
+            <column name="tk_earn_group_id" valueNumeric="1"/>
+            <column name="earn_code" value="REG"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="tk_earn_group_def_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="tk_earn_group_def_t">
+            <column name="tk_earn_group_id" valueNumeric="1"/>
+            <column name="earn_code" value="RGN"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="tk_earn_group_def_id" valueNumeric="2"/>
+        </insert>
+        <insert tableName="tk_earn_group_def_t">
+            <column name="tk_earn_group_id" valueNumeric="2"/>
+            <column name="earn_code" value="ABC"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="tk_earn_group_def_id" valueNumeric="3"/>
+        </insert>
+        <insert tableName="tk_earn_group_def_t">
+            <column name="tk_earn_group_id" valueNumeric="3"/>
+            <column name="earn_code" value="XYZ"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="tk_earn_group_def_id" valueNumeric="4"/>
+        </insert>
+        <insert tableName="tk_earn_group_def_t">
+            <column name="tk_earn_group_id" valueNumeric="100"/>
+            <column name="earn_code" value="REG"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="tk_earn_group_def_id" valueNumeric="100"/>
+        </insert>
+        <insert tableName="tk_earn_group_def_t">
+            <column name="tk_earn_group_id" valueNumeric="100"/>
+            <column name="earn_code" value="RGN"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="tk_earn_group_def_id" valueNumeric="101"/>
+        </insert>
+        <insert tableName="tk_earn_group_def_t">
+            <column name="tk_earn_group_id" valueNumeric="100"/>
+            <column name="earn_code" value="RGH"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="tk_earn_group_def_id" valueNumeric="102"/>
+        </insert>
+        <insert tableName="tk_earn_group_def_t">
+            <column name="tk_earn_group_id" valueNumeric="101"/>
+            <column name="earn_code" value="OVT"/>
+            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="tk_earn_group_def_id" valueNumeric="109"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-46">
+        <insert tableName="tk_earn_group_def_s">
+            <column name="id" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-47">
+        <insert tableName="tk_weekly_ovt_group_t">
+            <column name="TK_WEEKLY_OVERTIME_GROUP_ID" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-48">
+        <insert tableName="tk_time_collection_rl_s">
+            <column name="ID" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-49">
+        <insert tableName="tk_time_collection_rl_t">
+            <column name="TK_TIME_COLL_RULE_ID" valueNumeric="1"/>
+            <column name="DEPT" value="TEST-DEPT"/>
+            <column name="WORK_AREA" valueNumeric="1234"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="CLOCK_USERS_FL" value="1"/>
+            <column name="HRS_DISTRIBUTION_FL" value="1"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="ACTIVE" value="Y"/>
+        </insert>
+        <insert tableName="tk_time_collection_rl_t">
+            <column name="TK_TIME_COLL_RULE_ID" valueNumeric="2"/>
+            <column name="DEPT" value="%"/>
+            <column name="WORK_AREA" valueNumeric="1234"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="CLOCK_USERS_FL" value="1"/>
+            <column name="HRS_DISTRIBUTION_FL" value="1"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="ACTIVE" value="Y"/>
+        </insert>
+        <insert tableName="tk_time_collection_rl_t">
+            <column name="TK_TIME_COLL_RULE_ID" valueNumeric="3"/>
+            <column name="DEPT" value="TEST-DEPT"/>
+            <column name="WORK_AREA" valueNumeric="-1"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="CLOCK_USERS_FL" value="1"/>
+            <column name="HRS_DISTRIBUTION_FL" value="1"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="ACTIVE" value="Y"/>
+        </insert>
+        <insert tableName="tk_time_collection_rl_t">
+            <column name="TK_TIME_COLL_RULE_ID" valueNumeric="4"/>
+            <column name="DEPT" value="%"/>
+            <column name="WORK_AREA" valueNumeric="-1"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="CLOCK_USERS_FL" value="1"/>
+            <column name="HRS_DISTRIBUTION_FL" value="1"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="TIMESTAMP" valueDate="2010-01-01T08:08:08.0"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="ACTIVE" value="Y"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-50">
+        <insert tableName="tk_dept_s">
+            <column name="ID" valueNumeric="1000"/>
+        </insert>
+    </changeSet>
+    <changeSet context="unit_test_data"  author="djunk (generated)" id="1298998013680-51">
+        <insert tableName="tk_dept_t">
+            <column name="tk_dept_id" valueNumeric="100"/>
+            <column name="dept" value="TEST-DEPT"/>
+            <column name="DESCRIPTION" value="test department"/>
+            <column name="ORG" value="TEST"/>
+            <column name="CHART" value="DEPT"/>
+            <column name="effdt" valueDate="2010-01-31"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_dept_t">
+            <column name="tk_dept_id" valueNumeric="101"/>
+            <column name="dept" value="TEST-DEPT1"/>
+            <column name="DESCRIPTION" value="test department1"/>
+            <column name="ORG" value="TEST"/>
+            <column name="CHART" value="DEPT"/>
+            <column name="effdt" valueDate="2010-01-31"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_dept_t">
+            <column name="tk_dept_id" valueNumeric="102"/>
+            <column name="dept" value="TEST-DEPT2"/>
+            <column name="DESCRIPTION" value="test department2"/>
+            <column name="ORG" value="TEST"/>
+            <column name="CHART" value="DEPT"/>
+            <column name="effdt" valueDate="2010-01-31"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_dept_t">
+            <column name="tk_dept_id" valueNumeric="103"/>
+            <column name="dept" value="TEST-DEPT3"/>
+            <column name="DESCRIPTION" value="test department3"/>
+            <column name="ORG" value="TEST"/>
+            <column name="CHART" value="DEPT"/>
+            <column name="effdt" valueDate="2010-01-31"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_dept_t">
+            <column name="tk_dept_id" valueNumeric="104"/>
+            <column name="dept" value="TEST-DEPT4"/>
+            <column name="DESCRIPTION" value="test department4"/>
+            <column name="ORG" value="TEST"/>
+            <column name="CHART" value="DEPT"/>
+            <column name="effdt" valueDate="2010-01-31"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_dept_t">
+            <column name="tk_dept_id" valueNumeric="105"/>
+            <column name="dept" value="TEST-DEPT5"/>
+            <column name="DESCRIPTION" value="test department5"/>
+            <column name="ORG" value="TEST"/>
+            <column name="CHART" value="DEPT"/>
+            <column name="effdt" valueDate="2010-01-31"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_dept_t">
+            <column name="tk_dept_id" valueNumeric="106"/>
+            <column name="dept" value="TEST-DEPT6"/>
+            <column name="DESCRIPTION" value="test department6"/>
+            <column name="ORG" value="TEST"/>
+            <column name="CHART" value="DEPT"/>
+            <column name="effdt" valueDate="2010-01-31"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_dept_t">
+            <column name="tk_dept_id" valueNumeric="107"/>
+            <column name="dept" value="NODEP"/>
+            <column name="DESCRIPTION" value="test department7"/>
+            <column name="ORG" value="NODEP"/>
+            <column name="CHART" value="DEPT"/>
+            <column name="effdt" valueDate="2010-01-31"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_dept_t">
+            <column name="tk_dept_id" valueNumeric="108"/>
+            <column name="dept" value="TEST-DEPT7"/>
+            <column name="DESCRIPTION" value="test department7"/>
+            <column name="ORG" value="TEST"/>
+            <column name="CHART" value="DEPT"/>
+            <column name="effdt" valueDate="2010-01-31"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_dept_t">
+            <column name="tk_dept_id" valueNumeric="109"/>
+            <column name="dept" value="LORA-DEPT"/>
+            <column name="DESCRIPTION" value="loras department"/>
+            <column name="ORG" value="LORA"/>
+            <column name="CHART" value="DEPT"/>
+            <column name="effdt" valueDate="2010-01-31"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+        <insert tableName="tk_dept_t">
+            <column name="tk_dept_id" valueNumeric="110"/>
+            <column name="dept" value="SHFT-DEPT"/>
+            <column name="DESCRIPTION" value="shift department"/>
+            <column name="ORG" value="SHFT"/>
+            <column name="CHART" value="DEPT"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

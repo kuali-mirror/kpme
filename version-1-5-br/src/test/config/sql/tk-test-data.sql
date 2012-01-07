@@ -1,0 +1,1 @@
+update hr_principal_calendar_t set timezone = 'America/Chicago' where principal_id = 'admin';

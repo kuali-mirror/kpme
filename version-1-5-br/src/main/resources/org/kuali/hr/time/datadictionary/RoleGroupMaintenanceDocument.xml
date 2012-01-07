@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="RoleGroupMaintenanceDocument" parent="RoleGroupMaintenanceDocument-parentBean" />
+	<bean id="RoleGroupMaintenanceDocument-parentBean" abstract="true"
+		parent="MaintenanceDocumentEntry"
+            p:businessObjectClass="org.kuali.hr.time.roles.TkRoleGroup"
+            p:maintainableClass="org.kuali.hr.time.roles.TkRoleGroupMaintainableImpl"
+		    p:businessRulesClass="org.kuali.hr.time.roles.validation.TkRoleValidation"
+		    p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer"
+		    p:allowsNewOrCopy="false">
+		<property name="maintainableSections">
+			<list>
+                <ref bean="RoleGroupMaintenanceDocument-RoleGroupMaintenance" />
+				<ref bean="RoleGroupMaintenanceDocument-RolesMaintenance" />
+				<ref bean="RoleGroupMaintenanceDocument-InactiveRoleMaintenance" />
+				<ref bean="RoleGroupMaintenanceDocument-PositionRoleMaintenance" />
+				<ref bean="RoleGroupMaintenanceDocument-InactivePositionRoleMaintenance" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>principalId</value>
+			</list>
+		</property>
+		<property name="documentTypeName" value="RoleGroupMaintenanceDocumentType" />
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+    <bean id="RoleGroupMaintenanceDocument-RoleGroupMaintenance" parent="RoleGroupMaintenanceDocument-RoleGroupMaintenance-parentBean" />
+    <bean id="RoleGroupMaintenanceDocument-RoleGroupMaintenance-parentBean"
+          abstract="true" parent="MaintainableSectionDefinition">
+            <property name="id" value="principalId"/>
+            <property name="title" value="Role Group"/>
+            <property name="defaultOpen" value="true"/>
+          <property name="maintainableItems">
+              <list>
+                  <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
+                  <bean parent="MaintainableFieldDefinition" p:name="userName" p:required="true" />
+                </list>
+          </property>
+      </bean>
+
+	<bean id="RoleGroupMaintenanceDocument-RolesMaintenance" parent="RoleGroupMaintenanceDocument-RolesMaintenance-parentBean" />
+	<bean id="RoleGroupMaintenanceDocument-RolesMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+  		<property name="id" value="principalId"/>
+  		<property name="title" value="Person Roles"/>
+  		<property name="defaultOpen" value="true"/>
+		<property name="maintainableItems">
+			<list>
+  		  	    <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="roles"/>
+                    <property name="businessObjectClass" value="org.kuali.hr.time.roles.TkRole"/>
+                    <property name="alwaysAllowCollectionDeletion" value="false"/>
+                    <property name="maintainableFields">
+                        <list>
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="userName" p:required="false"/>-->
+                            <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="false" p:lookupReadOnly="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="department" p:required="false" p:lookupReadOnly="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="chart" p:required="false" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
+                        </list>
+                  </property>
+                </bean>
+  		    </list>
+		</property>
+	</bean>
+
+<!-- Position roles here -->
+	<bean id="RoleGroupMaintenanceDocument-PositionRoleMaintenance" parent="RoleGroupMaintenanceDocument-PositionRoleMaintenance-parentBean" />
+
+	<bean id="RoleGroupMaintenanceDocument-PositionRoleMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="title" value="Position Roles" />
+		<property name="id" value="positionRoles" />
+		<property name="defaultOpen" value="false" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="name" value="positionRoles"/>
+                    <property name="businessObjectClass" value="org.kuali.hr.time.roles.TkRole"/>
+                    <property name="alwaysAllowCollectionDeletion" value="false"/>
+                    <property name="includeAddLine" value="false" />
+                    <property name="maintainableFields">
+                        <list>
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="userName" p:required="false"/>-->
+                            <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:required="true" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="false" p:lookupReadOnly="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="department" p:required="false" p:lookupReadOnly="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="chart" p:required="false" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
+                        </list>
+                  </property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+<!-- Inactive Position roles here -->
+	<bean id="RoleGroupMaintenanceDocument-InactivePositionRoleMaintenance" parent="RoleGroupMaintenanceDocument-InactivePositionRoleMaintenance-parentBean" />
+
+	<bean id="RoleGroupMaintenanceDocument-InactivePositionRoleMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="title" value="Inactive Position Roles" />
+		<property name="id" value="inactivePositionRoles" />
+		<property name="defaultOpen" value="false" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="name" value="inactivePositionRoles"/>
+                    <property name="businessObjectClass" value="org.kuali.hr.time.roles.TkRole"/>
+                    <property name="alwaysAllowCollectionDeletion" value="false"/>
+                    <property name="includeAddLine" value="false" />
+                    <property name="maintainableFields">
+                        <list>
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="userName" p:required="false"/>-->
+                            <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:required="true" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="false" p:lookupReadOnly="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="department" p:required="false" p:lookupReadOnly="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="chart" p:required="false" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false" />
+                            <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
+                        </list>
+                  </property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+<!-- Inactive roles here -->
+	<bean id="RoleGroupMaintenanceDocument-InactiveRoleMaintenance" parent="RoleGroupMaintenanceDocument-InactiveRoleMaintenance-parentBean" />
+
+	<bean id="RoleGroupMaintenanceDocument-InactiveRoleMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="title" value="Inactive Person Roles" />
+		<property name="id" value="inactiveRoles" />
+		<property name="defaultOpen" value="false" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="name" value="inactiveRoles" />
+					<property name="businessObjectClass" value="org.kuali.hr.time.roles.TkRole" />
+					<property name="alwaysAllowCollectionDeletion" value="false" />
+					<property name="includeAddLine" value="false" />
+					<property name="maintainableFields">
+						<list>
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />-->
+                            <!--<bean parent="MaintainableFieldDefinition" p:name="userName" p:required="false"/>-->
+                            <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="false" p:lookupReadOnly="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="department" p:required="false" p:lookupReadOnly="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="chart" p:required="false" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
+                        </list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

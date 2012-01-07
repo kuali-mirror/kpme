@@ -1,0 +1,190 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<bean id="Position" parent="Position-parentBean" />
+
+	<bean id="Position-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.time.position.Position" />
+		<property name="titleAttribute" value="id" />
+		<property name="objectLabel" value="Position" />
+		<property name="inquiryDefinition">
+			<ref bean="Position-inquiryDefinition" />          
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="Position-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="Position-hrPositionId" />
+				<ref bean="Position-positionNumber" />
+				<ref bean="Position-description" />
+				<ref bean="Position-effectiveDate" />
+				<ref bean="Position-history"/>
+				<ref bean="Position-active" />
+				<ref bean="Position-timestamp" />
+			</list>
+		</property>	 
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="Position-hrPositionId" parent="Position-hrPositionId-parentBean" />
+	<bean id="Position-hrPositionId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Position Id" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
+		<property name="name" value="hrPositionId" />
+		<property name="label" value="Position Id" />
+	</bean>
+
+	<bean id="Position-positionNumber" parent="Position-positionNumber-parentBean" />
+	<bean id="Position-positionNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Position Number" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+		<property name="name" value="positionNumber" />
+		<property name="label" value="Position Number" />
+	</bean>
+
+	<bean id="Position-description" parent="Position-description-parentBean" />
+	<bean id="Position-description-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+		<property name="name" value="description" />
+		<property name="label" value="Description" />
+	</bean>
+
+	<bean id="Position-effectiveDate" parent="Position-effectiveDate-parentBean" />
+	<bean id="Position-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+	
+	
+
+	<bean id="Position-active" parent="Position-active-parentBean" />
+	<bean id="Position-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+	</bean>
+
+	<bean id="Position-timestamp" parent="Position-timestamp-parentBean" />
+	<bean id="Position-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+	
+	<bean id="Position-history" parent="Position-history-parentBean" />
+	
+	<bean id="Position-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>	
+		<!--  Inquiry Definitions  -->
+  
+  	<bean id="Position-inquiryDefinition" parent="Position-inquiryDefinition-parentBean" />
+
+	<bean id="Position-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+							<bean parent="FieldDefinition" p:attributeName="description" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="Position" />
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false"/>
+		<property name="title" value="Position Inquiry" />
+	</bean>
+
+	<!-- Look up Definitions  -->
+
+	<bean id="Position-lookupDefinition" parent="Position-lookupDefinition-parentBean" />
+	<bean id="Position-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupableID" value="positionLookupable"></property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+				<bean parent="FieldDefinition" p:attributeName="active"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="title" value="Position Lookup" />
+	</bean>
+</beans>

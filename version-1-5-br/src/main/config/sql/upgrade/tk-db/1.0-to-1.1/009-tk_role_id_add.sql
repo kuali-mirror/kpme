@@ -1,0 +1,1 @@
+alter table hr_roles_t add column tk_work_area_id varchar(60) NULL;

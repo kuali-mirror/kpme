@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="SystemLaunchRule" parent="SystemLaunchRule-parentBean" />
+
+	<bean id="SystemLaunchRule-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.hr.time.syslunch.rule.SystemLunchRule" />
+		<property name="titleAttribute" value="tkSystemLunchRuleId" />
+		<property name="objectLabel" value="System Lunch Rule" />
+		<property name="inquiryDefinition">
+			<ref bean="SystemLunchRule-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="SystemLunchRule-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="SystemLunchRule-effectiveDate" />
+				<ref bean="SystemLunchRule-showLunchButton" />
+				<ref bean="SystemLunchRule-timeStamp" />
+				<ref bean="SystemLunchRule-history" />
+				<ref bean="SystemLunchRule-active" />
+				<ref bean="SystemLunchRule-userPrincipalId" />
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- Attributes  -->
+
+	<bean id="SystemLunchRule-effectiveDate" parent="SystemLunchRule-effectiveDate-parentBean" />
+	<bean id="SystemLunchRule-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+
+
+	<bean id="SystemLunchRule-showLunchButton" parent="SystemLunchRule-showLunchButton-parentBean" />
+	<bean id="SystemLunchRule-showLunchButton-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show Lunch Button" />
+    	<property name="control">
+      		<bean parent="CheckboxControlDefinition"/>
+    	</property>
+    	<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+		<property name="name" value="showLunchButton" />
+		<property name="label" value="Show Lunch Button" />
+	</bean>
+
+	<bean id="SystemLunchRule-timeStamp" parent="SystemLunchRule-timeStamp-parentBean" />
+	<bean id="SystemLunchRule-timeStamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+<!-- history -->
+	<bean id="SystemLunchRule-history" parent="SystemLunchRule-history-parentBean" />
+	<bean id="SystemLunchRule-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
+
+	<bean id="SystemLunchRule-active" parent="SystemLunchRule-active-parentBean" />
+	<bean id="SystemLunchRule-active-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Active" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+	</bean>
+
+	<bean id="SystemLunchRule-userPrincipalId" parent="SystemLunchRule-userPrincipalId-parentBean" />
+	<bean id="SystemLunchRule-userPrincipalId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="User PrincipalId" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="userPrincipalId" />
+		<property name="label" value="UserPrincipal Id" />
+	</bean>
+
+	<!--  Inquiry Definitions  -->
+  
+  	<bean id="SystemLunchRule-inquiryDefinition" parent="SystemLunchRule-inquiryDefinition-parentBean" />
+
+	<bean id="SystemLunchRule-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="showLunchButton" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="SystemLunchRule" />
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false"/>
+		<property name="title" value="SystemLunchRule Inquiry" />
+	</bean>
+
+	<!--  Look up Definitions  -->
+
+	<bean id="SystemLunchRule-lookupDefinition" parent="SystemLunchRule-lookupDefinition-parentBean" />
+	<bean id="SystemLunchRule-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupableID" value="systemLunchRuleLookupable"></property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="showLunchButton" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
+			</list>
+		</property>
+		<property name="title" value="System Lunch Rule Lookup" />
+	</bean>
+
+</beans>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="WeeklyOvertimeRuleGroupMaintenanceDocument" parent="WeeklyOvertimeRuleGroupMaintenanceDocument-parentBean" />
+
+	<bean id="WeeklyOvertimeRuleGroupMaintenanceDocument-parentBean" abstract="true"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRuleGroup"
+		p:maintainableClass="org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleGroupMaintainableImpl"
+		p:businessRulesClass="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRuleValidation"
+		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
+		<property name="maintainableSections">
+			<list>
+				<ref bean="WeeklyOvertimeRuleGroupMaintenanceDocument-WeeklyOvertimeRuleGroupMaintenance" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>tkWeeklyOvertimeRuleGroupId</value>
+			</list>
+		</property>
+		<property name="documentTypeName" value="WeeklyOvertimeRuleGroupDocumentType" />
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+
+	<bean id="WeeklyOvertimeRuleGroupMaintenanceDocument-WeeklyOvertimeRuleGroupMaintenance" parent="WeeklyOvertimeRuleGroupMaintenanceDocument-WeeklyOvertimeRuleGroupMaintenance-parentBean" />
+
+	<bean id="WeeklyOvertimeRuleGroupMaintenanceDocument-WeeklyOvertimeRuleGroupMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+  		<property name="id" value="lstWeeklyOvertimeRules"/>
+  		<property name="title" value="Weekly Overtime Rules"/>
+  		<property name="defaultOpen" value="true"/>
+		<property name="maintainableItems">
+			<list>
+  		  	<bean parent="MaintainableCollectionDefinition">
+         	 <property name="name" value="lstWeeklyOvertimeRules"/>
+         	 <property name="businessObjectClass" value="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule"/>
+          	<property name="alwaysAllowCollectionDeletion" value="true"/>
+          	<property name="maintainableFields">
+            	<list>
+            		<bean parent="MaintainableFieldDefinition" p:required="true" p:name="effectiveDate" />
+              		<bean parent="MaintainableFieldDefinition" p:required="true" p:name="maxHoursEarnGroup" />
+					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="convertFromEarnGroup" />
+					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="convertToEarnCode" />
+					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="step" />
+					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="maxHours" />
+					<bean parent="MaintainableFieldDefinition" p:required="true" p:name="active" p:defaultValue="true"/>
+					<bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode" p:defaultValue="Y"/>
+            	</list>
+          </property>
+        </bean>
+  		</list>
+		</property>
+	</bean>
+
+</beans>

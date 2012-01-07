@@ -1,0 +1,2 @@
+RENAME TABLE tk_clock_location_rl_ip_address_s TO tk_clock_loc_rl_ip_addr_s;
+RENAME TABLE tk_clok_location_rl_ip_address_t TO tk_clock_loc_rl_ip_addr_t;

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="WeeklyOvertimeRuleGroup" parent="WeeklyOvertimeRuleGroup-parentBean" />
+
+	<bean id="WeeklyOvertimeRuleGroup-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRuleGroup" />
+		<property name="titleAttribute" value="tkWeeklyOvertimeRuleGroupId" />
+		<property name="objectLabel" value="Weekly Overtime Rule Group" />
+		<property name="lookupDefinition">
+			<ref bean="WeeklyOvertimeRuleGroup-lookupDefinition" />
+		</property>
+		<property name="inquiryDefinition">
+			<ref bean="WeeklyOvertimeRuleGroup-inquiryDefinition" />
+		</property>
+    	<property name="collections">
+      	<list>
+        	<bean parent="CollectionDefinition" p:name="lstWeeklyOvertimeRules" p:label="Weekly OverTime Rules" p:shortLabel="Weekly OverTime Rules" p:summary="Weekly OverTime Rules" p:description="Weekly OverTime Rules"/>
+      	</list>
+    	</property>
+	</bean>
+
+	<!--  Inquiry Definitions  -->
+
+	<bean id="WeeklyOvertimeRuleGroup-lookupDefinition" parent="WeeklyOvertimeRuleGroup-lookupDefinition-parentBean" />
+	<bean id="WeeklyOvertimeRuleGroup-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="lookupFields">
+			<list>				
+				<bean parent="FieldDefinition" p:attributeName="tkWeeklyOvertimeRuleGroupId" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="tkWeeklyOvertimeRuleGroupId" />				
+			</list>
+		</property>
+		<property name="title" value="Weekly OverTime Rule Group Lookup" />
+	</bean>
+	
+	<bean id="WeeklyOvertimeRuleGroup-inquiryDefinition" parent="WeeklyOvertimeRuleGroup-inquiryDefinition-parentBean" />
+	<bean id="WeeklyOvertimeRuleGroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition" p:title="Rules">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="lstWeeklyOvertimeRules"
+								p:businessObjectClass="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" />
+										<bean parent="FieldDefinition" p:attributeName="convertFromEarnGroup" />
+										<bean parent="FieldDefinition" p:attributeName="convertToEarnCode" />
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="step" />
+										<bean parent="FieldDefinition" p:attributeName="maxHours" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false"/>
+		<property name="title" value="Weekly OverTime Rule Group Inquiry" />
+	</bean>
+
+</beans>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="EarnGroupDefinition" parent="EarnGroupDefinition-parentBean" />
+
+	<bean id="EarnGroupDefinition-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.time.earngroup.EarnGroupDefinition" />
+		<property name="titleAttribute" value="id" />
+		<property name="objectLabel" value="Earn Code Group Definition" />
+		<property name="lookupDefinition">
+			<ref bean="EarnGroupDefinition-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="EarnGroupDefinition-earnCode"/>
+				<ref bean="EarnGroupDefinition-earnCodeDesc"/>
+			</list>
+		</property>
+            <property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition">
+                  <property name="objectAttributeName" value="earnCodeObj"/>
+                  <property name="primitiveAttributes">
+                    <list>
+                      <bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode" p:targetName="earnCode"/>
+                    </list>
+                  </property>
+                </bean>
+            </list>
+        </property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+  <bean id="EarnGroupDefinition-earnCode" parent="EarnGroupDefinition-earnCode-parentBean"/>
+  <bean id="EarnGroupDefinition-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Earn Code"/>
+    <property name="forceUppercase" value="true" />
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern">
+      	<property name="allowWhitespace" value="false"/>
+      </bean>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="name" value="earnCode"/>
+    <property name="label" value="Earn Code"/>
+  </bean>
+
+  <bean id="EarnGroupDefinition-earnCodeDesc" parent="EarnGroupDefinition-earnCodeDesc-parentBean"/>
+  <bean id="EarnGroupDefinition-earnCodeDesc-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="30"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="25"/>
+    </property>
+    <property name="name" value="earnCodeDesc"/>
+    <property name="label" value="Description"/>
+  </bean>
+
+	<!--  Inquiry Definitions  -->
+	<bean id="EarnGroupDefinition-lookupDefinition" parent="EarnGroupDefinition-lookupDefinition-parentBean" />
+	<bean id="EarnGroupDefinition-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="earnCode" />
+                <bean parent="FieldDefinition" p:attributeName="earnCodeDesc"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="earnCode"/>
+				<bean parent="FieldDefinition" p:attributeName="earnCodeDesc"/>
+			</list>
+		</property>
+		<property name="title" value="EarnGroupDefinition Lookup" />
+	</bean>
+
+</beans>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="ClockLogMaintenanceDocument" parent="ClockLogMaintenanceDocument-parentBean" />
+
+	<bean id="ClockLogMaintenanceDocument-parentBean" abstract="true"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.clocklog.ClockLog"
+		p:businessRulesClass="org.kuali.hr.time.clocklog.validation.ClockLogRule"
+		p:maintainableClass="org.kuali.hr.time.clocklog.service.ClockLogMaintainableImpl"
+		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
+		<property name="maintainableSections">
+			<list>
+				<ref bean="ClockLogMaintenanceDocument-ClockLogMaintenance" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>tkClockLogId</value>
+			</list>
+		</property>
+		<property name="documentTypeName" value="ClockLogDocumentType" />
+	</bean>
+
+	<!-- Maintenance Section Definitions -->	
+	<bean id="ClockLogMaintenanceDocument-ClockLogMaintenance" parent="ClockLogMaintenanceDocument-ClockLogMaintenance-parentBean" />
+	<bean id="ClockLogMaintenanceDocument-ClockLogMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="title" value="Clock Log Maintenance" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="principalId"/>
+				<bean parent="MaintainableFieldDefinition" p:name="jobNumber"/>
+				<bean parent="MaintainableFieldDefinition" p:name="workArea"/>
+				<bean parent="MaintainableFieldDefinition" p:name="task" />
+				<bean parent="MaintainableFieldDefinition" p:name="clockTimestamp" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="clockTimestampTimezone" />
+				<bean parent="MaintainableFieldDefinition" p:name="clockAction" />
+				<bean parent="MaintainableFieldDefinition" p:name="ipAddress" />
+				<bean parent="MaintainableFieldDefinition" p:name="missedPunchDocumentId"/>
+				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
+				<bean parent="MaintainableFieldDefinition" p:name="timestamp" />
+			</list>
+		</property>
+	</bean>
+</beans>

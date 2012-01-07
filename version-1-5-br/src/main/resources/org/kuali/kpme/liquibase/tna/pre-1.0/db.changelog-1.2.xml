@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="djunk (generated)" id="1300214225300-1">
+        <addColumn tableName="hr_work_schedule_entry_t">
+            <column defaultValue="0000-00-00 00:00:00" name="begin_time" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="djunk (generated)" id="1300214225300-2">
+        <addColumn tableName="hr_work_schedule_entry_t">
+            <column defaultValue="0000-00-00 00:00:00" name="end_time" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="djunk (generated)" id="1300214225300-3">
+        <addColumn tableName="hr_work_schedule_entry_t">
+            <column defaultValue="0" name="index_of_day" type="DECIMAL(8,0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="djunk (generated)" id="1300214225300-4">
+        <dropColumn columnName="CALENDAR_GROUP" tableName="hr_work_schedule_entry_t"/>
+    </changeSet>
+    <changeSet author="djunk (generated)" id="1300214225300-5">
+        <dropColumn columnName="DAY_OF_PERIOD" tableName="hr_work_schedule_entry_t"/>
+    </changeSet>
+    <changeSet author="djunk (generated)" id="1300214225300-6">
+        <dropColumn columnName="REG_HOURS" tableName="hr_work_schedule_entry_t"/>
+    </changeSet>
+    <changeSet author="djunk (generated)" id="1300214225300-7">
+        <dropColumn columnName="DEPT" tableName="hr_work_schedule_t"/>
+    </changeSet>
+    <changeSet author="djunk (generated)" id="1300214225300-8">
+        <dropColumn columnName="PRINCIPAL_ID" tableName="hr_work_schedule_t"/>
+    </changeSet>
+    <changeSet author="djunk (generated)" id="1300214225300-9">
+        <dropColumn columnName="WORK_AREA" tableName="hr_work_schedule_t"/>
+    </changeSet>
+</databaseChangeLog>

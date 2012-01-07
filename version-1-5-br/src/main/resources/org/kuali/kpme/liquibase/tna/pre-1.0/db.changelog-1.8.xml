@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="yingzhou" id="1">
+		<createTable tableName="tk_batch_job_entry_s">
+			<column autoIncrement="true" name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet author="yingzhou" id="2">
+		<createTable tableName="tk_batch_job_entry_t">
+			<column autoIncrement="true" name="tk_batch_job_entry_id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="BATCH_JOB_ENTRY_STATUS" type="VARCHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+			<column name="BATCH_JOB_EXCEPTION" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="BATCH_JOB_NAME" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DOCUMENT_ID" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IP_ADDRESS" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TK_BATCH_JOB_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TK_PY_CALENDAR_ENTRY_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CLOCK_LOG_ID" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+		</createTable>
+	</changeSet>
+
+</databaseChangeLog>

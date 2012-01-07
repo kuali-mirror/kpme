@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="EarnCode" parent="EarnCode-parentBean" />
+  <bean id="EarnCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.hr.time.earncode.EarnCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="EarnCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="EarnCode-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="hrEarnCodeId" />
+    <property name="attributes" >
+      <list>
+        <ref bean="EarnCode-hrEarnCodeId" />
+        <ref bean="EarnCode-earnCode" />
+        <ref bean="EarnCode-ovtEarnCode" />
+        <ref bean="EarnCode-recordTime" />
+        <ref bean="EarnCode-recordHours" />
+        <ref bean="EarnCode-recordAmount" />
+        <ref bean="EarnCode-accrualCategory" />
+        <ref bean="EarnCode-history" />
+        <ref bean="EarnCode-active" />
+        <ref bean="EarnCode-description" />
+        <ref bean="EarnCode-effectiveDate" />
+        <ref bean="EarnCode-timestamp" />
+        <ref bean="EarnCode-inflateMinHours"/>
+        <ref bean="EarnCode-inflateFactor"/>
+       </list>
+    </property>
+
+ 	<property name="relationships">
+  		<list>
+  			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="accrualCategoryObj" />
+				<property name="primitiveAttributes">
+				<list>
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory"
+								p:targetName="accrualCategory" />
+				</list>
+				</property>
+			</bean>
+        </list>
+    </property>
+    <property name="objectLabel" value="earnCode"/>
+  </bean>
+
+
+  <bean id="EarnCode-hrEarnCodeId" parent="EarnCode-hrEarnCodeId-parentBean"/>
+  <bean id="EarnCode-hrEarnCodeId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Earn Code Id"/>
+    <property name="maxLength" value="60"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
+    <property name="name" value="hrEarnCodeId"/>
+    <property name="label" value="Earn Code Id"/>
+  </bean>
+
+
+
+
+  <bean id="EarnCode-earnCode" parent="EarnCode-earnCode-parentBean" />
+  <bean id="EarnCode-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="maxLength" value="3" />
+    <property name="forceUppercase" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="3" />
+    </property>
+
+    <property name="name" value="earnCode" />
+    <property name="label" value="Earn Code" />
+  </bean>
+
+  <bean id="EarnCode-ovtEarnCode" parent="EarnCode-ovtEarnCode-parentBean"/>
+  <bean id="EarnCode-ovtEarnCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Overtime Earn Code"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="ovtEarnCode"/>
+    <property name="label" value="Overtime Earn Code"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
+<!-- history -->
+	<bean id="EarnCode-history" parent="EarnCode-history-parentBean" />
+	<bean id="EarnCode-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
+  <bean id="EarnCode-active" parent="EarnCode-active-parentBean"/>
+  <bean id="EarnCode-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Active"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
+
+  <bean id="EarnCode-recordTime" parent="EarnCode-recordTime-parentBean"/>
+  <bean id="EarnCode-recordTime-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Record Time"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="recordTime"/>
+    <property name="label" value="Record Time"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
+
+  <bean id="EarnCode-recordHours" parent="EarnCode-recordHours-parentBean"/>
+  <bean id="EarnCode-recordHours-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Record Hours"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="recordHours"/>
+    <property name="label" value="Record Hours"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
+
+  <bean id="EarnCode-recordAmount" parent="EarnCode-recordAmount-parentBean"/>
+  <bean id="EarnCode-recordAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Record Amount"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    <property name="name" value="recordAmount"/>
+    <property name="label" value="Record Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+  </bean>
+
+  <bean id="EarnCode-accrualCategory" parent="EarnCode-accrualCategory-parentBean"/>
+  <bean id="EarnCode-accrualCategory-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Accrual Category"/>
+    <property name="maxLength" value="3"/>
+	<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+	</property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="name" value="accrualCategory"/>
+    <property name="label" value="Accrual Category"/>
+  </bean>
+
+  <bean id="EarnCode-inflateMinHours" parent="EarnCode-inflateMinHours-parentBean" />
+	<bean id="EarnCode-inflateMinHours-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Inflate Min Hours" />
+		<property name="maxLength" value="6" />
+		<property name="validationPattern">
+			<bean parent="FloatingPointValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+		<property name="name" value="inflateMinHours" />
+		<property name="label" value="Inflate Min Hours" />
+	</bean>
+
+  <bean id="EarnCode-inflateFactor" parent="EarnCode-inflateFactor-parentBean" />
+	<bean id="EarnCode-inflateFactor-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Inflate Factor" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern">
+			 <bean parent="FixedPointValidationPattern" p:precision="3" p:scale="2" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="4" />
+		</property>
+		<property name="name" value="inflateFactor" />
+		<property name="label" value="Inflate Factor" />
+	</bean>
+
+ <bean id="EarnCode-description" parent="EarnCode-description-parentBean"/>
+  <bean id="EarnCode-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="30"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="25"/>
+    </property>
+    <property name="name" value="description"/>
+    <property name="label" value="Description"/>
+  </bean>
+
+   <bean id="EarnCode-effectiveDate" parent="EarnCode-effectiveDate-parentBean"/>
+  <bean id="EarnCode-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Effective Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+ 		<bean parent="DateValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+    </property>
+    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
+    <property name="name" value="effectiveDate"/>
+    <property name="label" value="Effective Date"/>
+  </bean>
+
+<!-- timeStamp -->
+	<bean id="EarnCode-timestamp" parent="EarnCode-timestamp-parentBean" />
+	<bean id="EarnCode-timestamp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Timestamp" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+		<property name="name" value="timestamp" />
+		<property name="label" value="Time Stamp" />
+	</bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="EarnCode-inquiryDefinition" parent="EarnCode-inquiryDefinition-parentBean" />
+
+  <bean id="EarnCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+              <bean parent="FieldDefinition" p:attributeName="earnCode" />
+              <bean parent="FieldDefinition" p:attributeName="description" />
+		      <bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
+		      <bean parent="FieldDefinition" p:attributeName="recordTime" />
+		      <bean parent="FieldDefinition" p:attributeName="recordHours" />
+		      <bean parent="FieldDefinition" p:attributeName="recordAmount" />
+		      <bean parent="FieldDefinition" p:attributeName="active" />
+		      <bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+		      <bean parent="FieldDefinition" p:attributeName="inflateMinHours" />
+		      <bean parent="FieldDefinition" p:attributeName="inflateFactor" /> 
+            </list>
+          </property>
+          <property name="title" value="EarnCode" />
+        </bean>
+      </list>
+    </property>
+    <property name="translateCodes" value="false"/>
+    <property name="title" value="EarnCode Inquiry" />
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="EarnCode-lookupDefinition" parent="EarnCode-lookupDefinition-parentBean" />
+
+  <bean id="EarnCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupableID" value="earnCodeLookupable"></property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="earnCode" />
+        <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="ovtEarnCode"/>
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+        <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="earnCode" />
+        <bean parent="FieldDefinition" p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+        <bean parent="FieldDefinition" p:attributeName="timestamp" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
+      </list>
+    </property>
+    <property name="title" value="EarnCode Lookup" />
+  </bean>
+</beans>

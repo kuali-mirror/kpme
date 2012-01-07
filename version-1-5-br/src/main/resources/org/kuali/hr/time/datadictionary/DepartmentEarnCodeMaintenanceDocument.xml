@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="DepartmentEarnCodeMaintenanceDocument" parent="DepartmentEarnCodeMaintenanceDocument-parentBean" />
+
+	<bean id="DepartmentEarnCodeMaintenanceDocument-parentBean" abstract="true"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.dept.earncode.DepartmentEarnCode"
+		p:businessRulesClass="org.kuali.hr.time.dept.earncode.validation.DepartmentEarnCodeRule"
+		p:maintainableClass="org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeMaintainableImpl"
+		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
+		<property name="maintainableSections">
+			<list>
+				<ref bean="DepartmentEarnCodeMaintenanceDocument-DepartmentEarnCodeMaintenance" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>hrDeptEarnCodeId</value>
+			</list>
+		</property>
+		<property name="documentTypeName" value="DepartmentEarnCodeDocumentType" />
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+	<bean id="DepartmentEarnCodeMaintenanceDocument-DepartmentEarnCodeMaintenance" parent="DepartmentEarnCodeMaintenanceDocument-DepartmentEarnCodeMaintenance-parentBean" />
+	<bean id="DepartmentEarnCodeMaintenanceDocument-DepartmentEarnCodeMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="title" value="Department Earn Code Maintenance" />
+		<property name="maintainableItems">
+			<list>
+			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="hrSalGroup" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="earnCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="employee" />
+				<bean parent="MaintainableFieldDefinition" p:name="approver" />
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
+			</list>
+		</property>
+	</bean>
+</beans>

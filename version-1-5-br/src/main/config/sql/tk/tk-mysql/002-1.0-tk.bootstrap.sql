@@ -1,0 +1,1 @@
+insert into hr_roles_t values(1,'admin','TK_SYS_ADMIN','admin',null,null,null,'2010-01-01',now(),'Y',null,null,null);
