@@ -77,8 +77,8 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIME_BLOCK_HISTORY_DETAIL_SERVICE = "timeBlockHistoryDetailService";
 	public static final String TK_JOB_SERVICE = "jobService";
 	public static final String TK_PAY_TYPE_SERVICE = "payTypeService";
-	public static final String TK_PAY_CALENDAR_SERVICE = "payCalendarService";
-	public static final String TK_PAY_CALENDAR_ENTRIES_SERVICE = "payCalendarEntriesService";
+	public static final String TK_PAY_CALENDAR_SERVICE = "calendarService";
+	public static final String TK_PAY_CALENDAR_ENTRIES_SERVICE = "calendarEntriesService";
 	public static final String TK_PERSISTENCE_BROKER_TEMPLATE = "tkPersistenceBrokerTemplate";
 	public static final String TK_CACHE_MANAGER_SERVICE = "cacheManager";
 	public static final String TK_WORK_AREA_SERVICE = "workAreaService";
