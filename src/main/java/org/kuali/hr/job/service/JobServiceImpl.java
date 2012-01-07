@@ -1,5 +1,8 @@
 package org.kuali.hr.job.service;
 
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
@@ -7,9 +10,6 @@ import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.util.Date;
-import java.util.List;
 /**
  * Represents an implementation of {@link JobService}.
  * 

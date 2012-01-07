@@ -1,15 +1,14 @@
 package org.kuali.hr.time.workflow.service;
 
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.hr.time.workflow.dao.TimesheetDocumentHeaderDao;
-
-import java.util.Date;
-import java.util.List;
 
 public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHeaderService {
 

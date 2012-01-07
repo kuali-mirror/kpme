@@ -1,5 +1,10 @@
 package org.kuali.hr.time.department;
 
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.util.TKUtils;
@@ -10,11 +15,6 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class DepartmentRule extends MaintenanceDocumentRuleBase {
 

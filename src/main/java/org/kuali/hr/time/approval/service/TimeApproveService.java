@@ -1,13 +1,18 @@
 package org.kuali.hr.time.approval.service;
 
-import com.google.common.collect.Multimap;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
-import java.math.BigDecimal;
-import java.util.*;
+import com.google.common.collect.Multimap;
 
 
 public interface TimeApproveService {
@@ -60,9 +65,9 @@ public interface TimeApproveService {
      *
      * @return A CalendarGroup Name to PayCalendarEntries mapping.
      */
-    public Map<String,PayCalendarEntries> getPayCalendarEntriesForApprover(String principalId, Date currentDate, String dept);
+    public Map<String,CalendarEntries> getPayCalendarEntriesForApprover(String principalId, Date currentDate, String dept);
     public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate, String calGroup);
-    public Map<String,PayCalendarEntries> getPayCalendarEntriesForDept(String dept, Date currentDate);
+    public Map<String,CalendarEntries> getPayCalendarEntriesForDept(String dept, Date currentDate);
 
     /**
      * Get a list of unique pay groups

@@ -1,13 +1,12 @@
 package org.kuali.hr.time.timesheet.service;
 
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import java.util.List;
+
 import org.kuali.hr.time.timesheet.TimeSheetInitiate;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-
-import java.util.List;
 
 public class TimeSheetInitiateLookupableHelper extends KualiLookupableHelperServiceImpl {
 	/**

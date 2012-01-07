@@ -1,10 +1,10 @@
 package org.kuali.hr.time.earngroup;
 
-import org.kuali.hr.time.HrBusinessObject;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import org.kuali.hr.time.HrBusinessObject;
 
 public class EarnGroup extends HrBusinessObject {
 

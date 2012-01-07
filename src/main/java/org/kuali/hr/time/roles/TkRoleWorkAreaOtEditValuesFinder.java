@@ -1,11 +1,11 @@
 package org.kuali.hr.time.roles;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TkRoleWorkAreaOtEditValuesFinder extends KeyValuesBase {
 

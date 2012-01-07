@@ -1,20 +1,19 @@
 package org.kuali.hr.time.calendar;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.joda.time.DateTime;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 public class TkCalendar {
 	private List<TkCalendarWeek> weeks = new ArrayList<TkCalendarWeek>();
-	private PayCalendarEntries payCalEntry;
+	private CalendarEntries payCalEntry;
     private DateTime beginDateTime;
     private DateTime endDateTime;
 
@@ -106,11 +105,11 @@ public class TkCalendar {
 		this.weeks = weeks;
 	}
 
-	public PayCalendarEntries getPayCalEntry() {
+	public CalendarEntries getPayCalEntry() {
 		return payCalEntry;
 	}
 
-	public void setPayCalEntry(PayCalendarEntries payCalEntry) {
+	public void setPayCalEntry(CalendarEntries payCalEntry) {
 		this.payCalEntry = payCalEntry;
         // Relative time, with time zone added.
         this.beginDateTime = payCalEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());

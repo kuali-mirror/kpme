@@ -1,6 +1,7 @@
 package org.kuali.hr.time.workarea;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
+
 import org.junit.Test;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -9,7 +10,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import java.sql.Date;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class WorkAreaMaintenanceTest extends TkTestCase {
 

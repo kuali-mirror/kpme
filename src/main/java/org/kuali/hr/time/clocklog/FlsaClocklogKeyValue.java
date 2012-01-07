@@ -3,8 +3,9 @@ package org.kuali.hr.time.clocklog;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.rice.core.util.KeyLabelPair;
+
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 
 public class FlsaClocklogKeyValue extends org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase{

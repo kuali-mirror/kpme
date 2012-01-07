@@ -1,17 +1,17 @@
 package org.kuali.hr.time.shiftdiff.rule;
 
-import org.kuali.hr.location.Location;
-import org.kuali.hr.paygrade.PayGrade;
-import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.earngroup.EarnGroup;
-import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.rule.TkRule;
-import org.kuali.hr.time.salgroup.SalGroup;
-
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.LinkedHashMap;
+
+import org.kuali.hr.location.Location;
+import org.kuali.hr.paygrade.PayGrade;
+import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.earngroup.EarnGroup;
+import org.kuali.hr.time.rule.TkRule;
+import org.kuali.hr.time.salgroup.SalGroup;
 
 public class ShiftDifferentialRule extends TkRule {
 
@@ -48,7 +48,7 @@ public class ShiftDifferentialRule extends TkRule {
 	private EarnCode earnCodeObj;
 	private SalGroup salGroupObj;
     private EarnGroup fromEarnGroupObj;
-    private PayCalendar payCalendar;
+    private Calendar payCalendar;
     private Location locationObj;
     private PayGrade payGradeObj;
 
@@ -257,11 +257,11 @@ public class ShiftDifferentialRule extends TkRule {
         this.fromEarnGroupObj = fromEarnGroupObj;
     }
 
-    public PayCalendar getPayCalendar() {
+    public Calendar getPayCalendar() {
         return payCalendar;
     }
 
-    public void setPayCalendar(PayCalendar payCalendar) {
+    public void setPayCalendar(Calendar payCalendar) {
         this.payCalendar = payCalendar;
     }
 

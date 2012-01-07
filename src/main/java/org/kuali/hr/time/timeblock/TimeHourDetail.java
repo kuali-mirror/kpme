@@ -1,10 +1,10 @@
 package org.kuali.hr.time.timeblock;
 
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
+
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class TimeHourDetail extends PersistableBusinessObjectBase{
 

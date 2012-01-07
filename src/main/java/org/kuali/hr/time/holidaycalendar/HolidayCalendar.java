@@ -1,10 +1,10 @@
 package org.kuali.hr.time.holidaycalendar;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class HolidayCalendar extends PersistableBusinessObjectBase {
 

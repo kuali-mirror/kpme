@@ -1,16 +1,17 @@
 package org.kuali.hr.time.accural;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
+
 import org.junit.Test;
-import org.kuali.hr.time.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Calendar;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class AccuralCategoryMaintTest extends TkTestCase {
 

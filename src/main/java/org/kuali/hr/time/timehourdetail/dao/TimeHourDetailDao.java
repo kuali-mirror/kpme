@@ -1,8 +1,8 @@
 package org.kuali.hr.time.timehourdetail.dao;
 
-import org.kuali.hr.time.timeblock.TimeHourDetail;
-
 import java.util.List;
+
+import org.kuali.hr.time.timeblock.TimeHourDetail;
 
 
 public interface TimeHourDetailDao{

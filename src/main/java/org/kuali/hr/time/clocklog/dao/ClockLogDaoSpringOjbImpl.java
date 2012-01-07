@@ -1,16 +1,16 @@
 package org.kuali.hr.time.clocklog.dao;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.clocklog.ClockLog;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.util.TkConstants;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-
-import java.util.List;
 
 public class ClockLogDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements ClockLogDao {
 
@@ -21,11 +21,11 @@ public class ClockLogDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
     }
     
     public void saveOrUpdate(List<ClockLog> clockLogList) {
-	if (clockLogList != null) {
-	    for (ClockLog clockLog : clockLogList) {
-		this.getPersistenceBrokerTemplate().store(clockLog);
-	    }
-	}
+    	if (clockLogList != null) {
+	    	for (ClockLog clockLog : clockLogList) {
+	    		this.getPersistenceBrokerTemplate().store(clockLog);
+	    	}
+		}
     }
     
     public ClockLog getClockLog(String tkClockLogId){
@@ -88,7 +88,7 @@ public class ClockLogDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
     }
     
     @SuppressWarnings("unchecked")
-	public List<ClockLog> getOpenClockLogs(PayCalendarEntries payCalendarEntry){
+	public List<ClockLog> getOpenClockLogs(CalendarEntries payCalendarEntry){
     	Criteria criteria = new Criteria();
     	criteria.addIn("clockAction", TkConstants.ON_THE_CLOCK_CODES);
 

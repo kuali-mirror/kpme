@@ -1,16 +1,16 @@
 package org.kuali.hr.time.department;
 
-import org.kuali.hr.location.Location;
-import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.roles.TkRole;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Organization;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.kuali.hr.location.Location;
+import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Organization;
 
 public class Department extends HrBusinessObject {
 

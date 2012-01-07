@@ -1,10 +1,10 @@
 package org.kuali.hr.time.salgroup;
 
-import org.kuali.hr.time.HrBusinessObject;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
+
+import org.kuali.hr.time.HrBusinessObject;
 
 public class SalGroup extends HrBusinessObject {
 

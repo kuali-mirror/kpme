@@ -1,6 +1,7 @@
 package org.kuali.hr.time.earngroup.service;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.kuali.hr.time.earngroup.EarnGroup;
@@ -9,7 +10,7 @@ import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
-import java.sql.Date;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class EarnGroupServiceTest extends TkTestCase{
 	@Test

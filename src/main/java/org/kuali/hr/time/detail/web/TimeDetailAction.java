@@ -14,9 +14,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.TkCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
@@ -86,10 +86,10 @@ public class TimeDetailAction extends TimesheetAction {
         ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
 
         // Set calendar
-        PayCalendarEntries payCalendarEntry = tdaf.getPayCalendarDates();
-        PayCalendar payCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(payCalendarEntry.getHrPyCalendarId());
+        CalendarEntries payCalendarEntry = tdaf.getPayCalendarDates();
+        Calendar payCalendar = TkServiceLocator.getCalendarSerivce().getCalendar(payCalendarEntry.getHrCalendarId());
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true, 
-        		TKUtils.getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry));
+        		TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry));
         TkCalendar cal = TkCalendar.getCalendar(aggregate);
         cal.assignAssignmentStyle(aMap);
         tdaf.setTkCalendar(cal);

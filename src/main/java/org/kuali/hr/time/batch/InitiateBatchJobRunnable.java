@@ -1,6 +1,6 @@
 package org.kuali.hr.time.batch;
 
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.mortbay.log.Log;
@@ -16,7 +16,7 @@ public class InitiateBatchJobRunnable extends BatchJobEntryRunnable {
 		BatchJobEntry initiateBatchJobEntry = TkServiceLocator.getBatchJobEntryService().getBatchJobEntry(getTkBatchJobEntryId());
 		String principalId = initiateBatchJobEntry.getPrincipalId();
 		String hrPyCalendarId = initiateBatchJobEntry.getHrPyCalendarEntryId();
-		PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(hrPyCalendarId);
+		CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(hrPyCalendarId);
 		try {
 			TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, payCalendarEntry);
 		} catch (WorkflowException e) {

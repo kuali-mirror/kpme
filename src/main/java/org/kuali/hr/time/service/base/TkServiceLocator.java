@@ -1,9 +1,16 @@
 package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.job.service.JobService;
+import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
+import org.kuali.hr.lm.leavecalendar.service.LeaveCalendarService;
+import org.kuali.hr.lm.leavecode.service.LeaveCodeService;
+import org.kuali.hr.lm.leavedonation.service.LeaveDonationService;
+import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
+import org.kuali.hr.lm.ledger.service.LedgerService;
+import org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffService;
+import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.location.service.LocationService;
 import org.kuali.hr.paygrade.service.PayGradeService;
-import org.kuali.hr.time.accrual.service.AccrualCategoryService;
 import org.kuali.hr.time.accrual.service.TimeOffAccrualService;
 import org.kuali.hr.time.approval.service.TimeApproveService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
@@ -11,6 +18,8 @@ import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.batch.service.BatchJobEntryService;
 import org.kuali.hr.time.batch.service.BatchJobService;
 import org.kuali.hr.time.cache.CacheManagementService;
+import org.kuali.hr.time.calendar.service.CalendarEntriesService;
+import org.kuali.hr.time.calendar.service.CalendarService;
 import org.kuali.hr.time.clock.location.service.ClockLocationRuleService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
 import org.kuali.hr.time.department.service.DepartmentService;
@@ -24,11 +33,9 @@ import org.kuali.hr.time.holidaycalendar.service.HolidayCalendarService;
 import org.kuali.hr.time.missedpunch.service.MissedPunchService;
 import org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleService;
 import org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleService;
-import org.kuali.hr.time.paycalendar.service.PayCalendarEntriesService;
-import org.kuali.hr.time.paycalendar.service.PayCalendarService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
 import org.kuali.hr.time.position.service.PositionService;
-import org.kuali.hr.time.principal.calendar.service.PrincipalCalendarService;
+import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
 import org.kuali.hr.time.roles.service.TkRoleGroupService;
 import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.rule.TkRuleControllerService;
@@ -113,6 +120,16 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_WARNINGS_SERVICE = "tkWarningService";
     public static final String HR_POSITION_SERVICE = "positionService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
+    public static final String LM_ACCRUAL_CATEGORY_SERVICE = "accrualCategoryService";
+    public static final String LM_LEAVE_CODE_SERVICE = "leaveCodeService";
+    public static final String LM_LEAVE_PLAN_SERVICE = "leavePlanService";
+    public static final String LM_LEAVE_DONATION_SERVICE = "leaveDonationService";
+    public static final String LM_SYS_SCH_TIMEOFF_SERVICE = "systemScheduledTimeOffService";
+    public static final String LM_LEDGER_SERVICE = "ledgerService";
+    public static final String LM_LEAVE_CALENDAR_SERVICE = "leaveCalendarService";
+    public static final String LM_LEAVE_CALENDAR_DOCUMENT_HEADER_SERVICE = "leaveCalendarDocumentHeaderService";
+	public static final String TK_PRINCIPAL_HR_ATTRIBUTES_SERVICE = "principalHRAttributesService";
+
 
 
 	public static void start() throws Exception {
@@ -212,13 +229,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (PayTypeService)CONTEXT.getBean(TK_PAY_TYPE_SERVICE);
 	}
 
-	public static PayCalendarService getPayCalendarSerivce() {
-		return (PayCalendarService)CONTEXT.getBean(TK_PAY_CALENDAR_SERVICE);
-	}
-	public static PayCalendarEntriesService getPayCalendarEntriesSerivce() {
-		return (PayCalendarEntriesService)CONTEXT.getBean(TK_PAY_CALENDAR_ENTRIES_SERVICE);
-	}
-
 	public static PersistenceBrokerTemplate getTkPersistenceBrokerTemplate() {
 	    return (PersistenceBrokerTemplate) CONTEXT.getBean(TK_PERSISTENCE_BROKER_TEMPLATE);
 	}
@@ -269,10 +279,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static DepartmentLunchRuleService getDepartmentLunchRuleService(){
 		return (DepartmentLunchRuleService) CONTEXT.getBean(TK_DEPT_LUNCH_RULE_SERVICE);
-	}
-
-	public static PrincipalCalendarService getPrincipalCalendarService(){
-		return (PrincipalCalendarService) CONTEXT.getBean(TK_PRINCIPAL_CALENDAR_SERVICE);
 	}
 
 	public static HolidayCalendarService getHolidayCalendarService(){
@@ -337,6 +343,47 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static TransactionTemplate getTransactionTemplate() {
 		return new TransactionTemplate(getPlatformTransactionManager());
+	}
+	
+	
+	public static LeaveCodeService getLeaveCodeService(){
+		return (LeaveCodeService)CONTEXT.getBean(LM_LEAVE_CODE_SERVICE);
+	}
+	
+	public static LeavePlanService getLeavePlanService(){
+		return (LeavePlanService)CONTEXT.getBean(LM_LEAVE_PLAN_SERVICE);
+	}
+	
+	public static LeaveDonationService getLeaveDonationService(){
+		return (LeaveDonationService)CONTEXT.getBean(LM_LEAVE_DONATION_SERVICE);
+	}
+	
+	public static SystemScheduledTimeOffService getSysSchTimeOffService(){
+		return (SystemScheduledTimeOffService)CONTEXT.getBean(LM_SYS_SCH_TIMEOFF_SERVICE);
+	}
+
+    public static LedgerService getLedgerService(){
+		return (LedgerService)CONTEXT.getBean(LM_LEDGER_SERVICE);
+	}
+
+    public static LeaveCalendarService getLeaveCalendarService(){
+		return (LeaveCalendarService)CONTEXT.getBean(LM_LEAVE_CALENDAR_SERVICE);
+	}
+
+    public static LeaveCalendarDocumentHeaderService getLeaveCalendarDocumentHeaderService(){
+		return (LeaveCalendarDocumentHeaderService)CONTEXT.getBean(LM_LEAVE_CALENDAR_DOCUMENT_HEADER_SERVICE);
+	}
+    
+    public static PrincipalHRAttributesService getPrincipalHRAttributeService(){
+    	return (PrincipalHRAttributesService)CONTEXT.getBean(TK_PRINCIPAL_HR_ATTRIBUTES_SERVICE);
+    }
+    
+	public static CalendarService getCalendarSerivce() {
+		return (CalendarService)CONTEXT.getBean(TK_PAY_CALENDAR_SERVICE);
+	}
+	
+	public static CalendarEntriesService getCalendarEntriesSerivce() {
+		return (CalendarEntriesService)CONTEXT.getBean(TK_PAY_CALENDAR_ENTRIES_SERVICE);
 	}
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {

@@ -1,8 +1,8 @@
 package org.kuali.hr.time.earngroup.dao;
 
-import org.kuali.hr.time.earngroup.EarnGroup;
-
 import java.sql.Date;
+
+import org.kuali.hr.time.earngroup.EarnGroup;
 
 public interface EarnGroupDaoService {
 	public EarnGroup getEarnGroup(String earnGroup, Date asOfDate);

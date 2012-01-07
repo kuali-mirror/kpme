@@ -1,9 +1,9 @@
 package org.kuali.hr.time.workarea.service;
 
-import org.kuali.hr.time.workarea.WorkArea;
-
 import java.sql.Date;
 import java.util.List;
+
+import org.kuali.hr.time.workarea.WorkArea;
 
 public interface WorkAreaService {
 	/**

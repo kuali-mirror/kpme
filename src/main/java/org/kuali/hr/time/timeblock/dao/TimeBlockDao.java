@@ -1,9 +1,9 @@
 package org.kuali.hr.time.timeblock.dao;
 
+import java.util.List;
+
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.timeblock.TimeBlock;
-
-import java.util.List;
 
 public interface TimeBlockDao {
 

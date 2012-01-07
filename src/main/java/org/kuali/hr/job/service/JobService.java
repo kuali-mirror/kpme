@@ -1,9 +1,9 @@
 package org.kuali.hr.job.service;
 
-import org.kuali.hr.job.Job;
-
 import java.util.Date;
 import java.util.List;
+
+import org.kuali.hr.job.Job;
 
 public interface JobService {
 

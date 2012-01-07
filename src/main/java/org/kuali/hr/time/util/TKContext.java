@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
+import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.web.session.UserSession;
@@ -16,6 +16,8 @@ public class TKContext {
     private static final String TDOC_OBJ_KEY = "_TDOC_O_KEY";
     private static final String TDOC_KEY = "_TDOC_ID_KEY"; // Timesheet Document ID Key
 	private static final String USER_KEY = "_USER_KEY";
+    private static final String LDOC_OBJ_KEY = "_LDOC_O_KEY";
+    private static final String LDOC_KEY = "_LDOC_ID_KEY";
 
 	private static final ThreadLocal<Map<String, Object>> STORAGE_MAP = new ThreadLocal<Map<String, Object>>() {
 		@Override
@@ -97,4 +99,35 @@ public class TKContext {
 	public static void clear() {
 		resetStorageMap();
 	}
+	
+    /**
+     * @return The current leave calendar document
+     */
+    public static LeaveCalendarDocument getCurrentLeaveCalendarDocument() {
+        return  (LeaveCalendarDocument)TKContext.getStorageMap().get(LDOC_OBJ_KEY);
+    }
+
+    /**
+     *
+     * @param ldoc The leave calendar document
+     */
+    public static void setCurrentLeaveCalendarDocument(LeaveCalendarDocument ldoc) {
+        TKContext.getStorageMap().put(LDOC_OBJ_KEY, ldoc);
+    }
+
+    /**
+     *
+     * @return The current leave calendar document Id
+     */
+    public static String getCurrentLeaveCalendarDocumentId() {
+        return (String)TKContext.getStorageMap().get(LDOC_KEY);
+    }
+
+    /**
+     *
+     * @param leaveCalendarDocumentId The leave calendar document Id
+     */
+    public static void setCurrentLeaveCalendarDocumentId(String leaveCalendarDocumentId) {
+        TKContext.getStorageMap().put(LDOC_KEY, leaveCalendarDocumentId);
+    }	
 }

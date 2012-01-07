@@ -1,9 +1,9 @@
 package org.kuali.hr.time.batch.service;
 
+import java.util.List;
+
 import org.kuali.hr.time.batch.BatchJob;
 import org.kuali.hr.time.batch.dao.BatchJobDao;
-
-import java.util.List;
 
 public class BatchJobServiceImpl implements BatchJobService {
     private BatchJobDao batchJobDao;

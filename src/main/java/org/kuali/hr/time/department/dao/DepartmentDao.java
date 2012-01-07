@@ -1,9 +1,9 @@
 package org.kuali.hr.time.department.dao;
 
-import org.kuali.hr.time.department.Department;
-
 import java.sql.Date;
 import java.util.List;
+
+import org.kuali.hr.time.department.Department;
 
 public interface DepartmentDao {
 	public void saveOrUpdate(Department dept);

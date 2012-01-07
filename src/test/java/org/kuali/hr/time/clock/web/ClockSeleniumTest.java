@@ -1,10 +1,11 @@
 package org.kuali.hr.time.clock.web;
 
-import com.thoughtworks.selenium.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Test;
+
+import com.thoughtworks.selenium.DefaultSelenium;
+import com.thoughtworks.selenium.SeleneseTestCase;
 
 @Ignore
 public class ClockSeleniumTest extends SeleneseTestCase {

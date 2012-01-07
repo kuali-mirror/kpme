@@ -1,11 +1,11 @@
 package org.kuali.hr.time.salgroup.service;
 
+import java.sql.Date;
+
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.salgroup.dao.SalGroupDao;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.sql.Date;
 
 public class SalGroupServiceImpl implements SalGroupService {
 	

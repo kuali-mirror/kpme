@@ -1,5 +1,8 @@
 package org.kuali.hr.time.clock.location.service;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
@@ -8,9 +11,6 @@ import org.kuali.hr.time.clock.location.dao.ClockLocationDao;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
-
-import java.sql.Date;
-import java.util.List;
 
 public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	private ClockLocationDao clockLocationDao;

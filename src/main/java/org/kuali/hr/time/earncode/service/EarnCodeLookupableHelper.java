@@ -1,12 +1,12 @@
 package org.kuali.hr.time.earncode.service;
 
+import java.util.List;
+
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-
-import java.util.List;
 
 public class EarnCodeLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 	/**

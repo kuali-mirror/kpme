@@ -8,8 +8,7 @@ import org.joda.time.DateTimeZone;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.cache.CacheResult;
-import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
-import org.kuali.hr.time.roles.TkUserRoles;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKContext;
@@ -21,7 +20,7 @@ public class TimezoneServiceImpl implements TimezoneService {
     @Override
     @CacheResult
     public String getUserTimezone(String principalId) {
-        PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, TKUtils.getCurrentDate());
+        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, TKUtils.getCurrentDate());
         if(principalCalendar != null && principalCalendar.getTimezone() != null){
             return principalCalendar.getTimezone();
         }

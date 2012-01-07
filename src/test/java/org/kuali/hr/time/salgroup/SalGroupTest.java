@@ -1,10 +1,11 @@
 package org.kuali.hr.time.salgroup;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
+
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class SalGroupTest extends TkTestCase {
 	

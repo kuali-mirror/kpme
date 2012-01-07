@@ -1,11 +1,12 @@
 package org.kuali.hr.time.department;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class DepartmentTest extends TkTestCase {
 	@Test

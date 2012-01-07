@@ -1,15 +1,14 @@
 package org.kuali.hr.time.clocklog;
 
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 public class ClockLog extends PersistableBusinessObjectBase {
 

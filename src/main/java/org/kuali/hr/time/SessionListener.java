@@ -1,12 +1,13 @@
 package org.kuali.hr.time;
 
-import org.apache.log4j.Logger;
-import org.kuali.hr.time.util.TKUtils;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import java.util.Date;
+
+import org.apache.log4j.Logger;
+import org.kuali.hr.time.util.TKUtils;
 
 public class SessionListener implements HttpSessionListener {
 

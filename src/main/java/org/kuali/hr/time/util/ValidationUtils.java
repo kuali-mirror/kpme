@@ -1,21 +1,24 @@
 package org.kuali.hr.time.util;
 
+import java.sql.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
-import org.kuali.hr.time.accrual.AccrualCategory;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.authorization.DepartmentalRule;
+import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
-import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -25,8 +28,6 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-
-import java.sql.Date;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -108,7 +109,41 @@ public class ValidationUtils {
 
 		return valid;
 	}
+	
+	public static boolean validateLeavePlan(String leavePlan, Date asOfDate) {
+		boolean valid = false;
+		
+		if (asOfDate != null) {
+			LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
+			valid = (lp != null);
+		} else {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("leavePlan", leavePlan);
+			Query query = QueryFactory.newQuery(LeavePlan.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			valid = (count > 0);
+		}
+		
+		return valid;
+	}
 
+	public static boolean validateAccCategory(String accrualCategory, Date asOfDate) {
+		boolean valid = false;
+		
+		if (asOfDate != null) {
+			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
+			valid = (ac != null);
+		} else {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("accrualCategory", accrualCategory);
+			Query query = QueryFactory.newQuery(AccrualCategory.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			valid = (count > 0);
+		}
+		
+		return valid;
+	}
+	
 	public static boolean validateLocation(String location, Date asOfDate) {
 		boolean valid = false;
 
@@ -340,14 +375,15 @@ public class ValidationUtils {
         return false;
     }
 
+
 	/**
 	 * Checks for row presence of a pay calendar
 	 */
-	public static boolean validatePayCalendar(String pyCalendarGroup) {
+	public static boolean validateCalendar(String calendarName) {
 		boolean valid = false;
 		Criteria crit = new Criteria();
-        crit.addEqualTo("pyCalendarGroup", pyCalendarGroup);
-        Query query = QueryFactory.newQuery(PayCalendar.class, crit);
+        crit.addEqualTo("calendarName", calendarName);
+        Query query = QueryFactory.newQuery(Calendar.class, crit);
         int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
         valid = (count > 0);
         return valid;
@@ -417,5 +453,51 @@ public class ValidationUtils {
 	   return valid;
    }
 
+   /**
+    * Checks for date not more than one year in the future or current date
+    * 
+    */
 
+   public static boolean validateOneYearFutureDate(Date date){
+	   java.util.Calendar startDate = java.util.Calendar.getInstance();
+	   startDate.add(java.util.Calendar.DATE, -1);
+	   startDate.set(java.util.Calendar.SECOND, 0);
+	   startDate.set(java.util.Calendar.MINUTE, 0);
+	   startDate.set(java.util.Calendar.HOUR_OF_DAY, 0);
+	   java.util.Calendar endDate = java.util.Calendar.getInstance();
+	   endDate.add(java.util.Calendar.YEAR, 1); // One year after the current date
+	   return date.compareTo(startDate.getTime()) * date.compareTo(endDate.getTime()) <= 0;
+   }
+   
+   /**
+    * Checks for date in the future
+    * 
+    */
+   
+   public static boolean validateFutureDate(Date date){
+	   java.util.Calendar startDate = java.util.Calendar.getInstance();
+	   startDate.add(java.util.Calendar.DATE, 0);
+	   startDate.set(java.util.Calendar.SECOND, 0);
+	   startDate.set(java.util.Calendar.MINUTE, 0);
+	   startDate.set(java.util.Calendar.HOUR_OF_DAY, 0);
+	   return date.compareTo(startDate.getTime()) > 0;
+   }
+
+	/**
+	 * Checks for row presence of a pay calendar by calendar type
+	 */
+	public static boolean validateCalendarByType(String calendarName, String calendarType) {
+		boolean valid = false;
+		Criteria crit = new Criteria();
+		crit.addEqualTo("calendarName", calendarName);
+		if(StringUtils.equalsIgnoreCase(calendarType, "Pay")){
+			crit.addNotEqualTo("calendarTypes", "Leave");	
+		}else if(StringUtils.equalsIgnoreCase(calendarType, "Leave")){
+			crit.addNotEqualTo("calendarTypes", "Pay");
+		}
+		Query query = QueryFactory.newQuery(Calendar.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+		valid = (count > 0);
+		return valid;
+	}
 }

@@ -1,9 +1,9 @@
 package org.kuali.hr.time.warning;
 
+import java.util.List;
+
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-
-import java.util.List;
 
 public class TkWarningServiceImpl implements TkWarningService {
     /**

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -13,9 +13,9 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class EmployeeApprovalBatchJob extends BatchJob {
 	private Logger LOG = Logger.getLogger(EmployeeApprovalBatchJob.class);
-    private PayCalendarEntries payCalendarEntry;
+    private CalendarEntries payCalendarEntry;
 
-    public EmployeeApprovalBatchJob(PayCalendarEntries payCalendarEntry) {
+    public EmployeeApprovalBatchJob(CalendarEntries payCalendarEntry) {
         this.payCalendarEntry = payCalendarEntry;
         setBatchJobName(TkConstants.BATCH_JOB_NAMES.APPROVE);
     }

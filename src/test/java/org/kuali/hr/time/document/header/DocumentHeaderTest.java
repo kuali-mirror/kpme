@@ -1,6 +1,5 @@
 package org.kuali.hr.time.document.header;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -12,6 +11,8 @@ import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class DocumentHeaderTest extends TkTestCase {
 	

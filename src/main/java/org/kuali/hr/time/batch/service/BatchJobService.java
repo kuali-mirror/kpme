@@ -1,8 +1,8 @@
 package org.kuali.hr.time.batch.service;
 
-import org.kuali.hr.time.batch.BatchJob;
-
 import java.util.List;
+
+import org.kuali.hr.time.batch.BatchJob;
 
 public interface BatchJobService {
 

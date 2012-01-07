@@ -38,7 +38,7 @@
               <property name="objectAttributeName" value="payCalendarObj"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="pyCalendarGroup" p:targetName="pyCalendarGroup"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="pyCalendarGroup" p:targetName="calendarName"/>
                 </list>
               </property>
             </bean>
@@ -46,8 +46,8 @@
               <property name="objectAttributeName" value="payCalendarEntriesObj"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPyCalendarEntriesId" p:targetName="hrPyCalendarEntriesId"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="pyCalendarGroup" p:targetName="pyCalendarGroup"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPyCalendarEntriesId" p:targetName="hrCalendarEntriesId"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="pyCalendarGroup" p:targetName="calendarName"/>
                 </list>
               </property>
             </bean>

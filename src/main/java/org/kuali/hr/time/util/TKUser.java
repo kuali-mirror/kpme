@@ -1,6 +1,12 @@
 package org.kuali.hr.time.util;
 
-import com.google.common.collect.Multimap;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -8,7 +14,7 @@ import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
 
-import java.util.*;
+import com.google.common.collect.Multimap;
 
 /**
  * This class houses the concept of a user in the Timekeeping system.  It

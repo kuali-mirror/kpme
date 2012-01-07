@@ -1,22 +1,27 @@
 package org.kuali.hr.time.detail.validation;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.*;
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Hours;
+import org.joda.time.Interval;
+import org.joda.time.LocalDateTime;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TimeDetailValidationService {
 
@@ -43,7 +48,7 @@ public class TimeDetailValidationService {
         }
         if (errors.size() > 0) return errors;
 
-        PayCalendarEntries payCalEntry = timesheetDocument.getPayCalendarEntry();
+        CalendarEntries payCalEntry = timesheetDocument.getPayCalendarEntry();
         java.sql.Date asOfDate = payCalEntry.getEndPeriodDate();
 
         errors.addAll(TimeDetailValidationService.validateDates(startDateS, endDateS));
@@ -216,7 +221,7 @@ public class TimeDetailValidationService {
         return errors;
     }
 
-    public static List<String> validateInterval(PayCalendarEntries payCalEntry, Long startTime, Long endTime) {
+    public static List<String> validateInterval(CalendarEntries payCalEntry, Long startTime, Long endTime) {
         List<String> errors = new ArrayList<String>();
         LocalDateTime pcb_ldt = payCalEntry.getBeginLocalDateTime();
         LocalDateTime pce_ldt = payCalEntry.getEndLocalDateTime();

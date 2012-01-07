@@ -10,7 +10,6 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class AssignmentAccount extends HrBusinessObject {
 	

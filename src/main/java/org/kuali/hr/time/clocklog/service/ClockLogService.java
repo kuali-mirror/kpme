@@ -1,12 +1,12 @@
 package org.kuali.hr.time.clocklog.service;
 
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.clocklog.ClockLog;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
-
 import java.sql.Timestamp;
 import java.util.List;
+
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.clocklog.ClockLog;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 public interface ClockLogService {
 	/**
@@ -45,7 +45,7 @@ public interface ClockLogService {
 	 * @param payCalendarEntry
 	 * @return
 	 */
-	public List<ClockLog> getOpenClockLogs(PayCalendarEntries payCalendarEntry);
+	public List<ClockLog> getOpenClockLogs(CalendarEntries payCalendarEntry);
 
 	/**
 	 * Process clock log created
@@ -59,7 +59,7 @@ public interface ClockLogService {
 	 * @param principalId
 	 * @return
 	 */
-    ClockLog processClockLog(Timestamp clockTimestamp, Assignment assignment, PayCalendarEntries pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId);
+    ClockLog processClockLog(Timestamp clockTimestamp, Assignment assignment, CalendarEntries pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId);
     
     /**
      * Fetch clock log by id
@@ -70,5 +70,5 @@ public interface ClockLogService {
 
     ClockLog buildClockLog(Timestamp clockTimestamp, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId);
 
-    ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment, PayCalendarEntries pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
+    ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment, CalendarEntries pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
 }

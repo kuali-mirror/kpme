@@ -1,11 +1,11 @@
 package org.kuali.hr.time.earngroup;
 
+import java.util.LinkedHashMap;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
-import java.util.LinkedHashMap;
 
 public class EarnGroupDefinition extends PersistableBusinessObjectBase {
 

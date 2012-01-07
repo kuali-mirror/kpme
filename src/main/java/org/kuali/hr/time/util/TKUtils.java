@@ -1,21 +1,31 @@
 package org.kuali.hr.time.util;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.joda.time.*;
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.task.Task;
-import org.kuali.rice.core.config.ConfigContext;
-
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.net.UnknownHostException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Days;
+import org.joda.time.Interval;
+import org.joda.time.Period;
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.task.Task;
+import org.kuali.rice.core.config.ConfigContext;
 
 public class TKUtils {
 
@@ -146,13 +156,13 @@ public class TKUtils {
      * Constructs a list of Day Spans for the pay calendar entry provided. You
      * must also provide a DateTimeZone so that we can create relative boundaries.
      *
-     * @param payCalendarEntry
+     * @param calendarEntry
      * @param timeZone
      * @return
      */
-    public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry, DateTimeZone timeZone) {
-        DateTime beginDateTime = payCalendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
-        DateTime endDateTime = payCalendarEntry.getEndLocalDateTime().toDateTime(timeZone);
+    public static List<Interval> getDaySpanForCalendarEntry(CalendarEntries calendarEntry, DateTimeZone timeZone) {
+        DateTime beginDateTime = calendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
+        DateTime endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(timeZone);
 
         List<Interval> dayIntervals = new ArrayList<Interval>();
 
@@ -166,43 +176,7 @@ public class TKUtils {
 
         return dayIntervals;
     }
-
-    public static List<Interval> getDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
-        return getDaySpanForPayCalendarEntry(payCalendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
-    }
-
-    public static List<Interval> getFullWeekDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry) {
-        return getFullWeekDaySpanForPayCalendarEntry(payCalendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
-    }
-
-    public static List<Interval> getFullWeekDaySpanForPayCalendarEntry(PayCalendarEntries payCalendarEntry, DateTimeZone timeZone) {
-        DateTime beginDateTime = payCalendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
-        DateTime endDateTime = payCalendarEntry.getEndLocalDateTime().toDateTime(timeZone);
-
-        List<Interval> dayIntervals = new ArrayList<Interval>();
-
-        DateTime currDateTime = beginDateTime;
-        if (beginDateTime.getDayOfWeek() != 7) {
-            currDateTime = beginDateTime.plusDays(0 - beginDateTime.getDayOfWeek());
-        }
-
-        int afterEndDate = 6 - endDateTime.getDayOfWeek();
-        if (endDateTime.getDayOfWeek() == 7 && endDateTime.getHourOfDay() != 0) {
-            afterEndDate = 6;
-        }
-        if (endDateTime.getHourOfDay() == 0) {
-            afterEndDate += 1;
-        }
-        DateTime aDate = endDateTime.plusDays(afterEndDate);
-        while (currDateTime.isBefore(aDate)) {
-            DateTime prevDateTime = currDateTime;
-            currDateTime = currDateTime.plusDays(1);
-            Interval daySpan = new Interval(prevDateTime, currDateTime);
-            dayIntervals.add(daySpan);
-        }
-
-        return dayIntervals;
-    }
+    
 
     /**
      * Includes partial weeks if the time range provided does not divide evenly
@@ -391,5 +365,89 @@ public class TKUtils {
                 Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.SESSION_TIMEOUT));
     }
     
+    /**
+     * Creates a Timestamp object using Jodatime as an intermediate data structure
+     * from the provided date and time string. (From the form POST and javascript
+     * formats)
+     *
+     * @param dateStr (the format is 01/01/2011)
+     * @return Timestamp
+     */
+    public static Timestamp convertDateStringToTimestamp(String dateStr) {
+        // the date/time format is defined in tk.calendar.js. the format is 11/17/2010
+        String[] date = dateStr.split("/");
+
+        DateTimeZone dtz = DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone());
+
+        // this is from the jodattime javadoc:
+        // DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
+        // Noted that the month value is the actual month which is different than the java date object where the month value is the current month minus 1.
+        // I tried to use the actual month in the code as much as I can to reduce the convertions.
+        DateTime dateTime = new DateTime(
+                Integer.parseInt(date[2]),
+                Integer.parseInt(date[0]),
+                Integer.parseInt(date[1]),
+                0, 0, 0, 0, dtz);
+
+        return new Timestamp(dateTime.getMillis());
+    }
+
+    
+    public static Timestamp getCurrentTimestamp() {
+        return new Timestamp(System.currentTimeMillis());
+    }
+    
+    public static List<Interval> createDaySpan(DateTime beginDateTime, DateTime endDateTime, DateTimeZone zone) {
+        beginDateTime = beginDateTime.toDateTime(zone);
+        endDateTime = endDateTime.toDateTime(zone);
+        List<Interval> dayIntervals = new ArrayList<Interval>();
+
+        DateTime currDateTime = beginDateTime;
+        while (currDateTime.isBefore(endDateTime)) {
+            DateTime prevDateTime = currDateTime;
+            currDateTime = currDateTime.plusDays(1);
+            Interval daySpan = new Interval(prevDateTime, currDateTime);
+            dayIntervals.add(daySpan);
+        }
+
+        return dayIntervals;
+    }
+    
+    public static List<Interval> getDaySpanForCalendarEntry(CalendarEntries calendarEntry) {
+        return getDaySpanForCalendarEntry(calendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+    }
+
+    public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntries calendarEntry) {
+        return getFullWeekDaySpanForCalendarEntry(calendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+    }
+    
+    public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntries calendarEntry, DateTimeZone timeZone) {
+        DateTime beginDateTime = calendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
+        DateTime endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(timeZone);
+
+        List<Interval> dayIntervals = new ArrayList<Interval>();
+
+        DateTime currDateTime = beginDateTime;
+        if (beginDateTime.getDayOfWeek() != 7) {
+            currDateTime = beginDateTime.plusDays(0 - beginDateTime.getDayOfWeek());
+        }
+
+        int afterEndDate = 6 - endDateTime.getDayOfWeek();
+        if (endDateTime.getDayOfWeek() == 7 && endDateTime.getHourOfDay() != 0) {
+            afterEndDate = 6;
+        }
+        if (endDateTime.getHourOfDay() == 0) {
+            afterEndDate += 1;
+        }
+        DateTime aDate = endDateTime.plusDays(afterEndDate);
+        while (currDateTime.isBefore(aDate)) {
+            DateTime prevDateTime = currDateTime;
+            currDateTime = currDateTime.plusDays(1);
+            Interval daySpan = new Interval(prevDateTime, currDateTime);
+            dayIntervals.add(daySpan);
+        }
+
+        return dayIntervals;
+    }
 
 }

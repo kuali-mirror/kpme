@@ -1,8 +1,8 @@
 package org.kuali.hr.time.roles;
 
-import org.kuali.hr.time.timesheet.TimesheetDocument;
-
 import java.util.Set;
+
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 /**
  * Class to set the contract between Users and Roles.

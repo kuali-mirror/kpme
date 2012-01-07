@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="PrincipalHRAttributesMaintenanceDocument" parent="PrincipalHRAttributesMaintenanceDocument-parentBean" />
+
+	<bean id="PrincipalHRAttributesMaintenanceDocument-parentBean" abstract="true"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.principal.PrincipalHRAttributes"
+		p:businessRulesClass="org.kuali.hr.time.principal.validation.PrincipalHRAttributesRule"
+		p:maintainableClass="org.kuali.hr.time.principal.service.PrincipalHRAttributesMaintainableImpl"
+		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
+		<property name="maintainableSections">
+			<list>
+				<ref bean="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>principalId</value>
+			</list>
+		</property>
+		<property name="documentTypeName" value="PrincipalHRAttributesMaintenanceDocumentType" />
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+
+	<bean id="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance" parent="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance-parentBean" />
+
+	<bean id="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="title" value="Principal Calendar Maintenance" />
+		<property name="maintainableItems">
+			<list>
+			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="name" p:noLookup="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="payCalendar" />
+				<bean parent="MaintainableFieldDefinition" p:name="leaveCalendar" />
+				<bean parent="MaintainableFieldDefinition" p:name="leavePlan" />
+				<bean parent="MaintainableFieldDefinition" p:name="serviceDate" />
+				<bean parent="MaintainableFieldDefinition" p:name="fmlaEligible" />
+				<bean parent="MaintainableFieldDefinition" p:name="workmansCompEligible" />
+				<bean parent="MaintainableFieldDefinition" p:name="timezone" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>

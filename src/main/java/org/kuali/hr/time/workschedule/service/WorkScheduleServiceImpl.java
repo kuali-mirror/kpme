@@ -1,5 +1,9 @@
 package org.kuali.hr.time.workschedule.service;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.time.util.TKUtils;
@@ -7,10 +11,6 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workschedule.WorkSchedule;
 import org.kuali.hr.time.workschedule.WorkScheduleEntry;
 import org.kuali.hr.time.workschedule.dao.WorkScheduleDao;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 public class WorkScheduleServiceImpl implements WorkScheduleService {
 

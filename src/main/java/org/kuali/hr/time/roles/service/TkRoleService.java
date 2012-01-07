@@ -1,11 +1,11 @@
 package org.kuali.hr.time.roles.service;
 
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.roles.TkRole;
-
 import java.sql.Date;
 import java.util.List;
 import java.util.Set;
+
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.roles.TkRole;
 
 public interface TkRoleService {
 	/**

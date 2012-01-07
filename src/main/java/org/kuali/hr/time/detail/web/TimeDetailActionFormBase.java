@@ -1,10 +1,10 @@
 package org.kuali.hr.time.detail.web;
 
-import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
 /**
  * Base form for both WS and Regular TimeDetail action.

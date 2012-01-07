@@ -9,7 +9,7 @@ import org.joda.time.DateTimeZone;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -37,7 +37,7 @@ public class WorkflowTimesheetTest extends TkTestCase {
 		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(user.getPrincipalId(), asOfDate);
 		assertNotNull("No jobs", jobs);
 		assertTrue("Should only be two Jobs.", jobs.size() == 2);
-		PayCalendarEntries pcd = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(user.getPrincipalId(), asOfDate);
+		CalendarEntries pcd = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(user.getPrincipalId(), asOfDate);
 		assertNotNull("No PayCalendarDates", pcd);
 		
 		TimesheetDocument tdoc = timesheetService.openTimesheetDocument(user.getPrincipalId(), pcd);

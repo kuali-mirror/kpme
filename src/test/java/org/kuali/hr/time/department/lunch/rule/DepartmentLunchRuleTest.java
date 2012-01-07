@@ -1,5 +1,9 @@
 package org.kuali.hr.time.department.lunch.rule;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.Calendar;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
@@ -15,10 +19,6 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.Calendar;
 
 public class DepartmentLunchRuleTest extends TkTestCase {
 	@Test

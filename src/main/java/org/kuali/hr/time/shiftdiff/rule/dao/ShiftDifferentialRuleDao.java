@@ -1,9 +1,9 @@
 package org.kuali.hr.time.shiftdiff.rule.dao;
 
-import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
-
 import java.sql.Date;
 import java.util.List;
+
+import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 
 public interface ShiftDifferentialRuleDao {
 

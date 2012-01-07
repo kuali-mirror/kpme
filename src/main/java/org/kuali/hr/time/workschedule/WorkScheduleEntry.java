@@ -1,9 +1,9 @@
 package org.kuali.hr.time.workschedule;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
 import java.sql.Time;
 import java.util.LinkedHashMap;
+
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 

@@ -1,14 +1,21 @@
 package org.kuali.hr.time.util;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TimeZone;
+
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.rice.kew.util.KEWConstants;
-
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.util.*;
 
 public class TkConstants {
     public static final int DEFAULT_CACHE_TIME = 900;
@@ -288,4 +295,56 @@ public class TkConstants {
     public static final String IP_WILDCARD_PATTERN = "(%|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))";
 
     public static final String TASK_DEFAULT_DESP = "Default";
+    
+    public static final Map<String, String> ACCRUAL_EARN_INTERVAL = new LinkedHashMap<String, String>(6);
+
+    static {
+    	ACCRUAL_EARN_INTERVAL.put("D", "Daily");
+    	ACCRUAL_EARN_INTERVAL.put("W", "Weekly");
+    	ACCRUAL_EARN_INTERVAL.put("S", "Semi-Monthly"); 
+    	ACCRUAL_EARN_INTERVAL.put("M", "Monthly"); 
+    	ACCRUAL_EARN_INTERVAL.put("Y", "Yearly"); 
+    	ACCRUAL_EARN_INTERVAL.put("N", "No Accrual"); 
+    }
+
+    public static final Map<String, String> SERVICE_UNIT_OF_TIME = new LinkedHashMap<String, String>(3);
+    
+    static {
+    	SERVICE_UNIT_OF_TIME.put("Y", "Years");
+    	SERVICE_UNIT_OF_TIME.put("M", "Months");
+    	SERVICE_UNIT_OF_TIME.put("H", "Hours"); 
+    }
+    
+    public static final Map<String, String> UNIT_OF_TIME = new LinkedHashMap<String, String>(2);
+    
+    static {
+    	UNIT_OF_TIME.put("D", "Days");
+    	UNIT_OF_TIME.put("H", "Hours");
+    }
+    
+    public static final Map<String, String> MAX_BALANCE_ACTION_FREQUENCY = new LinkedHashMap<String, String>(3);
+    
+    static {
+    	MAX_BALANCE_ACTION_FREQUENCY.put("LA", "Leave Approve");
+    	MAX_BALANCE_ACTION_FREQUENCY.put("YE", "Year End");
+    	MAX_BALANCE_ACTION_FREQUENCY.put("NA", "Not Applicable");
+    }    
+    
+    public static final Map<String, String> ACTION_AT_MAX_BALANCE = new LinkedHashMap<String, String>(3);
+    
+    static {
+    	ACTION_AT_MAX_BALANCE.put("T", "Transfer");
+    	ACTION_AT_MAX_BALANCE.put("P", "Payout");
+    	ACTION_AT_MAX_BALANCE.put("L", "Lose");
+    	ACTION_AT_MAX_BALANCE.put("NA", "Not Applicable");
+    }
+    
+    public static final Map<String, String> UNUSED_TIME = new LinkedHashMap<String, String>(3);
+    
+    static {
+    	UNUSED_TIME.put("NUTA", "No Unused Time Allowed");
+    	UNUSED_TIME.put("T", "Transfer");
+    	UNUSED_TIME.put("B", "Bank");
+    }
+    
 }

@@ -1,5 +1,8 @@
 package org.kuali.hr.time.timecollection.rule.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
@@ -7,9 +10,6 @@ import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-
-import java.util.List;
-import java.util.Map;
 
 public class TimeCollectionRuleLookupableHelper extends
         TkAuthorizedLookupableHelperBase {

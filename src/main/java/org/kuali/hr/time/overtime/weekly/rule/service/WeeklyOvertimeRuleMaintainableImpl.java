@@ -1,15 +1,12 @@
 package org.kuali.hr.time.overtime.weekly.rule.service;
 
-import java.sql.Timestamp;
 import java.util.Map;
 
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class WeeklyOvertimeRuleMaintainableImpl extends HrBusinessObjectMaintainableImpl {

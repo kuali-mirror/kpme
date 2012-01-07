@@ -1,7 +1,7 @@
 package org.kuali.hr.time.timesheet.validation;
 
-import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimeSheetInitiate;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -14,13 +14,13 @@ public class TimeSheetInitiateValidation extends MaintenanceDocumentRuleBase {
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = true;
         TimeSheetInitiate timeInit = (TimeSheetInitiate)this.getNewBo();
-        PayCalendar pc = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(timeInit.getPyCalendarGroup());
+        Calendar pc = TkServiceLocator.getCalendarSerivce().getCalendarByGroup(timeInit.getPyCalendarGroup());
         if(pc == null) {
         	this.putFieldError("pyCalendarGroup", "timeSheetInit.payCalendar.Invalid");
         	valid = false;
         }
         
-    	PayCalendarEntries pce = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(timeInit.getHrPyCalendarEntriesId());
+    	CalendarEntries pce = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(timeInit.getHrPyCalendarEntriesId());
     	if(pce == null) {
     		this.putFieldError("hrPyCalendarEntriesId", "timeSheetInit.payCalEntriesId.Invalid");
         	valid = false;
@@ -32,7 +32,7 @@ public class TimeSheetInitiateValidation extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    protected void createTimeSheetDocument(TimeSheetInitiate timeInit, PayCalendarEntries entries) {
+    protected void createTimeSheetDocument(TimeSheetInitiate timeInit, CalendarEntries entries) {
     	try {
     		TimesheetDocument tsd = TkServiceLocator.getTimesheetService().openTimesheetDocument(timeInit.getPrincipalId(), entries);
     		if(tsd != null) {

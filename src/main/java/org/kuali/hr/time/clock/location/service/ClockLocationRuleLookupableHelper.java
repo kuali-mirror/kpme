@@ -2,7 +2,6 @@ package org.kuali.hr.time.clock.location.service;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;

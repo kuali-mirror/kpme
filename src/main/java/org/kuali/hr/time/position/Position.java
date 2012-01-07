@@ -1,9 +1,9 @@
 package org.kuali.hr.time.position;
 
-import org.kuali.hr.time.HrBusinessObject;
-
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
+
+import org.kuali.hr.time.HrBusinessObject;
 
 public class Position extends HrBusinessObject {
 

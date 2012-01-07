@@ -1,8 +1,8 @@
 package org.kuali.hr.time.salgroup.service;
 
-import org.kuali.hr.time.salgroup.SalGroup;
-
 import java.sql.Date;
+
+import org.kuali.hr.time.salgroup.SalGroup;
 
 public interface SalGroupService {
 	/**

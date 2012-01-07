@@ -38,6 +38,7 @@
             <list>
                 <value>OJB-repository-time.xml</value>
                 <value>OJB-repository-coa.xml</value>
+                <value>OJB-repository-leave.xml</value>
             </list>
         </property>
     </bean>
@@ -242,6 +243,7 @@
         <property name="dataDictionaryPackages">
             <list>
                 <value>classpath:org/kuali/hr/time/datadictionary</value>
+                <value>classpath:org/kuali/hr/leave/datadictionary</value>
                 <value>classpath:org/kuali/kfs/coa/datadictionary</value>
             </list>
         </property>
@@ -289,10 +291,6 @@
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <bean id="accrualCategoryDao" class="org.kuali.hr.time.accrual.dao.AccrualCategoryDaoSpringOjbImpl">
-        <property name="jcdAlias" value="tkDataSource"/>
-    </bean>
-
     <bean id="tkRoleDao" class="org.kuali.hr.time.roles.dao.TkRoleDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
@@ -321,11 +319,11 @@
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <bean id="payCalendarDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarDaoSpringOjbImpl">
+    <bean id="calendarDao" class="org.kuali.hr.time.calendar.dao.CalendarDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <bean id="payCalendarEntriesDao" class="org.kuali.hr.time.paycalendar.dao.PayCalendarEntriesDaoSpringOjbImpl">
+    <bean id="calendarEntriesDao" class="org.kuali.hr.time.calendar.dao.CalendarEntriesDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
@@ -398,7 +396,7 @@
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <bean id="principalCalendarDao" class="org.kuali.hr.time.principal.calendar.dao.PrincipalCalendarDaoImpl">
+    <bean id="principalHRAttributesDao" class="org.kuali.hr.time.principal.dao.PrincipalHRAttributesDaoImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
@@ -436,7 +434,37 @@
     <bean id="batchJobEntryDao" class="org.kuali.hr.time.batch.dao.BatchJobEntryDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
+  <bean id="accrualCategoryDao" class="org.kuali.hr.lm.accrual.dao.AccrualCategoryDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
 
+    <bean id="leaveCodeDao" class="org.kuali.hr.lm.leavecode.dao.LeaveCodeDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="leavePlanDao" class="org.kuali.hr.lm.leaveplan.dao.LeavePlanDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
+    <bean id="leaveDonationDao" class="org.kuali.hr.lm.leavedonation.dao.LeaveDonationDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="systemScheduledTimeOffDao" class="org.kuali.hr.lm.timeoff.dao.SystemScheduledTimeOffDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="ledgerDao" class="org.kuali.hr.lm.ledger.dao.LedgerDaoOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="leaveCalendarDocumentHeaderDao" class="org.kuali.hr.lm.workflow.dao.LeaveCalendarDocumentHeaderDaoImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+
+    <bean id="leaveCalendarDao" class="org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDaoImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
     <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
         <property name="missedPunchDao" ref="missedPunchDao"/>
@@ -548,12 +576,12 @@
         <property name="tkRoleGroupDao" ref="tkRoleGroupDao"/>
     </bean>
 
-    <bean id="payCalendarService" class="org.kuali.hr.time.paycalendar.service.PayCalendarServiceImpl">
-        <property name="payCalendarDao" ref="payCalendarDao"/>
+    <bean id="calendarService" class="org.kuali.hr.time.calendar.service.CalendarServiceImpl">
+        <property name="calendarDao" ref="calendarDao"/>
     </bean>
 
-    <bean id="payCalendarEntriesService" class="org.kuali.hr.time.paycalendar.service.PayCalendarEntriesServiceImpl">
-        <property name="payCalendarEntriesDao" ref="payCalendarEntriesDao"/>
+    <bean id="calendarEntriesService" class="org.kuali.hr.time.calendar.service.CalendarEntriesServiceImpl">
+        <property name="calendarEntriesDao" ref="calendarEntriesDao"/>
     </bean>
 
     <bean id="timesheetDocumentHeaderService"
@@ -565,9 +593,6 @@
         <property name="workAreaDao" ref="workAreaDao"/>
     </bean>
 
-    <bean id="accrualCategoryService" class="org.kuali.hr.time.accrual.service.AccrualCategoryServiceImpl">
-        <property name="accrualCategoryDao" ref="accrualCategoryDao"/>
-    </bean>
 
     <bean id="timesheetService" class="org.kuali.hr.time.timesheet.service.TimesheetServiceImpl">
     </bean>
@@ -596,9 +621,9 @@
         <property name="timeHourDetailDao" ref="timeHourDetailDao"/>
     </bean>
 
-    <bean id="principalCalendarService"
-          class="org.kuali.hr.time.principal.calendar.service.PrincipalCalendarServiceImpl">
-        <property name="principalCalendarDao" ref="principalCalendarDao"/>
+    <bean id="principalHRAttributesService"
+          class="org.kuali.hr.time.principal.service.PrincipalHRAttributesServiceImpl">
+        <property name="principalHRAttributesDao" ref="principalHRAttributesDao"/>
     </bean>
 
     <bean id="holidayCalendarService" class="org.kuali.hr.time.holidaycalendar.service.HolidayCalendarServiceImpl">
@@ -624,7 +649,37 @@
     <bean id="batchJobEntryService" class="org.kuali.hr.time.batch.service.BatchJobEntryServiceImpl">
         <property name="batchJobEntryDao" ref="batchJobEntryDao"/>
     </bean>
+    <bean id="accrualCategoryService" class="org.kuali.hr.lm.accrual.service.AccrualCategoryServiceImpl">
+        <property name="accrualCategoryDao" ref="accrualCategoryDao"/>
+    </bean>
 
+    <bean id="leaveCodeService" class="org.kuali.hr.lm.leavecode.service.LeaveCodeServiceImpl">
+        <property name="leaveCodeDao" ref="leaveCodeDao"/>
+    </bean>
+
+    <bean id="leavePlanService" class="org.kuali.hr.lm.leaveplan.service.LeavePlanServiceImpl">
+        <property name="leavePlanDao" ref="leavePlanDao"/>
+    </bean>
+
+    <bean id="leaveDonationService" class="org.kuali.hr.lm.leavedonation.service.LeaveDonationServiceImpl">
+        <property name="leaveDonationDao" ref="leaveDonationDao"/>
+    </bean>
+
+    <bean id="systemScheduledTimeOffService" class="org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffServiceImpl">
+        <property name="systemScheduledTimeOffDao" ref="systemScheduledTimeOffDao"/>
+    </bean>
+
+    <bean id="ledgerService" class="org.kuali.hr.lm.ledger.service.LedgerServiceImpl">
+        <property name="ledgerDao" ref="ledgerDao"/>
+    </bean>
+
+    <bean id="leaveCalendarService" class="org.kuali.hr.lm.leavecalendar.service.LeaveCalendarServiceImpl">
+        <property name="leaveCalendarDao" ref="leaveCalendarDao"/>
+    </bean>
+
+    <bean id="leaveCalendarDocumentHeaderService" class="org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderServiceImpl">
+        <property name="leaveCalendarDocumentHeaderDao" ref="leaveCalendarDocumentHeaderDao"/>
+    </bean>
     <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>
 
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
@@ -647,6 +702,20 @@
 
     <bean id="timeApproveService" class="org.kuali.hr.time.approval.service.TimeApproveServiceImpl"/>
 
+    <bean name="tkMobileService" class="org.kuali.hr.time.mobile.service.TkMobileServiceImpl"/>
+
+    <bean id="tkMobileServiceExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="service" ref="tkMobileService"/>
+                <property name="serviceNameSpaceURI" value="tkMobileService"/>
+                <property name="localServiceName" value="tkMobileService"/>
+                <property name="busSecurity" value="false"/>
+                <property name="jaxWsService" value="true"/>
+                <property name="serviceEndPoint" value="${application.url}/remoting/tkMobileService"/>
+            </bean>
+        </property>
+    </bean>
     <bean id="timeOffAccrualService" class="org.kuali.hr.time.accrual.service.TimeOffAccrualServiceImpl">
         <property name="timeOffAccrualDao" ref="timeOffAccrualDao"/>
     </bean>
@@ -655,9 +724,9 @@
             <bean class="org.kuali.hr.time.TkLookupableHelper"/>
         </property>
     </bean>
-    <bean id="payCalendarLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+    <bean id="calendarLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.paycalendar.service.PayCalendarLookupableHelper"/>
+            <bean class="org.kuali.hr.time.calendar.service.CalendarLookupableHelper"/>
         </property>
     </bean>
     <bean id="jobLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
@@ -670,11 +739,7 @@
             <bean class="org.kuali.hr.time.syslunch.service.SystemLunchRuleLookupableHelper"/>
         </property>
     </bean>
-    <bean id="accrualCategoryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.accrual.service.AccrualCategoryLookupableHelper"/>
-        </property>
-    </bean>
+
     <bean id="departmentEarnCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeLookupableHelper"/>
@@ -772,9 +837,9 @@
             <bean class="org.kuali.hr.location.service.LocationLookupableHelper"/>
         </property>
     </bean>
-    <bean id="payCalendarEntriesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+    <bean id="calendarEntriesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.paycalendar.service.PayCalendarEntriesLookupableHelper"/>
+            <bean class="org.kuali.hr.time.calendar.service.CalendarEntriesLookupableHelper"/>
         </property>
     </bean>
     <bean id="payGradeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
@@ -782,9 +847,9 @@
             <bean class="org.kuali.hr.paygrade.service.PayGradeLookupableHelper"/>
         </property>
     </bean>
-    <bean id="principalCalendarLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+    <bean id="principalHRAttributesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.principal.calendar.service.PrincipalCalendarLookupableHelper"/>
+            <bean class="org.kuali.hr.time.principal.service.PrincipalHRAttributesLookupableHelper"/>
         </property>
     </bean>
     <bean id="timeOffAccrualLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
@@ -847,6 +912,28 @@
             <bean class="org.kuali.hr.time.timesheet.service.TimeSheetInitiateLookupableHelper"/>
         </property>
     </bean>
+    
+   <bean id="leavePlanLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.lm.leaveplan.service.LeavePlanLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="systemScheduledTimeOffLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffLookupableHelper"/>
+        </property>
+    </bean>
+    
+    <bean id="leaveCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.lm.leavecode.service.LeaveCodeLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="leaveDonationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.lm.leavedonation.service.LeaveDonationLookupableHelper"/>
+        </property>
+    </bean>    
     
     <!-- Scheduler configuration -->
     <!-- Serializer service -->

@@ -1,6 +1,5 @@
 package org.kuali.hr.time.util;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.time.ApplicationInitializeListener;
@@ -13,6 +12,8 @@ import org.kuali.rice.core.config.spring.ConfigFactoryBean;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.mock.web.MockHttpServletRequest;
+
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class PersonInfoTest extends TkTestCase {
 	

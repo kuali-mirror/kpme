@@ -1,11 +1,15 @@
 package org.kuali.hr.job;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
-import org.kuali.hr.time.paycalendar.PayCalendar;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -13,11 +17,7 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.List;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * This class needs refactored - the name job test implies that it should unit test on the Job object, especially considering it's package location.
@@ -35,42 +35,42 @@ public class JobTest extends TkTestCase {
 	
 	@Test
 	public void testInsertPayCalendar() throws Exception {
-		PayCalendar payCalendar = new PayCalendar();
-		payCalendar.setHrPyCalendarId("1");
-		payCalendar.setPyCalendarGroup(CALENDAR_GROUP);
+		Calendar payCalendar = new Calendar();
+		payCalendar.setHrCalendarId("1");
+		payCalendar.setCalendarName(CALENDAR_GROUP);
 
 		payCalendar.setFlsaBeginDay("Sun");
 		payCalendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
 		KNSServiceLocator.getBusinessObjectService().save(payCalendar);
-		assertTrue(TkServiceLocator.getPayCalendarSerivce().getPayCalendar(payCalendar.getHrPyCalendarId()) != null);
+		assertTrue(TkServiceLocator.getCalendarSerivce().getCalendar(payCalendar.getHrCalendarId()) != null);
 
 	}
 
 	@Test
 	public void testInsertPayCalendarDates() throws Exception {
-		PayCalendarEntries payCalendarDates = new PayCalendarEntries();
-		payCalendarDates.setHrPyCalendarEntriesId("1001");
-		payCalendarDates.setHrPyCalendarId("1001");
+		CalendarEntries payCalendarDates = new CalendarEntries();
+		payCalendarDates.setHrCalendarEntriesId("1001");
+		payCalendarDates.setHrCalendarId("1001");
 
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.MONTH, 7);
-		cal.set(Calendar.DATE, 1);
-		cal.set(Calendar.YEAR, 2010);
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		cal.set(java.util.Calendar.MONTH, 7);
+		cal.set(java.util.Calendar.DATE, 1);
+		cal.set(java.util.Calendar.YEAR, 2010);
 
 		payCalendarDates.setBeginPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
-		payCalendarDates.setPyCalendarGroup(CALENDAR_GROUP);
-		cal.set(Calendar.DATE, 14);
+		payCalendarDates.setCalendarName(CALENDAR_GROUP);
+		cal.set(java.util.Calendar.DATE, 14);
 		payCalendarDates.setEndPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
 
 		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);
-		assertTrue(TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntries(payCalendarDates.getHrPyCalendarEntriesId()) != null);
+		assertTrue(TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(payCalendarDates.getHrCalendarEntriesId()) != null);
 
 	}
 
 	@Test
 	public void testInsertPayType() throws Exception {
 
-		long currentTimestamp = Calendar.getInstance().getTime().getTime();
+		long currentTimestamp = java.util.Calendar.getInstance().getTime().getTime();
 
 		PayType payType = new PayType();
 		payType.setHrPayTypeId("1001");

@@ -86,7 +86,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="pyCalendarGroup"
-								p:targetName="pyCalendarGroup" />
+								p:targetName="calendarName" />
 						</list>
 					</property>
 				</bean>

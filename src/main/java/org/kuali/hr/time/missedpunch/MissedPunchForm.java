@@ -1,12 +1,12 @@
 package org.kuali.hr.time.missedpunch;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
-
-import javax.servlet.http.HttpServletRequest;
 
 public class MissedPunchForm extends KualiTransactionalDocumentFormBase {
 

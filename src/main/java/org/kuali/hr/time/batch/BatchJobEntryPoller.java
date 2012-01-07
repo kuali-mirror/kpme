@@ -1,12 +1,12 @@
 package org.kuali.hr.time.batch;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.util.List;
 
 /**
  * Runs on each worker node, schedules jobs to run on the thread pool.

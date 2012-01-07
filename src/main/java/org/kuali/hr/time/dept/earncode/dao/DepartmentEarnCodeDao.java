@@ -1,9 +1,9 @@
 package org.kuali.hr.time.dept.earncode.dao;
 
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
-
 import java.util.Date;
 import java.util.List;
+
+import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 
 public interface DepartmentEarnCodeDao {
 

@@ -1,7 +1,7 @@
 package org.kuali.hr.time.department.earncode;
 
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
@@ -11,7 +11,8 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import java.sql.Date;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	private static final java.sql.Date TEST_DATE = new Date((new DateTime(2009, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());

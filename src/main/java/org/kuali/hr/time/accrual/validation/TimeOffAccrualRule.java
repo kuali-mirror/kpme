@@ -25,7 +25,6 @@ public class TimeOffAccrualRule extends MaintenanceDocumentRuleBase {
 				valid = true;
 				valid &= this.validatePrincipalId(tof);
 				valid &= this.validateAccrualCategory(tof);
-				valid &= this.validateDuplication(tof);
 			}
 		}
 
@@ -49,15 +48,6 @@ public class TimeOffAccrualRule extends MaintenanceDocumentRuleBase {
 						.getAccrualCategory(), tof.getEffectiveDate())) {
 			this.putFieldError("accrualCategory", "error.existence",
 					"accrualCategory '" + tof.getAccrualCategory() + "'");
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	private boolean validateDuplication(TimeOffAccrual tof) {
-		if(ValidationUtils.duplicateTimeOffAccrual(tof)) {
-			this.putFieldError("effectiveDate", "timeoffaccrual.duplicate.exists");
 			return false;
 		} else {
 			return true;

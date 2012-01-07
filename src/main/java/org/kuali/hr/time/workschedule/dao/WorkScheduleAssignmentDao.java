@@ -1,9 +1,9 @@
 package org.kuali.hr.time.workschedule.dao;
 
-import org.kuali.hr.time.workschedule.WorkScheduleAssignment;
-
 import java.sql.Date;
 import java.util.List;
+
+import org.kuali.hr.time.workschedule.WorkScheduleAssignment;
 
 public interface WorkScheduleAssignmentDao {
     public void saveOrUpdate(WorkScheduleAssignment wsa);

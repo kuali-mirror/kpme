@@ -1,11 +1,11 @@
 package org.kuali.hr.time.dept.earncode.service;
 
+import java.util.List;
+
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.dept.earncode.dao.DepartmentEarnCodeDao;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.util.List;
 
 public class DepartmentEarnCodeServiceImpl implements DepartmentEarnCodeService {
 

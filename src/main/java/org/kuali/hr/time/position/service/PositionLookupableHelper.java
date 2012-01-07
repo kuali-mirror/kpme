@@ -3,9 +3,7 @@ package org.kuali.hr.time.position.service;
 import java.util.List;
 
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
-import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.position.Position;
-import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;

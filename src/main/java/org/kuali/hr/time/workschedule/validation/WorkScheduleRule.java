@@ -1,13 +1,6 @@
 package org.kuali.hr.time.workschedule.validation;
 
-import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.hr.time.workschedule.WorkSchedule;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class WorkScheduleRule extends MaintenanceDocumentRuleBase {
 

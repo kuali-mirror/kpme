@@ -1,12 +1,12 @@
 package org.kuali.hr.time.salgroup.service;
 
+import java.util.List;
+
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-
-import java.util.List;
 
 public class SalaryGroupLookupableHelper extends
 		HrEffectiveDateActiveLookupableHelper {
