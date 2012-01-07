@@ -1,21 +1,22 @@
 package org.kuali.hr.time.shiftdiff.rule;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.Calendar;
+
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.Calendar;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 	private static final String TEST_CODE="_T";
 		
 	private static final BigDecimal TEST_NO=new BigDecimal(2);
-	private static Long shiftDifferentialRuleId;
+	private static String shiftDifferentialRuleId;
 	private static final String TEST_TIME= "11:00 PM";
 	private static final Date TEST_DATE= new Date(Calendar.getInstance().getTimeInMillis());
 	

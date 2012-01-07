@@ -1,9 +1,9 @@
 package org.kuali.hr.time.calendar.service;
 
+import java.util.Date;
+
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
-
-import java.util.Date;
 
 public interface CalendarService {
 	/**
@@ -11,7 +11,7 @@ public interface CalendarService {
 	 * @param hrCalendarId
 	 * @return
 	 */
-	public Calendar getCalendar(Long hrCalendarId);
+	public Calendar getCalendar(String hrCalendarId);
 
 	/**
 	 * Fetch a pay calendar by group
@@ -48,5 +48,5 @@ public interface CalendarService {
 	 * @param beginDateCurrentCalendar
 	 * @return
 	 */
-	public CalendarEntries getPreviousCalendarEntry(Long tkCalendarId, Date beginDateCurrentCalendar);
+	public CalendarEntries getPreviousCalendarEntry(String tkCalendarId, Date beginDateCurrentCalendar);
 }

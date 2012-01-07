@@ -1,14 +1,14 @@
 package org.kuali.hr.time.department.earncode.service;
 
+import java.util.Calendar;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
-
-import java.util.Calendar;
-import java.util.List;
 
 public class DepartmentEarnCodeServiceImplTest extends TkTestCase {
 

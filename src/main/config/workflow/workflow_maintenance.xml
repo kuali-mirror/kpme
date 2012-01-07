@@ -155,10 +155,10 @@
 			<label>EarnCodeMaintenanceDocument</label>
 	</documentType>
 	<documentType>
-			<name>PrincipalHRAttributesMaintenanceDocumentType</name>
+			<name>PrincipalCalendarMaintenanceDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>PrincipalHRAttributesMaintenanceDocument</label>
+			<label>PrincipalCalendarMaintenanceDocument</label>
 	</documentType>
 
 	<documentType>
@@ -209,7 +209,7 @@
       <label>RoleAssignDocument</label>
     </documentType>     
     <documentType>
-      <name>WorkAreaMaintenanceDocument</name>
+      <name>WorkAreaMaintenanceDocumentType</name>
       <parent>RiceDocument</parent>
       <docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
       <label>WorkAreaMaintenanceDocument</label>

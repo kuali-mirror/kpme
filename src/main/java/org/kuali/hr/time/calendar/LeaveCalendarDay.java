@@ -1,9 +1,9 @@
 package org.kuali.hr.time.calendar;
 
-import org.kuali.hr.lm.ledger.Ledger;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.hr.lm.ledger.Ledger;
 
 public class LeaveCalendarDay extends CalendarDay {
 

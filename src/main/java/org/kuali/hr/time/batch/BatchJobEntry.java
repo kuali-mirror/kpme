@@ -9,8 +9,8 @@ public class BatchJobEntry {
 	private String batchJobException;
 	private String ipAddress;
 	private String batchJobName;
-	private Long hrPyCalendarEntryId;
-	private Long clockLogId;
+	private String hrPyCalendarEntryId;
+	private String clockLogId;
 	
 	public Long getTkBatchJobEntryId() {
 		return tkBatchJobEntryId;
@@ -60,16 +60,16 @@ public class BatchJobEntry {
 	public void setBatchJobName(String batchJobName) {
 		this.batchJobName = batchJobName;
 	}
-	public void setHrPyCalendarId(Long hrPyCalendarEntryId) {
+	public void setHrPyCalendarEntryId(String hrPyCalendarEntryId) {
 		this.hrPyCalendarEntryId = hrPyCalendarEntryId;
 	}
-	public Long getCalendarEntryId() {
+	public String getHrPyCalendarEntryId() {
 		return hrPyCalendarEntryId;
 	}
-	public void setClockLogId(Long clockLogId) {
+	public void setClockLogId(String clockLogId) {
 		this.clockLogId = clockLogId;
 	}
-	public Long getClockLogId() {
+	public String getClockLogId() {
 		return clockLogId;
 	}
 }

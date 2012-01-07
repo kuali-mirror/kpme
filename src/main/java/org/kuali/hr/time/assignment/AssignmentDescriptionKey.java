@@ -1,10 +1,10 @@
 package org.kuali.hr.time.assignment;
 
-import org.apache.log4j.Logger;
-import org.kuali.hr.time.util.TkConstants;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
+import org.kuali.hr.time.util.TkConstants;
 
 public class AssignmentDescriptionKey {
 	private static final Logger LOG = Logger.getLogger(AssignmentDescriptionKey.class);
@@ -17,7 +17,7 @@ public class AssignmentDescriptionKey {
 
     }
 
-    // djunk - added this constructor since we are esentially working on units
+    // djunk - added this constructor since we are essentially working on units
     // of assignments and their keys
     public AssignmentDescriptionKey(Assignment a) {
         if (a != null) {

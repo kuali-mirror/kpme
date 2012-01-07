@@ -1,13 +1,13 @@
 package org.kuali.hr.time.calendar.service;
 
+import java.util.Date;
+import java.util.List;
+
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.dao.CalendarEntriesDao;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.util.DateUtils;
-
-import java.util.Date;
-import java.util.List;
 
 public class CalendarEntriesServiceImpl implements CalendarEntriesService {
 
@@ -17,31 +17,31 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
 		this.calendarEntriesDao = calendarEntriesDao;
 	}
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public CalendarEntries getCalendarEntries(Long hrCalendarEntriesId) {
+	public CalendarEntries getCalendarEntries(String hrCalendarEntriesId) {
 
 		return calendarEntriesDao.getCalendarEntries(hrCalendarEntriesId);
 	}
 
     @Override
     @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-    public CalendarEntries getCalendarEntriesByIdAndPeriodEndDate(Long hrCalendarId, Date endPeriodDate) {
+    public CalendarEntries getCalendarEntriesByIdAndPeriodEndDate(String hrCalendarId, Date endPeriodDate) {
         return calendarEntriesDao.getCalendarEntriesByIdAndPeriodEndDate(hrCalendarId, endPeriodDate);
     }
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public CalendarEntries getCurrentCalendarEntriesByCalendarId(
-			Long hrCalendarId, Date currentDate) {
+			String hrCalendarId, Date currentDate) {
 		return calendarEntriesDao.getCurrentCalendarEntriesByCalendarId(hrCalendarId, currentDate);
 	}
 
     @Override
-    public CalendarEntries getPreviousCalendarEntriesByCalendarId(Long hrCalendarId, CalendarEntries pce) {
+    public CalendarEntries getPreviousCalendarEntriesByCalendarId(String hrCalendarId, CalendarEntries pce) {
         return calendarEntriesDao.getPreviousCalendarEntriesByCalendarId(hrCalendarId, pce);
     }
 
     @Override
-    public CalendarEntries getNextCalendarEntriesByCalendarId(Long hrCalendarId, CalendarEntries pce) {
+    public CalendarEntries getNextCalendarEntriesByCalendarId(String hrCalendarId, CalendarEntries pce) {
         return calendarEntriesDao.getNextCalendarEntriesByCalendarId(hrCalendarId, pce);
     }
     @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)

@@ -1,5 +1,13 @@
 package org.kuali.hr.time.timesummary.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDateTime;
@@ -23,9 +31,6 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
-import java.math.BigDecimal;
-import java.util.*;
-
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
 
@@ -44,8 +49,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
         List<Boolean> dayArrangements = new ArrayList<Boolean>();
 
-		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getCalendarEntry(), dayArrangements));
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getCalendarEntry(), TkServiceLocator.getCalendarSerivce().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
+		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getPayCalendarEntry(), dayArrangements));
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getPayCalendarEntry(), TkServiceLocator.getCalendarSerivce().getCalendar(timesheetDocument.getPayCalendarEntry().getHrCalendarId()), true);
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
 
         List<EarnGroupSection> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getSummaryHeader().size()+1, dayArrangements, timesheetDocument.getAsOfDate());
@@ -112,7 +117,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 								assignRow = new AssignmentRow();
 								assignRow.setAssignmentKey(assignKey);
 								AssignmentDescriptionKey assignmentKey = TkServiceLocator.getAssignmentService().getAssignmentDescriptionKey(assignKey);
-								Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(assignmentKey, TKUtils.getTimelessDate(asOfDate));
+								Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, TKUtils.getTimelessDate(asOfDate));
 								//TODO push this up to the assignment fetch/fully populated instead of like this
 								if(assignment != null){
 									if(assignment.getJob() == null){
@@ -249,7 +254,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     /**
      * Handles the generation of the display header for the time summary.
      *
-     * @param cal The CalendarEntries object we are using to derive information.
+     * @param cal The PayCalendarEntries object we are using to derive information.
      * @param dayArrangements Container passed in to store the position of week / period aggregate sums
      *
      * @return An in-order string of days for this period that properly accounts
@@ -326,7 +331,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
     /**
      * @param calEntry Calendar entry we are using for lookup.
-     * @return The Calendar that owns the provided entry.
+     * @return The PayCalendar that owns the provided entry.
      */
     private Calendar getCalendarForEntry(CalendarEntries calEntry) {
         Calendar cal = null;

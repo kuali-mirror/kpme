@@ -19,7 +19,7 @@ public class ChartLookupableHelper extends KualiLookupableHelperServiceImpl {
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			Chart chart = (Chart) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String chartOfAccountsCode = chart.getChartOfAccountsCode();

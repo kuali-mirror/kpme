@@ -1,14 +1,15 @@
 package org.kuali.hr.time.calendar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Render helper to handle timeblock and time hour details display
@@ -51,7 +52,14 @@ public class TimeBlockRenderer {
 
         WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getTkWorkAreaId());
         b.append(wa.getDescription());
-
+        Task task = TkServiceLocator.getTaskService().getTask(timeBlock.getTask(), timeBlock.getBeginDate());
+        if(task != null) {
+        	// do not display task description if the task is the default one
+        	// default task is created in getTask() of TaskService
+        	if(!task.getDescription().equals(TkConstants.TASK_DEFAULT_DESP)) {
+        		b.append("-" + task.getDescription());
+        	}
+        }
         return b.toString();
     }
 

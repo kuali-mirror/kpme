@@ -13,7 +13,7 @@ import org.kuali.hr.time.authorization.AuthorizationValidationUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
-import org.kuali.hr.time.clock.location.TKIPAddress;
+import org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -45,8 +45,8 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
-	boolean validateIpAddresses(List<TKIPAddress> ipAddresses) {
-		for(TKIPAddress ip : ipAddresses) {
+	boolean validateIpAddresses(List<ClockLocationRuleIpAddress> ipAddresses) {
+		for(ClockLocationRuleIpAddress ip : ipAddresses) {
 			if(!validateIpAddress(ip.getIpAddress())) {
 				return this.flagIPAddressError(ip.getIpAddress());
 			}

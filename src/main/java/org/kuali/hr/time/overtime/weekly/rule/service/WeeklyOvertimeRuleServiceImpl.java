@@ -1,5 +1,13 @@
 package org.kuali.hr.time.overtime.weekly.rule.service;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeZone;
 import org.kuali.hr.time.cache.CacheResult;
@@ -18,10 +26,6 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.*;
 
 public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService {
 
@@ -50,8 +54,8 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 			 if (prevBlocks.size() > 0) {
 				TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getPayBeginDate());
 				if (prevTdh != null) {
-					CalendarEntries prevCalendarEntry = TkServiceLocator.getCalendarSerivce().getCalendarDatesByPayEndDate(principalId, prevTdh.getPayEndDate());
-					TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevCalendarEntry, prevCalendarEntry.getCalendarObj(), true);
+					CalendarEntries prevPayCalendarEntry = TkServiceLocator.getCalendarSerivce().getCalendarDatesByPayEndDate(principalId, prevTdh.getPayEndDate());
+					TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry, prevPayCalendarEntry.getCalendarObj(), true);
 					previousWeeks = prevTimeAggregate.getFlsaWeeks(zone);
 					if (previousWeeks.size() == 0) {
 						previousWeeks = null;
@@ -242,7 +246,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public WeeklyOvertimeRule getWeeklyOvertimeRule(Long tkWeeklyOvertimeRuleId) {
+	public WeeklyOvertimeRule getWeeklyOvertimeRule(String tkWeeklyOvertimeRuleId) {
 		return weeklyOvertimeRuleDao.getWeeklyOvertimeRule(tkWeeklyOvertimeRuleId);
 	}
 

@@ -1,5 +1,9 @@
 package org.kuali.hr.time.department.lunch.rule;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.Calendar;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
@@ -16,10 +20,6 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.Calendar;
-
 public class DepartmentLunchRuleTest extends TkTestCase {
 	@Test
 	public void testDepartmentLunchRuleFetch() throws Exception{
@@ -32,7 +32,7 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		deptLunchRule.setPrincipalId("admin");
 		deptLunchRule.setDeductionMins(new BigDecimal(30));
 		deptLunchRule.setShiftHours(new BigDecimal(6));
-		deptLunchRule.setTkDeptLunchRuleId(1001L);
+		deptLunchRule.setTkDeptLunchRuleId("1001");
 		
 		KNSServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
@@ -60,7 +60,7 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		deptLunchRule.setPrincipalId("edna");
 		deptLunchRule.setDeductionMins(new BigDecimal(30));
 		deptLunchRule.setShiftHours(new BigDecimal(6));
-		deptLunchRule.setTkDeptLunchRuleId(1001L);
+		deptLunchRule.setTkDeptLunchRuleId("1001");
 
 		KNSServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
@@ -77,7 +77,7 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		}
         //reset time block
         TkServiceLocator.getTimesheetService().resetTimeBlock(doc.getTimeBlocks());
-		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, doc.getTimeBlocks(), doc.getCalendarEntry(), doc, "admin");
+		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, doc.getTimeBlocks(), doc.getPayCalendarEntry(), doc, "admin");
 		for(TimeBlock tb : doc.getTimeBlocks()) {
 			if(tb.getHours().compareTo(deptLunchRule.getShiftHours()) == 1) {
 				for(TimeHourDetail thd : tb.getTimeHourDetails()){

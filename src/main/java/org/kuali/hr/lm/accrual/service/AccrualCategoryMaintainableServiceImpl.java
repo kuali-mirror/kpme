@@ -42,7 +42,7 @@ public class AccrualCategoryMaintainableServiceImpl extends HrBusinessObjectMain
 	}
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(id);
 	}
 

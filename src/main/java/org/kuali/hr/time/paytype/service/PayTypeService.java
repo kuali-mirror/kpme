@@ -18,11 +18,11 @@ public interface PayTypeService {
 	public void saveOrUpdate(List<PayType> payTypeList);
 	
 	/**
-	 * Provides access to the PayType.   The Calendar will be loaded as well.
+	 * Provides access to the PayType.   The PayCalendar will be loaded as well.
 	 * @param payTypeId
 	 * @return A fully populated PayType.
 	 */
 	public PayType getPayType(String payType, Date effectiveDate);
 	
-	public PayType getPayType(Long hrPayTypeId);
+	public PayType getPayType(String hrPayTypeId);
 }

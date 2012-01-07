@@ -1,14 +1,15 @@
 package org.kuali.hr.time.workflow.dao;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-
-import java.util.*;
 
 public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements TimesheetDocumentHeaderDao {
 

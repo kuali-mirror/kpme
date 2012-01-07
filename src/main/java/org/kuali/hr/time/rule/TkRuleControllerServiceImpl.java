@@ -1,5 +1,7 @@
 package org.kuali.hr.time.rule;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -8,8 +10,6 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
-
-import java.util.List;
 
 public class TkRuleControllerServiceImpl implements TkRuleControllerService {
 

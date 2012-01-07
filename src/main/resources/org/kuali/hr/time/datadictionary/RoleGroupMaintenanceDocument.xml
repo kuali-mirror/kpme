@@ -13,6 +13,7 @@
             p:businessObjectClass="org.kuali.hr.time.roles.TkRoleGroup"
             p:maintainableClass="org.kuali.hr.time.roles.TkRoleGroupMaintainableImpl"
 		    p:businessRulesClass="org.kuali.hr.time.roles.validation.TkRoleValidation"
+		    p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer"
 		    p:allowsNewOrCopy="false">
 		<property name="maintainableSections">
 			<list>
@@ -67,6 +68,7 @@
                             <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="false" p:lookupReadOnly="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="department" p:required="false" p:lookupReadOnly="true"/>
                             <bean parent="MaintainableFieldDefinition" p:name="chart" p:required="false" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false"/>
                             <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
                         </list>
                   </property>
@@ -100,6 +102,7 @@
                             <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="false" p:lookupReadOnly="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="department" p:required="false" p:lookupReadOnly="true"/>
                             <bean parent="MaintainableFieldDefinition" p:name="chart" p:required="false" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false"/>
                             <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
                         </list>
                   </property>
@@ -132,6 +135,7 @@
                             <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="false" p:lookupReadOnly="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="department" p:required="false" p:lookupReadOnly="true"/>
                             <bean parent="MaintainableFieldDefinition" p:name="chart" p:required="false" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false" />
                             <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
                         </list>
                   </property>
@@ -163,6 +167,7 @@
                             <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="false" p:lookupReadOnly="true" />
                             <bean parent="MaintainableFieldDefinition" p:name="department" p:required="false" p:lookupReadOnly="true"/>
                             <bean parent="MaintainableFieldDefinition" p:name="chart" p:required="false" p:readOnlyAfterAdd="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false"/>
                             <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
                         </list>
 					</property>

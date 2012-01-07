@@ -65,7 +65,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 	}
 	
 	boolean isEarnCodeUsedByActiveTimeBlocks(DepartmentEarnCode departmentEarnCode){
-		// kpme-1106 can not inactivation of a department earn code if it used in active timeblocks
+		// KPME-1106 can not inactivation of a department earn code if it used in active time blocks
 		boolean valid = true;
 		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestamp();
 		
@@ -74,8 +74,8 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 			activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks();
 			for(TimeBlock activeTimeBlock : activeTimeBlocks){
 				if ( departmentEarnCode.getEarnCode().equals(activeTimeBlock.getEarnCode())){
-					this.putFieldError("earnCode", "deptEarncode.deptEarncode.inactivate", departmentEarnCode.getEarnCode());
-					valid =  false;
+					this.putFieldError("active", "deptEarncode.deptEarncode.inactivate", departmentEarnCode.getEarnCode());
+					return  false;
 				}
 			}
 		} 
@@ -105,7 +105,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateEarnCode(departmentEarnCode);
 				valid &= this.validateDuplication(departmentEarnCode);
 				valid &= this.validateLocation(departmentEarnCode);
-				//valid &= this.isEarnCodeUsedByActiveTimeBlocks(departmentEarnCode);
+				valid &= this.isEarnCodeUsedByActiveTimeBlocks(departmentEarnCode);
 			}
 
 		}

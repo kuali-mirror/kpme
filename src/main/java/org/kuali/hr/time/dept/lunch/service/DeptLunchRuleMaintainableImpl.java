@@ -53,7 +53,7 @@ public class DeptLunchRuleMaintainableImpl extends HrBusinessObjectMaintainableI
 	}
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(id);
 	}
 }

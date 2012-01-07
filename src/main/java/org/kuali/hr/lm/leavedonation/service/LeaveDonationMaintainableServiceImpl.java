@@ -12,7 +12,7 @@ public class LeaveDonationMaintainableServiceImpl extends HrBusinessObjectMainta
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getLeaveDonationService().getLeaveDonation(id);
 	}
 }

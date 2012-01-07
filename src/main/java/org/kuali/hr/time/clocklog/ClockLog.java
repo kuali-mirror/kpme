@@ -1,15 +1,14 @@
 package org.kuali.hr.time.clocklog;
 
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 public class ClockLog extends PersistableBusinessObjectBase {
 
@@ -18,19 +17,19 @@ public class ClockLog extends PersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = -2499666820628979901L;
 
-    private Long tkClockLogId;
+    private String tkClockLogId;
     private String principalId;
     private Long jobNumber;
     private Long workArea;
     private Long task;
-    private Long tkWorkAreaId;
-    private Long tkTaskId;
+    private String tkWorkAreaId;
+    private String tkTaskId;
     private Timestamp clockTimestamp;
     private String clockTimestampTimezone;
     private String clockAction;
     private String ipAddress;
     private String userPrincipalId;
-    private Long hrJobId;
+    private String hrJobId;
     private Timestamp timestamp;
     
     private String missedPunchDocumentId;
@@ -160,35 +159,35 @@ public class ClockLog extends PersistableBusinessObjectBase {
 	return ret;
     }
 
-	public Long getTkClockLogId() {
+	public String getTkClockLogId() {
 		return tkClockLogId;
 	}
 
-	public void setTkClockLogId(Long tkClockLogId) {
+	public void setTkClockLogId(String tkClockLogId) {
 		this.tkClockLogId = tkClockLogId;
 	}
 
-	public Long getTkWorkAreaId() {
+	public String getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}
 
-	public void setTkWorkAreaId(Long tkWorkAreaId) {
+	public void setTkWorkAreaId(String tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
 
-	public Long getTkTaskId() {
+	public String getTkTaskId() {
 		return tkTaskId;
 	}
 
-	public void setTkTaskId(Long tkTaskId) {
+	public void setTkTaskId(String tkTaskId) {
 		this.tkTaskId = tkTaskId;
 	}
 
-	public Long getHrJobId() {
+	public String getHrJobId() {
 		return hrJobId;
 	}
 
-	public void setHrJobId(Long hrJobId) {
+	public void setHrJobId(String hrJobId) {
 		this.hrJobId = hrJobId;
 	}
 

@@ -11,7 +11,7 @@ public interface LeavePlanService {
      * @param lmLeavePlanId
      * @return
      */
-    public LeavePlan getLeavePlan(Long lmLeavePlanId);
+    public LeavePlan getLeavePlan(String lmLeavePlanId);
     
     public LeavePlan getLeavePlan(String leavePlan, Date asOfDate);
 }

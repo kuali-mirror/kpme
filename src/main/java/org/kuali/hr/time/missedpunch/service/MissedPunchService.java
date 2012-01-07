@@ -1,5 +1,8 @@
 package org.kuali.hr.time.missedpunch.service;
 
+import java.util.List;
+
+import org.kuali.hr.time.batch.BatchJobEntry;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 
 
@@ -10,6 +13,13 @@ public interface MissedPunchService {
 	 * @return
 	 */
     public MissedPunchDocument getMissedPunchByRouteHeader(String headerId);
+    /**
+     * Add clock log for missed punch
+     * @param missedPunch
+     * @param logEndId
+     * @param logBeginId
+     */
+    public void addClockLogForMissedPunch(MissedPunchDocument missedPunch, String logEndId, String logBeginId);
     /**
      * Add clock log for missed punch
      * @param missedPunch
@@ -25,5 +35,17 @@ public interface MissedPunchService {
      * @param clockLogId
      * @return
      */
-    public MissedPunchDocument getMissedPunchByClockLogId(Long clockLogId);
+    public MissedPunchDocument getMissedPunchByClockLogId(String clockLogId);
+    /**
+     * Approve missed punch document
+     * @param document
+     * @return
+     */
+    public void approveMissedPunch(MissedPunchDocument document);
+    /**
+     * Get missed punch documents by batchJobEntry
+     * @param batchJobEntry
+     * @return
+     */
+    public List<MissedPunchDocument> getMissedPunchDocsByBatchJobEntry(BatchJobEntry batchJobEntry);
 }

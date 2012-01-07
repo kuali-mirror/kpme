@@ -1,12 +1,12 @@
 package org.kuali.hr.time.base.web;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-
-import javax.servlet.http.HttpServletRequest;
 
 public class TkDocumentForm extends KualiDocumentFormBase {
 

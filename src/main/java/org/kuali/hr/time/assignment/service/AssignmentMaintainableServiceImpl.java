@@ -44,6 +44,13 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 				fieldValues.put("name", "");
 			}
 		}
+
+        // KPME-1139
+		// Commented due to KPME-1226 
+      /* if (!fieldValues.containsKey("effectiveDate")) {
+            fieldValues.put("effectiveDate", new DateTime().toString(TkConstants.DT_BASIC_DATE_FORMAT));
+        }*/
+       
 		return super.populateBusinessObject(fieldValues, maintenanceDocument,
 				methodToCall);
 	}
@@ -92,12 +99,6 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 				.getBusinessObject();
 		Assignment aNew = (Assignment) document.getNewMaintainableObject()
 				.getBusinessObject();
-		for (AssignmentAccount aAccount : aOld.getAssignmentAccounts()) {
-			aAccount.setActive(aOld.isActive());
-		}
-		for (AssignmentAccount aAccount : aNew.getAssignmentAccounts()) {
-			aAccount.setActive(aOld.isActive());
-		}
 		super.processAfterEdit(document, parameters);
 	}
 
@@ -114,7 +115,7 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 	}
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getAssignmentService().getAssignment(id);
 	}
 

@@ -1,6 +1,12 @@
 package org.kuali.hr.lm.leavecode.service;
 
-import com.google.common.collect.Ordering;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.lm.leavecode.LeaveCode;
@@ -13,8 +19,7 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
-import java.sql.Date;
-import java.util.*;
+import com.google.common.collect.Ordering;
 
 public class LeaveCodeServiceImpl implements LeaveCodeService {
 
@@ -34,14 +39,14 @@ public class LeaveCodeServiceImpl implements LeaveCodeService {
 
     @Override
     @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
-    public LeaveCode getLeaveCode(Long lmLeaveCodeId) {
+    public LeaveCode getLeaveCode(String lmLeaveCodeId) {
         return getLeaveCodeDao().getLeaveCode(lmLeaveCodeId);
     }
 
     @Override
     public List<LeaveCode> getLeaveCodes(String principalId, Date asOfDate) {
         List<LeaveCode> leaveCodes = new ArrayList<LeaveCode>();
-        PrincipalHRAttributes hrAttribute = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+        PrincipalHRAttributes hrAttribute = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
         String leavePlan = hrAttribute.getLeavePlan();
         if (StringUtils.isBlank(leavePlan)) {
             throw new RuntimeException("No leave plan defined for " + principalId + " in principal hr attributes");

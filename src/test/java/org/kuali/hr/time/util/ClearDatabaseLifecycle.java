@@ -1,6 +1,18 @@
 package org.kuali.hr.time.util;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
 import junit.framework.Assert;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.enhydra.jdbc.pool.StandardXAPoolDataSource;
@@ -15,16 +27,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class ClearDatabaseLifecycle extends BaseLifecycle {
 
 	protected static final Logger LOG = Logger.getLogger(ClearDatabaseLifecycle.class);
@@ -32,8 +34,8 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 	private static List<String> TABLES_TO_CLEAR = new ArrayList<String>();
 
 	static {
-		TABLES_TO_CLEAR.add("HR_CALENDAR_T");
-		TABLES_TO_CLEAR.add("HR_CALENDAR_ENTRIES_T");
+		TABLES_TO_CLEAR.add("HR_PY_CALENDAR_T");
+		TABLES_TO_CLEAR.add("HR_PY_CALENDAR_ENTRIES_T");
 		TABLES_TO_CLEAR.add("HR_DEPT_T");
 		TABLES_TO_CLEAR.add("TK_ASSIGN_ACCT_T");
 		TABLES_TO_CLEAR.add("TK_ASSIGNMENT_T");
@@ -62,9 +64,10 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 		TABLES_TO_CLEAR.add("TK_WORK_AREA_T");
 		TABLES_TO_CLEAR.add("HR_JOB_T");
 		TABLES_TO_CLEAR.add("HR_PAYTYPE_T");
-		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_ENTRY_T");
-		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_T");
+//		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_ENTRY_T");
+//		TABLES_TO_CLEAR.add("HR_WORK_SCHEDULE_T");
 		TABLES_TO_CLEAR.add("TK_DOCUMENT_HEADER_T");
+		TABLES_TO_CLEAR.add("HR_POSITION_T");
 	}
 
 	private static final Map<String,String> TABLE_TO_ID_MAP = new HashMap<String,String>();
@@ -75,7 +78,7 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 		//TABLE_TO_ID_MAP.put("HR_HOLIDAY_CALENDAR_DATES_T", "HR_HOLIDAY_CALENDAR_DATES_ID");
 		TABLE_TO_ID_MAP.put("TK_GRACE_PERIOD_RL_T", "TK_GRACE_PERIOD_RULE_ID");
 		TABLE_TO_ID_MAP.put("TK_CLOCK_LOCATION_RL_T", "TK_CLOCK_LOC_RULE_ID");
-		TABLE_TO_ID_MAP.put("HR_CALENDAR_ENTRIES_T", "HR_CALENDAR_ENTRY_ID");
+		TABLE_TO_ID_MAP.put("HR_PY_CALENDAR_ENTRIES_T", "HR_PY_CALENDAR_ENTRY_ID");
 		TABLE_TO_ID_MAP.put("TK_DOCUMENT_HEADER_T", "DOCUMENT_ID");
 	}
 

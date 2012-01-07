@@ -1,5 +1,8 @@
 package org.kuali.hr.time.user.service;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.roles.TkRole;
@@ -10,9 +13,6 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-
-import java.sql.Date;
-import java.util.List;
 
 public class UserServiceImpl implements UserService {
 

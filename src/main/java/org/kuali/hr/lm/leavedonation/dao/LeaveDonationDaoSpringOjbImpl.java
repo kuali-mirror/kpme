@@ -13,7 +13,7 @@ public class LeaveDonationDaoSpringOjbImpl extends PersistenceBrokerDaoSupport i
 	private static final Logger LOG = Logger.getLogger(LeaveDonationDaoSpringOjbImpl.class);
 
 	@Override
-	public LeaveDonation getLeaveDonation(Long lmLeaveDonationId) {
+	public LeaveDonation getLeaveDonation(String lmLeaveDonationId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("lmLeaveDonationId", lmLeaveDonationId);
 		Query query = QueryFactory.newQuery(LeaveDonation.class, crit);

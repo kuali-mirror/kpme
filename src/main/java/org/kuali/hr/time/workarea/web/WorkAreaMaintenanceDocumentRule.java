@@ -1,11 +1,17 @@
 package org.kuali.hr.time.workarea.web;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.authorization.DepartmentalRule;
+import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
@@ -13,9 +19,6 @@ import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-
-import java.sql.Date;
-import java.util.List;
 
 public class WorkAreaMaintenanceDocumentRule extends
 		MaintenanceDocumentRuleBase {
@@ -31,14 +34,29 @@ public class WorkAreaMaintenanceDocumentRule extends
 		return valid;
 	}
 
-	boolean validateRoles(List<TkRole> roles) {
+	boolean validateRoles(List<TkRole> roles, Date effectiveDate) {
 		boolean valid = false;
-
+		
 		if (roles != null && roles.size() > 0) {
+			int pos = 0;
 			for (TkRole role : roles) {
-				valid |= role.isActive()
-						&& StringUtils.equals(role.getRoleName(),
-								TkConstants.ROLE_TK_APPROVER);
+				valid |= role.isActive();
+				if(role.getRoleName().equalsIgnoreCase(TkConstants.ROLE_TK_APPROVER_DELEGATE)){
+					StringBuffer prefix = new StringBuffer("roles[");
+		            prefix.append(pos).append("].");
+					if (role.getExpirationDate() == null) {
+						this.putFieldError(prefix + "expirationDate",
+								"error.role.expiration.required");
+					} else if (role.getEffectiveDate().compareTo(role.getExpirationDate()) >= 0) {
+						this.putFieldError(prefix + "expirationDate",
+								"error.role.expiration");
+					} else if (TKUtils.getDaysBetween(role.getEffectiveDate(), role.getExpirationDate()) > 180) {
+		        		   this.putFieldError(prefix + "expirationDate",
+		     						"error.role.expiration.duration");
+		     				valid = false;
+		        	}
+				}
+				pos++;
 			}
 		}
 
@@ -106,7 +124,11 @@ public class WorkAreaMaintenanceDocumentRule extends
 		if (pbo instanceof WorkArea) {
 			WorkArea wa = (WorkArea) pbo;
 			valid = validateDepartment(wa.getDept(), wa.getEffectiveDate());
-			valid &= validateRoles(wa.getRoles());
+			if(!DepartmentalRuleAuthorizer.hasAccessToWrite((DepartmentalRule)pbo)) {
+				String[] params = new String[]{TKContext.getUser().getPrincipalName(), wa.getDept()};
+				this.putFieldError("dept", "dept.user.unauthorized", params);
+			}
+			valid &= validateRoles(wa.getRoles(), wa.getEffectiveDate());
 			// defaultOvertimeEarnCode is a nullable field. 
 			if ( wa.getDefaultOvertimeEarnCode() != null ){
 				valid &= validateDefaultOTEarnCode(wa.getDefaultOvertimeEarnCode(),

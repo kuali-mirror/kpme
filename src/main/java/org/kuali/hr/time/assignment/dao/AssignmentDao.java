@@ -47,7 +47,17 @@ public interface AssignmentDao {
 
 	public List<Assignment> getActiveAssignments(Date asOfDate);
 	
-	public Assignment getAssignment(Long tkAssignmentId);
-	
 	public Assignment getAssignment(String principalId, Long jobNumber, Long workArea, Long task, Date asOfDate);
+	
+	/**
+	 * KPME-1129
+	 * Get a list of active assignments based on principalId and jobNumber as of a particular date 
+	 * @param principalId
+	 * @param jobNumber
+	 * @param asOfDate
+	 * @return
+	 */
+	public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, Date asOfDate);
+
+    List<Assignment> findAssignmentsWithinPeriod(String principalId, Date startDate, Date endDate);
 }

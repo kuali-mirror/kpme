@@ -1,9 +1,9 @@
 package org.kuali.hr.time.roles.dao;
 
-import org.kuali.hr.time.roles.TkRole;
-
 import java.sql.Date;
 import java.util.List;
+
+import org.kuali.hr.time.roles.TkRole;
 
 public interface TkRoleDao {
 
@@ -58,7 +58,7 @@ public interface TkRoleDao {
 	 */
 	public void saveOrUpdateRoles(List<TkRole> roles);
 	
-	public TkRole getRole(Long tkRoleId);
+	public TkRole getRole(String tkRoleId);
 	
 	public TkRole getRolesByPosition(String positionNumber);
 	

@@ -13,7 +13,7 @@ public class PayGradeMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 	
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getPayGradeService().getPayGrade(id);
 	}
 }

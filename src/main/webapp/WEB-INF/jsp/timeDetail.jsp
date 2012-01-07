@@ -33,9 +33,9 @@
          -->
 
         <%-- this is used by the javascript to fetch the time block json --%>
-        <%--<html:textarea property="timeBlockString" styleId="timeBlockString" value="${Form.timeBlockString}"/>--%>
+        <html:textarea property="timeBlockString" styleId="timeBlockString" value="${Form.timeBlockString}"/>
 
-        <tk:calendar cal="${Form.tkCalendar}" docId="${Form.documentId}" calType="payCalendar"/>
+        <tk:calendar cal="${Form.tkCalendar}" docId="${Form.documentId}"/>
 
         <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;">
             <div id="dialog-form" title="Add Time Blocks:" style="margin-left: auto; margin-right: auto; display:none;">
@@ -123,16 +123,13 @@
                 </html:form>
             </div>
                 <%-- end of dialog-form --%>
-			<p align="center">
-				<input id="actual-time-button" type="button" class="button" value="Actual Time Inquiry" name="actualTimeInquiry" 
-   				 onclick="javascript: window.open(extractUrlBase()+'/TimeDetail.do?methodToCall=actualTimeInquiry&documentId=${Form.documentId}', 'actualTimeInquiry');"/>
-			</p>
+
             <tk:tkTimesheetRouting/>
 
                 <%--<tk:timeSummary timeSummary="${Form.timesheetDocument.timeSummary}" />  --%>
             <tk:timeSummary timeSummary="${Form.timeSummary}"/>
         </div>
     </div>
-</tk:tkHeader>
 <tk:routeLog/>
 <tk:note/>
+</tk:tkHeader>

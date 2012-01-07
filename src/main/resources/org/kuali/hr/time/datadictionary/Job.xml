@@ -116,12 +116,14 @@
 
 	<bean id="Job-hrJobId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Job Id" />
-		<property name="maxLength" value="7" />
+		<property name="maxLength" value="60" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
+			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
 		<property name="name" value="hrJobId" />
 		<property name="label" value="Job Id" />
@@ -407,7 +409,7 @@
 		<property name="label" value="Eligible For Leave" />
 		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
 	</bean>
-
+	
 	<bean id="Job-timestamp" parent="Job-timestamp-parentBean" />
 
 	<bean id="Job-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
@@ -488,7 +490,7 @@
 			        	   	<bean parent="FieldDefinition" p:attributeName="compRate" />
 			        	    <bean parent="FieldDefinition" p:attributeName="standardHours" />
 			        	    <bean parent="FieldDefinition" p:attributeName="primaryIndicator" />   
-			        	    <bean parent="FieldDefinition" p:attributeName="eligibleForLeave" />   
+							<bean parent="FieldDefinition" p:attributeName="eligibleForLeave" />   
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>

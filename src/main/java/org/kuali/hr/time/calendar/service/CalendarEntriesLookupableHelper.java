@@ -1,13 +1,13 @@
 package org.kuali.hr.time.calendar.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CalendarEntriesLookupableHelper extends
 		KualiLookupableHelperServiceImpl {
@@ -29,7 +29,7 @@ public class CalendarEntriesLookupableHelper extends
 		}
 		CalendarEntries calendarEntries = (CalendarEntries) businessObject;
 		final String className = this.getBusinessObjectClass().getName();
-		final Long hrCalendarEntriesId = calendarEntries.getHrCalendarEntriesId();
+		final String hrCalendarEntriesId = calendarEntries.getHrCalendarEntriesId();
 		HtmlData htmlData = new HtmlData() {
 
 			@Override

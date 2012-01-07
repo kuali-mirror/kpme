@@ -1,6 +1,9 @@
 package org.kuali.hr.time.systemlunch.rule;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
@@ -13,9 +16,7 @@ import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 
-import java.sql.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class SystemLunchRuleTest extends TkTestCase {
 	

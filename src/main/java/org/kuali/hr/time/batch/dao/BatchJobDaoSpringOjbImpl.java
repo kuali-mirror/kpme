@@ -1,5 +1,9 @@
 package org.kuali.hr.time.batch.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -8,10 +12,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class BatchJobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements BatchJobDao {
 
@@ -32,7 +32,7 @@ public class BatchJobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
     }
 
     @Override
-    public List<BatchJob> getBatchJobs(Long hrPyCalendarEntryId) {
+    public List<BatchJob> getBatchJobs(String hrPyCalendarEntryId) {
         Criteria root = new Criteria();
         root.addEqualTo("hrPyCalendarEntryId", hrPyCalendarEntryId);
         Query query = QueryFactory.newQuery(BatchJob.class, root);
@@ -45,7 +45,7 @@ public class BatchJobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
     }
 
     @Override
-    public List<BatchJob> getCalendarEntries(Long hrPyCalendarEntryId, String batchJobStatus) {
+    public List<BatchJob> getPayCalendarEntries(String hrPyCalendarEntryId, String batchJobStatus) {
         Criteria root = new Criteria();
         root.addEqualTo("hrPyCalendarEntryId", hrPyCalendarEntryId);
         root.addEqualTo("batchJobStatus", batchJobStatus);

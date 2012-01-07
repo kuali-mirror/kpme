@@ -11,7 +11,7 @@ public class AccrualCategoryRule extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long lmAccrualCategoryRuleId;
+	private String lmAccrualCategoryRuleId;
 	private String serviceUnitOfTime;
 	private Long start;
 	private Long end;
@@ -26,7 +26,7 @@ public class AccrualCategoryRule extends HrBusinessObject {
 	private String maxPayoutLeaveCode;
 	private Long maxUsage;
 	private Long maxCarryOver;
-	private Long lmAccrualCategoryId;
+	private String lmAccrualCategoryId;
 	
 	private AccrualCategory accrualCategoryObj;
 	
@@ -38,11 +38,11 @@ public class AccrualCategoryRule extends HrBusinessObject {
 		this.accrualCategoryObj = accrualCategoryObj;
 	}
 
-	public Long getLmAccrualCategoryRuleId() {
+	public String getLmAccrualCategoryRuleId() {
 		return lmAccrualCategoryRuleId;
 	}
 
-	public void setLmAccrualCategoryRuleId(Long lmAccrualCategoryRuleId) {
+	public void setLmAccrualCategoryRuleId(String lmAccrualCategoryRuleId) {
 		this.lmAccrualCategoryRuleId = lmAccrualCategoryRuleId;
 	}
 
@@ -160,36 +160,34 @@ public class AccrualCategoryRule extends HrBusinessObject {
 		this.maxCarryOver = maxCarryOver;
 	}
 
-	public Long getLmAccrualCategoryId() {
+	public String getLmAccrualCategoryId() {
 		return lmAccrualCategoryId;
 	}
 
-	public void setLmAccrualCategoryId(Long lmAccrualCategoryId) {
+	public void setLmAccrualCategoryId(String lmAccrualCategoryId) {
 		this.lmAccrualCategoryId = lmAccrualCategoryId;
 	}
 
 	@Override
 	protected String getUniqueKey() {
-		// TODO Auto-generated method stub
-		return null;
+		return accrualRate.toString();
 	}
 
 	@Override
-	public Long getId() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getId() {
+		return getLmAccrualCategoryRuleId();
 	}
 
-	@Override
-	public void setId(Long id) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setId(String id) {
+		setLmAccrualCategoryRuleId(id);
+		
 	}
 
 }

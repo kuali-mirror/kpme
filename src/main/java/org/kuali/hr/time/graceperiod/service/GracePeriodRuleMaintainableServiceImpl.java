@@ -14,7 +14,7 @@ public class GracePeriodRuleMaintainableServiceImpl extends
 
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getGracePeriodService().getGracePeriodRule(id);
 	}
 

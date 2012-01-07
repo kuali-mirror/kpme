@@ -38,7 +38,6 @@ import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.service.impl.ModuleServiceBase;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
 
 /**
  * This is only here to make the nested principal id lookups work
@@ -228,30 +227,30 @@ public class KimModuleService extends ModuleServiceBase {
 		return super.getInquiryUrl(inquiryBusinessObjectClass);
 	}
 
-	@Override
-	public String getExternalizableBusinessObjectLookupUrl(Class inquiryBusinessObjectClass, Map<String, String> parameters) {
-			Properties urlParameters = new Properties();
-
-			//removed to support the nested lookup
-			//String riceBaseUrl = KNSServiceLocator.getKualiConfigurationService().getPropertyString(KNSConstants.KUALI_RICE_URL_KEY);
-			String lookupUrl = "";//riceBaseUrl;
-			if (!lookupUrl.endsWith("/")) {
-				lookupUrl = lookupUrl + "/";
-			}
-			if (parameters.containsKey(KNSConstants.MULTIPLE_VALUE)) {
-				lookupUrl = lookupUrl + KNSConstants.MULTIPLE_VALUE_LOOKUP_ACTION;
-			}
-			else {
-				lookupUrl = lookupUrl + KNSConstants.LOOKUP_ACTION;
-			}
-			for (String paramName : parameters.keySet()) {
-				urlParameters.put(paramName, parameters.get(paramName));
-			}
-
-			Class clazz = getExternalizableBusinessObjectImplementation(inquiryBusinessObjectClass);
-			urlParameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, clazz==null?"":clazz.getName());
-
-			return UrlFactory.parameterizeUrl(lookupUrl, urlParameters);
-	}
+//	@Override
+//	public String getExternalizableBusinessObjectLookupUrl(Class inquiryBusinessObjectClass, Map<String, String> parameters) {
+//			Properties urlParameters = new Properties();
+//
+//			//removed to support the nested lookup
+//			//String riceBaseUrl = KNSServiceLocator.getKualiConfigurationService().getPropertyString(KNSConstants.KUALI_RICE_URL_KEY);
+//			String lookupUrl = "";//riceBaseUrl;
+//			if (!lookupUrl.endsWith("/")) {
+//				lookupUrl = lookupUrl + "/";
+//			}
+//			if (parameters.containsKey(KNSConstants.MULTIPLE_VALUE)) {
+//				lookupUrl = lookupUrl + KNSConstants.MULTIPLE_VALUE_LOOKUP_ACTION;
+//			}
+//			else {
+//				lookupUrl = lookupUrl + KNSConstants.LOOKUP_ACTION;
+//			}
+//			for (String paramName : parameters.keySet()) {
+//				urlParameters.put(paramName, parameters.get(paramName));
+//			}
+//
+//			Class clazz = getExternalizableBusinessObjectImplementation(inquiryBusinessObjectClass);
+//			urlParameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, clazz==null?"":clazz.getName());
+//
+//			return UrlFactory.parameterizeUrl(lookupUrl, urlParameters);
+//	}
 
 }

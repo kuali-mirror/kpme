@@ -291,7 +291,9 @@
 							<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 							<bean parent="FieldDefinition" p:attributeName="earnCode" />
 							<bean parent="FieldDefinition" p:attributeName="location" />
-							
+							<bean parent="FieldDefinition" p:attributeName="employee" />
+							<bean parent="FieldDefinition" p:attributeName="approver" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
 					<property name="title" value="DepartmentEarnCode" />

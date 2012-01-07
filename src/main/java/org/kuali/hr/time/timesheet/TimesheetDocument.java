@@ -1,16 +1,16 @@
 package org.kuali.hr.time.timesheet;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 
 public class TimesheetDocument  {
@@ -22,7 +22,7 @@ public class TimesheetDocument  {
 	private List<Assignment> assignments = new LinkedList<Assignment>();
 	private List<Job> jobs = new LinkedList<Job>();
 	private List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
-	private CalendarEntries calendarEntry = null; // Was a Hidden NPE, now more exposed // new CalendarEntries();
+	private CalendarEntries payCalendarEntry = null; // Was a Hidden NPE, now more exposed // new PayCalendarEntries();
 	private TimeSummary timeSummary = new TimeSummary();
 	private Map<Long, Job> jobNumberToJobMap = new HashMap<Long,Job>();
 
@@ -68,12 +68,12 @@ public class TimesheetDocument  {
 		this.timeBlocks = timeBlocks;
 	}
 
-	public CalendarEntries getCalendarEntry() {
-		return calendarEntry;
+	public CalendarEntries getPayCalendarEntry() {
+		return payCalendarEntry;
 	}
 
-	public void setCalendarEntry(CalendarEntries calendarEntry) {
-		this.calendarEntry = calendarEntry;
+	public void setPayCalendarEntry(CalendarEntries payCalendarEntry) {
+		this.payCalendarEntry = payCalendarEntry;
 	}
 
 	public void setTimeSummary(TimeSummary timeSummary) {
@@ -93,7 +93,7 @@ public class TimesheetDocument  {
 	}
 
 	public java.sql.Date getAsOfDate(){
-		return new java.sql.Date(getCalendarEntry().getBeginPeriodDateTime().getTime());
+		return new java.sql.Date(getPayCalendarEntry().getBeginPeriodDateTime().getTime());
 	}
 
 	public String getDocumentId(){

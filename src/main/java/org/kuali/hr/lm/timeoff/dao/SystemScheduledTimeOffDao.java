@@ -13,7 +13,7 @@ public interface SystemScheduledTimeOffDao {
 	 * @param lmSystemScheduledTimeOffId
 	 * @return SystemScheduledTimeOff
 	 */
-	public SystemScheduledTimeOff getSystemScheduledTimeOff(Long lmSystemScheduledTimeOffId);
+	public SystemScheduledTimeOff getSystemScheduledTimeOff(String lmSystemScheduledTimeOffId);
 
 	public List<SystemScheduledTimeOff> getSystemScheduledTimeOffForPayPeriod(
 			String leavePlan, Date startDate, Date endDate);

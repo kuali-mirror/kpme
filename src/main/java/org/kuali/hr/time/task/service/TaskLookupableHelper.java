@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
-public class TaskLookupableHelper extends KualiLookupableHelperServiceImpl {
+public class TaskLookupableHelper extends TkAuthorizedLookupableHelperBase {
 	/**
 	 * 
 	 */
@@ -22,6 +28,7 @@ public class TaskLookupableHelper extends KualiLookupableHelperServiceImpl {
 		List finalList = new ArrayList<Task>();
 		String wad = "";
 		String wa = "";
+		List<String> taskFound = new ArrayList<String>();
 		if (fieldValues.containsKey("workAreaDescription") && !fieldValues.get("workAreaDescription").isEmpty()) {
 			wad = fieldValues.get("workAreaDescription");
 			fieldValues.remove("workAreaDescription");
@@ -31,22 +38,67 @@ public class TaskLookupableHelper extends KualiLookupableHelperServiceImpl {
 			fieldValues.remove("workArea");
 		}
 		List aList = super.getSearchResults(fieldValues);
-		if(wa.isEmpty() && wad.isEmpty()) {
-			return aList;
-		}
+
 		for(int i = 0; i< aList.size(); i++) {
 			Task aTask = (Task) aList.get(i);
 			if(aTask.getTkWorkAreaId() != null) {
 				WorkArea aWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(aTask.getTkWorkAreaId());
 				if(aWorkArea != null) {
-					if( (!wa.isEmpty() && aWorkArea.getWorkArea().toString().equals(wa)) 
-							|| (!wad.isEmpty()&& aWorkArea.getDescription().equals(wad))) {
-						finalList.add(aTask);
+					if( (StringUtils.isBlank(wa) || aWorkArea.getWorkArea().toString().equals(wa)) 
+							|| (StringUtils.isBlank(wad) || aWorkArea.getDescription().equals(wad))) {
+						if(!taskFound.contains(aWorkArea.getWorkArea() + "_"+aTask.getTask())){
+							finalList.add(aTask);
+							taskFound.add(aWorkArea.getWorkArea() +"_"+aTask.getTask());
+						}
 					}
 				}
 			}
 		}
 		
 		return finalList;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public HtmlData getReturnUrl(BusinessObject businessObject,
+			LookupForm lookupForm, List returnKeys,
+			BusinessObjectRestrictions businessObjectRestrictions) {
+		if (lookupForm.getFieldConversions().containsKey("effectiveDate")) {
+			lookupForm.getFieldConversions().remove("effectiveDate");
+		}
+		if (returnKeys.contains("effectiveDate")) {
+			returnKeys.remove("effectiveDate");
+		}
+		if (lookupForm.getFieldConversions().containsKey("workArea")) {
+			lookupForm.getFieldConversions().remove("workArea");
+		}
+		if (returnKeys.contains("workArea")) {
+			returnKeys.remove("workArea");
+		}
+		
+		return super.getReturnUrl(businessObject, lookupForm, returnKeys,
+				businessObjectRestrictions);
+	}
+	
+	@Override
+	// remove the default value for Task for lookup
+	 public List<Row> getRows() {
+		 List<Row> rowList = super.getRows();
+		 for(Row aRow : rowList) {
+			 List<Field> fields = aRow.getFields();
+			 for(Field aField : fields) {
+				 if(aField.getFieldLabel() != null && aField.getFieldLabel().equals("Task")) {
+					 if(aField.getPropertyValue() != null && aField.getPropertyValue().equals("0")) {
+						 aField.setPropertyValue("");
+					 }
+				 }
+			 }
+		 }   
+		 return rowList;
+	 }
+
+	@Override
+	public boolean shouldShowBusinessObject(BusinessObject bo) {
+		return true;
 	}
 }

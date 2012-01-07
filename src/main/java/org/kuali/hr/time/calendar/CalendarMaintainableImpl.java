@@ -1,10 +1,10 @@
 package org.kuali.hr.time.calendar;
 
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-
-import java.util.Map;
 
 /**
  * Leverage this class to implement hooks when maintenance is done on a

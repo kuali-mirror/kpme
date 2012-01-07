@@ -1,6 +1,7 @@
 package org.kuali.hr.time.workarea;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
+
 import org.junit.Test;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -9,7 +10,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import java.sql.Date;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class WorkAreaMaintenanceTest extends TkTestCase {
 
@@ -27,7 +28,7 @@ public class WorkAreaMaintenanceTest extends TkTestCase {
 		super.setUp();
 		
 		WorkArea workArea = new WorkArea();
-		workArea.setTkWorkAreaId(1111L);
+		workArea.setTkWorkAreaId("1111");
 		workArea.setWorkArea(4444L);
 		workArea.setOvertimeEditRole(TkConstants.ROLE_TK_EMPLOYEE);
 		workArea.setEffectiveDate(new Date(System.currentTimeMillis()));

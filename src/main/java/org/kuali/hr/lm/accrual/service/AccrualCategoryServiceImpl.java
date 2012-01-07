@@ -46,7 +46,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public AccrualCategory getAccrualCategory(Long lmAccrualCategoryId) {
+	public AccrualCategory getAccrualCategory(String lmAccrualCategoryId) {
 		return accrualCategoryDao.getAccrualCategory(lmAccrualCategoryId);
 	}
 
@@ -58,7 +58,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
    
 
 	public void runAccrual(String principalId, Date asOfDate){
-		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 		if(principalHRAttributes == null){
 			throw new RuntimeException("Cannot find principal hr attributes for "+principalId);
 		}

@@ -9,12 +9,9 @@
     <c:if test="${Form.user.currentTargetRoles.systemAdmin}">
     	<li id="batchJob" class="ui-state-default ui-corner-top"><a href="BatchJob.do">Batch Job</a></li>
     </c:if>
-    <c:if test="${Form.user.currentTargetRoles.leaveManagementCalendar}">
-    	<li id="leaveCalendar" class="ui-state-default ui-corner-top"><a href="LeaveCalendar.do">Leave Calendar</a></li>
-    </c:if>    
     <li id="personInfo" class="ui-state-default ui-corner-top"><a href="PersonInfo.do">Person Info</a></li>
     <c:if test="${Form.user.currentTargetRoles.timesheetApprover ||  Form.user.currentTargetRoles.systemAdmin || Form.user.currentTargetRoles.timesheetReviewer }">
-        <li id="approvals" class="ui-state-default ui-corner-top"><a href="TimeApproval.do">Approvals</a></li>
+        <li id="approvals" class="ui-state-default ui-corner-top"><a href="TimeApproval.do?methodToCall=loadApprovalTab">Approvals</a></li>
     </c:if>
     <c:if test="${Form.user.currentTargetRoles.activeEmployee}">
         <li id="leaveAccrual" class="ui-state-default ui-corner-top"><a href="TimeOffAccrual.do">Leave Accrual</a></li>

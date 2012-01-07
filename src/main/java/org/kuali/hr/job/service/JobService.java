@@ -1,9 +1,9 @@
 package org.kuali.hr.job.service;
 
-import org.kuali.hr.job.Job;
-
 import java.util.Date;
 import java.util.List;
+
+import org.kuali.hr.job.Job;
 
 public interface JobService {
 
@@ -67,14 +67,14 @@ public interface JobService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<Job> getActiveJobsForPayType(String hrPayType);
+	public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate);
 	
 	/**
 	 * Get job by the unique id
 	 * @param hrJobId
 	 * @return
 	 */
-	public Job getJob(Long hrJobId);
+	public Job getJob(String hrJobId);
 	
 	/**
 	 * Get the max jobnumber job for this principal

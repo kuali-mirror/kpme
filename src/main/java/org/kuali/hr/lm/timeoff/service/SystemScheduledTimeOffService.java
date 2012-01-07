@@ -16,7 +16,7 @@ public interface SystemScheduledTimeOffService {
      * @param lmSystemScheduledTimeOffId
      * @return
      */
-    public SystemScheduledTimeOff getSystemScheduledTimeOff(Long lmSystemScheduledTimeOffId);
+    public SystemScheduledTimeOff getSystemScheduledTimeOff(String lmSystemScheduledTimeOffId);
     
     public List<SystemScheduledTimeOff> getSystemScheduledTimeOffForPayPeriod(
 			String leavePlan, Date startDate, Date endDate);

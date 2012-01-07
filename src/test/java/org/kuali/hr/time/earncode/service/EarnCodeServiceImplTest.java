@@ -1,8 +1,8 @@
 package org.kuali.hr.time.earncode.service;
 
-import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +14,9 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 
-import java.sql.Date;
-import java.util.List;
+import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class EarnCodeServiceImplTest extends TkTestCase {
 

@@ -20,7 +20,7 @@ public class TimezoneServiceImpl implements TimezoneService {
     @Override
     @CacheResult
     public String getUserTimezone(String principalId) {
-        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(principalId, TKUtils.getCurrentDate());
+        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, TKUtils.getCurrentDate());
         if(principalCalendar != null && principalCalendar.getTimezone() != null){
             return principalCalendar.getTimezone();
         }
@@ -87,6 +87,13 @@ public class TimezoneServiceImpl implements TimezoneService {
 			return StringUtils.equals(TkConstants.SYSTEM_TIME_ZONE, userTimezone);
 		}
 		return true;
+	}
+	
+	
+	public long getTimezoneOffsetFromServerTime(DateTimeZone dtz){
+		long systemOffsetUTC = TkConstants.SYSTEM_DATE_TIME_ZONE.getOffset(null);
+		long tzOffsetUTC = dtz.getOffset(null);
+		return tzOffsetUTC - systemOffsetUTC;
 	}
 
 

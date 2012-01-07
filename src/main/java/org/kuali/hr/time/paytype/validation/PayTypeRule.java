@@ -1,5 +1,8 @@
 package org.kuali.hr.time.paytype.validation;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -7,9 +10,6 @@ import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-
-import java.sql.Date;
-import java.util.List;
 
 public class PayTypeRule extends MaintenanceDocumentRuleBase {
 
@@ -30,11 +30,11 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	boolean validateActive(String hrPayType) {
+	boolean validateActive(String hrPayType, Date asOfDate) {
 		boolean valid = true;
 		List<Job> jobs = TkServiceLocator.getJobSerivce()
-				.getActiveJobsForPayType(hrPayType);
-		if (jobs != null && jobs.size() > 0) {
+				.getActiveJobsForPayType(hrPayType, asOfDate);
+		if (jobs != null && !jobs.isEmpty()) {
 			this.putFieldError("active", "paytype.inactivate.locked", hrPayType);
 			valid = false;
 		}
@@ -52,7 +52,7 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 
 			valid = validateEarnCode(pt.getRegEarnCode(), pt.getEffectiveDate());
 			if (document.isOldBusinessObjectInDocument() && !pt.isActive()) {
-				valid = validateActive(pt.getPayType());
+				valid = validateActive(pt.getPayType(), pt.getEffectiveDate());
 			}
 		}
 

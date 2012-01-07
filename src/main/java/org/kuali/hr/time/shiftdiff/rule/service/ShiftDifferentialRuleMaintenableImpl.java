@@ -43,7 +43,7 @@ public class ShiftDifferentialRuleMaintenableImpl extends HrBusinessObjectMainta
 
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getShiftDifferentialRuleService().getShiftDifferentialRule(id);
 	}
 

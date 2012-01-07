@@ -12,10 +12,10 @@ public interface CalendarDao {
 
 	public void saveOrUpdate(List<Calendar> calendarDatesList);
 
-	public Calendar getCalendar(Long hrPyCalendarId);
+	public Calendar getCalendar(String hrPyCalendarId);
 
 	public Calendar getCalendarByGroup(String pyCalendarGroup);
 	
-	public CalendarEntries getPreviousCalendarEntry(Long tkCalendarId, Date beginDateCurrentCalendar);
+	public CalendarEntries getPreviousCalendarEntry(String tkCalendarId, Date beginDateCurrentCalendar);
 
 }

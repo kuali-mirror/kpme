@@ -2,7 +2,6 @@ package org.kuali.hr.time.clock.location.service;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
@@ -35,7 +34,7 @@ public class ClockLocationRuleLookupableHelper extends
 				businessObject, pkNames);
 		ClockLocationRule clockLocationRule = (ClockLocationRule) businessObject;
 		final String className = this.getBusinessObjectClass().getName();
-		final Long tkClockLocationRuleId = clockLocationRule.getTkClockLocationRuleId();
+		final String tkClockLocationRuleId = clockLocationRule.getTkClockLocationRuleId();
 		HtmlData htmlData = new HtmlData() {
 
 			@Override

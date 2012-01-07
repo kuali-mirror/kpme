@@ -1,12 +1,12 @@
 package org.kuali.hr.time.department.service;
 
+import java.util.List;
+
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-
-import java.util.List;
 
 public class DepartmentLookupableHelper extends
 		HrEffectiveDateActiveLookupableHelper {
@@ -21,12 +21,12 @@ public class DepartmentLookupableHelper extends
 			List pkNames) {
 		Department department = (Department) businessObject;
 		final String dept = department.getDept();
-		final Long hrDeptId = department.getHrDeptId();
+		final String hrDeptId = department.getHrDeptId();
 		final String className = this.getBusinessObjectClass().getName();
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
 		if (TKContext.getUser().isSystemAdmin() ||
-				TKContext.getUser().isLocationAdmin()) {
+				TKContext.getUser().isLocationAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			HtmlData htmlData = new HtmlData() {
 
 				/**

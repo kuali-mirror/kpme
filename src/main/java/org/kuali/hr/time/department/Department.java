@@ -1,16 +1,16 @@
 package org.kuali.hr.time.department;
 
-import org.kuali.hr.location.Location;
-import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.roles.TkRole;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Organization;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.kuali.hr.location.Location;
+import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Organization;
 
 public class Department extends HrBusinessObject {
 
@@ -19,7 +19,7 @@ public class Department extends HrBusinessObject {
      */
     private static final long serialVersionUID = 1L;
 
-    private Long hrDeptId;
+    private String hrDeptId;
     private String dept;
     private String description;
     private String chart;
@@ -32,11 +32,12 @@ public class Department extends HrBusinessObject {
     
     private List<TkRole> roles = new LinkedList<TkRole>();
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     protected LinkedHashMap toStringMapper() {
-	// TODO Auto-generated method stub
-	return null;
+    	LinkedHashMap<String, String> lhm = new LinkedHashMap<String,String>();
+    	lhm.put(dept, dept);
+    	return lhm;
     }
 
     public String getDescription() {
@@ -63,11 +64,11 @@ public class Department extends HrBusinessObject {
         this.org = org;
     }
 
-	public Long getHrDeptId() {
+	public String getHrDeptId() {
 		return hrDeptId;
 	}
 
-	public void setHrDeptId(Long hrDeptId) {
+	public void setHrDeptId(String hrDeptId) {
 		this.hrDeptId = hrDeptId;
 	}
 
@@ -133,12 +134,12 @@ public class Department extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getHrDeptId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setHrDeptId(id);
 	}
 

@@ -35,7 +35,6 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     private TkCalendar calendar;
     private String docEditable;
     private List<String> overtimeEarnCodes = new ArrayList<String>();
-    private String overtimePref;
 
     public TkCalendar getTkCalendar() {
         return calendar;
@@ -47,6 +46,17 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
 	public List<TimeBlock> getTimeBlockList() {
 		return this.getTimesheetDocument().getTimeBlocks();
+	}
+	
+	// for Actual Time Inquiry display only
+	public List<TimeBlock> getClockLogTimeBlockList() {
+		List<TimeBlock> clockList = new ArrayList<TimeBlock>();
+		for(TimeBlock tb : this.getTimeBlockList()){
+			if(tb.getClockLogCreated()) {
+				clockList.add(tb);
+			}
+		}
+		return clockList;
 	}
 
 	public TimeBlock getTimeBlock() {
@@ -121,14 +131,6 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	public void setDocEditable(String docEditable) {
 		this.docEditable = docEditable;
 	}
-
-    public String getOvertimePref() {
-        return overtimePref;
-    }
-
-    public void setOvertimePref(String overtimePref) {
-        this.overtimePref = overtimePref;
-    }
 
 	public List<String> getOvertimeEarnCodes() {
 		return overtimeEarnCodes;

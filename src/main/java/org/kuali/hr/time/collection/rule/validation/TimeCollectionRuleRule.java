@@ -27,6 +27,16 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 	
+	// JIRA1152
+	boolean validatePayType(TimeCollectionRule ruleObj) {
+		if (!ValidationUtils.validatePayType(ruleObj.getPayType(), ruleObj.getEffectiveDate())) {
+			this.putFieldError("payType", "error.existence", "payType '" + ruleObj.getPayType() + "'");
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	boolean validateClockUserAndHrsDistFlags(TimeCollectionRule ruleObj) {
 		if (!ruleObj.isClockUserFl() && ruleObj.isHrsDistributionF()) {
 			this.putFieldError("hrsDistributionF", "timecollRule.hrDistribution.invalid");
@@ -55,6 +65,7 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 				valid = true;
 				valid &= this.validateDepartment(timeCollectionRule);
 				valid &= this.validateWorkArea(timeCollectionRule);
+				valid &= this.validatePayType(timeCollectionRule);
 				valid &= this.validateClockUserAndHrsDistFlags(timeCollectionRule);
 			}
 		}

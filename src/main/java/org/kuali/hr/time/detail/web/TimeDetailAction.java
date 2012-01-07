@@ -1,5 +1,13 @@
 package org.kuali.hr.time.detail.web;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -11,6 +19,7 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.TkCalendar;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -19,15 +28,12 @@ import org.kuali.hr.time.timesummary.AssignmentRow;
 import org.kuali.hr.time.timesummary.EarnCodeSection;
 import org.kuali.hr.time.timesummary.EarnGroupSection;
 import org.kuali.hr.time.timesummary.TimeSummary;
-import org.kuali.hr.time.util.*;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.kns.exception.AuthorizationException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -39,7 +45,7 @@ public class TimeDetailAction extends TimesheetAction {
         TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
 
         // Check for write access to Timeblock.
-        if (StringUtils.equals(methodToCall, "addTimeBlock") || StringUtils.equals(methodToCall, "deleteTimeBlock")) {
+        if (StringUtils.equals(methodToCall, "addTimeBlock") || StringUtils.equals(methodToCall, "deleteTimeBlock") || StringUtils.equals(methodToCall, "updateTimeBlock")) {
             if (!roles.isDocumentWritable(doc)) {
                 throw new AuthorizationException(roles.getPrincipalId(), "TimeDetailAction", "");
             }
@@ -60,7 +66,7 @@ public class TimeDetailAction extends TimesheetAction {
 
         // Handle User preference / timezone information (pushed up from TkCalendar to avoid duplication)
         TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(TKContext.getCurrentTimesheetDoucment());
-    	tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(TKContext.getCurrentTimesheetDoucment()));
+    	tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(TKContext.getCurrentTimesheetDoucment().getTimeBlocks()));
         Map<String, String> aMap = tdaf.getAssignStyleClassMap();
         // set css classes for each assignment row
         for(EarnGroupSection earnGroupSection: ts.getSections()) {
@@ -77,32 +83,32 @@ public class TimeDetailAction extends TimesheetAction {
         }
         tdaf.setTimeSummary(ts);
         ActionFormUtils.validateHourLimit(tdaf);
+        ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
 
         // Set calendar
-        CalendarEntries calendarEntry = tdaf.getCalendarDates();
-        Calendar calendar = TkServiceLocator.getCalendarSerivce().getCalendar(calendarEntry.getHrCalendarId());
-        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, calendar, true, 
-        		TKUtils.getFullWeekDaySpanForCalendarEntry(calendarEntry));
-        TkCalendar cal = new TkCalendar(aggregate);
+        CalendarEntries payCalendarEntry = tdaf.getPayCalendarDates();
+        Calendar payCalendar = TkServiceLocator.getCalendarSerivce().getCalendar(payCalendarEntry.getHrCalendarId());
+        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true, 
+        		TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry));
+        TkCalendar cal = TkCalendar.getCalendar(aggregate);
         cal.assignAssignmentStyle(aMap);
         tdaf.setTkCalendar(cal);
 
         tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(TKContext.getCurrentTimesheetDoucment(), aggregate.getFlattenedTimeBlockList()));
 
         tdaf.setOvertimeEarnCodes(TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDoucment().getAsOfDate()));
+        
+    	tdaf.setDocEditable("false");
+    	
         if(TKContext.getUser().isSystemAdmin()){
         	tdaf.setDocEditable("true");
-        } else if(TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL)) {
-        	tdaf.setDocEditable("false");
-        } else if(StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())){
-        	tdaf.setDocEditable("true");
         } else {
-        	if(TKContext.getUser().isSystemAdmin() || TKContext.getUser().isLocationAdmin() || TKContext.getUser().isDepartmentAdmin() ||
-        			TKContext.getUser().isReviewer() || TKContext.getUser().isApprover()){
-        		tdaf.setDocEditable("true");
-        	}
-        	if(TKContext.getUser().isGlobalViewOnly() || TKContext.getUser().isDepartmentViewOnly()){
-        		tdaf.setDocEditable("false");
+        	boolean docFinal = TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL);
+        	if(!docFinal) { 
+            	if(StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId()) || TKContext.getUser().isSystemAdmin() || TKContext.getUser().isLocationAdmin() || TKContext.getUser().isDepartmentAdmin() ||
+            			TKContext.getUser().isReviewer() || TKContext.getUser().isApprover()){
+            		tdaf.setDocEditable("true");
+            	}
         	}
         }
 
@@ -145,7 +151,7 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
         //reset time block
         TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks);
-        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
+        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
 
         return mapping.findForward("basic");
@@ -173,17 +179,19 @@ public class TimeDetailAction extends TimesheetAction {
                 overtimeEndTimestamp = tb.getEndTimestamp();
             }
 
-            TimeBlockHistory tbh = new TimeBlockHistory(tb);
+            
+            
             if (tb != null) {
+            	TimeBlockHistory tbh = new TimeBlockHistory(tb);
                 TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
 
-//                 mark the original timeblock as deleted in the history table
+                // mark the original timeblock as deleted in the history table
                 tbh.setActionHistory(TkConstants.ACTIONS.DELETE_TIME_BLOCK);
                 TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
 
                 // delete the timeblock from the memory
                 tdaf.getTimesheetDocument().getTimeBlocks().remove(tb);
-            }
+            } 
         }
 
         Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());
@@ -224,16 +232,58 @@ public class TimeDetailAction extends TimesheetAction {
         for (TimeBlock tb : newTimeBlocks) {
             if(tb.getBeginTimestamp().equals(overtimeBeginTimestamp) && tb.getEndTimestamp().equals(overtimeEndTimestamp) && StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
                 tb.setOvertimePref(tdaf.getOvertimePref());
-            }
+            }                  
+
         }
 
-        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
+        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
         //call history service
 
         ActionFormUtils.validateHourLimit(tdaf);
+        ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
+  
         return mapping.findForward("basic");
     }
+    
+    public ActionForward updateTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	 
+    	 TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+    	 Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());
+    	 
+         //Grab timeblock to be updated from form
+         List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+         TimeBlock updatedTimeBlock = null;
+         for (TimeBlock tb : timeBlocks) {
+             if (tb.getTkTimeBlockId().compareTo(tdaf.getTkTimeBlockId()) == 0) {
+            	  updatedTimeBlock = tb;
+            	  tb.setJobNumber(assignment.getJobNumber());
+            	  tb.setWorkArea(assignment.getWorkArea());
+            	  tb.setTask(assignment.getTask());
+            	  tb.setTkWorkAreaId(assignment.getWorkAreaObj().getTkWorkAreaId());
+                  tb.setHrJobId(Long.parseLong(assignment.getJob().getHrJobId()));
+                  String tkTaskId = "0";
+                  for (Task task : assignment.getWorkAreaObj().getTasks()) {
+                      if (task.getTask().compareTo(assignment.getTask()) == 0) {
+                          tkTaskId = task.getTkTaskId();
+                          break;
+                      }
+                  }
+                  tb.setTkTaskId(tkTaskId);
+                 break;
+             }
+         }
+    
+         TkServiceLocator.getTimeBlockService().updateTimeBlock(updatedTimeBlock);
+         
+         TimeBlockHistory tbh = new TimeBlockHistory(updatedTimeBlock);
+         tbh.setActionHistory(TkConstants.ACTIONS.UPDATE_TIME_BLOCK);
+         TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
+         tdaf.setMethodToCall("addTimeBlock");
+         return mapping.findForward("basic");
+    }
+
+    
     
     public ActionForward actualTimeInquiry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	TimeDetailActionForm tdaf = (TimeDetailActionForm) form;

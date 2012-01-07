@@ -2,9 +2,7 @@ package org.kuali.hr.lm.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 

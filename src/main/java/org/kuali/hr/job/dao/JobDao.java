@@ -1,9 +1,9 @@
 package org.kuali.hr.job.dao;
 
-import org.kuali.hr.job.Job;
-
 import java.util.Date;
 import java.util.List;
+
+import org.kuali.hr.job.Job;
 
 public interface JobDao {
 
@@ -58,14 +58,14 @@ public interface JobDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<Job> getActiveJobsForPayType(String hrPayType);
+	public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate);
 	
 	/**
 	 * Get job based on id
 	 * @param hrJobId
 	 * @return
 	 */
-	public Job getJob(Long hrJobId);
+	public Job getJob(String hrJobId);
 	
 	/**
 	 * Get job with max(jobNumber) for a certain principalId
@@ -73,6 +73,4 @@ public interface JobDao {
 	 * @return
 	 */
 	public Job getMaxJob(String principalId);
-	
-	public List<Job> getLeaveEligibleJobs(String principalId, Date asOfDate);
 }

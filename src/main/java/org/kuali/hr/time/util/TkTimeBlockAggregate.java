@@ -1,6 +1,16 @@
 package org.kuali.hr.time.util;
 
-import org.joda.time.*;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Interval;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.flsa.FlsaDay;
@@ -8,51 +18,45 @@ import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 public class TkTimeBlockAggregate {
 	public List<List<TimeBlock>> dayTimeBlockList = new ArrayList<List<TimeBlock>>();
-	private CalendarEntries calendarEntry;
-	private Calendar calendar;
+	private CalendarEntries payCalendarEntry;
+	private Calendar payCalendar;
 
     /**
      * Defaults to using SYSTEM time zone.
      *
      * @param timeBlocks
-     * @param calendarEntry
+     * @param payCalendarEntry
      */
-	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntries calendarEntry){
-		this(timeBlocks, calendarEntry, TkServiceLocator.getCalendarSerivce().getCalendar(calendarEntry.getHrCalendarId()));
+	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntries payCalendarEntry){
+		this(timeBlocks, payCalendarEntry, TkServiceLocator.getCalendarSerivce().getCalendar(payCalendarEntry.getHrCalendarId()));
 	}
 
     /**
      * Defaults to using SYSTEM time zone.
      *
      * @param timeBlocks
-     * @param calendarEntry
-     * @param calendar
+     * @param payCalendarEntry
+     * @param payCalendar
      */
-	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntries calendarEntry, Calendar calendar) {
-        this(timeBlocks, calendarEntry, calendar, false);
+	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntries payCalendarEntry, Calendar payCalendar) {
+        this(timeBlocks, payCalendarEntry, payCalendar, false);
     }
 
     /**
      * Provides the option to refer to the time zone adjusted time for the current
      * user.
      * @param timeBlocks
-     * @param calendarEntry
-     * @param calendar
+     * @param payCalendarEntry
+     * @param payCalendar
      * @param useUserTimeZone
      */
-    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntries calendarEntry, Calendar calendar, boolean useUserTimeZone) {
-		this.calendarEntry = calendarEntry;
-		this.calendar = calendar;
+    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntries payCalendarEntry, Calendar payCalendar, boolean useUserTimeZone) {
+		this.payCalendarEntry = payCalendarEntry;
+		this.payCalendar = payCalendar;
 
-		List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(calendarEntry);
+		List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(payCalendarEntry);
 		for(Interval dayInt : dayIntervals){
 			List<TimeBlock> dayTimeBlocks = new ArrayList<TimeBlock>();
 			for(TimeBlock timeBlock : timeBlocks){
@@ -79,9 +83,9 @@ public class TkTimeBlockAggregate {
 		}
 	}
 
-    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntries calendarEntry, Calendar calendar, boolean useUserTimeZone, List<Interval> dayIntervals) {
-    	this.calendarEntry = calendarEntry;
-		this.calendar = calendar;
+    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntries payCalendarEntry, Calendar payCalendar, boolean useUserTimeZone, List<Interval> dayIntervals) {
+    	this.payCalendarEntry = payCalendarEntry;
+		this.payCalendar = payCalendar;
 		
 		for(Interval dayInt : dayIntervals){
 			List<TimeBlock> dayTimeBlocks = new ArrayList<TimeBlock>();
@@ -171,8 +175,8 @@ public class TkTimeBlockAggregate {
      * @param zone The TimeZone to use when constructing this relative sorting.
 	 */
 	public List<FlsaWeek> getFlsaWeeks(DateTimeZone zone){
-		int flsaDayConstant = calendar.getFlsaBeginDayConstant();
-		Time flsaBeginTime  = calendar.getFlsaBeginTime();
+		int flsaDayConstant = payCalendar.getFlsaBeginDayConstant();
+		Time flsaBeginTime  = payCalendar.getFlsaBeginTime();
 
 		// We can use these to build our interval, we have to make sure we
 		// place them on the proper day when we construct it.
@@ -182,13 +186,13 @@ public class TkTimeBlockAggregate {
 		// We will add 1 day to this to move over all days.
 		//
 		// FLSA time is set.  This is an FLSA start date.
-        LocalDateTime startLDT = calendarEntry.getBeginLocalDateTime();
-//		DateTime startDate = new DateTime(calendarEntry.getBeginPeriodDateTime());
+        LocalDateTime startLDT = payCalendarEntry.getBeginLocalDateTime();
+//		DateTime startDate = new DateTime(payCalendarEntry.getBeginPeriodDateTime());
 //		startDate = startDate.toLocalDate().toDateTime(flsaBeginLocalTime,TkConstants.SYSTEM_DATE_TIME_ZONE);
 
 		List<FlsaWeek> flsaWeeks = new ArrayList<FlsaWeek>();
 		List<TimeBlock> flatSortedBlockList = getFlattenedTimeBlockList();
-		FlsaWeek currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime, LocalTime.fromDateFields(calendarEntry.getBeginPeriodDateTime()));
+		FlsaWeek currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime, LocalTime.fromDateFields(payCalendarEntry.getBeginPeriodDateTime()));
 //		commented additional week addition, as causing an extra day on UI
 		flsaWeeks.add(currentWeek);
 
@@ -229,20 +233,20 @@ public class TkTimeBlockAggregate {
 		return dayTimeBlockList;
 	}
 
-	public CalendarEntries getCalendarEntry() {
-		return calendarEntry;
+	public CalendarEntries getPayCalendarEntry() {
+		return payCalendarEntry;
 	}
 
-	public void setCalendarEntry(CalendarEntries calendarEntry) {
-		this.calendarEntry = calendarEntry;
+	public void setPayCalendarEntry(CalendarEntries payCalendarEntry) {
+		this.payCalendarEntry = payCalendarEntry;
 	}
 
-	public Calendar getCalendar() {
-		return calendar;
+	public Calendar getPayCalendar() {
+		return payCalendar;
 	}
 
-	public void setCalendar(Calendar calendar) {
-		this.calendar = calendar;
+	public void setPayCalendar(Calendar payCalendar) {
+		this.payCalendar = payCalendar;
 	}
 
 }

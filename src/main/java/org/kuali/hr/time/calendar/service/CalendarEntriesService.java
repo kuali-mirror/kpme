@@ -1,9 +1,9 @@
 package org.kuali.hr.time.calendar.service;
 
-import org.kuali.hr.time.calendar.CalendarEntries;
-
 import java.util.Date;
 import java.util.List;
+
+import org.kuali.hr.time.calendar.CalendarEntries;
 
 public interface CalendarEntriesService {
 
@@ -13,7 +13,7 @@ public interface CalendarEntriesService {
      * @param hrPyCalendarEntriesId The ID to retrieve.
      * @return a CalendarEntries object.
      */
-	public CalendarEntries getCalendarEntries(Long hrCalendarEntriesId);
+	public CalendarEntries getCalendarEntries(String hrCalendarEntriesId);
 
     /**
      * Method to obtain the current CalendarEntries object based on the
@@ -22,11 +22,11 @@ public interface CalendarEntriesService {
      * @param asOfDate The date reference point.
      * @return the current CalendarEntries effective by the asOfDate.
      */
-	public CalendarEntries getCurrentCalendarEntriesByCalendarId(Long hrCalendarId, Date asOfDate);
-    public CalendarEntries getCalendarEntriesByIdAndPeriodEndDate(Long hrCalendarId, Date endPeriodDate);
+	public CalendarEntries getCurrentCalendarEntriesByCalendarId(String hrCalendarId, Date asOfDate);
+    public CalendarEntries getCalendarEntriesByIdAndPeriodEndDate(String hrCalendarId, Date endPeriodDate);
 
-    public CalendarEntries getPreviousCalendarEntriesByCalendarId(Long hrCalendarId, CalendarEntries pce);
-    public CalendarEntries getNextCalendarEntriesByCalendarId(Long hrCalendarId, CalendarEntries pce);
+    public CalendarEntries getPreviousCalendarEntriesByCalendarId(String hrCalendarId, CalendarEntries pce);
+    public CalendarEntries getNextCalendarEntriesByCalendarId(String hrCalendarId, CalendarEntries pce);
 
     /**
      * Provides a list of CalendarEntries that are in the indicated window

@@ -1,5 +1,10 @@
 package org.kuali.hr.time.missedpunch;
 
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -7,13 +12,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 
 public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
 
@@ -24,6 +26,7 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         ActionForward act = super.docHandler(mapping, form, request, response);
         MissedPunchForm mpForm = (MissedPunchForm) form;
         MissedPunchDocument mpDoc = (MissedPunchDocument) mpForm.getDocument();
+        mpForm.setDocId(mpDoc.getTimesheetDocumentId());
 
         if (StringUtils.equals(request.getParameter("command"), "initiate")) {
             String tdocId = request.getParameter("tdocid");
@@ -36,7 +39,7 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         		|| StringUtils.equals(request.getParameter("command"), "displayActionListView") ) {
             Person p = KIMServiceLocator.getPersonService().getPerson(mpDoc.getPrincipalId());
             TKContext.getUser().setTargetPerson(p);
-            mpDoc.setTimesheetDocumentId(mpDoc.getDocumentHeader().getDocumentNumber());
+            mpForm.setDocId(mpDoc.getDocumentNumber());
         }
         
         return act;
@@ -50,8 +53,11 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         mpForm.setEditingMode(new HashMap());
         MissedPunchDocument mpDoc = (MissedPunchDocument) mpForm.getDocument();
         mpDoc.setDocumentStatus("R");
+        request.setAttribute(TkConstants.DOCUMENT_ID_REQUEST_NAME, mpDoc.getDocumentNumber());
+        request.setAttribute(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME, mpDoc.getTimesheetDocumentId());
         ActionForward fwd = super.route(mapping, mpForm, request, response);
         TkServiceLocator.getMissedPunchService().addClockLogForMissedPunch(mpDoc);
+        mpForm.setDocId(mpDoc.getDocumentNumber());
         return fwd;
 
     }

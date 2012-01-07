@@ -1,9 +1,9 @@
 package org.kuali.hr.time.batch.dao;
 
-import org.kuali.hr.time.batch.BatchJobEntry;
-
 import java.util.List;
 import java.util.Map;
+
+import org.kuali.hr.time.batch.BatchJobEntry;
 
 public interface BatchJobEntryDao {
 	/**

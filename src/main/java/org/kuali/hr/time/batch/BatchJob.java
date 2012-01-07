@@ -1,5 +1,7 @@
 package org.kuali.hr.time.batch;
 
+import java.sql.Timestamp;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -8,8 +10,6 @@ import org.kuali.rice.core.config.ConfigContext;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 
-import java.sql.Timestamp;
-
 public class BatchJob {
     private Logger LOG = Logger.getLogger(BatchJob.class);
 	int lastPlace = 0;
@@ -17,7 +17,7 @@ public class BatchJob {
 	private Long tkBatchJobId;
 	private String batchJobName;
 	private String batchJobStatus;
-	private Long hrPyCalendarEntryId;
+	private String hrPyCalendarEntryId;
 	private Long timeElapsed = 0L;
 	private Timestamp timestamp;
     long startTime;
@@ -62,7 +62,7 @@ public class BatchJob {
         timeElapsed = (runtime > 0) ? runtime / 1000 : 0; // set to 0, and avoid div by 0.
         this.setBatchJobStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.FINISHED);
         TkServiceLocator.getBatchJobService().saveBatchJob(this);
-        LOG.info("Batch job '" + this.getBatchJobName() + "' ("+this.getCalendarEntryId()+") complete after " + timeElapsed + " seconds.");
+        LOG.info("Batch job '" + this.getBatchJobName() + "' ("+this.getPayCalendarEntryId()+") complete after " + timeElapsed + " seconds.");
     }
 
 	public String getNextIpAddressInCluster(){
@@ -106,11 +106,11 @@ public class BatchJob {
 		this.batchJobStatus = batchJobStatus;
 	}
 
-	public Long getCalendarEntryId() {
+	public String getPayCalendarEntryId() {
 		return hrPyCalendarEntryId;
 	}
 
-	public void setCalendarEntryId(Long hrPyCalendarEntryId) {
+	public void setPayCalendarEntryId(String hrPyCalendarEntryId) {
 		this.hrPyCalendarEntryId = hrPyCalendarEntryId;
 	}
 
@@ -130,13 +130,13 @@ public class BatchJob {
 		this.timestamp = timestamp;
 	}
 
-    BatchJobEntry createBatchJobEntry(String batchJobName, String ip, String principal, String documentId, Long clockLogId) {
+    BatchJobEntry createBatchJobEntry(String batchJobName, String ip, String principal, String documentId, String clockLogId) {
         BatchJobEntry entry = new BatchJobEntry();
 
         entry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
         entry.setBatchJobName(batchJobName);
         entry.setIpAddress(ip);
-        entry.setHrPyCalendarId(this.getCalendarEntryId());
+        entry.setHrPyCalendarEntryId(this.getPayCalendarEntryId());
         entry.setPrincipalId(principal);
         entry.setTkBatchJobId(this.getTkBatchJobId());
         entry.setDocumentId(documentId);

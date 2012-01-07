@@ -1,5 +1,17 @@
 package org.kuali.hr.time.clock.web;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -25,13 +37,6 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.exception.AuthorizationException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class ClockAction extends TimesheetAction {
 
@@ -91,7 +96,7 @@ public class ClockAction extends TimesheetAction {
 
         String tbIdString = caf.getEditTimeBlockId();
         if (tbIdString != null) {
-            caf.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(Long.valueOf(caf.getEditTimeBlockId())));
+            caf.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(caf.getEditTimeBlockId()));
         }
 
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
@@ -199,7 +204,7 @@ public class ClockAction extends TimesheetAction {
         }
         
                
-        ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new Timestamp(System.currentTimeMillis()), assignment, caf.getCalendarDates(), ip,
+        ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new Timestamp(System.currentTimeMillis()), assignment, caf.getPayCalendarDates(), ip,
                 TKUtils.getCurrentDate(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), TKContext.getUser().getTargetPrincipalId());
 
         caf.setClockLog(clockLog);
@@ -242,7 +247,7 @@ public class ClockAction extends TimesheetAction {
     
     public ActionForward saveNewTimeBlocks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
 		ClockActionForm caf = (ClockActionForm)form;
-		Long tbId = new Long(caf.getTbId());
+		String tbId = caf.getTbId();
 
 		String[] assignments = caf.getNewAssignDesCol().split(SEPERATOR);
 		String[] beginDates = caf.getNewBDCol().split(SEPERATOR);
@@ -272,7 +277,7 @@ public class ClockAction extends TimesheetAction {
 	
 	public ActionForward validateNewTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
 		ClockActionForm caf = (ClockActionForm)form;
-		Long tbId = new Long(caf.getTbId());
+		String tbId = caf.getTbId();
 		String[] assignments = caf.getNewAssignDesCol().split(SEPERATOR);
 		String[] beginDates = caf.getNewBDCol().split(SEPERATOR);
 		String[] beginTimes = caf.getNewBTCol().split(SEPERATOR);

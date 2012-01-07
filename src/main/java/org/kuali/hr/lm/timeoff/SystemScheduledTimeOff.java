@@ -16,7 +16,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long lmSystemScheduledTimeOffId;
+	private String lmSystemScheduledTimeOffId;
 	private String leavePlan;
 	private String accrualCategory;
 	private String leaveCode;
@@ -37,11 +37,11 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	private LeaveCode leaveCodeObj;
 	private Location locationObj;
 	
-	public Long getLmSystemScheduledTimeOffId() {
+	public String getLmSystemScheduledTimeOffId() {
 		return lmSystemScheduledTimeOffId;
 	}
 
-	public void setLmSystemScheduledTimeOffId(Long lmSystemScheduledTimeOffId) {
+	public void setLmSystemScheduledTimeOffId(String lmSystemScheduledTimeOffId) {
 		this.lmSystemScheduledTimeOffId = lmSystemScheduledTimeOffId;
 	}
 
@@ -188,15 +188,8 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setId(Long id) {
-		// TODO Auto-generated method stub
-		
+	public String getId() {
+		return getLmSystemScheduledTimeOffId();
 	}
 
 	@Override
@@ -211,6 +204,11 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 
 	public void setHistory(Boolean history) {
 		this.history = history;
+	}
+
+	@Override
+	public void setId(String id) {
+		setLmSystemScheduledTimeOffId(id);
 	}
 
 }

@@ -1,5 +1,10 @@
 package org.kuali.hr.time.clock.location;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
@@ -8,28 +13,23 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long tkClockLocationRuleId;
+	private String tkClockLocationRuleId;
 
 	private Department department;
 	private String dept;
-	private Long hrDeptId;
+	private String hrDeptId;
 	
 	private Long workArea;
-	private Long tkWorkAreaId;
+	private String tkWorkAreaId;
 	private String principalId;
 	private Long jobNumber;
-	private Long hrJobId;
+	private String hrJobId;
 
-	private List<TKIPAddress> ipAddresses = new ArrayList<TKIPAddress>();
+	private List<ClockLocationRuleIpAddress> ipAddresses = new ArrayList<ClockLocationRuleIpAddress>();
 	private String userPrincipalId;
 	private Timestamp timestamp;
 	private Boolean history;
@@ -110,11 +110,11 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 	    this.job = job;
 	}
 
-	public Long getTkClockLocationRuleId() {
+	public String getTkClockLocationRuleId() {
 		return tkClockLocationRuleId;
 	}
 
-	public void setTkClockLocationRuleId(Long tkClockLocationRuleId) {
+	public void setTkClockLocationRuleId(String tkClockLocationRuleId) {
 		this.tkClockLocationRuleId = tkClockLocationRuleId;
 	}
 
@@ -142,27 +142,27 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 		this.principal = principal;
 	}
 
-	public Long getHrDeptId() {
+	public String getHrDeptId() {
 		return hrDeptId;
 	}
 
-	public void setHrDeptId(Long hrDeptId) {
+	public void setHrDeptId(String hrDeptId) {
 		this.hrDeptId = hrDeptId;
 	}
 
-	public Long getTkWorkAreaId() {
+	public String getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}
 
-	public void setTkWorkAreaId(Long tkWorkAreaId) {
+	public void setTkWorkAreaId(String tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
 
-	public Long getHrJobId() {
+	public String getHrJobId() {
 		return hrJobId;
 	}
 
-	public void setHrJobId(Long hrJobId) {
+	public void setHrJobId(String hrJobId) {
 		this.hrJobId = hrJobId;
 	}
 
@@ -176,29 +176,29 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getTkClockLocationRuleId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setTkClockLocationRuleId(id);
 	}
 
-	public List<TKIPAddress> getIpAddresses() {
+	public List<ClockLocationRuleIpAddress> getIpAddresses() {
 		if(ipAddresses.isEmpty()) {
 			TkServiceLocator.getClockLocationRuleService().populateIPAddressesForCLR(this);
 		}
 		return ipAddresses;
 	}
 
-	public void setIpAddresses(List<TKIPAddress> ipAddresses) {
+	public void setIpAddresses(List<ClockLocationRuleIpAddress> ipAddresses) {
 		this.ipAddresses = ipAddresses;
 	}
 	// for lookup and inquiry display only
 	public String getIpAddressesString() {
 		String aString = "";
-		for(TKIPAddress ip : this.getIpAddresses()) {
+		for(ClockLocationRuleIpAddress ip : this.getIpAddresses()) {
 			aString += ip.getIpAddress() + ", ";
 		}
 		return aString;

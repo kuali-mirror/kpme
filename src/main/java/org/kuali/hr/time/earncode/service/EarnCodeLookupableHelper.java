@@ -1,12 +1,12 @@
 package org.kuali.hr.time.earncode.service;
 
+import java.util.List;
+
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-
-import java.util.List;
 
 public class EarnCodeLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 	/**
@@ -20,10 +20,11 @@ public class EarnCodeLookupableHelper extends HrEffectiveDateActiveLookupableHel
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			EarnCode earnCodeObj = (EarnCode) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String earnCode = earnCodeObj.getEarnCode();
+			final String hrEarnCodeId = earnCodeObj.getHrEarnCodeId();
 			HtmlData htmlData = new HtmlData() {
 
 				/**
@@ -36,7 +37,9 @@ public class EarnCodeLookupableHelper extends HrEffectiveDateActiveLookupableHel
 					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
 							+ className
 							+ "&methodToCall=start&earnCode="
-							+ earnCode + "&hrEarnCodeId=\">view</a>";
+							+ earnCode 
+							+ "&hrEarnCodeId=" 
+							+ hrEarnCodeId + "\">view</a>";
 				}
 			};
 			customActionUrls.add(htmlData);

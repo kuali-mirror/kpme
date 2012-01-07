@@ -1,18 +1,19 @@
 package org.kuali.hr.time.roles;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import com.ctc.wstx.util.StringUtil;
-
-import java.util.*;
 
 /**
  * TkUserRoles encapsulates the concept of roles for a single user and provides
@@ -30,8 +31,8 @@ public class TkUserRoles implements UserRoles {
     private Map<Long, TkRole> approverDelegateRoles = new HashMap<Long,TkRole>();
     private Map<Long, TkRole> reviewerRoles = new HashMap<Long,TkRole>();;
     private Map<String, TkRole> deptViewOnlyRoles = new HashMap<String, TkRole>();
-	private Set<Long> activeAssignmentIds = new HashSet<Long>();
-
+	private Set<String> activeAssignmentIds = new HashSet<String>();
+	
 	/**
 	 * Constructor that takes a list of all roles that will be encapsulated
 	 * by this object.
@@ -110,7 +111,7 @@ public class TkUserRoles implements UserRoles {
      * @return a Set of active assignment IDs
      */
     @Override
-	public Set<Long> getActiveAssignmentIds() {
+	public Set<String> getActiveAssignmentIds() {
 		return activeAssignmentIds;
 	}
 
@@ -276,7 +277,13 @@ public class TkUserRoles implements UserRoles {
 
     @Override
     public boolean isDocumentReadable(String documentId) {
-        return isDocumentReadable(TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId));
+    	boolean readable = false;
+    	
+    	if (documentId != null) {
+    		return isDocumentReadable(TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId));
+    	}
+    	
+    	return readable;
     }
 
     @Override
@@ -352,13 +359,18 @@ public class TkUserRoles implements UserRoles {
 		TimesheetDocument doc = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
 		return canSubmitTimesheet(doc);
 	}
-
+	
 	@Override
-	public boolean isLeaveManagementCalendar() {
-		PrincipalHRAttributes principalCal = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(getPrincipalId(), TKUtils.getCurrentDate());
-		if(principalCal != null && StringUtils.isNotBlank(principalCal.getLeaveCalendar())){
-			return true;
+	public boolean isApproverForPerson(String principalId) {
+		List<Assignment> lstAssignment = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
+		
+		for (Assignment assignment : lstAssignment) {
+			if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(assignment.getWorkArea())) {
+				return true;
+			}
 		}
+		
 		return false;
+
 	}
 }

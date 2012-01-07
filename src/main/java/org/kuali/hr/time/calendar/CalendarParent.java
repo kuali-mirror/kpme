@@ -1,10 +1,10 @@
 package org.kuali.hr.time.calendar;
 
-import org.joda.time.DateTime;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.joda.time.DateTime;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public abstract class CalendarParent {
     private List<CalendarWeek> weeks = new ArrayList<CalendarWeek>();

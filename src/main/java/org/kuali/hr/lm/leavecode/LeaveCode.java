@@ -1,11 +1,11 @@
 package org.kuali.hr.lm.leavecode;
 
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
-
-import java.util.LinkedHashMap;
 
 public class LeaveCode extends HrBusinessObject {
 
@@ -13,7 +13,7 @@ public class LeaveCode extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long lmLeaveCodeId;
+	private String lmLeaveCodeId;
 	private String leavePlan;
 	private String eligibleForAccrual;
 	private String accrualCategory;
@@ -61,11 +61,11 @@ public class LeaveCode extends HrBusinessObject {
 		this.leavePlanObj = leavePlanObj;
 	}
 
-	public Long getLmLeaveCodeId() {
+	public String getLmLeaveCodeId() {
 		return lmLeaveCodeId;
 	}
 
-	public void setLmLeaveCodeId(Long lmLeaveCodeId) {
+	public void setLmLeaveCodeId(String lmLeaveCodeId) {
 		this.lmLeaveCodeId = lmLeaveCodeId;
 	}
 
@@ -212,16 +212,10 @@ public class LeaveCode extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getId() {
+		return getLmLeaveCodeId();
 	}
 
-	@Override
-	public void setId(Long id) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	protected LinkedHashMap toStringMapper() {
@@ -230,11 +224,16 @@ public class LeaveCode extends HrBusinessObject {
 	}
     
     public String getLeaveCodeKeyForDisplay() {
-        return Long.toString(lmLeaveCodeId);
+        return lmLeaveCodeId;
     }
     
     public String getLeaveCodeValueForDisplay() {
         return leaveCode + " : " + displayName;
     }
+
+	@Override
+	public void setId(String id) {
+		setLmLeaveCodeId(id);
+	}
 
 }

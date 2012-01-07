@@ -103,7 +103,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public EarnCode getEarnCodeById(Long earnCodeId) {
+	public EarnCode getEarnCodeById(String earnCodeId) {
 		return earnCodeDao.getEarnCodeById(earnCodeId);
 	}
 	

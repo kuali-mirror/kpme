@@ -14,14 +14,12 @@
                    type="org.kuali.hr.time.cache.web.CacheAdministrationActionForm"/>
         <form-bean name="TimeOffAccrualActionForm" type="org.kuali.hr.time.accrual.web.TimeOffAccrualActionForm"/>
         <form-bean name="BatchJobActionForm" type="org.kuali.hr.time.batch.web.BatchJobActionForm"/>
-        <form-bean name="CalendarEntryActionForm" type="org.kuali.hr.time.calendar.web.CalendarEntryActionForm"/>
         <form-bean name="TimesheetSubmitActionForm" type="org.kuali.hr.time.detail.web.TimesheetSubmitActionForm"/>
         <form-bean name="MissedPunchForm" type="org.kuali.hr.time.missedpunch.MissedPunchForm"/>
         <form-bean name="HelpActionForm" type="org.kuali.hr.time.help.web.HelpActionForm"/>
         <form-bean name="SessionInvalidateForm" type="org.kuali.hr.time.web.SessionInvalidateForm"/>
-
+ 		<form-bean name="CalendarEntryActionForm" type="org.kuali.hr.time.calendar.web.CalendarEntryActionForm"/>
 		<form-bean name="LeaveCalendarForm" type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm"/>
-		
     </form-beans>
 
     <global-exceptions>
@@ -87,7 +85,7 @@
                 type="org.kuali.hr.time.web.TimeAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/dummy_login.jsp"/>
         </action>
-
+        
         <action path="/PersonInfo" name="PersonInfoActionForm" scope="request" input="/WEB-INF/jsp/personInfo.jsp"
                 type="org.kuali.hr.time.base.web.PersonInfoAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/personInfo.jsp"/>
@@ -115,6 +113,7 @@
             <forward name="basic" path="/WEB-INF/jsp/batchJob.jsp"/>
         </action>
 
+
         <action path="/CalendarEntry" name="CalendarEntryActionForm" scope="request"
                 input="/WEB-INF/jsp/calendarEntry.jsp" type="org.kuali.hr.time.calendar.web.CalendarEntryAction"
                 parameter="methodToCall" validate="false">
@@ -137,7 +136,6 @@
                 type="org.kuali.hr.time.web.SessionInvalidateAction" parameter="methodToCall" validate="true">
             <forward name="basic" path="/WEB-INF/jsp/sessionInvalidate.jsp"/>
         </action>
-
         <action path="/LeaveCalendar" name="LeaveCalendarForm" scope="request" input="/WEB-INF/jsp/leaveCalendar.jsp"
                 type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveCalendar.jsp"/>

@@ -1,10 +1,10 @@
 package org.kuali.hr.time.earngroup;
 
-import org.kuali.hr.time.HrBusinessObject;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import org.kuali.hr.time.HrBusinessObject;
 
 public class EarnGroup extends HrBusinessObject {
 
@@ -13,7 +13,7 @@ public class EarnGroup extends HrBusinessObject {
 	 */
 	private static final long serialVersionUID = -3034933572755800531L;
 
-	private Long hrEarnGroupId;
+	private String hrEarnGroupId;
 
 	private String earnGroup;
 
@@ -24,6 +24,8 @@ public class EarnGroup extends HrBusinessObject {
 	private Boolean showSummary;
 
 	private List<EarnGroupDefinition> earnGroups = new ArrayList<EarnGroupDefinition>();
+	
+	private String warningText;
 
 	public String getEarnGroup() {
 		return earnGroup;
@@ -65,11 +67,11 @@ public class EarnGroup extends HrBusinessObject {
 		return descr;
 	}
 
-	public Long getHrEarnGroupId() {
+	public String getHrEarnGroupId() {
 		return hrEarnGroupId;
 	}
 
-	public void setHrEarnGroupId(Long hrEarnGroupId) {
+	public void setHrEarnGroupId(String hrEarnGroupId) {
 		this.hrEarnGroupId = hrEarnGroupId;
 	}
 	
@@ -87,13 +89,21 @@ public class EarnGroup extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getHrEarnGroupId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setHrEarnGroupId(id);
+	}
+
+	public String getWarningText() {
+		return warningText;
+	}
+
+	public void setWarningText(String warningText) {
+		this.warningText = warningText;
 	}
 
 }

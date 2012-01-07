@@ -1,16 +1,16 @@
 package org.kuali.hr.time.clock.location.service;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
-import org.kuali.hr.time.clock.location.TKIPAddress;
+import org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress;
 import org.kuali.hr.time.clock.location.dao.ClockLocationDao;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
-
-import java.sql.Date;
-import java.util.List;
 
 public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	private ClockLocationDao clockLocationDao;
@@ -30,9 +30,9 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 			return;
 		}
 		for(ClockLocationRule clockLocationRule : lstClockLocationRules){
-			List<TKIPAddress> ruleIpAddresses = clockLocationRule.getIpAddresses();
+			List<ClockLocationRuleIpAddress> ruleIpAddresses = clockLocationRule.getIpAddresses();
 			String ipAddressClock = clockLog.getIpAddress();
-			for(TKIPAddress ruleIp : ruleIpAddresses) {
+			for(ClockLocationRuleIpAddress ruleIp : ruleIpAddresses) {
 				if(compareIpAddresses(ruleIp.getIpAddress(), ipAddressClock)){
 					return;
 				}
@@ -123,7 +123,7 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public ClockLocationRule getClockLocationRule(Long tkClockLocationRuleId) {
+	public ClockLocationRule getClockLocationRule(String tkClockLocationRuleId) {
 		return clockLocationDao.getClockLocationRule(tkClockLocationRuleId);
 	}
 	

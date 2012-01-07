@@ -35,5 +35,5 @@ public interface WeeklyOvertimeRuleService {
 	 * @param tkWeeklyOvertimeRuleId
 	 * @return
 	 */
-	public WeeklyOvertimeRule getWeeklyOvertimeRule(Long tkWeeklyOvertimeRuleId);
+	public WeeklyOvertimeRule getWeeklyOvertimeRule(String tkWeeklyOvertimeRuleId);
 }

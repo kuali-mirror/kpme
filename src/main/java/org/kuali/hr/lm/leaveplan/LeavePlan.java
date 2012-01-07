@@ -10,17 +10,17 @@ public class LeavePlan extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long lmLeavePlanId;
+	private String lmLeavePlanId;
 	private String leavePlan;
 	private String descr;
 	private String calendarYearStart;
 	private Boolean history;
 	
-	public Long getLmLeavePlanId() {
+	public String getLmLeavePlanId() {
 		return lmLeavePlanId;
 	}
 
-	public void setLmLeavePlanId(Long lmLeavePlanId) {
+	public void setLmLeavePlanId(String lmLeavePlanId) {
 		this.lmLeavePlanId = lmLeavePlanId;
 	}
 
@@ -62,12 +62,12 @@ public class LeavePlan extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getLmLeavePlanId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setLmLeavePlanId(id);
 	}
 
@@ -76,5 +76,6 @@ public class LeavePlan extends HrBusinessObject {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

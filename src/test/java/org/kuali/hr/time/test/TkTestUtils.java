@@ -1,6 +1,19 @@
 package org.kuali.hr.time.test;
 
-import com.gargoylesoftware.htmlunit.html.*;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -20,11 +33,17 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.*;
+import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSelect;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 
 public class TkTestUtils {
 
@@ -134,7 +153,7 @@ public class TkTestUtils {
 	public static TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, int dayInPeriod, int numHours){
 		TimeBlock timeBlock = new TimeBlock();
 		Calendar cal = GregorianCalendar.getInstance();
-		cal.setTimeInMillis(timesheetDocument.getCalendarEntry().getBeginPeriodDateTime().getTime());
+		cal.setTimeInMillis(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime().getTime());
 		for(int i = 1; i< dayInPeriod;i++){
 			cal.add(Calendar.DAY_OF_MONTH, 1);
 		}
@@ -379,5 +398,22 @@ public class TkTestUtils {
 		DateTime dt = new DateTime(year, month, day, hours, minutes, seconds, 0);
 		return new Date(dt.getMillis());
 	}
+
+
+    /**
+     * Method to obtain the HREF onclick='' value from the button when
+     * the client side typically processes the request.
+     * @param button
+     */
+    public static String getOnClickHref(HtmlElement button) {
+        NamedNodeMap attributes = button.getAttributes();
+        Node node = attributes.getNamedItem("onclick");
+
+        //location.href='TimesheetSubmit.do?action=R&documentId=2000&methodToCall=approveTimesheet'
+        String hrefRaw = node.getNodeValue();
+        int sidx = hrefRaw.indexOf("='");
+
+        return hrefRaw.substring(sidx+2, hrefRaw.length() - 1);
+    }
 
 }

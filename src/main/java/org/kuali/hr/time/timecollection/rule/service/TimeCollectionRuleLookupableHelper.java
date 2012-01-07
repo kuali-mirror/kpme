@@ -1,5 +1,8 @@
 package org.kuali.hr.time.timecollection.rule.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
@@ -7,9 +10,6 @@ import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-
-import java.util.List;
-import java.util.Map;
 
 public class TimeCollectionRuleLookupableHelper extends
         TkAuthorizedLookupableHelperBase {
@@ -34,14 +34,14 @@ public class TimeCollectionRuleLookupableHelper extends
 				businessObject, pkNames);
 		TimeCollectionRule timeCollectionRule = (TimeCollectionRule) businessObject;
 		final String className = this.getBusinessObjectClass().getName();
-		final Long tkTimeCollectionRuleId = timeCollectionRule.getTkTimeCollectionRuleId();
+		final String tkTimeCollectionRuleId = timeCollectionRule.getTkTimeCollectionRuleId();
 		HtmlData htmlData = new HtmlData() {
 
 			@Override
 			public String constructCompleteHtmlTag() {
 				return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
 						+ className + "&methodToCall=start&tkTimeCollectionRuleId=" + tkTimeCollectionRuleId
-						+ "&dept=&workArea=\">view</a>";
+						+ "&dept=&workArea=&payType=\">view</a>";
 			}
 		};
 		customActionUrls.add(htmlData);
@@ -58,6 +58,10 @@ public class TimeCollectionRuleLookupableHelper extends
 		if (fieldValues.containsKey("dept")
 				&& StringUtils.equals(fieldValues.get("dept"), "%")) {
 			fieldValues.put("dept", "");
+		}
+		if (fieldValues.containsKey("payType")
+				&& StringUtils.equals(fieldValues.get("payType"), "%")) {
+			fieldValues.put("payType", "");
 		}
 		return super.getSearchResults(fieldValues);
 	}

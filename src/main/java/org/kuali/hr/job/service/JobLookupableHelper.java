@@ -33,10 +33,10 @@ public class JobLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 			@SuppressWarnings("rawtypes") List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			Job job = (Job) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long hrJobId = job.getHrJobId();
+			final String hrJobId = job.getHrJobId();
 			HtmlData htmlData = new HtmlData() {
 
 				/**

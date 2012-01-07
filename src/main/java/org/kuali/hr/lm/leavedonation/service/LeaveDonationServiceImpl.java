@@ -24,7 +24,7 @@ public class LeaveDonationServiceImpl implements LeaveDonationService {
 
     @Override
     @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
-    public LeaveDonation getLeaveDonation(Long lmLeaveDonationId) {
+    public LeaveDonation getLeaveDonation(String lmLeaveDonationId) {
         return getLeaveDonationDao().getLeaveDonation(lmLeaveDonationId);
     }
 

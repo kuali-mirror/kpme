@@ -33,7 +33,7 @@ public interface ClockLocationDao {
 	 * @param tkClockLocationRuleId
 	 * @return
 	 */
-	public ClockLocationRule getClockLocationRule(Long tkClockLocationRuleId);
+	public ClockLocationRule getClockLocationRule(String tkClockLocationRuleId);
 	/**
 	 * populate ip addresses for given ClockLocationRule
 	 * @param ClockLocationRule

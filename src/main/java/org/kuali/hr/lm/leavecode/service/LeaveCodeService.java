@@ -1,10 +1,10 @@
 package org.kuali.hr.lm.leavecode.service;
 
-import org.kuali.hr.lm.leavecode.LeaveCode;
-
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.kuali.hr.lm.leavecode.LeaveCode;
 
 public interface LeaveCodeService {
     
@@ -13,7 +13,7 @@ public interface LeaveCodeService {
      * @param lmLeaveCodeId
      * @return
      */
-    public LeaveCode getLeaveCode(Long lmLeaveCodeId);
+    public LeaveCode getLeaveCode(String lmLeaveCodeId);
 
     List<LeaveCode> getLeaveCodes(String principalId, Date asOfDate);
 

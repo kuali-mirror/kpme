@@ -1,14 +1,13 @@
 package org.kuali.hr.time.timeblock.service;
 
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.detail.web.TimeDetailActionForm;
-import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
+
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeBlockHistory;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 public interface TimeBlockService {
 	/**
@@ -16,7 +15,7 @@ public interface TimeBlockService {
 	 * @param timeBlockId
 	 * @return
 	 */
-	public TimeBlock getTimeBlock(Long timeBlockId);
+	public TimeBlock getTimeBlock(String timeBlockId);
 
 	/**
 	 * Delete a given TimeBlock
@@ -100,8 +99,31 @@ public interface TimeBlockService {
 
 	public Boolean isTimeBlockEditable(TimeBlock tb);
 	
-	public List<TimeBlock> getTimeBlocksForClockLog(Long tkClockLogId);
+	/*
+	 * Get all the time blocks with the given Clock Log id as the clockLogEndId
+	 * @param tkClockLogId
+	 * @return List<TimeBlock>	 * 
+	 */
+	public List<TimeBlock> getTimeBlocksForClockLogEndId(String tkClockLogId);
+	/*
+	 * Get all the time blocks with the given Clock Log id as the clockLogBeginId
+	 * @param tkClockLogId
+	 * @return List<TimeBlock>	 * 
+	 */
+	public List<TimeBlock> getTimeBlocksForClockLogBeginId(String tkClockLogId);
 	
 	public List<TimeBlock> getTimeBlocks();
 	public List<TimeBlock> getLatestEndTimestamp();
+
+    /**
+     * Get overnight timeblocks by the clock log begin id
+     * @param clockLogBeginId
+     * @return
+     */
+    public List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId);
+
+	public void updateTimeBlock(TimeBlock tb);
+	
+	public List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory);
+
 }

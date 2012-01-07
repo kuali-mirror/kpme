@@ -1,5 +1,8 @@
 package org.kuali.hr.time.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -8,20 +11,9 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.hr.time.admin.web.AdminActionForm;
 import org.kuali.hr.time.base.web.TkAction;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.user.service.UserServiceImpl;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kew.web.UserLoginFilter;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.util.GlobalVariables;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class TimeAction extends TkAction {
 

@@ -1,5 +1,8 @@
 package org.kuali.hr.time.workflow;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.cxf.common.util.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
@@ -18,9 +21,6 @@ import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
 import org.kuali.rice.kew.rule.Role;
 import org.kuali.rice.kew.rule.RoleAttribute;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TkWorkflowTimesheetAttribute implements RoleAttribute {
 
@@ -93,7 +93,7 @@ public class TkWorkflowTimesheetAttribute implements RoleAttribute {
 			//Position routing
 			if(StringUtils.isEmpty(role.getPrincipalId())){
 				String positionNumber = role.getPositionNumber();
-				List<Job> lstJobsForPosition = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(positionNumber, timesheetDocument.getCalendarEntry().getEndPeriodDateTime());
+				List<Job> lstJobsForPosition = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(positionNumber, timesheetDocument.getPayCalendarEntry().getEndPeriodDateTime());
 				for(Job job : lstJobsForPosition){
 					PrincipalId pid = new PrincipalId(job.getPrincipalId());
 					if (!principals.contains(pid)) {

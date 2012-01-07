@@ -1,12 +1,12 @@
 package org.kuali.hr.time.principal.service;
 
+import java.util.Date;
+
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.dao.PrincipalHRAttributesDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.util.Date;
 
 public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesService {
 	private PrincipalHRAttributesDao principalHRAttributesDao;

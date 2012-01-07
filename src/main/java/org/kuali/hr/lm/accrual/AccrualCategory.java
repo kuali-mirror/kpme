@@ -13,7 +13,7 @@ public class AccrualCategory extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long lmAccrualCategoryId;
+	private String lmAccrualCategoryId;
 	private String leavePlan;
 	private String accrualCategory;
 	private String descr;
@@ -45,11 +45,11 @@ public class AccrualCategory extends HrBusinessObject {
 		this.accrualCategoryRules = accrualCategoryRules;
 	}
 
-	public Long getLmAccrualCategoryId() {
+	public String getLmAccrualCategoryId() {
 		return lmAccrualCategoryId;
 	}
 
-	public void setLmAccrualCategoryId(Long lmAccrualCategoryId) {
+	public void setLmAccrualCategoryId(String lmAccrualCategoryId) {
 		this.lmAccrualCategoryId = lmAccrualCategoryId;
 	}
 
@@ -127,20 +127,7 @@ public class AccrualCategory extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Long getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setId(Long id) {
-		// TODO Auto-generated method stub
-		
+		return accrualCategory;
 	}
 
 	@Override
@@ -155,6 +142,16 @@ public class AccrualCategory extends HrBusinessObject {
 
 	public void setHistory(Boolean history) {
 		this.history = history;
+	}
+
+	@Override
+	public void setId(String id) {
+		setLmAccrualCategoryId(id);
+	}
+
+	@Override
+	public String getId() {
+		return getLmAccrualCategoryId();
 	}
 
 }

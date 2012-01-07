@@ -1,12 +1,12 @@
 package org.kuali.hr.lm.workflow.dao;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-
-import java.util.Date;
 
 public class LeaveCalendarDocumentHeaderDaoImpl extends PersistenceBrokerDaoSupport implements LeaveCalendarDocumentHeaderDao {
     private static final Logger LOG = Logger.getLogger(LeaveCalendarDocumentHeaderDaoImpl.class);

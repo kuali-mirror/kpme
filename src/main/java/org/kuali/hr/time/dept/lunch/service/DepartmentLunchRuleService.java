@@ -1,10 +1,10 @@
 package org.kuali.hr.time.dept.lunch.service;
 
-import org.kuali.hr.time.dept.lunch.DeptLunchRule;
-import org.kuali.hr.time.timeblock.TimeBlock;
-
 import java.sql.Date;
 import java.util.List;
+
+import org.kuali.hr.time.dept.lunch.DeptLunchRule;
+import org.kuali.hr.time.timeblock.TimeBlock;
 
 public interface DepartmentLunchRuleService {
 	/**
@@ -28,5 +28,5 @@ public interface DepartmentLunchRuleService {
 	 * @param tkDeptLunchRuleId
 	 * @return
 	 */
-	public DeptLunchRule getDepartmentLunchRule(Long tkDeptLunchRuleId);
+	public DeptLunchRule getDepartmentLunchRule(String tkDeptLunchRuleId);
 }

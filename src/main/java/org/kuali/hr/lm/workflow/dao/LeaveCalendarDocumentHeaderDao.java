@@ -1,8 +1,8 @@
 package org.kuali.hr.lm.workflow.dao;
 
-import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
-
 import java.util.Date;
+
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 
 public interface LeaveCalendarDocumentHeaderDao {
     LeaveCalendarDocumentHeader getLeaveCalendarDocumentHeader(String documentId);

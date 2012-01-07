@@ -19,7 +19,7 @@ public class AccountLookupableHelper extends KualiLookupableHelperServiceImpl {
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			Account account = (Account) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String accountNumber = account.getAccountNumber();

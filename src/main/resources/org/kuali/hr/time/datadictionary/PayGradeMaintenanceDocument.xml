@@ -12,7 +12,6 @@
 
   <bean id="PayGradeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.paygrade.PayGrade"
-  		p:businessRulesClass="org.kuali.hr.paygrade.validation.PayGradeValidation"
   		p:maintainableClass="org.kuali.hr.paygrade.service.PayGradeMaintainableServiceImpl"
   		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
     <property name="maintainableSections">
@@ -38,7 +37,6 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="payGrade" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="salGroup" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
       </list>

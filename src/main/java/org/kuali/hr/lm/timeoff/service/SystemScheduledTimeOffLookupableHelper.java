@@ -37,7 +37,7 @@ public class SystemScheduledTimeOffLookupableHelper extends
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
 			SystemScheduledTimeOff systemScheduledTimeOff = (SystemScheduledTimeOff) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long lmSystemScheduledTimeOffId = systemScheduledTimeOff
+			final String lmSystemScheduledTimeOffId = systemScheduledTimeOff
 					.getLmSystemScheduledTimeOffId();
 			HtmlData htmlData = new HtmlData() {
 

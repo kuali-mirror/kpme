@@ -1,5 +1,10 @@
 package org.kuali.hr.time.timeblock.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -22,11 +27,6 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 public class TimeBlockServiceImpl implements TimeBlockService {
 
     private static final Logger LOG = Logger.getLogger(TimeBlockServiceImpl.class);
@@ -42,11 +42,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime beginDt = new DateTime(beginTimestamp.getTime(), zone);
         DateTime endDt = beginDt.toLocalDate().toDateTime((new DateTime(endTimestamp.getTime(), zone)).toLocalTime(), zone);
-        // what the logic below is for?
-        // when will the end date go before the begin date after the validation is triggered before entering here?
         if (endDt.isBefore(beginDt)) endDt = endDt.plusDays(1);
 
-        List<Interval> dayInt = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getCalendarEntry());
+        List<Interval> dayInt = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getPayCalendarEntry());
         TimeBlock firstTimeBlock = new TimeBlock();
         List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
         for (Interval dayIn : dayInt) {
@@ -82,7 +80,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         //Create 1 or many timeblocks if the span of timeblocks exceed more than one
         //day that is determined by pay period day(24 hrs + period begin date)
         Interval firstDay = null;
-        List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getCalendarEntry());
+        List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getPayCalendarEntry());
         List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
         Timestamp beginTemp = beginTimestamp;
 
@@ -137,19 +135,32 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
         for (TimeBlock tb : alteredTimeBlocks) {
             TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(tb.getTkTimeBlockId());
+            // xichen, 11/01/11. KPME-744. set userPrincipalId with id which is logging in the sys.
+            tb.setUserPrincipalId(TKContext.getUser().getPrincipalId() );
+
             timeBlockDao.saveOrUpdate(tb);
+            tb.setTimeBlockHistories(TkServiceLocator.getTimeBlockService().createTimeBlockHistories(tb, TkConstants.ACTIONS.ADD_TIME_BLOCK));
+	         for(TimeBlockHistory tbh : tb.getTimeBlockHistories()){
+	        	 TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
+	         }
+
         }
 
     }
-
 
     public void saveTimeBlocks(List<TimeBlock> tbList) {
 		 for (TimeBlock tb : tbList) {
 	         TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(tb.getTkTimeBlockId());
 	         timeBlockDao.saveOrUpdate(tb);
+	         for(TimeBlockHistory tbh : tb.getTimeBlockHistories()){
+	        	 TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
+	         }
 	     }
     }
-
+    
+    public void updateTimeBlock(TimeBlock tb) {
+	         timeBlockDao.saveOrUpdate(tb);
+   }
 
 
     public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime, Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean clockLogCreated) {
@@ -163,8 +174,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         tb.setWorkArea(assignment.getWorkArea());
         tb.setTask(assignment.getTask());
         tb.setTkWorkAreaId(assignment.getWorkAreaObj().getTkWorkAreaId());
-        tb.setHrJobId(assignment.getJob().getHrJobId());
-        Long tkTaskId = 0L;
+        tb.setHrJobId(Long.parseLong(assignment.getJob().getHrJobId()));
+        String tkTaskId = "0";
         for (Task task : assignment.getWorkAreaObj().getTasks()) {
             if (task.getTask().compareTo(assignment.getTask()) == 0) {
                 tkTaskId = task.getTkTaskId();
@@ -205,16 +216,15 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         tb.setEarnCodeType(earnCodeObj.getEarnCodeType());
         tb.setHours(hours);
         tb.setClockLogCreated(clockLogCreated);
-        tb.setUserPrincipalId(timesheetDocument.getPrincipalId());
+        tb.setUserPrincipalId(TKContext.getPrincipalId());
         tb.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
         tb.setTimeHourDetails(this.createTimeHourDetails(tb.getEarnCode(), tb.getHours(), tb.getAmount(), tb.getTkTimeBlockId()));
-        tb.setTimeBlockHistories(this.createTimeBlockHistories(tb, TkConstants.ACTIONS.ADD_TIME_BLOCK));
 
         return tb;
     }
 
-    public TimeBlock getTimeBlock(Long tkTimeBlockId) {
+    public TimeBlock getTimeBlock(String tkTimeBlockId) {
         return timeBlockDao.getTimeBlock(tkTimeBlockId);
     }
 
@@ -227,10 +237,14 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     public void resetTimeHourDetail(List<TimeBlock> origTimeBlocks) {
         for (TimeBlock tb : origTimeBlocks) {
             tb.setTimeHourDetails(createTimeHourDetails(tb.getEarnCode(), tb.getHours(), tb.getAmount(), tb.getTkTimeBlockId()));
+            //reset time block history details
+            for(TimeBlockHistory tbh : tb.getTimeBlockHistories()) {
+            	TkServiceLocator.getTimeBlockHistoryService().addTimeBlockHistoryDetails(tbh,tb);
+            }
         }
     }
 
-    private List<TimeHourDetail> createTimeHourDetails(String earnCode, BigDecimal hours, BigDecimal amount, Long timeBlockId) {
+    private List<TimeHourDetail> createTimeHourDetails(String earnCode, BigDecimal hours, BigDecimal amount, String timeBlockId) {
         List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
 
         TimeHourDetail timeHourDetail = new TimeHourDetail();
@@ -243,17 +257,19 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         return timeHourDetails;
     }
 
-    private List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory) {
+    public List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory) {
         List<TimeBlockHistory> tbhs = new ArrayList<TimeBlockHistory>();
 
         TimeBlockHistory tbh = new TimeBlockHistory(tb);
         tbh.setActionHistory(actionHistory);
-
+        // add time block history details to this time block history
+        TkServiceLocator.getTimeBlockHistoryService().addTimeBlockHistoryDetails(tbh, tb);
+        
         tbhs.add(tbh);
 
         return tbhs;
     }
-
+    
     // This method now translates time based on timezone settings.
     //
     public List<TimeBlock> getTimeBlocks(Long documentId) {
@@ -293,15 +309,12 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		String userId = TKContext.getUser().getPrincipalId();
 
     	if(userId != null && ur != null) {
-			if(tb.getClockLogCreated() && StringUtils.equals(userId, TKContext.getTargetPrincipalId())) {
-				return false;		// time block was created by clock in/out
-			}
 
 			if(ur.isSystemAdmin()) {
 				return true;
 			}
 
-			if(ur.isTimesheetApprover() && ur.getApproverWorkAreas().contains(tb.getWorkArea())) {
+			if(ur.isTimesheetApprover() && ur.getApproverWorkAreas().contains(tb.getWorkArea()) || ur.isTimesheetReviewer() && ur.getReviewerWorkAreas().contains(tb.getWorkArea())) {
 				Job job = TkServiceLocator.getJobSerivce().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
 				PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), tb.getEndDate());
 				if(StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())){
@@ -338,8 +351,12 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	}
 
 	@Override
-	public List<TimeBlock> getTimeBlocksForClockLog(Long tkClockLogId) {
-		return timeBlockDao.getTimeBlocksForClockLogId(tkClockLogId);
+	public List<TimeBlock> getTimeBlocksForClockLogEndId(String tkClockLogId) {
+		return timeBlockDao.getTimeBlocksForClockLogEndId(tkClockLogId);
+	}
+	@Override
+	public List<TimeBlock> getTimeBlocksForClockLogBeginId(String tkClockLogId) {
+		return timeBlockDao.getTimeBlocksForClockLogBeginId(tkClockLogId);
 	}
 
 	public List<TimeBlock> getTimeBlocks(){
@@ -349,4 +366,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	public List<TimeBlock> getLatestEndTimestamp(){
 		return timeBlockDao.getLatestEndTimestamp();
 	}
+
+    @Override
+    public List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId) {
+        return timeBlockDao.getOvernightTimeBlocks(clockLogEndId);
+    }
 }

@@ -1,8 +1,8 @@
 package org.kuali.hr.time.calendar;
 
-import org.kuali.hr.lm.ledger.Ledger;
-
 import java.math.BigDecimal;
+
+import org.kuali.hr.lm.ledger.Ledger;
 
 public class LedgerRenderer {
     private Ledger ledger;
@@ -27,8 +27,8 @@ public class LedgerRenderer {
         return ledger.getLeaveCode();
     }
 
-    public long getLedgerId() {
-        return ledger.getLedgerId();
+    public String getLedgerId() {
+        return ledger.getLmLedgerId();
     }
 
     public String getDocumentId() {

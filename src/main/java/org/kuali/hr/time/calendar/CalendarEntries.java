@@ -1,14 +1,15 @@
 package org.kuali.hr.time.calendar;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.util.LinkedHashMap;
+
+import javax.persistence.Transient;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
-import javax.persistence.Transient;
-import java.sql.Date;
-import java.sql.Time;
-import java.util.LinkedHashMap;
 
 /**
  * This class uses java.sql.Time and java.sql.Date because for each respective component
@@ -38,8 +39,8 @@ public class CalendarEntries extends PersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = 1L;
 
-    private Long hrCalendarEntriesId;
-    private Long hrCalendarId;
+    private String hrCalendarEntriesId;
+    private String hrCalendarId;
     private String calendarName;
 
     private java.util.Date beginPeriodDateTime;
@@ -92,7 +93,7 @@ public class CalendarEntries extends PersistableBusinessObjectBase {
         return (new DateTime(this.getEndPeriodDateTime())).toLocalDateTime();
     }
 
-    public Long getHrCalendarId() {
+    public String getHrCalendarId() {
         calendarObj = TkServiceLocator.getCalendarSerivce().getCalendarByGroup(this.getCalendarName());
         if (calendarObj != null) {
             this.setHrCalendarId(calendarObj.getHrCalendarId());
@@ -100,7 +101,7 @@ public class CalendarEntries extends PersistableBusinessObjectBase {
         return hrCalendarId;
     }
 
-    public void setHrCalendarId(Long hrCalendarId) {
+    public void setHrCalendarId(String hrCalendarId) {
         this.hrCalendarId = hrCalendarId;
     }
 
@@ -115,11 +116,11 @@ public class CalendarEntries extends PersistableBusinessObjectBase {
 
     }
 
-    public Long getHrCalendarEntriesId() {
+    public String getHrCalendarEntriesId() {
 		return hrCalendarEntriesId;
 	}
 
-	public void setHrCalendarEntriesId(Long hrCalendarEntriesId) {
+	public void setHrCalendarEntriesId(String hrCalendarEntriesId) {
 		this.hrCalendarEntriesId = hrCalendarEntriesId;
 	}
 

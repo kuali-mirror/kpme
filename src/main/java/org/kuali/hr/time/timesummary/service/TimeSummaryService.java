@@ -1,11 +1,11 @@
 package org.kuali.hr.time.timesummary.service;
 
+import java.util.List;
+
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesummary.TimeSummary;
-
-import java.util.List;
 
 public interface TimeSummaryService {
 	/**

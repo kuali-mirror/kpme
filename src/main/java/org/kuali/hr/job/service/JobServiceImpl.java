@@ -1,5 +1,8 @@
 package org.kuali.hr.job.service;
 
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
@@ -7,9 +10,6 @@ import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.util.Date;
-import java.util.List;
 /**
  * Represents an implementation of {@link JobService}.
  * 
@@ -89,13 +89,13 @@ public class JobServiceImpl implements JobService {
 	
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public List<Job> getActiveJobsForPayType(String hrPayType) {
-		return jobDao.getActiveJobsForPayType(hrPayType);
+	public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate) {
+		return jobDao.getActiveJobsForPayType(hrPayType, asOfDate);
 	}
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public Job getJob(Long hrJobId) {
+	public Job getJob(String hrJobId) {
 		return jobDao.getJob(hrJobId);
 	}
 	

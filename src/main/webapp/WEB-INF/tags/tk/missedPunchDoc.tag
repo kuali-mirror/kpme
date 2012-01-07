@@ -3,7 +3,8 @@
 <%@ attribute name="editingMode" required="true" description="used to decide if items may be edited" type="java.util.Map"%>
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
-<kul:tab tabTitle="Missed Punch" defaultOpen="true">
+<kul:tab tabTitle="Missed Punch" defaultOpen="true" 
+	tabErrorKey="document.timesheetDocumentId,document.principalId,document.assignment,document.clockAction,document.actionDate,document.actionTime">
 
 <c:set var="boeAttributes" value="${DataDictionary.MissedPunchDocument.attributes}" />
  <div class="tab-container" align=center>
@@ -56,6 +57,7 @@
 		</tr>		
 		<tr>
 			<kul:htmlAttributeHeaderCell 
+				labelFor="document.missedPunch.actionDate"
 				attributeEntry="${boeAttributes.actionDate}" 
 				horizontal="true" />
 			<td align="left" valign="middle">

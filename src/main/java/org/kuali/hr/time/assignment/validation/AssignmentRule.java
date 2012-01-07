@@ -21,6 +21,7 @@ import org.kuali.hr.time.assignment.AssignmentAccount;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -57,21 +58,36 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
+	
+	protected boolean validateTask(Assignment assignment) {
+		boolean valid = true;
+		//task by default is zero so if non zero validate against existing taskss
+		if (assignment.getTask() != null && !assignment.getTask().equals(0L)) {
+			Task task = TkServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveDate());
+			if(task != null) {
+				if(task.getWorkArea() == null || !task.getWorkArea().equals(assignment.getWorkArea())) {
+					this.putFieldError("task", "task.workarea.invalid.sync");
+					valid = false;
+				}
+			} 
+		}
+		return valid;
+	}
 
 	protected boolean validateDepartment(Assignment assignment) {
 		boolean valid = true;
 		if (assignment.getDept() != null) {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("dept", assignment.getDept());
-			crit.addEqualTo("jobNumber", assignment.getJobNumber());
-			Query query = QueryFactory.newQuery(Job.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker()
-					.getCount(query);
-			valid = (count > 0);
-			if (!valid) {
-				this.putFieldError("dept", "dept.jobnumber.invalid.sync");
-			}
-
+				Criteria crit = new Criteria();
+				crit.addEqualTo("dept", assignment.getDept());
+				crit.addEqualTo("jobNumber", assignment.getJobNumber());
+				Query query = QueryFactory.newQuery(Job.class, crit);
+				int count = PersistenceBrokerFactory.defaultPersistenceBroker()
+						.getCount(query);
+				valid = (count > 0);
+				if (!valid) {
+					this.putFieldError("dept", "dept.jobnumber.invalid.sync");
+				}
+			 
 		}
 		return valid;
 	}
@@ -155,38 +171,27 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
-
+	
 	protected boolean validateRegPayEarnCode(Assignment assignment) {
-		boolean valid = true;
+		boolean valid = false;
 		int index = 0;
-		LOG.debug("Validating Regular pay EarnCodes: "
-				+ assignment.getAssignmentAccounts().size());
-		for (AssignmentAccount assignmentAccount : assignment
-				.getAssignmentAccounts()) {
-			if (assignment.getJobNumber() != null
-					&& assignment.getPrincipalId() != null) {
-				Job job = TkServiceLocator.getJobSerivce().getJob(
-						assignment.getPrincipalId(), assignment.getJobNumber(),
-						assignment.getEffectiveDate(), false);
-				if (job != null) {
-					PayType payType = TkServiceLocator.getPayTypeSerivce()
-							.getPayType(job.getHrPayType(),
-									assignment.getEffectiveDate());
-					if (!StringUtils.equals(assignmentAccount.getEarnCode(),
-							payType.getRegEarnCode())) {
-						List <String> nowValidOvertimeCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(assignment.getEffectiveDate());
-						if (!nowValidOvertimeCodes.contains(assignmentAccount.getEarnCode())) {
-							valid = false;
-							this.putFieldError("assignmentAccounts[" + index
-									+ "].earnCode",
-									"earncode.valid.pay.required",
-									assignmentAccount.getEarnCode());
-						}
+		LOG.debug("Validating Regular pay EarnCodes: " + assignment.getAssignmentAccounts().size());
+		for(AssignmentAccount assignmentAccount : assignment.getAssignmentAccounts()){
+			if(assignment.getJobNumber()!=null && assignment.getPrincipalId()!=null){
+				Job job = TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate(), false);
+				if(job !=null){
+					PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), assignment.getEffectiveDate());
+					if(StringUtils.equals(assignmentAccount.getEarnCode(), payType.getRegEarnCode())){
+						valid = true;
+						break;
 					}
-
+					
 				}
 			}
 			index++;
+		}
+		if(!valid) {
+			this.putFieldError("assignmentAccounts", "earncode.regular.pay.required");
 		}
 		return valid;
 	}
@@ -228,8 +233,8 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				+ assignmentAccount.getFinSubObjCd());
 		if (assignmentAccount.getFinSubObjCd() != null) {
 			Map<String, String> fields = new HashMap<String, String>();
-			fields.put("financialSubObjectCode",
-					assignmentAccount.getFinSubObjCd());
+			fields.put("financialSubObjectCode", assignmentAccount
+					.getFinSubObjCd());
 			Collection subObjectCode = KNSServiceLocator.getBusinessObjectDao()
 					.findMatching(SubObjectCode.class, fields);
 			valid = subObjectCode.size() > 0;
@@ -242,31 +247,27 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
-
-	protected boolean validateHasAccounts(Assignment assign) {
-		if (assign.getAssignmentAccounts().isEmpty()) {
+	
+	protected boolean validateHasAccounts(Assignment assign){
+		if(assign.getAssignmentAccounts().isEmpty()){
 			this.putGlobalError("error.assign.must.have.one.or.more.account");
 			return false;
 		}
 		return true;
 	}
-
-	protected boolean validateActiveFlag(Assignment assign) {
-		if (!assign.isActive()) {
-			List<TimeBlock> tbList = TkServiceLocator.getTimeBlockService()
-					.getTimeBlocksForAssignment(assign);
-			if (!tbList.isEmpty()) {
+	
+	protected boolean validateActiveFlag(Assignment assign){
+		if(!assign.isActive()) {
+			List<TimeBlock> tbList = TkServiceLocator.getTimeBlockService().getTimeBlocksForAssignment(assign);
+			if(!tbList.isEmpty()) {
 				Date tbEndDate = tbList.get(0).getEndDate();
-				for (TimeBlock tb : tbList) {
-					if (tb.getEndDate().after(tbEndDate)) {
-						tbEndDate = tb.getEndDate(); // get the max end date
+				for(TimeBlock tb : tbList) {
+					if(tb.getEndDate().after(tbEndDate)) {
+						tbEndDate = tb.getEndDate();			// get the max end date
 					}
 				}
-				if (tbEndDate.equals(assign.getEffectiveDate())
-						|| tbEndDate.after(assign.getEffectiveDate())) {
-					this.putFieldError("active",
-							"error.assignment.timeblock.existence",
-							tbEndDate.toString());
+				if(tbEndDate.equals(assign.getEffectiveDate()) || tbEndDate.after(assign.getEffectiveDate())) {
+					this.putFieldError("active", "error.assignment.timeblock.existence", tbEndDate.toString());
 					return false;
 				}
 			}
@@ -289,12 +290,16 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			if (assignment != null) {
 				valid = true;
 				valid &= this.validateWorkArea(assignment);
+				valid &= this.validateTask(assignment);
 				valid &= this.validateJob(assignment);
 				valid &= this.validateDepartment(assignment);
 				valid &= this.validatePercentagePerEarnCode(assignment);
 				valid &= this.validateHasAccounts(assignment);
 				valid &= this.validateActiveFlag(assignment);
-				valid &= this.validateRegPayEarnCode(assignment);
+				if(!assignment.getAssignmentAccounts().isEmpty()) {
+					valid &= this.validateRegPayEarnCode(assignment);	
+				}
+				
 			}
 		}
 

@@ -1,14 +1,14 @@
 package org.kuali.hr.time.workschedule.dao;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.workschedule.WorkSchedule;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-
-import java.sql.Date;
-import java.util.List;
 
 public class WorkScheduleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements WorkScheduleDao {
 

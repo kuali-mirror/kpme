@@ -26,7 +26,7 @@ public class CalendarDaoSpringOjbImpl extends PersistenceBrokerDaoSupport  imple
 		}
 	}
 
-	public Calendar getCalendar(Long hrPyCalendarId) {
+	public Calendar getCalendar(String hrPyCalendarId) {
 		Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("hrCalendarId", hrPyCalendarId);
 
@@ -41,7 +41,7 @@ public class CalendarDaoSpringOjbImpl extends PersistenceBrokerDaoSupport  imple
 		return (Calendar) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Calendar.class, currentRecordCriteria));
 	}
 	
-	public CalendarEntries getPreviousCalendarEntry(Long tkCalendarId, Date beginDateCurrentCalendar){
+	public CalendarEntries getPreviousCalendarEntry(String tkCalendarId, Date beginDateCurrentCalendar){
         Criteria payEndDateCriteria = new Criteria();
         payEndDateCriteria.addEqualTo("hr_py_calendar_id", tkCalendarId);
         payEndDateCriteria.addLessOrEqualThan("end_period_date", beginDateCurrentCalendar);

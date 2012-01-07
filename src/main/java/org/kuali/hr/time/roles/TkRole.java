@@ -1,19 +1,17 @@
 package org.kuali.hr.time.roles;
 
-import org.apache.commons.lang.StringUtils;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.position.Position;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 public class TkRole extends HrBusinessObject {
 
@@ -21,7 +19,7 @@ public class TkRole extends HrBusinessObject {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long hrRolesId;
+	private String hrRolesId;
 	private String principalId;
 	private String roleName;
 	private String userPrincipalId;
@@ -29,8 +27,9 @@ public class TkRole extends HrBusinessObject {
 	private String department;
     private String chart;
 	private Long hrDeptId;
-	private Long tkWorkAreaId;
+	private String tkWorkAreaId;
 	private String positionNumber;
+	private Date expirationDate;
 
     /**
      * These objects are used by Lookups to provide links on the maintenance
@@ -68,10 +67,10 @@ public class TkRole extends HrBusinessObject {
         this.workAreaObj = workAreaObj;
     }
 
-    public Long getHrRolesId() {
+    public String getHrRolesId() {
 		return hrRolesId;
 	}
-	public void setHrRolesId(Long hrRolesId) {
+	public void setHrRolesId(String hrRolesId) {
 		this.hrRolesId = hrRolesId;
 	}
 	public String getPrincipalId() {
@@ -100,13 +99,6 @@ public class TkRole extends HrBusinessObject {
 		this.workArea = workArea;
 	}
 	public String getDepartment() {
-		if (StringUtils.isNotBlank(department) && getHrDeptId() != null) {
-			Department departmentObject = TkServiceLocator
-					.getDepartmentService().getDepartment(getHrDeptId());
-			department = departmentObject != null ?
-							departmentObject.getDept()
-								: "";
-		}
 		return department;
 	}
 	public void setDepartment(String department) {
@@ -149,10 +141,10 @@ public class TkRole extends HrBusinessObject {
 	public void setHrDeptId(Long hrDeptId) {
 		this.hrDeptId = hrDeptId;
 	}
-	public Long getTkWorkAreaId() {
+	public String getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}
-	public void setTkWorkAreaId(Long tkWorkAreaId) {
+	public void setTkWorkAreaId(String tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
 
@@ -183,6 +175,14 @@ public class TkRole extends HrBusinessObject {
 		return positionNumber;
 	}
 
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
 	public void setPositionObj(Position positionObj) {
 		this.positionObj = positionObj;
 	}
@@ -199,12 +199,12 @@ public class TkRole extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getHrRolesId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setHrRolesId(id);
 	}
 

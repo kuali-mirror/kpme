@@ -17,5 +17,5 @@ public interface LocationDao {
 	 * @param hrLocationId
 	 * @return
 	 */
-	public Location getLocation(Long hrLocationId);
+	public Location getLocation(String hrLocationId);
 }

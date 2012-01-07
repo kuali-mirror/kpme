@@ -1,5 +1,8 @@
 package org.kuali.hr.time.admin.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -8,6 +11,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.user.service.UserServiceImpl;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
@@ -18,9 +22,6 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.util.GlobalVariables;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class AdminAction extends TkAction {
 
@@ -42,8 +43,8 @@ public class AdminAction extends TkAction {
             			&& !user.isDepartmentAdmin()
             			&& !user.isGlobalViewOnly()
             			&& !user.isDepartmentViewOnly()
-            			&& (adminForm.getDocumentId() != null && !user.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId()))
-            			&& (adminForm.getDocumentId() != null && !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId()))
+            			&& !user.getCurrentRoles().isApproverForPerson(adminForm.getChangeTargetPrincipalId())
+            			&& !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId())
             		))  {
                 throw new AuthorizationException("", "AdminAction", "");
             }
@@ -95,10 +96,11 @@ public class AdminAction extends TkAction {
         	|| tkUser.getCurrentRoles().isDeptViewOnly()
         	|| tkUser.getCurrentRoles().isGlobalViewOnly()
         	|| tkUser.getCurrentRoles().isTimesheetReviewer()
-        	|| tkUser.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId())) {
+        	|| tkUser.getCurrentRoles().isApproverForPerson(adminForm.getChangeTargetPrincipalId())) {
+        	
             if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalId())) {
 
-                Person changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalId());
+                Person changePerson = KIMServiceLocator.getPersonService().getPerson(adminForm.getChangeTargetPrincipalId());
                 if (changePerson != null && tkUser != null) {
                     UserSession userSession = UserLoginFilter.getUserSession(request);
                     userSession.getObjectMap().put(TkConstants.TK_TARGET_USER_PERSON, changePerson);
@@ -126,6 +128,21 @@ public class AdminAction extends TkAction {
 
         return new ActionRedirect(returnAction);
     }
+    
+    //http://156.56.177.225:8080/tk-dev/Admin.do?methodToCall=changeEmployee&documentId=19018&changeTargetPrincipalId=1659102154&targetUrl=TimeDetail.do%3FdocumentId=19018&returnUrl=TimeApproval.do
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
+        		|| StringUtils.equals(request.getParameter("command"), "displayActionListView") ) {
+        	final String docId = (String)request.getParameter("docId");
+        	TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
+        	final String targetPrincipalId = td.getPrincipalId();
+        	
+        	return new ActionRedirect("/Admin.do?methodToCall=changeEmployee&documentId"+docId+"&changeTargetPrincipalId="+targetPrincipalId+"&targetUrl=TimeDetail.do%3FdocmentId="+docId+"&returnUrl=TimeApproval.do");
+        }
+    	
+    	return mapping.findForward("basic");
+    }
+    
 
     public ActionForward deleteTimesheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	AdminActionForm adminForm = (AdminActionForm) form;

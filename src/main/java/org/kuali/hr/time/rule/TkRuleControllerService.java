@@ -1,10 +1,10 @@
 package org.kuali.hr.time.rule;
 
+import java.util.List;
+
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-
-import java.util.List;
 
 public interface TkRuleControllerService {
 

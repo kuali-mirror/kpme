@@ -1,7 +1,9 @@
 package org.kuali.hr.time.collection.rule;
 
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Random;
+
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -16,9 +18,8 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Random;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class TimeCollectionRuleMaintTest extends TkTestCase {
 
@@ -27,9 +28,9 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 			.getInstance().getTimeInMillis());
 	private static final String TEST_CODE_DEPARTMENT_VALID = "_test";
 
-	private static Long timeCollectionRuleIdWithInvalidDept;
-	private static Long timeCollectionRuleIdWithInvalidWorkArea;
-	private static Long deptId;
+	private static String timeCollectionRuleIdWithInvalidDept;
+	private static String timeCollectionRuleIdWithInvalidWorkArea;
+	private static String deptId;
 
 
 	private static String TEST_CODE_INVALID_DEPT_ID = "0";
@@ -122,7 +123,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		department.setChart(TEST_CODE_DEPARTMENT_VALID);
 		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
 		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
-		department.setLocation(TEST_CODE_DEPARTMENT_VALID);
+		department.setLocation("TST");
 		KNSServiceLocator.getBusinessObjectService().save(department);
 		deptId = department.getHrDeptId();
 		TimeCollectionRule timeCollectionRuleWIthInvalidDept = new TimeCollectionRule();

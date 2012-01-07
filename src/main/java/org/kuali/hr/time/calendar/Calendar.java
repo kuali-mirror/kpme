@@ -1,13 +1,13 @@
 package org.kuali.hr.time.calendar;
 
-import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTimeConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTimeConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class Calendar extends PersistableBusinessObjectBase {
 
@@ -16,7 +16,7 @@ public class Calendar extends PersistableBusinessObjectBase {
      */
 	private static final long serialVersionUID = 1L;
 
-	private Long hrCalendarId;
+	private String hrCalendarId;
 	private String calendarName;
 	private String calendarDescriptions;
 
@@ -31,13 +31,13 @@ public class Calendar extends PersistableBusinessObjectBase {
 
 	}
 	
-	public Long getHrCalendarId() {
+	public String getHrCalendarId() {
 		return hrCalendarId;
 	}
 
 
 
-	public void setHrCalendarId(Long hrCalendarId) {
+	public void setHrCalendarId(String hrCalendarId) {
 		this.hrCalendarId = hrCalendarId;
 	}
 

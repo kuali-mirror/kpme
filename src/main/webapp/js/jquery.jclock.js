@@ -22,8 +22,8 @@
  
       // Record keeping for seeded clock
       $this.increment = 0;
-      $this.lastCalled = new Date(parseFloat($("#currentServerTime").val())).getTime();
-	  currentTime = parseFloat($("#currentServerTime").val());
+      $this.lastCalled = new Date(parseFloat($("#userSystemOffsetServerTime").val())).getTime();
+	  currentTime = parseFloat($("#userSystemOffsetServerTime").val());
       var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
  
       $this.format = o.format;

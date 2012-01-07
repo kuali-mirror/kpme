@@ -16,7 +16,7 @@
 <descriptor-repository version="1.0">
 	<!-- Leave Plan -->
 	<class-descriptor class="org.kuali.hr.lm.leaveplan.LeavePlan" table="lm_leave_plan_t">
-		<field-descriptor name="lmLeavePlanId" 	column="LM_LEAVE_PLAN_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="lm_leave_plan_s"/>
+		<field-descriptor name="lmLeavePlanId" 	column="LM_LEAVE_PLAN_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_plan_s"/>
 		<field-descriptor name="leavePlan" 		column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" nullable="false" />
 		<field-descriptor name="calendarYearStart" column="CAL_YEAR_START" jdbc-type="VARCHAR" length="5" nullable="false" />
 		<field-descriptor name="descr"     		column="DESCR" jdbc-type="VARCHAR" length="30" nullable="false" />
@@ -29,7 +29,7 @@
 
 	<!-- Accrual Category -->
 	<class-descriptor class="org.kuali.hr.lm.accrual.AccrualCategory" table="lm_accrual_category_t">
-		<field-descriptor name="lmAccrualCategoryId" column="LM_ACCRUAL_CATEGORY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="lm_accrual_category_s"/>
+		<field-descriptor name="lmAccrualCategoryId" column="LM_ACCRUAL_CATEGORY_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_accrual_category_s"/>
 		<field-descriptor name="accrualCategory" 	column="ACCRUAL_CATEGORY" jdbc-type="VARCHAR" length="15" nullable="false" />
 		<field-descriptor name="leavePlan" 			column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" nullable="false" />
 		<field-descriptor name="accrualEarnInterval" column="ACCRUAL_INTERVAL_EARN" jdbc-type="VARCHAR" length="5" nullable="false" />
@@ -57,7 +57,7 @@
 
 	<!-- Accrual Category Rules -->
 	<class-descriptor class="org.kuali.hr.lm.accrual.AccrualCategoryRule" table="lm_accrual_category_rules_t">
-		<field-descriptor name="lmAccrualCategoryRuleId"	column="LM_ACCRUAL_CATEGORY_RULES_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="lm_accrual_category_rules_s"/>
+		<field-descriptor name="lmAccrualCategoryRuleId"	column="LM_ACCRUAL_CATEGORY_RULES_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_accrual_category_rules_s"/>
 		<field-descriptor name="serviceUnitOfTime" 			column="SERVICE_UNIT_OF_TIME" jdbc-type="VARCHAR" length="15" nullable="false" />
 		<field-descriptor name="start" 						column="START_ACC" jdbc-type="BIGINT" length="5" nullable="false" />
 		<field-descriptor name="end" 						column="END_ACC" jdbc-type="BIGINT" length="5" nullable="false" />
@@ -81,7 +81,7 @@
 
 	<!-- Leave Code -->
 	<class-descriptor class="org.kuali.hr.lm.leavecode.LeaveCode" table="lm_leave_code_t">
-		<field-descriptor name="lmLeaveCodeId"		column="LM_LEAVE_CODE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="lm_leave_code_s"/>
+		<field-descriptor name="lmLeaveCodeId"		column="LM_LEAVE_CODE_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_code_s"/>
 		<field-descriptor name="leavePlan" 			column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" nullable="false" />
 		<field-descriptor name="eligibleForAccrual" column="ELIGIBLE_FOR_ACC" jdbc-type="VARCHAR" length="5" nullable="false" />
 		<field-descriptor name="accrualCategory" 	column="ACCRUAL_CAT" jdbc-type="VARCHAR" length="15" />
@@ -107,7 +107,7 @@
 
 	<!-- System Scheduled Time Off -->
 	<class-descriptor class="org.kuali.hr.lm.timeoff.SystemScheduledTimeOff" table="lm_sys_schd_timeoff_t">
-		<field-descriptor name="lmSystemScheduledTimeOffId"		column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="lm_sys_schd_timeoff_s"/>
+		<field-descriptor name="lmSystemScheduledTimeOffId"		column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_sys_schd_timeoff_s"/>
 		<field-descriptor name="leavePlan" 			column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" nullable="false" />
 		<field-descriptor name="accrualCategory" 	column="ACCRUAL_CATEGORY" jdbc-type="VARCHAR" length="15" nullable="false"/>
 		<field-descriptor name="leaveCode" 			column="LEAVE_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
@@ -159,7 +159,7 @@
 	</class-descriptor>
 
      <class-descriptor class="org.kuali.hr.lm.leavedonation.LeaveDonation" table="lm_leave_donation_t">
-		<field-descriptor name="lmLeaveDonationId"         	column="LM_LEAVE_DONATION_ID"	jdbc-type="BIGINT"  primarykey="true" autoincrement="true" sequence-name="lm_leave_donation_s"/>
+		<field-descriptor name="lmLeaveDonationId"         	column="LM_LEAVE_DONATION_ID"	jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_donation_s"/>
         <field-descriptor name="donatedAccrualCategory"    	column="DONATED_ACC_CAT"		jdbc-type="VARCHAR" length="15" nullable="false" />
         <field-descriptor name="recipientsAccrualCategory" 	column="RECIPIENTS_ACC_CAT"	    jdbc-type="VARCHAR" length="15" nullable="false" />
         <field-descriptor name="amountDonated"             	column="AMOUNT_DONATED"	        jdbc-type="DECIMAL"  length="20" nullable="false" />

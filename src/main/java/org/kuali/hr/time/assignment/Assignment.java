@@ -1,5 +1,11 @@
 package org.kuali.hr.time.assignment;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.hr.job.Job;
@@ -13,12 +19,6 @@ import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-
 public class Assignment extends HrBusinessObject {
 
 	/**
@@ -26,10 +26,10 @@ public class Assignment extends HrBusinessObject {
      */
 	private static final long serialVersionUID = -3408305833805778653L;
 	//database id
-	private Long tkAssignmentId;
+	private String tkAssignmentId;
 	private String principalId;
 	private Long jobNumber;
-	private Long hrJobId;
+	private String hrJobId;
 	private Job job;
 	private Long workArea;
 	private Long tkWorkAreaId;
@@ -86,6 +86,7 @@ public class Assignment extends HrBusinessObject {
 
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
+		this.setPrincipal(KIMServiceLocator.getPersonService().getPerson(this.principalId));
 	}
 
 	public String getName() {
@@ -114,11 +115,11 @@ public class Assignment extends HrBusinessObject {
 		this.jobNumber = jobNumber;
 	}
 
-	public Long getHrJobId() {
+	public String getHrJobId() {
 		return hrJobId;
 	}
 
-	public void setHrJobId(Long hrJobId) {
+	public void setHrJobId(String hrJobId) {
 		this.hrJobId = hrJobId;
 	}
 
@@ -150,11 +151,11 @@ public class Assignment extends HrBusinessObject {
 		return sb.toString();
 	}
 
-	public Long getTkAssignmentId() {
+	public String getTkAssignmentId() {
 		return tkAssignmentId;
 	}
 
-	public void setTkAssignmentId(Long tkAssignmentId) {
+	public void setTkAssignmentId(String tkAssignmentId) {
 		this.tkAssignmentId = tkAssignmentId;
 	}
 
@@ -277,13 +278,13 @@ public class Assignment extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
-		return getHrJobId();
+	public String getId() {
+		return getTkAssignmentId();
 	}
 
 	@Override
-	public void setId(Long id) {
-		setHrJobId(id);
+	public void setId(String id) {
+		setTkAssignmentId(id);
 	}
 
     @Override

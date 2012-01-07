@@ -1,1 +1,0 @@
-ALTER TABLE `tk-test`.`hr_roles_t` MODIFY COLUMN `dept` VARCHAR(21) DEFAULT NULL;

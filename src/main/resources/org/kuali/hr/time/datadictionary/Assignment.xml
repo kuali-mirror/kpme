@@ -17,6 +17,7 @@
 		</property>
 		<property name="attributes">
 			<list>
+				<ref bean="Assignment-tkAssignmentId" />
 				<ref bean="Assignment-principalId" />
 				<ref bean="Assignment-name" />
 				<ref bean="Assignment-jobNumber" />
@@ -78,6 +79,10 @@
 					<property name="objectAttributeName" value="taskObj" />
 					<property name="primitiveAttributes">
 						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
+								p:targetName="effectiveDate" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
+									p:targetName="workArea" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="task"
 								p:targetName="task" />
 						</list>
@@ -95,6 +100,22 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
+	<bean id="Assignment-tkAssignmentId" parent="Assignment-tkAssignmentId-parentBean"/>
+	<bean id="Assignment-tkAssignmentId-parentBean" abstract="true" parent="AttributeDefinition">
+	   	<property name="shortLabel" value="Assignment Id" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
+		<property name="name" value="tkAssignmentId" />
+		<property name="label" value="Assignment Id" />
+	</bean>
+	
 	<bean id="Assignment-principalId" parent="Assignment-principalId-parentBean" />
 	<bean id="Assignment-principalId-parentBean" abstract="true"
 		parent="AttributeDefinition">

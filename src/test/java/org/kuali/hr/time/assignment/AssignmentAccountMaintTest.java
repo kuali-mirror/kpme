@@ -1,17 +1,11 @@
 package org.kuali.hr.time.assignment;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.workschedule.WorkSchedule;
-import org.kuali.hr.time.workschedule.WorkScheduleEntry;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -19,8 +13,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class AssignmentAccountMaintTest extends TkTestCase{
 	private static final String TEST_CODE="CD";
 	private static final String TEST_ID="1";
-	private static final Long TEST_ASSIGN_ID=23L;
-	private static Long assignmentAccountId;
+	private static final String TEST_ASSIGN_ID="23";
+	private static String assignmentAccountId;
 	private BigDecimal TEST_PERCENT =  new BigDecimal(1);
 	
 	@Test

@@ -2,8 +2,24 @@
  * If you need to change the theme base, the css file is: jquery-ui-1.8.1.custom.css
  */
 
-$(document).ready(function() {
+// CONSTANTS
+var CONSTANTS = {
+    OVERTIME_EARNCODE :{
+        DAILY : "DOT",
+        OVERTIME : "OVT"
+    },
+    EARNCODE_TYPE : {
+        HOUR: "HOUR",
+        TIME: "TIME",
+        AMOUNT: "AMOUNT"
+    },
+    ACTIONS : {
+        UPDATE_TIME_BLOCK : "updateTimeBlock",
+        ADD_TIME_BLOCK: "addTimeBlock"
+    }
+}
 
+$(document).ready(function() {
     // tabs
     /**
      * This is the default tab function provided by jQuery
@@ -116,10 +132,10 @@ $(document).ready(function() {
     });
 
     // note accordion
-    $("#note, #routeLog").accordion({
-        collapsible : true,
-        active : 2
-    });
+//    $("#note, #routeLog").accordion({
+//        collapsible : true,
+//        active : 2
+//    });
 
     // person detail accordion
     $("#person-detail-accordion").accordion({
@@ -254,16 +270,24 @@ $(document).ready(function() {
                 var beginTimeTemp = new Date(dateString);
                 var bTimeFormated = beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes();
                 // new tbs should not go beyond the original begin and end Date/Time
-                var compareBeginString = beginDate + ' ' + beginTimeTemp.getHours() + ':' + beginTimeTemp.getMinutes() + ':' + originalBeginDateTime.getSeconds();
-                var compareBeginDate = new Date(compareBeginString);
-                if (compareBeginDate < originalBeginDateTime) {
-                    updateTips("Begin Date/Time for item " + i + " goes beyond the original Begin Date/Time");
-                    return false;
+			    beginTimeTemp.setSeconds(beginTimeTemp.getSeconds() + originalBeginDateTime.getSeconds());
+			      
+			    aString = form1.beginDateOnly.value + ' ' + form1.beginTimeOnly.value;
+			    var formBeginDate = new Date(aString);
+	            
+	//                if (compareBeginDate < originalBeginDateTime) {
+	    		if (beginTimeTemp < formBeginDate) {
+	              updateTips("Begin Date/Time for item " + i + " goes beyond the original Begin Date/Time");
+	              return false;
                 }
 
                 dateString = endDate + ' ' + endTime;
                 var endTimeTemp = new Date(dateString);
-                if (endTimeTemp > originalEndDateTime) {
+                
+                dateString = form1.endDateOnly.value + ' ' + form1.endTimeOnly.value;
+                var formEndDate = new Date(dateString);
+//                if (endTimeTemp > originalEndDateTime) {
+                if (endTimeTemp > formEndDate) {
                     updateTips("End Date/Time for item " + i + " goes beyond the original End Date/Time");
                     return false;
                 }
@@ -703,6 +727,16 @@ function toCamelCase(str) {
     return str.replace(/^.?/g, function(match) {
         return match.toLowerCase();
     });
+}
+
+function toggle(eleId) {
+	var ele = document.getElementById(eleId);
+	if(ele.style.display == "block") {
+    	ele.style.display = "none";
+  	}
+	else {
+		ele.style.display = "block";
+	}
 }
 
 

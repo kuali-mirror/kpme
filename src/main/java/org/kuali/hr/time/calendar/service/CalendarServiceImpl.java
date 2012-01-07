@@ -1,5 +1,8 @@
 package org.kuali.hr.time.calendar.service;
 
+import java.util.Date;
+import java.util.List;
+
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.calendar.Calendar;
@@ -9,9 +12,6 @@ import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.util.Date;
-import java.util.List;
 
 public class CalendarServiceImpl implements CalendarService {
 
@@ -23,7 +23,7 @@ public class CalendarServiceImpl implements CalendarService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public Calendar getCalendar(Long hrCalendarId) {
+	public Calendar getCalendar(String hrCalendarId) {
 		return calendarDao.getCalendar(hrCalendarId);
 	}
 
@@ -77,7 +77,7 @@ public class CalendarServiceImpl implements CalendarService {
             PayType payType = job.getPayTypeObj();
             if (payType == null)
                 throw new RuntimeException("Null pay type on Job in getPayEndDate");
-            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(principalId, date);
+            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, date);
             if(principalCalendar == null){
                 throw new RuntimeException("Null principal calendar for principalid "+principalId);
             }
@@ -90,7 +90,7 @@ public class CalendarServiceImpl implements CalendarService {
         return pcal;
     }
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public CalendarEntries getPreviousCalendarEntry(Long tkCalendarId, Date beginDateCurrentCalendar){
+	public CalendarEntries getPreviousCalendarEntry(String tkCalendarId, Date beginDateCurrentCalendar){
 		return calendarDao.getPreviousCalendarEntry(tkCalendarId, beginDateCurrentCalendar);
 	}
 

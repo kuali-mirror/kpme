@@ -1,5 +1,7 @@
 package org.kuali.hr.time.batch;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.time.batch.service.BatchJobEntryService;
@@ -7,8 +9,6 @@ import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.util.List;
 
 public class BatchJobEntryTest extends TkTestCase {
 	private static final String BATCH_JOB_NAME = "testJob";
@@ -31,7 +31,7 @@ public class BatchJobEntryTest extends TkTestCase {
 		bje.setDocumentId("testDoc");
 		
 		Calendar pc = TkServiceLocator.getCalendarSerivce().getCalendarByGroup("BW-CAL");		
-		bje.setHrPyCalendarId(pc.getHrCalendarId());
+		bje.setHrPyCalendarEntryId(pc.getHrCalendarId());
 		List<BatchJob> batchJobs = TkServiceLocator.getBatchJobService().getBatchJobs(pc.getHrCalendarId());
 		Long batchJobId = new Long(0);
 		if(!batchJobs.isEmpty()){

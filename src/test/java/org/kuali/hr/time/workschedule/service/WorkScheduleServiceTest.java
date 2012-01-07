@@ -1,5 +1,8 @@
 package org.kuali.hr.time.workschedule.service;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Ignore;
@@ -9,9 +12,6 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workschedule.WorkSchedule;
 import org.kuali.hr.time.workschedule.WorkScheduleEntry;
-
-import java.sql.Date;
-import java.util.List;
 
 public class WorkScheduleServiceTest extends TkTestCase {
 

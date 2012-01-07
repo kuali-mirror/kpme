@@ -1,12 +1,12 @@
 package org.kuali.hr.time.clocklog.service;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-
-import java.sql.Timestamp;
-import java.util.List;
 
 public interface ClockLogService {
 	/**
@@ -30,21 +30,22 @@ public interface ClockLogService {
     public ClockLog getLastClockLog(String principalId, String clockAction);
     /**
      * Build ClockLog based on criteria passed in
-     * @param clockTimestamp
+     * @param clockTimestamp  -- timestamp with grace rule applied if there is one
+     * @param originalTimestamp  -- timestamp without grace rule applied
      * @param assignment
      * @param timesheetDocument
      * @param clockAction
      * @param ip
      * @return
      */
-	public ClockLog buildClockLog(Timestamp clockTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip);
+	public ClockLog buildClockLog(Timestamp clockTimestamp, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip);
 	
 	/**
 	 * Fetch open clock logs by pay calendar entry
-	 * @param calendarEntry
+	 * @param payCalendarEntry
 	 * @return
 	 */
-	public List<ClockLog> getOpenClockLogs(CalendarEntries calendarEntry);
+	public List<ClockLog> getOpenClockLogs(CalendarEntries payCalendarEntry);
 
 	/**
 	 * Process clock log created
@@ -65,5 +66,9 @@ public interface ClockLogService {
      * @param tkClockLogId
      * @return
      */
-    public ClockLog getClockLog(Long tkClockLogId);
+    public ClockLog getClockLog(String tkClockLogId);
+
+    ClockLog buildClockLog(Timestamp clockTimestamp, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId);
+
+    ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment, CalendarEntries pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
 }

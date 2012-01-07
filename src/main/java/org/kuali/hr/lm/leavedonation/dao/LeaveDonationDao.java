@@ -9,6 +9,6 @@ public interface LeaveDonationDao {
 	 * @param lmLeaveDonationId
 	 * @return LeaveDonation
 	 */
-	public LeaveDonation getLeaveDonation(Long lmLeaveDonationId);
+	public LeaveDonation getLeaveDonation(String lmLeaveDonationId);
 	
 }

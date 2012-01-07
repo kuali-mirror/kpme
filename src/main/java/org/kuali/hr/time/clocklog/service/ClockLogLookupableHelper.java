@@ -44,10 +44,10 @@ public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
 				overrideUrls.add(actionUrl);
 			}
 		}
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			clockLog = (ClockLog) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long tkClockLogId = clockLog.getTkClockLogId();
+			final String tkClockLogId = clockLog.getTkClockLogId();
 			HtmlData htmlData = new HtmlData() {
 
 				@Override

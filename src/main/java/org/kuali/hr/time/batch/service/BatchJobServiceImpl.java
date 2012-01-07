@@ -1,9 +1,9 @@
 package org.kuali.hr.time.batch.service;
 
+import java.util.List;
+
 import org.kuali.hr.time.batch.BatchJob;
 import org.kuali.hr.time.batch.dao.BatchJobDao;
-
-import java.util.List;
 
 public class BatchJobServiceImpl implements BatchJobService {
     private BatchJobDao batchJobDao;
@@ -17,13 +17,13 @@ public class BatchJobServiceImpl implements BatchJobService {
     }
 
     @Override
-    public List<BatchJob> getBatchJobs(Long hrPyCalendarEntryId) {
+    public List<BatchJob> getBatchJobs(String hrPyCalendarEntryId) {
         return batchJobDao.getBatchJobs(hrPyCalendarEntryId);
     }
 
     @Override
-    public List<BatchJob> getBatchJobs(Long hrPyCalendarEntryId, String batchJobStatus) {
-        return batchJobDao.getCalendarEntries(hrPyCalendarEntryId, batchJobStatus);
+    public List<BatchJob> getBatchJobs(String hrPyCalendarEntryId, String batchJobStatus) {
+        return batchJobDao.getPayCalendarEntries(hrPyCalendarEntryId, batchJobStatus);
     }
     
     @Override

@@ -667,7 +667,7 @@
             <column name="DESCRIPTION" value="test department"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location"  value="BL"/>
+            <column name="location"  value=""/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -678,7 +678,7 @@
             <column name="DESCRIPTION" value="test department1"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value="BL"/>
+            <column name="location" value=""/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -689,7 +689,7 @@
             <column name="DESCRIPTION" value="test department2"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value="BL"/>
+            <column name="location" value=""/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -700,7 +700,7 @@
             <column name="DESCRIPTION" value="test department3"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value="BL"/>
+            <column name="location" value=""/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -711,7 +711,7 @@
             <column name="DESCRIPTION" value="test department4"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value="BL"/>
+            <column name="location" value=""/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -722,7 +722,7 @@
             <column name="DESCRIPTION" value="test department5"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value="BL"/>
+            <column name="location" value=""/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -733,7 +733,7 @@
             <column name="DESCRIPTION" value="test department6"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value="BL"/>
+            <column name="location" value=""/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -744,7 +744,7 @@
             <column name="DESCRIPTION" value="test department7"/>
             <column name="ORG" value="NODEP"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value="BL"/>
+            <column name="location" value=""/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -755,7 +755,7 @@
             <column name="DESCRIPTION" value="test department7"/>
             <column name="ORG" value="TEST"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value="BL"/>
+            <column name="location" value=""/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -766,7 +766,7 @@
             <column name="DESCRIPTION" value="loras department"/>
             <column name="ORG" value="LORA"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value="BL"/>
+            <column name="location" value=""/>
             <column name="effdt" valueDate="2010-01-31"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -777,7 +777,7 @@
             <column name="DESCRIPTION" value="shift department"/>
             <column name="ORG" value="SHFT"/>
             <column name="CHART" value="DEPT"/>
-            <column name="location" value="BL"/>
+            <column name="location" value=""/>
             <column name="effdt" valueDate="2010-01-01"/>
             <column name="timestamp" valueDate="2010-07-27T10:25:13.0"/>
             <column name="active" value="Y"/>
@@ -1712,7 +1712,7 @@
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-24">
-        <insert tableName="hr_calendar_s">
+        <insert tableName="hr_py_calendar_s">
             <column name="ID" valueNumeric="1000"/>
         </insert>
     </changeSet>
@@ -1803,21 +1803,19 @@
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-26">
-        <insert tableName="hr_calendar_t">
-            <column name="hr_calendar_id" valueNumeric="1"/>
-            <column name="calendar_name" value="BWN-CAL"/>
-            <column name="calendar_types" value="BWN-CAL"/>
-            <column name="calendar_descriptions" value="BWN-CAL Description"/>
+        <insert tableName="hr_py_calendar_t">
+            <column name="hr_py_calendar_id" valueNumeric="1"/>
+            <column name="py_calendar_group" value="BWN-CAL"/>
             <column name="flsa_begin_day" value="Sun"/>
             <column name="flsa_begin_time" valueDate="00:00:00"/>
+            <column name="active" value="Y"/>
         </insert>
-        <insert tableName="hr_calendar_t">
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
-            <column name="calendar_types" value="BWS-CAL"/>
-            <column name="calendar_descriptions" value="BWS-CAL Description"/>
+        <insert tableName="hr_py_calendar_t">
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="flsa_begin_day" value="Sun"/>
             <column name="flsa_begin_time" valueDate="00:00:00"/>
+            <column name="active" value="Y"/>
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-27">
@@ -1826,47 +1824,39 @@
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-28">
-        <insert tableName="hr_principal_attributes_t">
+        <insert tableName="hr_principal_calendar_t">
             <column name="principal_id" value="admin"/>
-            <column name="pay_calendar" value="BWS-CAL"/>
-            <column name="service_date" valueDate="2010-01-01"/>
-            <column name="leave_plan" value="BWS-LP"/>
-            <column name="fmla_eligible" value="N"/>
-            <column name="worksman_eligible" value="N"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
+            <column name="holiday_calendar_group" value="HOL"/>
             <column name="EFFDT" valueDate="2010-01-01"/>
             <column name="TIMESTAMP" valueDate="2011-03-01T11:45:56.0"/>
             <column name="OBJ_ID" value="6113aa9c-4423-11e0-a509-124832221506"/>
             <column name="timezone"/>
             <column name="VER_NBR" valueNumeric="1"/>
-            <column name="leave_calendar"/>
             <column name="active" value="Y"/>
         </insert>
-        <insert tableName="hr_principal_attributes_t">
+        <insert tableName="hr_principal_calendar_t">
             <column name="principal_id" value="eric"/>
-            <column name="pay_calendar" value="BW-CAL1"/>
-            <column name="leave_plan" value="BW-LP1"/>
-            <column name="fmla_eligible" value="N"/>
-            <column name="worksman_eligible" value="N"/>
-            <column name="service_date" valueDate="2010-01-01"/>
+            <column name="py_calendar_group" value="BW-CAL1"/>
+            <column name="holiday_calendar_group" value="HOL"/>
             <column name="EFFDT" valueDate="2010-01-01"/>
             <column name="TIMESTAMP" valueDate="2011-03-01T11:45:56.0"/>
             <column name="OBJ_ID" value="6113c900-4423-11e0-a509-124832221506"/>
             <column name="timezone"/>
-            <column name="leave_calendar"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="active" value="Y"/>
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-29">
-        <insert tableName="hr_calendar_entries_s">
+        <insert tableName="hr_py_calendar_entries_s">
             <column name="ID" valueNumeric="1000"/>
         </insert>
     </changeSet>
     <changeSet author="tomcat (generated)" id="1314888355339-30">
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="1"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="1"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-08-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-08-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -1878,10 +1868,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="2"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="2"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-08-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-09-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -1893,10 +1883,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="3"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="3"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-09-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-09-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -1908,10 +1898,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="4"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="4"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-09-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-10-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -1923,10 +1913,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="5"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="5"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-10-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-10-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -1938,10 +1928,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="8"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="8"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-10-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-11-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -1953,10 +1943,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="9"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="9"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-11-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-11-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -1968,10 +1958,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="10"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="10"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-11-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-12-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -1983,10 +1973,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="11"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="11"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-01-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-01-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -1998,10 +1988,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="12"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="12"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-01-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-02-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2013,10 +2003,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="13"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="13"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-02-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-02-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2028,10 +2018,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="14"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="14"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-02-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-03-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2043,10 +2033,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="15"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="15"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-03-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-03-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2058,10 +2048,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="16"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="16"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-03-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-04-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2073,10 +2063,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="17"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="17"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-04-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-04-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2088,10 +2078,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="18"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="18"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-04-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-05-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2103,10 +2093,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="19"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="19"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-05-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-05-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2118,10 +2108,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="20"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="20"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-05-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-06-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2133,10 +2123,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="21"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="21"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-06-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-06-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2148,10 +2138,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="22"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="22"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-06-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-07-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2163,10 +2153,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="23"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="23"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-07-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-07-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2178,10 +2168,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="24"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="24"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-07-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-08-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2193,10 +2183,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="25"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="25"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-12-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2010-12-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2208,10 +2198,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="26"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="26"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2010-12-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-01-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2223,10 +2213,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="27"/>
-            <column name="hr_calendar_id" valueNumeric="1"/>
-            <column name="calendar_name" value="BW-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="27"/>
+            <column name="hr_py_calendar_id" valueNumeric="1"/>
+            <column name="py_calendar_group" value="BW-CAL"/>
             <column name="begin_period_date" valueDate="2010-01-01T12:00:00.0"/>
             <column name="end_period_date" valueDate="2010-01-16T12:00:00.0"/>
             <column name="initiate_date"/>
@@ -2238,10 +2228,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="28"/>
-            <column name="hr_calendar_id" valueNumeric="1"/>
-            <column name="calendar_name" value="BW-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="28"/>
+            <column name="hr_py_calendar_id" valueNumeric="1"/>
+            <column name="py_calendar_group" value="BW-CAL"/>
             <column name="begin_period_date" valueDate="2010-01-16T12:00:00.0"/>
             <column name="end_period_date" valueDate="2010-02-01T12:00:00.0"/>
             <column name="initiate_date"/>
@@ -2253,10 +2243,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="29"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="29"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-01-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-01-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2268,10 +2258,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="30"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="30"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-01-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-02-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2283,10 +2273,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="31"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="31"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-02-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-02-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2298,10 +2288,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="32"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="32"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-02-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-03-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2313,10 +2303,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="33"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="33"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-03-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-03-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2328,10 +2318,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="34"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="34"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-03-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-04-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2343,10 +2333,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="35"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="35"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-04-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-04-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2358,10 +2348,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="36"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="36"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-04-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-05-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2373,10 +2363,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="37"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="37"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-05-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-05-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2388,10 +2378,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="38"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="38"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-05-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-06-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2403,10 +2393,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="39"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="39"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-06-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-06-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2418,10 +2408,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="40"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="40"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-06-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-07-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2433,10 +2423,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="41"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="41"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-07-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-07-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2448,10 +2438,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="42"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="42"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-07-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-08-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2463,10 +2453,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="43"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="43"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-08-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-08-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2478,10 +2468,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="44"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="44"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-08-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-09-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2493,10 +2483,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="45"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="45"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-09-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-09-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2508,10 +2498,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="46"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="46"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-09-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-10-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2523,10 +2513,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="47"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="47"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-10-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-10-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2538,10 +2528,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="48"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="48"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-10-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-11-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2553,10 +2543,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="49"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="49"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-11-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-11-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2568,10 +2558,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="50"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="50"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-11-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-12-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2583,10 +2573,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="51"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="51"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-12-01T00:00:00.0"/>
             <column name="end_period_date" valueDate="2011-12-15T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -2598,10 +2588,10 @@
             <column name="supervisor_approval_date"/>
             <column name="supervisor_approval_time"/>
         </insert>
-        <insert tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" valueNumeric="52"/>
-            <column name="hr_calendar_id" valueNumeric="2"/>
-            <column name="calendar_name" value="BWS-CAL"/>
+        <insert tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" valueNumeric="52"/>
+            <column name="hr_py_calendar_id" valueNumeric="2"/>
+            <column name="py_calendar_group" value="BWS-CAL"/>
             <column name="begin_period_date" valueDate="2011-12-15T00:00:00.0"/>
             <column name="end_period_date" valueDate="2012-01-01T00:00:00.0"/>
             <column name="initiate_date"/>
@@ -3165,6 +3155,15 @@
             <column name="PAY_END_DT" valueDate="2011-01-15T00:00:00.0"/>
             <column name="DOCUMENT_STATUS" value="F"/>
             <column name="PAY_BEGIN_DT" valueDate="2011-01-01T00:00:00.0"/>
+            <column name="OBJ_ID"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+        </insert>
+        <insert tableName="tk_document_header_t">
+            <column name="DOCUMENT_ID" value="2"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="PAY_END_DT" valueDate="2011-02-01T00:00:00.0"/>
+            <column name="DOCUMENT_STATUS" value="I"/>
+            <column name="PAY_BEGIN_DT" valueDate="2011-01-15T00:00:00.0"/>
             <column name="OBJ_ID"/>
             <column name="VER_NBR" valueNumeric="1"/>
         </insert>
@@ -3793,34 +3792,6 @@
             <column name="VER_NBR" valueNumeric="5"/>
             <column name="DOC_CNTNT"
                     value="VkrOTz1bT27iSZqrC9ixl1Xmmj8ru58/gXmSzxXzTR1LO+DaxLzq99aZZ9wHs071OUT4nxpkkcq33fnphclUppIiXa0U0SskqiWbcijD/qMqiFus0SnoqrfaflXvGfTp+ejiNRP2WorJ3T1bBQ8IDIyhJTLvnZwann+V29xqqLEFAfJ87UmT+vv3o/LLoe13by2SZWDoBu2x0/pJJiFr3rP7+JwtizJIj4oDtj9Efi+B9sJDH1qBpTCcluTcxkEofoA9C/xn50CAXUmaCnF/bnoNIH41pcrHqMjUvABTOfsz8iHrx5UvUbZeNi57S5Dcb3tCLnlvY5XEX8Ey0/mXMJTG5AOiHcKcb3tCLnlvY5WhVu1vr7CkvapKA+xBnMG44Lk5KotzRewinNJ18vKqi2Cg5cXoddXWxovz1fXwWNUYBF6/743wcfqWLjUn8j3sYq/kcxVXtzTLW0q3ZgUUCgkgaVB0rB7DKfd5DdxjzWkVhQpZTDtjffHJNLatVo7TVq68aDrEW2D3pVwGdmTAAONfehpe5bcRNhFVKmPmZSrFcJDi/qCEUZnHWkZySZzSVgoJ0FcFqMxlMx7qMB2zcTgm8GpUoPnboruruAhZxQADysxTx9GrRMOfa1y59iRlLLcYsJZuzf5KU+790xkmwajI1LwAUzn7CVCUg45ycCeKCMKJ6Tiir3WSat+eAEEnQb/KuCVsjZIx5LDLwmvcHRvPNb89ZR/wTqai07Zinelvl9S3fxmF7BvPNb89ZR/wU8TCqCInN+JdHacjhJKNW/1A/0XIWjAsaj4DIgzylV4OlNHTViB5vvbmT8HfzJLHiJPi4e7X+ZxxkYWUyRaiZqf42hT3rIxL73oF9v74lZEbEJeReUtDL7H7sqbPC9yanmKQeVxA7BSYWevZjxvAj/uv6MAPZ4Q15QsGgMgsRKmSxGWJUx7mzOLrVjIt3r2KtEBB3KW9Vot3SJ8R/T3UJGuMOBvmOpQjmpKuzUBtEP+kbGV7DA9X0IH48b39WuVFOCbwalSg+duiu6u4CFnFAAPKzFPH0atEw59rXLn2JGXiNsScFVe0GoC56AvVcjVvOMlHVZGGHbExXi9Qg6+41heZsoxDLXguK/NDOgHCrB16DSB+NaXKx6jI1LwAUzn7M/Ih68eVL1EdRu6N+5Z6qM6EmXuEhMqR3pdSH5turGRW52WKUN3sA86EmXuEhMqR61YMbm09z4Hvdg53nRfh+fnxsTJAn+BKum7aLlwJvPmg51huQ36WRHSxH7rIgWtYby2SZWDoBu2x0/pJJiFr3rP7+JwtizJIj4oDtj9Efi/sE/H6JcSx99nqp+6M1UB6kzqaHQx1guTacVdJUbUJHTgm8GpUoPnboruruAhZxQADysxTx9GrRMOfa1y59iRl/+/ikuiR0+GLUO9vrMkd1QIfvXm4uHRgie3FbDKw3YYp93kN3GPNaRFZT/qrbMj15bdBixPy53IMubgHPFQuf8cso1HDPVTLjdHN9muTrLSEwHI+e6J5ZDaLDAqPvIsp3wTA5iGYxUI="/>
-        </insert>
-    </changeSet>
-    <changeSet author="tomcat (generated)" id="1314888355339-63">
-            <insert tableName="tk_work_area_t">
-            <column name="TK_WORK_AREA_ID" valueNumeric="107"/>
-            <column name="work_area" valueNumeric="7777"/>
-            <column name="DEPT" value="TEST-DEPT7"/>
-            <column name="EFFDT" valueDate="2011-01-05"/>
-            <column name="ACTIVE" value="N"/>
-            <column name="DESCR" value="inactive work area"/>
-            <column name="default_overtime_earncode" value="OT1"/>
-            <column name="ADMIN_DESCR" value="work area admin description2"/>
-            <column name="USER_PRINCIPAL_ID" value="admin"/>
-            <column name="TIMESTAMP" valueDate="2011-11-27T10:25:13.0"/>
-            <column name="OBJ_ID" value="7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97"/>
-            <column name="VER_NBR" valueNumeric="20"/>
-            <column name="OVERTIME_EDIT_ROLE" value=""/>
-        </insert>
-            <insert tableName="hr_position_t">
-            <column name="HR_POSITION_ID" valueNumeric="1"/>
-            <column name="POSITION_NBR" value="111"/>
-            <column name="DESCRIPTION" value="Test Position with inactive workarea"/>
-            <column name="EFFDT" valueDate="2010-01-01"/>
-            <!-- column name="CURRENT_TIMESTAMP" valueDate="2010-01-01T00:00:00.0"/ -->
-            <column name="OBJ_ID" value="3b67491c-6aa5-11e0-b182-4356e57dbf45"/>
-            <column name="VER_NBR" valueNumeric="1"/>
-            <column name="ACTIVE" value="Y"/>
-            <column name="WORK_AREA" valueNumeric="7777"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

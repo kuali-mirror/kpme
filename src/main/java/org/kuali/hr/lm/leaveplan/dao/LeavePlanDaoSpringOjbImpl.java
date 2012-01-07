@@ -16,7 +16,7 @@ public class LeavePlanDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 	private static final Logger LOG = Logger.getLogger(LeavePlanDaoSpringOjbImpl.class);
 
 	@Override
-	public LeavePlan getLeavePlan(Long lmLeavePlanId) {
+	public LeavePlan getLeavePlan(String lmLeavePlanId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("lmLeavePlanId", lmLeavePlanId);
 		Query query = QueryFactory.newQuery(LeavePlan.class, crit);

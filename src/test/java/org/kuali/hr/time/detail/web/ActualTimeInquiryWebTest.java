@@ -19,14 +19,11 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
-import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class ActualTimeInquiryWebTest extends TkTestCase {
 	private String documentId;
-	private String tbId;
 	private TimeBlock timeBlock;
 	@Test
 	public void testActualTimeInquiry() throws Exception {
@@ -66,14 +63,13 @@ public class ActualTimeInquiryWebTest extends TkTestCase {
 		timeHourDetail.setHours(new BigDecimal(2.0));
 		timeBlock.getTimeHourDetails().add(timeHourDetail);
 		timeBlock.setHours(new BigDecimal(2.0));
-		timeBlock.setClockLogCreated(Boolean.FALSE);
+		timeBlock.setClockLogCreated(Boolean.TRUE);
 		List<TimeBlock> tbList = new ArrayList<TimeBlock>();
 		documentId = this.maxDocumentId().toString();
 		timeBlock.setDocumentId(documentId);
 		tbList.add(timeBlock);
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(tbList);
-		
-		tbId = timeBlock.getTkTimeBlockId().toString();
+
 		TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId.toString());
 		td.setTimeBlocks(tbList);
 	}

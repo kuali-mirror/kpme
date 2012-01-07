@@ -1,5 +1,7 @@
 package org.kuali.hr.time.batch;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -7,22 +9,20 @@ import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 
-import java.util.List;
-
 public class PayPeriodEndBatchJob extends BatchJob {
     private Logger LOG = Logger.getLogger(PayPeriodEndBatchJob.class);
 
 
-    public PayPeriodEndBatchJob(Long hrPyCalendarEntryId) {
+    public PayPeriodEndBatchJob(String hrPyCalendarEntryId) {
         super();
         this.setBatchJobName(TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END);
-        this.setCalendarEntryId(hrPyCalendarEntryId);
+        this.setPayCalendarEntryId(hrPyCalendarEntryId);
     }
 
     @Override
     public void doWork() {
-    	CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(getCalendarEntryId());
-    	List<ClockLog> lstOpenClockLogs = TkServiceLocator.getClockLogService().getOpenClockLogs(calendarEntry);
+    	CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(getPayCalendarEntryId());
+    	List<ClockLog> lstOpenClockLogs = TkServiceLocator.getClockLogService().getOpenClockLogs(payCalendarEntry);
     	for(ClockLog cl : lstOpenClockLogs){
     		populateBatchJobEntry(cl);
     	}

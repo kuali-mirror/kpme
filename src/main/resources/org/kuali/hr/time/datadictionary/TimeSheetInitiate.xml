@@ -35,7 +35,7 @@
               </property>
             </bean>
             <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="calendarObj"/>
+              <property name="objectAttributeName" value="payCalendarObj"/>
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="pyCalendarGroup" p:targetName="calendarName"/>
@@ -43,10 +43,9 @@
               </property>
             </bean>
             <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="calendarEntriesObj"/>
+              <property name="objectAttributeName" value="payCalendarEntriesObj"/>
               <property name="primitiveAttributes">
                 <list>
-                
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPyCalendarEntriesId" p:targetName="hrCalendarEntriesId"/>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="pyCalendarGroup" p:targetName="calendarName"/>
                 </list>
@@ -62,12 +61,14 @@
 	<bean id="TimeSheetInitiate-tkTimeSheetInitId" parent="TimeSheetInitiate-tkTimeSheetInitId-parentBean" />
 	<bean id="TimeSheetInitiate-tkTimeSheetInitId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="TimeSheetInitiate Id" />
-		<property name="maxLength" value="7" />
+		<property name="maxLength" value="60" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
+			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
 		<property name="name" value="tkTimeSheetInitId" />
 		<property name="label" value="Time Sheet Initiate Id" />
@@ -150,6 +151,11 @@
 
   <bean id="TimeSheetInitiate-lookupDefinition" parent="TimeSheetInitiate-lookupDefinition-parentBean"/>
   <bean id="TimeSheetInitiate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  	<property name="lookupableID" value="timeSheetInitiateLookupable" />
+  	 <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
     <property name="lookupFields">
       <list>
      	<bean parent="FieldDefinition" p:attributeName="tkTimeSheetInitId"/>

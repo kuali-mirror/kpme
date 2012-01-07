@@ -1,1 +1,0 @@
-ALTER TABLE `hr_holiday_calendar_dates_t` ADD COLUMN `HOLIDAY_HRS` DECIMAL(2,2) NOT NULL  AFTER `VER_NBR` ;

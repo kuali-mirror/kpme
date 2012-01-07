@@ -37,7 +37,7 @@ public class LeaveDonationLookupableHelper extends
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
 			LeaveDonation leaveDonation = (LeaveDonation) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long lmLeaveDonationId = leaveDonation
+			final String lmLeaveDonationId = leaveDonation
 					.getLmLeaveDonationId();
 			HtmlData htmlData = new HtmlData() {
 

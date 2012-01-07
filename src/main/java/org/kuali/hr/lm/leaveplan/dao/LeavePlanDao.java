@@ -12,7 +12,7 @@ public interface LeavePlanDao {
 	 * @param lmLeavePlanId
 	 * @return LeavePlan
 	 */
-	public LeavePlan getLeavePlan(Long lmLeavePlanId);
+	public LeavePlan getLeavePlan(String lmLeavePlanId);
 	
 	public LeavePlan getLeavePlan(String leavePlan, Date asOfDate);
 }

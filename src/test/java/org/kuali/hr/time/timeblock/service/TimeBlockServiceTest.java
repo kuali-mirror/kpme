@@ -21,7 +21,7 @@ public class TimeBlockServiceTest extends TkTestCase {
 	public void testBuildAssignmentStyleClassMap() {
 		Date aDate = new Date((new DateTime(2011, 7, 7, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
 		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(aDate);
-		Map<String, String> aMap = ActionFormUtils.buildAssignmentStyleClassMap(doc);
+		Map<String, String> aMap = ActionFormUtils.buildAssignmentStyleClassMap(doc.getTimeBlocks());
 		assertEquals("Wrong number of classes in style class map", 8, aMap.size());
 		assertEquals("Wrong key for class assignment0", "assignment0", aMap.get("1_1234_1"));
 		assertEquals("Wrong key for class assignment7", "assignment7", aMap.get("6_1100_5"));

@@ -1,10 +1,10 @@
 package org.kuali.hr.time.earncode.service;
 
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.earncode.EarnCode;
-
 import java.sql.Date;
 import java.util.List;
+
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.earncode.EarnCode;
 
 public interface EarnCodeService {
 	/**
@@ -36,7 +36,7 @@ public interface EarnCodeService {
      * @param earnCodeId
      * @return
      */
-    public EarnCode getEarnCodeById(Long earnCodeId);
+    public EarnCode getEarnCodeById(String earnCodeId);
     
     /**
      * Fetch list of system defined overtime earn codes

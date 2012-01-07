@@ -1,13 +1,13 @@
 package org.kuali.hr.time.assignment.service;
 
+import java.sql.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-
-import java.sql.Date;
-import java.util.List;
-import java.util.Map;
 
 public interface AssignmentService {
 	/**
@@ -44,7 +44,7 @@ public interface AssignmentService {
      */
     public Map<String,String> getAssignmentDescriptions(TimesheetDocument td, boolean clockOnlyAssignments);
     /**
-     * Get all assigment descriptions for an assignment
+     * Get all assignment descriptions for an assignment
      * @param assignment
      * @return
      */
@@ -73,13 +73,7 @@ public interface AssignmentService {
      * @return
      */
     public Assignment getAssignment(AssignmentDescriptionKey key, Date asOfDate);
-    
-    /**
-     * Fetch assignment by id
-     * @param tkAssignmentId
-     * @return
-     */
-    public Assignment getAssignment(Long tkAssignmentId);
+
     
     /**
      * Fetch principal id and key as of a particular date
@@ -93,8 +87,19 @@ public interface AssignmentService {
     /**
      * Get assignments by pay calendar entry
      * @param principalId
-     * @param calendarEntry
+     * @param payCalendarEntry
      * @return
      */
-    public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntries calendarEntry);
+    public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntries payCalendarEntry);
+    
+    /**
+	 * KPME-1129 Kagata
+	 * Get a list of active assignments based on principalId and jobNumber as of a particular date 
+	 * @param principalId
+	 * @param jobNumber
+	 * @param asOfDate
+	 * @return
+	 */
+    public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, Date asOfDate);
+    
 }

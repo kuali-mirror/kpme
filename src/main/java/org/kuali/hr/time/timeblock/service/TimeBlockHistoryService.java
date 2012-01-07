@@ -1,8 +1,9 @@
 package org.kuali.hr.time.timeblock.service;
 
-import org.kuali.hr.time.timeblock.TimeBlockHistory;
-
 import java.util.List;
+
+import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeBlockHistory;
 
 public interface TimeBlockHistoryService {
 	/**
@@ -21,5 +22,12 @@ public interface TimeBlockHistoryService {
 	 * @param tkTimeBlockId
 	 * @return
 	 */
-    public TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(Long tkTimeBlockId);
+    public TimeBlockHistory getTimeBlockHistoryByTkTimeBlockId(String tkTimeBlockId);
+    /**
+	 * Add Time Block history Details to Time Block History using timeHourDetails
+	 * of given time block
+	 * @param timeBlockHistory
+	 * @param timeBlock
+	 */
+    public void addTimeBlockHistoryDetails(TimeBlockHistory timeBlockHistory, TimeBlock timeBlock);
 }

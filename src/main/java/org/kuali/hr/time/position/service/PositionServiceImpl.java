@@ -12,7 +12,7 @@ public class PositionServiceImpl implements PositionService {
 	
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public Position getPosition(Long hrPositionId) {
+	public Position getPosition(String hrPositionId) {
 		return positionDao.getPosition(hrPositionId);
 	}
 

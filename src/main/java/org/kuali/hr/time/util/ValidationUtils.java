@@ -1,14 +1,17 @@
 package org.kuali.hr.time.util;
 
+import java.sql.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.hr.location.Location;
-import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.location.Location;
+import org.kuali.hr.paygrade.PayGrade;
+import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.department.Department;
@@ -25,8 +28,6 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-
-import java.sql.Date;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -374,6 +375,7 @@ public class ValidationUtils {
         return false;
     }
 
+
 	/**
 	 * Checks for row presence of a pay calendar
 	 */
@@ -385,24 +387,6 @@ public class ValidationUtils {
         int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
         valid = (count > 0);
         return valid;
-	}
-	
-	/**
-	 * Checks for row presence of a pay calendar by calendar type
-	 */
-	public static boolean validateCalendarByType(String calendarName, String calendarType) {
-		boolean valid = false;
-		Criteria crit = new Criteria();
-		crit.addEqualTo("calendarName", calendarName);
-		if(StringUtils.equalsIgnoreCase(calendarType, "Pay")){
-			crit.addNotEqualTo("calendarTypes", "Leave");	
-		}else if(StringUtils.equalsIgnoreCase(calendarType, "Leave")){
-			crit.addNotEqualTo("calendarTypes", "Pay");
-		}
-		Query query = QueryFactory.newQuery(Calendar.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-		valid = (count > 0);
-		return valid;
 	}
 
    /**
@@ -448,6 +432,27 @@ public class ValidationUtils {
 	   return valid;
    }
    
+   public static boolean duplicateTimeOffAccrual (TimeOffAccrual timeOffAccrual) {
+	   boolean valid = false;
+	   Criteria crit = new Criteria();
+	   crit.addEqualTo("accrualCategory", timeOffAccrual.getAccrualCategory());
+	   crit.addEqualTo("effectiveDate", timeOffAccrual.getEffectiveDate());
+	   crit.addEqualTo("principalId", timeOffAccrual.getPrincipalId());
+	   Query query = QueryFactory.newQuery(TimeOffAccrual.class, crit);
+	   int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+	   if(count == 1) {
+    	   valid = true;
+    	   crit.addEqualTo("lmAccrualId", timeOffAccrual.getLmAccrualId());
+    	   count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+    	   if(count == 1) {
+    		   valid = false;
+    	   }
+       } else if(count > 1) {
+    	   valid = true;
+       }
+	   return valid;
+   }
+
    /**
     * Checks for date not more than one year in the future or current date
     * 
@@ -478,4 +483,21 @@ public class ValidationUtils {
 	   return date.compareTo(startDate.getTime()) > 0;
    }
 
+	/**
+	 * Checks for row presence of a pay calendar by calendar type
+	 */
+	public static boolean validateCalendarByType(String calendarName, String calendarType) {
+		boolean valid = false;
+		Criteria crit = new Criteria();
+		crit.addEqualTo("calendarName", calendarName);
+		if(StringUtils.equalsIgnoreCase(calendarType, "Pay")){
+			crit.addNotEqualTo("calendarTypes", "Leave");	
+		}else if(StringUtils.equalsIgnoreCase(calendarType, "Leave")){
+			crit.addNotEqualTo("calendarTypes", "Pay");
+		}
+		Query query = QueryFactory.newQuery(Calendar.class, crit);
+		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+		valid = (count > 0);
+		return valid;
+	}
 }

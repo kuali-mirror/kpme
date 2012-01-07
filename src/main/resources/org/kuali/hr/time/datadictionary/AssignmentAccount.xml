@@ -24,8 +24,8 @@
 				<ref bean="AssignmentAccount-projectCd" />
 				<ref bean="AssignmentAccount-orgRefId" />
 				<ref bean="AssignmentAccount-percent" />
-				<ref bean="AssignmentAccount-tkAssignmentId" />
 				<ref bean="AssignmentAccount-active" />
+				<ref bean="AssignmentAccount-tkAssignmentId" />
 				<ref bean="AssignmentAccount-earnCode" />
 			</list>
 		</property>
@@ -230,7 +230,7 @@
 		<property name="name" value="percent" />
 		<property name="label" value="Percent" />
 	</bean>
-
+	
 	<bean id="AssignmentAccount-active" parent="AssignmentAccount-active-parentBean" />
 	<bean id="AssignmentAccount-active-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -246,12 +246,14 @@
 	<bean id="AssignmentAccount-tkAssignmentId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Assignment" />
-		<property name="maxLength" value="19" />
+		<property name="maxLength" value="60" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="19" />
+			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
 		<property name="name" value="tkAssignmentId" />
 		<property name="label" value="Assignment" />

@@ -23,13 +23,15 @@
   <bean id="TimeHourDetail-tkTimeHourDetailId" parent="TimeHourDetail-tkTimeHourDetailId-parentBean"/>
   <bean id="TimeHourDetail-tkTimeHourDetailId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="TimeHourDetail Id"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
+    <property name="maxLength" value="60"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
     <property name="name" value="tkTimeHourDetailId"/>
     <property name="label" value="TimeHourDetail Id"/>
   </bean>

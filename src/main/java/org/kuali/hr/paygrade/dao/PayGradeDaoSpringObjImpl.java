@@ -45,7 +45,7 @@ public class PayGradeDaoSpringObjImpl  extends PersistenceBrokerDaoSupport imple
 	}
 
 	@Override
-	public PayGrade getPayGrade(Long hrPayGradeId) {
+	public PayGrade getPayGrade(String hrPayGradeId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrPayGradeId", hrPayGradeId);
 		

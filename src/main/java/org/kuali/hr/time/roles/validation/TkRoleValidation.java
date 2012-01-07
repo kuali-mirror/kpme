@@ -1,15 +1,16 @@
 package org.kuali.hr.time.roles.validation;
 
+import java.sql.Date;
+
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.TkRoleGroup;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-
-import java.sql.Date;
 
 public class TkRoleValidation extends MaintenanceDocumentRuleBase{
 
@@ -71,7 +72,7 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
         return valid;
     }
 
-    boolean validateTkRole(TkRole role, String fieldPrefix) {
+    protected boolean validateTkRole(TkRole role, String fieldPrefix) {
         boolean valid = true;
 
         if (fieldPrefix == null)
@@ -88,7 +89,7 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
             if (role.getDepartment() != null)
                 this.putFieldError(fieldPrefix + "department", "field.unused");
             valid &= vwa;
-        } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_LOCATION_ADMIN)) {
+        }else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_LOCATION_ADMIN)) {
             valid &= isDeptAndChartXor(role, fieldPrefix);
         } else if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_DEPT_ADMIN)) {
             valid &= isDeptAndChartXor(role, fieldPrefix);
@@ -159,6 +160,23 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
             StringBuffer prefix = new StringBuffer("roles[");
             prefix.append(pos).append("].");
             validateTkRole(role, prefix.toString());
+            
+           if (StringUtils.equalsIgnoreCase(role.getRoleName(), TkConstants.ROLE_TK_APPROVER_DELEGATE)) {
+        	   if(role.getExpirationDate() == null){
+   				this.putFieldError(prefix + "expirationDate",
+   						"error.role.expiration.required");
+   				valid = false;
+        	   } else if (role.getEffectiveDate().compareTo(role.getExpirationDate())>=0) {
+        		   this.putFieldError(prefix + "expirationDate",
+      						"error.role.expiration");
+      				valid = false;
+        	   } else if (TKUtils.getDaysBetween(role.getEffectiveDate(), role.getExpirationDate()) > 180) {
+        		   this.putFieldError(prefix + "expirationDate",
+     						"error.role.expiration.duration");
+     				valid = false;
+        	   }
+   			}
+          
             pos++;
         }
 

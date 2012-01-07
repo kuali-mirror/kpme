@@ -174,10 +174,28 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Job> getActiveJobsForPayType(String hrPayType){
+	public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate){
 		Criteria root = new Criteria();
+		Criteria effdt = new Criteria();
+		Criteria timestamp = new Criteria();
+		
+		// OJB's awesome sub query setup part 1
+		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+		effdt.addEqualTo("hrPayType", hrPayType);
+		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
+		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+		
+		// OJB's awesome sub query setup part 2
+		timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+		timestamp.addEqualTo("hrPayType", hrPayType);
+		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestamp);
+		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 		
 		root.addEqualTo("hrPayType", hrPayType);
+		root.addEqualTo("effectiveDate", effdtSubQuery);
+		root.addEqualTo("timestamp", timestampSubQuery);
 		
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
@@ -188,7 +206,7 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 	}
 
 	@Override
-	public Job getJob(Long hrJobId) {
+	public Job getJob(String hrJobId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrJobId", hrJobId);
 		
@@ -209,11 +227,5 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 		
 		Query query = QueryFactory.newQuery(Job.class, root);
 		return (Job)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-	}
-
-	@Override
-	public List<Job> getLeaveEligibleJobs(String principalId, Date asOfDate) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

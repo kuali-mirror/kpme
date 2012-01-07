@@ -1,9 +1,9 @@
 package org.kuali.hr.lm.workflow;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
 import java.util.Date;
 import java.util.LinkedHashMap;
+
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase {
 

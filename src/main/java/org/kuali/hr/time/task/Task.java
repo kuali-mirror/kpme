@@ -16,10 +16,10 @@ public class Task extends HrBusinessObject {
      */
     private static final long serialVersionUID = 1L;
 
-    private Long tkTaskId;
+    private String tkTaskId;
     private Long task;
     private Long workArea;
-    private Long tkWorkAreaId;
+    private String tkWorkAreaId;
     private String description;
     private String userPrincipalId;
     private String administrativeDescription;
@@ -68,11 +68,11 @@ public class Task extends HrBusinessObject {
     	this.administrativeDescription = addesc;
     }
 
-	public Long getTkTaskId() {
+	public String getTkTaskId() {
 		return tkTaskId;
 	}
 
-	public void setTkTaskId(Long tkTaskId) {
+	public void setTkTaskId(String tkTaskId) {
 		this.tkTaskId = tkTaskId;
 	}
 
@@ -97,11 +97,11 @@ public class Task extends HrBusinessObject {
 		this.workArea = workArea;
 	}
 
-	public Long getTkWorkAreaId() {
+	public String getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}
 
-	public void setTkWorkAreaId(Long tkWorkAreaId) {
+	public void setTkWorkAreaId(String tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
 
@@ -155,12 +155,12 @@ public class Task extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getTkTaskId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setTkTaskId(id);
 	}
 

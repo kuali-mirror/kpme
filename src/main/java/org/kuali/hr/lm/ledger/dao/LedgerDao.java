@@ -1,9 +1,9 @@
 package org.kuali.hr.lm.ledger.dao;
 
-import org.kuali.hr.lm.ledger.Ledger;
-
 import java.util.Date;
 import java.util.List;
+
+import org.kuali.hr.lm.ledger.Ledger;
 
 public interface LedgerDao {
     public Ledger getLedger(Long ledgerId);

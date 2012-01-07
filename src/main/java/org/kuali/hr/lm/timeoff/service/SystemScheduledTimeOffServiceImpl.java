@@ -30,7 +30,7 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 
 	@Override
     @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public SystemScheduledTimeOff getSystemScheduledTimeOff(Long lmSystemScheduledTimeOffId) {
+	public SystemScheduledTimeOff getSystemScheduledTimeOff(String lmSystemScheduledTimeOffId) {
 		return getSystemScheduledTimeOffDao().getSystemScheduledTimeOff(lmSystemScheduledTimeOffId);
 	}
 

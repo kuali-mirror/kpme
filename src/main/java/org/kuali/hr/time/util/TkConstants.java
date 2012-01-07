@@ -1,14 +1,21 @@
 package org.kuali.hr.time.util;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TimeZone;
+
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.rice.kew.util.KEWConstants;
-
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.util.*;
 
 public class TkConstants {
     public static final int DEFAULT_CACHE_TIME = 900;
@@ -43,14 +50,7 @@ public class TkConstants {
     public static final String EARN_CODE_TIME = "TIME";
     public static final String EARN_CODE_AMOUNT = "AMOUNT";
     public static final String EARN_CODE_OVT = "OVT";
-
-    // earn group
-    public static final List<String> EARN_GROUP_OVERTIME = new ArrayList<String>();
-
-    static {
-        EARN_GROUP_OVERTIME.add("Overtime");
-        EARN_GROUP_OVERTIME.add("OVT");
-    }
+    public static final String EARN_CODE_CPE = "CPE";
 
     public static final String GMT_TIME_ZONE_ID = "Etc/GMT";
     public static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
@@ -60,6 +60,7 @@ public class TkConstants {
     public static DateTimeFormatter DT_BASIC_TIME_FORMAT = DateTimeFormat.forPattern("hh:mm aa");
     public static DateTimeFormatter DT_BASIC_DATE_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy");
     public static DateTimeFormatter DT_ABBREV_DATE_FORMAT = DateTimeFormat.forPattern("MM/dd");
+    public static DateTimeFormatter DT_FULL_DATE_TIME_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy hh:mm aa");
 
     public static final int BIG_DECIMAL_SCALE = 2;
     public static final RoundingMode BIG_DECIMAL_SCALE_ROUNDING = RoundingMode.HALF_EVEN;
@@ -192,12 +193,31 @@ public class TkConstants {
         public static final String DISAPPROVE = "D";
     }
 
+    public static final class BATCH_JOB_ACTIONS {
+        public static final String BATCH_JOB_INITIATE = "BI";
+        public static final String BATCH_JOB_ROUTE = "BR";
+        public static final String BATCH_JOB_APPROVE = "BA";
+    }
+
     public static final class ROUTE_STATUS {
         public static final String INITIATED = "I";
         public static final String ENROUTE = "R";
         public static final String FINAL = "F";
         public static final String CANCEL = "X";
         public static final String SAVED = "S";
+    }
+
+    public static final Map<String, String> DOC_ROUTE_STATUS = new HashMap<String, String>(8);
+
+    static {
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_INITIATED_CD, KEWConstants.ROUTE_HEADER_INITIATED_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_CANCEL_CD, KEWConstants.ROUTE_HEADER_CANCEL_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_ENROUTE_CD, KEWConstants.ROUTE_HEADER_ENROUTE_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_FINAL_CD, KEWConstants.ROUTE_HEADER_FINAL_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_APPROVED_CD, KEWConstants.ROUTE_HEADER_APPROVED_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD, KEWConstants.ROUTE_HEADER_DISAPPROVED_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_EXCEPTION_CD, KEWConstants.ROUTE_HEADER_EXCEPTION_LABEL);
+        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_SAVED_CD, KEWConstants.ROUTE_HEADER_SAVED_LABEL);
     }
 
     public static final class BATCH_JOB_ENTRY_STATUS {
@@ -212,7 +232,10 @@ public class TkConstants {
         public static final String APPROVE = "Approve";
         public static final String PAY_PERIOD_END = "Pay Period End";
         public static final String SUPERVISOR_APPROVAL = "Supervisor Approval";
+        public static final String BATCH_APPROVE_MISSED_PUNCH = "Batch Approve Missed Punch";
     }
+
+    public static final String BATCH_JOB_USER_PRINCIPAL_ID = "admin";
 
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";
     public static final String HOLIDAY_EARN_CODE = "HOL";
@@ -225,6 +248,8 @@ public class TkConstants {
 
     // Timesheet document ID request parameter name
     public static final String TIMESHEET_DOCUMENT_ID_REQUEST_NAME = "tdocid";
+    // document ID request parameter name
+    public static final String DOCUMENT_ID_REQUEST_NAME = "docid";
     //Threshold in hours for clockin highlighting on approvers tab
     public static final Integer NUMBER_OF_HOURS_CLOCKED_IN_APPROVE_TAB_HIGHLIGHT = 12;
 
@@ -258,24 +283,19 @@ public class TkConstants {
         DOCUMENT_STATUS.put("R", "Enroute");
         DOCUMENT_STATUS.put("F", "Final");
     }
-    
-    public static final Map<String, String> DOC_ROUTE_STATUS = new HashMap<String, String>(8);
-    static {
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_INITIATED_CD,KEWConstants.ROUTE_HEADER_INITIATED_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_CANCEL_CD,KEWConstants.ROUTE_HEADER_CANCEL_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_ENROUTE_CD,KEWConstants.ROUTE_HEADER_ENROUTE_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_FINAL_CD,KEWConstants.ROUTE_HEADER_FINAL_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_APPROVED_CD,KEWConstants.ROUTE_HEADER_APPROVED_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD,KEWConstants.ROUTE_HEADER_DISAPPROVED_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_EXCEPTION_CD,KEWConstants.ROUTE_HEADER_EXCEPTION_LABEL);
-        DOC_ROUTE_STATUS.put(KEWConstants.ROUTE_HEADER_SAVED_CD,KEWConstants.ROUTE_HEADER_SAVED_LABEL);
-    }
 
     public static class ConfigSettings {
         public static final String SESSION_TIMEOUT = "session.timeout";
     }
-    
 
+    public static final Integer PAGE_SIZE = 20;
+    public static final String APPROVAL_TABLE_ID = "row";
+
+    public static final String IP_SEPERATOR = ".";
+    public static final String IP_WILDCARD_PATTERN = "(%|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))";
+
+    public static final String TASK_DEFAULT_DESP = "Default";
+    
     public static final Map<String, String> ACCRUAL_EARN_INTERVAL = new LinkedHashMap<String, String>(6);
 
     static {
@@ -327,10 +347,4 @@ public class TkConstants {
     	UNUSED_TIME.put("B", "Bank");
     }
     
-   public static final Integer PAGE_SIZE = 2;
-    public static final String APPROVAL_TABLE_ID = "row";
-    
-    public static final String IP_SEPERATOR = ".";
-    public static final String IP_WILDCARD_PATTERN = "(%|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))";
-
 }

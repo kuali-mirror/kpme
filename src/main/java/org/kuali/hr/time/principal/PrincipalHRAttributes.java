@@ -1,14 +1,14 @@
 package org.kuali.hr.time.principal;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 public class PrincipalHRAttributes extends HrBusinessObject {
 
@@ -163,14 +163,6 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 				+ leaveCalendar == null ? "" : leaveCalendar;
 	}
 
-	@Override
-	public Long getId() {
-		return 1L;
-	}
-
-	@Override
-	public void setId(Long id) {
-	}
 
 	public String getLeaveCalendar() {
 		return leaveCalendar;
@@ -178,5 +170,15 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 
 	public void setLeaveCalendar(String leaveCalendar) {
 		this.leaveCalendar = leaveCalendar;
+	}
+
+	@Override
+	public void setId(String id) {
+	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

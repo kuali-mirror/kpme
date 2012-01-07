@@ -1,12 +1,12 @@
 package org.kuali.hr.time.dept.earncode.service;
 
+import java.util.List;
+
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-
-import java.util.List;
 
 public class DepartmentEarnCodeLookupableHelper extends
 		HrEffectiveDateActiveLookupableHelper {
@@ -20,10 +20,10 @@ public class DepartmentEarnCodeLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			DepartmentEarnCode departmentEarnCode = (DepartmentEarnCode) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long hrDeptEarnCodeId = departmentEarnCode
+			final String hrDeptEarnCodeId = departmentEarnCode
 					.getHrDeptEarnCodeId();
 			HtmlData htmlData = new HtmlData() {
 

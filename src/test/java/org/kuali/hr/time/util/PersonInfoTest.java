@@ -1,6 +1,5 @@
 package org.kuali.hr.time.util;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.time.ApplicationInitializeListener;
@@ -13,6 +12,8 @@ import org.kuali.rice.core.config.spring.ConfigFactoryBean;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.mock.web.MockHttpServletRequest;
+
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class PersonInfoTest extends TkTestCase {
 	
@@ -39,7 +40,7 @@ public class PersonInfoTest extends TkTestCase {
 		HtmlPage clockPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.PERSON_INFO_URL);
 		HtmlUnitUtil.createTempFile(clockPage);
 		assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Job Number"));
-		assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Organization Admin"));
+		assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Department Admin"));
 	}
  
 }

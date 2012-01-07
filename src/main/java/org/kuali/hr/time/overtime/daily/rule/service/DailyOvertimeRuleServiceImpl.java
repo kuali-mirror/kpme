@@ -1,5 +1,16 @@
 package org.kuali.hr.time.overtime.daily.rule.service;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
@@ -13,10 +24,6 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.*;
 
 public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
@@ -205,7 +212,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 			}
 
 			for(DailyOvertimeRule dr : mapDailyOvtRulesToAssignment.keySet() ){
-				Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(dr.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getCalendarEntry().getEndPeriodDateTime()));
+				Set<String> fromEarnGroup = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(dr.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getPayCalendarEntry().getEndPeriodDateTime()));
 				List<TimeBlock> blocksForRule = dailyOvtRuleToDayTotals.get(dr);
 				if (blocksForRule == null || blocksForRule.size() == 0)
 					continue; // skip to next rule and check for valid blocks.
@@ -356,7 +363,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public DailyOvertimeRule getDailyOvertimeRule(Long tkDailyOvertimeRuleId) {
+	public DailyOvertimeRule getDailyOvertimeRule(String tkDailyOvertimeRuleId) {
 		return dailyOvertimeRuleDao.getDailyOvertimeRule(tkDailyOvertimeRuleId);
 	}
 }

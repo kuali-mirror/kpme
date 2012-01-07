@@ -1,16 +1,17 @@
 package org.kuali.hr.time.roles;
 
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import javax.persistence.Transient;
+
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
-import javax.persistence.Transient;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 public class TkRoleGroup extends PersistableBusinessObjectBase {
 

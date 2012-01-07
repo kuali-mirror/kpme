@@ -1,5 +1,12 @@
 package org.kuali.hr.time.approval.web;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesummary.TimeSummary;
@@ -10,10 +17,7 @@ import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
 
-import java.math.BigDecimal;
-import java.util.*;
-
-public class ApprovalTimeSummaryRow {
+public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow> {
 	private String name;
 	private List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
     /** A Map (Assignment key) of Mapped totals (pay label mapping) */
@@ -28,7 +32,7 @@ public class ApprovalTimeSummaryRow {
 	private String documentId;
 	private Map<String,BigDecimal> hoursToPayLabelMap = new HashMap<String,BigDecimal>();
 	private String clockStatusMessage;
-    private String calendarGroup;
+    private String payCalendarGroup;
     private List notes = new ArrayList();
     private List<String> warnings = new ArrayList<String>();
     private Set<String> workAreas;
@@ -107,12 +111,12 @@ public class ApprovalTimeSummaryRow {
 		return clockStatusMessage;
 	}
 
-    public String getCalendarGroup() {
-        return calendarGroup;
+    public String getPayCalendarGroup() {
+        return payCalendarGroup;
     }
 
-    public void setCalendarGroup(String calendarGroup) {
-        this.calendarGroup = calendarGroup;
+    public void setPayCalendarGroup(String payCalendarGroup) {
+        this.payCalendarGroup = payCalendarGroup;
     }
 
     /**
@@ -128,13 +132,14 @@ public class ApprovalTimeSummaryRow {
      * @return true if a valid TK_APPROVER / TK_PROCESSOR can approve, false otherwise.
      */
     public boolean isApprovable() {
-    	boolean isEnroute =  StringUtils.equals(getApprovalStatus(), TkConstants.ROUTE_STATUS.ENROUTE) ;
+    	boolean isEnroute =  StringUtils.equals(getApprovalStatus(), "ENROUTE") ;
+
         if(isEnroute){
         	DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(Long.parseLong(this.getDocumentId()));
         	boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(TKContext.getUserSession(), routeHeader, new SecuritySession(TKContext.getUserSession()));
         	if(authorized){
         		List<String> principalsToApprove = KEWServiceLocator.getActionRequestService().getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId(KEWConstants.ACTION_REQUEST_APPROVE_REQ, routeHeader.getRouteHeaderId());
-        		if(principalsToApprove != null && principalsToApprove.contains(TKContext.getPrincipalId())){
+        		if(!principalsToApprove.isEmpty() && principalsToApprove.contains(TKContext.getPrincipalId())){
             		return true;
             	}
         	}
@@ -217,5 +222,9 @@ public class ApprovalTimeSummaryRow {
 
     public void setPeriodTotal(BigDecimal periodTotal) {
         this.periodTotal = periodTotal;
+    }
+    
+    public int compareTo(ApprovalTimeSummaryRow row) {
+        return name.compareToIgnoreCase(row.getName());
     }
 }

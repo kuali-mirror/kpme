@@ -1,8 +1,8 @@
 package org.kuali.hr.time.roles;
 
-import org.kuali.hr.time.timesheet.TimesheetDocument;
-
 import java.util.Set;
+
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 /**
  * Class to set the contract between Users and Roles.
@@ -76,7 +76,7 @@ public interface UserRoles {
      * Provides a Set of Assignment ids that this user is active under.
      * @return a Set<Long> of assignment object ids.
      */
-    public Set<Long> getActiveAssignmentIds();
+    public Set<String> getActiveAssignmentIds();
 
     /**
      * Provides a Set<String> of Department names that this user is a
@@ -117,7 +117,6 @@ public interface UserRoles {
 
     public boolean isDocumentWritable(TimesheetDocument document);
     public boolean isDocumentWritable(String documentId);
-
-    public boolean isLeaveManagementCalendar();
-
+    
+    public boolean isApproverForPerson(String principalId);
 }

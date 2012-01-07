@@ -1,9 +1,9 @@
 package org.kuali.hr.time.department.service;
 
-import org.kuali.hr.time.department.Department;
-
 import java.sql.Date;
 import java.util.List;
+
+import org.kuali.hr.time.department.Department;
 
 public interface DepartmentService {
 	/**
@@ -39,7 +39,7 @@ public interface DepartmentService {
      * @param hrDeptId
      * @return
      */
-    public Department getDepartment(Long hrDeptId);
+    public Department getDepartment(String hrDeptId);
     /**
      * Fetch department by location
      * @param location

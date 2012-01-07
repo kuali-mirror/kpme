@@ -26,7 +26,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 
 	@Override
     @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public LeavePlan getLeavePlan(Long lmLeavePlanId) {
+	public LeavePlan getLeavePlan(String lmLeavePlanId) {
 		return getLeavePlanDao().getLeavePlan(lmLeavePlanId);
 	}
 	

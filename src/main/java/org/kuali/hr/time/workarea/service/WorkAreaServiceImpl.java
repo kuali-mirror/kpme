@@ -1,14 +1,14 @@
 package org.kuali.hr.time.workarea.service;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workarea.dao.WorkAreaDao;
-
-import java.sql.Date;
-import java.util.List;
 
 public class WorkAreaServiceImpl implements WorkAreaService {
 
@@ -27,9 +27,9 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 
         // Load Roles
         // TODO: We may not need to do this, as this method is currently only grabbing WorkArea objects to build role structures for users.
-        for (WorkArea w : wa) {
-            populateWorkAreaRoles(w);
-        }
+        //for (WorkArea w : wa) {
+           // populateWorkAreaRoles(w);
+      //  }
 
         return wa;
     }
@@ -77,7 +77,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public WorkArea getWorkArea(Long tkWorkAreaId) {
+	public WorkArea getWorkArea(String tkWorkAreaId) {
 		return workAreaDao.getWorkArea(tkWorkAreaId);
 	}
 

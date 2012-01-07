@@ -1,5 +1,10 @@
 package org.kuali.hr.time.roles.service;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -13,19 +18,14 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.List;
-
 public class TkRoleServiceTest  extends TkTestCase {
 
 	public static final String TEST_USER = "eric";
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(TkRoleServiceTest.class);	
 	
-	Long posNumber = null;
-	Long posRoleId = null;
+	String posNumber = null;
+	String posRoleId = null;
 	
 	@Test
 	public void testGetWorkAreaRoles() throws Exception {
@@ -49,7 +49,7 @@ public class TkRoleServiceTest  extends TkTestCase {
 		assertNotNull(roles);
 		assertEquals("Incorrect number of roles.", 2, roles.size());
 		for (TkRole role : roles) {
-			assertTrue("Incorrect values.", role.getHrRolesId().longValue() == 21L || role.getHrRolesId().longValue() == 5L);
+			assertTrue("Incorrect values.", role.getHrRolesId().equals("21") || role.getHrRolesId().equals("5"));
 		}
 		
 		// Finds any roles
@@ -58,11 +58,11 @@ public class TkRoleServiceTest  extends TkTestCase {
 		assertEquals("Incorrect number of roles.", 5, roles.size());
 		for (TkRole role : roles) {
 			assertTrue("Incorrect values.", 
-					role.getHrRolesId().longValue() == 23L ||
-					role.getHrRolesId().longValue() == 5L  ||
-					role.getHrRolesId().longValue() == 15L ||
-					role.getHrRolesId().longValue() == 20L ||
-					role.getHrRolesId().longValue() == 21L);
+					role.getHrRolesId().equals("23") ||
+					role.getHrRolesId().equals("5")  ||
+					role.getHrRolesId().equals("15") ||
+					role.getHrRolesId().equals("20") ||
+					role.getHrRolesId().equals("21"));
 		}		
 	}
 	
@@ -78,8 +78,8 @@ public class TkRoleServiceTest  extends TkTestCase {
 		assertEquals("Incorrect number of roles.", 2, roles.size());
 		for (TkRole role: roles) {
 			assertTrue("Incorrect values.", 
-					role.getHrRolesId().longValue() == 6L ||
-					role.getHrRolesId().longValue() == 16L);
+					role.getHrRolesId().equals("6") ||
+					role.getHrRolesId().equals("16"));
 		}
 		
 		// All Role Names, One User with Specific asOfDate with multiple timestamps
@@ -89,8 +89,8 @@ public class TkRoleServiceTest  extends TkTestCase {
 		assertEquals("Incorrect number of roles.", 2, roles.size());
 		for (TkRole role: roles) {
 			assertTrue("Incorrect values.", 
-					role.getHrRolesId().longValue() == 20L ||
-					role.getHrRolesId().longValue() == 21L);
+					role.getHrRolesId().equals("20") ||
+					role.getHrRolesId().equals("21"));
 		}
 		
 		// Specific Role Name, Specific User
@@ -100,7 +100,7 @@ public class TkRoleServiceTest  extends TkTestCase {
 		assertEquals("Incorrect number of roles.", 1, roles.size());
 		for (TkRole role: roles) {
 			assertTrue("Incorrect values.", 
-					role.getHrRolesId().longValue() == 21L);
+					role.getHrRolesId().equals("21"));
 		}
 		
 	}
@@ -119,7 +119,7 @@ public class TkRoleServiceTest  extends TkTestCase {
 		pos.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		pos.setDescription("Advising");
 		pos.setEffectiveDate(new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
-		pos.setPositionNumber("1");
+		pos.setPositionNumber("123456");
 		KNSServiceLocator.getBusinessObjectService().save(pos);
 		String posNumber = pos.getPositionNumber();
 		

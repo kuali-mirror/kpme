@@ -1,9 +1,0 @@
-CREATE TABLE `lm_leave_document_header_t` (
-  `document_id` varchar(14) NOT NULL,
-  `principal_id` varchar(10) NOT NULL,
-  `begin_date` datetime NOT NULL,
-  `end_date` datetime NOT NULL,
-  `document_status` varchar(1) NOT NULL,
-  `obj_id` varchar(36) NOT NULL,
-  `ver_nbr` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;

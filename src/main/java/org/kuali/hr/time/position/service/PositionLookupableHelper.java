@@ -3,9 +3,7 @@ package org.kuali.hr.time.position.service;
 import java.util.List;
 
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
-import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.position.Position;
-import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -21,12 +19,12 @@ public class PositionLookupableHelper extends HrEffectiveDateActiveLookupableHel
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
 			List pkNames) {
 		Position position = (Position) businessObject;
-		final Long hrPositionId = position.getHrPositionId();
+		final String hrPositionId = position.getHrPositionId();
 		final String className = this.getBusinessObjectClass().getName();
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
 		if (TKContext.getUser().isSystemAdmin() ||
-				TKContext.getUser().isLocationAdmin()) {
+				TKContext.getUser().isLocationAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			HtmlData htmlData = new HtmlData() {
 
 				/**

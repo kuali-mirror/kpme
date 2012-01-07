@@ -1,1 +1,0 @@
-INSERT INTO `hr_position_s` (`ID`) VALUES (`1000`);

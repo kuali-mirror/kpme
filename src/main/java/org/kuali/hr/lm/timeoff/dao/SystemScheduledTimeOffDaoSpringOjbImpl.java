@@ -16,7 +16,7 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PersistenceBrokerDao
 	private static final Logger LOG = Logger.getLogger(SystemScheduledTimeOffDaoSpringOjbImpl.class);
 
 	@Override
-	public SystemScheduledTimeOff getSystemScheduledTimeOff(Long lmSystemScheduledTimeOffId) {
+	public SystemScheduledTimeOff getSystemScheduledTimeOff(String lmSystemScheduledTimeOffId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("lmSystemScheduledTimeOffId", lmSystemScheduledTimeOffId);
 		Query query = QueryFactory.newQuery(SystemScheduledTimeOff.class, crit);

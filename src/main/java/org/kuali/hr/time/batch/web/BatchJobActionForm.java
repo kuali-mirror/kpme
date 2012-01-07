@@ -1,12 +1,12 @@
 package org.kuali.hr.time.batch.web;
 
-import org.kuali.hr.time.base.web.TkForm;
-import org.kuali.hr.time.batch.BatchJobEntry;
-import org.kuali.hr.time.util.TkConstants;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.batch.BatchJobEntry;
+import org.kuali.hr.time.util.TkConstants;
 
 public class BatchJobActionForm extends TkForm {
     /**
@@ -25,12 +25,14 @@ public class BatchJobActionForm extends TkForm {
     private String batchJobEntryStatus;
     private String tkBatchJobEntryId;
     private String ipToChange;
+    private String selectedBatchJob;
 
     public List<String> getBatchJobNames() {
         batchJobNames.add(TkConstants.BATCH_JOB_NAMES.INITIATE);
         batchJobNames.add(TkConstants.BATCH_JOB_NAMES.APPROVE);
         batchJobNames.add(TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END);
         batchJobNames.add(TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL);
+        batchJobNames.add(TkConstants.BATCH_JOB_NAMES.BATCH_APPROVE_MISSED_PUNCH);
 
         return batchJobNames;
     }
@@ -129,5 +131,13 @@ public class BatchJobActionForm extends TkForm {
 
     public void setIpToChange(String ipToChange) {
         this.ipToChange = ipToChange;
+    }
+
+    public String getSelectedBatchJob() {
+        return selectedBatchJob;
+    }
+
+    public void setSelectedBatchJob(String selectedBatchJob) {
+        this.selectedBatchJob = selectedBatchJob;
     }
 }

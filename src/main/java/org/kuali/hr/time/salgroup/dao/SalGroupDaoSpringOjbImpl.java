@@ -1,13 +1,13 @@
 package org.kuali.hr.time.salgroup.dao;
 
+import java.sql.Date;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-
-import java.sql.Date;
 
 public class SalGroupDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements SalGroupDao {
 
@@ -46,7 +46,7 @@ public class SalGroupDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 	}
 
 	@Override
-	public SalGroup getSalGroup(Long hrSalGroupId) {
+	public SalGroup getSalGroup(String hrSalGroupId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrSalGroupId", hrSalGroupId);
 		

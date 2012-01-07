@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.kuali.hr.time.ApplicationInitializeListener;
 import org.kuali.hr.time.util.ClearDatabaseLifecycle;
+import org.kuali.hr.time.util.DatabaseCleanupDataLifecycle;
+import org.kuali.hr.time.util.LoadDatabaseDataLifeCycle;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.web.TKRequestProcessor;
 import org.kuali.hr.time.web.TkLoginFilter;
@@ -46,7 +48,16 @@ public class TkTestCase extends KNSTestCase{
 		//this clears the cache that was loaded from the above call.  Do not comment
 		TKContext.setHttpServletRequest(new MockHttpServletRequest());
 		new ClearDatabaseLifecycle().start();
+		new LoadDatabaseDataLifeCycle(this.getClass()).start();
 	}
+
+    @Override
+    public void tearDown() throws Exception {
+        // runs custom SQL at the end of each test.
+        // useful for difficult to reset test additions, not handled by
+        // our ClearDatabaseLifecycle.
+        new DatabaseCleanupDataLifecycle(this.getClass()).start();
+    }
 
 	@Override
 	protected List<Lifecycle> getSuiteLifecycles() {

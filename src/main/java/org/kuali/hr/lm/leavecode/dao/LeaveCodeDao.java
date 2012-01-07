@@ -1,9 +1,9 @@
 package org.kuali.hr.lm.leavecode.dao;
 
-import org.kuali.hr.lm.leavecode.LeaveCode;
-
 import java.sql.Date;
 import java.util.List;
+
+import org.kuali.hr.lm.leavecode.LeaveCode;
 
 
 public interface LeaveCodeDao {
@@ -13,7 +13,7 @@ public interface LeaveCodeDao {
 	 * @param lmLeaveCodeId
 	 * @return LeaveCode
 	 */
-	public LeaveCode getLeaveCode(Long lmLeaveCodeId);
+	public LeaveCode getLeaveCode(String lmLeaveCodeId);
 	
 	public List<LeaveCode> getLeaveCodes(String leavePlan, Date asOfDate);
 	

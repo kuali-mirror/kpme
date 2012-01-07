@@ -2,6 +2,7 @@ package org.kuali.hr.time.overtime.weekly.rule;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
@@ -15,7 +16,7 @@ public class WeeklyOvertimeRuleMaintenanceTest extends TkTestCase {
 	
 	protected static final String TEST_CODE="TST";
 	private static final BigDecimal TEST_NO=new BigDecimal(10);
-	private static Long weeklyOvertimeRuleId;	
+	private static String weeklyOvertimeRuleId;	
 	private static final java.sql.Date TEST_DATE=new java.sql.Date(Calendar.getInstance().getTimeInMillis());
 	private static final java.sql.Timestamp TEST_TIME_STAMP=new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
 	

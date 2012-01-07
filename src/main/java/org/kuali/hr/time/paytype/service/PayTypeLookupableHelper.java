@@ -1,17 +1,12 @@
 package org.kuali.hr.time.paytype.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class PayTypeLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 	/**
@@ -24,10 +19,10 @@ public class PayTypeLookupableHelper extends HrEffectiveDateActiveLookupableHelp
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			PayType payType = (PayType) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final Long hrPayTypeId = payType.getHrPayTypeId();
+			final String hrPayTypeId = payType.getHrPayTypeId();
 			HtmlData htmlData = new HtmlData() {
 
 				@Override

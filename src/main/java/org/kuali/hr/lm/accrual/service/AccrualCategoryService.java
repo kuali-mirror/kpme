@@ -25,7 +25,7 @@ public interface AccrualCategoryService {
      * @param lmAccrualCategoryId
      * @return
      */
-    public AccrualCategory getAccrualCategory(Long lmAccrualCategoryId);
+    public AccrualCategory getAccrualCategory(String lmAccrualCategoryId);
     
     /**
      * Fetch list of active accrual categories as of a particular date

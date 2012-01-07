@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.salgroup.SalGroup;
 
 public class PayGrade extends HrBusinessObject {
 
@@ -13,13 +12,10 @@ public class PayGrade extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long hrPayGradeId;
+	private String hrPayGradeId;
 	private String payGrade;
 	private String description;
 	private String userPrincipalId;
-	private String salGroup;
-	
-	private SalGroup salGroupObj;
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -28,11 +24,11 @@ public class PayGrade extends HrBusinessObject {
 		return null;
 	}
 
-	public Long getHrPayGradeId() {
+	public String getHrPayGradeId() {
 		return hrPayGradeId;
 	}
 
-	public void setHrPayGradeId(Long hrPayGradeId) {
+	public void setHrPayGradeId(String hrPayGradeId) {
 		this.hrPayGradeId = hrPayGradeId;
 	}
 
@@ -90,29 +86,12 @@ public class PayGrade extends HrBusinessObject {
 	}
 	
 	@Override
-	public Long getId() {
+	public String getId() {
 		return getHrPayGradeId();
 	}
 
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		setHrPayGradeId(id);
 	}
-
-	public String getSalGroup() {
-		return salGroup;
-	}
-
-	public void setSalGroup(String salGroup) {
-		this.salGroup = salGroup;
-	}
-
-	public SalGroup getSalGroupObj() {
-		return salGroupObj;
-	}
-
-	public void setSalGroupObj(SalGroup salGroupObj) {
-		this.salGroupObj = salGroupObj;
-	}
-	
 }

@@ -69,7 +69,7 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	}
 
 	@Override
-	public HrBusinessObject getObjectById(Long id) {
+	public HrBusinessObject getObjectById(String id) {
 		return (HrBusinessObject)TkServiceLocator.getJobSerivce().getJob(id);
 	}
 

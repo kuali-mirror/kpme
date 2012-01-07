@@ -1,5 +1,10 @@
 package org.kuali.hr.time.calendar.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -8,11 +13,6 @@ import org.joda.time.DateTime;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
 public class CalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupport  implements CalendarEntriesDao {
 
 
@@ -20,7 +20,7 @@ public class CalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
 		this.getPersistenceBrokerTemplate().store(calendarEntries);
 	}
 	
-	public CalendarEntries getCalendarEntries(Long hrCalendarEntriesId) {
+	public CalendarEntries getCalendarEntries(String hrCalendarEntriesId) {
 		Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("hrCalendarEntriesId", hrCalendarEntriesId);
 
@@ -28,7 +28,7 @@ public class CalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
 	}
 
     @Override
-    public CalendarEntries getCalendarEntriesByIdAndPeriodEndDate(Long hrCalendarId, Date endPeriodDate) {
+    public CalendarEntries getCalendarEntriesByIdAndPeriodEndDate(String hrCalendarId, Date endPeriodDate) {
         Criteria root = new Criteria();
         root.addEqualTo("hrCalendarId", hrCalendarId);
 		root.addEqualTo("endPeriodDateTime", endPeriodDate);
@@ -40,7 +40,7 @@ public class CalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
 
 	@Override
 	public CalendarEntries getCurrentCalendarEntriesByCalendarId(
-			Long hrCalendarId, Date currentDate) {
+			String hrCalendarId, Date currentDate) {
 		Criteria root = new Criteria();
 //		Criteria beginDate = new Criteria();
 //		Criteria endDate = new Criteria();
@@ -68,7 +68,7 @@ public class CalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
 	}
 
     @Override
-    public CalendarEntries getNextCalendarEntriesByCalendarId(Long hrCalendarId, CalendarEntries calendarEntries) {
+    public CalendarEntries getNextCalendarEntriesByCalendarId(String hrCalendarId, CalendarEntries calendarEntries) {
         Criteria root = new Criteria();
         Criteria beginDate = new Criteria();
         Criteria endDate = new Criteria();
@@ -94,7 +94,7 @@ public class CalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
     }
 
     @Override
-    public CalendarEntries getPreviousCalendarEntriesByCalendarId(Long hrCalendarId, CalendarEntries calendarEntries) {
+    public CalendarEntries getPreviousCalendarEntriesByCalendarId(String hrCalendarId, CalendarEntries calendarEntries) {
         Criteria root = new Criteria();
         Criteria beginDate = new Criteria();
         Criteria endDate = new Criteria();

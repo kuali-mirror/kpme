@@ -1,15 +1,15 @@
 package org.kuali.hr.lm.ledger;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.HrBusinessObject;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 public class Ledger extends HrBusinessObject {
 
@@ -18,14 +18,14 @@ public class Ledger extends HrBusinessObject {
      */
     private static final long serialVersionUID = 1L;
     // use java sql date for now
-    private Long ledgerId;
+    private String lmLedgerId;
     private Date ledgerDate;
     private String description;
     private String principalId;
     private String leaveCode;
-    private Long leaveCodeId;
-    private Long scheduleTimeOffId;
-    private Long accrualCategoryId;
+    private String leaveCodeId;
+    private String scheduleTimeOffId;
+    private String accrualCategoryId;
 //    private Boolean active;
     private BigDecimal hours = new BigDecimal("0.0");
     private String applyToYtdUsed;
@@ -60,9 +60,9 @@ public class Ledger extends HrBusinessObject {
         private Timestamp timestampInactivaed = null;
         private Boolean accrualGenerated = Boolean.FALSE;
         private Long blockId = 0L;
-        private Long leaveCodeId;
-        private Long scheduleTimeOffId;
-        private Long accrualCategoryId;
+        private String leaveCodeId;
+        private String scheduleTimeOffId;
+        private String accrualCategoryId;
 
 
         public Builder(DateTime ledgerDate, String documentId, String principalId, String leaveCode, BigDecimal hours) {
@@ -120,18 +120,18 @@ public class Ledger extends HrBusinessObject {
             return this;
         }
 
-        public Builder leaveCodeId(Long val) {
+        public Builder leaveCodeId(String val) {
             this.leaveCodeId = val;
             return this;
         }
 
         //TODO: need to hook up the objcets to get the real ids
-        public Builder scheduleTimeOffId(Long val) {
+        public Builder scheduleTimeOffId(String val) {
             this.scheduleTimeOffId = val;
             return this;
         }
 
-        public Builder accrualCategoryId(Long val) {
+        public Builder accrualCategoryId(String val) {
             this.accrualCategoryId = val;
             return this;
         }
@@ -174,13 +174,13 @@ public class Ledger extends HrBusinessObject {
     }
 
     @Override
-    public Long getId() {
-        return ledgerId;
+    public String getId() {
+        return lmLedgerId;
     }
 
     @Override
-    public void setId(Long id) {
-        this.ledgerId = id;
+    public void setId(String id) {
+        this.lmLedgerId = id;
     }
 
     @Override
@@ -188,11 +188,11 @@ public class Ledger extends HrBusinessObject {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public Long getAccrualCategoryId() {
+    public String getAccrualCategoryId() {
         return accrualCategoryId;
     }
 
-    public void setAccrualCategoryId(Long accrualCategoryId) {
+    public void setAccrualCategoryId(String accrualCategoryId) {
         this.accrualCategoryId = accrualCategoryId;
     }
 
@@ -260,11 +260,11 @@ public class Ledger extends HrBusinessObject {
         this.leaveCode = leaveCode;
     }
 
-    public Long getLeaveCodeId() {
+    public String getLeaveCodeId() {
         return leaveCodeId;
     }
 
-    public void setLeaveCodeId(Long leaveCodeId) {
+    public void setLeaveCodeId(String leaveCodeId) {
         this.leaveCodeId = leaveCodeId;
     }
 
@@ -276,12 +276,12 @@ public class Ledger extends HrBusinessObject {
         this.ledgerDate = ledgerDate;
     }
 
-    public Long getLedgerId() {
-        return ledgerId;
+    public String getLmLedgerId() {
+        return lmLedgerId;
     }
 
-    public void setLedgerId(Long ledgerId) {
-        this.ledgerId = ledgerId;
+    public void setLmLedgerId(Long ledgerId) {
+        this.lmLedgerId = lmLedgerId;
     }
 
     public String getPrincipalActivated() {
@@ -308,11 +308,11 @@ public class Ledger extends HrBusinessObject {
         this.principalInactivated = principalInactivated;
     }
 
-    public Long getScheduleTimeOffId() {
+    public String getScheduleTimeOffId() {
         return scheduleTimeOffId;
     }
 
-    public void setScheduleTimeOffId(Long scheduleTimeOffId) {
+    public void setScheduleTimeOffId(String scheduleTimeOffId) {
         this.scheduleTimeOffId = scheduleTimeOffId;
     }
 

@@ -1,18 +1,20 @@
 package org.kuali.hr.time.detail.web;
 
-import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
-
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
 /**
  * Base form for both WS and Regular TimeDetail action.
  */
+@SuppressWarnings("serial")
 public class TimeDetailActionFormBase extends TimesheetActionForm {
 
-    private Long tkTimeBlockId;
+    private String tkTimeBlockId;
     private String outputString;
-    private List<String> warnings;
+    private List<String> warnings = new ArrayList<String>();
     private String startTime;
     private String endTime;
     private String acrossDays;
@@ -20,12 +22,13 @@ public class TimeDetailActionFormBase extends TimesheetActionForm {
     private String endDate;
     private BigDecimal hours;
     private BigDecimal amount;
+    private String overtimePref;
 
-    public Long getTkTimeBlockId() {
+    public String getTkTimeBlockId() {
         return tkTimeBlockId;
     }
 
-    public void setTkTimeBlockId(Long tkTimeBlockId) {
+    public void setTkTimeBlockId(String tkTimeBlockId) {
         this.tkTimeBlockId = tkTimeBlockId;
     }
 
@@ -99,5 +102,13 @@ public class TimeDetailActionFormBase extends TimesheetActionForm {
 
     public void setWarnings(List<String> warnings) {
         this.warnings = warnings;
+    }
+
+    public String getOvertimePref() {
+        return overtimePref;
+    }
+
+    public void setOvertimePref(String overtimePref) {
+        this.overtimePref = overtimePref;
     }
 }

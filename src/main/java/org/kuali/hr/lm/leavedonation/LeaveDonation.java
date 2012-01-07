@@ -1,11 +1,11 @@
 package org.kuali.hr.lm.leavedonation;
 
+import java.math.BigDecimal;
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.rice.kim.bo.Person;
-
-import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 
 public class LeaveDonation extends HrBusinessObject {
 
@@ -13,7 +13,7 @@ public class LeaveDonation extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long lmLeaveDonationId;
+	private String lmLeaveDonationId;
 	private String donatedAccrualCategory;
 	private String recipientsAccrualCategory;
 	private BigDecimal amountDonated = new BigDecimal("0.0");
@@ -28,11 +28,11 @@ public class LeaveDonation extends HrBusinessObject {
 	private Person personObj;
 
 	
-	public Long getLmLeaveDonationId() {
+	public String getLmLeaveDonationId() {
 		return lmLeaveDonationId;
 	}
 
-	public void setLmLeaveDonationId(Long lmLeaveDonationId) {
+	public void setLmLeaveDonationId(String lmLeaveDonationId) {
 		this.lmLeaveDonationId = lmLeaveDonationId;
 	}
 
@@ -123,21 +123,19 @@ public class LeaveDonation extends HrBusinessObject {
 	}
 
 	@Override
-	public Long getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setId(Long id) {
-		// TODO Auto-generated method stub
-		
+	public String getId() {
+		return getLmLeaveDonationId();
 	}
 
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setId(String id) {
+		setLmLeaveDonationId(id);
 	}
 
 }

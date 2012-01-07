@@ -376,7 +376,6 @@
             <column name="std_hours" type="DECIMAL(5,2)"/>
             <column name="fte" type="BIT"/>
             <column name="hr_paytype" type="VARCHAR(5)"/>
-            <column defaultValue="N" name="eligible_for_leave" type="VARCHAR(1)"/>
             <column defaultValue="N" name="active" type="VARCHAR(1)"/>
             <column defaultValue="N" name="primary_indicator" type="VARCHAR(1)"/>
             <column name="position_nbr" type="VARCHAR(20)"/>
@@ -428,9 +427,6 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="pay_grade" type="VARCHAR(20)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="sal_group" type="VARCHAR(20)">
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="VARCHAR(40)">
@@ -519,19 +515,14 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1317396430027-33">
-        <createTable tableName="hr_principal_attributes_t">
+        <createTable tableName="hr_principal_calendar_t">
             <column defaultValue="" name="principal_id" type="VARCHAR(40)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column defaultValue="" name="pay_calendar" type="VARCHAR(15)">
-                <constraints nullable="true"/>
+            <column defaultValue="" name="py_calendar_group" type="VARCHAR(45)">
+                <constraints nullable="false"/>
             </column>
-            <column name="leave_plan" type="VARCHAR(15)">
-            </column>
-            <column defaultValueDate="0002-11-30" name="service_date" type="DATE">
-            </column>
-            <column defaultValue="N" name="fmla_eligible" type="VARCHAR(1)"/>
-            <column defaultValue="N" name="worksman_eligible" type="VARCHAR(1)"/>
+            <column name="holiday_calendar_group" type="VARCHAR(45)"/>
             <column name="timezone" type="VARCHAR(30)"/>
             <column defaultValueDate="0002-11-30" name="EFFDT" type="DATE">
                 <constraints nullable="false"/>
@@ -545,26 +536,23 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="LEAVE_CALENDAR" type="VARCHAR(45)">
-                <constraints nullable="true"/>
-            </column>
             <column defaultValue="Y" name="active" type="VARCHAR(1)"/>
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1317396430027-34">
-        <createTable tableName="hr_calendar_entries_s">
+        <createTable tableName="hr_py_calendar_entries_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1317396430027-35">
-        <createTable tableName="hr_calendar_entries_t">
-            <column name="hr_calendar_entry_id" type="BIGINT">
+        <createTable tableName="hr_py_calendar_entries_t">
+            <column name="hr_py_calendar_entry_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="hr_calendar_id" type="BIGINT"/>
-            <column name="calendar_name" type="VARCHAR(15)">
+            <column name="hr_py_calendar_id" type="BIGINT"/>
+            <column name="py_calendar_group" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="begin_period_date" type="TIMESTAMP">
@@ -584,21 +572,18 @@
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1317396430027-36">
-        <createTable tableName="hr_calendar_s">
+        <createTable tableName="hr_py_calendar_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="djunk (generated)" id="1317396430027-37">
-        <createTable tableName="hr_calendar_t">
-            <column name="hr_calendar_id" type="BIGINT">
+        <createTable tableName="hr_py_calendar_t">
+            <column name="hr_py_calendar_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="calendar_name" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="calendar_descriptions" type="VARCHAR(50)">
+            <column name="py_calendar_group" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
             <column name="flsa_begin_day" type="VARCHAR(9)">
@@ -607,7 +592,8 @@
             <column name="flsa_begin_time" type="TIME">
                 <constraints nullable="false"/>
             </column>
-            <column name="calendar_types" type="VARCHAR(9)">
+            <column defaultValue="Y" name="active" type="VARCHAR(1)">
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
@@ -636,10 +622,12 @@
             </column>
             <column name="user_principal_id" type="VARCHAR(40)"/>
             <column name="work_area" type="BIGINT"/>
-            <column name="dept" type="BIGINT"/>
+            <column name="dept" type="VARCHAR(21)"/>
             <column name="chart" type="VARCHAR(10)"/>
             <column name="effdt" type="DATE">
                 <constraints nullable="false"/>
+            </column>
+            <column name="expdt" type="DATE">
             </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
@@ -1189,6 +1177,30 @@
         <createTable tableName="lm_accrual_categories_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="djunk (generated)" id="1317396430027-76">
+        <createTable tableName="lm_accrual_categories_t">
+            <column name="LM_ACCRUAL_CATEGORY_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="ACCRUAL_CATEGORY" type="VARCHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCR" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EFFDT" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBJ_ID" type="VARCHAR(36)"/>
+            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
@@ -2222,304 +2234,6 @@
             <column name="OBJ_ID" type="VARCHAR(36)"/>
             <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT"/>
             <column name="OVERTIME_EDIT_ROLE" type="VARCHAR(20)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="npadharia" id="1317396430027-219">
-        <createTable tableName="lm_leave_plan_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="npadharia" id="1317396430027-220">
-        <createTable tableName="lm_leave_plan_t">
-            <column name="LM_LEAVE_PLAN_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="LEAVE_PLAN" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DESCR" type="VARCHAR(30)">
-            </column>
-            <column name="CAL_YEAR_START" type="VARCHAR(5)">
-            </column>
-            <column name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="npadharia" id="1317396430027-221">
-        <createTable tableName="lm_accrual_category_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="npadharia" id="1317396430027-222">
-        <createTable tableName="lm_accrual_category_t">
-            <column name="LM_ACCRUAL_CATEGORY_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="ACCRUAL_CATEGORY" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="LEAVE_PLAN" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DESCR" type="VARCHAR(30)">
-            </column>
-            <column name="ACCRUAL_INTERVAL_EARN" type="VARCHAR(5)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="UNIT_OF_TIME" type="VARCHAR(5)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="N" name="PRORATION" type="VARCHAR(1)"/>
-            <column defaultValue="N" name="DONATION" type="VARCHAR(1)"/>
-            <column defaultValue="N" name="SHOW_ON_GRID" type="VARCHAR(1)"/>
-            <column name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="1" name="PLANNING_MONTHS" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="npadharia" id="1317396430027-223">
-        <createTable tableName="lm_accrual_category_rules_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="npadharia" id="1317396430027-224">
-        <createTable tableName="lm_accrual_category_rules_t">
-            <column name="LM_ACCRUAL_CATEGORY_RULES_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="SERVICE_UNIT_OF_TIME" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="START_ACC" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="END_ACC" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ACCRUAL_RATE" type="DECIMAL(10,2)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="MAX_BAL" type="DECIMAL(10,2)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="MAX_BAL_ACTION_FREQUENCY" type="VARCHAR(5)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ACTION_AT_MAX_BAL" type="VARCHAR(5)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="MAX_BAL_TRANS_ACC_CAT" type="VARCHAR(15)"></column>
-            <column name="MAX_BAL_TRANS_CONV_FACTOR" type="DECIMAL(10,2)"></column>
-            <column name="MAX_TRANS_AMOUNT" type="BIGINT"></column>
-            <column name="MAX_PAYOUT_AMOUNT" type="BIGINT"></column>
-            <column name="MAX_PAYOUT_LEAVE_CODE" type="VARCHAR(15)"></column>
-            <column name="MAX_USAGE" type="BIGINT"></column>
-            <column name="MAX_CARRY_OVER" type="BIGINT"></column>
-            <column name="LM_ACCRUAL_CATEGORY_ID" type="BIGINT"></column>
-            <column name="DESCR" type="VARCHAR(30)"></column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet author="npadharia" id="1317396430027-225">
-        <createTable tableName="lm_leave_code_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="npadharia" id="1317396430027-226">
-        <createTable tableName="lm_leave_code_t">
-            <column name="LM_LEAVE_CODE_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="LEAVE_PLAN" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ELIGIBLE_FOR_ACC" type="VARCHAR(5)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ACCRUAL_CAT" type="VARCHAR(15)">
-            </column>
-            <column name="EARN_CODE" type="VARCHAR(15)">
-            </column>
-            <column name="LEAVE_CODE" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DISP_NAME" type="VARCHAR(20)">
-            </column>
-            <column name="UNIT_OF_TIME" type="VARCHAR(5)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="FRACT_TIME_ALLOWD" type="VARCHAR(5)">
-            	<constraints nullable="false"/>
-            </column>
-            <column name="ROUND_OPT" type="VARCHAR(5)">
-            	<constraints nullable="false"/>
-            </column>
-            <column name="ALLOW_SCHD_LEAVE" type="VARCHAR(5)">
-            	<constraints nullable="false"/>
-            </column>
-            <column name="FMLA" type="VARCHAR(5)">
-            	<constraints nullable="false"/>
-            </column>
-            <column name="WORKMANS_COMP" type="VARCHAR(5)">
-            	<constraints nullable="false"/>
-            </column>
-            <column defaultValue="0" name="DEF_TIME" type="BIGINT"></column>
-            <column defaultValue="N" name="EMPLOYEE" type="VARCHAR(1)"></column>
-            <column defaultValue="N" name="APPROVER" type="VARCHAR(1)"></column>
-            <column defaultValue="N" name="DEPT_ADMIN" type="VARCHAR(1)"></column>
-            <column name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
- 
-    <changeSet author="npadharia" id="1317396430027-227">
-        <createTable tableName="lm_sys_schd_timeoff_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="npadharia" id="1317396430027-228">
-        <createTable tableName="lm_sys_schd_timeoff_t">
-            <column name="LM_SYS_SCHD_TIMEOFF_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="LEAVE_PLAN" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ACCRUAL_CATEGORY" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="LEAVE_CODE" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ACCR_DT" type="DATE">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SCH_TIME_OFF_DT" type="DATE">
-            </column>
-            <column name="LOCATION" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DESCR" type="VARCHAR(50)">
-            	<constraints nullable="false"/>
-            </column>
-            <column name="AMOUNT_OF_TIME" type="BIGINT">
-            	<constraints nullable="false"/>
-            </column>
-            <column name="UNUSED_TIME" type="VARCHAR(5)">
-            </column>
-            <column name="TRANS_CONV_FACTOR" type="DECIMAL(10,2)"></column>
-            <column name="TRANSFER_TO_LEAVE_CODE" type="VARCHAR(15)">
-            </column>
-            <column name="EXP_DT" type="DATE">
-            </column>
-            <column name="PREMIUM_HOLIDAY" type="VARCHAR(5)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet author="npadharia" id="1317396430027-229">
-        <createTable tableName="lm_leave_donation_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="npadharia" id="1317396430027-230">
-        <createTable tableName="lm_leave_donation_t">
-            <column name="LM_LEAVE_DONATION_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="DONATED_ACC_CAT" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="RECIPIENTS_ACC_CAT" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="AMOUNT_DONATED" type="DECIMAL(18,2)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="AMOUNT_RECEIVED" type="DECIMAL(18,2)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DONOR" type="VARCHAR(40)">
-            	<constraints nullable="false"/>
-            </column>
-            <column name="RECEPIENT" type="VARCHAR(40)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DESCR" type="VARCHAR(50)">
-            	<constraints nullable="false"/>
-            </column>
-            <column name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
         </createTable>

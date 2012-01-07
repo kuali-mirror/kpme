@@ -2,12 +2,7 @@ package org.kuali.hr.time.timeblock.dao;
 
 import java.util.List;
 
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 
 public interface TimeBlockDao {
@@ -18,7 +13,7 @@ public interface TimeBlockDao {
 
 	public void deleteTimeBlock(TimeBlock timeBlock);
 
-	public TimeBlock getTimeBlock(Long timeBlockId);
+	public TimeBlock getTimeBlock(String timeBlockId);
 	
 	public List<TimeBlock> getTimeBlocks(Long documentId);
 	
@@ -26,8 +21,21 @@ public interface TimeBlockDao {
 	
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 	
-	public List<TimeBlock> getTimeBlocksForClockLogId(Long tkClockLogId);
+	/*
+	 * Get all the time blocks with the given Clock Log id as the clockLogEndId
+	 * @param tkClockLogId
+	 * @return List<TimeBlock>	 * 
+	 */
+	public List<TimeBlock> getTimeBlocksForClockLogEndId(String tkClockLogId);
+	/*
+	 * Get all the time blocks with the given Clock Log id as the clockLogBeginId
+	 * @param tkClockLogId
+	 * @return List<TimeBlock>	 * 
+	 */
+	public List<TimeBlock> getTimeBlocksForClockLogBeginId(String tkClockLogId);
 	
 	public List<TimeBlock> getTimeBlocks();
 	public List<TimeBlock> getLatestEndTimestamp();
+
+    List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId);
 }

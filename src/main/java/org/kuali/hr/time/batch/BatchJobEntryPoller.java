@@ -1,12 +1,12 @@
 package org.kuali.hr.time.batch;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.util.List;
 
 /**
  * Runs on each worker node, schedules jobs to run on the thread pool.
@@ -67,6 +67,9 @@ public class BatchJobEntryPoller extends Thread  {
         } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.INITIATE)) {
             LOG.debug("Creating InitiateBatchJobRunnable.");
             bjer = new InitiateBatchJobRunnable(entry);
+        } else if(StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.BATCH_APPROVE_MISSED_PUNCH)) {
+        	LOG.debug("Creating BatchApproveMissedPunchJobRunnable.");
+            bjer = new BatchApproveMissedPunchJobRunnable(entry);
         } else {
             LOG.warn("Unknown BatchJobEntryRunnable found in BatchJobEntry table. Unable to create Runnable.");
         }

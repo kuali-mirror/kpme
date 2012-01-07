@@ -1,14 +1,14 @@
 package org.kuali.hr.time.earngroup.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EarnGroupLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 	/**
@@ -27,11 +27,11 @@ public class EarnGroupLookupableHelper extends HrEffectiveDateActiveLookupableHe
 				overrideUrls.add(actionUrl);
 			}
 		}
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			EarnGroup earnGroupObj = (EarnGroup) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String earnGroup = earnGroupObj.getEarnGroup();
-			final Long hrEarnGroupId = earnGroupObj.getHrEarnGroupId();
+			final String hrEarnGroupId = earnGroupObj.getHrEarnGroupId();
 			HtmlData htmlData = new HtmlData() {
 
 				/**

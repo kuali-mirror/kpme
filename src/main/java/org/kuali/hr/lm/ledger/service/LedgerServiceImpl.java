@@ -1,5 +1,11 @@
 package org.kuali.hr.lm.ledger.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -13,11 +19,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
 
 public class LedgerServiceImpl implements LedgerService {
 
@@ -73,7 +74,7 @@ public class LedgerServiceImpl implements LedgerService {
         KNSServiceLocator.getBusinessObjectService().save(ledger);
         //now save new entry with same data
         ledger.setActive(true);
-        ledger.setLedgerId(null);
+        ledger.setLmLedgerId(null);
         ledger.setPrincipalActivated(TKContext.getPrincipalId());
         ledger.setPrincipalInactivated(null);
         ledger.setTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -93,7 +94,7 @@ public class LedgerServiceImpl implements LedgerService {
 
         // Currently, we store the accrual category value in the leave code table, but store accrual category id in the ledger.
         // That's why there is a two step server call to get the id. This might be changed in the future.
-        LeaveCode leaveCodeObj = TkServiceLocator.getLeaveCodeService().getLeaveCode(Long.parseLong(selectedLeaveCode));
+        LeaveCode leaveCodeObj = TkServiceLocator.getLeaveCodeService().getLeaveCode(selectedLeaveCode);
         AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(leaveCodeObj.getAccrualCategory(), TKUtils.getCurrentDate());
 
         // To create the correct interval by the given begin and end dates,
@@ -110,7 +111,7 @@ public class LedgerServiceImpl implements LedgerService {
                         .principalActivated(princpalId)
                         .timestampActivated(TKUtils.getCurrentTimestamp())
                         .leaveCodeId(leaveCodeObj.getLmLeaveCodeId())
-                        .scheduleTimeOffId(0L)
+                        .scheduleTimeOffId("0")
                         .accrualCategoryId(accrualCategory.getLmAccrualCategoryId())
                         .build();
                 currentledgers.add(ledger);
@@ -121,5 +122,20 @@ public class LedgerServiceImpl implements LedgerService {
         TkServiceLocator.getLedgerService().saveLedgers(currentledgers);
     }
 
+    public static List<Interval> createDaySpan(DateTime beginDateTime, DateTime endDateTime, DateTimeZone zone) {
+        beginDateTime = beginDateTime.toDateTime(zone);
+        endDateTime = endDateTime.toDateTime(zone);
+        List<Interval> dayIntervals = new ArrayList<Interval>();
+
+        DateTime currDateTime = beginDateTime;
+        while (currDateTime.isBefore(endDateTime)) {
+            DateTime prevDateTime = currDateTime;
+            currDateTime = currDateTime.plusDays(1);
+            Interval daySpan = new Interval(prevDateTime, currDateTime);
+            dayIntervals.add(daySpan);
+        }
+
+        return dayIntervals;
+    }
 
 }

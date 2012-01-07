@@ -9,6 +9,6 @@ public interface LeaveDonationService {
      * @param lmLeaveDonationId
      * @return
      */
-    public LeaveDonation getLeaveDonation(Long lmLeaveDonationId);
+    public LeaveDonation getLeaveDonation(String lmLeaveDonationId);
 
 }
