@@ -1,0 +1,1 @@
+ALTER TABLE `kpme`.`lm_ledger_t` CHANGE COLUMN `ver_nbr` `ver_nbr` BIGINT(20) NULL DEFAULT 1  , CHANGE COLUMN `obj_id` `obj_id` VARCHAR(36) NULL  ;
