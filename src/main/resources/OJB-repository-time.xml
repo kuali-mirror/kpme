@@ -603,7 +603,7 @@
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 			jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.principal.PrincipalHRAttributes" table="hr_principal_hr_attributes_t">
+	<class-descriptor class="org.kuali.hr.time.principal.PrincipalHRAttributes" table="hr_principal_attributes_t">
 		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="true" />
 		<field-descriptor name="leaveCalendar"   column="leave_calendar" jdbc-type="VARCHAR" length="15"/>
 		<field-descriptor name="payCalendar"   column="pay_calendar" jdbc-type="VARCHAR" length="15"/>
