@@ -108,10 +108,6 @@ public class MissedPunchServiceImpl implements MissedPunchService {
             String earnCode = assign.getJob().getPayTypeObj().getRegEarnCode();
             this.buildTimeBlockRunRules(lastClockLog, clockLog, tdoc, assign, earnCode, lastClockLog.getClockTimestamp(), clockLog.getClockTimestamp());
         }
-
-        MissedPunchDocument doc = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(missedPunch.getDocumentNumber());
-        doc.setTkClockLogId(clockLog.getTkClockLogId());
-        KNSServiceLocator.getBusinessObjectService().save(doc);
     }
 
     @Override
