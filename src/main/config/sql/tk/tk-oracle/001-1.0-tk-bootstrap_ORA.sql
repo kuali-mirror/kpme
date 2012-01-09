@@ -1,8 +1,8 @@
 -- *********************************************************************
 -- Update Database Script
 -- *********************************************************************
--- Change Log: /home/tomcat/tna-trunk/src/main/resources/org/kuali/kpme/liquibase/tna/db.changelog-master.xml
--- Ran at: 1/6/12 10:56 AM
+-- Change Log: /home/rdoshi/version-1-2-br/src/main/resources/org/kuali/kpme/liquibase/tna/db.changelog-master.xml
+-- Ran at: 1/9/12 3:14 PM
 -- Against: TIME@jdbc:oracle:thin:@esdbd04.uits.indiana.edu:1521:TK1DEV
 -- Liquibase version: 2.0.1
 -- *********************************************************************
@@ -53,32 +53,32 @@ CREATE TABLE hr_dept_earn_code_t (hr_dept_earn_code_id VARCHAR2(60) NOT NULL, de
 CREATE SEQUENCE  hr_dept_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-11::djunk (generated)::(Checksum: 3:1d1edb4b5ecc91be52da809ab7447f8d)
-CREATE TABLE hr_dept_t (HR_DEPT_ID NUMBER(38,0) NOT NULL, dept VARCHAR2(21), DESCRIPTION VARCHAR2(75), ORG VARCHAR2(10), CHART VARCHAR2(10), effdt DATE, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, active VARCHAR2(1) DEFAULT 'N', location VARCHAR2(20) NOT NULL, CONSTRAINT PK_HR_DEPT_T PRIMARY KEY (HR_DEPT_ID));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-11::djunk (generated)::(Checksum: 3:5946ccbd78830a743ac57d3ae7e72deb)
+CREATE TABLE hr_dept_t (HR_DEPT_ID VARCHAR2(60) NOT NULL, dept VARCHAR2(21), DESCRIPTION VARCHAR2(75), ORG VARCHAR2(10), CHART VARCHAR2(10), effdt DATE, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, active VARCHAR2(1) DEFAULT 'N', location VARCHAR2(20) NOT NULL, CONSTRAINT PK_HR_DEPT_T PRIMARY KEY (HR_DEPT_ID));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-12::djunk (generated)::(Checksum: 3:23a561220a9a9a3da88926269a335fc1)
 CREATE SEQUENCE  hr_earn_code_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-13::djunk (generated)::(Checksum: 3:89dd0667f37e773f8e0da176785c466a)
-CREATE TABLE hr_earn_code_t (hr_earn_code_id INTEGER NOT NULL, earn_code VARCHAR2(3) NOT NULL, descr VARCHAR2(30), effdt DATE, ovt_earn_code CHAR(1) DEFAULT 'N' NOT NULL, record_time VARCHAR2(1) DEFAULT 'N', record_amount VARCHAR2(1) DEFAULT 'N', record_hours VARCHAR2(1) DEFAULT 'N', ACTIVE VARCHAR2(1), OBJ_ID VARCHAR2(36), VER_NBR NUMBER(38,0) DEFAULT 1, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, ACCRUAL_CATEGORY VARCHAR2(3), inflate_min_hours DECIMAL(3,2) DEFAULT 0 NOT NULL, inflate_factor DECIMAL(3,2) DEFAULT 1 NOT NULL, CONSTRAINT PK_HR_EARN_CODE_T PRIMARY KEY (hr_earn_code_id));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-13::djunk (generated)::(Checksum: 3:51dc430af561ce5fc6e830521b1a65aa)
+CREATE TABLE hr_earn_code_t (hr_earn_code_id VARCHAR2(60) NOT NULL, earn_code VARCHAR2(3) NOT NULL, descr VARCHAR2(30), effdt DATE, ovt_earn_code CHAR(1) DEFAULT 'N' NOT NULL, record_time VARCHAR2(1) DEFAULT 'N', record_amount VARCHAR2(1) DEFAULT 'N', record_hours VARCHAR2(1) DEFAULT 'N', ACTIVE VARCHAR2(1), OBJ_ID VARCHAR2(36), VER_NBR NUMBER(38,0) DEFAULT 1, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, ACCRUAL_CATEGORY VARCHAR2(3), inflate_min_hours DECIMAL(3,2) DEFAULT 0 NOT NULL, inflate_factor DECIMAL(3,2) DEFAULT 1 NOT NULL, CONSTRAINT PK_HR_EARN_CODE_T PRIMARY KEY (hr_earn_code_id));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-14::djunk (generated)::(Checksum: 3:f8d060adf2965bb96c691633d7519263)
 CREATE SEQUENCE  hr_earn_group_def_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-15::djunk (generated)::(Checksum: 3:e47f5796a6dd890f90ddd74ab218e9e6)
-CREATE TABLE hr_earn_group_def_t (hr_earn_group_id NUMBER(38,0) NOT NULL, earn_code VARCHAR2(3), OBJ_ID VARCHAR2(36), VER_NBR NUMBER(38,0) DEFAULT 1, hr_earn_group_def_id NUMBER(38,0) NOT NULL, CONSTRAINT PK_HR_EARN_GROUP_DEF_T PRIMARY KEY (hr_earn_group_def_id));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-15::djunk (generated)::(Checksum: 3:9f60a1a03d6a95061a76c23a1c349323)
+CREATE TABLE hr_earn_group_def_t (hr_earn_group_id VARCHAR2(60) NOT NULL, earn_code VARCHAR2(3), OBJ_ID VARCHAR2(36), VER_NBR NUMBER(38,0) DEFAULT 1, hr_earn_group_def_id VARCHAR2(60) NOT NULL, CONSTRAINT PK_HR_EARN_GROUP_DEF_T PRIMARY KEY (hr_earn_group_def_id));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-16::djunk (generated)::(Checksum: 3:15cefe95c22512812026c3f31c89595b)
 CREATE SEQUENCE  hr_earn_group_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-17::djunk (generated)::(Checksum: 3:05e38f1ffb0ae805ff05e44bb4c44627)
-CREATE TABLE hr_earn_group_t (hr_earn_group_id NUMBER(38,0) NOT NULL, earn_group VARCHAR2(10), descr VARCHAR2(30), show_summary VARCHAR2(1) DEFAULT 'N', effdt DATE, active VARCHAR2(1), OBJ_ID VARCHAR2(36), VER_NBR NUMBER(38,0) DEFAULT 1, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, CONSTRAINT PK_HR_EARN_GROUP_T PRIMARY KEY (hr_earn_group_id));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-17::djunk (generated)::(Checksum: 3:f458286562f947e760a7a7426fa0cd11)
+CREATE TABLE hr_earn_group_t (hr_earn_group_id VARCHAR2(60) NOT NULL, earn_group VARCHAR2(10), descr VARCHAR2(30), show_summary VARCHAR2(1) DEFAULT 'N', effdt DATE, active VARCHAR2(1), OBJ_ID VARCHAR2(36), VER_NBR NUMBER(38,0) DEFAULT 1, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, CONSTRAINT PK_HR_EARN_GROUP_T PRIMARY KEY (hr_earn_group_id));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-18::djunk (generated)::(Checksum: 3:dd98cf0a839df182dc1922956c89c37e)
@@ -101,8 +101,8 @@ CREATE TABLE hr_holiday_calendar_t (HR_HOLIDAY_CALENDAR_ID VARCHAR2(60) NOT NULL
 CREATE SEQUENCE  hr_job_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-23::djunk (generated)::(Checksum: 3:81298b44ac3d603d54594f5366dc25ed)
-CREATE TABLE hr_job_t (HR_JOB_ID NUMBER(38,0) NOT NULL, PRINCIPAL_ID VARCHAR2(40), JOB_NUMBER NUMBER(38,0), EFFDT DATE DEFAULT to_date('0002-11-30', 'YYYY-MM-DD') NOT NULL, dept VARCHAR2(90) NOT NULL, HR_SAL_GROUP VARCHAR2(10), pay_grade VARCHAR2(20), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36), VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, comp_rate DECIMAL(18,6) DEFAULT 0, location VARCHAR2(20), std_hours DECIMAL(5,2), fte varchar2(1), hr_paytype VARCHAR2(5), active VARCHAR2(1) DEFAULT 'N', primary_indicator VARCHAR2(1) DEFAULT 'N', position_nbr VARCHAR2(20), CONSTRAINT PK_HR_JOB_T PRIMARY KEY (HR_JOB_ID));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-23::djunk (generated)::(Checksum: 3:8dca7355be91ace5e2f64599a893589f)
+CREATE TABLE hr_job_t (HR_JOB_ID VARCHAR2(60) NOT NULL, PRINCIPAL_ID VARCHAR2(40), JOB_NUMBER NUMBER(38,0), EFFDT DATE DEFAULT to_date('0002-11-30', 'YYYY-MM-DD') NOT NULL, dept VARCHAR2(90) NOT NULL, HR_SAL_GROUP VARCHAR2(10), pay_grade VARCHAR2(20), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36), VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, comp_rate DECIMAL(18,6) DEFAULT 0, location VARCHAR2(20), std_hours DECIMAL(5,2), fte varchar2(1), hr_paytype VARCHAR2(5), active VARCHAR2(1) DEFAULT 'N', primary_indicator VARCHAR2(1) DEFAULT 'N', position_nbr VARCHAR2(20), CONSTRAINT PK_HR_JOB_T PRIMARY KEY (HR_JOB_ID));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-24::djunk (generated)::(Checksum: 3:d8f15a61473bb62e3bdf033ce8d25bb3)
@@ -149,16 +149,16 @@ CREATE TABLE hr_principal_calendar_t (principal_id VARCHAR2(40) DEFAULT '' NOT N
 CREATE SEQUENCE  hr_py_calendar_entries_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-35::djunk (generated)::(Checksum: 3:abeb725c1c319ababfb76f28805b7191)
-CREATE TABLE hr_py_calendar_entries_t (hr_py_calendar_entry_id NUMBER(38,0) NOT NULL, hr_py_calendar_id NUMBER(38,0), py_calendar_group VARCHAR2(45) NOT NULL, begin_period_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, end_period_date TIMESTAMP DEFAULT '01-JAN-0001' NOT NULL, initiate_date DATE, initiate_time DATE, end_pay_period_date DATE, end_pay_period_time DATE, employee_approval_date DATE, employee_approval_time DATE, supervisor_approval_date DATE, supervisor_approval_time DATE, CONSTRAINT PK_HR_PY_CALENDAR_ENTRIES_T PRIMARY KEY (hr_py_calendar_entry_id));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-35::djunk (generated)::(Checksum: 3:2bec6d10a4d095fee2867e33c4268179)
+CREATE TABLE hr_py_calendar_entries_t (hr_py_calendar_entry_id VARCHAR2(60) NOT NULL, hr_py_calendar_id VARCHAR2(60), py_calendar_group VARCHAR2(45) NOT NULL, begin_period_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, end_period_date TIMESTAMP DEFAULT '01-JAN-0001' NOT NULL, initiate_date DATE, initiate_time DATE, end_pay_period_date DATE, end_pay_period_time DATE, employee_approval_date DATE, employee_approval_time DATE, supervisor_approval_date DATE, supervisor_approval_time DATE, CONSTRAINT PK_HR_PY_CALENDAR_ENTRIES_T PRIMARY KEY (hr_py_calendar_entry_id));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-36::djunk (generated)::(Checksum: 3:5e5e83ea76d85f56c8f2efc124618e6f)
 CREATE SEQUENCE  hr_py_calendar_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-37::djunk (generated)::(Checksum: 3:0a1d9111af5ddf65af5b0f61135edf05)
-CREATE TABLE hr_py_calendar_t (hr_py_calendar_id NUMBER(38,0) NOT NULL, py_calendar_group VARCHAR2(45) NOT NULL, flsa_begin_day VARCHAR2(9) NOT NULL, flsa_begin_time DATE NOT NULL, active VARCHAR2(1) DEFAULT 'Y' NOT NULL, CONSTRAINT PK_HR_PY_CALENDAR_T PRIMARY KEY (hr_py_calendar_id));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-37::djunk (generated)::(Checksum: 3:6a8253702b7448344670469a46b28171)
+CREATE TABLE hr_py_calendar_t (hr_py_calendar_id VARCHAR2(60) NOT NULL, py_calendar_group VARCHAR2(45) NOT NULL, flsa_begin_day VARCHAR2(9) NOT NULL, flsa_begin_time DATE NOT NULL, active VARCHAR2(1) DEFAULT 'Y' NOT NULL, CONSTRAINT PK_HR_PY_CALENDAR_T PRIMARY KEY (hr_py_calendar_id));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-38::djunk (generated)::(Checksum: 3:0fe1a3ac1f32063ce74340bab856779b)
@@ -377,16 +377,16 @@ CREATE TABLE qrtz_triggers (TRIGGER_NAME VARCHAR2(80) DEFAULT '' NOT NULL, TRIGG
 CREATE SEQUENCE  tk_assign_acct_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-92::djunk (generated)::(Checksum: 3:bf86118b8e2f5ecaa2bc65fa009cf45b)
-CREATE TABLE tk_assign_acct_t (TK_ASSIGN_ACCT_ID NUMBER(38,0) NOT NULL, FIN_COA_CD VARCHAR2(2), ACCOUNT_NBR VARCHAR2(7), SUB_ACCT_NBR VARCHAR2(5), FIN_OBJECT_CD VARCHAR2(4), FIN_SUB_OBJ_CD VARCHAR2(3), PROJECT_CD VARCHAR2(10), ORG_REF_ID VARCHAR2(8), PERCENT DECIMAL(5,2), TK_ASSIGNMENT_ID NUMBER(38,0) NOT NULL, OBJ_ID VARCHAR2(36), VER_NBR DECIMAL(8,0) DEFAULT 1 NOT NULL, EARN_CODE VARCHAR2(3), CONSTRAINT PK_TK_ASSIGN_ACCT_T PRIMARY KEY (TK_ASSIGN_ACCT_ID));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-92::djunk (generated)::(Checksum: 3:84062952656259569ee9f33403de72b2)
+CREATE TABLE tk_assign_acct_t (TK_ASSIGN_ACCT_ID VARCHAR2(60) NOT NULL, FIN_COA_CD VARCHAR2(2), ACCOUNT_NBR VARCHAR2(7), SUB_ACCT_NBR VARCHAR2(5), FIN_OBJECT_CD VARCHAR2(4), FIN_SUB_OBJ_CD VARCHAR2(3), PROJECT_CD VARCHAR2(10), ORG_REF_ID VARCHAR2(8), PERCENT DECIMAL(5,2), TK_ASSIGNMENT_ID NUMBER(38,0) NOT NULL, OBJ_ID VARCHAR2(36), VER_NBR DECIMAL(8,0) DEFAULT 1 NOT NULL, EARN_CODE VARCHAR2(3), CONSTRAINT PK_TK_ASSIGN_ACCT_T PRIMARY KEY (TK_ASSIGN_ACCT_ID));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-93::djunk (generated)::(Checksum: 3:8451b4f41448242d13c1f5f1615e0aec)
 CREATE SEQUENCE  tk_assignment_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-94::djunk (generated)::(Checksum: 3:d88b4365aed8c788c424f41f2d3e3c3e)
-CREATE TABLE tk_assignment_t (TK_ASSIGNMENT_ID NUMBER(38,0) NOT NULL, PRINCIPAL_ID VARCHAR2(40), JOB_NUMBER NUMBER(38,0), EFFDT DATE DEFAULT to_date('0002-11-30', 'YYYY-MM-DD') NOT NULL, WORK_AREA NUMBER(38,0), TASK NUMBER(38,0), OBJ_ID VARCHAR2(36), VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, active VARCHAR2(1) DEFAULT 'N', timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, CONSTRAINT PK_TK_ASSIGNMENT_T PRIMARY KEY (TK_ASSIGNMENT_ID));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-94::djunk (generated)::(Checksum: 3:1efba76177c5ddfa997c7d7019334bd5)
+CREATE TABLE tk_assignment_t (TK_ASSIGNMENT_ID VARCHAR2(60) NOT NULL, PRINCIPAL_ID VARCHAR2(40), JOB_NUMBER NUMBER(38,0), EFFDT DATE DEFAULT to_date('0002-11-30', 'YYYY-MM-DD') NOT NULL, WORK_AREA NUMBER(38,0), TASK NUMBER(38,0), OBJ_ID VARCHAR2(36), VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, active VARCHAR2(1) DEFAULT 'N', timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, CONSTRAINT PK_TK_ASSIGNMENT_T PRIMARY KEY (TK_ASSIGNMENT_ID));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-95::djunk (generated)::(Checksum: 3:4efffe4e9b9166aa2ee3803594946f74)
@@ -409,16 +409,16 @@ CREATE TABLE tk_batch_job_t (TK_BATCH_JOB_ID NUMBER(38,0) NOT NULL, BATCH_JOB_NA
 CREATE SEQUENCE  tk_clock_location_rl_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-100::djunk (generated)::(Checksum: 3:8a3f3441a7a5830648d80596cb0eb5d5)
-CREATE TABLE tk_clock_location_rl_t (TK_CLOCK_LOC_RULE_ID NUMBER(38,0) NOT NULL, WORK_AREA NUMBER(38,0), PRINCIPAL_ID VARCHAR2(10), job_number NUMBER(38,0), EFFDT DATE, active VARCHAR2(1), IP_ADDRESS VARCHAR2(15), USER_PRINCIPAL_ID VARCHAR2(10), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36) NOT NULL, VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, dept VARCHAR2(21));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-100::djunk (generated)::(Checksum: 3:7e3afbe5308ab8b14bcda88b6938ab97)
+CREATE TABLE tk_clock_location_rl_t (TK_CLOCK_LOC_RULE_ID VARCHAR2(60) NOT NULL, WORK_AREA NUMBER(38,0), PRINCIPAL_ID VARCHAR2(10), job_number NUMBER(38,0), EFFDT DATE, active VARCHAR2(1), IP_ADDRESS VARCHAR2(15), USER_PRINCIPAL_ID VARCHAR2(10), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36) NOT NULL, VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, dept VARCHAR2(21));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-101::djunk (generated)::(Checksum: 3:11038876f7d4abde0fa40254ad74d78e)
 CREATE SEQUENCE  tk_clock_log_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-102::djunk (generated)::(Checksum: 3:d05eaa423fcf84685ce45ab6b28c2b87)
-CREATE TABLE tk_clock_log_t (TK_CLOCK_LOG_ID NUMBER(38,0) NOT NULL, PRINCIPAL_ID VARCHAR2(40), JOB_NUMBER NUMBER(38,0), WORK_AREA NUMBER(38,0), TASK NUMBER(38,0), TK_WORK_AREA_ID NUMBER(38,0), TK_TASK_ID NUMBER(38,0), CLOCK_TS TIMESTAMP DEFAULT '01-JAN-0001' NOT NULL, CLOCK_TS_TZ VARCHAR2(50), CLOCK_ACTION VARCHAR2(2), IP_ADDRESS VARCHAR2(15), HR_JOB_ID NUMBER(38,0), USER_PRINCIPAL_ID VARCHAR2(40), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36) NOT NULL, VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, CONSTRAINT PK_TK_CLOCK_LOG_T PRIMARY KEY (TK_CLOCK_LOG_ID));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-102::djunk (generated)::(Checksum: 3:954771521ac2158a8842ad6e5ad39a89)
+CREATE TABLE tk_clock_log_t (TK_CLOCK_LOG_ID VARCHAR2(60) NOT NULL, PRINCIPAL_ID VARCHAR2(40), JOB_NUMBER VARCHAR2(60), WORK_AREA NUMBER(38,0), TASK NUMBER(38,0), TK_WORK_AREA_ID VARCHAR2(60), TK_TASK_ID VARCHAR2(60), CLOCK_TS TIMESTAMP DEFAULT '01-JAN-0001' NOT NULL, CLOCK_TS_TZ VARCHAR2(50), CLOCK_ACTION VARCHAR2(2), IP_ADDRESS VARCHAR2(15), HR_JOB_ID VARCHAR2(60), USER_PRINCIPAL_ID VARCHAR2(40), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36) NOT NULL, VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, CONSTRAINT PK_TK_CLOCK_LOG_T PRIMARY KEY (TK_CLOCK_LOG_ID));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-103::djunk (generated)::(Checksum: 3:6fe6bb199eb6e80084fd0431bea6099d)
@@ -433,8 +433,8 @@ CREATE TABLE tk_daily_overtime_rl_t (tk_daily_overtime_rl_id VARCHAR2(60) NOT NU
 CREATE SEQUENCE  tk_dept_lunch_rl_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-106::djunk (generated)::(Checksum: 3:75f6cff8284bb947999502b2d8a3411a)
-CREATE TABLE tk_dept_lunch_rl_t (TK_DEPT_LUNCH_RL_ID NUMBER(38,0) NOT NULL, DEPT VARCHAR2(21), WORK_AREA NUMBER(38,0), principal_id VARCHAR2(10) DEFAULT '' NOT NULL, job_number NUMBER(38,0), EFFDT DATE NOT NULL, REQUIRED_CLOCK_FL VARCHAR2(3), MAX_MINS DECIMAL(2,0), user_principal_id VARCHAR2(10), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36) NOT NULL, VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, active VARCHAR2(1), SHIFT_HOURS DECIMAL(2,1), DEDUCTION_MINS DECIMAL(3,0), CONSTRAINT PK_TK_DEPT_LUNCH_RL_T PRIMARY KEY (TK_DEPT_LUNCH_RL_ID));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-106::djunk (generated)::(Checksum: 3:8a2e09b837c5ecd501fdcb2b70a6c3fb)
+CREATE TABLE tk_dept_lunch_rl_t (TK_DEPT_LUNCH_RL_ID VARCHAR2(60) NOT NULL, DEPT VARCHAR2(21), WORK_AREA NUMBER(38,0), principal_id VARCHAR2(10) DEFAULT '' NOT NULL, job_number NUMBER(38,0), EFFDT DATE NOT NULL, REQUIRED_CLOCK_FL VARCHAR2(3), MAX_MINS DECIMAL(2,0), user_principal_id VARCHAR2(10), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36) NOT NULL, VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, active VARCHAR2(1), SHIFT_HOURS DECIMAL(2,1), DEDUCTION_MINS DECIMAL(3,0), CONSTRAINT PK_TK_DEPT_LUNCH_RL_T PRIMARY KEY (TK_DEPT_LUNCH_RL_ID));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-107::djunk (generated)::(Checksum: 3:cfd2970aeeb39ba0b896c46ec63e93ad)
@@ -445,8 +445,8 @@ CREATE TABLE tk_document_header_t (DOCUMENT_ID VARCHAR2(14) NOT NULL, PRINCIPAL_
 CREATE SEQUENCE  tk_grace_period_rl_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-109::djunk (generated)::(Checksum: 3:7d9b983afce416d7e80d83b4cf742301)
-CREATE TABLE tk_grace_period_rl_t (TK_GRACE_PERIOD_RULE_ID NUMBER(38,0), EFFDT DATE, GRACE_MINS DECIMAL(2,0), HOUR_FACTOR DECIMAL(6,0), user_principal_id VARCHAR2(10), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36) NOT NULL, VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, ACTIVE VARCHAR2(1));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-109::djunk (generated)::(Checksum: 3:a486f96a97ebd3bc8a565ee3ad0db8e2)
+CREATE TABLE tk_grace_period_rl_t (TK_GRACE_PERIOD_RULE_ID VARCHAR2(60), EFFDT DATE, GRACE_MINS DECIMAL(2,0), HOUR_FACTOR DECIMAL(6,0), user_principal_id VARCHAR2(10), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36) NOT NULL, VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, ACTIVE VARCHAR2(1));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-110::djunk (generated)::(Checksum: 3:4072e20b0702bf396693421fda1739ed)
@@ -501,8 +501,8 @@ CREATE TABLE tk_system_lunch_rl_t (TK_SYSTEM_LUNCH_RL_ID VARCHAR2(60) NOT NULL, 
 CREATE SEQUENCE  tk_task_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-123::djunk (generated)::(Checksum: 3:f66af9a3641a5453b34a7ecb2dd84d51)
-CREATE TABLE tk_task_t (tk_task_id NUMBER(38,0) NOT NULL, task NUMBER(38,0), work_area NUMBER(38,0), tk_work_area_id NUMBER(38,0) NOT NULL, descr VARCHAR2(45), admin_descr VARCHAR2(45), obj_id VARCHAR2(45), ver_nbr NUMBER(38,0) DEFAULT 1, USER_PRINCIPAL_ID VARCHAR2(40), effdt DATE NOT NULL, active VARCHAR2(1) DEFAULT 'Y' NOT NULL, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, CONSTRAINT PK_TK_TASK_T PRIMARY KEY (tk_task_id));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-123::djunk (generated)::(Checksum: 3:3c31e7236e02c120323f116b3b6fca32)
+CREATE TABLE tk_task_t (tk_task_id VARCHAR2(60) NOT NULL, task NUMBER(38,0), work_area NUMBER(38,0), tk_work_area_id VARCHAR2(60) NOT NULL, descr VARCHAR2(45), admin_descr VARCHAR2(45), obj_id VARCHAR2(45), ver_nbr NUMBER(38,0) DEFAULT 1, USER_PRINCIPAL_ID VARCHAR2(40), effdt DATE NOT NULL, active VARCHAR2(1) DEFAULT 'Y' NOT NULL, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, CONSTRAINT PK_TK_TASK_T PRIMARY KEY (tk_task_id));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-124::djunk (generated)::(Checksum: 3:341f35fd9de4a3dd31dfca35d5bdbcb2)
@@ -517,8 +517,8 @@ CREATE TABLE tk_time_block_hist_t (TK_TIME_BLOCK_HIST_ID VARCHAR2(60) NOT NULL, 
 CREATE SEQUENCE  tk_time_block_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-127::djunk (generated)::(Checksum: 3:016fb369cbc22b3f7aba773bdc220054)
-CREATE TABLE tk_time_block_t (TK_TIME_BLOCK_ID NUMBER(38,0) NOT NULL, DOCUMENT_ID VARCHAR2(14), principal_id VARCHAR2(40), JOB_NUMBER NUMBER(38,0), WORK_AREA NUMBER(38,0), TASK NUMBER(38,0), TK_WORK_AREA_ID NUMBER(38,0), HR_JOB_ID NUMBER(38,0), TK_TASK_ID NUMBER(38,0), EARN_CODE VARCHAR2(3), BEGIN_TS TIMESTAMP DEFAULT '01-JAN-0001' NOT NULL, BEGIN_TS_TZ VARCHAR2(50), clock_log_begin_id NUMBER(38,0), END_TS TIMESTAMP DEFAULT '01-JAN-0001' NOT NULL, END_TS_TZ VARCHAR2(50), clock_log_end_id NUMBER(38,0), CLOCK_LOG_CREATED VARCHAR2(1) DEFAULT 'Y', HOURS DECIMAL(5,2), amount DECIMAL(6,2) DEFAULT 0, USER_PRINCIPAL_ID VARCHAR2(40), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36) NOT NULL, VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, ovt_pref VARCHAR2(5), CONSTRAINT PK_TK_TIME_BLOCK_T PRIMARY KEY (TK_TIME_BLOCK_ID));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-127::djunk (generated)::(Checksum: 3:c9072e32d196c0818d1a10712bf5ef48)
+CREATE TABLE tk_time_block_t (TK_TIME_BLOCK_ID VARCHAR2(60) NOT NULL, DOCUMENT_ID VARCHAR2(14), principal_id VARCHAR2(40), JOB_NUMBER NUMBER(38,0), WORK_AREA NUMBER(38,0), TASK NUMBER(38,0), TK_WORK_AREA_ID VARCHAR2(60), HR_JOB_ID VARCHAR2(60), TK_TASK_ID VARCHAR2(60), EARN_CODE VARCHAR2(3), BEGIN_TS TIMESTAMP DEFAULT '01-JAN-0001' NOT NULL, BEGIN_TS_TZ VARCHAR2(50), clock_log_begin_id NUMBER(38,0), END_TS TIMESTAMP DEFAULT '01-JAN-0001' NOT NULL, END_TS_TZ VARCHAR2(50), clock_log_end_id NUMBER(38,0), CLOCK_LOG_CREATED VARCHAR2(1) DEFAULT 'Y', HOURS DECIMAL(5,2), amount DECIMAL(6,2) DEFAULT 0, USER_PRINCIPAL_ID VARCHAR2(40), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36) NOT NULL, VER_NBR NUMBER(38,0) DEFAULT 1 NOT NULL, ovt_pref VARCHAR2(5), CONSTRAINT PK_TK_TIME_BLOCK_T PRIMARY KEY (TK_TIME_BLOCK_ID));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-128::djunk (generated)::(Checksum: 3:bd6c640ed2120b513ebe2d0b40b78026)
@@ -533,7 +533,7 @@ CREATE TABLE tk_time_collection_rl_t (TK_TIME_COLL_RULE_ID VARCHAR2(60) NOT NULL
 CREATE SEQUENCE  tk_time_sheet_init_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-131::djunk (generated)::(Checksum: 3:df6f4a5e7f3fd6365b3129a21fc87556)
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-131::djunk (generated)::(Checksum: 3:2920cf757566e59642b65c0c1f73049d)
 CREATE TABLE tk_time_sheet_init_t (tk_time_sheet_init_id VARCHAR2(60) NOT NULL, calendar_group VARCHAR2(30) NOT NULL, document_id NUMBER(38,0) NOT NULL, principal_id VARCHAR2(40) NOT NULL, py_calendar_entries_id NUMBER(38,0) NOT NULL, CONSTRAINT PK_TK_TIME_SHEET_INIT_T PRIMARY KEY (tk_time_sheet_init_id));
 
 
@@ -569,8 +569,8 @@ CREATE SEQUENCE  tk_work_area_key_s START WITH 1000;
 CREATE SEQUENCE  tk_work_area_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-140::djunk (generated)::(Checksum: 3:27efe8e3bce26149fe3a6c33a467b8e3)
-CREATE TABLE tk_work_area_t (TK_WORK_AREA_ID NUMBER(38,0) NOT NULL, work_area NUMBER(38,0) NOT NULL, DEPT VARCHAR2(21), EFFDT DATE NOT NULL, ACTIVE VARCHAR2(1), DESCR VARCHAR2(30), DEFAULT_OVERTIME_EARNCODE VARCHAR2(3), ADMIN_DESCR VARCHAR2(30), USER_PRINCIPAL_ID VARCHAR2(40), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36), VER_NBR NUMBER(38,0) DEFAULT 1, OVERTIME_EDIT_ROLE VARCHAR2(20) NOT NULL, CONSTRAINT PK_TK_WORK_AREA_T PRIMARY KEY (TK_WORK_AREA_ID));
+-- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-140::djunk (generated)::(Checksum: 3:c4fedecc6da288041ba8c9b018a76853)
+CREATE TABLE tk_work_area_t (TK_WORK_AREA_ID VARCHAR2(60) NOT NULL, work_area NUMBER(38,0) NOT NULL, DEPT VARCHAR2(21), EFFDT DATE NOT NULL, ACTIVE VARCHAR2(1), DESCR VARCHAR2(30), DEFAULT_OVERTIME_EARNCODE VARCHAR2(3), ADMIN_DESCR VARCHAR2(30), USER_PRINCIPAL_ID VARCHAR2(40), TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, OBJ_ID VARCHAR2(36), VER_NBR NUMBER(38,0) DEFAULT 1, OVERTIME_EDIT_ROLE VARCHAR2(20) NOT NULL, CONSTRAINT PK_TK_WORK_AREA_T PRIMARY KEY (TK_WORK_AREA_ID));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-141::djunk (generated)::(Checksum: 3:fddd7bede9540cc2527022a9da72cfa0)
@@ -913,8 +913,8 @@ ALTER TABLE tk_clock_location_rl_t DROP COLUMN ip_address;
 CREATE SEQUENCE  tk_clock_loc_rl_ip_addr_s START WITH 1000;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/release-1.1/db.changelog-release1.1-1.10.xml::2::yingzhou::(Checksum: 3:ffe37c5e042a0901a54575db344cc91d)
-CREATE TABLE tk_clock_loc_rl_ip_addr_t (TK_CLOCK_LOC_RULE_IP_ID NUMBER(38,0) NOT NULL, TK_CLOCK_LOC_RULE_ID NUMBER(38,0) NOT NULL, IP_ADDRESS VARCHAR2(15) NOT NULL, CONSTRAINT PK_TK_CLOCK_LOC_RL_IP_ADDR_T PRIMARY KEY (TK_CLOCK_LOC_RULE_IP_ID));
+-- Changeset org/kuali/kpme/liquibase/tna/release-1.1/db.changelog-release1.1-1.10.xml::2::yingzhou::(Checksum: 3:18fec2022614a013e12dc9a317ac2a7a)
+CREATE TABLE tk_clock_loc_rl_ip_addr_t (TK_CLOCK_LOC_RULE_IP_ID VARCHAR2(60) NOT NULL, TK_CLOCK_LOC_RULE_ID VARCHAR2(60) NOT NULL, IP_ADDRESS VARCHAR2(15) NOT NULL, CONSTRAINT PK_TK_CLOCK_LOC_RL_IP_ADDR_T PRIMARY KEY (TK_CLOCK_LOC_RULE_IP_ID));
 
 
 -- Changeset org/kuali/kpme/liquibase/tna/release-1.1/db.changelog-release1.1-1.10.xml::3::yingzhou::(Checksum: 3:5fa3e925fe5a4b4805833c865153a901)
@@ -950,5 +950,3 @@ ALTER TABLE hr_roles_t ADD tk_work_area_id VARCHAR2(60);
 
 -- Changeset org/kuali/kpme/liquibase/tna/release-1.1/db.changelog-release1.1-1.6.xml::2::lfox::(Checksum: 3:f6263f0525953a3df640a2050a971bc8)
 ALTER TABLE tk_assign_acct_t ADD active VARCHAR2(1);
-
-
