@@ -107,46 +107,28 @@
                                     <sqlCommand>create database `${liquibase.dbname}`</sqlCommand>
                                 </configuration>
                             </execution>
-                            <!--
-                            <execution>
-                                <id>liquibase-load</id>
-                                <phase>process-test-resources</phase>
-                                <goals><goal>liquibase:update</goal></goals>
-                                <configuration>
 
+                              <execution>
+                                <id>create-data</id>
+                                <phase>process-test-resources</phase>
+                                <goals>
+                                  <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                  <orderFile>ascending</orderFile>
+                                  <fileset>
+                                    <basedir>${basedir}</basedir>
+                                    <includes>
+                                      <include>src/main/config/sql/tk/tk-mysql/*.sql</include>
+                                    </includes>
+                                  </fileset>
                                 </configuration>
-                            </execution>
-                            -->
+                              </execution>
 
                         </executions>
                     </plugin>
                     <!-- -->
                     <!-- End of sql-maven-plugin configuration -->
-                    <!-- -->
-
-                    <!-- -->
-                    <!-- Liquibase during test Run -->
-                    <!-- -->
-                    <plugin>
-                        <groupId>org.liquibase</groupId>
-                        <artifactId>liquibase-maven-plugin</artifactId>
-                        <version>2.0.1</version>
-                        <configuration>
-                            <propertyFileWillOverride>true</propertyFileWillOverride>
-                            <propertyFile>target/classes/liquibase.properties</propertyFile>
-                        </configuration>
-
-                        <executions>
-                            <execution>
-                                <phase>process-test-resources</phase>
-                                <goals>
-                                    <goal>update</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- -->
-                    <!-- End of Liquibase during test Run -->
                     <!-- -->
                     <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -445,16 +427,6 @@
                     <tagBase>https://svn.kuali.org/repos/kpme/tags</tagBase>
                 </configuration>
             </plugin>
-           <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>2.0.1</version>
-                <configuration>
-                    <propertyFileWillOverride>true</propertyFileWillOverride>
-                    <propertyFile>target/classes/liquibase.properties</propertyFile>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
 
