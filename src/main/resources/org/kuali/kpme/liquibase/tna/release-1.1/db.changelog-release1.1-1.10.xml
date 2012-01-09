@@ -9,10 +9,10 @@
     </changeSet>
   	<changeSet author="yingzhou" id="2">
         <createTable tableName="tk_clock_loc_rl_ip_addr_t">
-        	<column name="TK_CLOCK_LOC_RULE_IP_ID" type="BIGINT">
+        	<column name="TK_CLOCK_LOC_RULE_IP_ID" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="TK_CLOCK_LOC_RULE_ID" type="BIGINT">
+            <column name="TK_CLOCK_LOC_RULE_ID" type="VARCHAR(60)">
                 <constraints nullable="false"/>
             </column>
             <column name="IP_ADDRESS" type="VARCHAR(15)">
