@@ -1961,7 +1961,7 @@
             </column>
             <column name="task" type="BIGINT"/>
             <column name="work_area" type="BIGINT"/>
-            <column name="tk_work_area_id" type=VARCHAR(60)>
+            <column name="tk_work_area_id" type="VARCHAR(60)">
                 <constraints nullable="false"/>
             </column>
             <column name="descr" type="VARCHAR(45)"/>
