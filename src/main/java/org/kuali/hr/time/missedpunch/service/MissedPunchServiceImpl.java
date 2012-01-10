@@ -18,6 +18,7 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -62,7 +63,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         			logEndId = timeBlocks.get(0).getClockLogEndId();
         		}
         	} else {
-        		logBeginId = timeBlocks.get(0).getClockLogBeginId();
+        		logBeginId = timeBlocks.get(0).getClockLogBeginId();	// new time blocks should keep the original clockLogBeginId
         	}
         	
         	//delete existing time blocks
@@ -135,29 +136,35 @@ public class MissedPunchServiceImpl implements MissedPunchService {
                 tdoc,
                 missedPunch.getClockAction(),
                 TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest()));
-        ClockLog endLog = null;
-        ClockLog beginLog = null;
-        if (logEndId != null) {
-            endLog = TkServiceLocator.getClockLogService().getClockLog(logEndId);
-            beginLog = clockLog;
-        } else if (logBeginId != null) {
-            beginLog = TkServiceLocator.getClockLogService().getClockLog(logBeginId);
-            endLog = clockLog;
-        } else {
-            ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
-            endLog = lastClockLog;
-            beginLog = clockLog;
-        }
         TkServiceLocator.getClockLogService().saveClockLog(clockLog);
         missedPunch.setTkClockLogId(clockLog.getTkClockLogId());
-
-        String earnCode = assign.getJob().getPayTypeObj().getRegEarnCode();
-        this.buildTimeBlockRunRules(beginLog, endLog, tdoc, assign, earnCode, beginLog.getClockTimestamp(), endLog.getClockTimestamp());
-
-
         MissedPunchDocument doc = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(missedPunch.getDocumentNumber());
         doc.setTkClockLogId(clockLog.getTkClockLogId());
         KNSServiceLocator.getBusinessObjectService().save(doc);
+        
+        // if both clock log ids are null, no need to create new time blocks
+        if(!(logEndId == null && logBeginId == null)) {
+	        ClockLog endLog = null;
+	        ClockLog beginLog = null;
+	       if(logEndId != null) {
+	    	   endLog = TkServiceLocator.getClockLogService().getClockLog(logEndId);
+	       } else {
+	    	   endLog = clockLog; 
+	       }
+	       if (logBeginId != null) {
+	           beginLog = TkServiceLocator.getClockLogService().getClockLog(logBeginId);
+	       } else {
+	    	   beginLog = clockLog;
+	       }
+	        
+	       if (beginLog != null && endLog != null && beginLog.getClockTimestamp().before(endLog.getClockTimestamp())) {
+	           String earnCode = assign.getJob().getPayTypeObj().getRegEarnCode();
+	           this.buildTimeBlockRunRules(beginLog, endLog, tdoc, assign, earnCode, beginLog.getClockTimestamp(), endLog.getClockTimestamp());
+	       } else {
+	        	// error
+	    	   GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
+	       }
+        }
     }
 
     /**

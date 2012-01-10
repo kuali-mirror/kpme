@@ -67,8 +67,10 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         MissedPunchForm mpForm = (MissedPunchForm) form;
         MissedPunchDocument mpDoc = (MissedPunchDocument) mpForm.getDocument();
         mpDoc.setDocumentStatus("A");
-        ActionForward fwd = super.approve(mapping, form, request, response);
+        request.setAttribute(TkConstants.DOCUMENT_ID_REQUEST_NAME, mpDoc.getDocumentNumber());
+        request.setAttribute(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME, mpDoc.getTimesheetDocumentId());
         TkServiceLocator.getMissedPunchService().updateClockLogAndTimeBlockIfNecessary(mpDoc);
+        ActionForward fwd = super.approve(mapping, form, request, response);
         return fwd;
     }
 
