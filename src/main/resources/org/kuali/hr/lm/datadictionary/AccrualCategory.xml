@@ -17,6 +17,7 @@
 		</property>
 		<property name="attributes">
 			<list>
+				<ref bean="AccrualCategory-lmAccrualCategoryId" />
 				<ref bean="AccrualCategory-leavePlan" />
 				<ref bean="AccrualCategory-accrualCategory" />
 				<ref bean="AccrualCategory-descr" />
@@ -30,6 +31,7 @@
 				<ref bean="AccrualCategory-planningMonths" />
 				<ref bean="AccrualCategory-active" />
 				<ref bean="AccrualCategory-history" />
+				<ref bean="AccrualCategory-minPercentWorked" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -55,6 +57,14 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
+	<bean id="AccrualCategory-lmAccrualCategoryId" parent="AccrualCategory-lmAccrualCategoryId-parentBean" />
+	<bean id="AccrualCategory-lmAccrualCategoryId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="lmAccrualCategoryId" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+	</bean>
 	
 <!-- 	leave plan -->
 	<bean id="AccrualCategory-leavePlan" parent="AccrualCategory-leavePlan-parentBean" />
@@ -196,8 +206,6 @@
 		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
 	</bean>
 
-
-
 	<!-- proration -->
 	<bean id="AccrualCategory-proration" parent="AccrualCategory-proration-parentBean" />
 	<bean id="AccrualCategory-proration-parentBean" abstract="true"
@@ -237,7 +245,7 @@
 		<property name="label" value="Show On Grid" />
 	</bean>
 	
-<!-- Planning Months -->
+	<!-- Planning Months -->
 	<bean id="AccrualCategory-planningMonths" parent="AccrualCategory-planningMonths-parentBean" />
 	<bean id="AccrualCategory-planningMonths-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -256,6 +264,19 @@
 		<property name="label" value="Planning Months" />
 	</bean>
 
+	<!-- minPercentWorked -->
+	<bean id="AccrualCategory-minPercentWorked" parent="AccrualCategory-minPercentWorked-parentBean" />
+	<bean id="AccrualCategory-minPercentWorked-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Min Percent Worked to Earn Accrual" />
+		<property name="maxLength" value="6" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+		<property name="name" value="minPercentWorked" />
+		<property name="label" value="Min Percent Worked to Earn Accrual" />
+	</bean>
+	
 	<!--  Inquiry Definitions  -->
 
 	<bean id="AccrualCategory-inquiryDefinition" parent="AccrualCategory-inquiryDefinition-parentBean" />
@@ -277,7 +298,7 @@
 							<bean parent="FieldDefinition" p:attributeName="proration" />
 							<bean parent="FieldDefinition" p:attributeName="donation" />
 							<bean parent="FieldDefinition" p:attributeName="showOnGrid" />
-							<bean parent="FieldDefinition" p:attributeName="planningMonths" />
+							<bean parent="FieldDefinition" p:attributeName="planningMonths" />				
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
@@ -304,6 +325,7 @@
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="accrualEarnInterval"/>
 				<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
+				<bean parent="FieldDefinition" p:attributeName="minPercentWorked" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 			</list>
@@ -317,6 +339,7 @@
 				<bean parent="FieldDefinition" p:attributeName="accrualEarnInterval" />
 				<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
 				<bean parent="FieldDefinition" p:attributeName="planningMonths" />
+				<bean parent="FieldDefinition" p:attributeName="minPercentWorked" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 			</list>

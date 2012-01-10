@@ -1,5 +1,6 @@
 package org.kuali.hr.lm.accrual;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +28,16 @@ public class AccrualCategory extends HrBusinessObject {
 
 	private LeavePlan leavePlanObj;
 	private List<AccrualCategoryRule> accrualCategoryRules = new LinkedList<AccrualCategoryRule>();
+
+	private BigDecimal minPercentWorked;
+	
+	public BigDecimal getMinPercentWorked() {
+		return minPercentWorked;
+	}
+
+	public void setMinPercentWorked(BigDecimal minPercentWorked) {
+		this.minPercentWorked = minPercentWorked;
+	}
 
 	public LeavePlan getLeavePlanObj() {
 		return leavePlanObj;

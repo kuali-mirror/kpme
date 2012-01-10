@@ -42,6 +42,7 @@
 		<field-descriptor name="donation" 			column="DONATION"	    jdbc-type="VARCHAR" length="1" nullable="false" />
 		<field-descriptor name="showOnGrid" 		column="SHOW_ON_GRID"	    jdbc-type="VARCHAR" length="1" nullable="false" />
 		<field-descriptor name="planningMonths" 	column="PLANNING_MONTHS"	    jdbc-type="BIGINT" length="2" nullable="false" />
+		<field-descriptor name="minPercentWorked" 	column="MIN_PERCENT_WORKED"	    jdbc-type="DECIMAL" nullable="false" />
 		<field-descriptor name="objectId" 			column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 		column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 		<collection-descriptor
@@ -72,7 +73,7 @@
 		<field-descriptor name="maxPayoutLeaveCode" 		column="MAX_PAYOUT_LEAVE_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
 		<field-descriptor name="maxUsage" 					column="MAX_USAGE" jdbc-type="BIGINT" length="20" nullable="false" />
 		<field-descriptor name="maxCarryOver" 				column="MAX_CARRY_OVER" jdbc-type="BIGINT" length="20" nullable="false" />
-		<field-descriptor name="lmAccrualCategoryId"		column="LM_ACCRUAL_CATEGORY_ID" jdbc-type="BIGINT" nullable="false" />
+		<field-descriptor name="lmAccrualCategoryId"		column="LM_ACCRUAL_CATEGORY_ID" jdbc-type="VARCHAR" length="60" nullable="false" />
 		<field-descriptor name="timestamp" 					column="timestamp" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          			column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId"           		column="obj_id" jdbc-type="VARCHAR" index="true" />

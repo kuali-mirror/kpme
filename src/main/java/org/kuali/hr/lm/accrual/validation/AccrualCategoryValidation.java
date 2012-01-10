@@ -74,6 +74,21 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
+	boolean validateMinPercentWorked(BigDecimal minPercentWorked, String fieldPrefix) {
+		boolean valid = true;
+		if (minPercentWorked==null) {
+			this.putFieldError(fieldPrefix + "minPercentWorked", "error.required", "Min Percent Worked");
+			valid = false;
+		} else {
+			if ( minPercentWorked.compareTo(new BigDecimal(100.00)) > 0 || 
+				 minPercentWorked.compareTo(new BigDecimal(0.00)) < 0	) {
+				this.putFieldError("minPercentWorked", "error.percentage.minimumPercentageWorked");
+				valid = false;
+			}
+		}
+		return valid;
+	}
+	
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
@@ -85,6 +100,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 			if (leaveAccrualCategory != null) {
 				valid = true;
 				valid &= this.validateAccrualRulePresent(leaveAccrualCategory.getAccrualCategoryRules());
+				valid &= this.validateMinPercentWorked(leaveAccrualCategory.getMinPercentWorked(), ADD_LINE_LOCATION);
 			}
 		}
 		return valid;
@@ -108,8 +124,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 				}else if(StringUtils.equals("P", leaveAccrualCategoryRule.getActionAtMaxBalance())){
 					valid &= validateMaxPayoutAmount(leaveAccrualCategoryRule.getMaxPayoutAmount(), ADD_LINE_LOCATION);
 					valid &= validateMaxPayoutLeaveCode(leaveAccrualCategoryRule.getMaxPayoutLeaveCode(), ADD_LINE_LOCATION);
-				}
-				
+				}	
 			}
 		}
 		return valid;

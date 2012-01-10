@@ -933,7 +933,12 @@
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.lm.leavedonation.service.LeaveDonationLookupableHelper"/>
         </property>
-    </bean>    
+    </bean>  
+    <bean id="accrualCategoryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.lm.accrual.service.AccrualCategoryLookupableHelper"/>          
+        </property>
+    </bean>  
     
     <!-- Scheduler configuration -->
     <!-- Serializer service -->

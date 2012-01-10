@@ -52,6 +52,8 @@
 					p:required="true" p:defaultValue="Y"/>
 				<bean parent="MaintainableFieldDefinition" p:name="unitOfTime"
 					p:required="true" p:defaultValue="H"/>
+				<bean parent="MaintainableFieldDefinition" p:name="minPercentWorked"
+					p:required="true" p:defaultValue="0.00"/>
 				<bean parent="MaintainableFieldDefinition" p:name="donation"
 					p:required="true" p:defaultValue="N"/>
 				<bean parent="MaintainableFieldDefinition" p:name="showOnGrid"
