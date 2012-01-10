@@ -109,7 +109,7 @@
                             </execution>
 
                               <execution>
-                                <id>create-data</id>
+                                <id>create-schema</id>
                                 <phase>process-test-resources</phase>
                                 <goals>
                                   <goal>execute</goal>
@@ -119,7 +119,24 @@
                                   <fileset>
                                     <basedir>${basedir}</basedir>
                                     <includes>
-                                      <include>src/main/config/sql/tk/tk-mysql/*.sql</include>
+                                      <include>src/main/config/sql/tk/tk-1.5-mysql/*.sql</include>
+                                    </includes>
+                                  </fileset>
+                                </configuration>
+                              </execution>
+
+                              <execution>
+                                <id>create-test-data</id>
+                                <phase>process-test-resources</phase>
+                                <goals>
+                                  <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                  <orderFile>ascending</orderFile>
+                                  <fileset>
+                                    <basedir>${basedir}</basedir>
+                                    <includes>
+                                      <include>src/test/config/sql/tk-mysql/*.sql</include>
                                     </includes>
                                   </fileset>
                                 </configuration>
