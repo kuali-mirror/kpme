@@ -171,6 +171,31 @@ public class TkConstants {
         CLOCK_ACTION_TRANSITION_MAP.put(LUNCH_OUT, lo);
     }
 
+    // available Clock actions to choose from when user's modifying an existing Missed Punch Document based on
+    // the initial clock action
+    public static final Map<String, Set<String>> CLOCK_AVAILABLE_ACTION_MAP = new HashMap<String, Set<String>>(4);
+
+    static {
+        Set<String> ci = new HashSet<String>();
+        ci.add(CLOCK_IN);
+
+        Set<String> co = new HashSet<String>();
+        co.add(CLOCK_OUT);
+        co.add(LUNCH_OUT);
+
+        Set<String> li = new HashSet<String>();
+        li.add(LUNCH_IN);
+
+        Set<String> lo = new HashSet<String>();
+        lo.add(CLOCK_OUT);
+        lo.add(LUNCH_OUT);
+
+        CLOCK_AVAILABLE_ACTION_MAP.put(CLOCK_IN, ci);
+        CLOCK_AVAILABLE_ACTION_MAP.put(CLOCK_OUT, co);
+        CLOCK_AVAILABLE_ACTION_MAP.put(LUNCH_IN, li);
+        CLOCK_AVAILABLE_ACTION_MAP.put(LUNCH_OUT, lo);
+    }
+    
     public static final Map<String, String> CLOCK_ACTION_STRINGS = new HashMap<String, String>(4);
 
     static {
