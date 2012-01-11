@@ -33,10 +33,13 @@ public class TkMobileServiceImpl implements TkMobileService {
 			clockEntryInfo.setLastClockLogDescription(getLastClockLogDescription(principalId));
 		}
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
+
 		for(Assignment assignment : assignments){
-			String key = new AssignmentDescriptionKey(assignment).toAssignmentKeyString();
-			String desc = assignment.getAssignmentDescription();
-			clockEntryInfo.getAssignKeyToAssignmentDescriptions().put(key, desc);
+			if(assignment.isSynchronous()){
+				String key = new AssignmentDescriptionKey(assignment).toAssignmentKeyString();
+				String desc = assignment.getAssignmentDescription();
+				clockEntryInfo.getAssignKeyToAssignmentDescriptions().put(key, desc);
+			}
 		}
 		List<String> clockActions = getClockActions(principalId);
 		clockEntryInfo.setClockActions(clockActions);
@@ -91,7 +94,8 @@ public class TkMobileServiceImpl implements TkMobileService {
 				lastClockDescription = "At lunch since :";
 			}
 			//TODO convert for timezone
-			lastClockDescription += lastClockLog.getClockTimestamp();
+			
+			lastClockDescription += TKUtils.formatDateTime(lastClockLog.getClockTimestamp());
 			return lastClockDescription;
 		}
 		return "";
