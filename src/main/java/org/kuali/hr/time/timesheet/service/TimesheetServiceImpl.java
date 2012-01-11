@@ -114,7 +114,8 @@ public class TimesheetServiceImpl implements TimesheetService {
             timesheetDocument = this.initiateWorkflowDocument(principalId, begin, end, TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, TimesheetDocument.TIMESHEET_DOCUMENT_TITLE);
             timesheetDocument.setPayCalendarEntry(calendarDates);
             this.loadTimesheetDocumentData(timesheetDocument, principalId, calendarDates);
-            this.loadHolidaysOnTimesheet(timesheetDocument, principalId, begin, end);
+            //TODO switch this to scheduled time offs
+            //this.loadHolidaysOnTimesheet(timesheetDocument, principalId, begin, end);
         } else {
             timesheetDocument = this.getTimesheetDocument(header.getDocumentId());
             timesheetDocument.setPayCalendarEntry(calendarDates);
