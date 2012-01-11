@@ -287,12 +287,12 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.task = task;
     }
 
-    public Long getHrJobId() {
-        return Long.parseLong(hrJobId);
+    public String getHrJobId() {
+        return hrJobId;
     }
 
-    public void setHrJobId(Long hrJobId) {
-        this.hrJobId = hrJobId.toString();
+    public void setHrJobId(String hrJobId) {
+        this.hrJobId = hrJobId;
     }
 
     public String getTkWorkAreaId() {
