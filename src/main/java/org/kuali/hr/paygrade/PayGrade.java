@@ -16,6 +16,7 @@ public class PayGrade extends HrBusinessObject {
 	private String payGrade;
 	private String description;
 	private String userPrincipalId;
+	private String salGroup;
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -93,5 +94,13 @@ public class PayGrade extends HrBusinessObject {
 	@Override
 	public void setId(String id) {
 		setHrPayGradeId(id);
+	}
+
+	public String getSalGroup() {
+		return salGroup;
+	}
+
+	public void setSalGroup(String salGroup) {
+		this.salGroup = salGroup;
 	}
 }
