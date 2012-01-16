@@ -16,18 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-34::djunk (generated)::(Checksum: 3:4d520a22d0a0e3c654227b899c80edc0)
-CREATE TABLE `hr_py_calendar_entries_s` (`ID` BIGINT AUTO_INCREMENT  NOT NULL, CONSTRAINT `PK_HR_PY_CALENDAR_ENTRIES_S` PRIMARY KEY (`ID`));
-
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-35::djunk (generated)::(Checksum: 3:2bec6d10a4d095fee2867e33c4268179)
-CREATE TABLE `hr_py_calendar_entries_t` (`hr_py_calendar_entry_id` VARCHAR(60) NOT NULL, `hr_py_calendar_id` VARCHAR(60), `py_calendar_group` VARCHAR(45) NOT NULL, `begin_period_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, `end_period_date` TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL, `initiate_date` DATE, `initiate_time` TIME, `end_pay_period_date` DATE, `end_pay_period_time` TIME, `employee_approval_date` DATE, `employee_approval_time` TIME, `supervisor_approval_date` DATE, `supervisor_approval_time` TIME, CONSTRAINT `PK_HR_PY_CALENDAR_ENTRIES_T` PRIMARY KEY (`hr_py_calendar_entry_id`));
-
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-36::djunk (generated)::(Checksum: 3:5e5e83ea76d85f56c8f2efc124618e6f)
-CREATE TABLE `hr_py_calendar_s` (`ID` BIGINT AUTO_INCREMENT  NOT NULL, CONSTRAINT `PK_HR_PY_CALENDAR_S` PRIMARY KEY (`ID`));
-
--- Changeset org/kuali/kpme/liquibase/tna/db.bootstrap.changelog-1.0.xml::1317396430027-37::djunk (generated)::(Checksum: 3:6a8253702b7448344670469a46b28171)
-CREATE TABLE `hr_py_calendar_t` (`hr_py_calendar_id` VARCHAR(60) NOT NULL, `py_calendar_group` VARCHAR(45) NOT NULL, `flsa_begin_day` VARCHAR(9) NOT NULL, `flsa_begin_time` TIME NOT NULL, `active` VARCHAR(1) DEFAULT 'Y' NOT NULL, CONSTRAINT `PK_HR_PY_CALENDAR_T` PRIMARY KEY (`hr_py_calendar_id`));
-
 CREATE TABLE `hr_work_schedule_t` (`HR_WORK_SCHEDULE_ID` BIGINT NOT NULL,
 `HR_WORK_SCHEDULE` BIGINT NOT NULL,
 `WORK_SCHEDULE_DESC` VARCHAR(30) NOT NULL,
@@ -664,19 +652,6 @@ LOCK TABLES `hr_job_s` WRITE;
 /*!40000 ALTER TABLE `hr_job_s` DISABLE KEYS */;
 /*!40000 ALTER TABLE `hr_job_s` ENABLE KEYS */;
 UNLOCK TABLES;
-
-
-CREATE TABLE `hr_principal_calendar_t` (
- `principal_id` VARCHAR(40) DEFAULT '' NOT NULL,
- `py_calendar_group` VARCHAR(45) DEFAULT '' NOT NULL,
- `holiday_calendar_group` VARCHAR(45),
- `timezone` VARCHAR(30),
- `EFFDT` DATE DEFAULT '0002-11-30' NOT NULL,
- `TIMESTAMP` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
- `OBJ_ID` VARCHAR(36) NOT NULL,
- `VER_NBR` DECIMAL(8,0) DEFAULT 1 NOT NULL,
- `active` VARCHAR(1) DEFAULT 'Y', CONSTRAINT `PK_HR_PRINCIPAL_CALENDAR_T` PRIMARY KEY (`principal_id`));
-
 
 --
 -- Table structure for table `hr_job_t`

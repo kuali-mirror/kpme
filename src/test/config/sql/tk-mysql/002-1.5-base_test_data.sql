@@ -116,6 +116,7 @@ DELETE FROM `hr_earn_code_T`;
 INSERT INTO `hr_earn_code_T` (`hr_earn_code_ID`, `EARN_CODE`, `DESCR`, `RECORD_TIME`,`RECORD_HOURS`,`RECORD_AMOUNT`,`EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
     ('1'  , 'SDR' , 'SHIFT DIFF'        , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
     ('2'  , 'LUN' , 'LUNCH'             , '0','1','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
+	('3'  , 'OVT' , 'OVERTIME'          , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
 	('9'  , 'RGN' , 'REGULAR'           , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
 	('10' , 'RGH' , 'REGULAR HOURLY'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
 	('11' , 'SCK' , 'SICK'              , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y') ,
@@ -210,19 +211,17 @@ INSERT INTO `hr_roles_t` (`hr_roles_ID`, `PRINCIPAL_ID`, `ROLE_NAME`, `USER_PRIN
 
 #
 # Pay Calendar
-DELETE FROM `hr_py_calendar_s`;
-INSERT INTO `hr_py_calendar_s`	(`ID`)	VALUES	(1000);
-DELETE FROM `hr_py_calendar_t`;
-INSERT INTO `hr_py_calendar_t`	(`hr_py_calendar_id`,	`py_calendar_group`,`flsa_begin_day`, `flsa_begin_time`)	VALUES
-	('1',  'BWN-CAL', 'Sun', '0:00:00'),
-	('2',  'BWS-CAL', 'Sun', '0:00:00');
+DELETE FROM `hr_calendar_s`;
+INSERT INTO `hr_calendar_s`	(`ID`)	VALUES	(1000);
+insert into hr_calendar_t values ('1', 'BWN-CAL', 'Sun', '00:00:00', 'Pay', 'Test description');
+insert into hr_calendar_t values ('2', 'BWS-CAL', 'Sun', '00:00:00', 'Pay', 'Test description');
 
 #
 # Pay Calendar Dates
-DELETE FROM `hr_py_calendar_entries_s`;
-INSERT INTO `hr_py_calendar_entries_s`	(`ID`)	VALUES	(1000);
-DELETE FROM `hr_py_calendar_entries_t`;
-INSERT INTO `hr_py_calendar_entries_t` (`hr_py_calendar_entry_id`,`hr_py_calendar_id`, `py_calendar_group`, `begin_period_date`,`end_period_date`,`initiate_date`,`initiate_time`,`end_pay_period_date`,`end_pay_period_time`,`employee_approval_date`,`employee_approval_time`,`supervisor_approval_date`,`supervisor_approval_time`) VALUES
+DELETE FROM `hr_calendar_entries_s`;
+INSERT INTO `hr_calendar_entries_s`	(`ID`)	VALUES	(1000);
+DELETE FROM `hr_calendar_entries_t`;
+INSERT INTO `hr_calendar_entries_t` (`hr_calendar_entry_id`,`hr_calendar_id`, `calendar_name`, `begin_period_date`,`end_period_date`,`initiate_date`,`initiate_time`,`end_pay_period_date`,`end_pay_period_time`,`employee_approval_date`,`employee_approval_time`,`supervisor_approval_date`,`supervisor_approval_time`) VALUES
 	('1', '2', 'BWS-CAL', '2010-08-01 00:00:00', '2010-08-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('2', '2', 'BWS-CAL', '2010-08-15 00:00:00', '2010-09-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('3', '2', 'BWS-CAL', '2010-09-01 00:00:00', '2010-09-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -325,9 +324,9 @@ INSERT INTO `tk_time_block_s` VALUES ('1000');
 DELETE FROM `tk_hour_detail_s`;
 INSERT INTO `tk_hour_detail_s` VALUES ('1000');
 
-delete from hr_principal_calendar_t;
-insert into hr_principal_calendar_t values('admin','BWS-CAL','HOL',NULL,'2010-01-01', now(),uuid(),1, 'Y');
-insert into hr_principal_calendar_t values('eric','BW-CAL1','HOL',NULL,'2010-01-01', now(),uuid(),1, 'Y');
+delete from hr_principal_attributes_t;
+insert into hr_principal_attributes_t values('admin', 'BWS-CAL', NULL, '2010-01-01', 'Y', 'Y', 'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL);
+insert into hr_principal_attributes_t values('eric', 'BW-CAL1', NULL, '2010-01-01', 'Y', 'Y',  'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL);
 
 delete from tk_system_lunch_rl_t;
 insert into tk_system_lunch_rl_t (`TK_SYSTEM_LUNCH_RL_ID`,`EFFDT`,`ACTIVE`,`USER_PRINCIPAL_ID`,`SHOW_LUNCH_BUTTON`) values
