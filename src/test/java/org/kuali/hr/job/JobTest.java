@@ -21,7 +21,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * This class needs refactored - the name job test implies that it should unit test on the Job object, especially considering it's package location.
- * 
+ *
  *
  */
 public class JobTest extends TkTestCase {
@@ -32,7 +32,7 @@ public class JobTest extends TkTestCase {
 	private static Long jobNumber = 5L;//number entered in the bootstrap SQL
 	public static final String TEST_USER = "admin";
 
-	
+
 	@Test
 	public void testInsertPayCalendar() throws Exception {
 		Calendar payCalendar = new Calendar();
@@ -41,6 +41,7 @@ public class JobTest extends TkTestCase {
 
 		payCalendar.setFlsaBeginDay("Sun");
 		payCalendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
+        payCalendar.setCalendarDescriptions("Test Description");
 		KNSServiceLocator.getBusinessObjectService().save(payCalendar);
 		assertTrue(TkServiceLocator.getCalendarSerivce().getCalendar(payCalendar.getHrCalendarId()) != null);
 
@@ -82,7 +83,7 @@ public class JobTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().save(payType);
 		assertTrue(TkServiceLocator.getPayTypeSerivce().getPayType(payType.getPayType(), payType.getEffectiveDate()) != null);
 	}
-	
+
 	@Test
 	public void jobMaintenancePage() throws Exception{
 		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.JOB_MAINT_URL);
@@ -90,11 +91,11 @@ public class JobTest extends TkTestCase {
 		HtmlUnitUtil.createTempFile(lookupPage);
 		assertTrue("Page contains admin entry", lookupPage.asText().contains("admin"));
 		// xichen, changed to edit jobId 23, because clickAnchorContainingText() is a wild search. The test was editing jobId 1, it returned the first entry whose jobId starts with 1.
-		HtmlPage editPage = HtmlUnitUtil.clickAnchorContainingText(lookupPage, "edit", jobId.toString());	
+		HtmlPage editPage = HtmlUnitUtil.clickAnchorContainingText(lookupPage, "edit", jobId.toString());
 		HtmlUnitUtil.createTempFile(editPage);
-		assertTrue("Maintenance Page contains the correct job number", editPage.asText().contains(jobNumber.toString()));				
+		assertTrue("Maintenance Page contains the correct job number", editPage.asText().contains(jobNumber.toString()));
 	}
-	
+
 	@Test
 	public void testGetJobs() {
 		Date payPeriodEndDate = new Date((new DateTime(2010,7,30,1,0,0,0,DateTimeZone.forID("EST"))).getMillis());
@@ -102,34 +103,34 @@ public class JobTest extends TkTestCase {
 		assertNotNull("Jobs was null", jobs);
 		assertEquals("Incorrect number of jobs", 2, jobs.size());
 	}
-	
-	
+
+
 	@Test
 	public void testSaveAndFetchObject() throws Exception{
-		//Confirming the save and fetch 
+		//Confirming the save and fetch
 		//save an object and confirm that it can be fetched
 	}
-	
+
 	@Test
 	public void testMaintenancePageNew() throws Exception {
-		//create new 
-		//input the data 
+		//create new
+		//input the data
 		//confirm submit works
 	}
-	
+
 	@Test
 	public void testMaintenancePageEdit() throws Exception {
 		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.JOB_MAINT_URL);
 		lookupPage = HtmlUnitUtil.clickInputContainingText(lookupPage, "search");
-		HtmlPage editPage = HtmlUnitUtil.clickAnchorContainingText(lookupPage, "edit", jobId.toString());	
+		HtmlPage editPage = HtmlUnitUtil.clickAnchorContainingText(lookupPage, "edit", jobId.toString());
 		//input bad dept, sal group, job location, pay type, pay grade
 		//submit
 		//confirm each error shows up
-		
+
 		//use each of the above lookups to populate the page
-		//submit 
+		//submit
 		//confirm submit worked
-		
+
 	}
 }
 
