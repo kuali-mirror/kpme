@@ -402,11 +402,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.plugin.version}</version>
                 <configuration>
-                    <!--
-                         <excludes>
-                             <exclude>**/*</exclude>
-                         </excludes>
-                         -->
+                    <argLine>-Xms512m -Xmx2048m -XX:MaxPermSize=512m</argLine>
                 </configuration>
                 <executions>
                     <execution>
