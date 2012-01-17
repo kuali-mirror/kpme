@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -15,7 +16,7 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
+@Ignore
 public class TimeBlockServiceTest extends TkTestCase {
 	@Test
 	public void testBuildAssignmentStyleClassMap() {
