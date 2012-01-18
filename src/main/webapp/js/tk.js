@@ -109,7 +109,7 @@ $(document).ready(function() {
     });
 
     // datepicker
-    $('#date-range-begin, #date-range-end, #bdRow1, #edRow1, #bdRow2, #edRow2').datepicker({
+    $('#startDate, #endDate, #bdRow1, #edRow1, #bdRow2, #edRow2').datepicker({
         changeMonth : true,
         changeYear : true,
         showOn : 'button',
