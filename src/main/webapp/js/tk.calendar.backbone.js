@@ -164,13 +164,17 @@ $(function () {
             this.showTimeEntryDialog();
             // Retrieve the selected timeblock
             var timeBlock = timeBlockCollection.get(key.id);
+            // Deferred is a jQuery method which makes sure things happen in the order you want.
+            // For more informaiton : http://api.jquery.com/category/deferred-object/
+            // Here we want to fire the ajax call first to grab the earn codes.
+            // After that is done, we fill out the form and make the entry field show / hide based on the earn code type.
             var dfd = $.Deferred();
-            dfd
-                .done(this.fetchEarnCode(timeBlock))
-                .done(_(timeBlock).fillInForm())
-                .done(this.showFieldByEarnCodeType());
-
             // Fill in the values. See the note above regarding why we didn't use a template
+            dfd.done(_(timeBlock).fillInForm())
+               .done(this.fetchEarnCode(timeBlock))
+               .done(this.showFieldByEarnCodeType());
+
+
         },
 
         deleteTimeBlock : function (e) {
@@ -209,9 +213,9 @@ $(function () {
             var earnCodeType = _.getEarnCodeType(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
             var fields = [".clockInSection", ".clockOutSection", ".hourSection", ".amountSection"];
 
-            // There might be a better way doing this, but we can revisit later.
+            // There might be a better way doing this, but we can revisit this later.
             // Currently, the fields variable contains a list of the entry field classes.
-            // The Underscore.js _.without returns an array except the ones you speficied.
+            // The Underscore.js _.without function returns an array except the ones you speficied.
             if (earnCodeType == CONSTANTS.EARNCODE_TYPE.HOUR) {
                 $(_.without(fields, ".hourSection").join(",")).hide();
                 $(fields[2]).show();
