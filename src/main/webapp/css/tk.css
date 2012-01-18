@@ -211,29 +211,29 @@ select {
     padding: 3px;
 }
 
-#timesheet-panel {
+.timesheet-panel {
     border: 1px solid #ccc;
     background-color: #FBF9EE;
 }
 
-#timesheet-panel table {
+.timesheet-panel table {
     /*margin: 0 auto 0 auto;*/
     margin: 5px;
     padding: 0;
     border-collapse: collapse;
 }
 
-#timesheet-panel table tr td {
+.timesheet-panel table tr td {
     padding: 5px;
     white-space: nowrap;
 }
 
-#timesheet-panel .timesheet-panel-title {
+.timesheet-panel .timesheet-panel-title {
     font-weight: bold;
     font-size: 1.1em;
 }
 
-#timesheet-panel select {
+.timesheet-panel select {
     font-size: .9em;
 }
 

@@ -1,13 +1,5 @@
 package org.kuali.hr.time.detail.web;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -28,12 +20,15 @@ import org.kuali.hr.time.timesummary.AssignmentRow;
 import org.kuali.hr.time.timesummary.EarnCodeSection;
 import org.kuali.hr.time.timesummary.EarnGroupSection;
 import org.kuali.hr.time.timesummary.TimeSummary;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.util.*;
 import org.kuali.rice.kns.exception.AuthorizationException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -94,10 +89,10 @@ public class TimeDetailAction extends TimesheetAction {
         cal.assignAssignmentStyle(aMap);
         tdaf.setTkCalendar(cal);
 
-        tdaf.setTimeBlockString(ActionFormUtils.getTimeBlockJSONMap(TKContext.getCurrentTimesheetDoucment(), aggregate.getFlattenedTimeBlockList()));
+        tdaf.setTimeBlockString(ActionFormUtils.getTimeBlocksJson(aggregate.getFlattenedTimeBlockList()));
 
         tdaf.setOvertimeEarnCodes(TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDoucment().getAsOfDate()));
-        
+
     	tdaf.setDocEditable("false");
     	
         if(TKContext.getUser().isSystemAdmin()){

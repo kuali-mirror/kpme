@@ -8,7 +8,6 @@ import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
@@ -39,19 +38,15 @@ public class ActionFormUtils {
         }
     }
 
-    public static String getTimeBlockJSONMap(TimesheetDocument tsd, List<TimeBlock> blocks) {
-        List<Map<String, Object>> jsonList = getTimeBlocksJson(blocks, null);
-        Map<String, Map<String, Object>> jsonMappedList = new HashMap<String, Map<String, Object>>();
-        for (Map<String, Object> tbm : jsonList) {
-            String id = (String) tbm.get("id");
-            jsonMappedList.put(id, tbm);
-        }
-        return JSONValue.toJSONString(jsonMappedList);
-    }
-
-    public static String getTimeBlocksForOutput(TimesheetDocument tsd, List<TimeBlock> timeBlocks) {
-        return JSONValue.toJSONString(getTimeBlocksJson(timeBlocks, buildAssignmentStyleClassMap(timeBlocks)));
-    }
+//    public static String getTimeBlockJSONMap(List<TimeBlock> blocks) {
+//        List<Map<String, Object>> jsonList = getTimeBlocksJson(blocks, null);
+//        Map<String, Map<String, Object>> jsonMappedList = new HashMap<String, Map<String, Object>>();
+//        for (Map<String, Object> tbm : jsonList) {
+//            String id = (String) tbm.get("id");
+//            jsonMappedList.put(id, tbm);
+//        }
+//        return JSONValue.toJSONString(jsonMappedList);
+//    }
 
     public static Map<String, String> buildAssignmentStyleClassMap(List<TimeBlock> timeBlocks) {
         Map<String, String> aMap = new HashMap<String, String>();
@@ -80,13 +75,12 @@ public class ActionFormUtils {
      * endDisplayTime.
      *
      * @param timeBlocks
-     * @param assignmentStyleClassMap
      * @return
      */
-    private static List<Map<String, Object>> getTimeBlocksJson(List<TimeBlock> timeBlocks, Map<String, String> assignmentStyleClassMap) {
+    public static String getTimeBlocksJson(List<TimeBlock> timeBlocks) {
 
         if (timeBlocks == null || timeBlocks.size() == 0) {
-            return new ArrayList<Map<String, Object>>();
+            return "";
         }
 
         List<Map<String, Object>> timeBlockList = new LinkedList<Map<String, Object>>();
@@ -99,19 +93,11 @@ public class ActionFormUtils {
             String workAreaDesc = workArea.getDescription();
 
             // KPME-1216
-            Boolean isActiveEmployee = TKContext.getUser().getCurrentRoles().isActiveEmployee();
             Boolean isAnyApprover = TKContext.getUser().getCurrentRoles().isAnyApproverActive();
-            if (StringUtils.equals(workArea.getOvertimeEditRole(), TkConstants.ROLE_TK_EMPLOYEE)) {
-                timeBlockMap.put("overtimeEditable", isActiveEmployee);
-            } else if (StringUtils.equals(workArea.getOvertimeEditRole(), TkConstants.ROLE_TK_APPROVER)) {
+            if (StringUtils.equals(workArea.getOvertimeEditRole(), TkConstants.ROLE_TK_APPROVER)) {
                 timeBlockMap.put("overtimeEditable", isAnyApprover);
             }
 
-            String cssClass = "";
-            if (assignmentStyleClassMap != null && assignmentStyleClassMap.containsKey(timeBlock.getAssignmentKey())) {
-                cssClass = assignmentStyleClassMap.get(timeBlock.getAssignmentKey());
-            }
-            timeBlockMap.put("assignmentCss", cssClass);
             timeBlockMap.put("editable", TkServiceLocator.getTimeBlockService().isTimeBlockEditable(timeBlock).toString());
             timeBlockMap.put("synchronous", timeBlock.getClockLogCreated());
 
@@ -129,6 +115,7 @@ public class ActionFormUtils {
                 end = end.minusDays(1);
             }
 
+            timeBlockMap.put("documentId", timeBlock.getDocumentId());
             timeBlockMap.put("title", workAreaDesc);
             timeBlockMap.put("earnCode", timeBlock.getEarnCode());
             timeBlockMap.put("earnCodeDesc", TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), TKUtils.getCurrentDate()).getDescription());
@@ -138,8 +125,14 @@ public class ActionFormUtils {
 
             timeBlockMap.put("start", start.toString(ISODateTimeFormat.dateTimeNoMillis()));
             timeBlockMap.put("end", end.toString(ISODateTimeFormat.dateTimeNoMillis()));
+            timeBlockMap.put("startDate", start.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+            timeBlockMap.put("endDate", end.toString(TkConstants.DT_BASIC_DATE_FORMAT));
             timeBlockMap.put("startNoTz", start.toString(ISODateTimeFormat.dateHourMinuteSecond()));
             timeBlockMap.put("endNoTz", end.toString(ISODateTimeFormat.dateHourMinuteSecond()));
+            timeBlockMap.put("startTimeHourMinute", start.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
+            timeBlockMap.put("endTimeHourMinute", end.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
+            timeBlockMap.put("startTime", start.toString(TkConstants.DT_BASIC_TIME_FORMAT));
+            timeBlockMap.put("endTime", end.toString(TkConstants.DT_BASIC_TIME_FORMAT));
             timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
             timeBlockMap.put("hours", timeBlock.getHours());
             timeBlockMap.put("amount", timeBlock.getAmount());
@@ -166,7 +159,12 @@ public class ActionFormUtils {
             timeBlockList.add(timeBlockMap);
         }
 
-        return timeBlockList;
+//        Map<String, Map<String, Object>> jsonMappedList = new HashMap<String, Map<String, Object>>();
+//        for (Map<String, Object> tbm : timeBlockList) {
+//            String id = (String) tbm.get("id");
+//            jsonMappedList.put(id, tbm);
+//        }
+        return JSONValue.toJSONString(timeBlockList);
     }
 
 }

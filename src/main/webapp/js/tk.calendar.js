@@ -55,7 +55,8 @@ $(document).ready(function() {
     //
     // This discussion thread on stackoverflow was helpful:
     // http://bit.ly/fvRW4X
-    $(".cal-table").selectable({
+//    $(".cal-table").selectable({
+    $(".another-test").selectable({
         filter: "td",
         distance: 1,
         selected: function(event, ui) {
@@ -89,7 +90,8 @@ $(document).ready(function() {
     }
 
 
-    var thing = $('#tkCal').click(function(event) {
+//    var thing = $('#tkCal').click(function(event) {
+    var thing = $('#test').click(function(event) {
         // create a variable to cache the DOM
         $timesheetFields = $('#timesheet-panel');
         $timesheetFields.find("tr").removeClass("hide");
@@ -256,7 +258,7 @@ $(document).ready(function() {
                                 var details = jQuery.parseJSON(calEvent.timeHourDetails);
                                 var hourDetailHtml = "";
                                 for (obj in details) {
-                                    hourDetailHtml = '<span class="overtime-hours" style="margin-left: 5px;"> Overtime hours : ' + details[obj].hours + '</span>';
+                                    hourDetailHtml = '<span class="overtime-hours" style="margin-le ft: 5px;"> Overtime hours : ' + details[obj].hours + '</span>';
                                     if (details[obj].earnCode == CONSTANTS.OVERTIME_EARNCODE.OVERTIME) {
                                         //$earnCodeField.after(hourDetailHtml);
                                         $("#overtimeEarnCodeRow").after(hourDetailHtml);
@@ -512,18 +514,18 @@ $(document).ready(function() {
      */
 
     // when the value of time fields(s) is changed, reset the hour/amount field and vice versa
-    $('#beginTimeField, #endTimeField, #hoursField, #amountField').change(function() {
-        if ($(this).get(0).id == 'beginTimeField' || $(this).get(0).id == 'endTimeField') {
-            $('#hoursField').val('');
-            $('#amountField').val('');
-            // do the input conversion
-            magicTime($(this));
-        }
-        else {
-            $('#beginTimeField, #endTimeField').val('');
-        }
-        $(this).resetState();
-    });
+//    $('#beginTimeField, #endTimeField, #hoursField, #amountField').change(function() {
+//        if ($(this).get(0).id == 'beginTimeField' || $(this).get(0).id == 'endTimeField') {
+//            $('#hoursField').val('');
+//            $('#amountField').val('');
+//            // do the input conversion
+//            magicTime($(this));
+//        }
+//        else {
+//            $('#beginTimeField, #endTimeField').val('');
+//        }
+//        $(this).resetState();
+//    });
     // ------------------- end of the time/hour input validation section -------------------
 
     // load the earn code based on the selected assignment

@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.joda.time.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.job.Job;
@@ -13,9 +12,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.detail.validation.TimeDetailValidationService;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
@@ -24,10 +21,7 @@ import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TimeDetailWSAction extends TimesheetAction {
 
@@ -74,13 +68,11 @@ public class TimeDetailWSAction extends TimesheetAction {
         return mapping.findForward("ws");
     }
 
-    // this is an ajax call
-    public ActionForward getEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward getEarnCodeJson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
-        StringBuilder earnCodeString = new StringBuilder();
-        if (StringUtils.isBlank(tdaf.getSelectedAssignment())) {
-            earnCodeString.append("<option value=''>-- select an assignment first --</option>");
-        } else {
+        List<Map<String, Object>> earnCodeList = new LinkedList<Map<String, Object>>();
+
+        if (StringUtils.isNotBlank(tdaf.getSelectedAssignment())) {
             List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
             AssignmentDescriptionKey key = new AssignmentDescriptionKey(tdaf.getSelectedAssignment());
             for (Assignment assignment : assignments) {
@@ -89,22 +81,27 @@ public class TimeDetailWSAction extends TimesheetAction {
                         assignment.getTask().compareTo(key.getTask()) == 0) {
                     List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, tdaf.getTimesheetDocument().getAsOfDate());
                     for (EarnCode earnCode : earnCodes) {
+                        // TODO: minimize / compress the crazy if logics below
                         if (earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)
                                 && !(TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().getCurrentRoles().isTimesheetApprover())) {
                             continue;
                         }
                         if (!(assignment.getTimeCollectionRule().isClockUserFl() &&
                                 StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(), earnCode.getEarnCode()) && StringUtils.equals(TKContext.getPrincipalId(), assignment.getPrincipalId()))) {
-                            earnCodeString.append("<option value='").append(earnCode.getEarnCode()).append("_").append(earnCode.getEarnCodeType()).append("'>");
-                            earnCodeString.append(earnCode.getEarnCode()).append(" : ").append(earnCode.getDescription());
-                            earnCodeString.append("</option>");
+                            Map<String, Object> earnCodeMap = new HashMap<String, Object>();
+                            earnCodeMap.put("assignment", assignment.getAssignmentKey());
+                            earnCodeMap.put("earnCode", earnCode.getEarnCode());
+                            earnCodeMap.put("desc", earnCode.getDescription());
+                            earnCodeMap.put("type", earnCode.getEarnCodeType());
+                            
+                            earnCodeList.add(earnCodeMap);
                         }
                     }
                 }
             }
         }
         LOG.info(tdaf.toString());
-        tdaf.setOutputString(earnCodeString.toString());
+        tdaf.setOutputString(JSONValue.toJSONString(earnCodeList));
         return mapping.findForward("ws");
     }
 

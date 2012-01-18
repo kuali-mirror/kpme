@@ -39,6 +39,7 @@ public class Assignment extends HrBusinessObject {
 	private DeptLunchRule deptLunchRule;
 	private WorkArea workAreaObj;
 	private Boolean history;
+    private String assignmentKey;
 
 	private Person principal;
 
@@ -153,8 +154,8 @@ public class Assignment extends HrBusinessObject {
 
 	public String getTkAssignmentId() {
 		return tkAssignmentId;
-	}
 
+    }
 	public void setTkAssignmentId(String tkAssignmentId) {
 		this.tkAssignmentId = tkAssignmentId;
 	}
@@ -312,5 +313,9 @@ public class Assignment extends HrBusinessObject {
 
     public void setCalGroup(String calGroup) {
         this.calGroup = calGroup;
+    }
+
+    public String getAssignmentKey() {
+        return new AssignmentDescriptionKey(this).toAssignmentKeyString();
     }
 }
