@@ -93,7 +93,8 @@ $(function () {
             "click td[id*=create]" : "showTimeEntryDialog",
             "change #startTime, #endTime" : "formatTime",
             "change #selectedAssignment" : "fetchEarnCode",
-            "change #selectedEarnCode" : "showFieldByEarnCodeType"
+            "change #selectedEarnCode" : "showFieldByEarnCodeType",
+            "click button[id*=Add]" : "addTimeBlock"
         },
 
         initialize : function () {
@@ -133,6 +134,11 @@ $(function () {
             $("#" + id + "HourMinute").val(dateTime.toString('H:mm'));
         },
 
+        
+        addTimeBlock : function () {
+        	alert('adding');
+        	
+        },
 
         showTimeEntryDialog : function () {
 
@@ -183,7 +189,9 @@ $(function () {
             var timeBlock = timeBlockCollection.get(key.id);
 
             if (confirm('You are about to delete a time block. Click OK to confirm the delete.')) {
-                window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&documentId=" + timeBlock.get("documentId") + "&tkTimeBlockId=" + key.action;
+                window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&documentId=" + timeBlock.get("documentId") + "&tkTimeBlockId=" + key.id;
+                e.preventDefault();
+                e.stopPropagation();
             }
         },
 
