@@ -134,13 +134,18 @@ $(function () {
         },
 
 
-        showTimeEntryDialog : function () {
+        showTimeEntryDialog : function (startDay,endDay) {
 
             $("#dialog-form").dialog({
                 autoOpen : true,
                 height : 'auto',
                 width : '450',
                 modal : true,
+                open : function () {
+                	$('#startDate').val(startDay.toString('MM/dd/yyyy'));
+                	$('#endDate').val(endDay.toString('MM/dd/yyyy'));
+                },
+                
                 beforeClose : function () {
                     // TODO: create a method to reset the values instead of spreading this type of code all over the place.
                     _(new TimeBlock).fillInForm();
@@ -173,6 +178,8 @@ $(function () {
 
                      $('#acrossDays').val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
                      $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
+                     
+
                      $('#time-detail').submit();
                      $(this).dialog("close");
                         
@@ -343,4 +350,41 @@ $(function () {
         }
 
     });
+    
+    var selectedDays = [];
+    var selectingDays = [];
+    var beginPeriodDateTimeObj = $('#beginPeriodDate').val() !== undefined ? new Date($('#beginPeriodDate').val()) : d + '/' + m + '/' + y;
+    var endPeriodDateTimeObj = $('#endPeriodDate').val() !== undefined ? new Date($('#endPeriodDate').val()) : d + '/' + m + '/' + y;
+    
+    $(".cal-table").selectable({
+//      $(".another-test").selectable({
+          filter: "td",
+          distance: 1,
+          selected: function(event, ui) {
+              	selectedDays.push(ui.selected.id);
+          },
+          selecting: function(event, ui) {
+        		  // get the index number of the selected td
+        		  $(".ui-selecting", this).each(function() {
+        			  selectingDays.push($(".cal-table td").index(this));
+        		  });
+
+          },
+          
+          stop: function(event, ui) {
+              var currentDay = new Date(beginPeriodDateTimeObj);
+              var beginDay = new Date(currentDay);
+              var endDay = new Date(currentDay);
+
+              beginDay.addDays(parseInt(selectedDays[0].split("_")[1]));
+              endDay.addDays(parseInt(selectedDays[selectedDays.length - 1].split("_")[1]));
+
+              app.showTimeEntryDialog(beginDay,endDay);
+              selectedDays = [];
+          }
+      });
+
+      if ($('#docEditable').val() == 'false') {
+          $(".cal-table").selectable("destroy");
+      }
 });
