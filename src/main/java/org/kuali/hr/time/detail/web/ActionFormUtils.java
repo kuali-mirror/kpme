@@ -97,10 +97,23 @@ public class ActionFormUtils {
             if (StringUtils.equals(workArea.getOvertimeEditRole(), TkConstants.ROLE_TK_APPROVER)) {
                 timeBlockMap.put("overtimeEditable", isAnyApprover);
             }
-
+   
             timeBlockMap.put("editable", TkServiceLocator.getTimeBlockService().isTimeBlockEditable(timeBlock).toString());
             timeBlockMap.put("synchronous", timeBlock.getClockLogCreated());
-
+            
+            timeBlockMap.put("editTBOvt", TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode());
+            timeBlockMap.put("addTB", TkServiceLocator.getPermissionsService().canAddTimeBlock());
+            
+            if (TkServiceLocator.getPermissionsService().canEditTimeBlock(timeBlock)) {
+	            if (TkServiceLocator.getPermissionsService().canEditTimeBlockAllFields(timeBlock)) {
+	            	  timeBlockMap.put("editTBAll", true);
+	            	  timeBlockMap.put("editTBAssgOnly", false);
+	            } else {
+	            	  timeBlockMap.put("editTBAll", false);
+	            	  timeBlockMap.put("editTBAssgOnly", true);
+	            }
+            }
+          
             //    tracking any kind of 'mutating' state with this object, it's just a one off modification under a specific circumstance.
             DateTime start = timeBlock.getBeginTimeDisplay();
             DateTime end = timeBlock.getEndTimeDisplay();
