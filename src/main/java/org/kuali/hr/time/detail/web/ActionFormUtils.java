@@ -101,7 +101,7 @@ public class ActionFormUtils {
             timeBlockMap.put("editable", TkServiceLocator.getTimeBlockService().isTimeBlockEditable(timeBlock).toString());
             timeBlockMap.put("synchronous", timeBlock.getClockLogCreated());
             
-            timeBlockMap.put("editTBOvt", TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode());
+            timeBlockMap.put("editTBOvt", TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode(timeBlock));
             timeBlockMap.put("addTB", TkServiceLocator.getPermissionsService().canAddTimeBlock());
             
             if (TkServiceLocator.getPermissionsService().canEditTimeBlock(timeBlock)) {
@@ -135,7 +135,7 @@ public class ActionFormUtils {
             //TODO: need to cache this or pre-load it when the app boots up
             // EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
             timeBlockMap.put("earnCodeType", timeBlock.getEarnCodeType());
-
+  
             timeBlockMap.put("start", start.toString(ISODateTimeFormat.dateTimeNoMillis()));
             timeBlockMap.put("end", end.toString(ISODateTimeFormat.dateTimeNoMillis()));
             timeBlockMap.put("startDate", start.toString(TkConstants.DT_BASIC_DATE_FORMAT));

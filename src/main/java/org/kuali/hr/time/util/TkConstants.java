@@ -314,4 +314,6 @@ public class TkConstants {
     public static final String IP_WILDCARD_PATTERN = "(%|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))";
 
     public static final String TASK_DEFAULT_DESP = "Default";
+    
+    public static final String DAILY_OVT_CODE = "DOT";
 }

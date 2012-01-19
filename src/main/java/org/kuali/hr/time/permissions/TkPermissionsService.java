@@ -33,6 +33,6 @@ public interface TkPermissionsService {
 	   public boolean canEditDeptMaintPages(DepartmentalRule dr);
 	   public boolean canWildcardWorkAreaInDeptRule(DepartmentalRule dr);
 	   public boolean canWildcardDeptInDeptRule(DepartmentalRule dr);
-	   public boolean canEditOvertimeEarnCode();
+	   public boolean canEditOvertimeEarnCode(TimeBlock tb);
 	   public boolean canDeleteDeptLunchDeduction();
 }

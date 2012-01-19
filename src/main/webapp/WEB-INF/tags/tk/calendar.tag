@@ -91,7 +91,7 @@
 	                                   	   </c:if>
 	                                   	   
 	                                        <div id="timeblock_${block.timeBlock.tkTimeBlockId}" class="${editableClass}">
-		                                            <c:if test="${(Form.docEditable && ! block.timeBlock.clockLogCreated) || (Form.docEditable && block.timeBlock.editable)}">
+		                                            <c:if test="${block.timeBlock.deleteable}">
 			                                           	<div><img id="delete_${block.timeBlock.tkTimeBlockId}" class='event-delete'
 			                                                     src='images/delete.png'/>
 			                                            </div>
@@ -108,13 +108,14 @@
 		                                                        <c:choose>
 		                                                            <c:when test="${thdr.hours ne ''}">
                                                                         <c:set var="title" value="${thdr.title}"/>
-                                                                        <c:if test="${thdr.overtimeEarnCode}">
-                                                                            <c:set var="title" value="<span id='overtime_${block.timeBlock.tkTimeBlockId}' class='overtime'>${thdr.title}</span>"/>
-                                                                        </c:if>
-                                                                        <%-- Some of the overtime earn codes are not allowed to be modified --%>
-                                                                        <c:if test="${thdr.overtimeEarnCode and (thdr.title eq 'DOT')}">
-                                                                            <c:set var="title" value="<span id='overtime_${block.timeBlock.tkTimeBlockId}' class='overtime_readonly'>${thdr.title}</span>"/>
-                                                                        </c:if>
+                                                                        <c:choose>
+                                                                        	<c:when test="${thdr.overtimeEarnCode and block.timeBlock.overtimeEditable and !(thdr.title eq 'DOT')}">
+                                                                        		<c:set var="title" value="<span id='overtime_${block.timeBlock.tkTimeBlockId}' class='overtime'>${thdr.title}</span>"/>
+                                                                        	</c:when>
+                                                                        	<c:otherwise>
+                                                                        		<c:set var="title" value="<span>${thdr.title}</span>"/>
+                                                                        	</c:otherwise>
+                                                                        </c:choose>
 
 	                                                            		<c:if test="${thdr.title eq TkConstants.HOLIDAY_EARN_CODE}">
 	                                                            			<div><a id="holidayNameHelp" title="${thdr.holidayName}" style="color:white; cursor:pointer;">${title} - ${thdr.hours} hours</a></div>

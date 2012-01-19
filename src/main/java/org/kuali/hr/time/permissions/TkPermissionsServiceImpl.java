@@ -16,6 +16,7 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
@@ -568,8 +569,16 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 	}
 
 	@Override
-	public boolean canEditOvertimeEarnCode() {
-		return TKContext.getUser().getCurrentRoles().isActiveEmployee();
+	public boolean canEditOvertimeEarnCode(TimeBlock tb) {
+        WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(tb.getWorkArea(), new java.sql.Date(tb.getEndTimestamp().getTime()));
+        if(StringUtils.equals(workArea.getOvertimeEditRole(),TkConstants.ROLE_TK_EMPLOYEE)){
+        	return true;
+        } else if(StringUtils.equals(workArea.getOvertimeEditRole(),TkConstants.ROLE_TK_APPROVER) ||
+        		StringUtils.equals(workArea.getOvertimeEditRole(),TkConstants.ROLE_TK_APPROVER_DELEGATE)){
+            return TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(workArea.getWorkArea());
+        } else {
+        	return TKContext.getUser().getCurrentRoles().getOrgAdminDepartments().contains(workArea.getDepartment());
+        }
 	}
 
 	@Override
