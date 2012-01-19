@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.Calendar;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -21,23 +22,25 @@ import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class DepartmentLunchRuleTest extends TkTestCase {
+    private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+
 	@Test
 	public void testDepartmentLunchRuleFetch() throws Exception{
 		DeptLunchRule deptLunchRule = new DeptLunchRule();
 		deptLunchRule.setActive(true);
 		deptLunchRule.setDept("TEST");
 		deptLunchRule.setWorkArea(1234L);
-		deptLunchRule.setEffectiveDate(new Date(System.currentTimeMillis()));
+		deptLunchRule.setEffectiveDate(JAN_AS_OF_DATE);
 		deptLunchRule.setJobNumber(0L);
 		deptLunchRule.setPrincipalId("admin");
 		deptLunchRule.setDeductionMins(new BigDecimal(30));
 		deptLunchRule.setShiftHours(new BigDecimal(6));
 		deptLunchRule.setTkDeptLunchRuleId("1001");
-		
+
 		KNSServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
 		deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule("TEST",
-											1234L, "admin", 0L, new Date(System.currentTimeMillis()));
+											1234L, "admin", 0L, JAN_AS_OF_DATE);
 		assertTrue("dept lunch rule fetched ", deptLunchRule!=null);
 
 	}
@@ -55,7 +58,7 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		deptLunchRule.setWorkArea(1234L);
 		Calendar cal = Calendar.getInstance();
 		cal.set(2010, 1, 1);
-		deptLunchRule.setEffectiveDate(new java.sql.Date(cal.getTime().getTime()));
+		deptLunchRule.setEffectiveDate(JAN_AS_OF_DATE);
 		deptLunchRule.setJobNumber(1L);
 		deptLunchRule.setPrincipalId("edna");
 		deptLunchRule.setDeductionMins(new BigDecimal(30));
@@ -65,13 +68,13 @@ public class DepartmentLunchRuleTest extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
 		deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule("TEST-DEPT",
-											1234L, "edna", 1L, new Date(System.currentTimeMillis()));
+											1234L, "edna", 1L, JAN_AS_OF_DATE);
 		assertTrue("dept lunch rule fetched ", deptLunchRule!=null);
 
         Person testUser = KIMServiceLocator.getPersonService().getPerson("edna");
         TKContext.getUser().setTargetPerson(testUser);
-		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(TKUtils.getCurrentDate());
-		
+		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(JAN_AS_OF_DATE);
+
 		for(TimeBlock tb : doc.getTimeBlocks()){
 			tb.setClockLogCreated(true);
 		}
