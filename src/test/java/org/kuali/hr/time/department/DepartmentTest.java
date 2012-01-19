@@ -16,9 +16,8 @@ public class DepartmentTest extends TkTestCase {
 		assertTrue("Page contains test dept", deptLookup.asText().contains("TEST"));
 		HtmlUnitUtil.createTempFile(deptLookup);
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptLookup, "edit","100");
-		
+
 		assertTrue("Maintenance Page contains test dept",maintPage.asText().contains("TEST"));
-		
 	}
 
 	@Override
@@ -29,20 +28,7 @@ public class DepartmentTest extends TkTestCase {
 		dept.setDept("__TEST");
 		dept.setDescription("TESTING_DEPT");
 		dept.setActive(true);
-		
+        dept.setLocation("BL");
 		KNSServiceLocator.getBusinessObjectService().save(dept);
 	}
-
-	@Override
-	public void tearDown() throws Exception {
-		Department dept = new Department();
-		dept.setHrDeptId("1001");
-		dept.setDept("__TEST");
-		dept.setDescription("TESTING_DEPT");
-		
-		KNSServiceLocator.getBusinessObjectService().delete(dept);
-		super.tearDown();
-	}
-	
-	
 }
