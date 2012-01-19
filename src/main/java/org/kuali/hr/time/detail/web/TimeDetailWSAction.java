@@ -93,7 +93,7 @@ public class TimeDetailWSAction extends TimesheetAction {
                             earnCodeMap.put("earnCode", earnCode.getEarnCode());
                             earnCodeMap.put("desc", earnCode.getDescription());
                             earnCodeMap.put("type", earnCode.getEarnCodeType());
-                            
+
                             earnCodeList.add(earnCodeMap);
                         }
                     }
@@ -109,15 +109,18 @@ public class TimeDetailWSAction extends TimesheetAction {
         TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
         StringBuilder earnCodeString = new StringBuilder();
         List<EarnCode> overtimeEarnCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodes(TKUtils.getCurrentDate());
+        List<Map<String, Object>> overtimeEarnCodeList = new LinkedList<Map<String, Object>>();
 
         for (EarnCode earnCode : overtimeEarnCodes) {
-            earnCodeString.append("<option value='").append(earnCode.getEarnCode()).append("'>");
-            earnCodeString.append(earnCode.getEarnCode()).append(" : ").append(earnCode.getDescription());
-            earnCodeString.append("</option>");
+            Map<String, Object> earnCodeMap = new HashMap<String, Object>();
+            earnCodeMap.put("earnCode", earnCode.getEarnCode());
+            earnCodeMap.put("desc", earnCode.getDescription());
+
+            overtimeEarnCodeList.add(earnCodeMap);
         }
 
         LOG.info(tdaf.toString());
-        tdaf.setOutputString(earnCodeString.toString());
+        tdaf.setOutputString(JSONValue.toJSONString(overtimeEarnCodeList));
         return mapping.findForward("ws");
     }
 

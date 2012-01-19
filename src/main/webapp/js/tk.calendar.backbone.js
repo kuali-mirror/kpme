@@ -49,7 +49,7 @@ $(function () {
         // Create a time block model
     TimeBlock = Backbone.Model;
 
-    // Create a time block collection that holds multiple time blocks. This is essentially a hash map
+    // Create a time block collection that holds multiple time blocks. This is essentially a list of hashmaps.
     TimeBlockCollection = Backbone.Collection.extend({
         model : TimeBlock
     });
@@ -65,13 +65,28 @@ $(function () {
         // Create an earn code model
     EarnCode = Backbone.Model;
 
-    // Create a collection of earn codes
+    // Create a collection for earn codes
     EarnCodeCollection = Backbone.Collection.extend({
         model : EarnCode,
         url : "TimeDetailWS.do?methodToCall=getEarnCodeJson"
     });
 
     var EarnCodes = new EarnCodeCollection;
+
+    /**
+     * Overtime Earn Code
+     */
+
+        // create an overtime earn code model
+    OvertimeEarnCode = Backbone.Model;
+
+    // Create a collecton for overtime earn codes
+    OvertimeEarnCodeCollection = Backbone.Collection.extend({
+        model : OvertimeEarnCode,
+        url : "TimeDetailWS.do?methodToCall=getOvertimeEarnCodes"
+    });
+
+    OvertimeEarnCodes = new OvertimeEarnCodeCollection;
 
     /**
      * ====================
@@ -90,20 +105,29 @@ $(function () {
         events : {
             "click div[id*=show]" : "showTimeBlock",
             "click img[id*=delete]" : "deleteTimeBlock",
-            "click td[id*=create]" : "showTimeEntryDialog",
-            "change #startTime, #endTime" : "formatTime",
+            // .create is the div that fills up the white sapce and .day-number is the div with the day number on it.
+            // <div class="create"></div> is in calendar.tag.
+            // We want to trigger the show event on any white space areas.
+            "click .create, .day-number" : "showTimeEntryDialog",
+            "click span[id*=overtime]" : "showOverTimeDialog",
+            "blur #startTime, #endTime" : "formatTime",
             "change #selectedAssignment" : "fetchEarnCode",
-            "change #selectedEarnCode" : "showFieldByEarnCodeType"
+            "keypress #selectedAssignment" : "fetchEarnCode",
+            "change #selectedEarnCode" : "showFieldByEarnCodeType",
+            "keypress #selectedEarnCode" : "showFieldByEarnCodeType"
         },
 
         initialize : function () {
             // This step binds the functions to the view so you can call the methods like : this.addOneEarnCode
-            _.bindAll(this, "addAllEarnCodes", "render");
+            _.bindAll(this, "addAllEarnCodes", "addAllOvertimeEarnCodes", "render");
 
             // Bind the events onto the earncode collection, so these events will be triggered
             // when an earncode collection is created.
             EarnCodes.bind('add', this.addAllEarnCodes);
             EarnCodes.bind('reset', this.addAllEarnCodes);
+
+            OvertimeEarnCodes.bind('add', this.addAllOvertimeEarnCodes);
+            OvertimeEarnCodes.bind('reset', this.addAllOvertimeEarnCodes);
         },
 
         render : function () {
@@ -118,6 +142,7 @@ $(function () {
             var value = e.target.value;
             // Use Datejs to parse the value
             var dateTime = Date.parse(value);
+            // console.log(dateTime);
             if (_.isNull(dateTime)) {
                 // Date.js returns null if it couldn't understand the format from user's input.
                 // If that's the case, clear the values on the form and make the border red.
@@ -127,57 +152,59 @@ $(function () {
             // This magic line first finds the element by the id.
             // Uses Datejs (a 3rd party js lib) to parse user's input and update the value by the specifed format.
             // See the list of the formats in tk.js.
-            $("#" + id).val(dateTime.toString('hh : mm tt'));
+            $("#" + id).val(dateTime.toString(CONSTANTS.TIME_FORMAT.TIME_FOR_OUTPUT));
 
             // set the value to the military format on a different field for further timeblock actions.
-            $("#" + id + "HourMinute").val(dateTime.toString('H:mm'));
+            $("#" + id + "HourMinute").val(dateTime.toString(CONSTANTS.TIME_FORMAT.TIME_FOR_SYSTEM));
         },
 
-        validateAndSubmitTimeBlock : function() {
-        	var bValid = true;
-        	bValid &= app.checkEmptyField($("#selectedAssignment"), "Assignment");
-        	bValid &= app.validateEarnCode();
-        	
-        	if(bValid){
-        		//TODO // compare the original values with the modified ones. if there is no change, close the form instead of submitting it
-        		
-        		var docId = $('#documentId').val();
-        		 // validate timeblocks
-        		$.ajax({
-        			async: false,
-        			url: "TimeDetailWS.do?methodToCall=validateTimeEntry&documentId=" + docId,
-        			data: params,
-        			cache: false,
-        			success: function(data) {
-        				//var match = data.match(/\w{1,}|/g);
-        				var json = jQuery.parseJSON(data);
-        				// if there is no error message, submit the form to add the time block
-        				if (json.length == 0) {
-        					$('#time-detail').submit();
-        					$(this).dialog("close");
-        				}
-                    	else {
-                    		// if there is any error, grab error messages (json) and display them
-                    		var json = jQuery.parseJSON(data);
-                    		var errorMsgs = '';
-                    		$.each(json, function (index) {
-                    			errorMsgs += "Error : " + json[index] + "\n";
-                    		});
+        validateAndSubmitTimeBlock : function () {
+            var bValid = true;
+            bValid &= app.checkEmptyField($("#selectedAssignment"), "Assignment");
+            bValid &= app.validateEarnCode();
 
-                    		app. updateTips(errorMsgs);
-                    		return false;
-                    	}
-        			},
-        			error: function() {
-        				app.updateTips("Error: Can't save data.");
-        				return false;
-        			}
-        		});
-        	}
-        	return bValid;
+            if (bValid) {
+                //TODO // compare the original values with the modified ones. if there is no change, close the form instead of submitting it
+
+                var docId = $('#documentId').val();
+                // validate timeblocks
+                $.ajax({
+                    async : false,
+                    url : "TimeDetailWS.do?methodToCall=validateTimeEntry&documentId=" + docId,
+                    data : params,
+                    cache : false,
+                    success : function (data) {
+                        //var match = data.match(/\w{1,}|/g);
+                        var json = jQuery.parseJSON(data);
+                        // if there is no error message, submit the form to add the time block
+                        if (json.length == 0) {
+                            $('#time-detail').submit();
+                            $(this).dialog("close");
+                        }
+                        else {
+                            // if there is any error, grab error messages (json) and display them
+                            var json = jQuery.parseJSON(data);
+                            var errorMsgs = '';
+                            $.each(json, function (index) {
+                                errorMsgs += "Error : " + json[index] + "\n";
+                            });
+
+                            app.updateTips(errorMsgs);
+                            return false;
+                        }
+                    },
+                    error : function () {
+                        app.updateTips("Error: Can't save data.");
+                        return false;
+                    }
+                });
+            }
+            return bValid;
         },
-        
-        showTimeEntryDialog : function (startDay,endDay) {
+
+        showTimeEntryDialog : function (event) {
+
+            // TODO: create a reset value method and call here.
 
             $("#dialog-form").dialog({
                 autoOpen : true,
@@ -185,49 +212,67 @@ $(function () {
                 width : '450',
                 modal : true,
                 open : function () {
-                	if(startDay && endDay){
-                		$('#startDate').val(startDay.toString('MM/dd/yyyy'));
-                		$('#endDate').val(endDay.toString('MM/dd/yyyy'));
-                	}
+                    // Set the selected date on start/end time fields
+                    if (!_.isUndefined(event)) {
+                        $("#startDate, #endDate").val(event.target.id);
+                    }
                 },
-                
                 beforeClose : function () {
                     // TODO: create a method to reset the values instead of spreading this type of code all over the place.
                     _(new TimeBlock).fillInForm();
                 },
                 buttons : {
                     "Add" : function () {
-                   	 var params = {};
-                     var endTimeValue = $('#endTimeHourMinute').val().toUpperCase();
-                     var endDateValue = $('#endDate').val();
+                        /**
+                         * In case we have more needs to auto-adjust user's input, we should consider move them to a separate method.
+                         */
 
-                     // if the end time is 12:00 am, move the end date to the next day
+                            // If the end time is 12:00 am, change the end date to the next day
+                        var midnight = Date.parse($('#endDate').val()).set({
+                            hour : 0,
+                            minute : 0,
+                            second : 0,
+                            millisecond : 0
+                        });
 
-                     if (endTimeValue == "0:0") {
-                         var dateRangeField = endDateValue.split("/");
-                         if (dateRangeField[1].charAt(0) == '0') {
-                             dateRangeField[1] = dateRangeField[1].replace('0', '');
-                         }
+                        // Parse the date by the format like 1/2/2011 8:0
+                        var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTimeHourMinute').val());
 
-                         var dateString = parseInt(dateRangeField[1]) + 1;
-                         endDateValue = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
-                     }
+                        // Compare and see if the end time is at midnight
+                        if (Date.compare(midnight, endDateTime) == 0) {
+                            $('#endDate').val(endDateTime.add(1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
+                        }
 
-                     $('#startDate').val($('#startDate').val());
-                     $('#endDate').val(endDateValue);
-                     $('#startTime').val($('#startTimeHourMinute').val());
-                     $('#endTime').val(endTimeValue);
-                     $('#hours').val($('#hoursField').val());
-                     $('#amount').val($('#amountField').val());
-                     
+                        $('#startTime').val($('#startTimeHourMinute').val());
+                        $('#endTime').val($('#endTimeHourMinute').val());
+                        $('#acrossDays').val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
+                        $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
+                        $('#time-detail').submit();
+                        $(this).dialog("close");
+                    },
+                    Cancel : function () {
+                        $(this).dialog("close");
 
-                     $('#acrossDays').val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
-                     $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
-                     //app.validateAndSubmitTimeBlock();
-   					$('#time-detail').submit();
-					$(this).dialog("close");
-                     
-                        
+                    }
+                }
+            });
+
+            //this.addAllEarnCodes();
+        },
+
+        showOverTimeDialog : function () {
+            $("#overtime-section").dialog({
+                autoOpen : true,
+                height : 'auto',
+                width : '450',
+                modal : true,
+                beforeClose : function () {
+                    // TODO: create a method to reset the values instead of spreading this type of code all over the place.
+                    // _(new TimeBlock).fillInForm();
+                },
+                buttons : {
+                    "Add" : function () {
+                        $(this).dialog("close");
                         // TODO: need to port the existing logics from tk.calendar.js
                     },
                     Cancel : function () {
@@ -236,10 +281,11 @@ $(function () {
                     }
                 }
             });
+
+            this.fetchOvertimeEarnCode();
         },
 
         showTimeBlock : function (e) {
-
             var key = _(e.target.id).parseEventKey();
             this.showTimeEntryDialog();
             // Retrieve the selected timeblock
@@ -250,48 +296,50 @@ $(function () {
             // After that is done, we fill out the form and make the entry field show / hide based on the earn code type.
             var dfd = $.Deferred();
             // Fill in the values. See the note above regarding why we didn't use a template
-            dfd.done(_(timeBlock).fillInForm())
-               .done(this.fetchEarnCode(timeBlock))
-               .done(this.showFieldByEarnCodeType());
-
-
+            dfd.done(this.fetchEarnCode(timeBlock.get("assignment")))
+                    .done(_(timeBlock).fillInForm())
+                    .done(this.showFieldByEarnCodeType());
         },
 
         deleteTimeBlock : function (e) {
-
             var key = _(e.target.id).parseEventKey();
             var timeBlock = timeBlockCollection.get(key.id);
 
             if (confirm('You are about to delete a time block. Click OK to confirm the delete.')) {
-                window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&documentId=" + timeBlock.get("documentId") + "&tkTimeBlockId=" + key.id;
-                e.preventDefault();
-                e.stopPropagation();
+                window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&documentId=" + timeBlock.get("documentId") + "&tkTimeBlockId=" + key.action;
             }
         },
-        
 
-        validateEarnCode : function() {
-        	var bValid = true;
-        	bValid &= app.checkEmptyField($("#earnCode"), "Earn Code");
-        	var earnCodeType = _.getEarnCodeType(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
-        	
-        	if (earnCodeType === CONSTANTS.EARNCODE_TYPE.TIME) {
-        	// the format has to be like "12:00 AM"
-        		bValid &= app.checkLength($('#startTime'), "Time entry", 8, 8);
-        		bValid &= app.checkLength($('#endTime'), "Time entry", 8, 8);
-        	}
-        	else if (earnCodeType === CONSTANTS.EARNCODE_TYPE.HOUR) {
-        		var hours = $('#hoursField');
-        		bValid &= app.checkEmptyField(hours, "Hour") && app.checkMinLength(hours, "Hour", 1) && app.checkRegexp(hours, '/0/', 'Hours cannot be zero');
-        	}
-        	else {
-        		var amount = $('#amountField');
-        		bValid &= app.checkEmptyField(amount, "Amount") && app.checkMinLength(amount, "Amount", 1) && app.checkRegexp(amount, '/0/', 'Amount cannot be zero');
-        	}
-        	return bValid;
+        validateEarnCode : function () {
+            var bValid = true;
+            bValid &= app.checkEmptyField($("#earnCode"), "Earn Code");
+            var earnCodeType = _.getEarnCodeType(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
+
+            if (earnCodeType === CONSTANTS.EARNCODE_TYPE.TIME) {
+                // the format has to be like "12:00 AM"
+                bValid &= app.checkLength($('#startTime'), "Time entry", 8, 8);
+                bValid &= app.checkLength($('#endTime'), "Time entry", 8, 8);
+            }
+            else if (earnCodeType === CONSTANTS.EARNCODE_TYPE.HOUR) {
+                var hours = $('#hoursField');
+                bValid &= app.checkEmptyField(hours, "Hour") && app.checkMinLength(hours, "Hour", 1) && app.checkRegexp(hours, '/0/', 'Hours cannot be zero');
+            }
+            else {
+                var amount = $('#amountField');
+                bValid &= app.checkEmptyField(amount, "Amount") && app.checkMinLength(amount, "Amount", 1) && app.checkRegexp(amount, '/0/', 'Amount cannot be zero');
+            }
+            return bValid;
         },
 
-        fetchEarnCode : function () {
+        fetchEarnCode : function (assignment) {
+            // When the method is called with a passed in value, the assignment is whatever that value is;
+            // If the method is called WITHOUT a passed in value, the assignment is an event.
+            // We want to be able to use this method in creating and editing timeblocks.
+            // If assignment is not a string, we'll grab the selected assignment on the form.
+            if (!_.isString(assignment)) {
+                assignment = $("#selectedAssignment option:selected").val();
+            }
+
             // Fetch earn codes based on the selected assignment
             // The fetch function is provided by backbone.js which also supports jQuery.ajax options.
             // See here for more information: http://documentcloud.github.com/backbone/#Collection-fetch
@@ -300,7 +348,7 @@ $(function () {
                 // Make the ajax call not async to be able to mark the earn code selected
                 async : false,
                 data : {
-                    selectedAssignment : $("#selectedAssignment").val()
+                    selectedAssignment : assignment
                 }
             });
 
@@ -310,8 +358,22 @@ $(function () {
         addAllEarnCodes : function () {
             var view = new EarnCodeView({collection : EarnCodes});
             // Append the earn code to <select>
-            this.$("#earnCode-section").append(view.render().el);
+            $("#earnCode-section").append(view.render().el);
 
+        },
+
+        fetchOvertimeEarnCode : function () {
+            // Fetch earn codes based on the selected assignment
+            // The fetch function is provided by backbone.js which also supports jQuery.ajax options.
+            // See here for more information: http://documentcloud.github.com/backbone/#Collection-fetch
+            this.$("#overtimePref").html("");
+            OvertimeEarnCodes.fetch();
+        },
+
+        addAllOvertimeEarnCodes : function () {
+            var view = new OvertimeEarnCodeView({collection : OvertimeEarnCodes});
+            // Append the earn code to <select>
+            this.$("#overtime-section").append(view.render().el);
         },
 
         showFieldByEarnCodeType : function () {
@@ -332,59 +394,58 @@ $(function () {
                 $(fields[0] + "," + fields[1]).show();
             }
         },
-        
-        checkLength : function (o, n, min, max) {     
-        	if (o.val().length > max || o.val().length < min) {
-               o.addClass('ui-state-error');
-               updateTips(n + " field cannot be empty");
-               return false;
+
+        checkLength : function (o, n, min, max) {
+            if (o.val().length > max || o.val().length < min) {
+                o.addClass('ui-state-error');
+                updateTips(n + " field cannot be empty");
+                return false;
             }
             return true;
-         },
-        
+        },
+
         checkEmptyField : function (o, n) {
-        	var val = o.val();
-        	if (val == '') {
-        		o.addClass('ui-state-error');
-        		updateTips(n + " field cannot be empty");
-        		return false;
-        	}
-        	return true;
+            var val = o.val();
+            if (val == '') {
+                o.addClass('ui-state-error');
+                updateTips(n + " field cannot be empty");
+                return false;
+            }
+            return true;
         },
 
-         checkRegexp : function(o, regexp, n) {
-        	if (( o.val().match(regexp) )) {
-        		o.addClass('ui-state-error');
-        		updateTips(n);
-        		return false;
-        	}
-        	return true;
+        checkRegexp : function (o, regexp, n) {
+            if (( o.val().match(regexp) )) {
+                o.addClass('ui-state-error');
+                updateTips(n);
+                return false;
+            }
+            return true;
         },
 
-         checkSpecificValue : function(o, value, n) {
-        	if (o.val() != value) {
-        		o.addClass('ui-state-error');
-        		updateTips(n);
-        	return false;
-        	}
-        	return true;
+        checkSpecificValue : function (o, value, n) {
+            if (o.val() != value) {
+                o.addClass('ui-state-error');
+                updateTips(n);
+                return false;
+            }
+            return true;
         },
-        
-        updateTips : function(t) {
-        	validation.text(t)
-            .addClass('ui-state-error')
-            .css({'color':'red','font-weight':'bold'});
+
+        updateTips : function (t) {
+            validation.text(t)
+                    .addClass('ui-state-error')
+                    .css({'color' : 'red', 'font-weight' : 'bold'});
         },
-        
-        checkMinLength :  function (o, n, min) {
-        	if (o.val().length < min) {
-        		o.addClass('ui-state-error');
-        		updateTips(n + " field's value is incorrect");
-        		return false;
-        	}
-        	return true;
+
+        checkMinLength : function (o, n, min) {
+            if (o.val().length < min) {
+                o.addClass('ui-state-error');
+                updateTips(n + " field's value is incorrect");
+                return false;
+            }
+            return true;
         }
-
 
     });
 
@@ -407,7 +468,27 @@ $(function () {
         }
     });
 
-    // Initialize the view
+    var OvertimeEarnCodeView = Backbone.View.extend({
+        el : $("#overtimePref"),
+
+        template : _.template($('#earnCode-template').html()),
+
+        initialize : function () {
+            _.bindAll(this, "render");
+        },
+
+        render : function () {
+            var self = this;
+            this.collection.each(function (earnCode) {
+                $(self.el).append(self.template(earnCode.toJSON()));
+            });
+
+            return this;
+        }
+    });
+
+
+    // Initialize the view. This is the kick-off point.
     var app = new TimeBlockView;
 
     /**
@@ -453,7 +534,7 @@ $(function () {
         getEarnCodeType : function (earnCodeJson, earnCode) {
             var type = "";
 
-            $.each(earnCodeJson, function(i){
+            $.each(earnCodeJson, function (i) {
                 if (earnCodeJson[i]["earnCode"] == earnCode) {
                     type = earnCodeJson[i]["type"];
                 }
@@ -462,7 +543,7 @@ $(function () {
             return type;
         },
         /**
-         * Provides a helper method to be able to change the button name on the time entry form.
+         * Provides a helper method to change the button name on the time entry dialog.
          * @param string
          */
         updateDialogButtonName : function (string) {
@@ -470,41 +551,41 @@ $(function () {
         }
 
     });
-    
+
     var selectedDays = [];
     var selectingDays = [];
     var beginPeriodDateTimeObj = $('#beginPeriodDate').val() !== undefined ? new Date($('#beginPeriodDate').val()) : d + '/' + m + '/' + y;
     var endPeriodDateTimeObj = $('#endPeriodDate').val() !== undefined ? new Date($('#endPeriodDate').val()) : d + '/' + m + '/' + y;
-    
+
     $(".cal-table").selectable({
 //      $(".another-test").selectable({
-          filter: "td",
-          distance: 1,
-          selected: function(event, ui) {
-              	selectedDays.push(ui.selected.id);
-          },
-          selecting: function(event, ui) {
-        		  // get the index number of the selected td
-        		  $(".ui-selecting", this).each(function() {
-        			  selectingDays.push($(".cal-table td").index(this));
-        		  });
+        filter : "td",
+        distance : 1,
+        selected : function (event, ui) {
+            selectedDays.push(ui.selected.id);
+        },
+        selecting : function (event, ui) {
+            // get the index number of the selected td
+            $(".ui-selecting", this).each(function () {
+                selectingDays.push($(".cal-table td").index(this));
+            });
 
-          },
-          
-          stop: function(event, ui) {
-              var currentDay = new Date(beginPeriodDateTimeObj);
-              var beginDay = new Date(currentDay);
-              var endDay = new Date(currentDay);
+        },
 
-              beginDay.addDays(parseInt(selectedDays[0].split("_")[1]));
-              endDay.addDays(parseInt(selectedDays[selectedDays.length - 1].split("_")[1]));
+        stop : function (event, ui) {
+            var currentDay = new Date(beginPeriodDateTimeObj);
+            var beginDay = new Date(currentDay);
+            var endDay = new Date(currentDay);
 
-              app.showTimeEntryDialog(beginDay,endDay);
-              selectedDays = [];
-          }
-      });
+            beginDay.addDays(parseInt(selectedDays[0].split("_")[1]));
+            endDay.addDays(parseInt(selectedDays[selectedDays.length - 1].split("_")[1]));
 
-      if ($('#docEditable').val() == 'false') {
-          $(".cal-table").selectable("destroy");
-      }
+            app.showTimeEntryDialog(beginDay, endDay);
+            selectedDays = [];
+        }
+    });
+
+    if ($('#docEditable').val() == 'false') {
+        $(".cal-table").selectable("destroy");
+    }
 });

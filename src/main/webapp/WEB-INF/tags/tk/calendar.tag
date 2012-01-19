@@ -60,7 +60,7 @@
                     <c:forEach var="day" items="${week.days}" varStatus="dayS">
                     
 	                   	<c:set var="dayStyle" value="width:14%;"/>
-	                   	<c:set var="dayId" value = "create_${day.dayNumberDelta}" />
+	                   	<c:set var="dayId" value = "day_${day.dayNumberDelta}" />
 	                	<c:if test="${day.gray}">
 	                		<c:set var="dayStyle" value="width:14%; background: rgb(224, 235, 225);"/>
 	                		<c:set var="dayId" value = "gray_day" />
@@ -144,6 +144,7 @@
 	                                   </div>
                                    </c:if>
                                 </c:forEach>
+                                <div class="create" id="${cal.calendarMonth}/${day.dayNumberString}/${cal.calenadrYear}"></div>
                             </div>
                         </td>
                     </c:forEach>

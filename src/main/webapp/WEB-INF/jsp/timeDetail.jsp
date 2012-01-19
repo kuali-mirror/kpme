@@ -7,6 +7,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.string/1.1.6/underscore.string.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min.js"></script>
     <script src="js/tk.calendar.backbone.js"></script>
+    <script src="js/tk.ui.js"></script>
 
     <div style="clear:both;" class="">
         <html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDTNoTZ}" styleId="beginPeriodDate"/>
@@ -57,8 +58,8 @@
     </div>
 
     <%-- The time entry form (dialog) --%>
-    <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em;">
-        <div id="dialog-form" title="Add Time Blocks:" style="margin-left: auto; margin-right: auto;">
+    <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em; display: none;">
+        <div id="dialog-form" title="Add Time Blocks:" class="dialog-form" style="margin-left: auto; margin-right: auto;">
             <p id="validation" class="validation" title="Validation">All form fields are required.</p>
             <html:form action="/TimeDetail.do" styleId="time-detail">
                 <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
@@ -99,7 +100,7 @@
                                         id="beginTimeHelp" tabindex="999" onclick="return false;">help
                                 </button>
 
-                                <input type="hidden" name="startTimeHourMinute" id="startTimeHourMinute"/>
+                                <input type="text" name="startTimeHourMinute" id="startTimeHourMinute"/>
                             </td>
                         </tr>
                         <tr class="clockOutSection">
@@ -114,7 +115,7 @@
                                         tabindex="999" onclick="return false;">help
                                 </button>
 
-                                <input type="hidden" name="endTimeHourMinute" id="endTimeHourMinute"/>
+                                <input type="text" name="endTimeHourMinute" id="endTimeHourMinute"/>
                             </td>
                         </tr>
                         <tr class="hourSection" style="display: none;">
@@ -135,15 +136,25 @@
                                        title="Check time if you want to cross days"/><label for="acrossDays">Apply
                                 time to each day</label></td>
                         </tr>
-
                     </table>
                 </div>
+                <div id="overtime-section" style="display:none;" title="Change Overtime Earn Code:" class="timesheet-panel dialog-form">
+                    <select id='overtimePref' name="overtimePref">
+                    </select>
+                </div>
+
             </html:form>
         </div>
     </div>
 
+
     <%-- Earn code template --%>
     <script type="text/template" id="earnCode-template">
+        <option value="<@= earnCode @>"><@= earnCode + " : " + desc @></option>
+    </script>
+
+    <%-- Overtime template --%>
+    <script type="text/template" id="overtime-template">
         <option value="<@= earnCode @>"><@= earnCode + " : " + desc @></option>
     </script>
 

@@ -183,6 +183,14 @@ public class TkCalendar {
         return dayStrings;
     }
 
+    public String getCalenadrYear() {
+        return getBeginDateTime().toString("yyyy");
+    }
+    
+    public String getCalendarMonth() {
+        return getBeginDateTime().toString("M");
+    }
+
     private String getDayNumberString(int dayDelta) {
         StringBuilder b = new StringBuilder();
 

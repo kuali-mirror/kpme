@@ -63,6 +63,11 @@ var CONSTANTS = {
     ACTIONS : {
         UPDATE_TIME_BLOCK : "updateTimeBlock",
         ADD_TIME_BLOCK: "addTimeBlock"
+    },
+    TIME_FORMAT : {
+        DATE_FOR_OUTPUT : 'MM/dd/yyyy',
+        TIME_FOR_OUTPUT : 'hh : mm tt',
+        TIME_FOR_SYSTEM : 'H:mm'
     }
 }
 
@@ -108,6 +113,36 @@ $(document).ready(function() {
         }
     });
 
+
+    var docId = $('#documentId').val();
+    var prevDocId = $('#prevDocumentId').val();
+    var nextDocId = $('#nextDocumentId').val();
+
+
+    // create navigation buttons
+    $('#nav_prev').button({
+        icons: {
+            primary: "ui-icon-circle-triangle-w"
+        },
+        text: false
+    });
+
+    $('#nav_prev').click(function() {
+        window.location = 'TimeDetail.do?documentId=' + prevDocId;
+    });
+
+    $('#nav_next').button({
+        icons: {
+            primary: "ui-icon-circle-triangle-e"
+        },
+        text: false
+    });
+
+    $('#nav_next').click(function() {
+        window.location = 'TimeDetail.do?documentId=' + nextDocId;
+    });
+
+
     // datepicker
     $('#startDate, #endDate, #bdRow1, #edRow1, #bdRow2, #edRow2').datepicker({
         changeMonth : true,
@@ -139,12 +174,6 @@ $(document).ready(function() {
     };
     $(".jClock").jclock(options);
 
-    // elapsed time
-    // http://keith-wood.name/countdown.html
-//    if($("#clock-button").val() == "Clock Out") {
-//        $("#lastClockedInTime").val("");
-//        $("#elapsed-time").val("00:00:00");
-//    }
     var lastClockedInTime = $("#lastClockedInTime").val();
     var clockAction = $("#clockAction").val();
     var startTime = clockAction == 'CO' ? new Date(lastClockedInTime) : new Date(currentServerTime);
@@ -177,12 +206,6 @@ $(document).ready(function() {
 
         fadeInSpeed : 500
     });
-
-    // note accordion
-//    $("#note, #routeLog").accordion({
-//        collapsible : true,
-//        active : 2
-//    });
 
     // person detail accordion
     $("#person-detail-accordion").accordion({
