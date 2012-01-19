@@ -133,7 +133,50 @@ $(function () {
             $("#" + id + "HourMinute").val(dateTime.toString('H:mm'));
         },
 
+        validateAndSubmitTimeBlock : function() {
+        	var bValid = true;
+        	bValid &= app.checkEmptyField($("#selectedAssignment"), "Assignment");
+        	bValid &= app.validateEarnCode();
+        	
+        	if(bValid){
+        		//TODO // compare the original values with the modified ones. if there is no change, close the form instead of submitting it
+        		
+        		var docId = $('#documentId').val();
+        		 // validate timeblocks
+        		$.ajax({
+        			async: false,
+        			url: "TimeDetailWS.do?methodToCall=validateTimeEntry&documentId=" + docId,
+        			data: params,
+        			cache: false,
+        			success: function(data) {
+        				//var match = data.match(/\w{1,}|/g);
+        				var json = jQuery.parseJSON(data);
+        				// if there is no error message, submit the form to add the time block
+        				if (json.length == 0) {
+        					$('#time-detail').submit();
+        					$(this).dialog("close");
+        				}
+                    	else {
+                    		// if there is any error, grab error messages (json) and display them
+                    		var json = jQuery.parseJSON(data);
+                    		var errorMsgs = '';
+                    		$.each(json, function (index) {
+                    			errorMsgs += "Error : " + json[index] + "\n";
+                    		});
 
+                    		app. updateTips(errorMsgs);
+                    		return false;
+                    	}
+        			},
+        			error: function() {
+        				app.updateTips("Error: Can't save data.");
+        				return false;
+        			}
+        		});
+        	}
+        	return bValid;
+        },
+        
         showTimeEntryDialog : function (startDay,endDay) {
 
             $("#dialog-form").dialog({
@@ -142,8 +185,10 @@ $(function () {
                 width : '450',
                 modal : true,
                 open : function () {
-                	$('#startDate').val(startDay.toString('MM/dd/yyyy'));
-                	$('#endDate').val(endDay.toString('MM/dd/yyyy'));
+                	if(startDay && endDay){
+                		$('#startDate').val(startDay.toString('MM/dd/yyyy'));
+                		$('#endDate').val(endDay.toString('MM/dd/yyyy'));
+                	}
                 },
                 
                 beforeClose : function () {
@@ -178,10 +223,10 @@ $(function () {
 
                      $('#acrossDays').val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
                      $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
+                     //app.validateAndSubmitTimeBlock();
+   					$('#time-detail').submit();
+					$(this).dialog("close");
                      
-
-                     $('#time-detail').submit();
-                     $(this).dialog("close");
                         
                         // TODO: need to port the existing logics from tk.calendar.js
                     },
@@ -222,6 +267,28 @@ $(function () {
                 e.preventDefault();
                 e.stopPropagation();
             }
+        },
+        
+
+        validateEarnCode : function() {
+        	var bValid = true;
+        	bValid &= app.checkEmptyField($("#earnCode"), "Earn Code");
+        	var earnCodeType = _.getEarnCodeType(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
+        	
+        	if (earnCodeType === CONSTANTS.EARNCODE_TYPE.TIME) {
+        	// the format has to be like "12:00 AM"
+        		bValid &= app.checkLength($('#startTime'), "Time entry", 8, 8);
+        		bValid &= app.checkLength($('#endTime'), "Time entry", 8, 8);
+        	}
+        	else if (earnCodeType === CONSTANTS.EARNCODE_TYPE.HOUR) {
+        		var hours = $('#hoursField');
+        		bValid &= app.checkEmptyField(hours, "Hour") && app.checkMinLength(hours, "Hour", 1) && app.checkRegexp(hours, '/0/', 'Hours cannot be zero');
+        	}
+        	else {
+        		var amount = $('#amountField');
+        		bValid &= app.checkEmptyField(amount, "Amount") && app.checkMinLength(amount, "Amount", 1) && app.checkRegexp(amount, '/0/', 'Amount cannot be zero');
+        	}
+        	return bValid;
         },
 
         fetchEarnCode : function () {
@@ -264,7 +331,60 @@ $(function () {
                 $(_.without(fields, ".clockInSection", ".clockOutSection").join(",")).hide();
                 $(fields[0] + "," + fields[1]).show();
             }
+        },
+        
+        checkLength : function (o, n, min, max) {     
+        	if (o.val().length > max || o.val().length < min) {
+               o.addClass('ui-state-error');
+               updateTips(n + " field cannot be empty");
+               return false;
+            }
+            return true;
+         },
+        
+        checkEmptyField : function (o, n) {
+        	var val = o.val();
+        	if (val == '') {
+        		o.addClass('ui-state-error');
+        		updateTips(n + " field cannot be empty");
+        		return false;
+        	}
+        	return true;
+        },
+
+         checkRegexp : function(o, regexp, n) {
+        	if (( o.val().match(regexp) )) {
+        		o.addClass('ui-state-error');
+        		updateTips(n);
+        		return false;
+        	}
+        	return true;
+        },
+
+         checkSpecificValue : function(o, value, n) {
+        	if (o.val() != value) {
+        		o.addClass('ui-state-error');
+        		updateTips(n);
+        	return false;
+        	}
+        	return true;
+        },
+        
+        updateTips : function(t) {
+        	validation.text(t)
+            .addClass('ui-state-error')
+            .css({'color':'red','font-weight':'bold'});
+        },
+        
+        checkMinLength :  function (o, n, min) {
+        	if (o.val().length < min) {
+        		o.addClass('ui-state-error');
+        		updateTips(n + " field's value is incorrect");
+        		return false;
+        	}
+        	return true;
         }
+
 
     });
 
