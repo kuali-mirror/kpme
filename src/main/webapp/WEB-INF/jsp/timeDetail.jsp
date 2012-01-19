@@ -69,8 +69,8 @@
                     <table>
                         <tr>
                             <td><label for="date-range-begin">Date range:</label></td>
-                            <td><input title="Date Begin" type="text" id=startDate size="10"/> -
-                                <input title="Date End" type="text" id="endDate" size="10"/></td>
+                            <td><input title="Date Begin" type="text" id="startDate" name="startDate" size="10"/> -
+                                <input title="Date End" type="text" id="endDate" name="endDate" size="10"/></td>
                         </tr>
                         <tr>
                             <td><label for="selectedAssignment">Assignment:</label></td>

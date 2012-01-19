@@ -93,8 +93,7 @@ $(function () {
             "click td[id*=create]" : "showTimeEntryDialog",
             "change #startTime, #endTime" : "formatTime",
             "change #selectedAssignment" : "fetchEarnCode",
-            "change #selectedEarnCode" : "showFieldByEarnCodeType",
-            "click button[id*=Add]" : "addTimeBlock"
+            "change #selectedEarnCode" : "showFieldByEarnCodeType"
         },
 
         initialize : function () {
@@ -134,11 +133,6 @@ $(function () {
             $("#" + id + "HourMinute").val(dateTime.toString('H:mm'));
         },
 
-        
-        addTimeBlock : function () {
-        	alert('adding');
-        	
-        },
 
         showTimeEntryDialog : function () {
 
@@ -153,7 +147,35 @@ $(function () {
                 },
                 buttons : {
                     "Add" : function () {
-                        $(this).dialog("close");
+                   	 var params = {};
+                     var endTimeValue = $('#endTimeHourMinute').val().toUpperCase();
+                     var endDateValue = $('#endDate').val();
+
+                     // if the end time is 12:00 am, move the end date to the next day
+
+                     if (endTimeValue == "0:0") {
+                         var dateRangeField = endDateValue.split("/");
+                         if (dateRangeField[1].charAt(0) == '0') {
+                             dateRangeField[1] = dateRangeField[1].replace('0', '');
+                         }
+
+                         var dateString = parseInt(dateRangeField[1]) + 1;
+                         endDateValue = dateRangeField[0] + "/" + dateString + "/" + dateRangeField[2];
+                     }
+
+                     $('#startDate').val($('#startDate').val());
+                     $('#endDate').val(endDateValue);
+                     $('#startTime').val($('#startTimeHourMinute').val());
+                     $('#endTime').val(endTimeValue);
+                     $('#hours').val($('#hoursField').val());
+                     $('#amount').val($('#amountField').val());
+                     
+
+                     $('#acrossDays').val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
+                     $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
+                     $('#time-detail').submit();
+                     $(this).dialog("close");
+                        
                         // TODO: need to port the existing logics from tk.calendar.js
                     },
                     Cancel : function () {
@@ -209,6 +231,7 @@ $(function () {
             });
 
         },
+
 
         addAllEarnCodes : function () {
             var view = new EarnCodeView({collection : EarnCodes});
