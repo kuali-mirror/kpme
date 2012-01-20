@@ -110,7 +110,8 @@ $(function () {
             // We want to trigger the show event on any white space areas.
             "click .create, .day-number" : "showTimeEntryDialog",
             "click span[id*=overtime]" : "showOverTimeDialog",
-            "blur #startTime, #endTime" : "formatTime",
+            "blur #startTimeHourMinute, #endTimeHourMinute" : "formatTime",
+            // TODO: figure out how to chain the events
             "change #selectedAssignment" : "fetchEarnCode",
             "keypress #selectedAssignment" : "fetchEarnCode",
             "change #selectedEarnCode" : "showFieldByEarnCodeType",
@@ -147,7 +148,7 @@ $(function () {
                 // Date.js returns null if it couldn't understand the format from user's input.
                 // If that's the case, clear the values on the form and make the border red.
                 $("#" + id).addClass("block-error").val("");
-                $("#" + id + "HourMinute").val("");
+                $("#" + id.split("Hour")[0]).val("");
             }
             // This magic line first finds the element by the id.
             // Uses Datejs (a 3rd party js lib) to parse user's input and update the value by the specifed format.
@@ -155,7 +156,7 @@ $(function () {
             $("#" + id).val(dateTime.toString(CONSTANTS.TIME_FORMAT.TIME_FOR_OUTPUT));
 
             // set the value to the military format on a different field for further timeblock actions.
-            $("#" + id + "HourMinute").val(dateTime.toString(CONSTANTS.TIME_FORMAT.TIME_FOR_SYSTEM));
+            $("#" + id.split("Hour")[0]).val(dateTime.toString(CONSTANTS.TIME_FORMAT.TIME_FOR_SYSTEM));
         },
 
         validateAndSubmitTimeBlock : function () {
@@ -217,9 +218,9 @@ $(function () {
                         $("#startDate, #endDate").val(event.target.id);
                     }
                 },
-                beforeClose : function () {
-                    // TODO: create a method to reset the values instead of spreading this type of code all over the place.
-                    _(new TimeBlock).fillInForm();
+                close : function () {
+                    // reset values on the form
+                    _.resetTimeBlockDialog($("#timesheet-panel"));
                 },
                 buttons : {
                     "Add" : function () {
@@ -236,15 +237,13 @@ $(function () {
                         });
 
                         // Parse the date by the format like 1/2/2011 8:0
-                        var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTimeHourMinute').val());
+                        var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
 
                         // Compare and see if the end time is at midnight
                         if (Date.compare(midnight, endDateTime) == 0) {
                             $('#endDate').val(endDateTime.add(1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
                         }
 
-                        $('#startTime').val($('#startTimeHourMinute').val());
-                        $('#endTime').val($('#endTimeHourMinute').val());
                         $('#acrossDays').val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
                         $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
                         $('#time-detail').submit();
@@ -260,20 +259,34 @@ $(function () {
             //this.addAllEarnCodes();
         },
 
-        showOverTimeDialog : function () {
+        showOverTimeDialog : function (e) {
+            var self = this;
+
+            var key = _(e.target.id).parseEventKey();
+            var timeBlock = timeBlockCollection.get(key.id);
+            var currentOvertimePref = _.trim($("#" + e.target.id).text());
+            var dfd = $.Deferred();
+            // Fill in the values. See the note above regarding why we didn't use a template
+            dfd.done(self.fetchOvertimeEarnCode())
+                    .done(_(timeBlock).fillInForm())
+                    .done($("#overtimePref option[value='" + currentOvertimePref + "']").attr("selected", "selected"));
+
             $("#overtime-section").dialog({
                 autoOpen : true,
                 height : 'auto',
                 width : '450',
                 modal : true,
+                open : function () {
+                },
                 beforeClose : function () {
                     // TODO: create a method to reset the values instead of spreading this type of code all over the place.
-                    // _(new TimeBlock).fillInForm();
+                    _(new TimeBlock).fillInForm();
                 },
                 buttons : {
                     "Add" : function () {
+                        $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
+                        $('#time-detail').submit();
                         $(this).dialog("close");
-                        // TODO: need to port the existing logics from tk.calendar.js
                     },
                     Cancel : function () {
                         $(this).dialog("close");
@@ -281,8 +294,6 @@ $(function () {
                     }
                 }
             });
-
-            this.fetchOvertimeEarnCode();
         },
 
         showTimeBlock : function (e) {
@@ -331,14 +342,12 @@ $(function () {
             return bValid;
         },
 
-        fetchEarnCode : function (assignment) {
+        fetchEarnCode : function (event) {
             // When the method is called with a passed in value, the assignment is whatever that value is;
             // If the method is called WITHOUT a passed in value, the assignment is an event.
             // We want to be able to use this method in creating and editing timeblocks.
             // If assignment is not a string, we'll grab the selected assignment on the form.
-            if (!_.isString(assignment)) {
-                assignment = $("#selectedAssignment option:selected").val();
-            }
+            var assignment = _.isString(event) ? event : this.$("#selectedAssignment option:selected").val();
 
             // Fetch earn codes based on the selected assignment
             // The fetch function is provided by backbone.js which also supports jQuery.ajax options.
@@ -351,7 +360,6 @@ $(function () {
                     selectedAssignment : assignment
                 }
             });
-
         },
 
 
@@ -367,7 +375,9 @@ $(function () {
             // The fetch function is provided by backbone.js which also supports jQuery.ajax options.
             // See here for more information: http://documentcloud.github.com/backbone/#Collection-fetch
             this.$("#overtimePref").html("");
-            OvertimeEarnCodes.fetch();
+            OvertimeEarnCodes.fetch({
+                async : false
+            });
         },
 
         addAllOvertimeEarnCodes : function () {
@@ -548,6 +558,15 @@ $(function () {
          */
         updateDialogButtonName : function (string) {
 
+        },
+        /**
+         * Reset the values on the timeblock entry form.
+         * @param fields
+         */
+        resetTimeBlockDialog : function (timeBlockDiv) {
+            $("input, select", timeBlockDiv).val("");
+            // This is not the best solution, but we can probably live with this for now.
+            $("#selectedEarnCode").html("<option value=''> -- selecte an earn code --");
         }
 
     });

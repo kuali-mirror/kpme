@@ -65,7 +65,7 @@ var CONSTANTS = {
         ADD_TIME_BLOCK: "addTimeBlock"
     },
     TIME_FORMAT : {
-        DATE_FOR_OUTPUT : 'MM/dd/yyyy',
+        DATE_FOR_OUTPUT : 'M/dd/yyyy',
         TIME_FOR_OUTPUT : 'hh : mm tt',
         TIME_FOR_SYSTEM : 'H:mm'
     }

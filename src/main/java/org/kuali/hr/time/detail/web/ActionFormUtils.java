@@ -142,10 +142,12 @@ public class ActionFormUtils {
             timeBlockMap.put("endDate", end.toString(TkConstants.DT_BASIC_DATE_FORMAT));
             timeBlockMap.put("startNoTz", start.toString(ISODateTimeFormat.dateHourMinuteSecond()));
             timeBlockMap.put("endNoTz", end.toString(ISODateTimeFormat.dateHourMinuteSecond()));
-            timeBlockMap.put("startTimeHourMinute", start.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
-            timeBlockMap.put("endTimeHourMinute", end.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
-            timeBlockMap.put("startTime", start.toString(TkConstants.DT_BASIC_TIME_FORMAT));
-            timeBlockMap.put("endTime", end.toString(TkConstants.DT_BASIC_TIME_FORMAT));
+            // start / endTimeHourMinute fields are for only for the display purpose
+            timeBlockMap.put("startTimeHourMinute", start.toString(TkConstants.DT_BASIC_TIME_FORMAT));
+            timeBlockMap.put("endTimeHourMinute", end.toString(TkConstants.DT_BASIC_TIME_FORMAT));
+            // start / endTime are the actual fields used by the adding / editing timeblocks
+            timeBlockMap.put("startTime", start.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
+            timeBlockMap.put("endTime", end.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
             timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
             timeBlockMap.put("hours", timeBlock.getHours());
             timeBlockMap.put("amount", timeBlock.getAmount());

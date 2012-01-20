@@ -107,7 +107,6 @@ public class TimeDetailWSAction extends TimesheetAction {
 
     public ActionForward getOvertimeEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
-        StringBuilder earnCodeString = new StringBuilder();
         List<EarnCode> overtimeEarnCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodes(TKUtils.getCurrentDate());
         List<Map<String, Object>> overtimeEarnCodeList = new LinkedList<Map<String, Object>>();
 

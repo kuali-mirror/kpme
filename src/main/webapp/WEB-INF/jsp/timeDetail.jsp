@@ -92,7 +92,7 @@
                         <tr class="clockInSection">
                             <td><span style="float:right;"><label for="beginTimeField">In:</label></span></td>
                             <td>
-                                <input name="startTime" id="startTime" type="text" size="10"/>
+                                <input name="startTimeHourMinute" id="startTimeHourMinute" type="text" size="10"/>
 
                                     <%-- Time entry helper with the tooltip effect --%>
                                 <button style="width:20px; height:20px; vertical-align: text-top"
@@ -100,13 +100,13 @@
                                         id="beginTimeHelp" tabindex="999" onclick="return false;">help
                                 </button>
 
-                                <input type="text" name="startTimeHourMinute" id="startTimeHourMinute"/>
+                                <input type="text" name="startTime" id="startTime"/>
                             </td>
                         </tr>
                         <tr class="clockOutSection">
                             <td><span style="float:right;"><label for="endTimeField">Out:</label></span></td>
                             <td>
-                                <input name="endTime" id="endTime" type="text" size="10"/>
+                                <input name="endTimeHourMinute" id="endTimeHourMinute" type="text" size="10"/>
 
                                     <%-- Time entry helper with the tooltip effect --%>
                                 <button style="width:20px; height:20px; vertical-align: text-top;"
@@ -115,7 +115,7 @@
                                         tabindex="999" onclick="return false;">help
                                 </button>
 
-                                <input type="text" name="endTimeHourMinute" id="endTimeHourMinute"/>
+                                <input type="text" name="endTime" id="endTime"/>
                             </td>
                         </tr>
                         <tr class="hourSection" style="display: none;">
