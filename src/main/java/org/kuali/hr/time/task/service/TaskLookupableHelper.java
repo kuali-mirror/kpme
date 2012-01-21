@@ -43,13 +43,19 @@ public class TaskLookupableHelper extends TkAuthorizedLookupableHelperBase {
 			Task aTask = (Task) aList.get(i);
 			if(aTask.getTkWorkAreaId() != null) {
 				WorkArea aWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(aTask.getTkWorkAreaId());
+				boolean addEntry = true;
 				if(aWorkArea != null) {
-					if( (StringUtils.isBlank(wa) || aWorkArea.getWorkArea().toString().equals(wa)) 
-							|| (StringUtils.isBlank(wad) || aWorkArea.getDescription().equals(wad))) {
-						if(!taskFound.contains(aWorkArea.getWorkArea() + "_"+aTask.getTask())){
-							finalList.add(aTask);
-							taskFound.add(aWorkArea.getWorkArea() +"_"+aTask.getTask());
-						}
+					if(StringUtils.isNotBlank(wa) && !StringUtils.equals(wa, aWorkArea.getWorkArea().toString())){
+						addEntry &= false;
+					}
+					
+					if(StringUtils.isNotBlank(wad) && !StringUtils.equals(wad, aWorkArea.getDescription())){
+						addEntry &= false;
+					}
+					
+					if(addEntry && !taskFound.contains(aWorkArea.getWorkArea() + "_"+aTask.getTask())){
+						finalList.add(aTask);
+						taskFound.add(aWorkArea.getWorkArea()+"_"+aTask.getTask());
 					}
 				}
 			}
