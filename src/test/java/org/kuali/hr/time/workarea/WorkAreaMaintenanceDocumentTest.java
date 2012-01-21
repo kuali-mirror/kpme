@@ -33,6 +33,7 @@ public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
     @Test
     public void testCreateNew() throws Exception {
     	String baseUrl = TkTestConstants.Urls.WORK_AREA_MAINT_NEW_URL;
+        Long workArea = this.maxWorkArea()+1;
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
     	assertNotNull(page);
    
@@ -73,8 +74,7 @@ public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
         HtmlPage lastPage = element.click();
         assertFalse("page text:\n" + lastPage.asText() + "\n contains:\n" + ERROR_MESSAGE, lastPage.asText().contains(ERROR_MESSAGE));
         assertTrue("page text:\n" + lastPage.asText() + "\n does not contains:\n" + SUCCESS_MESSAGE, lastPage.asText().contains(SUCCESS_MESSAGE));
-        Long workArea = this.maxWorkArea();
-        assertTrue("page text:\n" + lastPage.asText() + "\n does not contains:\n" + workArea.toString(), lastPage.asText().contains("WorkArea: 	 " + workArea.toString()));
+        assertTrue("page text:\n" + lastPage.asText() + "\n does not contains:\n" + workArea.toString(), lastPage.asText().contains(workArea.toString()));
         
         // search page should find the new work area
         HtmlPage searchPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.WORK_AREA_MAINT_URL);
@@ -92,15 +92,7 @@ public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
     }
     
 	public Long maxWorkArea() {
-		Collection aCol = KNSServiceLocator.getBusinessObjectService().findAll(WorkArea.class);
-		Long maxId = new Long(-1);
-		Iterator<WorkArea> itr = aCol.iterator();
-		while (itr.hasNext()) {
-			WorkArea aWorkArea = itr.next();
-			if(aWorkArea.getWorkArea() > maxId) {
-				maxId = aWorkArea.getWorkArea();
-			}
-		}
-		return maxId;
+		return TkServiceLocator.getWorkAreaService().getNextWorkAreaKey();
+
 	}
 }

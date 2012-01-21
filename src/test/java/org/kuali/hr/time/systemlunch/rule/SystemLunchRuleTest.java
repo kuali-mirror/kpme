@@ -47,7 +47,7 @@ public class SystemLunchRuleTest extends TkTestCase {
     	
     	Map<String, Object> criteria = new LinkedHashMap<String, Object>();
     	criteria.put("selectedAssignment", new String[]{TkTestConstants.FormElementTypes.DROPDOWN, "2_1234_2"});
-    	
+    	HtmlUnitUtil.createTempFile(page);
     	// choose the first assignment from the drop down
     	page = TkTestUtils.fillOutForm(page, criteria);
     	assertNotNull(page);

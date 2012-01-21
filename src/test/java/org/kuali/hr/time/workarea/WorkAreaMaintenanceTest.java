@@ -18,6 +18,7 @@ public class WorkAreaMaintenanceTest extends TkTestCase {
 	public void testWorkAreaMaintenanceScreen() throws Exception{
     	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.workarea.WorkArea&returnLocation=http://localhost:8080/tk-dev/portal.do&hideReturnLink=true&docFormKey=88888888";	
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+    	setFieldValue(page,"workArea","30");
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");
     	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit");
     	assertTrue("Test that maintenance screen rendered", page.asText().contains("30"));
