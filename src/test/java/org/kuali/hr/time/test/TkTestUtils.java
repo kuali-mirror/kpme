@@ -33,7 +33,6 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -84,6 +83,11 @@ public class TkTestUtils {
 				timeBlocks.add(timeBlock);
 				timesheet.setTimeBlocks(timeBlocks);
 			}
+			
+			//Add a TEX accrual earn code
+			TimeBlock timeBlock = createTimeBlock(timesheet, 1, 4,"TEX");
+			timeBlocks.add(timeBlock);
+			timesheet.setTimeBlocks(timeBlocks);
 			return timesheet;
 
 		} catch (WorkflowException e) {
@@ -150,8 +154,10 @@ public class TkTestUtils {
 		return block;
 	}
 
-
 	public static TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, int dayInPeriod, int numHours){
+		return createTimeBlock(timesheetDocument, dayInPeriod, numHours,"RGN");
+	}
+	public static TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, int dayInPeriod, int numHours, String earnCode){
 		TimeBlock timeBlock = new TimeBlock();
 		Calendar cal = GregorianCalendar.getInstance();
 		cal.setTimeInMillis(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime().getTime());
@@ -163,7 +169,7 @@ public class TkTestUtils {
 
 		timeBlock.setBeginTimestamp(new Timestamp(cal.getTimeInMillis()));
 		timeBlock.setBeginTimestampTimezone("EST");
-		timeBlock.setEarnCode("RGN");
+		timeBlock.setEarnCode(earnCode);
 		timeBlock.setJobNumber(1L);
 		timeBlock.setWorkArea(1234L);
 		timeBlock.setHours((new BigDecimal(numHours)).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING));

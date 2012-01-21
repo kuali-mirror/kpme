@@ -113,23 +113,24 @@ INSERT INTO `hr_dept_EARN_CODE_T`
 DELETE FROM `hr_earn_code_s`;
 INSERT INTO `hr_earn_code_s` VALUES('1000');
 DELETE FROM `hr_earn_code_T`;
-INSERT INTO `hr_earn_code_T` (`hr_earn_code_ID`, `EARN_CODE`, `DESCR`, `RECORD_TIME`,`RECORD_HOURS`,`RECORD_AMOUNT`,`EFFDT`, `TIMESTAMP`, `ACTIVE`,`OVT_EARN_CODE`) VALUES
-    ('1'  , 'SDR' , 'SHIFT DIFF'        , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N') ,
-    ('2'  , 'LUN' , 'LUNCH'             , '0','1','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N') ,
-	('3'  , 'OVT' , 'OVERTIME'          , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'Y') ,
-	('9'  , 'RGN' , 'REGULAR'           , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N') ,
-	('10' , 'RGH' , 'REGULAR HOURLY'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N') ,
-	('11' , 'SCK' , 'SICK'              , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N') ,
-	('12' , 'VAC' , 'VACATION'          , '0','1','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N') ,
-	('13' , 'WEP' , 'EMERGENCY'         , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N') ,
-	('14' , 'HAZ' , 'HAZARD DAY'        , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' ,'Y', 'N') ,
-	('15' , 'HIP' , 'HOLIDAY INCENTIVE' , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N') ,
-	('16' , 'OC1' , 'ON CALL - 1.50'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N') ,
-	('17' , 'OC2' , 'ON CALL - 2.00'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' ,'Y', 'N') ,
-	('18' , 'PRM' , 'PREMIUM'           , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N') ,
-	('19' , 'XYZ' , 'XYZ'               , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N') ,
-	('20' , 'XYY' , 'XYY'               , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N') ,
-	('21' , 'XZZ' , 'XZZ'               , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N') ;
+INSERT INTO `hr_earn_code_T` (`hr_earn_code_ID`, `EARN_CODE`, `DESCR`, `RECORD_TIME`,`RECORD_HOURS`,`RECORD_AMOUNT`,`EFFDT`, `TIMESTAMP`, `ACTIVE`,`OVT_EARN_CODE`,`ACCRUAL_CATEGORY`) VALUES
+    ('1'  , 'SDR' , 'SHIFT DIFF'        , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
+    ('2'  , 'LUN' , 'LUNCH'             , '0','1','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
+	('3'  , 'OVT' , 'OVERTIME'          , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'Y',NULL) ,
+	('9'  , 'RGN' , 'REGULAR'           , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
+	('10' , 'RGH' , 'REGULAR HOURLY'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
+	('11' , 'SCK' , 'SICK'              , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
+	('12' , 'VAC' , 'VACATION'          , '0','1','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
+	('13' , 'WEP' , 'EMERGENCY'         , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
+	('14' , 'HAZ' , 'HAZARD DAY'        , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' ,'Y', 'N',NULL) ,
+	('15' , 'HIP' , 'HOLIDAY INCENTIVE' , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
+	('16' , 'OC1' , 'ON CALL - 1.50'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
+	('17' , 'OC2' , 'ON CALL - 2.00'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' ,'Y', 'N',NULL) ,
+	('18' , 'PRM' , 'PREMIUM'           , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
+	('19' , 'XYZ' , 'XYZ'               , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
+	('20' , 'XYY' , 'XYY'               , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
+	('21' , 'XZZ' , 'XZZ'               , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
+	('22' , 'TEX' , 'TEX'               , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N','TEX');
 
 # Sal Group
 DELETE FROM `hr_sal_group_s`;
@@ -326,6 +327,11 @@ DELETE FROM `hr_holiday_calendar_t`;
 INSERT INTO `hr_holiday_calendar_T` (`HR_HOLIDAY_CALENDAR_ID`,`HOLIDAY_CALENDAR_GROUP`,`DESCR`) VALUES
   (1,'REG', "Regular");
 
+DELETE FROM `lm_accrual_category_t`;
+INSERT INTO `lm_accrual_category_t` (`LM_ACCRUAL_CATEGORY_ID`,`ACCRUAL_CATEGORY`,`LEAVE_PLAN`,`DESCR`,`ACCRUAL_INTERVAL_EARN`,`UNIT_OF_TIME`,
+									 `EFFDT`,`OBJ_ID`,`VER_NBR`,`PRORATION`,`DONATION`,`SHOW_ON_GRID`,`PLANNING_MONTHS`,`ACTIVE`,`TIMESTAMP`,`MIN_PERCENT_WORKED`)
+VALUES (1,'TEX','TST','Tex accrual cat','daily','days','2010-01-01',guid(),1,'Y','N','N',1,'Y',now(),0);
+  
 DELETE FROM `lm_accruals_t`;
 INSERT INTO `lm_accruals_T` (`LM_ACCRUALS_ID`,`PRINCIPAL_ID`,`ACCRUAL_CATEGORY`, `EFFDT`, `HOURS_ACCRUED`,`HOURS_TAKEN`,`HOURS_ADJUST`,`OBJ_ID`) VALUES
   (1,'admin', "TEX", '2010-01-01', '0.0', '0.0', '0.0', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97');

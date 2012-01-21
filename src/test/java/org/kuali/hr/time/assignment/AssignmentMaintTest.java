@@ -27,9 +27,13 @@ public class AssignmentMaintTest extends org.kuali.hr.time.test.TkTestCase {
 	@Test
 	public void testAssignmentMaint() throws Exception {
 		HtmlPage assignmentLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ASSIGNMENT_MAINT_URL);
+		setFieldValue(assignmentLookUp, "workArea", "30");
 		assignmentLookUp = HtmlUnitUtil.clickInputContainingText(assignmentLookUp, "search");
 		assertTrue("Page contains test assignment", assignmentLookUp.asText().contains(TEST_CODE.toString()));
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(assignmentLookUp, "edit","principalId=admin");		
+		HtmlUnitUtil.createTempFile(assignmentLookUp);
+		
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(assignmentLookUp, "edit");
+		HtmlUnitUtil.createTempFile(maintPage);
 		assertTrue("Maintenance Page contains test assignment",maintPage.asText().contains(TEST_CODE.toString()));	
 	}
 	
@@ -81,10 +85,11 @@ public class AssignmentMaintTest extends org.kuali.hr.time.test.TkTestCase {
 		workAreaText.setValueAttribute("1016");		
 		HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
 		assertNotNull("Could not locate submit button", input);
-		
+		HtmlUnitUtil.createTempFile(page);
 		setFieldValue(page, "document.documentHeader.documentDescription", "Assignment - test");
 		HtmlElement element = page.getElementByName("methodToCall.route");
 		HtmlPage nextPage = element.click();
+		HtmlUnitUtil.createTempFile(nextPage);
 		assertTrue("pagedoes not contain: " + ERROR_JOB_NUMBER_INVALID, nextPage.asText().contains(ERROR_JOB_NUMBER_INVALID));
 		
 	}

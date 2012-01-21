@@ -21,7 +21,7 @@ public class TimeOffAccrualServiceTest extends TkTestCase {
 		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(TEST_DATE);
 		List<String> warnings = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(doc);
 		assertTrue("There should be 1 warning message", warnings.size() == 1);
-		assertTrue("Warning message not right", warnings.toString().contains("Warning: Total hours entered (50.00) for Accrual Category RGN has exceeded balance (30.00)."));
+		assertTrue("Warning message not right", warnings.toString().contains("Warning: Total hours entered (4.00) for Accrual Category TEX has exceeded balance (0.00)."));
 	}
 
 }

@@ -94,7 +94,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 
 	protected boolean validateJob(Assignment assignment) {
 		boolean valid = false;
-		LOG.debug("Validating job: " + assignment.getJob());
+		LOG.debug("Validating job: " + assignment.getPrincipalId() +" Job number: "+assignment.getJobNumber());
 		Job job = TkServiceLocator.getJobSerivce().getJob(
 				assignment.getPrincipalId(), assignment.getJobNumber(),
 				assignment.getEffectiveDate(), false);
