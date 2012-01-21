@@ -33,6 +33,7 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -272,7 +273,7 @@ public class TkTestUtils {
 
 	/**
 	 *
-	 * @param page: current html page
+	 * @param page: current html page //NOTE doesnt seem to work currently for js setting of form variables
 	 * @param name: the button name
 	 * @return
 	 * @throws Exception
@@ -280,6 +281,23 @@ public class TkTestUtils {
 	public static HtmlPage clickButton(HtmlPage page, String name) throws Exception {
 		HtmlForm form = HtmlUnitUtil.getDefaultForm(page);
 		HtmlSubmitInput input = form.getInputByName(name);
+		return (HtmlPage) input.click();
+	}
+	
+	public static HtmlPage clickClockInOrOutButton(HtmlPage page) throws Exception {
+		HtmlForm form = HtmlUnitUtil.getDefaultForm(page);
+		
+		HtmlSubmitInput input = form.getInputByName("clockAction");
+		form.getInputByName("methodToCall").setValueAttribute("clockAction");
+		return (HtmlPage) input.click();
+	}
+	
+	public static HtmlPage clickLunchInOrOutButton(HtmlPage page, String lunchAction) throws Exception {
+		HtmlForm form = HtmlUnitUtil.getDefaultForm(page);
+		
+		HtmlSubmitInput input = form.getInputByName("clockAction");
+		form.getInputByName("methodToCall").setValueAttribute("clockAction");
+		form.getInputByName("currentClockAction").setValueAttribute(lunchAction);
 		return (HtmlPage) input.click();
 	}
 

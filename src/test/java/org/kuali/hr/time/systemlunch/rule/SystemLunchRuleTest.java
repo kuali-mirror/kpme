@@ -53,17 +53,17 @@ public class SystemLunchRuleTest extends TkTestCase {
     	assertNotNull(page);
     	
     	// clock in
-    	page = TkTestUtils.clickButton(page, "clockAction");
+    	page = TkTestUtils.clickClockInOrOutButton(page);
     	HtmlUnitUtil.createTempFile(page);
     	assertTrue("The take lunch button didn't appear", page.asXml().contains("lunchOut"));
     	
     	// the lunch in button should display after clocking in
-    	page = TkTestUtils.clickButton(page, "lunchOut");
+    	page = TkTestUtils.clickLunchInOrOutButton(page, "LO");
     	assertTrue("The return from lunch button didn't appear", page.asXml().contains("lunchIn"));
     	assertEquals(TkConstants.LUNCH_OUT, TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getPrincipalId()).getClockAction());
     	
     	// the lunch out button should display after lunching in
-    	page = TkTestUtils.clickButton(page, "lunchIn");
+    	page = TkTestUtils.clickLunchInOrOutButton(page, "LI");
     	assertEquals(TkConstants.LUNCH_IN, TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getPrincipalId()).getClockAction());
     	
 	}
