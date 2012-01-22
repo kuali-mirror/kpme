@@ -167,6 +167,9 @@ public class TkTestUtils {
 		cal.set(Calendar.HOUR, 8);
 		cal.set(Calendar.MINUTE, 0);
 
+		timeBlock.setDocumentId(timesheetDocument.getDocumentId());
+		timeBlock.setBeginTimeDisplay(new DateTime(cal.getTimeInMillis()));
+		
 		timeBlock.setBeginTimestamp(new Timestamp(cal.getTimeInMillis()));
 		timeBlock.setBeginTimestampTimezone("EST");
 		timeBlock.setEarnCode(earnCode);
@@ -175,6 +178,7 @@ public class TkTestUtils {
 		timeBlock.setHours((new BigDecimal(numHours)).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING));
 		cal.add(Calendar.HOUR, numHours);
 		timeBlock.setEndTimestamp(new Timestamp(cal.getTimeInMillis()));
+		timeBlock.setEndTimeDisplay(new DateTime(cal.getTimeInMillis()));
 
 		return timeBlock;
 	}

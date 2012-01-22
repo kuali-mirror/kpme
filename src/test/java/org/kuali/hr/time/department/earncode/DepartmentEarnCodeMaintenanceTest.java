@@ -94,12 +94,14 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		
 		this.createDuplicateDeptEarnCode();
 		deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
+		this.setFieldValue(deptEarnCodeLookup, "earnCode", "RGH");
+		this.setFieldValue(deptEarnCodeLookup, "dept","TEST-DEPT");
+		this.setFieldValue(deptEarnCodeLookup, "effectiveDate", "08/01/2010");
+		
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
-		maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrDeptEarnCodeId=24");
-        HtmlUnitUtil.createTempFile(maintPage);
+		maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrDeptEarnCodeId=1");
 		assertTrue("Maintenance Page contains Warnings",maintPage.asText().contains("Warnings for this Section:"));
 		assertTrue("Maintenance Page contains Warning message",maintPage.asText().contains("There is a newer version of this Department Earn Code."));
-		assertTrue("Maintenance Page contains Warning message",maintPage.asText().contains("There is an exact duplicate version of this Department Earn Code."));
 	}
 	
 	public void createNewDeptEarnCode() {
