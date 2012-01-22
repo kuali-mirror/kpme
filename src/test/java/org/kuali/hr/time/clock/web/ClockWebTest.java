@@ -191,13 +191,14 @@ public class ClockWebTest extends TkTestCase {
 
     @Test
     public void testClockActionWithGracePeriodRule() throws Exception {
-        // make sure the grace period rule is active
-        long id = TkServiceLocator.getTkJdbcTemplate().queryForLong("select max(tk_grace_period_rule_id) from tk_grace_period_rl_t");
-        GracePeriodRule gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(Long.toString(id));
-        if (gpr != null && !gpr.isActive()) {
-            gpr.setActive(true);
-            KNSServiceLocator.getBusinessObjectService().save(gpr);
-        }
+        GracePeriodRule gpr = new GracePeriodRule();
+        gpr.setTkGracePeriodRuleId("1");
+        gpr.setEffectiveDate(TKUtils.createDate(1, 1, 2010, 0, 0, 0));
+        gpr.setHourFactor(new BigDecimal(3));
+        gpr.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        
+        gpr.setActive(true);
+        KNSServiceLocator.getBusinessObjectService().save(gpr);
 
         // Clock in
         clockIn();

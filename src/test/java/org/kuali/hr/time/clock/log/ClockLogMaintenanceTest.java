@@ -35,7 +35,7 @@ public class ClockLogMaintenanceTest extends TkTestCase{
 		inputForDescription.setValueAttribute("Test_Description");
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");
-		
+		HtmlUnitUtil.createTempFile(resultantPageAfterEdit);
 		
 		assertTrue("Maintenance Page contains test Workarea ",
 				resultantPageAfterEdit.asText().contains(

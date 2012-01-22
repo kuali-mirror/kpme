@@ -70,7 +70,7 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 
 		// Testing standard lookup.
 		List<EarnCode> earnCodes = earnCodeService.getEarnCodes(assignment1,asOfDate);
-		assertEquals("Wrong number of earn codes returned.", 9, earnCodes.size());
+		assertEquals("Wrong number of earn codes returned.", 8, earnCodes.size());
 
 		// Wildcard on SalGroup
 		earnCodes = earnCodeService.getEarnCodes(assignment2,asOfDate);

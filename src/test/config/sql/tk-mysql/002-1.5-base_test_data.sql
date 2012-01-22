@@ -351,6 +351,8 @@ delete from tk_system_lunch_rl_t;
 insert into tk_system_lunch_rl_t (`TK_SYSTEM_LUNCH_RL_ID`,`EFFDT`,`ACTIVE`,`USER_PRINCIPAL_ID`,`SHOW_LUNCH_BUTTON`) values
 (1, '2010-01-01', 'Y', 'admin', 'Y');
 
+delete from tk_grace_period_rule_t;
+
 delete from tk_user_pref_t;
 insert into tk_user_pref_t values('admin','America/Chicago');
 
