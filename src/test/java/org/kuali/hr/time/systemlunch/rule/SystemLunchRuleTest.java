@@ -42,7 +42,7 @@ public class SystemLunchRuleTest extends TkTestCase {
         String baseUrl = TkTestConstants.Urls.CLOCK_URL;
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
 
-//    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CLOCK_URL);
+//    	HtmlPage page = HtmlUnitUtil.gotoPageAnBatchJobEntryTestdLogin(TkTestConstants.Urls.CLOCK_URL);
     	assertNotNull(page);
     	
     	Map<String, Object> criteria = new LinkedHashMap<String, Object>();
@@ -60,10 +60,12 @@ public class SystemLunchRuleTest extends TkTestCase {
     	// the lunch in button should display after clocking in
     	page = TkTestUtils.clickLunchInOrOutButton(page, "LO");
     	assertTrue("The return from lunch button didn't appear", page.asXml().contains("lunchIn"));
+    	Thread.sleep(3000);
     	assertEquals(TkConstants.LUNCH_OUT, TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getPrincipalId()).getClockAction());
     	
     	// the lunch out button should display after lunching in
     	page = TkTestUtils.clickLunchInOrOutButton(page, "LI");
+    	Thread.sleep(3000);
     	assertEquals(TkConstants.LUNCH_IN, TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getPrincipalId()).getClockAction());
     	
 	}
