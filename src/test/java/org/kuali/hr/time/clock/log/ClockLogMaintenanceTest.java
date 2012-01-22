@@ -33,6 +33,8 @@ public class ClockLogMaintenanceTest extends TkTestCase{
 		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(
 				maintPage, "* Document Description");
 		inputForDescription.setValueAttribute("Test_Description");
+		setFieldValue(maintPage, "document.newMaintainableObject.workArea", TEST_CODE_INVALID_WORK_AREA_ID.toString());
+		setFieldValue(maintPage, "document.newMaintainableObject.task", TEST_CODE_INVALID_TASK_ID.toString());
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");
 		HtmlUnitUtil.createTempFile(resultantPageAfterEdit);

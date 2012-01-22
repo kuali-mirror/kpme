@@ -34,17 +34,17 @@ public class TkRoleServiceTest  extends TkTestCase {
 		Long workArea = 999L;
 		
 		// Finds TkConstants.ROLE_TK_APPROVER roles
-		Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		Date asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		List<TkRole> roles = trs.getWorkAreaRoles(workArea, TkConstants.ROLE_TK_APPROVER, asOfDate);
 		assertNotNull(roles);
 		assertEquals("Incorrect number of roles.", 2, roles.size());
 		
-		asOfDate = new Date((new DateTime(2010, 8, 10, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		roles = trs.getWorkAreaRoles(workArea, TkConstants.ROLE_TK_APPROVER, asOfDate);
 		assertNotNull(roles);
 		assertEquals("Incorrect number of roles.", 2, roles.size());
 
-		asOfDate = new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		roles = trs.getWorkAreaRoles(workArea, TkConstants.ROLE_TK_APPROVER, asOfDate);
 		assertNotNull(roles);
 		assertEquals("Incorrect number of roles.", 2, roles.size());

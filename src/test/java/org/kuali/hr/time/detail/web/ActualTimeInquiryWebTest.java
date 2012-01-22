@@ -31,8 +31,6 @@ public class ActualTimeInquiryWebTest extends TkTestCase {
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
     	assertNotNull(page);
     	assertTrue("Clock Page contains Actual Time Inquiry Button", page.asText().contains("Actual Time Inquiry"));
-    	HtmlElement element = page.getElementByName("actualTimeInquiry");
-	  	assertNotNull(element);
 	  	
 	  	String atiUrl = baseUrl + "?methodToCall=actualTimeInquiry";
 		HtmlPage testPage1 = HtmlUnitUtil.gotoPageAndLogin(atiUrl);
@@ -64,6 +62,9 @@ public class ActualTimeInquiryWebTest extends TkTestCase {
 		timeBlock.getTimeHourDetails().add(timeHourDetail);
 		timeBlock.setHours(new BigDecimal(2.0));
 		timeBlock.setClockLogCreated(Boolean.TRUE);
+		timeBlock.setTkWorkAreaId("1");
+		timeBlock.setTkTaskId("1");
+		timeBlock.setHrJobId(1L);
 		List<TimeBlock> tbList = new ArrayList<TimeBlock>();
 		documentId = this.maxDocumentId().toString();
 		timeBlock.setDocumentId(documentId);
