@@ -30,7 +30,8 @@ public class PayCalendarEntriesMaintenaceTest extends TkTestCase {
 
 		HtmlTextInput text  = (HtmlTextInput) page.getHtmlElementById("document.documentHeader.documentDescription");
 		text.setValueAttribute("test");
-		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "pyCalendarGroup");
+		HtmlUnitUtil.createTempFile(page);
+		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "calendarName");
 		text.setValueAttribute("TTT");	// set an invalid pay calendar		
 		text  = (HtmlTextInput) page.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "beginPeriodDate");
 		text.setValueAttribute("02/21/2011");		
@@ -59,10 +60,11 @@ public class PayCalendarEntriesMaintenaceTest extends TkTestCase {
 		
 		HtmlElement element = page.getElementByName("methodToCall.route");
         HtmlPage page1 = element.click();
+        HtmlUnitUtil.createTempFile(page1);
 		// error for invalid pay calendar
-        assertTrue("Maintenance Page contains error messages", page1.asText().contains("You must specify a valid Pay Calendar."));
+        assertTrue("Maintenance Page contains error messages", page1.asText().contains("You must specify a valid Calendar."));
 
-		text  = (HtmlTextInput) page1.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "pyCalendarGroup");
+		text  = (HtmlTextInput) page1.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "calendarName");
 		text.setValueAttribute("BW-CAL");	// set a valid pay calendar	
         
 		element = page1.getElementByName("methodToCall.route");
