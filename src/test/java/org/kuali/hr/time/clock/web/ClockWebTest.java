@@ -252,7 +252,7 @@ public class ClockWebTest extends TkTestCase {
         String actionUrl = baseUrl + "?methodToCall=clockAction&selectedAssignment=30_30_30&currentClockAction=" + clockAction;
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(actionUrl);
         assertNotNull("The login page shouldn't be null", page);
-
+        Thread.sleep(3000);
         return page;
     }
 
