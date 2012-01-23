@@ -534,6 +534,12 @@ $(function () {
             $('#tkTimeBlockId').val(timeBlock.get("tkTimeBlockId"));
             $('#hours').val(timeBlock.get("hours"));
             $('#amount').val(timeBlock.get("amount"));
+            
+            if ($('#isVirtualWorkDay').val() == 'false') {
+                var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
+            	$('#endDate').val(endDateTime.add(-1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
+            }
+
         },
 
         /**
