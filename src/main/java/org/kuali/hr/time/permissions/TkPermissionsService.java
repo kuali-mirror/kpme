@@ -35,4 +35,8 @@ public interface TkPermissionsService {
 	   public boolean canWildcardDeptInDeptRule(DepartmentalRule dr);
 	   public boolean canEditOvertimeEarnCode(TimeBlock tb);
 	   public boolean canDeleteDeptLunchDeduction();
+	   public boolean canAddSystemLevelRole();
+	   public boolean canAddLocationLevelRoles();
+	   public boolean canAddDepartmentLevelRoles();
+	   public boolean canAddWorkareaLevelRoles();
 }

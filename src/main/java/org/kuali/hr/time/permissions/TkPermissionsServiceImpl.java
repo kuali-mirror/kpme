@@ -586,4 +586,28 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 		return TKContext.getUser().getCurrentRoles().isAnyApproverActive();
 	}
 
+	@Override
+	public boolean canAddSystemLevelRole() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canAddLocationLevelRoles() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canAddDepartmentLevelRoles() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canAddWorkareaLevelRoles() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

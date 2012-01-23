@@ -66,7 +66,7 @@
                     <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
                     <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
                     <bean parent="MaintainableFieldDefinition" p:name="userName" />
-                    <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.TkOrgAdminRoleFinder"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.TkOrgAdminRoleFinder"/>
                     <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false"/>
                     <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
                 </list>
