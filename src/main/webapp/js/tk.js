@@ -66,7 +66,7 @@ var CONSTANTS = {
     },
     TIME_FORMAT : {
         DATE_FOR_OUTPUT : 'M/dd/yyyy',
-        TIME_FOR_OUTPUT : 'hh : mm tt',
+        TIME_FOR_OUTPUT : 'hh:mm tt',
         TIME_FOR_SYSTEM : 'H:mm'
     }
 }

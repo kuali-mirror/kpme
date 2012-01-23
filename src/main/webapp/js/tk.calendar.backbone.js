@@ -49,6 +49,7 @@ $(function () {
         // Create a time block model
     TimeBlock = Backbone.Model;
 
+
     // Create a time block collection that holds multiple time blocks. This is essentially a list of hashmaps.
     TimeBlockCollection = Backbone.Collection.extend({
         model : TimeBlock
@@ -129,6 +130,7 @@ $(function () {
 
             OvertimeEarnCodes.bind('add', this.addAllOvertimeEarnCodes);
             OvertimeEarnCodes.bind('reset', this.addAllOvertimeEarnCodes);
+
         },
 
         render : function () {
@@ -159,55 +161,11 @@ $(function () {
             $("#" + id.split("Hour")[0]).val(dateTime.toString(CONSTANTS.TIME_FORMAT.TIME_FOR_SYSTEM));
         },
 
-        validateAndSubmitTimeBlock : function () {
-            var bValid = true;
-            bValid &= app.checkEmptyField($("#selectedAssignment"), "Assignment");
-            bValid &= app.validateEarnCode();
-
-            if (bValid) {
-                //TODO // compare the original values with the modified ones. if there is no change, close the form instead of submitting it
-
-                var docId = $('#documentId').val();
-                // validate timeblocks
-                $.ajax({
-                    async : false,
-                    url : "TimeDetailWS.do?methodToCall=validateTimeEntry&documentId=" + docId,
-                    data : params,
-                    cache : false,
-                    success : function (data) {
-                        //var match = data.match(/\w{1,}|/g);
-                        var json = jQuery.parseJSON(data);
-                        // if there is no error message, submit the form to add the time block
-                        if (json.length == 0) {
-                            $('#time-detail').submit();
-                            $(this).dialog("close");
-                        }
-                        else {
-                            // if there is any error, grab error messages (json) and display them
-                            var json = jQuery.parseJSON(data);
-                            var errorMsgs = '';
-                            $.each(json, function (index) {
-                                errorMsgs += "Error : " + json[index] + "\n";
-                            });
-
-                            app.updateTips(errorMsgs);
-                            return false;
-                        }
-                    },
-                    error : function () {
-                        app.updateTips("Error: Can't save data.");
-                        return false;
-                    }
-                });
-            }
-            return bValid;
-        },
-
         showTimeEntryDialog : function (event) {
-
-            // TODO: create a reset value method and call here.
+            var self = this;
 
             $("#dialog-form").dialog({
+                title : "Add Time Blocks:",
                 autoOpen : true,
                 height : 'auto',
                 width : '450',
@@ -217,10 +175,13 @@ $(function () {
                     if (!_.isUndefined(event)) {
                         $("#startDate, #endDate").val(event.target.id);
                     }
+
+                    $(this).parent().appendTo("#time-detail");
                 },
                 close : function () {
                     // reset values on the form
                     _.resetTimeBlockDialog($("#timesheet-panel"));
+                    _.resetErrorState($("#dialog-form"));
                 },
                 buttons : {
                     "Add" : function () {
@@ -228,26 +189,33 @@ $(function () {
                          * In case we have more needs to auto-adjust user's input, we should consider move them to a separate method.
                          */
 
+                        if (!_.isEmpty($("#endTime").val())) {
+
                             // If the end time is 12:00 am, change the end date to the next day
-                        var midnight = Date.parse($('#endDate').val()).set({
-                            hour : 0,
-                            minute : 0,
-                            second : 0,
-                            millisecond : 0
-                        });
+                            var midnight = Date.parse($('#endDate').val()).set({
+                                hour : 0,
+                                minute : 0,
+                                second : 0,
+                                millisecond : 0
+                            });
 
-                        // Parse the date by the format like 1/2/2011 8:0
-                        var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
+                            // Parse the date by the format like 1/2/2011 8:0
+                            var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
 
-                        // Compare and see if the end time is at midnight
-                        if (Date.compare(midnight, endDateTime) == 0) {
-                            $('#endDate').val(endDateTime.add(1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
+                            // Compare and see if the end time is at midnight
+                            if (Date.compare(midnight, endDateTime) == 0) {
+                                $('#endDate').val(endDateTime.add(1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
+                            }
                         }
 
                         $('#acrossDays').val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
                         $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
-                        $('#time-detail').submit();
-                        $(this).dialog("close");
+
+                        var isValid = self.validateAndSubmitTimeBlock();
+                        if (isValid) {
+                            $('#time-detail').submit();
+                            $(this).dialog("close");
+                        }
                     },
                     Cancel : function () {
                         $(this).dialog("close");
@@ -256,7 +224,7 @@ $(function () {
                 }
             });
 
-            //this.addAllEarnCodes();
+
         },
 
         showOverTimeDialog : function (e) {
@@ -321,27 +289,6 @@ $(function () {
             }
         },
 
-        validateEarnCode : function () {
-            var bValid = true;
-            bValid &= app.checkEmptyField($("#earnCode"), "Earn Code");
-            var earnCodeType = _.getEarnCodeType(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
-
-            if (earnCodeType === CONSTANTS.EARNCODE_TYPE.TIME) {
-                // the format has to be like "12:00 AM"
-                bValid &= app.checkLength($('#startTime'), "Time entry", 8, 8);
-                bValid &= app.checkLength($('#endTime'), "Time entry", 8, 8);
-            }
-            else if (earnCodeType === CONSTANTS.EARNCODE_TYPE.HOUR) {
-                var hours = $('#hoursField');
-                bValid &= app.checkEmptyField(hours, "Hour") && app.checkMinLength(hours, "Hour", 1) && app.checkRegexp(hours, '/0/', 'Hours cannot be zero');
-            }
-            else {
-                var amount = $('#amountField');
-                bValid &= app.checkEmptyField(amount, "Amount") && app.checkMinLength(amount, "Amount", 1) && app.checkRegexp(amount, '/0/', 'Amount cannot be zero');
-            }
-            return bValid;
-        },
-
         fetchEarnCode : function (event) {
             // When the method is called with a passed in value, the assignment is whatever that value is;
             // If the method is called WITHOUT a passed in value, the assignment is an event.
@@ -387,6 +334,8 @@ $(function () {
         },
 
         showFieldByEarnCodeType : function () {
+            // reset values everytime when the earn code is changed
+
             var earnCodeType = _.getEarnCodeType(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
             var fields = [".clockInSection", ".clockOutSection", ".hourSection", ".amountSection"];
 
@@ -403,22 +352,112 @@ $(function () {
                 $(_.without(fields, ".clockInSection", ".clockOutSection").join(",")).hide();
                 $(fields[0] + "," + fields[1]).show();
             }
+
+        },
+
+        /**
+         * Validations
+         */
+
+        validateAndSubmitTimeBlock : function () {
+            var self = this;
+            var isValid = true;
+            isValid = isValid && this.checkEmptyField($("#selectedAssignment"), "Assignment");
+            isValid = isValid && this.validateEarnCode();
+
+            if (isValid) {
+                //TODO // compare the original values with the modified ones. if there is no change, close the form instead of submitting it
+
+                var docId = $('#documentId').val();
+                var params = {};
+                params['startDate'] = $('#startDate').val();
+                params['endDate'] = $('#endDate').val();
+                params['startTime'] = $('#startTime').val();
+                params['endTime'] = $('#endTime').val();
+                params['hours'] = $('#hours').val();
+                params['amount'] = $('#amount').val();
+
+                params['selectedAssignment'] = $('#selectedAssignment option:selected').val();
+                params['selectedEarnCode'] = $('#selectedEarnCode option:selected').val();
+                if ($("#overtimePref") != undefined) {
+                    params['overtimePref'] = $("#overtimePref").val();
+                }
+                params['acrossDays'] = $('#acrossDaysField').is(':checked') ? 'y' : 'n';
+                params['tkTimeBlockId'] = $('#tkTimeBlockId').val();
+
+                // validate timeblocks
+                $.ajax({
+                    async : false,
+                    url : "TimeDetailWS.do?methodToCall=validateTimeEntry&documentId=" + docId,
+                    data : params,
+                    cache : false,
+                    success : function (data) {
+                        //var match = data.match(/\w{1,}|/g);
+                        var json = jQuery.parseJSON(data);
+                        // if there is no error message, submit the form to add the time block
+                        if (json.length == 0) {
+                            return true;
+                        }
+                        else {
+                            // if there is any error, grab error messages (json) and display them
+                            var json = jQuery.parseJSON(data);
+                            var errorMsgs = '';
+                            $.each(json, function (index) {
+                                errorMsgs += "Error : " + json[index] + "\n";
+                            });
+
+                            self.displayErrorMessages(errorMsgs);
+                            isValid = false;
+                        }
+                    },
+                    error : function () {
+                        self.displayErrorMessages("Error: Can't save data.");
+                        isValid = false;
+                    }
+                });
+            }
+            return isValid;
+        },
+
+        validateEarnCode : function () {
+            var isValid = true;
+            isValid = isValid && this.checkEmptyField($("#earnCode"), "Earn Code");
+
+            // couldn't find an easier way to get the earn code json, so we validate by the field id
+            // The method below will get a list of not hidden fields' ids
+            var ids = $("#dialog-form input").not(":hidden").map(
+                    function () {
+                        return this.id;
+                    }).get();
+
+            if (_.contains(ids, "startTimeHourMinute") && _.contains(ids, "endTimeHourMinute")) {
+                // the format has to be like "12:00 AM"
+                isValid = isValid && this.checkLength($('#startTimeHourMinute'), "Time entry", 8, 8);
+                isValid = isValid && this.checkLength($('#endTimeHourMinute'), "Time entry", 8, 8);
+            }
+            else if (_.contains(ids, "hours")) {
+                var hours = $('#hours');
+                isValid = isValid && (this.checkEmptyField(hours, "Hour") && this.checkMinLength(hours, "Hour", 1) && this.checkRegexp(hours, '/0/', 'Hours cannot be zero'));
+            }
+            else {
+                var amount = $('#amount');
+                isValid = isValid && (this.checkEmptyField(amount, "Amount") && this.checkMinLength(amount, "Amount", 1) && this.checkRegexp(amount, '/0/', 'Amount cannot be zero'));
+            }
+            return isValid;
         },
 
         checkLength : function (o, n, min, max) {
             if (o.val().length > max || o.val().length < min) {
-                o.addClass('ui-state-error');
-                updateTips(n + " field cannot be empty");
+                this.displayErrorMessages(n + " field cannot be empty");
                 return false;
             }
             return true;
         },
 
-        checkEmptyField : function (o, n) {
+        checkEmptyField : function (o, field) {
             var val = o.val();
             if (val == '') {
-                o.addClass('ui-state-error');
-                updateTips(n + " field cannot be empty");
+                this.displayErrorMessages(field + " field cannot be empty", o);
                 return false;
             }
             return true;
@@ -426,8 +465,7 @@ $(function () {
 
         checkRegexp : function (o, regexp, n) {
             if (( o.val().match(regexp) )) {
-                o.addClass('ui-state-error');
-                updateTips(n);
+                this.displayErrorMessages(n);
                 return false;
             }
             return true;
@@ -435,23 +473,26 @@ $(function () {
 
         checkSpecificValue : function (o, value, n) {
             if (o.val() != value) {
-                o.addClass('ui-state-error');
-                updateTips(n);
+                this.displayErrorMessages(n);
                 return false;
             }
             return true;
         },
 
-        updateTips : function (t) {
-            validation.text(t)
-                    .addClass('ui-state-error')
-                    .css({'color' : 'red', 'font-weight' : 'bold'});
+        displayErrorMessages : function (t, object) {
+            // add the error class ane messages
+            $('#validation').text(t)
+                    .addClass('error-messages');
+
+            // highlight the field
+            if (!_.isUndefined(object)) {
+                object.addClass('ui-state-error');
+            }
         },
 
         checkMinLength : function (o, n, min) {
             if (o.val().length < min) {
-                o.addClass('ui-state-error');
-                updateTips(n + " field's value is incorrect");
+                this.displayErrorMessages(n + " field's value is incorrect");
                 return false;
             }
             return true;
@@ -573,6 +614,25 @@ $(function () {
             $("input, select", timeBlockDiv).val("");
             // This is not the best solution, but we can probably live with this for now.
             $("#selectedEarnCode").html("<option value=''> -- selecte an earn code --");
+        },
+        /**
+         * Remove the error class from the given fields.
+         * @param fields
+         */
+        resetErrorState : function (fields) {
+            $("#validation").text("").removeClass("error-messages");
+            $("[class*=error]", fields).each(function(){
+                $(this).removeClass("ui-state-error");
+            });
+        },
+        /**
+         * Reset the values on the givin fields.
+          * @param fields
+         */
+        resetValues : function (fields) {
+            $(fields).each(function() {
+                $(this).val("");
+            });
         }
 
     });
@@ -605,7 +665,7 @@ $(function () {
             beginDay.addDays(parseInt(selectedDays[0].split("_")[1]));
             endDay.addDays(parseInt(selectedDays[selectedDays.length - 1].split("_")[1]));
 
-            app.showTimeEntryDialog(beginDay, endDay);
+            app.showTimeEntryDialog();
             selectedDays = [];
         }
     });

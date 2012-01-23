@@ -100,12 +100,12 @@ select {
 }
 
 .yellowbanner {
-	font-size: .8em;
-	font-weight: normal;
-	color: red; 
-	background-color:#FFFFCB;
-	margin-top: 100px;
-	margin-left: 50px;
+    font-size: .8em;
+    font-weight: normal;
+    color: red;
+    background-color: #FFFFCB;
+    margin-top: 100px;
+    margin-left: 50px;
 }
 
 .ui-header {
@@ -162,7 +162,7 @@ select {
     /*margin-top: 5px;*/
 }
 
-.person-detail table td, .person-detail table th{
+.person-detail table td, .person-detail table th {
     padding: 5px;
     border: 1px solid #CCC;
 }
@@ -182,7 +182,7 @@ select {
     line-height: 1.5em;
 }
 
-.person-detail .roles th{
+.person-detail .roles th {
     text-align: right;
 }
 
@@ -333,7 +333,6 @@ select {
 
 .validation {
     padding: 0.3em;
-    font-size: .8em;
 }
 
 .warning {
@@ -353,6 +352,19 @@ select {
 
 .block-error {
     border: 2px solid red !important;
+}
+
+label.error {
+    color: red;
+    clear: both;
+}
+
+.error-messages {
+    color: red;
+    font-weight: bold;
+    border: 1px solid red;
+    padding: 5px;
+    background-color: #FDF1ED;
 }
 
 .expand {
@@ -582,19 +594,18 @@ select {
 
 }
 
-
 .approvals-note-details table tr td, .approvals-note-details table tr th,
 .approvals-warning-details table tr td, .approvals-warning-details table tr th,
-.approvals-status-details table tr td, .approvals-status-details table tr th  {
+.approvals-status-details table tr td, .approvals-status-details table tr th {
     border: 1px solid gray;
 }
 
 .warning-note-message {
-	text-align: left; 
-	word-wrap: break-word; 
-	width: 400px; 
-	height: 40px; 
-	overflow-y: auto;
+    text-align: left;
+    word-wrap: break-word;
+    width: 400px;
+    height: 40px;
+    overflow-y: auto;
 }
 
 #approvals-filter {
@@ -631,7 +642,7 @@ select {
 }
 
 .approvals .navigation {
-    width:100%;
+    width: 100%;
     margin-top: 10px;
 }
 
@@ -663,7 +674,7 @@ select {
     font-weight: bold;
 }
 
-.cal .cal-table .holidayNameHelp:hover{
+.cal .cal-table .holidayNameHelp:hover {
     background-color: #dadada;
     cursor: pointer;
 }
@@ -750,7 +761,9 @@ select {
     background: #cceeff !important;
 }
 
-.ui-selectable-helper { border:none; }
+.ui-selectable-helper {
+    border: none;
+}
 
 /* Customized styles
 ------------------------------------------------------------------------*/
@@ -765,11 +778,30 @@ select {
 /*	assignment background colors
 ------------------------------------------------------------------------*/
 
-.assignment0 { background-color: #98a386; color: white;}
-.assignment1 { background-color: #CCCC99; color: white;}
-.assignment2 { background-color: #CCCCCC; color: white;}
-.assignment3 { background-color: #0099CC; color: white;}
-.assignment4 { background-color: #FFFFCC; color: white;}
+.assignment0 {
+    background-color: #98a386;
+    color: white;
+}
+
+.assignment1 {
+    background-color: #CCCC99;
+    color: white;
+}
+
+.assignment2 {
+    background-color: #CCCCCC;
+    color: white;
+}
+
+.assignment3 {
+    background-color: #0099CC;
+    color: white;
+}
+
+.assignment4 {
+    background-color: #FFFFCC;
+    color: white;
+}
 
 /**
 * actual time inquiry

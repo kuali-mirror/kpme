@@ -58,10 +58,14 @@
     </div>
 
     <%-- The time entry form (dialog) --%>
-    <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em; display: none;">
-        <div id="dialog-form" title="Add Time Blocks:" class="dialog-form" style="margin-left: auto; margin-right: auto;">
-            <p id="validation" class="validation" title="Validation">All form fields are required.</p>
-            <html:form action="/TimeDetail.do" styleId="time-detail">
+
+    <html:form action="/TimeDetail.do" styleId="time-detail">
+
+        <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em; display: none;">
+            <div id="dialog-form" class="dialog-form"
+                 style="margin-left: auto; margin-right: auto;">
+                <p id="validation" class="validation" title="Validation">All form fields are .</p>
+
                 <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
                 <html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
                 <html:hidden property="tkTimeBlockId" value="" styleId="tkTimeBlockId"/>
@@ -90,7 +94,7 @@
                             </td>
                         </tr>
                         <tr class="clockInSection">
-                            <td><span style="float:right;"><label for="beginTimeField">In:</label></span></td>
+                            <td><span style="float:right;"><label for="startTimeHourMinute">In:</label></span></td>
                             <td>
                                 <input name="startTimeHourMinute" id="startTimeHourMinute" type="text" size="10"/>
 
@@ -104,7 +108,7 @@
                             </td>
                         </tr>
                         <tr class="clockOutSection">
-                            <td><span style="float:right;"><label for="endTimeField">Out:</label></span></td>
+                            <td><span style="float:right;"><label for="endTimeHourMinute">Out:</label></span></td>
                             <td>
                                 <input name="endTimeHourMinute" id="endTimeHourMinute" type="text" size="10"/>
 
@@ -138,14 +142,14 @@
                         </tr>
                     </table>
                 </div>
-                <div id="overtime-section" style="display:none;" title="Change Overtime Earn Code:" class="timesheet-panel dialog-form">
+                <div id="overtime-section" style="display:none;" title="Change Overtime Earn Code:"
+                     class="timesheet-panel dialog-form">
                     <select id='overtimePref' name="overtimePref">
                     </select>
                 </div>
-
-            </html:form>
+            </div>
         </div>
-    </div>
+    </html:form>
 
 
     <%-- Earn code template --%>
