@@ -32,8 +32,8 @@ public class TkRoleValuesFinder extends KeyValuesBase {
 		}
         
 		if(TKContext.getUser().isSystemAdmin()){
-			filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_GLOBAL_VO, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_GLOBAL_VO)));
 			filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_SYS_ADMIN, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_SYS_ADMIN)));
+			filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_GLOBAL_VO, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_GLOBAL_VO)));
 		} 
 
 		if(TKContext.getUser().isSystemAdmin() ||   TKContext.getUser().isLocationAdmin()){
@@ -43,13 +43,7 @@ public class TkRoleValuesFinder extends KeyValuesBase {
 		
 		if(kualiForm == null || kualiForm.getDocTypeName().equals("DepartmentMaintenanceDocumentType")){
 			filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_DEPT_ADMIN, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_DEPT_ADMIN)));
-		}
-		
-		//Safe to assume these roles are ok to assign as you cant get to this page without this level of access
-
-		if(kualiForm == null || (kualiForm.getDocTypeName().equals("WorkAreaMaintenanceDocumentType") || kualiForm.getDocTypeName().equals("DepartmentMaintenanceDocumentType") || kualiForm.getDocTypeName().equals("RoleGroupMaintenanceDocumentType"))){
 			filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_DEPT_VO, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_DEPT_VO)));
-
 		}
 		
 		if(kualiForm == null || (kualiForm.getDocTypeName().equals("WorkAreaMaintenanceDocumentType") || kualiForm.getDocTypeName().equals("DepartmentMaintenanceDocumentType"))){
