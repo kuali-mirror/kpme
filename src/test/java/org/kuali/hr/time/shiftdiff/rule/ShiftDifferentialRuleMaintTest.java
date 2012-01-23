@@ -1,5 +1,8 @@
 package org.kuali.hr.time.shiftdiff.rule;
 
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -29,6 +32,61 @@ public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 		assertTrue("Maintenance Page contains test ShiftDifferentialRule",maintPage.asText().contains(TEST_CODE));	 
 	}
 	
+	@Test
+	public void testRequiredFields() throws Exception {
+	  	String baseUrl = TkTestConstants.Urls.SHIFT_DIFFERENTIAL_RULE_MAINT_NEW_URL;
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	assertNotNull(page);
+	 
+	  	HtmlForm form = page.getFormByName("KualiForm");
+	  	assertNotNull("Search form was missing from page.", form);
+	  	
+	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
+	  	assertNotNull("Could not locate submit button", input);
+	  	
+	  	HtmlElement element = page.getElementByName("methodToCall.route");
+	  	page = element.click();
+	  	// the following fields should have default values
+	  	String errorMessage = "Min. Hours (Min. Hours) is a required field.";
+	    assertFalse("page text contains:\n" + errorMessage, page.asText().contains(errorMessage));
+	    errorMessage = "Begin Time (00:00 AM) (Begin Time) is a required field.";
+	    assertFalse("page text contains:\n" + errorMessage, page.asText().contains(errorMessage));
+	    errorMessage = "End Time (00:00 AM) (End Time) is a required field.";
+	    assertFalse("page text contains:\n" + errorMessage, page.asText().contains(errorMessage));
+	    errorMessage = "Max. Gap Minutes (Max. Gap Minutes) is a required field.";
+	    assertFalse("page text contains:\n" + errorMessage, page.asText().contains(errorMessage));
+	  	
+	    //remove the default values
+	  	setFieldValue(page, "document.newMaintainableObject.minHours", "");
+	  	setFieldValue(page, "document.newMaintainableObject.beginTime", "");
+	  	setFieldValue(page, "document.newMaintainableObject.endTime", "");
+	  	setFieldValue(page, "document.newMaintainableObject.maxGap", "");
+	  	element = page.getElementByName("methodToCall.route");
+	  	HtmlPage nextPage = element.click();
+	  	errorMessage = "Effective Date (Effective Date) is a required field.";
+	    assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
+	    errorMessage = "Location (Location) is a required field.";
+	    assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
+	    errorMessage = "Sal. Group (Sal. Group) is a required field.";
+	    assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
+	    errorMessage = "Pay Grade (Pay Grade) is a required field.";
+	    assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
+	    errorMessage = "Earn Code (Earn Code) is a required field.";
+	    assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
+	    errorMessage = "From Earn Group (From Earn Group) is a required field.";
+	    assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
+	    errorMessage = "Begin Time (00:00 AM) (Begin Time) is a required field.";
+	    assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
+	    errorMessage = "End Time (00:00 AM) (End Time) is a required field.";
+	    assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
+	    errorMessage = "Max. Gap Minutes (Max. Gap Minutes) is a required field.";
+	    assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
+	    errorMessage = "Pay Calendar Group (Pay Calendar Group) is a required field.";
+	    assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
+	    errorMessage = "Min. Hours (Min. Hours) is a required field.";
+	    assertTrue("page text does not contain:\n" + errorMessage, nextPage.asText().contains(errorMessage));
+	}
+
 
 	@Override
 	public void setUp() throws Exception {
