@@ -207,7 +207,7 @@ INSERT INTO `hr_roles_t` (`hr_roles_ID`, `PRINCIPAL_ID`, `ROLE_NAME`, `USER_PRIN
     ('18','eric',  'TK_ORG_ADMIN', 'admin', '999', NULL, '2010-08-20', '2010-08-20 16:10:57', 'Y'),
     ('19','eric',  'TK_ORG_ADMIN', 'admin', '999', NULL, '2010-08-20', '2010-08-20 16:11:57', 'Y'),
     ('20','eric',  'TK_ORG_ADMIN', 'admin', '999', NULL, '2010-08-20', '2010-08-20 16:12:57', 'Y'),
-    ('21','eric',  'TK_APPROVER', 'admin', '999', NULL, '2010-08-20', '2010-08-20 16:13:57', 'N'),
+    ('21','eric',  'TK_APPROVER', 'admin', '999', NULL, '2010-08-20', '2010-08-20 16:13:57', 'Y'),
     ('22','admin', 'TK_APPROVER', 'admin', '1234', NULL, '2010-01-05', '2010-01-05 15:12:57', 'Y'),
     ('23','admin', 'TK_SYS_ADMIN', 'admin', '999', NULL, '2010-01-01', '2010-01-05 15:12:57', 'Y');
 
@@ -280,7 +280,7 @@ INSERT INTO `hr_calendar_entries_t` (`hr_calendar_entry_id`,`hr_calendar_id`, `c
   ('56', '2', 'BWS-CAL', '2012-02-15 00:00:00', '2012-03-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
   ('57', '2', 'BWS-CAL', '2012-03-01 00:00:00', '2012-03-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
   ('58', '2', 'BWS-CAL', '2012-03-15 00:00:00', '2012-04-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-  
+
 
 
 DELETE FROM `tk_daily_overtime_rl_s`;
@@ -332,7 +332,7 @@ DELETE FROM `lm_accrual_category_t`;
 INSERT INTO `lm_accrual_category_t` (`LM_ACCRUAL_CATEGORY_ID`,`ACCRUAL_CATEGORY`,`LEAVE_PLAN`,`DESCR`,`ACCRUAL_INTERVAL_EARN`,`UNIT_OF_TIME`,
 									 `EFFDT`,`OBJ_ID`,`VER_NBR`,`PRORATION`,`DONATION`,`SHOW_ON_GRID`,`PLANNING_MONTHS`,`ACTIVE`,`TIMESTAMP`,`MIN_PERCENT_WORKED`)
 VALUES (1,'TEX','TST','Tex accrual cat','daily','days','2010-01-01',uuid(),1,'Y','N','N',1,'Y',now(),0);
-  
+
 DELETE FROM `lm_accruals_t`;
 INSERT INTO `lm_accruals_T` (`LM_ACCRUALS_ID`,`PRINCIPAL_ID`,`ACCRUAL_CATEGORY`, `EFFDT`, `HOURS_ACCRUED`,`HOURS_TAKEN`,`HOURS_ADJUST`,`OBJ_ID`) VALUES
   (1,'admin', "TEX", '2010-01-01', '0.0', '0.0', '0.0', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97');
