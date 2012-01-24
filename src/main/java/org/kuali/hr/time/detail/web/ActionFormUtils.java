@@ -92,28 +92,26 @@ public class ActionFormUtils {
             WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), new java.sql.Date(timeBlock.getEndTimestamp().getTime()));
             String workAreaDesc = workArea.getDescription();
 
-            // KPME-1216
+            // Roles
             Boolean isAnyApprover = TKContext.getUser().getCurrentRoles().isAnyApproverActive();
-            if (StringUtils.equals(workArea.getOvertimeEditRole(), TkConstants.ROLE_TK_APPROVER)) {
-                timeBlockMap.put("overtimeEditable", isAnyApprover);
-            }
-   
-            timeBlockMap.put("editable", TkServiceLocator.getTimeBlockService().isTimeBlockEditable(timeBlock).toString());
-            timeBlockMap.put("synchronous", timeBlock.getClockLogCreated());
-            
-            timeBlockMap.put("editTBOvt", TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode(timeBlock));
-            timeBlockMap.put("addTB", TkServiceLocator.getPermissionsService().canAddTimeBlock());
-            
+            timeBlockMap.put("isApprover", isAnyApprover);
+            timeBlockMap.put("isSynchronousUser", timeBlock.getClockLogCreated());
+
+            // Permissions
+            timeBlockMap.put("isEditable", TkServiceLocator.getTimeBlockService().isTimeBlockEditable(timeBlock));
+            timeBlockMap.put("isEditTBOvt", TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode(timeBlock));
+            timeBlockMap.put("isAddTB", TkServiceLocator.getPermissionsService().canAddTimeBlock());
+
             if (TkServiceLocator.getPermissionsService().canEditTimeBlock(timeBlock)) {
-	            if (TkServiceLocator.getPermissionsService().canEditTimeBlockAllFields(timeBlock)) {
-	            	  timeBlockMap.put("editTBAll", true);
-	            	  timeBlockMap.put("editTBAssgOnly", false);
-	            } else {
-	            	  timeBlockMap.put("editTBAll", false);
-	            	  timeBlockMap.put("editTBAssgOnly", true);
-	            }
+                if (TkServiceLocator.getPermissionsService().canEditTimeBlockAllFields(timeBlock)) {
+                    timeBlockMap.put("isEditTBAll", true);
+                    timeBlockMap.put("isEditTBAssgOnly", false);
+                } else {
+                    timeBlockMap.put("isEditTBAll", false);
+                    timeBlockMap.put("isEditTBAssgOnly", true);
+                }
             }
-          
+
             //    tracking any kind of 'mutating' state with this object, it's just a one off modification under a specific circumstance.
             DateTime start = timeBlock.getBeginTimeDisplay();
             DateTime end = timeBlock.getEndTimeDisplay();
@@ -135,7 +133,9 @@ public class ActionFormUtils {
             //TODO: need to cache this or pre-load it when the app boots up
             // EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), new java.sql.Date(timeBlock.getBeginTimestamp().getTime()));
             timeBlockMap.put("earnCodeType", timeBlock.getEarnCodeType());
-  
+
+            // TODO: Cleanup the start / end time related properties. We certainly don't need all of them.
+            // The ones which are used by the javascript are startDate, endDate, startTime, endTime, startTimeHourMinute, and endTimeHourMinute
             timeBlockMap.put("start", start.toString(ISODateTimeFormat.dateTimeNoMillis()));
             timeBlockMap.put("end", end.toString(ISODateTimeFormat.dateTimeNoMillis()));
             timeBlockMap.put("startDate", start.toString(TkConstants.DT_BASIC_DATE_FORMAT));

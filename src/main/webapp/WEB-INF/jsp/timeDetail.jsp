@@ -104,7 +104,7 @@
                                         id="beginTimeHelp" tabindex="999" onclick="return false;">help
                                 </button>
 
-                                <input type="text" name="startTime" id="startTime"/>
+                                <input type="hidden" name="startTime" id="startTime"/>
                             </td>
                         </tr>
                         <tr class="clockOutSection">
@@ -119,7 +119,7 @@
                                         tabindex="999" onclick="return false;">help
                                 </button>
 
-                                <input type="text" name="endTime" id="endTime"/>
+                                <input type="hidden" name="endTime" id="endTime"/>
                             </td>
                         </tr>
                         <tr class="hourSection" style="display: none;">

@@ -151,6 +151,9 @@ $(function () {
                 // If that's the case, clear the values on the form and make the border red.
                 $("#" + id).addClass("block-error").val("");
                 $("#" + id.split("Hour")[0]).val("");
+            } else {
+                // Remove the red border if user enters something
+                $("#" + id).removeClass("block-error").val("");
             }
             // This magic line first finds the element by the id.
             // Uses Datejs (a 3rd party js lib) to parse user's input and update the value by the specifed format.
@@ -161,36 +164,38 @@ $(function () {
             $("#" + id.split("Hour")[0]).val(dateTime.toString(CONSTANTS.TIME_FORMAT.TIME_FOR_SYSTEM));
         },
 
-        showTimeEntryDialog : function (event) {
+        showTimeEntryDialog : function (startDate, endDate) {
+
             var self = this;
 
             $("#dialog-form").dialog({
-                title : "Add Time Blocks:",
+                title : "Add Time Blocks : ",
+                closeOnEscape : true,
                 autoOpen : true,
                 height : 'auto',
                 width : '450',
                 modal : true,
                 open : function () {
                     // Set the selected date on start/end time fields
-                    if (!_.isUndefined(event)) {
-                        $("#startDate, #endDate").val(event.target.id);
+                    if (!_.isUndefined(startDate) && !_.isUndefined(endDate)) {
+                        $("#startDate").val(startDate);
+                        $("#endDate").val(endDate);
+                    } else {
+                        $("#startDate, #endDate").val(startDate.target.id);
                     }
-
-                    $(this).parent().appendTo("#time-detail");
                 },
                 close : function () {
                     // reset values on the form
                     _.resetTimeBlockDialog($("#timesheet-panel"));
-                    _.resetErrorState($("#dialog-form"));
+                    _.resetState($("#dialog-form"));
                 },
                 buttons : {
                     "Add" : function () {
                         /**
-                         * In case we have more needs to auto-adjust user's input, we should consider move them to a separate method.
+                         * In case we have more needs to auto-adjust user's input, we should consider moving them to a separate method.
                          */
 
                         if (!_.isEmpty($("#endTime").val())) {
-
                             // If the end time is 12:00 am, change the end date to the next day
                             var midnight = Date.parse($('#endDate').val()).set({
                                 hour : 0,
@@ -240,15 +245,14 @@ $(function () {
                     .done($("#overtimePref option[value='" + currentOvertimePref + "']").attr("selected", "selected"));
 
             $("#overtime-section").dialog({
+                title : "Change the overtime earn code : ",
                 autoOpen : true,
+                closeOnEscape : true,
                 height : 'auto',
                 width : '450',
                 modal : true,
-                open : function () {
-                },
-                beforeClose : function () {
-                    // TODO: create a method to reset the values instead of spreading this type of code all over the place.
-                    _(new TimeBlock).fillInForm();
+                close : function () {
+                    _.resetTimeBlockDialog($("#timesheet-panel"));
                 },
                 buttons : {
                     "Add" : function () {
@@ -276,8 +280,8 @@ $(function () {
             var dfd = $.Deferred();
             // Fill in the values. See the note above regarding why we didn't use a template
             dfd.done(this.fetchEarnCode(timeBlock.get("assignment")))
-                    .done(_(timeBlock).fillInForm())
-                    .done(this.showFieldByEarnCodeType());
+                    .done(this.showFieldByEarnCodeType())
+                    .done(_(timeBlock).fillInForm());
         },
 
         deleteTimeBlock : function (e) {
@@ -334,23 +338,24 @@ $(function () {
         },
 
         showFieldByEarnCodeType : function () {
-            // reset values everytime when the earn code is changed
-
             var earnCodeType = _.getEarnCodeType(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
-            var fields = [".clockInSection", ".clockOutSection", ".hourSection", ".amountSection"];
+            var fieldSections = [".clockInSection", ".clockOutSection", ".hourSection", ".amountSection"];
+
+            // reset values everytime when the earn code is changed
+            $("#startTimeHourMinute, #startTime, #endTimeHourMinute, #endTime, #hours, #amount").val("");
 
             // There might be a better way doing this, but we can revisit this later.
             // Currently, the fields variable contains a list of the entry field classes.
             // The Underscore.js _.without function returns an array except the ones you speficied.
             if (earnCodeType == CONSTANTS.EARNCODE_TYPE.HOUR) {
-                $(_.without(fields, ".hourSection").join(",")).hide();
-                $(fields[2]).show();
+                $(_.without(fieldSections, ".hourSection").join(",")).hide();
+                $(fieldSections[2]).show();
             } else if (earnCodeType == CONSTANTS.EARNCODE_TYPE.AMOUNT) {
-                $(_.without(fields, ".amountSection").join(",")).hide();
-                $(fields[3]).show();
+                $(_.without(fieldSections, ".amountSection").join(",")).hide();
+                $(fieldSections[3]).show();
             } else {
-                $(_.without(fields, ".clockInSection", ".clockOutSection").join(",")).hide();
-                $(fields[0] + "," + fields[1]).show();
+                $(_.without(fieldSections, ".clockInSection", ".clockOutSection").join(",")).hide();
+                $(fieldSections[0] + "," + fieldSections[1]).show();
             }
 
         },
@@ -575,10 +580,29 @@ $(function () {
             $('#tkTimeBlockId').val(timeBlock.get("tkTimeBlockId"));
             $('#hours').val(timeBlock.get("hours"));
             $('#amount').val(timeBlock.get("amount"));
-            
+
             if ($('#isVirtualWorkDay').val() == 'false') {
                 var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
-            	$('#endDate').val(endDateTime.add(-1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
+                $('#endDate').val(endDateTime.add(-1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
+            }
+
+        },
+
+        applyPermissions : function (timeBlock) {
+            /**
+             * Employee- can only edit the assign on sync timeblocks
+             can edit/delete all fields for async timeblocks
+             whether or not they can modify the OVT earn code is decided by the defined role on the work area
+
+             Reviewer/Approver/Admin-
+             can add/edit/delete timeblocks only for the assign they are associated with, on those timeblocks they can edit all fields regardless of
+             how timeblocks created (including ovt earn codes)
+             any timeblock they are not assoc w/ they can only edit the assign (and can not delete)
+             */
+            if (!timeBlock.get("isEditable")) {
+                // Hide the delete button
+                $("img[id*=delete]").hide();
+                // Make every field readonly except assignment
             }
 
         },
@@ -589,15 +613,10 @@ $(function () {
          * @param earnCode
          */
         getEarnCodeType : function (earnCodeJson, earnCode) {
-            var type = "";
-
-            $.each(earnCodeJson, function (i) {
-                if (earnCodeJson[i]["earnCode"] == earnCode) {
-                    type = earnCodeJson[i]["type"];
-                }
+            var matchedEarnCode = _.filter(earnCodeJson, function (json) {
+                return json["earnCode"] == earnCode
             });
-
-            return type;
+            return _.first(matchedEarnCode).type;
         },
         /**
          * Provides a helper method to change the button name on the time entry dialog.
@@ -619,23 +638,37 @@ $(function () {
          * Remove the error class from the given fields.
          * @param fields
          */
-        resetErrorState : function (fields) {
+        resetState : function (fields) {
+            // Remove the error / warning texts
             $("#validation").text("").removeClass("error-messages");
-            $("[class*=error]", fields).each(function(){
+            // Remove the error classs
+            $("[class*=error]", fields).each(function () {
                 $(this).removeClass("ui-state-error");
             });
+            // Remove the sylte for multi-day selection
+            $('.cal-table td').removeClass('ui-selected');
         },
         /**
          * Reset the values on the givin fields.
-          * @param fields
+         * @param fields
          */
         resetValues : function (fields) {
-            $(fields).each(function() {
-                $(this).val("");
-            });
+            $(fields).val("");
         }
 
     });
+
+    /**
+     * Make the calendar cell selectable
+     */
+        // When making a mouse selection, it creates a "lasso" effect which we want to get rid of.
+        // In the future version of jQuery UI, lasso is going to one of the options where it can be enabled / disabled.
+        // For now, the way to disable it is to modify the css.
+        //
+        // .ui-selectable-helper { border:none; }
+        //
+        // This discussion thread on stackoverflow was helpful:
+        // http://bit.ly/fvRW4X
 
     var selectedDays = [];
     var selectingDays = [];
@@ -643,7 +676,6 @@ $(function () {
     var endPeriodDateTimeObj = $('#endPeriodDate').val() !== undefined ? new Date($('#endPeriodDate').val()) : d + '/' + m + '/' + y;
 
     $(".cal-table").selectable({
-//      $(".another-test").selectable({
         filter : "td",
         distance : 1,
         selected : function (event, ui) {
@@ -659,13 +691,17 @@ $(function () {
 
         stop : function (event, ui) {
             var currentDay = new Date(beginPeriodDateTimeObj);
-            var beginDay = new Date(currentDay);
+            var startDay = new Date(currentDay);
             var endDay = new Date(currentDay);
 
-            beginDay.addDays(parseInt(selectedDays[0].split("_")[1]));
-            endDay.addDays(parseInt(selectedDays[selectedDays.length - 1].split("_")[1]));
+            startDay.addDays(parseInt(_.first(selectedDays).split("_")[1]));
+            endDay.addDays(parseInt(_.last(selectedDays).split("_")[1]));
 
-            app.showTimeEntryDialog();
+            startDay = Date.parse(startDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
+            endDay = Date.parse(endDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
+
+            app.showTimeEntryDialog(startDay, endDay);
+
             selectedDays = [];
         }
     });

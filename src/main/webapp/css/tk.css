@@ -90,11 +90,6 @@
     background: #FFFFCB;
 }
 
-select {
-    font-family: "Trebuchet MS", Verdana, Arial, sans-serif !important;
-    font-size: inherit !important;
-}
-
 .backdoor {
     color: #990000 !important;
 }
@@ -231,10 +226,6 @@ select {
 .timesheet-panel .timesheet-panel-title {
     font-weight: bold;
     font-size: 1.1em;
-}
-
-.timesheet-panel select {
-    font-size: .9em;
 }
 
 #timesheet-summary {
