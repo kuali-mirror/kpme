@@ -59,11 +59,11 @@
 
     <%-- The time entry form (dialog) --%>
 
-    <html:form action="/TimeDetail.do" styleId="time-detail">
 
-        <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em; display: none;">
-            <div id="dialog-form" class="dialog-form"
-                 style="margin-left: auto; margin-right: auto;">
+    <div id="cal" style="margin: 20px auto 20px auto; width:95%; font-size:.9em; display: none;">
+        <div id="dialog-form" class="dialog-form"
+             style="margin-left: auto; margin-right: auto;">
+            <html:form action="/TimeDetail.do" styleId="time-detail">
                 <p id="validation" class="validation" title="Validation">All form fields are .</p>
 
                 <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
@@ -147,9 +147,9 @@
                     <select id='overtimePref' name="overtimePref">
                     </select>
                 </div>
-            </div>
+            </html:form>
         </div>
-    </html:form>
+    </div>
 
 
     <%-- Earn code template --%>
