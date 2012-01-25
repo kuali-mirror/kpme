@@ -10,10 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class MissedPunchForm extends KualiTransactionalDocumentFormBase {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
+    private Boolean assignmentReadOnly = false;
 
     @Override
     public String getBackLocation() {
@@ -29,5 +27,13 @@ public class MissedPunchForm extends KualiTransactionalDocumentFormBase {
             setMethodToCall(WebUtils.parseMethodToCall(this, request));
         }
     }
+
+	public boolean isAssignmentReadOnly() {
+		return assignmentReadOnly;
+	}
+
+	public void setAssignmentReadOnly(boolean assignmentReadOnly) {
+		this.assignmentReadOnly = assignmentReadOnly;
+	}
 
 }
