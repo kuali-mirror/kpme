@@ -142,12 +142,11 @@
                         </tr>
                     </table>
                 </div>
-                <div id="overtime-section" style="display:none;" title="Change Overtime Earn Code:"
-                     class="timesheet-panel dialog-form">
-                    <select id='overtimePref' name="overtimePref">
-                    </select>
-                </div>
             </html:form>
+            <div id="overtime-section" style="display:none;" class="timesheet-panel dialog-form">
+                <select id='overtimePref' name="overtimePref">
+                </select>
+            </div>
         </div>
     </div>
 

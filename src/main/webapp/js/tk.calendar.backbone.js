@@ -249,10 +249,13 @@ $(function () {
             var timeBlock = timeBlockCollection.get(key.id);
             var currentOvertimePref = _.trim($("#" + e.target.id).text());
             var dfd = $.Deferred();
-            // Fill in the values. See the note above regarding why we didn't use a template
+
+            // The content of the overtimePref is in a separate template,
+            // but when we submit the form, we will want to keep all the original values.
+            // That's why we call the fillInform() method below, so all the values will still be there when the form is submitted.
             dfd.done(self.fetchOvertimeEarnCode())
-                    .done(_(timeBlock).fillInForm())
-                    .done($("#overtimePref option[value='" + currentOvertimePref + "']").attr("selected", "selected"));
+                    .done($("#overtimePref option[value='" + currentOvertimePref + "']").attr("selected", "selected"))
+                    .done(_(timeBlock).fillInForm());
 
             $("#overtime-section").dialog({
                 title : "Change the overtime earn code : ",
@@ -262,11 +265,18 @@ $(function () {
                 width : '450',
                 modal : true,
                 close : function () {
-                    _.resetTimeBlockDialog($("#timesheet-panel"));
+                    self.resetTimeBlockDialog($("#timesheet-panel"));
                 },
                 buttons : {
                     "Add" : function () {
                         $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
+
+                        // selected earn code and overtimePref are two special cases where the DOMs are managed by the backbone template.
+                        // So when the dialog is poped up, the dropdown options are not appended.
+                        // That's why we have to do it manually to append those two fields to the time-detial form.
+                        $("#selectedEarnCode").append("<option value=" + timeBlock.get('earnCode') + " selected='selected'></option>").clone().appendTo("#time-detail");
+                        $("#overtimePref").appendTo("#time-detail");
+
                         $('#time-detail').submit();
                         $(this).dialog("close");
                     },
