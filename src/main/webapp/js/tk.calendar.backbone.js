@@ -221,7 +221,7 @@ $(function () {
                                 }
                             }
 
-                            $('#acrossDays').val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
+                            $('#acrossDays').val($('#acrossDays').is(':checked') ? 'y' : 'n');
 
                             var isValid = true;
                             // If the user can only update the assignment, there is no need to do the validations.
@@ -462,7 +462,7 @@ $(function () {
                 if ($("#overtimePref") != undefined) {
                     params['overtimePref'] = $("#overtimePref").val();
                 }
-                params['acrossDays'] = $('#acrossDaysField').is(':checked') ? 'y' : 'n';
+                params['acrossDays'] = $('#acrossDays').is(':checked') ? 'y' : 'n';
                 params['tkTimeBlockId'] = $('#tkTimeBlockId').val();
 
                 // validate timeblocks
@@ -735,7 +735,7 @@ $(function () {
             if ($selectedAssignment.is("input")) {
                 return $selectedAssignment.val();
             } else {
-                return this.$("#selectedAssignment option:selected").val();
+                return $("#selectedAssignment option:selected").val();
             }
         }
     });
