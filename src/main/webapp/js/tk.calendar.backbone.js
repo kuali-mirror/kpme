@@ -186,6 +186,11 @@ $(function () {
                         } else {
                             $("#startDate, #endDate").val(startDate.target.id);
                         }
+
+                        // Check if there is only one assignment
+                        if ($("#selectedAssignment").is("input")) {
+                            self.fetchEarnCode(_.getSelectedAssignmentValue());
+                        }
                     },
                     close : function () {
                         // reset values on the form
@@ -338,7 +343,8 @@ $(function () {
              any timeblock they are not assoc w/ they can only edit the assign (and can not delete)
              */
 
-            // If rendering the delete button has been taken care of by the server side.
+            // Rendering the delete button or not has been taken care of by the server side.
+            // We only need to worry about making fields disabled.
             if (e.get("canEditTBAssgOnly")) {
                 // Make everything read only except the assignment
                 $("input, select", $("#timesheet-panel")).attr("disabled", true);
@@ -417,9 +423,12 @@ $(function () {
             if (earnCodeType == CONSTANTS.EARNCODE_TYPE.HOUR) {
                 $(_.without(fieldSections, ".hourSection").join(",")).hide();
                 $(fieldSections[2]).show();
+                // TODO: figure out why we had to do something crazy like below...
+                $('#startTime, #endTime').val("23:59");
             } else if (earnCodeType == CONSTANTS.EARNCODE_TYPE.AMOUNT) {
                 $(_.without(fieldSections, ".amountSection").join(",")).hide();
                 $(fieldSections[3]).show();
+                $('#startTime, #endTime').val("23:59");
             } else {
                 $(_.without(fieldSections, ".clockInSection", ".clockOutSection").join(",")).hide();
                 $(fieldSections[0] + "," + fieldSections[1]).show();
@@ -448,8 +457,7 @@ $(function () {
                 params['endTime'] = $('#endTime').val();
                 params['hours'] = $('#hours').val();
                 params['amount'] = $('#amount').val();
-
-                params['selectedAssignment'] = $('#selectedAssignment option:selected').val();
+                params['selectedAssignment'] = _.getSelectedAssignmentValue();
                 params['selectedEarnCode'] = $('#selectedEarnCode option:selected').val();
                 if ($("#overtimePref") != undefined) {
                     params['overtimePref'] = $("#overtimePref").val();
@@ -463,6 +471,7 @@ $(function () {
                     url : "TimeDetailWS.do?methodToCall=validateTimeEntry&documentId=" + docId,
                     data : params,
                     cache : false,
+                    type : "post",
                     success : function (data) {
                         //var match = data.match(/\w{1,}|/g);
                         var json = jQuery.parseJSON(data);
@@ -575,7 +584,8 @@ $(function () {
          * @param fields
          */
         resetTimeBlockDialog : function (timeBlockDiv) {
-            $("input, select", timeBlockDiv).val("");
+            // We don't want to clear out the selected assignment when there is only one assignment and it's a hidden text field
+            $("input:not(#selectedAssignment), select", timeBlockDiv).val("");
             // This is not the best solution, but we can probably live with this for now.
             $("#selectedEarnCode").html("<option value=''> -- selecte an earn code --");
         },
@@ -596,8 +606,8 @@ $(function () {
             $('.cal-table td').removeClass('ui-selected');
 
             // Remove all the readonly / disabled states
-            $("input, select", $("#timesheet-panel")).attr("disabled", false);
-            $("input, select", $("#timesheet-panel")).attr("readonly", false);
+            $("input, select", "#timesheet-panel").attr("disabled", false);
+            $("input, select", "#timesheet-panel").attr("readonly", false);
 
             // This is mainly to solve the issue where the change event on the assignment was unbound
             // when the user can only change the assignment on the timeblock.
@@ -698,7 +708,6 @@ $(function () {
             }
 
         },
-
         /**
          * This method takes an earn code json, find the matched earn code, and returns the earn code type.
          * @param earnCodeJson
@@ -716,6 +725,18 @@ $(function () {
          */
         updateDialogButtonName : function (string) {
 
+        },
+        /**
+         * The selected assignment field can be a hidden text field if there is only one assignment, or a dropdown if there are multiple assignments
+         * This helper method will check which type of field is presented and return the value
+         */
+        getSelectedAssignmentValue : function () {
+            var $selectedAssignment = $("#selectedAssignment")
+            if ($selectedAssignment.is("input")) {
+                return $selectedAssignment.val();
+            } else {
+                return this.$("#selectedAssignment option:selected").val();
+            }
         }
     });
 
