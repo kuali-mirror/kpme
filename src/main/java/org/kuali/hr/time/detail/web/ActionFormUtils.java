@@ -98,18 +98,16 @@ public class ActionFormUtils {
             timeBlockMap.put("isSynchronousUser", timeBlock.getClockLogCreated());
 
             // Permissions
-            timeBlockMap.put("isEditable", TkServiceLocator.getTimeBlockService().isTimeBlockEditable(timeBlock));
-            timeBlockMap.put("isEditTBOvt", TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode(timeBlock));
-            timeBlockMap.put("isAddTB", TkServiceLocator.getPermissionsService().canAddTimeBlock());
+            timeBlockMap.put("canEditTb", TkServiceLocator.getPermissionsService().canEditTimeBlock(timeBlock));
+            timeBlockMap.put("canEditTBOvt", TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode(timeBlock));
+            timeBlockMap.put("canAddTB", TkServiceLocator.getPermissionsService().canAddTimeBlock());
 
-            if (TkServiceLocator.getPermissionsService().canEditTimeBlock(timeBlock)) {
-                if (TkServiceLocator.getPermissionsService().canEditTimeBlockAllFields(timeBlock)) {
-                    timeBlockMap.put("isEditTBAll", true);
-                    timeBlockMap.put("isEditTBAssgOnly", false);
-                } else {
-                    timeBlockMap.put("isEditTBAll", false);
-                    timeBlockMap.put("isEditTBAssgOnly", true);
-                }
+            if (TkServiceLocator.getPermissionsService().canEditTimeBlockAllFields(timeBlock)) {
+                timeBlockMap.put("canEditTBAll", true);
+                timeBlockMap.put("canEditTBAssgOnly", false);
+            } else {
+                timeBlockMap.put("canEditTBAll", false);
+                timeBlockMap.put("canEditTBAssgOnly", true);
             }
 
             //    tracking any kind of 'mutating' state with this object, it's just a one off modification under a specific circumstance.

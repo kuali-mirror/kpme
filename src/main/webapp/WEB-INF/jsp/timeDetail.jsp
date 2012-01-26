@@ -137,7 +137,7 @@
                         <tr>
                             <td></td>
                             <td><input type="checkbox" id="acrossDays" value="n"
-                                       title="Check time if you want to cross days"/><label for="acrossDays">Apply
+                                       title="Check time if you want to cross days" checked="checked"/><label for="acrossDays">Apply
                                 time to each day</label></td>
                         </tr>
                     </table>

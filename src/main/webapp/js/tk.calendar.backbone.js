@@ -109,7 +109,7 @@ $(function () {
             // .create is the div that fills up the white sapce and .day-number is the div with the day number on it.
             // <div class="create"></div> is in calendar.tag.
             // We want to trigger the show event on any white space areas.
-            "click .create, .day-number" : "showTimeEntryDialog",
+            "click .create" : "showTimeEntryDialog",
             "click span[id*=overtime]" : "showOverTimeDialog",
             "blur #startTimeHourMinute, #endTimeHourMinute" : "formatTime",
             // TODO: figure out how to chain the events
@@ -120,6 +120,7 @@ $(function () {
         },
 
         initialize : function () {
+
             // This step binds the functions to the view so you can call the methods like : this.addOneEarnCode
             _.bindAll(this, "addAllEarnCodes", "addAllOvertimeEarnCodes", "render");
 
@@ -165,71 +166,80 @@ $(function () {
         },
 
         showTimeEntryDialog : function (startDate, endDate) {
+            // check user permmissions before opening the dialog.
+            var isValid = this.checkPermissions();
 
             var self = this;
-
-            $("#dialog-form").dialog({
-                title : "Add Time Blocks : ",
-                closeOnEscape : true,
-                autoOpen : true,
-                height : 'auto',
-                width : '450',
-                modal : true,
-                open : function () {
-                    // Set the selected date on start/end time fields
-                    if (!_.isUndefined(startDate) && !_.isUndefined(endDate)) {
-                        $("#startDate").val(startDate);
-                        $("#endDate").val(endDate);
-                    } else {
-                        $("#startDate, #endDate").val(startDate.target.id);
-                    }
-                },
-                close : function () {
-                    // reset values on the form
-                    _.resetTimeBlockDialog($("#timesheet-panel"));
-                    _.resetState($("#dialog-form"));
-                },
-                buttons : {
-                    "Add" : function () {
-                        /**
-                         * In case we have more needs to auto-adjust user's input, we should consider moving them to a separate method.
-                         */
-
-                        if (!_.isEmpty($("#endTime").val())) {
-                            // If the end time is 12:00 am, change the end date to the next day
-                            var midnight = Date.parse($('#endDate').val()).set({
-                                hour : 0,
-                                minute : 0,
-                                second : 0,
-                                millisecond : 0
-                            });
-
-                            // Parse the date by the format like 1/2/2011 8:0
-                            var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
-
-                            // Compare and see if the end time is at midnight
-                            if (Date.compare(midnight, endDateTime) == 0) {
-                                $('#endDate').val(endDateTime.add(1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
-                            }
-                        }
-
-                        $('#acrossDays').val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
-                        $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
-
-                        var isValid = self.validateAndSubmitTimeBlock();
-                        if (isValid) {
-                            $('#time-detail').submit();
-                            $(this).dialog("close");
+            if (isValid) {
+                $("#dialog-form").dialog({
+                    title : "Add Time Blocks : ",
+                    closeOnEscape : true,
+                    autoOpen : true,
+                    height : 'auto',
+                    width : '450',
+                    modal : true,
+                    open : function () {
+                        // Set the selected date on start/end time fields
+                        if (!_.isUndefined(startDate) && !_.isUndefined(endDate)) {
+                            $("#startDate").val(startDate);
+                            $("#endDate").val(endDate);
+                        } else {
+                            $("#startDate, #endDate").val(startDate.target.id);
                         }
                     },
-                    Cancel : function () {
-                        $(this).dialog("close");
+                    close : function () {
+                        // reset values on the form
+                        self.resetTimeBlockDialog($("#timesheet-panel"));
+                        self.resetState($("#dialog-form"));
+                    },
+                    buttons : {
+                        "Add" : function () {
+                            /**
+                             * In case we have more needs to auto-adjust user's input, we should consider moving them to a separate method.
+                             */
 
+                            if (!_.isEmpty($("#endTime").val())) {
+                                // If the end time is 12:00 am, change the end date to the next day
+                                var midnight = Date.parse($('#endDate').val()).set({
+                                    hour : 0,
+                                    minute : 0,
+                                    second : 0,
+                                    millisecond : 0
+                                });
+
+                                // Parse the date by the format like 1/2/2011 8:0
+                                var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
+
+                                // Compare and see if the end time is at midnight
+                                if (Date.compare(midnight, endDateTime) == 0) {
+                                    $('#endDate').val(endDateTime.add(1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
+                                }
+                            }
+
+                            $('#acrossDays').val($('#acrossDaysField').is(':checked') ? 'y' : 'n');
+
+                            var isValid = true;
+                            // If the user can only update the assignment, there is no need to do the validations.
+                            var canEditAssignmentOnly = $("#selectedEarnCode").is('[disabled]');
+                            if (canEditAssignmentOnly) {
+                                $('#methodToCall').val(CONSTANTS.ACTIONS.UPDATE_TIME_BLOCK);
+                            } else {
+                                isValid = self.validateTimeBlock();
+                                $("#methodToCall").val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
+                            }
+
+                            if (isValid) {
+                                $('#time-detail').submit();
+                                $(this).dialog("close");
+                            }
+                        },
+                        Cancel : function () {
+                            $(this).dialog("close");
+
+                        }
                     }
-                }
-            });
-
-
+                });
+            }
         },
 
         showOverTimeDialog : function (e) {
@@ -270,9 +280,10 @@ $(function () {
 
         showTimeBlock : function (e) {
             var key = _(e.target.id).parseEventKey();
-            this.showTimeEntryDialog();
             // Retrieve the selected timeblock
             var timeBlock = timeBlockCollection.get(key.id);
+            this.showTimeEntryDialog(timeBlock.get("startDate"), timeBlock.get("endDate"));
+
             // Deferred is a jQuery method which makes sure things happen in the order you want.
             // For more informaiton : http://api.jquery.com/category/deferred-object/
             // Here we want to fire the ajax call first to grab the earn codes.
@@ -281,7 +292,54 @@ $(function () {
             // Fill in the values. See the note above regarding why we didn't use a template
             dfd.done(this.fetchEarnCode(timeBlock.get("assignment")))
                     .done(this.showFieldByEarnCodeType())
-                    .done(_(timeBlock).fillInForm());
+                    .done(_(timeBlock).fillInForm())
+                    .done(this.applyRules(timeBlock));
+        },
+        /**
+         * Check user permissions.
+         * @param e
+         */
+        checkPermissions : function () {
+            var isValid = true;
+            /**
+             * Can't add a new timeblock is the doc is not editable.
+             */
+//            console.log(_.isBoolean($('#docEditable').val()));
+            if ($('#docEditable').val() == "false") {
+                isValid = false;
+            }
+
+            return isValid;
+        },
+        /**
+         * Apply rules on the time block entry form:
+         * 1) Permissions to update / delete an existing timeblock.
+         * @param e
+         */
+        applyRules : function (e) {
+            /**
+             * Employee- can only edit the assign on sync timeblocks
+             can edit/delete all fields for async timeblocks
+             whether or not they can modify the OVT earn code is decided by the defined role on the work area
+
+             Reviewer/Approver/Admin-
+             can add/edit/delete timeblocks only for the assign they are associated with, on those timeblocks they can edit all fields regardless of
+             how timeblocks created (including ovt earn codes)
+             any timeblock they are not assoc w/ they can only edit the assign (and can not delete)
+             */
+
+            // If rendering the delete button has been taken care of by the server side.
+            if (e.get("canEditTBAssgOnly")) {
+                // Make everything read only except the assignment
+                $("input, select", $("#timesheet-panel")).attr("disabled", true);
+                $("#selectedAssignment", $("#timesheet-panel")).attr("disabled", false);
+
+                // Unbind the change events.
+                // The events will be bound again when resetState() is called.
+                $(this.el).undelegate("#selectedAssignment", "change");
+                $(this.el).undelegate("#selectedAssignment", "keypress");
+            }
+
         },
 
         deleteTimeBlock : function (e) {
@@ -293,17 +351,16 @@ $(function () {
             }
         },
 
-        fetchEarnCode : function (event) {
+        fetchEarnCode : function (e) {
             // When the method is called with a passed in value, the assignment is whatever that value is;
             // If the method is called WITHOUT a passed in value, the assignment is an event.
             // We want to be able to use this method in creating and editing timeblocks.
             // If assignment is not a string, we'll grab the selected assignment on the form.
-            var assignment = _.isString(event) ? event : this.$("#selectedAssignment option:selected").val();
+            var assignment = _.isString(e) ? e : this.$("#selectedAssignment option:selected").val();
 
             // Fetch earn codes based on the selected assignment
             // The fetch function is provided by backbone.js which also supports jQuery.ajax options.
             // See here for more information: http://documentcloud.github.com/backbone/#Collection-fetch
-            this.$("#selectedEarnCode").html("");
             EarnCodes.fetch({
                 // Make the ajax call not async to be able to mark the earn code selected
                 async : false,
@@ -364,7 +421,7 @@ $(function () {
          * Validations
          */
 
-        validateAndSubmitTimeBlock : function () {
+        validateTimeBlock : function () {
             var self = this;
             var isValid = true;
             isValid = isValid && this.checkEmptyField($("#selectedAssignment"), "Assignment");
@@ -501,7 +558,50 @@ $(function () {
                 return false;
             }
             return true;
+        },
+
+        /**
+         * Reset the values on the timeblock entry form.
+         * @param fields
+         */
+        resetTimeBlockDialog : function (timeBlockDiv) {
+            $("input, select", timeBlockDiv).val("");
+            // This is not the best solution, but we can probably live with this for now.
+            $("#selectedEarnCode").html("<option value=''> -- selecte an earn code --");
+        },
+        /**
+         * Remove the error class from the given fields.
+         * @param fields
+         */
+        resetState : function (fields) {
+            // Remove the error / warning texts
+            $("#validation").text("").removeClass("error-messages");
+
+            // Remove the error classs
+            $("[class*=error]", fields).each(function () {
+                $(this).removeClass("ui-state-error");
+            });
+
+            // Remove the sylte for multi-day selection
+            $('.cal-table td').removeClass('ui-selected');
+
+            // Remove all the readonly / disabled states
+            $("input, select", $("#timesheet-panel")).attr("disabled", false);
+            $("input, select", $("#timesheet-panel")).attr("readonly", false);
+
+            // This is mainly to solve the issue where the change event on the assignment was unbound
+            // when the user can only change the assignment on the timeblock.
+            // Reset the events by calling the built-in delegateEvents function.
+            this.delegateEvents(this.events);
+        },
+        /**
+         * Reset the values on the givin fields.
+         * @param fields
+         */
+        resetValues : function (fields) {
+            $(fields).val("");
         }
+
 
     });
 
@@ -516,6 +616,7 @@ $(function () {
 
         render : function () {
             var self = this;
+            $("#selectedEarnCode").html("");
             this.collection.each(function (earnCode) {
                 $(self.el).append(self.template(earnCode.toJSON()));
             });
@@ -581,28 +682,9 @@ $(function () {
             $('#hours').val(timeBlock.get("hours"));
             $('#amount').val(timeBlock.get("amount"));
 
-            if ($('#isVirtualWorkDay').val() == 'false') {
+            if ($('#isVirtualWorkDay').val() == 'true') {
                 var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
                 $('#endDate').val(endDateTime.add(-1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
-            }
-
-        },
-
-        applyPermissions : function (timeBlock) {
-            /**
-             * Employee- can only edit the assign on sync timeblocks
-             can edit/delete all fields for async timeblocks
-             whether or not they can modify the OVT earn code is decided by the defined role on the work area
-
-             Reviewer/Approver/Admin-
-             can add/edit/delete timeblocks only for the assign they are associated with, on those timeblocks they can edit all fields regardless of
-             how timeblocks created (including ovt earn codes)
-             any timeblock they are not assoc w/ they can only edit the assign (and can not delete)
-             */
-            if (!timeBlock.get("isEditable")) {
-                // Hide the delete button
-                $("img[id*=delete]").hide();
-                // Make every field readonly except assignment
             }
 
         },
@@ -624,38 +706,7 @@ $(function () {
          */
         updateDialogButtonName : function (string) {
 
-        },
-        /**
-         * Reset the values on the timeblock entry form.
-         * @param fields
-         */
-        resetTimeBlockDialog : function (timeBlockDiv) {
-            $("input, select", timeBlockDiv).val("");
-            // This is not the best solution, but we can probably live with this for now.
-            $("#selectedEarnCode").html("<option value=''> -- selecte an earn code --");
-        },
-        /**
-         * Remove the error class from the given fields.
-         * @param fields
-         */
-        resetState : function (fields) {
-            // Remove the error / warning texts
-            $("#validation").text("").removeClass("error-messages");
-            // Remove the error classs
-            $("[class*=error]", fields).each(function () {
-                $(this).removeClass("ui-state-error");
-            });
-            // Remove the sylte for multi-day selection
-            $('.cal-table td').removeClass('ui-selected');
-        },
-        /**
-         * Reset the values on the givin fields.
-         * @param fields
-         */
-        resetValues : function (fields) {
-            $(fields).val("");
         }
-
     });
 
     /**
