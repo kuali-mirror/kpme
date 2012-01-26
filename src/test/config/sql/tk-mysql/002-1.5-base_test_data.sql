@@ -345,8 +345,8 @@ DELETE FROM `tk_hour_detail_s`;
 INSERT INTO `tk_hour_detail_s` VALUES ('1000');
 
 delete from hr_principal_attributes_t;
-insert into hr_principal_attributes_t values('admin', 'BWS-CAL', NULL, '2010-01-01', 'Y', 'Y', 'America/Indianapolis', '2010-01-01', now(), uuid(), 1, 'Y', NULL);
-insert into hr_principal_attributes_t values('eric', 'BW-CAL1', NULL, '2010-01-01', 'Y', 'Y',  'America/Indianapolis', '2010-01-01', now(), uuid(), 1, 'Y', NULL);
+insert into hr_principal_attributes_t values('admin', 'BWS-CAL', NULL, '2010-01-01', 'Y', 'Y', 'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL);
+insert into hr_principal_attributes_t values('eric', 'BW-CAL1', NULL, '2010-01-01', 'Y', 'Y',  'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL);
 
 delete from tk_system_lunch_rl_t;
 insert into tk_system_lunch_rl_t (`TK_SYSTEM_LUNCH_RL_ID`,`EFFDT`,`ACTIVE`,`USER_PRINCIPAL_ID`,`SHOW_LUNCH_BUTTON`) values
@@ -355,7 +355,7 @@ insert into tk_system_lunch_rl_t (`TK_SYSTEM_LUNCH_RL_ID`,`EFFDT`,`ACTIVE`,`USER
 delete from tk_grace_period_rl_t;
 
 delete from tk_user_pref_t;
-insert into tk_user_pref_t values('admin','America/Indianapolis');
+insert into tk_user_pref_t values('admin','America/Chicago');
 
 delete from tk_weekly_ovt_group_t;
 insert into tk_weekly_ovt_group_t values(1);
