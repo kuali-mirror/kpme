@@ -273,7 +273,7 @@ $(function () {
                     self.resetTimeBlockDialog($("#timesheet-panel"));
                 },
                 buttons : {
-                    "Add" : function () {
+                    "Update" : function () {
                         $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
 
                         // selected earn code and overtimePref are two special cases where the DOMs are managed by the backbone template.
@@ -298,6 +298,7 @@ $(function () {
             // Retrieve the selected timeblock
             var timeBlock = timeBlockCollection.get(key.id);
             this.showTimeEntryDialog(timeBlock.get("startDate"), timeBlock.get("endDate"));
+            _.replaceDialogButtonText("Add", "Update");
 
             // Deferred is a jQuery method which makes sure things happen in the order you want.
             // For more informaiton : http://api.jquery.com/category/deferred-object/
@@ -721,10 +722,11 @@ $(function () {
         },
         /**
          * Provides a helper method to change the button name on the time entry dialog.
-         * @param string
+         * @param oriText
+         * @param newText
          */
-        updateDialogButtonName : function (string) {
-
+        replaceDialogButtonText : function (oriText, newText) {
+            $(".ui-button-text:contains('" + oriText +"')").text(newText);
         },
         /**
          * The selected assignment field can be a hidden text field if there is only one assignment, or a dropdown if there are multiple assignments
