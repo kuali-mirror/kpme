@@ -1,7 +1,7 @@
 package org.kuali.hr.lm.accrual.validation;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -89,6 +89,38 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
+	// KPME-1257. Start and end values for a given unit of time should not allow overlapping/gaping 
+	boolean validateStartEndUnits(List<AccrualCategoryRule> accrualCategoryRules) {
+		boolean valid = true;
+		int index = 0;
+		if (accrualCategoryRules != null && accrualCategoryRules.size() > 0) {
+			// the rules list has to be sorted by start field
+			List<AccrualCategoryRule> sortedAccrualCategoryRules = new ArrayList<AccrualCategoryRule>(accrualCategoryRules);
+			Collections.sort(sortedAccrualCategoryRules, SENIORITY_ORDER);
+				
+			Long previousEndUnit = accrualCategoryRules.get(0).getEnd();
+			for (AccrualCategoryRule accrualCategoryRule :  accrualCategoryRules) {							
+				if ( index > 0 ) {
+					Long nextStartUnit = accrualCategoryRule.getStart();
+					if ( previousEndUnit + 1 != nextStartUnit ){
+						
+						this.putFieldError("accrualCategoryRules["+index+"].start", "error.accrualCategoryRule.startEnd");
+						valid = false;
+					}
+				}
+				index++;
+			}
+		} 
+		return valid;
+	}
+	
+	static final Comparator<AccrualCategoryRule> SENIORITY_ORDER = new Comparator<AccrualCategoryRule>() {
+
+        public int compare(AccrualCategoryRule e1, AccrualCategoryRule e2) {
+            return e1.getStart().compareTo(e2.getStart());
+        }
+    };
+	
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
@@ -101,6 +133,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 				valid = true;
 				valid &= this.validateAccrualRulePresent(leaveAccrualCategory.getAccrualCategoryRules());
 				valid &= this.validateMinPercentWorked(leaveAccrualCategory.getMinPercentWorked(), ADD_LINE_LOCATION);
+				valid &= this.validateStartEndUnits(leaveAccrualCategory.getAccrualCategoryRules());
 			}
 		}
 		return valid;
@@ -124,7 +157,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 				}else if(StringUtils.equals("P", leaveAccrualCategoryRule.getActionAtMaxBalance())){
 					valid &= validateMaxPayoutAmount(leaveAccrualCategoryRule.getMaxPayoutAmount(), ADD_LINE_LOCATION);
 					valid &= validateMaxPayoutLeaveCode(leaveAccrualCategoryRule.getMaxPayoutLeaveCode(), ADD_LINE_LOCATION);
-				}	
+				}
 			}
 		}
 		return valid;
