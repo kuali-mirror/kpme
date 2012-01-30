@@ -14,19 +14,19 @@ import org.junit.Test;
 import org.kuali.hr.time.calendar.CalendarEntries;
 
 public class TKUtilsTest extends Assert {
-	
+
 	@Test
 	public void testGetWeekIntervals() throws Exception {
-		Date beginDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		Date endDate   = new Date((new DateTime(2010, 3, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		Date beginDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		Date endDate   = new Date((new DateTime(2010, 3, 1, 12, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
 		List<Interval> intervals = TKUtils.getWeekIntervals(beginDate, endDate);
 		assertEquals("Missing partial week", 9, intervals.size());
 		for (Interval interval : intervals) {
 			System.out.println(interval);
 		}
-		
-		beginDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		endDate   = new Date((new DateTime(2010, 1, 3, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+
+		beginDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		endDate   = new Date((new DateTime(2010, 1, 3, 12, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
 		intervals = TKUtils.getWeekIntervals(beginDate, endDate);
 		assertEquals("Missing partial week", 1, intervals.size());
 		for (Interval interval : intervals) {
@@ -41,54 +41,54 @@ public class TKUtilsTest extends Assert {
 		Timestamp endTime = new Timestamp((new DateTime(2010, 10, 17, 12, 3, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		BigDecimal hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
 		assertEquals("Wrong hours", 24, hours.intValue());
-		
+
 		endTime = new Timestamp((new DateTime(2010, 10, 16, 18, 3, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
 		assertEquals("Wrong hours", 6, hours.intValue());
-		
+
 		endTime = new Timestamp((new DateTime(2010, 10, 16, 18, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 		hours = TKUtils.getHoursBetween(beginTime.getTime(), endTime.getTime());
 		assertEquals("Wrong hours", 5, hours.intValue());
 
 	}
-	
+
 	@Test
 	public void testGetFullWeekDaySpanForPayCalendarEntry() {
 		CalendarEntries payCalendarEntry = new CalendarEntries();
 		// begin date is a Monday
-		payCalendarEntry.setBeginPeriodDateTime(new Date((new DateTime(2011, 8, 8, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		payCalendarEntry.setBeginPeriodDateTime(new Date((new DateTime(2011, 8, 8, 12, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis()));
 		// end date is a Thursday
-		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 25, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
-		List<Interval> intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry, DateTimeZone.forID("EST") );
+		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 25, 12, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis()));
+		List<Interval> intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry, TkConstants.SYSTEM_DATE_TIME_ZONE );
 		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-		assertEquals("First Interval should be 08/07/2011", "08/07/2011", format.format(intervals.get(0).getStart().toDate())); 
+		assertEquals("First Interval should be 08/07/2011", "08/07/2011", format.format(intervals.get(0).getStart().toDate()));
 		assertEquals("Last Interval should be 08/26/2011", "08/26/2011", format.format(intervals.get(intervals.size()-1).getStart().toDate()));
-		
+
 		// begin date is a Sunday
-		payCalendarEntry.setBeginPeriodDateTime(new Date((new DateTime(2011, 8, 14, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
-		intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry, DateTimeZone.forID("EST") );
+		payCalendarEntry.setBeginPeriodDateTime(new Date((new DateTime(2011, 8, 14, 12, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis()));
+		intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry, TkConstants.SYSTEM_DATE_TIME_ZONE );
 		assertEquals("First Interval should be 08/14/2011", "08/14/2011", format.format(intervals.get(0).getStart().toDate()));
 		assertEquals("Last Interval should be 08/26/2011", "08/26/2011",  format.format(intervals.get(intervals.size()-1).getStart().toDate()));
-		
+
 		// end date is a Sunday
-		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 28, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
-		intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry, DateTimeZone.forID("EST") );
+		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 28, 12, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis()));
+		intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry, TkConstants.SYSTEM_DATE_TIME_ZONE );
 		assertEquals("First Interval should be 08/14/2011", "08/14/2011",format.format(intervals.get(0).getStart().toDate()));
 		assertEquals("Last Interval should be 09/02/2011", "09/02/2011", format.format(intervals.get(intervals.size()-1).getStart().toDate()));
-		
+
 		// end date is a Sunday and end time is 0:00
-		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 28, 0, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
-		intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry, DateTimeZone.forID("EST") );
+		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 28, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis()));
+		intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry, TkConstants.SYSTEM_DATE_TIME_ZONE );
 		assertEquals("First Interval should be 08/14/2011", "08/14/2011",format.format(intervals.get(0).getStart().toDate()));
 		assertEquals("Last Interval should be 08/27/2011", "08/27/2011", format.format(intervals.get(intervals.size()-1).getStart().toDate()));
-		
+
 		// end date is a Monday and end time is 0:00
-		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 29, 0, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
-		intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry, DateTimeZone.forID("EST") );
+		payCalendarEntry.setEndPeriodDateTime(new Date((new DateTime(2011, 8, 29, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis()));
+		intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry, TkConstants.SYSTEM_DATE_TIME_ZONE );
 		assertEquals("First Interval should be 08/14/2011", "08/14/2011",format.format(intervals.get(0).getStart().toDate()));
 		assertEquals("Last Interval should be 09/03/2011", "09/03/2011", format.format(intervals.get(intervals.size()-1).getStart().toDate()));
-		
+
 	}
-	
-	
+
+
 }
