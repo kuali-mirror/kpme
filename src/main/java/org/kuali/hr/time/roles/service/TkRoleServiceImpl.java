@@ -34,6 +34,12 @@ public class TkRoleServiceImpl implements TkRoleService {
 	public List<TkRole> getDepartmentRoles(String department, String roleName, Date asOfDate) {
 		return tkRoleDao.findRoles(null, asOfDate, roleName, null, department, null);
 	}
+	
+	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+	public List<TkRole> getDepartmentInactiveRoles(String department, String roleName, Date asOfDate) {
+		return tkRoleDao.findInActiveRoles(null, asOfDate, roleName, null, department, null);
+	}
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)

@@ -49,8 +49,18 @@ public class DepartmentServiceImpl implements DepartmentService {
         	List<TkRole> deptViewOnlyRoles = TkServiceLocator.getTkRoleService().getDepartmentRoles(department.getDept(),
                     TkConstants.ROLE_TK_DEPT_VO,
                     department.getEffectiveDate());
+        	List<TkRole> deptAdminInactiveRoles = TkServiceLocator.getTkRoleService().getDepartmentInactiveRoles(
+                    department.getDept(),
+                    TkConstants.ROLE_TK_DEPT_ADMIN,
+                    department.getEffectiveDate()); 
+        	List<TkRole> deptViewOnlyInactiveRoles = TkServiceLocator.getTkRoleService().getDepartmentInactiveRoles(department.getDept(),
+                    TkConstants.ROLE_TK_DEPT_VO,
+                    department.getEffectiveDate());
+        	
         	department.getRoles().addAll(deptAdminRoles);
         	department.getRoles().addAll(deptViewOnlyRoles);
+        	department.getInactiveRoles().addAll(deptAdminInactiveRoles);
+        	department.getInactiveRoles().addAll(deptViewOnlyInactiveRoles);
         }
     }
 

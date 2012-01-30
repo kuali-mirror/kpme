@@ -62,6 +62,15 @@ public interface TkRoleService {
 	 * @return
 	 */
 	public List<TkRole> getDepartmentRoles(String department, String roleName, Date asOfDate);
+	
+	/**
+	 * Fetch all Inactive Roles for a given Department and Role Name as of a particular date
+	 * @param department
+	 * @param roleName
+	 * @param asOfDate
+	 * @return
+	 */
+	public List<TkRole> getDepartmentInactiveRoles(String department, String roleName, Date asOfDate);
 	/**
 	 * Fetch all Roles for a given Department of a particular date
 	 * @param department
