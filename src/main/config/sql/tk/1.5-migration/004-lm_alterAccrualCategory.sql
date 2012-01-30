@@ -1,1 +1,1 @@
-alter table lm_accrual_category_t modify column ACCRUAL_INTERVAL_EARN varchar(12) NOT NULL;
+alter table lm_accrual_category_t modify column ACCRUAL_INTERVAL_EARN varchar(1) NOT NULL;
