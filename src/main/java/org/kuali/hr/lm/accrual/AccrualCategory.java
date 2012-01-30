@@ -23,7 +23,6 @@ public class AccrualCategory extends HrBusinessObject {
 	private String donation;
 	private String showOnGrid;
 	private String unitOfTime;
-	private Long planningMonths;
 	private Boolean history;
 
 	private LeavePlan leavePlanObj;
@@ -126,14 +125,6 @@ public class AccrualCategory extends HrBusinessObject {
 
 	public void setUnitOfTime(String unitOfTime) {
 		this.unitOfTime = unitOfTime;
-	}
-
-	public Long getPlanningMonths() {
-		return planningMonths;
-	}
-
-	public void setPlanningMonths(Long planningMonths) {
-		this.planningMonths = planningMonths;
 	}
 
 	@Override

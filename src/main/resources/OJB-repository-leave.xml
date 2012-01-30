@@ -41,7 +41,6 @@
 		<field-descriptor name="proration" 			column="PRORATION"	    jdbc-type="VARCHAR" length="1" nullable="false" />
 		<field-descriptor name="donation" 			column="DONATION"	    jdbc-type="VARCHAR" length="1" nullable="false" />
 		<field-descriptor name="showOnGrid" 		column="SHOW_ON_GRID"	    jdbc-type="VARCHAR" length="1" nullable="false" />
-		<field-descriptor name="planningMonths" 	column="PLANNING_MONTHS"	    jdbc-type="BIGINT" length="2" nullable="false" />
 		<field-descriptor name="minPercentWorked" 	column="MIN_PERCENT_WORKED"	    jdbc-type="DECIMAL" nullable="false" />
 		<field-descriptor name="objectId" 			column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 		column="ver_nbr" jdbc-type="BIGINT" locking="true" />

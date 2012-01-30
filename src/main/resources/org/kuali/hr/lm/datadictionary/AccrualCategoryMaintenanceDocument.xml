@@ -58,8 +58,6 @@
 					p:required="true" p:defaultValue="N"/>
 				<bean parent="MaintainableFieldDefinition" p:name="showOnGrid"
 					p:required="true" p:defaultValue="Y"/>
-				<bean parent="MaintainableFieldDefinition" p:name="planningMonths"
-					p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="active"
 					p:required="true" p:defaultValue="true"/>
 			</list>

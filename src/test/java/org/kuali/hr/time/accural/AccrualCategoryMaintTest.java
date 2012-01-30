@@ -41,7 +41,6 @@ public class AccrualCategoryMaintTest extends TkTestCase {
         accrualCategory.setLeavePlan("");
         accrualCategory.setAccrualEarnInterval("");
         accrualCategory.setUnitOfTime("");
-        accrualCategory.setPlanningMonths(1L);
 		KNSServiceLocator.getBusinessObjectService().save(accrualCategory);
 		accrualCategoryId = accrualCategory.getLmAccrualCategoryId();
 	}
