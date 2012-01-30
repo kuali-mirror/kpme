@@ -347,4 +347,14 @@ public class TkConstants {
     	UNUSED_TIME.put("B", "Bank");
     }
     
+    public static final Map<String, String> EMPLOYEE_OVERRIDE_TYPE = new LinkedHashMap<String, String>(5);
+    
+    static {
+    	EMPLOYEE_OVERRIDE_TYPE.put("MB", "Max Balance");
+    	EMPLOYEE_OVERRIDE_TYPE.put("MTA", "Max Transfer Amount");
+    	EMPLOYEE_OVERRIDE_TYPE.put("MPA", "Max Payout Amount");
+    	EMPLOYEE_OVERRIDE_TYPE.put("MU", "Max Usage");
+    	EMPLOYEE_OVERRIDE_TYPE.put("MAC", "Max Annual Carryover");
+    }
+    
 }

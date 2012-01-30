@@ -41,5 +41,12 @@
             <docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
             <label>LeaveDonationDocument</label>
         </documentType>
+         <documentType>
+            <name>EmployeeOverrideDocumentType</name>
+            <parent>RiceDocument</parent>
+            <docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+            <label>EmployeeOverrideDocument</label>
+        </documentType>
+        
     </documentTypes>
 </data>
