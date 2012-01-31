@@ -2,6 +2,7 @@ package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.job.service.JobService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
+import org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideService;
 import org.kuali.hr.lm.leavecalendar.service.LeaveCalendarService;
 import org.kuali.hr.lm.leavecode.service.LeaveCodeService;
 import org.kuali.hr.lm.leavedonation.service.LeaveDonationService;
@@ -130,6 +131,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String LM_LEDGER_SERVICE = "ledgerService";
     public static final String LM_LEAVE_CALENDAR_SERVICE = "leaveCalendarService";
     public static final String LM_LEAVE_CALENDAR_DOCUMENT_HEADER_SERVICE = "leaveCalendarDocumentHeaderService";
+    public static final String LM_EMPLOYEE_OVERRIDE_SERVICE = "employeeOverrideService";
 	public static final String TK_PRINCIPAL_HR_ATTRIBUTES_SERVICE = "principalHRAttributesService";
 
 
@@ -379,6 +381,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
     public static LeaveCalendarDocumentHeaderService getLeaveCalendarDocumentHeaderService(){
 		return (LeaveCalendarDocumentHeaderService)CONTEXT.getBean(LM_LEAVE_CALENDAR_DOCUMENT_HEADER_SERVICE);
+	}
+    
+    public static EmployeeOverrideService getEmployeeOverrideService(){
+		return (EmployeeOverrideService)CONTEXT.getBean(LM_EMPLOYEE_OVERRIDE_SERVICE);
 	}
     
     public static PrincipalHRAttributesService getPrincipalHRAttributeService(){

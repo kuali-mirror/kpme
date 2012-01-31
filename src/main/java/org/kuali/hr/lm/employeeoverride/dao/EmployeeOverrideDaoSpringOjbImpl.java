@@ -50,9 +50,9 @@ public class EmployeeOverrideDaoSpringOjbImpl extends PersistenceBrokerDaoSuppor
     }
 
 	@Override
-	public EmployeeOverride getEmployeeOverride(String tkEmployeeOverrideId) {
+	public EmployeeOverride getEmployeeOverride(String lmEmployeeOverrideId) {
 		Criteria crit = new Criteria();
-        crit.addEqualTo("tkEmployeeOverrideId", tkEmployeeOverrideId);
+        crit.addEqualTo("lmEmployeeOverrideId", lmEmployeeOverrideId);
         Query query = QueryFactory.newQuery(EmployeeOverride.class, crit);
         return (EmployeeOverride) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}

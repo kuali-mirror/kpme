@@ -38,7 +38,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="accrualCategory"  p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="overrideType" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="overrideValue" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="overrideValue" />
 				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>
 			</list>

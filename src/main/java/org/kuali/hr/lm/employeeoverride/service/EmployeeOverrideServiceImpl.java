@@ -16,8 +16,8 @@ public class EmployeeOverrideServiceImpl implements EmployeeOverrideService {
 	}
 
 	@Override
-	public EmployeeOverride getEmployeeOverride(String tkEmployeeOverrideId) {
-		return employeeOverrideDao.getEmployeeOverride(tkEmployeeOverrideId);
+	public EmployeeOverride getEmployeeOverride(String lmEmployeeOverrideId) {
+		return employeeOverrideDao.getEmployeeOverride(lmEmployeeOverrideId);
 	}
 
 	public EmployeeOverrideDao getEmployeeOverrideDao() {

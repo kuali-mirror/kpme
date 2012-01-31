@@ -9,5 +9,5 @@ public interface EmployeeOverrideDao {
 
 	public List<EmployeeOverride> getEmployeeOverrides(String principalId, Date asOfDate);
 	
-	public EmployeeOverride getEmployeeOverride(String tkEmployeeOverrideId);
+	public EmployeeOverride getEmployeeOverride(String lmEmployeeOverrideId);
 }

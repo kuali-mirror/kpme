@@ -39,14 +39,6 @@
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="leavePlanObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="accrualCategoryObj" />
 					<property name="primitiveAttributes">
 						<list>
@@ -106,13 +98,8 @@
 	<bean id="EmployeeOverride-leavePlan-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Leave Plan" />
 		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
 		</property>
 		<property name="name" value="leavePlan" />
 		<property name="label" value="Leave Plan" />
@@ -159,16 +146,17 @@
 	<bean id="EmployeeOverride-overrideValue" parent="EmployeeOverride-overrideValue-parentBean" />
 	<bean id="EmployeeOverride-overrideValue-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Override Value" />
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="2" />
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+			<bean parent="TextControlDefinition" p:size="2" />
 		</property>
 		<property name="name" value="overrideValue" />
 		<property name="label" value="Override Value" />
 	</bean>
+	
 	
 	<bean id="EmployeeOverride-active" parent="EmployeeOverride-active-parentBean" />
 	<bean id="EmployeeOverride-active-parentBean" abstract="true" parent="AttributeDefinition">
@@ -212,7 +200,7 @@
 	<!-- Look up Definitions -->
 	<bean id="EmployeeOverride-lookupDefinition" parent="EmployeeOverride-lookupDefinition-parentBean" />
 	<bean id="EmployeeOverride-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="lookupableID" value="assignmentLookupable"></property>
+		<property name="lookupableID" value="employeeOverrideLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
@@ -236,7 +224,7 @@
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
-		<property name="title" value="Assignment Lookup" />
+		<property name="title" value="Employee Override Lookup" />
 	</bean>
 	
 </beans>

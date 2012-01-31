@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
@@ -12,37 +14,37 @@ public class EmployeeOverride extends HrBusinessObject {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String tkEmployeeOverrideId;
+	private String lmEmployeeOverrideId;
 	private String principalId;
 	private String accrualCategory;
 	private String leavePlan;
 	private Person principal;
-	private LeavePlan leavePlanObj;
+	private PrincipalHRAttributes principalHRAttrObj;
 	private AccrualCategory accrualCategoryObj;
 	private String overrideType;
-	private int overrideValue;
+	private Long overrideValue;
 	private String description;
 
 	@Override
 	public String getId() {
-		return getTkEmployeeOverrideId();
+		return getLmEmployeeOverrideId();
 	}
 
 	@Override
 	protected String getUniqueKey() {
-		return getTkEmployeeOverrideId();
+		return getLmEmployeeOverrideId();
 	}
 
 	@Override
 	public void setId(String id) {
-		setTkEmployeeOverrideId(id);		
+		setLmEmployeeOverrideId(id);		
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-		toStringMap.put("tkEmployeeOverrideId", tkEmployeeOverrideId);
+		toStringMap.put("lmEmployeeOverrideId", lmEmployeeOverrideId);
 		toStringMap.put("principalId", principalId);
 		toStringMap.put("overrideType", overrideType);
 		toStringMap.put("accrualCategory", accrualCategory);
@@ -50,12 +52,12 @@ public class EmployeeOverride extends HrBusinessObject {
 		return toStringMap;
 	}
 
-	public String getTkEmployeeOverrideId() {
-		return tkEmployeeOverrideId;
+	public String getLmEmployeeOverrideId() {
+		return lmEmployeeOverrideId;
 	}
 
-	public void setTkEmployeeOverrideId(String tkEmployeeOverrideId) {
-		this.tkEmployeeOverrideId = tkEmployeeOverrideId;
+	public void setLmEmployeeOverrideId(String lmEmployeeOverrideId) {
+		this.lmEmployeeOverrideId = lmEmployeeOverrideId;
 	}
 
 	public String getPrincipalId() {
@@ -72,14 +74,6 @@ public class EmployeeOverride extends HrBusinessObject {
         principal = KIMServiceLocator.getPersonService().getPerson(this.principalId);
 		}
 		return (principal != null) ? principal.getName() : "";
-	}
-
-	public LeavePlan getLeavePlanObj() {
-		return leavePlanObj;
-	}
-
-	public void setLeavePlanObj(LeavePlan leavePlanObj) {
-		this.leavePlanObj = leavePlanObj;
 	}
 
 	public AccrualCategory getAccrualCategoryObj() {
@@ -115,18 +109,25 @@ public class EmployeeOverride extends HrBusinessObject {
 	}
 
 	public String getLeavePlan() {
-		return leavePlan;
+		if (this.principalHRAttrObj == null) {
+			principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(this.principalId, this.effectiveDate);
+		}
+		if(this.accrualCategoryObj == null) {
+			accrualCategoryObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, effectiveDate);
+		}
+		// need to figure out the relationship between principalHRAttrObj and accrualCategoryObj, which one should we use to figure out the leave plan
+		return (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
 	}
 
 	public void setLeavePlan(String leavePlan) {
 		this.leavePlan = leavePlan;
 	}
 
-	public int getOverrideValue() {
+	public Long getOverrideValue() {
 		return overrideValue;
 	}
 
-	public void setOverrideValue(int overrideValue) {
+	public void setOverrideValue(Long overrideValue) {
 		this.overrideValue = overrideValue;
 	}
 
@@ -136,6 +137,14 @@ public class EmployeeOverride extends HrBusinessObject {
 
 	public void setPrincipal(Person principal) {
 		this.principal = principal;
+	}
+
+	public PrincipalHRAttributes getPrincipalHRAttrObj() {
+		return principalHRAttrObj;
+	}
+
+	public void setPrincipalHRAttrObj(PrincipalHRAttributes principalHRAttrObj) {
+		this.principalHRAttrObj = principalHRAttrObj;
 	}
 
 }
