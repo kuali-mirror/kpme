@@ -165,7 +165,7 @@ $(function () {
             $("#" + id.split("Hour")[0]).val(dateTime.toString(CONSTANTS.TIME_FORMAT.TIME_FOR_SYSTEM));
         },
 
-        showTimeEntryDialog : function (startDate, endDate) {
+        showTimeEntryDialog : function (startDate, endDat) {
             // check user permmissions before opening the dialog.
             var isValid = this.checkPermissions();
 
@@ -189,7 +189,9 @@ $(function () {
 
                         // Check if there is only one assignment
                         if ($("#selectedAssignment").is("input")) {
-                            self.fetchEarnCode(_.getSelectedAssignmentValue());
+                            var dfd = $.Deferred();
+                            dfd.done(self.fetchEarnCode(_.getSelectedAssignmentValue()))
+                               .done(self.showFieldByEarnCodeType());
                         }
                     },
                     close : function () {
@@ -276,7 +278,7 @@ $(function () {
                     "Update" : function () {
                         $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
 
-                        // selected earn code and overtimePref are two special cases where the DOMs are managed by the backbone template.
+                        // selected earn code and overtimePref are two special cases where the DOMs are managed by the backbone templates.
                         // So when the dialog is poped up, the dropdown options are not appended.
                         // That's why we have to do it manually to append those two fields to the time-detial form.
                         $("#selectedEarnCode").append("<option value=" + timeBlock.get('earnCode') + " selected='selected'></option>").clone().appendTo("#time-detail");
@@ -307,6 +309,7 @@ $(function () {
             var dfd = $.Deferred();
             // Fill in the values. See the note above regarding why we didn't use a template
             dfd.done(this.fetchEarnCode(timeBlock.get("assignment")))
+                    .done($("#selectedEarnCode option[value='" + timeBlock.get("earnCode") + "']").attr("selected", "selected"))
                     .done(this.showFieldByEarnCodeType())
                     .done(_(timeBlock).fillInForm())
                     .done(this.applyRules(timeBlock));
@@ -320,7 +323,6 @@ $(function () {
             /**
              * Can't add a new timeblock is the doc is not editable.
              */
-//            console.log(_.isBoolean($('#docEditable').val()));
             if ($('#docEditable').val() == "false") {
                 isValid = false;
             }
@@ -698,7 +700,6 @@ $(function () {
             $('#endTime').val(timeBlock.get("endTime"));
             $('#endTimeHourMinute').val(timeBlock.get("endTimeHourMinute"));
             $("#selectedAssignment option[value='" + timeBlock.get("assignment") + "']").attr("selected", "selected");
-            $("#selectedEarnCode option[value='" + timeBlock.get("earnCode") + "']").attr("selected", "selected");
             $('#tkTimeBlockId').val(timeBlock.get("tkTimeBlockId"));
             $('#hours').val(timeBlock.get("hours"));
             $('#amount').val(timeBlock.get("amount"));
