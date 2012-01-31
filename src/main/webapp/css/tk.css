@@ -90,22 +90,17 @@
     background: #FFFFCB;
 }
 
-select {
-    font-family: "Trebuchet MS", Verdana, Arial, sans-serif !important;
-    font-size: inherit !important;
-}
-
 .backdoor {
     color: #990000 !important;
 }
 
 .yellowbanner {
-	font-size: .8em;
-	font-weight: normal;
-	color: red; 
-	background-color:#FFFFCB;
-	margin-top: 100px;
-	margin-left: 50px;
+    font-size: .8em;
+    font-weight: normal;
+    color: red;
+    background-color: #FFFFCB;
+    margin-top: 100px;
+    margin-left: 50px;
 }
 
 .ui-header {
@@ -162,7 +157,7 @@ select {
     /*margin-top: 5px;*/
 }
 
-.person-detail table td, .person-detail table th{
+.person-detail table td, .person-detail table th {
     padding: 5px;
     border: 1px solid #CCC;
 }
@@ -182,7 +177,7 @@ select {
     line-height: 1.5em;
 }
 
-.person-detail .roles th{
+.person-detail .roles th {
     text-align: right;
 }
 
@@ -211,30 +206,26 @@ select {
     padding: 3px;
 }
 
-#timesheet-panel {
+.timesheet-panel {
     border: 1px solid #ccc;
     background-color: #FBF9EE;
 }
 
-#timesheet-panel table {
+.timesheet-panel table {
     /*margin: 0 auto 0 auto;*/
     margin: 5px;
     padding: 0;
     border-collapse: collapse;
 }
 
-#timesheet-panel table tr td {
+.timesheet-panel table tr td {
     padding: 5px;
     white-space: nowrap;
 }
 
-#timesheet-panel .timesheet-panel-title {
+.timesheet-panel .timesheet-panel-title {
     font-weight: bold;
     font-size: 1.1em;
-}
-
-#timesheet-panel select {
-    font-size: .9em;
 }
 
 #timesheet-summary {
@@ -327,13 +318,12 @@ select {
     z-index: 9999;
 }
 
-#dialog-form form {
+.dialog-form {
     font-size: .8em !important;
 }
 
 .validation {
     padding: 0.3em;
-    font-size: .8em;
 }
 
 .warning {
@@ -353,6 +343,19 @@ select {
 
 .block-error {
     border: 2px solid red !important;
+}
+
+label.error {
+    color: red;
+    clear: both;
+}
+
+.error-messages {
+    color: red;
+    font-weight: bold;
+    border: 1px solid red;
+    padding: 5px;
+    background-color: #FDF1ED;
 }
 
 .expand {
@@ -582,19 +585,18 @@ select {
 
 }
 
-
 .approvals-note-details table tr td, .approvals-note-details table tr th,
 .approvals-warning-details table tr td, .approvals-warning-details table tr th,
-.approvals-status-details table tr td, .approvals-status-details table tr th  {
+.approvals-status-details table tr td, .approvals-status-details table tr th {
     border: 1px solid gray;
 }
 
 .warning-note-message {
-	text-align: left; 
-	word-wrap: break-word; 
-	width: 400px; 
-	height: 40px; 
-	overflow-y: auto;
+    text-align: left;
+    word-wrap: break-word;
+    width: 400px;
+    height: 40px;
+    overflow-y: auto;
 }
 
 #approvals-filter {
@@ -631,7 +633,7 @@ select {
 }
 
 .approvals .navigation {
-    width:100%;
+    width: 100%;
     margin-top: 10px;
 }
 
@@ -663,7 +665,7 @@ select {
     font-weight: bold;
 }
 
-.cal .cal-table .holidayNameHelp:hover{
+.cal .cal-table .holidayNameHelp:hover {
     background-color: #dadada;
     cursor: pointer;
 }
@@ -710,7 +712,7 @@ select {
 }
 
 .cal .last-event {
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
 }
 
 .cal .event-delete {
@@ -750,7 +752,9 @@ select {
     background: #cceeff !important;
 }
 
-.ui-selectable-helper { border:none; }
+.ui-selectable-helper {
+    border: none;
+}
 
 /* Customized styles
 ------------------------------------------------------------------------*/
@@ -765,11 +769,30 @@ select {
 /*	assignment background colors
 ------------------------------------------------------------------------*/
 
-.assignment0 { background-color: #98a386; color: white;}
-.assignment1 { background-color: #CCCC99; color: white;}
-.assignment2 { background-color: #CCCCCC; color: white;}
-.assignment3 { background-color: #0099CC; color: white;}
-.assignment4 { background-color: #FFFFCC; color: white;}
+.assignment0 {
+    background-color: #98a386;
+    color: white;
+}
+
+.assignment1 {
+    background-color: #CCCC99;
+    color: white;
+}
+
+.assignment2 {
+    background-color: #CCCCCC;
+    color: white;
+}
+
+.assignment3 {
+    background-color: #0099CC;
+    color: white;
+}
+
+.assignment4 {
+    background-color: #FFFFCC;
+    color: white;
+}
 
 /**
 * actual time inquiry

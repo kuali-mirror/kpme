@@ -1,15 +1,5 @@
 package org.kuali.hr.time.timeblock;
 
-import java.math.BigDecimal;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.kuali.hr.time.assignment.Assignment;
@@ -19,6 +9,15 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
+import javax.persistence.Transient;
+import java.math.BigDecimal;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class TimeBlock extends PersistableBusinessObjectBase implements Comparable {
 
@@ -66,6 +65,12 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private String assignmentKey;
 
     private String overtimePref;
+    
+    @Transient
+    private Boolean deleteable;
+    
+    @Transient
+    private Boolean overtimeEditable;
 
 
     // the two variables below are used to determine if a time block needs to be visually pushed forward / backward
@@ -288,12 +293,12 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.task = task;
     }
 
-    public Long getHrJobId() {
-        return Long.parseLong(hrJobId);
+    public String getHrJobId() {
+        return hrJobId;
     }
 
-    public void setHrJobId(Long hrJobId) {
-        this.hrJobId = hrJobId.toString();
+    public void setHrJobId(String hrJobId) {
+        this.hrJobId = hrJobId;
     }
 
     public String getTkWorkAreaId() {
@@ -624,4 +629,14 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 
         return false;
     }
+
+	public Boolean getDeleteable() {
+		return TkServiceLocator.getPermissionsService().canDeleteTimeBlock(this);
+	}
+
+	public Boolean getOvertimeEditable() {
+		return TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode(this);
+	}
+
+
 }

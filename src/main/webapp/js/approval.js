@@ -149,7 +149,7 @@ $(document).ready(function () {
             var selectedPayCalendarGroup = $("#selectedPayCalendarGroup").val();
 
             $.ajax({
-                url:'TimeApprovalWS.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term + "&payBeginDateForSearch=" + $("#beginDate").html() + "&payEndDateForSearch=" + $("#endDate").html() +
+                url:'TimeApprovalWS.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term + "&payBeginDateForSearch=" + $("#payBeginDate").html() + "&payEndDateForSearch=" + $("#payEndDate").html() +
                     //                        '&hrPyCalendarEntriesId=' + hrPyCalendarEntriesId +
                         '&selectedPayCalendarGroup=' + selectedPayCalendarGroup,
                 dataType:"json",

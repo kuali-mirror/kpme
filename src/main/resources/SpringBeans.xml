@@ -489,6 +489,9 @@
     <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
         <property name="clockLogDao" ref="clockLogDao"/>
     </bean>
+    
+     <bean id="permissionsService" class="org.kuali.hr.time.permissions.TkPermissionsServiceImpl">
+    </bean>
 
     <bean id="clockLocationService" class="org.kuali.hr.time.clock.location.service.ClockLocationRuleServiceImpl">
         <property name="clockLocationDao" ref="clockLocationDao"/>

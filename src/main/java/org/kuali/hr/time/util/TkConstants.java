@@ -17,6 +17,11 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.rice.kew.util.KEWConstants;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.*;
+
 public class TkConstants {
     public static final int DEFAULT_CACHE_TIME = 900;
     public static final String TK_TARGET_USER_RETURN = "tkTargetReturn";
@@ -58,6 +63,7 @@ public class TkConstants {
 
     public static final DateTimeZone SYSTEM_DATE_TIME_ZONE = DateTimeZone.forID(TkConstants.SYSTEM_TIME_ZONE);
     public static DateTimeFormatter DT_BASIC_TIME_FORMAT = DateTimeFormat.forPattern("hh:mm aa");
+    public static DateTimeFormatter DT_MILITARY_TIME_FORMAT = DateTimeFormat.forPattern("H:mm");
     public static DateTimeFormatter DT_BASIC_DATE_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy");
     public static DateTimeFormatter DT_ABBREV_DATE_FORMAT = DateTimeFormat.forPattern("MM/dd");
     public static DateTimeFormatter DT_FULL_DATE_TIME_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy hh:mm aa");
@@ -178,6 +184,31 @@ public class TkConstants {
         CLOCK_ACTION_TRANSITION_MAP.put(LUNCH_OUT, lo);
     }
 
+    // available Clock actions to choose from when user's modifying an existing Missed Punch Document based on
+    // the initial clock action
+    public static final Map<String, Set<String>> CLOCK_AVAILABLE_ACTION_MAP = new HashMap<String, Set<String>>(4);
+
+    static {
+        Set<String> ci = new HashSet<String>();
+        ci.add(CLOCK_IN);
+
+        Set<String> co = new HashSet<String>();
+        co.add(CLOCK_OUT);
+        co.add(LUNCH_OUT);
+
+        Set<String> li = new HashSet<String>();
+        li.add(LUNCH_IN);
+
+        Set<String> lo = new HashSet<String>();
+        lo.add(CLOCK_OUT);
+        lo.add(LUNCH_OUT);
+
+        CLOCK_AVAILABLE_ACTION_MAP.put(CLOCK_IN, ci);
+        CLOCK_AVAILABLE_ACTION_MAP.put(CLOCK_OUT, co);
+        CLOCK_AVAILABLE_ACTION_MAP.put(LUNCH_IN, li);
+        CLOCK_AVAILABLE_ACTION_MAP.put(LUNCH_OUT, lo);
+    }
+    
     public static final Map<String, String> CLOCK_ACTION_STRINGS = new HashMap<String, String>(4);
 
     static {
@@ -297,64 +328,65 @@ public class TkConstants {
     public static final String TASK_DEFAULT_DESP = "Default";
     
     public static final Map<String, String> ACCRUAL_EARN_INTERVAL = new LinkedHashMap<String, String>(6);
-
-    static {
-    	ACCRUAL_EARN_INTERVAL.put("D", "Daily");
-    	ACCRUAL_EARN_INTERVAL.put("W", "Weekly");
-    	ACCRUAL_EARN_INTERVAL.put("S", "Semi-Monthly"); 
-    	ACCRUAL_EARN_INTERVAL.put("M", "Monthly"); 
-    	ACCRUAL_EARN_INTERVAL.put("Y", "Yearly"); 
-    	ACCRUAL_EARN_INTERVAL.put("N", "No Accrual"); 
-    }
-
-    public static final Map<String, String> SERVICE_UNIT_OF_TIME = new LinkedHashMap<String, String>(3);
     
-    static {
-    	SERVICE_UNIT_OF_TIME.put("Y", "Years");
-    	SERVICE_UNIT_OF_TIME.put("M", "Months");
-    	SERVICE_UNIT_OF_TIME.put("H", "Hours"); 
-    }
+        static {
+        	ACCRUAL_EARN_INTERVAL.put("D", "Daily");
+        	ACCRUAL_EARN_INTERVAL.put("W", "Weekly");
+        	ACCRUAL_EARN_INTERVAL.put("S", "Semi-Monthly"); 
+        	ACCRUAL_EARN_INTERVAL.put("M", "Monthly"); 
+        	ACCRUAL_EARN_INTERVAL.put("Y", "Yearly"); 
+        	ACCRUAL_EARN_INTERVAL.put("N", "No Accrual"); 
+        }
     
-    public static final Map<String, String> UNIT_OF_TIME = new LinkedHashMap<String, String>(2);
+        public static final Map<String, String> SERVICE_UNIT_OF_TIME = new LinkedHashMap<String, String>(3);
+        
+        static {
+        	SERVICE_UNIT_OF_TIME.put("Y", "Years");
+        	SERVICE_UNIT_OF_TIME.put("M", "Months");
+        	SERVICE_UNIT_OF_TIME.put("H", "Hours"); 
+        }
+        
+        public static final Map<String, String> UNIT_OF_TIME = new LinkedHashMap<String, String>(2);
+        
+        static {
+        	UNIT_OF_TIME.put("D", "Days");
+        	UNIT_OF_TIME.put("H", "Hours");
+        }
+        
+        public static final Map<String, String> MAX_BALANCE_ACTION_FREQUENCY = new LinkedHashMap<String, String>(3);
+        
+        static {
+        	MAX_BALANCE_ACTION_FREQUENCY.put("LA", "Leave Approve");
+        	MAX_BALANCE_ACTION_FREQUENCY.put("YE", "Year End");
+        	MAX_BALANCE_ACTION_FREQUENCY.put("NA", "Not Applicable");
+        }    
+        
+        public static final Map<String, String> ACTION_AT_MAX_BALANCE = new LinkedHashMap<String, String>(3);
+        
+        static {
+        	ACTION_AT_MAX_BALANCE.put("T", "Transfer");
+        	ACTION_AT_MAX_BALANCE.put("P", "Payout");
+        	ACTION_AT_MAX_BALANCE.put("L", "Lose");
+        	ACTION_AT_MAX_BALANCE.put("NA", "Not Applicable");
+        }
+        
+        public static final Map<String, String> UNUSED_TIME = new LinkedHashMap<String, String>(3);
+        
+        static {
+        	UNUSED_TIME.put("NUTA", "No Unused Time Allowed");
+        	UNUSED_TIME.put("T", "Transfer");
+        	UNUSED_TIME.put("B", "Bank");
+        }
+        
+        public static final Map<String, String> EMPLOYEE_OVERRIDE_TYPE = new LinkedHashMap<String, String>(5);
+        
+        static {
+        	EMPLOYEE_OVERRIDE_TYPE.put("MB", "Max Balance");
+        	EMPLOYEE_OVERRIDE_TYPE.put("MTA", "Max Transfer Amount");
+        	EMPLOYEE_OVERRIDE_TYPE.put("MPA", "Max Payout Amount");
+        	EMPLOYEE_OVERRIDE_TYPE.put("MU", "Max Usage");
+        	EMPLOYEE_OVERRIDE_TYPE.put("MAC", "Max Annual Carryover");
+        }
     
-    static {
-    	UNIT_OF_TIME.put("D", "Days");
-    	UNIT_OF_TIME.put("H", "Hours");
-    }
-    
-    public static final Map<String, String> MAX_BALANCE_ACTION_FREQUENCY = new LinkedHashMap<String, String>(3);
-    
-    static {
-    	MAX_BALANCE_ACTION_FREQUENCY.put("LA", "Leave Approve");
-    	MAX_BALANCE_ACTION_FREQUENCY.put("YE", "Year End");
-    	MAX_BALANCE_ACTION_FREQUENCY.put("NA", "Not Applicable");
-    }    
-    
-    public static final Map<String, String> ACTION_AT_MAX_BALANCE = new LinkedHashMap<String, String>(3);
-    
-    static {
-    	ACTION_AT_MAX_BALANCE.put("T", "Transfer");
-    	ACTION_AT_MAX_BALANCE.put("P", "Payout");
-    	ACTION_AT_MAX_BALANCE.put("L", "Lose");
-    	ACTION_AT_MAX_BALANCE.put("NA", "Not Applicable");
-    }
-    
-    public static final Map<String, String> UNUSED_TIME = new LinkedHashMap<String, String>(3);
-    
-    static {
-    	UNUSED_TIME.put("NUTA", "No Unused Time Allowed");
-    	UNUSED_TIME.put("T", "Transfer");
-    	UNUSED_TIME.put("B", "Bank");
-    }
-    
-    public static final Map<String, String> EMPLOYEE_OVERRIDE_TYPE = new LinkedHashMap<String, String>(5);
-    
-    static {
-    	EMPLOYEE_OVERRIDE_TYPE.put("MB", "Max Balance");
-    	EMPLOYEE_OVERRIDE_TYPE.put("MTA", "Max Transfer Amount");
-    	EMPLOYEE_OVERRIDE_TYPE.put("MPA", "Max Payout Amount");
-    	EMPLOYEE_OVERRIDE_TYPE.put("MU", "Max Usage");
-    	EMPLOYEE_OVERRIDE_TYPE.put("MAC", "Max Annual Carryover");
-    }
-    
+    public static final String DAILY_OVT_CODE = "DOT";
 }

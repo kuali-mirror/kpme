@@ -3,7 +3,9 @@ package org.kuali.hr.time.missedpunch;
 import java.sql.Time;
 import java.sql.Timestamp;
 
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.document.TransactionalDocumentBase;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 public class MissedPunchDocument extends TransactionalDocumentBase {
 
@@ -85,5 +87,12 @@ public class MissedPunchDocument extends TransactionalDocumentBase {
 	public void setAssignment(String assignment) {
 		this.assignment = assignment;
 	}
+	
+	@Override
+    public void prepareForSave(KualiDocumentEvent event) {
+		if(this.getTkClockLogId() == null) {
+			TkServiceLocator.getMissedPunchService().addClockLogForMissedPunch(this);
+		}
+    }
 
 }

@@ -1,12 +1,6 @@
 package org.kuali.hr.time.detail.web;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Test;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -19,8 +13,12 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 public class ActualTimeInquiryWebTest extends TkTestCase {
 	private String documentId;
@@ -64,7 +62,7 @@ public class ActualTimeInquiryWebTest extends TkTestCase {
 		timeBlock.setClockLogCreated(Boolean.TRUE);
 		timeBlock.setTkWorkAreaId("1");
 		timeBlock.setTkTaskId("1");
-		timeBlock.setHrJobId(1L);
+		timeBlock.setHrJobId("1");
 		List<TimeBlock> tbList = new ArrayList<TimeBlock>();
 		documentId = this.maxDocumentId().toString();
 		timeBlock.setDocumentId(documentId);

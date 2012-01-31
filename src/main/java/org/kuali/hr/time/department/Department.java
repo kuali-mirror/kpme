@@ -2,6 +2,7 @@ package org.kuali.hr.time.department;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +32,8 @@ public class Department extends HrBusinessObject {
     private Location locationObj;
     
     private List<TkRole> roles = new LinkedList<TkRole>();
-
+    private List<TkRole> inactiveRoles = new ArrayList<TkRole>();
+    
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -127,6 +129,16 @@ public class Department extends HrBusinessObject {
 	public void setRoles(List<TkRole> roles) {
 		this.roles = roles;
 	}
+	
+	public List<TkRole> getInactiveRoles() {
+		return inactiveRoles;
+	}
+
+
+	public void setInactiveRoles(List<TkRole> inactiveRoles) {
+		this.inactiveRoles = inactiveRoles;
+	}
+
 
 	@Override
 	protected String getUniqueKey() {

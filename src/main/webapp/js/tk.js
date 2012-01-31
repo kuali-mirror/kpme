@@ -1,5 +1,52 @@
 /**
- * If you need to change the theme base, the css file is: jquery-ui-1.8.1.custom.css
+ * Datejs date/time format:
+ *  Format  Description                                                                  Example
+    ------  ---------------------------------------------------------------------------  -----------------------
+    s      The seconds of the minute between 0-59.                                      "0" to "59"
+    ss     The seconds of the minute with leading zero if required.                     "00" to "59"
+
+    m      The minute of the hour between 0-59.                                         "0"  or "59"
+    mm     The minute of the hour with leading zero if required.                        "00" or "59"
+
+    h      The hour of the day between 1-12.                                            "1"  to "12"
+    hh     The hour of the day with leading zero if required.                           "01" to "12"
+
+    H      The hour of the day between 0-23.                                            "0"  to "23"
+    HH     The hour of the day with leading zero if required.                           "00" to "23"
+
+    d      The day of the month between 1 and 31.                                       "1"  to "31"
+    dd     The day of the month with leading zero if required.                          "01" to "31"
+    ddd    Abbreviated day name. Date.CultureInfo.abbreviatedDayNames.                  "Mon" to "Sun"
+    dddd   The full day name. Date.CultureInfo.dayNames.                                "Monday" to "Sunday"
+
+    M      The month of the year between 1-12.                                          "1" to "12"
+    MM     The month of the year with leading zero if required.                         "01" to "12"
+    MMM    Abbreviated month name. Date.CultureInfo.abbreviatedMonthNames.              "Jan" to "Dec"
+    MMMM   The full month name. Date.CultureInfo.monthNames.                            "January" to "December"
+
+    yy     The year as a two-digit number.                                              "99" or "08"
+    yyyy   The full four digit year.                                                    "1999" or "2008"
+
+    t      Displays the first character of the A.M./P.M. designator.                    "A" or "P"
+         $C.amDesignator or Date.CultureInfo.pmDesignator
+    tt     Displays the A.M./P.M. designator.                                           "AM" or "PM"
+         $C.amDesignator or Date.CultureInfo.pmDesignator
+
+    S      The ordinal suffix ("st, "nd", "rd" or "th") of the current day.            "st, "nd", "rd" or "th"
+
+    Format  Description                                                                  Example ("en-US")
+    ------  ---------------------------------------------------------------------------  -----------------------
+    d      The CultureInfo shortDate Format Pattern                                     "M/d/yyyy"
+    D      The CultureInfo longDate Format Pattern                                      "dddd, MMMM dd, yyyy"
+    F      The CultureInfo fullDateTime Format Pattern                                  "dddd, MMMM dd, yyyy h:mm:ss tt"
+    m      The CultureInfo monthDay Format Pattern                                      "MMMM dd"
+    r      The CultureInfo rfc1123 Format Pattern                                       "ddd, dd MMM yyyy HH:mm:ss GMT"
+    s      The CultureInfo sortableDateTime Format Pattern                              "yyyy-MM-ddTHH:mm:ss"
+    t      The CultureInfo shortTime Format Pattern                                     "h:mm tt"
+    T      The CultureInfo longTime Format Pattern                                      "h:mm:ss tt"
+    u      The CultureInfo universalSortableDateTime Format Pattern                     "yyyy-MM-dd HH:mm:ssZ"
+    y      The CultureInfo yearMonth Format Pattern                                     "MMMM, yyyy"
+ *
  */
 
 // CONSTANTS
@@ -16,6 +63,11 @@ var CONSTANTS = {
     ACTIONS : {
         UPDATE_TIME_BLOCK : "updateTimeBlock",
         ADD_TIME_BLOCK: "addTimeBlock"
+    },
+    TIME_FORMAT : {
+        DATE_FOR_OUTPUT : 'M/d/yyyy',
+        TIME_FOR_OUTPUT : 'hh:mm tt',
+        TIME_FOR_SYSTEM : 'H:mm'
     }
 }
 
@@ -61,8 +113,38 @@ $(document).ready(function() {
         }
     });
 
+
+    var docId = $('#documentId').val();
+    var prevDocId = $('#prevDocumentId').val();
+    var nextDocId = $('#nextDocumentId').val();
+
+
+    // create navigation buttons
+    $('#nav_prev').button({
+        icons: {
+            primary: "ui-icon-circle-triangle-w"
+        },
+        text: false
+    });
+
+    $('#nav_prev').click(function() {
+        window.location = 'TimeDetail.do?documentId=' + prevDocId;
+    });
+
+    $('#nav_next').button({
+        icons: {
+            primary: "ui-icon-circle-triangle-e"
+        },
+        text: false
+    });
+
+    $('#nav_next').click(function() {
+        window.location = 'TimeDetail.do?documentId=' + nextDocId;
+    });
+
+
     // datepicker
-    $('#date-range-begin, #date-range-end, #bdRow1, #edRow1, #bdRow2, #edRow2').datepicker({
+    $('#startDate, #endDate, #bdRow1, #edRow1, #bdRow2, #edRow2').datepicker({
         changeMonth : true,
         changeYear : true,
         showOn : 'button',
@@ -92,12 +174,6 @@ $(document).ready(function() {
     };
     $(".jClock").jclock(options);
 
-    // elapsed time
-    // http://keith-wood.name/countdown.html
-//    if($("#clock-button").val() == "Clock Out") {
-//        $("#lastClockedInTime").val("");
-//        $("#elapsed-time").val("00:00:00");
-//    }
     var lastClockedInTime = $("#lastClockedInTime").val();
     var clockAction = $("#clockAction").val();
     var startTime = clockAction == 'CO' ? new Date(lastClockedInTime) : new Date(currentServerTime);
@@ -114,7 +190,7 @@ $(document).ready(function() {
     // http://flowplayer.org/tools/tooltip/index.html
     $(" .holidayNameHelp").tooltip({ effect: 'slide'});
 
-    $("#beginTimeHelp, #endTimeHelp, #beginTimeHelp1, #endTimeHelp1, #hourHelp").tooltip({
+    $("#beginTimeHelp, #startTimeHelp, #endTimeHelp, #beginTimeHelp1, #endTimeHelp1, #hourHelp").tooltip({
 
         // place tooltip on the right edge
         position : "center right",
@@ -130,12 +206,6 @@ $(document).ready(function() {
 
         fadeInSpeed : 500
     });
-
-    // note accordion
-//    $("#note, #routeLog").accordion({
-//        collapsible : true,
-//        active : 2
-//    });
 
     // person detail accordion
     $("#person-detail-accordion").accordion({

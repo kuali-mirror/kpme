@@ -34,6 +34,7 @@ import org.kuali.hr.time.missedpunch.service.MissedPunchService;
 import org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleService;
 import org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
+import org.kuali.hr.time.permissions.TkPermissionsService;
 import org.kuali.hr.time.position.service.PositionService;
 import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
 import org.kuali.hr.time.roles.service.TkRoleGroupService;
@@ -69,6 +70,7 @@ import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 public class TkServiceLocator implements ApplicationContextAware {
 	public static String SPRING_BEANS = "classpath:SpringBeans.xml";
 	public static ApplicationContext CONTEXT;
+	public static final String TK_PERMISSIONS_SERVICE = "permissionsService";
 	public static final String TK_CLOCK_LOG_SERVICE = "clockLogService";
 	public static final String TK_ASSIGNMENT_SERVICE = "assignmentService";
 	public static final String TK_ASSIGNMENT_DAO     = "assignmentDao";
@@ -200,6 +202,11 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static ClockLogService getClockLogService(){
 	    return (ClockLogService)CONTEXT.getBean(TK_CLOCK_LOG_SERVICE);
 	}
+	
+	public static TkPermissionsService getPermissionsService(){
+	    return (TkPermissionsService)CONTEXT.getBean(TK_PERMISSIONS_SERVICE);
+	}
+
 
 	public static AssignmentService getAssignmentService(){
 	    return (AssignmentService)CONTEXT.getBean(TK_ASSIGNMENT_SERVICE);

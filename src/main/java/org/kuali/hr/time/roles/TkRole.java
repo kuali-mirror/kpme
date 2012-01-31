@@ -8,6 +8,8 @@ import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.position.Position;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.bo.Person;
@@ -97,13 +99,20 @@ public class TkRole extends HrBusinessObject {
 	}
 	public void setWorkArea(Long workArea) {
 		this.workArea = workArea;
+		this.workAreaObj= TkServiceLocator.getWorkAreaService().getWorkArea(workArea, TKUtils.getCurrentDate());
+		this.departmentObj = TkServiceLocator.getDepartmentService().getDepartment(workAreaObj.getDept(), TKUtils.getCurrentDate());
+		this.department = this.workAreaObj.getDept();
 	}
 	public String getDepartment() {
 		return department;
 	}
 	public void setDepartment(String department) {
 		this.department = department;
+		this.departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+		this.workAreaObj= null;
+		this.workArea = null;
 	}
+	
 	public Date getEffectiveDate() {
 		return effectiveDate;
 	}
