@@ -78,7 +78,6 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
 		return sections;
 	}
 
-
 	@Override
 	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getDepartmentService().getDepartment(id);
@@ -89,7 +88,15 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
 		Department dept = (Department)hrObj;
 		List<TkRole> roles = dept.getRoles();
 		List<TkRole> rolesCopy = new ArrayList<TkRole>();
+		
 		rolesCopy.addAll(roles);
+		
+		if (dept.getInactiveRoles() != null
+				&& dept.getInactiveRoles().size() > 0) {
+			for (TkRole role : dept.getInactiveRoles()) {
+				roles.add(role);
+			}
+		}
 
 		dept.setRoles(roles);
 		for (TkRole role : roles) {
@@ -98,6 +105,4 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
 		}
 		TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
 	}
-	
-	
 }
