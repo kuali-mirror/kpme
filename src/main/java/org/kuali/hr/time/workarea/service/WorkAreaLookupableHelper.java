@@ -2,8 +2,10 @@ package org.kuali.hr.time.workarea.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,24 +13,24 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
-import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
-public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
+public class WorkAreaLookupableHelper extends KualiLookupableHelperServiceImpl {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-    @Override
+    
     /**
      * Implemented method to reduce the set of Business Objects that are shown
      * to the user based on their current roles.
@@ -253,4 +255,41 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 		return new CollectionIncomplete(finalBusinessObjectList, matchingResultsCount);
 
 	}
+	
+    @Override
+    /**
+     * Overridden single point where the Lookup methods call to obtain Business
+     * Objects. We scan this list and remove anything that the user does not
+     * have access to.
+     */
+    protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
+        List<? extends BusinessObject> list = super.getSearchResultsHelper(fieldValues, unbounded);
+        List<BusinessObject> reduced = new LinkedList<BusinessObject>();
+
+        for (BusinessObject bo : list) {
+            if (shouldShowBusinessObject(bo)) {
+                reduced.add(bo);
+            }
+        }
+
+        return reduced;
+    }
+    
+	@SuppressWarnings("rawtypes")
+	public class EffectiveDateTimestampCompare implements Comparator{
+
+		@Override
+		public int compare(Object arg0, Object arg1) {
+			HrBusinessObject hrBusinessObject = (HrBusinessObject)arg0;
+			HrBusinessObject hrBusinessObject2 = (HrBusinessObject)arg1;
+			int result = hrBusinessObject.getEffectiveDate().compareTo(hrBusinessObject2.getEffectiveDate());
+			if(result==0){
+				return hrBusinessObject.getTimestamp().compareTo(hrBusinessObject2.getTimestamp());
+			}
+			return result;
+		}
+		
+	}
+
+	
 }
