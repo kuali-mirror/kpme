@@ -144,6 +144,7 @@
 	<param name="filtermapping.login.1">/*</param>
 	
 	<!-- <param name="cas.url">https://bloomington.in.gov/cas</param> -->
+	<!-- <param name="appserver.url">http://outlaw.bloomington.in</param> -->
     <!-- <param name="filter.login.casServerLoginUrl">${cas.url}/login</param> -->
     <!-- <param name="filter.login.serverName">${appserver.url}</param> -->
     <!-- <param name="filtermapping.login.1">/*</param> -->
