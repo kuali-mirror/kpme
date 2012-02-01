@@ -226,9 +226,15 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                 }
             }
 
+            // If the timeblock was created by the employee himeself and is a sync timeblock,
+            // the user can't delete the timeblock
             if (userId.equals(TKContext.getTargetPrincipalId())
                     && tb.getClockLogCreated()) {
                 return false;
+            // But if the timeblock was created by the employee himeself and is an async timeblock,
+            // the user should be able to delete that timeblock
+            } else if (userId.equals(TKContext.getTargetPrincipalId()) && !tb.getClockLogCreated() ) {
+                return true;
             } else {
                 if (StringUtils.equals(payType.getRegEarnCode(),
                         tb.getEarnCode())) {

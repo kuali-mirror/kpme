@@ -180,17 +180,24 @@ $(function () {
                     modal : true,
                     open : function () {
                         // Set the selected date on start/end time fields
+                        // This statmement can tell is showTimeEntryDialog() by other methods or triggered directly by backbone.
                         if (!_.isUndefined(startDate) && !_.isUndefined(endDate)) {
                             $("#startDate").val(startDate);
                             $("#endDate").val(endDate);
                         } else {
+                            // If this is triggered directly by backbone, i.e. user clicked on the white area to create a new timeblock,
+                            // Set the date by grabbing the div id.
                             $("#startDate, #endDate").val(startDate.target.id);
+                            // Check if there is only one assignment
+                            // Placing this code block here will prevent fetching earn codes twice
+                            // when showTimeEntryDialog() is called by showTimeBlock()
+                            if ($("#selectedAssignment").is("input")) {
+                                var dfd = $.Deferred();
+                                dfd.done(self.fetchEarnCode(_.getSelectedAssignmentValue()))
+                                   .done(self.showFieldByEarnCodeType());
+                            }
                         }
 
-                        // Check if there is only one assignment
-                        if ($("#selectedAssignment").is("input")) {
-                            self.fetchEarnCode(_.getSelectedAssignmentValue());
-                        }
                     },
                     close : function () {
                         // reset values on the form
@@ -276,7 +283,7 @@ $(function () {
                     "Update" : function () {
                         $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_TIME_BLOCK);
 
-                        // selected earn code and overtimePref are two special cases where the DOMs are managed by the backbone template.
+                        // selected earn code and overtimePref are two special cases where the DOMs are managed by the backbone templates.
                         // So when the dialog is poped up, the dropdown options are not appended.
                         // That's why we have to do it manually to append those two fields to the time-detial form.
                         $("#selectedEarnCode").append("<option value=" + timeBlock.get('earnCode') + " selected='selected'></option>").clone().appendTo("#time-detail");
@@ -307,6 +314,7 @@ $(function () {
             var dfd = $.Deferred();
             // Fill in the values. See the note above regarding why we didn't use a template
             dfd.done(this.fetchEarnCode(timeBlock.get("assignment")))
+                    .done($("#selectedEarnCode option[value='" + timeBlock.get("earnCode") + "']").attr("selected", "selected"))
                     .done(this.showFieldByEarnCodeType())
                     .done(_(timeBlock).fillInForm())
                     .done(this.applyRules(timeBlock));
@@ -320,7 +328,6 @@ $(function () {
             /**
              * Can't add a new timeblock is the doc is not editable.
              */
-//            console.log(_.isBoolean($('#docEditable').val()));
             if ($('#docEditable').val() == "false") {
                 isValid = false;
             }
@@ -698,7 +705,6 @@ $(function () {
             $('#endTime').val(timeBlock.get("endTime"));
             $('#endTimeHourMinute').val(timeBlock.get("endTimeHourMinute"));
             $("#selectedAssignment option[value='" + timeBlock.get("assignment") + "']").attr("selected", "selected");
-            $("#selectedEarnCode option[value='" + timeBlock.get("earnCode") + "']").attr("selected", "selected");
             $('#tkTimeBlockId').val(timeBlock.get("tkTimeBlockId"));
             $('#hours').val(timeBlock.get("hours"));
             $('#amount').val(timeBlock.get("amount"));
