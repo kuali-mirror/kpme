@@ -23,8 +23,10 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
 
        String rname = role.getRoleName();
        if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_LOCATION_ADMIN) || StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_LOCATION_VO)) {
-    	   this.putFieldError(fieldPrefix + "chart", "error.role.chart.required");
-           valid = false;
+    	   if(role.getChart() == null) {
+    		   this.putFieldError(fieldPrefix + "chart", "error.role.chart.required");
+    		   valid = false;
+    	   }
         } 
        
         return valid;
