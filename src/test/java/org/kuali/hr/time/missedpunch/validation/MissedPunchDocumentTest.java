@@ -81,6 +81,12 @@ public class MissedPunchDocumentTest extends TkTestCase {
 						+ "/missedPunch.do?methodToCall=docHandler&command=initiate&docTypeName=MissedPunchDocumentType&tdocid="
 						+ docId);
 		assertNotNull(mPunchPage);
+		
+		// clock action and assignment are drop down lists that are not readonly
+		HtmlElement element = mPunchPage.getElementById("document.clockAction");
+		assertNotNull(element);
+		element = mPunchPage.getElementById("document.assignment");
+		assertNotNull(element);
 
 		System.out.println("Page1 is : " + mPunchPage.asText());
 
@@ -150,7 +156,19 @@ public class MissedPunchDocumentTest extends TkTestCase {
 
 		assertTrue("page text:\n" + mPunchPage.asText() + "\n does not contain:\n",
 				mPunchPage.asText().contains("Document was successfully submitted."));
-				
-
+		
+		// open another missed punch doc for clock out
+		mPunchPage = HtmlUnitUtil.gotoPageAndLogin(HtmlUnitUtil.getBaseURL()
+				+ "/missedPunch.do?methodToCall=docHandler&command=initiate&docTypeName=MissedPunchDocumentType&tdocid="
+				+ docId);
+		assertNotNull(mPunchPage);
+		element = mPunchPage.getElementById("document.clockAction");
+		assertNotNull(element);
+		// element not found for assignment since it is a readonly field now
+		element = mPunchPage.getElementById("document.assignment");
+		assertNull(element);
+		assertTrue("page text:does not contain: \n", 
+				mPunchPage.asText().contains("Assignment: 	 work area description : $0.00 Rcd 2 TEST-DEPT description 2"));
+		
 	}
 }
