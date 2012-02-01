@@ -221,12 +221,13 @@ public class TKUser {
         // see the comment in the getDeptWorkAreasByWorkAreas() for the explanation of Multimap
         Multimap<String, Long> reportingApprovalDepartments = TkServiceLocator.getTimeApproveService().getDeptWorkAreasByWorkAreas(workAreas);
 
-		Set<String> depts = new HashSet<String>();
+        //KPME-1338
+		/*Set<String> depts = new HashSet<String>();
 		depts.addAll(userRoles.getDepartmentViewOnlyDepartments());
 		depts.addAll(userRoles.getOrgAdminDepartments());
         if (depts.size() > 0) {
             reportingApprovalDepartments.putAll(TkServiceLocator.getTimeApproveService().getDeptWorkAreasByDepts(depts));
-        }
+        }*/
 		
 		return reportingApprovalDepartments;
 	}
