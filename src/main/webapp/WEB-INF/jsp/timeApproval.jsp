@@ -177,7 +177,7 @@
                     <tbody>
                     <c:forEach var="note" items="${row.notes}">
                         <tr>
-                            <td>${note.noteAuthorWorkflowId}</td>
+                            <td>${note.noteAuthorFullName}</td>
                             <td style="width: 30px;">${note.noteCreateDate}</td>
                             <td>
                                 <div class="warning-note-message">

@@ -45,6 +45,7 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kew.notes.Note;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -630,6 +631,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public List getNotesForDocument(String documentNumber) {
 		List notes = KEWServiceLocator.getNoteService()
 				.getNotesByRouteHeaderId(Long.parseLong(documentNumber));
+		//add the user name in the note object
+		for(Object obj : notes){
+			Note note = (Note)obj;
+			note.setNoteAuthorFullName(KIMServiceLocator.getPersonService().getPerson(note.getNoteAuthorWorkflowId()).getName());
+		}
 		return notes;
 	}
 
