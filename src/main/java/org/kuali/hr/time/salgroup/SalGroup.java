@@ -82,7 +82,7 @@ public class SalGroup extends HrBusinessObject {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return hrSalGroup;
 	}
 

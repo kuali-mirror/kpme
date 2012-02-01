@@ -249,7 +249,7 @@ public class DailyOvertimeRule extends TkRule {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return location + "_" + dept + "_" + workArea + "_" + paytype;
 	}
 

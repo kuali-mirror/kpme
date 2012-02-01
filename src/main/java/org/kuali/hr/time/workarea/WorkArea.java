@@ -236,7 +236,7 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return workArea != null ? workArea.toString() : "" +"_"+dept;
 	}
 

@@ -181,7 +181,7 @@ public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule 
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return getDept() + "_" + getWorkArea() != null ? getWorkArea().toString() : "" + "_" + 
 				getPrincipalId() + "_" + getJobNumber() != null ? getJobNumber().toString() : "";
 	}

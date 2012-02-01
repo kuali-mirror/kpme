@@ -95,7 +95,7 @@ public class Location extends HrBusinessObject {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return location;
 	}
 

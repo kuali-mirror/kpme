@@ -167,7 +167,7 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		String clockLocKey = getDept()+"_"+getPrincipalId()+"_"+
 		(getJobNumber()!=null ? getJobNumber().toString(): "") +"_" + 
 		(getWorkArea() !=null ? getWorkArea().toString() : "");

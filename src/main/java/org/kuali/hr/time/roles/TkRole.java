@@ -201,7 +201,7 @@ public class TkRole extends HrBusinessObject {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return principalId + "_" + positionNumber != null ? positionNumber.toString() : "" +"_"+
 				roleName + "_" + workArea != null ? workArea.toString() : "" + "_" +
 				department + "_" + chart;

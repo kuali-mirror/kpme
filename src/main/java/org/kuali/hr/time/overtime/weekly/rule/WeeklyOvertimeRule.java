@@ -145,7 +145,7 @@ public class WeeklyOvertimeRule extends TkRule {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return convertFromEarnGroup + "_" + maxHoursEarnGroup;
 	}
 

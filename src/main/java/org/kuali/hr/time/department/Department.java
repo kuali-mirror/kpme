@@ -141,7 +141,7 @@ public class Department extends HrBusinessObject {
 
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return getDept() + "_" + getOrg() + "_" + getChart() + getRoles().size();
 	}
 

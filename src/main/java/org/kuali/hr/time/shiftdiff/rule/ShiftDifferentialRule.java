@@ -306,7 +306,7 @@ public class ShiftDifferentialRule extends TkRule {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return location + "_" + hrSalGroup + "_" + payGrade;
 	}
 

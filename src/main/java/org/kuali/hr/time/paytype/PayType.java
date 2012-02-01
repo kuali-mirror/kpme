@@ -78,7 +78,7 @@ public class PayType extends HrBusinessObject {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return payType;
 	}
 

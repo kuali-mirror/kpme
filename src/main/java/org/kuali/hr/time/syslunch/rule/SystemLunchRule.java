@@ -59,7 +59,7 @@ public class SystemLunchRule extends TkRule {
 
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return "";
 	}
 

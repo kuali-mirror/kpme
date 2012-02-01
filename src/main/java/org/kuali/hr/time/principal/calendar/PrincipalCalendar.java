@@ -121,7 +121,7 @@ public class PrincipalCalendar extends HrBusinessObject {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return principalId + "_" + pyCalendarGroup + "_" + holidayCalendarGroup;
 	}
 

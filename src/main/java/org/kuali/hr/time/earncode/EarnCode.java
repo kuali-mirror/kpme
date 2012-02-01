@@ -195,7 +195,7 @@ public class EarnCode extends HrBusinessObject {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return earnCode;
 	}
 

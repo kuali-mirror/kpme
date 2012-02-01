@@ -166,7 +166,7 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		String timeCollKey = getDept()+"_"+isClockUserFl()+"_"+isHrsDistributionF()+"_"+
 		(getWorkArea() !=null ? getWorkArea().toString() : "");
 

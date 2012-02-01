@@ -176,7 +176,7 @@ public class DepartmentEarnCode extends HrBusinessObject {
 		this.hrLocationId = hrLocationId;
 	}
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return dept + "_" + hrSalGroup + "_" + earnCode;
 	}
 	public String getHistory() {

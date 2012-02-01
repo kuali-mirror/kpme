@@ -81,7 +81,7 @@ public class PayGrade extends HrBusinessObject {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return payGrade;
 	}
 	

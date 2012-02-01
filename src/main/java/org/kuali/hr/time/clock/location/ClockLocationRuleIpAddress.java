@@ -21,7 +21,7 @@ public class ClockLocationRuleIpAddress extends HrBusinessObject {
 		this.setTkClockLocationRuleIpId(id);
 	}
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		String ipAddressKey = getTkClockLocationRuleIpId().toString()
 			+"_"+ getTkClockLocationRuleId().toString() + "_" + getIpAddress();
 		return ipAddressKey;

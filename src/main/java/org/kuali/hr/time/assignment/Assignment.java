@@ -271,7 +271,7 @@ public class Assignment extends HrBusinessObject {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		String jobKey = getPrincipalId()+"_"+getJobNumber()+"_"+getWorkArea()+"_"+
 			(getTask() != null ? getTask().toString() : "");
 		return jobKey;

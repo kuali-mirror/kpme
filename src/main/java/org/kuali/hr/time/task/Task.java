@@ -142,7 +142,7 @@ public class Task extends HrBusinessObject {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return workArea + "_" + task;
 	}
 

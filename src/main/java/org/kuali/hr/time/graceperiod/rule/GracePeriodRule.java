@@ -70,7 +70,7 @@ public class GracePeriodRule extends HrBusinessObject {
 
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return hourFactor + "";
 	}
 

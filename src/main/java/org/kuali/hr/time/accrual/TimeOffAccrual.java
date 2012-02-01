@@ -122,7 +122,7 @@ public class TimeOffAccrual extends HrBusinessObject {
 
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return accrualCategory;
 	}
 	
