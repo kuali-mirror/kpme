@@ -165,7 +165,7 @@ $(function () {
             $("#" + id.split("Hour")[0]).val(dateTime.toString(CONSTANTS.TIME_FORMAT.TIME_FOR_SYSTEM));
         },
 
-        showTimeEntryDialog : function (startDate, endDat) {
+        showTimeEntryDialog : function (startDate, endDate) {
             // check user permmissions before opening the dialog.
             var isValid = this.checkPermissions();
 
@@ -180,19 +180,24 @@ $(function () {
                     modal : true,
                     open : function () {
                         // Set the selected date on start/end time fields
+                        // This statmement can tell is showTimeEntryDialog() by other methods or triggered directly by backbone.
                         if (!_.isUndefined(startDate) && !_.isUndefined(endDate)) {
                             $("#startDate").val(startDate);
                             $("#endDate").val(endDate);
                         } else {
+                            // If this is triggered directly by backbone, i.e. user clicked on the white area to create a new timeblock,
+                            // Set the date by grabbing the div id.
                             $("#startDate, #endDate").val(startDate.target.id);
+                            // Check if there is only one assignment
+                            // Placing this code block here will prevent fetching earn codes twice
+                            // when showTimeEntryDialog() is called by showTimeBlock()
+                            if ($("#selectedAssignment").is("input")) {
+                                var dfd = $.Deferred();
+                                dfd.done(self.fetchEarnCode(_.getSelectedAssignmentValue()))
+                                   .done(self.showFieldByEarnCodeType());
+                            }
                         }
 
-                        // Check if there is only one assignment
-                        if ($("#selectedAssignment").is("input")) {
-                            var dfd = $.Deferred();
-                            dfd.done(self.fetchEarnCode(_.getSelectedAssignmentValue()))
-                               .done(self.showFieldByEarnCodeType());
-                        }
                     },
                     close : function () {
                         // reset values on the form
