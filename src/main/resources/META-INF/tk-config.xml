@@ -142,7 +142,7 @@
 	<!--  crazy stuff -->
 	<param name="filter.login.class">org.kuali.hr.time.web.TkLoginFilter</param>
 	<param name="filtermapping.login.1">/*</param>
-	
+	<!-- <param name="filter.login.class">org.jasig.cas.client.authentication.AuthenticationFilter</param>  -->
 	<!-- <param name="cas.url">https://bloomington.in.gov/cas</param> -->
 	<!-- <param name="appserver.url">http://outlaw.bloomington.in</param> -->
     <!-- <param name="filter.login.casServerLoginUrl">${cas.url}/login</param> -->
