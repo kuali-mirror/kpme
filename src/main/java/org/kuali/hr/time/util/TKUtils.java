@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.net.UnknownHostException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -346,6 +347,15 @@ public class TKUtils {
     	Date dt = new Date(timestamp.getTime());
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         return sdf.format(dt);
+    }
+    
+    public static Date formatDateString(String date){
+    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+    	try {
+			return new Date(sdf.parse(date).getTime());
+		} catch (ParseException e) {
+			return null;
+		}
     }
     
     /**

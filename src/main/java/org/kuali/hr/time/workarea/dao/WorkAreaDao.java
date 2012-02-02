@@ -1,9 +1,9 @@
 package org.kuali.hr.time.workarea.dao;
 
-import org.kuali.hr.time.workarea.WorkArea;
-
 import java.sql.Date;
 import java.util.List;
+
+import org.kuali.hr.time.workarea.WorkArea;
 
 public interface WorkAreaDao {
 
@@ -12,4 +12,6 @@ public interface WorkAreaDao {
     public void saveOrUpdate(WorkArea workArea);
     public WorkArea getWorkArea(String tkWorkAreaId);
     public Long getNextWorkAreaKey();
+    public List<WorkArea> getWorkAreas(String dept, String workArea, String workAreaDescr, Date fromEffdt, Date toEffdt,
+    									String active, String showHistory);
 }

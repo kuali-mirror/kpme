@@ -43,4 +43,7 @@ public interface WorkAreaService {
     public WorkArea getWorkArea(String tkWorkAreaId);
     
     public Long getNextWorkAreaKey();
+    
+    public List<WorkArea> getWorkAreas(String dept, String workArea, String workAreaDescr, Date fromEffdt, Date toEffdt,
+			String active, String showHistory);
 }

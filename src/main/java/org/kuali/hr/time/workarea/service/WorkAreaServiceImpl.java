@@ -85,4 +85,11 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 	public Long getNextWorkAreaKey() {
 		return workAreaDao.getNextWorkAreaKey();
 	}
+
+	@Override
+	public List<WorkArea> getWorkAreas(String dept, String workArea,
+			String workAreaDescr, Date fromEffdt, Date toEffdt, String active,
+			String showHistory) {
+		return workAreaDao.getWorkAreas(dept, workArea, workAreaDescr, fromEffdt, toEffdt, active, showHistory);
+	}
 }
