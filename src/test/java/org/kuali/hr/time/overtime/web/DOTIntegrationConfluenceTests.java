@@ -129,7 +129,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
 
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, pcd);
         String tdocId = tdoc.getDocumentId();
-        HtmlPage page = loginAndGetTimeDetailsHtmlPage("admin", tdocId);
+        HtmlPage page = loginAndGetTimeDetailsHtmlPage("admin", tdocId, true);
         assertNotNull(page);
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         assertNotNull(form);

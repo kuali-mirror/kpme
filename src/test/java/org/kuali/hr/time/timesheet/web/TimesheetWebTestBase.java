@@ -50,7 +50,7 @@ public class TimesheetWebTestBase extends TkTestCase {
      * Uses an ID hack to manipulate the current Test user Login.
      *
      */
-    public static HtmlPage loginAndGetTimeDetailsHtmlPage(String principalId, String tdocId) throws Exception {
+    public static HtmlPage loginAndGetTimeDetailsHtmlPage(String principalId, String tdocId, boolean assertValid) throws Exception {
         TkLoginFilter.TEST_ID = principalId;
 
         Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
@@ -59,11 +59,14 @@ public class TimesheetWebTestBase extends TkTestCase {
 
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getTimesheetDocumentUrl(tdocId));
         assertNotNull(page);
+        //HtmlUnitUtil.createTempFile(page, "Login-"+principalId);
 
         String pageAsText = page.asText();
-        assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
-        assertTrue("Login info not present.", pageAsText.contains(person.getName()));
-        assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
+        if (assertValid) {
+            assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
+            assertTrue("Login info not present.", pageAsText.contains(person.getName()));
+            assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
+        }
 
         return page;
     }

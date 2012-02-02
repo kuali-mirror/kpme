@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.junit.Test;
@@ -45,7 +46,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
 
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, pcd);
         String tdocId = tdoc.getDocumentId();
-        HtmlPage page = loginAndGetTimeDetailsHtmlPage("admin", tdocId);
+        HtmlPage page = loginAndGetTimeDetailsHtmlPage("admin", tdocId,true);
         assertNotNull(page);
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         assertNotNull(form);
@@ -83,8 +84,9 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
         // Grab the timeblock data from the text area. We can check specifics there
         // to be more fine grained in our validation.
         String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
-        JSONObject jsonData = (JSONObject) JSONValue.parse(dataText);
-        assertTrue("TimeBlock #1 Data Missing.", checkJSONValues(jsonData,
+        JSONArray jsonData = (JSONArray) JSONValue.parse(dataText);
+        final JSONObject jsonDataObject = (JSONObject) jsonData.get(0);
+        assertTrue("TimeBlock #1 Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
                 new ArrayList<Map<String, Object>>() {{
                     add(new HashMap<String, Object>() {{
                         put("earnCode", "RGN");
@@ -103,7 +105,8 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
                     put("assignment", "30_30_30");
                 }}
         ));
-        assertTrue("TimeBlock #2 Data Missing.", checkJSONValues(jsonData,
+        final JSONObject jsonDataObject2 = (JSONObject) jsonData.get(1);
+        assertTrue("TimeBlock #2 Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject2); }},
                 new ArrayList<Map<String, Object>>() {{
                     add(new HashMap<String, Object>() {{
                         put("earnCode", "RGN");
