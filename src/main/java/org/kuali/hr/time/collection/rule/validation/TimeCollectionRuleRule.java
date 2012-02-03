@@ -1,6 +1,8 @@
 package org.kuali.hr.time.collection.rule.validation;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -29,6 +31,9 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 	
 	// JIRA1152
 	boolean validatePayType(TimeCollectionRule ruleObj) {
+		if(!StringUtils.isEmpty(ruleObj.getPayType()) && ruleObj.getPayType().equals(TkConstants.WILDCARD_CHARACTER)) {
+			return true;
+		}		
 		if (!ValidationUtils.validatePayType(ruleObj.getPayType(), ruleObj.getEffectiveDate())) {
 			this.putFieldError("payType", "error.existence", "payType '" + ruleObj.getPayType() + "'");
 			return false;
