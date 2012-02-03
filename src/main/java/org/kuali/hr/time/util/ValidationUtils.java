@@ -1,6 +1,7 @@
 package org.kuali.hr.time.util;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
@@ -8,6 +9,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
@@ -127,6 +129,23 @@ public class ValidationUtils {
 		return valid;
 	}
 
+	public static boolean validateLeaveCode(String leaveCode, String principalId, Date asOfDate) {
+		boolean valid = false;
+		
+		if (asOfDate != null) {
+			List leaveCodes = TkServiceLocator.getLeaveCodeService().getLeaveCodes(principalId, asOfDate);
+			valid = (leaveCodes != null);
+		} else {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("leaveCode", leaveCode);
+			Query query = QueryFactory.newQuery(LeaveCode.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			valid = (count > 0);
+		}
+		
+		return valid;
+	}
+	
 	public static boolean validateAccCategory(String accrualCategory, Date asOfDate) {
 		boolean valid = false;
 		

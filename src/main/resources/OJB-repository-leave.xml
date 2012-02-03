@@ -178,11 +178,24 @@
 		<field-descriptor name="lmEmployeeOverrideId" 	column="LM_EMPLOYEE_OVERRIDE_ID" 	jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_employee_override_s"/>
 		<field-descriptor name="principalId"        	column="PRINCIPAL_ID"				jdbc-type="VARCHAR" length="40" nullable="false" />
 		<field-descriptor name="accrualCategory"		column="ACCRUAL_CAT" 				jdbc-type="VARCHAR" length="60" nullable="false" />
-		<field-descriptor name="leavePlan" 				column="LEAVE_PLAN"						jdbc-type="VARCHAR" length="60"	nullable="false"/>
+		<field-descriptor name="leavePlan" 				column="LEAVE_PLAN"					jdbc-type="VARCHAR" length="60"	nullable="false"/>
 		<field-descriptor name="overrideType" 			column="OVERRIDE_TYPE" 				jdbc-type="VARCHAR" length="30" nullable="false" />
 		<field-descriptor name="overrideValue" 			column="OVERRIDE_VALUE" 			jdbc-type="BIGINT" 	nullable="true" />
 		<field-descriptor name="description" 			column="DESCRIPTION" 				jdbc-type="VARCHAR" length="50" nullable="true" />
 		<field-descriptor name="active"          		column="active"	    				jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="timestamp"     			column="timestamp" 					jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
+		<field-descriptor name="objectId"      			column="obj_id" 					jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" 			column="ver_nbr" 					jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.hr.lm.leaveadjustment.LeaveAdjustment" table="lm_leave_adjustment_t">
+		<field-descriptor name="lmLeaveAdjustmentId"	column="LM_LEAVE_ADJUSTMENT_ID" 	jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_adjustment_s"/>
+		<field-descriptor name="principalId"        	column="PRINCIPAL_ID"				jdbc-type="VARCHAR" length="40" nullable="false" />
+		<field-descriptor name="accrualCategory"		column="ACCRUAL_CAT" 				jdbc-type="VARCHAR" length="15" nullable="false" />
+		<field-descriptor name="leavePlan" 				column="LEAVE_PLAN"					jdbc-type="VARCHAR" length="15"	nullable="false"/>
+		<field-descriptor name="leaveCode" 				column="LEAVE_CODE" 				jdbc-type="VARCHAR" length="15" nullable="false" />
+		<field-descriptor name="adjustmentAmount" 		column="ADJUSTMENT_AMOUNT" 			jdbc-type="DECIMAL" nullable="false" />
+		<field-descriptor name="description" 			column="DESCRIPTION" 				jdbc-type="VARCHAR" length="50" nullable="true" />
 		<field-descriptor name="timestamp"     			column="timestamp" 					jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="objectId"      			column="obj_id" 					jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 					jdbc-type="BIGINT" locking="true" />

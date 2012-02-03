@@ -469,6 +469,11 @@
     <bean id="employeeOverrideDao" class="org.kuali.hr.lm.employeeoverride.dao.EmployeeOverrideDaoSpringOjbImpl">
     	<property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+    <bean id="leaveAdjustmentDao" class="org.kuali.hr.lm.leaveadjustment.dao.LeaveAdjustmentDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
     <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
         <property name="missedPunchDao" ref="missedPunchDao"/>
@@ -690,6 +695,10 @@
     
     <bean id="employeeOverrideService" class="org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideServiceImpl">
         <property name="employeeOverrideDao" ref="employeeOverrideDao"/>
+    </bean>
+    
+    <bean id="leaveAdjustmentService" class="org.kuali.hr.lm.leaveadjustment.service.LeaveAdjustmentServiceImpl">
+        <property name="leaveAdjustmentDao" ref="leaveAdjustmentDao"/>
     </bean>
     
     <bean id="timeSummaryService" class="org.kuali.hr.time.timesummary.service.TimeSummaryServiceImpl"/>
@@ -950,7 +959,12 @@
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.lm.accrual.service.AccrualCategoryLookupableHelper"/>          
         </property>
-    </bean>  
+    </bean> 
+    <bean id="leaveAdjustmentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.lm.leaveadjustment.service.LeaveAdjustmentLookupableHelper"/>
+        </property>
+    </bean> 
     <bean id="employeeOverrideLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideLookupableHelper"/>
