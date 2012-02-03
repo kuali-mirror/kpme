@@ -18,5 +18,14 @@ public class TkWarningServiceImpl implements TkWarningService {
 
         return warnings;
     }
+    
+    @Override
+    public List<String> getWarnings(TimesheetDocument td) {
+        //Validate accrual hours
+        List<String> warnings;
+        warnings = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(td);
+
+        return warnings;
+    }
 
 }

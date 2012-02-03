@@ -254,14 +254,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			// TimesheetDocumentHeader tdh =
 			// TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId,
 			// payBeginDate, payEndDate);
-			if (StringUtils.isNotBlank(documentId)) {
-				timeBlocks = TkServiceLocator.getTimeBlockService()
-						.getTimeBlocks(Long.parseLong(documentId));
-				notes = this.getNotesForDocument(documentId);
-				warnings = TkServiceLocator.getWarningService().getWarnings(
-						documentId);
-			}
-
+		
 			Person person = KIMServiceLocator.getPersonService().getPerson(
 					principalId);
 			PayCalendarEntries payCalendarEntry = TkServiceLocator
@@ -280,20 +273,31 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			approvalSummaryRow.setPrincipalId(person.getPrincipalId());
 			approvalSummaryRow.setPayCalendarGroup(calGroup);
 			approvalSummaryRow.setDocumentId(documentId);
-			approvalSummaryRow.setLstTimeBlocks(timeBlocks);
-			if (principalDocumentHeader.containsKey(principalId)) {
-				approvalSummaryRow
-						.setApprovalStatus(TkConstants.DOC_ROUTE_STATUS.get(tdh
-								.getDocumentStatus()));
+			approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
+			approvalSummaryRow.setPeriodTotal(hoursToPayLabelMap.get("Period Total"));
+			
+			if (StringUtils.isNotBlank(documentId)) {
 				TimesheetDocument td = TkServiceLocator.getTimesheetService()
 						.getTimesheetDocument(tdh.getDocumentId());
-				TimeSummary ts = TkServiceLocator.getTimeSummaryService()
-						.getTimeSummary(td);
-				approvalSummaryRow.setTimeSummary(ts);
+				if (principalDocumentHeader.containsKey(principalId)) {
+					approvalSummaryRow
+							.setApprovalStatus(TkConstants.DOC_ROUTE_STATUS.get(tdh
+									.getDocumentStatus()));
+				
+					TimeSummary ts = TkServiceLocator.getTimeSummaryService()
+							.getTimeSummary(td);
+					approvalSummaryRow.setTimeSummary(ts);
+				}
+				
+				timeBlocks = TkServiceLocator.getTimeBlockService()
+						.getTimeBlocks(Long.parseLong(documentId));
+				notes = this.getNotesForDocument(documentId);
+				warnings = TkServiceLocator.getWarningService().getWarnings(
+						td);
+				
+				
 			}
-			approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
-			approvalSummaryRow.setPeriodTotal(hoursToPayLabelMap
-					.get("Period Total"));
+			approvalSummaryRow.setLstTimeBlocks(timeBlocks);
 			approvalSummaryRow.setNotes(notes);
 			approvalSummaryRow.setWarnings(warnings);
 
