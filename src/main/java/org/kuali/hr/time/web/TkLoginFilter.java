@@ -14,7 +14,7 @@ public class TkLoginFilter implements Filter {
 
     private Filter dummyLoginFilter = new DummyLoginFilter();
     //TODO add your Filtering mechanism here
-    private Filter userLoginFilter = new org.kuali.rice.kew.web.DummyLoginFilter();
+    private Filter userLoginFilter = new org.kuali.hr.time.web.DummyLoginFilter();
     private static boolean testMode = false;
     public static String TEST_ID = "admin";
 
