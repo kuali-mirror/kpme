@@ -774,7 +774,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return principalIds;
 	}
 
-	private Set<String> getPrincipalIdsWithActiveAssignmentsForCalendarGroupByDeptAndWorkArea(
+	protected Set<String> getPrincipalIdsWithActiveAssignmentsForCalendarGroupByDeptAndWorkArea(
 			String department, String workArea, String payCalendarGroup,
 			java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate) {
 		String sql = "SELECT "
@@ -795,12 +795,16 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				+ "				LEFT OUTER JOIN HR_ROLES_T R0 " 	
 				+ "				    ON (W0.WORK_AREA = R0.WORK_AREA) " 		 
 				+ " 		WHERE "
-                + " 			((A0.ACTIVE='Y'AND A0.EFFDT<= ?) OR (A0.ACTIVE='N' AND A0.EFFDT>=? AND A0.EFFDT<=?)) AND "
+	            + " 			((A0.ACTIVE='Y'AND A0.EFFDT<= ? AND A0.EFFDT = ("
+				+ "				SELECT MAX(B0.EFFDT) FROM TK_ASSIGNMENT_T B0 WHERE PRINCIPAL_ID = A0.PRINCIPAL_ID "
+	            + "             AND B0.EFFDT <= ?) AND A0.TIMESTAMP = (SELECT MAX(C0.TIMESTAMP) FROM "
+				+ "             TK_ASSIGNMENT_T C0 WHERE C0.PRINCIPAL_ID = A0.PRINCIPAL_ID AND C0.EFFDT = " 
+				+ "				A0.EFFDT)"
+				+ "				) OR (A0.ACTIVE='N' AND A0.EFFDT>=? AND A0.EFFDT<=?)) AND "
 				+ "				W0.DEPT=? AND "
-                + "				R0.PRINCIPAL_ID=? AND "
-                + "				R0.ACTIVE='Y' AND "
-                + " 			(R0.DEPT IS NULL OR R0.DEPT = ?) AND "
-                + "				A0.ACTIVE = 'Y' ";
+	            + "				R0.PRINCIPAL_ID=? AND "
+	            + "				R0.ACTIVE='Y' AND "
+	            + " 			(R0.DEPT IS NULL OR R0.DEPT = ?)";
 
 		if (department == null || department.isEmpty()) {
 			return new LinkedHashSet<String>();
