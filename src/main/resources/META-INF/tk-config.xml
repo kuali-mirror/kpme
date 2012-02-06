@@ -140,6 +140,9 @@
 	<param name="KualiExceptionIncidentServiceImpl.REPORT_MAIL_LIST">tk@test.edu</param>
 	
 	<!--  crazy stuff -->
+	<param name="filter.login.class">org.kuali.hr.time.web.TkLoginFilter</param>
+	<param name="filtermapping.login.1">/*</param>
+	
 	<!-- <param name="filter.login.class">org.jasig.cas.client.authentication.AuthenticationFilter</param>
 	<param name="filtermapping.login.1">/*</param>
     <param name="cas.url">https://cas.kuali.org</param>
