@@ -2,11 +2,16 @@ package org.kuali.hr.time.roles.web;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -40,6 +45,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         add("testuser1"); add("testuser2"); add("testuser3"); add("testuser4"); }};
 
     private TimesheetDocument fredsDocument = null;
+    Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 
     @Override
     /**
@@ -50,7 +56,6 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         super.setUp();
 
         String userId = "fred";
-        Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
         CalendarEntries pcd = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(userId, asOfDate);
         assertNotNull("No PayCalendarDates", pcd);
         fredsDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(userId, pcd);
@@ -81,6 +86,29 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         assertEquals("There should be no errors in this time detail submission", 0, errors.size());
         page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
         assertNotNull(page);
+
+        String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
+        JSONArray jsonData = (JSONArray) JSONValue.parse(dataText);
+        final JSONObject jsonDataObject = (JSONObject) jsonData.get(0);
+        assertTrue("TimeBlock Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
+                new ArrayList<Map<String, Object>>() {{
+                    add(new HashMap<String, Object>() {{
+                        put("earnCode", "RGN");
+                        put("hours", "5.0");
+                        put("amount", null);
+                    }});
+                }},
+                new HashMap<String, Object>() {{
+                    put("earnCode", "RGN");
+                    put("startNoTz", "2011-03-02T08:00:00");
+                    put("endNoTz", "2011-03-02T13:00:00");
+                    put("title", "SDR1 Work Area");
+                    put("assignment", "30_30_30");
+                }}
+        ));
+
+        // Set freds timesheet to have updated info.
+        fredsDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(userId, pcd);
     }
 
     /*
@@ -107,13 +135,11 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         }
     }
 
-    @Test
-    public void testInitiatedTimesheetIsEditableByAdmin() throws Exception {
+    public void testInitiatedTimesheetEditable(String userId) throws Exception {
         // admin, add one timeblock
-        String userId = "admin";
         String tdocId = fredsDocument.getDocumentId();
         HtmlPage page = loginAndGetTimeDetailsHtmlPage(userId, tdocId, true);
-        HtmlUnitUtil.createTempFile(page, "loggedin");
+        //HtmlUnitUtil.createTempFile(page, "loggedin");
         assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
@@ -123,8 +149,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, JAN_AS_OF_DATE);
         EarnCode earnCode = earnCodes.get(0);
 
-        // TODO: Why is this not returning 1
-        //assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());
+        assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());
 
         DateTime start = new DateTime(2011, 3, 4, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
         DateTime end = new DateTime(2011, 3, 4, 13, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
@@ -135,25 +160,77 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "initiatetest");
 
-        // TODO: Fill out block verification
+        String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
+        JSONArray jsonData = (JSONArray) JSONValue.parse(dataText);
+        final JSONObject jsonDataObject = (JSONObject) jsonData.get(1);
+        assertTrue("TimeBlock Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
+                new ArrayList<Map<String, Object>>() {{
+                    add(new HashMap<String, Object>() {{
+                        put("earnCode", "RGN");
+                        put("hours", "5.0");
+                        put("amount", null);
+                    }});
+                }},
+                new HashMap<String, Object>() {{
+                    put("earnCode", "RGN");
+                    put("startNoTz", "2011-03-04T08:00:00");
+                    put("endNoTz", "2011-03-04T13:00:00");
+                    put("title", "SDR1 Work Area");
+                    put("assignment", "30_30_30");
+                }}
+        ));
+    }
+
+    public void testInitiatedTimesheetNotEditable(String userId) throws Exception {
+        // admin, add one timeblock
+        String tdocId = fredsDocument.getDocumentId();
+        HtmlPage page = loginAndGetTimeDetailsHtmlPage(userId, tdocId, true);
+        //HtmlUnitUtil.createTempFile(page, "loggedin");
+        assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
+
+        HtmlForm form = page.getFormByName("TimeDetailActionForm");
+        assertNotNull(form);
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE);
+        Assignment assignment = assignments.get(0);
+        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, JAN_AS_OF_DATE);
+        EarnCode earnCode = earnCodes.get(0);
+
+        assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());
+
+        DateTime start = new DateTime(2011, 3, 4, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        DateTime end = new DateTime(2011, 3, 4, 13, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null);
+        List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
+        assertEquals("There should be no errors in this time detail submission", 0, errors.size());
+        page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
+        assertNotNull(page);
+        HtmlUnitUtil.createTempFile(page, "aftertdadd");
+        assertTrue("Should not have access", page.asText().contains("You are not authorized to access this portion of the application."));
+    }
+
+    @Test
+    public void testInitiatedTimesheetIsEditableByAdmin() throws Exception {
+        testInitiatedTimesheetEditable("admin");
     }
 
     @Test
     public void testInitiatedTimesheetIsEditableByApprover() throws Exception {
-        // approver, add one timeblock
+        testInitiatedTimesheetEditable("fran");
     }
 
     @Test
     public void testInitiatedTimesheetIsEditableByReviewer() throws Exception {
-        // reviewer add one timeblock.
+        testInitiatedTimesheetEditable("frank");
     }
 
     @Test
     public void testInitiatedTimesheetIs_NOT_EditableByViewOnly() throws Exception {
+        testInitiatedTimesheetNotEditable("edna");
     }
 
     @Test
     public void testInitiatedTimesheetIs_NOT_EditableByDeptAdmin() throws Exception {
+        testInitiatedTimesheetNotEditable("testuser6");
     }
 
 
