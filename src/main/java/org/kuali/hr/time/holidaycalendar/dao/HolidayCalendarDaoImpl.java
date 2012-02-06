@@ -22,7 +22,7 @@ public class HolidayCalendarDaoImpl extends PersistenceBrokerDaoSupport implemen
 	public List<HolidayCalendarDateEntry> getHolidayCalendarDateEntriesForPayPeriod(String hrHolidayCalendarId, Date startDate, Date endDate){
 		Criteria root = new Criteria();
 		root.addEqualTo("hrHolidayCalendarId", hrHolidayCalendarId);
-		root.addBetween("holidayDate", startDate, endDate);
+		root.addBetween("holidayDate", new java.sql.Date(startDate.getTime()), new java.sql.Date(endDate.getTime()));
 		return (List<HolidayCalendarDateEntry>)this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(HolidayCalendarDateEntry.class, root));
 	}
 
