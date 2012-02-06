@@ -114,9 +114,9 @@ public class TimeDetailValidationService {
         // Amount cannot be zero
         //------------------------
         if (amount != null) {
-            if (amount.equals(BigDecimal.ZERO)) {
-                errors.add("Amount cannot be zero.");
-            }
+//            if (amount.equals(BigDecimal.ZERO)) {
+//                errors.add("Amount cannot be zero.");
+//            }
             if (amount.scale() > 2) {
                 errors.add("Amount cannot have more than two digits after decimal point.");
             }

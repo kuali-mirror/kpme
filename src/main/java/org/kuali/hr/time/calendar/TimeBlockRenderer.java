@@ -20,6 +20,7 @@ public class TimeBlockRenderer {
     private List<TimeHourDetailRenderer> detailRenderers = new ArrayList<TimeHourDetailRenderer>();
     private String assignmentClass;
     private String lunchLabel;
+    private String lunchLabelId;
 
     public TimeBlockRenderer(TimeBlock b) {
         this.timeBlock = b;
@@ -93,5 +94,12 @@ public class TimeBlockRenderer {
 	public void setLunchLabel(String lunchLabel) {
 		this.lunchLabel = lunchLabel;
 	}
-	
+
+    public String getLunchLabelId() {
+        return lunchLabelId;
+    }
+
+    public void setLunchLabelId(String lunchLabelId) {
+        this.lunchLabelId = lunchLabelId;
+    }
 }

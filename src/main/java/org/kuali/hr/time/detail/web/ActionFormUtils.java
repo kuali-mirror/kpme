@@ -152,6 +152,7 @@ public class ActionFormUtils {
             timeBlockMap.put("timezone", timezone);
             timeBlockMap.put("assignment", new AssignmentDescriptionKey(timeBlock.getJobNumber(), timeBlock.getWorkArea(), timeBlock.getTask()).toAssignmentKeyString());
             timeBlockMap.put("tkTimeBlockId", timeBlock.getTkTimeBlockId() != null ? timeBlock.getTkTimeBlockId() : "");
+            timeBlockMap.put("lunchDeleted", timeBlock.isLunchDeleted());
 
             List<Map<String, Object>> timeHourDetailList = new LinkedList<Map<String, Object>>();
             for (TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {

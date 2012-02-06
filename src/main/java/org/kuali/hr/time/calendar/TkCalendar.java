@@ -68,16 +68,20 @@ public class TkCalendar {
     public static void assignDayLunchLabel(TkCalendarDay day) {
     	EarnCode ec = null;
 		String label = "";
+        String id = "";
 		for(TimeBlockRenderer tbr : day.getBlockRenderers()) {
 			for(TimeHourDetailRenderer thdr : tbr.getDetailRenderers()) {
 				if(thdr.getTitle().equals(TkConstants.LUNCH_EARN_CODE)) {
 					ec = TkServiceLocator.getEarnCodeService().getEarnCode(thdr.getTitle(), tbr.getTimeBlock().getBeginDate());
 					if(ec != null) {
 						label = ec.getDescription() + " : " + thdr.getHours() + " hours";
+                        id = thdr.getTkTimeHourDetailId();
 					}
 				}
 			}
 			tbr.setLunchLabel(label);
+            tbr.setLunchLabelId(id);
+
 			label = "";
 		}
     }

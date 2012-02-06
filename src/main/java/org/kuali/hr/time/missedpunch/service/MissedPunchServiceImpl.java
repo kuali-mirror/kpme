@@ -182,7 +182,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         // Add TimeBlocks after we store our reference object!
         List<TimeBlock> blocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(
                 assignment, earnCode, tdoc, beginTimestamp,
-                endTimestamp, BigDecimal.ZERO, BigDecimal.ZERO, true);
+                endTimestamp, BigDecimal.ZERO, BigDecimal.ZERO, true, false);
 
 
         // Add the clock log IDs to the time blocks that were just created.

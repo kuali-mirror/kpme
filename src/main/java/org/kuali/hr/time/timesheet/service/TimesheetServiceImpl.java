@@ -136,7 +136,7 @@ public class TimesheetServiceImpl implements TimesheetService {
                     if (holidayAssign != null) {
                         BigDecimal holidayCalcHours = TkServiceLocator.getHolidayCalendarService().calculateHolidayHours(holidayAssign.getJob(), holiday.getHolidayHours());
                         TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument, new Timestamp(holiday.getHolidayDate().getTime()),
-                                new Timestamp(holiday.getHolidayDate().getTime()), holidayAssign, TkConstants.HOLIDAY_EARN_CODE, holidayCalcHours, BigDecimal.ZERO, false);
+                                new Timestamp(holiday.getHolidayDate().getTime()), holidayAssign, TkConstants.HOLIDAY_EARN_CODE, holidayCalcHours, BigDecimal.ZERO, false, false);
                         timesheetDocument.getTimeBlocks().add(timeBlock);
                     }
                 }

@@ -260,7 +260,7 @@ public class ClockAction extends TimesheetAction {
 			Timestamp endTS = TKUtils.convertDateStringToTimestamp(endDates[i], endTimes[i]);
 			String assignString = assignments[i];
 			Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(assignString);
-			tb = TkServiceLocator.getTimeBlockService().createTimeBlock(caf.getTimesheetDocument(), beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false);
+			tb = TkServiceLocator.getTimeBlockService().createTimeBlock(caf.getTimesheetDocument(), beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false, false);
 			newTbList.add(tb);
 		}
 		TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTbList);

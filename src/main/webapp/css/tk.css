@@ -472,7 +472,7 @@ label.error {
 .lunch {
     color: black;
     background-color: #FFB40F;
-    padding: 0 1px 0 1px;
+    /*padding: 0 1px 0 1px;*/
     margin: 5px;
 }
 

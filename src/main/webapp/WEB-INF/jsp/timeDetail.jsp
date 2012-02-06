@@ -69,6 +69,7 @@
                 <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
                 <html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
                 <html:hidden property="tkTimeBlockId" value="" styleId="tkTimeBlockId"/>
+                <html:hidden property="lunchDeleted" value="" styleId="lunchDeleted"/>
 
                 <div class="ui-widget timesheet-panel" id="timesheet-panel">
                     <table>

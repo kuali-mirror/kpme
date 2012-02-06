@@ -31,6 +31,8 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     private TkCalendar calendar;
     private String docEditable;
     private List<String> overtimeEarnCodes = new ArrayList<String>();
+    private String tkTimeHourDetailId;
+    private String isLunchDeleted;
 
     public TkCalendar getTkCalendar() {
         return calendar;
@@ -135,4 +137,20 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	public void setOvertimeEarnCodes(List<String> overtimeEarnCodes) {
 		this.overtimeEarnCodes = overtimeEarnCodes;
 	}
+
+    public String getTkTimeHourDetailId() {
+        return tkTimeHourDetailId;
+    }
+
+    public void setTkTimeHourDetailId(String tkTimeHourDetailId) {
+        this.tkTimeHourDetailId = tkTimeHourDetailId;
+    }
+
+    public String getLunchDeleted() {
+        return isLunchDeleted;
+    }
+
+    public void setLunchDeleted(String lunchDeleted) {
+        isLunchDeleted = lunchDeleted;
+    }
 }

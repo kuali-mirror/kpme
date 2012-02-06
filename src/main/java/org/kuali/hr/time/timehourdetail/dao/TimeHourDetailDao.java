@@ -16,4 +16,6 @@ public interface TimeHourDetailDao{
     public void remove(String timeBlockId);
     
     public List<TimeHourDetail> getTimeHourDetailsForTimeBlock(String timeBlockId);
+
+    void removeById(String timeHourDetailId);
 }

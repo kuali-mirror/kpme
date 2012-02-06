@@ -1,15 +1,5 @@
 package org.kuali.hr.time.timeblock;
 
-import java.math.BigDecimal;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.kuali.hr.time.assignment.Assignment;
@@ -19,6 +9,15 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
+import javax.persistence.Transient;
+import java.math.BigDecimal;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class TimeBlock extends PersistableBusinessObjectBase implements Comparable {
 
@@ -59,13 +58,11 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private String endTimestampTimezone;
     private DateTime beginTimeDisplay;
     private DateTime endTimeDisplay;
-
     private String clockLogBeginId;
     private String clockLogEndId;
-
     private String assignmentKey;
-
     private String overtimePref;
+    private boolean lunchDeleted;
     
     @Transient
     private Boolean deleteable;
@@ -639,5 +636,11 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 		return TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode(this);
 	}
 
+    public boolean isLunchDeleted() {
+        return lunchDeleted;
+    }
 
+    public void setLunchDeleted(boolean lunchDeleted) {
+        this.lunchDeleted = lunchDeleted;
+    }
 }

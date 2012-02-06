@@ -1,22 +1,16 @@
 package org.kuali.hr.time.test;
 
 import com.gargoylesoftware.htmlunit.html.*;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.Duration;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.junit.Assert;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
-import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -345,7 +339,7 @@ public class TkTestUtils {
 			Timestamp tsin = new Timestamp(ci.getMillis());
 			Timestamp tsout = new Timestamp(co.getMillis());
 
-			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours, amount, false));
+			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours, amount, false, false));
 		}
 
 		return blocks;
