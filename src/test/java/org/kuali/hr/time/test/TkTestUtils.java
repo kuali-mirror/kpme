@@ -1,19 +1,6 @@
 package org.kuali.hr.time.test;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.gargoylesoftware.htmlunit.html.*;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -36,14 +23,10 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSelect;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
-import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.*;
 
 public class TkTestUtils {
 
@@ -53,7 +36,7 @@ public class TkTestUtils {
 		try {
 			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
 							TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
-							  calDate));
+                                    calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
 			}
@@ -68,7 +51,7 @@ public class TkTestUtils {
 		try {
 			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
 							TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
-							  calDate));
+                                    calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
 			}
@@ -76,7 +59,7 @@ public class TkTestUtils {
 			//refetch clean document
 			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
 					TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
-					   calDate));
+                            calDate));
 			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			for(int i = 0;i<5;i++){
 				TimeBlock timeBlock = createTimeBlock(timesheet, i+1, 10);
@@ -384,7 +367,7 @@ public class TkTestUtils {
 			Timestamp tsin = new Timestamp(ci.getMillis());
 			Timestamp tsout = new Timestamp(co.getMillis());
 
-			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours, amount, false));
+			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours, amount, false, false));
 		}
 
 		return blocks;

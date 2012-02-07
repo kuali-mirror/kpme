@@ -1,8 +1,8 @@
 package org.kuali.hr.time.syslunch.rule;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.time.rule.TkRule;
+
+import java.util.LinkedHashMap;
 
 public class SystemLunchRule extends TkRule {
 
@@ -59,7 +59,7 @@ public class SystemLunchRule extends TkRule {
 
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return "";
 	}
 

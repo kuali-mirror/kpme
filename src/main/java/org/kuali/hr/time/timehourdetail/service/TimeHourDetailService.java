@@ -1,9 +1,9 @@
 package org.kuali.hr.time.timehourdetail.service;
 
-import java.util.List;
-
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
+
+import java.util.List;
 
 
 public interface TimeHourDetailService{
@@ -31,6 +31,7 @@ public interface TimeHourDetailService{
 	 * @return
 	 */
     public List<TimeHourDetail> getTimeHourDetailsForTimeBlock(String timeBlockId);
-	
 
+
+    void removeTimeHourDetail(String timeHourDetailId);
 }

@@ -1,12 +1,5 @@
 package org.kuali.hr.time.detail.web;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.calendar.TkCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -14,6 +7,9 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
@@ -35,6 +31,8 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     private TkCalendar calendar;
     private String docEditable;
     private List<String> overtimeEarnCodes = new ArrayList<String>();
+    private String tkTimeHourDetailId;
+    private String isLunchDeleted;
 
     public TkCalendar getTkCalendar() {
         return calendar;
@@ -139,4 +137,20 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	public void setOvertimeEarnCodes(List<String> overtimeEarnCodes) {
 		this.overtimeEarnCodes = overtimeEarnCodes;
 	}
+
+    public String getTkTimeHourDetailId() {
+        return tkTimeHourDetailId;
+    }
+
+    public void setTkTimeHourDetailId(String tkTimeHourDetailId) {
+        this.tkTimeHourDetailId = tkTimeHourDetailId;
+    }
+
+    public String getLunchDeleted() {
+        return isLunchDeleted;
+    }
+
+    public void setLunchDeleted(String lunchDeleted) {
+        isLunchDeleted = lunchDeleted;
+    }
 }

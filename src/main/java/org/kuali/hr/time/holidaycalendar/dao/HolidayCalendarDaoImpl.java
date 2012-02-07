@@ -1,13 +1,13 @@
 package org.kuali.hr.time.holidaycalendar.dao;
 
-import java.util.Date;
-import java.util.List;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.util.Date;
+import java.util.List;
 
 public class HolidayCalendarDaoImpl extends PersistenceBrokerDaoSupport implements HolidayCalendarDao {
 
@@ -22,7 +22,7 @@ public class HolidayCalendarDaoImpl extends PersistenceBrokerDaoSupport implemen
 	public List<HolidayCalendarDateEntry> getHolidayCalendarDateEntriesForPayPeriod(String hrHolidayCalendarId, Date startDate, Date endDate){
 		Criteria root = new Criteria();
 		root.addEqualTo("hrHolidayCalendarId", hrHolidayCalendarId);
-		root.addBetween("holidayDate", startDate, endDate);
+		root.addBetween("holidayDate", new java.sql.Date(startDate.getTime()), new java.sql.Date(endDate.getTime()));
 		return (List<HolidayCalendarDateEntry>)this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(HolidayCalendarDateEntry.class, root));
 	}
 

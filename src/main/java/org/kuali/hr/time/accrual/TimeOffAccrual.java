@@ -1,13 +1,13 @@
 package org.kuali.hr.time.accrual;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.LinkedHashMap;
 
 public class TimeOffAccrual extends HrBusinessObject {
 
@@ -123,7 +123,7 @@ public class TimeOffAccrual extends HrBusinessObject {
 
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return accrualCategory;
 	}
 	

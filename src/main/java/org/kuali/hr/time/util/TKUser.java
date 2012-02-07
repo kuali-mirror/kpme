@@ -1,12 +1,6 @@
 package org.kuali.hr.time.util;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
+import com.google.common.collect.Multimap;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -14,7 +8,7 @@ import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
 
-import com.google.common.collect.Multimap;
+import java.util.*;
 
 /**
  * This class houses the concept of a user in the Timekeeping system.  It
@@ -227,12 +221,13 @@ public class TKUser {
         // see the comment in the getDeptWorkAreasByWorkAreas() for the explanation of Multimap
         Multimap<String, Long> reportingApprovalDepartments = TkServiceLocator.getTimeApproveService().getDeptWorkAreasByWorkAreas(workAreas);
 
-		Set<String> depts = new HashSet<String>();
+        //KPME-1338
+		/*Set<String> depts = new HashSet<String>();
 		depts.addAll(userRoles.getDepartmentViewOnlyDepartments());
 		depts.addAll(userRoles.getOrgAdminDepartments());
         if (depts.size() > 0) {
             reportingApprovalDepartments.putAll(TkServiceLocator.getTimeApproveService().getDeptWorkAreasByDepts(depts));
-        }
+        }*/
 		
 		return reportingApprovalDepartments;
 	}

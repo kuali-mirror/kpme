@@ -1,10 +1,5 @@
 package org.kuali.hr.time.missedpunch.service;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -24,6 +19,11 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MissedPunchServiceImpl implements MissedPunchService {
 
@@ -182,7 +182,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         // Add TimeBlocks after we store our reference object!
         List<TimeBlock> blocks = TkServiceLocator.getTimeBlockService().buildTimeBlocks(
                 assignment, earnCode, tdoc, beginTimestamp,
-                endTimestamp, BigDecimal.ZERO, BigDecimal.ZERO, true);
+                endTimestamp, BigDecimal.ZERO, BigDecimal.ZERO, true, false);
 
 
         // Add the clock log IDs to the time blocks that were just created.

@@ -1,12 +1,12 @@
 package org.kuali.hr.time.overtime.weekly.rule;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.rule.TkRule;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.LinkedHashMap;
 
 public class WeeklyOvertimeRule extends TkRule {
 
@@ -145,7 +145,7 @@ public class WeeklyOvertimeRule extends TkRule {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return convertFromEarnGroup + "_" + maxHoursEarnGroup;
 	}
 

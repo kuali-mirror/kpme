@@ -1,15 +1,15 @@
 package org.kuali.hr.time.dept.earncode;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.job.Job;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.salgroup.SalGroup;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 public class DepartmentEarnCode extends HrBusinessObject {
 
@@ -176,7 +176,7 @@ public class DepartmentEarnCode extends HrBusinessObject {
 		this.hrLocationId = hrLocationId;
 	}
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return dept + "_" + hrSalGroup + "_" + earnCode;
 	}
 	public String getHistory() {

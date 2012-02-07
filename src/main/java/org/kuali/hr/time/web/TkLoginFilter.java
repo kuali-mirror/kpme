@@ -1,26 +1,20 @@
 package org.kuali.hr.time.web;
 
-import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.config.ConfigContext;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class TkLoginFilter implements Filter {
 
     private Filter dummyLoginFilter = new DummyLoginFilter();
     //TODO add your Filtering mechanism here
-    private Filter userLoginFilter = new org.kuali.rice.kew.web.DummyLoginFilter();
+    private Filter userLoginFilter = new org.kuali.hr.time.web.DummyLoginFilter();
     private static boolean testMode = false;
     public static String TEST_ID = "admin";
 

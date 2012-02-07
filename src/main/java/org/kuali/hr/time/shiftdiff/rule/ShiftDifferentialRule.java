@@ -1,10 +1,5 @@
 package org.kuali.hr.time.shiftdiff.rule;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Time;
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.calendar.Calendar;
@@ -12,6 +7,11 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.salgroup.SalGroup;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.LinkedHashMap;
 
 public class ShiftDifferentialRule extends TkRule {
 
@@ -306,7 +306,7 @@ public class ShiftDifferentialRule extends TkRule {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return location + "_" + hrSalGroup + "_" + payGrade;
 	}
 

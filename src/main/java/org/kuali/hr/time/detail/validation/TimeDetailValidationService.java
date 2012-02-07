@@ -1,17 +1,7 @@
 package org.kuali.hr.time.detail.validation;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Hours;
-import org.joda.time.Interval;
-import org.joda.time.LocalDateTime;
+import org.joda.time.*;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -22,6 +12,11 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimeDetailValidationService {
 
@@ -119,9 +114,9 @@ public class TimeDetailValidationService {
         // Amount cannot be zero
         //------------------------
         if (amount != null) {
-            if (amount.equals(BigDecimal.ZERO)) {
-                errors.add("Amount cannot be zero.");
-            }
+//            if (amount.equals(BigDecimal.ZERO)) {
+//                errors.add("Amount cannot be zero.");
+//            }
             if (amount.scale() > 2) {
                 errors.add("Amount cannot have more than two digits after decimal point.");
             }

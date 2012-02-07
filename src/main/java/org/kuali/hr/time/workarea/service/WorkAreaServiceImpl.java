@@ -1,14 +1,14 @@
 package org.kuali.hr.time.workarea.service;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workarea.dao.WorkAreaDao;
+
+import java.sql.Date;
+import java.util.List;
 
 public class WorkAreaServiceImpl implements WorkAreaService {
 
@@ -84,5 +84,12 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 	@Override
 	public Long getNextWorkAreaKey() {
 		return workAreaDao.getNextWorkAreaKey();
+	}
+
+	@Override
+	public List<WorkArea> getWorkAreas(String dept, String workArea,
+			String workAreaDescr, Date fromEffdt, Date toEffdt, String active,
+			String showHistory) {
+		return workAreaDao.getWorkAreas(dept, workArea, workAreaDescr, fromEffdt, toEffdt, active, showHistory);
 	}
 }

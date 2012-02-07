@@ -1,8 +1,5 @@
 package org.kuali.hr.time.calendar;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
@@ -10,6 +7,9 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Render helper to handle timeblock and time hour details display
@@ -20,6 +20,7 @@ public class TimeBlockRenderer {
     private List<TimeHourDetailRenderer> detailRenderers = new ArrayList<TimeHourDetailRenderer>();
     private String assignmentClass;
     private String lunchLabel;
+    private String lunchLabelId;
 
     public TimeBlockRenderer(TimeBlock b) {
         this.timeBlock = b;
@@ -93,5 +94,12 @@ public class TimeBlockRenderer {
 	public void setLunchLabel(String lunchLabel) {
 		this.lunchLabel = lunchLabel;
 	}
-	
+
+    public String getLunchLabelId() {
+        return lunchLabelId;
+    }
+
+    public void setLunchLabelId(String lunchLabelId) {
+        this.lunchLabelId = lunchLabelId;
+    }
 }

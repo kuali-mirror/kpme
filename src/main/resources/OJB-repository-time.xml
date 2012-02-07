@@ -80,6 +80,7 @@
         <field-descriptor name="clockLogBeginId" 	    column="clock_log_begin_id" jdbc-type="VARCHAR" length="60"/>
         <field-descriptor name="clockLogEndId" 	        column="clock_log_end_id" 	jdbc-type="VARCHAR" length="60"/>
         <field-descriptor name="overtimePref"           column="ovt_pref" 		    jdbc-type="VARCHAR" nullable="yes" />
+        <field-descriptor name="lunchDeleted"           column="lunch_deleted"	    length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 
 		<collection-descriptor
 			name="timeHourDetails"

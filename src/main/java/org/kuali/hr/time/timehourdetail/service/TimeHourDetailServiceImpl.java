@@ -1,10 +1,10 @@
 package org.kuali.hr.time.timehourdetail.service;
 
-import java.util.List;
-
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timehourdetail.dao.TimeHourDetailDao;
+
+import java.util.List;
 
 public class TimeHourDetailServiceImpl implements TimeHourDetailService {
 
@@ -40,5 +40,10 @@ public class TimeHourDetailServiceImpl implements TimeHourDetailService {
 
     public void removeTimeHourDetails(String timeBlockId) {
         this.timeHourDetailDao.remove(timeBlockId);
+    }
+    
+    @Override
+    public void removeTimeHourDetail(String timeHourDetailId) {
+        timeHourDetailDao.removeById(timeHourDetailId);
     }
 }

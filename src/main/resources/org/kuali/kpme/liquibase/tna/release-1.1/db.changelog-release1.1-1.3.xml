@@ -9,10 +9,10 @@
     </changeSet>
   	<changeSet author="yingzhou" id="2">
         <createTable tableName="tk_time_block_hist_detail_t">
-        	<column name="TK_TIME_BLOCK_HIST_DETAIL_ID" type="BIGINT">
+        	<column name="TK_TIME_BLOCK_HIST_DETAIL_ID" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="TK_TIME_BLOCK_HIST_ID" type="BIGINT">
+            <column name="TK_TIME_BLOCK_HIST_ID" type="VARCHAR(60)">
                 <constraints nullable="false"/>
             </column>
             <column name="EARN_CODE" type="VARCHAR(3)">

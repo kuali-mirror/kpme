@@ -1,16 +1,11 @@
 package org.kuali.hr.time.web;
 
-import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.web.util.UrlPathHelper;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import java.io.IOException;
 
 public class DummyLoginFilter implements Filter{
 	private static final String LOGGED_IN_USER_KEY = "_LOGGED_IN_USER";
@@ -28,11 +23,20 @@ public class DummyLoginFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest hsreq = (HttpServletRequest) request;
-			String username = (String) hsreq.getSession().getAttribute(LOGGED_IN_USER_KEY);
+			 String username = (String) hsreq.getSession().getAttribute(LOGGED_IN_USER_KEY);
 			if (username == null) {
-				username = request.getParameter("__login_user");
+				username = ((HttpServletRequest) request).getRemoteUser();
+				if (username == null) {
+					username = request.getParameter("__login_user");
+				}
 				if (username != null) {
 					hsreq.getSession().setAttribute(LOGGED_IN_USER_KEY, username);
+					final String user = username;
+					request = new HttpServletRequestWrapper(hsreq) {
+						public String getRemoteUser() {
+							return user;
+						}
+					};
 				} else {
 					String actionUrl = urlPathHelper.getOriginatingContextPath(hsreq) + urlPathHelper.getLookupPathForRequest((HttpServletRequest) request) + "?" + urlPathHelper.getOriginatingQueryString((HttpServletRequest) request);
 					request.setAttribute("action_url", actionUrl);

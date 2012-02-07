@@ -1,9 +1,9 @@
 package org.kuali.hr.time.warning;
 
-import java.util.List;
-
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+
+import java.util.List;
 
 public class TkWarningServiceImpl implements TkWarningService {
     /**
@@ -12,6 +12,15 @@ public class TkWarningServiceImpl implements TkWarningService {
     @Override
     public List<String> getWarnings(String documentNumber) {
         TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentNumber);
+        //Validate accrual hours
+        List<String> warnings;
+        warnings = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(td);
+
+        return warnings;
+    }
+    
+    @Override
+    public List<String> getWarnings(TimesheetDocument td) {
         //Validate accrual hours
         List<String> warnings;
         warnings = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(td);

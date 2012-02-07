@@ -58,13 +58,11 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private String endTimestampTimezone;
     private DateTime beginTimeDisplay;
     private DateTime endTimeDisplay;
-
     private String clockLogBeginId;
     private String clockLogEndId;
-
     private String assignmentKey;
-
     private String overtimePref;
+    private boolean lunchDeleted;
     
     @Transient
     private Boolean deleteable;
@@ -638,5 +636,12 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 		return TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode(this);
 	}
 
+    public boolean isLunchDeleted() {
+        return lunchDeleted;
+    }
+
+    public void setLunchDeleted(boolean lunchDeleted) {
+        this.lunchDeleted = lunchDeleted;
+    }
 
 }

@@ -1,9 +1,9 @@
 package org.kuali.hr.time;
 
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 import java.sql.Date;
 import java.sql.Timestamp;
-
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public abstract class HrBusinessObject extends PersistableBusinessObjectBase{
 

@@ -402,7 +402,6 @@
 				<bean parent="FieldDefinition" p:attributeName="defaultOvertimeEarnCode" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="history" />
 			</list>
 		</property>
 		<property name="title" value="WorkArea Lookup" />

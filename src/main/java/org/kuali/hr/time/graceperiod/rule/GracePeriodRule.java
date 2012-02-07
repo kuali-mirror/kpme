@@ -1,10 +1,10 @@
 package org.kuali.hr.time.graceperiod.rule;
 
+import org.kuali.hr.time.HrBusinessObject;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
-
-import org.kuali.hr.time.HrBusinessObject;
 
 
 
@@ -70,7 +70,7 @@ public class GracePeriodRule extends HrBusinessObject {
 
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return hourFactor + "";
 	}
 

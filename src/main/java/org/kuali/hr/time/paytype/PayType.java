@@ -1,9 +1,9 @@
 package org.kuali.hr.time.paytype;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
+
+import java.util.LinkedHashMap;
 
 public class PayType extends HrBusinessObject {
 
@@ -78,7 +78,7 @@ public class PayType extends HrBusinessObject {
 	}
 
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		return payType;
 	}
 

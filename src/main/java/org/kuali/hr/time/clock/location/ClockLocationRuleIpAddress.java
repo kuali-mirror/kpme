@@ -1,8 +1,8 @@
 package org.kuali.hr.time.clock.location;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.time.HrBusinessObject;
+
+import java.util.LinkedHashMap;
 
 public class ClockLocationRuleIpAddress extends HrBusinessObject {
 
@@ -21,7 +21,7 @@ public class ClockLocationRuleIpAddress extends HrBusinessObject {
 		this.setTkClockLocationRuleIpId(id);
 	}
 	@Override
-	protected String getUniqueKey() {
+	public String getUniqueKey() {
 		String ipAddressKey = getTkClockLocationRuleIpId().toString()
 			+"_"+ getTkClockLocationRuleId().toString() + "_" + getIpAddress();
 		return ipAddressKey;

@@ -1,22 +1,7 @@
 package org.kuali.hr.time.approval.service;
 
-import java.math.BigDecimal;
-import java.sql.Types;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
@@ -38,20 +23,19 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesummary.TimeSummary;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.util.*;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kew.notes.Note;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import java.math.BigDecimal;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 
@@ -252,18 +236,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 			List notes = new ArrayList();
 			List<String> warnings = new ArrayList<String>();
-
+			
 			// TimesheetDocumentHeader tdh =
 			// TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId,
 			// payBeginDate, payEndDate);
-			if (StringUtils.isNotBlank(documentId)) {
-				timeBlocks = TkServiceLocator.getTimeBlockService()
-						.getTimeBlocks(Long.parseLong(documentId));
-				notes = this.getNotesForDocument(documentId);
-				warnings = TkServiceLocator.getWarningService().getWarnings(
-						documentId);
-			}
-
+		
 			Person person = KIMServiceLocator.getPersonService().getPerson(
 					principalId);
 			CalendarEntries payCalendarEntry = TkServiceLocator
@@ -274,28 +251,39 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 					.getTimeSummaryService().getHeaderForSummary(
 							payCalendarEntry, new ArrayList<Boolean>());
 
-			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
-					principalId, payEndDate, pyCalendarLabels, timeBlocks, null);
 
 			ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
+			
+			if (StringUtils.isNotBlank(documentId)) {
+				TimesheetDocument td = TkServiceLocator.getTimesheetService()
+						.getTimesheetDocument(tdh.getDocumentId());
+				if (principalDocumentHeader.containsKey(principalId)) {
+					approvalSummaryRow
+							.setApprovalStatus(TkConstants.DOC_ROUTE_STATUS.get(tdh
+									.getDocumentStatus()));
+				
+					TimeSummary ts = TkServiceLocator.getTimeSummaryService()
+							.getTimeSummary(td);
+					approvalSummaryRow.setTimeSummary(ts);
+				}
+				
+				timeBlocks = TkServiceLocator.getTimeBlockService()
+						.getTimeBlocks(Long.parseLong(documentId));
+				notes = this.getNotesForDocument(documentId);
+				warnings = TkServiceLocator.getWarningService().getWarnings(
+						td);
+			}
+
+			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
+					principalId, payEndDate, pyCalendarLabels, timeBlocks, null);
+			
 			approvalSummaryRow.setName(person.getName());
 			approvalSummaryRow.setPrincipalId(person.getPrincipalId());
 			approvalSummaryRow.setPayCalendarGroup(calGroup);
 			approvalSummaryRow.setDocumentId(documentId);
-			approvalSummaryRow.setLstTimeBlocks(timeBlocks);
-			if (principalDocumentHeader.containsKey(principalId)) {
-				approvalSummaryRow
-						.setApprovalStatus(TkConstants.DOC_ROUTE_STATUS.get(tdh
-								.getDocumentStatus()));
-				TimesheetDocument td = TkServiceLocator.getTimesheetService()
-						.getTimesheetDocument(tdh.getDocumentId());
-				TimeSummary ts = TkServiceLocator.getTimeSummaryService()
-						.getTimeSummary(td);
-				approvalSummaryRow.setTimeSummary(ts);
-			}
 			approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
-			approvalSummaryRow.setPeriodTotal(hoursToPayLabelMap
-					.get("Period Total"));
+			approvalSummaryRow.setPeriodTotal(hoursToPayLabelMap.get("Period Total"));
+			approvalSummaryRow.setLstTimeBlocks(timeBlocks);
 			approvalSummaryRow.setNotes(notes);
 			approvalSummaryRow.setWarnings(warnings);
 
@@ -633,6 +621,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public List getNotesForDocument(String documentNumber) {
 		List notes = KEWServiceLocator.getNoteService()
 				.getNotesByRouteHeaderId(Long.parseLong(documentNumber));
+		//add the user name in the note object
+		for(Object obj : notes){
+			Note note = (Note)obj;
+			note.setNoteAuthorFullName(KIMServiceLocator.getPersonService().getPerson(note.getNoteAuthorWorkflowId()).getName());
+		}
 		return notes;
 	}
 
@@ -767,7 +760,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return principalIds;
 	}
 
-	private Set<String> getPrincipalIdsWithActiveAssignmentsForCalendarGroupByDeptAndWorkArea(
+	protected Set<String> getPrincipalIdsWithActiveAssignmentsForCalendarGroupByDeptAndWorkArea(
 			String department, String workArea, String payCalendarGroup,
 			java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate) {
 		String sql = "SELECT "
@@ -788,12 +781,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				+ "				LEFT OUTER JOIN HR_ROLES_T R0 " 	
 				+ "				    ON (W0.WORK_AREA = R0.WORK_AREA) " 		 
 				+ " 		WHERE "
-                + " 			((A0.ACTIVE='Y'AND A0.EFFDT<= ?) OR (A0.ACTIVE='N' AND A0.EFFDT>=? AND A0.EFFDT<=?)) AND "
+	            + " 			((A0.ACTIVE='Y'AND A0.TIMESTAMP = (SELECT MAX(C0.TIMESTAMP) FROM "
+				+ "             TK_ASSIGNMENT_T C0 WHERE C0.PRINCIPAL_ID = A0.PRINCIPAL_ID AND C0.EFFDT <= ?)) " 
+				+ "				OR (A0.ACTIVE='N' AND A0.EFFDT>=? AND A0.EFFDT<=?)) AND "
 				+ "				W0.DEPT=? AND "
-                + "				R0.PRINCIPAL_ID=? AND "
-                + "				R0.ACTIVE='Y' AND "
-                + " 			(R0.DEPT IS NULL OR R0.DEPT = ?) AND "
-                + "				A0.ACTIVE = 'Y' ";
+	            + "				R0.PRINCIPAL_ID=? AND "
+	            + "				R0.ACTIVE='Y' AND "
+	            + " 			(R0.DEPT IS NULL OR R0.DEPT = ?)";
 
 		if (department == null || department.isEmpty()) {
 			return new LinkedHashSet<String>();

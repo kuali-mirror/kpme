@@ -1,20 +1,26 @@
 package org.kuali.hr.time.workarea;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Section;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -38,6 +44,37 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
     public PersistableBusinessObject getNewCollectionLine(String collectionName) {
         return super.getNewCollectionLine(collectionName);    //To change body of overridden methods use File | Settings | File Templates.
     }
+	
+	@Override
+    public void addNewLineToCollection(String collectionName) {
+		if (collectionName.equals("roles")) {
+        	TkRole aRole = (TkRole)newCollectionLines.get(collectionName );
+            if ( aRole != null ) {
+            	if(!StringUtils.isEmpty(aRole.getPrincipalId()) && !StringUtils.isEmpty(aRole.getPositionNumber())) {
+            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"add.roles.principalId", 
+            				"error.role.principalId.positonNubmer", aRole.getPrincipalId());
+            		return;
+            	}
+            	if(aRole.getPrincipalId() != null && !aRole.getPrincipalId().isEmpty()) {
+            		Person aPerson = KIMServiceLocator.getPersonService().getPerson(aRole.getPrincipalId());
+            		if(aPerson == null) {
+            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"add.roles.principalId", 
+                				"error.role.person.notexist", aRole.getPrincipalId());
+                		return;
+            		}
+            	}
+            	if(aRole.getPositionNumber() != null && !aRole.getPositionNumber().isEmpty()) {
+            		Position aPositon = TkServiceLocator.getPositionService().getPosition(aRole.getPositionNumber());
+            		if(aPositon == null) {
+            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"add.roles.positionNumber", 
+                				"error.role.position.notexist", aRole.getPositionNumber());
+                		return;
+            		}
+            	}
+            }
+        }
+        super.addNewLineToCollection(collectionName);
+	}
 
     @Override
 	public void processAfterEdit(MaintenanceDocument document,

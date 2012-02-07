@@ -1,11 +1,5 @@
 package org.kuali.hr.time.timeblock;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
@@ -14,6 +8,12 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimeBlockHistoryTest extends TkTestCase {
 
@@ -24,7 +24,7 @@ public class TimeBlockHistoryTest extends TkTestCase {
     @Test
     public void testTimeBlockHistory() throws Exception {
         TimesheetDocument td = TkTestUtils.populateBlankTimesheetDocument(DEFAULT_EFFDT);
-        List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getAssignments().get(0), "RGH", td, beginTimestamp, endTimestamp, new BigDecimal("8"), BigDecimal.ZERO, true);
+        List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getAssignments().get(0), "RGH", td, beginTimestamp, endTimestamp, new BigDecimal("8"), BigDecimal.ZERO, true, false);
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(td.getTimeBlocks(), tbs);
 
         List<TimeBlockHistory> tbhs = new ArrayList<TimeBlockHistory>();

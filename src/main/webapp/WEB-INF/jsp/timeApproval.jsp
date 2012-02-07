@@ -111,7 +111,7 @@
     </c:if>
 </table>
 
-<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do" excludedParams="*" pagesize="20" id="row"
+<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do?methodToCall=loadApprovalTab" excludedParams="*" pagesize="20" id="row"
                class="approvals-table" partialList="true" size="${Form.resultSize}" sort="page" defaultsort="0" >
     <c:set var="nameStyle" value=""/>
     <c:if test="${row.clockedInOverThreshold}">
@@ -177,7 +177,7 @@
                     <tbody>
                     <c:forEach var="note" items="${row.notes}">
                         <tr>
-                            <td>${note.noteAuthorWorkflowId}</td>
+                            <td>${note.noteAuthorFullName}</td>
                             <td style="width: 30px;">${note.noteCreateDate}</td>
                             <td>
                                 <div class="warning-note-message">

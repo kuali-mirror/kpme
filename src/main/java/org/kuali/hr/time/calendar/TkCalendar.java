@@ -1,15 +1,15 @@
 package org.kuali.hr.time.calendar;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.joda.time.DateTime;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class TkCalendar {
 	private List<TkCalendarWeek> weeks = new ArrayList<TkCalendarWeek>();
@@ -67,16 +67,20 @@ public class TkCalendar {
     public static void assignDayLunchLabel(TkCalendarDay day) {
     	EarnCode ec = null;
 		String label = "";
+        String id = "";
 		for(TimeBlockRenderer tbr : day.getBlockRenderers()) {
 			for(TimeHourDetailRenderer thdr : tbr.getDetailRenderers()) {
 				if(thdr.getTitle().equals(TkConstants.LUNCH_EARN_CODE)) {
 					ec = TkServiceLocator.getEarnCodeService().getEarnCode(thdr.getTitle(), tbr.getTimeBlock().getBeginDate());
 					if(ec != null) {
 						label = ec.getDescription() + " : " + thdr.getHours() + " hours";
+                        id = thdr.getTkTimeHourDetailId();
 					}
 				}
 			}
 			tbr.setLunchLabel(label);
+            tbr.setLunchLabelId(id);
+
 			label = "";
 		}
     }

@@ -1,13 +1,13 @@
 package org.kuali.hr.time.timeblock.service;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.List;
-
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.List;
 
 public interface TimeBlockService {
 	/**
@@ -32,10 +32,12 @@ public interface TimeBlockService {
 	 * @param hours
      * @param amount
 	 * @param isClockLogCreated
+     * @param isLunchDeleted
 	 * @return
 	 */
 	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
-											Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, BigDecimal amount, Boolean isClockLogCreated);
+											Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, BigDecimal amount,
+                                            Boolean isClockLogCreated, Boolean isLunchDeleted);
 	/**
 	 * Save a list of new TimeBlocks
 	 * does a comparison for the old versus the new and only saves changed/new/deleted TimeBlocks
@@ -76,10 +78,12 @@ public interface TimeBlockService {
 	 * @param hours
      * @param amount
 	 * @param isClockLogCreated
+     * @param isLunchDeleted
 	 * @return
 	 */
 	public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
-												Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, BigDecimal amount, Boolean isClockLogCreated);
+												Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, BigDecimal amount,
+                                                Boolean isClockLogCreated, Boolean isLunchDeleted);
 	/**
 	 * Create a TimeBlock for the given criteria
 	 * @param timesheetDocument
@@ -90,10 +94,12 @@ public interface TimeBlockService {
 	 * @param hours
      * @param amount
 	 * @param isClockLogCreated
+	 * @param isLunchDeleted
 	 * @return
 	 */
 	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime,
-										Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean isClockLogCreated);
+										Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount,
+                                        Boolean isClockLogCreated, Boolean isLunchDeleted);
 
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 
@@ -126,4 +132,5 @@ public interface TimeBlockService {
 	
 	public List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory);
 
+    void deleteLunchDeduction(String tkTimeHourDetailId);
 }
