@@ -105,7 +105,8 @@ $(function () {
         // Check out this page for more information about the jQuery selectors : http://api.jquery.com/category/selectors/
         events : {
             "click div[id*=show]" : "showTimeBlock",
-            "click img[id*=delete]" : "deleteTimeBlock",
+            "click img[id^=timeblockDelete]" : "deleteTimeBlock",
+            "click img[id^=lunchDelete]" : "deleteLunchDeduction",
             // .create is the div that fills up the white sapce and .day-number is the div with the day number on it.
             // <div class="create"></div> is in calendar.tag.
             // We want to trigger the show event on any white space areas.
@@ -194,7 +195,7 @@ $(function () {
                             if ($("#selectedAssignment").is("input")) {
                                 var dfd = $.Deferred();
                                 dfd.done(self.fetchEarnCode(_.getSelectedAssignmentValue()))
-                                   .done(self.showFieldByEarnCodeType());
+                                        .done(self.showFieldByEarnCodeType());
                             }
                         }
 
@@ -374,6 +375,16 @@ $(function () {
                 window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&documentId=" + timeBlock.get("documentId") + "&tkTimeBlockId=" + key.id;
             }
         },
+
+        deleteLunchDeduction : function (e) {
+            var key = _(e.target.id).parseEventKey();
+//            var timeBlock = timeBlockCollection.get(key.id);
+
+            if (confirm('You are about to delete the lunch deduction. Click OK to confirm the delete.')) {
+                window.location = "TimeDetail.do?methodToCall=deleteLunchDeduction&documentId=" + $("#documentId").val() + "&tkTimeHourDetailId=" + key.id;
+            }
+        },
+
 
         fetchEarnCode : function (e) {
             // When the method is called with a passed in value, the assignment is whatever that value is;
@@ -708,6 +719,7 @@ $(function () {
             $('#tkTimeBlockId').val(timeBlock.get("tkTimeBlockId"));
             $('#hours').val(timeBlock.get("hours"));
             $('#amount').val(timeBlock.get("amount"));
+            $('#lunchDeleted').val(timeBlock.get("lunchDeleted"));
 
             if ($('#isVirtualWorkDay').val() == 'true') {
                 var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
@@ -732,7 +744,7 @@ $(function () {
          * @param newText
          */
         replaceDialogButtonText : function (oriText, newText) {
-            $(".ui-button-text:contains('" + oriText +"')").text(newText);
+            $(".ui-button-text:contains('" + oriText + "')").text(newText);
         },
         /**
          * The selected assignment field can be a hidden text field if there is only one assignment, or a dropdown if there are multiple assignments
