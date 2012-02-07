@@ -1,0 +1,1 @@
+ALTER TABLE `tk_time_block_t` ADD COLUMN `lunch_deleted` VARCHAR(1) NOT NULL DEFAULT 'N';
