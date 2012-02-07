@@ -250,7 +250,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 			List notes = new ArrayList();
 			List<String> warnings = new ArrayList<String>();
-
+			
 			// TimesheetDocumentHeader tdh =
 			// TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId,
 			// payBeginDate, payEndDate);
@@ -265,16 +265,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 					.getTimeSummaryService().getHeaderForSummary(
 							payCalendarEntry, new ArrayList<Boolean>());
 
-			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
-					principalId, payEndDate, pyCalendarLabels, timeBlocks, null);
 
 			ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
-			approvalSummaryRow.setName(person.getName());
-			approvalSummaryRow.setPrincipalId(person.getPrincipalId());
-			approvalSummaryRow.setPayCalendarGroup(calGroup);
-			approvalSummaryRow.setDocumentId(documentId);
-			approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
-			approvalSummaryRow.setPeriodTotal(hoursToPayLabelMap.get("Period Total"));
 			
 			if (StringUtils.isNotBlank(documentId)) {
 				TimesheetDocument td = TkServiceLocator.getTimesheetService()
@@ -294,9 +286,17 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				notes = this.getNotesForDocument(documentId);
 				warnings = TkServiceLocator.getWarningService().getWarnings(
 						td);
-				
-				
 			}
+
+			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
+					principalId, payEndDate, pyCalendarLabels, timeBlocks, null);
+			
+			approvalSummaryRow.setName(person.getName());
+			approvalSummaryRow.setPrincipalId(person.getPrincipalId());
+			approvalSummaryRow.setPayCalendarGroup(calGroup);
+			approvalSummaryRow.setDocumentId(documentId);
+			approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
+			approvalSummaryRow.setPeriodTotal(hoursToPayLabelMap.get("Period Total"));
 			approvalSummaryRow.setLstTimeBlocks(timeBlocks);
 			approvalSummaryRow.setNotes(notes);
 			approvalSummaryRow.setWarnings(warnings);
