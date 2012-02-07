@@ -30,11 +30,10 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 
 	private static String timeCollectionRuleIdWithInvalidDept;
 	private static String timeCollectionRuleIdWithInvalidWorkArea;
-	private static String deptId;
-
 
 	private static String TEST_CODE_INVALID_DEPT_ID = "0";
 	private static Long TEST_CODE_INVALID_WORKAREA = 2L;
+	private static String PAY_TYPE_ERROR = "The specified payType '%' does not exist.";
 
 	/**
 	 * Test to check whether it is showing error message on maintenance screen
@@ -68,6 +67,11 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 								+ "' does not exist."));
 		assertTrue("Maintenance Page contains test timeCollectionRule",
 				resultantPageAfterEdit.asText().contains("Clock User needs to be checked if Hr Distribution is checked."));
+		setFieldValue(resultantPageAfterEdit, "document.newMaintainableObject.payType", "%");
+		resultantPageAfterEdit = HtmlUnitUtil.clickInputContainingText(resultantPageAfterEdit, "submit");
+		assertFalse("Maintenance Page contains error" + PAY_TYPE_ERROR, 
+				resultantPageAfterEdit.asText().contains(PAY_TYPE_ERROR));
+		
 	}
 
 
@@ -125,7 +129,6 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
 		department.setLocation("TST");
 		KNSServiceLocator.getBusinessObjectService().save(department);
-		deptId = department.getHrDeptId();
 		TimeCollectionRule timeCollectionRuleWIthInvalidDept = new TimeCollectionRule();
 		// setting deptId for which Department doesn't exist .
 		Random randomObj = new Random();
