@@ -205,7 +205,7 @@ public class TimeApprovalAction extends TkAction{
         PayCalendarEntries selectedPayCalendarEntries = null;
         PayCalendar currentPayCalendar = null;
         // Set calendar groups
-        List<String> calGroups = TkServiceLocator.getTimeApproveService().getUniquePayGroups(user.getReportingWorkAreas());
+        List<String> calGroups = TkServiceLocator.getTimeApproveService().getUniquePayGroups();
         taaf.setPayCalendarGroups(calGroups);
 
         if (StringUtils.isBlank(taaf.getSelectedPayCalendarGroup())) {

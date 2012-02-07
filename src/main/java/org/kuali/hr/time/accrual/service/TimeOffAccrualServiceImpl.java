@@ -79,15 +79,22 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 
 	@SuppressWarnings("unchecked")
 	public List<String> validateAccrualHoursLimit(TimesheetDocument timesheetDocument) {
-		 List<String> warningMessages = new ArrayList<String>();
     	 String pId = "";
          if (timesheetDocument != null) {
              pId = timesheetDocument.getPrincipalId();
          }
-         List<Map<String, Object>> calcList = this.getTimeOffAccrualsCalc(pId, timesheetDocument.getAsOfDate());
+         
+     	return validateAccrualHoursLimit(pId, timesheetDocument.getTimeBlocks(),  timesheetDocument.getAsOfDate());
+        
+    }
+	
+	@SuppressWarnings("unchecked")
+	public List<String> validateAccrualHoursLimit(String pId, List<TimeBlock> tbList, Date asOfDate) {
+		 List<String> warningMessages = new ArrayList<String>();
 
-         List<TimeBlock> tbList = timesheetDocument.getTimeBlocks();
-         if (tbList.isEmpty()) {
+         List<Map<String, Object>> calcList = this.getTimeOffAccrualsCalc(pId, asOfDate);
+
+           if (tbList.isEmpty()) {
              return warningMessages;
          }
          List<String> accruals = new ArrayList<String>();
@@ -122,7 +129,6 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
          }
          return warningMessages;
     }
-	
 	public List<String> validateAccrualHoursLimitByEarnCode(TimesheetDocument timesheetDocument, String earnCode) {
 		 List<String> warningMessages = new ArrayList<String>();
    	 String pId = "";

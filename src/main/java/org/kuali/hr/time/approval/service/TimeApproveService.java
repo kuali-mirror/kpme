@@ -69,7 +69,7 @@ public interface TimeApproveService {
      * @param approverWorkAreas
      * @return
      */
-    List<String> getUniquePayGroups(Set<Long> approverWorkAreas);
+    List<String> getUniquePayGroups();
 
     /**
      * Method to get a list of principal ids based on the work areas.

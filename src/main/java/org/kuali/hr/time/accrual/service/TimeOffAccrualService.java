@@ -1,6 +1,7 @@
 package org.kuali.hr.time.accrual.service;
 
 import org.kuali.hr.time.accrual.TimeOffAccrual;
+import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 import java.sql.Date;
@@ -24,6 +25,8 @@ public interface TimeOffAccrualService {
 	 */
 	public List<String> validateAccrualHoursLimit(TimesheetDocument timesheetDocument);
 	
+	public List<String> validateAccrualHoursLimit(String pId, List<TimeBlock> tbList, Date asOfDate);
+	
 	/**
 	 * Validate the accrual hours for the time blocks by earncode of the given TimesheetDocument
 	 * and returns a JSONArray of warning messages
@@ -40,4 +43,5 @@ public interface TimeOffAccrualService {
 	public TimeOffAccrual getTimeOffAccrual(Long laTimeOffAccrualId);
 	
 	public List<TimeOffAccrual> getTimeOffAccruals(String principalId, Date asOfDate);
+
 }

@@ -268,24 +268,25 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 			ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
 			
+			if (principalDocumentHeader.containsKey(principalId)) {
+				approvalSummaryRow
+						.setApprovalStatus(TkConstants.DOC_ROUTE_STATUS.get(tdh
+								.getDocumentStatus()));
+			}
+			
+			
 			if (StringUtils.isNotBlank(documentId)) {
 				TimesheetDocument td = TkServiceLocator.getTimesheetService()
 						.getTimesheetDocument(tdh.getDocumentId());
-				if (principalDocumentHeader.containsKey(principalId)) {
-					approvalSummaryRow
-							.setApprovalStatus(TkConstants.DOC_ROUTE_STATUS.get(tdh
-									.getDocumentStatus()));
-				
-					TimeSummary ts = TkServiceLocator.getTimeSummaryService()
-							.getTimeSummary(td);
-					approvalSummaryRow.setTimeSummary(ts);
-				}
-				
+				 
 				timeBlocks = TkServiceLocator.getTimeBlockService()
 						.getTimeBlocks(Long.parseLong(documentId));
 				notes = this.getNotesForDocument(documentId);
-				warnings = TkServiceLocator.getWarningService().getWarnings(
-						td);
+				warnings = TkServiceLocator.getWarningService().getWarnings(principalId, timeBlocks, (java.sql.Date)tdh.getPayBeginDate());
+				
+				TimeSummary ts = TkServiceLocator.getTimeSummaryService()
+				.getTimeSummary(td);
+				approvalSummaryRow.setTimeSummary(ts);
 			}
 
 			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
@@ -643,23 +644,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return notes;
 	}
 
-	// private static final String UNIQUE_PY_GROUP_SQL =
-	// "select distinct py_calendar_group from hr_py_calendar_t where active = 'Y'";
-	private static final String UNIQUE_PY_GROUP_SQL = "SELECT DISTINCT P.py_calendar_group FROM tk_work_area_t W, hr_principal_calendar_t P WHERE P.active = 'Y' AND ";
-
 	@Override
-	public List<String> getUniquePayGroups(Set<Long> approverWorkAreas) {
-		if (approverWorkAreas.isEmpty()) {
-			return new ArrayList<String>();
-		}
+	public List<String> getUniquePayGroups() {
 
-		StringBuilder workAreas = new StringBuilder();
-		for (long workarea : approverWorkAreas) {
-			workAreas.append("W.work_area = " + workarea + " or ");
-		}
-		String workAreasForQuery = workAreas.substring(0,
-				workAreas.length() - 3);
-		String sql = UNIQUE_PY_GROUP_SQL + workAreasForQuery;
+		String sql = "SELECT DISTINCT P.py_calendar_group FROM hr_principal_calendar_t P WHERE P.active = 'Y'";;
 		SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql);
 		List<String> pyGroups = new LinkedList<String>();
 		while (rs.next()) {
