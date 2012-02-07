@@ -95,8 +95,6 @@ public final class TkTestConstants {
 
 		public static final String EMPLOYEE_OVERRIDE_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.lm.employeeoverride.EmployeeOverride&methodToCall=start";
 
-		public static final String SHIFT_DIFFERENTIAL_RULE_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule&methodToCall=start#topOfForm";
-
 		public static final String CLOCK_URL = BASE_URL + "/Clock.do";
 
 		public static final String TIME_DETAIL_URL = BASE_URL + "/TimeDetail.do";
