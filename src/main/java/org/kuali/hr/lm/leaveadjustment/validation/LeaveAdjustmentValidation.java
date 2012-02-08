@@ -73,7 +73,7 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 			MaintenanceDocument document) {
 		boolean valid = false;
 
-		LOG.debug("entering custom validation for DepartmentEarnCode");
+		LOG.debug("entering custom validation for LeaveAdjustment");
 		PersistableBusinessObject pbo = this.getNewBo();
 		if (pbo instanceof LeaveAdjustment) {
 			LeaveAdjustment leaveAdjustment = (LeaveAdjustment) pbo;
