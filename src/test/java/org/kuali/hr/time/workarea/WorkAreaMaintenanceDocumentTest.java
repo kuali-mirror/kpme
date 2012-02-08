@@ -1,16 +1,17 @@
 package org.kuali.hr.time.workarea;
 
 import java.sql.Date;
-import java.util.Collection;
-import java.util.Iterator;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
@@ -22,11 +23,23 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
 	
 	final String ERROR_MESSAGE = "At least one active role must be defined.";
+	final String ERROR_ROLE_MESSAGE = "Cannot define both Principal Id and Position Nubmer for Role.";
 	final String SUCCESS_MESSAGE = "Document was successfully submitted.";
+	private static final String TEST_CODE_DEPARTMENT_VALID = "_TEST";
+	private static final Date TEST_DATE = new Date((new DateTime(2011,1,1,1,0,0,0,DateTimeZone.forID("EST"))).getMillis());
 
     @Before
     public void setUp() throws Exception {
     	super.setUp();
+    	Department department = new Department();
+		department.setDept(TEST_CODE_DEPARTMENT_VALID);
+		department.setChart(TEST_CODE_DEPARTMENT_VALID);
+		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
+		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
+		department.setLocation("TST");
+		department.setEffectiveDate(TEST_DATE);
+		department.setActive(true);
+		KNSServiceLocator.getBusinessObjectService().save(department);
     }
     
 
@@ -47,22 +60,28 @@ public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
         setFieldValue(page, "document.newMaintainableObject.effectiveDate", "4/01/2011");
         setFieldValue(page, "document.newMaintainableObject.active", "on");
         setFieldValue(page, "document.newMaintainableObject.description", "test");
-        setFieldValue(page, "document.newMaintainableObject.dept", "NODEP");
+        setFieldValue(page, "document.newMaintainableObject.dept", TEST_CODE_DEPARTMENT_VALID);
         setFieldValue(page, "document.newMaintainableObject.adminDescr", "TEST");
         setFieldValue(page, "document.newMaintainableObject.overtimeEditRole", "TK_APPROVER");
-        setFieldValue(page, "document.newMaintainableObject.defaultOvertimeEarnCode", "OVT");
         
         HtmlElement element = page.getElementByName("methodToCall.route");
         HtmlPage nextPage = element.click();
-        assertTrue("page text:\n" + nextPage.asText() + "\n does not contain:\n" + ERROR_MESSAGE, nextPage.asText().contains(ERROR_MESSAGE));
+        assertTrue("page does not contain:\n" + ERROR_MESSAGE, nextPage.asText().contains(ERROR_MESSAGE));
         
         setFieldValue(page, "document.newMaintainableObject.add.roles.effectiveDate", "04/01/2011");
         setFieldValue(page, "document.newMaintainableObject.add.roles.principalId", "admin");
+        setFieldValue(page, "document.newMaintainableObject.add.roles.positionNumber", "123");
         setFieldValue(page, "document.newMaintainableObject.add.roles.active", "on");
 
         element = HtmlUnitUtil.getInputContainingText(page,"methodToCall.addLine.roles");
         nextPage = element.click();
-        assertFalse("page text:\n" + nextPage.asText() + "\n contains:\n" + ERROR_MESSAGE, nextPage.asText().contains(ERROR_MESSAGE));
+        assertTrue("page does not contain:\n" + ERROR_ROLE_MESSAGE, nextPage.asText().contains(ERROR_ROLE_MESSAGE));
+        
+        setFieldValue(nextPage, "document.newMaintainableObject.add.roles.positionNumber", "");
+        element = HtmlUnitUtil.getInputContainingText(nextPage,"methodToCall.addLine.roles");
+        nextPage = element.click();
+        assertFalse("page contains:\n" + ERROR_MESSAGE, nextPage.asText().contains(ERROR_MESSAGE));
+        assertFalse("page contains:\n" + ERROR_ROLE_MESSAGE, nextPage.asText().contains(ERROR_ROLE_MESSAGE));
             	
     	form = nextPage.getFormByName("KualiForm");
     	assertNotNull("Search form was missing from page.", form);
@@ -72,9 +91,9 @@ public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
         //work area should be saved successfully and work area field should be populated with the max work area from db
         element = nextPage.getElementByName("methodToCall.route");
         HtmlPage lastPage = element.click();
-        assertFalse("page text:\n" + lastPage.asText() + "\n contains:\n" + ERROR_MESSAGE, lastPage.asText().contains(ERROR_MESSAGE));
-        assertTrue("page text:\n" + lastPage.asText() + "\n does not contains:\n" + SUCCESS_MESSAGE, lastPage.asText().contains(SUCCESS_MESSAGE));
-        assertTrue("page text:\n" + lastPage.asText() + "\n does not contains:\n" + workArea.toString(), lastPage.asText().contains(workArea.toString()));
+        assertFalse("page contains:\n" + ERROR_MESSAGE, lastPage.asText().contains(ERROR_MESSAGE));
+        assertTrue("page does not contains:\n" + SUCCESS_MESSAGE, lastPage.asText().contains(SUCCESS_MESSAGE));
+        assertTrue("page does not contains:\n" + workArea.toString(), lastPage.asText().contains(workArea.toString()));
         
         // search page should find the new work area
         HtmlPage searchPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.WORK_AREA_MAINT_URL);
@@ -94,5 +113,12 @@ public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
 	public Long maxWorkArea() {
 		return TkServiceLocator.getWorkAreaService().getNextWorkAreaKey();
 
+	}
+	
+	@Override
+	public void tearDown() throws Exception {
+		Department deptObj = TkServiceLocator.getDepartmentService().getDepartment(TEST_CODE_DEPARTMENT_VALID, TKUtils.getCurrentDate());
+		KNSServiceLocator.getBusinessObjectService().delete(deptObj);
+		super.tearDown();
 	}
 }
