@@ -15,8 +15,8 @@ public class LeaveAdjustmentServiceImpl implements LeaveAdjustmentService {
 	}
 
 	@Override
-	public LeaveAdjustment getLeaveAdjustment(String tkLeaveAdjustmentId) {
-		return leaveAdjustmentDao.getLeaveAdjustment(tkLeaveAdjustmentId);
+	public LeaveAdjustment getLeaveAdjustment(String lmLeaveAdjustmentId) {
+		return leaveAdjustmentDao.getLeaveAdjustment(lmLeaveAdjustmentId);
 	}
 
 	public LeaveAdjustmentDao getLeaveAdjustmentDao() {

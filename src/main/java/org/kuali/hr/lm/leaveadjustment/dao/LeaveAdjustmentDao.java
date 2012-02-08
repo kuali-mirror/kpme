@@ -8,5 +8,5 @@ public interface LeaveAdjustmentDao {
 
 	public List<LeaveAdjustment> getLeaveAdjustments(String principalId, Date asOfDate);
 	
-	public LeaveAdjustment getLeaveAdjustment(String tkLeaveAdjustmentId);
+	public LeaveAdjustment getLeaveAdjustment(String lmLeaveAdjustmentId);
 }

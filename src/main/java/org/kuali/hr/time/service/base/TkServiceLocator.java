@@ -124,7 +124,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_WARNINGS_SERVICE = "tkWarningService";
     public static final String HR_POSITION_SERVICE = "positionService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
-    public static final String LM_ACCRUAL_CATEGORY_SERVICE = "accrualCategoryService";
+    public static final String LM_ACCRUAL_CATEGORY_SERVICE = "leaveAccrualCategoryService";
     public static final String LM_LEAVE_CODE_SERVICE = "leaveCodeService";
     public static final String LM_LEAVE_PLAN_SERVICE = "leavePlanService";
     public static final String LM_LEAVE_DONATION_SERVICE = "leaveDonationService";
@@ -356,6 +356,9 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return new TransactionTemplate(getPlatformTransactionManager());
 	}
 	
+	public static AccrualCategoryService getLeaveAccrualCategoryService(){
+		return (AccrualCategoryService)CONTEXT.getBean(LM_ACCRUAL_CATEGORY_SERVICE);
+	}
 	
 	public static LeaveCodeService getLeaveCodeService(){
 		return (LeaveCodeService)CONTEXT.getBean(LM_LEAVE_CODE_SERVICE);
@@ -364,6 +367,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static LeavePlanService getLeavePlanService(){
 		return (LeavePlanService)CONTEXT.getBean(LM_LEAVE_PLAN_SERVICE);
 	}
+	
+	/*public static AccrualCategoryRuleService getLeaveAccrualCategoryRuleService(){
+		return (AccrualCategoryRuleService)CONTEXT.getBean(LM_ACCRUAL_CATEGORY_RULE_SERVICE);
+	}*/
 	
 	public static LeaveDonationService getLeaveDonationService(){
 		return (LeaveDonationService)CONTEXT.getBean(LM_LEAVE_DONATION_SERVICE);

@@ -50,9 +50,9 @@ public class LeaveAdjustmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
     }
 
 	@Override
-	public LeaveAdjustment getLeaveAdjustment(String tkLeaveAdjustmentId) {
+	public LeaveAdjustment getLeaveAdjustment(String lmLeaveAdjustmentId) {
 		Criteria crit = new Criteria();
-        crit.addEqualTo("tkLeaveAdjustmentId", tkLeaveAdjustmentId);
+        crit.addEqualTo("lmLeaveAdjustmentId", lmLeaveAdjustmentId);
         Query query = QueryFactory.newQuery(LeaveAdjustment.class, crit);
         return (LeaveAdjustment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
