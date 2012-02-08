@@ -1,1 +1,0 @@
-alter table lm_accrual_category_t add column MIN_PERCENT_WORKED DECIMAL(5,2) DEFAULT 0.00;
