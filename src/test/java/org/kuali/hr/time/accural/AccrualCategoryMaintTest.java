@@ -1,9 +1,6 @@
 package org.kuali.hr.time.accural;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Calendar;
-
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Test;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -11,7 +8,9 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 public class AccrualCategoryMaintTest extends TkTestCase {
 
@@ -22,7 +21,7 @@ public class AccrualCategoryMaintTest extends TkTestCase {
 
 	@Test
 	public void testAccrualCategoryMaint() throws Exception {
-		HtmlPage accuralCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCURAL_CATEGORY_MAINT_URL);
+		HtmlPage accuralCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		accuralCategoryLookup = HtmlUnitUtil.clickInputContainingText(accuralCategoryLookup, "search");
 		assertTrue("Page contains test AccuralCategory", accuralCategoryLookup.asText().contains(TEST_CODE.toString()));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accuralCategoryLookup, "edit", accrualCategoryId.toString());
