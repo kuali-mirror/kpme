@@ -1,7 +1,11 @@
 package org.kuali.hr.time.approval.service;
 
 import com.google.common.collect.Multimap;
+
+import org.joda.time.DateTimeZone;
+import org.joda.time.Interval;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
+import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -48,7 +52,7 @@ public interface TimeApproveService {
     @SuppressWarnings("rawtypes")
 	public List getNotesForDocument(String documentNumber);
 
-    Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea, PayCalendarEntries payCalendarEntries);
+    Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea, PayCalendarEntries payCalendarEntries, PayCalendar payCalendar, DateTimeZone dateTimeZone, List<Interval> dayIntervals);
 
     /**
      * Method to provide a mapping of PayCalendarGroupNames to PayCalendarEntries to
@@ -90,6 +94,8 @@ public interface TimeApproveService {
      * @return A list of the PrincipalIds
      */
     Set<String> getPrincipalIdsByDeptAndWorkArea(String department, String WorkArea, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
+    
+    Map<String, String> getPrincipalIdsByDepartmentList(List<String> departments, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
 
     /**
      * Method to create a map that contains the principal's id and corresponding timesheet document header.

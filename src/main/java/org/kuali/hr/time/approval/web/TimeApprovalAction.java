@@ -234,7 +234,7 @@ public class TimeApprovalAction extends TkAction{
                             //new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()));
                 taaf.setPayCalendarEntries(payCalendarEntries);
                 taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntries, new ArrayList<Boolean>()));
-                //taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, new LinkedList<String>(principalIds)), taaf.getSelectedPayCalendarGroup()));
+                taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, new LinkedList<String>(principalIds)), taaf.getSelectedPayCalendarGroup()));
             }
         }
         
