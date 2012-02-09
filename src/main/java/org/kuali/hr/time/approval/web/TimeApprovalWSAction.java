@@ -1,5 +1,17 @@
 package org.kuali.hr.time.approval.web;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -8,14 +20,11 @@ import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONValue;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class TimeApprovalWSAction extends TkAction {
 
@@ -70,5 +79,15 @@ public class TimeApprovalWSAction extends TkAction {
 
         return mapping.findForward("ws");
     }
+    
+    public ActionForward getTimeSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
 
+        TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(taaf.getDocumentId());
+		TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(td);		
+
+        taaf.setOutputString(JSONValue.toJSONString(ts));
+
+        return mapping.findForward("ws");
+    }
 }
