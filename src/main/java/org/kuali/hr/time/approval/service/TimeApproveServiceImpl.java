@@ -234,7 +234,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@Override
 	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(
 			Date payBeginDate, Date payEndDate, String calGroup,
-			List<String> principalIds, List<String> payCalendarLabels) {
+			List<String> principalIds, List<String> payCalendarLabels, PayCalendarEntries payCalendarEntries) {
 		List<ApprovalTimeSummaryRow> rows = new LinkedList<ApprovalTimeSummaryRow>();
 		Map<String, TimesheetDocumentHeader> principalDocumentHeader = getPrincipalDocumehtHeader(
 				principalIds, payBeginDate, payEndDate);
@@ -251,24 +251,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			List notes = new ArrayList();
 			List<String> warnings = new ArrayList<String>();
 			
-			// TimesheetDocumentHeader tdh =
-			// TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId,
-			// payBeginDate, payEndDate);
-		
-/*			Person person = KIMServiceLocator.getPersonService().getPerson(
+			Person person = KIMServiceLocator.getPersonService().getPerson(
 					principalId);
-			PayCalendarEntries payCalendarEntry = TkServiceLocator
-					.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(
-							principalId, TKUtils.getTimelessDate(payEndDate));*/
-			
-			PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, TKUtils.getTimelessDate(payEndDate));
-			PayCalendarEntries payCalendarEntry = TkServiceLocator.getPayCalendarEntriesSerivce().getPayCalendarEntriesByIdAndPeriodEndDate(principalCalendar.getPayCalendar().getHrPyCalendarId(), payEndDate);
-			payCalendarEntry.setPayCalendarObj(principalCalendar.getPayCalendar());
-
-		/*	List<String> pyCalendarLabels = TkServiceLocator
-					.getTimeSummaryService().getHeaderForSummary(
-							payCalendarEntry, new ArrayList<Boolean>());*/
-
 
 			ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
 			
@@ -280,23 +264,23 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			
 			
 			if (StringUtils.isNotBlank(documentId)) {
-			TimesheetDocument td = TkServiceLocator.getTimesheetService()
-						.getTimesheetDocument(tdh.getDocumentId());
+			/*TimesheetDocument td = TkServiceLocator.getTimesheetService()
+						.getTimesheetDocument(tdh.getDocumentId());*/
 				 
 				timeBlocks = TkServiceLocator.getTimeBlockService()
 						.getTimeBlocks(Long.parseLong(documentId));
 				notes = this.getNotesForDocument(documentId);
 				warnings = TkServiceLocator.getWarningService().getWarnings(principalId, timeBlocks, (java.sql.Date)tdh.getPayBeginDate());
 				
-				TimeSummary ts = TkServiceLocator.getTimeSummaryService()
+			/*	TimeSummary ts = TkServiceLocator.getTimeSummaryService()
 				.getTimeSummary(td);
-				approvalSummaryRow.setTimeSummary(ts);
+				approvalSummaryRow.setTimeSummary(ts);*/
 			}
 
 			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
-					principalId, payEndDate, payCalendarLabels, timeBlocks, null);
+					principalId, payEndDate, payCalendarLabels, timeBlocks, null, payCalendarEntries);
 			
-			approvalSummaryRow.setName(principalId);
+			approvalSummaryRow.setName(person.getName());
 			approvalSummaryRow.setPrincipalId(principalId);
 			approvalSummaryRow.setPayCalendarGroup(calGroup);
 			approvalSummaryRow.setDocumentId(documentId);
@@ -549,18 +533,14 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@Override
 	public Map<String, BigDecimal> getHoursToPayDayMap(String principalId,
 			Date payEndDate, List<String> payCalendarLabels,
-			List<TimeBlock> lstTimeBlocks, Long workArea) {
+			List<TimeBlock> lstTimeBlocks, Long workArea, PayCalendarEntries payCalendarEntries) {
 		Map<String, BigDecimal> hoursToPayLabelMap = new LinkedHashMap<String, BigDecimal>();
 		List<BigDecimal> dayTotals = new ArrayList<BigDecimal>();
-		PayCalendarEntries payCalendarEntry = TkServiceLocator
-				.getPayCalendarSerivce().getPayCalendarDatesByPayEndDate(
-						principalId, payEndDate);
+		PayCalendar payCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(payCalendarEntries.getHrPyCalendarId());
 		// TODO: we should just pass in the timeblocks instead of calling
 		// TkTimeBlockAggregate twice..
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(
-				lstTimeBlocks, payCalendarEntry, TkServiceLocator
-						.getPayCalendarSerivce().getPayCalendar(
-								payCalendarEntry.getHrPyCalendarId()), true);
+				lstTimeBlocks, payCalendarEntries, payCalendar, true);
 		for (FlsaWeek week : tkTimeBlockAggregate.getFlsaWeeks(TkServiceLocator
 				.getTimezoneService().getUserTimezoneWithFallback())) {
 			for (FlsaDay day : week.getFlsaDays()) {

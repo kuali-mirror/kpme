@@ -21,7 +21,7 @@ public interface TimeApproveService {
      * @param calGroup Specify a calendar group to filter by.
      * @return A Map<String, List<ApprovalTimeSummaryRow>> container.
      */
-	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds, List<String> payCalendarLabels);
+	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds, List<String> payCalendarLabels, PayCalendarEntries payCalendarEntries);
 
 //	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds);
 
@@ -48,7 +48,7 @@ public interface TimeApproveService {
     @SuppressWarnings("rawtypes")
 	public List getNotesForDocument(String documentNumber);
 
-    Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea);
+    Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea, PayCalendarEntries payCalendarEntries);
 
     /**
      * Method to provide a mapping of PayCalendarGroupNames to PayCalendarEntries to
