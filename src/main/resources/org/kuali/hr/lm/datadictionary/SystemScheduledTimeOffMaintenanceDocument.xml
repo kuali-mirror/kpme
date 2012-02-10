@@ -60,7 +60,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="transfertoLeaveCode" />
 				<bean parent="MaintainableFieldDefinition" p:name="expirationDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="premiumHoliday"
-					p:required="true" />
+					p:required="true" p:defaultValue="N" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"
 					p:required="true" p:defaultValue="true"/>
 			</list>

@@ -5,6 +5,7 @@ import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -14,7 +15,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 	boolean validateEffectiveDate(Date effectiveDate) {
 		boolean valid = true;
 		if (effectiveDate != null && !ValidationUtils.validateOneYearFutureDate(effectiveDate)) {
-			this.putFieldError("effectiveDate", "error.date.exceed.year");
+			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
 			valid = false;
 		}
 		return valid;
@@ -23,7 +24,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 	boolean validateExpirationDate(Date expirationDate) {
 		boolean valid = true;
 		if (expirationDate != null && !ValidationUtils.validateOneYearFutureDate(expirationDate)) {
-			this.putFieldError("expirationDate", "error.date.exceed.year");
+			this.putFieldError("expirationDate", "error.date.exceed.year", "Expiration Date");
 			valid = false;
 		}
 		return valid;
@@ -32,7 +33,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 	boolean validateAccruedDate(Date accruedDate) {
 		boolean valid = true;
 		if (accruedDate != null && !ValidationUtils.validateFutureDate(accruedDate)) {
-			this.putFieldError("accruedDate", "error.future.date");
+			this.putFieldError("accruedDate", "error.future.date", "Accrued Date");
 			valid = false;
 		}
 		return valid;
@@ -40,6 +41,9 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 	
 	boolean validateLocation(String location) {
 		boolean valid = true;
+		if(!StringUtils.isEmpty(location) && location.equals(TkConstants.WILDCARD_CHARACTER)) {
+			return true;
+		}
 		if (!ValidationUtils.validateLocation(location, null)) {
 			this.putFieldError("location", "error.existence", "location '"
 					+ location + "'");
@@ -51,7 +55,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 	boolean validateScheduledTimeOffDate(Date scheduledTimeOffDate) {
 		boolean valid = true;
 		if (scheduledTimeOffDate!= null && !ValidationUtils.validateFutureDate(scheduledTimeOffDate)) {
-			this.putFieldError("scheduledTimeOffDate", "error.future.date");
+			this.putFieldError("scheduledTimeOffDate", "error.future.date", "Scheduled Time Off Date");
 			valid = false;
 		}
 		return valid;

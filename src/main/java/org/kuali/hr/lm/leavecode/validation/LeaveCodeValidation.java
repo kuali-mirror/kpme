@@ -13,7 +13,7 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 	boolean validateEffectiveDate(Date effectiveDate) {
 		boolean valid = true;
 		if (effectiveDate != null && !ValidationUtils.validateOneYearFutureDate(effectiveDate)) {
-			this.putFieldError("effectiveDate", "error.date.exceed.year");
+			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
 			valid = false;
 		}
 		return valid;

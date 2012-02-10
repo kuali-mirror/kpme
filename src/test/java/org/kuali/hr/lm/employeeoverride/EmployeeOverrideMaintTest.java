@@ -48,7 +48,7 @@ public class EmployeeOverrideMaintTest extends TkTestCase{
 		eoLookup = HtmlUnitUtil.clickInputContainingText(eoLookup, "search");
 		assertTrue("Page contains test EmployeeOverride", eoLookup.asText().contains("testAC"));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(eoLookup, "edit");
-		assertTrue("Maintenance Page contains test ShiftDifferentialRule",maintPage.asText().contains("test"));	 
+		assertTrue("Maintenance Page contains test EmployeeOverride",maintPage.asText().contains("test"));	 
 	}
 	
 	@Test

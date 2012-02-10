@@ -1,0 +1,1 @@
+delete from lm_leave_code_t where lm_leave_code_id = '3000';

@@ -1,19 +1,9 @@
 package org.kuali.hr.lm.leaveadjustment;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Calendar;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Test;
-import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.time.principal.PrincipalHRAttributes;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
@@ -96,5 +86,10 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	assertFalse("page text contains:\n" + "'IU-SM' does not exist", page.asText().contains("'IU-SM' does not exist"));
+	}
+	
+	@Test
+	public void testFutureEffectiveDate() throws Exception {
+		this.futureEffectiveDateValidation(TkTestConstants.Urls.LEAVE_ADJUSTMENT_MAINT_NEW_URL);
 	}
 }

@@ -1,0 +1,2 @@
+delete from lm_leave_donation_t where LM_LEAVE_DONATION_ID = '3000';
+insert into lm_leave_donation_t values ('3000',	'dAC', 'rDC', '300', '300', 'donor', 'recipient', 'testDescription','2012-01-01', 'B2991ADA-E866-F28C-7E95-A897AC377D0C','1', 'Y', '2012-02-09 11:38:04');

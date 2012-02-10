@@ -1,5 +1,6 @@
 package org.kuali.hr.time.test;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Assert;
@@ -23,7 +24,9 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSelect;
@@ -156,5 +159,35 @@ public class TkTestCase extends KNSTestCase{
             fail("Unknown control field: " + fieldId);
         }
     }
+   
+   public void futureEffectiveDateValidation(String baseUrl) throws Exception {
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	assertNotNull(page);
+	 
+	  	HtmlForm form = page.getFormByName("KualiForm");
+	  	assertNotNull("Search form was missing from page.", form);
+	  	// use past dates
+	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2011");
+	    HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
+	  	assertNotNull("Could not locate submit button", input);
+	  	page = page.getElementByName("methodToCall.route").click();
+	  	assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+	  	Calendar futureDate = Calendar.getInstance();
+	  	futureDate.add(java.util.Calendar.YEAR, 2);// 2 years in the future
+	  	String futureDateString = "01/01/" + Integer.toString(futureDate.get(Calendar.YEAR));
+	  	
+	  	// use dates 2 years in the future
+	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", futureDateString);
+	  	page = page.getElementByName("methodToCall.route").click();
+	  	assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+		Calendar validDate = Calendar.getInstance();
+	  	validDate.add(java.util.Calendar.MONTH, 5); // 5 month in the future
+	  	String validDateString = Integer.toString(validDate.get(Calendar.MONTH)) + '/' + Integer.toString(validDate.get(Calendar.DAY_OF_MONTH)) 
+	  		+ '/' + Integer.toString(validDate.get(Calendar.YEAR));
+	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
+	  	page = page.getElementByName("methodToCall.route").click();
+	  	assertFalse("page text contains:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+	}
+
 
 }

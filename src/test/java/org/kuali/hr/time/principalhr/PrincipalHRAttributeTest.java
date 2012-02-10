@@ -8,7 +8,6 @@ import org.kuali.hr.time.test.TkTestConstants;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class PrincipalHRAttributeTest extends TkTestCase {
-
 	@Test
 	public void testPrincipalHRAttributeTest() throws Exception{
 		//confirm maintenance page renders default data
@@ -19,6 +18,11 @@ public class PrincipalHRAttributeTest extends TkTestCase {
     	HtmlUnitUtil.createTempFile(page);
     	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","principalId=admin");
     	assertTrue("Test that maintenance screen rendered", page.asText().contains("admin"));
+	}
+	
+	@Test
+	public void testFutureEffectiveDate() throws Exception {
+		this.futureEffectiveDateValidation(TkTestConstants.Urls.PRIN_HR_MAINT_NEW_URL);
 	}
 
 
