@@ -116,6 +116,10 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
              String accrualCategory = (String) aMap.get(ACCRUAL_CATEGORY_KEY);
              List<TimeBlock> warningTbs = new ArrayList<TimeBlock>();
              BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList, warningTbs);
+             //if there is no timeblocks for this category no warning is necessary 
+             if(totalForAccrCate.compareTo(BigDecimal.ZERO)==0){
+            	 continue;
+             }
              BigDecimal balanceHrs = ((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY)).add((BigDecimal)aMap.get(HOURS_ADJUST_KEY));
              
              if (totalForAccrCate.compareTo(balanceHrs) == 1) {
@@ -149,7 +153,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
         List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategories(timesheetDocument.getAsOfDate());
     
         for(AccrualCategory accrualCategory : accrualCategories){
-       	 if(!accruals.contains(accrualCategory.getAccrualCategory())){
+       	 if(!accruals.contains(accrualCategory.getAccrualCategory()) && !StringUtils.equals(TkConstants.HOLIDAY_EARN_CODE, accrualCategory.getAccrualCategory())){
        		Map<String, Object> accrualData = new LinkedHashMap<String, Object>();
     			accrualData.put(ACCRUAL_CATEGORY_KEY, accrualCategory.getAccrualCategory());
     			accrualData.put(HOURS_ACCRUED_KEY, new BigDecimal(0.00));
