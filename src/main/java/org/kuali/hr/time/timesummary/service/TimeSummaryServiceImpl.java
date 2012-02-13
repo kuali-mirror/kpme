@@ -31,11 +31,6 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
     @Override
 	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument) {
-		return this.getTimeSummary(timesheetDocument, timesheetDocument.getTimeBlocks());
-	}
-
-    @Override
-	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument, List<TimeBlock> timeBlocks) {
 		TimeSummary timeSummary = new TimeSummary();
 
 		if(timesheetDocument.getTimeBlocks() == null) {
@@ -45,7 +40,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         List<Boolean> dayArrangements = new ArrayList<Boolean>();
 
 		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getPayCalendarEntry(), dayArrangements));
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getPayCalendarEntry(), TkServiceLocator.getPayCalendarSerivce().getPayCalendar(timesheetDocument.getPayCalendarEntry().getHrPyCalendarId()), true);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getPayCalendarEntry(), TkServiceLocator.getPayCalendarSerivce().getPayCalendar(timesheetDocument.getPayCalendarEntry().getHrPyCalendarId()), true);
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
 
         List<EarnGroupSection> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getSummaryHeader().size()+1, dayArrangements, timesheetDocument.getAsOfDate());

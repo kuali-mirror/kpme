@@ -132,7 +132,6 @@ $(function () {
 
             OvertimeEarnCodes.bind('add', this.addAllOvertimeEarnCodes);
             OvertimeEarnCodes.bind('reset', this.addAllOvertimeEarnCodes);
-
         },
 
         render : function () {
@@ -395,7 +394,7 @@ $(function () {
 
             // Fetch earn codes based on the selected assignment
             // The fetch function is provided by backbone.js which also supports jQuery.ajax options.
-            // See here for more information: http://documentcloud.github.com/backbone/#Collection-fetch
+            // For more information: http://documentcloud.github.com/backbone/#Collection-fetch
             EarnCodes.fetch({
                 // Make the ajax call not async to be able to mark the earn code selected
                 async : false,

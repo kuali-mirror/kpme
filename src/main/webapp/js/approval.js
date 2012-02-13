@@ -58,31 +58,6 @@ $(document).ready(function () {
 //                }).addClass(klass);
 //    }
 
-
-    // fetch more document headers
-    $('a#next').click(function () {
-        $('div#loader').html('<img src="images/ajax-loader.gif">');
-        $.post('TimeApproval.do?methodToCall=getMoreDocument&lastDocumentId=' + $('span.document:last').attr('id'),
-                function (data) {
-                    // remove blank lines
-                    data = data.replace(/[\s\r\n]+$/, '');
-                    if (data != 0) {
-                        //$('span.document:last').hide().append(data).fadeIn();
-                        // scroll to where the link is
-                        //window.scrollTo(0, $('a#next').position().top);
-                        // append the data to the table body through ajax
-                        $('#approval tbody').append(data);
-                    }
-                    else {
-                        // if there is no more document available, remove the link and scroll to the bottom
-                        $('a#next').remove();
-                        //window.scrollTo(0, $('span.document:last').position().top);
-                    }
-                    $('div#loader').empty();
-                });
-
-    });
-
     /**
      * This is to create auto complete w/o using jQuery UI.
      * The code below hasn't been finished yet, but it's commentted out in case we need this in the future.
@@ -216,50 +191,60 @@ $(document).ready(function () {
     // display warning and notes
     $(" .approvals-warning, .approvals-note").tooltip({ effect:'slide'});
 
+//    $('span[id^=showDetailButton]').click(function (e) {
+//
+//        var docId = e.target.id.split("_")[1];
+//
+//        $.get("TimeApprovalWS.do?methodToCall=getTimeSummary&documentId=" + docId, function(data) {
+//
+//            console.log(data);
+//        });
+//    });
+
     // toggle the button for the assignment details
-    $('.rowInfo').click(function () {
-        // figure out the columns in the approval table
-        var columns = $(".approvals-table > tbody > tr.odd > td").length;
-        // get the row id
-        var seq = $(this).attr("id").split("_")[1];
-
-        if ($(this).hasClass('ui-icon-plus')) {
-            /**
-             * The code below is a DOM manipulation which grabs the
-             * current time summary layout and rerender it to match
-             * with the layout / styles of the approval table.
-             *
-             * The original layout comes from the same code that
-             * renders the time summary table on the time detail
-             * page.
-             */
-            $timeSummaryRow = undefined;
-            // create a clone of the time summary row
-            $timeSummaryRow = $('.timeSummaryRow_' + seq).clone(true);
-            // remove the date header
-            $(".ui-state-default, tbody tr:first", $timeSummaryRow).remove();
-            // find the time summary table
-            var parent = $('.timeSummaryRow_' + seq).closest("tr");
-            // grab all the TRs from the summary table
-            $trs = $("table tr", $timeSummaryRow);
-            // add a unique id in order to show / hide the new summary table
-            $trs.attr("class", "timeHourDetail_" + seq);
-            // merge columns
-            $("td:nth-child(1)", $trs).attr("colspan", 3);
-
-            // append the new summary table after the total row
-            parent.after($trs);
-
-            // change the icon from - to +
-            $(this).removeClass('ui-icon-plus').addClass('ui-icon-minus');
-        }
-        else {
-            // remove the summary when - button is clicked
-            $('.timeHourDetail_' + seq).remove();
-            // change the icon from + to -
-            $(this).removeClass('ui-icon-minus').addClass('ui-icon-plus');
-        }
-    });
+//    $('.rowInfo').click(function () {
+//        // figure out the columns in the approval table
+//        var columns = $(".approvals-table > tbody > tr.odd > td").length;
+//        // get the row id
+//        var seq = $(this).attr("id").split("_")[1];
+//
+//        if ($(this).hasClass('ui-icon-plus')) {
+//            /**
+//             * The code below is a DOM manipulation which grabs the
+//             * current time summary layout and rerender it to match
+//             * with the layout / styles of the approval table.
+//             *
+//             * The original layout comes from the same code that
+//             * renders the time summary table on the time detail
+//             * page.
+//             */
+//            $timeSummaryRow = undefined;
+//            // create a clone of the time summary row
+//            $timeSummaryRow = $('.timeSummaryRow_' + seq).clone(true);
+//            // remove the date header
+//            $(".ui-state-default, tbody tr:first", $timeSummaryRow).remove();
+//            // find the time summary table
+//            var parent = $('.timeSummaryRow_' + seq).closest("tr");
+//            // grab all the TRs from the summary table
+//            $trs = $("table tr", $timeSummaryRow);
+//            // add a unique id in order to show / hide the new summary table
+//            $trs.attr("class", "timeHourDetail_" + seq);
+//            // merge columns
+//            $("td:nth-child(1)", $trs).attr("colspan", 3);
+//
+//            // append the new summary table after the total row
+//            parent.after($trs);
+//
+//            // change the icon from - to +
+//            $(this).removeClass('ui-icon-plus').addClass('ui-icon-minus');
+//        }
+//        else {
+//            // remove the summary when - button is clicked
+//            $('.timeHourDetail_' + seq).remove();
+//            // change the icon from + to -
+//            $(this).removeClass('ui-icon-minus').addClass('ui-icon-plus');
+//        }
+//    });
 
     $("#refresh").click(function(){
        // location.reload();
