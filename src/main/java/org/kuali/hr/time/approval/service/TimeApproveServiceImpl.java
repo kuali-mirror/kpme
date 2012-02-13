@@ -765,13 +765,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			String department, String workArea, String payCalendarGroup,
 			java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate) {
 		String sql = "SELECT "
-				+ "    DISTINCT PRINCIPAL_ID "
-				+ " FROM"
-				+ "  	 HR_PRINCIPAL_CALENDAR_T "
-				+ " WHERE "
-				+ " 	PY_CALENDAR_GROUP = ? AND "
-				+ " 	PRINCIPAL_ID IN ( "
-				+ " 		SELECT "
 				+ "    		DISTINCT A0.PRINCIPAL_ID "
 				+ " 		FROM "
 				+ "			  TK_ASSIGNMENT_T A0 "		  
@@ -788,6 +781,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				+ "             TK_ASSIGNMENT_T C0 WHERE C0.PRINCIPAL_ID = A0.PRINCIPAL_ID AND C0.EFFDT = " 
 				+ "				A0.EFFDT)"
 				+ "				) OR (A0.ACTIVE='N' AND A0.EFFDT>=? AND A0.EFFDT<=?)) AND "
+				+ "				P0.PY_CALENDAR_GROUP = ? AND "
 				+ "				W0.DEPT=? AND "
 	            + "				R0.PRINCIPAL_ID=? AND "
 	            + "				R0.ACTIVE='Y' AND "
@@ -801,34 +795,32 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			
 			SqlRowSet rs = null;
 			if (workArea != null) {
-				sql += " AND A0.WORK_AREA = ?) ";
+				sql += " AND A0.WORK_AREA = ? ";
 				
 				rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(
 						sql,
-						new Object[] { payCalendarGroup, effdt, beginDate,
-								endDate, endDate, department, TKContext.getUser().getPrincipalId(), department, workArea},
-						new int[] { java.sql.Types.VARCHAR,
-								java.sql.Types.DATE,
+						new Object[] {effdt, beginDate, endDate, endDate, payCalendarGroup, department, TKContext.getUser().getPrincipalId(), department, workArea},
+						new int[] {java.sql.Types.DATE,
 								java.sql.Types.DATE,
 								java.sql.Types.DATE, 
 								java.sql.Types.DATE, 
+								java.sql.Types.VARCHAR,
 								java.sql.Types.VARCHAR, 
 								java.sql.Types.VARCHAR,
 								java.sql.Types.VARCHAR,
 								java.sql.Types.INTEGER});
 			} else {
-				sql += ") ";
+				sql += " ";
 				rs = TkServiceLocator
 						.getTkJdbcTemplate()
 						.queryForRowSet(
 								sql,
-								new Object[] { payCalendarGroup, effdt,
-										beginDate, endDate, endDate, department, TKContext.getUser().getPrincipalId(), department},
-								new int[] { java.sql.Types.VARCHAR,
-										java.sql.Types.DATE,
+								new Object[] {effdt, beginDate, endDate, endDate, payCalendarGroup, department, TKContext.getUser().getPrincipalId(), department},
+								new int[] {java.sql.Types.DATE,
 										java.sql.Types.DATE,
 										java.sql.Types.DATE,
 										java.sql.Types.DATE, 
+										java.sql.Types.VARCHAR,
 										java.sql.Types.VARCHAR,
 										java.sql.Types.VARCHAR,
 										java.sql.Types.VARCHAR });
@@ -845,15 +837,16 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	protected Map<String, String> getPrincipalIdsWithActiveAssignmentsForCalendarGroupByDepartmentList(
 			List<String> departments, String payCalendarGroup,
 			java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate) {
+		
+		StringBuilder dept = new StringBuilder();
+		for (String department : departments) {
+			dept.append(department + ",");
+		}
+		
+		String deptForQuery = dept.substring(0, dept.length() - 1);
+		
 		String sql = "SELECT "
-				+ "    DISTINCT PRINCIPAL_ID "
-				+ " FROM"
-				+ "  	 HR_PRINCIPAL_CALENDAR_T "
-				+ " WHERE "
-				+ " 	PY_CALENDAR_GROUP = ? AND "
-				+ " 	PRINCIPAL_ID IN ( "
-				+ " 		SELECT "
-				+ "    		DISTINCT A0.PRINCIPAL_ID "
+				+ "    		DISTINCT A0.PRINCIPAL_ID, W0.DEPT"
 				+ " 		FROM "
 				+ "			  TK_ASSIGNMENT_T A0 "		  
 				+ "				INNER JOIN HR_PRINCIPAL_CALENDAR_T P0 "  		
@@ -869,10 +862,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				+ "             TK_ASSIGNMENT_T C0 WHERE C0.PRINCIPAL_ID = A0.PRINCIPAL_ID AND C0.EFFDT = " 
 				+ "				A0.EFFDT)"
 				+ "				) OR (A0.ACTIVE='N' AND A0.EFFDT>=? AND A0.EFFDT<=?)) AND "
-				+ "				W0.DEPT=? AND "
+				+ "				P0.PY_CALENDAR_GROUP = ? AND "
+				+ "				W0.DEPT IN (" + deptForQuery + ") AND "
 	            + "				R0.PRINCIPAL_ID=? AND "
 	            + "				R0.ACTIVE='Y' AND "
-	            + " 			(R0.DEPT IS NULL OR R0.DEPT = ?))";
+	            + " 			(R0.DEPT IS NULL OR R0.DEPT IN (" + deptForQuery + ")))";
+		
 		
 		if (departments.isEmpty()) {
 			return new LinkedHashMap<String, String>();
@@ -886,8 +881,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 						.getTkJdbcTemplate()
 						.queryForRowSet(
 								sql,
-								new Object[] { payCalendarGroup, effdt,
-										beginDate, endDate, endDate, departments, TKContext.getUser().getPrincipalId(), departments},
+								new Object[] {effdt, beginDate, endDate, endDate, payCalendarGroup, TKContext.getUser().getPrincipalId()},
 								new int[] { java.sql.Types.VARCHAR,
 										java.sql.Types.DATE,
 										java.sql.Types.DATE,
@@ -898,13 +892,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 										java.sql.Types.VARCHAR });
 
 			while (rs.next()) {
-				principalIds.put(rs.getString("principal_id"), "");
+				principalIds.put(rs.getString("dept"), rs.getString("principal_id"));
 			}
 
 			return principalIds;
 		}
 	}
-
 
 	@Override
 	public Map<String, TimesheetDocumentHeader> getPrincipalDocumehtHeader(
