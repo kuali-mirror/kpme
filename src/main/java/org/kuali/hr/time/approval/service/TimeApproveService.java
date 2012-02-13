@@ -9,6 +9,7 @@ import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -125,4 +126,5 @@ public interface TimeApproveService {
     
     public Set<String> getPrincipalIdsByWorkAreas(String workAreasAsString, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
 
+    public DocumentRouteHeaderValue getRouteHeader(String documentId);
 }

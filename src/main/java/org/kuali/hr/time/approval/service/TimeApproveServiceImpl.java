@@ -46,9 +46,11 @@ import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.notes.Note;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.google.common.collect.HashMultimap;
@@ -1002,5 +1004,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			}
 		}
 		return deptWorkAreas;
+	}
+	
+	public DocumentRouteHeaderValue getRouteHeader(String documentId) {
+		return KEWServiceLocator.getRouteHeaderService().getRouteHeader(Long.parseLong(documentId));
 	}
 }
