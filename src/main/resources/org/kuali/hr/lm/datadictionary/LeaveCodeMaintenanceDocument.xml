@@ -28,7 +28,7 @@
   <bean id="LeaveCodeMaintenanceDocument-LeaveCodeMaintenance" parent="LeaveCodeMaintenanceDocument-LeaveCodeMaintenance-parentBean"/>
 
   <bean id="LeaveCodeMaintenanceDocument-LeaveCodeMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Leave Plan Maintenance"/>
+    <property name="title" value="Leave Code Maintenance"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
