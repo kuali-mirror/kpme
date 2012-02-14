@@ -1,7 +1,6 @@
 package org.kuali.hr.lm.leavecode.validation;
 
 import java.sql.Date;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.util.ValidationUtils;
@@ -13,7 +12,7 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 	boolean validateEffectiveDate(Date effectiveDate) {
 		boolean valid = true;
 		if (effectiveDate != null && !ValidationUtils.validateOneYearFutureDate(effectiveDate)) {
-			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
+			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date '"+ effectiveDate + "'");
 			valid = false;
 		}
 		return valid;
@@ -58,6 +57,16 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
+	boolean validateDefaultAmountOfTime(Long defaultAmountofTime) {
+		boolean valid = true;
+		if (defaultAmountofTime.compareTo(new Long(24)) > 0  || defaultAmountofTime.compareTo(new Long(0)) < 0) {
+			this.putFieldError("defaultAmountofTime", "error.leaveCode.hours", "Default Amount of Time '"
+					+ defaultAmountofTime + "'");
+			valid = false;
+		}
+		return valid;
+	}
+	
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
@@ -73,6 +82,7 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 				valid &= this.validateLeavePlan(leaveCode.getLeavePlan(), leaveCode.getEffectiveDate());
 				valid &= this.validateAccrualCategory(leaveCode.getAccrualCategory(), leaveCode.getEffectiveDate());
 				valid &= this.validateEarnCode(leaveCode.getEarnCode(), leaveCode.getEffectiveDate());
+				valid &= this.validateDefaultAmountOfTime(leaveCode.getDefaultAmountofTime());
 			}
 		}
 		return valid;

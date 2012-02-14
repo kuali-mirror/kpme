@@ -4,7 +4,8 @@ import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class LeaveCodeMaintTest extends TkTestCase{
@@ -23,4 +24,21 @@ public class LeaveCodeMaintTest extends TkTestCase{
 		this.futureEffectiveDateValidation(TkTestConstants.Urls.LEAVE_CODE_MAINT_NEW_URL);
 	}
 
+	@Test
+	public void testAddNew() throws Exception {
+	  	String baseUrl = TkTestConstants.Urls.LEAVE_CODE_MAINT_NEW_URL;
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	assertNotNull(page);
+	 
+	  	HtmlForm form = page.getFormByName("KualiForm");
+	  	assertNotNull("Search form was missing from page.", form);
+	  	assertTrue("page text contains:\n" + "Leave Code Maintenance", page.asText().contains("Leave Code Maintenance"));
+	  	
+	  	setFieldValue(page, "document.documentHeader.documentDescription", "Leave Code - test");
+	    setFieldValue(page, "document.newMaintainableObject.defaultAmountofTime", "25"); // a wrong default amount of time
+	    HtmlElement element = page.getElementByName("methodToCall.route");
+	  	page = element.click();
+	  	HtmlUnitUtil.createTempFile(page);
+	  	assertTrue("page text contains:\n" + "should be between 0 and 24", page.asText().contains("should be between 0 and 24"));
+	}
 }
