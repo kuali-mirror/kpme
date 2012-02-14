@@ -14,10 +14,9 @@
 <html:hidden property="nextPayCalendarId" value="${Form.nextPayCalendarId}"/>
 
 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.string/1.1.6/underscore.string.min.js"></script>
-<%--<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min.js"></script>--%>
-<script src="http://documentcloud.github.com/backbone/backbone.js"></script>
+<script src="js/underscore-1.3.1.min.js"></script>
+<script src="js/underscore.string-2.0.0.js"></script>
+<script src="js/backbone-0.9.1.min.js"></script>
 <script src="js/tk.approval.backbone.js"></script>
 
 <div class="approvals">
