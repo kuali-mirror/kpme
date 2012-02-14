@@ -3,6 +3,7 @@ package org.kuali.hr.lm.employeeoverride.validation;
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -15,8 +16,9 @@ public class EmployeeOverrideRule extends MaintenanceDocumentRuleBase{
 		PersistableBusinessObject pbo = this.getNewBo();
 		if (pbo instanceof EmployeeOverride) {
 			EmployeeOverride eo = (EmployeeOverride) pbo;
-			valid &= this.validateLeavePlan(eo);
+			valid &= this.validatePrincipalHRAttributes(eo);
 			valid &= this.validateAccrualCategory(eo);
+			valid &= this.validateLeavePlan(eo);
 		}
 		return valid;
 	}
@@ -28,25 +30,37 @@ public class EmployeeOverrideRule extends MaintenanceDocumentRuleBase{
 			parameters[1] = eo.getEffectiveDate().toString();
 			this.putFieldError("leavePlan", "error.employeeOverride.leavePlan.notfound", parameters);
 			return false;
+		} else if(eo.getEffectiveDate() != null) {
+			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().
+				getAccrualCategory(eo.getAccrualCategory(), eo.getEffectiveDate());
+			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().
+				getPrincipalCalendar(eo.getPrincipalId(), eo.getEffectiveDate());
+			if(ac != null && pha != null && !ac.getLeavePlan().equals(pha.getLeavePlan())) {
+				this.putFieldError("leavePlan", "error.employeeOverride.leavePlan.inconsistent", eo.getAccrualCategory() );
+				return false;
+			}
 		}
 		return true;
 	}
 	
 	boolean validateAccrualCategory(EmployeeOverride eo) {
-		if(eo.getAccrualCategory() != null && eo.getLeavePlan() != null) {
+		if(eo.getAccrualCategory() != null && eo.getEffectiveDate() != null) {
 			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().
 				getAccrualCategory(eo.getAccrualCategory(), eo.getEffectiveDate());
 			if(ac == null) {
 				this.putFieldError("accrualCategory", "error.employeeOverride.accrualCategory.notfound", eo.getAccrualCategory() );
 				return false;
-			} else {
-				if(!ac.getLeavePlan().equals(eo.getLeavePlan())) {
-					String[] parameters = new String[2];
-					parameters[0] = eo.getAccrualCategory();
-					parameters[1] = eo.getLeavePlan();
-					this.putFieldError("accrualCategory", "error.employeeOverride.accrualCategory.invalid", parameters);
-					return false;
-				}
+			}
+		}
+		return true;
+	}
+	
+	boolean validatePrincipalHRAttributes(EmployeeOverride eo) {
+		if(eo.getPrincipalId() != null && eo.getEffectiveDate() != null) {
+			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(eo.getPrincipalId(), eo.getEffectiveDate());
+			if(pha == null) {
+				this.putFieldError("principalId", "error.employeeOverride.principalHRAttributes.notfound", eo.getPrincipalId() );
+				return false;
 			}
 		}
 		return true;

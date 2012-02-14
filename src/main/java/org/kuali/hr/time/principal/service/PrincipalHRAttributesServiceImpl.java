@@ -23,5 +23,10 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
 		}
 		return pc;
 	}
+	
+	@Override
+	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId) {
+		return this.principalHRAttributesDao.getPrincipalHRAttributes(principalId);
+	}
 
 }

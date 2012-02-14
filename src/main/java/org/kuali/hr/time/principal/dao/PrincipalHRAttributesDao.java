@@ -11,4 +11,6 @@ public interface PrincipalHRAttributesDao {
 	public void saveOrUpdate(List<PrincipalHRAttributes> lstPrincipalCalendar);
 
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId, Date asOfDate);
+	
+	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId);
 }

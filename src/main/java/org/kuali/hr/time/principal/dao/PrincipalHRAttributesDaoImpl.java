@@ -64,5 +64,13 @@ public class PrincipalHRAttributesDaoImpl extends PersistenceBrokerDaoSupport im
 		}
 		
 	}
+	
+	@Override
+	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("principalId", principalId);
+		Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, crit);
+		return (PrincipalHRAttributes)this.getPersistenceBrokerTemplate().getObjectByQuery(query);		
+	}
 
 }

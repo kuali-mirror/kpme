@@ -12,4 +12,6 @@ public interface PrincipalHRAttributesService {
 	 * @return
 	 */
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId, Date asOfDate);
+	
+	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId);
 }

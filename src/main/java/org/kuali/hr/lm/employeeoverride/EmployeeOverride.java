@@ -2,8 +2,8 @@ package org.kuali.hr.lm.employeeoverride;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -109,13 +109,9 @@ public class EmployeeOverride extends HrBusinessObject {
 	}
 
 	public String getLeavePlan() {
-		if (this.principalHRAttrObj == null) {
-			principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(this.principalId, this.effectiveDate);
+		if (this.principalHRAttrObj == null && !StringUtils.isEmpty(this.principalId)) {
+			principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(principalId);
 		}
-		if(this.accrualCategoryObj == null) {
-			accrualCategoryObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, effectiveDate);
-		}
-		// need to figure out the relationship between principalHRAttrObj and accrualCategoryObj, which one should we use to figure out the leave plan
 		return (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
 	}
 
