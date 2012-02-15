@@ -83,8 +83,8 @@ public class TimeDetailAction extends TimesheetAction {
         // Set calendar
         CalendarEntries payCalendarEntry = tdaf.getPayCalendarDates();
         Calendar payCalendar = TkServiceLocator.getCalendarSerivce().getCalendar(payCalendarEntry.getHrCalendarId());
-        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true, 
-        		TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry));
+        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true,
+                TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry));
         TkCalendar cal = TkCalendar.getCalendar(aggregate);
         cal.assignAssignmentStyle(aMap);
         tdaf.setTkCalendar(cal);
@@ -93,10 +93,10 @@ public class TimeDetailAction extends TimesheetAction {
 
         tdaf.setOvertimeEarnCodes(TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDoucment().getAsOfDate()));
 
-    	tdaf.setDocEditable("false");
-    	
-        if(TKContext.getUser().isSystemAdmin()){
-        	tdaf.setDocEditable("true");
+        tdaf.setDocEditable("false");
+
+        if (TKContext.getUser().isSystemAdmin()) {
+            tdaf.setDocEditable("true");
         } else {
             boolean docFinal = TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL);
             if (!docFinal) {

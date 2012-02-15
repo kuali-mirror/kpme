@@ -1,12 +1,5 @@
 package org.kuali.hr.time.approval.web;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesummary.TimeSummary;
@@ -16,6 +9,9 @@ import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow> {
 	private String name;

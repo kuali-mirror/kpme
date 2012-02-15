@@ -1,17 +1,11 @@
 package org.kuali.hr.time.approval.web;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+
+import java.util.*;
 
 public class TimeApprovalActionForm extends TkForm {
 
@@ -35,7 +29,9 @@ public class TimeApprovalActionForm extends TkForm {
     private String payEndDateForSearch;
 
     private List<String> payCalendarLabels = new ArrayList<String>();
-    private List<ApprovalTimeSummaryRow> approvalRows;
+    private CalendarEntries payCalendarEntries;
+
+	private List<ApprovalTimeSummaryRow> approvalRows;
     private Long workArea = null;
     private Set<Long> deptWorkareas = new HashSet<Long>();
     private String documentId;
@@ -133,6 +129,14 @@ public class TimeApprovalActionForm extends TkForm {
     public List<String> getPayCalendarLabels() {
         return payCalendarLabels;
     }
+
+    public CalendarEntries getPayCalendarEntries() {
+		return payCalendarEntries;
+	}
+
+	public void setPayCalendarEntries(CalendarEntries payCalendarEntries) {
+		this.payCalendarEntries = payCalendarEntries;
+	}
 
     public String getDocumentId() {
         return documentId;

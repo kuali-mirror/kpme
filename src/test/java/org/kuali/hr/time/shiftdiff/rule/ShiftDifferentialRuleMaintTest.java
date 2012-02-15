@@ -1,19 +1,18 @@
 package org.kuali.hr.time.shiftdiff.rule;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.Calendar;
-
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.Calendar;
 
 public class ShiftDifferentialRuleMaintTest extends TkTestCase{
 	private static final String TEST_CODE="_T";

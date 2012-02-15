@@ -10,26 +10,29 @@
         <tr>
             <td>
                 <c:if test="${Form.prevDocumentId ne null}">
-                    <button id="nav_prev" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" title="Previous">
+                    <button id="nav_prev" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                            role="button" title="Previous">
                         <span class="ui-button-icon-primary ui-icon ui-icon-circle-triangle-w"></span>
                         <span class="ui-button-text">Previous</span>
                     </button>
                 </c:if>
                 <span class="header-title">${cal.calendarTitle}</span>
                 <c:if test="${Form.nextDocumentId ne null}">
-                    <button id="nav_next" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" title="Next">
+                    <button id="nav_next" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                            role="button" title="Next">
                         <span class="ui-button-icon-primary ui-icon ui-icon-circle-triangle-e"></span>
                         <span class="ui-button-text">Next</span>
                     </button>
                 </c:if>
             </td>
         </tr>
-		<tr>
-		<tr>
-        <td align="right">
-        	<a href="${KualiForm.backLocation}?methodToCall=actualTimeInquiry&documentId=${Form.documentId}" target="_blank" id="atiLink">Actual Time Inquiry</a>
-        </td>
-        	
+        <tr>
+        <tr>
+            <td align="right">
+                <a href="${KualiForm.backLocation}?methodToCall=actualTimeInquiry&documentId=${Form.documentId}"
+                   target="_blank" id="atiLink">Actual Time Inquiry</a>
+            </td>
+
         </tr>
         </tr>
         </tbody>
@@ -162,7 +165,8 @@
                                         </div>
                                     </c:if>
                                 </c:forEach>
-                                <div class="create" id="${cal.calendarMonth}/${day.dayNumberString}/${cal.calenadrYear}"></div>
+                                <div class="create"
+                                     id="${cal.calendarMonth}/${day.dayNumberString}/${cal.calenadrYear}"></div>
                             </div>
                         </td>
                     </c:forEach>

@@ -643,5 +643,4 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     public void setLunchDeleted(boolean lunchDeleted) {
         this.lunchDeleted = lunchDeleted;
     }
-
 }

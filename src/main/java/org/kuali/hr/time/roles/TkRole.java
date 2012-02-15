@@ -100,10 +100,8 @@ public class TkRole extends HrBusinessObject {
 	public void setWorkArea(Long workArea) {
 		this.workArea = workArea;
 		this.workAreaObj= TkServiceLocator.getWorkAreaService().getWorkArea(workArea, TKUtils.getCurrentDate());
-		if(workAreaObj != null) {
-			this.departmentObj = TkServiceLocator.getDepartmentService().getDepartment(workAreaObj.getDept(), TKUtils.getCurrentDate());
-			this.department = this.workAreaObj.getDept();
-		}
+		this.departmentObj = TkServiceLocator.getDepartmentService().getDepartment(workAreaObj.getDept(), TKUtils.getCurrentDate());
+		this.department = this.workAreaObj.getDept();
 	}
 	public String getDepartment() {
 		return department;

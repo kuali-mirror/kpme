@@ -101,7 +101,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			Calendar payCal = TkServiceLocator.getCalendarSerivce().getCalendarByGroup(pc);
 			CalendarEntries pce = TkServiceLocator
 					.getCalendarEntriesSerivce().getCurrentCalendarEntriesByCalendarId(
-							payCal.getHrCalendarId(), currentDate);
+                            payCal.getHrCalendarId(), currentDate);
 			pceMap.put(payCal.getCalendarName(), pce);
 		}
 
@@ -169,7 +169,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			CalendarEntries pce = TkServiceLocator
 					.getCalendarEntriesSerivce()
 					.getCurrentCalendarEntriesByCalendarId(
-							payCal.getHrCalendarId(), currentDate);
+                            payCal.getHrCalendarId(), currentDate);
 			pceMap.put(payCal.getCalendarName(), pce);
 		}
 
@@ -240,7 +240,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			// TimesheetDocumentHeader tdh =
 			// TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId,
 			// payBeginDate, payEndDate);
-		
+
 			Person person = KIMServiceLocator.getPersonService().getPerson(
 					principalId);
 			CalendarEntries payCalendarEntry = TkServiceLocator
@@ -257,16 +257,16 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			if (StringUtils.isNotBlank(documentId)) {
 				TimesheetDocument td = TkServiceLocator.getTimesheetService()
 						.getTimesheetDocument(tdh.getDocumentId());
-				if (principalDocumentHeader.containsKey(principalId)) {
-					approvalSummaryRow
-							.setApprovalStatus(TkConstants.DOC_ROUTE_STATUS.get(tdh
-									.getDocumentStatus()));
-				
+			if (principalDocumentHeader.containsKey(principalId)) {
+				approvalSummaryRow
+						.setApprovalStatus(TkConstants.DOC_ROUTE_STATUS.get(tdh
+								.getDocumentStatus()));
+
 					TimeSummary ts = TkServiceLocator.getTimeSummaryService()
 							.getTimeSummary(td);
 					approvalSummaryRow.setTimeSummary(ts);
-				}
-				
+			}
+			
 				timeBlocks = TkServiceLocator.getTimeBlockService()
 						.getTimeBlocks(Long.parseLong(documentId));
 				notes = this.getNotesForDocument(documentId);
@@ -535,7 +535,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		List<BigDecimal> dayTotals = new ArrayList<BigDecimal>();
 		CalendarEntries payCalendarEntry = TkServiceLocator
 				.getCalendarSerivce().getCalendarDatesByPayEndDate(
-						principalId, payEndDate);
+                        principalId, payEndDate);
 		// TODO: we should just pass in the timeblocks instead of calling
 		// TkTimeBlockAggregate twice..
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(
@@ -711,7 +711,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				payEndDate);
 		return principalIds;
 	}
-
+	
 	private static final String GET_PRINCIPAL_ID_SQL_PRE = "SELECT DISTINCT P.principal_id FROM hr_principal_attributes_t P, tk_assignment_t T WHERE P.pay_calendar = ? AND P.principal_id in ("
 			+ "SELECT DISTINCT A0.principal_id "
 			+ "FROM tk_assignment_t A0 "
@@ -782,13 +782,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				+ "				    ON (W0.WORK_AREA = R0.WORK_AREA) " 		 
 				+ " 		WHERE "
 	            + " 			((A0.ACTIVE='Y'AND A0.TIMESTAMP = (SELECT MAX(C0.TIMESTAMP) FROM "
-				+ "             TK_ASSIGNMENT_T C0 WHERE C0.PRINCIPAL_ID = A0.PRINCIPAL_ID AND C0.EFFDT <= ?)) " 
+				+ "             TK_ASSIGNMENT_T C0 WHERE C0.PRINCIPAL_ID = A0.PRINCIPAL_ID AND C0.EFFDT <= ?)) "
 				+ "				OR (A0.ACTIVE='N' AND A0.EFFDT>=? AND A0.EFFDT<=?)) AND "
 				+ "				W0.DEPT=? AND "
 	            + "				R0.PRINCIPAL_ID=? AND "
 	            + "				R0.ACTIVE='Y' AND "
 	            + " 			(R0.DEPT IS NULL OR R0.DEPT = ?)";
-
+		
 		if (department == null || department.isEmpty()) {
 			return new LinkedHashSet<String>();
 		} else {
@@ -805,10 +805,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 								endDate, department, TKContext.getUser().getPrincipalId(), department, workArea},
 						new int[] { java.sql.Types.VARCHAR,
 								java.sql.Types.DATE,
-								java.sql.Types.DATE,
 								java.sql.Types.DATE, 
-								java.sql.Types.VARCHAR, 
+								java.sql.Types.DATE, 
 								java.sql.Types.VARCHAR,
+								java.sql.Types.VARCHAR, 
 								java.sql.Types.VARCHAR,
 								java.sql.Types.INTEGER});
 			} else {
@@ -822,7 +822,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 								new int[] { java.sql.Types.VARCHAR,
 										java.sql.Types.DATE,
 										java.sql.Types.DATE,
-										java.sql.Types.DATE,
+										java.sql.Types.DATE, 
 										java.sql.Types.VARCHAR,
 										java.sql.Types.VARCHAR,
 										java.sql.Types.VARCHAR });
@@ -835,7 +835,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			return principalIds;
 		}
 	}
-
+	
 	@Override
 	public Map<String, TimesheetDocumentHeader> getPrincipalDocumehtHeader(
 			List<String> principalIds, Date payBeginDate, Date payEndDate) {

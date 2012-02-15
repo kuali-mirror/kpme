@@ -10,6 +10,14 @@
 <html:hidden styleId="pceid" property="hrPyCalendarEntriesId" value="${Form.hrPyCalendarEntriesId}"/>
 <html:hidden styleId="payBeginDateForSearch" property="payBeginDateForSearch" value="${Form.payBeginDateForSearch}"/>
 <html:hidden styleId="payEndDateForSearch" property="payEndDateForSearch" value="${Form.payEndDateForSearch}"/>
+<html:hidden property="prevPayCalendarId" value="${Form.prevPayCalendarId}"/>
+<html:hidden property="nextPayCalendarId" value="${Form.nextPayCalendarId}"/>
+
+
+<script src="js/underscore-1.3.1.min.js"></script>
+<script src="js/underscore.string-2.0.0.js"></script>
+<script src="js/backbone-0.9.1.min.js"></script>
+<script src="js/tk.approval.backbone.js"></script>
 
 <div class="approvals">
 <table id="approvals-filter">
@@ -111,8 +119,9 @@
     </c:if>
 </table>
 
-<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do?methodToCall=loadApprovalTab" excludedParams="*" pagesize="20" id="row"
-               class="approvals-table" partialList="true" size="${Form.resultSize}" sort="page" defaultsort="0" >
+<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do?methodToCall=loadApprovalTab" excludedParams="*"
+               pagesize="20" id="row"
+               class="approvals-table" partialList="true" size="${Form.resultSize}" sort="page" defaultsort="0">
     <c:set var="nameStyle" value=""/>
     <c:if test="${row.clockedInOverThreshold}">
         <c:set var="nameStyle" value="background-color: #F08080;"/>
@@ -120,7 +129,8 @@
     <display:column title="Principal Name" sortable="true" sortName="principalName" style="${nameStyle}">
         <c:if test="${row.periodTotal > 0}">
             <div class="ui-state-default ui-corner-all" style="float:left;">
-                <span id="showDetailButton_${row_rowNum-1}" class="ui-icon ui-icon-plus rowInfo"></span>
+                    <%--<span id="showDetailButton_${row_rowNum-1}" class="ui-icon ui-icon-plus rowInfo"></span>--%>
+                <span id="showDetailButton_${row.documentId}" class="ui-icon ui-icon-plus rowInfo"></span>
             </div>
         </c:if>
         <a href="Admin.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a> (${row.principalId})
@@ -216,11 +226,8 @@
                     class="last_column_${row_rowNum}">
         <html:checkbox property="approvalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}"
                        styleClass="selectedEmpl"/>
-        <div class="hourDetails">
-            <tr style="display:none;" class="timeSummaryRow_${row_rowNum-1}">
-                <td class="rowCount"><tk:timeSummary timeSummary="${row.timeSummary}"/></td>
-            </tr>
-        </div>
+        <%-- This is where we will insert the hour details --%>
+        <div id="hourDetails_${row.documentId}" style="display: none;"></div>
     </display:column>
 </display:table>
 
@@ -228,7 +235,8 @@
     <div id="approvals-approve-button">
         <input type="submit" class="approve" value="Approve" name="Approve"
                onclick="this.form.methodToCall.value='approve'; this.form.submit();"/>
-        <input type="button" id='refresh' value="Refresh Status" class="ui-button ui-widget ui-state-default ui-corner-all"/>
+        <input type="button" id='refresh' value="Refresh Status"
+               class="ui-button ui-widget ui-state-default ui-corner-all"/>
     </div>
 
 </c:if>
@@ -237,3 +245,33 @@
 </html:form>
 
 </tk:tkHeader>
+
+
+<%-- Hour detail template --%>
+<script type="text/template" id="hourDetail-template">
+    <tr class="hourDetailRow_<@= docId @>">
+        <td colspan="3"><@= section.earnCode @>: <@= section.desc @></td>
+    </tr>
+    <@ _.each(section.assignmentRows, function(assignmentRow) { @>
+        <tr class="hourDetailRow_<@= docId @>">
+            <td colspan="3" class="<@= assignmentRow.cssClass @>"><b><@= assignmentRow.descr @></b></td>
+            <@ if (!assignmentRow.isAmountEarnCode) { @>
+                <@ _.each(assignmentRow.total, function(tot) { @>
+                    <td><@= tot == 0 ? "" : tot.toFixed(2) @></td>
+                <@ }); @>
+            <@ } else { @>
+                <@ _.each(assignmentRow.amount, function(amount) { @>
+                    <td><@= amount == 0 ? "" : amount.toFixed(2) @></td>
+                <@ }); @>
+            <@ } @>
+        </tr>
+    <@ }); @>
+    <@ if (isLast) { @>
+    <tr class="hourDetailRow_<@= docId @>">
+        <td colspan="3"><@= section.earnGroup @></td>
+        <@ _.each(section.totals, function(total) { @>
+            <td><@= total == 0 ? "" : total.toFixed(2) @></td>
+        <@ }); @>
+    </tr>
+    <@ } @>
+</script>

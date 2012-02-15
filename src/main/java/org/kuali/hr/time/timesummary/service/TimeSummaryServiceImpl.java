@@ -1,13 +1,5 @@
 package org.kuali.hr.time.timesummary.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDateTime;
@@ -31,16 +23,14 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
+import java.math.BigDecimal;
+import java.util.*;
+
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
 
     @Override
 	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument) {
-		return this.getTimeSummary(timesheetDocument, timesheetDocument.getTimeBlocks());
-	}
-
-    @Override
-	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument, List<TimeBlock> timeBlocks) {
 		TimeSummary timeSummary = new TimeSummary();
 
 		if(timesheetDocument.getTimeBlocks() == null) {
@@ -50,7 +40,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         List<Boolean> dayArrangements = new ArrayList<Boolean>();
 
 		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getPayCalendarEntry(), dayArrangements));
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, timesheetDocument.getPayCalendarEntry(), TkServiceLocator.getCalendarSerivce().getCalendar(timesheetDocument.getPayCalendarEntry().getHrCalendarId()), true);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getPayCalendarEntry(), TkServiceLocator.getCalendarSerivce().getCalendar(timesheetDocument.getPayCalendarEntry().getHrCalendarId()), true);
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
 
         List<EarnGroupSection> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getSummaryHeader().size()+1, dayArrangements, timesheetDocument.getAsOfDate());
@@ -265,7 +255,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         List<String> header = new ArrayList<String>();
 
         // Maps directly to joda time day of week constants.
-        int flsaBeginDay = this.getCalendarForEntry(cal).getFlsaBeginDayConstant();
+        int flsaBeginDay = this.getPayCalendarForEntry(cal).getFlsaBeginDayConstant();
         boolean virtualDays = false;
         LocalDateTime startDate = cal.getBeginLocalDateTime();
         LocalDateTime endDate = cal.getEndLocalDateTime();
@@ -333,7 +323,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @param calEntry Calendar entry we are using for lookup.
      * @return The PayCalendar that owns the provided entry.
      */
-    private Calendar getCalendarForEntry(CalendarEntries calEntry) {
+    private Calendar getPayCalendarForEntry(CalendarEntries calEntry) {
         Calendar cal = null;
 
         if (calEntry != null) {

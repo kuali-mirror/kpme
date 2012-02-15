@@ -3,9 +3,9 @@
 
 
 <tk:tkHeader tabId="timeDetail">
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.2.2/underscore-min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.string/1.1.6/underscore.string.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min.js"></script>
+    <script src="js/underscore-1.3.1.min.js"></script>
+    <script src="js/underscore.string-2.0.0.js"></script>
+    <script src="js/backbone-0.9.1.min.js"></script>
     <script src="js/tk.calendar.backbone.js"></script>
     <script src="js/tk.ui.js"></script>
 
@@ -69,6 +69,7 @@
                 <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
                 <html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
                 <html:hidden property="tkTimeBlockId" value="" styleId="tkTimeBlockId"/>
+                <html:hidden property="lunchDeleted" value="" styleId="lunchDeleted"/>
 
                 <div class="ui-widget timesheet-panel" id="timesheet-panel">
                     <table>
@@ -136,9 +137,10 @@
                         </tr>
                         <tr>
                             <td></td>
-                            <td><input type="checkbox" id="acrossDays" value="n"
-                                       title="Check time if you want to cross days" checked="checked"/><label for="acrossDays">Apply
-                                time to each day</label></td>
+                            <td>
+                                <input type="checkbox" name="acrossDays" id="acrossDays" value="n" title="Check time if you want to cross days" checked="checked"/>
+                                <label for="acrossDays">Apply time to each day</label>
+                            </td>
                         </tr>
                     </table>
                 </div>
