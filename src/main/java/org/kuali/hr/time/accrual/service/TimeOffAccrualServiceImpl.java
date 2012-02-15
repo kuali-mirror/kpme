@@ -108,6 +108,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
         	 if(!accruals.contains(accrualCategory.getAccrualCategory())){
         		Map<String, Object> accrualData = new LinkedHashMap<String, Object>();
      			accrualData.put(ACCRUAL_CATEGORY_KEY, accrualCategory.getAccrualCategory());
+     			accrualData.put(YEARLY_CARRYOVER_KEY, new BigDecimal(0.00));
      			accrualData.put(HOURS_ACCRUED_KEY, new BigDecimal(0.00));
      			accrualData.put(HOURS_TAKEN_KEY, new BigDecimal(0.00));
      			accrualData.put(HOURS_ADJUST_KEY, new BigDecimal(0.00));
