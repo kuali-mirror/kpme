@@ -39,6 +39,7 @@
 			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="accrualCategory" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="yearlyCarryover" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="hoursAccrued" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="hoursTaken" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="hoursAdjust" p:required="true" />

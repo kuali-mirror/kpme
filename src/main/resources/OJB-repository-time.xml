@@ -456,6 +456,7 @@
 		<field-descriptor name="lmAccrualId" column="lm_accruals_id" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_accruals_s"/>
 		<field-descriptor name="principalId" column="principal_id" jdbc-type="VARCHAR" length="21" nullable="false"/>
 		<field-descriptor name="accrualCategory" column="accrual_category" jdbc-type="VARCHAR" length="3" nullable="false"/>
+		<field-descriptor name="yearlyCarryover" column="yearly_carryover" jdbc-type="NUMERIC" nullable="false"/>
 		<field-descriptor name="hoursAccrued" column="hours_accrued" jdbc-type="NUMERIC" nullable="false"/>
 		<field-descriptor name="hoursTaken" column="hours_taken" jdbc-type="NUMERIC" nullable="false"/>
 		<field-descriptor name="hoursAdjust" column="hours_adjust" jdbc-type="NUMERIC" nullable="false"/>

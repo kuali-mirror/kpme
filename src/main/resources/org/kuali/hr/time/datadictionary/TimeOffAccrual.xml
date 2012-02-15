@@ -21,6 +21,7 @@
 				<ref bean="TimeOffAccrual-principalId" />
 				<ref bean="TimeOffAccrual-accrualCategory" />
 				<ref bean="TimeOffAccrual-effectiveDate" />
+				<ref bean="TimeOffAccrual-yearlyCarryover" />
 				<ref bean="TimeOffAccrual-hoursAccrued" />
 				<ref bean="TimeOffAccrual-hoursTaken" />
 				<ref bean="TimeOffAccrual-hoursAdjust" />
@@ -100,6 +101,24 @@
 		<property name="name" value="effectiveDate" />
 		<property name="label" value="Effective Date" />
 	</bean>
+	
+	<bean id="TimeOffAccrual-yearlyCarryover" parent="TimeOffAccrual-yearlyCarryover-parentBean" />
+	<bean id="TimeOffAccrual-yearlyCarryover-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Yearly Carrover" />
+		<property name="maxLength" value="8" />
+		<property name="validationPattern">
+			<bean parent="RegexValidationPattern">
+ 		   		<property name="pattern" value="((\+|-)?([0-9]{1,4}(\.[0-9]{1,2})?))()"></property>
+ 		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
+ 			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="8" />
+		</property>
+		<property name="name" value="yearlyCarryover" />
+		<property name="label" value="Yearly Carryover" />
+	</bean>	
 
 	<bean id="TimeOffAccrual-hoursAccrued" parent="TimeOffAccrual-hoursAccrued-parentBean" />
 	<bean id="TimeOffAccrual-hoursAccrued-parentBean" abstract="true"
@@ -178,6 +197,7 @@
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="principalId" />
 							<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+							<bean parent="FieldDefinition" p:attributeName="yearlyCarryover" />
 							<bean parent="FieldDefinition" p:attributeName="hoursAccrued" />
 							<bean parent="FieldDefinition" p:attributeName="hoursTaken" />
 							<bean parent="FieldDefinition" p:attributeName="hoursAdjust" />
@@ -209,6 +229,7 @@
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="yearlyCarryover" />
 				<bean parent="FieldDefinition" p:attributeName="hoursAccrued" />
 				<bean parent="FieldDefinition" p:attributeName="hoursTaken" />
 				<bean parent="FieldDefinition" p:attributeName="hoursAdjust" />
