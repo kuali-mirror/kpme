@@ -1,5 +1,9 @@
 package org.kuali.hr.time.workarea.web;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
@@ -16,9 +20,6 @@ import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-
-import java.sql.Date;
-import java.util.List;
 
 public class WorkAreaMaintenanceDocumentRule extends
 		MaintenanceDocumentRuleBase {
@@ -134,8 +135,9 @@ public class WorkAreaMaintenanceDocumentRule extends
 				valid &= validateDefaultOTEarnCode(wa.getDefaultOvertimeEarnCode(),
 						wa.getEffectiveDate());
 			}
-			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(wa.getWorkArea(), TKUtils.getCurrentDate());
+			
 			if(!wa.isActive()){
+				List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(wa.getWorkArea(), TKUtils.getCurrentDate());
 				for(Assignment assignment: assignments){
 					if(assignment.getWorkArea().equals(wa.getWorkArea())){
 						this.putGlobalError("workarea.active.required");
@@ -144,16 +146,25 @@ public class WorkAreaMaintenanceDocumentRule extends
 					}
 				}
 			}else{
-				for (Assignment assignment : assignments) {
-					for (Task task : wa.getTasks()) {
-						if (task.getTask().equals(assignment.getTask())
-								&& !task.isActive()) {
-							this.putGlobalError("task.active.required", task
-									.getTask().toString());
-							valid = false;
+				List<Long> inactiveTasks = new ArrayList<Long>();
+				for (Task task : wa.getTasks()) {
+					if(!task.isActive()){
+						inactiveTasks.add(task.getTask());
+					}
+				}
+				
+				if(!inactiveTasks.isEmpty()){
+					List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(wa.getWorkArea(), TKUtils.getCurrentDate());
+					for(Assignment assignment : assignments){
+						for(Long inactiveTask : inactiveTasks){
+							if(inactiveTask.equals(assignment.getTask())){
+								this.putGlobalError("task.active.required", inactiveTask.toString());
+								valid = false;
+							}
 						}
 					}
 				}
+				
 			}
 		}
 
