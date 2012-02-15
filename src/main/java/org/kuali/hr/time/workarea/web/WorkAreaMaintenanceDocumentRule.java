@@ -137,7 +137,7 @@ public class WorkAreaMaintenanceDocumentRule extends
 			}
 			
 			if(!wa.isActive()){
-				List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(wa.getWorkArea(), TKUtils.getCurrentDate());
+				List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(wa.getWorkArea(), wa.getEffectiveDate());
 				for(Assignment assignment: assignments){
 					if(assignment.getWorkArea().equals(wa.getWorkArea())){
 						this.putGlobalError("workarea.active.required");
@@ -154,7 +154,7 @@ public class WorkAreaMaintenanceDocumentRule extends
 				}
 				
 				if(!inactiveTasks.isEmpty()){
-					List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(wa.getWorkArea(), TKUtils.getCurrentDate());
+					List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(wa.getWorkArea(), wa.getEffectiveDate());
 					for(Assignment assignment : assignments){
 						for(Long inactiveTask : inactiveTasks){
 							if(inactiveTask.equals(assignment.getTask())){
