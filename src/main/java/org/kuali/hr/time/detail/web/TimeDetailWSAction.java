@@ -21,7 +21,10 @@ import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class TimeDetailWSAction extends TimesheetAction {
 
@@ -81,13 +84,8 @@ public class TimeDetailWSAction extends TimesheetAction {
                         assignment.getTask().compareTo(key.getTask()) == 0) {
                     List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, tdaf.getTimesheetDocument().getAsOfDate());
                     for (EarnCode earnCode : earnCodes) {
-                        // TODO: minimize / compress the crazy if logics below
-                        if (earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)
-                                && !(TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().getCurrentRoles().isTimesheetApprover())) {
-                            continue;
-                        }
-                        if (!(assignment.getTimeCollectionRule().isClockUserFl() &&
-                                StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(), earnCode.getEarnCode()) && StringUtils.equals(TKContext.getPrincipalId(), assignment.getPrincipalId()))) {
+
+                        if (shouldAddEarnCode(assignment, earnCode, tdaf.getTimeBlockReadOnly())) {
                             Map<String, Object> earnCodeMap = new HashMap<String, Object>();
                             earnCodeMap.put("assignment", assignment.getAssignmentKey());
                             earnCodeMap.put("earnCode", earnCode.getEarnCode());
@@ -103,6 +101,25 @@ public class TimeDetailWSAction extends TimesheetAction {
         LOG.info(tdaf.toString());
         tdaf.setOutputString(JSONValue.toJSONString(earnCodeList));
         return mapping.findForward("ws");
+    }
+
+    private boolean shouldAddEarnCode(Assignment assignment, EarnCode earnCode, boolean isTimeBlockReadOnly) {
+
+        Boolean shouldAddEarnCode;
+
+        shouldAddEarnCode = earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)
+                && !(TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().getCurrentRoles().isTimesheetApprover());
+
+        shouldAddEarnCode |= !(assignment.getTimeCollectionRule().isClockUserFl() &&
+                StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(), earnCode.getEarnCode()) &&
+                StringUtils.equals(TKContext.getPrincipalId(), assignment.getPrincipalId()));
+
+        // If the timeblock is readonly (happens when a sync user is editing a sync timeblock) and the earn code is RGH,
+        // it should still add the RGH earn code.
+        shouldAddEarnCode |= isTimeBlockReadOnly;
+
+        return shouldAddEarnCode;
+
     }
 
     public ActionForward getOvertimeEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

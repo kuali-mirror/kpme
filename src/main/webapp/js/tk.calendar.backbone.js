@@ -312,8 +312,14 @@ $(function () {
             // Here we want to fire the ajax call first to grab the earn codes.
             // After that is done, we fill out the form and make the entry field show / hide based on the earn code type.
             var dfd = $.Deferred();
-            // Fill in the values. See the note above regarding why we didn't use a template
-            dfd.done(this.fetchEarnCode(timeBlock.get("assignment")))
+
+            // https://uisapp2.iu.edu/jira-prd/browse/TK-1577
+            // A sync user can't change the RGH earncode on a sync timeblock but there is a special case.
+            // When the timeblock is readonly, which means the user can only change the assignment,
+            // the user should be able to _see_ the RGH earn code.
+            var isTimeBlockReadOnly = timeBlock.get("canEditTBAssgOnly") ? true : false;
+
+            dfd.done(this.fetchEarnCode(timeBlock.get("assignment"), isTimeBlockReadOnly))
                     .done($("#selectedEarnCode option[value='" + timeBlock.get("earnCode") + "']").attr("selected", "selected"))
                     .done(this.showFieldByEarnCodeType())
                     .done(_(timeBlock).fillInForm())
@@ -356,6 +362,8 @@ $(function () {
             if (e.get("canEditTBAssgOnly")) {
                 // Make everything read only except the assignment
                 $("input, select", $("#timesheet-panel")).attr("disabled", true);
+                // hide the date picker
+                $(".ui-datepicker-trigger").hide();
                 $("#selectedAssignment", $("#timesheet-panel")).attr("disabled", false);
 
                 // Unbind the change events.
@@ -385,7 +393,10 @@ $(function () {
         },
 
 
-        fetchEarnCode : function (e) {
+        fetchEarnCode : function (e, isTimeBlockReadOnly) {
+
+            isTimeBlockReadOnly = _.isUndefined(isTimeBlockReadOnly) ? false : isTimeBlockReadOnly;
+
             // When the method is called with a passed in value, the assignment is whatever that value is;
             // If the method is called WITHOUT a passed in value, the assignment is an event.
             // We want to be able to use this method in creating and editing timeblocks.
@@ -399,7 +410,8 @@ $(function () {
                 // Make the ajax call not async to be able to mark the earn code selected
                 async : false,
                 data : {
-                    selectedAssignment : assignment
+                    selectedAssignment : assignment,
+                    timeBlockReadOnly : isTimeBlockReadOnly
                 }
             });
         },
@@ -631,6 +643,9 @@ $(function () {
             // when the user can only change the assignment on the timeblock.
             // Reset the events by calling the built-in delegateEvents function.
             this.delegateEvents(this.events);
+
+            // show date pickers
+            $(".ui-datepicker-trigger").show();
         },
         /**
          * Reset the values on the givin fields.
