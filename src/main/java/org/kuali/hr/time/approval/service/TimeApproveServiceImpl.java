@@ -149,16 +149,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 					principals.add(assignment.getPrincipalId());
 				}
 			}
-			// else {
-			// assignments =
-			// TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(waNum,
-			// windowDate);
-			// if (assignments != null) {
-			// for (Assignment assignment : assignments) {
-			// principals.add(assignment.getPrincipalId());
-			// }
-			// }
-			// }
 		}
 
 		// Get the pay calendars
@@ -221,13 +211,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				}
 			}
 		}
-
-		// Handle the situation where pay calendar is null. This shouldn't
-		// happen but just in case.
-		// if (pcg.size() == 0) {
-		// throw new RuntimeException("Pay calendar group is null");
-		// }
-
 		return pcg;
 	}
 
@@ -264,19 +247,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 								.getDocumentStatus()));
 			}
 			
-			
 			if (StringUtils.isNotBlank(documentId)) {
-			/*TimesheetDocument td = TkServiceLocator.getTimesheetService()
-						.getTimesheetDocument(tdh.getDocumentId());*/
-				 
 				timeBlocks = TkServiceLocator.getTimeBlockService()
 						.getTimeBlocks(Long.parseLong(documentId));
 				notes = this.getNotesForDocument(documentId);
 				warnings = TkServiceLocator.getWarningService().getWarnings(person.getPrincipalId(), timeBlocks, (java.sql.Date)tdh.getPayBeginDate());
-				
-			/*	TimeSummary ts = TkServiceLocator.getTimeSummaryService()
-				.getTimeSummary(td);
-				approvalSummaryRow.setTimeSummary(ts);*/
 			}
 
 			
@@ -319,7 +294,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			}
 			rows.add(approvalSummaryRow);
 		}
-		Collections.sort(rows);
 		return rows;
 	}
 
@@ -641,13 +615,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 		return pyGroups;
 	}
-
-	// public List<String> getPrincipalIdsByAssignment(Set<Long> workAreas,
-	// java.sql.Date payEndDate, String calGroup, Integer start, Integer end) {
-	// Set<String> list = getPrincipalIdsByWorkAreas(workAreas, payEndDate,
-	// calGroup);
-	// return list.subList(start, end);
-	// }
 
 	@CacheResult
 	/**
