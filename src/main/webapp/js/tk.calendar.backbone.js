@@ -95,7 +95,7 @@ $(function () {
      * ====================
      */
 
-        // create a timeblock view
+    // create a timeblock view
     var TimeBlockView = Backbone.View.extend({
         // Set the element that our dialog form wants to bind to. This setting is necessary.
         el : $("body"),
@@ -762,14 +762,14 @@ $(function () {
     /**
      * Make the calendar cell selectable
      */
-        // When making a mouse selection, it creates a "lasso" effect which we want to get rid of.
-        // In the future version of jQuery UI, lasso is going to one of the options where it can be enabled / disabled.
-        // For now, the way to disable it is to modify the css.
-        //
-        // .ui-selectable-helper { border:none; }
-        //
-        // This discussion thread on stackoverflow was helpful:
-        // http://bit.ly/fvRW4X
+    // When making a mouse selection, it creates a "lasso" effect which we want to get rid of.
+    // In the future version of jQuery UI, lasso is going to one of the options where it can be enabled / disabled.
+    // For now, the way to disable it is to modify the css.
+    //
+    // .ui-selectable-helper { border:none; }
+    //
+    // This discussion thread on stackoverflow was helpful:
+    // http://bit.ly/fvRW4X
 
     var selectedDays = [];
     var selectingDays = [];
@@ -802,6 +802,13 @@ $(function () {
             endDay = Date.parse(endDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
 
             app.showTimeEntryDialog(startDay, endDay);
+
+            // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
+            if ($("#selectedAssignment").is("input")) {
+                var dfd = $.Deferred();
+                dfd.done(app.fetchEarnCode(_(app).getSelectedAssignmentValue()))
+                        .done(app.showFieldByEarnCodeType());
+            }
 
             selectedDays = [];
         }
