@@ -12,7 +12,8 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 	boolean validateEffectiveDate(Date effectiveDate) {
 		boolean valid = true;
 		if (effectiveDate != null && !ValidationUtils.validateOneYearFutureDate(effectiveDate)) {
-			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date '"+ effectiveDate + "'");
+			//this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date '"+ effectiveDate + "'");
+			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
 			valid = false;
 		}
 		return valid;
@@ -59,10 +60,12 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 	
 	boolean validateDefaultAmountOfTime(Long defaultAmountofTime) {
 		boolean valid = true;
-		if (defaultAmountofTime.compareTo(new Long(24)) > 0  || defaultAmountofTime.compareTo(new Long(0)) < 0) {
-			this.putFieldError("defaultAmountofTime", "error.leaveCode.hours", "Default Amount of Time '"
-					+ defaultAmountofTime + "'");
-			valid = false;
+		if ( defaultAmountofTime != null ){
+			if (defaultAmountofTime.compareTo(new Long(24)) > 0  || defaultAmountofTime.compareTo(new Long(0)) < 0) {
+				this.putFieldError("defaultAmountofTime", "error.leaveCode.hours", "Default Amount of Time '"
+						+ defaultAmountofTime + "'");
+				valid = false;
+			}
 		}
 		return valid;
 	}
