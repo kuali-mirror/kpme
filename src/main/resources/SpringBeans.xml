@@ -66,7 +66,10 @@
         <property name="password" value="${kr.datasource.password}"/>
     </bean>
 
-
+	<bean name="riceJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="enWorkflowDataSource"/>
+	</bean>
+	
     <bean id="nonTransDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${tk.datasource.driver.name}"/>
         <property name="maxWait" value="30000"/>
@@ -425,6 +428,10 @@
     <bean id="payGradeDao" class="org.kuali.hr.paygrade.dao.PayGradeDaoSpringObjImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
+    
+    <bean id="tkPersonDao" class="org.kuali.hr.time.person.dao.PersonDaoSpringOjbImpl">
+        <property name="jcdAlias" value="enWorkflowDataSource"/>
+    </bean>
 
     <bean id="batchJobDao" class="org.kuali.hr.time.batch.dao.BatchJobDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
@@ -618,6 +625,10 @@
 
     <bean id="payGradeService" class="org.kuali.hr.paygrade.service.PayGradeServiceImpl">
         <property name="payGradeDao" ref="payGradeDao"/>
+    </bean>
+    
+    <bean id="tkPersonService" class="org.kuali.hr.time.person.service.PersonServiceImpl">
+        <property name="personDao" ref="tkPersonDao"/>
     </bean>
 
     <bean id="batchJobService" class="org.kuali.hr.time.batch.service.BatchJobServiceImpl">

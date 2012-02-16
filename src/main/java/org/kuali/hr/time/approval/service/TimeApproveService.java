@@ -1,18 +1,23 @@
 package org.kuali.hr.time.approval.service;
 
-import com.google.common.collect.Multimap;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
 
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 
-import java.math.BigDecimal;
-import java.util.*;
+import com.google.common.collect.Multimap;
 
 
 public interface TimeApproveService {
@@ -26,7 +31,7 @@ public interface TimeApproveService {
      * @param calGroup Specify a calendar group to filter by.
      * @return A Map<String, List<ApprovalTimeSummaryRow>> container.
      */
-	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds, List<String> payCalendarLabels, PayCalendarEntries payCalendarEntries);
+	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<TKPerson> principalIds, List<String> payCalendarLabels, PayCalendarEntries payCalendarEntries);
 
 //	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds);
 
@@ -84,7 +89,7 @@ public interface TimeApproveService {
      * @param calGroup
      * @return A list of the PrincipalIds
      */
-    Set<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
+    List<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
     
     /**
      * Method to get a list of principal ids based on the work areas.
@@ -94,7 +99,7 @@ public interface TimeApproveService {
      * @param calGroup
      * @return A list of the PrincipalIds
      */
-    Set<String> getPrincipalIdsByDeptAndWorkArea(String department, String WorkArea, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
+    List<String> getPrincipalIdsByDeptAndWorkArea(String department, String WorkArea, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
     
     Map<String, String> getPrincipalIdsByDepartmentList(List<String> departments, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
 
@@ -106,7 +111,7 @@ public interface TimeApproveService {
      * @param payEndDate
      * @return A PrincipalId to TimesheetDocumentHeader mapping.
      */
-    Map<String, TimesheetDocumentHeader> getPrincipalDocumehtHeader(List<String> principalIds, Date payBeginDate, Date payEndDate);
+    Map<String, TimesheetDocumentHeader> getPrincipalDocumehtHeader(List<TKPerson> person, Date payBeginDate, Date payEndDate);
 
     /**
      * Method to create a map of the depts and their associated work areas based on the given approver work areas.

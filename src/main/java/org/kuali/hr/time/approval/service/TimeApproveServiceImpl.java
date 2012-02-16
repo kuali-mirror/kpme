@@ -35,6 +35,7 @@ import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
+import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -48,9 +49,7 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.notes.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.bo.DocumentHeader;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.google.common.collect.HashMultimap;
@@ -236,33 +235,30 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@Override
 	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(
 			Date payBeginDate, Date payEndDate, String calGroup,
-			List<String> principalIds, List<String> payCalendarLabels, PayCalendarEntries payCalendarEntries) {
+			List<TKPerson> persons, List<String> payCalendarLabels, PayCalendarEntries payCalendarEntries) {
 		List<ApprovalTimeSummaryRow> rows = new LinkedList<ApprovalTimeSummaryRow>();
 		Map<String, TimesheetDocumentHeader> principalDocumentHeader = getPrincipalDocumehtHeader(
-				principalIds, payBeginDate, payEndDate);
+				persons, payBeginDate, payEndDate);
 
 		PayCalendar payCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendar(payCalendarEntries.getHrPyCalendarId());
 		DateTimeZone dateTimeZone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
 		List<Interval> dayIntervals = TKUtils.getDaySpanForPayCalendarEntry(payCalendarEntries);
 		
-		for (String principalId : principalIds) {
+		for (TKPerson person : persons) {
 			TimesheetDocumentHeader tdh = new TimesheetDocumentHeader();
 			String documentId = "";
-			if (principalDocumentHeader.containsKey(principalId)) {
-				tdh = principalDocumentHeader.get(principalId);
-				documentId = principalDocumentHeader.get(principalId)
+			if (principalDocumentHeader.containsKey(person.getPrincipalId())) {
+				tdh = principalDocumentHeader.get(person.getPrincipalId());
+				documentId = principalDocumentHeader.get(person.getPrincipalId())
 						.getDocumentId();
 			}
 			List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 			List notes = new ArrayList();
 			List<String> warnings = new ArrayList<String>();
 			
-			Person person = KIMServiceLocator.getPersonService().getPerson(
-					principalId);
-
 			ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
 			
-			if (principalDocumentHeader.containsKey(principalId)) {
+			if (principalDocumentHeader.containsKey(person.getPrincipalId())) {
 				approvalSummaryRow
 						.setApprovalStatus(TkConstants.DOC_ROUTE_STATUS.get(tdh
 								.getDocumentStatus()));
@@ -276,7 +272,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				timeBlocks = TkServiceLocator.getTimeBlockService()
 						.getTimeBlocks(Long.parseLong(documentId));
 				notes = this.getNotesForDocument(documentId);
-				warnings = TkServiceLocator.getWarningService().getWarnings(principalId, timeBlocks, (java.sql.Date)tdh.getPayBeginDate());
+				warnings = TkServiceLocator.getWarningService().getWarnings(person.getPrincipalId(), timeBlocks, (java.sql.Date)tdh.getPayBeginDate());
 				
 			/*	TimeSummary ts = TkServiceLocator.getTimeSummaryService()
 				.getTimeSummary(td);
@@ -285,10 +281,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 			
 			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
-					principalId, payEndDate, payCalendarLabels, timeBlocks, null, payCalendarEntries, payCalendar, dateTimeZone, dayIntervals);
+					person.getPrincipalId(), payEndDate, payCalendarLabels, timeBlocks, null, payCalendarEntries, payCalendar, dateTimeZone, dayIntervals);
 			
-			approvalSummaryRow.setName(person.getName());
-			approvalSummaryRow.setPrincipalId(principalId);
+			approvalSummaryRow.setName(person.getPrincipalName());
+			approvalSummaryRow.setPrincipalId(person.getPrincipalId());
 			approvalSummaryRow.setPayCalendarGroup(calGroup);
 			approvalSummaryRow.setDocumentId(documentId);
 			approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
@@ -300,7 +296,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			// Compare last clock log versus now and if > threshold
 			// highlight entry
 			ClockLog lastClockLog = TkServiceLocator.getClockLogService()
-					.getLastClockLog(principalId);
+					.getLastClockLog(person.getPrincipalId());
 			approvalSummaryRow
 					.setClockStatusMessage(createLabelForLastClockLog(lastClockLog));
 			if (lastClockLog != null
@@ -685,19 +681,19 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	}
 
 	@Override
-	public Set<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas,
+	public List<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas,
 			java.sql.Date payBeginDate, java.sql.Date payEndDate,
 			String calGroup) {
-		Set<String> principalIds = getPrincipalIdsWithActiveAssignmentsForCalendarGroup(
+		List<String> principalIds = getPrincipalIdsWithActiveAssignmentsForCalendarGroup(
 				workAreas, calGroup, payEndDate, payBeginDate, payEndDate);
 		return principalIds;
 	}
 
 	@Override
-	public Set<String> getPrincipalIdsByDeptAndWorkArea(String department,
+	public List<String> getPrincipalIdsByDeptAndWorkArea(String department,
 			String workArea, java.sql.Date payBeginDate,
 			java.sql.Date payEndDate, String calGroup) {
-		Set<String> principalIds = getPrincipalIdsWithActiveAssignmentsForCalendarGroupByDeptAndWorkArea(
+		List<String> principalIds = getPrincipalIdsWithActiveAssignmentsForCalendarGroupByDeptAndWorkArea(
 				department, workArea, calGroup, payEndDate, payBeginDate,
 				payEndDate);
 		return principalIds;
@@ -730,14 +726,14 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			+ " AND exists (select C0.principal_id from tk_assignment_t C0 where C0.principal_id = A0.principal_id and C0.job_number = A0.job_number "
 			+ " AND C0.work_area = A0.work_area and C0.task = A0.task and C0.effdt <= ? and C0.active = 'Y')))";
 
-	private Set<String> getPrincipalIdsWithActiveAssignmentsForCalendarGroup(
+	private List<String> getPrincipalIdsWithActiveAssignmentsForCalendarGroup(
 			Set<Long> approverWorkAreas, String payCalendarGroup,
 			java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate) {
 		if (approverWorkAreas.size() == 0) {
-			return new LinkedHashSet<String>();
+			return new ArrayList<String>();
 		}
 
-		Set<String> principalIds = new LinkedHashSet<String>();
+		List<String> principalIds = new ArrayList<String>();
 		StringBuilder workAreas = new StringBuilder();
 		for (long workarea : approverWorkAreas) {
 			workAreas.append("A0.work_area = " + workarea + " or ");
@@ -761,7 +757,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return principalIds;
 	}
 
-	protected Set<String> getPrincipalIdsWithActiveAssignmentsForCalendarGroupByDeptAndWorkArea(
+	protected List<String> getPrincipalIdsWithActiveAssignmentsForCalendarGroupByDeptAndWorkArea(
 			String department, String workArea, String payCalendarGroup,
 			java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate) {
 		String sql = "SELECT "
@@ -788,10 +784,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	            + " 			(R0.DEPT IS NULL OR R0.DEPT = ?)";
 		
 		if (department == null || department.isEmpty()) {
-			return new LinkedHashSet<String>();
+			return new ArrayList<String>();
 		} else {
 
-			Set<String> principalIds = new LinkedHashSet<String>();
+			List<String> principalIds = new ArrayList<String>();
 			
 			SqlRowSet rs = null;
 			if (workArea != null) {
@@ -901,15 +897,15 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 	@Override
 	public Map<String, TimesheetDocumentHeader> getPrincipalDocumehtHeader(
-			List<String> principalIds, Date payBeginDate, Date payEndDate) {
+			List<TKPerson> persons, Date payBeginDate, Date payEndDate) {
 
-		if (principalIds.size() == 0) {
+		if (persons.size() == 0) {
 			return new LinkedHashMap<String, TimesheetDocumentHeader>();
 		}
 
 		StringBuilder ids = new StringBuilder();
-		for (String principalId : principalIds) {
-			ids.append("principal_id = '" + principalId + "' or ");
+		for (TKPerson person : persons) {
+			ids.append("principal_id = '" + person.getPrincipalId() + "' or ");
 		}
 		String idsForQuery = ids.substring(0, ids.length() - 4);
 		String sql = "SELECT document_id, principal_id, document_status "
