@@ -15,7 +15,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.kpme</groupId>
     <artifactId>time-and-attendance</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>KPME Time and Attendance</name>
     <description>KPME Time and Attendance</description>
  	<url>http://kuali.org/kpme</url>
