@@ -67,24 +67,18 @@ public class TimeApprovalWSAction extends TkAction {
                     labelValue.put("result", entry.getValue().getPrincipalId());
                     results.add(labelValue);
                 }
-
             }
         }
-
         taaf.setOutputString(JSONValue.toJSONString(results));
-
         return mapping.findForward("ws");
     }
     
     public ActionForward getTimeSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
-
         TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(taaf.getDocumentId());
 		TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(td);
-
-
+		
         taaf.setOutputString(ts.toJsonString());
-
         return mapping.findForward("ws");
     }
 }
