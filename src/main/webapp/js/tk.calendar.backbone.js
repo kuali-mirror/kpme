@@ -259,7 +259,7 @@ $(function () {
 
             var key = _(e.target.id).parseEventKey();
             var timeBlock = timeBlockCollection.get(key.id);
-            var currentOvertimePref = _.trim($("#" + e.target.id).text());
+            var currentOvertimePref = $("#" + e.target.id).text().trim();
             var dfd = $.Deferred();
 
             // The content of the overtimePref is in a separate template,
