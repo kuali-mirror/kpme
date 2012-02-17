@@ -55,8 +55,7 @@
 					<property name="objectAttributeName" value="accrualCategoryObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory"
-								p:targetName="accrualCategory" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory" p:targetName="accrualCategory" />
 						</list>
 					</property>
 				</bean>
@@ -75,8 +74,7 @@
 
 	<!-- leavePlan -->
 	<bean id="LeaveCode-leavePlan" parent="LeaveCode-leavePlan-parentBean" />
-	<bean id="LeaveCode-leavePlan-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="LeaveCode-leavePlan-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Leave Plan" />
 		<property name="maxLength" value="15" />
 		<property name="validationPattern">
@@ -85,7 +83,7 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+			<bean parent="LookupReadonlyControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="leavePlan" />
 		<property name="label" value="Leave Plan" />

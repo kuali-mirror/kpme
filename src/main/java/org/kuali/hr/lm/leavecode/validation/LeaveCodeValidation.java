@@ -12,7 +12,6 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 	boolean validateEffectiveDate(Date effectiveDate) {
 		boolean valid = true;
 		if (effectiveDate != null && !ValidationUtils.validateOneYearFutureDate(effectiveDate)) {
-			//this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date '"+ effectiveDate + "'");
 			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
 			valid = false;
 		}
@@ -22,7 +21,7 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 	boolean validateLeaveCodeRole(LeaveCode leaveCode) {
 		boolean valid = true;
 		if (!leaveCode.getEmployee() && !leaveCode.getDepartmentAdmin() && !leaveCode.getApprover()) {
-			this.putFieldError("employee", "leavecode.role.required");
+			this.putFieldError("employee", "error.leavecode.role.required");
 			valid = false;
 		}
 		return valid;

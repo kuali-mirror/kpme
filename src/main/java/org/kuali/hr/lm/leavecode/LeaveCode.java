@@ -2,10 +2,12 @@ package org.kuali.hr.lm.leavecode;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public class LeaveCode extends HrBusinessObject {
 
@@ -68,9 +70,13 @@ public class LeaveCode extends HrBusinessObject {
 	public void setLmLeaveCodeId(String lmLeaveCodeId) {
 		this.lmLeaveCodeId = lmLeaveCodeId;
 	}
-
+	
 	public String getLeavePlan() {
-		return leavePlan;
+		if (this.accrualCategoryObj == null && 
+				(!StringUtils.isEmpty(this.accrualCategory) && this.effectiveDate != null)) {		
+			accrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, this.effectiveDate);
+		}
+		return (accrualCategoryObj != null) ? accrualCategoryObj.getLeavePlan() : "";
 	}
 
 	public void setLeavePlan(String leavePlan) {

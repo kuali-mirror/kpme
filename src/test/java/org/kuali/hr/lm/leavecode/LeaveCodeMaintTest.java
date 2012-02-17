@@ -36,9 +36,13 @@ public class LeaveCodeMaintTest extends TkTestCase{
 	  	
 	  	setFieldValue(page, "document.documentHeader.documentDescription", "Leave Code - test");
 	    setFieldValue(page, "document.newMaintainableObject.defaultAmountofTime", "25"); // a wrong default amount of time
+	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "02/21/2012"); // jira1360
+	    setFieldValue(page, "document.newMaintainableObject.accrualCategory", "AC1"); // jira1360
+	    
 	    HtmlElement element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	HtmlUnitUtil.createTempFile(page);
 	  	assertTrue("page text contains:\n" + "should be between 0 and 24", page.asText().contains("should be between 0 and 24"));
+	  	assertTrue("page text contains:\n" + "IU-SM", page.asText().contains("IU-SM"));
 	}
 }
