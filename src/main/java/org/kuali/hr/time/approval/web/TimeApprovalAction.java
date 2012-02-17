@@ -274,22 +274,8 @@ public class TimeApprovalAction extends TkAction{
      * @return
      */
     protected List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf, List<TKPerson> assignmentPrincipalIds) {
-
-        if (assignmentPrincipalIds.size() == 0) {
-            return new ArrayList<ApprovalTimeSummaryRow>();
-        }
-
-        if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL) && !StringUtils.isBlank(taaf.getSearchTerm())) {
-            assignmentPrincipalIds = new LinkedList<TKPerson>();
-            TKPerson person = new TKPerson();
-            person.setPrincipalId(taaf.getSearchTerm());
-            assignmentPrincipalIds.add(person);
-        } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID)) {
-
-        }
         return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), taaf.getSelectedPayCalendarGroup(), assignmentPrincipalIds, taaf.getPayCalendarLabels(), taaf.getPayCalendarEntries());
     }
-
 	
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {

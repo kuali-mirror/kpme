@@ -28,6 +28,7 @@ public class PersonDaoSpringOjbImpl extends PersistenceBrokerDaoSupport  impleme
 				+ "KRIM_ENTITY_NM_T "
 				+ "WHERE "
 				+ "ACTV_IND = 'Y' AND "
+				+ "NM_TYP_CD = 'PRFR' AND "
 				+ "ENTITY_ID IN (" + principalIdForQuery + ") "
 				+ "ORDER BY LAST_NM, FIRST_NM";
 		
