@@ -305,7 +305,7 @@
 							<bean parent="FieldDefinition" p:attributeName="principalId" />
 							<bean parent="FieldDefinition" p:attributeName="name" />
 							<bean parent="FieldDefinition" p:attributeName="jobNumber" />
-							<bean parent="FieldDefinition" p:attributeName="dept" />
+							<bean parent="FieldDefinition" p:attributeName="dept" p:noInquiry="true" p:noLookup="true" />
 							<bean parent="FieldDefinition" p:attributeName="workArea" />
 							<bean parent="FieldDefinition" p:attributeName="task" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
@@ -367,11 +367,11 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
-				<bean parent="FieldDefinition" p:attributeName="dept" />
+				<bean parent="FieldDefinition" p:attributeName="dept" p:noInquiry="true" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="task" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
 			</list>
 		</property>
 		<property name="title" value="Assignment Lookup" />
