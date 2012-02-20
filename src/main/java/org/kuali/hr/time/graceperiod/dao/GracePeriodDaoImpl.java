@@ -1,7 +1,5 @@
 package org.kuali.hr.time.graceperiod.dao;
 
-import java.sql.Date;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -9,25 +7,44 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
+import java.sql.Date;
+
 public class GracePeriodDaoImpl extends PersistenceBrokerDaoSupport implements GracePeriodDao {
 	public GracePeriodRule getGracePeriodRule(Date asOfDate){
+		GracePeriodRule gracePeriodRule = null;
+		
 		Criteria root = new Criteria();
 		Criteria effdt = new Criteria();
+		Criteria timestamp = new Criteria();
 
-		effdt.addLessOrEqualThan("effDt", asOfDate);
+		// OJB's awesome sub query setup part 1
+		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 //		effdt.addEqualTo("active", true);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(GracePeriodRule.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
-		root.addEqualTo("effDt", effdtSubQuery);
-//		root.addEqualTo("active", true);
+		// OJB's awesome sub query setup part 2
+		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+//		timestamp.addEqualTo("active", true);
+		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(GracePeriodRule.class, timestamp);
+		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
+
+		root.addEqualTo("effectiveDate", effdtSubQuery);
+		root.addEqualTo("timestamp", timestampSubQuery);
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
 		
+		
 		Query query = QueryFactory.newQuery(GracePeriodRule.class, root);
-		return (GracePeriodRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		Object obj = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+
+		if (obj != null) {
+			gracePeriodRule = (GracePeriodRule) obj;
+		}
+		
+		return gracePeriodRule;
 	}
 
 	@Override

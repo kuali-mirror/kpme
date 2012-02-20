@@ -12,7 +12,6 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -25,6 +24,8 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 
 	private static final Logger LOG = Logger.getLogger(TimeOffAccrualServiceImpl.class);
 	public static final String ACCRUAL_CATEGORY_KEY = "accrualCategory";
+	public static final String ACCRUAL_NAME_KEY = "accrualName";
+	public static final String YEARLY_CARRYOVER_KEY = "yearlyCarryover";
 	public static final String HOURS_ACCRUED_KEY = "hoursAccrued";
 	public static final String HOURS_TAKEN_KEY = "hoursTaken";
 	public static final String HOURS_ADJUST_KEY = "hoursAdjust";
@@ -66,7 +67,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 			output.put(HOURS_ACCRUED_KEY, timeOffAccrual.getHoursAccrued());
 			output.put(HOURS_TAKEN_KEY, timeOffAccrual.getHoursTaken());
 			output.put(HOURS_ADJUST_KEY, timeOffAccrual.getHoursAdjust());
-			BigDecimal totalHours = timeOffAccrual.getHoursAccrued().subtract(timeOffAccrual.getHoursTaken()).add(timeOffAccrual.getHoursAdjust());
+			BigDecimal totalHours = timeOffAccrual.getYearlyCarryover().add(timeOffAccrual.getHoursAccrued().subtract(timeOffAccrual.getHoursTaken()).add(timeOffAccrual.getHoursAdjust()));
 			output.put(TOTAL_HOURS_KEY, totalHours);
 			output.put(EFF_DATE_KEY, timeOffAccrual.getEffectiveDate());
 
@@ -100,26 +101,15 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
          for (Map<String, Object> aMap : calcList) {
     		accruals.add((String) aMap.get(ACCRUAL_CATEGORY_KEY));
     	 }
-         List<AccrualCategory> accrualCategories = (List<AccrualCategory>) KNSServiceLocator.getBusinessObjectDao().findAllActive(AccrualCategory.class);
-         for(AccrualCategory accrualCategory : accrualCategories){
-        	 if(!accruals.contains(accrualCategory.getAccrualCategory())){
-        		Map<String, Object> accrualData = new LinkedHashMap<String, Object>();
-     			accrualData.put(ACCRUAL_CATEGORY_KEY, accrualCategory.getAccrualCategory());
-     			accrualData.put(HOURS_ACCRUED_KEY, new BigDecimal(0.00));
-     			accrualData.put(HOURS_TAKEN_KEY, new BigDecimal(0.00));
-     			accrualData.put(HOURS_ADJUST_KEY, new BigDecimal(0.00));
-     			calcList.add(accrualData);
-        	 }
-         }
          for (Map<String, Object> aMap : calcList) {
-             String accrualCategory = (String) aMap.get(ACCRUAL_CATEGORY_KEY);
+             String accrualCategory = (String) aMap.get(ACCRUAL_NAME_KEY);
              List<TimeBlock> warningTbs = new ArrayList<TimeBlock>();
              BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList, warningTbs);
              //if there is no timeblocks for this category no warning is necessary 
              if(totalForAccrCate.compareTo(BigDecimal.ZERO)==0){
             	 continue;
              }
-             BigDecimal balanceHrs = ((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY)).add((BigDecimal)aMap.get(HOURS_ADJUST_KEY));
+             BigDecimal balanceHrs = (((BigDecimal)aMap.get(YEARLY_CARRYOVER_KEY)).add((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY)).add((BigDecimal)aMap.get(HOURS_ADJUST_KEY)));
              
              if (totalForAccrCate.compareTo(balanceHrs) == 1) {
              	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category " + accrualCategory + " has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are:<br/>";
@@ -155,6 +145,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
        	 if(!accruals.contains(accrualCategory.getAccrualCategory()) && !StringUtils.equals(TkConstants.HOLIDAY_EARN_CODE, accrualCategory.getAccrualCategory())){
        		Map<String, Object> accrualData = new LinkedHashMap<String, Object>();
     			accrualData.put(ACCRUAL_CATEGORY_KEY, accrualCategory.getAccrualCategory());
+    			accrualData.put(YEARLY_CARRYOVER_KEY, new BigDecimal(0.00));
     			accrualData.put(HOURS_ACCRUED_KEY, new BigDecimal(0.00));
     			accrualData.put(HOURS_TAKEN_KEY, new BigDecimal(0.00));
     			accrualData.put(HOURS_ADJUST_KEY, new BigDecimal(0.00));
@@ -165,7 +156,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
             String accrualCategory = (String) aMap.get(ACCRUAL_CATEGORY_KEY);
             List<TimeBlock> warningTbs = new ArrayList<TimeBlock>();
             BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList, warningTbs);
-            BigDecimal balanceHrs = ((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY)).add((BigDecimal)aMap.get(HOURS_ADJUST_KEY));
+            BigDecimal balanceHrs = (((BigDecimal)aMap.get(YEARLY_CARRYOVER_KEY)).add((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY)).add((BigDecimal)aMap.get(HOURS_ADJUST_KEY)));
             
             if (totalForAccrCate.compareTo(balanceHrs) == 1) {
             	if (accrualCategory.equals(earnCode)) {

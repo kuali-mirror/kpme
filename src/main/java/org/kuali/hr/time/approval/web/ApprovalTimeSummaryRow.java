@@ -1,6 +1,7 @@
 package org.kuali.hr.time.approval.web;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKContext;
@@ -131,7 +132,7 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
     	boolean isEnroute =  StringUtils.equals(getApprovalStatus(), "ENROUTE") ;
 
         if(isEnroute){
-        	DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(Long.parseLong(this.getDocumentId()));
+        	DocumentRouteHeaderValue routeHeader = TkServiceLocator.getTimeApproveService().getRouteHeader(this.getDocumentId());
         	boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(TKContext.getUserSession(), routeHeader, new SecuritySession(TKContext.getUserSession()));
         	if(authorized){
         		List<String> principalsToApprove = KEWServiceLocator.getActionRequestService().getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId(KEWConstants.ACTION_REQUEST_APPROVE_REQ, routeHeader.getRouteHeaderId());

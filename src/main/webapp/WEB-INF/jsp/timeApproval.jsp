@@ -92,7 +92,7 @@
                 </label>
                 Value :
                 <label for="search value">
-                    <input id="searchValue" name="searchValue" type="text" placeholder="enter at least 3 chars"/>
+           			<input id="searchValue" name="searchValue" type="text" value="${Form.searchTerm}" placeholder="enter at least 3 chars" />
                     <span id='loading-value' style="display:none;"><img src='images/ajax-loader.gif'></span>
                     <input type="button" id='search' value="Search"
                            class="ui-button ui-widget ui-state-default ui-corner-all"/>
@@ -126,7 +126,7 @@
     <c:if test="${row.clockedInOverThreshold}">
         <c:set var="nameStyle" value="background-color: #F08080;"/>
     </c:if>
-    <display:column title="Principal Name" sortable="true" sortName="principalName" style="${nameStyle}">
+    <display:column title="Name" sortable="true" sortName="principalName" style="${nameStyle}">
         <c:if test="${row.periodTotal > 0}">
             <div class="ui-state-default ui-corner-all" style="float:left;">
                     <%--<span id="showDetailButton_${row_rowNum-1}" class="ui-icon ui-icon-plus rowInfo"></span>--%>

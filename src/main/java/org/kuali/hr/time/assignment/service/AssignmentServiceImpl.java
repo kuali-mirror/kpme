@@ -1,12 +1,5 @@
 package org.kuali.hr.time.assignment.service;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
@@ -19,6 +12,9 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.sql.Date;
+import java.util.*;
 
 public class AssignmentServiceImpl implements AssignmentService {
 
@@ -193,7 +189,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     private void populateAssignment(Assignment assignment, Date asOfDate) {
         assignment.setJob(TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));
-        assignment.setTimeCollectionRule(TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), asOfDate));
+        assignment.setTimeCollectionRule(TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(),asOfDate));
         assignment.setWorkAreaObj(TkServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), asOfDate));
         assignment.setDeptLunchRule(TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(assignment.getJob().getDept(),
                 assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));

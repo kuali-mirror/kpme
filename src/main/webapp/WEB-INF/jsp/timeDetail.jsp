@@ -4,7 +4,7 @@
 
 <tk:tkHeader tabId="timeDetail">
     <script src="js/underscore-1.3.1.min.js"></script>
-    <script src="js/underscore.string-2.0.0.js"></script>
+    <%--<script src="js/underscore.string-2.0.0.js"></script>--%>
     <script src="js/backbone-0.9.1.min.js"></script>
     <script src="js/tk.calendar.backbone.js"></script>
     <script src="js/tk.ui.js"></script>

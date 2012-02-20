@@ -1,8 +1,10 @@
 package org.kuali.hr.time.accrual.service;
 
 import org.kuali.hr.time.accrual.TimeOffAccrual;
+import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,10 +30,13 @@ public interface TimeOffAccrualService {
 	 */
 	public List<String> validateAccrualHoursLimit(TimesheetDocument timesheetDocument);
 	
+	public List<String> validateAccrualHoursLimit(String pId, List<TimeBlock> tbList, Date asOfDate);
+	
 	/**
 	 * Fetch time off accrual as of a particular unique id
 	 * @param laTimeOffAccrualId
 	 * @return
 	 */
 	public TimeOffAccrual getTimeOffAccrual(Long laTimeOffAccrualId);
+
 }

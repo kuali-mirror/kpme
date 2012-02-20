@@ -19,9 +19,10 @@ public class TimeOffAccrual extends HrBusinessObject {
 	private String principalId;
 	private String accrualCategory;
 	private Date effectiveDate;
-	private BigDecimal hoursAccrued = new BigDecimal("0");
-	private BigDecimal hoursTaken = new BigDecimal("0");
-	private BigDecimal hoursAdjust = new BigDecimal("0");
+	private BigDecimal yearlyCarryover = new BigDecimal(0);
+	private BigDecimal hoursAccrued = new BigDecimal(0);
+	private BigDecimal hoursTaken = new BigDecimal(0);
+	private BigDecimal hoursAdjust = new BigDecimal(0);
 
 	private String lmAccrualCategoryId;
 	
@@ -135,6 +136,16 @@ public class TimeOffAccrual extends HrBusinessObject {
 	@Override
 	public void setId(String id) {
 		setLmAccrualId(id);
+	}
+
+
+	public BigDecimal getYearlyCarryover() {
+		return yearlyCarryover;
+	}
+
+
+	public void setYearlyCarryover(BigDecimal yearlyCarryover) {
+		this.yearlyCarryover = yearlyCarryover;
 	}
 
 }

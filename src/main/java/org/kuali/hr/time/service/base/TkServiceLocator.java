@@ -37,6 +37,7 @@ import org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleService;
 import org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
 import org.kuali.hr.time.permissions.TkPermissionsService;
+import org.kuali.hr.time.person.service.PersonService;
 import org.kuali.hr.time.position.service.PositionService;
 import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
 import org.kuali.hr.time.roles.service.TkRoleGroupService;
@@ -117,6 +118,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_LOCATION_SERVICE = "locationService";
     public static final String TK_PAY_GRADE_SERVICE = "payGradeService";
     public static final String TK_USER_SERVICE = "userService";
+    public static final String TK_PERSON_SERVICE = "tkPersonService";
     public static final String TK_APPROVE_SERVICE = "timeApproveService";
     public static final String TK_BATCH_JOB_SERVICE = "batchJobService";
     public static final String TK_MISSED_PUNCH_SERVICE = "missedPunchService";
@@ -325,6 +327,9 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (UserService)CONTEXT.getBean(TK_USER_SERVICE);
 	}
 
+	public static PersonService getPersonService(){
+		return (PersonService)CONTEXT.getBean(TK_PERSON_SERVICE);
+	}
 	public static TimeApproveService getTimeApproveService(){
 		return (TimeApproveService)CONTEXT.getBean(TK_APPROVE_SERVICE);
 	}
@@ -422,5 +427,9 @@ public class TkServiceLocator implements ApplicationContextAware {
      */
     public static JdbcTemplate getTkJdbcTemplate() {
 		return (JdbcTemplate) CONTEXT.getBean("tkJdbcTemplate");
+	}
+    
+    public static JdbcTemplate getRiceJdbcTemplate() {
+		return (JdbcTemplate) CONTEXT.getBean("riceJdbcTemplate");
 	}
 }

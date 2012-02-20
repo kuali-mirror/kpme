@@ -13,7 +13,7 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase{
 	private static final long serialVersionUID = 1L;
 
 	
-	protected abstract String getUniqueKey();
+	public abstract String getUniqueKey();
 	protected Date effectiveDate;
 	protected boolean active;
 	protected Timestamp timestamp;

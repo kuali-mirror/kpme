@@ -13,13 +13,14 @@
 			<table>
 				<tr class="header">
 					<td>Accrual Category</td>
+					<td>Yearly Carryover</td>
 					<td>Hours Accrued</td>
 					<td>Hours Taken</td>
 					<td>Hours Adjust</td>
-					<td>Total Hours
+					<td style="border:3px solid black;">Total Hours
 						<button style="width: 20px; height: 20px; vertical-align: text-top"
 							id="endTimeHelp"
-							title="Hours Accrued - Hours Taken + Hours Adjust"
+							title="Yearly Carryover + Hours Accrued - Hours Taken + Hours Adjust"
 							tabindex="999">help</button>
 					</td>
 					<td>Effective Date</td> 
@@ -30,6 +31,9 @@
 							<c:choose>
 								<c:when test="${entry.key eq 'effdt'}">
 									<td><fmt:formatDate value="${entry.value}" pattern="MM/dd/yyyy"/></td>
+								</c:when>
+								<c:when test="${entry.key eq 'totalHours'}">
+									<td style="border:3px solid black;">${entry.value}</td>
 								</c:when>
 								<c:otherwise>
 									<td>${entry.value}</td>

@@ -125,8 +125,7 @@ $(document).ready(function () {
 
             $.ajax({
                 url:'TimeApprovalWS.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term + "&payBeginDateForSearch=" + $("#payBeginDate").html() + "&payEndDateForSearch=" + $("#payEndDate").html() +
-                    //                        '&hrPyCalendarEntriesId=' + hrPyCalendarEntriesId +
-                        '&selectedPayCalendarGroup=' + selectedPayCalendarGroup,
+                        '&selectedPayCalendarGroup=' + selectedPayCalendarGroup + '&selectedDept=' + $('#selectedDept').val() + '&selectedWorkArea=' + $('#selectedWorkArea').val(),
                 dataType:"json",
                 success:function (data) {
                     response($.map(data, function (item) {
