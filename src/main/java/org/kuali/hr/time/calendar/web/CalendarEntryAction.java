@@ -49,13 +49,6 @@ public class CalendarEntryAction extends TkAction {
 				for (int i = 0; i < ceaf.getNoOfPeriods(); i++) {
 					TkServiceLocator.getCalendarEntriesSerivce()
 							.createNextCalendarEntry(calendarEntries);
-					
-					calendarEntries.setBeginPeriodDateTime(DateUtils.addDays(calendarEntries.getBeginPeriodDateTime(), 14));
-					calendarEntries.setEndPeriodDateTime(DateUtils.addDays(calendarEntries.getEndPeriodDateTime(), 14));
-					calendarEntries.setBatchInitiateDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchInitiateDate(), 14).getTime()));
-					calendarEntries.setBatchEndPayPeriodDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchEndPayPeriodDate(), 14).getTime()));
-					calendarEntries.setBatchEmployeeApprovalDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchEmployeeApprovalDate(), 14).getTime()));
-					calendarEntries.setBatchSupervisorApprovalDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchSupervisorApprovalDate(), 14).getTime()));
 				}
 				ceaf.setMessage("Calendar entry sucessfully created.");
 			}
