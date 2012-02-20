@@ -95,7 +95,7 @@ $(function () {
      * ====================
      */
 
-        // create a timeblock view
+    // create a timeblock view
     var TimeBlockView = Backbone.View.extend({
         // Set the element that our dialog form wants to bind to. This setting is necessary.
         el : $("body"),
@@ -114,8 +114,8 @@ $(function () {
             "click span[id*=overtime]" : "showOverTimeDialog",
             "blur #startTimeHourMinute, #endTimeHourMinute" : "formatTime",
             // TODO: figure out how to chain the events
-            "change #selectedAssignment" : "fetchEarnCode",
-            "keypress #selectedAssignment" : "fetchEarnCode",
+            "change #selectedAssignment" : "changeAssignment",
+            "keypress #selectedAssignment" : "changeAssignment",
             "change #selectedEarnCode" : "showFieldByEarnCodeType",
             "keypress #selectedEarnCode" : "showFieldByEarnCodeType"
         },
@@ -132,7 +132,6 @@ $(function () {
 
             OvertimeEarnCodes.bind('add', this.addAllOvertimeEarnCodes);
             OvertimeEarnCodes.bind('reset', this.addAllOvertimeEarnCodes);
-
         },
 
         render : function () {
@@ -147,7 +146,6 @@ $(function () {
             var value = e.target.value;
             // Use Datejs to parse the value
             var dateTime = Date.parse(value);
-            // console.log(dateTime);
             if (_.isNull(dateTime)) {
                 // Date.js returns null if it couldn't understand the format from user's input.
                 // If that's the case, clear the values on the form and make the border red.
@@ -260,7 +258,7 @@ $(function () {
 
             var key = _(e.target.id).parseEventKey();
             var timeBlock = timeBlockCollection.get(key.id);
-            var currentOvertimePref = _.trim($("#" + e.target.id).text());
+            var currentOvertimePref = $("#" + e.target.id).text().trim();
             var dfd = $.Deferred();
 
             // The content of the overtimePref is in a separate template,
@@ -313,8 +311,14 @@ $(function () {
             // Here we want to fire the ajax call first to grab the earn codes.
             // After that is done, we fill out the form and make the entry field show / hide based on the earn code type.
             var dfd = $.Deferred();
-            // Fill in the values. See the note above regarding why we didn't use a template
-            dfd.done(this.fetchEarnCode(timeBlock.get("assignment")))
+
+            // https://uisapp2.iu.edu/jira-prd/browse/TK-1577
+            // A sync user can't change the RGH earncode on a sync timeblock but there is a special case.
+            // When the timeblock is readonly, which means the user can only change the assignment,
+            // the user should be able to _see_ the RGH earn code.
+            var isTimeBlockReadOnly = timeBlock.get("canEditTBAssgOnly") ? true : false;
+
+            dfd.done(this.fetchEarnCode(timeBlock.get("assignment"), isTimeBlockReadOnly))
                     .done($("#selectedEarnCode option[value='" + timeBlock.get("earnCode") + "']").attr("selected", "selected"))
                     .done(this.showFieldByEarnCodeType())
                     .done(_(timeBlock).fillInForm())
@@ -357,6 +361,8 @@ $(function () {
             if (e.get("canEditTBAssgOnly")) {
                 // Make everything read only except the assignment
                 $("input, select", $("#timesheet-panel")).attr("disabled", true);
+                // hide the date picker
+                $(".ui-datepicker-trigger").hide();
                 $("#selectedAssignment", $("#timesheet-panel")).attr("disabled", false);
 
                 // Unbind the change events.
@@ -386,7 +392,10 @@ $(function () {
         },
 
 
-        fetchEarnCode : function (e) {
+        fetchEarnCode : function (e, isTimeBlockReadOnly) {
+
+            isTimeBlockReadOnly = _.isUndefined(isTimeBlockReadOnly) ? false : isTimeBlockReadOnly;
+
             // When the method is called with a passed in value, the assignment is whatever that value is;
             // If the method is called WITHOUT a passed in value, the assignment is an event.
             // We want to be able to use this method in creating and editing timeblocks.
@@ -395,12 +404,13 @@ $(function () {
 
             // Fetch earn codes based on the selected assignment
             // The fetch function is provided by backbone.js which also supports jQuery.ajax options.
-            // See here for more information: http://documentcloud.github.com/backbone/#Collection-fetch
+            // For more information: http://documentcloud.github.com/backbone/#Collection-fetch
             EarnCodes.fetch({
                 // Make the ajax call not async to be able to mark the earn code selected
                 async : false,
                 data : {
-                    selectedAssignment : assignment
+                    selectedAssignment : assignment,
+                    timeBlockReadOnly : isTimeBlockReadOnly
                 }
             });
         },
@@ -453,6 +463,16 @@ $(function () {
                 $(fieldSections[0] + "," + fieldSections[1]).show();
             }
 
+        },
+
+        changeAssignment : function () {
+            this.fetchEarnCodeAndLoadFields();
+        },
+
+        fetchEarnCodeAndLoadFields : function () {
+            var dfd = $.Deferred();
+            dfd.done(this.fetchEarnCode(_.getSelectedAssignmentValue()))
+                    .done(this.showFieldByEarnCodeType());
         },
 
         /**
@@ -632,6 +652,9 @@ $(function () {
             // when the user can only change the assignment on the timeblock.
             // Reset the events by calling the built-in delegateEvents function.
             this.delegateEvents(this.events);
+
+            // show date pickers
+            $(".ui-datepicker-trigger").show();
         },
         /**
          * Reset the values on the givin fields.
@@ -736,6 +759,7 @@ $(function () {
             var matchedEarnCode = _.filter(earnCodeJson, function (json) {
                 return json["earnCode"] == earnCode
             });
+
             return _.first(matchedEarnCode).type;
         },
         /**
@@ -763,14 +787,14 @@ $(function () {
     /**
      * Make the calendar cell selectable
      */
-        // When making a mouse selection, it creates a "lasso" effect which we want to get rid of.
-        // In the future version of jQuery UI, lasso is going to one of the options where it can be enabled / disabled.
-        // For now, the way to disable it is to modify the css.
-        //
-        // .ui-selectable-helper { border:none; }
-        //
-        // This discussion thread on stackoverflow was helpful:
-        // http://bit.ly/fvRW4X
+    // When making a mouse selection, it creates a "lasso" effect which we want to get rid of.
+    // In the future version of jQuery UI, lasso is going to one of the options where it can be enabled / disabled.
+    // For now, the way to disable it is to modify the css.
+    //
+    // .ui-selectable-helper { border:none; }
+    //
+    // This discussion thread on stackoverflow was helpful:
+    // http://bit.ly/fvRW4X
 
     var selectedDays = [];
     var selectingDays = [];
@@ -803,6 +827,11 @@ $(function () {
             endDay = Date.parse(endDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
 
             app.showTimeEntryDialog(startDay, endDay);
+
+            // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
+            if ($("#selectedAssignment").is("input")) {
+                app.fetchEarnCodeAndLoadFields();
+            }
 
             selectedDays = [];
         }
