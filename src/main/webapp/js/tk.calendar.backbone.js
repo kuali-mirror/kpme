@@ -114,8 +114,8 @@ $(function () {
             "click span[id*=overtime]" : "showOverTimeDialog",
             "blur #startTimeHourMinute, #endTimeHourMinute" : "formatTime",
             // TODO: figure out how to chain the events
-            "change #selectedAssignment" : "fetchEarnCode",
-            "keypress #selectedAssignment" : "fetchEarnCode",
+            "change #selectedAssignment" : "changeAssignment",
+            "keypress #selectedAssignment" : "changeAssignment",
             "change #selectedEarnCode" : "showFieldByEarnCodeType",
             "keypress #selectedEarnCode" : "showFieldByEarnCodeType"
         },
@@ -146,7 +146,6 @@ $(function () {
             var value = e.target.value;
             // Use Datejs to parse the value
             var dateTime = Date.parse(value);
-            // console.log(dateTime);
             if (_.isNull(dateTime)) {
                 // Date.js returns null if it couldn't understand the format from user's input.
                 // If that's the case, clear the values on the form and make the border red.
@@ -466,6 +465,16 @@ $(function () {
 
         },
 
+        changeAssignment : function () {
+            this.fetchEarnCodeAndLoadFields();
+        },
+
+        fetchEarnCodeAndLoadFields : function () {
+            var dfd = $.Deferred();
+            dfd.done(this.fetchEarnCode(_.getSelectedAssignmentValue()))
+                    .done(this.showFieldByEarnCodeType());
+        },
+
         /**
          * Validations
          */
@@ -750,6 +759,7 @@ $(function () {
             var matchedEarnCode = _.filter(earnCodeJson, function (json) {
                 return json["earnCode"] == earnCode
             });
+
             return _.first(matchedEarnCode).type;
         },
         /**
@@ -820,9 +830,7 @@ $(function () {
 
             // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
             if ($("#selectedAssignment").is("input")) {
-                var dfd = $.Deferred();
-                dfd.done(app.fetchEarnCode(_(app).getSelectedAssignmentValue()))
-                        .done(app.showFieldByEarnCodeType());
+                app.fetchEarnCodeAndLoadFields();
             }
 
             selectedDays = [];
