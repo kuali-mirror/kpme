@@ -26,6 +26,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 
 	private static final Logger LOG = Logger.getLogger(TimeOffAccrualServiceImpl.class);
 	public static final String ACCRUAL_CATEGORY_KEY = "accrualCategory";
+	public static final String ACCRUAL_NAME_KEY = "accrualName";
 	public static final String YEARLY_CARRYOVER_KEY = "yearlyCarryover";
 	public static final String HOURS_ACCRUED_KEY = "hoursAccrued";
 	public static final String HOURS_TAKEN_KEY = "hoursTaken";
@@ -65,6 +66,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 			}
 			Map<String, Object> output = new LinkedHashMap<String, Object>();
 			output.put(ACCRUAL_CATEGORY_KEY, accrualCatDescr + "("+timeOffAccrual.getAccrualCategory()+")");
+			output.put(ACCRUAL_NAME_KEY, timeOffAccrual.getAccrualCategory());
 			output.put(YEARLY_CARRYOVER_KEY, timeOffAccrual.getYearlyCarryover());
 			output.put(HOURS_ACCRUED_KEY, timeOffAccrual.getHoursAccrued());
 			output.put(HOURS_TAKEN_KEY, timeOffAccrual.getHoursTaken());
@@ -95,7 +97,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 		 List<String> warningMessages = new ArrayList<String>();
 
          List<Map<String, Object>> calcList = this.getTimeOffAccrualsCalc(pId, asOfDate);
-
+         
            if (tbList.isEmpty()) {
              return warningMessages;
          }
@@ -103,20 +105,8 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
          for (Map<String, Object> aMap : calcList) {
     		accruals.add((String) aMap.get(ACCRUAL_CATEGORY_KEY));
     	 }
-         List<AccrualCategory> accrualCategories = (List<AccrualCategory>) KNSServiceLocator.getBusinessObjectDao().findAllActive(AccrualCategory.class);
-         for(AccrualCategory accrualCategory : accrualCategories){
-        	 if(!accruals.contains(accrualCategory.getAccrualCategory())){
-        		Map<String, Object> accrualData = new LinkedHashMap<String, Object>();
-     			accrualData.put(ACCRUAL_CATEGORY_KEY, accrualCategory.getAccrualCategory());
-     			accrualData.put(YEARLY_CARRYOVER_KEY, new BigDecimal(0.00));
-     			accrualData.put(HOURS_ACCRUED_KEY, new BigDecimal(0.00));
-     			accrualData.put(HOURS_TAKEN_KEY, new BigDecimal(0.00));
-     			accrualData.put(HOURS_ADJUST_KEY, new BigDecimal(0.00));
-     			calcList.add(accrualData);
-        	 }
-         }
          for (Map<String, Object> aMap : calcList) {
-             String accrualCategory = (String) aMap.get(ACCRUAL_CATEGORY_KEY);
+             String accrualCategory = (String) aMap.get(ACCRUAL_NAME_KEY);
              List<TimeBlock> warningTbs = new ArrayList<TimeBlock>();
              BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList, warningTbs);
              //if there is no timeblocks for this category no warning is necessary 
