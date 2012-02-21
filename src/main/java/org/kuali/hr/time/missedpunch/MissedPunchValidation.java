@@ -1,6 +1,9 @@
 package org.kuali.hr.time.missedpunch;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,19 +49,25 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
      * @param lastClock The ClockLog entry that happened before the one we want to create.
      *
      * @return true if valid, false otherwise.
+     * @throws ParseException 
      */
-    boolean validateClockTime(MissedPunchDocument mp, ClockLog lastClock) {
+    boolean validateClockTime(MissedPunchDocument mp, ClockLog lastClock) throws ParseException {
         boolean valid = true;
 
         if (lastClock == null)
             return valid;
 
         DateTime clockLogDateTime = new DateTime(lastClock.getClockTimestamp().getTime());
-        LocalTime actionTimeLocal = new LocalTime(mp.getActionTime().getTime());
-        DateTime actionDateTime = new DateTime(mp.getActionDate().getTime());
-        actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
         DateTime boundaryMax = clockLogDateTime.plusDays(1);
         DateTime nowTime = new DateTime(TKUtils.getCurrentDate());
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        String s = formatter.format(mp.getActionDate());
+		Date tempDate = formatter.parse(s);
+		Timestamp dateLocal = new Timestamp(tempDate.getTime());
+        LocalTime timeLocal = new LocalTime(mp.getActionTime().getTime());
+        DateTime actionDateTime = new DateTime(dateLocal.getTime());
+        actionDateTime = actionDateTime.plus(timeLocal.getMillisOfDay());
 
         // convert the action time to the system zone 
         Timestamp ts = new Timestamp(actionDateTime.getMillis());
@@ -97,7 +106,12 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         MissedPunchDocument mpDoc = (MissedPunchDocument)document;
         ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(mpDoc.getPrincipalId());
         ret = validateClockAction(mpDoc, lastClock);
-        ret &= validateClockTime(mpDoc, lastClock);
+        try {
+			ret &= validateClockTime(mpDoc, lastClock);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         return ret;
 	}

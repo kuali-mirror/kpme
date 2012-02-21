@@ -49,6 +49,15 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         actionDateTime = actionDateTime.plus(actionTimeLocal.getMillisOfDay());
 
         ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(missedPunch.getTkClockLogId());
+        // in case the missedpunch doc has an valication error but the clockLog has been changed at certain time
+        // need to reset the clock log back to the original one
+        if(cl == null) {
+        	MissedPunchDocument mpd = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(missedPunch.getDocumentNumber());
+        	if(mpd != null) {
+        		missedPunch.setTkClockLogId(mpd.getTkClockLogId());
+        		cl = TkServiceLocator.getClockLogService().getClockLog(missedPunch.getTkClockLogId());
+        	}
+        }
 
         if(cl.getClockTimestamp().compareTo(new Timestamp(actionDateTime.getMillis())) != 0){
         	//change occurred between the initial save and the approver
@@ -138,9 +147,9 @@ public class MissedPunchServiceImpl implements MissedPunchService {
                 TKUtils.getIPAddressFromRequest(TKContext.getHttpServletRequest()));
         TkServiceLocator.getClockLogService().saveClockLog(clockLog);
         missedPunch.setTkClockLogId(clockLog.getTkClockLogId());
-        MissedPunchDocument doc = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(missedPunch.getDocumentNumber());
-        doc.setTkClockLogId(clockLog.getTkClockLogId());
-        KNSServiceLocator.getBusinessObjectService().save(doc);
+//        MissedPunchDocument doc = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(missedPunch.getDocumentNumber());
+//        doc.setTkClockLogId(clockLog.getTkClockLogId());
+//        KNSServiceLocator.getBusinessObjectService().save(doc);
         
         // if both clock log ids are null, no need to create new time blocks
         if(!(logEndId == null && logBeginId == null)) {
