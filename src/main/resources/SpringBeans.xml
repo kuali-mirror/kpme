@@ -66,10 +66,6 @@
         <property name="password" value="${kr.datasource.password}"/>
     </bean>
 
-	<bean name="riceJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="enWorkflowDataSource"/>
-	</bean>
-	
     <bean id="nonTransDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${tk.datasource.driver.name}"/>
         <property name="maxWait" value="30000"/>
@@ -429,9 +425,7 @@
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
     
-    <bean id="tkPersonDao" class="org.kuali.hr.time.person.dao.PersonDaoSpringOjbImpl">
-        <property name="jcdAlias" value="enWorkflowDataSource"/>
-    </bean>
+    <bean id="tkPersonDao" class="org.kuali.hr.time.person.dao.PersonDaoSpringOjbImpl" />
 
     <bean id="batchJobDao" class="org.kuali.hr.time.batch.dao.BatchJobDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
