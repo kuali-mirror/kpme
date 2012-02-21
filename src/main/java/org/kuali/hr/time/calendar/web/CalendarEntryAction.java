@@ -37,21 +37,17 @@ public class CalendarEntryAction extends TkAction {
 					"document.hrPyCalendarEntryId",
 					"error.calendar.not.available");
 		} else {
-			CalendarEntries nextCalendarEntries = TkServiceLocator
-					.getCalendarEntriesSerivce()
-					.getNextCalendarEntriesByCalendarId(
-							calendarEntries.getHrCalendarId(), calendarEntries);
-			if (nextCalendarEntries != null) {
-				GlobalVariables.getMessageMap().putError(
-						"document.hrPyCalendarEntryId",
-						"error.next.calendar.available");
-			} else {
 				for (int i = 0; i < ceaf.getNoOfPeriods(); i++) {
-					TkServiceLocator.getCalendarEntriesSerivce()
-							.createNextCalendarEntry(calendarEntries);
+					CalendarEntries nextCalendarEntries = TkServiceLocator
+							.getCalendarEntriesSerivce()
+							.getNextCalendarEntriesByCalendarId(
+									calendarEntries.getHrCalendarId(), calendarEntries);
+					if (nextCalendarEntries == null) {
+						TkServiceLocator.getCalendarEntriesSerivce()
+						.createNextCalendarEntry(calendarEntries);
+					}
 				}
 				ceaf.setMessage("Calendar entry sucessfully created.");
-			}
 		}
 		return mapping.findForward("basic");
 	}
