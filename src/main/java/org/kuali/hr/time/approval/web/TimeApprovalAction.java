@@ -276,7 +276,7 @@ public class TimeApprovalAction extends TkAction{
         String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
         // The paging index begins from 1, but the sublist index begins from 0.
         // So the logic below sets the sublist begin index to 0 if the page number is null or equals 1
-        Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : Integer.parseInt(page)*TkConstants.PAGE_SIZE;
+        Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1)*TkConstants.PAGE_SIZE;
         Integer endIndex = beginIndex + TkConstants.PAGE_SIZE > assignmentPrincipalIds.size() ? assignmentPrincipalIds.size() : beginIndex + TkConstants.PAGE_SIZE;
 
         return assignmentPrincipalIds.subList(beginIndex, endIndex);
