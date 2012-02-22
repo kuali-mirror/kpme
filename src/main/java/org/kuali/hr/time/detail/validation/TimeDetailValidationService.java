@@ -56,8 +56,9 @@ public class TimeDetailValidationService {
         errors.addAll(validateInterval(payCalEntry, startTime, endTime));
         if (errors.size() > 0) return errors;
 
+        EarnCode earnCode = new EarnCode();
         if (StringUtils.isNotBlank(selectedEarnCode)) {
-            EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, asOfDate);
+            earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, asOfDate);
             if (earnCode != null && earnCode.getRecordTime()) {
                 if (startTimeS == null) errors.add("The start time is blank.");
                 if (endTimeS == null) errors.add("The end time is blank.");
@@ -113,10 +114,10 @@ public class TimeDetailValidationService {
         //------------------------
         // Amount cannot be zero
         //------------------------
-        if (amount != null) {
-//            if (amount.equals(BigDecimal.ZERO)) {
-//                errors.add("Amount cannot be zero.");
-//            }
+        if (amount != null && earnCode != null && StringUtils.equals(earnCode.getEarnCodeType(), TkConstants.EARN_CODE_AMOUNT)) {
+            if (amount.equals(BigDecimal.ZERO)) {
+                errors.add("Amount cannot be zero.");
+            }
             if (amount.scale() > 2) {
                 errors.add("Amount cannot have more than two digits after decimal point.");
             }
@@ -127,7 +128,7 @@ public class TimeDetailValidationService {
         // check if the hours entered for hourly earn code is greater than 24 hours per day
         // Hours cannot be zero
         //------------------------
-        if (hours != null) {
+        if (hours != null && earnCode != null && StringUtils.equals(earnCode.getEarnCodeType(), TkConstants.EARN_CODE_HOUR)) {
             if (hours.equals(BigDecimal.ZERO)) {
                 errors.add("Hours cannot be zero.");
             }
