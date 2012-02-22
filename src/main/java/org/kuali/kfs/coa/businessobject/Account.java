@@ -245,7 +245,7 @@ public class Account extends PersistableBusinessObjectBase implements Inactivate
      * @return the opposite of isActive()
      */
     public boolean isClosed() {
-        return !active;
+        return active;
     }
     
     /**
@@ -254,7 +254,7 @@ public class Account extends PersistableBusinessObjectBase implements Inactivate
      * @param closed The closed to set.
      */
     public void setClosed(boolean closed) {
-        this.active = !closed;
+        this.active = closed;
     }
 
     /**
