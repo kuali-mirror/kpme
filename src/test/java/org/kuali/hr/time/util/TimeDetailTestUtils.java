@@ -195,7 +195,7 @@ public class TimeDetailTestUtils {
             builder.append("&selectedAssignment=").append(URLEncoder.encode(tdaf.getSelectedAssignment(), "UTF-8"));
             builder.append("&selectedEarnCode=").append(URLEncoder.encode(tdaf.getSelectedEarnCode(), "UTF-8"));
             if (tdaf.getTkTimeBlockId() != null) {
-                builder.append("&tkTimeBlockId").append(URLEncoder.encode(tdaf.getTkTimeBlockId().toString(), "UTF-8"));
+                builder.append("&tkTimeBlockId=").append(URLEncoder.encode(tdaf.getTkTimeBlockId().toString(), "UTF-8"));
             }
         } catch (Exception e) {
             LOG.error("Exception building Post String", e);
