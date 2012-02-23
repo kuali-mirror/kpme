@@ -1,2 +1,2 @@
-delete from lm_leave_plan_t where LM_LEAVE_PLAN_ID = '3000';
-insert into lm_leave_plan_t values ('3000', 'TLPM', 'Testing Leave Plan Months', '02/01', '2012-02-01', '', '1', 'Y', '2012-02-06 11:59:46', "1");
+delete from lm_leave_plan_t where LM_LEAVE_PLAN_ID >= '1000';
+insert into lm_leave_plan_t values ('5555', 'TLPM', 'Testing Leave Plan Months', '02/01', '2012-02-01', '', '1', 'Y', '2012-02-06 11:59:46', "1");
