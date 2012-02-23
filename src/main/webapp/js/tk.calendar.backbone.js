@@ -525,7 +525,7 @@ $(function () {
                             var json = jQuery.parseJSON(data);
                             var errorMsgs = '';
                             $.each(json, function (index) {
-                                errorMsgs += "Error : " + json[index] + "\n";
+                                errorMsgs += "Error : " + json[index] + "<br/>";
                             });
 
                             self.displayErrorMessages(errorMsgs);
@@ -603,7 +603,7 @@ $(function () {
 
         displayErrorMessages : function (t, object) {
             // add the error class ane messages
-            $('#validation').text(t)
+            $('#validation').html(t)
                     .addClass('error-messages');
 
             // highlight the field
