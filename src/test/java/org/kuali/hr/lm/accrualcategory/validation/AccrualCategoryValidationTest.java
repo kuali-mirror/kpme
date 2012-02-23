@@ -34,8 +34,8 @@ public class AccrualCategoryValidationTest extends TkTestCase{
 		assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Min Percent Worked to Earn Accrual"));
 	}
 	
-	@Test
-	public void testValidateStartEndUnitsForErrorMessages() throws Exception {		
+	//@Test
+	/*public void testValidateStartEndUnitsForErrorMessages() throws Exception {		
 		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
 		assertTrue("Page contains test Accrual Category", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
@@ -73,7 +73,7 @@ public class AccrualCategoryValidationTest extends TkTestCase{
         HtmlUnitUtil.createTempFile(resultantPageAfterEdit);
         
 		assertTrue("Maintenance Page contains test startEndOverLapErrormessage", resultantPageAfterEdit.asText().contains("Start and End units should not have gaps or overlaps."));
-	}
+	}*/
 	
 	@Test
 	public void testValidationOfLeavePlan() throws Exception {
