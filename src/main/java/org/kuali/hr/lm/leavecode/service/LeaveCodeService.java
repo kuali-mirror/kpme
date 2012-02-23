@@ -18,4 +18,6 @@ public interface LeaveCodeService {
     List<LeaveCode> getLeaveCodes(String principalId, Date asOfDate);
 
     Map<String, String> getLeaveCodesForDisplay(String principalId);
+    
+    public LeaveCode getLeaveCode(String leaveCode, Date effectiveDate);
 }

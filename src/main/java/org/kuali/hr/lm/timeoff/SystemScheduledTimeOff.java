@@ -4,17 +4,16 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public class SystemScheduledTimeOff extends HrBusinessObject {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String lmSystemScheduledTimeOffId;
 	private String leavePlan;
@@ -46,7 +45,12 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	}
 
 	public String getLeavePlan() {
-		return leavePlan;
+		if (this.leaveCodeObj == null && 
+				(!StringUtils.isEmpty(this.leaveCode) && this.effectiveDate != null)) {		
+			leaveCodeObj =  TkServiceLocator.getLeaveCodeService().getLeaveCode(leaveCode, this.effectiveDate);
+		}
+		
+		return (leaveCodeObj != null) ? leaveCodeObj.getLeavePlan() : "";
 	}
 
 	public void setLeavePlan(String leavePlan) {
@@ -54,7 +58,12 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	}
 
 	public String getAccrualCategory() {
-		return accrualCategory;
+		if (this.leaveCodeObj == null && 
+				(!StringUtils.isEmpty(this.leaveCode) && this.effectiveDate != null)) {		
+			leaveCodeObj =  TkServiceLocator.getLeaveCodeService().getLeaveCode(leaveCode, this.effectiveDate);
+		}
+		
+		return (leaveCodeObj != null) ? leaveCodeObj.getAccrualCategory() : "";
 	}
 
 	public void setAccrualCategory(String accrualCategory) {

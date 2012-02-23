@@ -17,4 +17,5 @@ public interface LeaveCodeDao {
 	
 	public List<LeaveCode> getLeaveCodes(String leavePlan, Date asOfDate);
 	
+	public LeaveCode getLeaveCode(String leaveCode, Date asOfDate);
 }

@@ -11,6 +11,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
@@ -66,5 +67,20 @@ public class LeaveCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 		return leaveCodes;
 	}
 
+	@Override
+    public LeaveCode getLeaveCode(String leaveCode, Date asOfDate) {
+		LeaveCode myleaveCode = null;
+		Criteria root = new Criteria();
+		root.addEqualTo("leaveCode", leaveCode);
+		root.addLessOrEqualThan("effectiveDate", asOfDate);
+		root.addEqualTo("active",true);
+		
+		Query query = QueryFactory.newQuery(LeaveCode.class, root);
+		Object obj = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		if (obj != null) {
+			myleaveCode = (LeaveCode) obj;
+		}
 
+		return myleaveCode;
+    }
 }

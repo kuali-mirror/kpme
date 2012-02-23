@@ -1,5 +1,7 @@
 package org.kuali.hr.lm.leavecode;
 
+import java.util.Calendar;
+
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
@@ -9,6 +11,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class LeaveCodeMaintTest extends TkTestCase{
+	private static final String SUCCESS_MESSAGE = "Document was successfully submitted.";
+	
 	
 	@Test
 	public void testLookupPage() throws Exception {	 
@@ -25,7 +29,7 @@ public class LeaveCodeMaintTest extends TkTestCase{
 	}
 
 	@Test
-	public void testAddNew() throws Exception {
+	public void testGetLeavePlanBasedOnAccrualCategory() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.LEAVE_CODE_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
 	  	assertNotNull(page);
@@ -34,9 +38,14 @@ public class LeaveCodeMaintTest extends TkTestCase{
 	  	assertNotNull("Search form was missing from page.", form);
 	  	assertTrue("page text contains:\n" + "Leave Code Maintenance", page.asText().contains("Leave Code Maintenance"));
 	  	
+	  	Calendar validDate = Calendar.getInstance();
+	  	validDate.add(java.util.Calendar.MONTH, 5); // 5 month in the future
+	  	String validDateString = Integer.toString(validDate.get(Calendar.MONTH)) + "/" + Integer.toString(validDate.get(Calendar.DAY_OF_MONTH)) 
+	  		+ "/" + Integer.toString(validDate.get(Calendar.YEAR)); 
+	  	
 	  	setFieldValue(page, "document.documentHeader.documentDescription", "Leave Code - test");
 	    setFieldValue(page, "document.newMaintainableObject.defaultAmountofTime", "25"); // a wrong default amount of time
-	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "02/21/2012"); // jira1360
+	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString); // jira1360
 	    setFieldValue(page, "document.newMaintainableObject.accrualCategory", "AC1"); // jira1360
 	    
 	    HtmlElement element = page.getElementByName("methodToCall.route");

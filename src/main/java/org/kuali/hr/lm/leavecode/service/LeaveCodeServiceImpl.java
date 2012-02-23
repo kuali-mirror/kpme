@@ -88,5 +88,9 @@ public class LeaveCodeServiceImpl implements LeaveCodeService {
         return leaveCodesForDisplay;
     }
 
-
+    @Override
+    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+    public LeaveCode getLeaveCode(String leaveCode, Date effectiveDate){
+    	return leaveCodeDao.getLeaveCode(leaveCode, effectiveDate);
+    }
 }

@@ -51,8 +51,8 @@
 					<property name="objectAttributeName" value="accrualCategoryObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory"
-								p:targetName="accrualCategory" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory" p:targetName="accrualCategory" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
 						</list>
 					</property>
 				</bean>
@@ -60,8 +60,9 @@
 					<property name="objectAttributeName" value="leaveCodeObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leaveCode"
-								p:targetName="leaveCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leaveCode" p:targetName="leaveCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory" p:targetName="accrualCategory" />
 						</list>
 					</property>
 				</bean>
@@ -101,7 +102,7 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+			<bean parent="LookupReadonlyControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="leavePlan" />
 		<property name="label" value="Leave Plan" />
@@ -119,7 +120,7 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+			<bean parent="LookupReadonlyControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="accrualCategory" />
 		<property name="label" value="Accrual Category" />
@@ -409,8 +410,6 @@
 	</bean>
 
 	<!--  Look up Definitions  -->
-
-
 	<bean id="SystemScheduledTimeOff-lookupDefinition" parent="SystemScheduledTimeOff-lookupDefinition-parentBean" />
 	<bean id="SystemScheduledTimeOff-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
@@ -418,12 +417,12 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
-				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
-				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+				<!-- bean parent="FieldDefinition" p:attributeName="leavePlan" /-->
+				<!-- bean parent="FieldDefinition" p:attributeName="accrualCategory" /-->
 				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
 				<bean parent="FieldDefinition" p:attributeName="accruedDate" />
 				<bean parent="FieldDefinition" p:attributeName="scheduledTimeOffDate" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 			</list>
 

@@ -112,6 +112,23 @@ public class ValidationUtils {
 		return valid;
 	}
 	
+	public static boolean validateLeaveCode(String leaveCode, Date asOfDate) {
+		boolean valid = false;
+		
+		if (asOfDate != null) {
+			LeaveCode lc = TkServiceLocator.getLeaveCodeService().getLeaveCode(leaveCode, asOfDate);
+			valid = (lc != null);
+		} else {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("leaveCode", leaveCode);
+			Query query = QueryFactory.newQuery(LeaveCode.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			valid = (count > 0);
+		}
+		
+		return valid;
+	}
+	
 	public static boolean validateLeavePlan(String leavePlan, Date asOfDate) {
 		boolean valid = false;
 		

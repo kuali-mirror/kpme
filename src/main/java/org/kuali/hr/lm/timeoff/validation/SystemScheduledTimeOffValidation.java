@@ -79,6 +79,16 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		return valid;
 	}
 	
+	boolean validateLeaveCode(String leaveCode, Date asOfDate) {
+		boolean valid = true;
+		if (!ValidationUtils.validateLeaveCode(leaveCode, asOfDate)) {
+			this.putFieldError("leaveCode", "error.existence", "leaveCode '"
+					+ leaveCode + "'");
+			valid = false;
+		}
+		return valid;
+	}
+	
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
@@ -98,8 +108,10 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 					valid &= this.validateTransferConversionFactor(sysSchTimeOff.getTransferConversionFactor());
 				}
 				valid &= this.validateLocation(sysSchTimeOff.getLocation());
+				valid &= this.validateLeaveCode(sysSchTimeOff.getLeaveCode(), sysSchTimeOff.getEffectiveDate());
 			}
 		}
+		
 		return valid;
 	}
 }

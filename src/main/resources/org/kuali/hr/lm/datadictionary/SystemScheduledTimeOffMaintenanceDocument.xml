@@ -41,9 +41,9 @@
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
 					p:required="true" p:noLookup="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="leavePlan"
-					p:required="true" />
+					p:required="true" p:noLookup="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="accrualCategory"
-					p:required="true" />
+					p:required="true" p:noLookup="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="leaveCode"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="accruedDate"
