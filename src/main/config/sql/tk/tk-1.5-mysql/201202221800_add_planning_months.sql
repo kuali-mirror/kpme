@@ -1,0 +1,1 @@
+alter table lm_leave_plan_t add column PLANNING_MONTHS varchar (3);

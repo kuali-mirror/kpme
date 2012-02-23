@@ -20,6 +20,7 @@
 			<list>
 				<ref bean="LeavePlan-leavePlan" />
 				<ref bean="LeavePlan-descr" />
+				<ref bean="LeavePlan-planningMonths" />
 				<ref bean="LeavePlan-calendarYearStart" />
 				<ref bean="LeavePlan-effectiveDate" />
 				<ref bean="LeavePlan-timestamp" />
@@ -63,6 +64,22 @@
 		</property>
 		<property name="name" value="descr" />
 		<property name="label" value="Description" />
+	</bean>
+	
+		<!-- planning months -->
+	<bean id="LeavePlan-planningMonths" parent="LeavePlan-planningMonths-parentBean" />
+	<bean id="LeavePlan-planningMonths-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Planning Months" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern"/>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+		<property name="name" value="planningMonths" />
+		<property name="label" value="Planning Months" />
 	</bean>
 	
 	<!-- calendarYearStart -->
@@ -160,6 +177,7 @@
 							<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 							<bean parent="FieldDefinition" p:attributeName="calendarYearStart" />
 							<bean parent="FieldDefinition" p:attributeName="descr" />
+							<bean parent="FieldDefinition" p:attributeName="planningMonths" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
@@ -182,6 +200,7 @@
 				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="calendarYearStart" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="planningMonths" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active"/>
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
@@ -193,6 +212,7 @@
 				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="calendarYearStart" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="planningMonths" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="active" />

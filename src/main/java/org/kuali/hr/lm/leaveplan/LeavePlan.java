@@ -15,7 +15,16 @@ public class LeavePlan extends HrBusinessObject {
 	private String descr;
 	private String calendarYearStart;
 	private Boolean history;
+	private String planningMonths;
 	
+	public String getPlanningMonths() {
+		return planningMonths;
+	}
+
+	public void setPlanningMonths(String planningMonths) {
+		this.planningMonths = planningMonths;
+	}
+
 	public String getLmLeavePlanId() {
 		return lmLeavePlanId;
 	}
