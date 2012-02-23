@@ -15,7 +15,6 @@ public class CalendarTypesKeyValue extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("Pay", "Pay"));
         keyValues.add(new KeyLabelPair("Leave", "Leave"));
-        keyValues.add(new KeyLabelPair("Both", "Both"));
         return keyValues;
 	}
 

@@ -12,8 +12,7 @@ public class CalendarRule extends MaintenanceDocumentRuleBase {
 		boolean valid = true;
 
 		Calendar calendar = (Calendar) this.getNewBo();
-		if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")
-				|| StringUtils.equals(calendar.getCalendarTypes(), "Both")){
+		if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")){
 			valid = validateFLSABeginDay(calendar.getFlsaBeginDay());
 		}
 		return valid;
