@@ -1,11 +1,13 @@
 package org.kuali.hr.lm.accrual.validation;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -114,6 +116,17 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
+	// JIRA1355
+	boolean validateLeavePlan(String leavePlan, Date asOfDate) {
+		boolean valid = true;
+		if (!ValidationUtils.validateLeavePlan(leavePlan, asOfDate)) {
+			this.putFieldError("leavePlan", "error.existence", "leavePlan '"
+					+ leavePlan + "'");
+			valid = false;
+		}
+		return valid;
+	}
+	
 	static final Comparator<AccrualCategoryRule> SENIORITY_ORDER = new Comparator<AccrualCategoryRule>() {
 
         public int compare(AccrualCategoryRule e1, AccrualCategoryRule e2) {
@@ -134,6 +147,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 				valid &= this.validateAccrualRulePresent(leaveAccrualCategory.getAccrualCategoryRules());
 				valid &= this.validateMinPercentWorked(leaveAccrualCategory.getMinPercentWorked(), ADD_LINE_LOCATION);
 				valid &= this.validateStartEndUnits(leaveAccrualCategory.getAccrualCategoryRules());
+				valid &= this.validateLeavePlan(leaveAccrualCategory.getLeavePlan(), leaveAccrualCategory.getEffectiveDate());
 			}
 		}
 		return valid;

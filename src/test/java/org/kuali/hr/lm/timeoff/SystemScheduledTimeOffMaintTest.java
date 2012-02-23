@@ -101,7 +101,12 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	  	HtmlForm form = page.getFormByName("KualiForm");
 	  	assertNotNull("Search form was missing from page.", form); 	
 	  	
-	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", "02/20/2012");
+	  	Calendar validDate = Calendar.getInstance();
+	  	validDate.add(java.util.Calendar.MONTH, 5); // 5 month in the future
+	  	String validDateString = Integer.toString(validDate.get(Calendar.MONTH)) + "/" + Integer.toString(validDate.get(Calendar.DAY_OF_MONTH)) 
+	  		+ "/" + Integer.toString(validDate.get(Calendar.YEAR));
+	  	
+	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
 	    setFieldValue(page, "document.newMaintainableObject.leaveCode", "testLC"); 
 	    
 	    page = page.getElementByName("methodToCall.route").click();
@@ -120,7 +125,12 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	  	HtmlForm form = page.getFormByName("KualiForm");
 	  	assertNotNull("Search form was missing from page.", form); 	
 	  	
-	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", "02/20/2012");
+	  	Calendar validDate = Calendar.getInstance();
+	  	validDate.add(java.util.Calendar.MONTH, 5); // 5 month in the future
+	  	String validDateString = Integer.toString(validDate.get(Calendar.MONTH)) + "/" + Integer.toString(validDate.get(Calendar.DAY_OF_MONTH)) 
+	  		+ "/" + Integer.toString(validDate.get(Calendar.YEAR));
+	  	
+	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
 	  	setFieldValue(page, "document.newMaintainableObject.leaveCode", "testLCL"); 
 	    
 	    page = page.getElementByName("methodToCall.route").click();

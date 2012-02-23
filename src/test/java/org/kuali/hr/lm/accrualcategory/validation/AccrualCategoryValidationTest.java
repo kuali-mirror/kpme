@@ -13,7 +13,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class AccrualCategoryValidationTest extends TkTestCase{
 	private static final String ACCRUAL_CATEGORY = "testAC";
-	
+	private static final String ERROR_LEAVE_PLAN = "The specified leavePlan 'IU-SM-W' does not exist";
 	@Test
 	public void testValidateStartEndUnits() throws Exception {
 		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
@@ -34,8 +34,8 @@ public class AccrualCategoryValidationTest extends TkTestCase{
 		assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Min Percent Worked to Earn Accrual"));
 	}
 	
-	//@Test
-	/*public void testValidateStartEndUnitsForErrorMessages() throws Exception {		
+	@Test
+	public void testValidateStartEndUnitsForErrorMessages() throws Exception {		
 		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
 		assertTrue("Page contains test Accrual Category", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
@@ -70,8 +70,29 @@ public class AccrualCategoryValidationTest extends TkTestCase{
 	  	HtmlUnitUtil.createTempFile(maintPage);
         HtmlPage resultantPageAfterEdit = HtmlUnitUtil.clickInputContainingText(maintPage, "submit");
         
-        /*HtmlUnitUtil.createTempFile(resultantPageAfterEdit);
-        */
-		//assertTrue("Maintenance Page contains test startEndOverLapErrormessage", resultantPageAfterEdit.asText().contains("Start and End units should not have gaps or overlaps."));
-	//}
+        HtmlUnitUtil.createTempFile(resultantPageAfterEdit);
+        
+		assertTrue("Maintenance Page contains test startEndOverLapErrormessage", resultantPageAfterEdit.asText().contains("Start and End units should not have gaps or overlaps."));
+	}
+	
+	@Test
+	public void testValidationOfLeavePlan() throws Exception {
+		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
+		assertTrue("Page contains test Accrual Category", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
+		assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains(ACCRUAL_CATEGORY));
+		
+		HtmlForm form = maintPage.getFormByName("KualiForm");
+	  	assertNotNull("Search form was missing from page.", maintPage);
+	  	
+		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(maintPage, "* Document Description");
+		inputForDescription.setValueAttribute("Test_KPME1355");
+
+		setFieldValue(maintPage, "document.newMaintainableObject.leavePlan", "IU-SM-W");
+	
+		maintPage = maintPage.getElementByName("methodToCall.route").click();
+	    HtmlUnitUtil.createTempFile(maintPage);
+	    assertTrue("page text does not contain:\n" + ERROR_LEAVE_PLAN, maintPage.asText().contains(ERROR_LEAVE_PLAN));
+	}
 }
