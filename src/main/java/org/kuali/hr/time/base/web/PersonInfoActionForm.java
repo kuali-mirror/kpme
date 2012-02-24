@@ -18,6 +18,7 @@ public class PersonInfoActionForm extends TkForm {
     
     private String principalId;
     private String principalName;
+    private String name;
     private List<Job> jobs = new ArrayList<Job>();
     private Map<Long,List<Assignment>> jobNumberToListAssignments = new HashMap<Long,List<Assignment>>();
 	
@@ -35,6 +36,13 @@ public class PersonInfoActionForm extends TkForm {
 	private Map<Long,List<Person>> workAreaToApproverPerson = new HashMap<Long, List<Person>>();
     private Map<String,List<Person>> deptToDeptAdminPerson = new HashMap<String, List<Person>>();
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public Map<Long, List<Assignment>> getJobNumberToListAssignments() {
 		return jobNumberToListAssignments;

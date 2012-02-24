@@ -11,10 +11,12 @@
                     <tr>
                         <th >Principal Id</th>
                         <th>Principal Name</th>
+                        <th>Name</th>
                     </tr>
                     <tr>
                         <td>${Form.principalId}</td>
                         <td>${Form.principalName}</td>
+                        <td>${Form.name}</td>
                     </tr>
                 </table>
             </div>

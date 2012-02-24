@@ -38,7 +38,9 @@ public class PersonInfoAction extends TkAction {
 		
 		personForm.setPrincipalId(TKContext.getTargetPrincipalId());
 		Person person = KIMServiceLocator.getPersonService().getPerson(personForm.getPrincipalId());
-		personForm.setPrincipalName(person.getName());
+		personForm.setPrincipalName(person.getPrincipalName());
+		// set name
+		personForm.setName(person.getName());
 		personForm.setJobs(TkServiceLocator.getJobSerivce().getJobs(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate()));
 		
 		setupRolesOnForm(personForm);
