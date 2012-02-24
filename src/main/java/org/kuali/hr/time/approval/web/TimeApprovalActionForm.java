@@ -34,8 +34,9 @@ public class TimeApprovalActionForm extends TkForm {
     private Date payEndDate;
     private String payBeginDateForSearch;
     private String payEndDateForSearch;
+    private String roleName;
 
-    private List<String> payCalendarLabels = new ArrayList<String>();
+	private List<String> payCalendarLabels = new ArrayList<String>();
     private PayCalendarEntries payCalendarEntries;
 
 	private List<ApprovalTimeSummaryRow> approvalRows;
@@ -76,6 +77,14 @@ public class TimeApprovalActionForm extends TkForm {
 
     private String calNav = null;
 
+    public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+	
     public String getCalNav() {
         return calNav;
     }

@@ -12,6 +12,7 @@
 <html:hidden styleId="payEndDateForSearch" property="payEndDateForSearch" value="${Form.payEndDateForSearch}"/>
 <html:hidden property="prevPayCalendarId" value="${Form.prevPayCalendarId}"/>
 <html:hidden property="nextPayCalendarId" value="${Form.nextPayCalendarId}"/>
+<html:hidden styleId="roleName" property="roleName" value="${Form.roleName}"/>
 
 
 <script src="js/underscore-1.3.1.min.js"></script>
