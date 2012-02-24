@@ -681,7 +681,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			
 			SqlRowSet rs = null;
 			if (workArea != null) {
-				sql += " AND A0.WORK_AREA = ?) ";
+				sql += " AND W0.WORK_AREA = ?) ";
 				
 				rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(
 						sql,
