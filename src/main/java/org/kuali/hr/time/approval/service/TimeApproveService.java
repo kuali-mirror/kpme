@@ -76,27 +76,16 @@ public interface TimeApproveService {
     List<String> getUniquePayGroups();
 
     /**
-     * Method to get a list of principal ids based on the work areas.
-     *
-     * @param workAreas
-     * @param payEndDate
-     * @param calGroup
-     * @return A list of the PrincipalIds
-     */
-    List<String> getPrincipalIdsByWorkAreas(Set<Long> workAreas, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
-    
-    /**
-     * Method to get a list of principal ids based on the work areas.
+     * Method to get a list of principal ids based on the department work areas.
      *
      * @param department
+     * @param workArea
      * @param payEndDate
      * @param calGroup
      * @return A list of the PrincipalIds
      */
-    List<String> getPrincipalIdsByDeptAndWorkArea(String department, String WorkArea, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
+    List<String> getPrincipalIdsByDeptWorkAreaRolename(String roleName, String department, String WorkArea, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
     
-    Map<String, String> getPrincipalIdsByDepartmentList(List<String> departments, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
-
     /**
      * Method to create a map that contains the principal's id and corresponding timesheet document header.
      *
@@ -122,7 +111,5 @@ public interface TimeApproveService {
      */
     Multimap<String, Long> getDeptWorkAreasByDepts(Set<String> userDepts);
     
-    public Set<String> getPrincipalIdsByWorkAreas(String workAreasAsString, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
-
     public DocumentRouteHeaderValue getRouteHeader(String documentId);
 }

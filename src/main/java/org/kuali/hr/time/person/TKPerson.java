@@ -1,7 +1,13 @@
 package org.kuali.hr.time.person;
 
-public class TKPerson implements Comparable<TKPerson> {
+import java.io.Serializable;
 
+public class TKPerson implements Comparable<TKPerson>,Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String principalId;
 	private String firstName;
     private String lastName;

@@ -142,8 +142,8 @@ $(function () {
 
         formatTime : function (e) {
 
-            var id = e.target.id;
-            var value = e.target.value;
+            var id = (e.target || e.srcElement).id;
+            var value = (e.target || e.srcElement).value;
             // Use Datejs to parse the value
             var dateTime = Date.parse(value);
             if (_.isNull(dateTime)) {
@@ -255,10 +255,12 @@ $(function () {
 
         showOverTimeDialog : function (e) {
             var self = this;
+            // convert the event to a jQuery event.
+            var id = (e.target || e.srcElement).id
 
-            var key = _(e.target.id).parseEventKey();
+            var key = _(e).parseEventKey();
             var timeBlock = timeBlockCollection.get(key.id);
-            var currentOvertimePref = $("#" + e.target.id).text().trim();
+            var currentOvertimePref = $.trim($("#" + id).text());
             var dfd = $.Deferred();
 
             // The content of the overtimePref is in a separate template,
@@ -300,7 +302,7 @@ $(function () {
         },
 
         showTimeBlock : function (e) {
-            var key = _(e.target.id).parseEventKey();
+            var key = _(e).parseEventKey();
             // Retrieve the selected timeblock
             var timeBlock = timeBlockCollection.get(key.id);
             this.showTimeEntryDialog(timeBlock.get("startDate"), timeBlock.get("endDate"));
@@ -374,7 +376,7 @@ $(function () {
         },
 
         deleteTimeBlock : function (e) {
-            var key = _(e.target.id).parseEventKey();
+            var key = _(e).parseEventKey();
             var timeBlock = timeBlockCollection.get(key.id);
 
             if (confirm('You are about to delete a time block. Click OK to confirm the delete.')) {
@@ -383,7 +385,7 @@ $(function () {
         },
 
         deleteLunchDeduction : function (e) {
-            var key = _(e.target.id).parseEventKey();
+            var key = _(e).parseEventKey();
 //            var timeBlock = timeBlockCollection.get(key.id);
 
             if (confirm('You are about to delete the lunch deduction. Click OK to confirm the delete.')) {
@@ -523,7 +525,7 @@ $(function () {
                             var json = jQuery.parseJSON(data);
                             var errorMsgs = '';
                             $.each(json, function (index) {
-                                errorMsgs += "Error : " + json[index] + "\n";
+                                errorMsgs += "Error : " + json[index] + "<br/>";
                             });
 
                             self.displayErrorMessages(errorMsgs);
@@ -601,7 +603,7 @@ $(function () {
 
         displayErrorMessages : function (t, object) {
             // add the error class ane messages
-            $('#validation').text(t)
+            $('#validation').html(t)
                     .addClass('error-messages');
 
             // highlight the field
@@ -719,12 +721,14 @@ $(function () {
     _.mixin({
         /**
          * Parse the div id to get the timeblock id and the action.
-         * @param string
+         * @param event
          */
-        parseEventKey : function (string) {
+        parseEventKey : function (e) {
+            var id = (e.target || e.srcElement).id;
+
             return {
-                action : string.split("_")[0],
-                id : string.split("_")[1]
+                action : id.split("_")[0],
+                id : id.split("_")[1]
             };
         },
         /**

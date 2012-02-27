@@ -145,7 +145,7 @@ public class ClockAction extends TimesheetAction {
     		}
     		List<TimeCollectionRule> ruleList = new ArrayList<TimeCollectionRule> ();
     		for(Assignment assignment: assignments) {
-    			TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveDate());
+    			TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(),assignment.getEffectiveDate());
 		    	if(rule != null) {
 		    		if(rule.isHrsDistributionF()) {
 		    			ruleList.add(rule);

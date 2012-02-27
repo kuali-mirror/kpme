@@ -12,6 +12,7 @@
 <html:hidden styleId="payEndDateForSearch" property="payEndDateForSearch" value="${Form.payEndDateForSearch}"/>
 <html:hidden property="prevPayCalendarId" value="${Form.prevPayCalendarId}"/>
 <html:hidden property="nextPayCalendarId" value="${Form.nextPayCalendarId}"/>
+<html:hidden styleId="roleName" property="roleName" value="${Form.roleName}"/>
 
 
 <script src="js/underscore-1.3.1.min.js"></script>
@@ -121,7 +122,7 @@
 
 <display:table name="${Form.approvalRows}" requestURI="TimeApproval.do?methodToCall=loadApprovalTab" excludedParams="*"
                pagesize="20" id="row"
-               class="approvals-table" partialList="true" size="${Form.resultSize}" sort="page" defaultsort="0">
+               class="approvals-table" partialList="true" size="${Form.resultSize}" sort="external" defaultsort="0">
     <c:set var="nameStyle" value=""/>
     <c:if test="${row.clockedInOverThreshold}">
         <c:set var="nameStyle" value="background-color: #F08080;"/>

@@ -6,6 +6,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -54,12 +55,26 @@ public class TimeApprovalAction extends TkAction{
         	taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
         	taaf.setResultSize(0);
         } else {
+        	taaf.setResultSize(persons.size());	
+	        taaf.setApprovalRows(getApprovalRows(taaf, persons));
+	        
         	CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(taaf.getHrPyCalendarEntriesId());
    	        taaf.setPayCalendarEntries(payCalendarEntries);
    	        taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntries, new ArrayList<Boolean>()));
-        	taaf.setResultSize(persons.size());	
-	        taaf.setApprovalRows(getApprovalRows(taaf, persons));
+        	
+	        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, payCalendarEntries.getEndPeriodDate());
+	        if(!assignments.isEmpty()){
+	        	 for(Long wa : taaf.getWorkAreaDescr().keySet()){
+	        		for (Assignment assign : assignments) {
+		             	if (assign.getWorkArea().toString().equals(wa.toString())) {
+		             		taaf.setSelectedWorkArea(wa.toString());
+		             		break;
+		             	}
+	        		}
+	             }
+	        }
         }
+ 
 		return mapping.findForward("basic");
 	}
 	
@@ -82,8 +97,12 @@ public class TimeApprovalAction extends TkAction{
 		TimeApprovalActionForm taaf = (TimeApprovalActionForm)form;
 		taaf.setSearchField(null);
 		taaf.setSearchTerm(null);
+
+        CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(taaf.getHrPyCalendarEntriesId());
+        taaf.setPayCalendarEntries(payCalendarEntries);
+        taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntries, new ArrayList<Boolean>()));
+
 		taaf.getWorkAreaDescr().clear();
-		
     	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
         for(WorkArea wa : workAreas){
         	if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(wa.getWorkArea())
@@ -91,12 +110,8 @@ public class TimeApprovalAction extends TkAction{
         		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
         	}
         }
-        
-        CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(taaf.getHrPyCalendarEntriesId());
-        taaf.setPayCalendarEntries(payCalendarEntries);
-        taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntries, new ArrayList<Boolean>()));
-        
-    	List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptAndWorkArea(taaf.getSelectedDept(), null, new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
+	
+    	List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(taaf.getRoleName(), taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
     	if (principalIds.isEmpty()) {
     		taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
     		taaf.setResultSize(0);
@@ -121,7 +136,7 @@ public class TimeApprovalAction extends TkAction{
 	    CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(taaf.getHrPyCalendarEntriesId());
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntries, new ArrayList<Boolean>()));
         
-        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptAndWorkArea(taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
+        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(taaf.getRoleName(), taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
 		if (principalIds.isEmpty()) {
 			taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
 			taaf.setResultSize(0);
@@ -144,6 +159,10 @@ public class TimeApprovalAction extends TkAction{
         Date currentDate = null;
         CalendarEntries payCalendarEntries = null;
         Calendar currentPayCalendar = null;
+        String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
+        
+        //reset state
+        resetState(form, request);
         
         // Set calendar groups
         List<String> calGroups = TkServiceLocator.getTimeApproveService().getUniquePayGroups();
@@ -153,13 +172,6 @@ public class TimeApprovalAction extends TkAction{
             taaf.setSelectedPayCalendarGroup(calGroups.get(0));
         }
         
-        List<String> depts = new ArrayList<String>(user.getReportingApprovalDepartments().keySet());
-        if ( depts.isEmpty() ) {
-        	return fwd;
-        }
-        Collections.sort(depts);
-        taaf.setDepartments(depts);
-
         // Set current pay calendar entries if present. Decide if the current date should be today or the end period date
         if (taaf.getHrPyCalendarEntriesId() != null) {
         	payCalendarEntries = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(taaf.getHrPyCalendarEntriesId());
@@ -192,34 +204,44 @@ public class TimeApprovalAction extends TkAction{
             }
             taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntries, new ArrayList<Boolean>()));
             
-            if (taaf.getDepartments().size() == 1 || !StringUtils.isEmpty(taaf.getSelectedDept())) {
-            	
-            	if (StringUtils.isEmpty(taaf.getSelectedDept()))
-            		taaf.setSelectedDept(taaf.getDepartments().get(0));
-            	
-            	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
-                for(WorkArea wa : workAreas){
-                	if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(wa.getWorkArea())
-                			|| TKContext.getUser().getCurrentRoles().getReviewerWorkAreas().contains(wa.getWorkArea())) {
-                		taaf.getDeptWorkareas().add(wa.getWorkArea());
-                		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
-                	}
-                }
+        	if (StringUtils.isBlank(page)) {
+		        List<String> depts = new ArrayList<String>(user.getReportingApprovalDepartments().keySet());
+		        if ( depts.isEmpty() ) {
+		        	return fwd;
+		        }
+		        Collections.sort(depts);
+		        taaf.setDepartments(depts);
+		        
+		        if (taaf.getDepartments().size() == 1) {
+	            	if (StringUtils.isEmpty(taaf.getSelectedDept()))
+	            		taaf.setSelectedDept(taaf.getDepartments().get(0));
+	            	
+	            	if (taaf.getWorkAreaDescr().isEmpty()) {
+		            	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
+		                for(WorkArea wa : workAreas){
+		                	if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(wa.getWorkArea())
+		                			|| TKContext.getUser().getCurrentRoles().getReviewerWorkAreas().contains(wa.getWorkArea())) {
+		                		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
+		                	}
+		                }
+	            	}
+		        }
+        	}
 
-                List<String> principalIds = new ArrayList<String>();
-            	principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptAndWorkArea(taaf.getSelectedDept(), null, new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
-            	if (principalIds.isEmpty()) {
-            		taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
-            		taaf.setResultSize(0);
-            	}
-            	else {
-	                List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
-	                Collections.sort(persons);
-	                taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, persons)));
-	                taaf.setResultSize(persons.size());
-            	}
-            }
+            List<String> principalIds = new ArrayList<String>();
+        	principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(taaf.getRoleName(), taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
+        	if (principalIds.isEmpty()) {
+        		taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
+        		taaf.setResultSize(0);
+        	}
+        	else {
+                List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
+                Collections.sort(persons);
+                taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, persons)));
+                taaf.setResultSize(persons.size());
+        	}
         }
+           
         return fwd;
 	}
 	
@@ -250,6 +272,19 @@ public class TimeApprovalAction extends TkAction{
         return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), taaf.getSelectedPayCalendarGroup(), assignmentPrincipalIds, taaf.getPayCalendarLabels(), taaf.getPayCalendarEntries());
     }
 	
+    public void resetState(ActionForm form, HttpServletRequest request) {
+    	  TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
+ 	      String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
+ 	      
+ 	      if (StringUtils.isBlank(page)) {
+ 			  taaf.getDepartments().clear();
+ 			  taaf.getWorkAreaDescr().clear();
+ 			  taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
+ 			  taaf.setSelectedDept(null);
+ 			  taaf.setSearchField(null);
+ 			  taaf.setSearchTerm(null);
+ 	      }
+	}
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         TKUser user = TKContext.getUser();
@@ -275,7 +310,7 @@ public class TimeApprovalAction extends TkAction{
         String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
         // The paging index begins from 1, but the sublist index begins from 0.
         // So the logic below sets the sublist begin index to 0 if the page number is null or equals 1
-        Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : Integer.parseInt(page)*TkConstants.PAGE_SIZE;
+        Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1)*TkConstants.PAGE_SIZE;
         Integer endIndex = beginIndex + TkConstants.PAGE_SIZE > assignmentPrincipalIds.size() ? assignmentPrincipalIds.size() : beginIndex + TkConstants.PAGE_SIZE;
 
         return assignmentPrincipalIds.subList(beginIndex, endIndex);

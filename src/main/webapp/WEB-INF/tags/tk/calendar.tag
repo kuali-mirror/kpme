@@ -166,7 +166,7 @@
                                     </c:if>
                                 </c:forEach>
                                 <div class="create"
-                                     id="${cal.calendarMonth}/${day.dayNumberString}/${cal.calenadrYear}"></div>
+                                     id="${day.dateString}"></div>
                             </div>
                         </td>
                     </c:forEach>

@@ -16,15 +16,15 @@
 
 package org.kuali.kfs.coa.businessobject;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 
@@ -40,6 +40,7 @@ public class Account extends PersistableBusinessObjectBase implements Inactivate
     private Date accountExpirationDate;
     private boolean active;
     private String organizationCode;
+    private boolean closed;
 
     public String getOrganizationCode() {
 		return organizationCode;
@@ -237,7 +238,7 @@ public class Account extends PersistableBusinessObjectBase implements Inactivate
      * @return the opposite of isActive()
      */
     public boolean isClosed() {
-        return !active;
+        return active;
     }
     
     /**
@@ -246,7 +247,7 @@ public class Account extends PersistableBusinessObjectBase implements Inactivate
      * @param closed The closed to set.
      */
     public void setClosed(boolean closed) {
-        this.active = !closed;
+        this.active = closed;
     }
 
     /**

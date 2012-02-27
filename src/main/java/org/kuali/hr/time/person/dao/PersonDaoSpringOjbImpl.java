@@ -2,8 +2,8 @@ package org.kuali.hr.time.person.dao;
 
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.person.TKPerson;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 import java.util.LinkedList;
@@ -15,32 +15,15 @@ public class PersonDaoSpringOjbImpl extends PersistenceBrokerDaoSupport  impleme
 	
 	public List<TKPerson> getPersonCollection(List<String> principalIds) {
 		
-		StringBuilder pid = new StringBuilder();
-		for (String principalId : principalIds) {
-			pid.append("'" + principalId + "',");
-		}
-		
-		String principalIdForQuery = pid.substring(0, pid.length() - 1);
-		
-		String GET_PERSON_SQL = "SELECT DISTINCT " 
-				+ "ENTITY_ID, LAST_NM, FIRST_NM "
-				+ "FROM "
-				+ "KRIM_ENTITY_NM_T "
-				+ "WHERE "
-				+ "ACTV_IND = 'Y' AND "
-				+ "NM_TYP_CD = 'PRFR' AND "
-				+ "ENTITY_ID IN (" + principalIdForQuery + ") "
-				+ "ORDER BY LAST_NM, FIRST_NM";
-		
 		List<TKPerson> persons = new LinkedList<TKPerson>();
 		
-		SqlRowSet rs = TkServiceLocator.getRiceJdbcTemplate().queryForRowSet(GET_PERSON_SQL, new Object[]{});
-		while(rs.next()){
+		for(String principalId: principalIds){
+			Person p = KIMServiceLocator.getPersonService().getPerson(principalId);
 			TKPerson person = new TKPerson();
-			person.setPrincipalId(rs.getString("ENTITY_ID"));
-			person.setFirstName(rs.getString("FIRST_NM"));
-			person.setLastName(rs.getString("LAST_NM"));
-			person.setPrincipalName(person.getLastName() + ", " + person.getFirstName());
+			person.setPrincipalId(p.getPrincipalId());
+			person.setFirstName(p.getFirstName());
+			person.setLastName(p.getLastName());
+			person.setPrincipalName(p.getName());
 			persons.add(person);
 		}
 		return persons;

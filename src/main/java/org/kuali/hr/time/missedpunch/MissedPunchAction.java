@@ -13,7 +13,6 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +57,8 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         mpForm.setAssignmentReadOnly(false);
         TkClockActionValuesFinder finder = new TkClockActionValuesFinder();
         List<KeyLabelPair> keyLabels = (List<KeyLabelPair>) finder.getKeyValues();
-        if(keyLabels.size() == 2 && !mpForm.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
+        if(keyLabels.size() == 2){
+//        		&& !mpForm.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
         	Set<String> actions = TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(TkConstants.CLOCK_IN);
         	boolean flag = true;
         	 for (String entry : actions) {
@@ -105,6 +105,15 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         ActionForward fwd = super.approve(mapping, form, request, response);
         return fwd;
     }
+    
+  @Override
+  public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	  MissedPunchForm mpForm = (MissedPunchForm) form;
+      MissedPunchDocument mpDoc = (MissedPunchDocument) mpForm.getDocument();
+      request.setAttribute(TkConstants.DOCUMENT_ID_REQUEST_NAME, mpDoc.getDocumentNumber());
+      request.setAttribute(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME, mpDoc.getTimesheetDocumentId());
+  	  return super.reload(mapping, form, request, response);
+  }
 
 
 }
