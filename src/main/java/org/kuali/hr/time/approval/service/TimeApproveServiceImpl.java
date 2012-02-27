@@ -4,12 +4,10 @@ import java.math.BigDecimal;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -646,23 +644,23 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		String sql = "SELECT "
 				+ "    		DISTINCT A0.PRINCIPAL_ID "
 				+ " 		FROM "
-				+ "			  TK_ASSIGNMENT_T A0 "
-				+ "				INNER JOIN HR_PRINCIPAL_CALENDAR_T P0 "
-				+ "					ON (A0.PRINCIPAL_ID = P0.PRINCIPAL_ID) "
+				+ "			    HR_PRINCIPAL_CALENDAR_T P0 "
+				+ "				INNER JOIN TK_ASSIGNMENT_T A0 "
+				+ "					ON (P0.PRINCIPAL_ID = A0.PRINCIPAL_ID) "
 				+ "				INNER JOIN TK_WORK_AREA_T W0 "
 				+ "				    ON (A0.WORK_AREA = W0.WORK_AREA) "
 				+ "				LEFT OUTER JOIN HR_ROLES_T R0 "
 				+ "				    ON (W0.WORK_AREA = R0.WORK_AREA) "
 				+ " 		WHERE "
-				+ " 			((A0.ACTIVE='Y'AND A0.EFFDT = ("
-				+ "				SELECT MAX(B0.EFFDT) FROM TK_ASSIGNMENT_T B0 WHERE PRINCIPAL_ID = A0.PRINCIPAL_ID "
-				+ "             AND B0.EFFDT <= ?) AND A0.TIMESTAMP = (SELECT MAX(C0.TIMESTAMP) FROM "
-				+ "             TK_ASSIGNMENT_T C0 WHERE C0.PRINCIPAL_ID = A0.PRINCIPAL_ID AND C0.EFFDT = "
-				+ "				A0.EFFDT)"
-				+ "				) OR (A0.ACTIVE='N' AND A0.EFFDT>=? AND A0.EFFDT<=?)) AND "
-				+ "				P0.PY_CALENDAR_GROUP = ? AND " + "				W0.DEPT=? AND "
-				+ "				R0.PRINCIPAL_ID=? AND " + "				R0.ACTIVE='Y' AND "
-				+ " 			(R0.DEPT IS NULL OR R0.DEPT = ?)";
+			    + "				P0.PY_CALENDAR_GROUP = ? AND "
+	            + "				W0.ACTIVE = 'Y' AND "
+	            + "				W0.DEPT= ? AND " 
+	            + "				R0.ACTIVE='Y' AND "        
+	            + "				R0.PRINCIPAL_ID=? AND " 
+	            + "  			(A0.ACTIVE = 'Y' AND (A0.ACTIVE='Y'AND "
+	            + "   			A0.EFFDT = (SELECT MAX(B0.EFFDT) FROM TK_ASSIGNMENT_T B0 WHERE PRINCIPAL_ID = A0.PRINCIPAL_ID AND B0.EFFDT <= ?) AND "
+	            + "				A0.TIMESTAMP = (SELECT MAX(C0.TIMESTAMP) FROM TK_ASSIGNMENT_T C0 WHERE C0.PRINCIPAL_ID = A0.PRINCIPAL_ID AND C0.EFFDT = A0.EFFDT)) OR " 
+	            + "				(A0.ACTIVE='N' AND A0.EFFDT>=? AND A0.EFFDT<=?))";
 
 		if (department == null || department.isEmpty()) {
 			return new ArrayList<String>();
@@ -683,31 +681,26 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 				rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(
 						sql,
-						new Object[] { effdt, beginDate, endDate, 
-								payCalendarGroup, department,
-								TKContext.getUser().getPrincipalId(),
-								department, workArea },
-						new int[] { java.sql.Types.DATE,
-								java.sql.Types.DATE, java.sql.Types.DATE,
-								java.sql.Types.VARCHAR, java.sql.Types.VARCHAR,
-								java.sql.Types.VARCHAR, java.sql.Types.VARCHAR,
+						new Object[] {payCalendarGroup, department, TKContext.getUser().getPrincipalId(),  effdt, beginDate, endDate, workArea },
+						new int[] {java.sql.Types.VARCHAR,
+								java.sql.Types.VARCHAR,
+								java.sql.Types.VARCHAR,
+								java.sql.Types.DATE,
+								java.sql.Types.DATE, 
+								java.sql.Types.DATE,
 								java.sql.Types.INTEGER });
 			} else {
 				sql += " ";
 				rs = TkServiceLocator.getTkJdbcTemplate()
 						.queryForRowSet(
 								sql,
-								new Object[] { effdt, beginDate, endDate,
-										 payCalendarGroup, department,
-										TKContext.getUser().getPrincipalId(),
-										department },
-								new int[] { java.sql.Types.DATE,
+								new Object[] {payCalendarGroup, department, TKContext.getUser().getPrincipalId(),  effdt, beginDate, endDate},
+								new int[] {java.sql.Types.VARCHAR,
+										java.sql.Types.VARCHAR,
+										java.sql.Types.VARCHAR,
 										java.sql.Types.DATE,
-										java.sql.Types.DATE,
-										java.sql.Types.VARCHAR,
-										java.sql.Types.VARCHAR,
-										java.sql.Types.VARCHAR,
-										java.sql.Types.VARCHAR });
+										java.sql.Types.DATE, 
+										java.sql.Types.DATE});
 			}
 
 			while (rs.next()) {
