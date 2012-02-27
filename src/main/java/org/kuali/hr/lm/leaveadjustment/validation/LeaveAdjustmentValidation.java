@@ -30,7 +30,7 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 	
 	boolean validateLeaveCode(String leaveCode, String principalId, Date asOfDate) {
 		boolean valid = true;
-		if (ValidationUtils.validateLeaveCode(leaveCode, principalId, asOfDate)) {
+		if (!ValidationUtils.validateLeaveCode(leaveCode, principalId, asOfDate)) {
 			this.putFieldError("leaveCode", "error.existence", "leaveCode '"
 					+ leaveCode + "'");
 			valid = false;

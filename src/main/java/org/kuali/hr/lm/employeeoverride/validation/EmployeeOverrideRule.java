@@ -25,10 +25,7 @@ public class EmployeeOverrideRule extends MaintenanceDocumentRuleBase{
 	
 	boolean validateLeavePlan(EmployeeOverride eo) {
 		if(StringUtils.isEmpty(eo.getLeavePlan())) {
-			String[] parameters = new String[2];
-			parameters[0] = eo.getPrincipalId();
-			parameters[1] = eo.getEffectiveDate().toString();
-			this.putFieldError("leavePlan", "error.employeeOverride.leavePlan.notfound", parameters);
+			this.putFieldError("leavePlan", "error.employeeOverride.leavePlan.notfound");
 			return false;
 		} else if(eo.getEffectiveDate() != null) {
 			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().

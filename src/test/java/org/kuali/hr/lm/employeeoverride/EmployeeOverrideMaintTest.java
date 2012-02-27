@@ -34,6 +34,8 @@ public class EmployeeOverrideMaintTest extends TkTestCase{
 	  	
 	  	HtmlElement element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
+	  	assertFalse("page text contains: Incident Report", page.asText().contains("Incident Report"));
+	  	assertTrue("Errors number is wrong", page.asText().contains("7 error(s) found on page."));
 	  	assertTrue("page text does not contain:\n" + EFFECTIVE_DATE_REQUIRED, page.asText().contains(EFFECTIVE_DATE_REQUIRED));
 	    assertTrue("page text does not contain:\n" + PRINCIPAL_ID_REQUIRED, page.asText().contains(PRINCIPAL_ID_REQUIRED));
 	    assertTrue("page text does not contain:\n" + LEAVE_PLAN_REQUIRED, page.asText().contains(LEAVE_PLAN_REQUIRED));
