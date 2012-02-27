@@ -39,7 +39,7 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
     }
 
     @SuppressWarnings("unchecked")
-    public List<TimeBlock> getTimeBlocks(Long documentId) {
+    public List<TimeBlock> getTimeBlocks(String documentId) {
         Criteria currentRecordCriteria = new Criteria();
         currentRecordCriteria.addEqualTo("documentId", documentId);
         Query query = QueryFactory.newQuery(TimeBlock.class, currentRecordCriteria);

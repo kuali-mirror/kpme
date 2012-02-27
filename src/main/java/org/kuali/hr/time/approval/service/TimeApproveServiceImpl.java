@@ -251,7 +251,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 			if (StringUtils.isNotBlank(documentId)) {
 				timeBlocks = TkServiceLocator.getTimeBlockService()
-						.getTimeBlocks(Long.parseLong(documentId));
+						.getTimeBlocks(documentId);
 				notes = this.getNotesForDocument(documentId);
 				warnings = TkServiceLocator.getWarningService().getWarnings(
 						person.getPrincipalId(), timeBlocks,

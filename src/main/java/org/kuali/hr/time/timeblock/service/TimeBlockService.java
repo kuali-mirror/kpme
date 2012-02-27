@@ -61,7 +61,7 @@ public interface TimeBlockService {
 	 * @param documentId
 	 * @return
 	 */
-	public List<TimeBlock> getTimeBlocks(Long documentId);	
+	public List<TimeBlock> getTimeBlocks(String documentId);	
 	/**
 	 * Get the List of TimeBlock of a given Assignment
 	 * @param assign

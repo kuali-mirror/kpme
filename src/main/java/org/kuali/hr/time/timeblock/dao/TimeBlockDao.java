@@ -15,7 +15,7 @@ public interface TimeBlockDao {
 
 	public TimeBlock getTimeBlock(String timeBlockId);
 	
-	public List<TimeBlock> getTimeBlocks(Long documentId);
+	public List<TimeBlock> getTimeBlocks(String documentId);
 	
 	public List<TimeBlock> getTimeBlocksForAssignment(Assignment assign);
 	
