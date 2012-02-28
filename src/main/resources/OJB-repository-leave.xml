@@ -49,8 +49,8 @@
 			name="accrualCategoryRules"
 			element-class-ref="org.kuali.hr.lm.accrual.AccrualCategoryRule"
 			auto-retrieve="true"
-			auto-update="object"
-			auto-delete="object"
+			auto-update="false"
+			auto-delete="false"
 			>
 			<inverse-foreignkey field-ref="lmAccrualCategoryId"/>
 		</collection-descriptor>
