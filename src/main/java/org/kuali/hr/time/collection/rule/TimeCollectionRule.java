@@ -25,6 +25,8 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 	private Department departmentObj;
 	private WorkArea workAreaObj;
 	
+	private Boolean history;
+	
 	// chen, 11/07/11, KPME-1152
 	private String payType; 
 	private String hrPayTypeId; 
@@ -181,6 +183,14 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 	@Override
 	public void setId(String id) {
 		setTkTimeCollectionRuleId(id);
+	}
+
+	public Boolean getHistory() {
+		return history;
+	}
+
+	public void setHistory(Boolean history) {
+		this.history = history;
 	}
 
 
