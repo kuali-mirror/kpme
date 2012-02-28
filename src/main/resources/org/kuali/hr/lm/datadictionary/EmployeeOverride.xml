@@ -148,12 +148,12 @@
 	<bean id="EmployeeOverride-overrideValue" parent="EmployeeOverride-overrideValue-parentBean" />
 	<bean id="EmployeeOverride-overrideValue-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Override Value" />
-		<property name="maxLength" value="2" />
+		<property name="maxLength" value="5" />
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="2" />
+			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
 		<property name="name" value="overrideValue" />
 		<property name="label" value="Override Value" />

@@ -19,6 +19,7 @@ public class EmployeeOverrideMaintTest extends TkTestCase{
 	private static final String AC_NOT_FOUND = "The specified Accrual Category 'test' does not exist.";
 	private static final String PHA_NOT_FOUND = "The specified Principal HR Attributes 'test' does not exist.";
 	private static final String LEAVE_PLAN_INCONSISTENT = "The specified principal id and Accrual Category have different leave plans.";
+	private static final String OVERRIDE_VALUE_MAX_LENGTH_ERROR = "The specified Override Value (Override Value) must not be longer than 5 characters.";
 	
 	@Test
 	public void testRequiredFields() throws Exception {
@@ -66,18 +67,22 @@ public class EmployeeOverrideMaintTest extends TkTestCase{
 	    setFieldValue(page, "document.newMaintainableObject.principalId", "test");	// nonexist principal HR attributes
 	    setFieldValue(page, "document.newMaintainableObject.accrualCategory", "test");	//nonexist accrual catetory
 	    setFieldValue(page, "document.newMaintainableObject.overrideTypeMax Transfer Amount", "on");
+	    setFieldValue(page, "document.newMaintainableObject.overrideValue", "123456");	//max length is 5
 	  	
 	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
 	  	assertNotNull("Could not locate submit button", input);
 	  	HtmlElement element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
+	  	assertTrue("page text does not contain:\n" + OVERRIDE_VALUE_MAX_LENGTH_ERROR, page.asText().contains(OVERRIDE_VALUE_MAX_LENGTH_ERROR));
 	  	assertTrue("page text does not contain:\n" + AC_NOT_FOUND, page.asText().contains(AC_NOT_FOUND));
 	  	assertTrue("page text does not contain:\n" + PHA_NOT_FOUND, page.asText().contains(PHA_NOT_FOUND));
 	  	
+	  	setFieldValue(page, "document.newMaintainableObject.overrideValue", "123");
 	  	setFieldValue(page, "document.newMaintainableObject.principalId", "111"); // existing principal HR Attributes
 	  	setFieldValue(page, "document.newMaintainableObject.accrualCategory", "testAC2"); // existing accrual category, inconsistent leave plan
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
+	  	assertFalse("page text contains:\n" + OVERRIDE_VALUE_MAX_LENGTH_ERROR, page.asText().contains(OVERRIDE_VALUE_MAX_LENGTH_ERROR));
 	  	assertFalse("page text contains:\n" + AC_NOT_FOUND, page.asText().contains(AC_NOT_FOUND));
 	  	assertFalse("page text contains:\n" + PHA_NOT_FOUND, page.asText().contains(PHA_NOT_FOUND));
 	  	assertTrue("page text does not contain:\n" + LEAVE_PLAN_INCONSISTENT, page.asText().contains(LEAVE_PLAN_INCONSISTENT));
