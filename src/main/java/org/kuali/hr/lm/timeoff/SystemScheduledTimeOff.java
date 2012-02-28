@@ -192,8 +192,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		// TODO Auto-generated method stub
-		return null;
+		return getLmSystemScheduledTimeOffId();
 	}
 
 	@Override
