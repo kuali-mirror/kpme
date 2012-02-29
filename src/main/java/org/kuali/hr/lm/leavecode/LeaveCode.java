@@ -32,7 +32,7 @@ public class LeaveCode extends HrBusinessObject {
 	private Boolean employee;
 	private Boolean approver;
 	private Boolean departmentAdmin;
-	
+	private Boolean allowNegativeAccrualBalance;
 	private Boolean history;
 	
 	private LeavePlan leavePlanObj;
@@ -242,4 +242,11 @@ public class LeaveCode extends HrBusinessObject {
 		setLmLeaveCodeId(id);
 	}
 
+	public Boolean getAllowNegativeAccrualBalance() {
+		return allowNegativeAccrualBalance;
+	}
+
+	public void setAllowNegativeAccrualBalance(Boolean allowNegativeAccrualBalance) {
+		this.allowNegativeAccrualBalance = allowNegativeAccrualBalance;
+	}
 }

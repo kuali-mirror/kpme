@@ -38,6 +38,7 @@
 				<ref bean="LeaveCode-timestamp" />
 				<ref bean="LeaveCode-history" />
 				<ref bean="LeaveCode-active" />
+				<ref bean="LeaveCode-allowNegativeAccrualBalance" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -349,6 +350,19 @@
 		<property name="label" value="Show History" />
 	</bean>
 	
+	<!-- allowNegativeAccrualBalance -->
+	<bean id="LeaveCode-allowNegativeAccrualBalance" parent="LeaveCode-allowNegativeAccrualBalance-parentBean" />
+	<bean id="LeaveCode-allowNegativeAccrualBalance-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Allow Negative Accrual Balance" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder"/>
+		</property>
+		<property name="name" value="allowNegativeAccrualBalance" />
+		<property name="label" value="Allow Negative Accrual Balance" />
+	</bean>
+	
+	
 	<!-- active -->
 	<bean id="LeaveCode-active" parent="LeaveCode-active-parentBean" />
 	<bean id="LeaveCode-active-parentBean" abstract="true"
@@ -362,8 +376,6 @@
 		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
 	</bean>
 
-
-	
 	<!--  Inquiry Definitions  -->
   
   	<bean id="LeaveCode-inquiryDefinition" parent="LeaveCode-inquiryDefinition-parentBean" />
@@ -385,6 +397,7 @@
 							<bean parent="FieldDefinition" p:attributeName="displayName" />
 							<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
 							<bean parent="FieldDefinition" p:attributeName="fractionalTimeAllowed" />
+							<bean parent="FieldDefinition" p:attributeName="allowNegativeAccrualBalance" />
 							<bean parent="FieldDefinition" p:attributeName="roundingOption" />
 							<bean parent="FieldDefinition" p:attributeName="allowScheduledLeave" />
 							<bean parent="FieldDefinition" p:attributeName="fmla" />
