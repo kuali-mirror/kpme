@@ -91,13 +91,12 @@
 		<property name="validationPattern">
 			 		<bean parent="RegexValidationPattern">
  		   <property name="pattern" value="(0[1-9]|1[0-2])\/(0[1-9]|[1-2]\d|3[01])()"></property>
- 		   <property name="validationErrorMessageKey" value="MISSING"></property>
+ 		   <property name="validationErrorMessageKey" value="error.calendar.year.start"></property>
  		</bean>
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
-		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
 		<property name="name" value="calendarYearStart" />
 		<property name="label" value="Calendar Year Start (MM/DD)" />
 	</bean>
