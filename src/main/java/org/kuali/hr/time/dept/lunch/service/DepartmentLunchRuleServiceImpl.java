@@ -70,7 +70,7 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
             TimeHourDetail detail = details.get(0);
 
             BigDecimal lunchHours = TKUtils.convertMinutesToHours(rule.getDeductionMins());
-            BigDecimal newHours = detail.getHours().subtract(lunchHours).setScale(TkConstants.BIG_DECIMAL_SCALE);
+            BigDecimal newHours = detail.getHours().subtract(lunchHours).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING);
             detail.setHours(newHours);
 
             TimeHourDetail lunchDetail = new TimeHourDetail();
