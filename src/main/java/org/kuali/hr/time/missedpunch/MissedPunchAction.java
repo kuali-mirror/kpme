@@ -13,7 +13,6 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +38,10 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
             mpForm.setDocNum(mpDoc.getDocumentNumber());
             mpDoc.setPrincipalId(timesheetDocument.getPrincipalId());
             mpDoc.setTimesheetDocumentId(tdocId);
+            // set default document description
+            if(StringUtils.isEmpty(mpDoc.getDocumentHeader().getDocumentDescription())) {
+            	mpDoc.getDocumentHeader().setDocumentDescription("Missed Punch: " + timesheetDocument.getPrincipalId());
+            }
             
             ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId());
             if(lastClock != null) {
