@@ -1,6 +1,7 @@
 package org.kuali.hr.time.admin.web;
 
 import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.util.TKUser;
 
 public class AdminActionForm extends TkForm {
 
@@ -12,6 +13,8 @@ public class AdminActionForm extends TkForm {
     private String documentId;
     private String targetUrl;
     private String returnUrl;
+    private boolean canChangePrincipal;
+
 
     public String getReturnUrl() {
         return returnUrl;
@@ -60,5 +63,19 @@ public class AdminActionForm extends TkForm {
 	public void setDeleteDocumentId(String deleteDocumentId) {
 		this.deleteDocumentId = deleteDocumentId;
 	}
+
+    public boolean isCanChangePrincipal() {
+        TKUser user = getUser();
+        return user.isSystemAdmin()
+               || user.isGlobalViewOnly()
+               || user.isDepartmentAdmin()
+               || user.isDepartmentViewOnly()
+               || user.isLocationAdmin()
+               || user.isReviewer();
+
+
+
+    }
+
 
 }

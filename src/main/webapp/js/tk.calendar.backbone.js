@@ -332,10 +332,15 @@ $(function () {
          */
         checkPermissions : function () {
             var isValid = true;
-            /**
-             * Can't add a new timeblock is the doc is not editable.
-             */
+
+            // Can't add a new timeblock is the doc is not editable.
             if ($('#docEditable').val() == "false") {
+                isValid = false;
+            }
+
+            // Can't add / edit / delete a timeblock is canAddTimeBlock is false
+            // This happens when the login user has a view only role, or a dept / location admin
+            if ($('#canAddTimeBlock').val() == "false") {
                 isValid = false;
             }
 
@@ -379,17 +384,20 @@ $(function () {
             var key = _(e).parseEventKey();
             var timeBlock = timeBlockCollection.get(key.id);
 
-            if (confirm('You are about to delete a time block. Click OK to confirm the delete.')) {
-                window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&documentId=" + timeBlock.get("documentId") + "&tkTimeBlockId=" + key.id;
+            if (this.checkPermissions()) {
+                if (confirm('You are about to delete a time block. Click OK to confirm the delete.')) {
+                    window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&documentId=" + timeBlock.get("documentId") + "&tkTimeBlockId=" + key.id;
+                }
             }
         },
 
         deleteLunchDeduction : function (e) {
             var key = _(e).parseEventKey();
 //            var timeBlock = timeBlockCollection.get(key.id);
-
-            if (confirm('You are about to delete the lunch deduction. Click OK to confirm the delete.')) {
-                window.location = "TimeDetail.do?methodToCall=deleteLunchDeduction&documentId=" + $("#documentId").val() + "&tkTimeHourDetailId=" + key.id;
+            if (this.checkPermissions()) {
+                if (confirm('You are about to delete the lunch deduction. Click OK to confirm the delete.')) {
+                    window.location = "TimeDetail.do?methodToCall=deleteLunchDeduction&documentId=" + $("#documentId").val() + "&tkTimeHourDetailId=" + key.id;
+                }
             }
         },
 

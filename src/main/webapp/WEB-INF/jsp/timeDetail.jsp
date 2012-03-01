@@ -21,6 +21,7 @@
         <html:hidden property="nextDocumentId" value="${Form.nextDocumentId}" styleId="nextDocumentId"/>
         <html:hidden property="warningJson" value="${Form.warnings}" styleId="warningJson"/>
         <html:hidden property="docEditable" value="${Form.docEditable}" styleId="docEditable"/>
+        <html:hidden property="canAddTimeblock" value="${Form.canAddTimeblock}" styleId="canAddTimeBlock"/>
 
             <%--This is for visually impaired users --%>
         <!--

@@ -44,7 +44,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                                 .getPrincipalId())
                         || TKContext.getUser().isSystemAdmin()
                         || TKContext.getUser().isLocationAdmin()
-                        || TKContext.getUser().isDepartmentAdmin()
+//                        || TKContext.getUser().isDepartmentAdmin()
                         || TKContext.getUser().isReviewer()
                         || TKContext.getUser().isApprover()) {
                     addTimeBlock = true;

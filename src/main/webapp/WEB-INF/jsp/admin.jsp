@@ -152,7 +152,7 @@
         </table>
     </div>
 
-    <c:if test="${Form.user.systemAdmin || Form.user.globalViewOnly}">
+    <c:if test="${Form.canChangePrincipal}">
     	<div id="content">
 	   	<html:form action="/Admin" method="post">
 	   	<html:hidden property="methodToCall" value=""/>
@@ -166,7 +166,6 @@
 						<input type="button" class="button" value="Clear" name="clearBackdoor" onclick="this.form.methodToCall.value='clearBackdoor'; this.form.submit();">
 	                </td>
 	            </tr>
-	            <tr/>
 	            </c:if>
 	            <tr class="header"><td><b>Change Target Person</b></td></tr>
 	            <tr>
@@ -180,7 +179,6 @@
 						<input type="button" class="button" value="Clear" name="clearChangeEmployee" onclick="this.form.methodToCall.value='clearChangeEmployee'; this.form.submit();">
 	                </td>
 	            </tr>
-	            <tr/>
 	            <c:if test="${Form.user.systemAdmin}">
 	            <tr class="header"><td><b>Delete Timesheet</b></td></tr>
 	            <tr>

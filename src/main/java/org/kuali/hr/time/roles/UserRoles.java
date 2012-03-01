@@ -119,4 +119,12 @@ public interface UserRoles {
     public boolean isDocumentWritable(String documentId);
     
     public boolean isApproverForPerson(String principalId);
+
+    boolean isDepartmentAdminForPerson(String principalId);
+
+    boolean isDeptViewOnlyForPerson(String principalId);
+
+    boolean isLocationAdminForPerson(String principalId);
+
+    boolean isTimesheetReviewerForPerson(String principalId);
 }
