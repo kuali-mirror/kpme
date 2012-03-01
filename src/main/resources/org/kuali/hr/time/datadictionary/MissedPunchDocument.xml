@@ -91,7 +91,7 @@
       </property>
       <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
       <property name="name" value="actionDate"/>
-      <property name="label" value="Action Date"/>
+      <property name="label" value="Action Date (MM/DD/YYYY)"/>
     </bean>
 
     <bean id="MissedPunchDocument-actionTime" parent="MissedPunchDocument-actionTime-parentBean"/>
@@ -106,7 +106,7 @@
         </property>
         <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
         <property name="name" value="actionTime"/>
-        <property name="label" value="Action Time"/>
+        <property name="label" value="Action Time (00:00 AM)"/>
     </bean>
 
     <bean id="MissedPunchDocument-documentId" parent="MissedPunchDocument-documentId-parentBean"/>
