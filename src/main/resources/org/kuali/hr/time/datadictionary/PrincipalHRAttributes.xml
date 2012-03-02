@@ -27,6 +27,8 @@
 				<ref bean="PrincipalHRAttributes-serviceDate" />
 				<ref bean="PrincipalHRAttributes-fmlaEligible" />
 				<ref bean="PrincipalHRAttributes-workmansCompEligible" />
+				<ref bean="PrincipalHRAttributes-recordTime" />
+				<ref bean="PrincipalHRAttributes-recordLeave" />
 				<ref bean="PrincipalHRAttributes-timezone" />
 				<ref bean="PrincipalHRAttributes-effectiveDate" />
 				<ref bean="PrincipalHRAttributes-timestamp" />
@@ -245,6 +247,32 @@
     	<property name="label" value="Workman's Comp Eligible"/>
     	<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   	</bean>
+  	
+  	<!-- KPME-1268 Kagata adding recordTime -->
+	<bean id="PrincipalHRAttributes-recordTime" parent="PrincipalHRAttributes-recordTime-parentBean" />
+	<bean id="PrincipalHRAttributes-recordTime-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Record Time" />
+				<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="recordTime" />
+		<property name="label" value="Record Time" />
+	</bean>
+	
+	<!-- KPME-1268 Kagata adding recordLeave -->
+	<bean id="PrincipalHRAttributes-recordLeave" parent="PrincipalHRAttributes-recordLeave-parentBean" />
+	<bean id="PrincipalHRAttributes-recordLeave-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Record Leave" />
+				<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.RecordLeaveKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="recordLeave" />
+		<property name="label" value="Record Leave" />
+	</bean>
+  	
+  	
 	<!--  Inquiry Definitions  -->
   
   	<bean id="PrincipalHRAttributes-inquiryDefinition" parent="PrincipalHRAttributes-inquiryDefinition-parentBean" />
