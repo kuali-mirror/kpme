@@ -40,16 +40,16 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
-		boolean valid = false;
-		LOG.debug("entering custom validation for Leave Plan");
+		boolean valid = true;
+		/*LOG.debug("entering custom validation for Leave Plan");
 		PersistableBusinessObject pbo = this.getNewBo();
 		if (pbo instanceof LeavePlan) {
 			LeavePlan leavePlan = (LeavePlan) pbo;
 			if (leavePlan != null) {
 				valid = true;
-				valid &= this.validateInactivation(leavePlan);
+				//valid &= this.validateInactivation(leavePlan);
 			}
-		}
+		}*/
 		return valid;
 	}
 }
