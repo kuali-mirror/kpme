@@ -217,7 +217,7 @@ $(document).ready(function() {
     // apply time entry widget to the tabular view
     $(".timesheet-table-week1 :input, .timesheet-table-week2 :input").blur(
             function() {
-                magicTime(this);
+            	validateTime(this);
             }).focus(function() {
                 if (this.className != 'error') this.select();
             });
@@ -259,32 +259,22 @@ $(document).ready(function() {
 
     $("#btRow1, #etRow1").change(function() {
         $(this).removeClass('ui-state-error');
-        magicTime($(this));
+        cleanTips();
+        validateTime($(this));
         recalculateHrs(1);
     });
 
     $("#btRow2, #etRow2").change(function() {
         $(this).removeClass('ui-state-error');
-        magicTime($(this));
+        cleanTips();
+        validateTime($(this));
         recalculateHrs(2);
     });
 
 
     $('#saveTimeBlock').click(function() {
-//	   function updateTips(t) {
-//		   $('#validation').text(t)
-//		   			.addClass('ui-state-error')
-//		   			.css({'color':'red','font-weight':'bold'});
-//	   }
         var validFlag = true;
         var validation = $('#validation');
-
-        function updateValidationMessage(t) {
-            validation.text(t)
-                    .addClass('ui-state-error')
-                    .css({'color':'red','font-weight':'bold'});
-        }
-
         //    cleanTips();
 //	   function checkLength(o, n, min, max) {
 //	         if (o.val().length > max || o.val().length < min) {
@@ -536,6 +526,12 @@ function cleanTips() {
             .removeClass('ui-state-error');
 }
 
+function updateValidationMessage(t) {
+	$('#validation').text(t)
+            .addClass('ui-state-error')
+            .css({'color':'red','font-weight':'bold'});
+}
+
 function addTimeBlockRow(form, tempArr) {
 
     var tbl = document.getElementById('tblNewTimeBlocks');
@@ -703,7 +699,8 @@ function addTimeBlockRow(form, tempArr) {
 
     $(timeChangeId).change(function() {
         $(this).removeClass('ui-state-error');
-        magicTime($(this));
+        cleanTips();
+        validateTime($(this));
         recalculateHrs(iteration);
     });
 
@@ -745,7 +742,7 @@ function recalculateHrs(itr) {
         }
 
         if (hrsDifferent <= 0) {
-            updateTips("Hours for item " + itr + "not valid");
+            updateTips("Hours for item " + itr + " not valid");
             var hrs = hrsDifferent / 3600000;
             hrs = Math.round(hrs * 100) / 100;
             $("#hrRow" + itr).val(hrs);
@@ -808,7 +805,29 @@ function toggle(eleId) {
 		ele.style.display = "block";
 	}
 }
-
+// validate the time format
+function validateTime(input){
+    $("#" + input.attr('id') + '-error').html("");
+    try {
+    	parseTimeString(input.val());
+    }
+    catch (e) {
+        return false;
+    }
+}
+function parseTimeString(s) {
+    for (var i = 0; i < timeParsePatterns.length; i++) {
+        var re = timeParsePatterns[i].re;
+        var handler = timeParsePatterns[i].handler;
+        var bits = re.exec(s);
+        if (bits) {
+            // this is to debug which regex it actually used
+            //console.log(i);
+            return handler(bits);
+        }
+    }
+    throw new Error("Invalid time format");
+}
 
 
 
