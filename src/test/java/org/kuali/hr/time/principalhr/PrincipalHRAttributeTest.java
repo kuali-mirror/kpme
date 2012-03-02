@@ -16,14 +16,15 @@ public class PrincipalHRAttributeTest extends TkTestCase {
 		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.PRIN_HR_MAINT_URL);
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");
     	HtmlUnitUtil.createTempFile(page);
-    	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","principalId=admin");
-    	assertTrue("Test that maintenance screen rendered", page.asText().contains("admin"));
+    	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","principalId=fred");
+    	HtmlUnitUtil.createTempFile(page);
+    	assertTrue("Test that maintenance screen rendered", page.asText().contains("fred"));
+    	assertTrue("Test that maintenance screen rendered", page.asText().contains("Record Time"));//KPME1268
+    	assertTrue("Test that maintenance screen rendered", page.asText().contains("Record Leave"));//KPME1268
 	}
 	
 	@Test
 	public void testFutureEffectiveDate() throws Exception {
 		this.futureEffectiveDateValidation(TkTestConstants.Urls.PRIN_HR_MAINT_NEW_URL);
 	}
-
-
 }
