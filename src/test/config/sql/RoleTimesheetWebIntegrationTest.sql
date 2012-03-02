@@ -32,14 +32,14 @@ insert into hr_job_t values('2008', 'testuser4', '30', '2010-01-01', 'TEST-DEPT'
 
 
 # Set up principal Calendars
-insert into hr_principal_attributes_t values('testuser1', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01', now(), uuid(), '1', 'Y', null);
-insert into hr_principal_attributes_t values('testuser2', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null);
-insert into hr_principal_attributes_t values('testuser3', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null);
-insert into hr_principal_attributes_t values('testuser4', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null);
-insert into hr_principal_attributes_t values('testuser5', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null);
-insert into hr_principal_attributes_t values('testuser6', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null);
-insert into hr_principal_attributes_t values('fran', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null);
-insert into hr_principal_attributes_t values('frank', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null);
-insert into hr_principal_attributes_t values('edna', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null);
-insert into hr_principal_attributes_t values('fred', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null);
+insert into hr_principal_attributes_t values('testuser1', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01', now(), uuid(), '1', 'Y', null, 'Y', 'LM');
+insert into hr_principal_attributes_t values('testuser2', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null, 'Y', 'LM');
+insert into hr_principal_attributes_t values('testuser3', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null, 'Y', 'LM');
+insert into hr_principal_attributes_t values('testuser4', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null, 'Y', 'LM');
+insert into hr_principal_attributes_t values('testuser5', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null, 'Y', 'LM');
+insert into hr_principal_attributes_t values('testuser6', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null, 'Y', 'LM');
+insert into hr_principal_attributes_t values('fran', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null, 'Y', 'LM');
+insert into hr_principal_attributes_t values('frank', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null, 'Y', 'LM');
+insert into hr_principal_attributes_t values('edna', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null, 'Y', 'LM');
+insert into hr_principal_attributes_t values('fred', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null, 'Y', 'LM');
 
