@@ -275,7 +275,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     
     // This method now translates time based on timezone settings.
     //
-    public List<TimeBlock> getTimeBlocks(Long documentId) {
+    public List<TimeBlock> getTimeBlocks(String documentId) {
     	List<TimeBlock> timeBlocks = timeBlockDao.getTimeBlocks(documentId);
         TkServiceLocator.getTimezoneService().translateForTimezone(timeBlocks);
         for(TimeBlock tb : timeBlocks) {

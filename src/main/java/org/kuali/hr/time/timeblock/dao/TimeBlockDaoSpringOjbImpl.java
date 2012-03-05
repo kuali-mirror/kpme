@@ -1,10 +1,5 @@
 package org.kuali.hr.time.timeblock.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -13,6 +8,11 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements TimeBlockDao {
 
@@ -39,7 +39,7 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
     }
 
     @SuppressWarnings("unchecked")
-    public List<TimeBlock> getTimeBlocks(Long documentId) {
+    public List<TimeBlock> getTimeBlocks(String documentId) {
         Criteria currentRecordCriteria = new Criteria();
         currentRecordCriteria.addEqualTo("documentId", documentId);
         Query query = QueryFactory.newQuery(TimeBlock.class, currentRecordCriteria);

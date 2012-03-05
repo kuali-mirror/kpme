@@ -1,8 +1,8 @@
 package org.kuali.hr.time.roles;
 
-import java.util.Set;
-
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+
+import java.util.Set;
 
 /**
  * Class to set the contract between Users and Roles.
@@ -119,4 +119,12 @@ public interface UserRoles {
     public boolean isDocumentWritable(String documentId);
     
     public boolean isApproverForPerson(String principalId);
+
+    boolean isDepartmentAdminForPerson(String principalId);
+
+    boolean isDeptViewOnlyForPerson(String principalId);
+
+    boolean isLocationAdminForPerson(String principalId);
+
+    boolean isTimesheetReviewerForPerson(String principalId);
 }

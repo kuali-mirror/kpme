@@ -1,8 +1,5 @@
 package org.kuali.hr.time.admin.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -22,6 +19,9 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.util.GlobalVariables;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class AdminAction extends TkAction {
 
@@ -88,15 +88,16 @@ public class AdminAction extends TkAction {
     public ActionForward changeEmployee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		AdminActionForm adminForm = (AdminActionForm) form;
         TKUser tkUser = TKContext.getUser();
+        String principalId = adminForm.getChangeTargetPrincipalId();
 
         if (tkUser.getCurrentRoles().isSystemAdmin()
 
-        	|| tkUser.getCurrentRoles().isLocationAdmin()
-        	|| tkUser.getCurrentRoles().isDepartmentAdmin()
-        	|| tkUser.getCurrentRoles().isDeptViewOnly()
         	|| tkUser.getCurrentRoles().isGlobalViewOnly()
-        	|| tkUser.getCurrentRoles().isTimesheetReviewer()
-        	|| tkUser.getCurrentRoles().isApproverForPerson(adminForm.getChangeTargetPrincipalId())) {
+        	|| tkUser.getCurrentRoles().isDepartmentAdminForPerson(principalId)
+        	|| tkUser.getCurrentRoles().isDeptViewOnlyForPerson(principalId)
+        	|| tkUser.getCurrentRoles().isLocationAdminForPerson(principalId)
+        	|| tkUser.getCurrentRoles().isTimesheetReviewerForPerson(principalId)
+        	|| tkUser.getCurrentRoles().isApproverForPerson(principalId)) {
         	
             if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalId())) {
 

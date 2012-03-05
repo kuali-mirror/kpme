@@ -1,6 +1,7 @@
 package org.kuali.hr.time.util;
 
 import com.google.common.collect.Multimap;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -318,5 +319,20 @@ public class TKUser {
         }
 
         return workAreas;
+    }
+
+    public List<Job> getJobs() {
+        return TkServiceLocator.getJobSerivce().getJobs(getCurrentPerson().getPrincipalId(),TKUtils.getCurrentDate());
+    }
+
+    public Set<String> getDepartments() {
+        List<Job> jobs = getJobs();
+        Set<String> depts = new HashSet<String>();
+
+        for ( Job job : jobs ) {
+            depts.add(job.getDept());
+        }
+
+        return depts;
     }
 }

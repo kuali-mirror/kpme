@@ -66,7 +66,8 @@
 		<tr>
 			<kul:htmlAttributeHeaderCell 
 				labelFor="document.missedPunch.actionDate"
-				attributeEntry="${boeAttributes.actionDate}" 
+				attributeEntry="${boeAttributes.actionDate}"
+				useShortLabel="false" 
 				horizontal="true" />
 			<td align="left" valign="middle">
 				<kul:htmlControlAttribute 
@@ -77,7 +78,8 @@
 		</tr>			
 		<tr>
 			<kul:htmlAttributeHeaderCell 
-				attributeEntry="${boeAttributes.actionTime}" 
+				attributeEntry="${boeAttributes.actionTime}"
+				useShortLabel="false"
 				horizontal="true" />
 			<td align="left" valign="middle">
 				<kul:htmlControlAttribute 

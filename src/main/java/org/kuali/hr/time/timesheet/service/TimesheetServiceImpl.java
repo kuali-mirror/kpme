@@ -177,7 +177,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         if (prevTdh == null) {
             return new ArrayList<TimeBlock>();
         }
-        return TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(prevTdh.getDocumentId()));
+        return TkServiceLocator.getTimeBlockService().getTimeBlocks(prevTdh.getDocumentId());
     }
 
     @Override
@@ -200,7 +200,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, CalendarEntries payCalEntry) {
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalEntry);
         List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(principalId, TKUtils.getTimelessDate(payCalEntry.getEndPeriodDate()));
-        List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdoc.getDocumentHeader().getDocumentId()));
+        List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(tdoc.getDocumentHeader().getDocumentId());
 
         tdoc.setAssignments(assignments);
         tdoc.setJobs(jobs);

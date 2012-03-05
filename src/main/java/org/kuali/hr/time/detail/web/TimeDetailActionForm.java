@@ -33,6 +33,7 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     private List<String> overtimeEarnCodes = new ArrayList<String>();
     private String tkTimeHourDetailId;
     private String isLunchDeleted;
+    private boolean canAddTimeblock;
 
     public TkCalendar getTkCalendar() {
         return calendar;
@@ -152,5 +153,9 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
     public void setLunchDeleted(String lunchDeleted) {
         isLunchDeleted = lunchDeleted;
+    }
+
+    public boolean isCanAddTimeblock() {
+        return TkServiceLocator.getPermissionsService().canAddTimeBlock();
     }
 }

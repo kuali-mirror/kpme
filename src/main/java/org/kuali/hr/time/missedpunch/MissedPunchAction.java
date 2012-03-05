@@ -38,6 +38,10 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
             mpForm.setDocNum(mpDoc.getDocumentNumber());
             mpDoc.setPrincipalId(timesheetDocument.getPrincipalId());
             mpDoc.setTimesheetDocumentId(tdocId);
+            // set default document description
+            if(StringUtils.isEmpty(mpDoc.getDocumentHeader().getDocumentDescription())) {
+            	mpDoc.getDocumentHeader().setDocumentDescription("Missed Punch: " + timesheetDocument.getPrincipalId());
+            }
             
             ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId());
             if(lastClock != null) {

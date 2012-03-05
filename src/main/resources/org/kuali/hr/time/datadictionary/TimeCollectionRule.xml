@@ -31,6 +31,7 @@
                 <ref bean="TimeCollectionRule-tkWorkAreaId" />
                 <ref bean="TimeCollectionRule-hrDeptId" />
                 <ref bean="TimeCollectionRule-hrPayTypeId" />
+                <ref bean="TimeCollectionRule-history"  />
 			</list>
 		</property>
 
@@ -241,6 +242,17 @@
 		</property>
 	</bean>
 	
+	<bean id="TimeCollectionRule-history" parent="TimeCollectionRule-history-parentBean" />
+	<bean id="TimeCollectionRule-history-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
+	
 	<!--  Inquiry Definitions  -->
 
   	<bean id="TimeCollectionRule-inquiryDefinition" parent="TimeCollectionRule-inquiryDefinition-parentBean" />
@@ -284,6 +296,7 @@
                 <bean parent="FieldDefinition" p:attributeName="tkWorkAreaId"/>
                 <bean parent="FieldDefinition" p:attributeName="hrDeptId"/>
                 <bean parent="FieldDefinition" p:attributeName="hrPayTypeId"/>
+                <bean parent="FieldDefinition" p:attributeName="history"  p:defaultValue="N"/>
 			</list>
 		</property>
 		<property name="resultFields">
