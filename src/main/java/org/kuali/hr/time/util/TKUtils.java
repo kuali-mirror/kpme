@@ -300,6 +300,26 @@ public class TKUtils {
         return new Timestamp(dateTime.getMillis());
     }
     
+    public static Timestamp convertDateStringToTimestampWithoutZone(String dateStr, String timeStr) {
+        // the date/time format is defined in tk.calendar.js. For now, the format is 11/17/2010 8:0
+        String[] date = dateStr.split("/");
+        String[] time = timeStr.split(":");
+
+        // this is from the jodattime javadoc:
+        // DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
+        // Noted that the month value is the actual month which is different than the java date object where the month value is the current month minus 1.
+        // I tried to use the actual month in the code as much as I can to reduce the convertions.
+        DateTime dateTime = new DateTime(
+                Integer.parseInt(date[2]),
+                Integer.parseInt(date[0]),
+                Integer.parseInt(date[1]),
+                Integer.parseInt(time[0]),
+                Integer.parseInt(time[1]),
+                0, 0);
+
+        return new Timestamp(dateTime.getMillis());
+    }
+    
    public static String getIPAddressFromRequest(HttpServletRequest request) {
         // Check for IPv6 addresses - Not sure what to do with them at this point.
         // TODO: IPv6 - I see these on my local machine.
