@@ -20,6 +20,7 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 
 public class ClockActionForm extends TimesheetActionForm {
 
@@ -274,7 +275,7 @@ public class ClockActionForm extends TimesheetActionForm {
 		 String pId = this.getPrincipalId();
 		 if(pId != null) {
 			 TimesheetDocument td = this.getTimesheetDocument();
-			 if(td != null) {
+			 if(td != null && !td.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL)) {
 				 List<TimeBlock> tbList = new ArrayList<TimeBlock>();
 				 if(td != null) {
 					 for(TimeBlock tbTemp : td.getTimeBlocks()) {
