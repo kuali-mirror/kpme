@@ -455,7 +455,15 @@
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <bean id="ledgerDao" class="org.kuali.hr.lm.ledger.dao.LedgerDaoOjbImpl">
+    <bean id="leaveBlockDao" class="org.kuali.hr.lm.leaveblock.dao.LeaveBlockDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
+    <bean id="leaveBlockHistoryDao" class="org.kuali.hr.lm.leaveblock.dao.LeaveBlockHistoryDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
+     <bean id="leaveStatusHistoryDao" class="org.kuali.hr.lm.leaveblock.dao.LeaveStatusHistoryDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
@@ -686,8 +694,16 @@
         <property name="systemScheduledTimeOffDao" ref="systemScheduledTimeOffDao"/>
     </bean>
 
-    <bean id="ledgerService" class="org.kuali.hr.lm.ledger.service.LedgerServiceImpl">
-        <property name="ledgerDao" ref="ledgerDao"/>
+    <bean id="leaveBlockService" class="org.kuali.hr.lm.leaveblock.service.LeaveBlockServiceImpl">
+        <property name="leaveBlockDao" ref="leaveBlockDao"/>
+    </bean>
+    
+    <bean id="leaveBlockHistoryService" class="org.kuali.hr.lm.leaveblock.service.LeaveBlockHistoryServiceImpl">
+        <property name="leaveBlockHistoryDao" ref="leaveBlockHistoryDao"/>
+    </bean>
+    
+     <bean id="leaveStatusHistoryService" class="org.kuali.hr.lm.leaveblock.service.LeaveStatusHistoryServiceImpl">
+        <property name="leaveStatusHistoryDao" ref="leaveStatusHistoryDao"/>
     </bean>
 
     <bean id="leaveCalendarService" class="org.kuali.hr.lm.leavecalendar.service.LeaveCalendarServiceImpl">
