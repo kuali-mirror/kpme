@@ -73,6 +73,17 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         	 if(flag) {
         		 mpForm.setAssignmentReadOnly(true); 
         	 }
+        } else if(keyLabels.size() == 1){
+        	Set<String> actions = TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(TkConstants.LUNCH_IN);
+        	boolean flag = true;
+        	for (String entry : actions) {
+                if(!keyLabels.contains(new KeyLabelPair(entry, TkConstants.CLOCK_ACTION_STRINGS.get(entry)))) {
+               	 flag = false;
+                }
+            }
+       	 	if(flag) {
+       		 mpForm.setAssignmentReadOnly(true); 
+       	 	}
         }
         
         return act;

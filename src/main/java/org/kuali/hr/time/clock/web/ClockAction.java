@@ -306,8 +306,9 @@ public class ClockAction extends TimesheetAction {
 		    }
 
 		    // check if the begin / end time are valid
-		    Timestamp beginTS = TKUtils.convertDateStringToTimestamp(beginDates[i], beginTimes[i]);
-			Timestamp endTS = TKUtils.convertDateStringToTimestamp(endDates[i], endTimes[i]);
+		    // should not include time zone in consideration when conparing time intervals
+		    Timestamp beginTS = TKUtils.convertDateStringToTimestampWithoutZone(beginDates[i], beginTimes[i]);
+			Timestamp endTS = TKUtils.convertDateStringToTimestampWithoutZone(endDates[i], endTimes[i]);
 		    if ((beginTS.compareTo(endTS) > 0 || endTS.compareTo(beginTS) < 0)) {
 		        errorMsgList.add("The time or date for entry " + index + " is not valid.");
 		        caf.setOutputString(JSONValue.toJSONString(errorMsgList));
