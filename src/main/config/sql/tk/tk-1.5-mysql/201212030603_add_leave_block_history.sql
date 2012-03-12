@@ -1,4 +1,4 @@
-/* Create Sequence */
+
 DROP TABLE IF EXISTS `lm_leave_block_hist_s`;
 CREATE TABLE `lm_leave_block_hist_s` (
   `id` bigint(19) NOT NULL AUTO_INCREMENT,
