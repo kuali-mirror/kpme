@@ -4,11 +4,13 @@ import org.kuali.hr.job.service.JobService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
 import org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideService;
 import org.kuali.hr.lm.leaveadjustment.service.LeaveAdjustmentService;
+import org.kuali.hr.lm.leaveblock.service.LeaveBlockHistoryService;
+import org.kuali.hr.lm.leaveblock.service.LeaveBlockService;
+import org.kuali.hr.lm.leaveblock.service.LeaveStatusHistoryService;
 import org.kuali.hr.lm.leavecalendar.service.LeaveCalendarService;
 import org.kuali.hr.lm.leavecode.service.LeaveCodeService;
 import org.kuali.hr.lm.leavedonation.service.LeaveDonationService;
 import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
-import org.kuali.hr.lm.ledger.service.LedgerService;
 import org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffService;
 import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.location.service.LocationService;
@@ -131,13 +133,14 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String LM_LEAVE_PLAN_SERVICE = "leavePlanService";
     public static final String LM_LEAVE_DONATION_SERVICE = "leaveDonationService";
     public static final String LM_SYS_SCH_TIMEOFF_SERVICE = "systemScheduledTimeOffService";
-    public static final String LM_LEDGER_SERVICE = "ledgerService";
+    public static final String LM_LEAVE_BLOCK_SERVICE = "leaveBlockService";
     public static final String LM_LEAVE_CALENDAR_SERVICE = "leaveCalendarService";
     public static final String LM_LEAVE_CALENDAR_DOCUMENT_HEADER_SERVICE = "leaveCalendarDocumentHeaderService";
     public static final String LM_EMPLOYEE_OVERRIDE_SERVICE = "employeeOverrideService";
 	public static final String TK_PRINCIPAL_HR_ATTRIBUTES_SERVICE = "principalHRAttributesService";
 	public static final String LM_LEAVE_ADJUSTMENT_SERVICE = "leaveAdjustmentService";
-
+	public static final String LM_LEAVE_BLOCK_HISTORY_SERVICE = "leaveBlockHistoryService";
+	public static final String LM_LEAVE_STATUS_HISTORY_SERVICE = "leaveStatusHistoryService";
 
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -386,10 +389,18 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (SystemScheduledTimeOffService)CONTEXT.getBean(LM_SYS_SCH_TIMEOFF_SERVICE);
 	}
 
-    public static LedgerService getLedgerService(){
-		return (LedgerService)CONTEXT.getBean(LM_LEDGER_SERVICE);
+    public static LeaveBlockService getLeaveBlockService(){
+		return (LeaveBlockService)CONTEXT.getBean(LM_LEAVE_BLOCK_SERVICE);
 	}
 
+    public static LeaveBlockHistoryService getLeaveBlockHisotryService(){
+		return (LeaveBlockHistoryService)CONTEXT.getBean(LM_LEAVE_BLOCK_HISTORY_SERVICE);
+	}
+
+    public static LeaveStatusHistoryService getLeaveStatusHisotryService(){
+		return (LeaveStatusHistoryService)CONTEXT.getBean(LM_LEAVE_STATUS_HISTORY_SERVICE);
+	}
+    
     public static LeaveCalendarService getLeaveCalendarService(){
 		return (LeaveCalendarService)CONTEXT.getBean(LM_LEAVE_CALENDAR_SERVICE);
 	}

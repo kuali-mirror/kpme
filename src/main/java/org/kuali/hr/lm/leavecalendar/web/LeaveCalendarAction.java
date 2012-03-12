@@ -73,7 +73,7 @@ public class LeaveCalendarAction extends TkAction {
         return forward;
     }
 
-    public ActionForward addLedger(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addLeaveBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LeaveCalendarForm lcf = (LeaveCalendarForm) form;
         LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
         DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getBeginDate()));
@@ -82,17 +82,17 @@ public class LeaveCalendarAction extends TkAction {
         BigDecimal hours = lcf.getHours();
         String desc = lcf.getDescription();
 
-        TkServiceLocator.getLedgerService().addLedgers(beginDate, endDate, lcd, selectedLeaveCode, hours, desc);
+        TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, lcd, selectedLeaveCode, hours, desc);
 
         return mapping.findForward("basic");
     }
 
-    public ActionForward deleteLedger(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteLeaveBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LeaveCalendarForm lcf = (LeaveCalendarForm) form;
-        String ledgerId = lcf.getLedgerId();
+        String leaveBlockId = lcf.getLeaveBlockId();
 
         //TODO: need security check
-        TkServiceLocator.getLedgerService().deleteLedger(Long.parseLong(ledgerId));
+        TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(Long.parseLong(leaveBlockId));
 
         return mapping.findForward("basic");
     }

@@ -4,9 +4,9 @@ package org.kuali.hr.lm.leavecalendar.service;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDao;
-import org.kuali.hr.lm.ledger.Ledger;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -30,8 +30,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             throw new RuntimeException("Could not find LeaveCalendarDocumentHeader for DocumentID: " + documentId);
         }
 
-        List<Ledger> ledgers = TkServiceLocator.getLedgerService().getLedgersForDocumentId(documentId);
-        lcd.setLedgers(ledgers);
+        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
+        lcd.setLeaveBlocks(leaveBlocks);
 
         return lcd;
     }
@@ -80,14 +80,14 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
     /**
      * Preload the document data. It preloads:
-     * - Ledgers on the document.
+     * - LeaveBlocks on the document.
      * @param ldoc
      * @param principalId
      * @param calEntry
      */
     protected void loadLeaveCalendarDocumentData(LeaveCalendarDocument ldoc, String principalId, CalendarEntries calEntry) {
-        List<Ledger> ledgers = TkServiceLocator.getLedgerService().getLedgersForDocumentId(ldoc.getDocumentId());
-        ldoc.setLedgers(ledgers);
+        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(ldoc.getDocumentId());
+        ldoc.setLeaveBlocks(leaveBlocks);
     }
 
     public LeaveCalendarDao getLeaveCalendarDao() {

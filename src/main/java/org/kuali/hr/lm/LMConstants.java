@@ -15,4 +15,21 @@ public class LMConstants {
 		public static final String NO_ACCRUAL = "noaccrual";
 	}
 	
+	// Action history
+	public static final class ACTION{
+		public static final String DELETE = "D";
+		public static final String ADD = "A";
+		public static final String MODIFIED = "M";
+	}
+	
+	// Request status
+	public static final class REQUEST_STATUS{
+		public static final String PLANNED="P";
+		public static final String REQUESTED="R";
+		public static final String APPROVED="A";
+		public static final String RECORDED = "C";
+		public static final String DISAPPROVED = "D";
+		public static final String DEFERRED="F";
+	}
+	
 }

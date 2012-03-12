@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.kuali.hr.lm.ledger.Ledger;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
@@ -49,10 +49,10 @@ public class LeaveCalendar extends CalendarParent {
                 // This is for the div id of the days on the calendar.
                 // It creates a day id like day_11/01/2011 which will make day parsing easier in the javascript.
                 leaveCalendarDay.setDayNumberDelta(currDateTime.toString(TkConstants.DT_BASIC_DATE_FORMAT));
-                Multimap<Date, Ledger> ledgersForDay = ledgerAggregator(documentId);
-                // convert DateTime to sql date, since the ledger_date on the ledger is a timeless date
-                java.sql.Date ledgerDate = TKUtils.getTimelessDate(currDateTime.toDate());
-                leaveCalendarDay.setLedgers(new ArrayList<Ledger>(ledgersForDay.get(ledgerDate)));
+                Multimap<Date, LeaveBlock> leaveBlocksForDay = leaveBlockAggregator(documentId);
+                // convert DateTime to sql date, since the leave_date on the leaveBlock is a timeless date
+                java.sql.Date leaveDate = TKUtils.getTimelessDate(currDateTime.toDate());
+                leaveCalendarDay.setLeaveBlocks(new ArrayList<LeaveBlock>(leaveBlocksForDay.get(leaveDate)));
             }
             leaveCalendarDay.setDayNumberString(currDateTime.dayOfMonth().getAsShortText());
 
@@ -74,14 +74,14 @@ public class LeaveCalendar extends CalendarParent {
         setLeaveCodeList(leaveCodes);
     }
 
-    private Multimap<Date, Ledger> ledgerAggregator(String documentId) {
-        List<Ledger> ledgers = TkServiceLocator.getLedgerService().getLedgersForDocumentId(documentId);
-        Multimap<Date, Ledger> ledgerAggregrate = HashMultimap.create();
-        for (Ledger ledger : ledgers) {
-            ledgerAggregrate.put(ledger.getLedgerDate(), ledger);
+    private Multimap<Date, LeaveBlock> leaveBlockAggregator(String documentId) {
+        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
+        Multimap<Date, LeaveBlock> leaveBlockAggregrate = HashMultimap.create();
+        for (LeaveBlock leaveBlock : leaveBlocks) {
+            leaveBlockAggregrate.put(leaveBlock.getLeaveDate(), leaveBlock);
         }
 
-        return ledgerAggregrate;
+        return leaveBlockAggregrate;
     }
 
     public Map<String, String> getLeaveCodeList() {

@@ -3,25 +3,25 @@ package org.kuali.hr.time.calendar;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.hr.lm.ledger.Ledger;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 
 public class LeaveCalendarDay extends CalendarDay {
 
-    private List<Ledger> ledgers = new ArrayList<Ledger>();
-    private List<LedgerRenderer> ledgerRenderers = new ArrayList<LedgerRenderer>();
+    private List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+    private List<LeaveBlockRenderer> leaveBlockRenderers = new ArrayList<LeaveBlockRenderer>();
 
-    public List<LedgerRenderer> getLedgerRenderers() {
-        return ledgerRenderers;
+    public List<LeaveBlockRenderer> getLeaveBlockRenderers() {
+        return leaveBlockRenderers;
     }
 
-    public List<Ledger> getLedgers() {
-        return ledgers;
+    public List<LeaveBlock> getLeaveBlocks() {
+        return leaveBlocks;
     }
 
-    public void setLedgers(List<Ledger> ledgers) {
-        this.ledgers = ledgers;
-        for (Ledger ledger : ledgers) {
-            ledgerRenderers.add(new LedgerRenderer(ledger));
+    public void setLeaveBlocks(List<LeaveBlock> leaveBlocks) {
+        this.leaveBlocks = leaveBlocks;
+        for (LeaveBlock leaveBlock : leaveBlocks) {
+            leaveBlockRenderers.add(new LeaveBlockRenderer(leaveBlock));
         }
     }
 }

@@ -1,25 +1,29 @@
-package org.kuali.hr.lm.ledger;
+package org.kuali.hr.lm.leaveblock;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.timeblock.TimeBlockHistory;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class Ledger extends HrBusinessObject {
+public class LeaveBlock extends PersistableBusinessObjectBase {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
     // use java sql date for now
-    private String lmLedgerId;
-    private Date ledgerDate;
+    private String lmLeaveBlockId;
+    private Date leaveDate;
     private String description;
     private String principalId;
     private String leaveCode;
@@ -30,13 +34,14 @@ public class Ledger extends HrBusinessObject {
     private BigDecimal hours = new BigDecimal("0.0");
     private String applyToYtdUsed;
     private String documentId;
-    private String principalActivated;
-    private String principalInactivated;
-    private Timestamp timestampActivated;
-    private Timestamp timestampInactivaed;
+    private String principalIdModified;
+    private Timestamp timestamp;
     private Boolean accrualGenerated;
     private Long blockId;
+    private String tkAssignmentId;
+    private String requestStatus;
 
+    private List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
     private LeaveCode leaveCodeObj;
     private SystemScheduledTimeOff systemScheduledTimeOffObj;
     private AccrualCategory accrualCategoryObj;
@@ -44,7 +49,7 @@ public class Ledger extends HrBusinessObject {
     public static class Builder {
 
         // required parameters for the constructor
-        private final Date ledgerDate;
+        private final Date leaveDate;
         private final String principalId;
         private final String documentId;
         private final String leaveCode;
@@ -52,21 +57,20 @@ public class Ledger extends HrBusinessObject {
 
 
         private String description = null;
-        private Boolean active = Boolean.TRUE;
         private String applyToYtdUsed = null;
-        private String principalActivated = null;
-        private String principalInactivated = null;
-        private Timestamp timestampActivated = null;
-        private Timestamp timestampInactivaed = null;
+        private String principalIdModified = null;
+        private Timestamp timestamp = null;
         private Boolean accrualGenerated = Boolean.FALSE;
         private Long blockId = 0L;
         private String leaveCodeId;
         private String scheduleTimeOffId;
         private String accrualCategoryId;
+        private String tkAssignmentId;
+        private String requestStatus;
 
 
-        public Builder(DateTime ledgerDate, String documentId, String principalId, String leaveCode, BigDecimal hours) {
-            this.ledgerDate = new java.sql.Date(ledgerDate.toDate().getTime());
+        public Builder(DateTime leaveBlockDate, String documentId, String principalId, String leaveCode, BigDecimal hours) {
+            this.leaveDate = new java.sql.Date(leaveBlockDate.toDate().getTime());
             this.documentId = documentId;
             this.principalId = principalId;
             this.leaveCode = leaveCode;
@@ -80,33 +84,18 @@ public class Ledger extends HrBusinessObject {
             return this;
         }
 
-        public Builder active(Boolean val) {
-            this.active = val;
-            return this;
-        }
-
         public Builder applyToYtdUsed(String val) {
             this.applyToYtdUsed = val;
             return this;
         }
 
-        public Builder principalActivated(String val) {
-            this.principalActivated = val;
+        public Builder principalIdModified(String val) {
+            this.principalIdModified = val;
             return this;
         }
 
-        public Builder principalInactivated(String val) {
-            this.principalInactivated = val;
-            return this;
-        }
-
-        public Builder timestampActivated(Timestamp val) {
-            this.timestampActivated = val;
-            return this;
-        }
-
-        public Builder timestampInactivaed(Timestamp val) {
-            this.timestampInactivaed = val;
+        public Builder timestamp(Timestamp val) {
+            this.timestamp = val;
             return this;
         }
 
@@ -136,53 +125,48 @@ public class Ledger extends HrBusinessObject {
             return this;
         }
 
-        public Ledger build() {
-            return new Ledger(this);
+        public Builder tkAssignmentId(String val){
+        	this.tkAssignmentId = val;
+        	return this;
         }
+        
+        public Builder requestStatus(String val){
+        	this.requestStatus = val;
+        	return this;
+        }
+        
+        public LeaveBlock build() {
+            return new LeaveBlock(this);
+        }
+        
     }
 
-    private Ledger(Builder builder) {
-        ledgerDate = builder.ledgerDate;
+    private LeaveBlock(Builder builder) {
+        leaveDate = builder.leaveDate;
         description = builder.description;
         principalId = builder.principalId;
         leaveCode = builder.leaveCode;
-        active = builder.active;
         hours = builder.hours;
         applyToYtdUsed = builder.applyToYtdUsed;
         documentId = builder.documentId;
-        principalActivated = builder.principalActivated;
-        principalInactivated = builder.principalInactivated;
-        timestampActivated = builder.timestampActivated;
-        timestampInactivaed = builder.timestampInactivaed;
+        principalIdModified= builder.principalIdModified;
+        timestamp = builder.timestamp;
         accrualGenerated = builder.accrualGenerated;
         blockId = builder.blockId;
         leaveCodeId = builder.leaveCodeId;
         scheduleTimeOffId = builder.scheduleTimeOffId;
         accrualCategoryId = builder.accrualCategoryId;
-
+        tkAssignmentId = builder.tkAssignmentId;
+        requestStatus = builder.requestStatus;
         // TODO: need to hook up leaveCodeObj, systemScheduledTimeOffObj, accrualCategoryObj, and ids for individual obj
     }
 
 
-    public Ledger() {
+    public LeaveBlock() {
 
     }
-
-    @Override
-    protected String getUniqueKey() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public String getId() {
-        return lmLedgerId;
-    }
-
-    @Override
-    public void setId(String id) {
-        this.lmLedgerId = id;
-    }
-
+    
+    @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -268,28 +252,28 @@ public class Ledger extends HrBusinessObject {
         this.leaveCodeId = leaveCodeId;
     }
 
-    public Date getLedgerDate() {
-        return ledgerDate;
+    public Date getLeaveDate() {
+        return leaveDate;
     }
 
-    public void setLedgerDate(Date ledgerDate) {
-        this.ledgerDate = ledgerDate;
+    public void setLeaveDate(Date leaveDate) {
+        this.leaveDate = leaveDate;
     }
 
-    public String getLmLedgerId() {
-        return lmLedgerId;
+    public String getLmLeaveBlockId() {
+        return lmLeaveBlockId;
     }
 
-    public void setLmLedgerId(Long ledgerId) {
-        this.lmLedgerId = lmLedgerId;
+    public void setLmLeaveBlockId(String lmLeaveBlockId) {
+        this.lmLeaveBlockId = lmLeaveBlockId;
     }
 
-    public String getPrincipalActivated() {
-        return principalActivated;
+    public String getPrincipalIdModified() {
+        return principalIdModified;
     }
 
-    public void setPrincipalActivated(String principalActivated) {
-        this.principalActivated = principalActivated;
+    public void setPrincipalIdModified(String principalIdModified) {
+        this.principalIdModified = principalIdModified;
     }
 
     public String getPrincipalId() {
@@ -300,14 +284,6 @@ public class Ledger extends HrBusinessObject {
         this.principalId = principalId;
     }
 
-    public String getPrincipalInactivated() {
-        return principalInactivated;
-    }
-
-    public void setPrincipalInactivated(String principalInactivated) {
-        this.principalInactivated = principalInactivated;
-    }
-
     public String getScheduleTimeOffId() {
         return scheduleTimeOffId;
     }
@@ -316,20 +292,12 @@ public class Ledger extends HrBusinessObject {
         this.scheduleTimeOffId = scheduleTimeOffId;
     }
 
-    public Timestamp getTimestampActivated() {
-        return timestampActivated;
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimestampActivated(Timestamp timestampActivated) {
-        this.timestampActivated = timestampActivated;
-    }
-
-    public Timestamp getTimestampInactivaed() {
-        return timestampInactivaed;
-    }
-
-    public void setTimestampInactivaed(Timestamp timestampInactivaed) {
-        this.timestampInactivaed = timestampInactivaed;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     public AccrualCategory getAccrualCategoryObj() {
@@ -355,4 +323,37 @@ public class Ledger extends HrBusinessObject {
     public void setSystemScheduledTimeOffObj(SystemScheduledTimeOff systemScheduledTimeOffObj) {
         this.systemScheduledTimeOffObj = systemScheduledTimeOffObj;
     }
+
+
+	public String getTkAssignmentId() {
+		return tkAssignmentId;
+	}
+
+
+	public void setTkAssignmentId(String tkAssignmentId) {
+		this.tkAssignmentId = tkAssignmentId;
+	}
+
+
+	public String getRequestStatus() {
+		return requestStatus;
+	}
+
+
+	public void setRequestStatus(String requestStatus) {
+		this.requestStatus = requestStatus;
+	}
+
+
+	public List<LeaveBlockHistory> getLeaveBlockHistories() {
+		return leaveBlockHistories;
+	}
+
+
+	public void setLeaveBlockHistories(List<LeaveBlockHistory> leaveBlockHistories) {
+		this.leaveBlockHistories = leaveBlockHistories;
+	}
+    
+	
+    
 }
