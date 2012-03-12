@@ -1,9 +1,3 @@
-/* Changing the sequence 
---DROP TABLE IF EXISTS `lm_ledger_s`;
---CREATE TABLE `lm_leave_block_s` (
---  `id` bigint(19) NOT NULL AUTO_INCREMENT,
---  PRIMARY KEY (`id`));
---  */
 
 ALTER TABLE lm_ledger_s RENAME lm_leave_block_s;
 
