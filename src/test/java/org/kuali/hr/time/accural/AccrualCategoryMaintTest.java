@@ -22,6 +22,7 @@ public class AccrualCategoryMaintTest extends TkTestCase {
 	@Test
 	public void testAccrualCategoryMaint() throws Exception {
 		HtmlPage accuralCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		assertEquals("Active is not default to Yes", accuralCategoryLookup.getElementById("activeYes").asText(), "checked");
 		accuralCategoryLookup = HtmlUnitUtil.clickInputContainingText(accuralCategoryLookup, "search");
 		assertTrue("Page contains test AccuralCategory", accuralCategoryLookup.asText().contains(TEST_CODE.toString()));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accuralCategoryLookup, "edit", accrualCategoryId.toString());
