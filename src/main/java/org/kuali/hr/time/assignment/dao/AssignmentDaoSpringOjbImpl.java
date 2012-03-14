@@ -1,5 +1,6 @@
 package org.kuali.hr.time.assignment.dao;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -7,6 +8,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 import java.sql.Date;
@@ -288,6 +290,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
         Criteria effdt = new Criteria();
         Criteria timestamp = new Criteria();
 
+
         // subquery for effective date
         effdt.addLessOrEqualThan("effectiveDate", asOfDate);
         effdt.addEqualTo("principalId", principalId);
@@ -324,6 +327,101 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
         }
 
         return assignments;
+    }
+
+    @Override
+    public List<Assignment> getAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+                                           String dept, String workArea, String active, String showHistory) {
+
+        Criteria crit = new Criteria();
+        Criteria effdt = new Criteria();
+
+        List<Assignment> results = new ArrayList<Assignment>();
+
+        if (fromEffdt != null) {
+            crit.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+        }
+
+        if (toEffdt != null) {
+            crit.addLessOrEqualThan("effectiveDate", toEffdt);
+        } else {
+            crit.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+
+        if (StringUtils.isNotBlank(principalId)) {
+            crit.addLike("principalId", principalId);
+        }
+
+        if (StringUtils.isNotBlank(jobNumber)) {
+            crit.addLike("jobNumber", jobNumber);
+        }
+
+        if (StringUtils.isNotBlank(dept)) {
+            crit.addLike("dept", dept);
+        }
+
+        if (StringUtils.isNotBlank(workArea)) {
+            crit.addLike("workArea", workArea);
+        }
+
+
+        if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "Y")) {
+            Query query = QueryFactory.newQuery(Assignment.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        } else if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "N")) {
+            effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+            if (toEffdt != null) {
+                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
+            }
+            Query query = QueryFactory.newQuery(Assignment.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        } else if (StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)) {
+            effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+            if (toEffdt != null) {
+                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
+            }
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", true);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(Assignment.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        } //return all active records from the database
+        else if (StringUtils.equals(active, "Y") && StringUtils.equals("Y", showHistory)) {
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", true);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(Assignment.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        }
+        //return all inactive records in the database
+        else if (StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "Y")) {
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", false);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(Assignment.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        }
+
+        //return the most effective inactive rows if there are no active rows <= the curr date
+        else if (StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "N")) {
+            effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+            if (toEffdt != null) {
+                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
+            }
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", false);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(Assignment.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+
+        }
+        return results;
     }
 
 
