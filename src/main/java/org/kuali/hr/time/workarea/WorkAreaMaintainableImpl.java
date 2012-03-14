@@ -51,14 +51,14 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         	TkRole aRole = (TkRole)newCollectionLines.get(collectionName );
             if ( aRole != null ) {
             	if(!StringUtils.isEmpty(aRole.getPrincipalId()) && !StringUtils.isEmpty(aRole.getPositionNumber())) {
-            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"add.roles.principalId", 
+            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
             				"error.role.principalId.positonNubmer", aRole.getPrincipalId());
             		return;
             	}
             	if(aRole.getPrincipalId() != null && !aRole.getPrincipalId().isEmpty()) {
             		Person aPerson = KIMServiceLocator.getPersonService().getPerson(aRole.getPrincipalId());
             		if(aPerson == null) {
-            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"add.roles.principalId", 
+            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
                 				"error.role.person.notexist", aRole.getPrincipalId());
                 		return;
             		}
@@ -66,7 +66,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
             	if(aRole.getPositionNumber() != null && !aRole.getPositionNumber().isEmpty()) {
             		Position aPositon = TkServiceLocator.getPositionService().getPosition(aRole.getPositionNumber());
             		if(aPositon == null) {
-            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"add.roles.positionNumber", 
+            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
                 				"error.role.position.notexist", aRole.getPositionNumber());
                 		return;
             		}
