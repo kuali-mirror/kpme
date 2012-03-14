@@ -56,16 +56,17 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	    //there should be a default value for premium holiday
 	    assertFalse("page text contains:\n" + PREMIUM_HOLIDAY_REQUIRED, page.asText().contains(PREMIUM_HOLIDAY_REQUIRED));
 	}
+	
 	@Test
 	public void testLookupPage() throws Exception {	 
 		HtmlPage sstoLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.TIME_OFF_MAINT_URL);
 		sstoLookup = HtmlUnitUtil.clickInputContainingText(sstoLookup, "search");
 		HtmlUnitUtil.createTempFile(sstoLookup);
-		assertTrue("Page contains test SystemScheduledTimeOff", sstoLookup.asText().contains("testLP"));
+		assertTrue("Page contains test SystemScheduledTimeOff", sstoLookup.asText().contains("TLC"));
 		assertFalse("Page contains test SystemScheduledTimeOff", sstoLookup.asText().contains("InactiveLP"));
 		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(sstoLookup, "edit");
-		assertTrue("Maintenance Page contains test SystemScheduledTimeOff",maintPage.asText().contains("testLP"));	
+		assertTrue("Maintenance Page contains test SystemScheduledTimeOff",maintPage.asText().contains("TLC"));	
 	}
 	
 	@Test

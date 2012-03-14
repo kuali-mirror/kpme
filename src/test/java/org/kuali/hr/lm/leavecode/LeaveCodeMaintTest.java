@@ -54,7 +54,5 @@ public class LeaveCodeMaintTest extends TkTestCase{
 	  	HtmlUnitUtil.createTempFile(page);
 	  	assertTrue("page text contains:\n" + "should be between 0 and 24", page.asText().contains("should be between 0 and 24"));
 	  	assertTrue("page text contains:\n" + "IU-SM", page.asText().contains("IU-SM"));
-	  	//assertTrue("page text contains:\n" + ERROR_MESSAGE_ALLOW_NEGATIVE_ACC_BAN_REQUIRED, page.asText().contains(ERROR_MESSAGE_ALLOW_NEGATIVE_ACC_BAN_REQUIRED));
-	  	
 	}
 }
