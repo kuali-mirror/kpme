@@ -100,7 +100,7 @@
 		<field-descriptor name="approver"			column="APPROVER" jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="departmentAdmin"	column="DEPT_ADMIN" jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="effectiveDate" 		column="EFFDT" jdbc-type="DATE" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-		<field-descriptor name="allowNegativeAccrualBalance" column="ALLOW_NEGATIVE_ACC_BALANCE" jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="allowNegativeAccrualBalance" column="ALLOW_NEGATIVE_ACC_BALANCE" jdbc-type="VARCHAR" length="1" nullable="false" />
 		<field-descriptor name="timestamp" 			column="timestamp" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"          	column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />

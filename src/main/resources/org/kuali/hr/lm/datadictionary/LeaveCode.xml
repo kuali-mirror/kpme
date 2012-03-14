@@ -356,7 +356,7 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Allow Negative Accrual Balance" />
 		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder"/>
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.SwitchKeyValueFinder"/>
 		</property>
 		<property name="name" value="allowNegativeAccrualBalance" />
 		<property name="label" value="Allow Negative Accrual Balance" />
