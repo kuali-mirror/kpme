@@ -64,7 +64,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
             		}
             	}
             	if(aRole.getPositionNumber() != null && !aRole.getPositionNumber().isEmpty()) {
-            		Position aPositon = TkServiceLocator.getPositionService().getPosition(aRole.getPositionNumber());
+            		Position aPositon = TkServiceLocator.getPositionService().getPositionByPositionNumber(aRole.getPositionNumber());
             		if(aPositon == null) {
             			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
                 				"error.role.position.notexist", aRole.getPositionNumber());
