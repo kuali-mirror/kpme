@@ -192,7 +192,8 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		return getLmSystemScheduledTimeOffId();
+		String lmSystemScheduledTimeOffKey = getLeaveCode() +"_"+ getLeavePlan() +"_"+ getAccrualCategory();
+		return lmSystemScheduledTimeOffKey;
 	}
 
 	@Override
