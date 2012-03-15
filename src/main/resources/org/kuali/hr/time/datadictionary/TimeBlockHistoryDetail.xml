@@ -20,6 +20,8 @@
                 <ref bean="TimeBlockHistoryDetail-earnCode"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.beginTimeStamp"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.endTimeStamp"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.workArea"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.task"/>
                 <ref bean="TimeBlockHistoryDetail-hours"/>
                 <ref bean="TimeBlockHistoryDetail-amount"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.timeStamp"/>
@@ -129,6 +131,30 @@
                   value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>
         <property name="name" value="timeBlockHistory.endTimestamp"/>
         <property name="label" value="End Time"/>
+    </bean>
+    
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.workArea" parent="TimeBlockHistoryDetail-timeBlockHistory.workArea-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.workArea-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Work Area"/>
+        <property name="maxLength" value="15"/>
+        <property name="control">
+    	  <bean parent="TextControlDefinition" p:size="15"/>
+   		</property>
+        <property name="name" value="timeBlockHistory.workArea"/>
+        <property name="label" value="Work Area"/>
+    </bean>
+    
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.task" parent="TimeBlockHistoryDetail-timeBlockHistory.task-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.task-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Task"/>
+        <property name="maxLength" value="15"/>
+        <property name="control">
+    	  <bean parent="TextControlDefinition" p:size="15"/>
+   		</property>
+        <property name="name" value="timeBlockHistory.task"/>
+        <property name="label" value="Task"/>
     </bean>
     
     <bean id="TimeBlockHistoryDetail-beginDate" parent="TimeBlockHistoryDetail-beginDate-parentBean" />
@@ -321,7 +347,8 @@
         <property name="resultFields">
             <list>
                  <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.documentId" p:noInquiry="true"/>
-
+				 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.workArea"/>
+                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.task"/>
                  <bean parent="FieldDefinition" p:attributeName="earnCode"/>
                  <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.beginTimestamp"/>
                  <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.endTimestamp"/>

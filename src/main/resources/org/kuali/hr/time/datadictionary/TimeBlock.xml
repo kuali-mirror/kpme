@@ -19,6 +19,7 @@
       	<ref bean="TimeBlock-documentId" />
       	<ref bean="TimeBlock-jobNumber"/>
         <ref bean="TimeBlock-workArea" />
+        <ref bean="TimeBlock-task" />
         <ref bean="TimeBlock-earnCode" />
         <ref bean="TimeBlock-beginTimeStamp" />
         <ref bean="TimeBlock-endTimeStamp" />
@@ -105,6 +106,16 @@
     </property>
     <property name="name" value="workArea"/>
     <property name="label" value="Work Area"/>
+  </bean>
+  
+  <bean id="TimeBlock-task" parent="TimeBlock-task-parentBean"/>
+  <bean id="TimeBlock-task-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Task"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
+    </property>
+    <property name="name" value="task"/>
+    <property name="label" value="Task"/>
   </bean>
  
 <bean id="TimeBlock-jobNumber" parent="TimeBlock-jobNumber-parentBean" />
@@ -354,6 +365,8 @@
       	<bean parent="FieldDefinition" p:attributeName="principalId" />
       	<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
       	<bean parent="FieldDefinition" p:attributeName="earnCode" />
+        <bean parent="FieldDefinition" p:attributeName="workArea"/>
+        <bean parent="FieldDefinition" p:attributeName="task"/>
       	<bean parent="FieldDefinition" p:attributeName="beginTimestamp"/>
         <bean parent="FieldDefinition" p:attributeName="endTimestamp" />
       </list>
