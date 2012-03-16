@@ -73,4 +73,8 @@ public interface JobDao {
 	 * @return
 	 */
 	public Job getMaxJob(String principalId);
+
+    List<Job> getJobs(String principalId, String jobNumber,
+                      String dept, String positionNbr, String payType,
+                      java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
 }

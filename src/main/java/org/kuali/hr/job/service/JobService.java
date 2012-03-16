@@ -82,5 +82,8 @@ public interface JobService {
 	 * @return
 	 */
 	public Job getMaxJob(String principalId);
-	
+
+    List<Job> getJobs(String principalId, String firstName, String lastName, String jobNumber,
+                      String dept, String positionNbr, String payType,
+                      java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
 }

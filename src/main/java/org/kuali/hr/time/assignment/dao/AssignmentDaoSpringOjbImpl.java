@@ -370,18 +370,10 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
             Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
             results.addAll(c);
         } else if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "N")) {
-            effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-            if (toEffdt != null) {
-                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
-            }
             Query query = QueryFactory.newQuery(Assignment.class, crit);
             Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
             results.addAll(c);
         } else if (StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)) {
-            effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-            if (toEffdt != null) {
-                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
-            }
             Criteria activeFilter = new Criteria(); // Inner Join For Activity
             activeFilter.addEqualTo("active", true);
             crit.addAndCriteria(activeFilter);
@@ -409,10 +401,6 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 
         //return the most effective inactive rows if there are no active rows <= the curr date
         else if (StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "N")) {
-            effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-            if (toEffdt != null) {
-                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
-            }
             Criteria activeFilter = new Criteria(); // Inner Join For Activity
             activeFilter.addEqualTo("active", false);
             crit.addAndCriteria(activeFilter);
