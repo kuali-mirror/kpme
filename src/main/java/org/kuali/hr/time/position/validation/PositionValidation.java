@@ -11,20 +11,23 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 public class PositionValidation extends MaintenanceDocumentRuleBase {
 
 	protected boolean validatePositionWorkarea(Position position) {
-
+		
+		boolean workAreaValidity = true;
+		
 		if (position.getWorkArea() != null) {
 			Long WANumbr = position.getWorkArea();
 			Date effDate = position.getEffectiveDate();
 
 			if (TkServiceLocator.getWorkAreaService().getWorkArea(WANumbr,
 					effDate) != null) {
-				return true;
+				return workAreaValidity;
 			} else {
 				this.putFieldError("workArea", "pos.workArea.invalid",
 						"work area '" + position.getWorkArea() + "'");
+				workAreaValidity = false;
 			}
 		}
-		return false;
+		return workAreaValidity;
 	}
 
 	@Override

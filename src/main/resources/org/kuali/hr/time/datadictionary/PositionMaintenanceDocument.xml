@@ -39,7 +39,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.NextUniquePositionNumberFinder"/>
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="false" />
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
       </list>
     </property>
