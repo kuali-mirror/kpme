@@ -32,11 +32,24 @@ public class LeavePlanMaintTest extends TkTestCase {
 		setFieldValue(leavePlanMaintPage, "document.newMaintainableObject.effectiveDate", "01/01/2013");
 		HtmlInput planningMonthsText = HtmlUnitUtil.getInputContainingText(leavePlanMaintPage, "document.newMaintainableObject.planningMonths");
 		
+		// KPME- Kagata - value is between 1 and 24 now
 		planningMonthsText.setValueAttribute("999"); //max value
 		HtmlPage outputPage = HtmlUnitUtil.clickInputContainingText(leavePlanMaintPage, "submit");
 		HtmlUnitUtil.createTempFile(outputPage);
+		//assertTrue("Maintenance page text contains:\n" + "Document was successfully submitted", outputPage.asText().contains("Document was successfully submitted"));
+		//assertTrue("Maintenance page contains:\n" + "Planning Months changed to 999", outputPage.asText().contains("999"));
+		assertTrue("Maintenance page text contains:\n" + "\'Planning Months\' should be between 1 and 24", outputPage.asText().contains("\'Planning Months\' should be between 1 and 24"));
+		
+		planningMonthsText.setValueAttribute("0"); 
+		outputPage = HtmlUnitUtil.clickInputContainingText(leavePlanMaintPage, "submit");
+		HtmlUnitUtil.createTempFile(outputPage);
+		assertTrue("Maintenance page text contains:\n" + "\'Planning Months\' should be between 1 and 24", outputPage.asText().contains("\'Planning Months\' should be between 1 and 24"));
+		
+		planningMonthsText.setValueAttribute("24"); 
+		outputPage = HtmlUnitUtil.clickInputContainingText(leavePlanMaintPage, "submit");
+		HtmlUnitUtil.createTempFile(outputPage);
 		assertTrue("Maintenance page text contains:\n" + "Document was successfully submitted", outputPage.asText().contains("Document was successfully submitted"));
-		assertTrue("Maintenance page contains:\n" + "Planning Months changed to 999", outputPage.asText().contains("999"));
+		assertTrue("Maintenance page contains:\n" + "Planning Months changed to 24", outputPage.asText().contains("24"));
 		
 	}
 }
