@@ -5,6 +5,7 @@ import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 
@@ -49,21 +50,14 @@ public class TimeCollectionRuleLookupableHelper extends
 	}
 
 	@Override
-	public List<? extends BusinessObject> getSearchResults(
-			Map<String, String> fieldValues) {
-		if (fieldValues.containsKey("workArea")
-				&& StringUtils.equals(fieldValues.get("workArea"), "%")) {
-			fieldValues.put("workArea", "");
-		}
-		if (fieldValues.containsKey("dept")
-				&& StringUtils.equals(fieldValues.get("dept"), "%")) {
-			fieldValues.put("dept", "");
-		}
-		if (fieldValues.containsKey("payType")
-				&& StringUtils.equals(fieldValues.get("payType"), "%")) {
-			fieldValues.put("payType", "");
-		}
-		return super.getSearchResults(fieldValues);
+	public List<? extends BusinessObject> getSearchResults( Map<String, String> fieldValues) {
+        String workArea = fieldValues.get("workArea");
+        String dept = fieldValues.get("dept");
+        String payType = fieldValues.get("payType");
+        String active = fieldValues.get("active");
+
+        List<TimeCollectionRule> timeCollectionRules = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules(dept, workArea, payType, active);
+		return timeCollectionRules;
 	}
 
 	@Override
