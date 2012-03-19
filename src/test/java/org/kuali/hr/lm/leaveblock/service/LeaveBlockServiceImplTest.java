@@ -62,9 +62,10 @@ public class LeaveBlockServiceImplTest extends TkTestCase {
 	}
 	
 	@Test
-	public void testGetLeaveBlocksByRequestStatus(){
+	public void testGetLeaveBlocksByLeaveRequestStatus(){
 		String requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
-		List<LeaveBlock> leaveBlocks = leaveBlockService.getLeaveBlocksByRequestStatus(requestStatus);
+		Date currentDate = TKUtils.getTimelessDate(new Date());
+		List<LeaveBlock> leaveBlocks = leaveBlockService.getLeaveBlocks(TEST_USER, requestStatus, currentDate);
 		assertNotNull("Leave Blocks not found of Request status", leaveBlocks);
 	}
 

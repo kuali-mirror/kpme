@@ -28,11 +28,8 @@ public class LeaveStatusHistoryServiceImplTest extends TkTestCase{
 
 	@Test
 	public void testGetLeaveStatusByLmLeaveBlockId() {
-		List<LeaveStatusHistory> leaveStatusHistories = leaveStatusHistoryService.getLeaveStatusHistoryByLmLeaveBlockId("1000");
-		assertNotNull("Leave Status Object not found", leaveStatusHistories);
+		LeaveStatusHistory leaveStatusHistory = leaveStatusHistoryService.getLeaveStatusHistoryByLmLeaveBlockIdAndRequestStatus("1000", null);
+		assertNotNull("Leave Status Object not found", leaveStatusHistory);
 	}
-	
-	
-	
 
 }

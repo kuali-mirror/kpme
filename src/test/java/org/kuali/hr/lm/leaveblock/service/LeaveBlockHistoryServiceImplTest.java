@@ -31,6 +31,12 @@ public class LeaveBlockHistoryServiceImplTest extends TkTestCase {
 		assertNotNull("Leave Block histories  not found ", leaveBlockHistories);
 	}
 	
+	@Test
+	public void testGetLeaveBlockHistories() {
+		List<LeaveBlockHistory> leaveBlockHistories = leaveBlockHistoryService.getLeaveBlockHistories("admin", null);
+		assertNotNull("Leave Block histories  not found ", leaveBlockHistories);
+	}
+	
 	
 
 }
