@@ -114,13 +114,6 @@ public class AdminAction extends TkAction {
 		            TKContext.setUser(tkUser);
 		
 		            LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " change employee as : " + changePerson.getPrincipalName() + "\n\n");
-		            
-		            String returnAction = "/PersonInfo.do";
-		            if (StringUtils.isNotEmpty(adminForm.getTargetUrl())) {
-		                returnAction = adminForm.getTargetUrl();
-		            }
-
-		            return new ActionRedirect(returnAction);
 	            }else {
 	                LOG.warn("Non-Admin user attempting to backdoor.");
 	                return mapping.findForward("unauthorized");
@@ -128,12 +121,7 @@ public class AdminAction extends TkAction {
 	        }
         }
         
-        String returnAction = "/Admin.do";
-        if (StringUtils.isNotEmpty(adminForm.getTargetUrl())) {
-            returnAction = adminForm.getTargetUrl();
-        }
-
-        return new ActionRedirect(returnAction);
+    	return mapping.findForward("basic");
     }
     
     //http://156.56.177.225:8080/tk-dev/Admin.do?methodToCall=changeEmployee&documentId=19018&changeTargetPrincipalId=1659102154&targetUrl=TimeDetail.do%3FdocumentId=19018&returnUrl=TimeApproval.do
