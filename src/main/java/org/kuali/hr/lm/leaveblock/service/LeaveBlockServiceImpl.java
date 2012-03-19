@@ -160,8 +160,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
 	@Override
-	public List<LeaveBlock> getLeaveBlocksByRequestStatus(String requestStatus) {
-		return leaveBlockDao.getLeaveBlocksByRequestStatus(requestStatus);
+	public List<LeaveBlock> getLeaveBlocks(String principalId, String requestStatus, Date currentDate) {
+		return leaveBlockDao.getLeaveBlocks(principalId, requestStatus, currentDate);
 	}
 
 }

@@ -25,5 +25,12 @@ public interface LeaveBlockService {
 
     public void addLeaveBlocks(DateTime beginDate, DateTime endDate, LeaveCalendarDocument lcd, String selectedLeaveCode, BigDecimal hours, String description);
     
-    public List<LeaveBlock> getLeaveBlocksByRequestStatus(String requestStatus);
+    /**
+     * 
+     * @param principalId
+     * @param requestStatus
+     * @param currentDate currentDate to get the records for the future date, pass null when not required
+     * @return List of LeaveBlocks
+     */
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String requestStatus, Date currentDate);
 }

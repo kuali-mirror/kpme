@@ -12,5 +12,7 @@ public interface LeaveStatusHistoryService {
 	public void saveLeaveStatusHistoryList(List<LeaveStatusHistory> leaveStatusHistories);
 	
     public List<LeaveStatusHistory> getLeaveStatusHistoryByLmLeaveBlockId(String lmLeaveBlockId);
+    
+    public LeaveStatusHistory getLeaveStatusHistoryByLmLeaveBlockIdAndRequestStatus(String lmLeaveBlockId, List<String> requestStatus);
 
 }

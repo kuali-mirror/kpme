@@ -12,4 +12,6 @@ public interface LeaveBlockHistoryService {
 	public void saveLeaveBlockHistoryList(List<LeaveBlockHistory> leaveBlockHistories);
 	
     public List<LeaveBlockHistory> getLeaveBlockHistoryByLmLeaveBlockId(String lmLeaveBlockId);
+    
+    public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId, List<String> requestStatus);
 }

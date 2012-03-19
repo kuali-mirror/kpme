@@ -33,7 +33,7 @@ public class LeaveBlockHistory extends LeaveBlock {
 		this.setLeaveCode(lb.getLeaveCode());
 		this.setLeaveDate(lb.getLeaveDate());
 		this.setPrincipalId(lb.getPrincipalId());
-		this.setPrincipalIdModified(lb.getPrincipalIdModified());
+//		this.setPrincipalIdModified(lb.getPrincipalIdModified());
 		this.setRequestStatus(lb.getRequestStatus());
 		this.setTimestamp(lb.getTimestamp());
 		this.setTkAssignmentId(lb.getTkAssignmentId());

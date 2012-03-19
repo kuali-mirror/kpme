@@ -38,4 +38,16 @@ public class LeaveBlockHistoryDaoSpringOjbImpl extends PersistenceBrokerDaoSuppo
 		return (List<LeaveBlockHistory>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 	}
 
+	@Override
+	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId,
+			List<String> requestStatus) {
+		Criteria recordCriteria = new Criteria();
+		recordCriteria.addEqualTo("principalId", principalId);
+		if(requestStatus != null) {
+			recordCriteria.addIn("requestStatus", requestStatus);
+		}
+		Query query = QueryFactory.newQuery(LeaveBlockHistory.class, recordCriteria);
+		return (List<LeaveBlockHistory>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+	}
+
 }

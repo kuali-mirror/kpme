@@ -1,7 +1,13 @@
 package org.kuali.hr.time.base.web;
 
+import java.sql.Date;
+
+import org.kuali.hr.time.permissions.TkPermissionsServiceImpl;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -48,4 +54,16 @@ public class TkForm extends KualiForm {
     public String getDocumentStatus() {
         return TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus();
     }
+    
+    public boolean getLeaveEnabled() {
+    	boolean canViewLeaveTab= false;
+        String principalId = TKContext.getUser().getPrincipalId();
+        Date asOfDate = TKUtils.getTimelessDate(null);
+        PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+        if(principalHRAttributes != null && principalHRAttributes.getLeavePlan() != null) {
+        	canViewLeaveTab = true;
+        }
+        return canViewLeaveTab; 
+    }
+    
 }

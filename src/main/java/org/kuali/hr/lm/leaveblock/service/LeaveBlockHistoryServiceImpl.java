@@ -29,6 +29,12 @@ public class LeaveBlockHistoryServiceImpl implements LeaveBlockHistoryService {
 		return leaveBlockHistoryDao.getLeaveBlockHistoryByLmLeaveBlockId(lmLeaveBlockId);
 	}
 
+	@Override
+	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId,
+			List<String> requestStatus) {
+		return leaveBlockHistoryDao.getLeaveBlockHistories(principalId, requestStatus);
+	}
+
 	
 	
 

@@ -38,5 +38,15 @@ public class LeaveStatusHistoryDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		Query query = QueryFactory.newQuery(LeaveStatusHistory.class, searchCriteria);
 		return (List<LeaveStatusHistory>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 	}
+	
+	public LeaveStatusHistory getLeaveStatusHistoryByLeaveBlockIdAndRequestStatus(String lmLeaveBlockId, List<String> requestStatus){
+		Criteria searchCriteria = new Criteria();
+		searchCriteria.addEqualTo("lmLeaveBlockId", lmLeaveBlockId);
+		if(requestStatus != null) {
+			searchCriteria.addIn("requestStatus", requestStatus);
+		}
+		Query query = QueryFactory.newQuery(LeaveStatusHistory.class, searchCriteria);
+		return (LeaveStatusHistory) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
 
 }

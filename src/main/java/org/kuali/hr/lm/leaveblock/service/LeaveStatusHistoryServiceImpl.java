@@ -33,4 +33,10 @@ public class LeaveStatusHistoryServiceImpl implements LeaveStatusHistoryService 
 		return leaveStatusHistoryDao.getLeaveStatusHistoryByLmLeaveBlockId(lmLeaveBlockId);
 	}
 
+	@Override
+	public LeaveStatusHistory getLeaveStatusHistoryByLmLeaveBlockIdAndRequestStatus(
+			String lmLeaveBlockId, List<String> requestStatus) {
+		return leaveStatusHistoryDao.getLeaveStatusHistoryByLeaveBlockIdAndRequestStatus(lmLeaveBlockId, requestStatus);
+	}
+
 }

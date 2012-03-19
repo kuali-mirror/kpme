@@ -7,13 +7,17 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class LeaveBlock extends PersistableBusinessObjectBase {
 
@@ -45,6 +49,16 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     private LeaveCode leaveCodeObj;
     private SystemScheduledTimeOff systemScheduledTimeOffObj;
     private AccrualCategory accrualCategoryObj;
+    
+    @Transient
+    private String leaveCodeString;
+    @Transient
+    private Boolean submit;
+    @Transient
+    private String reason;
+    @Transient
+    private Timestamp dateAndTime;
+    
 
     public static class Builder {
 
@@ -200,7 +214,17 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
         return applyToYtdUsed;
     }
 
-    public void setApplyToYtdUsed(String applyToYtdUsed) {
+    public Boolean getSubmit() {
+		return submit;
+	}
+
+
+	public void setSubmit(Boolean submit) {
+		this.submit = submit;
+	}
+
+
+	public void setApplyToYtdUsed(String applyToYtdUsed) {
         this.applyToYtdUsed = applyToYtdUsed;
     }
 
@@ -353,7 +377,44 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	public void setLeaveBlockHistories(List<LeaveBlockHistory> leaveBlockHistories) {
 		this.leaveBlockHistories = leaveBlockHistories;
 	}
-    
-	
-    
+
+
+	public String getLeaveCodeString() {
+		try {
+			System.out.println("Fetching code >>");
+			LeaveCode leaveCode = TkServiceLocator.getLeaveCodeService().getLeaveCode(this.leaveCodeId);
+			leaveCodeString = leaveCode.getDisplayName();
+		} catch(Exception ex) {
+			System.out.println("error came while fetching leave code String >>>>>>");
+		}
+		return leaveCodeString;
+	}
+
+
+	public void setLeaveCodeString(String leaveCodeString) {
+		this.leaveCodeString = leaveCodeString;
+	}
+
+
+	public String getReason() {
+		return reason;
+	}
+
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+
+	public Timestamp getDateAndTime() {
+		return dateAndTime;
+	}
+
+
+	public void setDateAndTime(Timestamp dateAndTime) {
+		this.dateAndTime = dateAndTime;
+	}
+
+
+
 }

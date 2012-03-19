@@ -9,6 +9,6 @@ public interface LeaveBlockHistoryDao {
 	public void saveOrUpdate(LeaveBlockHistory leaveBlockHistory);
 	public void saveOrUpdate(List<LeaveBlockHistory> leaveBlockHistoryList);
 	public List<LeaveBlockHistory> getLeaveBlockHistoryByLmLeaveBlockId(String lmLeaveBlockId);
-	
+	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId, List<String> requestStatus);
 
 }

@@ -10,6 +10,6 @@ public interface LeaveBlockDao {
     public List<LeaveBlock> getLeaveBlocksForDocumentId(String documentId);
     public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate, Date endDate);
     public void saveOrUpdate(LeaveBlock leaveBlock);
-    public List<LeaveBlock> getLeaveBlocksByRequestStatus(String requestStatus);
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String requestStatus, Date currentDate);
 }
 
