@@ -348,19 +348,19 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
             crit.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
         }
 
-        if (StringUtils.isNotBlank(principalId)) {
+        if (StringUtils.isNotEmpty(principalId)) {
             crit.addLike("principalId", principalId);
         }
 
-        if (StringUtils.isNotBlank(jobNumber)) {
+        if (StringUtils.isNotEmpty(jobNumber)) {
             crit.addLike("jobNumber", jobNumber);
         }
 
-        if (StringUtils.isNotBlank(dept)) {
+        if (StringUtils.isNotEmpty(dept)) {
             crit.addLike("dept", dept);
         }
 
-        if (StringUtils.isNotBlank(workArea)) {
+        if (StringUtils.isNotEmpty(workArea)) {
             crit.addLike("workArea", workArea);
         }
 

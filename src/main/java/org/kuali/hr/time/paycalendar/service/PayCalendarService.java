@@ -4,6 +4,7 @@ import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 
 import java.util.Date;
+import java.util.List;
 
 public interface PayCalendarService {
 	/**
@@ -49,4 +50,6 @@ public interface PayCalendarService {
 	 * @return
 	 */
 	public PayCalendarEntries getPreviousPayCalendarEntry(String tkPayCalendarId, Date beginDateCurrentPayCalendar);
+
+    List<PayCalendar> getPayCalendars(String pyCalendarGroup, String flsaBeginDay, String flsaBeginTime, String active);
 }

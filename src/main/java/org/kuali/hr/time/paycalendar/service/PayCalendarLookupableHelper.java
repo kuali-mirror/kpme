@@ -1,15 +1,11 @@
 package org.kuali.hr.time.paycalendar.service;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.paycalendar.PayCalendar;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -43,30 +39,36 @@ public class PayCalendarLookupableHelper extends
 	}
 	
 	@Override
-	public List<? extends BusinessObject> getSearchResults(
-			Map<String, String> fieldValues) {
-		String flsaTime = null;
-		if(fieldValues.containsKey("flsaBeginTime")){
-			flsaTime = fieldValues.get("flsaBeginTime");
-			fieldValues.remove("flsaBeginTime");
-		}
-		List<? extends BusinessObject> objectList = super.getSearchResults(fieldValues);
-		if(!objectList.isEmpty()  && flsaTime != null && StringUtils.isNotBlank(flsaTime)){
-			SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
-			Time flsaBeginTime = null;
-			try {
-				flsaBeginTime = new Time(sdFormat.parse(flsaTime).getTime());
-				Iterator itr = objectList.iterator();
-				while(itr.hasNext()){
-					PayCalendar pc = (PayCalendar)itr.next();
-					if(pc.getFlsaBeginTime()!= null && !pc.getFlsaBeginTime().equals(flsaBeginTime)){
-						itr.remove();
-					}
-				}
-			} catch (ParseException e) {
-			}	
-		}
-		return objectList;
+	public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+
+        String pyCalendarGroup = fieldValues.get("pyCalendarGroup");
+        String flsaBeginDay = fieldValues.get("flsaBeginDay");
+        String flsaBeginTime = fieldValues.get("flsaBeginTime");
+        String active = fieldValues.get("active");
+
+        List<PayCalendar> payCalendars = TkServiceLocator.getPayCalendarSerivce().getPayCalendars(pyCalendarGroup, flsaBeginDay, flsaBeginTime, active);
+
+//		if(fieldValues.containsKey("flsaBeginTime")){
+//			flsaTime = fieldValues.get("flsaBeginTime");
+//			fieldValues.remove("flsaBeginTime");
+//		}
+//		List<? extends BusinessObject> objectList = super.getSearchResults(fieldValues);
+//		if(!objectList.isEmpty()  && flsaTime != null && StringUtils.isNotBlank(flsaTime)){
+//			SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
+//			Time flsaBeginTime = null;
+//			try {
+//				flsaBeginTime = new Time(sdFormat.parse(flsaTime).getTime());
+//				Iterator itr = objectList.iterator();
+//				while(itr.hasNext()){
+//					PayCalendar pc = (PayCalendar)itr.next();
+//					if(pc.getFlsaBeginTime()!= null && !pc.getFlsaBeginTime().equals(flsaBeginTime)){
+//						itr.remove();
+//					}
+//				}
+//			} catch (ParseException e) {
+//			}
+//		}
+		return payCalendars;
 	}
 
 }

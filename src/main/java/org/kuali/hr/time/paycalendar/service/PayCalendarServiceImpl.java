@@ -1,8 +1,5 @@
 package org.kuali.hr.time.paycalendar.service;
 
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.paycalendar.PayCalendar;
@@ -13,28 +10,34 @@ import org.kuali.hr.time.principal.calendar.PrincipalCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 public class PayCalendarServiceImpl implements PayCalendarService {
 
-	private PayCalendarDao payCalendarDao;
+    private PayCalendarDao payCalendarDao;
 
-	public void setPayCalendarDao(PayCalendarDao payCalendarDao) {
-		this.payCalendarDao = payCalendarDao;
-	}
-
-	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public PayCalendar getPayCalendar(String hrPyCalendarId) {
-		return payCalendarDao.getPayCalendar(hrPyCalendarId);
-	}
-
-	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public PayCalendar getPayCalendarByGroup(String pyCalendarGroup) {
-		return payCalendarDao.getPayCalendarByGroup(pyCalendarGroup);
-	}
+    public void setPayCalendarDao(PayCalendarDao payCalendarDao) {
+        this.payCalendarDao = payCalendarDao;
+    }
 
     @Override
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
+    public PayCalendar getPayCalendar(String hrPyCalendarId) {
+        return payCalendarDao.getPayCalendar(hrPyCalendarId);
+    }
+
+    @Override
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
+    public PayCalendar getPayCalendarByGroup(String pyCalendarGroup) {
+        return payCalendarDao.getPayCalendarByGroup(pyCalendarGroup);
+    }
+
+    @Override
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public PayCalendarEntries getPayCalendarDatesByPayEndDate(String principalId, Date payEndDate) {
         PayCalendarEntries pcd = null;
 
@@ -45,29 +48,30 @@ public class PayCalendarServiceImpl implements PayCalendarService {
         return pcd;
     }
 
-	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public PayCalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate) {
-		PayCalendarEntries pcd = null;
+    @Override
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
+    public PayCalendarEntries getCurrentPayCalendarDates(String principalId, Date currentDate) {
+        PayCalendarEntries pcd = null;
         PayCalendar payCalendar = getPayCalendar(principalId, currentDate);
-	    pcd = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(payCalendar.getHrPyCalendarId(), currentDate);
+        pcd = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(payCalendar.getHrPyCalendarId(), currentDate);
         pcd.setPayCalendarObj(payCalendar);
-		return pcd;
-	}
+        return pcd;
+    }
 
     /**
      * Helper method common to the PayCalendarEntry search methods above.
+     *
      * @param principalId Principal ID to lookup
-     * @param date A date, Principal Calendars are EffDt/Timestamped, so we can any current date.
+     * @param date        A date, Principal Calendars are EffDt/Timestamped, so we can any current date.
      * @return A PayCalendar
      */
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     private PayCalendar getPayCalendar(String principalId, Date date) {
         PayCalendar pcal = null;
 
         List<Job> currentJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, date);
-        if(currentJobs.size() < 1){
-            throw new RuntimeException("No jobs found for principal id "+principalId);
+        if (currentJobs.size() < 1) {
+            throw new RuntimeException("No jobs found for principal id " + principalId);
         }
         Job job = currentJobs.get(0);
 
@@ -78,8 +82,8 @@ public class PayCalendarServiceImpl implements PayCalendarService {
             if (payType == null)
                 throw new RuntimeException("Null pay type on Job in getPayEndDate");
             PrincipalCalendar principalCalendar = TkServiceLocator.getPrincipalCalendarService().getPrincipalCalendar(principalId, date);
-            if(principalCalendar == null){
-                throw new RuntimeException("Null principal calendar for principalid "+principalId);
+            if (principalCalendar == null) {
+                throw new RuntimeException("Null principal calendar for principalid " + principalId);
             }
             pcal = principalCalendar.getPayCalendar();
             if (pcal == null)
@@ -89,10 +93,23 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 
         return pcal;
     }
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public PayCalendarEntries getPreviousPayCalendarEntry(String tkPayCalendarId, Date beginDateCurrentPayCalendar){
-		return payCalendarDao.getPreviousPayCalendarEntry(tkPayCalendarId, beginDateCurrentPayCalendar);
-	}
+
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
+    public PayCalendarEntries getPreviousPayCalendarEntry(String tkPayCalendarId, Date beginDateCurrentPayCalendar) {
+        return payCalendarDao.getPreviousPayCalendarEntry(tkPayCalendarId, beginDateCurrentPayCalendar);
+    }
+
+    @Override
+    public List<PayCalendar> getPayCalendars(String pyCalendarGroup, String flsaBeginDay, String flsaBeginTime, String active) {
+        SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
+        Time flsaBeginTimeObj = null;
+        try {
+            flsaBeginTimeObj = new Time(sdFormat.parse(flsaBeginTime).getTime());
+        } catch (ParseException e) {
+        }
+
+        return payCalendarDao.getPayCalendars(pyCalendarGroup, flsaBeginDay, flsaBeginTimeObj, active);
+    }
 
 
 }
