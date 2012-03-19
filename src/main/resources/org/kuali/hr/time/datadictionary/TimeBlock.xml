@@ -366,7 +366,8 @@
       	<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
       	<bean parent="FieldDefinition" p:attributeName="earnCode" />
         <bean parent="FieldDefinition" p:attributeName="workArea"/>
-        <bean parent="FieldDefinition" p:attributeName="task"/>
+        <bean parent="FieldDefinition" p:attributeName="task"/> 
+        <bean parent="FieldDefinition" p:attributeName="jobNumber" />
       	<bean parent="FieldDefinition" p:attributeName="beginTimestamp"/>
         <bean parent="FieldDefinition" p:attributeName="endTimestamp" />
       </list>
