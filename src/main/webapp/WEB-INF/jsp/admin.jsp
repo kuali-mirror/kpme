@@ -162,6 +162,10 @@
 	            <tr>
 	                <td>
 						<html:text property="backdoorPrincipalName" size="20" />
+						<kul:lookup boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
+                			fieldConversions="principalName:backdoorPrincipalName"
+                			lookupParameters=""
+                			baseLookupUrl="./kr/"/>
 						<input type="button" class="button" value="Submit" name="backdoor" onclick="this.form.methodToCall.value='backdoor'; this.form.submit();">
 						<input type="button" class="button" value="Clear" name="clearBackdoor" onclick="this.form.methodToCall.value='clearBackdoor'; this.form.submit();">
 	                </td>
@@ -170,9 +174,9 @@
 	            <tr class="header"><td><b>Change Target Person</b></td></tr>
 	            <tr>
 	                <td>
-						<html:text property="changeTargetPrincipalId" size="20" />
+						<html:text property="changeTargetPrincipalName" size="20" />
 						<kul:lookup boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
-                			fieldConversions="principalId:changeTargetPrincipalId"
+                			fieldConversions="principalName:changeTargetPrincipalName"
                 			lookupParameters=""
                 			baseLookupUrl="./kr/"/>
 						<input type="button" class="button" value="Submit" name="changeEmployee" onclick="this.form.methodToCall.value='changeEmployee'; this.form.submit();">
