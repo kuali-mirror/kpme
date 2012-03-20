@@ -20,12 +20,12 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 
-public class LeaveAction extends TkAction {
+public class LeaveRequestAction extends TkAction {
 
 	  @Override
 	  public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	        ActionForward forward = super.execute(mapping, form, request, response);
-	        LeaveForm leaveForm = (LeaveForm) form;
+	        LeaveRequestForm leaveForm = (LeaveRequestForm) form;
 	        String principalId = TKContext.getUser().getTargetPrincipalId();
 	        Date currentDate = TKUtils.getTimelessDate(null);
 	        // Planned Leaves
@@ -69,10 +69,11 @@ public class LeaveAction extends TkAction {
 	  }
 	  
 	  public ActionForward submitForApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		  LeaveForm lf = (LeaveForm) form;
+		  LeaveRequestForm lf = (LeaveRequestForm) form;
 		  for(LeaveBlock leaveBlock : lf.getPlannedLeaves()) {
 			  // check if check box is checked
-			  if(leaveBlock.getSubmit() != null && leaveBlock.getSubmit()) {
+			  System.out.println("Leave block submit is :: >>>>"+leaveBlock.getSubmit());
+			  if(leaveBlock.getSubmit()) {
 				  // update its status as 'R'
 				  leaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 				  TkServiceLocator.getLeaveBlockService().saveLeaveBlock(leaveBlock);

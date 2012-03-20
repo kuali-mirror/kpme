@@ -6,7 +6,7 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.time.base.web.TkForm;
 
-public class LeaveForm extends TkForm {
+public class LeaveRequestForm extends TkForm {
 
 	private List<LeaveBlock> plannedLeaves;
 	private List<LeaveBlock> pendingLeaves;

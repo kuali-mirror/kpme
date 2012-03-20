@@ -20,7 +20,7 @@
         <form-bean name="SessionInvalidateForm" type="org.kuali.hr.time.web.SessionInvalidateForm"/>
  		<form-bean name="CalendarEntryActionForm" type="org.kuali.hr.time.calendar.web.CalendarEntryActionForm"/>
 		<form-bean name="LeaveCalendarForm" type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm"/>
-		<form-bean name="LeaveForm" type="org.kuali.hr.lm.leave.web.LeaveForm"/>
+		<form-bean name="LeaveRequestForm" type="org.kuali.hr.lm.leave.web.LeaveRequestForm"/>
     </form-beans>
 
     <global-exceptions>
@@ -141,9 +141,9 @@
                 type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveCalendar.jsp"/>
         </action>
-        <action path="/Leave" name="LeaveForm" scope="session" input="/WEB-INF/jsp/leave.jsp"
-                type="org.kuali.hr.lm.leave.web.LeaveAction" parameter="methodToCall" validate="false">
-            <forward name="basic" path="/WEB-INF/jsp/leave.jsp"/>
+        <action path="/Leave" name="LeaveRequestForm" scope="session" input="/WEB-INF/jsp/leaveRequest.jsp"
+                type="org.kuali.hr.lm.leave.web.LeaveRequestAction" parameter="methodToCall" validate="false">
+            <forward name="basic" path="/WEB-INF/jsp/leaveRequest.jsp"/>
         </action>
 
     </action-mappings>

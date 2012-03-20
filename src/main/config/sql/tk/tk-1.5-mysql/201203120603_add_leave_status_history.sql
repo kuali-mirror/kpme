@@ -13,5 +13,7 @@ CREATE TABLE `lm_leave_status_hist_t` (
   `timestamp` time NOT NULL,
   `principal_id_modified` varchar(40),
   `reason` varchar(255),
+  `OBJ_ID` VARCHAR(36),
+  `VER_NBR` BIGINT DEFAULT 1 NOT NULL,
   PRIMARY KEY (`lm_leave_status_hist_id`)
 );

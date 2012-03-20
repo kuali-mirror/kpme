@@ -53,7 +53,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     @Transient
     private String leaveCodeString;
     @Transient
-    private Boolean submit;
+    private boolean submit;
     @Transient
     private String reason;
     @Transient
@@ -214,12 +214,12 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
         return applyToYtdUsed;
     }
 
-    public Boolean getSubmit() {
+    public boolean getSubmit() {
 		return submit;
 	}
 
 
-	public void setSubmit(Boolean submit) {
+	public void setSubmit(boolean submit) {
 		this.submit = submit;
 	}
 

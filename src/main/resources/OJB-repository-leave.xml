@@ -149,6 +149,8 @@
         <field-descriptor name="blockId"                column="block_id" jdbc-type="BIGINT" nullable="true" />
         <field-descriptor name="tkAssignmentId" column="TK_ASSIGNMENT_ID" jdbc-type="VARCHAR" length="60" nullable="true"/>
         <field-descriptor name="requestStatus"                 column="REQUEST_STATUS"	    jdbc-type="VARCHAR" length="1" nullable="false"	 />
+        <field-descriptor name="objectId"      	column="obj_id" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" 	column="ver_nbr" jdbc-type="BIGINT" locking="true" />
         <collection-descriptor
 			name="leaveBlockHistories"
 			element-class-ref="org.kuali.hr.lm.leaveblock.LeaveBlockHistory"
@@ -182,6 +184,8 @@
         <field-descriptor name="action"                 column="action"	    jdbc-type="VARCHAR" length="1"  />
         <field-descriptor name="principalIdDeleted"     column="PRINCIPAL_ID_DELETED"	    jdbc-type="VARCHAR" length="40" nullable="true" />
         <field-descriptor name="timestampDeleted"       column="TIMESTAMP_DELETED"	     jdbc-type="TIMESTAMP" nullable="true" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
+        <field-descriptor name="objectId"      	column="obj_id" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" 	column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.hr.lm.leaveblock.LeaveStatusHistory" table="lm_leave_status_hist_t">
@@ -191,6 +195,8 @@
 		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" conversion="org.kuali.hr.time.util.TkTimestampConverter"></field-descriptor>
 		<field-descriptor name="principalIdModified" column="principal_id_modified"  jdbc-type="varchar" length="40"></field-descriptor>
 		<field-descriptor name="reason" column="reason" jdbc-type="varchar" length="255"></field-descriptor>
+		<field-descriptor name="objectId"      	column="obj_id" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" 	column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 
      <class-descriptor class="org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader" table="lm_leave_document_header_t">

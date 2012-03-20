@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
-<c:set var="Form" value="${LeaveForm}" scope="request" />
-<c:set var="KualiForm" value="${LeaveForm}" scope="request" />
+<c:set var="Form" value="${LeaveRequestForm}" scope="request" />
+<c:set var="KualiForm" value="${LeaveRequestForm}" scope="request" />
 
 <tk:tkHeader tabId="leave">
 	<html:form action="/Leave.do" method="POST">
@@ -32,7 +32,7 @@
 									<td>${plannedLeave.leaveCodeString}(${plannedLeave.leaveCode})</td>
 									<td>${plannedLeave.hours}</td>
 									<td>${plannedLeave.description}</td>
-									<td><html:checkbox
+									<td><html:checkbox id="plannedLeaves[${index}].submit"
 											property="plannedLeaves[${index}].submit" value="true"
 											name="Form" /></td>
 								</tr>

@@ -20,4 +20,4 @@ insert into lm_leave_block_t (`lm_leave_block_id`, `leave_date`,`description`,  
 insert into lm_leave_block_hist_t values ('1000','1000', '2012-03-01', 'Test Description', 'admin', 'testLC', '1000', 3000, 3000, 1100, '8', 'Apply to ytd', '12546', null, now(), null, null, 0,'A','P','A','1','B2991ADA-E866-F28C-7E95-A897AC377D0C' );
 
 /** Leave status history */
-insert into lm_leave_status_hist_t values ('1000', '1000', 'P', now(), 'admin', null);
+insert into lm_leave_status_hist_t values ('1000', '1000', 'P', now(), 'admin', null, 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1');
