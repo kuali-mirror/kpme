@@ -658,11 +658,11 @@
     <bean id="timeOffAccrualService" class="org.kuali.hr.time.accrual.service.TimeOffAccrualServiceImpl">
         <property name="timeOffAccrualDao" ref="timeOffAccrualDao"/>
     </bean>
-    <bean id="tkLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.TkLookupableHelper"/>
-        </property>
-    </bean>
+    <!--<bean id="tkLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">-->
+        <!--<property name="lookupableHelperService">-->
+            <!--<bean class="org.kuali.hr.time.TkLookupableHelper"/>-->
+        <!--</property>-->
+    <!--</bean>-->
     <bean id="payCalendarLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.time.paycalendar.service.PayCalendarLookupableHelper"/>
