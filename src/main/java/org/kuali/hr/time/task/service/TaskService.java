@@ -1,10 +1,10 @@
 package org.kuali.hr.time.task.service;
 
 
+import org.kuali.hr.time.task.Task;
+
 import java.sql.Date;
 import java.util.List;
-
-import org.kuali.hr.time.task.Task;
 
 public interface TaskService {
 	/**
@@ -27,4 +27,5 @@ public interface TaskService {
     
 	public Task getMaxTask();
 
+    List<Task> getTasks(String task, String description, String workArea, String workAreaDesc, Date fromEffdt, Date toEffdt);
 }
