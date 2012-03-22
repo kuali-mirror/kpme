@@ -6,6 +6,7 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 
+import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 
@@ -52,4 +53,27 @@ public class LeavePlanMaintTest extends TkTestCase {
 		assertTrue("Maintenance page contains:\n" + "Planning Months changed to 24", outputPage.asText().contains("24"));
 		
 	}
+	
+	// KPME-1250 Kagata
+	@Test
+	public void testInactivateLeavePlan() throws Exception {
+		
+		//get the page with planning months
+		HtmlPage leavePlan = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_PLAN_MAINT_URL);
+		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(leavePlan, "search");
+		HtmlUnitUtil.createTempFile(resultPage);
+		assertTrue("Maintenance page contains:\n" + "Testing LP Inactive Flag", resultPage.asText().contains("Testing LP Inactive Flag"));
+		
+		HtmlPage leavePlanMaintPage = HtmlUnitUtil.clickAnchorContainingText(resultPage, "edit", "2000");
+		setFieldValue(leavePlanMaintPage, "document.documentHeader.documentDescription", "LeavePlan change active flag");
+		HtmlCheckBoxInput activeCheckbox = (HtmlCheckBoxInput) HtmlUnitUtil.getInputContainingText(leavePlanMaintPage, "document.newMaintainableObject.active");
+		activeCheckbox.setChecked(false);
+			
+		HtmlPage outputPage = HtmlUnitUtil.clickInputContainingText(leavePlanMaintPage, "submit");
+		HtmlUnitUtil.createTempFile(outputPage);
+		assertTrue("Maintenance page text contains:\n" + "Can not inactivate leave plan", outputPage.asText().contains("Can not inactivate leave plan"));
+		
+	}
+	
+	
 }

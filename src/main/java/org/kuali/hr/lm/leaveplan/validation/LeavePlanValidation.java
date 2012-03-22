@@ -15,14 +15,15 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
-//KPME-1250 Kagata
+
 public class LeavePlanValidation extends MaintenanceDocumentRuleBase {	 
 	
+	//KPME-1250 Kagata
 	// This method determines if the leave plan can be inactivated
 	boolean validateInactivation(LeavePlan leavePlan){
 		boolean valid = true;
 		// Get a list of active employees based on leave plan and its effective date.
-		// If the list is not null, there are active employees and the leave plan can't be inactivated, so return false, otherwise true
+		// If the list is not null, there are active employees and the leave plan can't be inactivated, so return false otherwise true
 		if(!leavePlan.isActive()) {
 			//this has to use the effective date of the job passed in
 			List<PrincipalHRAttributes> pList = TkServiceLocator.getPrincipalHRAttributeService().getActiveEmployeesForLeavePlan(leavePlan.getLeavePlan(), leavePlan.getEffectiveDate());
@@ -61,7 +62,7 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 			LeavePlan leavePlan = (LeavePlan) pbo;
 			if (leavePlan != null) {
 				valid = true;
-				//valid &= this.validateInactivation(leavePlan);
+				valid &= this.validateInactivation(leavePlan);
 				valid &= this.validatePlanningMonths(leavePlan.getPlanningMonths());
 			}
 		}
