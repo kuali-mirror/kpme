@@ -473,6 +473,36 @@ $(document).ready(function() {
         },
         text: false
     });
+    
+    // Leave Request page accordions
+    
+    // Planned Request
+    $("#leave-planned-request").accordion({
+        collapsible : true,
+        active : 0,
+        autoHeight: false
+    });
+
+    // Pending Request
+    $("#leave-pending-request").accordion({
+        collapsible : true,
+        active : 0,
+        autoHeight: false
+    });
+
+    // Approved Request
+    $("#leave-approved-request").accordion({
+        collapsible : true,
+        active : 0,
+        autoHeight: false
+    });
+
+    // Disapproved Request
+    $("#leave-disapproved-request").accordion({
+        collapsible : true,
+        active : 0,
+        autoHeight: false
+    });
 
 });
 

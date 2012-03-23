@@ -140,7 +140,7 @@ public final class TkTestConstants {
 
         public static final String ADMIN_URL = BASE_URL + "/Admin.do";
         
-        public static final String LEAVE_REQUEST_PAGE_URL = BASE_URL + "/Leave.do";
+        public static final String LEAVE_REQUEST_PAGE_URL = BASE_URL + "/LeaveRequest.do";
         
 	}
 

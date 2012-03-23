@@ -141,7 +141,7 @@
                 type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveCalendar.jsp"/>
         </action>
-        <action path="/Leave" name="LeaveRequestForm" scope="session" input="/WEB-INF/jsp/leaveRequest.jsp"
+        <action path="/LeaveRequest" name="LeaveRequestForm" scope="session" input="/WEB-INF/jsp/leaveRequest.jsp"
                 type="org.kuali.hr.lm.leave.web.LeaveRequestAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveRequest.jsp"/>
         </action>

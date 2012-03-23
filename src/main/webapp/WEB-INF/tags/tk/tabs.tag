@@ -21,6 +21,6 @@
         </c:if>
     </c:if>
      <c:if test="${Form.leaveEnabled}">
-         <li id="leave" class="ui-state-default ui-corner-top"><a href="Leave.do">Leave</a></li>
+         <li id="leaveRequest" class="ui-state-default ui-corner-top"><a href="LeaveRequest.do">Leave Request</a></li>
      </c:if>
 </div>
