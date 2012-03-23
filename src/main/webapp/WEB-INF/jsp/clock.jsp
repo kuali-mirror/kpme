@@ -51,7 +51,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
 			<tr>
 				<td class="sub-header"><bean:message key="clock.workStatus"/> : </td>
 				<td>${lastClockActionMessage}
-				<fmt:timeZone value="${Form.user.userTimezone}"><fmt:formatDate type="both" value="${Form.lastClockTimeWithZone}" pattern="EEE, MMMM d yyyy HH:mm:ss, zzzz"/></fmt:timeZone>
+				<fmt:timeZone value="${Form.user.userTimezone}"><fmt:formatDate type="both" value="${Form.lastClockTimeWithZone}" pattern="EEE, MMMM d yyyy hh:mm:ss a, zzzz"/></fmt:timeZone>
 				</td>
 			</tr>
 			<tr>

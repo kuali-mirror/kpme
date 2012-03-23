@@ -209,9 +209,10 @@ public class WorkAreaMaintenanceDocumentRule extends
 		} else if ((pbo instanceof TkRole && pboWorkArea instanceof WorkArea)) {
 			TkRole tkRole = (TkRole)pbo;
 			valid = true;
-			if(StringUtils.isEmpty(tkRole.getPrincipalId()) && (tkRole.getPositionNumber() == null || StringUtils.isEmpty(tkRole.getPositionNumber().toString()))){
-				this.putFieldError("add.roles.principalId", "principal.position.required");
-				valid = false;
+			if(StringUtils.isEmpty(tkRole.getPrincipalId())) {
+				if (tkRole.getPositionNumber() == null || StringUtils.isEmpty(tkRole.getPositionNumber().toString())){
+					this.putGlobalError("principal.position.required");
+				}
 			}
 		}
 		

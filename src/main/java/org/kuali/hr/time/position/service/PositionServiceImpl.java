@@ -15,6 +15,12 @@ public class PositionServiceImpl implements PositionService {
 	public Position getPosition(String hrPositionId) {
 		return positionDao.getPosition(hrPositionId);
 	}
+	
+	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+	public Position getPositionByPositionNumber(String hrPositionNbr) {
+		return positionDao.getPositionByPositionNumber(hrPositionNbr);
+	}
 
     @Override
     public String getNextUniquePositionNumber() {

@@ -60,6 +60,14 @@ public class AssignmentServiceImpl implements AssignmentService {
         return assignments;
     }
 
+
+    @Override
+    public List<Assignment> getAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+                                           String dept, String workArea, String active, String showHistory) {
+        return assignmentDao.getAssignments(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
+    }
+
+
     public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntries payCalendarEntry) {
         List<Assignment> beginPeriodAssign = getAssignments(principalId, payCalendarEntry.getBeginPeriodDate());
         List<Assignment> endPeriodAssign = getAssignments(principalId, payCalendarEntry.getEndPeriodDate());

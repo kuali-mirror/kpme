@@ -1,64 +1,147 @@
 package org.kuali.hr.time.roles.service;
 
-import java.util.Iterator;
-import java.util.List;
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.TkRoleGroup;
 import org.kuali.hr.time.roles.dao.TkRoleGroupDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class TkRoleGroupServiceImpl implements TkRoleGroupService {
 
     private static final Logger LOG = Logger.getLogger(TkRoleGroupServiceImpl.class);
 
-	private TkRoleGroupDao tkRoleGroupDao;
+    private TkRoleGroupDao tkRoleGroupDao;
 
-	public void setTkRoleGroupDao(TkRoleGroupDao tkRoleGroupDao) {
-		this.tkRoleGroupDao = tkRoleGroupDao;
-	}
+    public void setTkRoleGroupDao(TkRoleGroupDao tkRoleGroupDao) {
+        this.tkRoleGroupDao = tkRoleGroupDao;
+    }
 
-	@Override
-	public void saveOrUpdate(List<TkRoleGroup> roleGroups) {
-		this.tkRoleGroupDao.saveOrUpdateRoleGroups(roleGroups);
-	}
+    @Override
+    public void saveOrUpdate(List<TkRoleGroup> roleGroups) {
+        this.tkRoleGroupDao.saveOrUpdateRoleGroups(roleGroups);
+    }
 
-	@Override
-	public void saveOrUpdate(TkRoleGroup roleGroup) {
-		this.tkRoleGroupDao.saveOrUpdateRoleGroup(roleGroup);
-	}
+    @Override
+    public void saveOrUpdate(TkRoleGroup roleGroup) {
+        this.tkRoleGroupDao.saveOrUpdateRoleGroup(roleGroup);
+    }
 
-	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public TkRoleGroup getRoleGroup(String principalId) {
-		return tkRoleGroupDao.getRoleGroup(principalId);
-	}
+    @Override
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
+    public TkRoleGroup getRoleGroup(String principalId) {
+        return tkRoleGroupDao.getRoleGroup(principalId);
+    }
 
-	@Override
-	public void populateRoles(TkRoleGroup tkRoleGroup) {
-		if (tkRoleGroup != null) {
-			List<TkRole> tkRoles = TkServiceLocator.getTkRoleService().getRoles(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
-			List<TkRole> tkInActiveRoles = TkServiceLocator.getTkRoleService().getInActiveRoles(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
-			Iterator<TkRole> itr = tkRoles.iterator();
-			while (itr.hasNext()) {
-				TkRole tkRole = (TkRole) itr.next();
-				if(tkRoleGroup.getPositionRoles()!=null && tkRoleGroup.getPositionRoles().contains(tkRole)){
-					itr.remove();
-				}
-			}
-			itr = tkInActiveRoles.iterator();
-			while (itr.hasNext()) {
-				TkRole tkRole = (TkRole) itr.next();
-				if(tkRoleGroup.getPositionRoles()!=null && tkRoleGroup.getPositionRoles().contains(tkRole)){
-					itr.remove();
-				}
-			}
-			tkRoleGroup.setRoles(tkRoles);
-			tkRoleGroup.setInactiveRoles(tkInActiveRoles);
-		}
-	}
+    @Override
+    public void populateRoles(TkRoleGroup tkRoleGroup) {
+        if (tkRoleGroup != null) {
+            List<TkRole> tkRoles = TkServiceLocator.getTkRoleService().getRoles(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
+            List<TkRole> tkInActiveRoles = TkServiceLocator.getTkRoleService().getInActiveRoles(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
+            Iterator<TkRole> itr = tkRoles.iterator();
+            while (itr.hasNext()) {
+                TkRole tkRole = (TkRole) itr.next();
+                if (tkRoleGroup.getPositionRoles() != null && tkRoleGroup.getPositionRoles().contains(tkRole)) {
+                    itr.remove();
+                }
+            }
+            itr = tkInActiveRoles.iterator();
+            while (itr.hasNext()) {
+                TkRole tkRole = (TkRole) itr.next();
+                if (tkRoleGroup.getPositionRoles() != null && tkRoleGroup.getPositionRoles().contains(tkRole)) {
+                    itr.remove();
+                }
+            }
+            tkRoleGroup.setRoles(tkRoles);
+            tkRoleGroup.setInactiveRoles(tkInActiveRoles);
+        }
+    }
+
+    @Override
+    public List<TkRoleGroup> getRoleGroups(String principalId, String principalName, String workArea, String dept, String roleName) {
+
+        List<TkRoleGroup> tkRoleGroups = new ArrayList<TkRoleGroup>();
+        String principalIdToQuery = "";
+        /**
+         * There are three different wasys to search for the roles :
+         * 1) through principalId
+         * 2) through principalName
+         * 3) search for all the roles / role groups
+         */
+        if (StringUtils.isNotBlank(principalId)) {
+            Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
+            if (person != null && isAuthorizedToEditUserRole(person.getPrincipalId())) {
+                principalIdToQuery = person.getPrincipalId();
+            }
+        } else if (StringUtils.isNotBlank(principalName)) {
+            Person person = KIMServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
+            if (person != null && isAuthorizedToEditUserRole(person.getPrincipalId())) {
+                principalIdToQuery = person.getPrincipalId();
+            }
+        } else {
+
+        }
+
+        Long workAreaToQuery = StringUtils.isEmpty(workArea) ? null : Long.parseLong(workArea);
+        List<TkRole> tkRoles  = TkServiceLocator.getTkRoleService().getRoles(principalIdToQuery, TKUtils.getCurrentDate(), roleName, workAreaToQuery, dept);
+        for (TkRole tkRole : tkRoles) {
+            TkRoleGroup tkRoleGroup = new TkRoleGroup();
+            if (isAuthorizedToEditUserRole(tkRole.getPrincipalId())) {
+                tkRoleGroup.setPerson(tkRole.getPerson());
+                tkRoleGroup.setPrincipalId(tkRole.getPrincipalId());
+                tkRoleGroups.add(tkRoleGroup);
+
+                // If we are searching for a specific person, we only need one row of the final result.
+                if (StringUtils.isNotEmpty(principalIdToQuery)) {
+                    break;
+                }
+            }
+        }
+
+        return tkRoleGroups;
+    }
+
+    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+    private boolean isAuthorizedToEditUserRole(String principalId) {
+        boolean isAuthorized = false;
+        //System admin can do anything
+        if (TKContext.getUser().isSystemAdmin()) {
+            return true;
+        }
+
+        List<Job> lstJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, TKUtils.getCurrentDate());
+        Set<String> locationAdminAreas = TKContext.getUser().getLocationAdminAreas();
+        //Confirm if any job matches this users location admin roles
+        for (String location : locationAdminAreas) {
+            for (Job job : lstJobs) {
+                if (StringUtils.equals(location, job.getLocation())) {
+                    return true;
+                }
+            }
+        }
+
+        Set<String> departmentAdminAreas = TKContext.getUser().getDepartmentAdminAreas();
+        //Confirm if any job matches this users department admin roles
+        for (String dept : departmentAdminAreas) {
+            for (Job job : lstJobs) {
+                if (StringUtils.equals(dept, job.getDept())) {
+                    return true;
+                }
+            }
+        }
+        return isAuthorized;
+    }
+
 }

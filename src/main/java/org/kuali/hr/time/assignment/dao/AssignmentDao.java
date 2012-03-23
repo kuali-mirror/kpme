@@ -60,4 +60,7 @@ public interface AssignmentDao {
 	public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, Date asOfDate);
 
     List<Assignment> findAssignmentsWithinPeriod(String principalId, Date startDate, Date endDate);
+
+    List<Assignment> getAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+                                    String dept, String workArea, String active, String showHistory);
 }

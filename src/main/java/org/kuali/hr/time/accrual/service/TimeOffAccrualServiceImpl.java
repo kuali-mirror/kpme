@@ -15,16 +15,14 @@ import org.kuali.hr.time.util.TkConstants;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 
 	private static final Logger LOG = Logger.getLogger(TimeOffAccrualServiceImpl.class);
 	public static final String ACCRUAL_CATEGORY_KEY = "accrualCategory";
 	public static final String ACCRUAL_NAME_KEY = "accrualName";
+	public static final String ACCRUAL_CATEGORY_DES = "accrualCategoryDes";
 	public static final String YEARLY_CARRYOVER_KEY = "yearlyCarryover";
 	public static final String HOURS_ACCRUED_KEY = "hoursAccrued";
 	public static final String HOURS_TAKEN_KEY = "hoursTaken";
@@ -40,36 +38,39 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 
 	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public List<TimeOffAccrual> getTimeOffAccruals(String principalId) {
+	public List<TimeOffAccrual> getTimeOffAccruals(String principalId, Date asOfDate) {
 		java.sql.Date currentDate = TKUtils.getTimelessDate(null);
-		//TODO this needs to change to use leave plan on principal hr attribute
-		List<AccrualCategory> activeAccrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategories(currentDate);
-		List<TimeOffAccrual> timeOffAccruals = new ArrayList<TimeOffAccrual>();
-		List<String> accrualCategories = new ArrayList<String>();
-		if ( activeAccrualCategories.size() > 0 ){
-			for(AccrualCategory accrualCategory : activeAccrualCategories) {
-				accrualCategories.add(accrualCategory.getAccrualCategory());
-			}
-            timeOffAccruals = timeOffAccrualDao.getActiveTimeOffAccruals(principalId, accrualCategories);
-        }
-
-		return timeOffAccruals;
+		return timeOffAccrualDao.getActiveTimeOffAccruals(principalId, asOfDate);
 	}
 
+	@Override
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public List<Map<String, Object>> getTimeOffAccrualsCalc(String principalId) {
+	public List<Map<String, Object>> getTimeOffAccrualsCalc(String principalId, Date asOfDate) {
 
 		List<Map<String, Object>> timeOffAccrualsCalc = new ArrayList<Map<String, Object>>();
+		Map<String,String> accrualCatToDescr = new HashMap<String, String>();
 
-		for(TimeOffAccrual timeOffAccrual : getTimeOffAccruals(principalId)) {
+		for(TimeOffAccrual timeOffAccrual : getTimeOffAccruals(principalId, asOfDate)) {
+			String accrualCatDescr = accrualCatToDescr.get(timeOffAccrual.getAccrualCategory());
+			//if no accrual cat description found look up accrual category and find one
+			if(StringUtils.isBlank(accrualCatDescr)){
+				AccrualCategory accrualCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(timeOffAccrual.getAccrualCategory(), asOfDate);
+				if(accrualCat != null){
+					accrualCatDescr = accrualCat.getDescr();
+					accrualCatToDescr.put(accrualCat.getAccrualCategory(), accrualCatDescr);
+				}
+			}
 			Map<String, Object> output = new LinkedHashMap<String, Object>();
-			output.put(ACCRUAL_CATEGORY_KEY, timeOffAccrual.getAccrualCategory());
+			output.put(ACCRUAL_CATEGORY_KEY, accrualCatDescr + "("+timeOffAccrual.getAccrualCategory()+")");
+			output.put(ACCRUAL_NAME_KEY, timeOffAccrual.getAccrualCategory());
+			output.put(YEARLY_CARRYOVER_KEY, timeOffAccrual.getYearlyCarryover());
 			output.put(HOURS_ACCRUED_KEY, timeOffAccrual.getHoursAccrued());
 			output.put(HOURS_TAKEN_KEY, timeOffAccrual.getHoursTaken());
 			output.put(HOURS_ADJUST_KEY, timeOffAccrual.getHoursAdjust());
 			BigDecimal totalHours = timeOffAccrual.getYearlyCarryover().add(timeOffAccrual.getHoursAccrued().subtract(timeOffAccrual.getHoursTaken()).add(timeOffAccrual.getHoursAdjust()));
 			output.put(TOTAL_HOURS_KEY, totalHours);
 			output.put(EFF_DATE_KEY, timeOffAccrual.getEffectiveDate());
+			output.put(ACCRUAL_CATEGORY_DES, accrualCatDescr);
 
 			timeOffAccrualsCalc.add(output);
 		}
@@ -92,8 +93,8 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 	public List<String> validateAccrualHoursLimit(String pId, List<TimeBlock> tbList, Date asOfDate) {
 		 List<String> warningMessages = new ArrayList<String>();
 
-         List<Map<String, Object>> calcList = this.getTimeOffAccrualsCalc(pId);
-
+         List<Map<String, Object>> calcList = this.getTimeOffAccrualsCalc(pId, asOfDate);
+         
            if (tbList.isEmpty()) {
              return warningMessages;
          }
@@ -103,6 +104,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
     	 }
          for (Map<String, Object> aMap : calcList) {
              String accrualCategory = (String) aMap.get(ACCRUAL_NAME_KEY);
+             String accrualCategoryDes = (String) aMap.get(ACCRUAL_CATEGORY_DES);
              List<TimeBlock> warningTbs = new ArrayList<TimeBlock>();
              BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList, warningTbs);
              //if there is no timeblocks for this category no warning is necessary 
@@ -112,7 +114,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
              BigDecimal balanceHrs = (((BigDecimal)aMap.get(YEARLY_CARRYOVER_KEY)).add((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY)).add((BigDecimal)aMap.get(HOURS_ADJUST_KEY)));
              
              if (totalForAccrCate.compareTo(balanceHrs) == 1) {
-             	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category " + accrualCategory + " has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are:<br/>";
+             	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category \"" + accrualCategoryDes + "\" has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are:<br/>";
              	for(TimeBlock tb : warningTbs) {
              		msg += "Earn code: " + tb.getEarnCode()+ " Hours: " + tb.getHours().toString() + " on Date " + (tb.getBeginTimeDisplay() != null ? tb.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT) : "") + "<br/>";
              	}
@@ -128,7 +130,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
         if (timesheetDocument != null) {
             pId = timesheetDocument.getPrincipalId();
         }
-        List<Map<String, Object>> calcList = this.getTimeOffAccrualsCalc(pId);
+        List<Map<String, Object>> calcList = this.getTimeOffAccrualsCalc(pId, timesheetDocument.getAsOfDate());
 
         List<TimeBlock> tbList = timesheetDocument.getTimeBlocks();
         if (tbList.isEmpty()) {
@@ -154,13 +156,14 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
         }
         for (Map<String, Object> aMap : calcList) {
             String accrualCategory = (String) aMap.get(ACCRUAL_CATEGORY_KEY);
+            String accrualCategoryDes = (String) aMap.get(ACCRUAL_CATEGORY_DES);
             List<TimeBlock> warningTbs = new ArrayList<TimeBlock>();
             BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList, warningTbs);
             BigDecimal balanceHrs = (((BigDecimal)aMap.get(YEARLY_CARRYOVER_KEY)).add((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY)).add((BigDecimal)aMap.get(HOURS_ADJUST_KEY)));
             
             if (totalForAccrCate.compareTo(balanceHrs) == 1) {
             	if (accrualCategory.equals(earnCode)) {
-	            	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category " + accrualCategory + " has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are: ";
+	            	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category \"" + accrualCategoryDes + "\" has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are: ";
 	            	for(TimeBlock tb : warningTbs) {
 	            		msg += "Earn code: " + tb.getEarnCode()+ " Hours: " + tb.getHours().toString() + " on Date " + (tb.getBeginTimeDisplay() != null ? tb.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT) : "") + " ";
 	            	}

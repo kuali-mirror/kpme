@@ -1,8 +1,9 @@
 package org.kuali.hr.time.accrual.dao;
 
-import java.util.List;
-
 import org.kuali.hr.time.accrual.TimeOffAccrual;
+
+import java.sql.Date;
+import java.util.List;
 
 public interface TimeOffAccrualDao {
 	/**
@@ -21,9 +22,9 @@ public interface TimeOffAccrualDao {
 	/**
 	 * Get active accrual categories
 	 * @param principalId
-	 * @param activeAccrualCategories
+	 * @param asOfDate
 	 * @return
 	 */
-	public List<TimeOffAccrual> getActiveTimeOffAccruals (String principalId, List<String> activeAccrualCategories);
+	public List<TimeOffAccrual> getActiveTimeOffAccruals (String principalId, Date asOfDate) ;
 
 }

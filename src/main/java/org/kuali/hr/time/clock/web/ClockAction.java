@@ -324,6 +324,9 @@ public class ClockAction extends TimesheetAction {
 		    	if(timeBlock.getTkTimeBlockId().equals(tbId)) {	// ignore the original time block
 		    		continue;
 		    	}
+		    	if(timeBlock.getHours().compareTo(BigDecimal.ZERO) == 0) { // ignore time blocks with zero hours
+		    		continue;
+		    	}
 			    Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
 			    if (timeBlockInterval.overlaps(addedTimeblockInterval)) {
 			        errorMsgList.add("The time block you are trying to add for entry " + index + " overlaps with an existing time block.");

@@ -1,5 +1,10 @@
 package org.kuali.hr.time.roles.service;
 
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.cache.CacheResult;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.util.TkConstants;
+
 import java.sql.Date;
 import java.util.List;
 import java.util.Set;
@@ -130,4 +135,7 @@ public interface TkRoleService {
     public TkRole getInactiveRolesByPosition(String positionNumber);
 
     public List<TkRole> getPositionRolesForWorkArea(Long workArea, Date asOfDate);
+
+    @CacheResult(secondsRefreshPeriod= TkConstants.DEFAULT_CACHE_TIME)
+    List<TkRole> getRoles(String principalId, Date asOfDate, String roleName, Long workArea, String department);
 }

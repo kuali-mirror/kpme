@@ -1,8 +1,8 @@
 package org.kuali.hr.time.roles.service;
 
-import java.util.List;
-
 import org.kuali.hr.time.roles.TkRoleGroup;
+
+import java.util.List;
 
 public interface TkRoleGroupService {
 
@@ -21,4 +21,5 @@ public interface TkRoleGroupService {
     
     public void populateRoles(TkRoleGroup tkRoleGroup);
 
+    List<TkRoleGroup> getRoleGroups(String principalId, String principalName, String workArea, String dept, String roleName);
 }

@@ -19,6 +19,16 @@ public class PositionDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
         return (Position) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
+
+    @Override
+    public Position getPositionByPositionNumber(String hrPositionNbr) {
+        Criteria crit = new Criteria();
+        crit.addEqualTo("position_nbr", hrPositionNbr);
+
+        Query query = QueryFactory.newQuery(Position.class, crit);
+        return (Position) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+    }
+
     @Override
     public PositionNumber getNextUniquePositionNumber() {
         Criteria crit = new Criteria();

@@ -1,11 +1,13 @@
 package org.kuali.hr.time.timecollection.rule.service;
 
-import java.sql.Date;
-
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.timecollection.rule.dao.TimeCollectionRuleDaoService;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.sql.Date;
+import java.util.List;
 
 public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService{
 	private TimeCollectionRuleDaoService timeCollectRuleDao;
@@ -33,4 +35,10 @@ public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService{
 	public TimeCollectionRule getTimeCollectionRule(String tkTimeCollectionRuleId) {
 		return timeCollectRuleDao.getTimeCollectionRule(tkTimeCollectionRuleId);
 	}
+
+    @Override
+    public List<TimeCollectionRule> getTimeCollectionRules(String dept, String workArea, String payType, String active) {
+        Long workAreaToSearch = StringUtils.isEmpty(workArea) ? null : Long.parseLong(workArea);
+        return timeCollectRuleDao.getTimeCollectionRules(dept, workAreaToSearch , payType, active, null);
+    }
 }

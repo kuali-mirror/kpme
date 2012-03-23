@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.clocklog.TkClockActionValuesFinder;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -46,8 +47,11 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
             ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId());
             if(lastClock != null) {
 	            MissedPunchDocument lastDoc = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
-	            if(lastDoc != null) {
+	            if(lastDoc != null) {	// last action was a missed punch
 	            	mpDoc.setAssignment(lastDoc.getAssignment());
+	            } else {	// last action was not a missed punch
+	            	AssignmentDescriptionKey adk = new AssignmentDescriptionKey(lastClock.getJobNumber().toString(), lastClock.getWorkArea().toString(), lastClock.getTask().toString());
+	            	mpDoc.setAssignment(adk.toAssignmentKeyString());
 	            }
             }
         }

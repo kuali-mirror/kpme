@@ -10,17 +10,12 @@ import java.util.Map;
 
 public interface TimeOffAccrualService {
 	/**
-	 * Get TimeOffAccrual object for a particular user
-	 * @param principalId
-	 * @return
-	 */
-	public List<TimeOffAccrual> getTimeOffAccruals(String principalId);
-	/**
 	 * Get a list of maps that represents a persons accrual balances
 	 * @param principalId
+	 * @param asOfDate
 	 * @return
 	 */
-	public List<Map<String, Object>> getTimeOffAccrualsCalc(String principalId);
+	public List<Map<String, Object>> getTimeOffAccrualsCalc(String principalId, Date asOfDate);
 	
 	/**
 	 * Validate the accrual hours for the time blocks of the given TimesheetDocument
@@ -33,10 +28,20 @@ public interface TimeOffAccrualService {
 	public List<String> validateAccrualHoursLimit(String pId, List<TimeBlock> tbList, Date asOfDate);
 	
 	/**
+	 * Validate the accrual hours for the time blocks by earncode of the given TimesheetDocument
+	 * and returns a JSONArray of warning messages
+	 * @param timesheetDocument
+	 * @return JSONArray
+	 */
+	public List<String> validateAccrualHoursLimitByEarnCode(TimesheetDocument timesheetDocument, String selectEarnCode);
+	
+	/**
 	 * Fetch time off accrual as of a particular unique id
 	 * @param laTimeOffAccrualId
 	 * @return
 	 */
 	public TimeOffAccrual getTimeOffAccrual(Long laTimeOffAccrualId);
+	
+	public List<TimeOffAccrual> getTimeOffAccruals(String principalId, Date asOfDate);
 
 }

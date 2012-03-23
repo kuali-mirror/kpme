@@ -37,13 +37,14 @@ public class AdminAction extends TkAction {
             // to check the document for validity, since the user may not
             // necessarily be a system administrator.
         } else {
+        	Person changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalName());
             if (user == null ||
             		(!user.isSystemAdmin()
             			&& !user.isLocationAdmin()
             			&& !user.isDepartmentAdmin()
             			&& !user.isGlobalViewOnly()
             			&& !user.isDepartmentViewOnly()
-            			&& !user.getCurrentRoles().isApproverForPerson(adminForm.getChangeTargetPrincipalId())
+            			&& !user.getCurrentRoles().isApproverForPerson(changePerson.getPrincipalId())
             			&& !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId())
             		))  {
                 throw new AuthorizationException("", "AdminAction", "");
@@ -88,46 +89,39 @@ public class AdminAction extends TkAction {
     public ActionForward changeEmployee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		AdminActionForm adminForm = (AdminActionForm) form;
         TKUser tkUser = TKContext.getUser();
-        String principalId = adminForm.getChangeTargetPrincipalId();
 
-        if (tkUser.getCurrentRoles().isSystemAdmin()
-
-        	|| tkUser.getCurrentRoles().isGlobalViewOnly()
-        	|| tkUser.getCurrentRoles().isDepartmentAdminForPerson(principalId)
-        	|| tkUser.getCurrentRoles().isDeptViewOnlyForPerson(principalId)
-        	|| tkUser.getCurrentRoles().isLocationAdminForPerson(principalId)
-        	|| tkUser.getCurrentRoles().isTimesheetReviewerForPerson(principalId)
-        	|| tkUser.getCurrentRoles().isApproverForPerson(principalId)) {
-        	
-            if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalId())) {
-
-                Person changePerson = KIMServiceLocator.getPersonService().getPerson(adminForm.getChangeTargetPrincipalId());
-                if (changePerson != null && tkUser != null) {
-                    UserSession userSession = UserLoginFilter.getUserSession(request);
-                    userSession.getObjectMap().put(TkConstants.TK_TARGET_USER_PERSON, changePerson);
-
-                    if (StringUtils.isNotEmpty(adminForm.getReturnUrl())) {
-                        userSession.getObjectMap().put(TkConstants.TK_TARGET_USER_RETURN, adminForm.getReturnUrl());
-                    }
-
-                    tkUser.setTargetPerson(changePerson);
-                    UserServiceImpl.loadRoles(tkUser);
-                    TKContext.setUser(tkUser);
-
-                    LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " change employee as : " + changePerson.getPrincipalName() + "\n\n");
-                }
-            }
-        } else {
-            LOG.warn("Non-Admin user attempting to backdoor.");
-            return mapping.findForward("unauthorized");
+        if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalName())) {
+        	Person changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalName());
+ 
+	        if (changePerson != null && tkUser != null) {
+	            if (tkUser.getCurrentRoles().isSystemAdmin()
+	                	|| tkUser.getCurrentRoles().isGlobalViewOnly()
+	                	|| tkUser.getCurrentRoles().isDepartmentAdminForPerson(changePerson.getPrincipalId())
+	                	|| tkUser.getCurrentRoles().isDeptViewOnlyForPerson(changePerson.getPrincipalId())
+	                	|| tkUser.getCurrentRoles().isLocationAdminForPerson(changePerson.getPrincipalId())
+	                	|| tkUser.getCurrentRoles().isTimesheetReviewerForPerson(changePerson.getPrincipalId())
+	                	|| tkUser.getCurrentRoles().isApproverForPerson(changePerson.getPrincipalId())) {
+		                	
+		            UserSession userSession = UserLoginFilter.getUserSession(request);
+		            userSession.getObjectMap().put(TkConstants.TK_TARGET_USER_PERSON, changePerson);
+	
+		            if (StringUtils.isNotEmpty(adminForm.getReturnUrl())) {
+		                userSession.getObjectMap().put(TkConstants.TK_TARGET_USER_RETURN, adminForm.getReturnUrl());
+		            }
+		
+		            tkUser.setTargetPerson(changePerson);
+		            UserServiceImpl.loadRoles(tkUser);
+		            TKContext.setUser(tkUser);
+		
+		            LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " change employee as : " + changePerson.getPrincipalName() + "\n\n");
+	            }else {
+	                LOG.warn("Non-Admin user attempting to backdoor.");
+	                return mapping.findForward("unauthorized");
+	            }
+	        }
         }
-
-        String returnAction = "/PersonInfo.do";
-        if (StringUtils.isNotEmpty(adminForm.getTargetUrl())) {
-            returnAction = adminForm.getTargetUrl();
-        }
-
-        return new ActionRedirect(returnAction);
+        
+    	return mapping.findForward("basic");
     }
     
     //http://156.56.177.225:8080/tk-dev/Admin.do?methodToCall=changeEmployee&documentId=19018&changeTargetPrincipalId=1659102154&targetUrl=TimeDetail.do%3FdocumentId=19018&returnUrl=TimeApproval.do

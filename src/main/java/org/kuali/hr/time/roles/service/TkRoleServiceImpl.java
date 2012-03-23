@@ -1,11 +1,5 @@
 package org.kuali.hr.time.roles.service;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
@@ -16,6 +10,12 @@ import org.kuali.hr.time.roles.dao.TkRoleDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class TkRoleServiceImpl implements TkRoleService {
 
@@ -100,6 +100,22 @@ public class TkRoleServiceImpl implements TkRoleService {
 	public List<TkRole> getRoles(String principalId, String roleName, Date asOfDate) {
 		return this.tkRoleDao.findRoles(principalId, asOfDate, roleName, null, null, null);
 	}
+
+    /**
+     * Return a List of TkRoles that matches criteria.
+     * @param principalId
+     * @param asOfDate
+     * @param roleName
+     * @param workArea
+     * @param department
+     * @return
+     */
+    @Override
+    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+    public List<TkRole> getRoles(String principalId, Date asOfDate, String roleName, Long workArea, String department) {
+        return this.tkRoleDao.findRoles(principalId, asOfDate, roleName, workArea, department, null);
+    }
+
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<TKUser> getEmployeesForWorkArea(Long workArea, Date asOfDate){
 		List<TKUser> lstEmployees = new ArrayList<TKUser>();

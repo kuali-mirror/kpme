@@ -212,19 +212,17 @@ public class TimeApprovalAction extends TkAction{
 		        Collections.sort(depts);
 		        taaf.setDepartments(depts);
 		        
-		        if (taaf.getDepartments().size() == 1) {
+		        if (taaf.getDepartments().size() == 1 || taaf.getSelectedDept() != null) {
 	            	if (StringUtils.isEmpty(taaf.getSelectedDept()))
 	            		taaf.setSelectedDept(taaf.getDepartments().get(0));
 	            	
-	            	if (taaf.getWorkAreaDescr().isEmpty()) {
-		            	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
-		                for(WorkArea wa : workAreas){
-		                	if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(wa.getWorkArea())
-		                			|| TKContext.getUser().getCurrentRoles().getReviewerWorkAreas().contains(wa.getWorkArea())) {
-		                		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
-		                	}
-		                }
-	            	}
+	            	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
+	                for(WorkArea wa : workAreas){
+	                	if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(wa.getWorkArea())
+	                			|| TKContext.getUser().getCurrentRoles().getReviewerWorkAreas().contains(wa.getWorkArea())) {
+	                		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
+	                	}
+	                }
 		        }
         	}
 
