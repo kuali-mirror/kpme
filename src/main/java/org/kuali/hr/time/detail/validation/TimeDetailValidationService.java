@@ -4,17 +4,20 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.*;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,6 +163,26 @@ public class TimeDetailValidationService {
         Interval addedTimeblockInterval = new Interval(startTime, endTime);
         List<Interval> dayInt = new ArrayList<Interval>();
 
+        //if the user is clocked in, check if this time block overlaps with the clock action
+        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId());
+        if(lastClockLog != null &&
+        		(lastClockLog.getClockAction().equals(TkConstants.CLOCK_IN) 
+        				|| lastClockLog.getClockAction().equals(TkConstants.LUNCH_IN))) {
+        	 Timestamp lastClockTimestamp = lastClockLog.getClockTimestamp();
+             String lastClockZone = lastClockLog.getClockTimestampTimezone();
+             if (StringUtils.isEmpty(lastClockZone)) {
+                 lastClockZone = TkConstants.SYSTEM_TIME_ZONE;
+             }
+             DateTimeZone zone = DateTimeZone.forID(lastClockZone);
+             DateTime clockWithZone = new DateTime(lastClockTimestamp, zone);
+             DateTime currentTime = new DateTime(System.currentTimeMillis(), zone);
+             Interval currentClockInInterval = new Interval(clockWithZone.getMillis(), currentTime.getMillis());
+             if (addedTimeblockInterval.overlaps(currentClockInInterval)) {
+                 errors.add("The time block you are trying to add overlaps with the current clock action.");
+                 return errors;
+             }
+        }
+       
         if (acrossDays) {
             DateTime start = new DateTime(startTime);
             DateTime end = new DateTime(TKUtils.convertDateStringToTimestamp(startDateS, endTimeS).getTime());
