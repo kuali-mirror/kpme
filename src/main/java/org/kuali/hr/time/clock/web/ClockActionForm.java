@@ -53,6 +53,7 @@ public class ClockActionForm extends TimesheetActionForm {
     private String currentAssignmentDescription;
     private String currentAssignmentKey;
     private String tbId;
+    private String tsDocId;
 
     private String newAssignDesCol;
     private String newBDCol;
@@ -419,6 +420,14 @@ public class ClockActionForm extends TimesheetActionForm {
 
 	public void setDesList(LinkedHashMap<String, String> desList) {
 		this.desList = desList;
+	}
+
+	public String getTsDocId() {
+		return tsDocId;
+	}
+
+	public void setTsDocId(String tsDocId) {
+		this.tsDocId = tsDocId;
 	}
 	
 }

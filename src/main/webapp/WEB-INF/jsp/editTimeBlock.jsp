@@ -11,6 +11,7 @@
  			<html:hidden property="newEDCol" value="" styleId="newEDCol"/>
  			<html:hidden property="newETCol" value="" styleId="newETCol"/>
  			<html:hidden property="newHrsCol" value="" styleId="newHrsCol"/>
+ 			<html:hidden property="tsDocId" value="${Form.documentId}" styleId="tsDocId"/>
  			<html:hidden property="tbId" value="${Form.editTimeBlockId}"  styleId="tbId"/>
  			<html:hidden property="originHrs" value="${Form.currentTimeBlock.hours}"  styleId="originHrs"/>
 			<html:hidden property="assignmentList" value="${Form.assignDescriptionsList}"/>
