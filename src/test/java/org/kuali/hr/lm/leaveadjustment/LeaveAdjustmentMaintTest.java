@@ -64,7 +64,6 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2011");
 	    setFieldValue(page, "document.newMaintainableObject.principalId", "test");
 	    setFieldValue(page, "document.newMaintainableObject.accrualCategory", "myAC");	//nonexist accrual catetory
-	    setFieldValue(page, "document.newMaintainableObject.leavePlan", "myLP");	//nonexist leave plan
 	    setFieldValue(page, "document.newMaintainableObject.leaveCode", "myLC");	//nonexist leave Code
 	  	
 	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
@@ -73,16 +72,13 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	  	page = element.click();
 	  	HtmlUnitUtil.createTempFile(page);
 	  	assertTrue("page text contains:\n" + "'myAC' does not exist", page.asText().contains("'myAC' does not exist"));
-	  	assertTrue("page text contains:\n" + "'myLP' does not exist", page.asText().contains("'myLP' does not exist"));
 	  	  	
 	  	setFieldValue(page, "document.newMaintainableObject.accrualCategory", "AC1"); // existing accrual category
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	assertFalse("page text contains:\n" + "'AC1' does not exist", page.asText().contains("'AC1' does not exist"));
-	  	assertTrue("page text contains:\n" + "'myLP' does not exist", page.asText().contains("'myLP' does not exist"));
 	  	
 	  	setFieldValue(page, "document.newMaintainableObject.principalId", PRINCIPAL_ID); // existing principal hr attributes
-	  	setFieldValue(page, "document.newMaintainableObject.leavePlan", "IU-SM");
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	assertFalse("page text contains:\n" + "'IU-SM' does not exist", page.asText().contains("'IU-SM' does not exist"));

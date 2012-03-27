@@ -2,11 +2,15 @@ package org.kuali.hr.lm.leaveadjustment;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leavecode.LeaveCode;
-import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 
 public class LeaveAdjustment extends HrBusinessObject {
 	private static final long serialVersionUID = 1L;
@@ -19,8 +23,8 @@ public class LeaveAdjustment extends HrBusinessObject {
 	private BigDecimal adjustmentAmount = new BigDecimal("0.0");
 	private Person principal;
 	private AccrualCategory accrualCategoryObj;
-	private LeavePlan leavePlanObj;
 	private LeaveCode leaveCodeObj;
+	private PrincipalHRAttributes principalHRAttrObj;
 	
 	public LeaveCode getLeaveCodeObj() {
 		return leaveCodeObj;
@@ -35,9 +39,20 @@ public class LeaveAdjustment extends HrBusinessObject {
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
 	}
-	public String getLeavePlan() {
-		return leavePlan;
+	public String getName() {
+		if (principal == null) {
+        principal = KIMServiceLocator.getPersonService().getPerson(this.principalId);
+		}
+		return (principal != null) ? principal.getName() : "";
 	}
+	
+	public String getLeavePlan() {
+		if (this.principalHRAttrObj == null && !StringUtils.isEmpty(this.principalId)) {
+			principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(principalId);
+		}
+		return (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
+	}
+
 	public void setLeavePlan(String leavePlan) {
 		this.leavePlan = leavePlan;
 	}
@@ -59,18 +74,6 @@ public class LeaveAdjustment extends HrBusinessObject {
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public Person getPrincipal() {
-		return principal;
-	}
-	public void setPrincipal(Person principal) {
-		this.principal = principal;
-	}
-	public LeavePlan getLeavePlanObj() {
-		return leavePlanObj;
-	}
-	public void setLeavePlanObj(LeavePlan leavePlanObj) {
-		this.leavePlanObj = leavePlanObj;
 	}
 	public BigDecimal getAdjustmentAmount() {
 		return adjustmentAmount;
@@ -96,7 +99,7 @@ public class LeaveAdjustment extends HrBusinessObject {
 	
 	@Override
 	protected String getUniqueKey() {
-		return leavePlan;
+		return getLmLeaveAdjustmentId();
 	}
 	
 	@Override
@@ -113,5 +116,11 @@ public class LeaveAdjustment extends HrBusinessObject {
 	protected LinkedHashMap toStringMapper() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	public PrincipalHRAttributes getPrincipalHRAttrObj() {
+		return principalHRAttrObj;
+	}
+	public void setPrincipalHRAttrObj(PrincipalHRAttributes principalHRAttrObj) {
+		this.principalHRAttrObj = principalHRAttrObj;
 	}
 }

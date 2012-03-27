@@ -29,17 +29,10 @@
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="principal" />
+					<property name="objectAttributeName" value="principalHRAttrObj" />
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="leavePlanObj" />
-					<property name="primitiveAttributes">
-						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
 						</list>
 					</property>
@@ -49,6 +42,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory" p:targetName="accrualCategory" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
 						</list>
 					</property>
 				</bean>
@@ -95,18 +89,13 @@
 		<property name="name" value="principalId" />
 		<property name="label" value="Principal Id" />
 	</bean>
-	
+		
 	<bean id="LeaveAdjustment-leavePlan" parent="LeaveAdjustment-leavePlan-parentBean" />
 	<bean id="LeaveAdjustment-leavePlan-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Leave Plan" />
 		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="15" />
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
 		</property>
 		<property name="name" value="leavePlan" />
 		<property name="label" value="Leave Plan" />
@@ -206,7 +195,6 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
-				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
 			</list>
