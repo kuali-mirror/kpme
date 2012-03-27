@@ -19,6 +19,8 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	private static final String LEAVE_PLAN_REQUIRED = "Leave Plan (Leave Plan) is a required field.";
 	private static final String LEAVE_CODE_REQUIRED = "Leave Code (Leave Code) is a required field.";
 	private static final String ACCRUAL_CATEGORY_REQUIRED = "Accrual Category (Accrual Category) is a required field.";
+	private static final String DES_REQUIRED = "Description (Description) is a required field.";
+	private static final String ADJUSTMENT_AMOUNT_REQUIRED = "Adjustment Amount (Adjustment Amount) is a required field.";
 	
 	@Test
 	public void testRequiredFields() throws Exception {
@@ -39,6 +41,11 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	    assertTrue("page text does not contain:\n" + LEAVE_PLAN_REQUIRED, page.asText().contains(LEAVE_PLAN_REQUIRED));
 	    assertTrue("page text does not contain:\n" + ACCRUAL_CATEGORY_REQUIRED, page.asText().contains(ACCRUAL_CATEGORY_REQUIRED));
 	    assertTrue("page text does not contain:\n" + LEAVE_CODE_REQUIRED, page.asText().contains(LEAVE_CODE_REQUIRED));
+	    assertTrue("page text does not contain:\n" + DES_REQUIRED, page.asText().contains(DES_REQUIRED));
+	    setFieldValue(page, "document.newMaintainableObject.adjustmentAmount", "");
+	    element = page.getElementByName("methodToCall.route");
+	  	page = element.click();
+	    assertTrue("page text does not contain:\n" + ADJUSTMENT_AMOUNT_REQUIRED, page.asText().contains(ADJUSTMENT_AMOUNT_REQUIRED));
 	}
 	
 	@Test
