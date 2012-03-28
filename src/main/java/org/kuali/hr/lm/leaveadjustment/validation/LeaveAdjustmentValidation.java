@@ -80,7 +80,6 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 
 			if (leaveAdjustment != null) {
 				valid = true;
-				valid &= this.validateEffectiveDate(leaveAdjustment.getEffectiveDate());
 				valid &= this.validatePrincipal(leaveAdjustment.getPrincipalId());
 				valid &= this.validateAccrualCategory(leaveAdjustment.getAccrualCategory(), leaveAdjustment.getEffectiveDate());
 				valid &= this.validateLeavePlan(leaveAdjustment.getLeavePlan(), leaveAdjustment.getEffectiveDate());

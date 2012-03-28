@@ -90,9 +90,4 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	  	page = element.click();
 	  	assertFalse("page text contains:\n" + "'IU-SM' does not exist", page.asText().contains("'IU-SM' does not exist"));
 	}
-	
-	@Test
-	public void testFutureEffectiveDate() throws Exception {
-		this.futureEffectiveDateValidation(TkTestConstants.Urls.LEAVE_ADJUSTMENT_MAINT_NEW_URL);
-	}
 }
