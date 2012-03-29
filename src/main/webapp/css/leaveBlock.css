@@ -1,0 +1,17 @@
+.leaveBlock {
+    background-color: #98a386;
+    color: white;
+    margin: 3px;
+    width: 98%;
+    text-align: center;
+    padding: 4px 0 4px 0;
+}
+
+.leaveBlock .leaveBlock-delete {
+    width: 15px;
+    height: 15px;
+    margin: 0 4px 0 0;
+    z-index: 15;
+    cursor: pointer;
+    float: right;
+}

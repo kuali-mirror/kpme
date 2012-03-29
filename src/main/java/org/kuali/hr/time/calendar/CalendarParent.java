@@ -1,10 +1,10 @@
 package org.kuali.hr.time.calendar;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class CalendarParent {
     private List<CalendarWeek> weeks = new ArrayList<CalendarWeek>();
@@ -16,6 +16,9 @@ public abstract class CalendarParent {
         this.calendarEntry = calendarEntry;
         this.beginDateTime = calendarEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
         this.endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+    }
+
+    protected CalendarParent() {
     }
 
 

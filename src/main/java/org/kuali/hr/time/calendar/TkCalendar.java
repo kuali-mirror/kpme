@@ -11,17 +11,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class TkCalendar {
+public class TkCalendar extends CalendarParent {
     private List<TkCalendarWeek> weeks = new ArrayList<TkCalendarWeek>();
     private CalendarEntries payCalEntry;
     private DateTime beginDateTime;
     private DateTime endDateTime;
 
+    public TkCalendar() {}
+
+    public TkCalendar(CalendarEntries calendarEntry) {
+        super(calendarEntry);
+    }
+
     public static TkCalendar getCalendar(TkTimeBlockAggregate aggregate) {
         TkCalendar tc = new TkCalendar();
 
         if (aggregate != null) {
-            List<TkCalendarWeek> weeks = new ArrayList<TkCalendarWeek>();
+            List<CalendarWeek> weeks = new ArrayList<CalendarWeek>();
             tc.setPayCalEntry(aggregate.getPayCalendarEntry());
 
             int firstDay = 0;
@@ -31,7 +37,7 @@ public class TkCalendar {
             for (int i = 0; i < aggregate.numberOfAggregatedWeeks(); i++) {
                 TkCalendarWeek week = new TkCalendarWeek();
                 List<List<TimeBlock>> weekBlocks = aggregate.getWeekTimeBlocks(i);
-                List<TkCalendarDay> days = new ArrayList<TkCalendarDay>(7);
+                List<CalendarDay> days = new ArrayList<CalendarDay>(7);
 
                 for (int j = 0; j < weekBlocks.size(); j++) {
                     List<TimeBlock> dayBlocks = weekBlocks.get(j);
@@ -87,9 +93,9 @@ public class TkCalendar {
     }
 
     public void assignAssignmentStyle(Map<String, String> styleMap) {
-        for (TkCalendarWeek aWeek : this.getWeeks()) {
-            for (TkCalendarDay aDay : aWeek.getDays()) {
-                for (TimeBlockRenderer tbr : aDay.getBlockRenderers()) {
+        for (CalendarWeek aWeek : this.getWeeks()) {
+            for (CalendarDay aDay : aWeek.getDays()) {
+                for (TimeBlockRenderer tbr : ((TkCalendarDay)aDay).getBlockRenderers()) {
                     String assignmentKey = tbr.getTimeBlock().getAssignmentKey();
                     if (assignmentKey != null && styleMap.containsKey(assignmentKey)) {
                         tbr.setAssignmentClass(styleMap.get(assignmentKey));
@@ -102,13 +108,13 @@ public class TkCalendar {
     }
 
 
-    public List<TkCalendarWeek> getWeeks() {
-        return weeks;
-    }
-
-    public void setWeeks(List<TkCalendarWeek> weeks) {
-        this.weeks = weeks;
-    }
+//    public List<TkCalendarWeek> getWeeks() {
+//        return weeks;
+//    }
+//
+//    public void setWeeks(List<TkCalendarWeek> weeks) {
+//        this.weeks = weeks;
+//    }
 
     public CalendarEntries getPayCalEntry() {
         return payCalEntry;

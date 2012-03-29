@@ -1,0 +1,897 @@
+/* jQuery style override */
+
+.ui-widget {
+    font-family: "Trebuchet MS", Verdana, Arial, sans-serif !important;
+}
+
+.ui-widget-header {
+}
+
+.ui-button {
+    font-family: "Trebuchet MS", Verdana, Arial, sans-serif !important;
+    font-weight: bold !important;
+}
+
+.ui-tabs-nav {
+    background: #ffffff url(ui-iu/images/headerback.gif) 100% 100% repeat-x;
+}
+
+.ui-tabs .ui-tabs-nav ul {
+    clear: right !important;
+}
+
+.ui-tabs .ui-tabs-nav li {
+
+    float: right !important;
+    font-size: .8em !important;
+    font-weight: bold;
+    position: relative;
+}
+
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
+    font-weight: bold;
+    background-color: #DFDDA9 !important;
+    color: #33335E;
+}
+
+.ui-tabs-nav li.ui-tabs-selected a {
+    background-color: #9C2512 !important;
+    color: white !important;
+}
+
+.ui-state-focus {
+    font-weight: normal !important;
+}
+
+.ui-state-hover {
+    /*text-decoration: underline;*/
+}
+
+.ui-dialog-buttonpane {
+    font-size: .9em !important;
+    /*margin-left: auto !important;*/
+    /*margin-right: auto !important;*/
+}
+
+.ui-accordion-header {
+    font-weight: bold !important;
+}
+
+.ui-accordion-content {
+    background: #ffffff url(ui-iu/images/headerback.gif) 100% 100% repeat-x;
+}
+
+.ui-datepicker {
+    font-size: .8em !important;
+}
+
+.ui-autocomplete .ui-menu-item {
+    font-size: .8em !important;
+}
+
+/* end of jQuery style override */
+
+/* full calendar override */
+.fc-day-number {
+    font-size: .8em !important;
+}
+
+/* end of full calendar override */
+.hide {
+    display: none;
+}
+
+.highlight {
+    /*background: #FFD20F;*/
+    background: #FFE79F;
+}
+
+.targetuser {
+    background: #FFFFCB;
+}
+
+.backdoor {
+    color: #990000 !important;
+}
+
+.yellowbanner {
+    font-size: .8em;
+    font-weight: normal;
+    color: red;
+    background-color: #FFFFCB;
+    margin-top: 100px;
+    margin-left: 50px;
+}
+
+.ui-header {
+    /*background-color: #A02919;*/
+    background: #ffffff url(ui-iu/images/headerback.gif) 50% 50% repeat-x;
+    height: 55px;
+}
+
+.person-info {
+    float: right;
+}
+
+.person-info table {
+    margin-bottom: 5px;
+}
+
+.person-info table, .person-detail table {
+    border-collapse: collapse;
+    color: black;
+    font-size: .8em;
+    font-weight: normal;
+}
+
+.person-info table td {
+    padding: 3px;
+
+}
+
+.person-info a {
+    color: black;
+}
+
+.person-detail {
+    width: 98%;
+    margin: 20px auto 20px auto;
+    font-size: .9em;
+}
+
+.person-detail ul {
+    list-style: none;
+    /*margin-left: -20px;*/
+}
+
+.person-detail li:hover {
+    background: none;
+    border: none;
+}
+
+.person-detail table {
+    color: black;
+    margin-bottom: 5px;
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+    /*margin-top: 5px;*/
+}
+
+.person-detail table td, .person-detail table th {
+    padding: 5px;
+    border: 1px solid #CCC;
+}
+
+.person-detail .header {
+    border: none;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.person-detail .sub-header {
+    font-weight: bold;
+}
+
+.person-detail p {
+    line-height: 1.5em;
+}
+
+.person-detail .roles th {
+    text-align: right;
+}
+
+#tabs .title, .sub-title {
+    font-family: Georgia, "Times New Roman", Serif;
+    color: black;
+    font-weight: bold;
+    font-size: 2em;
+    padding: 5px 0 5px 10px;
+    clear: both;
+    float: left;
+}
+
+#tabs .sub-title {
+    float: right;
+}
+
+#timesheet table {
+    font-size: .8em;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+
+#timesheet table td {
+    padding: 3px;
+}
+
+.timesheet-panel {
+    border: 1px solid #ccc;
+    background-color: #FBF9EE;
+}
+
+.timesheet-panel table {
+    /*margin: 0 auto 0 auto;*/
+    margin: 5px;
+    padding: 0;
+    border-collapse: collapse;
+}
+
+.timesheet-panel table tr td {
+    padding: 5px;
+    white-space: nowrap;
+}
+
+.timesheet-panel .timesheet-panel-title {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+#timesheet-summary {
+    margin: 10px auto 20px auto;
+}
+
+#timesheet-summary table {
+    font-size: .7em;
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%
+}
+
+#timesheet-summary .header {
+    border: none;
+    font-weight: bold;
+    font-size: 1.5em;
+    padding-bottom: 20px;
+}
+
+#timesheet-summary table tr td {
+    border: 1px solid #ccc;
+    padding: 3px;
+}
+
+#timesheet-routing {
+    margin: 10px 40% 10px 40%;
+    text-align: center;
+}
+
+#clock {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#clock table {
+    background-color: #FBF9EE;
+    font-size: .9em;
+    border: 2px solid gray;
+    padding: 5px;
+    border-collapse: collapse;
+    margin: 20px auto 20px auto;
+}
+
+#clock .header {
+    font-weight: bold;
+    font-size: 1.2em;
+    /*color: #1c94c4;*/
+    color: #8D2C1B;
+    /*background-color: #FBF9EE;*/
+}
+
+#clock .header, #clock .footer {
+    background: #ffffff url(ui-iu/images/headerback.gif) 50% 50% repeat-x;;
+}
+
+#clock .sub-header {
+    text-align: right;
+}
+
+#clock .footer {
+}
+
+#clock table td {
+    border-bottom: 1px solid gray;
+    padding: 8px;
+}
+
+#note, #routeLog {
+    font-size: .8em;
+    clear: both;
+}
+
+.tooltip {
+    background-color: #000;
+    border: 1px solid #fff;
+    padding: 10px 15px;
+    width: 200px;
+    display: none;
+    color: #fff;
+    text-align: left;
+    font-size: .8em;
+    font-family: "Trebuchet MS", Tahoma, Verdana, Arial, sans-serif;
+
+    /* outline radius for mozilla/firefox only */
+    -moz-box-shadow: 0 0 10px #000;
+    -webkit-box-shadow: 0 0 10px #000;
+
+    z-index: 9999;
+}
+
+.dialog-form {
+    font-size: .8em;
+    margin: 20px auto 20px auto;
+    width:95%;
+    display: none;
+}
+
+.validation {
+    padding: 0.3em;
+}
+
+.warning {
+    padding: 0.3em;
+    color: red;
+    font-size: .8em;
+    width: 100%;
+    margin: 0 auto 0 auto;
+    text-align: center;
+}
+
+.global-error {
+    text-align: center;
+    margin-top: 10px;
+    color: red;
+}
+
+.block-error {
+    border: 2px solid red !important;
+}
+
+label.error {
+    color: red;
+    clear: both;
+}
+
+.error-messages {
+    color: red;
+    font-weight: bold;
+    border: 1px solid red;
+    padding: 5px;
+    background-color: #FDF1ED;
+}
+
+.expand {
+    height: 1em;
+    width: 1.2em;
+
+}
+
+/* admin section */
+#admin-page {
+    font-size: .8em;
+}
+
+#admin-page #content {
+    float: left;
+    width: 30%;
+    margin: 10px;
+}
+
+#admin-page table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#admin-page tr td {
+    border: 1px solid #999999;
+    padding: 5px;
+}
+
+#admin-page table ul li {
+    display: disc;
+}
+
+#admin-page table .header {
+    font-weight: bold;
+    color: #8D2C1B !important;
+    background: #ffffff url(ui-iu/images/headerback.gif) 20% 20% repeat-x;
+    padding-left: 5px;
+}
+
+#admin-page li:hover {
+    background: none;
+    border: none;
+}
+
+#admin-page a:hover {
+    color: red;
+    text-decoration: underline;
+}
+
+#tab-section {
+    clear: both;
+}
+
+#timeOffAccrual {
+
+}
+
+#timeOffAccrual table {
+    border-collapse: collapse;
+    font-size: .9em;
+    margin: 10px auto 10px auto;
+    text-align: center;
+}
+
+#timeOffAccrual table td {
+    border: 1px solid #cccccc;
+}
+
+#timeOffAccrual table .header {
+    font-weight: bold;
+    color: #8D2C1B !important;
+    background: #ffffff url(ui-iu/images/headerback.gif) 20% 20% repeat-x;
+    padding-left: 5px;
+}
+
+/* end of admin section */
+
+.msg-excol {
+    width: 95%;
+    margin-top: 10px;
+    text-align: center;
+    font-size: .8em;
+    font-family: inherit;
+    color: red;
+}
+
+.timeblock #timeblock-edit {
+    text-decoration: underline;
+    font-size: .7em;
+    font-weight: bold;
+    cursor: pointer;
+    /*margin: 0 auto 0 auto;*/
+    text-align: center;
+}
+
+.left-errmsg div div {
+    display: inline !important;
+}
+
+.timeblock #timeblock-readOnly {
+    font-size: .7em;
+    font-weight: bold;
+    /*margin: 0 auto 0 auto;*/
+    text-align: center;
+}
+
+.timeblock .timeblock-detail {
+    font-size: .7em;
+    margin: 0 auto 0 auto;
+    text-align: center;
+}
+
+.lunch {
+    color: black;
+    background-color: #FFB40F;
+    /*padding: 0 1px 0 1px;*/
+    margin: 5px;
+}
+
+#batch-content legend {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+#batch-content fieldset {
+    margin: 10px;
+    padding: 10px;
+    font-size: .8em;
+}
+
+#batch-content table th {
+    font-weight: normal;
+    text-align: right;
+}
+
+#batch-result table {
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+#batch-result tr th {
+    text-align: center;
+}
+
+#batch-result tr, #batch-result td, #batch-result th {
+    padding: 3px;
+    border: 1px solid black;
+}
+
+#timeBlockString {
+    display: none;
+}
+
+#docEditable {
+    display: none;
+}
+
+/**
+* Approval
+*/
+
+.approvals {
+    font-size: .7em;
+}
+
+.approvals-table {
+    background-color: #CDCDCD;
+    margin: 10px 0 15px;
+    width: 100%;
+    text-align: center;
+}
+
+.approvals-table thead tr th, .approvals-table tfoot tr th {
+    background-color: #e6EEEE;
+    border: 1px solid #FFF;
+    padding: 4px;
+}
+
+.approvals-table .sort {
+    background: #e6EEEE url(../images/sort.gif) no-repeat center right;
+    padding-right: 4px;
+    cursor: pointer;
+}
+
+.approvals-table tbody td {
+    color: #3D3D3D;
+    padding: 4px;
+    background-color: #FFF;
+    vertical-align: top;
+    border-color: #666666;
+}
+
+.approvals-table tbody tr.odd td {
+    background-color: #F0F0F6;
+}
+
+.approvals-table thead tr .headerSortUp {
+    background: url(../images/asc.gif) no-repeat center right;
+}
+
+.approvals-table thead tr .headerSortDown {
+    background: url(../images/desc.gif) no-repeat center right;
+}
+
+.approvals-table thead tr .headerSortDown, .approvals-table thead tr .headerSortUp {
+    background-color: #8dbdd8;
+}
+
+.approvals-table .highlight {
+    background-color: #EEE5E5;
+}
+
+.approvals-table #approvals-warning:hover, .approvals-table #approvals-note:hover, .approvals-table #approvals-status:hover {
+    background-color: #dadada;
+    cursor: pointer;
+}
+
+.approvals-note-details table, .approvals-warning-details table, .approvals-status-details table {
+    border-collapse: collapse !important;
+}
+
+.approvals-note-details th .title, .approvals-warning-details th .title, .approvals-status-details th .title {
+    font-size: 1em;
+    font-weight: bold;
+    text-align: left;
+
+}
+
+.approvals-note-details table tr td, .approvals-note-details table tr th,
+.approvals-warning-details table tr td, .approvals-warning-details table tr th,
+.approvals-status-details table tr td, .approvals-status-details table tr th {
+    border: 1px solid gray;
+}
+
+.warning-note-message {
+    text-align: left;
+    word-wrap: break-word;
+    width: 400px;
+    height: 40px;
+    overflow-y: auto;
+}
+
+#approvals-filter {
+    margin-top: 10px;
+    /*width: 100%;*/
+}
+
+#approvals-filter tr td {
+    /*width: 33%;*/
+}
+
+#approvals-filter .left {
+    text-align: left;
+}
+
+#approvals-filter .center {
+    text-align: center;
+}
+
+#approvals-filter .right {
+    text-align: right;
+}
+
+#approvals-approve-button {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.rowInfo:hover, .refresh:hover {
+    background-color: #dadada;
+    cursor: pointer;
+}
+
+.approvals .navigation {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.approvals .navigation td {
+    width: 33%;
+}
+
+.hours-by-workArea tr {
+    border: 1px double black !important;
+}
+
+.cal {
+    font-size: .7em !important;
+}
+
+.cal table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.cal .cal-header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.cal .cal-header .header-title {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.cal .cal-table .holidayNameHelp:hover {
+    background-color: #dadada;
+    cursor: pointer;
+}
+
+.cal .cal-table {
+    width: 100%;
+}
+
+.cal .cal-table {
+    width: 100%;
+}
+
+.cal .cal-table td {
+    vertical-align: top;
+    height: 100px;
+}
+
+.cal .event {
+    margin: 3px auto 3px auto;
+    width: 98%;
+    text-align: center;
+    padding: 3px 0 3px 0;
+    line-height: 1.3em;
+}
+
+.cal .event .overtime {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.cal .event-title-true {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.cal .event-title-false {
+    text-decoration: none;
+    cursor: text;
+}
+
+.cal .event-content {
+    clear: both;
+    text-align: center;
+}
+
+.cal .last-event {
+    /*margin-bottom: 20px;*/
+}
+
+.cal .event-delete {
+    width: 15px;
+    height: 15px;
+    margin: 1px 4px 0 0;
+    z-index: 15;
+    cursor: pointer;
+    float: right;
+    clear: none;
+}
+
+.cal .week-header {
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.cal .day-number {
+    padding-left: 2%;
+}
+
+.cal .cell-overlay {
+    /* semi-transparent rectangle while dragging */
+    background: #9cf;
+    opacity: .2;
+    filter: alpha(opacity = 20); /* for IE */
+}
+
+.ui-selectee {
+}
+
+.ui-selecting {
+    background: #ccffee !important;
+}
+
+.ui-selected {
+    background: #cceeff !important;
+}
+
+.ui-selectable-helper {
+    border: none;
+}
+
+/* Customized styles
+------------------------------------------------------------------------*/
+.pay-period {
+}
+
+.pay-period select {
+    padding: 3px;
+    font-size: .9em;
+}
+
+/*	assignment background colors
+------------------------------------------------------------------------*/
+
+.assignment0 {
+    background-color: #98a386;
+    color: white;
+}
+
+.assignment1 {
+    background-color: #CCCC99;
+    color: white;
+}
+
+.assignment2 {
+    background-color: #CCCCCC;
+    color: white;
+}
+
+.assignment3 {
+    background-color: #0099CC;
+    color: white;
+}
+
+.assignment4 {
+    background-color: #FFFFCC;
+    color: white;
+}
+
+/**
+* actual time inquiry
+*/
+
+.actualtime {
+    font-size: 100%;
+}
+
+.actualtime-header {
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.actualtime-table {
+    background-color: #CDCDCD;
+    margin: 10px 0 15px;
+    width: 100%;
+    text-align: center;
+}
+
+.actualtime-table thead tr th, .actualtime-table tfoot tr th {
+    background-color: #F0F0F6;
+    border: 1px solid #FFF;
+    padding: 4px;
+}
+
+.actualtime-table .sort {
+    background: #e6EEEE url(../images/sort.gif) no-repeat center right;
+    padding-right: 4px;
+    cursor: pointer;
+}
+
+.actualtime-table tbody td {
+    color: #3D3D3D;
+    padding: 4px;
+    background-color: #FFF;
+    vertical-align: top;
+}
+
+.actualtime-table tbody tr.even td {
+    background-color: #F0F0F6;
+}
+
+/**
+ * Leave Request Page
+ */
+
+.leave-request table {
+    border-collapse: collapse;
+    color: black;
+    font-size: .8em;
+    font-weight: normal;
+}
+
+.leave-request {
+    width: 98%;
+    margin: 20px auto 20px auto;
+    font-size: .9em;
+}
+
+.leave-request ul {
+    list-style: none;
+    /*margin-left: -20px;*/
+}
+
+.leave-request li:hover {
+    background: none;
+    border: none;
+}
+
+.leave-request table {
+    color: black;
+    margin-bottom: 5px;
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+    /*margin-top: 5px;*/
+}
+
+.leave-request table td, .leave-request table th {
+    padding: 5px;
+    border: 1px solid #CCC;
+}
+
+.leave-request .header {
+    border: none;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.leave-request .sub-header {
+    font-weight: bold;
+}
+
+.leave-request p {
+    line-height: 1.5em;
+}
+

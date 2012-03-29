@@ -1,11 +1,5 @@
 package org.kuali.hr.lm.leavecalendar.web;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -21,6 +15,11 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.sql.Date;
 
 public class LeaveCalendarAction extends TkAction {
 
@@ -76,7 +75,7 @@ public class LeaveCalendarAction extends TkAction {
     public ActionForward addLeaveBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LeaveCalendarForm lcf = (LeaveCalendarForm) form;
         LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
-        DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getBeginDate()));
+        DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()));
         DateTime endDate = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getEndDate()));
         String selectedLeaveCode = lcf.getSelectedLeaveCode();
         BigDecimal hours = lcf.getHours();

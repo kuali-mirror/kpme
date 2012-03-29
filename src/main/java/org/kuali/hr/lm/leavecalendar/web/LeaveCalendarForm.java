@@ -1,17 +1,16 @@
 package org.kuali.hr.lm.leavecalendar.web;
 
-import java.math.BigDecimal;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.base.web.TkForm;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
+
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LeaveCalendarForm extends TkForm {
 
@@ -20,13 +19,15 @@ public class LeaveCalendarForm extends TkForm {
     private LeaveCalendarDocument leaveCalendarDocument;
     private List<String> warnings;
     CalendarEntries calendarEntry;
-    private String beginDate;
+    private String startDate;
     private String endDate;
     private String selectedLeaveCode;
     private Map<String, String> leaveCodeList = new LinkedHashMap<String, String>();
     private BigDecimal hours;
     private String description;
     private String leaveBlockId;
+    private String prevDocumentId;
+    private String nextDocumentId;
 
     @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
@@ -73,12 +74,12 @@ public class LeaveCalendarForm extends TkForm {
         this.leaveCalendarDocument = leaveCalendarDocument;
     }
 
-    public String getBeginDate() {
-        return beginDate;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setBeginDate(String beginDate) {
-        this.beginDate = beginDate;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
     public String getEndDate() {
@@ -121,12 +122,27 @@ public class LeaveCalendarForm extends TkForm {
         this.leaveCodeList = leaveCodeList;
     }
 
-	public String getLeaveBlockId() {
-		return leaveBlockId;
-	}
+    public String getLeaveBlockId() {
+        return leaveBlockId;
+    }
 
-	public void setLeaveBlockId(String leaveBlockId) {
-		this.leaveBlockId = leaveBlockId;
-	}
+    public void setLeaveBlockId(String leaveBlockId) {
+        this.leaveBlockId = leaveBlockId;
+    }
 
+    public String getNextDocumentId() {
+        return nextDocumentId;
+    }
+
+    public void setNextDocumentId(String nextDocumentId) {
+        this.nextDocumentId = nextDocumentId;
+    }
+
+    public String getPrevDocumentId() {
+        return prevDocumentId;
+    }
+
+    public void setPrevDocumentId(String prevDocumentId) {
+        this.prevDocumentId = prevDocumentId;
+    }
 }
