@@ -47,7 +47,7 @@ public class LeaveAdjustment extends HrBusinessObject {
 	}
 	
 	public String getLeavePlan() {
-		if (this.principalHRAttrObj == null && !StringUtils.isEmpty(this.principalId)) {
+		if (!StringUtils.isEmpty(this.principalId)) {
 			principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(principalId);
 		}
 		return (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";

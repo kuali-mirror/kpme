@@ -37,16 +37,6 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 		}
 		return valid;
 	}
-	
-	boolean validateEffectiveDate(Date effectiveDate) {
-		boolean valid = true;
-		if (effectiveDate != null
-				&& !ValidationUtils.validateOneYearFutureDate(effectiveDate)) {
-			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
-			valid = false;
-		}
-		return valid;
-	}
 
 	boolean validatePrincipal(String principalId) {
 		boolean valid = true;
