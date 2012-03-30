@@ -120,8 +120,12 @@ public class AdminAction extends TkAction {
 	            }
 	        }
         }
-        
-    	return mapping.findForward("basic");
+        String returnAction = "/PersonInfo.do";
+        if (StringUtils.isNotEmpty(adminForm.getTargetUrl())) {
+            returnAction = adminForm.getTargetUrl();
+        }
+
+        return new ActionRedirect(returnAction);
     }
     
     //http://156.56.177.225:8080/tk-dev/Admin.do?methodToCall=changeEmployee&documentId=19018&changeTargetPrincipalId=1659102154&targetUrl=TimeDetail.do%3FdocumentId=19018&returnUrl=TimeApproval.do
