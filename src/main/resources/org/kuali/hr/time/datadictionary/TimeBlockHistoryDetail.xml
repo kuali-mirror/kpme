@@ -359,6 +359,7 @@
         <property name="resultFields">
             <list>
                  <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.documentId" p:noInquiry="true"/>
+                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.principalId"/>
 				 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.workArea"/>
                  <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.task"/>
                  <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.jobNumber"/>
@@ -370,7 +371,6 @@
                  <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.clockLogCreated"/>
                  <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.actionHistory"/>
                  <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.userPrincipalId"/>
-                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.principalId"/>
                  <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.timestamp"/>
             </list>
         </property>
