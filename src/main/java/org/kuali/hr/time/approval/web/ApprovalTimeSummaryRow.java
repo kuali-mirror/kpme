@@ -19,6 +19,7 @@ import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 
 public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow> {
 	private String name;
@@ -161,7 +162,8 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
 
         link.append("methodToCall=changeEmployee");
         link.append("&documentId=").append(this.getDocumentId());
-        link.append("&changeTargetPrincipalId=").append(this.getPrincipalId());
+        Person person = KIMServiceLocator.getPersonService().getPerson(this.getPrincipalId());
+        link.append("&changeTargetPrincipalName=").append(person.getPrincipalName());
 
         return link.toString();
     }
