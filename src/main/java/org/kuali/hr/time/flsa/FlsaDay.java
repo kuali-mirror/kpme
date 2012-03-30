@@ -102,7 +102,16 @@ public class FlsaDay {
 		if (beginDateTime.isAfter(flsaDateInterval.getEnd()))
 			return false;
 
-		Interval timeBlockInterval = new Interval(beginDateTime, endDateTime);
+		Interval timeBlockInterval = null;
+		//Requested to have zero hour time blocks be able to be added to the GUI
+		boolean zeroHoursTimeBlock = false;
+		if(endDateTime.getMillis() > beginDateTime.getMillis()){
+			timeBlockInterval = new Interval(beginDateTime,endDateTime);
+		}
+		
+		if(flsaDateInterval.contains(beginDateTime)){
+			zeroHoursTimeBlock = true;
+		}
 
 		Interval overlapInterval = flsaDateInterval.overlap(timeBlockInterval);
 		long overlap = (overlapInterval == null) ? 0L : overlapInterval.toDurationMillis();
@@ -119,7 +128,7 @@ public class FlsaDay {
         // for the individual time block.
         Map<String,BigDecimal> localEarnCodeToHours = new HashMap<String,BigDecimal>();
 
-		if (overlapHours.compareTo(BigDecimal.ZERO) > 0 || (flsaDateInterval.contains(beginDateTime) && StringUtils.equals(block.getEarnCodeType(),TkConstants.EARN_CODE_AMOUNT)))  {
+		if (zeroHoursTimeBlock || overlapHours.compareTo(BigDecimal.ZERO) > 0 || (flsaDateInterval.contains(beginDateTime) && StringUtils.equals(block.getEarnCodeType(),TkConstants.EARN_CODE_AMOUNT)))  {
 
             List<TimeHourDetail> details = block.getTimeHourDetails();
             for (TimeHourDetail thd : details) {
