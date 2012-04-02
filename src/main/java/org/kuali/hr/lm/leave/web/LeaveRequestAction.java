@@ -35,7 +35,7 @@ public class LeaveRequestAction extends TkAction {
 	        List<LeaveBlock> pendingLeaves  = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.REQUEST_STATUS.REQUESTED, currentDate);
 	        if(pendingLeaves != null && !pendingLeaves.isEmpty()) {
 	        	for(LeaveBlock pendingLeave : pendingLeaves) {
-	        		LeaveStatusHistory leaveStatusHistory = TkServiceLocator.getLeaveStatusHisotryService().getLeaveStatusHistoryByLmLeaveBlockIdAndRequestStatus(pendingLeave.getLmLeaveBlockId(), Arrays.asList(new String[] {LMConstants.REQUEST_STATUS.REQUESTED}));
+	        		LeaveStatusHistory leaveStatusHistory = TkServiceLocator.getLeaveStatusHistoryService().getLeaveStatusHistoryByLmLeaveBlockIdAndRequestStatus(pendingLeave.getLmLeaveBlockId(), Arrays.asList(new String[] {LMConstants.REQUEST_STATUS.REQUESTED}));
 	        		if(leaveStatusHistory != null) {
 	        			pendingLeave.setDateAndTime(leaveStatusHistory.getTimestamp());
 	        		}
@@ -46,7 +46,7 @@ public class LeaveRequestAction extends TkAction {
 	        List<LeaveBlock> approvedLeaves  = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.REQUEST_STATUS.APPROVED, null);
 	        if(approvedLeaves != null && !approvedLeaves.isEmpty()) {
 	        	for(LeaveBlock approvedLeave : approvedLeaves) {
-	        		LeaveStatusHistory leaveStatusHistory = TkServiceLocator.getLeaveStatusHisotryService().getLeaveStatusHistoryByLmLeaveBlockIdAndRequestStatus(approvedLeave.getLmLeaveBlockId(), Arrays.asList(new String[] {LMConstants.REQUEST_STATUS.APPROVED}));
+	        		LeaveStatusHistory leaveStatusHistory = TkServiceLocator.getLeaveStatusHistoryService().getLeaveStatusHistoryByLmLeaveBlockIdAndRequestStatus(approvedLeave.getLmLeaveBlockId(), Arrays.asList(new String[] {LMConstants.REQUEST_STATUS.APPROVED}));
 	        		if(leaveStatusHistory != null) {
 	        			approvedLeave.setDateAndTime(leaveStatusHistory.getTimestamp());
 	        		}
@@ -54,10 +54,10 @@ public class LeaveRequestAction extends TkAction {
 	        }
 	        leaveForm.setApprovedLeaves(approvedLeaves);
 	        // disapproved leaves
-	        List<LeaveBlockHistory> disapprovedLeaves = TkServiceLocator.getLeaveBlockHisotryService().getLeaveBlockHistories(principalId, Arrays.asList(new String[] {LMConstants.REQUEST_STATUS.DEFERRED, LMConstants.REQUEST_STATUS.DISAPPROVED}));
+	        List<LeaveBlockHistory> disapprovedLeaves = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(principalId, Arrays.asList(new String[] {LMConstants.REQUEST_STATUS.DEFERRED, LMConstants.REQUEST_STATUS.DISAPPROVED}));
 	        if(disapprovedLeaves != null && !disapprovedLeaves.isEmpty()) {
 	        	for(LeaveBlock leaveBlock : disapprovedLeaves) {
-	        		LeaveStatusHistory leaveStatusHistory = TkServiceLocator.getLeaveStatusHisotryService().getLeaveStatusHistoryByLmLeaveBlockIdAndRequestStatus(leaveBlock.getLmLeaveBlockId(), Arrays.asList(new String[] {LMConstants.REQUEST_STATUS.DEFERRED, LMConstants.REQUEST_STATUS.DISAPPROVED}));
+	        		LeaveStatusHistory leaveStatusHistory = TkServiceLocator.getLeaveStatusHistoryService().getLeaveStatusHistoryByLmLeaveBlockIdAndRequestStatus(leaveBlock.getLmLeaveBlockId(), Arrays.asList(new String[] {LMConstants.REQUEST_STATUS.DEFERRED, LMConstants.REQUEST_STATUS.DISAPPROVED}));
 	        		if(leaveStatusHistory != null) {
 	        			leaveBlock.setReason(leaveStatusHistory.getReason());
 	        			leaveBlock.setDateAndTime(leaveStatusHistory.getTimestamp());
@@ -83,7 +83,7 @@ public class LeaveRequestAction extends TkAction {
 				  leaveStatusHistory.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 				  leaveStatusHistory.setPrincipalIdModified(TKContext.getUser().getTargetPrincipalId());
 				  leaveStatusHistory.setTimestamp(new Timestamp(System.currentTimeMillis()));
-				  TkServiceLocator.getLeaveStatusHisotryService().saveLeaveStatusHistory(leaveStatusHistory);
+				  TkServiceLocator.getLeaveStatusHistoryService().saveLeaveStatusHistory(leaveStatusHistory);
 			  }
 		  }
 		  return mapping.findForward("basic");

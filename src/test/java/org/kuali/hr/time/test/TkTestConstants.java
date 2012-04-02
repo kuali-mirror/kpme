@@ -142,6 +142,8 @@ public final class TkTestConstants {
         
         public static final String LEAVE_REQUEST_PAGE_URL = BASE_URL + "/LeaveRequest.do";
         
+        public static final String LEAVE_BLOCK_DISPLAY_URL = BASE_URL + "/LeaveBlockDisplay.do";
+        
 	}
 
 	public static class FormElementTypes {

@@ -18,7 +18,7 @@ public class LeaveStatusHistoryServiceImplTest extends TkTestCase{
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		leaveStatusHistoryService = TkServiceLocator.getLeaveStatusHisotryService();
+		leaveStatusHistoryService = TkServiceLocator.getLeaveStatusHistoryService();
 	}
 
 	@After

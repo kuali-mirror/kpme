@@ -28,7 +28,7 @@ public class LeaveBlockHistory extends LeaveBlock {
 		this.setAccrualGenerated(lb.getAccrualGenerated());
 		this.setApplyToYtdUsed(lb.getApplyToYtdUsed());
 		this.setDescription(lb.getDescription());
-		this.setHours(lb.getHours());
+		this.setLeaveAmount(lb.getLeaveAmount());
 		this.setLeaveCodeId(lb.getLeaveCodeId());
 		this.setLeaveCode(lb.getLeaveCode());
 		this.setLeaveDate(lb.getLeaveDate());

@@ -393,11 +393,11 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (LeaveBlockService)CONTEXT.getBean(LM_LEAVE_BLOCK_SERVICE);
 	}
 
-    public static LeaveBlockHistoryService getLeaveBlockHisotryService(){
+    public static LeaveBlockHistoryService getLeaveBlockHistoryService(){
 		return (LeaveBlockHistoryService)CONTEXT.getBean(LM_LEAVE_BLOCK_HISTORY_SERVICE);
 	}
 
-    public static LeaveStatusHistoryService getLeaveStatusHisotryService(){
+    public static LeaveStatusHistoryService getLeaveStatusHistoryService(){
 		return (LeaveStatusHistoryService)CONTEXT.getBean(LM_LEAVE_STATUS_HISTORY_SERVICE);
 	}
     

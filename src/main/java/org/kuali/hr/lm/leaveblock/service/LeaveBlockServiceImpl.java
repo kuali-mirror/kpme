@@ -58,7 +58,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         	// create leaveblock history
         	LeaveBlockHistory lbh = new LeaveBlockHistory(leaveBlock);
         	lbh.setAction(LMConstants.ACTION.ADD);
-        	TkServiceLocator.getLeaveBlockHisotryService().saveLeaveBlockHistory(lbh);
+        	TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
         }
     }
 
@@ -99,7 +99,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         // save history
         LeaveBlockHistory lbh = new LeaveBlockHistory(leaveBlock);
         lbh.setAction(LMConstants.ACTION.MODIFIED);
-        TkServiceLocator.getLeaveBlockHisotryService().saveLeaveBlockHistory(lbh);
+        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
         
     }
 

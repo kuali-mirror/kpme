@@ -28,5 +28,7 @@
             <li id="clock" class="ui-state-default ui-corner-top"><a href="Clock.do">Clock</a></li>
         </c:if>
     </c:if>
-
+	 <c:if test="${Form.leaveEnabled}">
+     	<li id="leaveBlockDisplay" class="ui-state-default ui-corner-top"><a href="LeaveBlockDisplay.do">Leave Block Display</a></li>
+     </c:if>
 </div>

@@ -895,3 +895,97 @@ label.error {
     line-height: 1.5em;
 }
 
+
+/**
+ * Leave Block Display Page
+ */
+
+.leave-block-display table {
+    border-collapse: collapse;
+    color: black;
+    font-size: .8em;
+    font-weight: normal;
+}
+
+.leave-block-display {
+    width: 98%;
+    margin: 20px auto 20px auto;
+    font-size: .9em;
+}
+
+.leave-block-display ul {
+    list-style: none;
+    /*margin-left: -20px;*/
+}
+
+.leave-block-display li:hover {
+    background: none;
+    border: none;
+}
+
+.leave-block-display table {
+    color: black;
+    margin-bottom: 5px;
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+    /*margin-top: 5px;*/
+}
+
+.leave-block-display table td, .leave-block-display table th {
+    padding: 5px;
+    border: 1px solid #CCC;
+}
+
+.leave-block-display .header {
+    border: none;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.leave-block-display .sub-header {
+    font-weight: bold;
+}
+
+.leave-block-display p {
+    line-height: 1.5em;
+}
+
+
+
+.leaveBlockDisplay-header {
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.leaveBlockDisplay-table {
+    background-color: #CDCDCD;
+    margin: 10px 0 15px;
+    width: 100%;
+    text-align: center;
+}
+
+.leaveBlockDisplay-table thead tr th, .actualtime-table tfoot tr th {
+    background-color: #F0F0F6;
+    border: 1px solid #FFF;
+    padding: 4px;
+}
+
+.leaveBlockDisplay-table .sort {
+    background: #e6EEEE url(../images/sort.gif) no-repeat center right;
+    padding-right: 4px;
+    cursor: pointer;
+}
+
+.leaveBlockDisplay-table tbody td {
+    color: #3D3D3D;
+    padding: 4px;
+    background-color: #FFF;
+    vertical-align: top;
+}
+
+.leaveBlockDisplay-table tbody tr.even td {
+    background-color: #F0F0F6;
+}
+
+

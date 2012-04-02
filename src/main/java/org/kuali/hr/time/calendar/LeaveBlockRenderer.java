@@ -20,7 +20,7 @@ public class LeaveBlockRenderer {
     }
 
     public BigDecimal getHours() {
-        return leaveBlock.getHours();
+        return leaveBlock.getLeaveAmount();
     }
 
     public String getLeaveCode() {

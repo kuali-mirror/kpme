@@ -35,7 +35,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     private String scheduleTimeOffId;
     private String accrualCategoryId;
 //    private Boolean active;
-    private BigDecimal hours = new BigDecimal("0.0");
+    private BigDecimal leaveAmount = new BigDecimal("0.0");
     private String applyToYtdUsed;
     private String documentId;
     private String principalIdModified;
@@ -67,7 +67,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
         private final String principalId;
         private final String documentId;
         private final String leaveCode;
-        private final BigDecimal hours;
+        private final BigDecimal leaveAmount;
 
 
         private String description = null;
@@ -83,12 +83,12 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
         private String requestStatus;
 
 
-        public Builder(DateTime leaveBlockDate, String documentId, String principalId, String leaveCode, BigDecimal hours) {
+        public Builder(DateTime leaveBlockDate, String documentId, String principalId, String leaveCode, BigDecimal leaveAmount) {
             this.leaveDate = new java.sql.Date(leaveBlockDate.toDate().getTime());
             this.documentId = documentId;
             this.principalId = principalId;
             this.leaveCode = leaveCode;
-            this.hours = hours;
+            this.leaveAmount = leaveAmount;
         }
 
         // validations could be done in the builder methods below
@@ -160,7 +160,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
         description = builder.description;
         principalId = builder.principalId;
         leaveCode = builder.leaveCode;
-        hours = builder.hours;
+        leaveAmount = builder.leaveAmount;
         applyToYtdUsed = builder.applyToYtdUsed;
         documentId = builder.documentId;
         principalIdModified= builder.principalIdModified;
@@ -252,15 +252,15 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
         this.documentId = documentId;
     }
 
-    public BigDecimal getHours() {
-        return hours;
-    }
+    public BigDecimal getLeaveAmount() {
+		return leaveAmount;
+	}
 
-    public void setHours(BigDecimal hours) {
-        this.hours = hours;
-    }
+	public void setLeaveAmount(BigDecimal leaveAmount) {
+		this.leaveAmount = leaveAmount;
+	}
 
-    public String getLeaveCode() {
+	public String getLeaveCode() {
         return leaveCode;
     }
 

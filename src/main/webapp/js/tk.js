@@ -142,7 +142,24 @@ $(document).ready(function() {
     $('#nav_next').click(function() {
         window.location = 'TimeDetail.do?documentId=' + nextDocId;
     });
+    
+    // create navigation buttons for leave block display
+    $('#nav_lb_prev').button({
+        icons: {
+            primary: "ui-icon-circle-triangle-w"
+        },
+        text: false
+    });
 
+
+    $('#nav_lb_next').button({
+        icons: {
+            primary: "ui-icon-circle-triangle-e"
+        },
+        text: false
+    });
+
+   
 
     // datepicker
     $('#startDate, #endDate, #bdRow1, #edRow1, #bdRow2, #edRow2').datepicker({
@@ -500,6 +517,13 @@ $(document).ready(function() {
 
     // Disapproved Request
     $("#leave-disapproved-request").accordion({
+        collapsible : true,
+        active : 0,
+        autoHeight: false
+    });
+    
+    // Leave Block Display
+    $("#leave-block-display-accordion").accordion({
         collapsible : true,
         active : 0,
         autoHeight: false
