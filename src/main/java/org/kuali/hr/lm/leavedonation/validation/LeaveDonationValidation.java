@@ -57,8 +57,7 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 			LeaveDonation leaveDonation = (LeaveDonation) pbo;
 			if (leaveDonation != null) {
 				valid = true;
-				valid &= this.validateEffectiveDate(leaveDonation
-						.getEffectiveDate());
+				//valid &= this.validateEffectiveDate(leaveDonation.getEffectiveDate()); // KPME-1207, effectiveDate can be past, current or future
 				valid &= this.validateAccrualCategory(
 						leaveDonation.getDonatedAccrualCategory(),
 						leaveDonation.getEffectiveDate(),

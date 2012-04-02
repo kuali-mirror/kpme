@@ -18,9 +18,9 @@ public class LeaveDonationMaintTest extends TkTestCase{
 		assertTrue("Maintenance Page contains test Donated Account Category",maintPage.asText().contains("dAC"));	 
 	}
 	
-	@Test
-	public void testFutureEffectiveDate() throws Exception {
+	// commented out this test, KPME-1207, effectiveDate can be past, current or future
+	//@Test
+	/*public void testFutureEffectiveDate() throws Exception {
 		this.futureEffectiveDateValidation(TkTestConstants.Urls.LEAVE_DONATION_MAINT_NEW_URL);
-	}
-
+	}*/
 }
