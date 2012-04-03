@@ -150,7 +150,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	 * @param asOfDate
 	 * @return
 	 */
-	private String getOvertimeEarnCode(String principalId, TimeBlock block, WeeklyOvertimeRule wor, Date asOfDate) {
+	protected String getOvertimeEarnCode(String principalId, TimeBlock block, WeeklyOvertimeRule wor, Date asOfDate) {
         // if there is an overtime preference, use that ovt earncode
         if(StringUtils.isNotEmpty(block.getOvertimePref())) {
             return block.getOvertimePref();
