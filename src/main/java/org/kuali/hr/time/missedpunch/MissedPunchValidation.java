@@ -33,11 +33,20 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         boolean valid = true;
         Set<String> validActions = (lastClock != null) ? TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction()) : new HashSet<String>();
 
+        // if a clockIn/lunchIn has been put in by missed punch, do not allow missed punch for clockOut/LunchOut
+        // missed punch can only be used on a tiemblock once.
+        if(lastClock != null 
+        		&& (lastClock.getClockAction().equals(TkConstants.CLOCK_IN) || lastClock.getClockAction().equals(TkConstants.LUNCH_IN))) {
+        	MissedPunchDocument mpd = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
+        	if(mpd != null) {
+	       	 	GlobalVariables.getMessageMap().putError("document.clockAction", "clock.mp.onlyOne.action");
+	            return false;
+        	}
+        }
         if (!StringUtils.equals("A", mp.getDocumentStatus()) && !validActions.contains(mp.getClockAction())) {
             GlobalVariables.getMessageMap().putError("document.clockAction", "clock.mp.invalid.action");
             valid = false;
         }
-
         return valid;
     }
 
