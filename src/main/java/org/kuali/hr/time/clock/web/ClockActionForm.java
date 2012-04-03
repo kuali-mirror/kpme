@@ -42,6 +42,7 @@ public class ClockActionForm extends TimesheetActionForm {
     private TimeBlock timeBlock;
     private boolean showLunchButton;
     private boolean showDistributeButton;
+    private boolean showMissedPunchButton;
     private Map<String, List<TimeBlock>> timeBlocksMap;
     private List<String> assignDescriptionsList;
 
@@ -428,6 +429,14 @@ public class ClockActionForm extends TimesheetActionForm {
 
 	public void setTsDocId(String tsDocId) {
 		this.tsDocId = tsDocId;
+	}
+
+	public boolean isShowMissedPunchButton() {
+		return showMissedPunchButton;
+	}
+
+	public void setShowMissedPunchButton(boolean showMissedPunchButton) {
+		this.showMissedPunchButton = showMissedPunchButton;
 	}
 	
 }

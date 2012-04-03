@@ -86,8 +86,14 @@ public class ClockAction extends TimesheetAction {
         if (principalId != null) {
             caf.setPrincipalId(principalId);
         }
-        caf.isShowDistributeButton();
         this.assignShowDistributeButton(caf);
+        // if the time sheet document is final or enroute, do not allow missed punch
+        if(caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)
+        		|| caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL)) {
+        	caf.setShowMissedPunchButton(false);
+        } else {
+        	caf.setShowMissedPunchButton(true);
+        }
 
         String tbIdString = caf.getEditTimeBlockId();
         if (tbIdString != null) {

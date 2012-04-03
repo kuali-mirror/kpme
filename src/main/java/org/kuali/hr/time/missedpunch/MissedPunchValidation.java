@@ -13,6 +13,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.document.Document;
@@ -108,13 +109,27 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         return valid;
     }
  
-
+    // do not allow a missed punch is the time sheet document is enroute or final
+    boolean validateTimeSheet(MissedPunchDocument mp) {
+    	boolean valid = true;
+    	TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(mp.getTimesheetDocumentId());
+    	if(tsd != null 
+    			&& (tsd.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE) 
+    					|| tsd.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL))) {
+    		GlobalVariables.getMessageMap().putError("document.timesheetDocumentId", "clock.mp.invalid.timesheet");
+    		valid = false;
+    	}
+    	return valid;
+    }
 	@Override
 	public boolean processRouteDocument(Document document) {
         boolean ret = super.processRouteDocument(document);
         MissedPunchDocument mpDoc = (MissedPunchDocument)document;
+        if(!validateTimeSheet(mpDoc)) {
+        	return false;
+        }
         ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(mpDoc.getPrincipalId());
-        ret = validateClockAction(mpDoc, lastClock);
+        ret &= validateClockAction(mpDoc, lastClock);
         try {
 			ret &= validateClockTime(mpDoc, lastClock);
 		} catch (ParseException e) {
