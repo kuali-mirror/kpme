@@ -15,8 +15,10 @@
                 href="TimeApproval.do?methodToCall=loadApprovalTab">Approvals</a></li>
     </c:if>
     <c:if test="${Form.leaveEnabled}">
+        <li id="leaveBlockDisplay" class="ui-state-default ui-corner-top"><a href="LeaveBlockDisplay.do">Leave Block Display</a></li>
         <li id="leaveRequest" class="ui-state-default ui-corner-top"><a href="LeaveRequest.do">Leave Request</a></li>
     </c:if>
+    
     <c:if test="${Form.user.currentTargetRoles.activeEmployee}">
         <li id="leaveAccrual" class="ui-state-default ui-corner-top"><a href="TimeOffAccrual.do">Leave Accrual</a></li>
         <c:if test="${Form.leaveEnabled}">
@@ -28,7 +30,5 @@
             <li id="clock" class="ui-state-default ui-corner-top"><a href="Clock.do">Clock</a></li>
         </c:if>
     </c:if>
-	 <c:if test="${Form.leaveEnabled}">
-     	<li id="leaveBlockDisplay" class="ui-state-default ui-corner-top"><a href="LeaveBlockDisplay.do">Leave Block Display</a></li>
-     </c:if>
+	 
 </div>

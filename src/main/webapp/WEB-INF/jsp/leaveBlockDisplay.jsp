@@ -35,12 +35,15 @@
 	<div class="leave-block-display">
 		<div id="leave-block-display-accordion">
 			<h3>
-				<a href="#">Main</a>
+				<a href="#">Leave Blocks for ${Form.year}</a>
 			</h3>
 			<div>
 				<display:table name="${Form.leaveEntries}" class="datatable-100"
-					cellspacing="0" uid="leaveEntry">
-					<display:column property="leaveDate" title="Date of Leave" />
+					cellspacing="0" uid="leaveEntry" >
+					<display:column title="Date of Leave" >
+					<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
+							pattern="MMM-dd-yyyy" />
+					</display:column>
 					<display:column property="leaveCode" title="Leave Code" />
 					<display:column property="description" title="Description" />
 					<display:column property="requestStatus" title="Leave Entry Status" />
@@ -59,7 +62,10 @@
 				<display:table name="${Form.correctedLeaveEntries}"
 					class="datatable-100" cellspacing="0" requestURIcontext="false"
 					uid="correctedEntries">
-					<display:column property="leaveDate" title="Date of Leave" />
+					<display:column title="Date of Leave" >
+					<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
+							pattern="MMM-dd-yyyy" />
+					</display:column>
 					<display:column property="leaveCode" title="Leave Code" />
 					<display:column property="description" title="Description" />
 					<display:column property="principalIdModified"
@@ -79,7 +85,10 @@
 				<display:table name="${Form.inActiveLeaveEntries}"
 					class="datatable-100" cellspacing="0" requestURIcontext="false"
 					uid="inActiveEntries">
-					<display:column property="leaveDate" title="Date of Leave" />
+					<display:column title="Date of Leave" >
+					<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
+							pattern="MMM-dd-yyyy" />
+					</display:column>
 					<display:column property="leaveCode" title="Leave Code" />
 					<display:column property="requestStatus" title="Leave Entry Status" />
 					<display:column property="description" title="Description" />
