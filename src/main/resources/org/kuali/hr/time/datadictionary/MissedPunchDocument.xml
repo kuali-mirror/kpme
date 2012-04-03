@@ -65,7 +65,7 @@
     <bean id="MissedPunchDocument-clockAction" parent="MissedPunchDocument-clockAction-parentBean" />
     <bean id="MissedPunchDocument-clockAction-parentBean" abstract="true"
         parent="AttributeDefinition">
-        <property name="shortLabel" value="Clock Action" />
+        <property name="shortLabel" value="Missed Clock Action" />
         <property name="maxLength" value="30" />
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern">
@@ -76,12 +76,12 @@
             <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.time.clocklog.TkClockActionValuesFinder" p:includeKeyInLabel="false"/>
         </property>
         <property name="name" value="clockAction" />
-        <property name="label" value="Clock Action" />
+        <property name="label" value="Missed Clock Action" />
     </bean>
 
     <bean id="MissedPunchDocument-actionDate" parent="MissedPunchDocument-actionDate-parentBean"/>
     <bean id="MissedPunchDocument-actionDate-parentBean" abstract="true" parent="AttributeDefinition">
-      <property name="shortLabel" value="Action Date"/>
+      <property name="shortLabel" value="Missed Action Date"/>
       <property name="maxLength" value="12"/>
       <property name="validationPattern">
           <bean parent="DateValidationPattern"/>
@@ -91,12 +91,12 @@
       </property>
       <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
       <property name="name" value="actionDate"/>
-      <property name="label" value="Action Date (MM/DD/YYYY)"/>
+      <property name="label" value="Missed Action Date (MM/DD/YYYY)"/>
     </bean>
 
     <bean id="MissedPunchDocument-actionTime" parent="MissedPunchDocument-actionTime-parentBean"/>
     <bean id="MissedPunchDocument-actionTime-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="Action Time"/>
+        <property name="shortLabel" value="Missed Action Time"/>
         <property name="maxLength" value="10"/>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="10"/>
@@ -106,7 +106,7 @@
         </property>
         <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
         <property name="name" value="actionTime"/>
-        <property name="label" value="Action Time (00:00 AM)"/>
+        <property name="label" value="Missed Action Time (00:00 AM)"/>
     </bean>
 
     <bean id="MissedPunchDocument-documentId" parent="MissedPunchDocument-documentId-parentBean"/>
