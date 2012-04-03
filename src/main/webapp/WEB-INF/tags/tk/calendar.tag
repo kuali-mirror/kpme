@@ -27,7 +27,7 @@
                 </c:if>
             </td>
         </tr>
-        <tr>
+        <c:if test="${calType eq 'payCalendar'}">
         <tr>
             <td align="right">
                 <a href="${KualiForm.backLocation}?methodToCall=actualTimeInquiry&documentId=${Form.documentId}"
@@ -35,8 +35,7 @@
             </td>
 
         </tr>
-        </tr>
-        </tbody>
+        </c:if>
     </table>
 
     <div class="global-error">
