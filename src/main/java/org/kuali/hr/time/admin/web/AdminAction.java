@@ -37,14 +37,13 @@ public class AdminAction extends TkAction {
             // to check the document for validity, since the user may not
             // necessarily be a system administrator.
         } else {
-        	Person changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalName());
             if (user == null ||
             		(!user.isSystemAdmin()
             			&& !user.isLocationAdmin()
             			&& !user.isDepartmentAdmin()
             			&& !user.isGlobalViewOnly()
             			&& !user.isDepartmentViewOnly()
-            			&& !user.getCurrentRoles().isApproverForPerson(changePerson.getPrincipalId())
+            			&& !user.getCurrentRoles().isApproverForPerson(adminForm.getChangeTargetPrincipalId())
             			&& !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId())
             		))  {
                 throw new AuthorizationException("", "AdminAction", "");
@@ -90,8 +89,8 @@ public class AdminAction extends TkAction {
 		AdminActionForm adminForm = (AdminActionForm) form;
         TKUser tkUser = TKContext.getUser();
 
-        if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalName())) {
-        	Person changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalName());
+        if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalId())) {
+        	Person changePerson = KIMServiceLocator.getPersonService().getPerson(adminForm.getChangeTargetPrincipalId());
  
 	        if (changePerson != null && tkUser != null) {
 	            if (tkUser.getCurrentRoles().isSystemAdmin()
