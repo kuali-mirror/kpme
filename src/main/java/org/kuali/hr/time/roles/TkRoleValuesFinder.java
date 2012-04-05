@@ -47,6 +47,9 @@ public class TkRoleValuesFinder extends KeyValuesBase {
 			if(TKContext.getUser().isSystemAdmin() || TKContext.getUser().isLocationAdmin()){
 				filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_DEPT_ADMIN, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_DEPT_ADMIN)));
 				filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_DEPT_VO, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_DEPT_VO)));
+				
+				filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_LV_DEPT_ADMIN, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_LV_DEPT_ADMIN)));
+				filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_LV_DEPT_VO, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_LV_DEPT_VO)));
 			}
 		}
 		

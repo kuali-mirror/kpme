@@ -18,6 +18,7 @@ public class DepartmentTest extends TkTestCase {
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptLookup, "edit","100");
 
 		assertTrue("Maintenance Page contains test dept",maintPage.asText().contains("TEST"));
+		assertTrue("Maintenance Page contains test dept",maintPage.asText().contains("Time Department Admin"));
 	}
 
 	@Override
