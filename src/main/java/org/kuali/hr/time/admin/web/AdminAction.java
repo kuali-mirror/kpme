@@ -37,15 +37,20 @@ public class AdminAction extends TkAction {
             // to check the document for validity, since the user may not
             // necessarily be a system administrator.
         } else {
+        	Person changePerson = null;
+        	if(StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalName())){
+        		changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalName());
+        	}
             if (user == null ||
             		(!user.isSystemAdmin()
             			&& !user.isLocationAdmin()
             			&& !user.isDepartmentAdmin()
             			&& !user.isGlobalViewOnly()
             			&& !user.isDepartmentViewOnly()
-            			&& !user.getCurrentRoles().isApproverForPerson(adminForm.getChangeTargetPrincipalId())
-            			&& !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId())
-            		))  {
+            			&& (changePerson == null ||
+            			 !user.getCurrentRoles().isApproverForPerson(changePerson.getPrincipalId())
+            			&& (changePerson == null || !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId()))))
+            		)  {
                 throw new AuthorizationException("", "AdminAction", "");
             }
         }
@@ -89,9 +94,9 @@ public class AdminAction extends TkAction {
 		AdminActionForm adminForm = (AdminActionForm) form;
         TKUser tkUser = TKContext.getUser();
 
-        if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalId())) {
-        	Person changePerson = KIMServiceLocator.getPersonService().getPerson(adminForm.getChangeTargetPrincipalId());
- 
+        if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalName())) {
+        	Person changePerson = KIMServiceLocator.getPersonService().getPerson(adminForm.getChangeTargetPrincipalName());
+        	
 	        if (changePerson != null && tkUser != null) {
 	            if (tkUser.getCurrentRoles().isSystemAdmin()
 	                	|| tkUser.getCurrentRoles().isGlobalViewOnly()
