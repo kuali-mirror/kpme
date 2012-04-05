@@ -255,7 +255,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				notes = this.getNotesForDocument(documentId);
 				warnings = TkServiceLocator.getWarningService().getWarnings(
 						person.getPrincipalId(), timeBlocks,
-						(java.sql.Date) tdh.getPayBeginDate());
+						new java.sql.Date(tdh.getPayBeginDate().getTime()));
 			}
 
 			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
