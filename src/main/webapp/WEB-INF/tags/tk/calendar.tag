@@ -115,7 +115,7 @@
                                                                     <c:when test="${thdr.hours ne ''}">
                                                                         <c:set var="title" value="${thdr.title}"/>
                                                                         <c:choose>
-                                                                            <c:when test="${thdr.overtimeEarnCode and block.timeBlock.overtimeEditable and !(thdr.title eq 'DOT')}">
+                                                                            <c:when test="${thdr.overtimeEarnCode and block.timeBlock.overtimeEditable and !(thdr.title eq 'DOT') and Form.docEditable}">
                                                                                 <c:set var="title"
                                                                                        value="<span id='overtime_${block.timeBlock.tkTimeBlockId}' class='overtime'>${thdr.title}</span>"/>
                                                                             </c:when>
@@ -153,7 +153,7 @@
                                                 </c:if>
                                             </div>
                                             <div class="lunch">
-                                                <c:if test="${block.lunchLabel ne '' and block.timeBlock.deleteable}">
+                                                <c:if test="${block.lunchLabel ne '' and block.timeBlock.deleteable and Form.docEditable}">
                                                     <div><img id="lunchDelete_${block.lunchLabelId}"
                                                               class='event-delete'
                                                               src='images/delete.png'/>
