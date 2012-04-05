@@ -94,7 +94,6 @@ $(function () {
         showLeaveBlockEntryDialog : function (startDate, endDate) {
             // check user permmissions before opening the dialog.
             // var isValid = this.checkPermissions();
-
             var self = this;
 //            if (isValid) {
             $("#dialog-form").dialog({
@@ -126,6 +125,7 @@ $(function () {
 
                 },
                 close : function () {
+                	$('.cal-table td').removeClass('ui-selected');
                     // reset values on the form
 //                        self.resetTimeBlockDialog($("#timesheet-panel"));
 //                        self.resetState($("#dialog-form"));
@@ -162,6 +162,7 @@ $(function () {
 
                     },
                     Cancel : function () {
+                    	$('.cal-table td').removeClass('ui-selected');
                         $(this).dialog("close");
 
                     }
@@ -248,49 +249,45 @@ $(function () {
     //
     // This discussion thread on stackoverflow was helpful:
     // http://bit.ly/fvRW4X
+//
+    var selectedDays = [];
+    var selectingDays = [];
+    var beginPeriodDateTimeObj = $('#beginPeriodDate').val() !== undefined ? new Date($('#beginPeriodDate').val()) : d + '/' + m + '/' + y;
 
-//    var selectedDays = [];
-//    var selectingDays = [];
-//    var beginPeriodDateTimeObj = $('#beginPeriodDate').val() !== undefined ? new Date($('#beginPeriodDate').val()) : d + '/' + m + '/' + y;
-//    var endPeriodDateTimeObj = $('#endPeriodDate').val() !== undefined ? new Date($('#endPeriodDate').val()) : d + '/' + m + '/' + y;
-//
-//    $(".cal-table").selectable({
-//        filter : "td",
-//        distance : 1,
-//        selected : function (event, ui) {
-//            selectedDays.push(ui.selected.id);
-//        },
-//        selecting : function (event, ui) {
-//            // get the index number of the selected td
-//            $(".ui-selecting", this).each(function () {
-//                selectingDays.push($(".cal-table td").index(this));
-//            });
-//
-//        },
-//
-//        stop : function (event, ui) {
-//            var currentDay = new Date(beginPeriodDateTimeObj);
-//            var startDay = new Date(currentDay);
-//            var endDay = new Date(currentDay);
-//
-//            startDay.addDays(parseInt(_.first(selectedDays).split("_")[1]));
-//            endDay.addDays(parseInt(_.last(selectedDays).split("_")[1]));
-//
-//            startDay = Date.parse(startDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
-//            endDay = Date.parse(endDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
-//
-//            app.showTimeEntryDialog(startDay, endDay);
-//
-//            // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
+    $(".cal-table").selectable({
+        filter : "td",
+        distance : 1,
+        selected : function (event, ui) {
+            selectedDays.push(ui.selected.id);
+        },
+        selecting : function (event, ui) {
+            // get the index number of the selected td
+            $(".ui-selecting", this).each(function () {
+                selectingDays.push($(".cal-table td").index(this));
+            });
+
+        },
+
+        stop : function (event, ui) {
+            var currentDay = new Date(beginPeriodDateTimeObj);
+            var startDay = new Date(currentDay);
+            var endDay = new Date(currentDay);
+            startDay.addDays(parseInt(_.first(selectedDays).split("_")[1]));
+            endDay.addDays(parseInt(_.last(selectedDays).split("_")[1]));
+
+            startDay = Date.parse(startDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
+            endDay = Date.parse(endDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
+
+            app.showLeaveBlockEntryDialog(startDay, endDay);
+
+            // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
 //            if ($("#selectedAssignment").is("input")) {
 //                app.fetchEarnCodeAndLoadFields();
 //            }
-//
-//            selectedDays = [];
-//        }
-//    });
-//
-//    if ($('#docEditable').val() == 'false') {
-//        $(".cal-table").selectable("destroy");
-//    }
+
+            selectedDays = [];
+        }
+    });
+
+    
 });

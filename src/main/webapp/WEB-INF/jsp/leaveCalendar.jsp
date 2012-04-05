@@ -11,7 +11,8 @@
     <tk:calendar cal="${Form.leaveCalendar}" docId="${Form.documentId}" calType="leaveCalendar"/>
 
     <div id="cal">
-        <div id="dialog-form" class="dialog-form" title="Add Ledgers:">
+    <html:hidden  value="${Form.leaveCalendar.beginDateTime}" styleId="beginPeriodDate"/>
+           <div id="dialog-form" class="dialog-form" title="Add Ledgers:">
             <html:form action="/LeaveCalendar.do" styleId="leaveBlock-form">
 
                 <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
