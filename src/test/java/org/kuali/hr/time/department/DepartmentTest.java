@@ -5,7 +5,6 @@ import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class DepartmentTest extends TkTestCase {
@@ -20,7 +19,7 @@ public class DepartmentTest extends TkTestCase {
 		assertTrue("Maintenance Page contains test dept",maintPage.asText().contains("TEST"));
 		assertTrue("Maintenance Page contains test dept",maintPage.asText().contains("Time Department Admin"));
 	}
-
+	
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();

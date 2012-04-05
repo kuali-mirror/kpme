@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -17,6 +18,25 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class DepartmentRule extends MaintenanceDocumentRuleBase {
+	
+	boolean validateDepartment(Department department) {
+		boolean valid = true;
+		
+		if (department.getEffectiveDate() != null) {
+			Department existingDept = TkServiceLocator.getDepartmentService().getDepartment(department.getDept(), department.getEffectiveDate());
+		    
+			if (existingDept != null){
+				if ( existingDept.getDept().equalsIgnoreCase(department.getDept()) && 
+					 existingDept.getLocation().equalsIgnoreCase(department.getLocation()) ){
+					// error.department.duplicate.exists=There is an exact duplicate version of this Department.					
+					this.putFieldError("dept", "error.department.duplicate.exists", department.getDept());
+					valid = false;
+				}
+			}
+		}
+		
+		return valid;
+	}
 
 	boolean validateChart(String value) {
 		boolean valid = true;
@@ -122,6 +142,7 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 			valid &= validateOrg(clr.getOrg());
 			valid &= validateChartAndOrg(clr.getChart(), clr.getOrg());
 			valid &= validateRolePresent(clr.getRoles(), clr.getEffectiveDate());
+			valid &= validateDepartment(clr); // KPME1400
 		}
 
 		return valid;
