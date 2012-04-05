@@ -95,7 +95,7 @@
 
                                             <div id="timeblock_${block.timeBlock.tkTimeBlockId}"
                                                  class="${editableClass}">
-                                                <c:if test="${block.timeBlock.deleteable}">
+                                                <c:if test="${block.timeBlock.deleteable && Form.docEditable}">
                                                     <div><img id="timeblockDelete_${block.timeBlock.tkTimeBlockId}"
                                                               class='event-delete'
                                                               src='images/delete.png'/>
