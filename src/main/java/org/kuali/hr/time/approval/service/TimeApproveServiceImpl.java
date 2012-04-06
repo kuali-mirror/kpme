@@ -598,11 +598,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     @Override
 	public List<String> getUniquePayGroups() {
 
-		String sql = "SELECT DISTINCT P.py_calendar_group FROM hr_principal_calendar_t P WHERE P.active = 'Y'";
+		String sql = "SELECT DISTINCT P.pay_calendar FROM hr_principal_attributes_t P WHERE P.active = 'Y'";
 		SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql);
 		List<String> pyGroups = new LinkedList<String>();
 		while (rs.next()) {
-			pyGroups.add(rs.getString("py_calendar_group"));
+			pyGroups.add(rs.getString("pay_calendar"));
 		}
 
 		return pyGroups;
@@ -625,7 +625,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		String sql = "SELECT "
 				+ "    		DISTINCT A0.PRINCIPAL_ID "
 				+ " 		FROM "
-				+ "			    HR_PRINCIPAL_CALENDAR_T P0 "
+				+ "			    hr_principal_attributes_t P0 "
 				+ "				INNER JOIN TK_ASSIGNMENT_T A0 "
 				+ "					ON (P0.PRINCIPAL_ID = A0.PRINCIPAL_ID) "
 				+ "				INNER JOIN TK_WORK_AREA_T W0 "
@@ -633,7 +633,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				+ "				LEFT OUTER JOIN HR_ROLES_T R0 "
 				+ "				    ON (W0.WORK_AREA = R0.WORK_AREA) "
 				+ " 		WHERE "
-			    + "				P0.PY_CALENDAR_GROUP = ? AND "
+			    + "				P0.pay_calendar = ? AND "
 	            + "				W0.ACTIVE = 'Y' AND "
 	            + "				W0.DEPT= ? AND " 
 	            + "				R0.ACTIVE='Y' AND "        
