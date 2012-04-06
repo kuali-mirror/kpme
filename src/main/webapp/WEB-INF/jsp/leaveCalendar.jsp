@@ -16,6 +16,8 @@
             <html:form action="/LeaveCalendar.do" styleId="leaveBlock-form">
 
                 <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
+                <html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDateTime"/>
+                <html:hidden property="endPeriodDateTime" value="${Form.endPeriodDateTime}" styleId="endPeriodDateTime"/>
 
                 <div class="ui-widget timesheet-panel" id="timesheet-panel">
                     <table>

@@ -128,7 +128,7 @@ $(function () {
                 	$('.cal-table td').removeClass('ui-selected');
                     // reset values on the form
 //                        self.resetTimeBlockDialog($("#timesheet-panel"));
-//                        self.resetState($("#dialog-form"));
+                    self.resetState($("#dialog-form"));
                 },
                 buttons : {
                     "Add" : function () {
@@ -177,10 +177,38 @@ $(function () {
 //            var timeBlock = timeBlockCollection.get(key.id);
 
 //            if (this.checkPermissions()) {
-                if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
-                    window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id;
-                }
+            if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
+                window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id;
+            }
 //            }
+        },
+        /**
+         * Remove the error class from the given fields.
+         * @param fields
+         */
+        resetState : function (fields) {
+            // Remove the error / warning texts
+            $("#validation").text("").removeClass("error-messages");
+
+            // Remove the error classs
+            $("[class*=error]", fields).each(function () {
+                $(this).removeClass("ui-state-error");
+            });
+
+            // Remove the sylte for multi-day selection
+            $('.cal-table td').removeClass('ui-selected');
+
+            // Remove all the readonly / disabled states
+            $("input, select", "#timesheet-panel").attr("disabled", false);
+            $("input, select", "#timesheet-panel").attr("readonly", false);
+
+            // This is mainly to solve the issue where the change event on the assignment was unbound
+            // when the user can only change the assignment on the timeblock.
+            // Reset the events by calling the built-in delegateEvents function.
+            this.delegateEvents(this.events);
+
+            // show date pickers
+            $(".ui-datepicker-trigger").show();
         }
     });
 
@@ -249,10 +277,11 @@ $(function () {
     //
     // This discussion thread on stackoverflow was helpful:
     // http://bit.ly/fvRW4X
-//
+
     var selectedDays = [];
     var selectingDays = [];
-    var beginPeriodDateTimeObj = $('#beginPeriodDate').val() !== undefined ? new Date($('#beginPeriodDate').val()) : d + '/' + m + '/' + y;
+    var beginPeriodDateTimeObj = $('#beginPeriodDateTime').val() !== undefined ? new Date($('#beginPeriodDateTime').val()) : d + '/' + m + '/' + y;
+    var endPeriodDateTimeObj = $('#endPeriodDateTime').val() !== undefined ? new Date($('#endPeriodDateTime').val()) : d + '/' + m + '/' + y;
 
     $(".cal-table").selectable({
         filter : "td",
@@ -272,6 +301,7 @@ $(function () {
             var currentDay = new Date(beginPeriodDateTimeObj);
             var startDay = new Date(currentDay);
             var endDay = new Date(currentDay);
+
             startDay.addDays(parseInt(_.first(selectedDays).split("_")[1]));
             endDay.addDays(parseInt(_.last(selectedDays).split("_")[1]));
 
@@ -288,6 +318,8 @@ $(function () {
             selectedDays = [];
         }
     });
-
-    
+//
+//    if ($('#docEditable').val() == 'false') {
+//        $(".cal-table").selectable("destroy");
+//    }
 });
