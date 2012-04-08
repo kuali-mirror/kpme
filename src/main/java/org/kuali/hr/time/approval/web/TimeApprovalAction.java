@@ -163,7 +163,10 @@ public class TimeApprovalAction extends TkAction{
         String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
         
         //reset state
-        resetState(form, request);
+        if(StringUtils.isBlank(taaf.getSelectedDept())){
+        	resetState(form, request);
+        }
+        
         
         // Set calendar groups
         List<String> calGroups = TkServiceLocator.getTimeApproveService().getUniquePayGroups();
