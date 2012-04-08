@@ -58,6 +58,18 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 
         List<TkRoleGroup> roleGroupList = TkServiceLocator.getTkRoleGroupService().getRoleGroups(principalId, principalName, workArea, department, roleName);
 
+        //BELOW is done to allow grouping of roles by principal id
+        //TODO find a better way todo this
+        for(TkRoleGroup roleGroup : roleGroupList){
+        	TkRoleGroup tkRoleGroup = TkServiceLocator.getTkRoleGroupService().getRoleGroup(roleGroup.getPrincipalId());
+        	if(tkRoleGroup == null){
+        		tkRoleGroup = new TkRoleGroup();
+				tkRoleGroup.setPrincipalId(roleGroup.getPrincipalId());
+				TkServiceLocator.getTkRoleGroupService().saveOrUpdate(roleGroup);
+        	}
+        }
+        
+        
 //		if(principalId!=""){
 //			Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
 //			if (isAuthorizedToEditUserRole(person)
