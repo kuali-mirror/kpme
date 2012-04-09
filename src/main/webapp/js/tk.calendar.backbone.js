@@ -636,7 +636,7 @@ $(function () {
             // We don't want to clear out the selected assignment when there is only one assignment and it's a hidden text field
             $("input:not(#selectedAssignment), select", timeBlockDiv).val("");
             // This is not the best solution, but we can probably live with this for now.
-            $("#selectedEarnCode").html("<option value=''> -- selecte an earn code --");
+            $("#selectedEarnCode").html("<option value=''> -- select an earn code --");
         },
         /**
          * Remove the error class from the given fields.

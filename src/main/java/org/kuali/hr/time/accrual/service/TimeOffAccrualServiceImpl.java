@@ -22,7 +22,6 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 	private static final Logger LOG = Logger.getLogger(TimeOffAccrualServiceImpl.class);
 	public static final String ACCRUAL_CATEGORY_KEY = "accrualCategory";
 	public static final String ACCRUAL_NAME_KEY = "accrualName";
-	public static final String ACCRUAL_CATEGORY_DES = "accrualCategoryDes";
 	public static final String YEARLY_CARRYOVER_KEY = "yearlyCarryover";
 	public static final String HOURS_ACCRUED_KEY = "hoursAccrued";
 	public static final String HOURS_TAKEN_KEY = "hoursTaken";
@@ -70,7 +69,6 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 			BigDecimal totalHours = timeOffAccrual.getYearlyCarryover().add(timeOffAccrual.getHoursAccrued().subtract(timeOffAccrual.getHoursTaken()).add(timeOffAccrual.getHoursAdjust()));
 			output.put(TOTAL_HOURS_KEY, totalHours);
 			output.put(EFF_DATE_KEY, timeOffAccrual.getEffectiveDate());
-			output.put(ACCRUAL_CATEGORY_DES, accrualCatDescr);
 
 			timeOffAccrualsCalc.add(output);
 		}
@@ -104,7 +102,6 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
     	 }
          for (Map<String, Object> aMap : calcList) {
              String accrualCategory = (String) aMap.get(ACCRUAL_NAME_KEY);
-             String accrualCategoryDes = (String) aMap.get(ACCRUAL_CATEGORY_DES);
              List<TimeBlock> warningTbs = new ArrayList<TimeBlock>();
              BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList, warningTbs);
              //if there is no timeblocks for this category no warning is necessary 
@@ -114,7 +111,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
              BigDecimal balanceHrs = (((BigDecimal)aMap.get(YEARLY_CARRYOVER_KEY)).add((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY)).add((BigDecimal)aMap.get(HOURS_ADJUST_KEY)));
              
              if (totalForAccrCate.compareTo(balanceHrs) == 1) {
-             	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category \"" + accrualCategoryDes + "\" has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are:<br/>";
+             	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category \"" + (String) aMap.get(ACCRUAL_CATEGORY_KEY) + "\" has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are:<br/>";
              	for(TimeBlock tb : warningTbs) {
              		msg += "Earn code: " + tb.getEarnCode()+ " Hours: " + tb.getHours().toString() + " on Date " + (tb.getBeginTimeDisplay() != null ? tb.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT) : "") + "<br/>";
              	}
@@ -156,14 +153,13 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
         }
         for (Map<String, Object> aMap : calcList) {
             String accrualCategory = (String) aMap.get(ACCRUAL_CATEGORY_KEY);
-            String accrualCategoryDes = (String) aMap.get(ACCRUAL_CATEGORY_DES);
             List<TimeBlock> warningTbs = new ArrayList<TimeBlock>();
             BigDecimal totalForAccrCate = this.totalForAccrCate(accrualCategory, tbList, warningTbs);
             BigDecimal balanceHrs = (((BigDecimal)aMap.get(YEARLY_CARRYOVER_KEY)).add((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY)).add((BigDecimal)aMap.get(HOURS_ADJUST_KEY)));
             
             if (totalForAccrCate.compareTo(balanceHrs) == 1) {
             	if (accrualCategory.equals(earnCode)) {
-	            	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category \"" + accrualCategoryDes + "\" has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are: ";
+	            	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category \"" + (String) aMap.get(ACCRUAL_CATEGORY_KEY) + "\" has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are: ";
 	            	for(TimeBlock tb : warningTbs) {
 	            		msg += "Earn code: " + tb.getEarnCode()+ " Hours: " + tb.getHours().toString() + " on Date " + (tb.getBeginTimeDisplay() != null ? tb.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT) : "") + " ";
 	            	}

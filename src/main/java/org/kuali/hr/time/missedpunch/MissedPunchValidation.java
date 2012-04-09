@@ -6,6 +6,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.document.Document;
@@ -33,11 +34,20 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         boolean valid = true;
         Set<String> validActions = (lastClock != null) ? TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction()) : new HashSet<String>();
 
+        // if a clockIn/lunchIn has been put in by missed punch, do not allow missed punch for clockOut/LunchOut
+        // missed punch can only be used on a tiemblock once.
+        if(lastClock != null 
+        		&& (lastClock.getClockAction().equals(TkConstants.CLOCK_IN) || lastClock.getClockAction().equals(TkConstants.LUNCH_IN))) {
+        	MissedPunchDocument mpd = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
+        	if(mpd != null) {
+	       	 	GlobalVariables.getMessageMap().putError("document.clockAction", "clock.mp.onlyOne.action");
+	            return false;
+        	}
+        }
         if (!StringUtils.equals("A", mp.getDocumentStatus()) && !validActions.contains(mp.getClockAction())) {
             GlobalVariables.getMessageMap().putError("document.clockAction", "clock.mp.invalid.action");
             valid = false;
         }
-
         return valid;
     }
 
@@ -99,13 +109,27 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         return valid;
     }
  
-
+    // do not allow a missed punch is the time sheet document is enroute or final
+    boolean validateTimeSheet(MissedPunchDocument mp) {
+    	boolean valid = true;
+    	TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(mp.getTimesheetDocumentId());
+    	if(tsd != null 
+    			&& (tsd.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE) 
+    					|| tsd.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL))) {
+    		GlobalVariables.getMessageMap().putError("document.timesheetDocumentId", "clock.mp.invalid.timesheet");
+    		valid = false;
+    	}
+    	return valid;
+    }
 	@Override
 	public boolean processRouteDocument(Document document) {
         boolean ret = super.processRouteDocument(document);
         MissedPunchDocument mpDoc = (MissedPunchDocument)document;
+        if(!validateTimeSheet(mpDoc)) {
+        	return false;
+        }
         ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(mpDoc.getPrincipalId());
-        ret = validateClockAction(mpDoc, lastClock);
+        ret &= validateClockAction(mpDoc, lastClock);
         try {
 			ret &= validateClockTime(mpDoc, lastClock);
 		} catch (ParseException e) {

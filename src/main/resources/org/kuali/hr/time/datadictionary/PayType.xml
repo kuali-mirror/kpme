@@ -224,7 +224,7 @@
                 <bean parent="FieldDefinition" p:attributeName="descr" />
                 <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
                 <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
-                <bean parent="FieldDefinition" p:attributeName="active" />
+                <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
                 <bean parent="FieldDefinition" p:attributeName="hrEarnCodeId" />
 			</list>
 		</property>

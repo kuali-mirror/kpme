@@ -177,7 +177,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
-				<bean parent="FieldDefinition" p:attributeName="active"/>
+				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
 			</list>
 		</property>
 		<property name="resultFields">

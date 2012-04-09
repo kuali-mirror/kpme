@@ -1,13 +1,5 @@
 package org.kuali.hr.time.overtime.weekly.rule.service;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeZone;
 import org.kuali.hr.time.cache.CacheResult;
@@ -26,6 +18,10 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.*;
 
 public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService {
 
@@ -154,7 +150,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	 * @param asOfDate
 	 * @return
 	 */
-	private String getOvertimeEarnCode(String principalId, TimeBlock block, WeeklyOvertimeRule wor, Date asOfDate) {
+	protected String getOvertimeEarnCode(String principalId, TimeBlock block, WeeklyOvertimeRule wor, Date asOfDate) {
         // if there is an overtime preference, use that ovt earncode
         if(StringUtils.isNotEmpty(block.getOvertimePref())) {
             return block.getOvertimePref();

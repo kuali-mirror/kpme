@@ -37,16 +37,20 @@ public class AdminAction extends TkAction {
             // to check the document for validity, since the user may not
             // necessarily be a system administrator.
         } else {
-        	Person changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalName());
+        	Person changePerson = null;
+        	if(StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalName())){
+        		changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalName());
+        	}
             if (user == null ||
             		(!user.isSystemAdmin()
             			&& !user.isLocationAdmin()
             			&& !user.isDepartmentAdmin()
             			&& !user.isGlobalViewOnly()
             			&& !user.isDepartmentViewOnly()
-            			&& !user.getCurrentRoles().isApproverForPerson(changePerson.getPrincipalId())
-            			&& !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId())
-            		))  {
+            			&& (changePerson == null ||
+            			 !user.getCurrentRoles().isApproverForPerson(changePerson.getPrincipalId())
+            			&& (changePerson == null || !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId()))))
+            		)  {
                 throw new AuthorizationException("", "AdminAction", "");
             }
         }
@@ -91,8 +95,8 @@ public class AdminAction extends TkAction {
         TKUser tkUser = TKContext.getUser();
 
         if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalName())) {
-        	Person changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalName());
- 
+        	Person changePerson = KIMServiceLocator.getPersonService().getPerson(adminForm.getChangeTargetPrincipalName());
+        	
 	        if (changePerson != null && tkUser != null) {
 	            if (tkUser.getCurrentRoles().isSystemAdmin()
 	                	|| tkUser.getCurrentRoles().isGlobalViewOnly()
@@ -120,8 +124,12 @@ public class AdminAction extends TkAction {
 	            }
 	        }
         }
-        
-    	return mapping.findForward("basic");
+        String returnAction = "/PersonInfo.do";
+        if (StringUtils.isNotEmpty(adminForm.getTargetUrl())) {
+            returnAction = adminForm.getTargetUrl();
+        }
+
+        return new ActionRedirect(returnAction);
     }
     
     //http://156.56.177.225:8080/tk-dev/Admin.do?methodToCall=changeEmployee&documentId=19018&changeTargetPrincipalId=1659102154&targetUrl=TimeDetail.do%3FdocumentId=19018&returnUrl=TimeApproval.do

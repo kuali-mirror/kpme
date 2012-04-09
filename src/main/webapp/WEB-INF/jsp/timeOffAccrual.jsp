@@ -13,7 +13,6 @@
 			<table>
 				<tr class="header">
 					<td>Accrual Category</td>
-					<td>Accrual Name</td>
 					<td>Yearly Carryover</td>
 					<td>Hours Accrued</td>
 					<td>Hours Taken</td>
@@ -35,6 +34,8 @@
 								</c:when>
 								<c:when test="${entry.key eq 'totalHours'}">
 									<td style="border:3px solid black;">${entry.value}</td>
+								</c:when>
+								<c:when test="${entry.key eq 'accrualName'}">  <!-- do not display Accrual Name -->
 								</c:when>
 								<c:otherwise>
 									<td>${entry.value}</td>

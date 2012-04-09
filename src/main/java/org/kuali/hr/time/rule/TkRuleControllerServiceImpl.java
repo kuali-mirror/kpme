@@ -1,7 +1,5 @@
 package org.kuali.hr.time.rule;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -10,6 +8,8 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+
+import java.util.List;
 
 public class TkRuleControllerServiceImpl implements TkRuleControllerService {
 
@@ -24,7 +24,7 @@ public class TkRuleControllerServiceImpl implements TkRuleControllerService {
             // anyone who records time through the time entry form (async users) should not be affected by the lunch rule
             // Noted that the date field in the buildTkUser method is not currently used.
             TKUser user = TkServiceLocator.getUserService().buildTkUser(principalId, new java.sql.Date(System.currentTimeMillis()));
-            if (user.getCurrentRoles().isSynchronous()) {
+            if (user.getCurrentTargetRoles().isSynchronous()) {
 			    TkServiceLocator.getDepartmentLunchRuleService().applyDepartmentLunchRule(timeBlockAggregate.getFlattenedTimeBlockList());
             }
 			TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(timesheetDocument, timeBlockAggregate);

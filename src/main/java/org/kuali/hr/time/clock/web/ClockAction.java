@@ -86,8 +86,14 @@ public class ClockAction extends TimesheetAction {
         if (principalId != null) {
             caf.setPrincipalId(principalId);
         }
-        caf.isShowDistributeButton();
         this.assignShowDistributeButton(caf);
+        // if the time sheet document is final or enroute, do not allow missed punch
+        if(caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)
+        		|| caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL)) {
+        	caf.setShowMissedPunchButton(false);
+        } else {
+        	caf.setShowMissedPunchButton(true);
+        }
 
         String tbIdString = caf.getEditTimeBlockId();
         if (tbIdString != null) {
@@ -243,6 +249,7 @@ public class ClockAction extends TimesheetAction {
     public ActionForward saveNewTimeBlocks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
 		ClockActionForm caf = (ClockActionForm)form;
 		String tbId = caf.getTbId();
+		String timesheetDocId = caf.getTsDocId();
 
 		String[] assignments = caf.getNewAssignDesCol().split(SEPERATOR);
 		String[] beginDates = caf.getNewBDCol().split(SEPERATOR);
@@ -260,7 +267,10 @@ public class ClockAction extends TimesheetAction {
 			Timestamp endTS = TKUtils.convertDateStringToTimestamp(endDates[i], endTimes[i]);
 			String assignString = assignments[i];
 			Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(assignString);
-			tb = TkServiceLocator.getTimeBlockService().createTimeBlock(caf.getTimesheetDocument(), beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false, false);
+			
+			TimesheetDocument tsDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocId);
+			
+			tb = TkServiceLocator.getTimeBlockService().createTimeBlock(tsDoc, beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false, false);
 			newTbList.add(tb);
 		}
 		TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTbList);

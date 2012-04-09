@@ -75,7 +75,9 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
 						   <input type="submit" class="button" value="Return From Lunch" name="lunchIn" onclick="this.form.methodToCall.value='clockAction'; this.form.currentClockAction.value='LI';"/>
 						</c:when>
                     </c:choose>
-					<input type="button" class="button" id="missed-punch-iframe-button" value="Missed Punch" name="missedPunch"/>
+                    <c:if test="${Form.showMissedPunchButton}">
+						<input type="button" class="button" id="missed-punch-iframe-button" value="Missed Punch" name="missedPunch"/>
+					</c:if>
 					<c:if test="${Form.showDistributeButton}">
 						<input id="distribute-button" type="button" class="button" value="Distribute Time Blocks"
 							name="distributeTime" onclick="javascrpt: window.open(extractUrlBase()+'/Clock.do?methodToCall=distributeTimeBlocks', 'distributePopup')"/>

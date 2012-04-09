@@ -719,6 +719,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 					: rs.getString("document_id");
 			tdh.setDocumentId(docId);
 			tdh.setDocumentStatus(rs.getString("document_status"));
+			tdh.setPayBeginDate(payBeginDate);
+			tdh.setPayEndDate(payEndDate);
 
 			principalDocumentHeader.put(rs.getString("principal_id"), tdh);
 		}

@@ -313,6 +313,7 @@ $(document).ready(function() {
         var valueSeperator = '****';
         var timeBlockId = $("#tbId").val();
         var originalHrs = $("#originHrs").val();
+        var tsDocId = $("#tsDocId").val();
 
 
         var errorMsgs = '';
@@ -417,6 +418,7 @@ $(document).ready(function() {
         $("#newETCol").val(endTimeCol);
         $("#newHrsCol").val(hrsCol);
         $("#tbId").val(timeBlockId);
+        $("#tsDocId").val(tsDocId);
 
         var params = {};
         params['newAssignDesCol'] = assignValueCol;
@@ -426,7 +428,8 @@ $(document).ready(function() {
         params['newETCol'] = endTimeCol;
         params['newHrsCol'] = hrsCol;
         params['tbId'] = timeBlockId;
-
+        params['tsDocId'] = tsDocId;
+        
         $.ajax({
             url: "Clock.do?methodToCall=validateNewTimeBlock",
             data: params,
