@@ -1,12 +1,16 @@
 package org.kuali.hr.time.dept.earncode.service;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-
-import java.util.List;
 
 public class DepartmentEarnCodeLookupableHelper extends
 		HrEffectiveDateActiveLookupableHelper {
@@ -40,6 +44,21 @@ public class DepartmentEarnCodeLookupableHelper extends
 			customActionUrls.remove(0);
 		}
 		return customActionUrls;
+	}
+
+	@Override
+	public List<? extends BusinessObject> getSearchResults(
+			Map<String, String> fieldValues) {
+        String salGroup = fieldValues.get("hrSalGroup");
+        String dept = fieldValues.get("dept");
+        String earnCode = fieldValues.get("earnCode");
+        String location = fieldValues.get("location");
+        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String toEffdt = StringUtils.isNotBlank(fieldValues.get("effectiveDate")) ? fieldValues.get("effectiveDate").replace("<=", "") : "";
+        String active = fieldValues.get("active");
+        String showHist = fieldValues.get("history");
+		return TkServiceLocator.getDepartmentEarnCodeService().searchDepartmentEarnCodes(dept, salGroup, earnCode, location, 
+								TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
 	}
 
 }

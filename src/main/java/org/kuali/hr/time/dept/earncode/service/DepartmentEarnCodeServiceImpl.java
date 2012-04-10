@@ -5,6 +5,7 @@ import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.dept.earncode.dao.DepartmentEarnCodeDao;
 import org.kuali.hr.time.util.TkConstants;
 
+import java.sql.Date;
 import java.util.List;
 
 public class DepartmentEarnCodeServiceImpl implements DepartmentEarnCodeService {
@@ -25,6 +26,14 @@ public class DepartmentEarnCodeServiceImpl implements DepartmentEarnCodeService 
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public DepartmentEarnCode getDepartmentEarnCode(String hrDeptEarnCodeId) {
 		return deptEarnCodeDao.getDepartmentEarnCode(hrDeptEarnCodeId);
+	}
+
+	@Override
+	public List<DepartmentEarnCode> searchDepartmentEarnCodes(String dept,
+			String salGroup, String earnCode, String location, Date fromEffdt,
+			Date toEffdt, String active, String showHistory) {
+		return deptEarnCodeDao.searchDepartmentEarnCodes(dept, salGroup, earnCode, location, fromEffdt,
+								toEffdt, active, showHistory);
 	}
 	
 }

@@ -14,4 +14,7 @@ public interface DepartmentEarnCodeDao {
 	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String hr_sal_group, String location, Date asOfDate);
 
 	public DepartmentEarnCode getDepartmentEarnCode(String hrDeptEarnCodeId);
+	
+	public List<DepartmentEarnCode> searchDepartmentEarnCodes(String dept, String salGroup, String earnCode, String location,
+			java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
 }
