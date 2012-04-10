@@ -270,6 +270,16 @@ $(document).ready(function() {
         validateTime($(this));
         recalculateHrs(2);
     });
+    
+    $("#assignmentRow1").change(function() {
+        $(this).removeClass('ui-state-error');
+        cleanTips();
+    });
+
+    $("#assignmentRow2").change(function() {
+        $(this).removeClass('ui-state-error');
+        cleanTips();
+    });
 
 
     $('#saveTimeBlock').click(function() {
@@ -307,7 +317,7 @@ $(document).ready(function() {
         var form1 = document.forms[0];
         var originalEndDateTime = new Date(form1.endTimestamp.value);
         var originalBeginDateTime = new Date(form1.beginTimestamp.value);
-
+        assignValueCol = '';
         for (var i = 1; i < rowLength - 1; i++) {
             var assignValue = $("#assignmentRow" + i).val();
             var beginDate = $("#bdRow" + i).val();
@@ -315,7 +325,11 @@ $(document).ready(function() {
             var beginTime = $("#btRow" + i).val();
             var endTime = $("#etRow" + i).val();
             var hrs = $("#hrRow" + i).val();
-
+            
+            aFlag = checkAssignments($("#assignmentRow" + i), assignValue, assignValueCol);
+            if(!aFlag) {
+            	return false;
+            }
             assignValueCol += assignValue + valueSeperator;
             beginDateCol += beginDate + valueSeperator;
             endDateCol += endDate + valueSeperator;
@@ -517,6 +531,15 @@ function checkLength(o, n, min, max) {
     return true;
 }
 
+function checkAssignments(o, anAssignment, assignments) {
+    if (assignments.indexOf(anAssignment) >= 0) {
+        o.addClass('ui-state-error');
+        updateValidationMessage("Distributed assignments should all be different.");
+        return false;
+    }
+    return true;
+}
+
 function updateTips(t) {
     $('#validation').text(t)
             .addClass('ui-state-error')
@@ -706,6 +729,12 @@ function addTimeBlockRow(form, tempArr) {
         validateTime($(this));
         recalculateHrs(iteration);
     });
+    
+    $('assignmentRow' + iteration).change(function() {
+        $(this).removeClass('ui-state-error');
+        cleanTips();
+    });
+    
 
 }
 
