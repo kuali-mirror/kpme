@@ -75,7 +75,8 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 			if (principalHRAttr != null) {
 				valid = true;
 				valid &= this.validatePrincipalId(principalHRAttr);
-				valid &= this.validateEffectiveDate(principalHRAttr);
+				// KPME-1442 Kagata
+				//valid &= this.validateEffectiveDate(principalHRAttr);
 				valid &= this.validatePayCalendar(principalHRAttr);
 				valid &= this.validateLeaveCalendar(principalHRAttr);
 				valid &= this.validateLeavePlan(principalHRAttr);

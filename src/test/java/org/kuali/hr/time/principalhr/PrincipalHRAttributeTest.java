@@ -23,8 +23,9 @@ public class PrincipalHRAttributeTest extends TkTestCase {
     	assertTrue("Test that maintenance screen rendered", page.asText().contains("Record Leave"));//KPME1268
 	}
 	
-	@Test
-	public void testFutureEffectiveDate() throws Exception {
-		this.futureEffectiveDateValidation(TkTestConstants.Urls.PRIN_HR_MAINT_NEW_URL);
-	}
+	// KPME-1442 Kagata
+	//@Test
+	//public void testFutureEffectiveDate() throws Exception {
+	//	this.futureEffectiveDateValidation(TkTestConstants.Urls.PRIN_HR_MAINT_NEW_URL);
+	//}
 }
