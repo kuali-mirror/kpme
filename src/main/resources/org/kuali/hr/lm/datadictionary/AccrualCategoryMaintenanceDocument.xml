@@ -58,6 +58,8 @@
 					p:required="true" p:defaultValue="N"/>
 				<bean parent="MaintainableFieldDefinition" p:name="showOnGrid"
 					p:required="true" p:defaultValue="Y"/>
+				<!-- KPME-1347 Kagata -->
+				<bean parent="MaintainableFieldDefinition" p:name="leaveCode" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"
 					p:required="true" p:defaultValue="true"/>
 			</list>

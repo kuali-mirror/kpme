@@ -31,6 +31,7 @@
 				<ref bean="AccrualCategory-active" />
 				<ref bean="AccrualCategory-history" />
 				<ref bean="AccrualCategory-minPercentWorked" />
+				<ref bean="AccrualCategory-leaveCode" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -44,6 +45,15 @@
 						</list>
 					</property>
 				</bean>
+				<!-- KPME-1347 Kagata -->
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="leaveCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leaveCode" p:targetName="leaveCode" />
+						</list>
+					</property>
+				</bean>		
 			</list>
 		</property>
 		<property name="collections">
@@ -255,6 +265,25 @@
 		</property>
 		<property name="name" value="minPercentWorked" />
 		<property name="label" value="Min Percent Worked to Earn Accrual" />
+	</bean>
+	
+	<!-- KPME-1347 Kagata -->
+	<!-- leave code -->
+	<bean id="AccrualCategory-leaveCode" parent="AccrualCategory-leaveCode-parentBean" />
+	<bean id="AccrualCategory-leaveCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Default Leave Code" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="leaveCode" />
+		<property name="label" value="Default Leave Code" />
 	</bean>
 	
 	<!--  Inquiry Definitions  -->
