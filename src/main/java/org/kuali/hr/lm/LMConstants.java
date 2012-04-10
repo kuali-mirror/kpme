@@ -18,6 +18,19 @@ public class LMConstants {
 		public static final String NO_ACCRUAL = "noaccrual";
 	}
 	
+	// KPME-1347 Kagata
+	public static final Map<String, String> ACCRUAL_EARN_INTERVAL_MAP = new HashMap<String, String>(7);
+    static {
+    	ACCRUAL_EARN_INTERVAL_MAP.put("D", "Daily");
+    	ACCRUAL_EARN_INTERVAL_MAP.put("W", "Weekly");
+    	ACCRUAL_EARN_INTERVAL_MAP.put("B", "Bi-Weekly");
+    	ACCRUAL_EARN_INTERVAL_MAP.put("S", "Semi-Monthly");
+    	ACCRUAL_EARN_INTERVAL_MAP.put("M", "Monthly");
+    	ACCRUAL_EARN_INTERVAL_MAP.put("Y", "Yearly");
+    	ACCRUAL_EARN_INTERVAL_MAP.put("N", "No Accrual");
+    }
+    
+	
 	// Action history
 	public static final class ACTION{
 		public static final String DELETE = "D";

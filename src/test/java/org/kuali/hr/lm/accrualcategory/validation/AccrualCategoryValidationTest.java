@@ -34,6 +34,30 @@ public class AccrualCategoryValidationTest extends TkTestCase{
 		assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Min Percent Worked to Earn Accrual"));
 	}
 	
+	// KPME-1347 Kagata
+	@Test
+	public void testAccrualIntervalEarnField() throws Exception {
+		
+		// make sure page loads
+		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
+		assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
+		HtmlUnitUtil.createTempFile(maintPage);
+		assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Bi-Weekly"));
+	}
+	
+	// KPME-1347 Kagata 
+	@Test
+	public void testDefaultLeaveCodeField() throws Exception {
+		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
+		assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
+		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
+		HtmlUnitUtil.createTempFile(maintPage);
+		assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Default Leave Code"));
+	}
+	
 	//@Test
 	/*public void testValidateStartEndUnitsForErrorMessages() throws Exception {		
 		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
@@ -95,4 +119,5 @@ public class AccrualCategoryValidationTest extends TkTestCase{
 	    HtmlUnitUtil.createTempFile(maintPage);
 	    assertTrue("page text does not contain:\n" + ERROR_LEAVE_PLAN, maintPage.asText().contains(ERROR_LEAVE_PLAN));
 	}
+	
 }

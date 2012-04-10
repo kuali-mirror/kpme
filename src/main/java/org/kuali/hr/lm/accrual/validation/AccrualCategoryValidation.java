@@ -70,7 +70,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		}
 
 		if (!valid) {
-			this.putGlobalError("accrual.rule.required");
+			this.putGlobalError("error.accrualCategoryRule.required");
 		}
 
 		return valid;
