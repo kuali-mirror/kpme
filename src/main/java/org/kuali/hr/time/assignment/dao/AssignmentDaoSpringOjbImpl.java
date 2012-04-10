@@ -330,7 +330,7 @@ public class AssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
     }
 
     @Override
-    public List<Assignment> getAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+    public List<Assignment> searchAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
                                            String dept, String workArea, String active, String showHistory) {
 
         Criteria crit = new Criteria();

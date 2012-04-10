@@ -62,9 +62,9 @@ public class AssignmentServiceImpl implements AssignmentService {
 
 
     @Override
-    public List<Assignment> getAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+    public List<Assignment> searchAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
                                            String dept, String workArea, String active, String showHistory) {
-        return assignmentDao.getAssignments(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
+        return assignmentDao.searchAssignments(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
     }
 
 
