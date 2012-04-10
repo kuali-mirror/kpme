@@ -43,10 +43,10 @@
 		<field-descriptor name="donation" 			column="DONATION"	    jdbc-type="VARCHAR" length="1" nullable="false" />
 		<field-descriptor name="showOnGrid" 		column="SHOW_ON_GRID"	    jdbc-type="VARCHAR" length="1" nullable="false" />
 		<field-descriptor name="minPercentWorked" 	column="MIN_PERCENT_WORKED"	    jdbc-type="DECIMAL" nullable="false" />
+		<!-- KPME-1347 Kagata -->
+		<field-descriptor name="leaveCode" 	column="LEAVE_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />		
 		<field-descriptor name="objectId" 			column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 		column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-		<!-- KPME-1347 Kagata -->
-		<field-descriptor name="leaveCode" 	column="LEAVE_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
 		<collection-descriptor
 			name="accrualCategoryRules"
 			element-class-ref="org.kuali.hr.lm.accrual.AccrualCategoryRule"
