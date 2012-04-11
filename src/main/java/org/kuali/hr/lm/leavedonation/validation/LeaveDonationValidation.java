@@ -46,6 +46,19 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
+	
+	boolean validateAccrualCategory(String accrualCategory, Date asOfDate,
+			String forPerson, String principalId) {
+		boolean valid = true;
+		if (!ValidationUtils.validateAccCategory(accrualCategory, principalId, asOfDate)) {
+			this.putFieldError(
+					forPerson.equals(LeaveDonationValidation.DONOR) ? "donatedAccrualCategory"
+							: "recipientsAccrualCategory", "error.existence",
+					"accrualCategory '" + accrualCategory + "'");
+			valid = false;
+		}
+		return valid;
+	}
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
@@ -58,20 +71,28 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 			if (leaveDonation != null) {
 				valid = true;
 				//valid &= this.validateEffectiveDate(leaveDonation.getEffectiveDate()); // KPME-1207, effectiveDate can be past, current or future
-				valid &= this.validateAccrualCategory(
+				if(leaveDonation.getDonatedAccrualCategory() != null) {
+						valid &= this.validateAccrualCategory(
 						leaveDonation.getDonatedAccrualCategory(),
 						leaveDonation.getEffectiveDate(),
-						LeaveDonationValidation.DONOR);
-				valid &= this.validateAccrualCategory(
+						LeaveDonationValidation.DONOR, leaveDonation.getDonorsPrincipalID());
+				}
+				if(leaveDonation.getRecipientsAccrualCategory() != null) {
+						valid &= this.validateAccrualCategory(
 						leaveDonation.getRecipientsAccrualCategory(),
 						leaveDonation.getEffectiveDate(),
-						LeaveDonationValidation.RECEPIENT);
-				valid &= this.validatePrincipal(
+						LeaveDonationValidation.RECEPIENT, leaveDonation.getRecipientsPrincipalID());
+				}
+				if(leaveDonation.getDonorsPrincipalID() != null) {
+						valid &= this.validatePrincipal(
 						leaveDonation.getDonorsPrincipalID(),
 						LeaveDonationValidation.DONOR);
-				valid &= this.validatePrincipal(
+				}
+				if(leaveDonation.getRecipientsPrincipalID() != null){
+						valid &= this.validatePrincipal(
 						leaveDonation.getRecipientsPrincipalID(),
 						LeaveDonationValidation.RECEPIENT);
+				}
 			}
 		}
 		return valid;

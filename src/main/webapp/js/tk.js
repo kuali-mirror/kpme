@@ -143,6 +143,29 @@ $(document).ready(function() {
         window.location = 'TimeDetail.do?documentId=' + nextDocId;
     });
     
+ // create navigation buttons for leave calendar
+    $('#nav_prev_lc').button({
+        icons: {
+            primary: "ui-icon-circle-triangle-w"
+        },
+        text: false
+    });
+
+    $('#nav_prev_lc').click(function() {
+        window.location = 'LeaveCalendar.do?documentId=' + prevDocId;
+    });
+
+    $('#nav_next_lc').button({
+        icons: {
+            primary: "ui-icon-circle-triangle-e"
+        },
+        text: false
+    });
+
+    $('#nav_next_lc').click(function() {
+        window.location = 'LeaveCalendar.do?documentId=' + nextDocId;
+    });
+    
     // create navigation buttons for leave block display
     $('#nav_lb_prev').button({
         icons: {

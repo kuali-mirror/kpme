@@ -48,9 +48,9 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 		return valid;
 	}
 
-	boolean validateAccrualCategory(String accrualCategory, Date asOfDate) {
+	boolean validateAccrualCategory(String accrualCategory, Date asOfDate, String principalId) {
 		boolean valid = true;
-		if (!ValidationUtils.validateAccCategory(accrualCategory, asOfDate)) {
+		if (!ValidationUtils.validateAccCategory(accrualCategory, principalId, asOfDate)) {
 			this.putFieldError("accrualCategory", "error.existence", "accrualCategory '"
 					+ accrualCategory + "'");
 			valid = false;
@@ -70,10 +70,18 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 
 			if (leaveAdjustment != null) {
 				valid = true;
-				valid &= this.validatePrincipal(leaveAdjustment.getPrincipalId());
-				valid &= this.validateAccrualCategory(leaveAdjustment.getAccrualCategory(), leaveAdjustment.getEffectiveDate());
-				valid &= this.validateLeavePlan(leaveAdjustment.getLeavePlan(), leaveAdjustment.getEffectiveDate());
-				//valid &= this.validateLeaveCode(leaveAdjustment.getLeaveCode(), leaveAdjustment.getPrincipalId(), leaveAdjustment.getEffectiveDate());
+				if(leaveAdjustment.getPrincipalId() != null) {
+					valid &= this.validatePrincipal(leaveAdjustment.getPrincipalId());
+				}
+				if(leaveAdjustment.getAccrualCategory() != null) {
+					valid &= this.validateAccrualCategory(leaveAdjustment.getAccrualCategory(),leaveAdjustment.getEffectiveDate(), leaveAdjustment.getPrincipalId());
+				}
+				if(leaveAdjustment.getLeavePlan() != null) {
+					valid &= this.validateLeavePlan(leaveAdjustment.getLeavePlan(), leaveAdjustment.getEffectiveDate());
+				}
+				if(leaveAdjustment.getLeaveCode() != null) {
+					valid &= this.validateLeaveCode(leaveAdjustment.getLeaveCode(), leaveAdjustment.getPrincipalId(), leaveAdjustment.getEffectiveDate());
+				}
 			}
 		}
 

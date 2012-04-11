@@ -22,6 +22,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
 import org.kuali.hr.time.paytype.PayType;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
@@ -150,8 +151,18 @@ public class ValidationUtils {
 		boolean valid = false;
 		
 		if (asOfDate != null) {
-			List leaveCodes = TkServiceLocator.getLeaveCodeService().getLeaveCodes(principalId, asOfDate);
-			valid = (leaveCodes != null);
+			List<LeaveCode> leaveCodes = TkServiceLocator.getLeaveCodeService().getLeaveCodes(principalId, asOfDate);
+			if(leaveCodes != null && !leaveCodes.isEmpty()) {
+				for(LeaveCode leaveCodeObj : leaveCodes) {
+					if(leaveCodeObj.getLeaveCode() != null) {
+						if(StringUtils.equals(leaveCodeObj.getLeaveCode().trim(), leaveCode.trim())){
+							valid = true;
+							break;
+						}
+					}
+				}
+			}
+//			valid = (leaveCodes != null);
 		} else {
 			Criteria crit = new Criteria();
 			crit.addEqualTo("leaveCode", leaveCode);
@@ -177,6 +188,32 @@ public class ValidationUtils {
 			valid = (count > 0);
 		}
 		
+		return valid;
+	}
+	
+	public static boolean validateAccCategory(String accrualCategory, String principalId, Date asOfDate) {
+		boolean valid = false;
+		
+		if (asOfDate != null) {
+			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
+			if(ac != null && ac.getLeavePlan() != null) {
+				// fetch leave plan users
+				if(principalId != null) {
+					PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+					if(principalHRAttributes != null && principalHRAttributes.getLeavePlan() != null) {
+						valid = StringUtils.equals(ac.getLeavePlan().trim(), principalHRAttributes.getLeavePlan().trim());
+					}
+				} else {
+					valid = true;
+				}
+			} 
+		} else {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("accrualCategory", accrualCategory);
+			Query query = QueryFactory.newQuery(AccrualCategory.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			valid = (count > 0);
+		}
 		return valid;
 	}
 	
