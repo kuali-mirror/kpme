@@ -74,7 +74,7 @@ public class PersonInfoAction extends TkAction {
 	}
 	
 	private void setupRolesOnForm(PersonInfoActionForm paForm){
-		UserRoles roles = TKContext.getUser().getTargetPersonRoles();
+		UserRoles roles = TKContext.getUser().getCurrentTargetRoles();
 		for(Long waApprover : roles.getApproverWorkAreas()){
 			paForm.getApproverWorkAreas().add(waApprover);
 		}
