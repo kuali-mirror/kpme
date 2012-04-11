@@ -68,8 +68,8 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	  	assertNotNull("Search form was missing from page.", form);
 	  	
 	  	setFieldValue(page, "document.documentHeader.documentDescription", "Leave Adjustment - test");
-	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2011");
-	    setFieldValue(page, "document.newMaintainableObject.principalId", "test");
+	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2012");
+	    setFieldValue(page, "document.newMaintainableObject.principalId", "admin");
 	    setFieldValue(page, "document.newMaintainableObject.accrualCategory", "myAC");	//nonexist accrual catetory
 	    setFieldValue(page, "document.newMaintainableObject.leaveCode", "myLC");	//nonexist leave Code
 	  	
@@ -81,13 +81,15 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	  	assertTrue("page text contains:\n" + "'myAC' does not exist", page.asText().contains("'myAC' does not exist"));
 	  	  	
 	  	setFieldValue(page, "document.newMaintainableObject.accrualCategory", "AC1"); // existing accrual category
+	  	setFieldValue(page, "document.newMaintainableObject.leaveCode", "testLC");
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	assertFalse("page text contains:\n" + "'AC1' does not exist", page.asText().contains("'AC1' does not exist"));
 	  	
-	  	setFieldValue(page, "document.newMaintainableObject.principalId", PRINCIPAL_ID); // existing principal hr attributes
+	  	setFieldValue(page, "document.newMaintainableObject.principalId", "admin"); // existing principal hr attributes
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	assertFalse("page text contains:\n" + "'IU-SM' does not exist", page.asText().contains("'IU-SM' does not exist"));
+	  	
 	}
 }
