@@ -9,4 +9,6 @@ public interface LeaveCalendarDocumentHeaderDao {
     LeaveCalendarDocumentHeader getLeaveCalendarDocumentHeader(String principalId, Date beginDate, Date endDate);
 
     void saveOrUpdate(LeaveCalendarDocumentHeader leaveCalendarDocumentHeader);
+    public LeaveCalendarDocumentHeader getPreviousDocumentHeader(String principalId, Date beginDate);
+    public LeaveCalendarDocumentHeader getNextDocumentHeader(String principalId, Date endDate);
 }

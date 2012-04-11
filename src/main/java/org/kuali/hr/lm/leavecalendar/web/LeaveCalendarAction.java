@@ -15,6 +15,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -102,14 +103,14 @@ public class LeaveCalendarAction extends TkAction {
         TKContext.setCurrentLeaveCalendarDocument(lcd);
         leaveForm.setLeaveCalendarDocument(lcd);
         leaveForm.setDocumentId(lcd.getDocumentId());
-//        TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, viewPrincipal);
-//        TimesheetDocumentHeader nextTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, viewPrincipal);
-//        if( prevTdh != null ) {
-//            taForm.setPrevDocumentId(prevTdh.getDocumentId());
-//        }
-//        if( nextTdh != null) {
-//            taForm.setNextDocumentId(nextTdh.getDocumentId());
-//        }
+        LeaveCalendarDocumentHeader prevLdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, viewPrincipal);
+        LeaveCalendarDocumentHeader nextLdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, viewPrincipal);
+        if( prevLdh != null ) {
+            leaveForm.setPrevDocumentId(prevLdh.getDocumentId());
+        }
+        if( nextLdh != null) {
+            leaveForm.setNextDocumentId(nextLdh.getDocumentId());
+        }
         leaveForm.setCalendarEntry(lcd.getCalendarEntry());
     }
 }

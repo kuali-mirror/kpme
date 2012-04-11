@@ -66,4 +66,8 @@ public class TkForm extends KualiForm {
         return canViewLeaveTab; 
     }
     
+    public String getLeaveDocumentIdFromContext(){
+		return TKContext.getCurrentLeaveCalendarDocumentId();
+	}
+    
 }

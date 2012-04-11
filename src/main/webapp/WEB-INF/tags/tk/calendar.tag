@@ -10,8 +10,9 @@
         <tbody>
         <tr>
             <td>
+            
                 <c:if test="${Form.prevDocumentId ne null}">
-                    <button id="nav_prev" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                    <button id="${calType == 'payCalendar' ? 'nav_prev' : 'nav_prev_lc' }" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                             role="button" title="Previous">
                         <span class="ui-button-icon-primary ui-icon ui-icon-circle-triangle-w"></span>
                         <span class="ui-button-text">Previous</span>
@@ -19,7 +20,7 @@
                 </c:if>
                 <span class="header-title">${cal.calendarTitle}</span>
                 <c:if test="${Form.nextDocumentId ne null}">
-                    <button id="nav_next" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                    <button id="${calType == 'payCalendar' ? 'nav_next' : 'nav_next_lc' }" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                             role="button" title="Next">
                         <span class="ui-button-icon-primary ui-icon ui-icon-circle-triangle-e"></span>
                         <span class="ui-button-text">Next</span>

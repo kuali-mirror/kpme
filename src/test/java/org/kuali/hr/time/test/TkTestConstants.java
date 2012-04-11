@@ -144,6 +144,8 @@ public final class TkTestConstants {
         
         public static final String LEAVE_BLOCK_DISPLAY_URL = BASE_URL + "/LeaveBlockDisplay.do";
         
+        public static final String LEAVE_CALENDAR_URL = BASE_URL + "/LeaveCalendar.do";
+        
 	}
 
 	public static class FormElementTypes {

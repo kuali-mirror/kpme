@@ -84,7 +84,14 @@
                         <td>${tagSupport.documentStatus[form.documentStatus]}</td>
                     </tr>
                 </c:if>
+                <c:if test="${form.leaveDocumentIdFromContext ne null}">
+                	<tr>
+                        <td align="right">${prefix} <bean:message key="approval.documentId"/>:</td>
+                        <td>${form.leaveDocumentIdFromContext}</td>
+                    </tr>
+				</c:if>
             </table>
+            
         </div>
         <tk:tabs/>
     </ul>

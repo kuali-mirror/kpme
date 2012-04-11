@@ -1,0 +1,3 @@
+INSERT INTO lm_leave_document_header_t values ('1000', 'admin', '2012-03-01 00:00:00','2012-03-15 00:00:00', 'I', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '1');
+INSERT INTO lm_leave_document_header_t values ('1001', 'admin', '2012-03-15 00:00:00','2012-04-01 00:00:00', 'I', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E96', '1');
+INSERT INTO lm_leave_document_header_t values ('1002', 'admin', '2012-04-01 00:00:00','2012-04-15 00:00:00', 'I', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E95', '1');

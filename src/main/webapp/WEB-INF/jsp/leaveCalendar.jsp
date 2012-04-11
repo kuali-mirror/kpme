@@ -7,10 +7,12 @@
     <script src="js/backbone-0.9.1.min.js"></script>
     <script src="js/tk.ui.js"></script>
     <script src="js/tk.leaveCalendar.backbone.js"></script>
-
     <tk:calendar cal="${Form.leaveCalendar}" docId="${Form.documentId}" calType="leaveCalendar"/>
 
     <div id="cal">
+ 	<html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
+    <html:hidden property="prevDocumentId" value="${Form.prevDocumentId}" styleId="prevDocumentId"/>
+    <html:hidden property="nextDocumentId" value="${Form.nextDocumentId}" styleId="nextDocumentId"/>
     <html:hidden  value="${Form.leaveCalendar.beginDateTime}" styleId="beginPeriodDate"/>
            <div id="dialog-form" class="dialog-form" title="Add Ledgers:">
             <html:form action="/LeaveCalendar.do" styleId="leaveBlock-form">
