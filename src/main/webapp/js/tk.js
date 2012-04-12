@@ -260,14 +260,14 @@ $(document).ready(function() {
     $("#btRow1, #etRow1").change(function() {
         $(this).removeClass('ui-state-error');
         cleanTips();
-        validateTime($(this));
+        formatTime($(this));
         recalculateHrs(1);
     });
 
     $("#btRow2, #etRow2").change(function() {
         $(this).removeClass('ui-state-error');
         cleanTips();
-        validateTime($(this));
+        formatTime($(this));
         recalculateHrs(2);
     });
     
@@ -285,15 +285,6 @@ $(document).ready(function() {
     $('#saveTimeBlock').click(function() {
         var validFlag = true;
         var validation = $('#validation');
-        //    cleanTips();
-//	   function checkLength(o, n, min, max) {
-//	         if (o.val().length > max || o.val().length < min) {
-//	             o.addClass('ui-state-error');
-//	             updateValidationMessage(n + " field is not valid");
-//	             return false;
-//	         }
-//	         return true;
-//	   }
         var tbl = document.getElementById('tblNewTimeBlocks');
         var rowLength = tbl.rows.length;
         var assignValueCol = '';
@@ -726,7 +717,7 @@ function addTimeBlockRow(form, tempArr) {
     $(timeChangeId).change(function() {
         $(this).removeClass('ui-state-error');
         cleanTips();
-        validateTime($(this));
+        formatTime($(this));
         recalculateHrs(iteration);
     });
     
@@ -859,6 +850,25 @@ function parseTimeString(s) {
         }
     }
     throw new Error("Invalid time format");
+}
+
+function formatTime(input) {
+	var id = input.attr('id');
+	var value = input.val();
+    // Use Datejs to parse the value
+    var dateTime = Date.parse(value);
+    if (dateTime == null) {
+        // Date.js returns null if it couldn't understand the format from user's input.
+        $("#" + id).addClass("block-error").val(value);
+        return;
+    } else {
+        // Remove the red border if user enters something
+        $("#" + id).removeClass("block-error").val("");
+    }
+    // This magic line first finds the element by the id.
+    // Uses Datejs (a 3rd party js lib) to parse user's input and update the value by the specifed format.
+    // See the list of the formats in tk.js.
+    $("#" + id).val(dateTime.toString(CONSTANTS.TIME_FORMAT.TIME_FOR_OUTPUT));
 }
 
 
