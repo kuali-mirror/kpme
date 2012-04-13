@@ -44,7 +44,8 @@
 		<field-descriptor name="showOnGrid" 		column="SHOW_ON_GRID"	    jdbc-type="VARCHAR" length="1" nullable="false" />
 		<field-descriptor name="minPercentWorked" 	column="MIN_PERCENT_WORKED"	    jdbc-type="DECIMAL" nullable="false" />
 		<!-- KPME-1347 Kagata -->
-		<field-descriptor name="leaveCode" 	column="LEAVE_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />		
+		<field-descriptor name="leaveCode" 	column="LEAVE_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />	
+		<field-descriptor name="hasRules" 			column="HAS_RULES"	    jdbc-type="VARCHAR" length="1" nullable="false" />	
 		<field-descriptor name="objectId" 			column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 		column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 		<collection-descriptor
@@ -65,6 +66,7 @@
 		<field-descriptor name="start" 						column="START_ACC" jdbc-type="BIGINT" length="5" nullable="false" />
 		<field-descriptor name="end" 						column="END_ACC" jdbc-type="BIGINT" length="5" nullable="false" />
 		<field-descriptor name="accrualRate" 				column="ACCRUAL_RATE" jdbc-type="DECIMAL" length="12" nullable="false" />
+		<field-descriptor name="maxBalFlag"        			column="MAX_BAL_FLAG"	    jdbc-type="VARCHAR" length="1" nullable="false" />
 		<field-descriptor name="maxBalance" 				column="MAX_BAL" jdbc-type="DECIMAL" length="12" nullable="false" />
 		<field-descriptor name="maxBalanceActionFrequency" 	column="MAX_BAL_ACTION_FREQUENCY" jdbc-type="VARCHAR" length="5" nullable="false" />
 		<field-descriptor name="actionAtMaxBalance" 		column="ACTION_AT_MAX_BAL" jdbc-type="VARCHAR" length="5" nullable="false" />

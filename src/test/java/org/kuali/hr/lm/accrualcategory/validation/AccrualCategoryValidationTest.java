@@ -43,7 +43,7 @@ public class AccrualCategoryValidationTest extends TkTestCase{
 		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
 		assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
-		HtmlUnitUtil.createTempFile(maintPage);
+		//HtmlUnitUtil.createTempFile(maintPage);
 		assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Bi-Weekly"));
 	}
 	
@@ -54,10 +54,26 @@ public class AccrualCategoryValidationTest extends TkTestCase{
 		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
 		assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
-		HtmlUnitUtil.createTempFile(maintPage);
+		//HtmlUnitUtil.createTempFile(maintPage);
 		assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Default Leave Code"));
 	}
 	
+	@Test
+	public void testHasRules() throws Exception {
+		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		HtmlPage accrualCategoryCreate = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "AccrualCategory");
+		//HtmlUnitUtil.createTempFile(accrualCategoryCreate);
+		assertTrue("Page contains test AccrualCategory", accrualCategoryCreate.asText().contains("AccrualCategory Maintenance"));
+		assertTrue("Maintenance Page contains test AccrualCategory", accrualCategoryCreate.asText().contains("Category Has Rules"));
+	}
+	@Test
+	public void testMaxBalFlag() throws Exception {
+		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		HtmlPage accrualCategoryCreate = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "AccrualCategory");
+		//HtmlUnitUtil.createTempFile(accrualCategoryCreate);
+		assertTrue("Page contains test AccrualCategory", accrualCategoryCreate.asText().contains("New Accrual Category Rule"));
+		assertTrue("Maintenance Page contains test AccrualCategory", accrualCategoryCreate.asText().contains("Max Bal Flag"));
+	}
 	//@Test
 	/*public void testValidateStartEndUnitsForErrorMessages() throws Exception {		
 		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);

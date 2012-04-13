@@ -30,12 +30,12 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 	public AccrualCategory getAccrualCategory(String accrualCategory, Date asOfDate) {
 		return accrualCategoryDao.getAccrualCategory(accrualCategory, asOfDate);
 	}
-
+/*
 	@Override
 	public void saveOrUpdate(AccrualCategory accrualCategory) {
 		accrualCategoryDao.saveOrUpdate(accrualCategory);
 	}
-
+*/
 	public AccrualCategoryDao getAccrualCategoryDao() {
 		return accrualCategoryDao;
 	}

@@ -32,6 +32,8 @@
 				<ref bean="AccrualCategory-history" />
 				<ref bean="AccrualCategory-minPercentWorked" />
 				<ref bean="AccrualCategory-leaveCode" />
+				<ref bean="AccrualCategory-hasRules" />
+				
 			</list>
 		</property>
 		<property name="relationships">
@@ -117,7 +119,7 @@
 	<bean id="AccrualCategory-descr-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Desc" />
-		<property name="maxLength" value="50" />
+		<property name="maxLength" value="30" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="true" />
@@ -239,6 +241,19 @@
 		</property>
 		<property name="name" value="donation" />
 		<property name="label" value="Donation" />
+	</bean>
+	
+		<!-- hasRules -->
+	<bean id="AccrualCategory-hasRules" parent="AccrualCategory-hasRules-parentBean" />
+	<bean id="AccrualCategory-hasRules-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Category Has Rules" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="hasRules" />
+		<property name="label" value="Category Has Rules" />
 	</bean>
 	
 	<!-- showOnGrid -->

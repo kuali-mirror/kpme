@@ -25,6 +25,7 @@ public class AccrualCategory extends HrBusinessObject {
 	private String showOnGrid;
 	private String unitOfTime;
 	private Boolean history;
+	private String hasRules;
 
 	private LeavePlan leavePlanObj;
 	private List<AccrualCategoryRule> accrualCategoryRules = new LinkedList<AccrualCategoryRule>();
@@ -34,6 +35,15 @@ public class AccrualCategory extends HrBusinessObject {
 	// KPME-1347 Kagata
 	private String leaveCode;
 	private LeaveCode leaveCodeObj;
+	
+
+	public String getHasRules() {
+		return hasRules;
+	}
+
+	public void setHasRules(String hasRules) {
+		this.hasRules = hasRules;
+	}
 	
 	public BigDecimal getMinPercentWorked() {
 		return minPercentWorked;

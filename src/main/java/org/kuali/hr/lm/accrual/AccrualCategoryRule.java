@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.lm.leavecode.LeaveCode;
 
 public class AccrualCategoryRule extends HrBusinessObject {
 
@@ -12,11 +13,13 @@ public class AccrualCategoryRule extends HrBusinessObject {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String lmAccrualCategoryRuleId;
+
 	private String serviceUnitOfTime;
 	private Long start;
 	private Long end;
 	private BigDecimal accrualRate;
 	private BigDecimal maxBalance;
+	private String maxBalFlag;
 	private String maxBalanceActionFrequency;
 	private String actionAtMaxBalance;
 	private String maxBalanceTransferToAccrualCategory;
@@ -27,6 +30,21 @@ public class AccrualCategoryRule extends HrBusinessObject {
 	private Long maxUsage;
 	private Long maxCarryOver;
 	private String lmAccrualCategoryId;
+
+	
+	private LeaveCode leaveCodeObj;
+
+	public LeaveCode getLeaveCodeObj() {
+		return leaveCodeObj;
+	}
+
+	public void setLeaveCodeObj(LeaveCode leaveCodeObj) {
+		this.leaveCodeObj = leaveCodeObj;
+	}
+
+
+	
+
 	
 	private AccrualCategory accrualCategoryObj;
 	
@@ -84,6 +102,14 @@ public class AccrualCategoryRule extends HrBusinessObject {
 
 	public void setMaxBalance(BigDecimal maxBalance) {
 		this.maxBalance = maxBalance;
+	}
+
+	public String getMaxBalFlag() {
+		return maxBalFlag;
+	}
+
+	public void setMaxBalFlag(String maxBalFlag) {
+		this.maxBalFlag = maxBalFlag;
 	}
 
 	public String getMaxBalanceActionFrequency() {

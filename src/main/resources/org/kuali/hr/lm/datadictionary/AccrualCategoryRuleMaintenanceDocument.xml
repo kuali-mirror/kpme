@@ -12,6 +12,7 @@
 
   <bean id="AccrualCategoryRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.lm.accrual.AccrualCategoryRule"
+  	    p:businessRulesClass="org.kuali.hr.lm.accrual.validation.AccrualCategoryValidation"
   		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
     <property name="maintainableSections">
       <list>
@@ -33,9 +34,10 @@
 		<bean parent="MaintainableFieldDefinition" p:name="start" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="end" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="accrualRate" p:required="true"/>
-		<bean parent="MaintainableFieldDefinition" p:name="maxBalance" p:required="true" />
-		<bean parent="MaintainableFieldDefinition" p:name="maxBalanceActionFrequency" p:required="true"/>
-		<bean parent="MaintainableFieldDefinition" p:name="actionAtMaxBalance" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="maxBalance" p:required="false" />
+		<bean parent="MaintainableFieldDefinition" p:name="maxBalFlag" p:required="true" />
+		<bean parent="MaintainableFieldDefinition" p:name="maxBalanceActionFrequency" p:required="false"/>
+		<bean parent="MaintainableFieldDefinition" p:name="actionAtMaxBalance" p:required="false"/>
 		<bean parent="MaintainableFieldDefinition" p:name="maxBalanceTransferToAccrualCategory"/>
 		<bean parent="MaintainableFieldDefinition" p:name="maxBalanceTransferConversionFactor"/>							
 		<bean parent="MaintainableFieldDefinition" p:name="maxTransferAmount"/>							

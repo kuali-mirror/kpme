@@ -335,7 +335,7 @@ public class TkConstants {
         static {
         	SERVICE_UNIT_OF_TIME.put("Y", "Years");
         	SERVICE_UNIT_OF_TIME.put("M", "Months");
-        	SERVICE_UNIT_OF_TIME.put("H", "Hours");
+        	//SERVICE_UNIT_OF_TIME.put("H", "Hours");
         }
 
         public static final Map<String, String> UNIT_OF_TIME = new LinkedHashMap<String, String>(2);
@@ -344,13 +344,20 @@ public class TkConstants {
         	UNIT_OF_TIME.put("D", "Days");
         	UNIT_OF_TIME.put("H", "Hours");
         }
+        
+        public static final Map<String, String> MAX_BAL_FLAG = new LinkedHashMap<String, String>(2);
 
+        static {
+        	MAX_BAL_FLAG.put("Y", "Required");
+        	MAX_BAL_FLAG.put("N", "Not Required");
+        }
+        
         public static final Map<String, String> MAX_BALANCE_ACTION_FREQUENCY = new LinkedHashMap<String, String>(3);
 
         static {
         	MAX_BALANCE_ACTION_FREQUENCY.put("LA", "Leave Approve");
         	MAX_BALANCE_ACTION_FREQUENCY.put("YE", "Year End");
-        	MAX_BALANCE_ACTION_FREQUENCY.put("NA", "Not Applicable");
+        	//MAX_BALANCE_ACTION_FREQUENCY.put("NA", "Not Applicable");
         }
 
         public static final Map<String, String> ACTION_AT_MAX_BALANCE = new LinkedHashMap<String, String>(3);
@@ -359,7 +366,7 @@ public class TkConstants {
         	ACTION_AT_MAX_BALANCE.put("T", "Transfer");
         	ACTION_AT_MAX_BALANCE.put("P", "Payout");
         	ACTION_AT_MAX_BALANCE.put("L", "Lose");
-        	ACTION_AT_MAX_BALANCE.put("NA", "Not Applicable");
+        	//ACTION_AT_MAX_BALANCE.put("NA", "Not Applicable");
         }
 
         public static final Map<String, String> UNUSED_TIME = new LinkedHashMap<String, String>(3);

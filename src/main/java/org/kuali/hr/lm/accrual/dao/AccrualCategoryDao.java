@@ -15,7 +15,7 @@ public interface AccrualCategoryDao {
 	 * @return
 	 */
     public AccrualCategory getAccrualCategory(String accrualCategory, Date asOfDate);
-    public void saveOrUpdate(AccrualCategory accrualCategory);
+    //public void saveOrUpdate(AccrualCategory accrualCategory);
     /**
      * Fetch accrual category by a unique id
      * @param lmAccrualCategoryId

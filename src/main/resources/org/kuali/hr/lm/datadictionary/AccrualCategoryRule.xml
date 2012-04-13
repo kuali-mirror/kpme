@@ -21,6 +21,7 @@
 				<ref bean="AccrualCategoryRule-end" />
 				<ref bean="AccrualCategoryRule-accrualRate" />
 				<ref bean="AccrualCategoryRule-maxBalance" />
+				<ref bean="AccrualCategoryRule-maxBalFlag" />
 				<ref bean="AccrualCategoryRule-maxBalanceActionFrequency" />
 				<ref bean="AccrualCategoryRule-actionAtMaxBalance" />
 				<ref bean="AccrualCategoryRule-maxBalanceTransferToAccrualCategory" />
@@ -41,6 +42,14 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="maxBalanceTransferToAccrualCategory"
 								p:targetName="accrualCategory" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="leaveCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="maxPayoutLeaveCode" p:targetName="leaveCode" />
 						</list>
 					</property>
 				</bean>
@@ -125,6 +134,18 @@
 		</property>
 		<property name="name" value="maxBalance" />
 		<property name="label" value="Max Balance" />
+	</bean>
+	
+    <bean id="AccrualCategoryRule-maxBalFlag" parent="AccrualCategoryRule-maxBalFlag-parentBean" />
+	<bean id="AccrualCategoryRule-maxBalFlag-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Max Balance Flag" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.MaxBalFlagKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="maxBalFlag" />
+		<property name="label" value="Max Bal Flag" />
 	</bean>
 
 	<bean id="AccrualCategoryRule-maxBalanceActionFrequency" parent="AccrualCategoryRule-maxBalanceActionFrequency-parentBean" />
@@ -290,6 +311,7 @@
 				<bean parent="FieldDefinition" p:attributeName="end" />
 				<bean parent="FieldDefinition" p:attributeName="accrualRate" />
 				<bean parent="FieldDefinition" p:attributeName="maxBalance" />
+				<bean parent="FieldDefinition" p:attributeName="maxBalFlag" />
 			</list>
 		</property>
 		<property name="resultFields">
@@ -299,6 +321,7 @@
 				<bean parent="FieldDefinition" p:attributeName="end" />
 				<bean parent="FieldDefinition" p:attributeName="accrualRate" />
 				<bean parent="FieldDefinition" p:attributeName="maxBalance" />
+				<bean parent="FieldDefinition" p:attributeName="maxBalFlag" />
 			</list>
 		</property>
 		<property name="title" value="AccrualCategoryRule Lookup" />

@@ -33,12 +33,12 @@ public class AccrualCategoryDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
 
 		return accrlCategory;
     }
-    
+ /*   
     @Override
     public void saveOrUpdate(AccrualCategory accrualCategory) {
     	this.getPersistenceBrokerTemplate().store(accrualCategory);
     }
-
+*/
 	@Override
 	public AccrualCategory getAccrualCategory(String lmAccrualCategoryId) {
 		Criteria crit = new Criteria();
