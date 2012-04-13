@@ -90,7 +90,7 @@
                                         <div class="event ${last} ${block.assignmentClass}">
                                         	<c:choose>
                                         		<c:when test="${Form.workingOnItsOwn}">
-                                        			<c:set var="canEditEarnCode" value="${block.timeBlock.earnCodeEditable}" />
+                                        			<c:set var="canEditEarnCode" value="${block.timeBlock.regEarnCodeEditable}" />
                                         		</c:when>
                                         		<c:otherwise>
                                         			<c:set var="canEditEarnCode" value="true" />

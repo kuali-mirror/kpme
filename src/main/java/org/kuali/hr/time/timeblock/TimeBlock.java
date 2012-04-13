@@ -71,7 +71,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private Boolean overtimeEditable;
     
     @Transient
-    private Boolean earnCodeEditable;
+    private Boolean regEarnCodeEditable;
 
 
     // the two variables below are used to determine if a time block needs to be visually pushed forward / backward
@@ -639,8 +639,8 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 		return TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode(this);
 	}
 	
-	public Boolean getEarnCodeEditable() {
-		return TkServiceLocator.getPermissionsService().canEditEarnCode(this);
+	public Boolean getRegEarnCodeEditable() {
+		return TkServiceLocator.getPermissionsService().canEditRegEarnCode(this);
 	}
 
     public boolean isLunchDeleted() {

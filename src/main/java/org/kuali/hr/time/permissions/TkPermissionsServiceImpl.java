@@ -590,8 +590,13 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
         }
     }
     
+    /*
+     * @see org.kuali.hr.time.permissions.TkPermissionsService#canEditRegEarnCode(org.kuali.hr.time.timeblock.TimeBlock)
+     * this method is used in calendar.tag
+     * it's only used when a user is working on its own timesheet, regular earn code cannot be editable on clock entered time block
+     */
     @Override
-    public boolean canEditEarnCode(TimeBlock tb) {
+    public boolean canEditRegEarnCode(TimeBlock tb) {
     	AssignmentDescriptionKey adk = new AssignmentDescriptionKey(tb.getJobNumber().toString(), tb.getWorkArea().toString(), tb.getTask().toString());
         Assignment anAssignment = TkServiceLocator.getAssignmentService().getAssignment(adk, tb.getBeginDate());
         if(anAssignment != null) {
@@ -599,7 +604,12 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
         								.getTimeCollectionRule(anAssignment.getDept(), anAssignment.getWorkArea()
         										, anAssignment.getJob().getHrPayType(), anAssignment.getEffectiveDate());
         	if(tcr != null && tcr.isClockUserFl()) {
-        		return false;
+        		// use assignment to get the payType object, then check if the regEarnCode of the paytyep matches the earn code of the timeblock
+        		// if they do match, then return false
+        		PayType pt = TkServiceLocator.getPayTypeSerivce().getPayType(anAssignment.getJob().getHrPayType(), anAssignment.getJob().getEffectiveDate());
+        		if(pt != null && pt.getRegEarnCode().equals(tb.getEarnCode())) {
+        			return false;
+        		}
         	}
         }
     	return true;
