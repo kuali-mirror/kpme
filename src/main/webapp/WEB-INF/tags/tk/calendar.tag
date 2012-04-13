@@ -88,21 +88,34 @@
 
 
                                         <div class="event ${last} ${block.assignmentClass}">
+                                        	<c:choose>
+                                        		<c:when test="${Form.workingOnItsOwn}">
+                                        			<c:set var="canEditEarnCode" value="${block.timeBlock.earnCodeEditable}" />
+                                        		</c:when>
+                                        		<c:otherwise>
+                                        			<c:set var="canEditEarnCode" value="true" />
+                                        		</c:otherwise>
+                                        	</c:choose>
                                             <c:set var="editableClass" value="event-title-false"/>
-                                            <c:if test="${Form.docEditable}">
-                                                <c:set var="editableClass" value="event-title-true"/>
+                                            <c:set var="titleId" value="${block.timeBlock.tkTimeBlockId}"/>
+                                            
+                                       		<c:if test="${Form.docEditable and canEditEarnCode}">
+                                             	<c:set var="editableClass" value="event-title-true"/>
+                                             	<c:set var="titleId" value="show_${block.timeBlock.tkTimeBlockId}" />
                                             </c:if>
 
                                             <div id="timeblock_${block.timeBlock.tkTimeBlockId}"
                                                  class="${editableClass}">
-                                                <c:if test="${block.timeBlock.deleteable && Form.docEditable}">
+                                                <c:if test="${block.timeBlock.deleteable && Form.docEditable && canEditEarnCode}">
                                                     <div><img id="timeblockDelete_${block.timeBlock.tkTimeBlockId}"
                                                               class='event-delete'
                                                               src='images/delete.png'/>
                                                     </div>
                                                 </c:if>
 
-                                                <div id="show_${block.timeBlock.tkTimeBlockId}">${block.title}</div>
+                                                <div id="${titleId}" class="${editableClass}" >
+                                                	${block.title}
+                                                </div>
                                             </div>
                                                 ${block.timeRange}
                                             <div>
@@ -115,7 +128,7 @@
                                                                     <c:when test="${thdr.hours ne ''}">
                                                                         <c:set var="title" value="${thdr.title}"/>
                                                                         <c:choose>
-                                                                            <c:when test="${thdr.overtimeEarnCode and block.timeBlock.overtimeEditable and !(thdr.title eq 'DOT') and Form.docEditable}">
+                                                                            <c:when test="${thdr.overtimeEarnCode and block.timeBlock.overtimeEditable and !(thdr.title eq 'DOT') and Form.docEditable and canEditEarnCode}">
                                                                                 <c:set var="title"
                                                                                        value="<span id='overtime_${block.timeBlock.tkTimeBlockId}' class='overtime'>${thdr.title}</span>"/>
                                                                             </c:when>
@@ -153,7 +166,7 @@
                                                 </c:if>
                                             </div>
                                             <div class="lunch">
-                                                <c:if test="${block.lunchLabel ne '' and block.timeBlock.deleteable and Form.docEditable}">
+                                                <c:if test="${block.lunchLabel ne '' and block.timeBlock.deleteable and Form.docEditable and canEditEarnCode}">
                                                     <div><img id="lunchDelete_${block.lunchLabelId}"
                                                               class='event-delete'
                                                               src='images/delete.png'/>

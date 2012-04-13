@@ -4,8 +4,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
+import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.roles.UserRoles;
@@ -586,6 +588,21 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
         } else {
             return TKContext.getUser().getCurrentRoles().getOrgAdminDepartments().contains(workArea.getDepartment());
         }
+    }
+    
+    @Override
+    public boolean canEditEarnCode(TimeBlock tb) {
+    	AssignmentDescriptionKey adk = new AssignmentDescriptionKey(tb.getJobNumber().toString(), tb.getWorkArea().toString(), tb.getTask().toString());
+        Assignment anAssignment = TkServiceLocator.getAssignmentService().getAssignment(adk, tb.getBeginDate());
+        if(anAssignment != null) {
+        	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService()
+        								.getTimeCollectionRule(anAssignment.getDept(), anAssignment.getWorkArea()
+        										, anAssignment.getJob().getHrPayType(), anAssignment.getEffectiveDate());
+        	if(tcr != null && tcr.isClockUserFl()) {
+        		return false;
+        	}
+        }
+    	return true;
     }
 
     @Override

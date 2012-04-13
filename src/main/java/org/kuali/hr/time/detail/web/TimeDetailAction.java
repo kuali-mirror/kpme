@@ -95,8 +95,11 @@ public class TimeDetailAction extends TimesheetAction {
 
         tdaf.setOvertimeEarnCodes(TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDoucment().getAsOfDate()));
 
+        if (StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())) {
+        	tdaf.setWorkingOnItsOwn("true");
+        }
+        
         tdaf.setDocEditable("false");
-
         if (TKContext.getUser().isSystemAdmin()) {
             tdaf.setDocEditable("true");
         } else {
@@ -110,6 +113,7 @@ public class TimeDetailAction extends TimesheetAction {
 	            		|| TKContext.getUser().isApprover()) {
                     tdaf.setDocEditable("true");
                 }
+            	
 	            //if the timesheet has been approved by at least one of the approvers, the employee should not be able to edit it
 	            if (StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())
 	            		&& TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)) {
