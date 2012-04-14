@@ -1,20 +1,12 @@
 package org.kuali.hr.lm.leaveadjustment.validation;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
-import org.kuali.hr.lm.leavedonation.validation.LeaveDonationValidation;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 	
@@ -64,7 +56,7 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 		boolean valid = false;
 
 		LOG.debug("entering custom validation for LeaveAdjustment");
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof LeaveAdjustment) {
 			LeaveAdjustment leaveAdjustment = (LeaveAdjustment) pbo;
 

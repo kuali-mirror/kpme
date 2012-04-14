@@ -1,14 +1,14 @@
 package org.kuali.hr.time.roles.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.roles.TkRoleGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-
-import java.util.List;
-import java.util.Map;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
     /**

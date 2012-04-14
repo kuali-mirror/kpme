@@ -205,10 +205,10 @@ public class AccrualCategoryRule extends HrBusinessObject {
 	}
 
 
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		return null;
-	}
+//	@Override
+//	protected LinkedHashMap toStringMapper() {
+//		return null;
+//	}
 
 	@Override
 	public void setId(String id) {

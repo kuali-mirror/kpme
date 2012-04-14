@@ -4,7 +4,7 @@ package org.kuali.hr.time.timesheet;
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 public class TimesheetDocumentIdValueFinder implements ValueFinder {
 

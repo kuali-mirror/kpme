@@ -5,8 +5,8 @@ import java.util.List;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class LocationLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 	/**

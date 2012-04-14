@@ -9,7 +9,7 @@ import javax.persistence.Transient;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class uses java.sql.Time and java.sql.Date because for each respective component
@@ -103,17 +103,6 @@ public class CalendarEntries extends PersistableBusinessObjectBase {
 
     public void setHrCalendarId(String hrCalendarId) {
         this.hrCalendarId = hrCalendarId;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-		toStringMap.put("beginPeriodDate", beginPeriodDate);
-		toStringMap.put("endPeriodDate", endPeriodDate);
-
-        return toStringMap;
-
     }
 
     public String getHrCalendarEntriesId() {

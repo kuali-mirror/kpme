@@ -27,15 +27,15 @@ public class ClockLocationRuleIpAddress extends HrBusinessObject {
 		return ipAddressKey;
 	}
 
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
-
-		toStringMap.put("tkClockLocationRuleIpId", tkClockLocationRuleIpId);
-		toStringMap.put("tkOwnerObjectId", tkClockLocationRuleId);
-		toStringMap.put("ipAddress", ipAddress);
-		return null;
-	}
+//	@Override
+//	protected LinkedHashMap toStringMapper() {
+//		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
+//
+//		toStringMap.put("tkClockLocationRuleIpId", tkClockLocationRuleIpId);
+//		toStringMap.put("tkOwnerObjectId", tkClockLocationRuleId);
+//		toStringMap.put("ipAddress", ipAddress);
+//		return null;
+//	}
 
 	
 	public String getIpAddress() {

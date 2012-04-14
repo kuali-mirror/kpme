@@ -5,8 +5,8 @@ import java.util.LinkedHashMap;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 
@@ -77,15 +77,7 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
         this.pyCalendarGroup = pyCalendarGroup;
     }
 
- 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-		toStringMap.put("tkTimeSheetInitId", tkTimeSheetInitId);
-		toStringMap.put("principalId", principalId);
-		return toStringMap;
-	}
+
 	public String getDocumentId() {
 		return documentId;
 	}

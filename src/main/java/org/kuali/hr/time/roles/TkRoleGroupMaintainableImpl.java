@@ -2,6 +2,7 @@ package org.kuali.hr.time.roles;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -15,13 +16,12 @@ import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class TkRoleGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -46,13 +46,12 @@ public class TkRoleGroupMaintainableImpl extends HrBusinessObjectMaintainableImp
     		}
             for (TkRole role : roles) {
                 if (StringUtils.equals(role.getRoleName(), TkConstants.ROLE_TK_SYS_ADMIN)) {
-                    AttributeSet qualifier = new AttributeSet();
                     String principalId = role.getPrincipalId();
                     if(StringUtils.isBlank(principalId)){
                     	principalId = trg.getPrincipalId();
                     }
                     if(StringUtils.isBlank(principalId)){
-                    	KIMServiceLocator.getRoleUpdateService().assignPrincipalToRole(principalId, TkConstants.ROLE_NAMESAPCE, role.getRoleName(), qualifier);
+                    	KimApiServiceLocator.getRoleService().assignPrincipalToRole(principalId, TkConstants.ROLE_NAMESAPCE, role.getRoleName(), new HashMap<String,String>());
                     }
                 }
                 role.setPrincipalId(trg.getPrincipalId());
@@ -72,7 +71,7 @@ public class TkRoleGroupMaintainableImpl extends HrBusinessObjectMaintainableImp
     					oldHrObj.setActive(false);
     					oldHrObj.setId(null);
     				}
-    				KNSServiceLocator.getBusinessObjectService().save(oldHrObj);
+    				KRADServiceLocator.getBusinessObjectService().save(oldHrObj);
     				
     				role.setTimestamp(new Timestamp(System.currentTimeMillis()));
     				role.setId(null);

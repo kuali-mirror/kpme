@@ -7,8 +7,8 @@ import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class EmployeeOverride extends HrBusinessObject {
 
@@ -40,17 +40,17 @@ public class EmployeeOverride extends HrBusinessObject {
 		setLmEmployeeOverrideId(id);		
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-		toStringMap.put("lmEmployeeOverrideId", lmEmployeeOverrideId);
-		toStringMap.put("principalId", principalId);
-		toStringMap.put("overrideType", overrideType);
-		toStringMap.put("accrualCategory", accrualCategory);
-	
-		return toStringMap;
-	}
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	protected LinkedHashMap toStringMapper() {
+//		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
+//		toStringMap.put("lmEmployeeOverrideId", lmEmployeeOverrideId);
+//		toStringMap.put("principalId", principalId);
+//		toStringMap.put("overrideType", overrideType);
+//		toStringMap.put("accrualCategory", accrualCategory);
+//	
+//		return toStringMap;
+//	}
 
 	public String getLmEmployeeOverrideId() {
 		return lmEmployeeOverrideId;
@@ -66,12 +66,12 @@ public class EmployeeOverride extends HrBusinessObject {
 
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
-		this.setPrincipal(KIMServiceLocator.getPersonService().getPerson(this.principalId));
+		this.setPrincipal(KimApiServiceLocator.getPersonService().getPerson(this.principalId));
 	}
 	
 	public String getName() {
 		if (principal == null) {
-        principal = KIMServiceLocator.getPersonService().getPerson(this.principalId);
+        principal = KimApiServiceLocator.getPersonService().getPerson(this.principalId);
 		}
 		return (principal != null) ? principal.getName() : "";
 	}

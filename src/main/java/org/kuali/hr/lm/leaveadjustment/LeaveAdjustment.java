@@ -9,8 +9,8 @@ import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class LeaveAdjustment extends HrBusinessObject {
 	private static final long serialVersionUID = 1L;
@@ -41,7 +41,7 @@ public class LeaveAdjustment extends HrBusinessObject {
 	}
 	public String getName() {
 		if (principal == null) {
-        principal = KIMServiceLocator.getPersonService().getPerson(this.principalId);
+        principal = KimApiServiceLocator.getPersonService().getPerson(this.principalId);
 		}
 		return (principal != null) ? principal.getName() : "";
 	}
@@ -112,11 +112,11 @@ public class LeaveAdjustment extends HrBusinessObject {
 		setLmLeaveAdjustmentId(id);
 	}
 
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	protected LinkedHashMap toStringMapper() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	public PrincipalHRAttributes getPrincipalHRAttrObj() {
 		return principalHRAttrObj;
 	}

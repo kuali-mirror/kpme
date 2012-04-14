@@ -1,5 +1,9 @@
 package org.kuali.hr.time.overtime.daily.rule;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -8,10 +12,6 @@ import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.LinkedHashMap;
 
 
 public class DailyOvertimeRule extends TkRule {
@@ -48,13 +48,6 @@ public class DailyOvertimeRule extends TkRule {
 	private EarnGroup fromEarnGroupObj;
 	private EarnCode earnCodeObj;
 	private Location locationObj;
-
-
-	@SuppressWarnings({ "rawtypes" })
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		return null;
-	}
 
 	public String getTkDailyOvertimeRuleId() {
 		return tkDailyOvertimeRuleId;

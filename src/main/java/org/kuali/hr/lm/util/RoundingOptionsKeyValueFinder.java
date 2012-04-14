@@ -3,16 +3,17 @@ package org.kuali.hr.lm.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class RoundingOptionsKeyValueFinder extends KeyValuesBase {
 
 	@Override
 	public List getKeyValues() {
-		List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("T", "Traditional"));
-        keyValues.add(new KeyLabelPair("R", "Truncate"));
+		List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("T", "Traditional"));
+        keyValues.add(new ConcreteKeyValue("R", "Truncate"));
         return keyValues;
 	}
 

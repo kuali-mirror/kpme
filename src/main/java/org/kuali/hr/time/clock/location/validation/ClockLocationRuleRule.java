@@ -17,9 +17,9 @@ import org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 
@@ -172,7 +172,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof ClockLocationRule) {
 			ClockLocationRule clr = (ClockLocationRule) pbo;
             valid = this.validateDepartment(clr);

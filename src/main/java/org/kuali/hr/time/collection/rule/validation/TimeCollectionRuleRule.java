@@ -4,10 +4,10 @@ import org.apache.cxf.common.util.StringUtils;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 
@@ -59,7 +59,7 @@ public class TimeCollectionRuleRule extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for TimeCollectionRule");
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 
 
 

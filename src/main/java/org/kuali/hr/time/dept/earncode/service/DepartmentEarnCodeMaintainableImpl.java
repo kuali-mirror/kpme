@@ -8,8 +8,9 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class DepartmentEarnCodeMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	/**
@@ -23,13 +24,13 @@ public class DepartmentEarnCodeMaintainableImpl extends HrBusinessObjectMaintain
 		DepartmentEarnCode departmentEarnCode = (DepartmentEarnCode) this.getBusinessObject();
 		if(ValidationUtils.newerVersionExists(DepartmentEarnCode.class, "earnCode", departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveDate())) {
 			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(
-					KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
+					KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
 					"deptEarncode.effectiveDate.newer.exists");
 		}
 		
 		if(ValidationUtils.duplicateDeptEarnCodeExists(departmentEarnCode)) {
 			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(
-					KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "dept", 
+					KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "dept", 
 					"deptEarncode.duplicate.exists");
 		}
     }

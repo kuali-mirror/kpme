@@ -3,10 +3,6 @@ package org.kuali.hr.lm.leaveblock;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.timeblock.TimeBlock;
-
 public class LeaveBlockHistory extends LeaveBlock {
 
 	/**
@@ -74,10 +70,10 @@ public class LeaveBlockHistory extends LeaveBlock {
 		this.timestampDeleted = timestampDeleted;
 	}
 
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	protected LinkedHashMap toStringMapper() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 }

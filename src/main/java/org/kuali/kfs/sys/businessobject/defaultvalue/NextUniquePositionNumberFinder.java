@@ -1,7 +1,7 @@
 package org.kuali.kfs.sys.businessobject.defaultvalue;
 
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 public class NextUniquePositionNumberFinder implements ValueFinder {
 

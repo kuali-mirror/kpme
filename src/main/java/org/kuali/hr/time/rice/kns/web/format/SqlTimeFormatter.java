@@ -3,9 +3,9 @@ package org.kuali.hr.time.rice.kns.web.format;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.web.format.FormatException;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.web.format.FormatException;
+import org.kuali.rice.core.web.format.Formatter;
 
 public class SqlTimeFormatter extends Formatter {
 

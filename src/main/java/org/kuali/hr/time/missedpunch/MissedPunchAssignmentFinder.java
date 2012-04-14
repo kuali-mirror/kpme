@@ -9,10 +9,11 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class MissedPunchAssignmentFinder extends KeyValuesBase {
 
@@ -24,7 +25,7 @@ public class MissedPunchAssignmentFinder extends KeyValuesBase {
      * NOTE: These are Clock-Only assignments.
      */
     public List getKeyValues() {
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
         String tdocId = "";
         String mpDocId = (String)TKContext.getHttpServletRequest().getParameter(TkConstants.DOCUMENT_ID_REQUEST_NAME);
         if(StringUtils.isBlank(mpDocId)){
@@ -62,7 +63,7 @@ public class MissedPunchAssignmentFinder extends KeyValuesBase {
             Map<String,String> adMap = TkServiceLocator.getAssignmentService().getAssignmentDescriptions(tdoc, true); // Grab clock only assignments
 
             for (Map.Entry entry : adMap.entrySet()) {
-                labels.add(new KeyLabelPair(entry.getKey(), (String)entry.getValue()));
+                labels.add(new ConcreteKeyValue((String)entry.getKey(), (String)entry.getValue()));
             }
         } 
 

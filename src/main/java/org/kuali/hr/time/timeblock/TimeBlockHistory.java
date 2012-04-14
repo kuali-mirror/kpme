@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 public class TimeBlockHistory extends TimeBlock {
 

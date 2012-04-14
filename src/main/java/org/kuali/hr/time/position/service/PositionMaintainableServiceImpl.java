@@ -4,7 +4,7 @@ import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -25,7 +25,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
         String nextUniqueNumber = TkServiceLocator.getPositionService().getNextUniquePositionNumber();
         position.setPositionNumber(nextUniqueNumber);
 
-        KNSServiceLocator.getBusinessObjectService().save(position);
+        KRADServiceLocator.getBusinessObjectService().save(position);
 
         TkServiceLocator.getPositionService().updatePositionNumber(nextUniqueNumber);
     }

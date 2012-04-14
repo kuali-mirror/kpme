@@ -2,7 +2,7 @@ package org.kuali.hr.time.timeblock.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.core.web.format.Formatter;
 
 public class TimeBlockActionHistoryFormatter extends Formatter {
 

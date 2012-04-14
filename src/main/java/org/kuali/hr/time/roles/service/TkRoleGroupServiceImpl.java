@@ -1,5 +1,10 @@
 package org.kuali.hr.time.roles.service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
@@ -11,13 +16,8 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class TkRoleGroupServiceImpl implements TkRoleGroupService {
 
@@ -81,12 +81,12 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
          * 3) search for all the roles / role groups
          */
         if (StringUtils.isNotBlank(principalId)) {
-            Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
+            Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
             if (person != null && isAuthorizedToEditUserRole(person.getPrincipalId())) {
                 principalIdToQuery = person.getPrincipalId();
             }
         } else if (StringUtils.isNotBlank(principalName)) {
-            Person person = KIMServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
+            Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
             if (person != null && isAuthorizedToEditUserRole(person.getPrincipalId())) {
                 principalIdToQuery = person.getPrincipalId();
             }

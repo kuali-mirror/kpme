@@ -2,13 +2,12 @@ package org.kuali.hr.time.base.web;
 
 import java.sql.Date;
 
-import org.kuali.hr.time.permissions.TkPermissionsServiceImpl;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class TkForm extends KualiForm {

@@ -8,12 +8,12 @@ import java.util.Set;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Base class for the implementation of Authorization in KPME Time and Attendance.
@@ -40,10 +40,6 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
         return true;
     }
 
-    @Override
-    public boolean isAuthorizedByTemplate(BusinessObject businessObject, String namespaceCode, String permissionTemplateName, String principalId, Map<String, String> additionalPermissionDetails, Map<String, String> additionalRoleQualifiers) {
-        return true;
-    }
 
     @Override
     public Map<String, String> getCollectionItemRoleQualifications(BusinessObject collectionItemBusinessObject) {
@@ -66,17 +62,17 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
     /**
      * In lookup, called for each Business object if the user can edit or not.
      */
-    public boolean canMaintain(BusinessObject businessObject, Person user) {
-        return this.rolesIndicateWriteAccess(businessObject);
+    public boolean canMaintain(Object businessObject, Person user) {
+        return this.rolesIndicateWriteAccess((BusinessObject)businessObject);
     }
-
-    @Override
-    /**
-     * Called when submit is clicked from maintenance doc
-     */
-    public boolean canCreateOrMaintain(MaintenanceDocument maintenanceDocument, Person user) {
-        return this.rolesIndicateWriteAccess(maintenanceDocument.getNewMaintainableObject().getBusinessObject());
-    }
+//TODO - Rice Upgrade still need this somewhere?
+//    @Override
+//    /**
+//     * Called when submit is clicked from maintenance doc
+//     */
+//    public boolean canCreateOrMaintain(MaintenanceDocument maintenanceDocument, Person user){
+//        return this.rolesIndicateWriteAccess(maintenanceDocument.getNewMaintainableObject().getBusinessObject());
+//    }
 
     @Override
     public Set<String> getSecurePotentiallyReadOnlySectionIds() {
@@ -84,12 +80,12 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
     }
 
     // Methods from DocumentAuthorizer
-
-    @Override
-    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
-        DocumentAuthorizerBase dab = new DocumentAuthorizerBase();
-        return dab.getDocumentActions(document, user, documentActions);
-    }
+//TODO - Rice upgrade still need this somewhere?
+//    @Override
+//    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
+//        DocumentAuthorizerBase dab = new DocumentAuthorizerBase();
+//        return dab.getDocumentActions(document, user, documentActions);
+//    }
 
     @Override
     /**
@@ -123,10 +119,10 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
         return true;
     }
 
-    @Override
-    public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, Person user) {
-        return true;
-    }
+//    @Override
+//    public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, Person user) {
+//        return true;
+//    }
 
     @Override
     public boolean canSendAdHocRequests(Document document, String actionRequestCd, Person user) {

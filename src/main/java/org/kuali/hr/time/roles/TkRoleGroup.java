@@ -9,9 +9,9 @@ import javax.persistence.Transient;
 
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class TkRoleGroup extends PersistableBusinessObjectBase {
 
@@ -146,14 +146,9 @@ public class TkRoleGroup extends PersistableBusinessObjectBase {
 
     public String getUserName() {
         if (person == null) {
-            person = KIMServiceLocator.getPersonService().getPerson(this.principalId);
+            person = KimApiServiceLocator.getPersonService().getPerson(this.principalId);
         }
 
         return (person != null) ? person.getName() : "";
-    }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        return null;
     }
 }

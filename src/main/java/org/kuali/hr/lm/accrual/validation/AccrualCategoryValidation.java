@@ -2,15 +2,18 @@ package org.kuali.hr.lm.accrual.validation;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 	private static final String ADD_LINE_LOCATION = "add.accrualCategoryRules.";
@@ -209,7 +212,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Leave Accrual");
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof AccrualCategory) {
 			AccrualCategory leaveAccrualCategory = (AccrualCategory) pbo;
 			if (leaveAccrualCategory != null) {

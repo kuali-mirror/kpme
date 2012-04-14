@@ -5,15 +5,15 @@ import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class EmployeeOverrideRule extends MaintenanceDocumentRuleBase{
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = true;
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof EmployeeOverride) {
 			EmployeeOverride eo = (EmployeeOverride) pbo;
 			valid &= this.validatePrincipalHRAttributes(eo);

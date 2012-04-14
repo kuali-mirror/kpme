@@ -80,11 +80,11 @@ public class LeavePlan extends HrBusinessObject {
 		setLmLeavePlanId(id);
 	}
 
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	protected LinkedHashMap toStringMapper() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 
 }

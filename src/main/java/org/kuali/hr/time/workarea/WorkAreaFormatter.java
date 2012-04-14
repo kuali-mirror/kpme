@@ -1,7 +1,7 @@
 package org.kuali.hr.time.workarea;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.core.web.format.Formatter;
 
 public class WorkAreaFormatter extends Formatter {
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class HolidayCalendar extends PersistableBusinessObjectBase {
 
@@ -19,13 +19,6 @@ public class HolidayCalendar extends PersistableBusinessObjectBase {
 	private boolean active = true;
 	
 	private List<HolidayCalendarDateEntry> dateEntries = new ArrayList<HolidayCalendarDateEntry>();
-	
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		return null;
-	}
 
 
 	public String getHrHolidayCalendarId() {

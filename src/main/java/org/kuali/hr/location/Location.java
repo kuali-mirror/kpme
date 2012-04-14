@@ -23,12 +23,12 @@ public class Location extends HrBusinessObject {
 	private String userPrincipalId;
 	private String history;
 	
-	@SuppressWarnings({ "rawtypes" })
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@SuppressWarnings({ "rawtypes" })
+//	@Override
+//	protected LinkedHashMap toStringMapper() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	public String getHrLocationId() {
 		return hrLocationId;

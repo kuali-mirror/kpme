@@ -7,15 +7,14 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.core.config.RiceConfigurer;
-import org.kuali.rice.kns.web.format.DateFormatter;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.core.web.format.DateFormatter;
+import org.kuali.rice.core.web.format.Formatter;
 import org.springframework.web.context.ContextLoaderListener;
 
 public class ApplicationInitializeListener extends ContextLoaderListener implements ServletContextListener {
 	
     private static Logger LOG = Logger.getLogger(ApplicationInitializeListener.class);
-    private RiceConfigurer rice;
+    //private RiceConfigurer rice;
     public static String ALTERNATE_LOG4J_FILE = null;
     
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -42,14 +41,14 @@ public class ApplicationInitializeListener extends ContextLoaderListener impleme
 		throw new RuntimeException("Failed to stop TK app lifecycle", e);
 	}
         super.contextDestroyed(servletContextEvent);
-    	if (rice != null) {
-    		try {
-    		    rice.stop();
-    		} catch (Exception e) {
-    			LOG.error("Failed to shutdown Rice and Workflow.", e);
-    		}
-    	}
-    	rice = null;
+//    	if (rice != null) {
+//    		try {
+//    		    rice.stop();
+//    		} catch (Exception e) {
+//    			LOG.error("Failed to shutdown Rice and Workflow.", e);
+//    		}
+//    	}
+//    	rice = null;
         LOG.info("Finished contextDestroyed(ServletContextEvent servletContextEvent) Method");
         LogManager.shutdown();
     }

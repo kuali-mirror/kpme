@@ -7,8 +7,8 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**
@@ -43,7 +43,7 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 			MaintenanceDocument maintenanceDocument, String methodToCall) {
 		if (fieldValues.containsKey("principalId")
 				&& StringUtils.isNotEmpty(fieldValues.get("principalId"))) {
-			Person p = KIMServiceLocator.getPersonService().getPerson(
+			Person p = KimApiServiceLocator.getPersonService().getPerson(
 					fieldValues.get("principalId"));
 			if (p != null) {
 				fieldValues.put("name", p.getName());

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public abstract class TkAuthorizedLookupableHelperBase extends HrEffectiveDateActiveLookupableHelper {
 

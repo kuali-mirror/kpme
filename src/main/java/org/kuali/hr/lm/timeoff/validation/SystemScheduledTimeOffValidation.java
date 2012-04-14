@@ -7,9 +7,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBase {	 
 	boolean validateEffectiveDate(Date effectiveDate) {
@@ -94,7 +94,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 			MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for SystemScheduledTimeOff");
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof SystemScheduledTimeOff) {
 			SystemScheduledTimeOff sysSchTimeOff = (SystemScheduledTimeOff) pbo;
 			if (sysSchTimeOff != null) {

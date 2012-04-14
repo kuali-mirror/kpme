@@ -5,7 +5,7 @@ import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * Override the Maintenance page behavior for Leave Accrual Category object
@@ -38,6 +38,7 @@ public class AccrualCategoryMaintainableServiceImpl extends HrBusinessObjectMain
 				accCatRule.setLmAccrualCategoryId(null);
 			}
 			accCatRule.setLmAccrualCategoryId(leaveAccrualCategory.getLmAccrualCategoryId());
+			accCatRule.setLmAccrualCategoryRuleId(null);
 		}
 	}
 

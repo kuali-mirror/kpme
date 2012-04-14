@@ -1,5 +1,10 @@
 package org.kuali.hr.time.workarea;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.position.Position;
@@ -8,19 +13,15 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Section;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -51,14 +52,14 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         	TkRole aRole = (TkRole)newCollectionLines.get(collectionName );
             if ( aRole != null ) {
             	if(!StringUtils.isEmpty(aRole.getPrincipalId()) && !StringUtils.isEmpty(aRole.getPositionNumber())) {
-            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
+            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
             				"error.role.principalId.positonNubmer", aRole.getPrincipalId());
             		return;
             	}
             	if(aRole.getPrincipalId() != null && !aRole.getPrincipalId().isEmpty()) {
-            		Person aPerson = KIMServiceLocator.getPersonService().getPerson(aRole.getPrincipalId());
+            		Person aPerson = KimApiServiceLocator.getPersonService().getPerson(aRole.getPrincipalId());
             		if(aPerson == null) {
-            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
+            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
                 				"error.role.person.notexist", aRole.getPrincipalId());
                 		return;
             		}
@@ -66,7 +67,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
             	if(aRole.getPositionNumber() != null && !aRole.getPositionNumber().isEmpty()) {
             		Position aPositon = TkServiceLocator.getPositionService().getPositionByPositionNumber(aRole.getPositionNumber());
             		if(aPositon == null) {
-            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
+            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
                 				"error.role.position.notexist", aRole.getPositionNumber());
                 		return;
             		}

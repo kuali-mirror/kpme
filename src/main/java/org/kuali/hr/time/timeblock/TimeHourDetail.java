@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class TimeHourDetail extends PersistableBusinessObjectBase{
 
@@ -21,10 +21,6 @@ public class TimeHourDetail extends PersistableBusinessObjectBase{
     public TimeHourDetail() {
     }
 
-	@SuppressWarnings("unchecked")
-	protected LinkedHashMap toStringMapper() {
-		return null;
-	}
 
 	public String getEarnCode() {
 		return earnCode;

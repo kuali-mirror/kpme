@@ -33,14 +33,6 @@ public class Department extends HrBusinessObject {
     
     private List<TkRole> roles = new LinkedList<TkRole>();
     private List<TkRole> inactiveRoles = new ArrayList<TkRole>();
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Override
-    protected LinkedHashMap toStringMapper() {
-    	LinkedHashMap<String, String> lhm = new LinkedHashMap<String,String>();
-    	lhm.put(dept, dept);
-    	return lhm;
-    }
 
     public String getDescription() {
         return description;

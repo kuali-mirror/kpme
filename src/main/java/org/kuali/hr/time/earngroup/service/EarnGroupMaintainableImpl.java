@@ -11,8 +11,9 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class EarnGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl{
 	/**
@@ -31,12 +32,12 @@ public class EarnGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl{
             		earnCodes.add(earnGroupDef.getEarnCode());
             	}
             	if(earnCodes.contains(definition.getEarnCode())){
-            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnGroups", 
+            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnGroups", 
             				"earngroup.duplicate.earncode",definition.getEarnCode());
             		return;
     			} 
             	if (!ValidationUtils.validateEarnCode(definition.getEarnCode().toUpperCase(), earnGroup.getEffectiveDate())) {
-    				GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnGroups", 
+    				GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnGroups", 
     							"error.existence", "Earncode '" + definition.getEarnCode()+ "'");
     				return;
     			} 
@@ -49,7 +50,7 @@ public class EarnGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl{
     public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
 		EarnGroup earnGroup = (EarnGroup)this.getBusinessObject();
 		if(ValidationUtils.newerVersionExists(EarnGroup.class, "earnGroup", earnGroup.getEarnGroup(), earnGroup.getEffectiveDate())) {
-			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
+			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
 					"earngroup.effectiveDate.newr.exists");
 		}
 	}

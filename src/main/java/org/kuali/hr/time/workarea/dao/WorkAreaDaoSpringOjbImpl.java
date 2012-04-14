@@ -9,6 +9,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 import java.sql.Date;
@@ -96,7 +97,7 @@ public class WorkAreaDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 	}
 	
 	public Long getNextWorkAreaKey(){
-		 return KNSServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("tk_work_area_key_s");
+		 return KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("tk_work_area_key_s");
 	}
 
 

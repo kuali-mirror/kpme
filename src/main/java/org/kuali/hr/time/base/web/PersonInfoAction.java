@@ -19,8 +19,8 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class PersonInfoAction extends TkAction {
 
@@ -38,7 +38,7 @@ public class PersonInfoAction extends TkAction {
 		PersonInfoActionForm personForm = (PersonInfoActionForm)form;
 		
 		personForm.setPrincipalId(TKContext.getTargetPrincipalId());
-		Person person = KIMServiceLocator.getPersonService().getPerson(personForm.getPrincipalId());
+		Person person = KimApiServiceLocator.getPersonService().getPerson(personForm.getPrincipalId());
 		personForm.setPrincipalName(person.getPrincipalName());
 		// set name
 		personForm.setName(person.getName());
@@ -109,13 +109,13 @@ public class PersonInfoAction extends TkAction {
         	if(role.getPositionNumber() != null){
 				List<Job> lstJobs = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(role.getPositionNumber(), TKUtils.getCurrentDate());
 				for(Job j : lstJobs){
-					Person person = KIMServiceLocator.getPersonService().getPerson(j.getPrincipalId());
+					Person person = KimApiServiceLocator.getPersonService().getPerson(j.getPrincipalId());
 					if(person !=null){
 						deptAdminPeople.add(person);
 					}
 				}
 			} else{
-				Person person = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
+				Person person = KimApiServiceLocator.getPersonService().getPerson(role.getPrincipalId());
 				if(person!=null){
 					deptAdminPeople.add(person);
 				}
@@ -134,13 +134,13 @@ public class PersonInfoAction extends TkAction {
 			if(role.getPositionNumber() != null){
 				List<Job> lstJobs = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(role.getPositionNumber(), TKUtils.getCurrentDate());
 				for(Job j : lstJobs){
-					Person approver = KIMServiceLocator.getPersonService().getPerson(j.getPrincipalId());
+					Person approver = KimApiServiceLocator.getPersonService().getPerson(j.getPrincipalId());
 					if(approver!=null){
 					addApproverPersonForWorkArea(workArea, approver, workAreaToApproverPerson);
 					}
 				}
 			} else{
-				Person approver = KIMServiceLocator.getPersonService().getPerson(role.getPrincipalId());
+				Person approver = KimApiServiceLocator.getPersonService().getPerson(role.getPrincipalId());
 				if(approver!=null){
 					addApproverPersonForWorkArea(workArea, approver, workAreaToApproverPerson);
 				}

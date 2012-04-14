@@ -13,11 +13,12 @@ import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 /**
  * Override the Maintenance page behavior for Assignment object
@@ -36,7 +37,7 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 			MaintenanceDocument maintenanceDocument, String methodToCall) {
 		if (fieldValues.containsKey("principalId")
 				&& StringUtils.isNotEmpty(fieldValues.get("principalId"))) {
-			Person p = KIMServiceLocator.getPersonService().getPerson(
+			Person p = KimApiServiceLocator.getPersonService().getPerson(
 					fieldValues.get("principalId"));
 			if (p != null) {
 				fieldValues.put("name", p.getName());
@@ -65,8 +66,7 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 			Map<String, String> fields = new HashMap<String, String>();
 			fields.put("accountNumber", fieldValues
 					.get("assignmentAccounts.accountNbr"));
-			Collection account = KNSServiceLocator.getBusinessObjectDao()
-					.findMatching(Account.class, fields);
+			Collection account = KRADServiceLocator.getBusinessObjectService().findMatching(Account.class, fields);
 			if (account.size() > 0) {
 				Account acc = (Account) account.iterator().next();
 				fieldValues.put("assignmentAccounts.finCoaCd", acc

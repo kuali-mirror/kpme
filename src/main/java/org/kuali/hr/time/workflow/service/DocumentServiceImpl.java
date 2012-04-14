@@ -1,8 +1,9 @@
 package org.kuali.hr.time.workflow.service;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public class DocumentServiceImpl implements DocumentService {
 
@@ -11,12 +12,8 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	public WorkflowDocument createWorkflowDocument(String principalId, String documentType, String title) {
 		WorkflowDocument workflowDocument = null;
-		try {
-			workflowDocument = new WorkflowDocument(principalId, documentType);
-			workflowDocument.setTitle(title);
-		} catch (WorkflowException we) {
-			LOG.error(we);
-		}
+		workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, documentType);
+		workflowDocument.setTitle(title);
         return workflowDocument;
 	}
 

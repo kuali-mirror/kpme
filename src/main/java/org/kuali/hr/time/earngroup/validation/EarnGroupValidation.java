@@ -13,8 +13,8 @@ import org.kuali.hr.time.earngroup.EarnGroupDefinition;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class EarnGroupValidation  extends MaintenanceDocumentRuleBase{
 
@@ -49,7 +49,7 @@ public class EarnGroupValidation  extends MaintenanceDocumentRuleBase{
 	}
 
     protected void validateEarnCode(String earnCode, int index, EarnGroup editedEarnGroup) {
-    	BusinessObjectService businessObjectService = KNSServiceLocator.getBusinessObjectService();
+    	BusinessObjectService businessObjectService = KRADServiceLocator.getBusinessObjectService();
     	Map<String,Object> criteria = new HashMap<String,Object>();
 		criteria.put("showSummary", "Y");
 		criteria.put("active", "Y");

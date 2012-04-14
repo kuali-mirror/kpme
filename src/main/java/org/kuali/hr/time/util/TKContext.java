@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.web.session.UserSession;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.impl.KewImplConstants;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class TKContext {
 
@@ -63,7 +65,7 @@ public class TKContext {
 	}
 
 	public static UserSession getUserSession(){
-		return (UserSession) getHttpServletRequest().getSession().getAttribute(KEWConstants.USER_SESSION_KEY);
+		return (UserSession) getHttpServletRequest().getSession().getAttribute(KRADConstants.USER_SESSION_KEY);
 	}
 
 	public static String getPrincipalId(){

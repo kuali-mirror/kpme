@@ -1,5 +1,8 @@
 package org.kuali.hr.time.admin.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -14,14 +17,11 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.web.UserLoginFilter;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.util.GlobalVariables;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AdminAction extends TkAction {
 
@@ -39,7 +39,7 @@ public class AdminAction extends TkAction {
         } else {
         	Person changePerson = null;
         	if(StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalName())){
-        		changePerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalName());
+        		changePerson = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getChangeTargetPrincipalName());
         	}
             if (user == null ||
             		(!user.isSystemAdmin()
@@ -63,15 +63,12 @@ public class AdminAction extends TkAction {
         if (tkUser.getCurrentRoles().isSystemAdmin()) {
             if (StringUtils.isNotBlank(adminForm.getBackdoorPrincipalName())) {
 
-                Person backdoorPerson = KIMServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getBackdoorPrincipalName());
+                Person backdoorPerson = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getBackdoorPrincipalName());
 
                 if (backdoorPerson != null && tkUser != null) {
-                    UserSession userSession = UserLoginFilter.getUserSession(request);
-
-                    if (userSession.establishBackdoorWithPrincipalName(backdoorPerson.getPrincipalName())) {
-                        GlobalVariables.getUserSession().setBackdoorUser(backdoorPerson.getPrincipalId());
-
-                        tkUser.setBackdoorPerson(backdoorPerson);
+                    UserSession userSession = GlobalVariables.getUserSession();
+                    GlobalVariables.getUserSession().setBackdoorUser(backdoorPerson.getPrincipalId());
+                    tkUser.setBackdoorPerson(backdoorPerson);
 
                         UserServiceImpl.loadRoles(tkUser);
                         TKContext.setUser(tkUser);
@@ -80,8 +77,6 @@ public class AdminAction extends TkAction {
                         LOG.warn("UserSession COULD NOT establish BackDoor for " + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + adminForm.getBackdoorPrincipalName());
                     }
                 }
-
-            }
         } else {
             LOG.warn("Non-Admin user attempting to backdoor.");
             return mapping.findForward("unauthorized");
@@ -95,7 +90,7 @@ public class AdminAction extends TkAction {
         TKUser tkUser = TKContext.getUser();
 
         if (StringUtils.isNotBlank(adminForm.getChangeTargetPrincipalName())) {
-        	Person changePerson = KIMServiceLocator.getPersonService().getPerson(adminForm.getChangeTargetPrincipalName());
+        	Person changePerson = KimApiServiceLocator.getPersonService().getPerson(adminForm.getChangeTargetPrincipalName());
         	
 	        if (changePerson != null && tkUser != null) {
 	            if (tkUser.getCurrentRoles().isSystemAdmin()
@@ -106,7 +101,7 @@ public class AdminAction extends TkAction {
 	                	|| tkUser.getCurrentRoles().isTimesheetReviewerForPerson(changePerson.getPrincipalId())
 	                	|| tkUser.getCurrentRoles().isApproverForPerson(changePerson.getPrincipalId())) {
 		                	
-		            UserSession userSession = UserLoginFilter.getUserSession(request);
+		            UserSession userSession = GlobalVariables.getUserSession();
 		            userSession.getObjectMap().put(TkConstants.TK_TARGET_USER_PERSON, changePerson);
 	
 		            if (StringUtils.isNotEmpty(adminForm.getReturnUrl())) {

@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainableImpl {
 
@@ -30,14 +31,14 @@ public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainable
 					oldHrObj.setActive(false);
 					oldHrObj.setId(null);
 				}
-				KNSServiceLocator.getBusinessObjectService().save(oldHrObj);
+				KRADServiceLocator.getBusinessObjectService().save(oldHrObj);
 			}
 		}
 		hrObj.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		hrObj.setId(null);
 		
 		customSaveLogic(hrObj);
-		KNSServiceLocator.getBusinessObjectService().save(hrObj);
+		KRADServiceLocator.getBusinessObjectService().save(hrObj);
 	}
 	
 	public abstract HrBusinessObject getObjectById(String id);

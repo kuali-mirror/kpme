@@ -12,8 +12,10 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -76,7 +78,7 @@ public class ClockLocationMaintainableImpl extends HrBusinessObjectMaintainableI
         if (collectionName.equals("ipAddresses")) {
         	ClockLocationRuleIpAddress anIP = (ClockLocationRuleIpAddress)newCollectionLines.get(collectionName );
     		if(!ClockLocationRuleRule.validateIpAddress(anIP.getIpAddress())) {
-    			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"ipAddresses", 
+    			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"ipAddresses", 
         				"ipaddress.invalid.format",anIP.getIpAddress());
         		return;
     		}
@@ -92,7 +94,7 @@ public class ClockLocationMaintainableImpl extends HrBusinessObjectMaintainableI
 		if(!ips.isEmpty()) {
 			for(ClockLocationRuleIpAddress ipAddress : ips) {
 				ipAddress.setTkClockLocationRuleId(clr.getTkClockLocationRuleId());
-				KNSServiceLocator.getBusinessObjectService().save(ipAddress);
+				KRADServiceLocator.getBusinessObjectService().save(ipAddress);
 			}
 		}
 		

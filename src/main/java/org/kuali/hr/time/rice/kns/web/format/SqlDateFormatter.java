@@ -2,10 +2,12 @@ package org.kuali.hr.time.rice.kns.web.format;
 
 import java.sql.Date;
 
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.web.format.FormatException;
+import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.web.format.FormatException;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class SqlDateFormatter extends Formatter {
 
@@ -25,7 +27,7 @@ public class SqlDateFormatter extends Formatter {
 		Object o = null;
 
 		try {
-			Date date = KNSServiceLocator.getDateTimeService()
+			Date date = CoreApiServiceLocator.getDateTimeService()
 					.convertToSqlDate(source);
 			o = date;
 		} catch (Exception e) {
@@ -40,7 +42,7 @@ public class SqlDateFormatter extends Formatter {
 	public Object format(Object source) {
 		if (source != null && source instanceof Date) {
 			Date date = (Date) source;
-			return KNSServiceLocator.getDateTimeService().toDateString(date);
+			return CoreApiServiceLocator.getDateTimeService().toDateString(date);
 		}
 
 		return null;

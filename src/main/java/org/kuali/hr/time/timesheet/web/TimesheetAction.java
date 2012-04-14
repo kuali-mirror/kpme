@@ -20,7 +20,7 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.krad.exception.AuthorizationException;
 
 public class TimesheetAction extends TkAction {
 

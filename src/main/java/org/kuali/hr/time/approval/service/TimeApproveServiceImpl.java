@@ -1,10 +1,27 @@
 package org.kuali.hr.time.approval.service;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import java.math.BigDecimal;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.*;
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Hours;
+import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
@@ -21,19 +38,21 @@ import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.*;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.notes.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-import java.math.BigDecimal;
-import java.sql.Types;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 
@@ -584,12 +603,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 	@SuppressWarnings("rawtypes")
 	public List getNotesForDocument(String documentNumber) {
-		List notes = KEWServiceLocator.getNoteService()
-				.getNotesByRouteHeaderId(Long.parseLong(documentNumber));
+		List<Note> notes = KEWServiceLocator.getNoteService().getNotesByDocumentId(documentNumber);
+				
 		// add the user name in the note object
-		for (Object obj : notes) {
-			Note note = (Note) obj;
-			note.setNoteAuthorFullName(KIMServiceLocator.getPersonService()
+		for (Note note : notes) {
+			note.setNoteAuthorFullName(KimApiServiceLocator.getPersonService()
 					.getPerson(note.getNoteAuthorWorkflowId()).getName());
 		}
 		return notes;
@@ -795,7 +813,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	}
 
 	public DocumentRouteHeaderValue getRouteHeader(String documentId) {
-		return KEWServiceLocator.getRouteHeaderService().getRouteHeader(
-				Long.parseLong(documentId));
+		return KEWServiceLocator.getRouteHeaderService().getRouteHeader(documentId);
 	}
 }

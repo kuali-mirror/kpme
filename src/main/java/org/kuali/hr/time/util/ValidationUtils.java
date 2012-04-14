@@ -28,9 +28,10 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -314,7 +315,7 @@ public class ValidationUtils {
         boolean valid = false;
 
         if (!StringUtils.isEmpty(chart)) {
-            Object o = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
+            Object o = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
             valid = (o instanceof Chart);
         }
 
@@ -373,7 +374,7 @@ public class ValidationUtils {
 	public static boolean validatePrincipalId(String principalId) {
 		boolean valid = false;
 		if (principalId != null) {
-			Person p = KIMServiceLocator.getPersonService().getPerson(principalId);
+			Person p = KimApiServiceLocator.getPersonService().getPerson(principalId);
 		    valid = (p != null);
 		}
 		return valid;

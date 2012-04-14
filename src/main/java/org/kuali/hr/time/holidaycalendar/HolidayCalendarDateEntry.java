@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class HolidayCalendarDateEntry extends PersistableBusinessObjectBase {
 	
@@ -18,13 +18,6 @@ public class HolidayCalendarDateEntry extends PersistableBusinessObjectBase {
 	private String holidayDescr;
 	private String hrHolidayCalendarId;
 	private BigDecimal holidayHours;
-	
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		return null;
-	}
 
 
 	public String getHrHolidayCalendarDateId() {

@@ -11,14 +11,14 @@ import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class UserServiceImpl implements UserService {
 
     @Override
     public TKUser buildTkUser(String actualPrincipalId, Date asOfDate) {
-        Person person = KIMServiceLocator.getPersonService().getPerson(actualPrincipalId);
+        Person person = KimApiServiceLocator.getPersonService().getPerson(actualPrincipalId);
         return buildTkUser(person, null, null, asOfDate);
     }
 

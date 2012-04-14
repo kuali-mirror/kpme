@@ -62,8 +62,6 @@ import org.kuali.hr.time.user.service.UserService;
 import org.kuali.hr.time.warning.TkWarningService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
-import org.kuali.hr.time.workschedule.service.WorkScheduleAssignmentService;
-import org.kuali.hr.time.workschedule.service.WorkScheduleService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -170,14 +168,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static ShiftDifferentialRuleService getShiftDifferentialRuleService() {
 		return (ShiftDifferentialRuleService) CONTEXT.getBean(TK_SHIFT_DIFFERENTIAL_RULE_SERVICE);
 	}
-
-	public static WorkScheduleService getWorkScheduleService() {
-		return (WorkScheduleService) CONTEXT.getBean(TK_WORK_SCHEDULE_SERVICE);
-	}
-
-    public static WorkScheduleAssignmentService getWorkScheduleAssignmentService() {
-        return (WorkScheduleAssignmentService) CONTEXT.getBean(TK_WORK_SCHEDULE_ASSIGNMENT_SERVICE);
-    }
 
 	public static WeeklyOvertimeRuleService getWeeklyOvertimeRuleService() {
 		return (WeeklyOvertimeRuleService) CONTEXT.getBean(TK_WEEKLY_OVERTIME_RULE_SERVICE);

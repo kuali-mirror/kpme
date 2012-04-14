@@ -1,14 +1,20 @@
 package org.kuali.hr.time.web;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.rice.core.config.ConfigContext;
+import java.io.IOException;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class TkLoginFilter implements Filter {
 

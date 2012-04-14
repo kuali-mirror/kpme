@@ -1,6 +1,6 @@
 package org.kuali.hr.time.workarea.web;
 
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 
 public class WorkAreaMaintenanceDocument extends MaintenanceDocumentBase {
@@ -22,7 +22,7 @@ public class WorkAreaMaintenanceDocument extends MaintenanceDocumentBase {
 
 	
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         populateXmlDocumentContentsFromMaintainables();
     }

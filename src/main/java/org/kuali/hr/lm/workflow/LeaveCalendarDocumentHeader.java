@@ -3,7 +3,7 @@ package org.kuali.hr.lm.workflow;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase {
 
@@ -24,11 +24,11 @@ public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase {
 		this.endDate = endDate;
 		this.documentStatus = documentStatus;
 	}
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        return null;
-    }
+//
+//    @Override
+//    protected LinkedHashMap toStringMapper() {
+//        return null;
+//    }
 
     public String getDocumentId() {
         return documentId;

@@ -15,12 +15,6 @@ public class SystemLunchRule extends TkRule {
 	private boolean history;
 	private String userPrincipalId;
 
-	@SuppressWarnings({ "rawtypes" })
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public String getTkSystemLunchRuleId() {
 		return tkSystemLunchRuleId;

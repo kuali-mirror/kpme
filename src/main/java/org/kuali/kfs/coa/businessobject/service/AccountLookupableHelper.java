@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class AccountLookupableHelper extends KualiLookupableHelperServiceImpl {
 	/**

@@ -25,20 +25,6 @@ public class Task extends HrBusinessObject {
     private String administrativeDescription;
 	private WorkArea workAreaObj;
 	private String workAreaDescription;
-	
-	@SuppressWarnings({  "rawtypes" })
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
-		toStringMap.put("tkTaskId", tkTaskId);
-		toStringMap.put("task", task);
-		toStringMap.put("workArea", workArea);
-		toStringMap.put("tkWorkAreaId", tkWorkAreaId);
-		toStringMap.put("description", description);
-		toStringMap.put("userPrincipalId", userPrincipalId);
-		toStringMap.put("administrativeDescription", administrativeDescription);
-		return toStringMap;
-	}
 
     public String getDescription()
     {

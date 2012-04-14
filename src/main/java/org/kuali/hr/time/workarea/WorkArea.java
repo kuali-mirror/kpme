@@ -40,14 +40,6 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     private Task taskObj;
     private EarnCode defaultOvertimeEarnCodeObj;
 
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-	LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
-	toStringMap.put("workArea", workArea);
-	return toStringMap;
-    }
-
 
     public Date getEffectiveDate() {
         return effectiveDate;

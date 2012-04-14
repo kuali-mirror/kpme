@@ -1,5 +1,12 @@
 package org.kuali.hr.time.timesheet.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
@@ -15,16 +22,10 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.service.WorkflowDocument;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 public class TimesheetServiceImpl implements TimesheetService {
 
@@ -59,23 +60,22 @@ public class TimesheetServiceImpl implements TimesheetService {
     protected void timesheetAction(String action, String principalId, TimesheetDocument timesheetDocument) {
         WorkflowDocument wd = null;
         if (timesheetDocument != null) {
-            try {
                 String rhid = timesheetDocument.getDocumentId();
-                wd = new WorkflowDocument(principalId, Long.parseLong(rhid));
+                wd = WorkflowDocumentFactory.loadDocument(principalId, rhid);
 
                 if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.ROUTE)) {
-                    wd.routeDocument("Routing for Approval");
+                    wd.route("Routing for Approval");
                 } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE)) {
-                    wd.routeDocument("Batch job routing for Approval");
+                    wd.route("Batch job routing for Approval");
                 } else if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.APPROVE)) {
                     if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin() &&
                             !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
-                        wd.superUserApprove("Superuser approving timesheet.");
+                        wd.superUserBlanketApprove("Superuser approving timesheet.");
                     } else {
                         wd.approve("Approving timesheet.");
                     }
                 } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE)) {
-                    wd.superUserApprove("Batch job superuser approving timesheet.");
+                    wd.superUserBlanketApprove("Batch job superuser approving timesheet.");
                 } else if (StringUtils.equals(action, TkConstants.TIMESHEET_ACTIONS.DISAPPROVE)) {
                     if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()
                             && !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
@@ -85,14 +85,12 @@ public class TimesheetServiceImpl implements TimesheetService {
                     }
                 }
 
-                String kewStatus = KEWServiceLocator.getWorkflowUtilityService().getDocumentStatus(Long.parseLong(timesheetDocument.getDocumentHeader().getDocumentId()));
+                String kewStatus = KEWServiceLocator.getRouteHeaderService().getDocumentStatus(timesheetDocument.getDocumentId());                		
                 if (!kewStatus.equals(timesheetDocument.getDocumentHeader().getDocumentStatus())) {
                     timesheetDocument.getDocumentHeader().setDocumentStatus(kewStatus);
                     TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(timesheetDocument.getDocumentHeader());
                 }
-            } catch (WorkflowException e) {
-                throw new RuntimeException("Exception during route", e);
-            }
+                
         }
     }
 
@@ -155,13 +153,13 @@ public class TimesheetServiceImpl implements TimesheetService {
         TimesheetDocument timesheetDocument = null;
         WorkflowDocument workflowDocument = null;
 
-        workflowDocument = new WorkflowDocument(principalId, documentType);
+        workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, documentType);
         workflowDocument.setTitle(title);
 
-        String status = workflowDocument.getRouteHeader().getDocRouteStatus();
-        TimesheetDocumentHeader documentHeader = new TimesheetDocumentHeader(workflowDocument.getRouteHeaderId().toString(), principalId, payBeginDate, payEndDate, status);
+        String status = workflowDocument.getStatus().getCode();
+        TimesheetDocumentHeader documentHeader = new TimesheetDocumentHeader(workflowDocument.getDocumentId(), principalId, payBeginDate, payEndDate, status);
 
-        documentHeader.setDocumentId(workflowDocument.getRouteHeaderId().toString());
+        documentHeader.setDocumentId(workflowDocument.getDocumentId().toString());
         documentHeader.setDocumentStatus("I");
 
         TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(documentHeader);

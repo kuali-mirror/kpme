@@ -12,10 +12,10 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.web.UserLoginFilter;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TkAction extends KualiAction {
 
@@ -49,12 +49,11 @@ public class TkAction extends KualiAction {
 	 * workflow and TK backdoor settings.
 	 */
 	public ActionForward clearBackdoor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		UserSession userSession = UserLoginFilter.getUserSession(request);
+		UserSession userSession = GlobalVariables.getUserSession();
 
 		// There are two different UserSession objects in rice.
 		// We will clear them both.
 		if (userSession != null) {
-			userSession.clearBackdoor();
 			GlobalVariables.getUserSession().clearBackdoorUser();
 		}
 
@@ -67,7 +66,7 @@ public class TkAction extends KualiAction {
 	}
 
 	public ActionForward clearChangeUser(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        UserSession userSession = UserLoginFilter.getUserSession(request);
+        UserSession userSession = GlobalVariables.getUserSession();
 
         String returnAction = (String)userSession.getObjectMap().get(TkConstants.TK_TARGET_USER_RETURN);
         if (returnAction == null) returnAction = "/PersonInfo.do";

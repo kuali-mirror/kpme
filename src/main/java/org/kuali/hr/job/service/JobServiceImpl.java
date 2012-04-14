@@ -1,5 +1,11 @@
 package org.kuali.hr.job.service;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
@@ -7,10 +13,8 @@ import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-
-import java.util.*;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 /**
  * Represents an implementation of {@link JobService}.
@@ -114,7 +118,7 @@ public class JobServiceImpl implements JobService {
             Map<String, String> fields = new HashMap<String, String>();
             fields.put("firstName", firstName);
             fields.put("lastName", lastName);
-            List<Person> people = KIMServiceLocator.getPersonService().findPeople(fields);
+            List<Person> people = KimApiServiceLocator.getPersonService().findPeople(fields);
 
             List<Job> jobs = new ArrayList<Job>();
             for (Person p : people) {

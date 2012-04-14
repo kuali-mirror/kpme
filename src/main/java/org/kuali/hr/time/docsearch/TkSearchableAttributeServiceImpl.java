@@ -14,7 +14,8 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kew.service.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 
 public class TkSearchableAttributeServiceImpl implements
 		TkSearchableAttributeService {
@@ -30,15 +31,15 @@ public class TkSearchableAttributeServiceImpl implements
         //
         if (!document.getDocumentHeader().getDocumentStatus().equals("F")) {
             try {
-                workflowDocument = new WorkflowDocument(document.getPrincipalId(), Long.parseLong(document.getDocumentId()));
+                workflowDocument = WorkflowDocumentFactory.loadDocument(document.getPrincipalId(), document.getDocumentId());
                 workflowDocument.setApplicationContent(createSearchableAttributeXml(document, asOfDate));
                 workflowDocument.saveDocument("");
-                if (!"I".equals(workflowDocument.getRouteHeader().getDocRouteStatus())) {
+                if (!"I".equals(workflowDocument.getStatus().getCode())) {
                     //updateWorkflowTitle(document,workflowDocument);
-                    if(workflowDocument.getRouteHeader().getInitiatorPrincipalId().equals(TKContext.getPrincipalId())){
+                    if(workflowDocument.getInitiatorPrincipalId().equals(TKContext.getPrincipalId())){
                         workflowDocument.saveDocument("");
                     }else{
-                        workflowDocument.saveRoutingData();
+                    	workflowDocument.saveDocumentData();
                     }
                 }else{
                     workflowDocument.saveDocument("");

@@ -1,12 +1,12 @@
 package org.kuali.hr.time.collection.rule;
 
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.workarea.WorkArea;
-
-import java.util.LinkedHashMap;
 
 public class TimeCollectionRule extends HrBusinessObject implements DepartmentalRule {
 
@@ -112,27 +112,6 @@ public class TimeCollectionRule extends HrBusinessObject implements Departmental
 
 	public void setUserPrincipalId(String userPrincipalId) {
 		this.userPrincipalId = userPrincipalId;
-	}
-
-
-	@Override
-	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
-
-		toStringMap.put("tkTimeCollectionRuleId", tkTimeCollectionRuleId);
-		toStringMap.put("department", departmentObj);
-		toStringMap.put("dept", dept);
-		toStringMap.put("workAreaObj", workAreaObj);
-		toStringMap.put("workArea", workArea);
-		toStringMap.put("payType", payTypeObj);
-		toStringMap.put("payType", payType);
-		toStringMap.put("effDate", effectiveDate);
-		toStringMap.put("clockUserFl", clockUserFl);
-		toStringMap.put("hrsDistributionF", hrsDistributionF);
-		toStringMap.put("userPrincipalId", userPrincipalId);
-		toStringMap.put("timestamp", timestamp);
-
-		return toStringMap;
 	}
 
 	public String getTkTimeCollectionRuleId() {

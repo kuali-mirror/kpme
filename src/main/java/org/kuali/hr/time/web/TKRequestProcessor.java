@@ -15,13 +15,13 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.kew.web.UserLoginFilter;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TKRequestProcessor extends KualiRequestProcessor {
 	private static final Logger LOG = Logger.getLogger(TKRequestProcessor.class);
@@ -74,14 +74,14 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 	 */
 	public void setUserOnContext(HttpServletRequest request) {
 		if (request != null) {
-			UserSession userSession = UserLoginFilter.getUserSession(request);
+			UserSession userSession = GlobalVariables.getUserSession();
 
 			Person person = null;
 			Person backdoorPerson = null;
             Person targetPerson = null;
 
 			if(userSession!=null){
-				backdoorPerson = userSession.getBackdoorPerson();
+				backdoorPerson = userSession.getPerson();
 				person = userSession.getActualPerson();
                 targetPerson = (Person)userSession.getObjectMap().get(TkConstants.TK_TARGET_USER_PERSON);
 			}
@@ -89,18 +89,9 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 			// Check for test mode; if not test mode check for backDoor validity.
 			if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("test.mode"))) {
 				request.setAttribute("principalName", TkLoginFilter.TEST_ID);
-				person = KIMServiceLocator.getPersonService().getPerson(TkLoginFilter.TEST_ID);
+				person = KimApiServiceLocator.getPersonService().getPerson(TkLoginFilter.TEST_ID);
 				backdoorPerson = null;
-			} else {
-				if (backdoorPerson != null) {
-					LOG.debug("Backdoor user in use:" + backdoorPerson.getPrincipalId());
-					if (KNSServiceLocator.getKualiConfigurationService().isProductionEnvironment()) {
-						userSession.clearBackdoor();
-						// TODO : we could simply clear the backdoor as well.
-						throw new UnauthorizedException("Cannot backdoor in production environment");
-					}
-				}
-			}
+			} 
 
             // Current date is sufficient for loading of current roles and permissions.
 			TKUser tkUser = TkServiceLocator.getUserService().buildTkUser(person, backdoorPerson, targetPerson, TKUtils.getCurrentDate());

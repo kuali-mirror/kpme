@@ -147,11 +147,11 @@ public class AccrualCategory extends HrBusinessObject {
 		return accrualCategory;
 	}
 
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	//@Override
+//	protected LinkedHashMap toStringMapper() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	public Boolean getHistory() {
 		return history;

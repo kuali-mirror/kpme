@@ -1,6 +1,6 @@
 package org.kuali.hr.time.workflow.service;
 
-import org.kuali.rice.kew.service.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public interface DocumentService {
 	/**

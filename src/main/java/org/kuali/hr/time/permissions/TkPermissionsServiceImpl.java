@@ -1,5 +1,7 @@
 package org.kuali.hr.time.permissions;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
@@ -16,12 +18,11 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.util.KEWConstants;
-
-import java.util.List;
 
 public class TkPermissionsServiceImpl implements TkPermissionsService {
     private static final Logger LOG = Logger
@@ -415,18 +416,17 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 
         if (isEnroute) {
             DocumentRouteHeaderValue routeHeader = KEWServiceLocator
-                    .getRouteHeaderService().getRouteHeader(
-                            Long.parseLong(doc.getDocumentId()));
+                    .getRouteHeaderService().getRouteHeader(doc.getDocumentId());
             boolean authorized = KEWServiceLocator.getDocumentSecurityService()
-                    .routeLogAuthorized(TKContext.getUserSession(),
+                    .routeLogAuthorized(TKContext.getPrincipalId(),
                             routeHeader,
-                            new SecuritySession(TKContext.getUserSession()));
+                            new SecuritySession(TKContext.getPrincipalId()));
             if (authorized) {
                 List<String> principalsToApprove = KEWServiceLocator
                         .getActionRequestService()
                         .getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId(
-                                KEWConstants.ACTION_REQUEST_APPROVE_REQ,
-                                routeHeader.getRouteHeaderId());
+                                KewApiConstants.ACTION_REQUEST_APPROVE_REQ,
+                                routeHeader.getDocumentId());
                 if (!principalsToApprove.isEmpty()
                         && principalsToApprove.contains(TKContext
                         .getPrincipalId())) {

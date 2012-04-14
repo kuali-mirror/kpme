@@ -1,9 +1,9 @@
 package org.kuali.hr.time.paytype;
 
+import java.util.LinkedHashMap;
+
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
-
-import java.util.LinkedHashMap;
 
 public class PayType extends HrBusinessObject {
 
@@ -28,13 +28,6 @@ public class PayType extends HrBusinessObject {
     public void setRegEarnCodeObj(EarnCode regEarnCodeObj) {
         this.regEarnCodeObj = regEarnCodeObj;
     }
-
-    @SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		return null;
-	}
-
 
 	public String getPayType() {
 		return payType;

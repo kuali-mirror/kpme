@@ -223,11 +223,11 @@ public class LeaveCode extends HrBusinessObject {
 	}
 
 
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	protected LinkedHashMap toStringMapper() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
     
     public String getLeaveCodeKeyForDisplay() {
         return lmLeaveCodeId;

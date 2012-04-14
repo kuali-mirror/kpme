@@ -16,20 +16,20 @@
 
 package org.kuali.kfs.coa.businessobject;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+
 /**
  * 
  */
-public class Account extends PersistableBusinessObjectBase implements Inactivateable {
+public class Account extends PersistableBusinessObjectBase implements Inactivatable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
 
     private String chartOfAccountsCode;
