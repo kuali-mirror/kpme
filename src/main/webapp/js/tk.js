@@ -301,30 +301,31 @@ $(document).ready(function() {
     $("#btRow1, #etRow1").change(function() {
         $(this).removeClass('ui-state-error');
         cleanTips();
-        validateTime($(this));
+        formatTime($(this));
         recalculateHrs(1);
     });
 
     $("#btRow2, #etRow2").change(function() {
         $(this).removeClass('ui-state-error');
         cleanTips();
-        validateTime($(this));
+        formatTime($(this));
         recalculateHrs(2);
+    });
+    
+    $("#assignmentRow1").change(function() {
+        $(this).removeClass('ui-state-error');
+        cleanTips();
+    });
+
+    $("#assignmentRow2").change(function() {
+        $(this).removeClass('ui-state-error');
+        cleanTips();
     });
 
 
     $('#saveTimeBlock').click(function() {
         var validFlag = true;
         var validation = $('#validation');
-        //    cleanTips();
-//	   function checkLength(o, n, min, max) {
-//	         if (o.val().length > max || o.val().length < min) {
-//	             o.addClass('ui-state-error');
-//	             updateValidationMessage(n + " field is not valid");
-//	             return false;
-//	         }
-//	         return true;
-//	   }
         var tbl = document.getElementById('tblNewTimeBlocks');
         var rowLength = tbl.rows.length;
         var assignValueCol = '';
@@ -348,7 +349,7 @@ $(document).ready(function() {
         var form1 = document.forms[0];
         var originalEndDateTime = new Date(form1.endTimestamp.value);
         var originalBeginDateTime = new Date(form1.beginTimestamp.value);
-
+        assignValueCol = '';
         for (var i = 1; i < rowLength - 1; i++) {
             var assignValue = $("#assignmentRow" + i).val();
             var beginDate = $("#bdRow" + i).val();
@@ -356,7 +357,11 @@ $(document).ready(function() {
             var beginTime = $("#btRow" + i).val();
             var endTime = $("#etRow" + i).val();
             var hrs = $("#hrRow" + i).val();
-
+            
+            aFlag = checkAssignments($("#assignmentRow" + i), assignValue, assignValueCol);
+            if(!aFlag) {
+            	return false;
+            }
             assignValueCol += assignValue + valueSeperator;
             beginDateCol += beginDate + valueSeperator;
             endDateCol += endDate + valueSeperator;
@@ -595,6 +600,15 @@ function checkLength(o, n, min, max) {
     return true;
 }
 
+function checkAssignments(o, anAssignment, assignments) {
+    if (assignments.indexOf(anAssignment) >= 0) {
+        o.addClass('ui-state-error');
+        updateValidationMessage("Distributed assignments should all be different.");
+        return false;
+    }
+    return true;
+}
+
 function updateTips(t) {
     $('#validation').text(t)
             .addClass('ui-state-error')
@@ -781,9 +795,15 @@ function addTimeBlockRow(form, tempArr) {
     $(timeChangeId).change(function() {
         $(this).removeClass('ui-state-error');
         cleanTips();
-        validateTime($(this));
+        formatTime($(this));
         recalculateHrs(iteration);
     });
+    
+    $('assignmentRow' + iteration).change(function() {
+        $(this).removeClass('ui-state-error');
+        cleanTips();
+    });
+    
 
 }
 
@@ -908,6 +928,25 @@ function parseTimeString(s) {
         }
     }
     throw new Error("Invalid time format");
+}
+
+function formatTime(input) {
+	var id = input.attr('id');
+	var value = input.val();
+    // Use Datejs to parse the value
+    var dateTime = Date.parse(value);
+    if (dateTime == null) {
+        // Date.js returns null if it couldn't understand the format from user's input.
+        $("#" + id).addClass("block-error").val(value);
+        return;
+    } else {
+        // Remove the red border if user enters something
+        $("#" + id).removeClass("block-error").val("");
+    }
+    // This magic line first finds the element by the id.
+    // Uses Datejs (a 3rd party js lib) to parse user's input and update the value by the specifed format.
+    // See the list of the formats in tk.js.
+    $("#" + id).val(dateTime.toString(CONSTANTS.TIME_FORMAT.TIME_FOR_OUTPUT));
 }
 
 

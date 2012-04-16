@@ -1,13 +1,5 @@
 package org.kuali.hr.time.base.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -21,6 +13,13 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PersonInfoAction extends TkAction {
 
@@ -75,7 +74,7 @@ public class PersonInfoAction extends TkAction {
 	}
 	
 	private void setupRolesOnForm(PersonInfoActionForm paForm){
-		UserRoles roles = TKContext.getUser().getCurrentRoles();
+		UserRoles roles = TKContext.getUser().getCurrentTargetRoles();
 		for(Long waApprover : roles.getApproverWorkAreas()){
 			paForm.getApproverWorkAreas().add(waApprover);
 		}

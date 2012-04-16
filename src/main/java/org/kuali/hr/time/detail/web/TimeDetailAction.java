@@ -21,12 +21,14 @@ import org.kuali.hr.time.timesummary.EarnCodeSection;
 import org.kuali.hr.time.timesummary.EarnGroupSection;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.*;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.exception.AuthorizationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -93,17 +95,33 @@ public class TimeDetailAction extends TimesheetAction {
 
         tdaf.setOvertimeEarnCodes(TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDoucment().getAsOfDate()));
 
+        if (StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())) {
+        	tdaf.setWorkingOnItsOwn("true");
+        }
+        
         tdaf.setDocEditable("false");
-
         if (TKContext.getUser().isSystemAdmin()) {
             tdaf.setDocEditable("true");
         } else {
             boolean docFinal = TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL);
             if (!docFinal) {
-                if (StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId()) || TKContext.getUser().isSystemAdmin() || TKContext.getUser().isLocationAdmin() || TKContext.getUser().isDepartmentAdmin() ||
-                        TKContext.getUser().isReviewer() || TKContext.getUser().isApprover()) {
+            	if(StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())
+	            		|| TKContext.getUser().isSystemAdmin() 
+	            		|| TKContext.getUser().isLocationAdmin() 
+	            		|| TKContext.getUser().isDepartmentAdmin() 
+	            		|| TKContext.getUser().isReviewer() 
+	            		|| TKContext.getUser().isApprover()) {
                     tdaf.setDocEditable("true");
                 }
+            	
+	            //if the timesheet has been approved by at least one of the approvers, the employee should not be able to edit it
+	            if (StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())
+	            		&& TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)) {
+		        	Collection actions = KEWServiceLocator.getActionTakenService().findByDocIdAndAction(Long.parseLong(TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentId()), TkConstants.TIMESHEET_ACTIONS.APPROVE);
+	        		if(!actions.isEmpty()) {
+	        			tdaf.setDocEditable("false");  
+	        		}
+		        }
             }
         }
 

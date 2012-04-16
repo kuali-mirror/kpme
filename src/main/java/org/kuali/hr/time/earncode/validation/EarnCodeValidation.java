@@ -1,9 +1,5 @@
 package org.kuali.hr.time.earncode.validation;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -12,6 +8,9 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 	
@@ -90,14 +89,10 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestamp();
 		
 		if ( !earnCode.isActive() && earnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
-			List<TimeBlock> activeTimeBlocks = new ArrayList<TimeBlock>();
-			activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks();
-			for(TimeBlock activeTimeBlock : activeTimeBlocks){
-				if ( earnCode.getEarnCode().equals(activeTimeBlock.getEarnCode())){
-					this.putFieldError("earnCode", "earncode.earncode.inactivate", earnCode.getEarnCode());
-					
-					return false;
-				}
+			List<TimeBlock> activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksWithEarnCode(earnCode.getEarnCode(), earnCode.getEffectiveDate());
+			if(activeTimeBlocks != null && !activeTimeBlocks.isEmpty()) {
+				this.putFieldError("earnCode", "earncode.earncode.inactivate", earnCode.getEarnCode());
+				return false;
 			}
 		}
 		return true;

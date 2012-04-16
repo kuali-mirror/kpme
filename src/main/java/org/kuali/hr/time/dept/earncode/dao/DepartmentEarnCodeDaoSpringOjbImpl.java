@@ -1,20 +1,16 @@
 package org.kuali.hr.time.dept.earncode.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+import org.kuali.hr.time.util.TKUtils;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.util.*;
 
 public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements DepartmentEarnCodeDao {
 
@@ -134,6 +130,175 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		
 		Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
 		return (DepartmentEarnCode)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+	
+	public List<DepartmentEarnCode> searchDepartmentEarnCodes(String dept, String salGroup, String earnCode, String location,
+						java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
+		List<DepartmentEarnCode> results = new ArrayList<DepartmentEarnCode>();
+
+        Criteria crit = new Criteria();
+        Criteria effdtCrit = new Criteria();
+        Criteria timestampCrit = new Criteria();
+
+        if (fromEffdt != null) {
+            crit.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+        }
+
+        if (toEffdt != null) {
+            crit.addLessOrEqualThan("effectiveDate", toEffdt);
+        } else {
+            crit.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+
+        if (StringUtils.isNotEmpty(dept)) {
+            crit.addLike("dept", dept);
+        }
+
+        if (StringUtils.isNotEmpty(salGroup)) {
+            crit.addLike("hrSalGroup", salGroup);
+        }
+
+        if (StringUtils.isNotEmpty(earnCode)) {
+            crit.addLike("earnCode", earnCode);
+        }
+
+        if (StringUtils.isNotEmpty(location)) {
+            crit.addLike("location", location);
+        }
+
+        if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "Y")) {
+            effdtCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+            effdtCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
+            effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            effdtCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdtCrit);
+            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+            timestampCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+            timestampCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
+            timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            timestampCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+           
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestampCrit);
+            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+            crit.addEqualTo("effectiveDate", effdtSubQuery);
+            crit.addEqualTo("timestamp", timestampSubQuery);
+
+            Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        } else if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "N")) {
+            effdtCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+            effdtCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
+            effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            effdtCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdtCrit);
+            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+            timestampCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+            timestampCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
+            timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            timestampCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+           
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestampCrit);
+            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+            crit.addEqualTo("effectiveDate", effdtSubQuery);
+            crit.addEqualTo("timestamp", timestampSubQuery);
+
+            Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        } else if (StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)) {
+            effdtCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+            effdtCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
+            effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            effdtCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdtCrit);
+            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+            timestampCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+            timestampCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
+            timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            timestampCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+           
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestampCrit);
+            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+            crit.addEqualTo("effectiveDate", effdtSubQuery);
+            crit.addEqualTo("timestamp", timestampSubQuery);
+
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", true);
+            crit.addAndCriteria(activeFilter);
+
+            Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        } //return all active records from the database
+        else if (StringUtils.equals(active, "Y") && StringUtils.equals("Y", showHistory)) {
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", true);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        }
+        //return all inactive records in the database
+        else if (StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "Y")) {
+            effdtCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+            effdtCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
+            effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            effdtCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdtCrit);
+            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+            timestampCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+            timestampCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
+            timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            timestampCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+           
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestampCrit);
+            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+            crit.addEqualTo("effectiveDate", effdtSubQuery);
+            crit.addEqualTo("timestamp", timestampSubQuery);
+
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", false);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        }
+
+        //return the most effective inactive rows if there are no active rows <= the curr date
+        else if (StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "N")) {
+            effdtCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+            effdtCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
+            effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            effdtCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdtCrit);
+            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+            timestampCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+            timestampCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
+            timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            timestampCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+           
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestampCrit);
+            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", false);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        }
+
+        return results;
+		
 	}
 	
 }

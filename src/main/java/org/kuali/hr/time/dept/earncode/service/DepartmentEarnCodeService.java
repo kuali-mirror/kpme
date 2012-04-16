@@ -1,9 +1,9 @@
 package org.kuali.hr.time.dept.earncode.service;
 
+import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 
 public interface DepartmentEarnCodeService {
 
@@ -18,4 +18,7 @@ public interface DepartmentEarnCodeService {
 	 * @return
 	 */
 	public DepartmentEarnCode getDepartmentEarnCode(String hrDeptEarnCodeId);
+	
+	public List<DepartmentEarnCode> searchDepartmentEarnCodes(String dept, String salGroup, String earnCode, String location,
+			java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
 }
