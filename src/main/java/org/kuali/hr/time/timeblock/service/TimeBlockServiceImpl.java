@@ -23,6 +23,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -386,5 +387,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         timeBlockDao.saveOrUpdate(tb);
         // remove the related time hour detail row with the lunch deduction
         TkServiceLocator.getTimeHourDetailService().removeTimeHourDetail(thd.getTkTimeHourDetailId());
+    }
+    @Override
+    public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, Date effDate) {
+    	return timeBlockDao.getTimeBlocksWithEarnCode(earnCode, effDate);
     }
 }

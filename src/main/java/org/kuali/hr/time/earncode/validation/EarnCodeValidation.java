@@ -90,14 +90,10 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestamp();
 		
 		if ( !earnCode.isActive() && earnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
-			List<TimeBlock> activeTimeBlocks = new ArrayList<TimeBlock>();
-			activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks();
-			for(TimeBlock activeTimeBlock : activeTimeBlocks){
-				if ( earnCode.getEarnCode().equals(activeTimeBlock.getEarnCode())){
-					this.putFieldError("earnCode", "earncode.earncode.inactivate", earnCode.getEarnCode());
-					
-					return false;
-				}
+			List<TimeBlock> activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocksWithEarnCode(earnCode.getEarnCode(), earnCode.getEffectiveDate());
+			if(activeTimeBlocks != null && !activeTimeBlocks.isEmpty()) {
+				this.putFieldError("earnCode", "earncode.earncode.inactivate", earnCode.getEarnCode());
+				return false;
 			}
 		}
 		return true;
